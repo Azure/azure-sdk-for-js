@@ -1,69 +1,72 @@
 ## An isomorphic javascript sdk for - LUISAuthoringClient
 
-This package contains an isomorphic SDK for LUISAuthoringClient.
-
-Package version | LUIS Authoring API version
---------------- | --------------------------
-3.0.0           |  /luis/api/v2.0
-4.0.0-preview.3 |  /luis/authoring/v3.0-preview
+This package contains an isomorphic SDK (runs both in node.js and in browsers) for LUISAuthoringClient.
 
 ### Currently supported environments
 
-- Node.js version 6.x.x or higher
-- Browser JavaScript
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge and Firefox.
 
-### How to Install
+### Prerequisites
 
+You must have an [Azure subscription](https://azure.microsoft.com/free/).
+
+### How to install
+
+To use this SDK in your project, you will need to install two packages.
+- `@azure/cognitiveservices-luis-authoring` that contains the client.
+- `@azure/identity` that provides different mechanisms for the client to authenticate your requests using Azure Active Directory.
+
+Install both packages using the below command:
 ```bash
-npm install @azure/cognitiveservices-luis-authoring
+npm install --save @azure/cognitiveservices-luis-authoring @azure/identity
 ```
+> **Note**: You may have used either `@azure/ms-rest-nodeauth` or `@azure/ms-rest-browserauth` in the past. These packages are in maintenance mode receiving critical bug fixes, but no new features.
+If you are on a [Node.js that has LTS status](https://nodejs.org/about/releases/), or are writing a client side browser application, we strongly encourage you to upgrade to `@azure/identity` which uses the latest versions of Azure Active Directory and MSAL APIs and provides more authentication options.
 
 ### How to use
 
-#### nodejs - Authentication, client creation and listPhraseLists features as an example written in TypeScript.
+- If you are writing a client side browser application,
+  - Follow the instructions in the section on Authenticating client side browser applications in [Azure Identity examples](https://aka.ms/azsdk/js/identity/examples) to register your application in the Microsoft identity platform and set the right permissions.
+  - Copy the client ID and tenant ID from the Overview section of your app registration in Azure portal and use it in the browser sample below.
+- If you are writing a server side application,
+  - [Select a credential from `@azure/identity` based on the authentication method of your choice](https://aka.ms/azsdk/js/identity/examples)
+  - Complete the set up steps required by the credential if any.
+  - Use the credential you picked in the place of `DefaultAzureCredential` in the Node.js sample below.
 
-##### Install @azure/ms-rest-azure-js
-
-```bash
-npm install @azure/ms-rest-azure-js
-```
+In the below samples, we pass the credential and the Azure subscription id to instantiate the client.
+Once the client is created, explore the operations on it either in your favorite editor or in our [API reference documentation](https://docs.microsoft.com/javascript/api) to get started.
+#### nodejs - Authentication, client creation, and listPhraseLists features as an example written in JavaScript.
 
 ##### Sample code
 
 ```javascript
-const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
+const { DefaultAzureCredential } = require("@azure/identity");
 const { LUISAuthoringClient } = require("@azure/cognitiveservices-luis-authoring");
+const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
-let authoringKey = process.env["luis-authoring-key"];
-const creds = new CognitiveServicesCredentials(authoringKey);
-
-// check the following link to find your region
-// https://docs.microsoft.com/azure/cognitive-services/luis/luis-reference-regions
-const region = "<your-region>";
-const client = new LUISAuthoringClient(
-  creds,
-  "https://" + region + ".api.cognitive.microsoft.com/"
-);
-
-const appId = "<your-app-id>"; // replace this with your appId.
-const versionId = "0.1"; // replace with version of your luis application. Initial value will be 0.1
-
+// Use `DefaultAzureCredential` or any other credential of your choice based on https://aka.ms/azsdk/js/identity/examples
+// Please note that you can also use credentials from the `@azure/ms-rest-nodeauth` package instead.
+const creds = new DefaultAzureCredential();
+const client = new LUISAuthoringClient(creds, subscriptionId);
+const appId = ec7b1657-199d-4d8a-bbb2-89a11a42e02a;
+const versionId = "testversionId";
 const skip = 1;
 const take = 1;
-
-client.features
-  .listPhraseLists(appId, versionId, { skip, take })
-  .then((result) => {
-    console.log("The result is:");
-    console.log(result);
-  })
-  .catch((err) => {
-    console.error(err);
-  });
+client.features.listPhraseLists(appId, versionId, skip, take).then((result) => {
+  console.log("The result is:");
+  console.log(result);
+}).catch((err) => {
+  console.log("An error occurred:");
+  console.error(err);
+});
 ```
 
-#### browser - Authentication, client creation and listPhraseLists features as an example written in JavaScript.
+#### browser - Authentication, client creation, and listPhraseLists features as an example written in JavaScript.
 
+In browser applications, we recommend using the `InteractiveBrowserCredential` that interactively authenticates using the default system browser.
+  - See [Single-page application: App registration guide](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) to configure your app registration for the browser.
+  - Note down the client Id from the previous step and use it in the browser sample below.
 
 ##### Sample code
 
@@ -74,31 +77,28 @@ client.features
 <html lang="en">
   <head>
     <title>@azure/cognitiveservices-luis-authoring sample</title>
-    <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
     <script src="node_modules/@azure/cognitiveservices-luis-authoring/dist/cognitiveservices-luis-authoring.js"></script>
     <script type="text/javascript">
-      let authoringKey = process.env["luis-authoring-key"];
-      const creds = new msRest.ApiKeyCredentials({ inHeader: { 'Ocp-Apim-Subscription-Key': authoringKey } });
-
-      const region = "<your-region>";
-      const client = new Azure.CognitiveservicesLuisAuthoring.LUISAuthoringClient(
-        creds,
-        "https://" + region + ".api.cognitive.microsoft.com/"
-      );
-      const appId = "<your-app-id>"; // replace this with your appId.
-      const versionId = "0.1"; // replace with version of your luis application. Initial value will be 0.1
+      const subscriptionId = "<Subscription_Id>";
+      // Create credentials using the `@azure/identity` package.
+      // Please note that you can also use credentials from the `@azure/ms-rest-browserauth` package instead.
+      const credential = new InteractiveBrowserCredential(
+      {
+        clientId: "<client id for your Azure AD app>",
+        tenant: "<optional tenant for your organization>"
+      });
+      const client = new Azure.CognitiveservicesLuisAuthoring.LUISAuthoringClient(creds, subscriptionId);
+      const appId = ec7b1657-199d-4d8a-bbb2-89a11a42e02a;
+      const versionId = "testversionId";
       const skip = 1;
       const take = 1;
-      client.features
-        .listPhraseLists(appId, versionId, { skip, take })
-        .then((result) => {
-          console.log("The result is:");
-          console.log(result);
-        })
-        .catch((err) => {
-          console.log("An error occurred:");
-          console.error(err);
-        });
+      client.features.listPhraseLists(appId, versionId, skip, take).then((result) => {
+        console.log("The result is:");
+        console.log(result);
+      }).catch((err) => {
+        console.log("An error occurred:");
+        console.error(err);
+      });
     </script>
   </head>
   <body></body>
@@ -109,4 +109,4 @@ client.features
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcognitiveservices%2Fcognitiveservices-luis-authoring%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/cognitiveservices/cognitiveservices-luis-authoring/README.png)
