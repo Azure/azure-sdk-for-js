@@ -6,6 +6,7 @@ import { SpanStatusCode } from "@azure/core-tracing";
 import { createSerializer, OperationOptions, OperationSpec } from "@azure/core-client";
 import {
   GeneratedClient,
+  GeneratedClientAnalyzeStatusOptionalParams,
   GeneratedClientAnalyzeStatusResponse,
   JobManifestTasks,
   TextDocumentInput
@@ -21,7 +22,7 @@ import {
   skip,
   top
 } from "./generated/models/parameters";
-import { getPagedAsyncIterator, PagedResult } from "./paging";
+import { getPagedAsyncIterator, PagedResult } from "@azure/core-paging";
 import { AnalysisPollOperationState, OperationMetadata } from "./pollerModels";
 import {
   AnalyzeActionsResult,
@@ -92,7 +93,6 @@ const serializer = createSerializer(Mappers, /* isXml */ false);
 
 // Consider whether the spec can be exported by code gen
 const analyzeStatusOperationSpec: OperationSpec = {
-  path: "/analyze/jobs/{jobId}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -189,37 +189,36 @@ export function isAnalyzeDone(response: unknown): boolean {
 /**
  * @internal
  */
-export function processAnalyzeResult<TOptions extends OperationOptions>(
+export function processAnalyzeResult(
   // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   client: GeneratedClient,
   documents: TextDocumentInput[],
-  options: TOptions
+  options: GeneratedClientAnalyzeStatusOptionalParams
 ): (result: unknown, state: AnalyzeActionsOperationState) => PagedAnalyzeActionsResult {
-  const pagedResult: PagedResult<
-    TOptions,
-    GeneratedClientAnalyzeStatusResponse,
-    AnalyzeActionsResult
-  > = {
-    sendGetRequest: (path: string, optionsParam: TOptions) =>
-      sendGetRequest(client, analyzeStatusOperationSpec, "AnalyzeStatus", optionsParam, path).then(
-        (response) => response.flatResponse as GeneratedClientAnalyzeStatusResponse
-      ),
-    buildPage: (flatResponse: GeneratedClientAnalyzeStatusResponse) => {
-      if (flatResponse) {
-        return createAnalyzeActionsResult(flatResponse, documents);
-      } else {
-        throw new Error("Analyze action has succeeded but there are no results!");
-      }
-    }
-  };
   return (_result: unknown, state: AnalyzeActionsOperationState): PagedAnalyzeActionsResult => {
     const pollingURL = (state as any).pollingURL;
-    const pagedIterator = getPagedAsyncIterator<
-      TOptions,
-      GeneratedClientAnalyzeStatusResponse,
-      AnalyzeActionsResult,
-      AnalyzeActionsResult
-    >(pagedResult, pollingURL, options);
+    const pagedResult: PagedResult<AnalyzeActionsResult> = {
+      firstPageLink: pollingURL,
+      getPage: async (pageLink: string, maxPageSize?: number) => {
+        const response = await sendGetRequest(
+          client,
+          analyzeStatusOperationSpec,
+          "AnalyzeStatus",
+          // if `top` is set to `undefined`, the default value will not be sent
+          // as part of the request.
+          maxPageSize ? { ...options, top: maxPageSize } : options,
+          pageLink
+        );
+        const flatResponse = response.flatResponse as GeneratedClientAnalyzeStatusResponse;
+        return {
+          page: createAnalyzeActionsResult(flatResponse, documents),
+          nextPageLink: flatResponse.nextLink
+        };
+      }
+    };
+    const pagedIterator = getPagedAsyncIterator<AnalyzeActionsResult, AnalyzeActionsResult>(
+      pagedResult
+    );
     // Attach stats if the service starts to return them
     // https://github.com/Azure/azure-sdk-for-js/issues/14139
     // state.result = Object.assign(pagedIterator, {
