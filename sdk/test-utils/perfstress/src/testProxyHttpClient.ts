@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpOperationResponse } from "@azure/core-http";
+import { HttpClient, HttpOperationResponse } from "@azure/core-http";
 import { DefaultHttpClient, WebResourceLike } from "@azure/core-http";
 import {
   PipelinePolicy,
@@ -79,57 +79,6 @@ export class RecordingStateManager {
     this.state = state;
   }
 }
-
-export class TestProxyHttpClientV1 extends DefaultHttpClient {
-  private _uri: string;
-  private testProxyHttpClientV2: TestProxyHttpClient;
-
-  constructor(uri: string) {
-    super();
-    this._uri = uri;
-    this.testProxyHttpClientV2 = new TestProxyHttpClient(this._uri);
-  }
-
-  public set _mode(mode: string) {
-    this.testProxyHttpClientV2._mode = mode;
-  }
-
-  public get _mode() {
-    return this.testProxyHttpClientV2._mode;
-  }
-
-  public get _recordingId(): string | undefined {
-    return this.testProxyHttpClientV2._recordingId;
-  }
-
-  public set _recordingId(id: string | undefined) {
-    this.testProxyHttpClientV2._recordingId = id;
-  }
-
-  async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
-    if (this._recordingId && (this._mode === "record" || this._mode === "playback")) {
-      request = this.testProxyHttpClientV2.redirectRequest(request, this._recordingId);
-    }
-    return await super.sendRequest(request);
-  }
-
-  async startRecording(): Promise<void> {
-    return this.testProxyHttpClientV2.startRecording();
-  }
-
-  async stopRecording(): Promise<void> {
-    return this.testProxyHttpClientV2.stopRecording();
-  }
-
-  async startPlayback(): Promise<void> {
-    return this.testProxyHttpClientV2.startPlayback();
-  }
-
-  async stopPlayback(): Promise<void> {
-    return this.testProxyHttpClientV2.stopPlayback();
-  }
-}
-
 export class TestProxyHttpClient {
   private _uri: string;
   public _recordingId?: string;
@@ -139,8 +88,9 @@ export class TestProxyHttpClient {
   constructor(uri: string) {
     this._uri = uri;
   }
-
+  // For core-v1
   redirectRequest(request: WebResourceLike, recordingId: string): WebResourceLike;
+  // For core-v2
   redirectRequest(request: PipelineRequest, recordingId: string): PipelineRequest;
   redirectRequest(request: WebResourceLike | PipelineRequest, recordingId: string) {
     request.headers.set("x-recording-id", recordingId);
@@ -160,7 +110,7 @@ export class TestProxyHttpClient {
     return request;
   }
 
-  async sendRequest(request: PipelineRequest): Promise<PipelineRequest> {
+  async modifyRequest(request: PipelineRequest): Promise<PipelineRequest> {
     if (this._recordingId && (this._mode === "record" || this._mode === "playback")) {
       request = this.redirectRequest(request, this._recordingId);
       request.allowInsecureConnection = true;
@@ -265,8 +215,23 @@ export function testProxyHttpPolicy(testProxyHttpClient: TestProxyHttpClient): P
   return {
     name: "recording policy",
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      const modifiedRequest = await testProxyHttpClient.sendRequest(request);
+      const modifiedRequest = await testProxyHttpClient.modifyRequest(request);
       return next(modifiedRequest);
     }
   };
+}
+
+export class TestProxyHttpClientV1 extends TestProxyHttpClient {
+  public _httpClient: HttpClient;
+  constructor(uri: string) {
+    super(uri);
+    this._httpClient = new DefaultHttpClient();
+  }
+
+  async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
+    if (this._recordingId && (this._mode === "record" || this._mode === "playback")) {
+      request = this.redirectRequest(request, this._recordingId);
+    }
+    return await this._httpClient.sendRequest(request);
+  }
 }
