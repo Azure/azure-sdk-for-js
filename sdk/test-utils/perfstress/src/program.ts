@@ -105,18 +105,18 @@ export class PerfStressProgram {
       `Completed ${totalOperations.toLocaleString(undefined, {
         maximumFractionDigits: 0
       })} ` +
-        `operations in a weighted-average of ` +
-        `${weightedAverage.toLocaleString(undefined, {
-          maximumFractionDigits: 2,
-          minimumFractionDigits: 2
-        })}s ` +
-        `(${operationsPerSecond.toLocaleString(undefined, {
-          maximumFractionDigits: 2
-        })} ops/s, ` +
-        `${secondsPerOperation.toLocaleString(undefined, {
-          maximumFractionDigits: 3,
-          minimumFractionDigits: 3
-        })} s/op)`
+      `operations in a weighted-average of ` +
+      `${weightedAverage.toLocaleString(undefined, {
+        maximumFractionDigits: 2,
+        minimumFractionDigits: 2
+      })}s ` +
+      `(${operationsPerSecond.toLocaleString(undefined, {
+        maximumFractionDigits: 2
+      })} ops/s, ` +
+      `${secondsPerOperation.toLocaleString(undefined, {
+        maximumFractionDigits: 3,
+        minimumFractionDigits: 3
+      })} s/op)`
     );
   }
 
@@ -186,7 +186,7 @@ export class PerfStressProgram {
     const millisecondsToLog = Number(this.parsedDefaultOptions["milliseconds-to-log"].value);
     console.log(
       `\n=== ${title} mode, iteration ${iterationIndex + 1}. Logs every ${millisecondsToLog /
-        1000}s ===`
+      1000}s ===`
     );
     console.log(`Current\t\tTotal\t\tAverage`);
     let lastCompleted = 0;
@@ -354,9 +354,9 @@ export class PerfStressProgram {
     // => stop record
     // => start playback
     let recorder: TestProxyHttpClientV1 | TestProxyHttpClient;
-    if (PerfStressTest.testProxyHttpClient instanceof TestProxyHttpClient) {
+    if (PerfStressTest.testProxyHttpClient) {
       recorder = PerfStressTest.testProxyHttpClient;
-    } else if (PerfStressTest.testProxyHttpClientV1 instanceof TestProxyHttpClientV1) {
+    } else if (PerfStressTest.testProxyHttpClientV1) {
       recorder = PerfStressTest.testProxyHttpClientV1;
     } else {
       throw new Error(
@@ -374,9 +374,9 @@ export class PerfStressProgram {
   }
 
   private async stopPlayback() {
-    if (PerfStressTest.testProxyHttpClient instanceof TestProxyHttpClient) {
+    if (PerfStressTest.testProxyHttpClient) {
       await PerfStressTest.testProxyHttpClient.stopPlayback();
-    } else if (PerfStressTest.testProxyHttpClientV1 instanceof TestProxyHttpClientV1) {
+    } else if (PerfStressTest.testProxyHttpClientV1) {
       await PerfStressTest.testProxyHttpClientV1.stopPlayback();
     }
   }
