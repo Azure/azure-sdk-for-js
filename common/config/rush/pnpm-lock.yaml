@@ -82,6 +82,7 @@ dependencies:
   '@rush-temp/perf-storage-blob': file:projects/perf-storage-blob.tgz
   '@rush-temp/perf-storage-file-datalake': file:projects/perf-storage-file-datalake.tgz
   '@rush-temp/perf-storage-file-share': file:projects/perf-storage-file-share.tgz
+  '@rush-temp/purview-account': file:projects/purview-account.tgz
   '@rush-temp/purview-catalog': file:projects/purview-catalog.tgz
   '@rush-temp/purview-scanning': file:projects/purview-scanning.tgz
   '@rush-temp/quantum-jobs': file:projects/quantum-jobs.tgz
@@ -9652,18 +9653,35 @@ packages:
   file:projects/core-paging.tgz:
     dependencies:
       '@microsoft/api-extractor': 7.7.11
+      '@types/chai': 4.2.21
+      '@types/mocha': 7.0.2
       '@types/node': 12.20.16
+      chai: 4.3.4
       downlevel-dts: 0.4.0
       eslint: 7.31.0
+      karma: 6.3.4
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.0.3
+      karma-edge-launcher: 0.4.2_karma@6.3.4
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.3.4
+      karma-junit-reporter: 2.0.1_karma@6.3.4
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.3.4
+      karma-sourcemap-loader: 0.3.8
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
+      tslib: 2.3.0
       typedoc: 0.15.2
       typescript: 4.2.4
     dev: false
     name: '@rush-temp/core-paging'
     resolution:
-      integrity: sha512-MN7SsB+13LCRSWAqoxBurHROQeos/n0rDb6bBg7BA6cSncZquPuSzWOIYp3QSa2RGbmY3b3bIgjThFWbtnU3wg==
+      integrity: sha512-L14f29bGNZ2/Q8Ax9MfR7QWs85WhJsUAlujI+yHvwRdAyKzlVNIPv0Z+y05QO35MeIlIfhyLoYY42kIbFIJaEw==
       tarball: file:projects/core-paging.tgz
     version: 0.0.0
   file:projects/core-rest-pipeline.tgz:
@@ -11293,6 +11311,49 @@ packages:
       integrity: sha512-puMNDli8g8FHzU3hcpWibrKOoXVSBbeZz2/mq+Eoan4HwJzUqyaTOllfsc0NXbFn2aNV9ETSLtcldPLsWckq9w==
       tarball: file:projects/perf-storage-file-share.tgz
     version: 0.0.0
+  file:projects/purview-account.tgz:
+    dependencies:
+      '@azure-rest/core-client': 1.0.0-beta.6
+      '@azure/identity': 1.5.0
+      '@microsoft/api-extractor': 7.13.2
+      '@types/chai': 4.2.21
+      '@types/mocha': 7.0.2
+      '@types/node': 12.20.16
+      chai: 4.3.4
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      eslint: 7.31.0
+      karma: 6.3.4
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.0.3
+      karma-edge-launcher: 0.4.2_karma@6.3.4
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.3.4
+      karma-json-preprocessor: 0.3.3_karma@6.3.4
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1_karma@6.3.4
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.3.4
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 2.2.1
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      source-map-support: 0.5.19
+      tslib: 2.3.0
+      typedoc: 0.15.2
+      typescript: 4.2.4
+    dev: false
+    name: '@rush-temp/purview-account'
+    resolution:
+      integrity: sha512-rQZAzLg0knpEbvftSWPTyCXi+SNIiSe0gZ+ZHVTVcCMCKZppVcYEpO5dCeTkVYPQ92qICvlrikMKIdYAkTtQIA==
+      tarball: file:projects/purview-account.tgz
+    version: 0.0.0
   file:projects/purview-catalog.tgz:
     dependencies:
       '@azure-rest/core-client': 1.0.0-beta.6
@@ -12010,11 +12071,41 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@types/chai': 4.2.21
+      '@types/chai-as-promised': 7.1.4
+      '@types/mocha': 7.0.2
+      '@types/node': 12.20.16
+      '@types/sinon': 9.0.11
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
+      cross-env: 7.0.3
+      dotenv: 8.6.0
       eslint: 7.31.0
+      karma: 6.3.4
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.0.3
+      karma-edge-launcher: 0.4.2_karma@6.3.4
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.3.4
+      karma-json-preprocessor: 0.3.3_karma@6.3.4
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1_karma@6.3.4
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.3.4
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      sinon: 9.2.4
+      source-map-support: 0.5.19
+      ts-node: 9.1.1_typescript@4.2.4
       tslib: 2.3.0
       typedoc: 0.15.2
       typescript: 4.2.4
@@ -12022,7 +12113,7 @@ packages:
     dev: false
     name: '@rush-temp/synapse-access-control'
     resolution:
-      integrity: sha512-YOYJ7D/Sl7HllEychX7AJmzM1xXO9mkwBxh137RIF51dF5Cnzq/m3MfOhPQ0vma615/w+J+ySsr2GbSeCetTLQ==
+      integrity: sha512-SovVBaMKJtIZTt3TZoF7f47q+qtHQUuFA7jv43TMeCBuv7E2wVOAzNhX+QONZztUlyQOwWKO/2u2AXIT/0zXXg==
       tarball: file:projects/synapse-access-control.tgz
     version: 0.0.0
   file:projects/synapse-artifacts.tgz:
@@ -12072,7 +12163,7 @@ packages:
     dev: false
     name: '@rush-temp/synapse-artifacts'
     resolution:
-      integrity: sha512-8umUS0f883trlKvB8DWIYW7I/jDeUGXzo/ZVSslvFCSbu7eIe0Vi993dLyEwMqGKxKWUs+iCeFj2y3hUyFEV9w==
+      integrity: sha512-VMzIJOjXP2MejwM6doPqqfvVUdTIdJyW4xSko0YPgIT0EXLxYMTPsvxg9k8C2vPPcQ79qfyaSF2i4a6ewj/TyQ==
       tarball: file:projects/synapse-artifacts.tgz
     version: 0.0.0
   file:projects/synapse-managed-private-endpoints.tgz:
@@ -12080,7 +12171,32 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@types/chai': 4.2.21
+      '@types/chai-as-promised': 7.1.4
+      '@types/mocha': 7.0.2
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
+      cross-env: 7.0.3
+      dotenv: 8.6.0
       eslint: 7.31.0
+      karma: 6.3.4
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.0.3
+      karma-edge-launcher: 0.4.2_karma@6.3.4
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.3.4
+      karma-json-preprocessor: 0.3.3_karma@6.3.4
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1_karma@6.3.4
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.3.4
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-node-resolve: 3.4.0
@@ -12092,7 +12208,7 @@ packages:
     dev: false
     name: '@rush-temp/synapse-managed-private-endpoints'
     resolution:
-      integrity: sha512-IwnPZhtjlP5w9AXvKnd67n7tCK09ihLrUWs1sD6OE1RXaYcOu1JgICP+mjjYDc+5j0/HxE7mt4qKWdoVLLFS2w==
+      integrity: sha512-KiXHMqJKm8uAAfp0Fne4GfvQAHNVHOiroRwA0REWzT6vexTxnpBfl7fwezuFNMuLgG/9lhdnyq+zY9tSgjf1VA==
       tarball: file:projects/synapse-managed-private-endpoints.tgz
     version: 0.0.0
   file:projects/synapse-monitoring.tgz:
@@ -12120,7 +12236,32 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@types/chai': 4.2.21
+      '@types/chai-as-promised': 7.1.4
+      '@types/mocha': 7.0.2
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
+      cross-env: 7.0.3
+      dotenv: 8.6.0
       eslint: 7.31.0
+      karma: 6.3.4
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.0.3
+      karma-edge-launcher: 0.4.2_karma@6.3.4
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.3.4
+      karma-json-preprocessor: 0.3.3_karma@6.3.4
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1_karma@6.3.4
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.3.4
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-node-resolve: 3.4.0
@@ -12132,7 +12273,7 @@ packages:
     dev: false
     name: '@rush-temp/synapse-spark'
     resolution:
-      integrity: sha512-SHXq7JNyCznE7XZDbXs5TJrLK5NIQt53yJ5LRO0Vv2KKSGriROjCTJq21I1tD5ol2ArABvJ1gYXkPJFz3pYiDg==
+      integrity: sha512-8sNoSolJFrBQR8AVfl57T8Tqb9gVJNgJmDioFAvCwJhPX6Dy6nUR4QF0saiNiZWQLUYPTSwhMrHpIz7yw33Hcg==
       tarball: file:projects/synapse-spark.tgz
     version: 0.0.0
   file:projects/template.tgz:
@@ -12534,6 +12675,7 @@ specifiers:
   '@rush-temp/perf-storage-blob': file:./projects/perf-storage-blob.tgz
   '@rush-temp/perf-storage-file-datalake': file:./projects/perf-storage-file-datalake.tgz
   '@rush-temp/perf-storage-file-share': file:./projects/perf-storage-file-share.tgz
+  '@rush-temp/purview-account': file:./projects/purview-account.tgz
   '@rush-temp/purview-catalog': file:./projects/purview-catalog.tgz
   '@rush-temp/purview-scanning': file:./projects/purview-scanning.tgz
   '@rush-temp/quantum-jobs': file:./projects/quantum-jobs.tgz
