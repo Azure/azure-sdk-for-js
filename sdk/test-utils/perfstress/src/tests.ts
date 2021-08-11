@@ -9,13 +9,10 @@ import {
   DefaultPerfStressOptions,
   defaultPerfStressOptions
 } from "./options";
-import {
-  TestProxyHttpClientV1,
-  TestProxyHttpClient,
-  testProxyHttpPolicy
-} from "./testProxyHttpClient";
+import { testProxyHttpPolicy } from "./testProxyHttpClient";
 import { HttpClient } from "@azure/core-http";
 import { Pipeline } from "@azure/core-rest-pipeline";
+import { CachedProxyClients } from "./utils";
 
 /**
  * Defines the behavior of the PerfStressTest constructor, to use the class as a value.
@@ -34,8 +31,6 @@ export interface PerfStressTestConstructor<TOptions extends {} = {}> {
  * (initializations are as many as the "parallel" command line parameter specifies).
  */
 export abstract class PerfStressTest<TOptions = {}> {
-  public static testProxyHttpClientV1: TestProxyHttpClientV1;
-  public static testProxyHttpClient: TestProxyHttpClient;
   public abstract options: PerfStressOptionDictionary<TOptions>;
 
   public get parsedOptions(): PerfStressOptionDictionary<TOptions & DefaultPerfStressOptions> {
@@ -58,22 +53,6 @@ export abstract class PerfStressTest<TOptions = {}> {
 
   public async runAsync?(abortSignal?: AbortSignalLike): Promise<void>;
 
-  private getHttpClientV1(): TestProxyHttpClientV1 {
-    if (PerfStressTest.testProxyHttpClientV1) return PerfStressTest.testProxyHttpClientV1;
-    PerfStressTest.testProxyHttpClientV1 = new TestProxyHttpClientV1(
-      this.parsedOptions["test-proxy"].value!
-    );
-    return PerfStressTest.testProxyHttpClientV1;
-  }
-
-  private getHttpClient(): TestProxyHttpClient {
-    if (PerfStressTest.testProxyHttpClient) return PerfStressTest.testProxyHttpClient;
-    PerfStressTest.testProxyHttpClient = new TestProxyHttpClient(
-      this.parsedOptions["test-proxy"].value!
-    );
-    return PerfStressTest.testProxyHttpClient;
-  }
-
   /**
    * configureClientOptionsCoreV1
    *
@@ -84,7 +63,9 @@ export abstract class PerfStressTest<TOptions = {}> {
    */
   public configureClientOptionsCoreV1<T>(options: T & { httpClient?: HttpClient }): T {
     if (this.parsedOptions["test-proxy"].value) {
-      options.httpClient = this.getHttpClientV1();
+      options.httpClient = CachedProxyClients.getHttpClientV1(
+        this.parsedOptions["test-proxy"].value!
+      );
     }
     return options;
   }
@@ -99,7 +80,11 @@ export abstract class PerfStressTest<TOptions = {}> {
    */
   public configureClient<T>(client: T & { pipeline: Pipeline }): T {
     if (this.parsedOptions["test-proxy"].value) {
-      client.pipeline.addPolicy(testProxyHttpPolicy(this.getHttpClient()));
+      client.pipeline.addPolicy(
+        testProxyHttpPolicy(
+          CachedProxyClients.getHttpClient(this.parsedOptions["test-proxy"].value!)
+        )
+      );
     }
     return client;
   }

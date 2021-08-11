@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { IncomingMessage, RequestOptions, request } from "http";
+import { TestProxyHttpClient, TestProxyHttpClientV1 } from "./testProxyHttpClient";
 
 /**
  * Returns the environment variable, throws an error if not defined.
@@ -29,7 +30,6 @@ export async function drainStream(stream: NodeJS.ReadableStream) {
     stream.on("error", reject);
   });
 }
-
 export async function makeRequest(
   uri: string,
   requestOptions: RequestOptions
@@ -44,3 +44,26 @@ export async function makeRequest(
     req.end();
   });
 }
+
+const _cachedProxyClients: {
+  v1: TestProxyHttpClientV1 | undefined;
+  v2: TestProxyHttpClient | undefined;
+} = {
+  v1: undefined,
+  v2: undefined
+};
+
+export const CachedProxyClients = {
+  getHttpClientV1(url: string): TestProxyHttpClientV1 {
+    if (_cachedProxyClients.v1) return _cachedProxyClients.v1;
+    // Create a new client if not defined already
+    _cachedProxyClients.v1 = new TestProxyHttpClientV1(url);
+    return _cachedProxyClients.v1;
+  },
+
+  getHttpClient(url: string): TestProxyHttpClient {
+    if (_cachedProxyClients.v2) return _cachedProxyClients.v2;
+    _cachedProxyClients.v2 = new TestProxyHttpClient(url);
+    return _cachedProxyClients.v2;
+  }
+};
