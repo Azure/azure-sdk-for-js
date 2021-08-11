@@ -8,7 +8,6 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
-import { TokenCredential } from "@azure/core-auth";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
@@ -40,7 +39,7 @@ class BatchServiceClient extends BatchServiceClientContext {
    * @param [options] The parameter options
    */
   constructor(
-    credentials: msRest.ServiceClientCredentials | TokenCredential,
+    credentials: msRest.ServiceClientCredentials,
     batchUrl: string,
     options?: msRestAzure.AzureServiceClientOptions
   ) {

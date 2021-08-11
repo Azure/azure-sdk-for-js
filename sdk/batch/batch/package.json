@@ -2,9 +2,8 @@
   "name": "@azure/batch",
   "author": "Microsoft Corporation",
   "description": "BatchServiceClient Library with typescript type definitions for node.js and browser.",
-  "version": "9.0.0",
+  "version": "9.1.0",
   "dependencies": {
-    "@azure/core-auth": "^1.1.4",
     "@azure/ms-rest-azure-js": "^2.1.0",
     "@azure/ms-rest-js": "^2.2.0",
     "jssha": "^3.2.0",

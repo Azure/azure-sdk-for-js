@@ -6,7 +6,7 @@
 // import { Context } from "mocha";
 
 // import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
-import { TokenCredential, ClientSecretCredential } from "@azure/identity";
+// import { TokenCredential, ClientSecretCredential } from "@azure/identity";
 
 import "./env";
 import { BatchServiceClient } from "../../src/batchServiceClient";
@@ -45,7 +45,7 @@ export function createClient(
   authMethod: AuthMethod,
   options?: AzureServiceClientOptions
 ): BatchServiceClient {
-  let credential: BatchSharedKeyCredentials | TokenCredential;
+  let credential: BatchSharedKeyCredentials;
   switch (authMethod) {
     case "APIKey": {
       credential = new BatchSharedKeyCredentials(
@@ -55,12 +55,13 @@ export function createClient(
       break;
     }
     case "AAD": {
-      credential = new ClientSecretCredential(
-        process.env.AZURE_TENANT_ID!,
-        process.env.AZURE_CLIENT_ID!,
-        process.env.AZURE_CLIENT_SECRET!
-      );
-      break;
+      throw new Error("AAD is not supported");
+      // credential = new ClientSecretCredential(
+      //   process.env.AZURE_TENANT_ID!,
+      //   process.env.AZURE_CLIENT_ID!,
+      //   process.env.AZURE_CLIENT_SECRET!
+      // );
+      // break;
     }
     case "DummyAPIKey": {
       credential = new BatchSharedKeyCredentials("whatever", "whatever");
