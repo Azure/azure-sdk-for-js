@@ -7,6 +7,9 @@ stages:
       ServiceDirectory: eventhub
       TimeoutInMinutes: 240
       SupportedClouds: 'Public,UsGov,China'
+      CloudConfig:
+        UsGov:
+          Location: 'usgovarizona'
       EnvVars:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
         AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)

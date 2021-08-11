@@ -135,7 +135,7 @@
       "type": "Microsoft.Devices/IotHubs",
       "apiVersion": "[variables('ioTapiVersion')]",
       "name": "[variables('iotName')]",
-      "location": "USGov Arizona",
+      "location": "[resourceGroup().location]",
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
       ],
