@@ -21,7 +21,7 @@ import { Pipeline } from "@azure/core-rest-pipeline";
  * Defines the behavior of the PerfStressTest constructor, to use the class as a value.
  */
 export interface PerfStressTestConstructor<TOptions extends {} = {}> {
-  new(): PerfStressTest<TOptions>;
+  new (): PerfStressTest<TOptions>;
 }
 
 /**
@@ -60,7 +60,9 @@ export abstract class PerfStressTest<TOptions = {}> {
 
   private getHttpClientV1(): TestProxyHttpClientV1 {
     if (PerfStressTest.testProxyHttpClientV1) return PerfStressTest.testProxyHttpClientV1;
-    PerfStressTest.testProxyHttpClientV1 = new TestProxyHttpClientV1(this.parsedOptions["test-proxy"].value!);
+    PerfStressTest.testProxyHttpClientV1 = new TestProxyHttpClientV1(
+      this.parsedOptions["test-proxy"].value!
+    );
     return PerfStressTest.testProxyHttpClientV1;
   }
 

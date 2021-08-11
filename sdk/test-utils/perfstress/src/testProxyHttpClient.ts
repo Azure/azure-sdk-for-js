@@ -199,9 +199,7 @@ export class TestProxyHttpClient {
     this.stateManager.setState("stopped-playback");
   }
 
-  private _createRecordingRequestOptions(
-    options: http.RequestOptions
-  ): http.RequestOptions {
+  private _createRecordingRequestOptions(options: http.RequestOptions): http.RequestOptions {
     if (this._recordingId !== undefined) {
       options.headers = {
         ...options.headers,

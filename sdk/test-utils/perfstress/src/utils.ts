@@ -24,24 +24,23 @@ export function getEnvVar(name: string) {
  */
 export async function drainStream(stream: NodeJS.ReadableStream) {
   return new Promise((resolve, reject) => {
-    stream.on("data", () => { });
+    stream.on("data", () => {});
     stream.on("end", resolve);
     stream.on("error", reject);
   });
 }
 
-export async function makeRequest(uri: string,
-  requestOptions: RequestOptions,
+export async function makeRequest(
+  uri: string,
+  requestOptions: RequestOptions
 ): Promise<IncomingMessage> {
-  return new Promise((resolve, reject) => {
-    const req = request(uri, requestOptions);
+  return new Promise<IncomingMessage>((resolve, reject) => {
+    const req = request(uri, requestOptions, resolve);
 
-    req.on('response', res => {
-      resolve(res);
+    req.once("error", (err) => {
+      reject(new Error(err.message));
     });
 
-    req.on('error', err => {
-      reject(err);
-    });
+    req.end();
   });
 }
