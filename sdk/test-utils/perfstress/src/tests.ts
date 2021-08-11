@@ -9,7 +9,11 @@ import {
   DefaultPerfStressOptions,
   defaultPerfStressOptions
 } from "./options";
-import { testProxyHttpPolicy } from "./testProxyHttpClient";
+import {
+  TestProxyHttpClient,
+  TestProxyHttpClientV1,
+  testProxyHttpPolicy
+} from "./testProxyHttpClient";
 import { HttpClient } from "@azure/core-http";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { CachedProxyClients } from "./utils";
@@ -31,6 +35,8 @@ export interface PerfStressTestConstructor<TOptions extends {} = {}> {
  * (initializations are as many as the "parallel" command line parameter specifies).
  */
 export abstract class PerfStressTest<TOptions = {}> {
+  public testProxyHttpClient!: TestProxyHttpClient;
+  public testProxyHttpClientV1!: TestProxyHttpClientV1;
   public abstract options: PerfStressOptionDictionary<TOptions>;
 
   public get parsedOptions(): PerfStressOptionDictionary<TOptions & DefaultPerfStressOptions> {
@@ -63,9 +69,10 @@ export abstract class PerfStressTest<TOptions = {}> {
    */
   public configureClientOptionsCoreV1<T>(options: T & { httpClient?: HttpClient }): T {
     if (this.parsedOptions["test-proxy"].value) {
-      options.httpClient = CachedProxyClients.getHttpClientV1(
+      this.testProxyHttpClientV1 = CachedProxyClients.getHttpClientV1(
         this.parsedOptions["test-proxy"].value!
       );
+      options.httpClient = this.testProxyHttpClientV1;
     }
     return options;
   }
@@ -80,11 +87,10 @@ export abstract class PerfStressTest<TOptions = {}> {
    */
   public configureClient<T>(client: T & { pipeline: Pipeline }): T {
     if (this.parsedOptions["test-proxy"].value) {
-      client.pipeline.addPolicy(
-        testProxyHttpPolicy(
-          CachedProxyClients.getHttpClient(this.parsedOptions["test-proxy"].value!)
-        )
+      this.testProxyHttpClient = CachedProxyClients.getHttpClient(
+        this.parsedOptions["test-proxy"].value!
       );
+      client.pipeline.addPolicy(testProxyHttpPolicy(this.testProxyHttpClient));
     }
     return client;
   }

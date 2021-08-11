@@ -300,7 +300,7 @@ export class PerfStressProgram {
     }
 
     if (this.tests[0].parsedOptions["test-proxy"].value) {
-      await this.stopPlayback();
+      await this.stopPlayback(this.tests[0]);
     }
 
     if (!options["no-cleanup"].value && this.tests[0].cleanup) {
@@ -354,10 +354,10 @@ export class PerfStressProgram {
     // => stop record
     // => start playback
     let recorder: TestProxyHttpClientV1 | TestProxyHttpClient;
-    if (PerfStressTest.testProxyHttpClient) {
-      recorder = PerfStressTest.testProxyHttpClient;
-    } else if (PerfStressTest.testProxyHttpClientV1) {
-      recorder = PerfStressTest.testProxyHttpClientV1;
+    if (test.testProxyHttpClient) {
+      recorder = test.testProxyHttpClient;
+    } else if (test.testProxyHttpClientV1) {
+      recorder = test.testProxyHttpClientV1;
     } else {
       throw new Error(
         "testProxyClient is not set, please make sure the client/options are configured properly."
@@ -373,11 +373,11 @@ export class PerfStressProgram {
     recorder._mode = "playback";
   }
 
-  private async stopPlayback() {
-    if (PerfStressTest.testProxyHttpClient) {
-      await PerfStressTest.testProxyHttpClient.stopPlayback();
-    } else if (PerfStressTest.testProxyHttpClientV1) {
-      await PerfStressTest.testProxyHttpClientV1.stopPlayback();
+  private async stopPlayback(test: PerfStressTest) {
+    if (test.testProxyHttpClient) {
+      await test.testProxyHttpClient.stopPlayback();
+    } else if (test.testProxyHttpClientV1) {
+      await test.testProxyHttpClientV1.stopPlayback();
     }
   }
 }
