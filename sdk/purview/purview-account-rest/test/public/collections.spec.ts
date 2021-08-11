@@ -7,7 +7,7 @@ import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 
-describe("List typedefs sources", () => {
+describe("List collections", () => {
   let recorder: Recorder;
   let client: PurviewAccountRestClient;
 
@@ -23,6 +23,7 @@ describe("List typedefs sources", () => {
   it("should list all available collections", async () => {
     const result = await client.path("/collections").get();
 
+    console.log(result);
     if (result.status !== "200") {
       assert.fail(`GET "/collections" failed with ${result.status}`);
     }
