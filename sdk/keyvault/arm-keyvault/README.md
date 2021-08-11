@@ -2,6 +2,8 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure KeyVaultManagement client.
 
+You can also follow this [link](https://github.com/Azure/azure-sdk-for-js/tree/feature/v4/sdk/keyvault/arm-keyvault) to see the previous stable versions for this package. Note that they might not implement the guidelines(https://azure.github.io/azure-sdk/typescript_introduction.html) or have the same feature set as the new releases.
+
 The Azure management API provides a RESTful set of web services that interact with Azure Key Vault.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/arm-keyvault) |
