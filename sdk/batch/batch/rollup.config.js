@@ -5,7 +5,7 @@ import sourcemaps from "rollup-plugin-sourcemaps";
  * @type {rollup.RollupFileOptions}
  */
 const config = {
-  input: "./esm/batchServiceClient.js",
+  input: "./dist-esm/src/batchServiceClient.js",
   external: ["@azure/ms-rest-js", "@azure/ms-rest-azure-js"],
   output: {
     file: "./dist/batch.js",
