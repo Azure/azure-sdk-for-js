@@ -4,7 +4,6 @@ omitted_paths:
   - documentation/ServicePrincipal/*
   - eng/*
   - samples/*
-  - sdk/*/README.md
   - sdk/**/samples-*/*
   - sdk/**/samples/*
   - sdk/**/swagger/*
