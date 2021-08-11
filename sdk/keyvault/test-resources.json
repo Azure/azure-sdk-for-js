@@ -63,23 +63,21 @@
       "type": "string",
       "defaultValue": "keyvault-mock-attestation",
       "metadata": {
-        "description": "The name of the attestation image to deploy. Only deployed when enableHsm is true."
+        "description": "The name of the secure key release attestation image to deploy. Only deployed when enableHsm is true."
       }
     },
     "attestationImageTag": {
       "type": "string",
       "defaultValue": "latest",
       "metadata": {
-        "description": "The tag of the attestation image to use. The default is 'latest'. Only deployed when enableHsm is true."
+        "description": "The tag of the secure key release attestation image to use. The default is 'latest'. Only deployed when enableHsm is true."
       }
     }
   },
   "variables": {
     "kvApiVersion": "2019-09-01",
-    "containerRegistryDomainName": "azsdkengsys.azurecr.io",
-    "attestationImagePath": "[concat('DOCKER|', variables('containerRegistryDomainName'), '/', parameters('attestationImageName'), ':', parameters('attestationImageTag'))]",
-    "attestationAppName": "[concat(parameters('baseName'), 'attestation')]",
-    "attestationAppPlanName": "[concat(parameters('baseName'), 'attestationPlan')]",
+    "attestationImageName":  "[concat('DOCKER|azsdkengsys.azurecr.io/', parameters('attestationImageName'), ':', parameters('attestationImageTag'))]",
+    "attestationAppName": "[concat(parameters('baseName'), '-skr-attestation')]",
     "kvName": "[parameters('baseName')]",
     "hsmApiVersion": "2020-04-01-preview",
     "hsmName": "[concat(parameters('baseName'), 'hsm')]",
@@ -245,17 +243,10 @@
     {
       "type": "Microsoft.Web/serverfarms",
       "apiVersion": "2021-01-15",
-      "name": "[variables('attestationAppPlanName')]",
-      "condition": "[parameters('enableHsm')]",
+      "name": "[variables('attestationAppName')]",
       "location": "[parameters('location')]",
       "kind": "linux",
-      "sku": {
-        "name": "B1",
-        "tier": "Basic",
-        "size": "B1",
-        "family": "B",
-        "capacity": 1
-      },
+      "sku": { "name": "B1" },
       "properties": {
         "reserved": true
       }
@@ -268,28 +259,20 @@
       "location": "[parameters('location')]",
       "properties": {
         "httpsOnly": true,
-        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('attestationAppPlanName'))]",
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('attestationAppName'))]",
         "siteConfig": {
           "name": "[variables('attestationAppName')]",
           "alwaysOn": true,
-          "linuxFxVersion": "[variables('attestationImagePath')]",
+          "linuxFxVersion": "[variables('attestationImageName')]",
           "appSettings": [
             {
               "name": "WEBSITES_ENABLE_APP_SERVICE_STORAGE",
               "value": "false"
-            },
-            {
-              "name": "DOCKER_REGISTRY_SERVER_URL",
-              "value": "[concat('https://', variables('containerRegistryDomainName'))]"
-            },
-            {
-              "name": "DOCKER_CUSTOM_IMAGE_NAME",
-              "value": "[variables('attestationImagePath')]"
             }
           ]
         }
       },
-      "dependsOn": ["[resourceId('Microsoft.Web/serverfarms', variables('attestationAppPlanName'))]"]
+      "dependsOn": ["[resourceId('Microsoft.Web/serverfarms', variables('attestationAppName'))]"]
     }
   ],
   "outputs": {
