@@ -95,27 +95,19 @@ export const imdsMsi: MSI = {
       getTokenOptions
     );
 
-    const requestOptions = prepareRequestOptions(resource, clientId, {
-      skipMetadataHeader: true,
-      skipQuery: true
-    });
-
-    // This will always be populated, but let's make TypeScript happy
-    if (requestOptions.headers) {
-      // Remove the Metadata header to invoke a request error from
-      // IMDS endpoint
-      requestOptions.headers.delete("Metadata");
-    }
-
-    requestOptions.tracingOptions = {
-      spanOptions: options.tracingOptions && options.tracingOptions.spanOptions,
-      tracingContext: options.tracingOptions && options.tracingOptions.tracingContext
-    };
-
     try {
       // Create a request with a timeout since we expect that
       // not having a "Metadata" header should cause an error to be
       // returned quickly from the endpoint, proving its availability.
+      // Later we found that skipping the query parameters is also necessary in some cases.
+      const requestOptions = prepareRequestOptions(resource, clientId, {
+        skipMetadataHeader: true,
+        skipQuery: true
+      });
+      requestOptions.tracingOptions = {
+        spanOptions: options.tracingOptions && options.tracingOptions.spanOptions,
+        tracingContext: options.tracingOptions && options.tracingOptions.tracingContext
+      };
       const request = createPipelineRequest(requestOptions);
 
       request.timeout = options.requestOptions?.timeout ?? 300;
