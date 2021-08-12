@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import Sinon from "sinon";
-import assert from "assert";
+import { assert } from "chai";
 import * as path from "path";
 import { AbortController } from "@azure/abort-controller";
 import { env, isPlaybackMode, delay } from "@azure/test-utils-recorder";
@@ -37,7 +37,7 @@ describe("ClientCertificateCredential (internal)", function() {
     await cleanup();
   });
 
-  const certificatePath = path.join(ASSET_PATH, "cert.pem");
+  const certificatePath = path.join(ASSET_PATH, "fake-cert.pem");
   const scope = "https://vault.azure.net/.default";
 
   it("throws when given a file that doesn't contain a PEM-formatted certificate", () => {

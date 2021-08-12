@@ -1,6 +1,6 @@
 ## Azure Identity client library for JavaScript
 
-The Azure Identity library provides Azure Active Directory token authentication support across the Azure SDK. It provides a set of [TokenCredential](https://docs.microsoft.com/javascript/api/@azure/core-auth/tokencredential) implementations which can be used to construct Azure SDK clients which support AAD token authentication.
+The Azure Identity library provides [Azure Active Directory (AAD)](https://docs.microsoft.com/azure/active-directory/fundamentals/active-directory-whatis) token authentication through a set of convenient [TokenCredential](https://docs.microsoft.com/javascript/api/@azure/core-auth/tokencredential) implementations. It enables Azure SDK clients to authenticate with AAD, while also allowing other JavaScript and TypeScript apps to authenticate with AAD work and school accounts, Microsoft personal accounts (MSA), and other Identity providers through the [AAD B2C](https://docs.microsoft.com/azure/active-directory-b2c/overview) service.
 
 You can find examples for these various credentials in the [Azure Identity Examples Page](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md)
 
@@ -12,6 +12,15 @@ Key links:
 - [Samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples)
 
 ## Getting started
+
+### Currently supported environments
+
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+   - **Note:** If your application runs on Node.js v8 or lower and you cannot upgrade your Node.js version to latest stable version, then pin your `@azure/identity` dependency to version 1.1.0.
+- Latest versions of Safari, Chrome, Edge, and Firefox.
+   - **Note**: Among the different credentials exported in this library, `InteractiveBrowserCredential` is the only one that is supported in the browser.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
 ### Install the package
 
@@ -25,12 +34,6 @@ npm install --save @azure/identity
 
 - An [Azure subscription](https://azure.microsoft.com/free/).
 - Optional: The [Azure CLI][azure_cli] and/or [Azure PowerShell][azure_powershell] can also be useful for authenticating in a development environment and managing account roles.
-
-#### Supported Node.js versions
-
-This version of `@azure/identity` supports stable (even numbered) versions of Node.js starting from v10. While it may run in Node.js v8, no support is guaranteed.
-
-> **Note:** If your application runs on Node.js v8 or lower, we strongly recommend you to upgrade your Node.js version to latest stable version or pin your `@azure/identity` dependency to version 1.1.0.
 
 ### When to use @azure/identity
 
@@ -100,7 +103,7 @@ The `DefaultAzureCredential` is appropriate for most scenarios where the applica
 
 > Note: `DefaultAzureCredential` is intended to simplify getting started with the SDK by handling common scenarios with reasonable default behaviors. Developers who want more control or whose scenario isn't served by the default settings should use other credential types.
 
-If used from NodeJS, the `DefaultAzureCredential` will attempt to authenticate via the following mechanisms in order:
+If used from Node.js, the `DefaultAzureCredential` will attempt to authenticate via the following mechanisms in order:
 
 ![DefaultAzureCredential authentication flow][defaultauthflow_image]
 

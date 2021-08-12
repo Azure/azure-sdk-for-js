@@ -128,7 +128,7 @@
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-http": "^2.0.0",
-    "@azure/core-lro": "^2.0.0",
+    "@azure/core-lro": "^2.2.0",
     "@azure/core-paging": "^1.1.1",
     "@azure/core-tracing": "1.0.0-preview.13",
     "@azure/logger": "^1.0.0",
@@ -176,7 +176,7 @@
     "node-fetch": "^2.6.0",
     "nyc": "^14.0.0",
     "prettier": "^1.16.4",
-    "puppeteer": "^3.3.0",
+    "puppeteer": "^10.2.0",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
     "@rollup/plugin-commonjs": "11.0.2",

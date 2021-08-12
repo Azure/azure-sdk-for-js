@@ -34,6 +34,28 @@ export interface OperationDisplay {
   operation?: string;
 }
 
+/** Error response indicates that the service is not able to process the incoming request. */
+export interface ErrorResponse {
+  /** The error details. */
+  error?: ErrorDefinition;
+}
+
+/** Error definition. */
+export interface ErrorDefinition {
+  /**
+   * Service specific error code which serves as the substatus for the HTTP error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * Description of the error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /** Internal error details. */
+  details?: ErrorDefinition[];
+}
+
 /** List of previewed features. */
 export interface FeatureOperationsListResult {
   /** The array of features. */
@@ -60,6 +82,169 @@ export interface FeatureProperties {
   state?: string;
 }
 
+/** An Azure proxy resource. */
+export interface ProxyResource {
+  /**
+   * Azure resource Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Azure resource name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Azure resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+}
+
+export interface SubscriptionFeatureRegistrationProperties {
+  /**
+   * The tenantId.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /**
+   * The subscriptionId.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionId?: string;
+  /**
+   * The featureName.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly featureName?: string;
+  /**
+   * The featureDisplayName.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * The providerNamespace.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly providerNamespace?: string;
+  /** The state. */
+  state?: SubscriptionFeatureRegistrationState;
+  /** Authorization Profile */
+  authorizationProfile?: AuthorizationProfile;
+  /** Key-value pairs for meta data. */
+  metadata?: { [propertyName: string]: string };
+  /**
+   * The feature release date.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly releaseDate?: Date;
+  /**
+   * The feature registration date.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly registrationDate?: Date;
+  /**
+   * The feature documentation link.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly documentationLink?: string;
+  /**
+   * The feature approval type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly approvalType?: SubscriptionFeatureRegistrationApprovalType;
+  /** Indicates whether feature should be displayed in Portal. */
+  shouldFeatureDisplayInPortal?: boolean;
+  /** The feature description. */
+  description?: string;
+}
+
+/** Authorization Profile */
+export interface AuthorizationProfile {
+  /**
+   * The requested time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requestedTime?: Date;
+  /**
+   * The requester
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requester?: string;
+  /**
+   * The requester object id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requesterObjectId?: string;
+  /**
+   * The approved time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly approvedTime?: Date;
+  /**
+   * The approver
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly approver?: string;
+}
+
+/** The list of subscription feature registrations. */
+export interface SubscriptionFeatureRegistrationList {
+  /** The link used to get the next page of subscription feature registrations list. */
+  nextLink?: string;
+  /** The list of subscription feature registrations. */
+  value?: SubscriptionFeatureRegistration[];
+}
+
+/** Subscription feature registration details */
+export type SubscriptionFeatureRegistration = ProxyResource & {
+  properties?: SubscriptionFeatureRegistrationProperties;
+};
+
+/** Known values of {@link SubscriptionFeatureRegistrationState} that the service accepts. */
+export enum KnownSubscriptionFeatureRegistrationState {
+  NotSpecified = "NotSpecified",
+  NotRegistered = "NotRegistered",
+  Pending = "Pending",
+  Registering = "Registering",
+  Registered = "Registered",
+  Unregistering = "Unregistering",
+  Unregistered = "Unregistered"
+}
+
+/**
+ * Defines values for SubscriptionFeatureRegistrationState. \
+ * {@link KnownSubscriptionFeatureRegistrationState} can be used interchangeably with SubscriptionFeatureRegistrationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified** \
+ * **NotRegistered** \
+ * **Pending** \
+ * **Registering** \
+ * **Registered** \
+ * **Unregistering** \
+ * **Unregistered**
+ */
+export type SubscriptionFeatureRegistrationState = string;
+
+/** Known values of {@link SubscriptionFeatureRegistrationApprovalType} that the service accepts. */
+export enum KnownSubscriptionFeatureRegistrationApprovalType {
+  NotSpecified = "NotSpecified",
+  ApprovalRequired = "ApprovalRequired",
+  AutoApproval = "AutoApproval"
+}
+
+/**
+ * Defines values for SubscriptionFeatureRegistrationApprovalType. \
+ * {@link KnownSubscriptionFeatureRegistrationApprovalType} can be used interchangeably with SubscriptionFeatureRegistrationApprovalType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified** \
+ * **ApprovalRequired** \
+ * **AutoApproval**
+ */
+export type SubscriptionFeatureRegistrationApprovalType = string;
+
 /** Optional parameters. */
 export interface FeatureClientListOperationsOptionalParams
   extends coreClient.OperationOptions {}
@@ -73,13 +258,6 @@ export interface FeatureClientListOperationsNextOptionalParams
 
 /** Contains response data for the listOperationsNext operation. */
 export type FeatureClientListOperationsNextResponse = OperationListResult;
-
-/** Optional parameters. */
-export interface FeatureClientListOperationsNextNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listOperationsNextNext operation. */
-export type FeatureClientListOperationsNextNextResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface FeaturesListAllOptionalParams
@@ -131,18 +309,53 @@ export interface FeaturesListNextOptionalParams
 export type FeaturesListNextResponse = FeatureOperationsListResult;
 
 /** Optional parameters. */
-export interface FeaturesListAllNextNextOptionalParams
+export interface SubscriptionFeatureRegistrationsGetOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listAllNextNext operation. */
-export type FeaturesListAllNextNextResponse = FeatureOperationsListResult;
+/** Contains response data for the get operation. */
+export type SubscriptionFeatureRegistrationsGetResponse = SubscriptionFeatureRegistration;
 
 /** Optional parameters. */
-export interface FeaturesListNextNextOptionalParams
+export interface SubscriptionFeatureRegistrationsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Subscription Feature Registration Type details. */
+  subscriptionFeatureRegistrationType?: SubscriptionFeatureRegistration;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SubscriptionFeatureRegistrationsCreateOrUpdateResponse = SubscriptionFeatureRegistration;
+
+/** Optional parameters. */
+export interface SubscriptionFeatureRegistrationsDeleteOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listNextNext operation. */
-export type FeaturesListNextNextResponse = FeatureOperationsListResult;
+/** Optional parameters. */
+export interface SubscriptionFeatureRegistrationsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type SubscriptionFeatureRegistrationsListBySubscriptionResponse = SubscriptionFeatureRegistrationList;
+
+/** Optional parameters. */
+export interface SubscriptionFeatureRegistrationsListAllBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAllBySubscription operation. */
+export type SubscriptionFeatureRegistrationsListAllBySubscriptionResponse = SubscriptionFeatureRegistrationList;
+
+/** Optional parameters. */
+export interface SubscriptionFeatureRegistrationsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type SubscriptionFeatureRegistrationsListBySubscriptionNextResponse = SubscriptionFeatureRegistrationList;
+
+/** Optional parameters. */
+export interface SubscriptionFeatureRegistrationsListAllBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAllBySubscriptionNext operation. */
+export type SubscriptionFeatureRegistrationsListAllBySubscriptionNextResponse = SubscriptionFeatureRegistrationList;
 
 /** Optional parameters. */
 export interface FeatureClientOptionalParams

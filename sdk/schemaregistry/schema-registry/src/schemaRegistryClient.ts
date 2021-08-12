@@ -3,7 +3,6 @@
 
 import { GeneratedSchemaRegistryClient } from "./generated/generatedSchemaRegistryClient";
 import { TokenCredential } from "@azure/core-auth";
-import { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import {
   bearerTokenAuthenticationPolicy,
   InternalPipelineOptions
@@ -22,6 +21,7 @@ import {
 } from "./models";
 import { DEFAULT_SCOPE } from "./constants";
 import { logger } from "./logger";
+import { getRawResponse } from "./utils";
 
 /**
  * Client for Azure Schema Registry service.
@@ -32,6 +32,9 @@ export class SchemaRegistryClient implements SchemaRegistry {
 
   /** Underlying autorest generated client. */
   private readonly client: GeneratedSchemaRegistryClient;
+
+  private readonly schemaToIdMap: Map<SchemaDescription, SchemaId>;
+  private readonly idToSchemaMap: Map<string, Schema>;
 
   /**
    * Creates a new client for Azure Schema Registry service.
@@ -64,6 +67,13 @@ export class SchemaRegistryClient implements SchemaRegistry {
 
     const authPolicy = bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_SCOPE });
     this.client.pipeline.addPolicy(authPolicy);
+    this.schemaToIdMap = new Map();
+    this.idToSchemaMap = new Map();
+  }
+
+  private addToCache(schema: SchemaDescription, id: SchemaId): void {
+    this.schemaToIdMap.set(schema, id);
+    this.idToSchemaMap.set(id.id, { ...id, content: schema.content });
   }
 
   /**
@@ -80,14 +90,11 @@ export class SchemaRegistryClient implements SchemaRegistry {
     schema: SchemaDescription,
     options?: RegisterSchemaOptions
   ): Promise<SchemaId> {
-    const response = await this.client.schema.register(
-      schema.group,
-      schema.name,
-      schema.serializationType,
-      schema.content,
-      options
-    );
-    return convertSchemaIdResponse(response);
+    const id = await this.client.schema
+      .register(schema.group, schema.name, schema.serializationType, schema.content, options)
+      .then(convertSchemaIdResponse);
+    this.addToCache(schema, id);
+    return id;
   }
 
   /**
@@ -101,15 +108,22 @@ export class SchemaRegistryClient implements SchemaRegistry {
     schema: SchemaDescription,
     options?: GetSchemaIdOptions
   ): Promise<SchemaId | undefined> {
+    const cached = this.schemaToIdMap.get(schema);
+    if (cached !== undefined) {
+      return cached;
+    }
     try {
-      const response = await this.client.schema.queryIdByContent(
-        schema.group,
-        schema.name,
-        schema.serializationType,
-        schema.content,
-        options
-      );
-      return convertSchemaIdResponse(response);
+      const id = await this.client.schema
+        .queryIdByContent(
+          schema.group,
+          schema.name,
+          schema.serializationType,
+          schema.content,
+          options
+        )
+        .then(convertSchemaIdResponse);
+      this.addToCache(schema, id);
+      return id;
     } catch (error) {
       if (typeof error === "object" && error?.statusCode === 404) {
         return undefined;
@@ -125,12 +139,21 @@ export class SchemaRegistryClient implements SchemaRegistry {
    * @returns Schema with given ID or undefined if no schema was found with the given ID.
    */
   async getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema | undefined> {
+    const cached = this.idToSchemaMap.get(id);
+    if (cached !== undefined) {
+      return cached;
+    }
     try {
       const { flatResponse, rawResponse } = await getRawResponse(
         (paramOptions) => this.client.schema.getById(id, paramOptions),
         options || {}
       );
-      return convertSchemaResponse(flatResponse, rawResponse);
+      const schema = convertSchemaResponse(flatResponse, rawResponse);
+      // the service should send schema's name and group in separate headers so
+      // we can implement the other direction of the bidirectional caching.
+      // see https://github.com/Azure/azure-sdk-for-js/issues/16763
+      this.idToSchemaMap.set(id, schema);
+      return schema;
     } catch (error) {
       if (typeof error === "object" && error?.statusCode === 404) {
         return undefined;
@@ -138,25 +161,4 @@ export class SchemaRegistryClient implements SchemaRegistry {
       throw error;
     }
   }
-}
-
-interface ReturnType<T> {
-  flatResponse: T;
-  rawResponse: FullOperationResponse;
-}
-
-async function getRawResponse<TOptions extends OperationOptions, TResult>(
-  f: (options: TOptions) => Promise<TResult>,
-  options: TOptions
-): Promise<ReturnType<TResult>> {
-  const { onResponse } = options || {};
-  let rawResponse: FullOperationResponse | undefined = undefined;
-  const flatResponse = await f({
-    ...options,
-    onResponse: (response: FullOperationResponse, flatResponseParam: unknown) => {
-      rawResponse = response;
-      onResponse?.(response, flatResponseParam);
-    }
-  });
-  return { flatResponse, rawResponse: rawResponse! };
 }

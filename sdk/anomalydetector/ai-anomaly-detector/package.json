@@ -1,6 +1,6 @@
 {
   "name": "@azure/ai-anomaly-detector",
-  "version": "3.0.0-beta.3",
+  "version": "3.0.0-beta.4",
   "description": "An isomorphic client library for the Azure Anomaly Detector service.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -71,7 +71,7 @@
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
-    "@azure/identity": "^1.1.0",
+    "@azure/identity": "2.0.0-beta.4",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "11.0.2",
@@ -128,7 +128,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/generatedClientContext.ts",
+        "path": "src/generated/anomalyDetectorContext.ts",
         "prefix": "packageVersion"
       },
       {

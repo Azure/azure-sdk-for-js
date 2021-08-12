@@ -65,6 +65,7 @@ export interface DefaultPerfStressOptions {
   iterations: number;
   "no-cleanup": boolean;
   "milliseconds-to-log": number;
+  "test-proxy": string;
 }
 
 /**
@@ -97,6 +98,10 @@ export const defaultPerfStressOptions: PerfStressOptionDictionary<DefaultPerfStr
   },
   "no-cleanup": {
     description: "Disables test cleanup"
+  },
+  "test-proxy": {
+    description: "URI of TestProxy server",
+    defaultValue: undefined
   },
   "milliseconds-to-log": {
     description: "Log frequency in milliseconds",
