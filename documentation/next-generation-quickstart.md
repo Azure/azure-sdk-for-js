@@ -412,7 +412,8 @@ async function createVirtualNetwork() {
             addressPrefixes: ['10.0.0.0/16']
         }
     };
-    const virtualNetworks_create_info = await networkClient.virtualNetworks.beginCreateOrUpdateAndWait(resourceGroupName, networkName, parameter);
+    await networkClient.virtualNetworks.beginCreateOrUpdateAndWait(resourceGroupName, networkName, parameter);
+    const virtualNetworks_create_info = await networkClient.virtualNetworks.get(resourceGroupName, networkName);
     console.log(virtualNetworks_create_info);
 }
 ```
@@ -425,7 +426,8 @@ async function createVirtualNetwork() {
             addressPrefixes: ['10.0.0.0/16']
         }
     };
-    const virtualNetworks_create_info = await networkClient.virtualNetworks.beginCreateOrUpdateAndWait(resourceGroupName, networkName, parameter);
+    await networkClient.virtualNetworks.beginCreateOrUpdateAndWait(resourceGroupName, networkName, parameter);
+    const virtualNetworks_create_info =  await networkClient.virtualNetworks.get(resourceGroupName, networkName);
     console.log(virtualNetworks_create_info);
 }
 ```
@@ -437,7 +439,8 @@ async function createSubnet() {
     const subnet_parameter: Subnet = {
         addressPrefix: "10.0.0.0/24"
     };
-    const subnet_create_info = await networkClient.subnets.beginCreateOrUpdateAndWait(resourceGroupName, networkName, subnetName, subnet_parameter);
+    await networkClient.subnets.beginCreateOrUpdateAndWait(resourceGroupName, networkName, subnetName, subnet_parameter);
+    const subnet_create_info = await networkClient.subnets.get(resourceGroupName, networkName, subnetName);
     console.log(subnet_create_info)
 }
 ```
@@ -447,7 +450,8 @@ async function createSubnet() {
     const subnet_parameter = {
         addressPrefix: "10.0.0.0/24"
     };
-    const subnet_create_info = await networkClient.subnets.beginCreateOrUpdateAndWait(resourceGroupName, networkName, subnetName, subnet_parameter);
+    await networkClient.subnets.beginCreateOrUpdateAndWait(resourceGroupName, networkName, subnetName, subnet_parameter);
+    const subnet_create_info = await networkClient.subnets.get(resourceGroupName, networkName, subnetName);
     console.log(subnet_create_info)
 }
 ```
@@ -468,7 +472,8 @@ async function createNetworkInterface(group_name: any, location: any, nic_name: 
             }
         ]
     };
-    const nic_info = await networkClient.networkInterfaces.beginCreateOrUpdateAndWait(group_name, nic_name, parameter);
+    await networkClient.networkInterfaces.beginCreateOrUpdateAndWait(group_name, nic_name, parameter);
+    const nic_info = await networkClient.networkInterfaces.get(group_name, nic_name);
     console.log(nic_info);
 }
 ```
@@ -487,7 +492,8 @@ async function createNetworkInterface(group_name, location, nic_name) {
             }
         ]
     };
-    const nic_info = await networkClient.networkInterfaces.beginCreateOrUpdateAndWait(group_name, nic_name, parameter);
+    await networkClient.networkInterfaces.beginCreateOrUpdateAndWait(group_name, nic_name, parameter);
+    const nic_info = await networkClient.networkInterfaces.get(group_name, nic_name);
     console.log(nic_info);
 }
 ```
@@ -550,7 +556,8 @@ async function createVirtualMachines() {
             ]
         }
     };
-    const res = await computeClient.virtualMachines.beginCreateOrUpdateAndWait(resourceGroupName, virtualMachineName, parameter);
+    await computeClient.virtualMachines.beginCreateOrUpdateAndWait(resourceGroupName, virtualMachineName, parameter);
+    const res = await computeClient.virtualMachines.get(resourceGroupName, virtualMachineName);
     console.log(res);
 }
 ```
@@ -611,7 +618,8 @@ async function createVirtualMachines() {
             ]
         }
     };
-    const res = await computeClient.virtualMachines.beginCreateOrUpdateAndWait(resourceGroupName, virtualMachineName, parameter);
+    await computeClient.virtualMachines.beginCreateOrUpdateAndWait(resourceGroupName, virtualMachineName, parameter);
+    const res = await computeClient.virtualMachines.get(resourceGroupName, virtualMachineName);
     console.log(res);
 }
 ```
