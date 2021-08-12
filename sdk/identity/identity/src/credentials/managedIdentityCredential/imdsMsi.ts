@@ -7,13 +7,14 @@ import {
   createHttpHeaders,
   PipelineRequestOptions,
   createPipelineRequest,
+  RawHttpHeaders,
   RestError
 } from "@azure/core-rest-pipeline";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { IdentityClient } from "../../client/identityClient";
 import { credentialLogger } from "../../util/logging";
 import { createSpan } from "../../util/tracing";
-import { imdsApiVersion, imdsEndpoint } from "./constants";
+import { imdsApiVersion, imdsHost, imdsEndpointPath } from "./constants";
 import { MSI } from "./models";
 import { msiGenericGetToken } from "./utils";
 
@@ -33,7 +34,14 @@ function expiresInParser(requestBody: any): number {
   }
 }
 
-function prepareRequestOptions(resource?: string, clientId?: string): PipelineRequestOptions {
+function prepareRequestOptions(
+  resource?: string,
+  clientId?: string,
+  options?: {
+    skipQuery?: boolean;
+    skipMetadataHeader?: boolean;
+  }
+): PipelineRequestOptions {
   const queryParameters: any = {
     resource,
     "api-version": imdsApiVersion
@@ -43,15 +51,30 @@ function prepareRequestOptions(resource?: string, clientId?: string): PipelineRe
     queryParameters.client_id = clientId;
   }
 
-  const query = qs.stringify(queryParameters);
+  const url = new URL(imdsEndpointPath, process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST ?? imdsHost);
+
+  const { skipQuery, skipMetadataHeader } = options || {};
+
+  // Pod Identity will try to process this request even if the Metadata header is missing.
+  // We can exclude the request query to ensure no IMDS endpoint tries to process the ping request.
+  let query = "";
+  if (!skipQuery) {
+    query = `?${qs.stringify(queryParameters)}`;
+  }
+
+  const headersSource: RawHttpHeaders = {
+    Accept: "application/json",
+    Metadata: "true"
+  };
+  // Remove the Metadata header to invoke a request error from some IMDS endpoints.
+  if (skipMetadataHeader) {
+    delete headersSource.Metadata;
+  }
 
   return {
-    url: `${imdsEndpoint}?${query}`,
+    url: `${url}${query}`,
     method: "GET",
-    headers: createHttpHeaders({
-      Accept: "application/json",
-      Metadata: "true"
-    })
+    headers: createHttpHeaders(headersSource)
   };
 }
 
@@ -62,12 +85,20 @@ export const imdsMsi: MSI = {
     clientId?: string,
     getTokenOptions?: GetTokenOptions
   ): Promise<boolean> {
+    // if the PodIdenityEndpoint environment variable was set no need to probe the endpoint, it can be assumed to exist
+    if (process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST) {
+      return true;
+    }
+
     const { span, updatedOptions: options } = createSpan(
       "ManagedIdentityCredential-pingImdsEndpoint",
       getTokenOptions
     );
 
-    const requestOptions = prepareRequestOptions(resource, clientId);
+    const requestOptions = prepareRequestOptions(resource, clientId, {
+      skipMetadataHeader: true,
+      skipQuery: true
+    });
 
     // This will always be populated, but let's make TypeScript happy
     if (requestOptions.headers) {
