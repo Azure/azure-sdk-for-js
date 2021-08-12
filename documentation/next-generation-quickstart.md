@@ -68,7 +68,7 @@ Windows (Note: Administrator access is required)
 Linux-based OS :
 
     export AZURE_CLIENT_ID="__CLIENT_ID__"
-    export AZURE_CLIENT_SECRET="__CLIENT_SECRET__"
+    export AZURE_CLIENT_SECRET="azure_client_secret"
     export AZURE_TENANT_ID="__TENANT_ID__"
     export AZURE_SUBSCRIPTION_ID="__SUBSCRIPTION_ID__"
 

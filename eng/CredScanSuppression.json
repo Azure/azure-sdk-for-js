@@ -39,7 +39,6 @@
         "azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
         "azure_client_secret&scope=https%3A%2F%2Fdigitaltwins.azure.net%2F.default",
         "azure_client_secret",
-        "__CLIENT_SECRET__",
         "p@55wOrd",
         "nodesdk",
         "liilef#$DdRGSa_ewkjh",
