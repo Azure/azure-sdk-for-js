@@ -26,14 +26,10 @@ export async function authenticate(that: Context, version: string): Promise<any>
     customizationsOnRecordings: [
       (recording: any): any =>
         keySuffix === "" ? recording : recording.replace(new RegExp(keySuffix, "g"), ""),
-      (
-        recording: any
-      ): any => // Replace all JWT with a generic string to avoid recorder mismatches
+      (recording: string): string =>
         recording.replace(
+          // Unpack the base64url encoded release policy and replace any instances of the AZURE_KEYVAULT_ATTESTATION_URI env variable.
           /"data":"(eyJ[^"]+)"/g,
-          // releasePolicy is a base64url encoded string that contains the attestation URI, therefore we need to
-          // ensure we replace it with a string that will match what will be generated in playback mode.
-          // So, the releasePolicy has to be built up in test as well.
           (_match: string, token: string) => {
             let decoded = fromBase64url(token);
 
