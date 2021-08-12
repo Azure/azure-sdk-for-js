@@ -9,7 +9,7 @@ import {
   PipelineResponse,
   SendRequest
 } from "@azure/core-rest-pipeline";
-import http from "http";
+import { RequestOptions } from "http";
 import { makeRequest } from "./utils";
 
 const paths = {
@@ -199,7 +199,7 @@ export class TestProxyHttpClient {
     this.stateManager.setState("stopped-playback");
   }
 
-  private _createRecordingRequestOptions(options: http.RequestOptions): http.RequestOptions {
+  private _createRecordingRequestOptions(options: RequestOptions): RequestOptions {
     if (this._recordingId !== undefined) {
       options.headers = {
         ...options.headers,

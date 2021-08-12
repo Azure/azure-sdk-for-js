@@ -37,9 +37,7 @@ export async function makeRequest(
   return new Promise<IncomingMessage>((resolve, reject) => {
     const req = request(uri, requestOptions, resolve);
 
-    req.once("error", (err) => {
-      reject(new Error(err.message));
-    });
+    req.once("error", reject);
 
     req.end();
   });
