@@ -267,7 +267,7 @@ Example: Currently `@azure/<service-sdk>` is at 12.4.0 on master and you want to
 
 ### Using the testProxy option
 
-To be able to leverage the powers of playing the back the requests using the test proxy, add the following to your code.
+To be able to leverage the powers of playing back the requests using the test proxy, add the following to your code.
 
       ```ts
       /// Core V1 SDKs - For services depending on core-http
