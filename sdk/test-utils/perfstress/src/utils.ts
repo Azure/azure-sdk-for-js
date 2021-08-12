@@ -51,17 +51,16 @@ const _cachedProxyClients: {
   v2: undefined
 };
 
-export const CachedProxyClients = {
-  getHttpClientV1(url: string): TestProxyHttpClientV1 {
-    if (_cachedProxyClients.v1) return _cachedProxyClients.v1;
-    // Create a new client if not defined already
+export function getHttpClientV1(url: string): TestProxyHttpClientV1 {
+  if (!_cachedProxyClients.v1) {
     _cachedProxyClients.v1 = new TestProxyHttpClientV1(url);
-    return _cachedProxyClients.v1;
-  },
-
-  getHttpClient(url: string): TestProxyHttpClient {
-    if (_cachedProxyClients.v2) return _cachedProxyClients.v2;
-    _cachedProxyClients.v2 = new TestProxyHttpClient(url);
-    return _cachedProxyClients.v2;
   }
-};
+  return _cachedProxyClients.v1;
+}
+
+export function getHttpClient(url: string): TestProxyHttpClient {
+  if (!_cachedProxyClients.v2) {
+    _cachedProxyClients.v2 = new TestProxyHttpClient(url);
+  }
+  return _cachedProxyClients.v2;
+}
