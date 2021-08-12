@@ -61,8 +61,6 @@ describe("Certificates client - LRO - certificate operation", () => {
 
     // The final certificate operation can also be obtained this way:
     assert.equal(poller.getOperationState().certificateOperation!.status, "completed");
-
-    await testClient.flushCertificate(certificateName);
   });
 
   it("can resume from a stopped poller", async function(this: Context) {
@@ -94,7 +92,5 @@ describe("Certificates client - LRO - certificate operation", () => {
     const operation: CertificateOperation = resumePoller.getOperationState().certificateOperation!;
     assert.equal(operation.status, "completed");
     assert.ok(resumePoller.getOperationState().isCompleted);
-
-    await testClient.flushCertificate(certificateName);
   });
 });

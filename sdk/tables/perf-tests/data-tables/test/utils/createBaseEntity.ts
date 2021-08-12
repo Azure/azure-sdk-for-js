@@ -34,7 +34,7 @@ export function createComplexEntity(): TableEntity {
 
 export type EntityType = "complex" | "simple";
 
-export function createEntities(entityType: EntityType, entityCount: number = 1): TableEntity[] {
+export function createEntities(entityType: EntityType, entityCount = 1): TableEntity[] {
   const entities: TableEntity[] = [];
   const createEntity = entityType === "complex" ? createComplexEntity : createSimpleEntity;
 

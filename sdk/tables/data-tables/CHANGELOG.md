@@ -1,16 +1,15 @@
 # Release History
 
-## 12.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 12.1.1 (2021-08-10)
 
 ### Bugs Fixed
 
-- Fix [#15854](https://github.com/Azure/azure-sdk-for-js/issues/15701) when submitting transactions by ensuring the `allowInsecureConnection` client option is respected.
+- Fixed inconsistent return type for number and strings when setting `disableTypeConversion` option. [#16736](https://github.com/Azure/azure-sdk-for-js/pull/16736)
+- Fix [#15854](https://github.com/Azure/azure-sdk-for-js/issues/15701) when submitting transactions by ensuring the `allowInsecureConnection` client option is respected. [#16587](https://github.com/Azure/azure-sdk-for-js/pull/16587)
 
 ### Other Changes
+
+- Update dependency of `@azure/core-xml`. [#16816](https://github.com/Azure/azure-sdk-for-js/pull/16816)
 
 ## 12.1.0 (2021-07-07)
 

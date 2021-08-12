@@ -89,7 +89,8 @@ export class LogsQueryClient {
           workspaceId,
           {
             query,
-            timespan
+            timespan,
+            workspaces: options?.additionalWorkspaces
           },
           paramOptions
         ),

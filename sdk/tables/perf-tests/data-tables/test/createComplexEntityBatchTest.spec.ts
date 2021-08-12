@@ -1,13 +1,15 @@
 import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
 import { TablesTest } from "./tables.spec";
-import {TransactionAction } from "@azure/data-tables";
+import { TransactionAction } from "@azure/data-tables";
 import { createBatch } from "./utils/createBaseEntity";
 
 interface TablesCreateComplexEntityBatchTestOptions {
   batchSize: number;
 }
 
-export class CreateComplexEntityBatchTest extends TablesTest<TablesCreateComplexEntityBatchTestOptions> {
+export class CreateComplexEntityBatchTest extends TablesTest<
+  TablesCreateComplexEntityBatchTestOptions
+> {
   public options: PerfStressOptionDictionary<TablesCreateComplexEntityBatchTestOptions> = {
     batchSize: {
       defaultValue: 100,
@@ -30,10 +32,13 @@ export class CreateComplexEntityBatchTest extends TablesTest<TablesCreateComplex
   }
 
   async runAsync(): Promise<void> {
-    let batches: TransactionAction[][] = createBatch("complex", this.parsedOptions.batchSize.value!);
+    const batches: TransactionAction[][] = createBatch(
+      "complex",
+      this.parsedOptions.batchSize.value!
+    );
 
-    for(const batch of batches) {
-        await this.client.submitTransaction(batch);
+    for (const batch of batches) {
+      await this.client.submitTransaction(batch);
     }
   }
 }

@@ -2051,6 +2051,18 @@ export interface PolicyInsightsPolicyStateDeletedEventData {
   complianceReasonCode: string;
 }
 
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerService.NewKubernetesVersionAvailable event */
+export interface ContainerServiceNewKubernetesVersionAvailableEventData {
+  /** The highest PATCH Kubernetes version for the highest MINOR version supported by ManagedCluster resource */
+  latestSupportedKubernetesVersion: string;
+  /** The highest PATCH Kubernetes version for the MINOR version considered stable for the ManagedCluster resource */
+  latestStableKubernetesVersion: string;
+  /** The highest PATCH Kubernetes version for the lowest applicable MINOR version available for the ManagedCluster resource */
+  lowestMinorKubernetesVersion: string;
+  /** The highest PATCH Kubernetes version considered preview for the ManagedCluster resource. There might not be any version in preview at the time of publishing the event */
+  latestPreviewKubernetesVersion: string;
+}
+
 /** Event data for Microsoft.Devices.DeviceCreated event. */
 export type IotHubDeviceCreatedEventData = DeviceLifeCycleEvent & {};
 

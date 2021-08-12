@@ -63,7 +63,6 @@ describe("Certificates client - restore certificates and recover backups", () =>
       certificateName,
       "Unexpected certificate name in result from getCertificate()."
     );
-    await testClient.flushCertificate(certificateName);
   });
 
   it("can recover a deleted certificate (non existing)", async function(this: Context) {
@@ -111,7 +110,6 @@ describe("Certificates client - restore certificates and recover backups", () =>
       const restoredCertificate = await restorePoller.pollUntilDone();
 
       assert.equal(restoredCertificate.name, certificateName);
-      await testClient.flushCertificate(certificateName);
     });
   }
 
@@ -151,7 +149,6 @@ describe("Certificates client - restore certificates and recover backups", () =>
       );
       await createPoller.pollUntilDone();
       const backup = await client.backupCertificate(certificateName);
-      await testClient.flushCertificate(certificateName);
 
       await assertThrowsAbortError(async () => {
         await client.restoreCertificateBackup(backup!, { requestOptions: { timeout: 1 } });

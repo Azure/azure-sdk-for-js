@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { SpanStatusCode } from "@azure/core-tracing";
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 
 import { IdentityClient, TokenCredentialOptions } from "../../client/identityClient";
-import { createSpan } from "../../util/tracing";
 import { AuthenticationError, CredentialUnavailableError } from "../../client/errors";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { credentialLogger, formatSuccess, formatError } from "../../util/logging";
+import { appServiceMsi2017 } from "./appServiceMsi2017";
+import { createSpan } from "../../util/tracing";
 import { mapScopesToResource } from "./utils";
 import { cloudShellMsi } from "./cloudShellMsi";
 import { imdsMsi } from "./imdsMsi";
 import { MSI } from "./models";
-import { appServiceMsi2017 } from "./appServiceMsi2017";
 import { arcMsi } from "./arcMsi";
 
 const logger = credentialLogger("ManagedIdentityCredential");

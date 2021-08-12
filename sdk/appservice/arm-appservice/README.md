@@ -2,11 +2,11 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure WebSiteManagement client.
 
-You can also follow this [link](https://github.com/Azure/azure-sdk-for-js/tree/feature/v4/sdk/appservice/arm-appservice) to see the previous stable versions for this package. Note that they might not implement the guidelines(https://azure.github.io/azure-sdk/typescript_introduction.html) or have the same feature set as the new releases.
+You can also follow this [link](https://github.com/Azure/azure-sdk-for-js/tree/feature/v4/sdk/keyvault/arm-keyvault) to see the previous stable versions for this package. Note that they might not implement the guidelines(https://azure.github.io/azure-sdk/typescript_introduction.html) or have the same feature set as the new releases.
 
 WebSite Management Client
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appservice/arm-appservice) |
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appservice/arm-appservice) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-appservice) |
 [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-appservice) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
@@ -43,13 +43,16 @@ You can authenticate with Azure Active Directory using the [Azure Identity libra
 npm install @azure/identity
 ```
 
-You will also need to register a new AAD application and grant access to Azure WebSiteManagement by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+You will also need to **register a new AAD application and grant access to Azure WebSiteManagement** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
+
+For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal).
 
 ```javascript
 const { WebSiteManagementClient } = require("@azure/arm-appservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-const client = new WebSiteManagementClient("<endpoint>", new DefaultAzureCredential());
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
+const client = new WebSiteManagementClient(new DefaultAzureCredential(), subscriptionId);
 ```
 
 ## Key concepts
@@ -69,7 +72,7 @@ import { setLogLevel } from "@azure/logger";
 setLogLevel("info");
 ```
 
-For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger).
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
 ## Next steps
 
@@ -77,7 +80,7 @@ Please take a look at the [samples](https://github.com/Azure-Samples/azure-sampl
 
 ## Contributing
 
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ## Related projects
 
@@ -89,5 +92,5 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
-[azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity
-[defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity#defaultazurecredential
+[azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
+[defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
