@@ -118,6 +118,16 @@ const rehydratedPoller = await client.beginDeleteKey(keyName, { resumeFrom: seri
 
 ### Tracing
 
+#### Azure Application Insights
+
+Azure Application Insights, a feature of Azure Monitor, is an extensible Application Performance Management (APM) service for developers and DevOps professionals. Use it to monitor your live applications. It will automatically detect performance anomalies, and includes powerful analytics tools to help you diagnose issues and to understand what users actually do with your application.
+
+> If your application already uses ApplicationInsights, automatic collection of Azure SDK traces is supported in versions 1.8.0 and later.
+
+To setup Application Insights tracking for your application follow the [Start Monitoring your Node.js Application](https://docs.microsoft.com/azure/azure-monitor/app/nodejs-quick-start) quickstart guide.
+
+#### Open Telemetry
+
 Client libraries have preliminary support for [OpenTelemetry](https://opentelemetry.io/). This functionality is mostly managed by [@azure/core-tracing](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-tracing)
 
 Each client library internally does the work to create a new OpenTelemetry `Span` for each service operation, making sure to end the `Span` after the result is returned back to the consumer. Many clients use a helper method called [createSpan](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/textanalytics/ai-text-analytics/src/tracing.ts) to create the new `Span`.
