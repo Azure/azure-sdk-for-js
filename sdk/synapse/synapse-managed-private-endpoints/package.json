@@ -24,7 +24,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/artifactsClientContext.ts",
+        "path": "src/managedPrivateEndpointsClientContext.ts",
         "prefix": "packageDetails"
       },
       {

@@ -15,7 +15,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/artifactsClientContext.ts",
+        "path": "src/accessControlClientContext.ts",
         "prefix": "packageDetails"
       },
       {

@@ -68,7 +68,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/artifactsClientContext.ts",
+        "path": "src/sparkClientContext.ts",
         "prefix": "packageDetails"
       },
       {
