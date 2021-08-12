@@ -44,7 +44,7 @@ describe("ClientCertificateCredential (internal)", function(this: Mocha.Suite) {
 
   // We use AZURE_CLIENT_CERTIFICATE_PATH if it is defined, and otherwise we will use the dummy cert
   const certificatePath =
-    process.env.AZURE_CLIENT_CERTIFICATE_PATH ?? path.join(ASSET_PATH, "cert.pem");
+    process.env.AZURE_CLIENT_CERTIFICATE_PATH ?? path.join(ASSET_PATH, "fake-cert.pem");
   const scope = "https://graph.microsoft.com/.default";
 
   it("Accepts tokenCachePersistenceOptions", async function(this: Mocha.Context) {

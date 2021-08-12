@@ -22,7 +22,7 @@ describe("ClientCertificateCredential", function() {
     await cleanup();
   });
 
-  const certificatePath = path.join(ASSET_PATH, "cert.pem");
+  const certificatePath = path.join(ASSET_PATH, "fake-cert.pem");
   const scope = "https://vault.azure.net/.default";
 
   it("authenticates", async function(this: Context) {
