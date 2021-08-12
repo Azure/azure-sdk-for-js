@@ -68,7 +68,7 @@ describe("ManagedIdentityCredential", function() {
 
     // The first request is the IMDS ping.
     const imdsPingRequest = authDetails.requests[0];
-    assert.notOk(imdsPingRequest.headers.Metadata);
+    assert.notOk(imdsPingRequest.headers.metadata);
     assert.equal(
       imdsPingRequest.url,
       new URL(
