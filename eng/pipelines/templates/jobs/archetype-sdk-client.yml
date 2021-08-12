@@ -20,11 +20,6 @@ parameters:
   - name: Matrix
     type: object
     default:
-      Linux_Node8:
-        Pool: $(LinuxPool)
-        OSVmImage:
-        NodeTestVersion: "8.x"
-        TestType: "node"
       Windows_Node10:
         Pool: $(WindowsPool)
         OSVmImage:

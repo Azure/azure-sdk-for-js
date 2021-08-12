@@ -11,8 +11,10 @@ You can find examples for these various credentials in [Azure Identity Examples 
 ### Currently supported environments
 
 - [LTS versions of Node.js](https://nodejs.org/about/releases/)
+  - **Note:** If your application runs on Node.js v8 or lower and you cannot upgrade your Node.js version to latest stable version, then pin your `@azure/identity` dependency to version 1.1.0.
 - Latest versions of Safari, Chrome, Edge, and Firefox.
   - Note: Among the different credentials exported in this library, `InteractiveBrowserCredential` is the only one that is supported in the browser.
+- See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
 ### Install the package
 
@@ -24,7 +26,6 @@ npm install --save @azure/identity
 
 ### Prerequisites
 
-- Node.js 8 LTS or higher.
 - An [Azure subscription](https://azure.microsoft.com/free/).
 - The [Azure CLI][azure_cli] can also be useful for authenticating in a development environment and managing account roles.
 

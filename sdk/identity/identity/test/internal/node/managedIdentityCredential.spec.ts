@@ -13,9 +13,11 @@ import {
 } from "../../public/node/nodeAuthTestUtils";
 import {
   imdsApiVersion,
-  imdsEndpoint
+  imdsEndpointPath,
+  imdsHost
 } from "../../../src/credentials/managedIdentityCredential/constants";
 import { assertRejects } from "../../authTestUtils";
+import { imdsMsi } from "../../../src/credentials/managedIdentityCredential/imdsMsi";
 
 describe("ManagedIdentityCredential", function() {
   let testContext: IdentityTestContext;
@@ -33,6 +35,7 @@ describe("ManagedIdentityCredential", function() {
     delete process.env.MSI_SECRET;
     delete process.env.IDENTITY_SERVER_THUMBPRINT;
     delete process.env.IMDS_ENDPOINT;
+    delete process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST;
   });
 
   it("sends an authorization request with a modified resource name", async function() {
@@ -54,8 +57,14 @@ describe("ManagedIdentityCredential", function() {
     });
 
     // The first request is the IMDS ping.
+    const imdsPingRequest = authDetails.insecureRequestOptions[0];
+    assert.ok(!imdsPingRequest.headers!.metadata);
+    assert.equal(imdsPingRequest.path, imdsEndpointPath);
+
     // The second one tries to authenticate against IMDS once we know the endpoint is available.
     const authRequest = authDetails.insecureRequestOptions[1];
+
+    assert.ok(authRequest.headers!.metadata);
 
     const query = qs.parse(authRequest.path!.split("?")[1]);
 
@@ -63,7 +72,9 @@ describe("ManagedIdentityCredential", function() {
     assert.equal(query.client_id, "client");
     assert.equal(decodeURIComponent(query.resource as string), "https://service");
     assert.ok(
-      `http://${authRequest.hostname}${authRequest.path}`.startsWith(imdsEndpoint),
+      `http://${authRequest.hostname}${authRequest.path}`.startsWith(
+        `${imdsHost}${imdsEndpointPath}`
+      ),
       "URL does not start with expected host and path"
     );
     assert.ok(
@@ -196,6 +207,12 @@ describe("ManagedIdentityCredential", function() {
     });
 
     assert.equal(authDetails.result!.token, "token");
+  });
+
+  it("IMDS MSI skips verification if the AZURE_POD_IDENTITY_AUTHORITY_HOST environment variable is available", async function() {
+    process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST = "token URL";
+
+    assert.ok(await imdsMsi.isAvailable());
   });
 
   // Unavailable exception throws while IMDS endpoint is unavailable. This test not valid.
