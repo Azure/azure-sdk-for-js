@@ -69,7 +69,7 @@ export function paginateResponse<TElement>(
         nextPageLink: options.nextLinkName === null ? undefined : nextLink,
       };
     },
-  }
+  };
   return getPagedAsyncIterator(pagedResult);
 }
 
