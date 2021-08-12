@@ -8,21 +8,21 @@ urlFragment: purview-account-javascript
 disableDocsMs: true
 ---
 
-# Azure Purview Scanning rest client library samples for JavaScript
+# Azure Purview Account rest client library samples for JavaScript
 
-These sample programs show how to use the JavaScript client libraries for Azure Purview Scanning rest in some common scenarios.
+These sample programs show how to use the JavaScript client libraries for Azure Purview Account rest in some common scenarios.
 
-| **File Name**           | **Description**                      |
-| ----------------------- | ------------------------------------ |
-| [typedefs.js][typedefs] | gets a list of typedefs for entities |
+|        **File Name**          | **Description**            |
+| ----------------------------- | -------------------------- |
+| [collections.js][collections] | gets a list of collections |
 
 ## Prerequisites
 
-The sample programs are compatible with Node.js >=12.0.0.
+The sample programs are compatible with Node.js >=14.0.0.
 
 You need [an Azure subscription][freesub] and the following Azure resources to run these sample programs:
 
-- [Azure Cognitive Services instance][createinstance_azurecognitiveservicesinstance]
+- [Azure Purview Account][createpurviewaccount_portal]
 
 Samples retrieve credentials to access the service endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
 
@@ -43,21 +43,21 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node typedefs.js
+node collections.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ENDPOINT="<endpoint>" node typedefs.js
+npx cross-env ENDPOINT="<endpoint>" node collections.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[typedefs]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-account-rest/samples/v1/javascript/typedefs.js
+[collections]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-account-rest/samples/v1/javascript/collections.js
 [apiref]: https://docs.microsoft.com/azure/purview/tutorial-using-rest-apis
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurecognitiveservicesinstance]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
+[createpurviewaccount_portal]: https://docs.microsoft.com/azure/purview/create-catalog-portal
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-account-rest/README.md

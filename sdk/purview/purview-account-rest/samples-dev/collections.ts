@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how get a list of typedefs
+ * This sample demonstrates how get a list of collections
  *
- * @summary gets a list of typedefs for entities
+ * @summary gets a list of collections
  * @azsdk-weight 40
  */
 
