@@ -94,15 +94,15 @@ export const imdsMsi: MSI = {
     clientId?: string,
     getTokenOptions?: GetTokenOptions
   ): Promise<boolean> {
-    const { span, updatedOptions: options } = createSpan(
-      "ManagedIdentityCredential-pingImdsEndpoint",
-      getTokenOptions
-    );
-
     // if the PodIdenityEndpoint environment variable was set no need to probe the endpoint, it can be assumed to exist
     if (process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST) {
       return true;
     }
+
+    const { span, updatedOptions: options } = createSpan(
+      "ManagedIdentityCredential-pingImdsEndpoint",
+      getTokenOptions
+    );
 
     // Ping request.
     const requestOptions = prepareRequestOptions(resource, clientId, {
