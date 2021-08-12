@@ -6,7 +6,6 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { createSpanFunction } from '@azure/core-tracing';
-import { CreateSpanFunctionArgs } from '@azure/core-tracing';
 import { HttpClient } from '@azure/core-rest-pipeline';
 import { HttpMethods } from '@azure/core-rest-pipeline';
 import { InternalPipelineOptions } from '@azure/core-rest-pipeline';
@@ -17,6 +16,8 @@ import { PipelinePolicy } from '@azure/core-rest-pipeline';
 import { PipelineRequest } from '@azure/core-rest-pipeline';
 import { PipelineResponse } from '@azure/core-rest-pipeline';
 import { Span } from '@azure/core-tracing';
+import { SpanKind } from '@azure/core-tracing';
+import { SpanStatusCode } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
 import { TransferProgressEvent } from '@azure/core-rest-pipeline';
 
@@ -77,8 +78,6 @@ export function createSerializer(modelMappers?: {
 }, isXML?: boolean): Serializer;
 
 export { createSpanFunction }
-
-export { CreateSpanFunctionArgs }
 
 // @public
 export interface DeserializationContentTypes {
@@ -380,21 +379,9 @@ export interface SpanConfig {
     packagePrefix: string;
 }
 
-// @public
-export const SpanKind: {
-    readonly INTERNAL: 0;
-    readonly SERVER: 1;
-    readonly CLIENT: 2;
-    readonly PRODUCER: 3;
-    readonly CONSUMER: 4;
-};
+export { SpanKind }
 
-// @public
-export const SpanStatusCode: {
-    readonly UNSET: 0;
-    readonly OK: 1;
-    readonly ERROR: 2;
-};
+export { SpanStatusCode }
 
 // @public
 export const XML_ATTRKEY = "$";

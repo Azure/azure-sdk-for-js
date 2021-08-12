@@ -40,7 +40,6 @@ export {
   SerializerOptions,
   RawResponseCallback,
   CommonClientOptions,
-  CreateSpanFunctionArgs,
   Span,
   SpanKind,
   SpanStatusCode,
