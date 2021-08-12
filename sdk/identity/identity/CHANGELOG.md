@@ -1,5 +1,8 @@
 # Release History
 
+## 1.5.2 (Unreleased)
+
+
 ## 1.5.1 (2021-08-12)
 
 - Fixed how we verify the IMDS endpoint is available. Now, besides skipping the `Metadata` header, we skip the URL query. Both will ensure that all the known IMDS endpoints return as early as possible.
