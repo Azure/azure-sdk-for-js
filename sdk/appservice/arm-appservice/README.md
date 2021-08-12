@@ -2,7 +2,7 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure WebSiteManagement client.
 
-You can also follow this [link](https://github.com/Azure/azure-sdk-for-js/tree/feature/v4/sdk/keyvault/arm-keyvault) to see the previous stable versions for this package. Note that they might not implement the guidelines(https://azure.github.io/azure-sdk/typescript_introduction.html) or have the same feature set as the new releases.
+You can also follow this [link](https://github.com/Azure/azure-sdk-for-js/tree/feature/v4/sdk/appservice/arm-appservice) to see the previous stable versions for this package. Note that they might not implement the guidelines(https://azure.github.io/azure-sdk/typescript_introduction.html) or have the same feature set as the new releases.
 
 WebSite Management Client
 
