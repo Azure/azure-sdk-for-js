@@ -8,7 +8,8 @@ import {
   createHttpHeaders,
   PipelineRequestOptions,
   createPipelineRequest,
-  RestError
+  RestError,
+  RawHttpHeaders
 } from "@azure/core-rest-pipeline";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { IdentityClient } from "../../client/identityClient";
@@ -38,7 +39,10 @@ function expiresInParser(requestBody: any): number {
 function prepareRequestOptions(
   resource?: string,
   clientId?: string,
-  skipQuery?: boolean
+  options?: {
+    skipQuery?: boolean;
+    skipMetadataHeader?: boolean;
+  }
 ): PipelineRequestOptions {
   const queryParameters: any = {
     resource,
@@ -51,6 +55,8 @@ function prepareRequestOptions(
 
   const url = new URL(imdsEndpointPath, process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST ?? imdsHost);
 
+  const { skipQuery, skipMetadataHeader } = options || {};
+
   // Pod Identity will try to process this request even if the Metadata header is missing.
   // We can exclude the request query to ensure no IMDS endpoint tries to process the ping request.
   let query = "";
@@ -58,13 +64,19 @@ function prepareRequestOptions(
     query = `?${qs.stringify(queryParameters)}`;
   }
 
+  const headersSource: RawHttpHeaders = {
+    Accept: "application/json",
+    Metadata: "true"
+  };
+  // Remove the Metadata header to invoke a request error from some IMDS endpoints.
+  if (skipMetadataHeader) {
+    delete headersSource.Metadata;
+  }
+
   return {
     url: `${url}${query}`,
     method: "GET",
-    headers: createHttpHeaders({
-      Accept: "application/json",
-      Metadata: "true"
-    })
+    headers: createHttpHeaders(headersSource)
   };
 }
 
@@ -93,14 +105,10 @@ export const imdsMsi: MSI = {
     }
 
     // Ping request.
-    const requestOptions = prepareRequestOptions(resource, clientId, true);
-
-    // This will always be populated, but let's make TypeScript happy
-    if (requestOptions.headers) {
-      // Remove the Metadata header to invoke a request error from
-      // IMDS endpoint
-      requestOptions.headers.delete("Metadata");
-    }
+    const requestOptions = prepareRequestOptions(resource, clientId, {
+      skipQuery: true,
+      skipMetadataHeader: true
+    });
 
     requestOptions.tracingOptions = {
       spanOptions: options.tracingOptions && options.tracingOptions.spanOptions,

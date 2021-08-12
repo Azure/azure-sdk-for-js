@@ -68,6 +68,7 @@ describe("ManagedIdentityCredential", function() {
 
     // The first request is the IMDS ping.
     const imdsPingRequest = authDetails.requests[0];
+    assert.notOk(imdsPingRequest.headers.Metadata);
     assert.equal(
       imdsPingRequest.url,
       new URL(
@@ -79,8 +80,9 @@ describe("ManagedIdentityCredential", function() {
     // The second one tries to authenticate against IMDS once we know the endpoint is available.
     const authRequest = authDetails.requests[1];
 
-    const query = new URLSearchParams(authRequest.url.split("?")[1]);
+    assert.ok(authRequest.headers.metadata);
 
+    const query = new URLSearchParams(authRequest.url.split("?")[1]);
     assert.equal(authRequest.method, "GET");
     assert.equal(query.get("client_id"), "client");
     assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
