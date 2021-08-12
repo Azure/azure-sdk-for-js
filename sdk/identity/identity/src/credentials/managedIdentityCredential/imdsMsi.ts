@@ -35,7 +35,11 @@ function expiresInParser(requestBody: any): number {
   }
 }
 
-function prepareRequestOptions(resource?: string, clientId?: string): PipelineRequestOptions {
+function prepareRequestOptions(
+  resource?: string,
+  clientId?: string,
+  skipQuery?: boolean
+): PipelineRequestOptions {
   const queryParameters: any = {
     resource,
     "api-version": imdsApiVersion
@@ -45,11 +49,17 @@ function prepareRequestOptions(resource?: string, clientId?: string): PipelineRe
     queryParameters.client_id = clientId;
   }
 
-  const query = qs.stringify(queryParameters);
   const url = new URL(imdsEndpointPath, process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST ?? imdsHost);
 
+  // Pod Identity will try to process this request even if the Metadata header is missing.
+  // We can exclude the request query to ensure no IMDS endpoint tries to process the ping request.
+  let query = "";
+  if (!skipQuery) {
+    query = `?${qs.stringify(queryParameters)}`;
+  }
+
   return {
-    url: `${url}?${query}`,
+    url: `${url}${query}`,
     method: "GET",
     headers: createHttpHeaders({
       Accept: "application/json",
@@ -82,7 +92,8 @@ export const imdsMsi: MSI = {
       return true;
     }
 
-    const requestOptions = prepareRequestOptions(resource, clientId);
+    // Ping request.
+    const requestOptions = prepareRequestOptions(resource, clientId, true);
 
     // This will always be populated, but let's make TypeScript happy
     if (requestOptions.headers) {

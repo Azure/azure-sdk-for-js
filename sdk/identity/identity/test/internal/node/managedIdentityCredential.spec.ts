@@ -9,7 +9,8 @@ import { RestError } from "@azure/core-rest-pipeline";
 import { ManagedIdentityCredential } from "../../../src";
 import {
   imdsHost,
-  imdsApiVersion
+  imdsApiVersion,
+  imdsEndpointPath
 } from "../../../src/credentials/managedIdentityCredential/constants";
 import {
   imdsMsi,
@@ -66,6 +67,15 @@ describe("ManagedIdentityCredential", function() {
     });
 
     // The first request is the IMDS ping.
+    const imdsPingRequest = authDetails.requests[0];
+    assert.equal(
+      imdsPingRequest.url,
+      new URL(
+        imdsEndpointPath,
+        process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST ?? imdsHost
+      ).toString()
+    );
+
     // The second one tries to authenticate against IMDS once we know the endpoint is available.
     const authRequest = authDetails.requests[1];
 
@@ -253,10 +263,9 @@ describe("ManagedIdentityCredential", function() {
       ]
     });
 
-    // The first request is the IMDS ping.
-    const imdsPingRequest = authDetails.requests[0];
+    const authorizationRequest = authDetails.requests[0];
     assert.equal(
-      imdsPingRequest.url,
+      authorizationRequest.url,
       "http://10.0.0.1/metadata/identity/oauth2/token?resource=https%3A%2F%2Fservice&api-version=2018-02-01&client_id=client"
     );
   });
@@ -275,11 +284,9 @@ describe("ManagedIdentityCredential", function() {
       ]
     });
 
-    // The first request is the IMDS ping.
-    const imdsPingRequest = authDetails.requests[0];
-
+    const authorizationRequest = authDetails.requests[0];
     assert.equal(
-      imdsPingRequest.url,
+      authorizationRequest.url,
       "http://10.0.0.1/metadata/identity/oauth2/token?resource=https%3A%2F%2Fservice&api-version=2018-02-01&client_id=client"
     );
   });
