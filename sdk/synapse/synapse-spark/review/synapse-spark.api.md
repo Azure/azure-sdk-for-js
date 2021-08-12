@@ -4,10 +4,11 @@
 
 ```ts
 
-import * as coreHttp from '@azure/core-http';
+import * as coreAuth from '@azure/core-auth';
+import * as coreClient from '@azure/core-client';
 
 // @public
-export const enum KnownPluginCurrentState {
+export enum KnownPluginCurrentState {
     // (undocumented)
     Cleanup = "Cleanup",
     // (undocumented)
@@ -25,7 +26,7 @@ export const enum KnownPluginCurrentState {
 }
 
 // @public
-export const enum KnownSchedulerCurrentState {
+export enum KnownSchedulerCurrentState {
     // (undocumented)
     Ended = "Ended",
     // (undocumented)
@@ -35,7 +36,7 @@ export const enum KnownSchedulerCurrentState {
 }
 
 // @public
-export const enum KnownSparkBatchJobResultType {
+export enum KnownSparkBatchJobResultType {
     // (undocumented)
     Cancelled = "Cancelled",
     // (undocumented)
@@ -47,7 +48,7 @@ export const enum KnownSparkBatchJobResultType {
 }
 
 // @public
-export const enum KnownSparkErrorSource {
+export enum KnownSparkErrorSource {
     // (undocumented)
     Dependency = "Dependency",
     // (undocumented)
@@ -59,7 +60,7 @@ export const enum KnownSparkErrorSource {
 }
 
 // @public
-export const enum KnownSparkJobType {
+export enum KnownSparkJobType {
     // (undocumented)
     SparkBatch = "SparkBatch",
     // (undocumented)
@@ -67,7 +68,7 @@ export const enum KnownSparkJobType {
 }
 
 // @public
-export const enum KnownSparkSessionResultType {
+export enum KnownSparkSessionResultType {
     // (undocumented)
     Cancelled = "Cancelled",
     // (undocumented)
@@ -79,7 +80,7 @@ export const enum KnownSparkSessionResultType {
 }
 
 // @public
-export const enum KnownSparkStatementLanguageType {
+export enum KnownSparkStatementLanguageType {
     // (undocumented)
     DotNetSpark = "dotnetspark",
     // (undocumented)
@@ -97,59 +98,56 @@ export type PluginCurrentState = string;
 export type SchedulerCurrentState = string;
 
 // @public
-export interface SparkBatchCreateSparkBatchJobOptionalParams extends coreHttp.OperationOptions {
+export interface SparkBatch {
+    cancelSparkBatchJob(batchId: number, options?: SparkBatchCancelSparkBatchJobOptionalParams): Promise<void>;
+    createSparkBatchJob(sparkBatchJobOptions: SparkBatchJobOptions, options?: SparkBatchCreateSparkBatchJobOptionalParams): Promise<SparkBatchCreateSparkBatchJobResponse>;
+    getSparkBatchJob(batchId: number, options?: SparkBatchGetSparkBatchJobOptionalParams): Promise<SparkBatchGetSparkBatchJobResponse>;
+    getSparkBatchJobs(options?: SparkBatchGetSparkBatchJobsOptionalParams): Promise<SparkBatchGetSparkBatchJobsResponse>;
+}
+
+// @public
+export interface SparkBatchCancelSparkBatchJobOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface SparkBatchCreateSparkBatchJobOptionalParams extends coreClient.OperationOptions {
     detailed?: boolean;
 }
 
 // @public
-export type SparkBatchCreateSparkBatchJobResponse = SparkBatchJob & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SparkBatchJob;
-    };
-};
+export type SparkBatchCreateSparkBatchJobResponse = SparkBatchJob;
 
 // @public
-export interface SparkBatchGetSparkBatchJobOptionalParams extends coreHttp.OperationOptions {
+export interface SparkBatchGetSparkBatchJobOptionalParams extends coreClient.OperationOptions {
     detailed?: boolean;
 }
 
 // @public
-export type SparkBatchGetSparkBatchJobResponse = SparkBatchJob & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SparkBatchJob;
-    };
-};
+export type SparkBatchGetSparkBatchJobResponse = SparkBatchJob;
 
 // @public
-export interface SparkBatchGetSparkBatchJobsOptionalParams extends coreHttp.OperationOptions {
+export interface SparkBatchGetSparkBatchJobsOptionalParams extends coreClient.OperationOptions {
     detailed?: boolean;
     fromParam?: number;
     size?: number;
 }
 
 // @public
-export type SparkBatchGetSparkBatchJobsResponse = SparkBatchJobCollection & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SparkBatchJobCollection;
-    };
-};
+export type SparkBatchGetSparkBatchJobsResponse = SparkBatchJobCollection;
 
 // @public (undocumented)
 export interface SparkBatchJob {
-    appId?: string | null;
+    appId?: string;
     appInfo?: {
         [propertyName: string]: string;
-    } | null;
+    };
     artifactId?: string;
     errors?: SparkServiceError[];
     id: number;
     jobType?: SparkJobType;
     // (undocumented)
     livyInfo?: SparkBatchJobState;
-    logLines?: string[] | null;
+    logLines?: string[];
     name?: string;
     plugin?: SparkServicePlugin;
     result?: SparkBatchJobResultType;
@@ -215,38 +213,29 @@ export type SparkBatchJobResultType = string;
 // @public (undocumented)
 export interface SparkBatchJobState {
     currentState?: string;
-    deadAt?: Date | null;
+    deadAt?: Date;
     // (undocumented)
     jobCreationRequest?: SparkRequest;
-    notStartedAt?: Date | null;
-    recoveringAt?: Date | null;
-    runningAt?: Date | null;
-    startingAt?: Date | null;
-    successAt?: Date | null;
-    terminatedAt?: Date | null;
-}
-
-// @public
-export class SparkBatchOperation {
-    constructor(client: SparkClient);
-    cancelSparkBatchJob(batchId: number, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
-    createSparkBatchJob(sparkBatchJobOptions: SparkBatchJobOptions, options?: SparkBatchCreateSparkBatchJobOptionalParams): Promise<SparkBatchCreateSparkBatchJobResponse>;
-    getSparkBatchJob(batchId: number, options?: SparkBatchGetSparkBatchJobOptionalParams): Promise<SparkBatchGetSparkBatchJobResponse>;
-    getSparkBatchJobs(options?: SparkBatchGetSparkBatchJobsOptionalParams): Promise<SparkBatchGetSparkBatchJobsResponse>;
+    notStartedAt?: Date;
+    recoveringAt?: Date;
+    runningAt?: Date;
+    startingAt?: Date;
+    successAt?: Date;
+    terminatedAt?: Date;
 }
 
 // @public (undocumented)
 export class SparkClient extends SparkClientContext {
-    constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, endpoint: string, sparkPoolName: string, options?: SparkClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, endpoint: string, sparkPoolName: string, options?: SparkClientOptionalParams);
     // (undocumented)
-    sparkBatch: SparkBatchOperation;
+    sparkBatch: SparkBatch;
     // (undocumented)
-    sparkSession: SparkSessionOperation;
+    sparkSessionOperations: SparkSessionOperations;
 }
 
 // @public (undocumented)
-export class SparkClientContext extends coreHttp.ServiceClient {
-    constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, endpoint: string, sparkPoolName: string, options?: SparkClientOptionalParams);
+export class SparkClientContext extends coreClient.ServiceClient {
+    constructor(credentials: coreAuth.TokenCredential, endpoint: string, sparkPoolName: string, options?: SparkClientOptionalParams);
     // (undocumented)
     endpoint: string;
     // (undocumented)
@@ -256,7 +245,7 @@ export class SparkClientContext extends coreHttp.ServiceClient {
 }
 
 // @public
-export interface SparkClientOptionalParams extends coreHttp.ServiceClientOptions {
+export interface SparkClientOptionalParams extends coreClient.ServiceClientOptions {
     endpoint?: string;
     livyApiVersion?: string;
 }
@@ -303,15 +292,15 @@ export interface SparkRequest {
 // @public (undocumented)
 export interface SparkScheduler {
     // (undocumented)
-    cancellationRequestedAt?: Date | null;
+    cancellationRequestedAt?: Date;
     // (undocumented)
     currentState?: SchedulerCurrentState;
     // (undocumented)
-    endedAt?: Date | null;
+    endedAt?: Date;
     // (undocumented)
-    scheduledAt?: Date | null;
+    scheduledAt?: Date;
     // (undocumented)
-    submittedAt?: Date | null;
+    submittedAt?: Date;
 }
 
 // @public (undocumented)
@@ -327,28 +316,29 @@ export interface SparkServiceError {
 // @public (undocumented)
 export interface SparkServicePlugin {
     // (undocumented)
-    cleanupStartedAt?: Date | null;
+    cleanupStartedAt?: Date;
     // (undocumented)
     currentState?: PluginCurrentState;
     // (undocumented)
-    monitoringStartedAt?: Date | null;
+    monitoringStartedAt?: Date;
     // (undocumented)
-    preparationStartedAt?: Date | null;
+    preparationStartedAt?: Date;
     // (undocumented)
-    resourceAcquisitionStartedAt?: Date | null;
+    resourceAcquisitionStartedAt?: Date;
     // (undocumented)
-    submissionStartedAt?: Date | null;
+    submissionStartedAt?: Date;
 }
 
 // @public (undocumented)
 export interface SparkSession {
     // (undocumented)
-    appId?: string | null;
+    appId?: string;
     appInfo?: {
         [propertyName: string]: string;
-    } | null;
+    };
     // (undocumented)
     artifactId?: string;
+    // (undocumented)
     errors?: SparkServiceError[];
     // (undocumented)
     id: number;
@@ -356,7 +346,7 @@ export interface SparkSession {
     // (undocumented)
     livyInfo?: SparkSessionState;
     // (undocumented)
-    logLines?: string[] | null;
+    logLines?: string[];
     // (undocumented)
     name?: string;
     // (undocumented)
@@ -380,14 +370,6 @@ export interface SparkSession {
     workspaceName?: string;
 }
 
-// @public
-export type SparkSessionCancelSparkStatementResponse = SparkStatementCancellationResult & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SparkStatementCancellationResult;
-    };
-};
-
 // @public (undocumented)
 export interface SparkSessionCollection {
     // (undocumented)
@@ -399,82 +381,78 @@ export interface SparkSessionCollection {
 }
 
 // @public
-export interface SparkSessionCreateSparkSessionOptionalParams extends coreHttp.OperationOptions {
+export interface SparkSessionOperations {
+    cancelSparkSession(sessionId: number, options?: SparkSessionOperationsCancelSparkSessionOptionalParams): Promise<void>;
+    cancelSparkStatement(sessionId: number, statementId: number, options?: SparkSessionOperationsCancelSparkStatementOptionalParams): Promise<SparkSessionOperationsCancelSparkStatementResponse>;
+    createSparkSession(sparkSessionOptions: SparkSessionOptions, options?: SparkSessionOperationsCreateSparkSessionOptionalParams): Promise<SparkSessionOperationsCreateSparkSessionResponse>;
+    createSparkStatement(sessionId: number, sparkStatementOptions: SparkStatementOptions, options?: SparkSessionOperationsCreateSparkStatementOptionalParams): Promise<SparkSessionOperationsCreateSparkStatementResponse>;
+    getSparkSession(sessionId: number, options?: SparkSessionOperationsGetSparkSessionOptionalParams): Promise<SparkSessionOperationsGetSparkSessionResponse>;
+    getSparkSessions(options?: SparkSessionOperationsGetSparkSessionsOptionalParams): Promise<SparkSessionOperationsGetSparkSessionsResponse>;
+    getSparkStatement(sessionId: number, statementId: number, options?: SparkSessionOperationsGetSparkStatementOptionalParams): Promise<SparkSessionOperationsGetSparkStatementResponse>;
+    getSparkStatements(sessionId: number, options?: SparkSessionOperationsGetSparkStatementsOptionalParams): Promise<SparkSessionOperationsGetSparkStatementsResponse>;
+    resetSparkSessionTimeout(sessionId: number, options?: SparkSessionOperationsResetSparkSessionTimeoutOptionalParams): Promise<void>;
+}
+
+// @public
+export interface SparkSessionOperationsCancelSparkSessionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface SparkSessionOperationsCancelSparkStatementOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SparkSessionOperationsCancelSparkStatementResponse = SparkStatementCancellationResult;
+
+// @public
+export interface SparkSessionOperationsCreateSparkSessionOptionalParams extends coreClient.OperationOptions {
     detailed?: boolean;
 }
 
 // @public
-export type SparkSessionCreateSparkSessionResponse = SparkSession & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SparkSession;
-    };
-};
+export type SparkSessionOperationsCreateSparkSessionResponse = SparkSession;
 
 // @public
-export type SparkSessionCreateSparkStatementResponse = SparkStatement & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SparkStatement;
-    };
-};
+export interface SparkSessionOperationsCreateSparkStatementOptionalParams extends coreClient.OperationOptions {
+}
 
 // @public
-export interface SparkSessionGetSparkSessionOptionalParams extends coreHttp.OperationOptions {
+export type SparkSessionOperationsCreateSparkStatementResponse = SparkStatement;
+
+// @public
+export interface SparkSessionOperationsGetSparkSessionOptionalParams extends coreClient.OperationOptions {
     detailed?: boolean;
 }
 
 // @public
-export type SparkSessionGetSparkSessionResponse = SparkSession & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SparkSession;
-    };
-};
+export type SparkSessionOperationsGetSparkSessionResponse = SparkSession;
 
 // @public
-export interface SparkSessionGetSparkSessionsOptionalParams extends coreHttp.OperationOptions {
+export interface SparkSessionOperationsGetSparkSessionsOptionalParams extends coreClient.OperationOptions {
     detailed?: boolean;
     fromParam?: number;
     size?: number;
 }
 
 // @public
-export type SparkSessionGetSparkSessionsResponse = SparkSessionCollection & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SparkSessionCollection;
-    };
-};
+export type SparkSessionOperationsGetSparkSessionsResponse = SparkSessionCollection;
 
 // @public
-export type SparkSessionGetSparkStatementResponse = SparkStatement & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SparkStatement;
-    };
-};
+export interface SparkSessionOperationsGetSparkStatementOptionalParams extends coreClient.OperationOptions {
+}
 
 // @public
-export type SparkSessionGetSparkStatementsResponse = SparkStatementCollection & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SparkStatementCollection;
-    };
-};
+export type SparkSessionOperationsGetSparkStatementResponse = SparkStatement;
 
 // @public
-export class SparkSessionOperation {
-    constructor(client: SparkClient);
-    cancelSparkSession(sessionId: number, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
-    cancelSparkStatement(sessionId: number, statementId: number, options?: coreHttp.OperationOptions): Promise<SparkSessionCancelSparkStatementResponse>;
-    createSparkSession(sparkSessionOptions: SparkSessionOptions, options?: SparkSessionCreateSparkSessionOptionalParams): Promise<SparkSessionCreateSparkSessionResponse>;
-    createSparkStatement(sessionId: number, sparkStatementOptions: SparkStatementOptions, options?: coreHttp.OperationOptions): Promise<SparkSessionCreateSparkStatementResponse>;
-    getSparkSession(sessionId: number, options?: SparkSessionGetSparkSessionOptionalParams): Promise<SparkSessionGetSparkSessionResponse>;
-    getSparkSessions(options?: SparkSessionGetSparkSessionsOptionalParams): Promise<SparkSessionGetSparkSessionsResponse>;
-    getSparkStatement(sessionId: number, statementId: number, options?: coreHttp.OperationOptions): Promise<SparkSessionGetSparkStatementResponse>;
-    getSparkStatements(sessionId: number, options?: coreHttp.OperationOptions): Promise<SparkSessionGetSparkStatementsResponse>;
-    resetSparkSessionTimeout(sessionId: number, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
+export interface SparkSessionOperationsGetSparkStatementsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SparkSessionOperationsGetSparkStatementsResponse = SparkStatementCollection;
+
+// @public
+export interface SparkSessionOperationsResetSparkSessionTimeoutOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public (undocumented)
@@ -521,26 +499,27 @@ export type SparkSessionResultType = string;
 // @public (undocumented)
 export interface SparkSessionState {
     // (undocumented)
-    busyAt?: Date | null;
+    busyAt?: Date;
     // (undocumented)
     currentState?: string;
     // (undocumented)
-    deadAt?: Date | null;
+    deadAt?: Date;
     // (undocumented)
-    errorAt?: Date | null;
+    errorAt?: Date;
     // (undocumented)
-    idleAt?: Date | null;
+    idleAt?: Date;
     // (undocumented)
     jobCreationRequest?: SparkRequest;
     // (undocumented)
-    notStartedAt?: Date | null;
+    notStartedAt?: Date;
     // (undocumented)
-    recoveringAt?: Date | null;
+    recoveringAt?: Date;
     // (undocumented)
-    shuttingDownAt?: Date | null;
+    shuttingDownAt?: Date;
     // (undocumented)
-    startingAt?: Date | null;
-    terminatedAt?: Date | null;
+    startingAt?: Date;
+    // (undocumented)
+    terminatedAt?: Date;
 }
 
 // @public (undocumented)
@@ -550,7 +529,7 @@ export interface SparkStatement {
     // (undocumented)
     id: number;
     // (undocumented)
-    output?: SparkStatementOutput | null;
+    output?: SparkStatementOutput;
     // (undocumented)
     state?: string;
 }
@@ -581,17 +560,17 @@ export interface SparkStatementOptions {
 
 // @public (undocumented)
 export interface SparkStatementOutput {
-    data?: any;
+    data?: Record<string, unknown>;
     // (undocumented)
-    errorName?: string | null;
+    errorName?: string;
     // (undocumented)
-    errorValue?: string | null;
+    errorValue?: string;
     // (undocumented)
     executionCount: number;
     // (undocumented)
     status?: string;
     // (undocumented)
-    traceback?: string[] | null;
+    traceback?: string[];
 }
 
 
