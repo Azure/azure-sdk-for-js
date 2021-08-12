@@ -14,7 +14,9 @@ import { isTokenCredential } from '@azure/core-auth';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { Span } from '@azure/core-tracing';
 import { CreateSpanFunctionArgs as SpanConfig } from '@azure/core-tracing';
+import { SpanKind } from '@azure/core-tracing';
 import { SpanOptions } from '@azure/core-tracing';
+import { SpanStatusCode } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
 
 export { AbortSignalLike }
@@ -808,21 +810,9 @@ export { Span }
 
 export { SpanConfig }
 
-// @public
-export const SpanKind: {
-    readonly INTERNAL: 0;
-    readonly SERVER: 1;
-    readonly CLIENT: 2;
-    readonly PRODUCER: 3;
-    readonly CONSUMER: 4;
-};
+export { SpanKind }
 
-// @public
-export const SpanStatusCode: {
-    readonly UNSET: 0;
-    readonly OK: 1;
-    readonly ERROR: 2;
-};
+export { SpanStatusCode }
 
 // @public
 export function stringifyXML(obj: unknown, opts?: SerializerOptions): string;
