@@ -16,7 +16,7 @@ import {
   Zone as ZoneMapper,
   ZoneUpdate as ZoneUpdateMapper,
   DnsResourceReferenceRequest as DnsResourceReferenceRequestMapper
-} from "../models/mappers";
+} from "./mappers";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

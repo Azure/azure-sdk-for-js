@@ -865,6 +865,11 @@
       "packageName": "@azure/arm-keyvault",
       "projectFolder": "sdk/keyvault/arm-keyvault",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-dns",
+      "projectFolder": "sdk/dns/arm-dns",
+      "versionPolicyName": "management"
     }
   ]
 }
