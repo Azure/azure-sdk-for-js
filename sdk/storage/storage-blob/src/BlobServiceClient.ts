@@ -29,7 +29,7 @@ import {
   LeaseAccessConditions
 } from "./generatedModels";
 import { Container, Service } from "./generated/src/operations";
-import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
+import { newPipeline, StoragePipelineOptions, PipelineLike, isPipelineLike } from "./Pipeline";
 import {
   ContainerClient,
   ContainerCreateOptions,
@@ -477,18 +477,18 @@ export class BlobServiceClient extends StorageClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  constructor(url: string, pipeline: Pipeline);
+  constructor(url: string, pipeline: PipelineLike);
   constructor(
     url: string,
     credentialOrPipeline?:
       | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
-      | Pipeline,
+      | PipelineLike,
     options?: StoragePipelineOptions
   ) {
-    let pipeline: Pipeline;
-    if (credentialOrPipeline instanceof Pipeline) {
+    let pipeline: PipelineLike;
+    if (isPipelineLike(credentialOrPipeline)) {
       pipeline = credentialOrPipeline;
     } else if (
       (isNode && credentialOrPipeline instanceof StorageSharedKeyCredential) ||

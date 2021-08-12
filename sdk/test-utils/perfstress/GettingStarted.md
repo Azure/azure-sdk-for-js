@@ -14,6 +14,7 @@
   - [Command to run](#command-to-run)
   - [Adding Readme/Instructions](#adding-readme/instructions)
   - [Testing an older track 2 version](#testing-an-older-track-2-version)
+- [Using Proxy Tool](#using-proxy-tool)
 
 ## [Setting up the project](#setting-up-the-project)
 
@@ -261,3 +262,47 @@ Example: Currently `@azure/<service-sdk>` is at 12.4.0 on master and you want to
 - Navigate to `sdk\storage\perf-tests\<service-sdk>`
 - `rush build -t perf-test-<service-sdk>`
 - Run the tests as suggested before, example `npm run perf-test:node -- TestClassName --warmup 2 --duration 7 --iterations 2 --parallel 50`
+
+## [Using Proxy Tool](#using-proxy-tool)
+
+### Using the testProxy option
+
+To be able to leverage the powers of playing back the requests using the test proxy, add the following to your code.
+
+      ```ts
+      /// Core V1 SDKs - For services depending on core-http
+      /// Call this.configureClientOptionsCoreV1 method on your client options
+      this.blobServiceClient = BlobServiceClient.fromConnectionString(connectionString, this.configureClientOptionsCoreV1({}));
+
+      /// Core V2 SDKs - For services depending on core-rest-pipeline
+      /// this.configureClient call to modify your client
+      this.client = this.configureClient(TableClient.fromConnectionString(connectionString, tableName));
+
+      // Not all core-v1 SDKs allow passing httpClient option.
+      // Not all core-v2 SDKs allow adding policies via pipeline option.
+      // Please reach out if your service doesn't support.
+      ```
+
+### Running the proxy server
+
+Run this command
+
+- `docker run -p 5000:5000 azsdkengsys.azurecr.io/engsys/ubuntu_testproxy_server:latest`
+
+Reference: https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/Azure.Sdk.Tools.TestProxy#via-docker-image
+
+To use the proxy-tool in your test pass this option in cli `--test-proxy http://localhost:5000`(Make sure the port is same as what you have used to run the `docker run` command).
+
+Sample command(using storage-blob perf tests as example (Core-v1)!)
+
+> npm run perf-test:node -- StorageBlobDownloadTest --warmup 2 --duration 7 --iterations 2 --test-proxy http://localhost:5000
+
+> npm run perf-test:node -- StorageBlobDownloadTest --warmup 2 --duration 7 --iterations 2 --parallel 2 --test-proxy http://localhost:5000
+
+Sample command(using data-tables perf tests as example (Core-v2)!)
+
+> npm run perf-test:node -- ListComplexEntitiesTest --duration 7 --iterations 2 --parallel 2 --test-proxy http://localhost:5000
+
+> npm run perf-test:node -- ListComplexEntitiesTest --duration 7 --iterations 2 --parallel 2
+
+**Using proxy-tool** part is still under construction. Please reach out to the owners/team if you face issues.

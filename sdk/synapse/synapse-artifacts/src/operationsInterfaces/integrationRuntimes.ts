@@ -6,8 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
-import { IntegrationRuntimesListResponse, IntegrationRuntimesGetResponse } from "../models";
+import {
+  IntegrationRuntimesListOptionalParams,
+  IntegrationRuntimesListResponse,
+  IntegrationRuntimesGetOptionalParams,
+  IntegrationRuntimesGetResponse
+} from "../models";
 
 /** Interface representing a IntegrationRuntimes. */
 export interface IntegrationRuntimes {
@@ -15,7 +19,9 @@ export interface IntegrationRuntimes {
    * List Integration Runtimes
    * @param options The options parameters.
    */
-  list(options?: coreHttp.OperationOptions): Promise<IntegrationRuntimesListResponse>;
+  list(
+    options?: IntegrationRuntimesListOptionalParams
+  ): Promise<IntegrationRuntimesListResponse>;
   /**
    * Get Integration Runtime
    * @param integrationRuntimeName The Integration Runtime name
@@ -23,6 +29,6 @@ export interface IntegrationRuntimes {
    */
   get(
     integrationRuntimeName: string,
-    options?: coreHttp.OperationOptions
+    options?: IntegrationRuntimesGetOptionalParams
   ): Promise<IntegrationRuntimesGetResponse>;
 }

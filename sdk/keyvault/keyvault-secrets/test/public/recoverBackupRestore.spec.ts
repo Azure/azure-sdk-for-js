@@ -60,7 +60,6 @@ describe("Secret client - restore secrets and recover backups", () => {
       secretName,
       "Unexpected secret name in result from getSecret()."
     );
-    await testClient.flushSecret(secretName);
   });
 
   it("can recover a deleted secret (non existing)", async function(this: Context) {
@@ -117,7 +116,6 @@ describe("Secret client - restore secrets and recover backups", () => {
       result!.length > 0,
       `Unexpected length (${result!.length}) of buffer from backupSecret()`
     );
-    await testClient.flushSecret(secretName);
   });
 
   it("can backup a secret (non existing)", async function(this: Context) {

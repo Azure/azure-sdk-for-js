@@ -5,9 +5,9 @@ import { duration } from "moment";
 import { AccountListPoolNodeCountsResponse, TaskGetResponse } from "../src/models";
 import { assert } from "chai";
 import { BatchServiceClient, BatchServiceModels } from "../src/batchServiceClient";
-import { BatchSharedKeyCredentials } from "../src/batchSharedKeyCredentials";
 import { TokenCredentials } from "@azure/ms-rest-js";
 import moment from "moment";
+import { createClient } from "./utils/recordedClient";
 
 dotenv.config();
 const wait = (timeout = 1000) => new Promise((resolve) => setTimeout(() => resolve(null), timeout));
@@ -41,8 +41,6 @@ function getPoolName(type: string) {
 
 describe("Batch Service", () => {
   let client: BatchServiceClient;
-  let batchAccountName: string;
-  let batchAccountKey: string;
   let batchEndpoint: string;
   // let clientId: string;
   // let secret: string;
@@ -64,18 +62,13 @@ describe("Batch Service", () => {
   };
 
   beforeEach(async () => {
-    batchAccountName = process.env["AZURE_BATCH_ACCOUNT"]!;
-    batchAccountKey = process.env["AZURE_BATCH_ACCESS_KEY"]!;
     batchEndpoint = process.env["AZURE_BATCH_ENDPOINT"]!;
-    // clientId = process.env["AZURE_CLIENT_ID"]!;
-    // secret = process.env["AZURE_CLIENT_SECRET"]!;
 
     // dummy thumb
     certThumb = "cff2ab63c8c955aaf71989efa641b906558d9fb7";
     nonAdminPoolUser = "nonAdminUser";
-    const creds = new BatchSharedKeyCredentials(batchAccountName, batchAccountKey);
 
-    client = new BatchServiceClient(creds, batchEndpoint);
+    client = createClient("APIKey");
   });
 
   describe("certificate operations", () => {

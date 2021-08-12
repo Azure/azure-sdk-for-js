@@ -7,16 +7,18 @@
 import { Checkpoint } from '@azure/event-hubs';
 import { CheckpointStore } from '@azure/event-hubs';
 import { PartitionOwnership } from '@azure/event-hubs';
+import { TableClient } from '@azure/data-tables';
 
 // @public
 export const logger: import("@azure/logger").AzureLogger;
 
 // @public
 export class TableCheckpointStore implements CheckpointStore {
-    claimOwnership(): Promise<PartitionOwnership[]>;
-    listCheckpoints(): Promise<Checkpoint[]>;
-    listOwnership(): Promise<PartitionOwnership[]>;
-    updateCheckpoint(): Promise<void>;
+    constructor(tableClient: TableClient);
+    claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
+    listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<Checkpoint[]>;
+    listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<PartitionOwnership[]>;
+    updateCheckpoint(checkpoint: Checkpoint): Promise<void>;
 }
 
 
