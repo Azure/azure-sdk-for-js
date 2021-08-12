@@ -3,7 +3,6 @@
 
 export {
   createSpanFunction,
-  CreateSpanFunctionArgs,
   CreateSpanFunctionArgs as SpanConfig, // for backwards compatibility
   Span,
   SpanStatusCode,

@@ -3,13 +3,7 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { OperationTracingOptions } from "@azure/core-tracing";
-import {
-  createSpanFunction,
-  CreateSpanFunctionArgs,
-  Span,
-  SpanKind,
-  SpanStatusCode
-} from "@azure/core-tracing";
+import { createSpanFunction, Span, SpanKind, SpanStatusCode } from "@azure/core-tracing";
 import {
   HttpMethods,
   PipelineResponse,
@@ -567,4 +561,4 @@ export interface CommonClientOptions extends PipelineOptions {
   allowInsecureConnection?: boolean;
 }
 
-export { createSpanFunction, CreateSpanFunctionArgs, Span, SpanKind, SpanStatusCode };
+export { createSpanFunction, Span, SpanKind, SpanStatusCode };
