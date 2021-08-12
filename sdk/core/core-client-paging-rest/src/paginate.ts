@@ -59,8 +59,8 @@ export function paginateResponse<TElement>(
         result = await client.pathUnchecked(pageLink).get();
       }
       checkPagingRequest(result);
-      let nextLink = getNextLink(result.body as Record<string, unknown>, options);
-      let values = getElements<TElement>(result.body as Record<string, unknown>, options);
+      const nextLink = getNextLink(result.body as Record<string, unknown>, options);
+      const values = getElements<TElement>(result.body as Record<string, unknown>, options);
       return {
         page: values,
         // According to x-ms-pageable is the nextLinkName is set to null we should only
@@ -76,7 +76,7 @@ export function paginateResponse<TElement>(
 /**
  * Checks if a request failed
  */
-function checkPagingRequest(response: PathUncheckedResponse) {
+function checkPagingRequest(response: PathUncheckedResponse): void {
   if (!Http2xxStatusCodes.includes(response.status)) {
     throw createRestError(
       `Pagination failed with unexpected statusCode ${response.status}`,
@@ -88,7 +88,10 @@ function checkPagingRequest(response: PathUncheckedResponse) {
 /**
  * Gets for the value of nextLink in the body. If a custom nextLinkName was provided, it will be used instead of default
  */
-function getNextLink(body: Record<string, unknown>, paginateOptions: PaginateOptions = {}) {
+function getNextLink(
+  body: Record<string, unknown>,
+  paginateOptions: PaginateOptions = {}
+): string | undefined {
   const nextLinkName = paginateOptions.nextLinkName ?? DEFAULT_NEXTLINK;
   const nextLink = body[nextLinkName];
 
