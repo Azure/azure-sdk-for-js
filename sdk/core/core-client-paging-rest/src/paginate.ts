@@ -9,7 +9,7 @@ import {
   HttpResponse,
   PathUncheckedResponse,
 } from "@azure-rest/core-client";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { getPagedAsyncIterator, PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";
 
 const Http2xxStatusCodes = ["200", "201", "202", "203", "204", "205", "206", "207", "208", "226"];
 
@@ -42,61 +42,35 @@ export interface PaginateOptions {
  * @param options - Options to use custom property names for pagination
  * @returns - return a PagedAsyncIterableIterator that can be used to iterate the elements
  */
-export function paginateResponse<TReturn>(
+export function paginateResponse<TElement>(
   client: Client,
   initialResponse: HttpResponse,
   options: PaginateOptions = {}
-): PagedAsyncIterableIterator<TReturn, TReturn[]> {
-  const iter = listAll<TReturn>(client, initialResponse, options);
-  return {
-    next() {
-      return iter.next();
+): PagedAsyncIterableIterator<TElement> {
+  let firstRun = true;
+  const pagedResult: PagedResult<TElement[]> = {
+    firstPageLink: "",
+    async getPage(pageLink: string) {
+      let result: HttpResponse | undefined = undefined;
+      if (firstRun) {
+        result = initialResponse;
+        firstRun = false;
+      } else {
+        result = await client.pathUnchecked(pageLink).get();
+      }
+      checkPagingRequest(result);
+      let nextLink = getNextLink(result.body as Record<string, unknown>, options);
+      let values = getElements<TElement>(result.body as Record<string, unknown>, options);
+      return {
+        page: values,
+        // According to x-ms-pageable is the nextLinkName is set to null we should only
+        // return the first page and skip any additional queries even if the initial response
+        // contains a nextLink.
+        nextPageLink: options.nextLinkName === null ? undefined : nextLink,
+      };
     },
-    [Symbol.asyncIterator]() {
-      return this;
-    },
-    byPage: () => {
-      return listPage<TReturn>(client, initialResponse, options);
-    },
-  };
-}
-
-async function* listAll<T>(
-  client: Client,
-  initialResponse: PathUncheckedResponse,
-  paginateOptions: PaginateOptions
-): AsyncIterableIterator<T> {
-  for await (const page of listPage<T>(client, initialResponse, paginateOptions)) {
-    yield* page;
   }
-}
-
-async function* listPage<T = Record<string, unknown>[]>(
-  client: Client,
-  initialResponse: PathUncheckedResponse,
-  options: PaginateOptions
-): AsyncIterableIterator<T[]> {
-  let result = initialResponse;
-  checkPagingRequest(result);
-  let nextLink = getNextLink(result.body, options);
-  let values = getElements<T>(result.body, options);
-
-  yield values;
-
-  // According to x-ms-pageable is the nextLinkName is set to null we should only
-  // return the first page and skip any additional queries even if the initial response
-  // contains a nextLink.
-  if (options.nextLinkName === null) {
-    return;
-  }
-
-  while (nextLink) {
-    result = await client.pathUnchecked(nextLink).get();
-    checkPagingRequest(result);
-    nextLink = getNextLink(result.body, options);
-    values = getElements<T>(result.body, options);
-    yield values;
-  }
+  return getPagedAsyncIterator(pagedResult);
 }
 
 /**
