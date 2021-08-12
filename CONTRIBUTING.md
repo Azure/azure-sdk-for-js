@@ -73,6 +73,12 @@ If you prefer to setup your own environment instead, make sure you have these pr
 
 - Git
 - Any of the [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- A C++ compiler toolchain and Python (for compiling machine-code modules):
+  - Windows: Install the [Visual Studio Build Tools][buildtools] from Microsoft and [Python 3.9][python39windows] from the Microsoft Store.
+  - macOS: Install Xcode or the "Command Line Tools for XCode" (much smaller) from [Apple's developer downloads page](https://developer.apple.com/download/all/).
+  - Linux: Install Python and GCC/G++ (part of the `build-essential` package on Ubuntu-based distributions) using your distribution's package manager.
+
+    **On Linux, development headers for `libsecret` are also required.** Typically, these are available in a package called `libsecret-1-dev` (Debian/Ubuntu) or `libsecret-devel` (Fedora/Red Hat).
 - Rush 5.x
   - Install / update Rush globally via `npm install -g @microsoft/rush`.
   - Rush will automatically manage the specific version needed by this repo as long as you have any v5 version installed.
@@ -298,3 +304,6 @@ For information about packages are versioned and tagged see [Javascript Releases
 The daily dev build for JS are published directly to [npmjs.com](https://npmjs.com) under the alpha tag. These are published daily whenever there is a change in the package. You can test them by downloading the "alpha" tagged version of the package, or pinning to particular alpha version.
 
 The daily dev packages are considered volatile and taking dependencies on a dev package should be considered a temporary arrangement.
+
+[buildtools]: https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2019
+[python39windows]: https://www.microsoft.com/p/python-39/9p7qfqmjrfp7
