@@ -47,7 +47,7 @@
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:samples": "node prep-samples.js && tsc -b samples",
+    "build:samples": "echo Obsolete.",
     "check:src:strict": "tsc --pretty --project src/tsconfig.strict.json",
     "build:src": "echo Using TypeScript && tsc --version && tsc -b --pretty",
     "build:test": "tsc",
@@ -55,17 +55,17 @@
     "build": "npm run clean && npm run extract-api && npm run build:types && node writeSDKVersion.js && npm run bundle",
     "bundle": "rollup -c",
     "bundle-types": "node bundle-types.js",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"samples-dev/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm temp types *.tgz *.html *.log *.tsbuildinfo test/**/*.{js,js.map,d.ts}",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src",
-    "execute:samples": " cd samples && npm run all-samples",
+    "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "npm run check:src:strict && npm run build:src && api-extractor run --local",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"samples-dev/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "mocha -r test/mocha.env.ts -r ts-node/register -r esm -r dotenv/config -r ./test/public/common/setup.ts --reporter ../../../common/tools/mocha-multi-reporter.js \"./test/internal/**/*.spec.ts\" \"./test/public/**/*.spec.ts\"  --timeout 100000",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json api-extractor.json src test samples --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json api-extractor.json src test samples --ext .ts",
+    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test:browser": "npm run unit-test:browser && npm run integration-test:browser",
@@ -135,5 +135,29 @@
     "ts-node": "^9.0.0",
     "typedoc": "0.15.2",
     "typescript": "~4.2.0"
+  },
+  "//sampleConfiguration": {
+    "skip": [
+      "AADAuth.ts",
+      "AlterQueryThroughput.ts",
+      "Bulk.ts",
+      "BulkUpdateWithSproc.ts",
+      "ChangeFeed.ts",
+      "ContainerManagement.ts",
+      "ItemManagement.ts",
+      "IndexManagement.ts",
+      "DatabaseManagement.ts",
+      "QueryThroughput.ts",
+      "SasTokenAuth.ts",
+      "ServerSideScripts.ts",
+      "Shared/handleError.ts"
+    ],
+    "productName": "Azure Cosmos DB",
+    "productSlugs": [
+      "azure-cosmos-db"
+    ],
+    "requiredResources": {
+      "Azure Cosmos DB account": "https://docs.microsoft.com/azure/cosmos-db/how-to-manage-database-account#create-an-account"
+    }
   }
 }

@@ -1,6 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { finish, handleError, logStep, logSampleHeader } from "../Shared/handleError";
+
+/**
+ * @summary Updates a container offer to change query throughput.
+ */
+
+import path from "path";
+import * as dotenv from "dotenv";
+dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
+
+import { finish, handleError, logStep, logSampleHeader } from "./Shared/handleError";
 import {
   CosmosClient,
   OfferDefinition,
@@ -8,8 +17,13 @@ import {
   ContainerDefinition,
   DatabaseDefinition,
   FeedResponse
-} from "../../dist";
-import { database as databaseId, container as containerId, endpoint, key } from "../Shared/config";
+} from "../dist-esm";
+const {
+  COSMOS_DATABASE: databaseId,
+  COSMOS_CONTAINER: containerId,
+  COSMOS_ENDPOINT: endpoint,
+  COSMOS_KEY: key
+} = process.env;
 
 logSampleHeader("Alter Query Throughput");
 

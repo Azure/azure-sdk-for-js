@@ -1,13 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError";
-import { CosmosClient } from "../dist";
+import { CosmosClient } from "../../dist-esm";
 import { endpoint, key, database as databaseId, container as containerId } from "./Shared/config";
 import { readFileSync } from "fs";
 
 logSampleHeader("Item Management");
 
-const itemDefs = JSON.parse(readFileSync("./Shared/Data/Families.json", "utf8")).Families;
+const itemDefs = JSON.parse(readFileSync("../Shared/Data/Families.json", "utf8")).Families;
 
 // Establish a new instance of the CosmosClient to be used throughout this demo
 const client = new CosmosClient({ endpoint, key });

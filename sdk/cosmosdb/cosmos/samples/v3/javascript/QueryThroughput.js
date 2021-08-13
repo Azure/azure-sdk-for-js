@@ -1,11 +1,21 @@
-//@ts-check
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
-const { CosmosClient } = require("../..");
+/**
+ * @summary Demonstrates query throughput scenarios.
+ */
 
-const endpoint = process.env.QUERY_SCENARIO_COSMOS_ENDPOINT || process.env.COSMOS_ENDPOINT;
-const key = process.env.QUERY_SCENARIO_COSMOS_KEY || process.env.COSMOS_KEY;
-const dbId = process.env.QUERY_SCENARIO_COSMOS_DB || process.env.COSMOS_DB;
-const containerId = process.env.QUERY_SCENARIO_COSMOS_CONTAINER || process.env.COSMOS_CONTAINER;
+const path = require("path");
+require("dotenv").config();
+
+const { CosmosClient } = require("../dist-esm");
+
+const {
+  COSMOS_DATABASE: dbId,
+  COSMOS_CONTAINER: containerId,
+  COSMOS_ENDPOINT: endpoint,
+  COSMOS_KEY: key
+} = process.env;
 
 async function run() {
   const client = new CosmosClient({
@@ -34,7 +44,9 @@ async function run() {
       console.log("Scenario starting: " + scenario.query);
       const start = Date.now();
       await runScenario(scenario.container, scenario.query, scenario.options);
-      console.log('Scenario complete: "' + scenario.query + '" - took ' + (Date.now() - start) / 1000 + "s");
+      console.log(
+        'Scenario complete: "' + scenario.query + '" - took ' + (Date.now() - start) / 1000 + "s"
+      );
     } catch (e) {
       console.log("Scenario failed: " + scenario.query + " - " + JSON.stringify(scenario.options));
     }
@@ -46,7 +58,7 @@ async function runScenario(container, query, options) {
   let count = 0;
   while (queryIterator.hasMoreResults() && count <= 100000) {
     const { resources: results } = await queryIterator.fetchNext();
-    if (results != undefined) {
+    if (results !== undefined) {
       count = count + results.length;
     }
   }

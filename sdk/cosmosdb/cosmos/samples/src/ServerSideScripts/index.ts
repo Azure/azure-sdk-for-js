@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import { logSampleHeader, logStep, finish, handleError } from "../Shared/handleError";
 import { endpoint, key, database as databaseId, container as containerId } from "../Shared/config";
-import { CosmosClient } from "../../dist";
+import { CosmosClient } from "../../../dist-esm";
 
 logSampleHeader("Server Side Scripts");
 

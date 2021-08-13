@@ -1,9 +1,22 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * @summary Demonstrates using a ChangeFeed.
+ */
+
+import path from "path";
+import * as dotenv from "dotenv";
+dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
+
 import { finish, handleError, logSampleHeader } from "./Shared/handleError";
-import { CosmosClient } from "../dist";
-import { database as databaseId, container as containerId, endpoint, key } from "./Shared/config";
+import { CosmosClient } from "../dist-esm";
+const {
+  COSMOS_DATABASE: databaseId,
+  COSMOS_CONTAINER: containerId,
+  COSMOS_ENDPOINT: endpoint,
+  COSMOS_KEY: key
+} = process.env;
 
 logSampleHeader("Change Feed");
 // Establish a new instance of the CosmosClient to be used throughout this demo

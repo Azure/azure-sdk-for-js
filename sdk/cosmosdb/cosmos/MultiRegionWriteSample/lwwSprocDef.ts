@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { StoredProcedureDefinition } from "../../dist-esm";
+import { StoredProcedureDefinition } from "../../../../dist-esm";
 
 const lwwSprocDef: StoredProcedureDefinition = {
   id: "resolver",

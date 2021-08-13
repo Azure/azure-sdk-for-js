@@ -1,13 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { handleError, finish, logStep } from "./Shared/handleError";
-import { addEntropy } from "../test/public/common/TestHelpers";
-import { BulkOperationType } from "../src";
+/**
+ * @summary Shows a simple bulk call with each BulkOperation type.
+ */
+
+const path = require("path");
+require("dotenv").config();
+
+const { handleError, finish, logStep } = require("./Shared/handleError");
+const { BulkOperationType } = require("../src");
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { CosmosClient } from "../dist";
-import { endpoint, masterKey } from "../test/public/common/_testConfig";
+const { CosmosClient } = require("../dist");
+
+const endpoint = process.env.COSMOS_ENDPOINT;
+const masterKey = process.env.COSMOS_KEY;
+
+function addEntropy(name) {
+  return name + getEntropy();
+}
+
+function getEntropy() {
+  return `${Math.floor(Math.random() * 10000)}`;
+}
 
 async function run() {
   const containerId = "bulkContainerV2";
@@ -57,7 +73,7 @@ async function run() {
     {
       operationType: BulkOperationType.Upsert,
       partitionKey: "U",
-      resourceBody: { name: "other", toot: "U" }
+      resourceBody: { name: "other", key: "U" }
     },
     {
       operationType: BulkOperationType.Read,

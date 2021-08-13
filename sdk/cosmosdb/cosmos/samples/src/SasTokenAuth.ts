@@ -4,7 +4,7 @@
 import { SasTokenProperties } from "../../dist-esm/client/SasToken/SasTokenProperties";
 import { SasTokenPermissionKind } from "../../dist-esm/common/constants";
 import { createAuthorizationSasToken } from "../../dist-esm/utils/SasToken"
-import { handleError, finish, logStep } from "../Shared/handleError";
+import { handleError, finish, logStep } from "./Shared/handleError";
 import { CosmosClient } from "../../dist-esm/CosmosClient";
 
 const endpoint = "your-endpoint";
