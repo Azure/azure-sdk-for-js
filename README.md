@@ -29,7 +29,7 @@ To get a list of all client libraries that follow the new guidelines, please vis
 
 ### Management
 
-Libraries which enable you to provision specific resources. You can recognize these libraries by `@azure/arm-` in their package names. These are purely auto-generated based on the swagger files that represent the APIs for resource management. These swagger files can be found in the [azure-rest-api-specs repository](https://github.com/Azure/azure-rest-api-specs/).
+Libraries which enable you to provision specific Azure resources. You can recognize these libraries by `@azure/arm-` in their package names. These are purely auto-generated based on the swagger files that represent the APIs for resource management.
 
 Version 30 and above of these libraries follow the [Azure SDK Design Guidelines for TypeScript](https://azure.github.io/azure-sdk/typescript_introduction.html). These new versions provide a number of core capabilities that are shared amongst all Azure SDKs, including the intuitive Azure Identity library, an HTTP Pipeline with custom policies, error-handling, distributed tracing, and much more. A few helpful resources to get started with these are:
 - [Documentation and code samples](https://aka.ms/azsdk/js/mgmt).
