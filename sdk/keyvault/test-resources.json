@@ -76,7 +76,7 @@
   },
   "variables": {
     "kvApiVersion": "2019-09-01",
-    "attestationImageName":  "[concat('DOCKER|azsdkengsys.azurecr.io/', parameters('attestationImageName'), ':', parameters('attestationImageTag'))]",
+    "attestationImageId":  "[concat('DOCKER|azsdkengsys.azurecr.io/', parameters('attestationImageName'), ':', parameters('attestationImageTag'))]",
     "attestationAppName": "[concat(parameters('baseName'), '-skr-attestation')]",
     "kvName": "[parameters('baseName')]",
     "hsmApiVersion": "2020-04-01-preview",
@@ -263,7 +263,7 @@
         "siteConfig": {
           "name": "[variables('attestationAppName')]",
           "alwaysOn": true,
-          "linuxFxVersion": "[variables('attestationImageName')]",
+          "linuxFxVersion": "[variables('attestationImageId')]",
           "appSettings": [
             {
               "name": "WEBSITES_ENABLE_APP_SERVICE_STORAGE",
