@@ -131,14 +131,6 @@ export function bearerTokenAuthenticationPolicy(
     ...challengeCallbacks
   };
 
-  // This function encapsulates the entire process of reliably retrieving the token
-  // The options are left out of the public API until there's demand to configure this.
-  // Remember to extend `BearerTokenAuthenticationPolicyOptions` with `TokenCyclerOptions`
-  // in order to pass through the `options` object.
-  const getAccessToken = credential
-    ? createTokenCycler(credential /* , options */)
-    : () => Promise.resolve(null);
-
   return {
     name: bearerTokenAuthenticationPolicyName,
     /**
@@ -161,10 +153,12 @@ export function bearerTokenAuthenticationPolicy(
         );
       }
 
+      const refreshCredential = request.authenticationOptions?.credential ?? credential;
+
       await callbacks.authorizeRequest({
         scopes: Array.isArray(scopes) ? scopes : [scopes],
         request,
-        getAccessToken
+        getAccessToken: refreshCredential?.refreshToken ?? (() => Promise.resolve(null))
       });
 
       let response: PipelineResponse;

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { TokenCredential } from "@azure/core-auth";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { OperationTracingOptions } from "@azure/core-tracing";
 
@@ -155,6 +156,16 @@ export interface PipelineRequest {
    * Tracing options to use for any created Spans.
    */
   tracingOptions?: OperationTracingOptions;
+
+  /**
+   * Options to configure authentication.
+   */
+  authenticationOptions?: {
+    /**
+     * Optionally swap the operation credential.
+     */
+    credential?: TokenCredential;
+  };
 
   /**
    * Callback which fires upon upload progress.

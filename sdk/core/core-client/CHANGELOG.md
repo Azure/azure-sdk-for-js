@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added a new optional property `authenticationOptions` to the `OperationOptions` interface. Through this property, users will be able to specify values that will modify the client authentication through the request pipelines.
+
 ### Breaking Changes
 
 ### Bugs Fixed

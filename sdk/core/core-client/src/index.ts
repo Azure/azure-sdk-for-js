@@ -8,6 +8,7 @@ export {
   OperationSpec,
   OperationArguments,
   OperationOptions,
+  AuthenticationOptions,
   OperationResponseMap,
   OperationParameter,
   OperationQueryParameter,

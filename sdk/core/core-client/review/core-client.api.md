@@ -17,6 +17,11 @@ import { PipelineResponse } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 import { TransferProgressEvent } from '@azure/core-rest-pipeline';
 
+// @public
+export interface AuthenticationOptions {
+    credential?: TokenCredential;
+}
+
 // @public (undocumented)
 export interface BaseMapper {
     constraints?: MapperConstraints;
@@ -202,6 +207,7 @@ export interface OperationArguments {
 // @public
 export interface OperationOptions {
     abortSignal?: AbortSignalLike;
+    authenticationOptions?: AuthenticationOptions;
     onResponse?: RawResponseCallback;
     requestOptions?: OperationRequestOptions;
     serializerOptions?: SerializerOptions;
