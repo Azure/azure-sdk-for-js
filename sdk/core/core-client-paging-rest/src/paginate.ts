@@ -51,16 +51,11 @@ export function paginateResponse<TElement>(
   const pagedResult: PagedResult<TElement[]> = {
     firstPageLink: "",
     async getPage(pageLink: string) {
-      let result: HttpResponse | undefined = undefined;
-      if (firstRun) {
-        result = initialResponse;
-        firstRun = false;
-      } else {
-        result = await client.pathUnchecked(pageLink).get();
-      }
+      const result = firstRun ? initialResponse : await client.pathUnchecked(pageLink).get();
+      firstRun = false;
       checkPagingRequest(result);
-      const nextLink = getNextLink(result.body as Record<string, unknown>, options);
-      const values = getElements<TElement>(result.body as Record<string, unknown>, options);
+      const nextLink = getNextLink(result.body, options);
+      const values = getElements<TElement>(result.body, options);
       return {
         page: values,
         // According to x-ms-pageable is the nextLinkName is set to null we should only
@@ -88,12 +83,9 @@ function checkPagingRequest(response: PathUncheckedResponse): void {
 /**
  * Gets for the value of nextLink in the body. If a custom nextLinkName was provided, it will be used instead of default
  */
-function getNextLink(
-  body: Record<string, unknown>,
-  paginateOptions: PaginateOptions = {}
-): string | undefined {
+function getNextLink(body: unknown, paginateOptions: PaginateOptions = {}): string | undefined {
   const nextLinkName = paginateOptions.nextLinkName ?? DEFAULT_NEXTLINK;
-  const nextLink = body[nextLinkName];
+  const nextLink = (body as Record<string, unknown>)[nextLinkName];
 
   if (typeof nextLink !== "string" && typeof nextLink !== "undefined") {
     throw new Error(`Body Property ${nextLinkName} should be a string or undefined`);
@@ -106,12 +98,9 @@ function getNextLink(
  * Gets the elements of the current request in the body. By default it will look in the `value` property unless
  * a different value for itemName has been provided as part of the options.
  */
-function getElements<T = unknown>(
-  body: Record<string, unknown>,
-  paginateOptions: PaginateOptions = {}
-): T[] {
+function getElements<T = unknown>(body: unknown, paginateOptions: PaginateOptions = {}): T[] {
   const valueName = paginateOptions?.itemName ?? DEFAULT_VALUES;
-  const value = body[valueName];
+  const value = (body as Record<string, unknown>)[valueName];
 
   if (!Array.isArray(value)) {
     throw new Error(`Body Property ${valueName} is not an array`);
