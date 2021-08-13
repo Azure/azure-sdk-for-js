@@ -379,12 +379,9 @@ export class Devices {
   private async _getAllDeviceClasses(
     options?: coreHttp.OperationOptions
   ): Promise<DevicesGetAllDeviceClassesResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DeviceUpdateClient-_getAllDeviceClasses",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("DeviceUpdateClient-_getAllDeviceClasses", options);
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -412,13 +409,10 @@ export class Devices {
     deviceClassId: string,
     options?: coreHttp.OperationOptions
   ): Promise<DevicesGetDeviceClassResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DeviceUpdateClient-getDeviceClass",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("DeviceUpdateClient-getDeviceClass", options);
     const operationArguments: coreHttp.OperationArguments = {
       deviceClassId,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -448,11 +442,11 @@ export class Devices {
   ): Promise<DevicesGetDeviceClassDeviceIdsResponse> {
     const { span, updatedOptions } = createSpan(
       "DeviceUpdateClient-_getDeviceClassDeviceIds",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       deviceClassId,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -482,11 +476,11 @@ export class Devices {
   ): Promise<DevicesGetDeviceClassInstallableUpdatesResponse> {
     const { span, updatedOptions } = createSpan(
       "DeviceUpdateClient-_getDeviceClassInstallableUpdates",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       deviceClassId,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -512,12 +506,9 @@ export class Devices {
   private async _getAllDevices(
     options?: DevicesGetAllDevicesOptionalParams
   ): Promise<DevicesGetAllDevicesResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DeviceUpdateClient-_getAllDevices",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("DeviceUpdateClient-_getAllDevices", options);
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -546,13 +537,10 @@ export class Devices {
     deviceId: string,
     options?: coreHttp.OperationOptions
   ): Promise<DevicesGetDeviceResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DeviceUpdateClient-getDevice",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("DeviceUpdateClient-getDevice", options);
     const operationArguments: coreHttp.OperationArguments = {
       deviceId,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -579,12 +567,9 @@ export class Devices {
   async getUpdateCompliance(
     options?: coreHttp.OperationOptions
   ): Promise<DevicesGetUpdateComplianceResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DeviceUpdateClient-getUpdateCompliance",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("DeviceUpdateClient-getUpdateCompliance", options);
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -610,12 +595,9 @@ export class Devices {
   private async _getAllDeviceTags(
     options?: coreHttp.OperationOptions
   ): Promise<DevicesGetAllDeviceTagsResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DeviceUpdateClient-_getAllDeviceTags",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("DeviceUpdateClient-_getAllDeviceTags", options);
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -643,13 +625,10 @@ export class Devices {
     tagName: string,
     options?: coreHttp.OperationOptions
   ): Promise<DevicesGetDeviceTagResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DeviceUpdateClient-getDeviceTag",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("DeviceUpdateClient-getDeviceTag", options);
     const operationArguments: coreHttp.OperationArguments = {
       tagName,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -675,12 +654,9 @@ export class Devices {
   private async _getAllGroups(
     options?: coreHttp.OperationOptions
   ): Promise<DevicesGetAllGroupsResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DeviceUpdateClient-_getAllGroups",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("DeviceUpdateClient-_getAllGroups", options);
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -708,13 +684,10 @@ export class Devices {
     groupId: string,
     options?: coreHttp.OperationOptions
   ): Promise<DevicesGetGroupResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DeviceUpdateClient-getGroup",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("DeviceUpdateClient-getGroup", options);
     const operationArguments: coreHttp.OperationArguments = {
       groupId,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -744,14 +717,11 @@ export class Devices {
     group: Group,
     options?: coreHttp.OperationOptions
   ): Promise<DevicesCreateOrUpdateGroupResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DeviceUpdateClient-createOrUpdateGroup",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("DeviceUpdateClient-createOrUpdateGroup", options);
     const operationArguments: coreHttp.OperationArguments = {
       groupId,
       group,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -779,13 +749,10 @@ export class Devices {
     groupId: string,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DeviceUpdateClient-deleteGroup",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("DeviceUpdateClient-deleteGroup", options);
     const operationArguments: coreHttp.OperationArguments = {
       groupId,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -816,11 +783,11 @@ export class Devices {
   ): Promise<DevicesGetGroupUpdateComplianceResponse> {
     const { span, updatedOptions } = createSpan(
       "DeviceUpdateClient-getGroupUpdateCompliance",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       groupId,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -848,13 +815,10 @@ export class Devices {
     groupId: string,
     options?: DevicesGetGroupBestUpdatesOptionalParams
   ): Promise<DevicesGetGroupBestUpdatesResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DeviceUpdateClient-_getGroupBestUpdates",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("DeviceUpdateClient-_getGroupBestUpdates", options);
     const operationArguments: coreHttp.OperationArguments = {
       groupId,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -884,11 +848,11 @@ export class Devices {
   ): Promise<DevicesGetAllDeviceClassesNextResponse> {
     const { span, updatedOptions } = createSpan(
       "DeviceUpdateClient-_getAllDeviceClassesNext",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -921,12 +885,12 @@ export class Devices {
   ): Promise<DevicesGetDeviceClassDeviceIdsNextResponse> {
     const { span, updatedOptions } = createSpan(
       "DeviceUpdateClient-_getDeviceClassDeviceIdsNext",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       deviceClassId,
       nextLink,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -959,12 +923,12 @@ export class Devices {
   ): Promise<DevicesGetDeviceClassInstallableUpdatesNextResponse> {
     const { span, updatedOptions } = createSpan(
       "DeviceUpdateClient-_getDeviceClassInstallableUpdatesNext",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       deviceClassId,
       nextLink,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -992,13 +956,10 @@ export class Devices {
     nextLink: string,
     options?: DevicesGetAllDevicesNextOptionalParams
   ): Promise<DevicesGetAllDevicesNextResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DeviceUpdateClient-_getAllDevicesNext",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("DeviceUpdateClient-_getAllDevicesNext", options);
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -1028,11 +989,11 @@ export class Devices {
   ): Promise<DevicesGetAllDeviceTagsNextResponse> {
     const { span, updatedOptions } = createSpan(
       "DeviceUpdateClient-_getAllDeviceTagsNext",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -1060,13 +1021,10 @@ export class Devices {
     nextLink: string,
     options?: coreHttp.OperationOptions
   ): Promise<DevicesGetAllGroupsNextResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DeviceUpdateClient-_getAllGroupsNext",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("DeviceUpdateClient-_getAllGroupsNext", options);
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -1098,12 +1056,12 @@ export class Devices {
   ): Promise<DevicesGetGroupBestUpdatesNextResponse> {
     const { span, updatedOptions } = createSpan(
       "DeviceUpdateClient-_getGroupBestUpdatesNext",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       groupId,
       nextLink,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
