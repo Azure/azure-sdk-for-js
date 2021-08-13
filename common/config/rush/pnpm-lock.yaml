@@ -7,6 +7,7 @@ dependencies:
   '@rush-temp/ai-metrics-advisor': file:projects/ai-metrics-advisor.tgz
   '@rush-temp/ai-text-analytics': file:projects/ai-text-analytics.tgz
   '@rush-temp/app-configuration': file:projects/app-configuration.tgz
+  '@rush-temp/arm-appservice': file:projects/arm-appservice.tgz
   '@rush-temp/arm-compute': file:projects/arm-compute.tgz
   '@rush-temp/arm-features': file:projects/arm-features.tgz
   '@rush-temp/arm-keyvault': file:projects/arm-keyvault.tgz
@@ -8642,6 +8643,26 @@ packages:
       integrity: sha512-xEfaCYTbxZd2BbN7Eo7hI2zi20fMk4IgtL11xglGdqKcLIOcKf9m3g8sLXkkBch1moeKzqVXYWaJ9SyUzSHJAQ==
       tarball: file:projects/app-configuration.tgz
     version: 0.0.0
+  file:projects/arm-appservice.tgz:
+    dependencies:
+      '@microsoft/api-extractor': 7.7.11
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      mkdirp: 1.0.4
+      rollup: 1.32.1
+      rollup-plugin-node-resolve: 3.4.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.0
+      typescript: 4.2.4
+      uglify-js: 3.13.10
+    dev: false
+    name: '@rush-temp/arm-appservice'
+    resolution:
+      integrity: sha512-O5f+BWzGqVFxpvEE9Tgt55OyDt1qgN3vO5dj4MHkff8gcwl9zmYQaQ+MEod9jGYgC2rZkCXlfLl9NmSDyoV54g==
+      tarball: file:projects/arm-appservice.tgz
+    version: 0.0.0
   file:projects/arm-compute.tgz:
     dependencies:
       '@microsoft/api-extractor': 7.7.11
@@ -11338,7 +11359,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-search-documents'
     resolution:
-      integrity: sha512-vtRy8wK+zbj82Lk2NN1MP/Be2VZRW7D9wfJPAGQLMQIc1zPLx2uAqCUQqVKg26qS5havaOSWU3egtO8OblqrIw==
+      integrity: sha512-I2T6lLgV5g6GTPK/zMDLmeZpXrEeb95f023C2rjdLJr2feTWJjeLJM5D+YW8ZMAFKIx4onaCSeczf8U0hxquMA==
       tarball: file:projects/perf-search-documents.tgz
     version: 0.0.0
   file:projects/perf-storage-blob.tgz:
@@ -12643,6 +12664,7 @@ specifiers:
   '@rush-temp/ai-metrics-advisor': file:./projects/ai-metrics-advisor.tgz
   '@rush-temp/ai-text-analytics': file:./projects/ai-text-analytics.tgz
   '@rush-temp/app-configuration': file:./projects/app-configuration.tgz
+  '@rush-temp/arm-appservice': file:./projects/arm-appservice.tgz
   '@rush-temp/arm-compute': file:./projects/arm-compute.tgz
   '@rush-temp/arm-features': file:./projects/arm-features.tgz
   '@rush-temp/arm-keyvault': file:./projects/arm-keyvault.tgz
