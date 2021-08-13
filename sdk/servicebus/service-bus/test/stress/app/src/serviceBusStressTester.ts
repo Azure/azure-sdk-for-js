@@ -27,7 +27,7 @@ import * as appInsights from "applicationinsights";
 import * as dotenv from "dotenv";
 import { AbortSignalLike } from "@azure/abort-controller";
 
-dotenv.config();
+dotenv.config({ path: process.env.ENV_FILE || ".env" });
 
 appInsights
   .setup()
