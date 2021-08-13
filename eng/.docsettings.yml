@@ -16,7 +16,6 @@ omitted_paths:
   - sdk/batch/batch/README.md
   - sdk/cognitiveservices/*
   - sdk/core/README.md
-  - sdk/eventhub/event-processor-host/README.md
   - sdk/graphrbac/graph/README.md
   - sdk/operationalinsights/loganalytics/README.md
   - sdk/servicefabric/servicefabric/README.md
@@ -36,8 +35,7 @@ required_readme_sections:
   - ^Contributing$
 
 known_content_issues:
-  - ["sdk/eventhub/event-processor-host/README.md",  "#14727"]
-  - ["sdk/eventhub/mock-hub/README.md",  "azure-sdk-tools/issues/1530"]
+  - ["sdk/eventhub/mock-hub/README.md", "azure-sdk-tools/issues/1530"]
 
 package_indexing_exclusion_list:
   - "@azure/template"

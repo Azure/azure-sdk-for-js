@@ -125,10 +125,6 @@
       "path": "sdk/eventhub/eventhubs-checkpointstore-blob"
     },
     {
-      "name": "event-processor-host",
-      "path": "sdk/eventhub/event-processor-host"
-    },
-    {
       "name": "form-recognizer",
       "path": "sdk/formrecognizer/ai-form-recognizer"
     },
