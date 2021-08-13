@@ -409,7 +409,7 @@ export class Diagnostics {
    * @param detectorName Detector Name
    * @param callback The callback
    */
-  getSiteDetector(resourceGroupName: string, siteName: string, diagnosticCategory: string, detectorName: string, callback: msRest.ServiceCallback<Models.DetectorDefinition>): void;
+  getSiteDetector(resourceGroupName: string, siteName: string, diagnosticCategory: string, detectorName: string, callback: msRest.ServiceCallback<Models.DetectorDefinitionResource>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
@@ -418,8 +418,8 @@ export class Diagnostics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSiteDetector(resourceGroupName: string, siteName: string, diagnosticCategory: string, detectorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DetectorDefinition>): void;
-  getSiteDetector(resourceGroupName: string, siteName: string, diagnosticCategory: string, detectorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DetectorDefinition>, callback?: msRest.ServiceCallback<Models.DetectorDefinition>): Promise<Models.DiagnosticsGetSiteDetectorResponse> {
+  getSiteDetector(resourceGroupName: string, siteName: string, diagnosticCategory: string, detectorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DetectorDefinitionResource>): void;
+  getSiteDetector(resourceGroupName: string, siteName: string, diagnosticCategory: string, detectorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DetectorDefinitionResource>, callback?: msRest.ServiceCallback<Models.DetectorDefinitionResource>): Promise<Models.DiagnosticsGetSiteDetectorResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -821,7 +821,7 @@ export class Diagnostics {
    * @param slot Slot Name
    * @param callback The callback
    */
-  getSiteDetectorSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, detectorName: string, slot: string, callback: msRest.ServiceCallback<Models.DetectorDefinition>): void;
+  getSiteDetectorSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, detectorName: string, slot: string, callback: msRest.ServiceCallback<Models.DetectorDefinitionResource>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
@@ -831,8 +831,8 @@ export class Diagnostics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSiteDetectorSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, detectorName: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DetectorDefinition>): void;
-  getSiteDetectorSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, detectorName: string, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DetectorDefinition>, callback?: msRest.ServiceCallback<Models.DetectorDefinition>): Promise<Models.DiagnosticsGetSiteDetectorSlotResponse> {
+  getSiteDetectorSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, detectorName: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DetectorDefinitionResource>): void;
+  getSiteDetectorSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, detectorName: string, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DetectorDefinitionResource>, callback?: msRest.ServiceCallback<Models.DetectorDefinitionResource>): Promise<Models.DiagnosticsGetSiteDetectorSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1441,7 +1441,7 @@ const getSiteDetectorOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.DetectorDefinition
+      bodyMapper: Mappers.DetectorDefinitionResource
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -1721,7 +1721,7 @@ const getSiteDetectorSlotOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.DetectorDefinition
+      bodyMapper: Mappers.DetectorDefinitionResource
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
