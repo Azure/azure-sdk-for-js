@@ -9662,6 +9662,7 @@ packages:
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 1.0.1
       '@types/chai': 4.2.21
+      '@types/chai-as-promised': 7.1.4
       '@types/express': 4.17.13
       '@types/glob': 7.1.4
       '@types/mocha': 7.0.2
@@ -9674,6 +9675,7 @@ packages:
       '@types/xml2js': 0.4.9
       babel-runtime: 6.26.0
       chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
       downlevel-dts: 0.4.0
       eslint: 7.31.0
@@ -9715,7 +9717,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-Ujq75kK/8PfJufRYz170HH4KuCmfnEWz2x/GoCf17Cya5XL9p5Vh/10h4bkm1JKEm3skqXzNoBw8jlZ6uZyysw==
+      integrity: sha512-OVUS5eTsT+ccgty6a4jlTqgp9cLuFkL6Vs4blB8yCPdBvf0pRCG/l/Cerzy78wQ/Ce9CfJz2BMP8jxEOQyn/BQ==
       tarball: file:projects/core-http.tgz
     version: 0.0.0
   file:projects/core-lro.tgz:
@@ -9797,11 +9799,13 @@ packages:
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 1.0.1
       '@types/chai': 4.2.21
+      '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
       '@types/node': 12.20.16
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.1
       chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
       downlevel-dts: 0.4.0
       eslint: 7.31.0
@@ -9835,7 +9839,7 @@ packages:
     dev: false
     name: '@rush-temp/core-rest-pipeline'
     resolution:
-      integrity: sha512-CxDUyMFbD3nyXoeLjiKWHE7k88ZPwuuId8NF0g5bLwn5I+TR2c6FHdYWmoo2g3Fv85Vdi+hhiyvob2z/EZVjkg==
+      integrity: sha512-5SX9s4DIyES3ZsqEt0v12IGOmv5qeytBdlVtIDbbMi/4/st2q6qjRekEeMsrKldh4vjHGGagJsXYGOYEpbuxzQ==
       tarball: file:projects/core-rest-pipeline.tgz
     version: 0.0.0
   file:projects/core-tracing.tgz:

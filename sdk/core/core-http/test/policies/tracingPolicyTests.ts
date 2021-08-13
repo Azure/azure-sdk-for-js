@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import chai, { assert } from "chai";
+import chaiAsPromised from "chai-as-promised";
+chai.use(chaiAsPromised);
 import {
   RequestPolicy,
   WebResource,
@@ -22,6 +24,7 @@ import {
 } from "@azure/core-tracing";
 import { tracingPolicy } from "../../src/policies/tracingPolicy";
 import { TracerProvider, Tracer, Span, SpanOptions, trace } from "@opentelemetry/api";
+import sinon from "sinon";
 
 class MockSpan implements Span {
   private _endCalled = false;
@@ -351,5 +354,30 @@ describe("tracingPolicy", function() {
 
     assert.notExists(request.headers.get("traceparent"));
     assert.notExists(request.headers.get("tracestate"));
+  });
+
+  it.only("will not fail the request if span setup fails", async () => {
+    const errorTracer = new MockTracer("", "", TraceFlags.SAMPLED, "");
+    sinon.stub(errorTracer, "startSpan").throws(new Error("Test Error"));
+    mockTracerProvider.setTracer(errorTracer);
+
+    const request = new WebResource();
+    request.tracingContext = setSpan(context.active(), ROOT_SPAN);
+
+    const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
+    await assert.isFulfilled(policy.sendRequest(request));
+  });
+
+  it.only("will not fail the request if response processing fails", async () => {
+    const errorTracer = new MockTracer("", "", TraceFlags.SAMPLED, "");
+    mockTracerProvider.setTracer(errorTracer);
+    const errorSpan = new MockSpan("", "", TraceFlags.SAMPLED, "");
+    sinon.stub(errorTracer, "startSpan").returns(errorSpan);
+
+    const request = new WebResource();
+    request.tracingContext = setSpan(context.active(), ROOT_SPAN);
+
+    const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
+    await assert.isFulfilled(policy.sendRequest(request));
   });
 });
