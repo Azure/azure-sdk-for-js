@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { getPagedAsyncIterator, PagedResult } from "../src";
+import { getPagedAsyncIterator, PagedResult, PageSettings } from "../src";
 
 function buildIterator<T>(input: T) {
   return getPagedAsyncIterator({
@@ -47,7 +47,7 @@ describe("getPagedAsyncIterator", function() {
 
   it("should return an iterator over multiple pages (collections)", async function() {
     const collection = Array.from(Array(10), (_, i) => i + 1);
-    const pagedResult: PagedResult<number[], number> = {
+    const pagedResult: PagedResult<number[], PageSettings, number> = {
       firstPageLink: 0,
       async getPage(pageLink, maxPageSize) {
         const top = maxPageSize || 5;
@@ -82,7 +82,7 @@ describe("getPagedAsyncIterator", function() {
   it("should return an iterator over multiple pages (non-collections)", async function() {
     const maxPageSize = 5;
     const collection = Array.from(Array(10), (_, i) => i + 1);
-    const pagedResult: PagedResult<Record<string, unknown>, number> = {
+    const pagedResult: PagedResult<Record<string, unknown>, PageSettings, number> = {
       firstPageLink: 0,
       async getPage(pageLink, maxPageSize) {
         const top = maxPageSize || 5;
@@ -98,9 +98,12 @@ describe("getPagedAsyncIterator", function() {
         }
       }
     };
-    const iterator = getPagedAsyncIterator<Record<string, any>, Record<string, any>, number>(
-      pagedResult
-    );
+    const iterator = getPagedAsyncIterator<
+      Record<string, any>,
+      Record<string, any>,
+      PageSettings,
+      number
+    >(pagedResult);
     let receivedItems = []; // they're pages too
     let pagesCount = 0;
     for await (const val of iterator) {
