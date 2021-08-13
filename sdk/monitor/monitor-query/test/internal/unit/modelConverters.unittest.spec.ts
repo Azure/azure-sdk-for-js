@@ -144,6 +144,7 @@ describe("Model unit tests", () => {
         top: 10,
         tracingOptions,
         serializerOptions,
+        authenticationOptions: {},
         onResponse
       };
 
@@ -279,6 +280,7 @@ describe("Model unit tests", () => {
         tracingOptions,
         metricnamespace: "myMetricNamespace",
         serializerOptions,
+        authenticationOptions: {},
         onResponse
       });
     });
