@@ -67,10 +67,10 @@ Windows (Note: Administrator access is required)
 
 Linux-based OS :
 
-    export AZURE_CLIENT_ID="__CLIENT_ID__"
-    export AZURE_CLIENT_SECRET="__CLIENT_SECRET__"
-    export AZURE_TENANT_ID="__TENANT_ID__"
-    export AZURE_SUBSCRIPTION_ID="__SUBSCRIPTION_ID__"
+    export AZURE_CLIENT_ID="azure_client_id"
+    export AZURE_CLIENT_SECRET="azure_client_secret"
+    export AZURE_TENANT_ID="azure_tenant_id"
+    export AZURE_SUBSCRIPTION_ID="azure_subscription_id"
 
 Install the package
 -------------------
@@ -597,7 +597,7 @@ async function createVirtualMachines() {
         osProfile: {
             adminUsername: "testuser",
             computerName: "myVM",
-            adminPassword: "0000000000",
+            adminPassword: "p@55wOrd",
             windowsConfiguration: {
                 enableAutomaticUpdates: true // need automatic update for reimage
             }
