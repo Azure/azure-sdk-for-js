@@ -7,6 +7,7 @@ import shim from "rollup-plugin-shim";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import viz from "rollup-plugin-visualizer";
+import { openTelemetryCommonJs } from "@azure/dev-tool/shared-config/rollup";
 
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
@@ -96,7 +97,7 @@ export function browserConfig(test = false) {
       cjs({
         namedExports: {
           chai: ["assert"],
-          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          ...openTelemetryCommonJs()
         }
       }),
       // disable the plugin in the rollup config to cut-out errors

@@ -7,12 +7,7 @@ import {
   TextAnalyticsErrorResult,
   makeTextAnalyticsErrorResult
 } from "./textAnalyticsResult";
-import {
-  Entity,
-  TextDocumentStatistics,
-  TextAnalyticsError,
-  TextAnalyticsWarning
-} from "./generated/models";
+import { Entity, TextAnalyticsError, DocumentEntities } from "./generated/models";
 
 /**
  * An entity from text analysis with information about its categorical
@@ -43,18 +38,22 @@ export interface RecognizeCategorizedEntitiesSuccessResult extends TextAnalytics
  */
 export type RecognizeCategorizedEntitiesErrorResult = TextAnalyticsErrorResult;
 
+/**
+ * @internal
+ */
 export function makeRecognizeCategorizedEntitiesResult(
-  id: string,
-  entities: CategorizedEntity[],
-  warnings: TextAnalyticsWarning[],
-  statistics?: TextDocumentStatistics
+  result: DocumentEntities
 ): RecognizeCategorizedEntitiesSuccessResult {
+  const { entities, statistics, warnings, id } = result;
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
     entities
   };
 }
 
+/**
+ * @internal
+ */
 export function makeRecognizeCategorizedEntitiesErrorResult(
   id: string,
   error: TextAnalyticsError

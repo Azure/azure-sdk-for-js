@@ -22,16 +22,13 @@ module.exports = function(config) {
       "karma-ie-launcher",
       "karma-env-preprocessor",
       "karma-coverage",
-      "karma-remap-istanbul",
+      "karma-sourcemap-loader",
       "karma-junit-reporter",
       "karma-json-to-file-reporter",
       "karma-json-preprocessor"
     ],
 
     files: [
-      // polyfill service supporting IE11 missing features
-      // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys
-      "https://cdn.polyfill.io/v2/polyfill.js?features=Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys|always",
       "dist-test/index.browser.js",
       { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true }
     ].concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []),
@@ -39,8 +36,8 @@ module.exports = function(config) {
     exclude: [],
 
     preprocessors: {
-      "**/*.js": ["env"],
-      "dist-test/index.browser.js": ["coverage"],
+      "**/*.js": ["sourcemap", "env"],
+      // "dist-test/index.browser.js": ["coverage"],
       "recordings/browsers/**/*.json": ["json"]
     },
 
@@ -48,26 +45,21 @@ module.exports = function(config) {
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
       "AZURE_TENANT_ID",
-      "KEYVAULT_NAME",
+      "KEYVAULT_URI",
       "TEST_MODE"
     ],
 
-    reporters: ["mocha", "coverage", "karma-remap-istanbul", "junit", "json-to-file"],
+    reporters: ["mocha", "coverage", "junit", "json-to-file"],
 
     coverageReporter: {
       // specify a common output directory
       dir: "coverage-browser/",
-      reporters: [{ type: "json", subdir: ".", file: "coverage.json" }]
-    },
-
-    remapIstanbulReporter: {
-      src: "coverage-browser/coverage.json",
-      reports: {
-        lcovonly: "coverage-browser/lcov.info",
-        html: "coverage-browser/html/report",
-        "text-summary": null,
-        cobertura: "./coverage-browser/cobertura-coverage.xml"
-      }
+      reporters: [
+        { type: "json", subdir: ".", file: "coverage.json" },
+        { type: "lcovonly", subdir: ".", file: "lcov.info" },
+        { type: "html", subdir: "html" },
+        { type: "cobertura", subdir: ".", file: "cobertura-coverage.xml" }
+      ]
     },
 
     junitReporter: {
@@ -104,7 +96,7 @@ module.exports = function(config) {
     singleRun: false,
     concurrency: 1,
 
-    browserNoActivityTimeout: 250000,
+    browserNoActivityTimeout: 350000,
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
     browserConsoleLogOptions: {
@@ -116,7 +108,7 @@ module.exports = function(config) {
       mocha: {
         // change Karma's debug.html to the mocha web reporter
         reporter: "html",
-        timeout: "250000"
+        timeout: "350000"
       }
     }
   });

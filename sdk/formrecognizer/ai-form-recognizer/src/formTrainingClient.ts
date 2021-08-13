@@ -11,8 +11,7 @@ import {
   operationOptionsToRequestOptionsBase,
   RestResponse
 } from "@azure/core-http";
-import { TokenCredential } from "@azure/identity";
-import { KeyCredential } from "@azure/core-auth";
+import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import "@azure/core-paging";
 import {
@@ -23,7 +22,7 @@ import {
 } from "./constants";
 import { logger } from "./logger";
 import { createSpan } from "./tracing";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { GeneratedClient } from "./generated/generatedClient";
 import {
   GeneratedClientGetCustomModelCopyResultResponse as GetCustomModelCopyResultResponseModel,
@@ -177,19 +176,16 @@ export class FormTrainingClient {
 
   /**
    * @internal
-   * @hidden
    */
   private readonly credential: TokenCredential | KeyCredential;
 
   /**
    * @internal
-   * @hidden
    */
   private readonly clientOptions: FormRecognizerClientOptions;
 
   /**
    * @internal
-   * @hidden
    * A reference to the auto-generated FormRecognizer HTTP client.
    */
   private readonly client: GeneratedClient;
@@ -275,7 +271,7 @@ export class FormTrainingClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -312,7 +308,7 @@ export class FormTrainingClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -347,7 +343,7 @@ export class FormTrainingClient {
       return toFormModelResponse(response);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -356,6 +352,11 @@ export class FormTrainingClient {
     }
   }
 
+  /**
+   * (INTERNAL) Provides an async iterable of model pages.
+   *
+   * @hidden
+   */
   private async *listModelsPage(
     settings: PageSettings,
     options: ListModelsOptions = {}
@@ -374,6 +375,11 @@ export class FormTrainingClient {
     }
   }
 
+  /**
+   * (INTERNAL) Create an async iterable of all models in an account.
+   *
+   * @hidden
+   */
   private async *listModelsAll(
     settings: PageSettings,
     options: ListModelsOptions = {}
@@ -445,6 +451,11 @@ export class FormTrainingClient {
     };
   }
 
+  /**
+   * (INTERNAL) Get the first page of models
+   *
+   * @hidden
+   */
   private async list(options?: ListModelsOptions): Promise<ListCustomModelsResponse> {
     const realOptions: ListModelsOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -460,7 +471,7 @@ export class FormTrainingClient {
       return result;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -469,6 +480,11 @@ export class FormTrainingClient {
     }
   }
 
+  /**
+   * (INTERNAL) Get a page of models using a nextLink
+   *
+   * @hidden
+   */
   private async listNextPage(
     nextLink: string,
     options?: ListModelsOptions
@@ -487,7 +503,7 @@ export class FormTrainingClient {
       return result;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -655,7 +671,7 @@ export class FormTrainingClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -714,6 +730,11 @@ export class FormTrainingClient {
     return poller;
   }
 
+  /**
+   * (INTERNAL) Start a model copying operation.
+   *
+   * @hidden
+   */
   private async beginCopyModelInternal(
     modelId: string,
     copyAuthorization: CopyAuthorization,
@@ -740,7 +761,7 @@ export class FormTrainingClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -749,6 +770,11 @@ export class FormTrainingClient {
     }
   }
 
+  /**
+   * (INTERNAL) Get the result of an in-progress model copying operation.
+   *
+   * @hidden
+   */
   private async getCopyModelResult(
     modelId: string,
     resultId: string,
@@ -767,7 +793,7 @@ export class FormTrainingClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -798,7 +824,7 @@ async function composeModelInternal(
     );
   } catch (e) {
     span.setStatus({
-      code: CanonicalCode.UNKNOWN,
+      code: SpanStatusCode.ERROR,
       message: e.message
     });
     throw e;
@@ -838,7 +864,7 @@ async function trainCustomModelInternal(
     );
   } catch (e) {
     span.setStatus({
-      code: CanonicalCode.UNKNOWN,
+      code: SpanStatusCode.ERROR,
       message: e.message
     });
     throw e;

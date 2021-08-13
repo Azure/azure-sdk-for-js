@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { AnonymousCredential } from "../../src";
 import { BlobServiceClient } from "../../src";
 import { newPipeline } from "../../src";
@@ -19,8 +22,8 @@ export function getGenericBSU(
 
   let accountName: string | undefined;
   let accountSAS: string | undefined;
-  accountName = (window as any).__env__[accountNameEnvVar];
-  accountSAS = (window as any).__env__[accountSASEnvVar];
+  accountName = (self as any).__env__[accountNameEnvVar];
+  accountSAS = (self as any).__env__[accountSASEnvVar];
 
   if (!accountName || !accountSAS || accountName === "" || accountSAS === "") {
     throw new Error(
@@ -45,7 +48,7 @@ export function getTokenCredential(): TokenCredential {
   const accountTokenEnvVar = `ACCOUNT_TOKEN`;
   let accountToken: string | undefined;
 
-  accountToken = (window as any).__env__[accountTokenEnvVar];
+  accountToken = (self as any).__env__[accountTokenEnvVar];
 
   if (!accountToken || accountToken === "") {
     throw new Error(`${accountTokenEnvVar} environment variables not specified.`);
@@ -59,7 +62,7 @@ export function getTokenBSU(): BlobServiceClient {
 
   let accountName: string | undefined;
 
-  accountName = (window as any).__env__[accountNameEnvVar];
+  accountName = (self as any).__env__[accountNameEnvVar];
 
   if (!accountName || accountName === "") {
     throw new Error(`${accountNameEnvVar} environment variables not specified.`);
@@ -74,6 +77,19 @@ export function getTokenBSU(): BlobServiceClient {
   return new BlobServiceClient(blobPrimaryURL, pipeline);
 }
 
+export function getImmutableContainerName(): string {
+  const immutableContainerEnvVar = `IMMUTABLE_CONTAINER_NAME`;
+  let immutableContainerName: string | undefined;
+
+  immutableContainerName = (self as any).__env__[immutableContainerEnvVar];
+
+  if (!immutableContainerName || immutableContainerName === "") {
+    throw new Error(`${immutableContainerEnvVar} environment variables not specified.`);
+  }
+
+  return immutableContainerName;
+}
+
 export function getBSU(): BlobServiceClient {
   return getGenericBSU("");
 }
@@ -86,8 +102,8 @@ export function getAlternateBSU(): BlobServiceClient {
  * Read body from downloading operation methods to string.
  * Works in both Node.js and browsers.
  *
- * @param response Convenience layer methods response with downloaded body
- * @param length Length of Readable stream, needed for Node.js environment
+ * @param response - Convenience layer methods response with downloaded body
+ * @param length - Length of Readable stream, needed for Node.js environment
  */
 export async function bodyToString(
   response: {
@@ -140,21 +156,6 @@ export function arrayBufferEqual(buf1: ArrayBuffer, buf2: ArrayBuffer): boolean 
   return true;
 }
 
-export function isIE(): boolean {
-  const sAgent = window.navigator.userAgent;
-  const Idx = sAgent.indexOf("MSIE");
-
-  // If IE, return version number.
-  if (Idx > 0) {
-    return true;
-  } else if (navigator.userAgent.match(/Trident\/7\./)) {
-    // IE 11
-    return true;
-  } else {
-    return false;
-  } // It is not IE
-}
-
 // Mock a Browser file with specified name and size
 export function getBrowserFile(name: string, size: number): File {
   const uint8Arr = new Uint8Array(size);
@@ -171,6 +172,6 @@ export function getBrowserFile(name: string, size: number): File {
 }
 
 export function getSASConnectionStringFromEnvironment(): string {
-  const env = (window as any).__env__;
+  const env = (self as any).__env__;
   return `BlobEndpoint=https://${env.ACCOUNT_NAME}.blob.core.windows.net/;QueueEndpoint=https://${env.ACCOUNT_NAME}.queue.core.windows.net/;FileEndpoint=https://${env.ACCOUNT_NAME}.file.core.windows.net/;TableEndpoint=https://${env.ACCOUNT_NAME}.table.core.windows.net/;SharedAccessSignature=${env.ACCOUNT_SAS}`;
 }

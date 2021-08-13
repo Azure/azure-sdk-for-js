@@ -14,11 +14,8 @@ export class AverageAggregator implements Aggregator {
   public count: number;
   /**
    * Add the provided item to aggregation result.
-   * @memberof AverageAggregator
-   * @instance
-   * @param other
    */
-  public aggregate(other: AverageAggregateResult) {
+  public aggregate(other: AverageAggregateResult): void {
     if (other == null || other.sum == null) {
       return;
     }
@@ -32,10 +29,8 @@ export class AverageAggregator implements Aggregator {
 
   /**
    * Get the aggregation result.
-   * @memberof AverageAggregator
-   * @instance
    */
-  public getResult() {
+  public getResult(): number {
     if (this.sum == null || this.count <= 0) {
       return undefined;
     }

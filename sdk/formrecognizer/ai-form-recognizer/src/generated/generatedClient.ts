@@ -35,6 +35,10 @@ import {
   GeneratedClientAnalyzeInvoiceAsync$jsonOptionalParams,
   GeneratedClientAnalyzeInvoiceAsyncResponse,
   GeneratedClientGetAnalyzeInvoiceResultResponse,
+  GeneratedClientAnalyzeIdDocumentAsync$binaryOptionalParams,
+  GeneratedClientAnalyzeIdDocumentAsync$jsonOptionalParams,
+  GeneratedClientAnalyzeIdDocumentAsyncResponse,
+  GeneratedClientGetAnalyzeIdDocumentResultResponse,
   GeneratedClientAnalyzeReceiptAsync$binaryOptionalParams,
   GeneratedClientAnalyzeReceiptAsync$jsonOptionalParams,
   GeneratedClientAnalyzeReceiptAsyncResponse,
@@ -48,6 +52,7 @@ import {
   GeneratedClientListCustomModelsNextResponse
 } from "./models";
 
+/** @hidden */
 export class GeneratedClient extends GeneratedClientContext {
   /**
    * Initializes a new instance of the GeneratedClient class.
@@ -67,7 +72,8 @@ export class GeneratedClient extends GeneratedClientContext {
    * setting value e.g., if '{Mounts:Input}' configuration setting value is '/input' then a valid source
    * path would be '/input/contosodataset'. All data to be trained is expected to be under the source
    * folder or sub folders under it. Models are trained using documents that are of the following content
-   * type - 'application/pdf', 'image/jpeg', 'image/png', 'image/tiff'. Other type of content is ignored.
+   * type - 'application/pdf', 'image/jpeg', 'image/png', 'image/tiff' or 'image/bmp'. Other type of
+   * content is ignored.
    * @param trainRequest Training request parameters.
    * @param options The options parameters.
    */
@@ -125,12 +131,12 @@ export class GeneratedClient extends GeneratedClientContext {
 
   /**
    * Extract key-value pairs, tables, and semantic values from a given document. The input document must
-   * be of one of the supported content types - 'application/pdf', 'image/jpeg', 'image/png' or
-   * 'image/tiff'. Alternatively, use 'application/json' type to specify the location (Uri or local path)
-   * of the document to be analyzed.
+   * be of one of the supported content types - 'application/pdf', 'image/jpeg', 'image/png',
+   * 'image/tiff' or 'image/bmp'. Alternatively, use 'application/json' type to specify the location (Uri
+   * or local path) of the document to be analyzed.
    * @param modelId Model identifier.
    * @param contentType Upload file type
-   * @param fileStream .json, .pdf, .jpg, .png or .tiff type file stream.
+   * @param fileStream .json, .pdf, .jpg, .png, .tiff or .bmp type file stream.
    * @param options The options parameters.
    */
   analyzeWithCustomModel(
@@ -141,9 +147,9 @@ export class GeneratedClient extends GeneratedClientContext {
   ): Promise<GeneratedClientAnalyzeWithCustomModelResponse>;
   /**
    * Extract key-value pairs, tables, and semantic values from a given document. The input document must
-   * be of one of the supported content types - 'application/pdf', 'image/jpeg', 'image/png' or
-   * 'image/tiff'. Alternatively, use 'application/json' type to specify the location (Uri or local path)
-   * of the document to be analyzed.
+   * be of one of the supported content types - 'application/pdf', 'image/jpeg', 'image/png',
+   * 'image/tiff' or 'image/bmp'. Alternatively, use 'application/json' type to specify the location (Uri
+   * or local path) of the document to be analyzed.
    * @param modelId Model identifier.
    * @param contentType Body Parameter content-type
    * @param options The options parameters.
@@ -155,9 +161,9 @@ export class GeneratedClient extends GeneratedClientContext {
   ): Promise<GeneratedClientAnalyzeWithCustomModelResponse>;
   /**
    * Extract key-value pairs, tables, and semantic values from a given document. The input document must
-   * be of one of the supported content types - 'application/pdf', 'image/jpeg', 'image/png' or
-   * 'image/tiff'. Alternatively, use 'application/json' type to specify the location (Uri or local path)
-   * of the document to be analyzed.
+   * be of one of the supported content types - 'application/pdf', 'image/jpeg', 'image/png',
+   * 'image/tiff' or 'image/bmp'. Alternatively, use 'application/json' type to specify the location (Uri
+   * or local path) of the document to be analyzed.
    * @param args Includes all the parameters for this operation.
    */
   analyzeWithCustomModel(
@@ -317,11 +323,11 @@ export class GeneratedClient extends GeneratedClientContext {
 
   /**
    * Extract field text and semantic values from a given business card document. The input document must
-   * be of one of the supported content types - 'application/pdf', 'image/jpeg', 'image/png' or
-   * 'image/tiff'. Alternatively, use 'application/json' type to specify the location (Uri) of the
-   * document to be analyzed.
+   * be of one of the supported content types - 'application/pdf', 'image/jpeg', 'image/png',
+   * 'image/tiff' or 'image/bmp'. Alternatively, use 'application/json' type to specify the location
+   * (Uri) of the document to be analyzed.
    * @param contentType Upload file type
-   * @param fileStream .json, .pdf, .jpg, .png or .tiff type file stream.
+   * @param fileStream .json, .pdf, .jpg, .png, .tiff or .bmp type file stream.
    * @param options The options parameters.
    */
   analyzeBusinessCardAsync(
@@ -331,9 +337,9 @@ export class GeneratedClient extends GeneratedClientContext {
   ): Promise<GeneratedClientAnalyzeBusinessCardAsyncResponse>;
   /**
    * Extract field text and semantic values from a given business card document. The input document must
-   * be of one of the supported content types - 'application/pdf', 'image/jpeg', 'image/png' or
-   * 'image/tiff'. Alternatively, use 'application/json' type to specify the location (Uri) of the
-   * document to be analyzed.
+   * be of one of the supported content types - 'application/pdf', 'image/jpeg', 'image/png',
+   * 'image/tiff' or 'image/bmp'. Alternatively, use 'application/json' type to specify the location
+   * (Uri) of the document to be analyzed.
    * @param contentType Body Parameter content-type
    * @param options The options parameters.
    */
@@ -343,9 +349,9 @@ export class GeneratedClient extends GeneratedClientContext {
   ): Promise<GeneratedClientAnalyzeBusinessCardAsyncResponse>;
   /**
    * Extract field text and semantic values from a given business card document. The input document must
-   * be of one of the supported content types - 'application/pdf', 'image/jpeg', 'image/png' or
-   * 'image/tiff'. Alternatively, use 'application/json' type to specify the location (Uri) of the
-   * document to be analyzed.
+   * be of one of the supported content types - 'application/pdf', 'image/jpeg', 'image/png',
+   * 'image/tiff' or 'image/bmp'. Alternatively, use 'application/json' type to specify the location
+   * (Uri) of the document to be analyzed.
    * @param args Includes all the parameters for this operation.
    */
   analyzeBusinessCardAsync(
@@ -413,11 +419,11 @@ export class GeneratedClient extends GeneratedClientContext {
 
   /**
    * Extract field text and semantic values from a given invoice document. The input document must be of
-   * one of the supported content types - 'application/pdf', 'image/jpeg', 'image/png' or 'image/tiff'.
-   * Alternatively, use 'application/json' type to specify the location (Uri) of the document to be
-   * analyzed.
+   * one of the supported content types - 'application/pdf', 'image/jpeg', 'image/png', 'image/tiff' or
+   * 'image/bmp'. Alternatively, use 'application/json' type to specify the location (Uri) of the
+   * document to be analyzed.
    * @param contentType Upload file type
-   * @param fileStream .json, .pdf, .jpg, .png or .tiff type file stream.
+   * @param fileStream .json, .pdf, .jpg, .png, .tiff or .bmp type file stream.
    * @param options The options parameters.
    */
   analyzeInvoiceAsync(
@@ -427,9 +433,9 @@ export class GeneratedClient extends GeneratedClientContext {
   ): Promise<GeneratedClientAnalyzeInvoiceAsyncResponse>;
   /**
    * Extract field text and semantic values from a given invoice document. The input document must be of
-   * one of the supported content types - 'application/pdf', 'image/jpeg', 'image/png' or 'image/tiff'.
-   * Alternatively, use 'application/json' type to specify the location (Uri) of the document to be
-   * analyzed.
+   * one of the supported content types - 'application/pdf', 'image/jpeg', 'image/png', 'image/tiff' or
+   * 'image/bmp'. Alternatively, use 'application/json' type to specify the location (Uri) of the
+   * document to be analyzed.
    * @param contentType Body Parameter content-type
    * @param options The options parameters.
    */
@@ -439,9 +445,9 @@ export class GeneratedClient extends GeneratedClientContext {
   ): Promise<GeneratedClientAnalyzeInvoiceAsyncResponse>;
   /**
    * Extract field text and semantic values from a given invoice document. The input document must be of
-   * one of the supported content types - 'application/pdf', 'image/jpeg', 'image/png' or 'image/tiff'.
-   * Alternatively, use 'application/json' type to specify the location (Uri) of the document to be
-   * analyzed.
+   * one of the supported content types - 'application/pdf', 'image/jpeg', 'image/png', 'image/tiff' or
+   * 'image/bmp'. Alternatively, use 'application/json' type to specify the location (Uri) of the
+   * document to be analyzed.
    * @param args Includes all the parameters for this operation.
    */
   analyzeInvoiceAsync(
@@ -508,12 +514,108 @@ export class GeneratedClient extends GeneratedClientContext {
   }
 
   /**
-   * Extract field text and semantic values from a given receipt document. The input document must be of
-   * one of the supported content types - 'application/pdf', 'image/jpeg', 'image/png' or 'image/tiff'.
-   * Alternatively, use 'application/json' type to specify the location (Uri) of the document to be
-   * analyzed.
+   * Extract field text and semantic values from a given ID document. The input document must be of one
+   * of the supported content types - 'application/pdf', 'image/jpeg', 'image/png', 'image/tiff' or
+   * 'image/bmp'. Alternatively, use 'application/json' type to specify the location (Uri) of the
+   * document to be analyzed.
    * @param contentType Upload file type
-   * @param fileStream .json, .pdf, .jpg, .png or .tiff type file stream.
+   * @param fileStream .json, .pdf, .jpg, .png, .tiff or .bmp type file stream.
+   * @param options The options parameters.
+   */
+  analyzeIdDocumentAsync(
+    contentType: ContentType,
+    fileStream: coreHttp.HttpRequestBody,
+    options?: GeneratedClientAnalyzeIdDocumentAsync$binaryOptionalParams
+  ): Promise<GeneratedClientAnalyzeIdDocumentAsyncResponse>;
+  /**
+   * Extract field text and semantic values from a given ID document. The input document must be of one
+   * of the supported content types - 'application/pdf', 'image/jpeg', 'image/png', 'image/tiff' or
+   * 'image/bmp'. Alternatively, use 'application/json' type to specify the location (Uri) of the
+   * document to be analyzed.
+   * @param contentType Body Parameter content-type
+   * @param options The options parameters.
+   */
+  analyzeIdDocumentAsync(
+    contentType: "application/json",
+    options?: GeneratedClientAnalyzeIdDocumentAsync$jsonOptionalParams
+  ): Promise<GeneratedClientAnalyzeIdDocumentAsyncResponse>;
+  /**
+   * Extract field text and semantic values from a given ID document. The input document must be of one
+   * of the supported content types - 'application/pdf', 'image/jpeg', 'image/png', 'image/tiff' or
+   * 'image/bmp'. Alternatively, use 'application/json' type to specify the location (Uri) of the
+   * document to be analyzed.
+   * @param args Includes all the parameters for this operation.
+   */
+  analyzeIdDocumentAsync(
+    ...args:
+      | [
+          ContentType,
+          coreHttp.HttpRequestBody,
+          GeneratedClientAnalyzeIdDocumentAsync$binaryOptionalParams?
+        ]
+      | [
+          "application/json",
+          GeneratedClientAnalyzeIdDocumentAsync$jsonOptionalParams?
+        ]
+  ): Promise<GeneratedClientAnalyzeIdDocumentAsyncResponse> {
+    let operationSpec: coreHttp.OperationSpec;
+    let operationArguments: coreHttp.OperationArguments;
+    if (
+      args[0] === "application/pdf" ||
+      args[0] === "image/bmp" ||
+      args[0] === "image/jpeg" ||
+      args[0] === "image/png" ||
+      args[0] === "image/tiff"
+    ) {
+      operationSpec = analyzeIdDocumentAsync$binaryOperationSpec;
+      operationArguments = {
+        contentType: args[0],
+        fileStream: args[1],
+        options: args[2]
+      };
+    } else if (args[0] === "application/json") {
+      operationSpec = analyzeIdDocumentAsync$jsonOperationSpec;
+      operationArguments = { contentType: args[0], options: args[1] };
+    } else {
+      throw new TypeError(
+        `"contentType" must be a valid value but instead was "${args[0]}".`
+      );
+    }
+    operationArguments.options = coreHttp.operationOptionsToRequestOptionsBase(
+      operationArguments.options || {}
+    );
+    return this.sendOperationRequest(
+      operationArguments,
+      operationSpec
+    ) as Promise<GeneratedClientAnalyzeIdDocumentAsyncResponse>;
+  }
+
+  /**
+   * Track the progress and obtain the result of the analyze ID operation.
+   * @param resultId Analyze operation result identifier.
+   * @param options The options parameters.
+   */
+  getAnalyzeIdDocumentResult(
+    resultId: string,
+    options?: coreHttp.OperationOptions
+  ): Promise<GeneratedClientGetAnalyzeIdDocumentResultResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      resultId,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.sendOperationRequest(
+      operationArguments,
+      getAnalyzeIdDocumentResultOperationSpec
+    ) as Promise<GeneratedClientGetAnalyzeIdDocumentResultResponse>;
+  }
+
+  /**
+   * Extract field text and semantic values from a given receipt document. The input document must be of
+   * one of the supported content types - 'application/pdf', 'image/jpeg', 'image/png', 'image/tiff' or
+   * 'image/bmp'. Alternatively, use 'application/json' type to specify the location (Uri) of the
+   * document to be analyzed.
+   * @param contentType Upload file type
+   * @param fileStream .json, .pdf, .jpg, .png, .tiff or .bmp type file stream.
    * @param options The options parameters.
    */
   analyzeReceiptAsync(
@@ -523,9 +625,9 @@ export class GeneratedClient extends GeneratedClientContext {
   ): Promise<GeneratedClientAnalyzeReceiptAsyncResponse>;
   /**
    * Extract field text and semantic values from a given receipt document. The input document must be of
-   * one of the supported content types - 'application/pdf', 'image/jpeg', 'image/png' or 'image/tiff'.
-   * Alternatively, use 'application/json' type to specify the location (Uri) of the document to be
-   * analyzed.
+   * one of the supported content types - 'application/pdf', 'image/jpeg', 'image/png', 'image/tiff' or
+   * 'image/bmp'. Alternatively, use 'application/json' type to specify the location (Uri) of the
+   * document to be analyzed.
    * @param contentType Body Parameter content-type
    * @param options The options parameters.
    */
@@ -535,9 +637,9 @@ export class GeneratedClient extends GeneratedClientContext {
   ): Promise<GeneratedClientAnalyzeReceiptAsyncResponse>;
   /**
    * Extract field text and semantic values from a given receipt document. The input document must be of
-   * one of the supported content types - 'application/pdf', 'image/jpeg', 'image/png' or 'image/tiff'.
-   * Alternatively, use 'application/json' type to specify the location (Uri) of the document to be
-   * analyzed.
+   * one of the supported content types - 'application/pdf', 'image/jpeg', 'image/png', 'image/tiff' or
+   * 'image/bmp'. Alternatively, use 'application/json' type to specify the location (Uri) of the
+   * document to be analyzed.
    * @param args Includes all the parameters for this operation.
    */
   analyzeReceiptAsync(
@@ -609,7 +711,7 @@ export class GeneratedClient extends GeneratedClientContext {
    * Alternatively, use 'application/json' type to specify the location (Uri or local path) of the
    * document to be analyzed.
    * @param contentType Upload file type
-   * @param fileStream .json, .pdf, .jpg, .png or .tiff type file stream.
+   * @param fileStream .json, .pdf, .jpg, .png, .tiff or .bmp type file stream.
    * @param options The options parameters.
    */
   analyzeLayoutAsync(
@@ -751,7 +853,6 @@ export class GeneratedClient extends GeneratedClientContext {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const trainCustomModelAsyncOperationSpec: coreHttp.OperationSpec = {
@@ -812,7 +913,7 @@ const analyzeWithCustomModel$binaryOperationSpec: coreHttp.OperationSpec = {
     }
   },
   requestBody: Parameters.fileStream,
-  queryParameters: [Parameters.includeTextDetails],
+  queryParameters: [Parameters.includeTextDetails, Parameters.pages],
   urlParameters: [Parameters.endpoint, Parameters.modelId],
   headerParameters: [Parameters.contentType1, Parameters.accept1],
   mediaType: "binary",
@@ -830,7 +931,7 @@ const analyzeWithCustomModel$jsonOperationSpec: coreHttp.OperationSpec = {
     }
   },
   requestBody: Parameters.fileStream1,
-  queryParameters: [Parameters.includeTextDetails],
+  queryParameters: [Parameters.includeTextDetails, Parameters.pages],
   urlParameters: [Parameters.endpoint, Parameters.modelId],
   headerParameters: [Parameters.accept, Parameters.contentType2],
   mediaType: "json",
@@ -929,7 +1030,11 @@ const analyzeBusinessCardAsync$binaryOperationSpec: coreHttp.OperationSpec = {
     }
   },
   requestBody: Parameters.fileStream,
-  queryParameters: [Parameters.includeTextDetails, Parameters.locale],
+  queryParameters: [
+    Parameters.includeTextDetails,
+    Parameters.pages,
+    Parameters.locale
+  ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.contentType1, Parameters.accept1],
   mediaType: "binary",
@@ -947,7 +1052,11 @@ const analyzeBusinessCardAsync$jsonOperationSpec: coreHttp.OperationSpec = {
     }
   },
   requestBody: Parameters.fileStream1,
-  queryParameters: [Parameters.includeTextDetails, Parameters.locale],
+  queryParameters: [
+    Parameters.includeTextDetails,
+    Parameters.pages,
+    Parameters.locale
+  ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept, Parameters.contentType2],
   mediaType: "json",
@@ -980,7 +1089,11 @@ const analyzeInvoiceAsync$binaryOperationSpec: coreHttp.OperationSpec = {
     }
   },
   requestBody: Parameters.fileStream,
-  queryParameters: [Parameters.includeTextDetails, Parameters.locale],
+  queryParameters: [
+    Parameters.includeTextDetails,
+    Parameters.pages,
+    Parameters.locale
+  ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.contentType1, Parameters.accept1],
   mediaType: "binary",
@@ -998,7 +1111,11 @@ const analyzeInvoiceAsync$jsonOperationSpec: coreHttp.OperationSpec = {
     }
   },
   requestBody: Parameters.fileStream1,
-  queryParameters: [Parameters.includeTextDetails, Parameters.locale],
+  queryParameters: [
+    Parameters.includeTextDetails,
+    Parameters.pages,
+    Parameters.locale
+  ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept, Parameters.contentType2],
   mediaType: "json",
@@ -1006,6 +1123,57 @@ const analyzeInvoiceAsync$jsonOperationSpec: coreHttp.OperationSpec = {
 };
 const getAnalyzeInvoiceResultOperationSpec: coreHttp.OperationSpec = {
   path: "/prebuilt/invoice/analyzeResults/{resultId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AnalyzeOperationResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  urlParameters: [Parameters.endpoint, Parameters.resultId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const analyzeIdDocumentAsync$binaryOperationSpec: coreHttp.OperationSpec = {
+  path: "/prebuilt/idDocument/analyze",
+  httpMethod: "POST",
+  responses: {
+    202: {
+      headersMapper: Mappers.GeneratedClientAnalyzeIdDocumentAsyncHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.fileStream,
+  queryParameters: [Parameters.includeTextDetails, Parameters.pages],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.contentType1, Parameters.accept1],
+  mediaType: "binary",
+  serializer
+};
+const analyzeIdDocumentAsync$jsonOperationSpec: coreHttp.OperationSpec = {
+  path: "/prebuilt/idDocument/analyze",
+  httpMethod: "POST",
+  responses: {
+    202: {
+      headersMapper: Mappers.GeneratedClientAnalyzeIdDocumentAsyncHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.fileStream1,
+  queryParameters: [Parameters.includeTextDetails, Parameters.pages],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept, Parameters.contentType2],
+  mediaType: "json",
+  serializer
+};
+const getAnalyzeIdDocumentResultOperationSpec: coreHttp.OperationSpec = {
+  path: "/prebuilt/idDocument/analyzeResults/{resultId}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -1031,7 +1199,11 @@ const analyzeReceiptAsync$binaryOperationSpec: coreHttp.OperationSpec = {
     }
   },
   requestBody: Parameters.fileStream,
-  queryParameters: [Parameters.includeTextDetails, Parameters.locale],
+  queryParameters: [
+    Parameters.includeTextDetails,
+    Parameters.pages,
+    Parameters.locale
+  ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.contentType1, Parameters.accept1],
   mediaType: "binary",
@@ -1049,7 +1221,11 @@ const analyzeReceiptAsync$jsonOperationSpec: coreHttp.OperationSpec = {
     }
   },
   requestBody: Parameters.fileStream1,
-  queryParameters: [Parameters.includeTextDetails, Parameters.locale],
+  queryParameters: [
+    Parameters.includeTextDetails,
+    Parameters.pages,
+    Parameters.locale
+  ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept, Parameters.contentType2],
   mediaType: "json",
@@ -1082,7 +1258,11 @@ const analyzeLayoutAsync$binaryOperationSpec: coreHttp.OperationSpec = {
     }
   },
   requestBody: Parameters.fileStream,
-  queryParameters: [Parameters.language, Parameters.pages],
+  queryParameters: [
+    Parameters.pages,
+    Parameters.language,
+    Parameters.readingOrder
+  ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.contentType1, Parameters.accept1],
   mediaType: "binary",
@@ -1100,7 +1280,11 @@ const analyzeLayoutAsync$jsonOperationSpec: coreHttp.OperationSpec = {
     }
   },
   requestBody: Parameters.fileStream1,
-  queryParameters: [Parameters.language, Parameters.pages],
+  queryParameters: [
+    Parameters.pages,
+    Parameters.language,
+    Parameters.readingOrder
+  ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept, Parameters.contentType2],
   mediaType: "json",

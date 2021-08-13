@@ -1,0 +1,26 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze",
+   "query": {},
+   "requestBody": "{\"analysisInput\":{\"documents\":[{\"id\":\"0\",\"text\":\"\",\"language\":\"en\"}]},\"tasks\":{\"entityRecognitionPiiTasks\":[{\"parameters\":{\"model-version\":\"latest\",\"stringIndexType\":\"Utf16CodeUnit\"}}]}}",
+   "status": 400,
+   "response": "{\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocumentBatch\",\"message\":\"Document text is empty.\"}}}",
+   "responseHeaders": {
+    "apim-request-id": "80e62672-7bf4-4ba1-8622-86be987fda78",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 22:55:24 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "5"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "f9f441a825a1fe550fcd21e25757994a"
+}

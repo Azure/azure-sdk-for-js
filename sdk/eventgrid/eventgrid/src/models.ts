@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * The shape of the input for EventGridProducerClient#sendEvents
+ * The shape of the input for EventGridProducerClient#sendEventGridEvents
  */
 export interface SendEventGridEventInput<T> {
   /**

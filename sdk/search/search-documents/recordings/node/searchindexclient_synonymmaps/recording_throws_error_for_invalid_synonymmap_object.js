@@ -1,13 +1,14 @@
 let nock = require('nock');
 
-module.exports.hash = "e567ce655ea934e7d306432fd9c84241";
+module.exports.hash = "1b42fc88e6bfa9105999939d2ce56df4";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/synonymmaps(%27garbxyz%27)')
   .query(true)
-  .reply(404, {"error":{"code":"","message":"No synonym map with the name 'garbxyz' was found in service 'testsearchcases'."}}, [ 'Cache-Control',
+  .reply(404, {"error":{"code":"","message":"No synonym map with the name 'garbxyz' was found in service 'testsearchcases'."}}, [
+  'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -18,9 +19,9 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'request-id',
-  'be28c516-6cc9-492f-8418-86e48ea61f19',
+  '2abc0cf6-81c7-4b2a-8349-2bb2582f06d6',
   'elapsed-time',
-  '13',
+  '6',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -28,6 +29,7 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Wed, 04 Nov 2020 08:20:23 GMT',
+  'Tue, 03 Aug 2021 01:30:06 GMT',
   'Content-Length',
-  '112' ]);
+  '112'
+]);

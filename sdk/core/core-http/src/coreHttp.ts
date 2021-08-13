@@ -43,7 +43,6 @@ export {
   ProxySettings,
   ProxyOptions
 } from "./serviceClient";
-export { createSpanFunction, SpanConfig } from "./createSpan";
 export { PipelineOptions, InternalPipelineOptions } from "./pipelineOptions";
 export { QueryCollectionFormat } from "./queryCollectionFormat";
 export { Constants } from "./util/constants";
@@ -100,7 +99,6 @@ export {
 export {
   stripRequest,
   stripResponse,
-  delay,
   executePromisesSequentially,
   generateUuid,
   encodeUri,
@@ -114,6 +112,9 @@ export {
 } from "./util/utils";
 export { URLBuilder, URLQuery } from "./url";
 export { AbortSignalLike } from "@azure/abort-controller";
+export { delay } from "./util/delay";
+// legacy exports. Use core-tracing instead (and remove on next major version update of core-http).
+export { createSpanFunction, SpanConfig } from "./createSpanLegacy";
 
 // Credentials
 export { TokenCredential, GetTokenOptions, AccessToken, isTokenCredential } from "@azure/core-auth";
@@ -127,3 +128,4 @@ export { Authenticator } from "./credentials/credentials";
 
 export { parseXML, stringifyXML } from "./util/xml";
 export { XML_ATTRKEY, XML_CHARKEY, SerializerOptions } from "./util/serializer.common";
+import "@azure/core-asynciterator-polyfill";

@@ -143,7 +143,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.WorkspaceAadAdminInfo
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -178,7 +178,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.WorkspaceAadAdminInfo
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -203,7 +203,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 
 import {
@@ -267,11 +270,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await shareClient.delete();
   });
 
-  it("generateFileSASQueryParameters should work for file with access policy", async () => {
+  it("generateFileSASQueryParameters should work for share with access policy", async () => {
     const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = recorder.newDate("now");
+    const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
@@ -333,6 +336,66 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         .byPage()
         .next()
     ).value;
+    await shareClient.delete();
+  });
+
+  it("generateFileSASQueryParameters should work for file with access policy", async () => {
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+    const sharedKeyCredential = serviceClient["credential"];
+
+    const shareName = recorder.getUniqueName("share");
+    const shareClient = serviceClient.getShareClient(shareName);
+    await shareClient.create();
+
+    const dirName = recorder.getUniqueName("dir");
+    const dirClient = shareClient.getDirectoryClient(dirName);
+    await dirClient.create();
+
+    const fileName = recorder.getUniqueName("file");
+    const fileClient = dirClient.getFileClient(fileName);
+    await fileClient.create(1024, {
+      fileHttpHeaders: {
+        fileContentType: "content-type-original"
+      }
+    });
+
+    const id = "unique-id";
+    await shareClient.setAccessPolicy([
+      {
+        accessPolicy: {
+          expiresOn: tmr,
+          permissions: FileSASPermissions.parse("rcwd").toString(),
+          startsOn: now
+        },
+        id
+      }
+    ]);
+
+    /*
+     * When you establish a stored access policy on a share, it may take up to 30 seconds to take effect.
+     * During this interval, a shared access signature that is associated with the stored access policy will
+     * fail with status code 403 (Forbidden), until the access policy becomes active.
+     * More details: https://docs.microsoft.com/en-us/rest/api/storageservices/set-share-acl
+     * Note: delay in recorder module only take effect in live and recording mode.
+     */
+    await delay(30 * 1000);
+
+    const fileSAS = generateFileSASQueryParameters(
+      {
+        identifier: id,
+        shareName,
+        filePath: fileClient.path
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    );
+
+    const sasURL = `${fileClient.url}?${fileSAS}`;
+    const fileClientWithSAS = new ShareFileClient(sasURL, newPipeline(new AnonymousCredential()));
+    await fileClientWithSAS.getProperties();
+
     await shareClient.delete();
   });
 

@@ -397,7 +397,7 @@ export class Apps {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTCentral/IoTApps/{resourceName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTCentral/iotApps/{resourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -422,7 +422,7 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.IoTCentral/IoTApps",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.IoTCentral/iotApps",
   urlParameters: [
     Parameters.subscriptionId
   ],
@@ -445,7 +445,7 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTCentral/IoTApps",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTCentral/iotApps",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName
@@ -552,7 +552,7 @@ const listTemplatesOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTCentral/IoTApps/{resourceName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTCentral/iotApps/{resourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -588,7 +588,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTCentral/IoTApps/{resourceName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTCentral/iotApps/{resourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -621,7 +621,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTCentral/IoTApps/{resourceName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTCentral/iotApps/{resourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,

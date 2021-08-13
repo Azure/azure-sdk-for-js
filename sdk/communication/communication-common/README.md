@@ -7,13 +7,19 @@ This package contains common code for Azure Communication Service libraries.
 ### Prerequisites
 
 - An [Azure subscription][azure_sub].
-- An existing Communication Services resource. If you need to create the resource, you can use the [Azure Portal][azure_portal] or [Azure CLI][azure_cli].
+- An existing Communication Services resource. If you need to create the resource, you can use the [Azure Portal][azure_portal], the [Azure PowerShell][azure_powershell], or the [Azure CLI][azure_cli].
 
 ### Installing
 
 ```bash
 npm install @azure/communication-common
 ```
+
+### Browser support
+
+#### JavaScript Bundle
+
+To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## Key concepts
 
@@ -77,7 +83,7 @@ const tokenCredential = new AzureCommunicationTokenCredential({
 
 ## Contributing
 
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ## Related projects
 
@@ -86,5 +92,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azure_cli]: https://docs.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
+[azure_powershell]: https://docs.microsoft.com/powershell/module/az.communication/new-azcommunicationservice
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcommunication%2Fcommunication-sms%2FREADME.png)

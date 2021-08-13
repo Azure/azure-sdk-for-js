@@ -23,13 +23,13 @@ export class Permission {
   /**
    * Returns a reference URL to the resource. Used for linking in Permissions.
    */
-  public get url() {
+  public get url(): string {
     return createPermissionUri(this.user.database.id, this.user.id, this.id);
   }
   /**
    * @hidden
-   * @param user The parent {@link User}.
-   * @param id The id of the given {@link Permission}.
+   * @param user - The parent {@link User}.
+   * @param id - The id of the given {@link Permission}.
    */
   constructor(
     public readonly user: User,
@@ -39,7 +39,6 @@ export class Permission {
 
   /**
    * Read the {@link PermissionDefinition} of the given {@link Permission}.
-   * @param options
    */
   public async read(options?: RequestOptions): Promise<PermissionResponse> {
     const path = getPathFromLink(this.url);
@@ -56,8 +55,7 @@ export class Permission {
 
   /**
    * Replace the given {@link Permission} with the specified {@link PermissionDefinition}.
-   * @param body The specified {@link PermissionDefinition}.
-   * @param options
+   * @param body - The specified {@link PermissionDefinition}.
    */
   public async replace(
     body: PermissionDefinition,
@@ -83,7 +81,6 @@ export class Permission {
 
   /**
    * Delete the given {@link Permission}.
-   * @param options
    */
   public async delete(options?: RequestOptions): Promise<PermissionResponse> {
     const path = getPathFromLink(this.url);

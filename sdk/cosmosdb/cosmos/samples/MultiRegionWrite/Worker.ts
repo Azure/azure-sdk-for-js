@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { v4 as guid } from "uuid";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { Container } from "../../dist";
 
-// tslint:disable:no-console
 export class Worker {
   constructor(private readonly regionName: string, private readonly container: Container) {}
 
-  public async RunLoop(itemsToInsert: number) {
+  public async RunLoop(itemsToInsert: number): Promise<void> {
     let iterationCount = 0;
 
     let latency: number[] = [];
@@ -25,8 +26,8 @@ export class Worker {
     );
   }
 
-  public async ReadAll(expectedNumberOfItems: number) {
-    while (true) {
+  public async ReadAll(expectedNumberOfItems: number): Promise<void> {
+    for (;;) {
       const { resources: items } = await this.container.items.readAll().fetchAll();
       if (items.length < expectedNumberOfItems) {
         console.log(
@@ -41,7 +42,7 @@ export class Worker {
     }
   }
 
-  public async DeleteAll() {
+  public async DeleteAll(): Promise<void> {
     const { resources: items } = await this.container.items.readAll().fetchAll();
     for (const item of items) {
       await this.container.item(item.id, undefined).delete();

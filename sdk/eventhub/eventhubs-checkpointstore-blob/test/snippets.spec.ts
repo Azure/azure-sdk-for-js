@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { env } from "process";
 import * as dotenv from "dotenv";
@@ -35,7 +35,7 @@ describe.skip("Snippets", () => {
     // const consumerGroup = "my-consumer-group";
     // const eventHubName = "eventHubName";
 
-    async function main() {
+    async function main(): Promise<void> {
       const blobContainerClient = new ContainerClient(
         storageAccountConnectionString,
         containerName

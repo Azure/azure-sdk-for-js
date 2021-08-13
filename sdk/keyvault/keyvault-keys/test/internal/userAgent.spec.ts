@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
+import { Context } from "mocha";
 import { SDK_VERSION } from "../../src/constants";
 import { packageVersion } from "../../src/generated/keyVaultClientContext";
 import { isNode } from "@azure/core-http";
@@ -13,7 +14,7 @@ describe("Keys client's user agent (only in Node, because of fs)", () => {
     assert.equal(SDK_VERSION, packageVersion);
   });
 
-  it("the version should also match with the one available in the package.json  (only in Node, because of fs)", async function() {
+  it("the version should also match with the one available in the package.json  (only in Node, because of fs)", async function(this: Context) {
     if (!isNode) {
       this.skip();
       return;

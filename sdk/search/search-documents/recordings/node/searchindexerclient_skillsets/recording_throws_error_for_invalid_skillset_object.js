@@ -7,7 +7,8 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/skillsets(%27garbxyz%27)')
   .query(true)
-  .reply(404, {"error":{"code":"","message":"No skillset with the name 'garbxyz' was found in service 'Microsoft.WindowsAzure.Search.Core.Models.SearchService'."}}, [ 'Cache-Control',
+  .reply(404, {"error":{"code":"","message":"No skillset with the name 'garbxyz' was found in service 'Microsoft.WindowsAzure.Search.Core.Models.SearchService'."}}, [
+  'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -18,9 +19,9 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'request-id',
-  '3f7e2cc7-9263-4cf4-98ee-fded9571740d',
+  '27f69e01-6eb6-4592-8037-a0b8f27c9b52',
   'elapsed-time',
-  '21',
+  '22',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -28,6 +29,7 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Wed, 04 Nov 2020 08:25:55 GMT',
+  'Fri, 22 Jan 2021 00:16:45 GMT',
   'Content-Length',
-  '149' ]);
+  '149'
+]);

@@ -1,3 +1,7 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { TokenCredential } from "@azure/core-http";
 import { randomBytes } from "crypto";
 import * as fs from "fs";
 import * as path from "path";
@@ -13,7 +17,8 @@ import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedK
 import { newPipeline } from "../../src/Pipeline";
 import { ShareServiceClient } from "../../src/ShareServiceClient";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
-import { getUniqueName } from "./testutils.common";
+import { getUniqueName, SimpleTokenCredential } from "./testutils.common";
+import { BlobServiceClient } from "@azure/storage-blob";
 
 export * from "./testutils.common";
 
@@ -45,6 +50,10 @@ export function getGenericBSU(
   return new ShareServiceClient(filePrimaryURL, pipeline);
 }
 
+export function getBlobServceClient(): BlobServiceClient {
+  return BlobServiceClient.fromConnectionString(getConnectionStringFromEnvironment());
+}
+
 export function getBSU(): ShareServiceClient {
   return getGenericBSU("");
 }
@@ -72,8 +81,8 @@ export function getConnectionStringFromEnvironment(): string {
  * Read body from downloading operation methods to string.
  * Works in both Node.js and browsers.
  *
- * @param response Convenience layer methods response with downloaded body
- * @param length Length of Readable stream, needed for Node.js environment
+ * @param response - Convenience layer methods response with downloaded body
+ * @param length - Length of Readable stream, needed for Node.js environment
  */
 export async function bodyToString(
   response: {
@@ -188,11 +197,24 @@ async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Bu
   });
 }
 
+export function getTokenCredential(): TokenCredential {
+  const accountTokenEnvVar = `ACCOUNT_TOKEN`;
+  let accountToken: string | undefined;
+
+  accountToken = process.env[accountTokenEnvVar];
+
+  if (!accountToken || accountToken === "") {
+    throw new Error(`${accountTokenEnvVar} environment variables not specified.`);
+  }
+
+  return new SimpleTokenCredential(accountToken);
+}
+
 /**
  * Compare the content of body from downloading operation methods with a Uint8Array.
  * Works in both Node.js and browsers.
  *
- * @param response Convenience layer methods response with downloaded body
+ * @param response - Convenience layer methods response with downloaded body
  */
 export async function compareBodyWithUint8Array(
   response: {

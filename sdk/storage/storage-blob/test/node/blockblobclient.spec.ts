@@ -1,11 +1,17 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import * as zlib from "zlib";
 
 import {
+  base64encode,
   bodyToString,
   genearteRandomUint8Array,
   getBSU,
   getConnectionStringFromEnvironment,
+  getTokenBSU,
+  getTokenCredential,
   recorderEnvSetup
 } from "../utils";
 import {
@@ -20,7 +26,7 @@ import {
 } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { isPlaybackMode, record, Recorder } from "@azure/test-utils-recorder";
 import { streamToBuffer3 } from "../../src/utils/utils.node";
 import * as crypto from "crypto";
 import { BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES } from "../../src/utils/constants";
@@ -237,6 +243,218 @@ describe("syncUploadFromURL", () => {
     }
   });
 
+  it("stageBlockFromURL - source SAS and destination bearer token", async function() {
+    if (!isPlaybackMode()) {
+      // Enable this when STG78 - version 2020-10-02 is enabled on production.
+      this.skip();
+    }
+    const stokenBlobServiceClient = getTokenBSU();
+    const tokenNewBlockBlobClient = stokenBlobServiceClient
+      .getContainerClient(containerClient.containerName)
+      .getBlockBlobClient(blockBlobClient.name);
+
+    await tokenNewBlockBlobClient.stageBlockFromURL(
+      base64encode("1"),
+      sourceBlobURLWithSAS,
+      0,
+      content.length
+    );
+    await tokenNewBlockBlobClient.stageBlockFromURL(
+      base64encode("2"),
+      sourceBlobURLWithSAS,
+      0,
+      content.length
+    );
+
+    await blockBlobClient.commitBlockList([base64encode("1"), base64encode("2")]);
+    const listResponse = await blockBlobClient.getBlockList("committed");
+    assert.equal(listResponse.committedBlocks!.length, 2);
+    assert.equal(listResponse.committedBlocks![0].name, base64encode("1"));
+    assert.equal(listResponse.committedBlocks![0].size, content.length);
+    assert.equal(listResponse.committedBlocks![1].name, base64encode("2"));
+    assert.equal(listResponse.committedBlocks![1].size, content.length);
+  });
+
+  it("stageBlockFromURL - source bear token and destination account key", async function() {
+    if (!isPlaybackMode()) {
+      // Enable this when STG78 - version 2020-10-02 is enabled on production.
+      this.skip();
+    }
+    const body = "HelloWorld";
+    await blockBlobClient.upload(body, body.length);
+
+    const tokenCredential = getTokenCredential();
+    const accessToken = await tokenCredential.getToken([]);
+
+    const newBlockBlobClient = containerClient.getBlockBlobClient(
+      recorder.getUniqueName("newblockblob")
+    );
+
+    await newBlockBlobClient.stageBlockFromURL(
+      base64encode("1"),
+      blockBlobClient.url,
+      0,
+      body.length,
+      {
+        sourceAuthorization: {
+          scheme: "Bearer",
+          parameter: accessToken!.token
+        }
+      }
+    );
+
+    await newBlockBlobClient.stageBlockFromURL(
+      base64encode("2"),
+      blockBlobClient.url,
+      0,
+      body.length,
+      {
+        sourceAuthorization: {
+          scheme: "Bearer",
+          parameter: accessToken!.token
+        }
+      }
+    );
+
+    await newBlockBlobClient.commitBlockList([base64encode("1"), base64encode("2")]);
+    const listResponse = await newBlockBlobClient.getBlockList("committed");
+    assert.equal(listResponse.committedBlocks!.length, 2);
+    assert.equal(listResponse.committedBlocks![0].name, base64encode("1"));
+    assert.equal(listResponse.committedBlocks![0].size, body.length);
+    assert.equal(listResponse.committedBlocks![1].name, base64encode("2"));
+    assert.equal(listResponse.committedBlocks![1].size, body.length);
+  });
+
+  it("stageBlockFromURL - destination bearer token", async function() {
+    if (!isPlaybackMode()) {
+      // Enable this when STG78 - version 2020-10-02 is enabled on production.
+      this.skip();
+    }
+    const body = "HelloWorld";
+    await blockBlobClient.upload(body, body.length);
+
+    const tokenCredential = getTokenCredential();
+    const accessToken = await tokenCredential.getToken([]);
+
+    const stokenBlobServiceClient = getTokenBSU();
+    const newBlobName = recorder.getUniqueName("newblockblob");
+    const newBlockBlobClient = containerClient.getBlockBlobClient(newBlobName);
+    const tokenNewBlockBlobClient = stokenBlobServiceClient
+      .getContainerClient(containerClient.containerName)
+      .getBlockBlobClient(newBlobName);
+
+    await tokenNewBlockBlobClient.stageBlockFromURL(
+      base64encode("1"),
+      blockBlobClient.url,
+      0,
+      body.length,
+      {
+        sourceAuthorization: {
+          scheme: "Bearer",
+          parameter: accessToken!.token
+        }
+      }
+    );
+
+    await tokenNewBlockBlobClient.stageBlockFromURL(
+      base64encode("2"),
+      blockBlobClient.url,
+      0,
+      body.length,
+      {
+        sourceAuthorization: {
+          scheme: "Bearer",
+          parameter: accessToken!.token
+        }
+      }
+    );
+
+    await newBlockBlobClient.commitBlockList([base64encode("1"), base64encode("2")]);
+    const listResponse = await newBlockBlobClient.getBlockList("committed");
+    assert.equal(listResponse.committedBlocks!.length, 2);
+    assert.equal(listResponse.committedBlocks![0].name, base64encode("1"));
+    assert.equal(listResponse.committedBlocks![0].size, body.length);
+    assert.equal(listResponse.committedBlocks![1].name, base64encode("2"));
+    assert.equal(listResponse.committedBlocks![1].size, body.length);
+  });
+
+  it("syncUploadFromURL - source SAS and destination bearer token", async function() {
+    if (!isPlaybackMode()) {
+      // Enable this when STG78 - version 2020-10-02 is enabled on production.
+      this.skip();
+    }
+    const stokenBlobServiceClient = getTokenBSU();
+    const tokenNewBlockBlobClient = stokenBlobServiceClient
+      .getContainerClient(containerClient.containerName)
+      .getBlockBlobClient(blockBlobClient.name);
+
+    await tokenNewBlockBlobClient.syncUploadFromURL(sourceBlobURLWithSAS);
+
+    // Validate source and destination blob content match.
+    const downloadRes = await blockBlobClient.download();
+    const downloadBuffer = await streamToBuffer3(downloadRes.readableStreamBody!);
+    assert.ok(downloadBuffer.compare(Buffer.from(content)) === 0);
+  });
+
+  it("syncUploadFromURL - source bear token and destination account key", async function() {
+    if (!isPlaybackMode()) {
+      // Enable this when STG78 - version 2020-10-02 is enabled on production.
+      this.skip();
+    }
+    const body = "HelloWorld";
+    await blockBlobClient.upload(body, body.length);
+
+    const tokenCredential = getTokenCredential();
+    const accessToken = await tokenCredential.getToken([]);
+
+    const newBlockBlobClient = containerClient.getBlockBlobClient(
+      recorder.getUniqueName("newblockblob")
+    );
+
+    await newBlockBlobClient.syncUploadFromURL(blockBlobClient.url, {
+      sourceAuthorization: {
+        scheme: "Bearer",
+        parameter: accessToken!.token
+      }
+    });
+
+    // Validate source and destination blob content match.
+    const downloadRes = await newBlockBlobClient.download();
+    assert.equal(await bodyToString(downloadRes, body.length), body);
+    assert.equal(downloadRes.contentLength!, body.length);
+  });
+
+  it("syncUploadFromURL - destination bearer token", async function() {
+    if (!isPlaybackMode()) {
+      // Enable this when STG78 - version 2020-10-02 is enabled on production.
+      this.skip();
+    }
+    const body = "HelloWorld";
+    await blockBlobClient.upload(body, body.length);
+
+    const tokenCredential = getTokenCredential();
+    const accessToken = await tokenCredential.getToken([]);
+
+    const stokenBlobServiceClient = getTokenBSU();
+    const newBlobName = recorder.getUniqueName("newblockblob");
+    const newBlockBlobClient = containerClient.getBlockBlobClient(newBlobName);
+    const tokenNewBlockBlobClient = stokenBlobServiceClient
+      .getContainerClient(containerClient.containerName)
+      .getBlockBlobClient(newBlobName);
+
+    await tokenNewBlockBlobClient.syncUploadFromURL(blockBlobClient.url, {
+      sourceAuthorization: {
+        scheme: "Bearer",
+        parameter: accessToken!.token
+      }
+    });
+
+    // Validate source and destination blob content match.
+    const downloadRes = await newBlockBlobClient.download();
+    assert.equal(await bodyToString(downloadRes, body.length), body);
+    assert.equal(downloadRes.contentLength!, body.length);
+  });
+
   it("with default options", async () => {
     await blockBlobClient.syncUploadFromURL(sourceBlobURLWithSAS);
 
@@ -376,23 +594,26 @@ describe("syncUploadFromURL", () => {
       undefined,
       "recording file too large, exceeds GitHub's file size limit of 100.00 MB"
     );
-    await sourceBlob.upload(largeContent, largeContent.byteLength);
+    await sourceBlob.uploadData(largeContent);
     await blockBlobClient.syncUploadFromURL(sourceBlobURLWithSAS);
-  });
+  }).timeout(10 * 60 * 1000);
 
   it("large content with timeout", async () => {
     recorder.skip(
       undefined,
       "recording file too large, exceeds GitHub's file size limit of 100.00 MB"
     );
-    await sourceBlob.upload(largeContent, largeContent.byteLength);
+    await sourceBlob.uploadData(largeContent);
 
+    let exceptionCaught = false;
     try {
       await blockBlobClient.syncUploadFromURL(sourceBlobURLWithSAS, {
         timeoutInSeconds: 1
       });
     } catch (err) {
       assert.deepStrictEqual(err.code, "OperationTimedOut");
+      exceptionCaught = true;
     }
-  });
+    assert.ok(exceptionCaught);
+  }).timeout(10 * 60 * 1000);
 });

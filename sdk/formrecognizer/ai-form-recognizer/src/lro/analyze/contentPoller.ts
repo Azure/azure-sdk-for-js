@@ -3,7 +3,7 @@
 
 import { delay, AbortSignalLike } from "@azure/core-http";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
-import { RecognizeContentOptions } from "../../formRecognizerClient";
+import { BeginRecognizeContentOptions } from "../../formRecognizerClient";
 import { FormContentType } from "../../common";
 
 import {
@@ -14,6 +14,9 @@ import { FormRecognizerRequestBody, FormPageArray } from "../../models";
 import { RecognizeContentResultResponse } from "../../internalModels";
 export { OperationStatus };
 
+/**
+ * @internal
+ */
 export interface ContentPollerOperationOptions {
   /**
    * Time between each polling in milliseconds.
@@ -32,13 +35,15 @@ export interface ContentPollerOperationOptions {
 /**
  * Defines the operations from a analyze client that are needed for the poller
  * to work
+ *
+ * @internal
  */
 export type RecognizeContentPollerClient = {
   // returns a result id to retrieve results
   beginRecognize: (
     source: FormRecognizerRequestBody | string,
     contentType?: FormContentType,
-    analyzeOptions?: RecognizeContentOptions
+    analyzeOptions?: BeginRecognizeContentOptions
   ) => Promise<AnalyzeLayoutAsyncResponseModel>;
   // retrieves analyze result
   getRecognizeResult: (
@@ -53,9 +58,12 @@ export interface BeginRecognizeContentPollState extends PollOperationState<FormP
   contentType?: FormContentType;
   resultId?: string;
   status: OperationStatus;
-  readonly analyzeOptions?: RecognizeContentOptions;
+  readonly analyzeOptions?: BeginRecognizeContentOptions;
 }
 
+/**
+ * @internal
+ */
 export interface BeginRecognizeContentPollerOperation
   extends PollOperation<BeginRecognizeContentPollState, FormPageArray> {}
 
@@ -70,10 +78,12 @@ export type BeginRecognizeContentPollerOptions = {
   resultId?: string;
   onProgress?: (state: BeginRecognizeContentPollState) => void;
   resumeFrom?: string;
-} & RecognizeContentOptions;
+} & BeginRecognizeContentOptions;
 
 /**
  * Class that represents a poller that waits until a model has been trained.
+ *
+ * @internal
  */
 export class BeginRecognizeContentPoller extends Poller<
   BeginRecognizeContentPollState,
@@ -121,10 +131,11 @@ export class BeginRecognizeContentPoller extends Poller<
     return delay(this.updateIntervalInMs);
   }
 }
+
 /**
  * Creates a poll operation given the provided state.
+ *
  * @internal
- * @hidden
  */
 function makeBeginRecognizePollOperation(
   state: BeginRecognizeContentPollState

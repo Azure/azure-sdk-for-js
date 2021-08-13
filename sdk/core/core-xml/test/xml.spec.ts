@@ -8,7 +8,7 @@ describe("XML serializer", function() {
   describe("parseXML(string)", function() {
     it("with undefined", async function() {
       try {
-        // @ts-expect-error
+        // @ts-expect-error - intentional error for test
         await parseXML(undefined);
         assert.fail("Expected error");
       } catch (error) {
@@ -23,7 +23,7 @@ describe("XML serializer", function() {
 
     it("with null", async function() {
       try {
-        // @ts-expect-error
+        // @ts-expect-error - intentional error for test
         await parseXML(null);
         assert.fail("Expected error");
       } catch (error) {

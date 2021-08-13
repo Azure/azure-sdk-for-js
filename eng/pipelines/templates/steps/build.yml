@@ -2,17 +2,14 @@ parameters:
   Artifacts: []
   TestPipeline: false
   ServiceDirectory: not-specified
+  IncludeRelease: true
 
 steps:
-  - ${{if eq(parameters.TestPipeline, 'true')}}:
-    - task: PowerShell@2
-      displayName: Prep template pipeline for release
-      condition: succeeded()
-      inputs:
-        pwsh: true
-        workingDirectory: $(Build.SourcesDirectory)
-        filePath: eng/scripts/SetTestPipelineVersion.ps1
-        arguments: '-BuildID $(Build.BuildId)'
+  - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
+    parameters:
+      PackageName: "@azure/template"
+      ServiceDirectory: "template"
+      TestPipeline: ${{ parameters.TestPipeline }}
 
   - pwsh: |
       $folder = "${{parameters.ServiceDirectory}}"
@@ -21,6 +18,8 @@ steps:
     displayName: "Set folder variable for readme links"
 
   - template: /eng/common/pipelines/templates/steps/daily-dev-build-variable.yml
+    parameters:
+      ServiceDirectory: ${{ parameters.ServiceDirectory }}
 
   - script: |
       npm install ./eng/tools/versioning
@@ -28,6 +27,18 @@ steps:
       node common/scripts/install-run-rush.js update
     condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
     displayName: "Update package versions for dev build"
+
+  - task: Powershell@2
+    inputs:
+      filePath: $(Build.SourcesDirectory)/eng/common/scripts/Save-Package-Properties.ps1
+      arguments: >
+        -ServiceDirectory ${{parameters.ServiceDirectory}}
+        -OutDirectory $(Build.ArtifactStagingDirectory)/PackageInfo
+        -AddDevVersion
+      pwsh: true
+      workingDirectory: $(Pipeline.Workspace)
+    displayName: Update package properties with dev version
+    condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
 
   - script: |
       node common/scripts/install-run-rush.js install
@@ -37,8 +48,11 @@ steps:
   # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
   # The default on Windows is "cores - 1" (microsoft/rushstack#436).
   - script: |
-      node eng/tools/rush-runner.js build "${{parameters.ServiceDirectory}}" --verbose -p max --TransitiveDep
+      node eng/tools/rush-runner.js build "${{parameters.ServiceDirectory}}" --verbose -p max
     displayName: "Build libraries"
+  - script: |
+      node eng/tools/rush-runner.js build:samples "${{parameters.ServiceDirectory}}" --verbose
+    displayName: "Build samples"
 
   - pwsh: |
       eng/tools/check-api-warning.ps1
@@ -48,42 +62,39 @@ steps:
       node eng/tools/rush-runner.js pack "${{parameters.ServiceDirectory}}" --verbose
     displayName: "Pack libraries"
 
-  - script: |
-      node eng/tools/rush-runner.js build:samples "${{parameters.ServiceDirectory}}" --verbose
-    displayName: "Build samples"
-
   # Unlink node_modules folders to significantly improve performance of subsequent tasks
   # which need to walk the directory tree (and are hardcoded to follow symlinks).
   - script: |
       node eng/tools/rush-runner.js unlink
     displayName: "Unlink dependencies"
 
-  # It's important for performance to pass "sdk" as "sourceFolder" rather than as a prefix in "contents".
-  # The task first enumerates all files under "sourceFolder", then matches them against the "contents" pattern.
-  - task: CopyFiles@2
-    inputs:
-      sourceFolder: sdk
-      contents: |
-        **/$(coalesceResultFilter)/*.tgz
-        **/$(coalesceResultFilter)/browser/*.zip
-      targetFolder: $(Build.ArtifactStagingDirectory)
-      flattenFolders: true
-    displayName: "Copy packages"
-
-  - task: PublishPipelineArtifact@1
-    condition: succeededOrFailed()
-    displayName: "Publish artifacts"
-    inputs:
-      artifactName: packages
-      path: $(Build.ArtifactStagingDirectory)
+  - template: /eng/common/pipelines/templates/steps/create-apireview.yml
+    parameters:
+      Artifacts: ${{ parameters.Artifacts }}
+      ArtifactPath: $(Build.SourcesDirectory)/sdk/${{ parameters.ServiceDirectory }}
 
   - template: ../steps/generate-doc.yml
     parameters:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
 
-  - task: PublishPipelineArtifact@1
-    condition: succeededOrFailed()
-    displayName: "Publish artifacts"
-    inputs:
-      artifactName: documentation
-      path: $(Build.ArtifactStagingDirectory)/Documentation
+  - pwsh: |
+      $artifacts = '${{ convertToJson(parameters.Artifacts) }}' | ConvertFrom-Json
+      foreach ($artifact in $artifacts)
+      {
+        $artifactName = $artifact.name
+        Write-Host "Copying $artifactName artifacts to $(Build.ArtifactStagingDirectory)/$artifactName"
+        New-Item -Type Directory -Name $artifactName -Path $(Build.ArtifactStagingDirectory) > $null
+        Copy-Item sdk/${{parameters.ServiceDirectory}}/**/$artifactName-[0-9]*.[0-9]*.[0-9]*.tgz $(Build.ArtifactStagingDirectory)/$artifactName
+        Copy-Item sdk/${{parameters.ServiceDirectory}}/**/browser/$artifactName-[0-9]*.[0-9]*.[0-9]*.zip $(Build.ArtifactStagingDirectory)/$artifactName
+        if ($${{ parameters.IncludeRelease }} -eq $true)
+        {
+          New-Item -Type Directory -Name documentation -Path $(Build.ArtifactStagingDirectory)/$artifactName > $null
+          Copy-Item $(Build.SourcesDirectory)/docGen/$artifactName.zip $(Build.ArtifactStagingDirectory)/$artifactName/documentation
+        }
+      }
+    displayName: 'Copy Packages'
+
+  - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
+    parameters:
+      ArtifactPath: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'packages'

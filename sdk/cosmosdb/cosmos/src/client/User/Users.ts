@@ -19,20 +19,18 @@ import { UserResponse } from "./UserResponse";
 export class Users {
   /**
    * @hidden
-   * @param database The parent {@link Database}.
+   * @param database - The parent {@link Database}.
    */
   constructor(public readonly database: Database, private readonly clientContext: ClientContext) {}
 
   /**
    * Query all users.
-   * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
-   * @param options
+   * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
    */
   public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
   /**
    * Query all users.
-   * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
-   * @param options
+   * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
    */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
@@ -52,8 +50,7 @@ export class Users {
   }
 
   /**
-   * Read all users.
-   * @param options
+   * Read all users.-
    * @example Read all users to array.
    * ```typescript
    * const {body: usersList} = await database.users.readAll().fetchAll();
@@ -65,8 +62,7 @@ export class Users {
 
   /**
    * Create a database user with the specified {@link UserDefinition}.
-   * @param body The specified {@link UserDefinition}.
-   * @param options
+   * @param body - The specified {@link UserDefinition}.
    */
   public async create(body: UserDefinition, options?: RequestOptions): Promise<UserResponse> {
     const err = {};
@@ -89,8 +85,7 @@ export class Users {
 
   /**
    * Upsert a database user with a specified {@link UserDefinition}.
-   * @param body The specified {@link UserDefinition}.
-   * @param options
+   * @param body - The specified {@link UserDefinition}.
    */
   public async upsert(body: UserDefinition, options?: RequestOptions): Promise<UserResponse> {
     const err = {};

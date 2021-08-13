@@ -1,8 +1,12 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { record, Recorder } from "@azure/test-utils-recorder";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
+import * as buffer from "buffer";
 import { DataLakeFileClient, DataLakeFileSystemClient } from "../../src";
 import {
   bodyToString,
@@ -12,7 +16,6 @@ import {
 } from "../utils";
 import {
   MB,
-  GB,
   FILE_MAX_SINGLE_UPLOAD_THRESHOLD,
   BLOCK_BLOB_MAX_BLOCKS,
   FILE_UPLOAD_MAX_CHUNK_SIZE
@@ -590,7 +593,7 @@ describe("Highlevel Node.js only", () => {
     let error;
     try {
       await fileClient.uploadFile(tempFileSmall);
-      await fileClient.readToBuffer(undefined, 4 * GB);
+      await fileClient.readToBuffer(undefined, (buffer as any).constants.MAX_LENGTH + 1);
     } catch (err) {
       error = err;
     }

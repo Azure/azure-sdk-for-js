@@ -11,19 +11,16 @@ import { LoadBalancingStrategy } from "../loadBalancerStrategies/loadBalancingSt
  * - `partitionId`  : The string identifier of the partition that the producer can be bound to.
  * - `retryOptions` : The retry options used to govern retry attempts when an issue is encountered while sending events.
  * A simple usage can be `{ "maxRetries": 4 }`.
- * @hidden
  * @internal
  */
 export interface EventHubProducerOptions {
   /**
-   * @property
    * The identifier of the partition that the producer will be bound to.
    * If a value is provided, all events sent using the producer will reach the same partition.
    * If no value is provided, the service will determine the partition to which the event will be sent.
    */
   partitionId?: string;
   /**
-   * @property
    * The retry options used to govern retry attempts when an issue is encountered while sending events.
    * If no value is provided here, the retry options set when creating the `EventHubClient` is used.
    */
@@ -32,13 +29,11 @@ export interface EventHubProducerOptions {
 
 /**
  * @internal
- * @hidden
  */
 export type OperationNames = "getEventHubProperties" | "getPartitionIds" | "getPartitionProperties";
 
 /**
  * @internal
- * @hidden
  */
 export interface CommonEventProcessorOptions
   extends Required<Pick<SubscribeOptions, "maxBatchSize" | "maxWaitTimeInSeconds">>,
@@ -92,11 +87,9 @@ export interface CommonEventProcessorOptions
  * }
  * ```
  * @internal
- * @hidden
  */
 export interface EventHubConsumerOptions {
   /**
-   * @property
    * The owner level associated with an exclusive consumer.
    *
    * When provided, the owner level indicates that a consumer is intended to be the exclusive receiver of events for the
@@ -106,13 +99,11 @@ export interface EventHubConsumerOptions {
    */
   ownerLevel?: number;
   /**
-   * @property
    * The retry options used to govern retry attempts when an issue is encountered while receiving events.
    * If no value is provided here, the retry options set when creating the `EventHubClient` is used.
    */
   retryOptions?: RetryOptions;
   /**
-   * @property
    * Indicates whether or not the consumer should request information on the last enqueued event on its
    * associated partition, and track that information as events are received.
 

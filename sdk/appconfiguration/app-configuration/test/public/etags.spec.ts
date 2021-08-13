@@ -10,13 +10,14 @@ import {
 } from "./utils/testHelpers";
 import * as assert from "assert";
 import { Recorder } from "@azure/test-utils-recorder";
+import { Context } from "mocha";
 
 describe("etags", () => {
   let client: AppConfigurationClient;
   let recorder: Recorder;
   let key: string;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = startRecorder(this);
     key = recorder.getUniqueName("etags");
     client = createAppConfigurationClientForTests() || this.skip();

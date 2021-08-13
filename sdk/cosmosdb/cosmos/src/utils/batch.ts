@@ -29,7 +29,15 @@ export interface OperationResponse {
   resourceBody?: JSONObject;
 }
 
-export function isKeyInRange(min: string, max: string, key: string) {
+/**
+ * Options object used to modify bulk execution.
+ * continueOnError (Default value: false) - Continues bulk execution when an operation fails ** NOTE THIS WILL DEFAULT TO TRUE IN the 4.0 RELEASE
+ */
+export interface BulkOptions {
+  continueOnError?: boolean;
+}
+
+export function isKeyInRange(min: string, max: string, key: string): boolean {
   const isAfterMinInclusive = key.localeCompare(min) >= 0;
   const isBeforeMax = key.localeCompare(max) < 0;
   return isAfterMinInclusive && isBeforeMax;
@@ -49,7 +57,6 @@ export const BulkOperationType = {
   Replace: "Replace"
 } as const;
 
-// TODO Make operationInput CreateOperationInput | ...
 export type OperationInput =
   | CreateOperationInput
   | UpsertOperationInput
@@ -58,7 +65,7 @@ export type OperationInput =
   | ReplaceOperationInput;
 
 export interface CreateOperationInput {
-  partitionKey?: string | number | null | {} | undefined;
+  partitionKey?: string | number | null | Record<string, unknown> | undefined;
   ifMatch?: string;
   ifNoneMatch?: string;
   operationType: typeof BulkOperationType.Create;
@@ -66,7 +73,7 @@ export interface CreateOperationInput {
 }
 
 export interface UpsertOperationInput {
-  partitionKey?: string | number | null | {} | undefined;
+  partitionKey?: string | number | null | Record<string, unknown> | undefined;
   ifMatch?: string;
   ifNoneMatch?: string;
   operationType: typeof BulkOperationType.Upsert;
@@ -74,19 +81,19 @@ export interface UpsertOperationInput {
 }
 
 export interface ReadOperationInput {
-  partitionKey?: string | number | null | {} | undefined;
+  partitionKey?: string | number | boolean | null | Record<string, unknown> | undefined;
   operationType: typeof BulkOperationType.Read;
   id: string;
 }
 
 export interface DeleteOperationInput {
-  partitionKey?: string | number | null | {} | undefined;
+  partitionKey?: string | number | null | Record<string, unknown> | undefined;
   operationType: typeof BulkOperationType.Delete;
   id: string;
 }
 
 export interface ReplaceOperationInput {
-  partitionKey?: string | number | null | {} | undefined;
+  partitionKey?: string | number | null | Record<string, unknown> | undefined;
   ifMatch?: string;
   ifNoneMatch?: string;
   operationType: typeof BulkOperationType.Replace;
@@ -126,9 +133,9 @@ export function hasResource(
   return (operation as OperationWithItem).resourceBody !== undefined;
 }
 
-export function getPartitionKeyToHash(operation: Operation, partitionProperty: string) {
+export function getPartitionKeyToHash(operation: Operation, partitionProperty: string): any {
   const toHashKey = hasResource(operation)
-    ? (operation.resourceBody as any)[partitionProperty]
+    ? deepFind(operation.resourceBody, partitionProperty)
     : (operation.partitionKey && operation.partitionKey.replace(/[[\]"']/g, "")) ||
       operation.partitionKey;
   // We check for empty object since replace will stringify the value
@@ -150,7 +157,10 @@ export function decorateOperation(
   definition: PartitionKeyDefinition,
   options: RequestOptions = {}
 ): Operation {
-  if (operation.operationType === BulkOperationType.Create) {
+  if (
+    operation.operationType === BulkOperationType.Create ||
+    operation.operationType === BulkOperationType.Upsert
+  ) {
     if (
       (operation.resourceBody.id === undefined || operation.resourceBody.id === "") &&
       !options.disableAutomaticIdGeneration
@@ -168,6 +178,25 @@ export function decorateOperation(
   ) {
     const pk = extractPartitionKey(operation.resourceBody, definition);
     return { ...operation, partitionKey: JSON.stringify(pk) } as Operation;
+  } else if (
+    operation.operationType === BulkOperationType.Read ||
+    operation.operationType === BulkOperationType.Delete
+  ) {
+    return { ...operation, partitionKey: "[{}]" };
   }
   return operation as Operation;
+}
+
+/**
+ * Util function for finding partition key values nested in objects at slash (/) separated paths
+ * @hidden
+ */
+export function deepFind<T, P extends string>(document: T, path: P): JSONObject {
+  const apath = path.split("/");
+  let h: any = document;
+  for (const p of apath) {
+    if (p in h) h = h[p];
+    else throw new Error(`Invalid path: ${path} at ${p}`);
+  }
+  return h;
 }

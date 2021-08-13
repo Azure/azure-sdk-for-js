@@ -3,14 +3,16 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { KeyCredential } from "@azure/core-auth";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
   createPipelineFromOptions,
   InternalPipelineOptions,
   operationOptionsToRequestOptionsBase,
-  PipelineOptions
+  PipelineOptions,
+  RequestPolicyFactory,
+  bearerTokenAuthenticationPolicy
 } from "@azure/core-http";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { SDK_VERSION } from "./constants";
 import { AnalyzeResult } from "./generated/service/models";
 import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient";
@@ -40,12 +42,17 @@ import {
 import * as utils from "./serviceUtils";
 import { createSpan } from "./tracing";
 import { odataMetadataPolicy } from "./odataMetadataPolicy";
-import { SearchClient, SearchClientOptions } from "./searchClient";
+import { SearchClient, SearchClientOptions as GetSearchClientOptions } from "./searchClient";
 
 /**
  * Client options used to configure Cognitive Search API requests.
  */
-export type SearchIndexClientOptions = PipelineOptions;
+export interface SearchIndexClientOptions extends PipelineOptions {
+  /**
+   * The API version to use when communicating with the service.
+   */
+  apiVersion?: string;
+}
 
 /**
  * Class to perform operations to manage
@@ -56,7 +63,7 @@ export class SearchIndexClient {
   /**
    * The API version to use when communicating with the service.
    */
-  public readonly apiVersion: string = "2020-06-30";
+  public readonly apiVersion: string = "2020-06-30-Preview";
 
   /**
    * The endpoint of the search service
@@ -73,7 +80,7 @@ export class SearchIndexClient {
   /**
    * Used to authenticate requests to the service.
    */
-  private readonly credential: KeyCredential;
+  private readonly credential: KeyCredential | TokenCredential;
 
   /**
    * Used to configure the Search Index client.
@@ -92,11 +99,15 @@ export class SearchIndexClient {
    *   new AzureKeyCredential("<Admin Key>");
    * );
    * ```
-   * @param {string} endpoint The endpoint of the search service
-   * @param {KeyCredential} credential Used to authenticate requests to the service.
-   * @param {SearchIndexClientOptions} [options] Used to configure the Search Index client.
+   * @param endpoint - The endpoint of the search service
+   * @param credential - Used to authenticate requests to the service.
+   * @param options - Used to configure the Search Index client.
    */
-  constructor(endpoint: string, credential: KeyCredential, options: SearchIndexClientOptions = {}) {
+  constructor(
+    endpoint: string,
+    credential: KeyCredential | TokenCredential,
+    options: SearchIndexClientOptions = {}
+  ) {
     this.endpoint = endpoint;
     this.credential = credential;
     this.options = options;
@@ -128,16 +139,26 @@ export class SearchIndexClient {
       }
     };
 
-    const pipeline = createPipelineFromOptions(
-      internalPipelineOptions,
-      createSearchApiKeyCredentialPolicy(credential)
-    );
+    const requestPolicyFactory: RequestPolicyFactory = isTokenCredential(credential)
+      ? bearerTokenAuthenticationPolicy(credential, utils.DEFAULT_SEARCH_SCOPE)
+      : createSearchApiKeyCredentialPolicy(credential);
+
+    const pipeline = createPipelineFromOptions(internalPipelineOptions, requestPolicyFactory);
 
     if (Array.isArray(pipeline.requestPolicyFactories)) {
       pipeline.requestPolicyFactories.unshift(odataMetadataPolicy("minimal"));
     }
 
-    this.client = new GeneratedClient(this.apiVersion, this.endpoint, pipeline);
+    let apiVersion = this.apiVersion;
+
+    if (options.apiVersion) {
+      if (!["2020-06-30", "2021-04-30-Preview"].includes(options.apiVersion)) {
+        throw new Error(`Invalid Api Version: ${options.apiVersion}`);
+      }
+      apiVersion = options.apiVersion;
+    }
+
+    this.client = new GeneratedClient(this.endpoint, apiVersion, pipeline);
   }
 
   private async *listIndexesPage(
@@ -152,7 +173,7 @@ export class SearchIndexClient {
       yield mapped;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -171,7 +192,7 @@ export class SearchIndexClient {
 
   /**
    * Retrieves a list of existing indexes in the service.
-   * @param options Options to the list index operation.
+   * @param options - Options to the list index operation.
    */
   public listIndexes(options: ListIndexesOptions = {}): IndexIterator {
     const iter = this.listIndexesAll(options);
@@ -202,7 +223,7 @@ export class SearchIndexClient {
       yield mapped;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -221,7 +242,7 @@ export class SearchIndexClient {
 
   /**
    * Retrieves a list of names of existing indexes in the service.
-   * @param options Options to the list index operation.
+   * @param options - Options to the list index operation.
    */
   public listIndexesNames(options: ListIndexesOptions = {}): IndexNameIterator {
     const iter = this.listIndexesNamesAll(options);
@@ -241,7 +262,7 @@ export class SearchIndexClient {
 
   /**
    * Retrieves a list of existing SynonymMaps in the service.
-   * @param options Options to the list SynonymMaps operation.
+   * @param options - Options to the list SynonymMaps operation.
    */
   public async listSynonymMaps(options: ListSynonymMapsOptions = {}): Promise<Array<SynonymMap>> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-listSynonymMaps", options);
@@ -252,7 +273,7 @@ export class SearchIndexClient {
       return result.synonymMaps.map(utils.generatedSynonymMapToPublicSynonymMap);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -263,7 +284,7 @@ export class SearchIndexClient {
 
   /**
    * Retrieves a list of names of existing SynonymMaps in the service.
-   * @param options Options to the list SynonymMaps operation.
+   * @param options - Options to the list SynonymMaps operation.
    */
   public async listSynonymMapsNames(options: ListSynonymMapsOptions = {}): Promise<Array<string>> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-listSynonymMapsNames", options);
@@ -275,7 +296,7 @@ export class SearchIndexClient {
       return result.synonymMaps.map((sm) => sm.name);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -286,8 +307,8 @@ export class SearchIndexClient {
 
   /**
    * Retrieves information about an index.
-   * @param indexName The name of the index.
-   * @param options Additional optional arguments.
+   * @param indexName - The name of the index.
+   * @param options - Additional optional arguments.
    */
   public async getIndex(indexName: string, options: GetIndexOptions = {}): Promise<SearchIndex> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-getIndex", options);
@@ -299,7 +320,7 @@ export class SearchIndexClient {
       return utils.generatedIndexToPublicIndex(result);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -310,8 +331,8 @@ export class SearchIndexClient {
 
   /**
    * Retrieves information about a SynonymMap.
-   * @param synonymMapName The name of the SynonymMap.
-   * @param options Additional optional arguments.
+   * @param synonymMapName - The name of the SynonymMap.
+   * @param options - Additional optional arguments.
    */
   public async getSynonymMap(
     synonymMapName: string,
@@ -326,7 +347,7 @@ export class SearchIndexClient {
       return utils.generatedSynonymMapToPublicSynonymMap(result);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -337,8 +358,8 @@ export class SearchIndexClient {
 
   /**
    * Creates a new index.
-   * @param index The information describing the index to be created.
-   * @param options Additional optional arguments.
+   * @param index - The information describing the index to be created.
+   * @param options - Additional optional arguments.
    */
   public async createIndex(
     index: SearchIndex,
@@ -353,7 +374,7 @@ export class SearchIndexClient {
       return utils.generatedIndexToPublicIndex(result);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -364,8 +385,8 @@ export class SearchIndexClient {
 
   /**
    * Creates a new SynonymMap in a search service.
-   * @param synonymMap The synonymMap definition to create in a search service.
-   * @param options Additional optional arguments.
+   * @param synonymMap - The synonymMap definition to create in a search service.
+   * @param options - Additional optional arguments.
    */
   public async createSynonymMap(
     synonymMap: SynonymMap,
@@ -380,7 +401,7 @@ export class SearchIndexClient {
       return utils.generatedSynonymMapToPublicSynonymMap(result);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -391,8 +412,8 @@ export class SearchIndexClient {
 
   /**
    * Creates a new index or modifies an existing one.
-   * @param index The information describing the index to be created.
-   * @param options Additional optional arguments.
+   * @param index - The information describing the index to be created.
+   * @param options - Additional optional arguments.
    */
   public async createOrUpdateIndex(
     index: SearchIndex,
@@ -413,7 +434,7 @@ export class SearchIndexClient {
       return utils.generatedIndexToPublicIndex(result);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -424,8 +445,8 @@ export class SearchIndexClient {
 
   /**
    * Creates a new SynonymMap or modifies an existing one.
-   * @param synonymMap The information describing the SynonymMap to be created.
-   * @param options Additional optional arguments.
+   * @param synonymMap - The information describing the SynonymMap to be created.
+   * @param options - Additional optional arguments.
    */
   public async createOrUpdateSynonymMap(
     synonymMap: SynonymMap,
@@ -449,7 +470,7 @@ export class SearchIndexClient {
       return utils.generatedSynonymMapToPublicSynonymMap(result);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -460,8 +481,8 @@ export class SearchIndexClient {
 
   /**
    * Deletes an existing index.
-   * @param indexName Index/Name of the index to delete.
-   * @param options Additional optional arguments.
+   * @param indexName - Index/Name of the index to delete.
+   * @param options - Additional optional arguments.
    */
   public async deleteIndex(
     index: string | SearchIndex,
@@ -473,13 +494,13 @@ export class SearchIndexClient {
       const etag =
         typeof index === "string" ? undefined : options.onlyIfUnchanged ? index.etag : undefined;
 
-      await this.client.indexes.deleteMethod(indexName, {
+      await this.client.indexes.delete(indexName, {
         ...operationOptionsToRequestOptionsBase(updatedOptions),
         ifMatch: etag
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -490,8 +511,8 @@ export class SearchIndexClient {
 
   /**
    * Deletes an existing SynonymMap.
-   * @param synonymMapName SynonymMap/Name of the synonymMap to delete.
-   * @param options Additional optional arguments.
+   * @param synonymMapName - SynonymMap/Name of the synonymMap to delete.
+   * @param options - Additional optional arguments.
    */
   public async deleteSynonymMap(
     synonymMap: string | SynonymMap,
@@ -507,13 +528,13 @@ export class SearchIndexClient {
           ? synonymMap.etag
           : undefined;
 
-      await this.client.synonymMaps.deleteMethod(synonymMapName, {
+      await this.client.synonymMaps.delete(synonymMapName, {
         ...operationOptionsToRequestOptionsBase(updatedOptions),
         ifMatch: etag
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -525,8 +546,8 @@ export class SearchIndexClient {
   /**
    * Retrieves statistics about an index, such as the count of documents and the size
    * of index storage.
-   * @param indexName The name of the index.
-   * @param options Additional optional arguments.
+   * @param indexName - The name of the index.
+   * @param options - Additional optional arguments.
    */
   public async getIndexStatistics(
     indexName: string,
@@ -541,7 +562,7 @@ export class SearchIndexClient {
       return result;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -552,9 +573,9 @@ export class SearchIndexClient {
 
   /**
    * Calls an analyzer or tokenizer manually on provided text.
-   * @param indexName The name of the index that contains the field to analyze
-   * @param text The text to break into tokens.
-   * @param options Additional arguments
+   * @param indexName - The name of the index that contains the field to analyze
+   * @param text - The text to break into tokens.
+   * @param options - Additional arguments
    */
   public async analyzeText(indexName: string, options: AnalyzeTextOptions): Promise<AnalyzeResult> {
     const { operationOptions, restOptions } = utils.extractOperationOptions(options);
@@ -573,7 +594,7 @@ export class SearchIndexClient {
       return result;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -584,7 +605,7 @@ export class SearchIndexClient {
 
   /**
    * Retrieves statistics about the service, such as the count of documents, index, etc.
-   * @param options Additional optional arguments.
+   * @param options - Additional optional arguments.
    */
   public async getServiceStatistics(
     options: GetServiceStatisticsOptions = {}
@@ -597,7 +618,7 @@ export class SearchIndexClient {
       return result;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -608,10 +629,10 @@ export class SearchIndexClient {
 
   /**
    * Retrieves the SearchClient corresponding to this SearchIndexClient
-   * @param indexName Name of the index
-   * @param options SearchClient Options
+   * @param indexName - Name of the index
+   * @param options - SearchClient Options
    */
-  public getSearchClient<T>(indexName: string, options?: SearchClientOptions): SearchClient<T> {
+  public getSearchClient<T>(indexName: string, options?: GetSearchClientOptions): SearchClient<T> {
     return new SearchClient<T>(this.endpoint, indexName, this.credential, options || this.options);
   }
 }

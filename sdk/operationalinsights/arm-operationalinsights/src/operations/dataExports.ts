@@ -191,7 +191,7 @@ const listByWorkspaceOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DataExportListResult
     },
     default: {
-      bodyMapper: Mappers.DataExportErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -227,7 +227,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DataExport
     },
     default: {
-      bodyMapper: Mappers.DataExportErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -253,7 +253,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DataExport
     },
     default: {
-      bodyMapper: Mappers.DataExportErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -278,7 +278,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     200: {},
     404: {},
     default: {
-      bodyMapper: Mappers.DataExportErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

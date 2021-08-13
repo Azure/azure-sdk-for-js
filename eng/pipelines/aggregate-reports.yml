@@ -3,7 +3,7 @@ trigger: none
 pr:
   branches:
     include:
-      - master
+      - main
   paths:
     include:
       - eng/pipelines/aggregate-reports.yml
@@ -19,12 +19,11 @@ jobs:
     displayName: 'Use Node 10.x'
     inputs:
       versionSpec: 10.x
-
   - template: ../common/pipelines/templates/steps/verify-links.yml
     parameters:
       Directory: ""
       CheckLinkGuidance: $true
-      
+      Condition: succeededOrFailed()
   - script: 'npm ci'
     workingDirectory: '$(Build.SourcesDirectory)/eng/tools/analyze-deps'
     displayName: 'Install tool dependencies'
@@ -54,3 +53,53 @@ jobs:
       pwsh: true
       workingDirectory: $(Build.SourcesDirectory)
       filePath: eng/common/scripts/Verify-Resource-Ref.ps1
+      
+  - task: securedevelopmentteam.vss-secure-development-tools.build-task-credscan.CredScan@3
+    displayName: 'Run CredScan'
+    condition: succeededOrFailed()
+    inputs:
+      suppressionsFile: 'eng\CredScanSuppression.json'
+  - task: securedevelopmentteam.vss-secure-development-tools.build-task-postanalysis.PostAnalysis@2
+    displayName: 'Post Analysis'
+    inputs:
+      GdnBreakAllTools: false
+      GdnBreakGdnToolCredScan: true
+      GdnBreakGdnToolCredScanSeverity: Error
+      GdnBreakBaselineFiles: $(Build.SourcesDirectory)\eng\js.gdnbaselines
+      GdnBreakBaselines: baseline  
+      # Used for generating baseline file.
+      # GdnBreakOutputBaselineFile: js
+      # GdnBreakOutputBaseline: baseline
+    continueOnError: true
+  - task: securedevelopmentteam.vss-secure-development-tools.build-task-publishsecurityanalysislogs.PublishSecurityAnalysisLogs@3
+    displayName: 'Publish Security Analysis Logs'
+    condition: succeededOrFailed()
+
+- ${{ if eq(variables['Build.Reason'], 'Schedule') }}:
+  - job: 'RushUpdate'
+    variables:
+    - template: /eng/pipelines/templates/variables/globals.yml
+
+    pool:
+      name: azsdk-pool-mms-ubuntu-2004-general
+      vmImage: MMSUbuntu20.04
+
+    steps:
+    - template: /eng/pipelines/templates/steps/common.yml
+
+    - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
+
+    - script: |
+        node common/scripts/install-run-rush.js install
+        node common/scripts/install-run-rush.js update --recheck
+      displayName: "Run Rush Update"
+
+    - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
+      parameters:
+        RepoName: azure-sdk-for-js
+        BaseBranchName: $(DefaultBranch)
+        PRBranchName: automated-rush-update
+        CommitMsg: "Automatic rush update recheck"
+        PRTitle: "Automatic rush update"
+        PRBody: "Automatic rush update PR"
+        PushArgs: "-f"

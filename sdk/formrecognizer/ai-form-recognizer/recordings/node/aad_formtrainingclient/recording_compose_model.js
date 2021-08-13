@@ -2,10 +2,81 @@ let nock = require('nock');
 
 module.exports.hash = "f728c256d475c8390b8fd8293968133e";
 
-module.exports.testInfo = {"uniqueName":{"composedModelName":"composedModelName160591248046001271"},"newDate":{}}
+module.exports.testInfo = {"uniqueName":{"composedModelName":"composedModelName162196555883505818"},"newDate":{}}
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default")
+  .get('/common/discovery/instance')
+  .query(true)
+  .reply(200, {"tenant_discovery_endpoint":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/v2.0/.well-known/openid-configuration","api-version":"1.1","metadata":[{"preferred_network":"login.microsoftonline.com","preferred_cache":"login.windows.net","aliases":["login.microsoftonline.com","login.windows.net","login.microsoft.com","sts.windows.net"]},{"preferred_network":"login.partner.microsoftonline.cn","preferred_cache":"login.partner.microsoftonline.cn","aliases":["login.partner.microsoftonline.cn","login.chinacloudapi.cn"]},{"preferred_network":"login.microsoftonline.de","preferred_cache":"login.microsoftonline.de","aliases":["login.microsoftonline.de"]},{"preferred_network":"login.microsoftonline.us","preferred_cache":"login.microsoftonline.us","aliases":["login.microsoftonline.us","login.usgovcloudapi.net"]},{"preferred_network":"login-us.microsoftonline.com","preferred_cache":"login-us.microsoftonline.com","aliases":["login-us.microsoftonline.com"]}]}, [
+  'Cache-Control',
+  'max-age=86400, private',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Access-Control-Allow-Origin',
+  '*',
+  'Access-Control-Allow-Methods',
+  'GET, OPTIONS',
+  'P3P',
+  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
+  'x-ms-request-id',
+  '44e4245c-4fcd-4bcf-8534-e7f04856dd00',
+  'x-ms-ests-server',
+  '2.1.11774.8 - WUS2 ProdSlices',
+  'Set-Cookie',
+  'fpc=ApkDqNpQ57tNkXRRzlIgAuA; expires=Thu, 24-Jun-2021 17:59:10 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'Set-Cookie',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr_FhdGA4aI0LMoADIYP_IzqnMQnpzTCZ_Hezlzazqsq5xK_aWp8F6M8JsssWr7k0iDr09cXDFMBtLdN5D6DAuQuOXfbMTirpyR_1Y-qpOMjYT0IyTcVygBu2XMTqgH2F4HXOUV2Dx4vKXqDv5urpEJcQZBjrO16J5tjSisRvImawgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'Set-Cookie',
+  'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
+  'Set-Cookie',
+  'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
+  'Date',
+  'Tue, 25 May 2021 17:59:10 GMT',
+  'Content-Length',
+  '980'
+]);
+
+nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+  .get('/12345678-1234-1234-1234-123456789012/v2.0/.well-known/openid-configuration')
+  .reply(200, {"token_endpoint":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token","token_endpoint_auth_methods_supported":["client_secret_post","private_key_jwt","client_secret_basic"],"jwks_uri":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/discovery/v2.0/keys","response_modes_supported":["query","fragment","form_post"],"subject_types_supported":["pairwise"],"id_token_signing_alg_values_supported":["RS256"],"response_types_supported":["code","id_token","code id_token","id_token token"],"scopes_supported":["openid","profile","email","offline_access"],"issuer":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/v2.0","request_uri_parameter_supported":false,"userinfo_endpoint":"https://graph.microsoft.com/oidc/userinfo","authorization_endpoint":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/authorize","device_authorization_endpoint":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/devicecode","http_logout_supported":true,"frontchannel_logout_supported":true,"end_session_endpoint":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/logout","claims_supported":["sub","iss","cloud_instance_name","cloud_instance_host_name","cloud_graph_host_name","msgraph_host","aud","exp","iat","auth_time","acr","nonce","preferred_username","name","tid","ver","at_hash","c_hash","email"],"tenant_region_scope":"WW","cloud_instance_name":"microsoftonline.com","cloud_graph_host_name":"graph.windows.net","msgraph_host":"graph.microsoft.com","rbac_url":"https://pas.windows.net"}, [
+  'Cache-Control',
+  'max-age=86400, private',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Access-Control-Allow-Origin',
+  '*',
+  'Access-Control-Allow-Methods',
+  'GET, OPTIONS',
+  'P3P',
+  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
+  'x-ms-request-id',
+  'fdd62c35-b239-4a12-b747-23c688ff2300',
+  'x-ms-ests-server',
+  '2.1.11774.11 - WUS2 ProdSlices',
+  'Set-Cookie',
+  'fpc=ApkDqNpQ57tNkXRRzlIgAuA; expires=Thu, 24-Jun-2021 17:59:10 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'Set-Cookie',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr592c7zxkTl4qxunFEpaImA5BYABGGQEjxeR91_DOEUCWA_UkB4wwYWAa1N-Y5QhVE_VZRokJDjiLjE-WkAxY9eyCQTTGKQdRVQqQCKwf4-DghDUA5RBwZrsRUzWkx7oqxDWHFBAWnPIfKnboaO0wGDm-GITOZhuCUY-UYW9z7LUgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'Set-Cookie',
+  'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
+  'Set-Cookie',
+  'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
+  'Date',
+  'Tue, 25 May 2021 17:59:10 GMT',
+  'Content-Length',
+  '1651'
+]);
+
+nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default%20openid%20profile%20offline_access&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.1.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=2|771,0|,&x-client-last-telemetry=2|0|||0,0&client-request-id=02294d14-cfe2-44af-97a4-8ca0568d18f0&client_secret=azure_client_secret")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -22,234 +93,236 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '0e56eb09-1249-4ba5-8aa4-b6f208442400',
+  'eb12d49d-f81e-4430-8bd3-d73b4b432300',
   'x-ms-ests-server',
-  '2.1.11251.20 - EUS ProdSlices',
+  '2.1.11774.11 - WUS2 ProdSlices',
+  'x-ms-clitelem',
+  '1,0,0,,',
   'Set-Cookie',
-  'fpc=AvkSnKcQSIZAnfAWc2BSAxPGLH8mAQAAAJo-StcOAAAA; expires=Sun, 20-Dec-2020 22:47:54 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=ApkDqNpQ57tNkXRRzlIgAuCU1ubLAQAAAO0xP9gOAAAA; expires=Thu, 24-Jun-2021 17:59:10 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 20 Nov 2020 22:47:54 GMT',
+  'Tue, 25 May 2021 17:59:10 GMT',
   'Content-Length',
   '1331'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/formrecognizer/v2.1-preview.2/custom/models', {"source":"https://storageaccount/trainingdata?sastoken","sourceFilter":{},"useLabelFile":true,"modelName":"input2"})
+  .post('/formrecognizer/v2.1/custom/models', {"source":"https://storageaccount/trainingdata?sastoken","sourceFilter":{},"useLabelFile":true,"modelName":"input2"})
   .reply(201, "", [
   'Content-Length',
   '0',
   'Location',
-  'https://endpoint/formrecognizer/v2.1-preview.2/custom/models/a0fb2a3c-ad88-4fe6-bee7-41e096363ac8',
+  'https://endpoint/formrecognizer/v2.1/custom/models/95c60e84-c824-4bd4-b4ff-b6c8ca79f5fe',
   'x-envoy-upstream-service-time',
-  '79',
+  '202',
   'apim-request-id',
-  'e33da011-f0b2-497d-beba-e540a4f38e98',
+  'c16c84b1-1be9-4e88-9a85-5b80dc5ddad6',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 20 Nov 2020 22:47:55 GMT'
+  'Tue, 25 May 2021 17:59:13 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/formrecognizer/v2.1-preview.2/custom/models', {"source":"https://storageaccount/trainingdata?sastoken","sourceFilter":{},"useLabelFile":true,"modelName":"input1"})
+  .post('/formrecognizer/v2.1/custom/models', {"source":"https://storageaccount/trainingdata?sastoken","sourceFilter":{},"useLabelFile":true,"modelName":"input1"})
   .reply(201, "", [
   'Content-Length',
   '0',
   'Location',
-  'https://endpoint/formrecognizer/v2.1-preview.2/custom/models/1ae42e79-21a3-44fd-a38d-81f8c34c84a7',
+  'https://endpoint/formrecognizer/v2.1/custom/models/59a141aa-8d28-4c36-a0a0-bd37838c1eea',
   'x-envoy-upstream-service-time',
-  '94',
+  '207',
   'apim-request-id',
-  '4573352f-7fa3-46dd-8cda-3a1da1d1432e',
+  'ba79c87a-5392-4c86-914b-a0ffe0295d16',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 20 Nov 2020 22:47:54 GMT'
+  'Tue, 25 May 2021 17:59:13 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.2/custom/models/a0fb2a3c-ad88-4fe6-bee7-41e096363ac8')
+  .get('/formrecognizer/v2.1/custom/models/59a141aa-8d28-4c36-a0a0-bd37838c1eea')
   .query(true)
-  .reply(200, {"modelInfo":{"modelId":"a0fb2a3c-ad88-4fe6-bee7-41e096363ac8","modelName":"input2","status":"creating","createdDateTime":"2020-11-20T22:47:55Z","lastUpdatedDateTime":"2020-11-20T22:47:55Z"}}, [
+  .reply(200, {"modelInfo":{"modelId":"59a141aa-8d28-4c36-a0a0-bd37838c1eea","modelName":"input1","status":"creating","createdDateTime":"2021-05-25T17:59:13Z","lastUpdatedDateTime":"2021-05-25T17:59:13Z"}}, [
   'Content-Length',
   '191',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '17',
+  '13',
   'apim-request-id',
-  'fd7d036f-ff0d-4e20-943b-bb2e8cbaa2b9',
+  'f347bb7f-b568-4100-bb0f-e2cec5e0df91',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 20 Nov 2020 22:47:55 GMT'
+  'Tue, 25 May 2021 17:59:13 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.2/custom/models/1ae42e79-21a3-44fd-a38d-81f8c34c84a7')
+  .get('/formrecognizer/v2.1/custom/models/95c60e84-c824-4bd4-b4ff-b6c8ca79f5fe')
   .query(true)
-  .reply(200, {"modelInfo":{"modelId":"1ae42e79-21a3-44fd-a38d-81f8c34c84a7","modelName":"input1","status":"creating","createdDateTime":"2020-11-20T22:47:55Z","lastUpdatedDateTime":"2020-11-20T22:47:55Z"}}, [
+  .reply(200, {"modelInfo":{"modelId":"95c60e84-c824-4bd4-b4ff-b6c8ca79f5fe","modelName":"input2","status":"creating","createdDateTime":"2021-05-25T17:59:13Z","lastUpdatedDateTime":"2021-05-25T17:59:13Z"}}, [
   'Content-Length',
   '191',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '22',
+  '12',
   'apim-request-id',
-  'a422d4e7-6c04-436a-9202-9608eeba1186',
+  '0a24c11e-5565-4037-bc1e-54ba0918268a',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 20 Nov 2020 22:47:54 GMT'
+  'Tue, 25 May 2021 17:59:13 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.2/custom/models/a0fb2a3c-ad88-4fe6-bee7-41e096363ac8')
+  .get('/formrecognizer/v2.1/custom/models/59a141aa-8d28-4c36-a0a0-bd37838c1eea')
   .query(true)
-  .reply(200, {"modelInfo":{"modelId":"a0fb2a3c-ad88-4fe6-bee7-41e096363ac8","modelName":"input2","status":"creating","createdDateTime":"2020-11-20T22:47:55Z","lastUpdatedDateTime":"2020-11-20T22:47:55Z"}}, [
+  .reply(200, {"modelInfo":{"modelId":"59a141aa-8d28-4c36-a0a0-bd37838c1eea","modelName":"input1","status":"creating","createdDateTime":"2021-05-25T17:59:13Z","lastUpdatedDateTime":"2021-05-25T17:59:13Z"}}, [
   'Content-Length',
   '191',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '19',
+  '15',
   'apim-request-id',
-  '91f3af6a-e75a-413e-9ef9-b4ee458354d2',
+  '6063fd53-ef36-490d-90ef-3cfd6d58f27f',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 20 Nov 2020 22:47:55 GMT'
+  'Tue, 25 May 2021 17:59:13 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.2/custom/models/1ae42e79-21a3-44fd-a38d-81f8c34c84a7')
+  .get('/formrecognizer/v2.1/custom/models/95c60e84-c824-4bd4-b4ff-b6c8ca79f5fe')
   .query(true)
-  .reply(200, {"modelInfo":{"modelId":"1ae42e79-21a3-44fd-a38d-81f8c34c84a7","modelName":"input1","status":"creating","createdDateTime":"2020-11-20T22:47:55Z","lastUpdatedDateTime":"2020-11-20T22:47:55Z"}}, [
+  .reply(200, {"modelInfo":{"modelId":"95c60e84-c824-4bd4-b4ff-b6c8ca79f5fe","modelName":"input2","status":"creating","createdDateTime":"2021-05-25T17:59:13Z","lastUpdatedDateTime":"2021-05-25T17:59:13Z"}}, [
   'Content-Length',
   '191',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '23',
+  '13',
   'apim-request-id',
-  '25b79c03-e05e-4c03-812d-3f536a6819da',
+  '07d77fdd-424b-4c62-9d27-b88a2931fc8b',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 20 Nov 2020 22:47:55 GMT'
+  'Tue, 25 May 2021 17:59:13 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.2/custom/models/1ae42e79-21a3-44fd-a38d-81f8c34c84a7')
+  .get('/formrecognizer/v2.1/custom/models/59a141aa-8d28-4c36-a0a0-bd37838c1eea')
   .query(true)
-  .reply(200, {"modelInfo":{"modelId":"1ae42e79-21a3-44fd-a38d-81f8c34c84a7","modelName":"input1","attributes":{"isComposed":false},"status":"ready","createdDateTime":"2020-11-20T22:47:55Z","lastUpdatedDateTime":"2020-11-20T22:47:58Z"},"trainResult":{"averageModelAccuracy":0.96,"trainingDocuments":[{"documentName":"Form_1.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_2.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_3.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_4.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_5.jpg","pages":1,"status":"succeeded"}],"fields":[{"fieldName":"CompanyAddress","accuracy":0.8},{"fieldName":"CompanyName","accuracy":1},{"fieldName":"CompanyPhoneNumber","accuracy":1},{"fieldName":"DatedAs","accuracy":1},{"fieldName":"Email","accuracy":0.8},{"fieldName":"Merchant","accuracy":1},{"fieldName":"PhoneNumber","accuracy":1},{"fieldName":"PurchaseOrderNumber","accuracy":1},{"fieldName":"Quantity","accuracy":1},{"fieldName":"Signature","accuracy":0.8},{"fieldName":"Subtotal","accuracy":1},{"fieldName":"Tax","accuracy":1},{"fieldName":"Total","accuracy":1},{"fieldName":"VendorName","accuracy":1},{"fieldName":"Website","accuracy":1}],"errors":[]}}, [
+  .reply(200, {"modelInfo":{"modelId":"59a141aa-8d28-4c36-a0a0-bd37838c1eea","modelName":"input1","attributes":{"isComposed":false},"status":"ready","createdDateTime":"2021-05-25T17:59:13Z","lastUpdatedDateTime":"2021-05-25T17:59:15Z"},"trainResult":{"averageModelAccuracy":0.96,"trainingDocuments":[{"documentName":"Form_1.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_2.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_3.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_4.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_5.jpg","pages":1,"status":"succeeded"}],"fields":[{"fieldName":"CompanyAddress","accuracy":0.8},{"fieldName":"CompanyName","accuracy":0.995},{"fieldName":"CompanyPhoneNumber","accuracy":0.995},{"fieldName":"DatedAs","accuracy":0.995},{"fieldName":"Email","accuracy":0.8},{"fieldName":"Merchant","accuracy":0.995},{"fieldName":"PhoneNumber","accuracy":0.995},{"fieldName":"PurchaseOrderNumber","accuracy":0.995},{"fieldName":"Quantity","accuracy":0.995},{"fieldName":"Signature","accuracy":0.8},{"fieldName":"Subtotal","accuracy":0.995},{"fieldName":"Tax","accuracy":0.995},{"fieldName":"Total","accuracy":0.995},{"fieldName":"VendorName","accuracy":0.995},{"fieldName":"Website","accuracy":0.995}],"errors":[]}}, [
   'Content-Length',
-  '1239',
+  '1263',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '21',
+  '13',
   'apim-request-id',
-  'b795a574-ac65-442b-baf4-b560ecd53465',
+  'e1fc3210-d868-4a46-a13a-02e54e10eb81',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 20 Nov 2020 22:47:59 GMT'
+  'Tue, 25 May 2021 17:59:18 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.2/custom/models/a0fb2a3c-ad88-4fe6-bee7-41e096363ac8')
+  .get('/formrecognizer/v2.1/custom/models/95c60e84-c824-4bd4-b4ff-b6c8ca79f5fe')
   .query(true)
-  .reply(200, {"modelInfo":{"modelId":"a0fb2a3c-ad88-4fe6-bee7-41e096363ac8","modelName":"input2","attributes":{"isComposed":false},"status":"ready","createdDateTime":"2020-11-20T22:47:55Z","lastUpdatedDateTime":"2020-11-20T22:47:58Z"},"trainResult":{"averageModelAccuracy":0.96,"trainingDocuments":[{"documentName":"Form_1.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_2.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_3.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_4.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_5.jpg","pages":1,"status":"succeeded"}],"fields":[{"fieldName":"CompanyAddress","accuracy":0.8},{"fieldName":"CompanyName","accuracy":1},{"fieldName":"CompanyPhoneNumber","accuracy":1},{"fieldName":"DatedAs","accuracy":1},{"fieldName":"Email","accuracy":0.8},{"fieldName":"Merchant","accuracy":1},{"fieldName":"PhoneNumber","accuracy":1},{"fieldName":"PurchaseOrderNumber","accuracy":1},{"fieldName":"Quantity","accuracy":1},{"fieldName":"Signature","accuracy":0.8},{"fieldName":"Subtotal","accuracy":1},{"fieldName":"Tax","accuracy":1},{"fieldName":"Total","accuracy":1},{"fieldName":"VendorName","accuracy":1},{"fieldName":"Website","accuracy":1}],"errors":[]}}, [
+  .reply(200, {"modelInfo":{"modelId":"95c60e84-c824-4bd4-b4ff-b6c8ca79f5fe","modelName":"input2","attributes":{"isComposed":false},"status":"ready","createdDateTime":"2021-05-25T17:59:13Z","lastUpdatedDateTime":"2021-05-25T17:59:15Z"},"trainResult":{"averageModelAccuracy":0.96,"trainingDocuments":[{"documentName":"Form_1.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_2.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_3.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_4.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_5.jpg","pages":1,"status":"succeeded"}],"fields":[{"fieldName":"CompanyAddress","accuracy":0.8},{"fieldName":"CompanyName","accuracy":0.995},{"fieldName":"CompanyPhoneNumber","accuracy":0.995},{"fieldName":"DatedAs","accuracy":0.995},{"fieldName":"Email","accuracy":0.8},{"fieldName":"Merchant","accuracy":0.995},{"fieldName":"PhoneNumber","accuracy":0.995},{"fieldName":"PurchaseOrderNumber","accuracy":0.995},{"fieldName":"Quantity","accuracy":0.995},{"fieldName":"Signature","accuracy":0.8},{"fieldName":"Subtotal","accuracy":0.995},{"fieldName":"Tax","accuracy":0.995},{"fieldName":"Total","accuracy":0.995},{"fieldName":"VendorName","accuracy":0.995},{"fieldName":"Website","accuracy":0.995}],"errors":[]}}, [
   'Content-Length',
-  '1239',
+  '1263',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '65',
+  '16',
   'apim-request-id',
-  'f6eb723f-22d1-4bb4-aa67-ea8985dbe2e4',
+  'bd0c3397-9f22-43cf-93fe-0b9d369caf30',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 20 Nov 2020 22:48:00 GMT'
+  'Tue, 25 May 2021 17:59:18 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/formrecognizer/v2.1-preview.2/custom/models/compose', {"modelIds":["1ae42e79-21a3-44fd-a38d-81f8c34c84a7","a0fb2a3c-ad88-4fe6-bee7-41e096363ac8"],"modelName":"composedModelName160591248046001271"})
+  .post('/formrecognizer/v2.1/custom/models/compose', {"modelIds":["59a141aa-8d28-4c36-a0a0-bd37838c1eea","95c60e84-c824-4bd4-b4ff-b6c8ca79f5fe"],"modelName":"composedModelName162196555883505818"})
   .reply(201, "", [
   'Content-Length',
   '0',
   'Location',
-  'https://endpoint/formrecognizer/v2.1-preview.2/custom/models/408f77a3-b456-458e-91f3-6e7f1423f45e',
+  'https://endpoint/formrecognizer/v2.1/custom/models/483c3361-8d33-4638-8860-0b4ab98ea381',
   'x-envoy-upstream-service-time',
-  '177',
+  '147',
   'apim-request-id',
-  'feb5e35b-f1cc-4fa1-a663-08fe41c79cc4',
+  '9a27543f-fb54-487a-8fe4-40ba10fa66d9',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 20 Nov 2020 22:48:00 GMT'
+  'Tue, 25 May 2021 17:59:19 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.2/custom/models/408f77a3-b456-458e-91f3-6e7f1423f45e')
+  .get('/formrecognizer/v2.1/custom/models/483c3361-8d33-4638-8860-0b4ab98ea381')
   .query(true)
-  .reply(200, {"modelInfo":{"modelId":"408f77a3-b456-458e-91f3-6e7f1423f45e","modelName":"composedModelName160591248046001271","status":"creating","createdDateTime":"2020-11-20T22:48:00Z","lastUpdatedDateTime":"2020-11-20T22:48:00Z"}}, [
+  .reply(200, {"modelInfo":{"modelId":"483c3361-8d33-4638-8860-0b4ab98ea381","modelName":"composedModelName162196555883505818","status":"creating","createdDateTime":"2021-05-25T17:59:19Z","lastUpdatedDateTime":"2021-05-25T17:59:19Z"}}, [
   'Content-Length',
   '220',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '20',
+  '13',
   'apim-request-id',
-  'd8be025a-06cf-46c9-82ec-ba474c6202a7',
+  '0d9e1a37-d45d-4aeb-8194-ed3e073e3340',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 20 Nov 2020 22:48:01 GMT'
+  'Tue, 25 May 2021 17:59:19 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.2/custom/models/408f77a3-b456-458e-91f3-6e7f1423f45e')
+  .get('/formrecognizer/v2.1/custom/models/483c3361-8d33-4638-8860-0b4ab98ea381')
   .query(true)
-  .reply(200, {"modelInfo":{"modelId":"408f77a3-b456-458e-91f3-6e7f1423f45e","modelName":"composedModelName160591248046001271","attributes":{"isComposed":true},"status":"ready","createdDateTime":"2020-11-20T22:48:00Z","lastUpdatedDateTime":"2020-11-20T22:48:01Z"},"composedTrainResults":[{"averageModelAccuracy":0.96,"trainingDocuments":[{"documentName":"Form_1.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_2.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_3.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_4.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_5.jpg","pages":1,"status":"succeeded"}],"fields":[{"fieldName":"CompanyAddress","accuracy":0.8},{"fieldName":"CompanyName","accuracy":1},{"fieldName":"CompanyPhoneNumber","accuracy":1},{"fieldName":"DatedAs","accuracy":1},{"fieldName":"Email","accuracy":0.8},{"fieldName":"Merchant","accuracy":1},{"fieldName":"PhoneNumber","accuracy":1},{"fieldName":"PurchaseOrderNumber","accuracy":1},{"fieldName":"Quantity","accuracy":1},{"fieldName":"Signature","accuracy":0.8},{"fieldName":"Subtotal","accuracy":1},{"fieldName":"Tax","accuracy":1},{"fieldName":"Total","accuracy":1},{"fieldName":"VendorName","accuracy":1},{"fieldName":"Website","accuracy":1}],"modelId":"1ae42e79-21a3-44fd-a38d-81f8c34c84a7","errors":[]},{"averageModelAccuracy":0.96,"trainingDocuments":[{"documentName":"Form_1.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_2.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_3.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_4.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_5.jpg","pages":1,"status":"succeeded"}],"fields":[{"fieldName":"CompanyAddress","accuracy":0.8},{"fieldName":"CompanyName","accuracy":1},{"fieldName":"CompanyPhoneNumber","accuracy":1},{"fieldName":"DatedAs","accuracy":1},{"fieldName":"Email","accuracy":0.8},{"fieldName":"Merchant","accuracy":1},{"fieldName":"PhoneNumber","accuracy":1},{"fieldName":"PurchaseOrderNumber","accuracy":1},{"fieldName":"Quantity","accuracy":1},{"fieldName":"Signature","accuracy":0.8},{"fieldName":"Subtotal","accuracy":1},{"fieldName":"Tax","accuracy":1},{"fieldName":"Total","accuracy":1},{"fieldName":"VendorName","accuracy":1},{"fieldName":"Website","accuracy":1}],"modelId":"a0fb2a3c-ad88-4fe6-bee7-41e096363ac8","errors":[]}]}, [
+  .reply(200, {"modelInfo":{"modelId":"483c3361-8d33-4638-8860-0b4ab98ea381","modelName":"composedModelName162196555883505818","attributes":{"isComposed":true},"status":"ready","createdDateTime":"2021-05-25T17:59:19Z","lastUpdatedDateTime":"2021-05-25T17:59:19Z"},"composedTrainResults":[{"averageModelAccuracy":0.96,"trainingDocuments":[{"documentName":"Form_1.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_2.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_3.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_4.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_5.jpg","pages":1,"status":"succeeded"}],"fields":[{"fieldName":"CompanyAddress","accuracy":0.8},{"fieldName":"CompanyName","accuracy":0.995},{"fieldName":"CompanyPhoneNumber","accuracy":0.995},{"fieldName":"DatedAs","accuracy":0.995},{"fieldName":"Email","accuracy":0.8},{"fieldName":"Merchant","accuracy":0.995},{"fieldName":"PhoneNumber","accuracy":0.995},{"fieldName":"PurchaseOrderNumber","accuracy":0.995},{"fieldName":"Quantity","accuracy":0.995},{"fieldName":"Signature","accuracy":0.8},{"fieldName":"Subtotal","accuracy":0.995},{"fieldName":"Tax","accuracy":0.995},{"fieldName":"Total","accuracy":0.995},{"fieldName":"VendorName","accuracy":0.995},{"fieldName":"Website","accuracy":0.995}],"modelId":"59a141aa-8d28-4c36-a0a0-bd37838c1eea","errors":[]},{"averageModelAccuracy":0.96,"trainingDocuments":[{"documentName":"Form_1.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_2.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_3.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_4.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_5.jpg","pages":1,"status":"succeeded"}],"fields":[{"fieldName":"CompanyAddress","accuracy":0.8},{"fieldName":"CompanyName","accuracy":0.995},{"fieldName":"CompanyPhoneNumber","accuracy":0.995},{"fieldName":"DatedAs","accuracy":0.995},{"fieldName":"Email","accuracy":0.8},{"fieldName":"Merchant","accuracy":0.995},{"fieldName":"PhoneNumber","accuracy":0.995},{"fieldName":"PurchaseOrderNumber","accuracy":0.995},{"fieldName":"Quantity","accuracy":0.995},{"fieldName":"Signature","accuracy":0.8},{"fieldName":"Subtotal","accuracy":0.995},{"fieldName":"Tax","accuracy":0.995},{"fieldName":"Total","accuracy":0.995},{"fieldName":"VendorName","accuracy":0.995},{"fieldName":"Website","accuracy":0.995}],"modelId":"95c60e84-c824-4bd4-b4ff-b6c8ca79f5fe","errors":[]}]}, [
   'Content-Length',
-  '2379',
+  '2427',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '22',
+  '17',
   'apim-request-id',
-  'f31fdcd0-b7bc-400f-8504-486dba7d2693',
+  '345a49e2-ea40-4cb8-9bac-50914d9b71df',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 20 Nov 2020 22:48:00 GMT'
+  'Tue, 25 May 2021 17:59:19 GMT'
 ]);

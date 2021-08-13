@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "../tracing";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
@@ -13,9 +13,7 @@ import {
   MonitoringGetSqlJobQueryStringResponse
 } from "../models";
 
-/**
- * Class representing a Monitoring.
- */
+/** Class representing a Monitoring. */
 export class Monitoring {
   private readonly client: MonitoringClient;
 
@@ -34,12 +32,9 @@ export class Monitoring {
   async getSparkJobList(
     options?: MonitoringGetSparkJobListOptionalParams
   ): Promise<MonitoringGetSparkJobListResponse> {
-    const { span, updatedOptions } = createSpan(
-      "MonitoringClient-getSparkJobList",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("MonitoringClient-getSparkJobList", options);
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -49,7 +44,7 @@ export class Monitoring {
       return result as MonitoringGetSparkJobListResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -65,12 +60,9 @@ export class Monitoring {
   async getSqlJobQueryString(
     options?: MonitoringGetSqlJobQueryStringOptionalParams
   ): Promise<MonitoringGetSqlJobQueryStringResponse> {
-    const { span, updatedOptions } = createSpan(
-      "MonitoringClient-getSqlJobQueryString",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("MonitoringClient-getSqlJobQueryString", options);
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -80,7 +72,7 @@ export class Monitoring {
       return result as MonitoringGetSqlJobQueryStringResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -90,7 +82,6 @@ export class Monitoring {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const getSparkJobListOperationSpec: coreHttp.OperationSpec = {

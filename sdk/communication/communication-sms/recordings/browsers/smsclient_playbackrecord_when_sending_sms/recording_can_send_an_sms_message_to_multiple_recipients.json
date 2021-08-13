@@ -1,0 +1,29 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/sms",
+   "query": {
+    "api-version": "2021-03-07"
+   },
+   "requestBody": "{\"from\":\"+14255550123\",\"smsRecipients\":[{\"to\":\"+14255550123\",\"repeatabilityRequestId\":\"sanitized\",\"repeatabilityFirstSent\":\"Thu, 01 Jan 1970 00:00:00 GMT\"},{\"to\":\"+1425555012345\",\"repeatabilityRequestId\":\"sanitized\",\"repeatabilityFirstSent\":\"Thu, 01 Jan 1970 00:00:00 GMT\"}],\"message\":\"test message\",\"smsSendOptions\":{\"enableDeliveryReport\":false}}",
+   "status": 202,
+   "response": "{\"value\":[{\"to\":\"+14255550123\",\"messageId\":\"Outgoing_20210424015253e635a2eb-13ad-4ef0-9967-b59e15538de6_noam\",\"httpStatusCode\":202,\"repeatabilityResult\":\"accepted\",\"successful\":true},{\"to\":\"+1425555012345\",\"httpStatusCode\":400,\"errorMessage\":\"Invalid To phone number format.\",\"successful\":false}]}",
+   "responseHeaders": {
+    "api-supported-versions": "2020-07-20-preview1, 2020-08-20-preview, 2021-03-07",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 24 Apr 2021 01:52:53 GMT",
+    "ms-cv": "Lk5VfjPmPEOAl+AhEkWfpA.0",
+    "request-context": "appId=",
+    "status": "202",
+    "x-azure-ref": "09XmDYAAAAACzKfXGsiYpT6GWIplAsb/PWVZSMzBFREdFMDMxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-processing-time": "395ms"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "2eb6de647e1107f39688ece93bdde8b3"
+}

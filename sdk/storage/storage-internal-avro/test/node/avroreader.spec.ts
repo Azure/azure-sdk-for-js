@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as fs from "fs";
 import * as assert from "assert";
 import { AvroReader, AvroReadableFromStream } from "../../src";
@@ -5,7 +8,7 @@ import { arraysEqual } from "../../src/utils/utils.common";
 import { AbortController } from "@azure/abort-controller";
 import { Readable } from "stream";
 
-type Action = (o: Object | null) => void;
+type Action = (o: Record<string, any> | null) => void;
 class TestCase {
   public path: string;
   public predict: Action;
@@ -64,8 +67,9 @@ describe("AvroReader", () => {
   });
 
   it("aborter", async () => {
+    // eslint-disable-next-line 	@typescript-eslint/no-empty-function
     const delayedReadable = new Readable({ read() {} });
-    let rfs = new AvroReadableFromStream(delayedReadable);
+    const rfs = new AvroReadableFromStream(delayedReadable);
     const avroReader = new AvroReader(rfs);
 
     const timeoutSignal = AbortController.timeout(1);

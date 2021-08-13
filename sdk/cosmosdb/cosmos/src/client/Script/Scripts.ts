@@ -8,7 +8,7 @@ import { Container } from "../Container/Container";
 
 export class Scripts {
   /**
-   * @param container The parent {@link Container}.
+   * @param container - The parent {@link Container}.
    * @hidden
    */
   constructor(
@@ -20,7 +20,7 @@ export class Scripts {
    * Used to read, replace, or delete a specific, existing {@link StoredProcedure} by id.
    *
    * Use `.storedProcedures` for creating new stored procedures, or querying/reading all stored procedures.
-   * @param id The id of the {@link StoredProcedure}.
+   * @param id - The id of the {@link StoredProcedure}.
    */
   public storedProcedure(id: string): StoredProcedure {
     return new StoredProcedure(this.container, id, this.clientContext);
@@ -30,7 +30,7 @@ export class Scripts {
    * Used to read, replace, or delete a specific, existing {@link Trigger} by id.
    *
    * Use `.triggers` for creating new triggers, or querying/reading all triggers.
-   * @param id The id of the {@link Trigger}.
+   * @param id - The id of the {@link Trigger}.
    */
   public trigger(id: string): Trigger {
     return new Trigger(this.container, id, this.clientContext);
@@ -40,7 +40,7 @@ export class Scripts {
    * Used to read, replace, or delete a specific, existing {@link UserDefinedFunction} by id.
    *
    * Use `.userDefinedFunctions` for creating new user defined functions, or querying/reading all user defined functions.
-   * @param id The id of the {@link UserDefinedFunction}.
+   * @param id - The id of the {@link UserDefinedFunction}.
    */
   public userDefinedFunction(id: string): UserDefinedFunction {
     return new UserDefinedFunction(this.container, id, this.clientContext);

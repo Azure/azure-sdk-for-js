@@ -70,6 +70,46 @@ export class DataMaskingRules {
   }
 
   /**
+   * Gets the specific Sql pool data masking rule.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace
+   * @param sqlPoolName SQL pool name
+   * @param dataMaskingRuleName The name of the data masking rule.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DataMaskingRulesGetResponse>
+   */
+  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, dataMaskingRuleName: string, options?: msRest.RequestOptionsBase): Promise<Models.DataMaskingRulesGetResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace
+   * @param sqlPoolName SQL pool name
+   * @param dataMaskingRuleName The name of the data masking rule.
+   * @param callback The callback
+   */
+  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, dataMaskingRuleName: string, callback: msRest.ServiceCallback<Models.DataMaskingRule>): void;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace
+   * @param sqlPoolName SQL pool name
+   * @param dataMaskingRuleName The name of the data masking rule.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, dataMaskingRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataMaskingRule>): void;
+  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, dataMaskingRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataMaskingRule>, callback?: msRest.ServiceCallback<Models.DataMaskingRule>): Promise<Models.DataMaskingRulesGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        workspaceName,
+        sqlPoolName,
+        dataMaskingRuleName,
+        options
+      },
+      getOperationSpec,
+      callback) as Promise<Models.DataMaskingRulesGetResponse>;
+  }
+
+  /**
    * Gets a list of Sql pool data masking rules.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -140,7 +180,35 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DataMaskingRule
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const getOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/dataMaskingPolicies/{dataMaskingPolicyName}/rules/{dataMaskingRuleName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.sqlPoolName,
+    Parameters.dataMaskingPolicyName,
+    Parameters.dataMaskingRuleName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.DataMaskingRule
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -167,7 +235,7 @@ const listBySqlPoolOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DataMaskingRuleListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

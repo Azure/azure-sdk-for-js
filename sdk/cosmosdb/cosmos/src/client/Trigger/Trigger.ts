@@ -22,14 +22,14 @@ export class Trigger {
   /**
    * Returns a reference URL to the resource. Used for linking in Permissions.
    */
-  public get url() {
+  public get url(): string {
     return createTriggerUri(this.container.database.id, this.container.id, this.id);
   }
 
   /**
    * @hidden
-   * @param container The parent {@link Container}.
-   * @param id The id of the given {@link Trigger}.
+   * @param container - The parent {@link Container}.
+   * @param id - The id of the given {@link Trigger}.
    */
   constructor(
     public readonly container: Container,
@@ -39,7 +39,6 @@ export class Trigger {
 
   /**
    * Read the {@link TriggerDefinition} for the given {@link Trigger}.
-   * @param options
    */
   public async read(options?: RequestOptions): Promise<TriggerResponse> {
     const path = getPathFromLink(this.url);
@@ -56,8 +55,7 @@ export class Trigger {
 
   /**
    * Replace the given {@link Trigger} with the specified {@link TriggerDefinition}.
-   * @param body The specified {@link TriggerDefinition} to replace the existing definition with.
-   * @param options
+   * @param body - The specified {@link TriggerDefinition} to replace the existing definition with.
    */
   public async replace(
     body: TriggerDefinition,
@@ -87,7 +85,6 @@ export class Trigger {
 
   /**
    * Delete the given {@link Trigger}.
-   * @param options
    */
   public async delete(options?: RequestOptions): Promise<TriggerResponse> {
     const path = getPathFromLink(this.url);

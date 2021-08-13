@@ -54,12 +54,20 @@ import {
   EntityRecognitionSkill,
   SentimentSkill,
   SplitSkill,
+  PIIDetectionSkill,
+  EntityRecognitionSkillV3,
+  EntityLinkingSkill,
+  SentimentSkillV3,
+  CustomEntityLookupSkill,
+  DocumentExtractionSkill,
   TextTranslationSkill,
   WebApiSkill,
   DefaultCognitiveServicesAccount,
   CognitiveServicesAccountKey,
   HighWaterMarkChangeDetectionPolicy,
   SqlIntegratedChangeTrackingPolicy,
+  SearchIndexerDataUserAssignedIdentity,
+  SearchIndexerDataNoneIdentity,
   SoftDeleteColumnDeletionDetectionPolicy,
   SearchIndexerDataSourceType,
   SearchIndexerDataContainer,
@@ -71,7 +79,11 @@ import {
   ServiceLimits,
   FieldMapping,
   IndexingParameters,
-  IndexingSchedule
+  IndexingSchedule,
+  LexicalNormalizerName,
+  CustomNormalizer,
+  SearchIndexerKnowledgeStore,
+  SearchIndexerCache
 } from "./generated/service/models";
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -233,6 +245,14 @@ export interface CreateOrUpdateSkillsetOptions extends OperationOptions {
    * If set to true, Resource will be deleted only if the etag matches.
    */
   onlyIfUnchanged?: boolean;
+  /**
+   * Ignores cache reset requirements.
+   */
+  ignoreResetRequirements?: boolean;
+  /**
+   * Disables cache reprocessing change detection.
+   */
+  disableCacheReprocessingChangeDetection?: boolean;
 }
 
 /**
@@ -253,6 +273,10 @@ export interface CreateorUpdateIndexerOptions extends OperationOptions {
    * If set to true, Resource will be deleted only if the etag matches.
    */
   onlyIfUnchanged?: boolean;
+  /** Ignores cache reset requirements. */
+  ignoreResetRequirements?: boolean;
+  /** Disables cache reprocessing change detection. */
+  disableCacheReprocessingChangeDetection?: boolean;
 }
 
 /**
@@ -263,6 +287,10 @@ export interface CreateorUpdateDataSourceConnectionOptions extends OperationOpti
    * If set to true, Resource will be deleted only if the etag matches.
    */
   onlyIfUnchanged?: boolean;
+  /**
+   * Ignores cache reset requirements.
+   */
+  ignoreResetRequirements?: boolean;
 }
 
 /**
@@ -381,7 +409,7 @@ export interface PatternAnalyzer {
   lowerCaseTerms?: boolean;
   /**
    * A regular expression pattern to match token separators. Default is an expression that matches
-   * one or more whitespace characters. Default value: '\W+'.
+   * one or more whitespace characters. Default value: `\W+`.
    */
   pattern?: string;
   /**
@@ -453,7 +481,13 @@ export type SearchIndexerSkill =
   | EntityRecognitionSkill
   | SentimentSkill
   | SplitSkill
+  | PIIDetectionSkill
+  | EntityRecognitionSkillV3
+  | EntityLinkingSkill
+  | SentimentSkillV3
+  | CustomEntityLookupSkill
   | TextTranslationSkill
+  | DocumentExtractionSkill
   | WebApiSkill;
 
 /**
@@ -479,7 +513,7 @@ export interface PatternTokenizer {
   name: string;
   /**
    * A regular expression pattern to match token separators. Default is an expression that matches
-   * one or more whitespace characters. Default value: '\W+'.
+   * one or more whitespace characters. Default value: `\W+`.
    */
   pattern?: string;
   /**
@@ -655,6 +689,11 @@ export type TokenFilter =
 export type CharFilter = MappingCharFilter | PatternReplaceCharFilter;
 
 /**
+ * Contains the possible cases for LexicalNormalizer.
+ */
+export type LexicalNormalizer = CustomNormalizer;
+
+/**
  * Contains the possible cases for ScoringFunction.
  */
 export type ScoringFunction =
@@ -670,7 +709,6 @@ export type ScoringFunction =
  * 'Collection(Edm.Int32)', 'Collection(Edm.Int64)', 'Collection(Edm.Double)',
  * 'Collection(Edm.Boolean)', 'Collection(Edm.DateTimeOffset)', 'Collection(Edm.GeographyPoint)'
  * @readonly
- * @enum {string}
  */
 export type SearchFieldDataType =
   | "Edm.String"
@@ -692,7 +730,6 @@ export type SearchFieldDataType =
  * Defines values for ComplexDataType.
  * Possible values include: 'Edm.ComplexType', 'Collection(Edm.ComplexType)'
  * @readonly
- * @enum {string}
  */
 export type ComplexDataType = "Edm.ComplexType" | "Collection(Edm.ComplexType)";
 
@@ -803,6 +840,10 @@ export interface SimpleField {
    * fields.
    */
   synonymMapNames?: string[];
+  /**
+   * The name of the normalizer used at indexing time for the field.
+   */
+  normalizerName?: LexicalNormalizerName;
 }
 
 export function isComplexField(field: SearchField): field is ComplexField {
@@ -864,6 +905,7 @@ export interface SynonymMap {
  * as needed during iteration. Use .byPage() to make one request to the server
  * per iteration.
  */
+// eslint-disable-next-line @typescript-eslint/ban-types
 export type IndexIterator = PagedAsyncIterableIterator<SearchIndex, SearchIndex[], {}>;
 
 /**
@@ -871,6 +913,7 @@ export type IndexIterator = PagedAsyncIterableIterator<SearchIndex, SearchIndex[
  * as needed during iteration. Use .byPage() to make one request to the server
  * per iteration.
  */
+// eslint-disable-next-line @typescript-eslint/ban-types
 export type IndexNameIterator = PagedAsyncIterableIterator<string, string[], {}>;
 
 /**
@@ -920,6 +963,10 @@ export interface SearchIndex {
    * The character filters for the index.
    */
   charFilters?: CharFilter[];
+  /**
+   * The normalizers for the index.
+   */
+  normalizers?: LexicalNormalizer[];
   /**
    * A description of an encryption key that you create in Azure Key Vault. This key is used to
    * provide an additional level of encryption-at-rest for your data when you want full assurance
@@ -1004,6 +1051,11 @@ export interface SearchIndexer {
    * paid services created on or after January 1, 2019.
    */
   encryptionKey?: SearchResourceEncryptionKey;
+  /**
+   * Adds caching to an enrichment pipeline to allow for incremental modification steps without
+   * having to rebuild the index every time.
+   */
+  cache?: SearchIndexerCache;
 }
 
 /**
@@ -1036,6 +1088,13 @@ export interface SearchResourceEncryptionKey {
    * The authentication key of the specified AAD application.
    */
   applicationSecret?: string;
+  /**
+   * An explicit managed identity to use for this encryption key. If not specified and the access
+   * credentials property is null, the system-assigned managed identity is used. On update to the
+   * resource, if the explicit identity is unspecified, it remains unchanged. If "none" is specified,
+   * the value of this property is cleared.
+   */
+  identity?: SearchIndexerDataIdentity;
 }
 
 /**
@@ -1058,6 +1117,10 @@ export interface SearchIndexerSkillset {
    * Details about cognitive services to be used when running skills.
    */
   cognitiveServicesAccount?: CognitiveServicesAccount;
+  /**
+   * Definition of additional projections to azure blob, table, or files, of enriched data.
+   */
+  knowledgeStore?: SearchIndexerKnowledgeStore;
   /**
    * The ETag of the skillset.
    */
@@ -1102,7 +1165,6 @@ export interface ScoringProfile {
 /**
  * Defines values for TokenizerName.
  * @readonly
- * @enum {string}
  */
 export enum KnownTokenizerNames {
   /**
@@ -1133,10 +1195,12 @@ export enum KnownTokenizerNames {
   /**
    * Divides text using language-specific rules.
    */
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   MicrosoftLanguageTokenizer = "microsoft_language_tokenizer",
   /**
    * Divides text using language-specific rules and reduces words to their base forms.
    */
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   MicrosoftLanguageStemmingTokenizer = "microsoft_language_stemming_tokenizer",
   /**
    * Tokenizes the input into n-grams of the given size(s). See
@@ -1174,7 +1238,6 @@ export enum KnownTokenizerNames {
 /**
  * Defines values for TokenFilterName.
  * @readonly
- * @enum {string}
  */
 export enum KnownTokenFilterNames {
   /**
@@ -1358,7 +1421,6 @@ export enum KnownTokenFilterNames {
 /**
  * Defines values for CharFilterName.
  * @readonly
- * @enum {string}
  */
 export enum KnownCharFilterNames {
   /**
@@ -1372,7 +1434,6 @@ export enum KnownCharFilterNames {
  * Defines values for AnalyzerName.
  * See https://docs.microsoft.com/rest/api/searchservice/Language-support
  * @readonly
- * @enum {string}
  */
 export enum KnownAnalyzerNames {
   /**
@@ -1756,6 +1817,13 @@ export type DataChangeDetectionPolicy =
   | SqlIntegratedChangeTrackingPolicy;
 
 /**
+ * Contains the possible cases for SearchIndexerDataIdentity.
+ */
+export type SearchIndexerDataIdentity =
+  | SearchIndexerDataNoneIdentity
+  | SearchIndexerDataUserAssignedIdentity;
+
+/**
  * Contains the possible cases for DataDeletionDetectionPolicy.
  */
 export type DataDeletionDetectionPolicy = SoftDeleteColumnDeletionDetectionPolicy;
@@ -1774,7 +1842,7 @@ export interface SearchIndexerDataSourceConnection {
   description?: string;
   /**
    * The type of the datasource. Possible values include: 'AzureSql', 'CosmosDb', 'AzureBlob',
-   * 'AzureTable', 'MySql'
+   * 'AzureTable', 'MySql', 'AdlsGen2'
    */
   type: SearchIndexerDataSourceType;
   /**
@@ -1785,6 +1853,12 @@ export interface SearchIndexerDataSourceConnection {
    * The data container for the datasource.
    */
   container: SearchIndexerDataContainer;
+  /**
+   * An explicit managed identity to use for this datasource. If not specified and the connection
+   * string is a managed identity, the system-assigned managed identity is used. If not specified,
+   * the value remains unchanged. If "none" is specified, the value of this property is cleared.
+   */
+  identity?: SearchIndexerDataIdentity;
   /**
    * The data change detection policy for the datasource.
    */

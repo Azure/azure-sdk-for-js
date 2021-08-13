@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 export {
   AccessPolicy,
@@ -13,6 +13,9 @@ export {
   AppendBlobCreateHeaders,
   ArchiveStatus,
   ListBlobsFlatSegmentResponse as ListBlobsFlatSegmentResponseModel,
+  BlobDeleteImmutabilityPolicyHeaders,
+  BlobDeleteImmutabilityPolicyResponse,
+  BlobImmutabilityPolicyMode,
   BlobItemInternal,
   BlobFlatListSegment as BlobFlatListSegmentModel,
   BlobAbortCopyFromURLHeaders,
@@ -25,8 +28,13 @@ export {
   BlobGetPropertiesResponse as BlobGetPropertiesResponseModel,
   BlobPropertiesInternal as BlobProperties,
   BlobUndeleteResponse,
-  BlobHTTPHeaders,
-  BlobSetHTTPHeadersResponse,
+  BlobHttpHeaders as BlobHTTPHeaders,
+  BlobSetHttpHeadersHeaders as BlobSetHTTPHeadersHeaders,
+  BlobSetHttpHeadersResponse as BlobSetHTTPHeadersResponse,
+  BlobSetImmutabilityPolicyHeaders,
+  BlobSetImmutabilityPolicyResponse,
+  BlobSetLegalHoldHeaders,
+  BlobSetLegalHoldResponse,
   BlobSetMetadataResponse,
   BlobSetTagsResponse,
   BlobCreateSnapshotResponse,
@@ -34,7 +42,6 @@ export {
   BlobStartCopyFromURLResponse,
   BlobAbortCopyFromURLResponse,
   BlobCopyFromURLResponse,
-  BlobSetHTTPHeadersHeaders,
   BlobSetMetadataHeaders,
   BlobSetTierHeaders,
   BlobSetTierResponse,
@@ -93,7 +100,8 @@ export {
   ListBlobsIncludeItem,
   ListContainersIncludeType,
   ListContainersSegmentResponse,
-  FilterBlobSegment,
+  FilterBlobItem as FilterBlobItemModel,
+  FilterBlobSegment as FilterBlobSegmentModel,
   ServiceFilterBlobsHeaders,
   Logging,
   Metrics,
@@ -143,12 +151,12 @@ export {
   SignedIdentifier as SignedIdentifierModel,
   UserDelegationKey as UserDelegationKeyModel,
   ContainerEncryptionScope,
-  ServiceFilterBlobsResponse,
-  FilterBlobItem as FilterBlobItemModel,
   BlobQueryHeaders,
   BlobQueryResponse as BlobQueryResponseModel,
   ContainerRestoreResponse as ContainerUndeleteResponse,
   ContainerRestoreHeaders as ContainerUndeleteHeaders,
   BlockBlobPutBlobFromUrlResponse,
-  BlockBlobPutBlobFromUrlHeaders
+  BlockBlobPutBlobFromUrlHeaders,
+  ContainerRenameResponse,
+  ContainerRenameHeaders
 } from "./generated/src/models";

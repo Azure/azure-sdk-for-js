@@ -13,6 +13,10 @@
   to learn about Event Processor Host.
 */
 
+console.warn(
+  "The package @azure/event-processor-host is deprecated in favor of @azure/event-hubs and @azure/eventhubs-checkpointstore-blob"
+);
+
 const { EventProcessorHost, delay } = require("@azure/event-processor-host");
 
 // Define Storage and Event Hubs connection strings and related Event Hubs entity name here

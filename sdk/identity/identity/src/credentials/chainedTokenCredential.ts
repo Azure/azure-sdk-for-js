@@ -1,13 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
-import { AggregateAuthenticationError, CredentialUnavailable } from "../client/errors";
+import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-auth";
+
+import { AggregateAuthenticationError, CredentialUnavailableError } from "../client/errors";
 import { createSpan } from "../util/tracing";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 
-const logger = credentialLogger("ChainedTokenCredential");
+/**
+ * @internal
+ */
+export const logger = credentialLogger("ChainedTokenCredential");
 
 /**
  * Enables multiple `TokenCredential` implementations to be tried in order
@@ -21,6 +25,11 @@ export class ChainedTokenCredential implements TokenCredential {
     "ChainedTokenCredential => failed to retrieve a token from the included credentials";
 
   private _sources: TokenCredential[] = [];
+
+  /**
+   * The selected credential, in case users want to read it or use it directly.
+   */
+  public selectedCredential?: TokenCredential;
 
   /**
    * Creates an instance of ChainedTokenCredential using the given credentials.
@@ -51,20 +60,21 @@ export class ChainedTokenCredential implements TokenCredential {
    * @param options - The options used to configure any requests this
    *                `TokenCredential` implementation might make.
    */
-  async getToken(
-    scopes: string | string[],
-    options?: GetTokenOptions
-  ): Promise<AccessToken | null> {
+  async getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken> {
     let token = null;
-    const errors = [];
+    const errors: Error[] = [];
 
-    const { span, options: newOptions } = createSpan("ChainedTokenCredential-getToken", options);
+    const { span, updatedOptions } = createSpan("ChainedTokenCredential-getToken", options);
 
     for (let i = 0; i < this._sources.length && token === null; i++) {
       try {
-        token = await this._sources[i].getToken(scopes, newOptions);
+        token = await this._sources[i].getToken(scopes, updatedOptions);
+        this.selectedCredential = this._sources[i];
       } catch (err) {
-        if (err instanceof CredentialUnavailable) {
+        if (
+          err.name === "CredentialUnavailableError" ||
+          err.name === "AuthenticationRequiredError"
+        ) {
           errors.push(err);
         } else {
           logger.getToken.info(formatError(scopes, err));
@@ -76,7 +86,7 @@ export class ChainedTokenCredential implements TokenCredential {
     if (!token && errors.length > 0) {
       const err = new AggregateAuthenticationError(errors);
       span.setStatus({
-        code: CanonicalCode.UNAUTHENTICATED,
+        code: SpanStatusCode.ERROR,
         message: err.message
       });
       logger.getToken.info(formatError(scopes, err));
@@ -85,7 +95,13 @@ export class ChainedTokenCredential implements TokenCredential {
 
     span.end();
 
-    logger.getToken.info(formatSuccess(scopes));
+    logger.getToken.info(
+      `Result for ${this.selectedCredential!.constructor.name}: ${formatSuccess(scopes)}`
+    );
+
+    if (token === null) {
+      throw new CredentialUnavailableError("Failed to retrieve a valid token");
+    }
     return token;
   }
 }

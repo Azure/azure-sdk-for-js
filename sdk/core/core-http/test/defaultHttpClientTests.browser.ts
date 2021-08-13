@@ -8,6 +8,8 @@ import "chai/register-should";
 import { DefaultHttpClient } from "../src/defaultHttpClient";
 import { WebResource, TransferProgressEvent } from "../src/webResource";
 import { getHttpMock, HttpMockFacade } from "./mockHttp";
+import { CompositeMapper, Serializer } from "../src/serializer";
+import { OperationSpec } from "../src/operationSpec";
 
 describe("defaultHttpClient (browser)", function() {
   let httpMock: HttpMockFacade;
@@ -17,6 +19,221 @@ describe("defaultHttpClient (browser)", function() {
   });
   afterEach(() => httpMock.teardown());
   after(() => httpMock.teardown());
+
+  it("should not set bodyAsText for stream response", async function() {
+    const serializer = new Serializer(undefined, true);
+    const StorageError: CompositeMapper = {
+      serializedName: "StorageError",
+      type: {
+        name: "Composite",
+        className: "StorageError",
+        modelProperties: {
+          message: {
+            xmlName: "Message",
+            serializedName: "Message",
+            type: {
+              name: "String"
+            }
+          },
+          code: {
+            xmlName: "Code",
+            serializedName: "Code",
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    };
+    const operationSpec: OperationSpec = {
+      httpMethod: "GET",
+      responses: {
+        200: {
+          bodyMapper: {
+            serializedName: "parsedResponse",
+            type: {
+              name: "Stream"
+            }
+          }
+        },
+        default: {
+          bodyMapper: StorageError
+        }
+      },
+      isXML: true,
+      baseUrl: "httpbin.org",
+      serializer
+    };
+    httpMock.get("http://my.fake.domain/non-existing-blob", async (_url, _method, _body) => {
+      return {
+        status: 200,
+        headers: {},
+        body: `Some text`
+      };
+    });
+    const client = new DefaultHttpClient();
+    const request = new WebResource("http://my.fake.domain/non-existing-blob");
+    request.operationSpec = operationSpec;
+    request.streamResponseStatusCodes = new Set([200]);
+    const response = await client.sendRequest(request);
+
+    response.status.should.equal(200);
+    (typeof response.bodyAsText).should.equal("undefined");
+    /* Skipping the following verification because xhr-mock hasn't implemented xhr.response() for 'blob' response type.
+         https://github.com/jameslnewell/xhr-mock/blob/v2.5.1/packages/xhr-mock/src/MockXMLHttpRequest.ts#L163
+    (typeof response.blobBody).should.not.equal("undefined");
+    const text = await response.blobBody;
+    (typeof text).should.not.equal("undefined");
+    text!.should.equal(
+      `<?xml version="1.0" encoding="utf-8"?><Error><Code>BlobNotFound</Code><Message>The specified blob does not exist.</Message></Error>`
+    );
+    */
+  });
+
+  it("should not treat non-streaming default response body as stream", async function() {
+    const serializer = new Serializer(undefined, true);
+    const StorageError: CompositeMapper = {
+      serializedName: "StorageError",
+      type: {
+        name: "Composite",
+        className: "StorageError",
+        modelProperties: {
+          message: {
+            xmlName: "Message",
+            serializedName: "Message",
+            type: {
+              name: "String"
+            }
+          },
+          code: {
+            xmlName: "Code",
+            serializedName: "Code",
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    };
+    const operationSpec: OperationSpec = {
+      httpMethod: "GET",
+      responses: {
+        200: {
+          bodyMapper: {
+            serializedName: "parsedResponse",
+            type: {
+              name: "Stream"
+            }
+          }
+        },
+        default: {
+          bodyMapper: StorageError
+        }
+      },
+      isXML: true,
+      baseUrl: "httpbin.org",
+      serializer
+    };
+    httpMock.get("http://my.fake.domain/non-existing-blob", async (_url, _method, _body) => {
+      return {
+        status: 404,
+        headers: {
+          "Content-Type": "application/xml",
+          "Content-Length": 215
+        },
+        body: `<?xml version="1.0" encoding="utf-8"?><Error><Code>BlobNotFound</Code><Message>The specified blob does not exist.</Message></Error>`
+      };
+    });
+    const client = new DefaultHttpClient();
+    const request = new WebResource("http://my.fake.domain/non-existing-blob");
+    request.operationSpec = operationSpec;
+    request.streamResponseStatusCodes = new Set([200]);
+    const response = await client.sendRequest(request);
+
+    response.status.should.equal(404);
+    (typeof response.blobBody).should.equal("undefined");
+    /* Skipping the following verification because xhr-mock hasn't implemented xhr.response() for 'blob' response type.
+         https://github.com/jameslnewell/xhr-mock/blob/v2.5.1/packages/xhr-mock/src/MockXMLHttpRequest.ts#L163
+    (typeof response.bodyAsText).should.not.equal("undefined");
+    response.bodyAsText!.should.equal(
+      `<?xml version="1.0" encoding="utf-8"?><Error><Code>BlobNotFound</Code><Message>The specified blob does not exist.</Message></Error>`
+    );
+    */
+  });
+
+  it("should respect deprecated WebResource.streamResponseBody property", async function() {
+    const serializer = new Serializer(undefined, true);
+    const StorageError: CompositeMapper = {
+      serializedName: "StorageError",
+      type: {
+        name: "Composite",
+        className: "StorageError",
+        modelProperties: {
+          message: {
+            xmlName: "Message",
+            serializedName: "Message",
+            type: {
+              name: "String"
+            }
+          },
+          code: {
+            xmlName: "Code",
+            serializedName: "Code",
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    };
+    const operationSpec: OperationSpec = {
+      httpMethod: "GET",
+      responses: {
+        200: {
+          bodyMapper: {
+            serializedName: "parsedResponse",
+            type: {
+              name: "Stream"
+            }
+          }
+        },
+        default: {
+          bodyMapper: StorageError
+        }
+      },
+      isXML: true,
+      baseUrl: "httpbin.org",
+      serializer
+    };
+    httpMock.get("http://my.fake.domain/non-existing-blob", async (_url, _method, _body) => {
+      return {
+        status: 404,
+        headers: {
+          "Content-Type": "application/xml",
+          "Content-Length": 215
+        },
+        body: `<?xml version="1.0" encoding="utf-8"?><Error><Code>BlobNotFound</Code><Message>The specified blob does not exist.</Message></Error>`
+      };
+    });
+    const client = new DefaultHttpClient();
+    const request = new WebResource("http://my.fake.domain/non-existing-blob");
+    request.operationSpec = operationSpec;
+    // deprecated streamResponseBody property is still supported.
+    request.streamResponseBody = true;
+    const response = await client.sendRequest(request);
+
+    response.status.should.equal(404);
+    (typeof response.bodyAsText).should.equal("undefined");
+    /* Skipping the following verification because xhr-mock hasn't implemented xhr.response() for 'blob' response type.
+         https://github.com/jameslnewell/xhr-mock/blob/v2.5.1/packages/xhr-mock/src/MockXMLHttpRequest.ts#L163
+    (typeof response.blobBody).should.not.equal("undefined");
+    const text = await response.blobBody;
+    (typeof text).should.not.equal("undefined");
+    text!.should.equal(
+      `<?xml version="1.0" encoding="utf-8"?><Error><Code>BlobNotFound</Code><Message>The specified blob does not exist.</Message></Error>`
+    );
+    */
+  });
 
   describe("should report upload and download progress", () => {
     type Notified = { notified: boolean };

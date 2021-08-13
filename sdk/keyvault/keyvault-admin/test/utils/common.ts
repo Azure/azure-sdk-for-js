@@ -1,31 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env } from "@azure/test-utils-recorder";
 import * as assert from "assert";
+import { env } from "@azure/test-utils-recorder";
 
 // Async iterator's polyfill for Node 8
 if (!Symbol || !(Symbol as any).asyncIterator) {
   (Symbol as any).asyncIterator = Symbol.for("Symbol.asyncIterator");
-}
-
-export function getKeyvaultName(): string {
-  const keyVaultEnvVarName = "KEYVAULT_NAME";
-  const keyVaultName: string | undefined = env[keyVaultEnvVarName];
-
-  if (!keyVaultName) {
-    throw new Error(`${keyVaultEnvVarName} environment variable not specified.`);
-  }
-
-  return keyVaultName;
-}
-
-// The property in the clients is called vaultUrl, but the environment variable is KEYVAULT_URI.
-export function getKeyVaultUrl(): string {
-  const keyVaultEnvVarName = "KEYVAULT_URI";
-  const result: string | undefined = env[keyVaultEnvVarName];
-
-  return result!;
 }
 
 export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<void> {
@@ -56,4 +37,27 @@ export function formatName(name: string): string {
 //   "<id>"
 export function getFolderName(uri: string): string {
   return uri.split("/")[4];
+}
+
+/**
+ * Safely get an environment variable by name, throwing an error if it doesn't exist.
+ * @param envVarName The name of the environment variable to return
+ */
+export function getEnvironmentVariable(envVarName: string) {
+  const envVar = env[envVarName];
+  if (!envVar) {
+    throw new Error(`Missing required environment variable ${envVarName}`);
+  }
+  return envVar;
+}
+
+/**
+ * Get a predefined SAS token and Storage URI to use when backing up a KeyVault
+ */
+export function getSasToken() {
+  const baseStorageUri = getEnvironmentVariable("BLOB_STORAGE_URI").replace(/\/$/, "");
+  const blobStorageUri = `${baseStorageUri}/${getEnvironmentVariable("BLOB_CONTAINER_NAME")}`;
+  const blobSasToken = getEnvironmentVariable("BLOB_STORAGE_SAS_TOKEN");
+
+  return { blobStorageUri, blobSasToken };
 }

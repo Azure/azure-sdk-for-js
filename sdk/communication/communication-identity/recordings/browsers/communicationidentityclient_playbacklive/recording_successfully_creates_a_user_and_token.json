@@ -1,0 +1,32 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/identities",
+   "query": {
+    "api-version": "2021-03-31-preview1"
+   },
+   "requestBody": "{\"createTokenWithScopes\":[\"voip\"]}",
+   "status": 201,
+   "response": "{\"identity\":{\"id\":\"sanitized\"},\"accessToken\":{\"token\":\"sanitized\",\"expiresOn\":\"2021-06-02T22:01:06.4373001+00:00\"}}",
+   "responseHeaders": {
+    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 01 Jun 2021 22:01:07 GMT",
+    "ms-cv": "21mrX9udnUKONoZAhMqYuA.0",
+    "request-context": "appId=",
+    "status": "201",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0I662YAAAAAB5SFrPjmSLRrz3UaWNodGmWVZSMzBFREdFMDMxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-ms-client-request-id": "sanitized",
+    "x-processing-time": "38ms"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "dd381ba0bdaefc9665e0ecb90bade667"
+}

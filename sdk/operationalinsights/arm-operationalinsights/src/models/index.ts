@@ -22,7 +22,7 @@ export interface DataExport extends BaseResource {
   /**
    * An array of tables to export, for example: [“Heartbeat, SecurityEvent”].
    */
-  tableNames?: string[];
+  tableNames: string[];
   /**
    * The destination resource ID. This can be copied from the Properties entry of the destination
    * resource in Azure.
@@ -50,66 +50,6 @@ export interface DataExport extends BaseResource {
    * Date and time when the export was last modified.
    */
   lastModifiedDate?: string;
-}
-
-/**
- * The resource management error additional info.
- */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * The additional info.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly info?: any;
-}
-
-/**
- * Common error response for all Azure Resource Manager APIs to return error details for failed
- * operations. (This also follows the OData error response format.)
- * @summary Error Response
- */
-export interface ErrorResponse {
-  /**
-   * The error code.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly message?: string;
-  /**
-   * The error target.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly target?: string;
-  /**
-   * The error details.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly details?: ErrorResponse[];
-  /**
-   * The error additional info.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-/**
- * Error response indicates that the service is not able to process the incoming request. The
- * reason is provided in the error message.
- */
-export interface DataExportErrorResponse {
-  /**
-   * The details of the error.
-   */
-  error?: ErrorResponse;
 }
 
 /**
@@ -170,6 +110,65 @@ export interface AzureEntityResource extends Resource {
  * @summary Proxy Resource
  */
 export interface ProxyResource extends Resource {
+}
+
+/**
+ * The resource management error additional info.
+ */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly info?: any;
+}
+
+/**
+ * The error detail.
+ */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/**
+ * Common error response for all Azure Resource Manager APIs to return error details for failed
+ * operations. (This also follows the OData error response format.).
+ * @summary Error response
+ */
+export interface ErrorResponse {
+  /**
+   * The error object.
+   */
+  error?: ErrorDetail;
 }
 
 /**
@@ -451,7 +450,7 @@ export interface UsageMetric {
 export interface WorkspaceSku {
   /**
    * The name of the SKU. Possible values include: 'Free', 'Standard', 'Premium', 'PerNode',
-   * 'PerGB2018', 'Standalone', 'CapacityReservation'
+   * 'PerGB2018', 'Standalone', 'CapacityReservation', 'LACluster'
    */
   name: WorkspaceSkuNameEnum;
   /**
@@ -525,13 +524,24 @@ export interface Workspace extends TrackedResource {
    */
   sku?: WorkspaceSku;
   /**
-   * The workspace data retention in days, between 30 and 730.
+   * The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers
+   * documentation for details.
    */
   retentionInDays?: number;
   /**
    * The daily volume cap for ingestion.
    */
   workspaceCapping?: WorkspaceCapping;
+  /**
+   * Workspace creation date.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly createdDate?: string;
+  /**
+   * Workspace modification date.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly modifiedDate?: string;
   /**
    * The network access type for accessing Log Analytics ingestion. Possible values include:
    * 'Enabled', 'Disabled'. Default value: 'Enabled'.
@@ -543,10 +553,18 @@ export interface Workspace extends TrackedResource {
    */
   publicNetworkAccessForQuery?: PublicNetworkAccessType;
   /**
+   * Indicates whether customer managed storage is mandatory for query management.
+   */
+  forceCmkForQuery?: boolean;
+  /**
    * List of linked private link scope resources.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly privateLinkScopedResources?: PrivateLinkScopedResource[];
+  /**
+   * Workspace features.
+   */
+  features?: { [propertyName: string]: any };
   /**
    * The ETag of the workspace.
    */
@@ -572,13 +590,24 @@ export interface WorkspacePatch extends AzureEntityResource {
    */
   sku?: WorkspaceSku;
   /**
-   * The workspace data retention in days, between 30 and 730.
+   * The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers
+   * documentation for details.
    */
   retentionInDays?: number;
   /**
    * The daily volume cap for ingestion.
    */
   workspaceCapping?: WorkspaceCapping;
+  /**
+   * Workspace creation date.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly createdDate?: string;
+  /**
+   * Workspace modification date.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly modifiedDate?: string;
   /**
    * The network access type for accessing Log Analytics ingestion. Possible values include:
    * 'Enabled', 'Disabled'. Default value: 'Enabled'.
@@ -590,10 +619,18 @@ export interface WorkspacePatch extends AzureEntityResource {
    */
   publicNetworkAccessForQuery?: PublicNetworkAccessType;
   /**
+   * Indicates whether customer managed storage is mandatory for query management.
+   */
+  forceCmkForQuery?: boolean;
+  /**
    * List of linked private link scope resources.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly privateLinkScopedResources?: PrivateLinkScopedResource[];
+  /**
+   * Workspace features.
+   */
+  features?: { [propertyName: string]: any };
   /**
    * Resource tags. Optional.
    */
@@ -616,17 +653,6 @@ export interface KeyVaultProperties {
    * The version of the key associated with the Log Analytics cluster.
    */
   keyVersion?: string;
-}
-
-/**
- * Error response indicates that the service is not able to process the incoming request. The
- * reason is provided in the error message.
- */
-export interface ClusterErrorResponse {
-  /**
-   * The details of the error.
-   */
-  error?: ErrorResponse;
 }
 
 /**
@@ -1120,17 +1146,6 @@ export interface Table extends ProxyResource {
 }
 
 /**
- * Contains details when the response code indicates an error.
- * @summary Error details.
- */
-export interface ErrorContract {
-  /**
-   * The details of the error.
-   */
-  error?: ErrorResponse;
-}
-
-/**
  * Optional Parameters.
  */
 export interface DataSourcesListByWorkspaceOptionalParams extends msRest.RequestOptionsBase {
@@ -1339,11 +1354,11 @@ export type DataSourceType = 'CustomLogs' | 'AzureWatson' | 'Query' | 'Alerts';
 /**
  * Defines values for WorkspaceSkuNameEnum.
  * Possible values include: 'Free', 'Standard', 'Premium', 'PerNode', 'PerGB2018', 'Standalone',
- * 'CapacityReservation'
+ * 'CapacityReservation', 'LACluster'
  * @readonly
  * @enum {string}
  */
-export type WorkspaceSkuNameEnum = 'Free' | 'Standard' | 'Premium' | 'PerNode' | 'PerGB2018' | 'Standalone' | 'CapacityReservation';
+export type WorkspaceSkuNameEnum = 'Free' | 'Standard' | 'Premium' | 'PerNode' | 'PerGB2018' | 'Standalone' | 'CapacityReservation' | 'LACluster';
 
 /**
  * Defines values for DataIngestionStatus.

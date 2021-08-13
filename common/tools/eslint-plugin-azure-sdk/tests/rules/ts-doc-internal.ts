@@ -40,7 +40,7 @@ ruleTester.run("ts-doc-internal", rule, {
       code: `
             /**
              * Other documentation
-             * @ignore
+             * @hidden
              */
             class ExampleClass {}`,
       filename: "src/test.ts"
@@ -59,7 +59,7 @@ ruleTester.run("ts-doc-internal", rule, {
       code: `
             /**
              * Other documentation
-             * @ignore
+             * @hidden
              */
             interface ExampleInterface {}`,
       filename: "src/test.ts"
@@ -78,7 +78,7 @@ ruleTester.run("ts-doc-internal", rule, {
       code: `
             /**
              * Other documentation
-             * @ignore
+             * @hidden
              */
             function ExampleFunction() {}`,
       filename: "src/test.ts"
@@ -95,7 +95,7 @@ ruleTester.run("ts-doc-internal", rule, {
       filename: "src/test.ts",
       errors: [
         {
-          message: "internal items with TSDoc comments should include an @internal or @ignore tag"
+          message: "internal items with TSDoc comments should include an @internal or @hidden tag"
         }
       ]
     },
@@ -109,7 +109,7 @@ ruleTester.run("ts-doc-internal", rule, {
       filename: "src/test.ts",
       errors: [
         {
-          message: "internal items with TSDoc comments should include an @internal or @ignore tag"
+          message: "internal items with TSDoc comments should include an @internal or @hidden tag"
         }
       ]
     },
@@ -118,12 +118,13 @@ ruleTester.run("ts-doc-internal", rule, {
       code: `
             /**
              * Other documentation
+             * @ignore
              */
             function ExampleFunction() {}`,
       filename: "src/test.ts",
       errors: [
         {
-          message: "internal items with TSDoc comments should include an @internal or @ignore tag"
+          message: "internal items with TSDoc comments should include an @internal or @hidden tag"
         }
       ]
     }

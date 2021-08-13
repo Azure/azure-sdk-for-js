@@ -13,7 +13,7 @@ import {
   OperationParameter,
   ParameterPath
 } from "./operationParameter";
-import { isStreamOperation, OperationSpec } from "./operationSpec";
+import { getStreamResponseStatusCodes, OperationSpec } from "./operationSpec";
 import {
   deserializationPolicy,
   DeserializationContentTypes,
@@ -431,7 +431,7 @@ export class ServiceClient {
       httpRequest.url = requestUrl.toString();
 
       const contentType = operationSpec.contentType || this.requestContentType;
-      if (contentType) {
+      if (contentType && operationSpec.requestBody) {
         httpRequest.headers.set("Content-Type", contentType);
       }
 
@@ -495,6 +495,10 @@ export class ServiceClient {
           httpRequest.spanOptions = options.spanOptions;
         }
 
+        if (options.tracingContext) {
+          httpRequest.tracingContext = options.tracingContext;
+        }
+
         if (options.shouldDeserialize !== undefined && options.shouldDeserialize !== null) {
           httpRequest.shouldDeserialize = options.shouldDeserialize;
         }
@@ -504,8 +508,8 @@ export class ServiceClient {
 
       serializeRequestBody(this, httpRequest, operationArguments, operationSpec);
 
-      if (httpRequest.streamResponseBody === undefined || httpRequest.streamResponseBody === null) {
-        httpRequest.streamResponseBody = isStreamOperation(operationSpec);
+      if (httpRequest.streamResponseStatusCodes === undefined) {
+        httpRequest.streamResponseStatusCodes = getStreamResponseStatusCodes(operationSpec);
       }
 
       let rawResponse: HttpOperationResponse;

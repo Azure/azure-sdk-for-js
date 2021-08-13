@@ -4,9 +4,9 @@
 
 ```ts
 
-import { OperationOptions } from '@azure/core-http';
-import { PipelineOptions } from '@azure/core-http';
-import { TokenCredential } from '@azure/core-http';
+import { CommonClientOptions } from '@azure/core-client';
+import { OperationOptions } from '@azure/core-client';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface GetSchemaByIdOptions extends OperationOptions {
@@ -14,6 +14,11 @@ export interface GetSchemaByIdOptions extends OperationOptions {
 
 // @public
 export interface GetSchemaIdOptions extends OperationOptions {
+}
+
+// @public
+export const enum KnownSerializationType {
+    Avro = "avro"
 }
 
 // @public
@@ -44,8 +49,8 @@ export interface SchemaId {
 
 // @public
 export interface SchemaRegistry {
-    getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema>;
-    getSchemaId(schema: SchemaDescription, options?: GetSchemaIdOptions): Promise<SchemaId>;
+    getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema | undefined>;
+    getSchemaId(schema: SchemaDescription, options?: GetSchemaIdOptions): Promise<SchemaId | undefined>;
     registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaId>;
 }
 
@@ -53,13 +58,13 @@ export interface SchemaRegistry {
 export class SchemaRegistryClient implements SchemaRegistry {
     constructor(endpoint: string, credential: TokenCredential, options?: SchemaRegistryClientOptions);
     readonly endpoint: string;
-    getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema>;
-    getSchemaId(schema: SchemaDescription, options?: GetSchemaIdOptions): Promise<SchemaId>;
+    getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema | undefined>;
+    getSchemaId(schema: SchemaDescription, options?: GetSchemaIdOptions): Promise<SchemaId | undefined>;
     registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaId>;
-}
+    }
 
 // @public
-export interface SchemaRegistryClientOptions extends PipelineOptions {
+export interface SchemaRegistryClientOptions extends CommonClientOptions {
 }
 
 

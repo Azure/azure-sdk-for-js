@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
-import { Container } from "../../../src";
+import { Suite } from "mocha";
+import { Container, CosmosClient } from "../../../src";
 import { ItemDefinition } from "../../../src";
 import {
   bulkDeleteItems,
@@ -17,11 +18,8 @@ import {
   getTestContainer
 } from "../common/TestHelpers";
 import { BulkOperationType, OperationInput } from "../../../src";
+import { endpoint, masterKey } from "../common/_testConfig";
 
-/**
- * @hidden
- * @hidden
- */
 interface TestItem {
   id?: string;
   name?: string;
@@ -30,12 +28,12 @@ interface TestItem {
   replace?: string;
 }
 
-describe("Item CRUD", function() {
+describe("Item CRUD", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async function() {
     await removeAllDatabases();
   });
-  const documentCRUDTest = async function(isUpsertTest: boolean) {
+  const documentCRUDTest = async function(isUpsertTest: boolean): Promise<void> {
     // create database
     const database = await getTestDatabase("sample 中文 database");
     // create container
@@ -186,7 +184,7 @@ describe("Item CRUD", function() {
     );
 
     returnedDocuments.forEach(function(document) {
-      document.prop ? ++document.prop : null;
+      document.prop ? ++document.prop : null; // eslint-disable-line no-unused-expressions
     });
     const newReturnedDocuments = await bulkReplaceItems(container, returnedDocuments, partitionKey);
     returnedDocuments = newReturnedDocuments;
@@ -349,7 +347,7 @@ describe("bulk item operations", function() {
         {
           operationType: BulkOperationType.Upsert,
           partitionKey: "U",
-          resourceBody: { id: addEntropy("doc2"), name: "other", key: "U" }
+          resourceBody: { name: "other", key: "U" }
         },
         {
           operationType: BulkOperationType.Read,
@@ -413,7 +411,8 @@ describe("bulk item operations", function() {
         {
           operationType: BulkOperationType.Create,
           resourceBody: {
-            ttl: -10
+            ttl: -10,
+            key: "A"
           }
         },
         {
@@ -427,6 +426,27 @@ describe("bulk item operations", function() {
       ];
       const response = await v2Container.items.bulk(operations);
       assert.equal(response[1].statusCode, 424);
+    });
+    it("Continues after errors with continueOnError true", async function() {
+      const operations = [
+        {
+          operationType: BulkOperationType.Create,
+          resourceBody: {
+            ttl: -10,
+            key: "A"
+          }
+        },
+        {
+          operationType: BulkOperationType.Create,
+          resourceBody: {
+            key: "A",
+            licenseType: "B",
+            id: "o239uroihndsf"
+          }
+        }
+      ];
+      const response = await v2Container.items.bulk(operations, { continueOnError: true });
+      assert.equal(response[1].statusCode, 201);
     });
     it("autogenerates IDs for Create operations", async function() {
       const operations = [
@@ -496,12 +516,74 @@ describe("bulk item operations", function() {
     it("deletes an item with default partition", async function() {
       const operation: OperationInput = {
         operationType: BulkOperationType.Delete,
-        partitionKey: {},
         id: deleteItemId
       };
 
       const deleteResponse = await container.items.bulk([operation]);
       assert.equal(deleteResponse[0].statusCode, 204);
+    });
+  });
+  describe("v2 multi partition container", async function() {
+    let container: Container;
+    let createItemId: string;
+    let upsertItemId: string;
+    before(async function() {
+      container = await getTestContainer("bulk container", undefined, {
+        partitionKey: {
+          paths: ["/nested/key"],
+          version: 2
+        },
+        throughput: 25100
+      });
+      createItemId = addEntropy("createItem");
+      upsertItemId = addEntropy("upsertItem");
+    });
+    it("creates an item with nested object partition key", async function() {
+      const operations: OperationInput[] = [
+        {
+          operationType: BulkOperationType.Create,
+          resourceBody: {
+            id: createItemId,
+            nested: {
+              key: "A"
+            }
+          }
+        },
+        {
+          operationType: BulkOperationType.Upsert,
+          resourceBody: {
+            id: upsertItemId,
+            nested: {
+              key: false
+            }
+          }
+        }
+      ];
+
+      const createResponse = await container.items.bulk(operations);
+      assert.equal(createResponse[0].statusCode, 201);
+    });
+  });
+
+  // TODO: Non-deterministic test. We can't guarantee we see any response with a 429 status code since the retries happen within the response
+  describe("item read retries", async function() {
+    it("retries on 429", async function() {
+      const client = new CosmosClient({ key: masterKey, endpoint });
+      const { resource: db } = await client.databases.create({
+        id: `small db ${Math.random() * 1000}`
+      });
+      const containerResponse = await client
+        .database(db.id)
+        .containers.create({ id: `small container ${Math.random() * 1000}`, throughput: 400 });
+      const container = containerResponse.container;
+      await container.items.create({ id: "readme" });
+      const arr = new Array(400);
+      const promises = [];
+      for (let i = 0; i < arr.length; i++) {
+        promises.push(container.item("readme").read());
+      }
+      const resp = await Promise.all(promises);
+      assert.equal(resp[0].statusCode, 200);
     });
   });
 });

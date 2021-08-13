@@ -1,5 +1,6 @@
-﻿﻿// Copyright (c) Microsoft Corporation.
+﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
 import { finish, handleError, logSampleHeader } from "./Shared/handleError";
 import { CosmosClient } from "../dist";
 import { database as databaseId, container as containerId, endpoint, key } from "./Shared/config";
@@ -11,7 +12,7 @@ const client = new CosmosClient({ endpoint, key });
 // We'll use the same pk value for all these samples
 const pk = "0";
 
-function doesMatch(actual: any[], expected: any[]) {
+function doesMatch(actual: any[], expected: any[]): string {
   for (let i = 0; i < actual.length; i++) {
     if (actual[i] !== expected[i]) {
       return "❌";
@@ -20,14 +21,14 @@ function doesMatch(actual: any[], expected: any[]) {
   return "✅";
 }
 
-function logResult(scenario: string, actual: any[], expected: any[]) {
+function logResult(scenario: string, actual: any[], expected: any[]): void {
   const status = doesMatch(actual, expected);
   console.log(
     `  ${status} ${scenario} - expected: [${expected.join(", ")}] - actual: [${actual.join(", ")}]`
   );
 }
 
-async function run() {
+async function run(): Promise<void> {
   const { database } = await client.databases.createIfNotExists({ id: databaseId });
   const { container } = await database.containers.createIfNotExists({
     id: containerId,
@@ -142,7 +143,11 @@ async function run() {
     );
 
     const { result: fromNowResults2 } = await fromNowIterator.fetchNext();
-    logResult("after insert, from now scenario", [4], fromNowResults2.map((v) => parseInt(v.id)));
+    logResult(
+      "after insert, from now scenario",
+      [4],
+      fromNowResults2.map((v) => parseInt(v.id))
+    );
   } catch (err) {
     handleError(err);
   } finally {

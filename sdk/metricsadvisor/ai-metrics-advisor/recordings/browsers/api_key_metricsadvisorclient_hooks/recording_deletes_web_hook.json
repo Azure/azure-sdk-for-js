@@ -1,0 +1,44 @@
+{
+ "recordings": [
+  {
+   "method": "DELETE",
+   "url": "https://endpoint/metricsadvisor/v1.0/hooks/9c105aba-f8ad-4b80-a7d5-ab86e3f81b30",
+   "query": {},
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "fb6573c4-f14a-4f02-b70e-376b3726baf4",
+    "content-length": "0",
+    "date": "Wed, 02 Jun 2021 20:33:23 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "210",
+    "x-request-id": "fb6573c4-f14a-4f02-b70e-376b3726baf4"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/metricsadvisor/v1.0/hooks/9c105aba-f8ad-4b80-a7d5-ab86e3f81b30",
+   "query": {},
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"code\":\"404 NOT_FOUND\",\"message\":\"hookId is invalid.\"}",
+   "responseHeaders": {
+    "apim-request-id": "3f77a321-571d-4a16-8c8b-561fb78f0b6f",
+    "content-length": "55",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 02 Jun 2021 20:33:23 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "106",
+    "x-request-id": "3f77a321-571d-4a16-8c8b-561fb78f0b6f"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "4b001e1328e4794fd3d15d49a9f94d13"
+}

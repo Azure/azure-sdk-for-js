@@ -1,6 +1,73 @@
 # Release History
 
-## 5.3.2 (Unreleased)
+## 5.6.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 5.6.0 (2021-07-07)
+
+### Features Added
+
+- With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+
+- Updated our internal core package dependencies to their latest versions in order to add support for Opentelemetry 1.0.0 which is compatible with the latest versions of our other client libraries.
+- Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
+- Adds the `contentType`, `correlationId`, and `messageId` AMQP properties as top-level fields on `EventData` and `ReceivedEventData`.
+
+- Enable encoding the body of a message to the 'value' or 'sequence' sections (via AmqpAnnotatedMessage.bodyType). Using this encoding is not required but does allow you to take advantage of native AMQP serialization for supported primitives or sequences.
+
+  More information about the AMQP message body type can be found in the AMQP specification: [link](https://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-messaging-v1.0-os.html#section-message-format)
+
+## 5.5.2 (2021-06-10)
+
+### Bug fixes
+
+- Fixes issue [#13500](https://github.com/Azure/azure-sdk-for-js/issues/13500) where a `TypeError: Cannot read property '_process' of undefined` could be thrown in rare cases.
+
+## 5.5.1 (2021-04-29)
+
+- Fixes a race condition that would cause connection recovery to sometimes fail if a consumer or producer was closed at the same time a connection was disconnected.
+
+- Fixes issue [#14606](https://github.com/Azure/azure-sdk-for-js/issues/14606) where the `EventHubConsumerClient` could call subscribe's `processError` callback with a "Too much pending tasks" error. This could occur if the consumer was unable to connect to the service for an extended period of time.
+
+- Fixes issue [#15002](https://github.com/Azure/azure-sdk-for-js/issues/15002) where in rare cases an unexpected `TypeError` could be thrown from `EventHubProducerClient.sendBatch` when the connection was disconnected while sending events was in progress.
+
+## 5.5.0 (2021-04-06)
+
+- Updates the methods on the `CheckpointStore` interface to accept
+  an optional `options` parameter that can be used to pass in an
+  `abortSignal` and `tracingOptions`.
+
+### New features:
+
+- Allows passing `NamedKeyCredential` and `SASCredential` as the credential type to `EventHubConsumerClient` and `EventHubProducerClient`.
+  These credential types support rotation via their `update` methods and are an alternative to using the `SharedAccessKeyName/SharedAccessKey` or `SharedAccessSignature` properties in a connection string.
+
+### Tracing updates
+
+- Tracing options for `EventDataBatch.tryAdd` now match the shape of `OperationOptions`.
+
+## 5.4.0 (2021-02-09)
+
+- Adds the `customEndpointAddress` field to `EventHubClientOptions`.
+  This allows for specifying a custom endpoint to use when communicating
+  with the Event Hubs service, which is useful when your network does not
+  allow communicating to the standard Event Hubs endpoint.
+  Resolves [#12901](https://github.com/Azure/azure-sdk-for-js/issues/12901).
+
+- A helper method `parseEventHubConnectionString` has been added which validates and
+  parses a given connection string for Azure Event Hubs.
+  Resolves [#11894](https://github.com/Azure/azure-sdk-for-js/issues/11894)
+
+- Re-exports `RetryMode` for use when setting the `RetryOptions.mode` field
+  in `EventHubConsumerClientOptions` or `EventHubClientOptions`.
+  Resolves [#13166](https://github.com/Azure/azure-sdk-for-js/issues/13166).
 
 - Updates documentation for `EventData` to call out that the `body` field
   must be converted to a byte array or `Buffer` when cross-language
@@ -110,7 +177,7 @@ changes between patch and minor updates.
   after calling `subscribe` would cause events to still be read.
 - Updated to use the latest version of the `@azure/core-amqp` package which in
   turn uses the latest version of the `rhea` package.
-  This update improves support for [bundling](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md) this library.
+  This update improves support for [bundling](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Bundling.md) this library.
   ([Pull Request](https://github.com/amqp/rhea/pull/274))
 
 ## 5.0.0 (2020-01-09)
@@ -292,7 +359,7 @@ For more information, please visit https://aka.ms/azsdk/releases/july2019preview
 ### Next Steps
 
 - Refer to the `API reference documentation` to get an overview of the entire API surface.
-- Refer to our [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples) to understand the usage of the new APIs.
+- Refer to our [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/samples) to understand the usage of the new APIs.
 
 ## 2.1.0 (2019-06-10)
 
@@ -314,7 +381,7 @@ For more information, please visit https://aka.ms/azsdk/releases/july2019preview
 ### Bug fixes and other changes
 
 - A network connection lost error is now treated as retryable error. A new error with name `ConnectionLostError`
-  is introduced for this scenario which you can see if you enable the [logs](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/README.md#debug-logs).
+  is introduced for this scenario which you can see if you enable the [logs](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/README.md#debug-logs).
 - When recovering from an error that caused the underlying AMQP connection to get disconnected,
   [rhea](https://github.com/amqp/rhea/issues/205) reconnects all the older AMQP links on the connection
   resulting in the below 2 errors in the logs. We now clear rhea's internal map to avoid such reconnections.
@@ -385,7 +452,7 @@ For more information, please visit https://aka.ms/azsdk/releases/july2019preview
 ## 0.2.6 (2018-08-07)
 
 - Improved log statements.
-- Documented different mechanisms of getting the debug logs in [README](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs//#debug-logs).
+- Documented different mechanisms of getting the debug logs in [README](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs//#debug-logs).
 - Minimum dependency on `"rhea": "^0.2.18"`.
 - Fixed bugs in recovery logic
 - Added support to recover from session close for sender and receiver

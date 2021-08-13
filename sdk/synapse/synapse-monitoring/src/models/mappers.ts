@@ -15,6 +15,7 @@ export const SparkJobListViewResponse: coreHttp.CompositeMapper = {
       },
       sparkJobs: {
         serializedName: "sparkJobs",
+        nullable: true,
         type: {
           name: "Sequence",
           element: {
@@ -109,12 +110,14 @@ export const SparkJob: coreHttp.CompositeMapper = {
       },
       submitTime: {
         serializedName: "submitTime",
+        nullable: true,
         type: {
           name: "DateTime"
         }
       },
       endTime: {
         serializedName: "endTime",
+        nullable: true,
         type: {
           name: "DateTime"
         }

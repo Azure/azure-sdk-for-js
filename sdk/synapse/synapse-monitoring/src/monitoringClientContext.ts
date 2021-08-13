@@ -4,7 +4,7 @@ import * as coreHttp from "@azure/core-http";
 import { MonitoringClientOptionalParams } from "./models";
 
 const packageName = "@azure/synapse-monitoring";
-const packageVersion = "1.0.0-beta.1";
+const packageVersion = "1.0.0-beta.2";
 
 export class MonitoringClientContext extends coreHttp.ServiceClient {
   endpoint: string;

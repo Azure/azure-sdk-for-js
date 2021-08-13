@@ -6,28 +6,30 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { Schema } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { GeneratedSchemaRegistryClient } from "../generatedSchemaRegistryClient";
+import { GeneratedSchemaRegistryClientContext } from "../generatedSchemaRegistryClientContext";
 import {
+  SchemaGetByIdOptionalParams,
   SchemaGetByIdResponse,
   SerializationType,
+  SchemaQueryIdByContentOptionalParams,
   SchemaQueryIdByContentResponse,
+  SchemaRegisterOptionalParams,
   SchemaRegisterResponse
 } from "../models";
 
-/**
- * Class representing a Schema.
- */
-export class Schema {
-  private readonly client: GeneratedSchemaRegistryClient;
+/** Class representing a Schema. */
+export class SchemaImpl implements Schema {
+  private readonly client: GeneratedSchemaRegistryClientContext;
 
   /**
    * Initialize a new instance of the class Schema class.
    * @param client Reference to the service client
    */
-  constructor(client: GeneratedSchemaRegistryClient) {
+  constructor(client: GeneratedSchemaRegistryClientContext) {
     this.client = client;
   }
 
@@ -39,15 +41,12 @@ export class Schema {
    */
   getById(
     schemaId: string,
-    options?: coreHttp.OperationOptions
+    options?: SchemaGetByIdOptionalParams
   ): Promise<SchemaGetByIdResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { schemaId, options: operationOptions },
+      { schemaId, options },
       getByIdOperationSpec
-    ) as Promise<SchemaGetByIdResponse>;
+    );
   }
 
   /**
@@ -65,21 +64,12 @@ export class Schema {
     schemaName: string,
     serializationType: SerializationType,
     schemaContent: string,
-    options?: coreHttp.OperationOptions
+    options?: SchemaQueryIdByContentOptionalParams
   ): Promise<SchemaQueryIdByContentResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      {
-        groupName,
-        schemaName,
-        serializationType,
-        schemaContent,
-        options: operationOptions
-      },
+      { groupName, schemaName, serializationType, schemaContent, options },
       queryIdByContentOperationSpec
-    ) as Promise<SchemaQueryIdByContentResponse>;
+    );
   }
 
   /**
@@ -99,28 +89,18 @@ export class Schema {
     schemaName: string,
     serializationType: SerializationType,
     schemaContent: string,
-    options?: coreHttp.OperationOptions
+    options?: SchemaRegisterOptionalParams
   ): Promise<SchemaRegisterResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      {
-        groupName,
-        schemaName,
-        serializationType,
-        schemaContent,
-        options: operationOptions
-      },
+      { groupName, schemaName, serializationType, schemaContent, options },
       registerOperationSpec
-    ) as Promise<SchemaRegisterResponse>;
+    );
   }
 }
 // Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
-
-const getByIdOperationSpec: coreHttp.OperationSpec = {
+const getByIdOperationSpec: coreClient.OperationSpec = {
   path: "/$schemagroups/getSchemaById/{schema-id}",
   httpMethod: "GET",
   responses: {
@@ -137,7 +117,7 @@ const getByIdOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const queryIdByContentOperationSpec: coreHttp.OperationSpec = {
+const queryIdByContentOperationSpec: coreClient.OperationSpec = {
   path: "/$schemagroups/{group-name}/schemas/{schema-name}",
   httpMethod: "POST",
   responses: {
@@ -164,7 +144,7 @@ const queryIdByContentOperationSpec: coreHttp.OperationSpec = {
   mediaType: "text",
   serializer
 };
-const registerOperationSpec: coreHttp.OperationSpec = {
+const registerOperationSpec: coreClient.OperationSpec = {
   path: "/$schemagroups/{group-name}/schemas/{schema-name}",
   httpMethod: "PUT",
   responses: {

@@ -1,0 +1,45 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/metricsadvisor/v1.0/feedback/metric",
+   "query": {},
+   "requestBody": "{\"feedbackType\":\"Comment\",\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimensionFilter\":{\"dimension\":{\"city\":\"Cairo\",\"category\":\"Home & Garden\"}},\"value\":{\"commentValue\":\"This is a comment\"}}",
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "8ab34e6b-1582-4389-b471-e2b510f8485a",
+    "content-length": "0",
+    "date": "Wed, 02 Jun 2021 07:09:51 GMT",
+    "location": "https://endpoint/metricsadvisor/v1.0/feedback/metric/486c473b-6c85-4c7c-bbfe-eb03708feda5",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "309",
+    "x-request-id": "8ab34e6b-1582-4389-b471-e2b510f8485a"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/metricsadvisor/v1.0/feedback/metric/486c473b-6c85-4c7c-bbfe-eb03708feda5",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"feedbackId\":\"486c473b-6c85-4c7c-bbfe-eb03708feda5\",\"createdTime\":\"2021-06-02T07:09:51.832Z\",\"userPrincipal\":\"kaghiya@microsoft.com\",\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimensionFilter\":{\"dimension\":{\"city\":\"Cairo\",\"category\":\"Home & Garden\"}},\"feedbackType\":\"Comment\",\"value\":{\"commentValue\":\"This is a comment\"}}",
+   "responseHeaders": {
+    "apim-request-id": "bb0fcad5-73c0-4e05-bea4-ec003e591867",
+    "content-length": "330",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 02 Jun 2021 07:09:51 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "96",
+    "x-request-id": "bb0fcad5-73c0-4e05-bea4-ec003e591867"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "5f7c4188836e29baaba0293220bcdd71"
+}

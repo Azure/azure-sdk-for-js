@@ -1,0 +1,29 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/sms",
+   "query": {
+    "api-version": "2021-03-07"
+   },
+   "requestBody": "{\"from\":\"+14255550123\",\"smsRecipients\":[{\"to\":\"+14255550123\",\"repeatabilityRequestId\":\"sanitized\",\"repeatabilityFirstSent\":\"Thu, 01 Jan 1970 00:00:00 GMT\"}],\"message\":\"test message\",\"smsSendOptions\":{\"enableDeliveryReport\":false}}",
+   "status": 202,
+   "response": "{\"value\":[{\"to\":\"+14255550123\",\"messageId\":\"Outgoing_20210424015251c05b9140-7557-4913-a30c-23c8ed2d2f2a_noam\",\"httpStatusCode\":202,\"repeatabilityResult\":\"accepted\",\"successful\":true}]}",
+   "responseHeaders": {
+    "api-supported-versions": "2020-07-20-preview1, 2020-08-20-preview, 2021-03-07",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 24 Apr 2021 01:52:51 GMT",
+    "ms-cv": "GZmfpT+VGk+fm00Kb6s/vw.0",
+    "request-context": "appId=",
+    "status": "202",
+    "x-azure-ref": "083mDYAAAAACcyAjrCafIRZ03l9iuawYZWVZSMzBFREdFMDMxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-processing-time": "351ms"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "6d39c9c57e9160d4a3a0e376be58c39d"
+}

@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { DatabaseAccount, ResourceResponse, RequestOptions } from "../../../src";
+import { DatabaseAccount, ResourceResponse } from "../../../src";
 import { masterKey } from "../common/_testConfig";
 import { GlobalEndpointManager } from "../../../src";
 import { OperationType, ResourceType } from "../../../src";
@@ -51,7 +51,7 @@ describe("GlobalEndpointManager", function() {
             preferredLocations: ["East US 2", "West US 2"]
           }
         },
-        async (opts: RequestOptions) => {
+        async () => {
           const response: ResourceResponse<DatabaseAccount> = new ResourceResponse(
             new DatabaseAccount(databaseAccountBody, headers),
             headers,
@@ -81,7 +81,7 @@ describe("GlobalEndpointManager", function() {
             preferredLocations: ["eastus2", "West US 2"]
           }
         },
-        async (opts: RequestOptions) => {
+        async () => {
           const response: ResourceResponse<DatabaseAccount> = new ResourceResponse(
             new DatabaseAccount(databaseAccountBody, headers),
             headers,

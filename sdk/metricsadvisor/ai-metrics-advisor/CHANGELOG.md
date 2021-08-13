@@ -1,7 +1,68 @@
 # Release History
 
-## 1.0.0-beta.3 (Unreleased)
+## 1.0.1 (Unreleased)
 
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.0.0 (2021-07-06)
+
+The Metrics Advisor library is now in GA with this release.
+
+### Breaking Changes
+
+- `listIncidents()` overloads split into `listInclidentsForAlert()` and `listIncidentsForDetectionConfiguration()`
+- `listAnomalies()` overloads split into `listAnomaliesForAlert()` and `listAnomaliesForDetectionConfiguration()`
+- Removed support for granularity type `PerSecond`
+- Renamed "createFeedback" to "addFeedback"
+- `seriesToFilter` parameter renamed to `seriesKey` in methods `getmetricenrichedseriesdata` and `getmetricseriesdata` and ordering updated
+- Renamed `adminEmails` to `admins` in `MetricsAdvisorDataFeed` and `NotificationHook` and `viewerEmails` to `viewers` in `MetricsAdvisorDataFeed`
+- Renamed type `DetectionConditionsOperator` to `DetectionConditionOperator`
+- Renamed property `splitAlertByDimension` to `dimensionsToSplitAlert` in `AnomalyAlertConfiguration`
+- Renamed `datasource` to `DataSource`
+- Renamed `DatasourceCredential` to `DataSourceCredentialEntity`, `SqlServerConnectionStringDataSourceCredential` to `DataSourceSqlConnectionString`,
+  `DataLakeGen2SharedKeyDataSourceCredential` to `DataSourceDataLakeGen2SharedKey`,
+  `ServicePrincipalDataSourceCredential` to `DataSourceServicePrincipal`,
+  `ServicePrincipalInKeyVaultDataSourceCredential` to `DataSourceServicePrincipalInKeyVault`
+
+### Other Changes
+
+- Update methods now return the updated object
+
+## 1.0.0-beta.4 (2021-06-07)
+
+### New Features
+
+- Added support for `Azure Log Analytics` DataFeed source and `Azure EventHubs` DataFeed source
+- Added datasource credential API support to client
+- Added authentication type support for data feed
+- Added property `splitAlertByDimensions` to `AnomalyAlertConfiguration` model
+- Added properties`value` and `expectedValue` to `DataPointAnomaly` and `valueOfRootNode` and `expectedValueOfRootNode` to `AnomalyIncident`
+
+### Breaking Changes
+
+- Updated Patch types for all update methods
+- Replaced `updateSubscriptionKey` and `updateApiKey` into one method `updateKey`
+- Removed support for `HttpRequestDataFeed` and `ElasticsearchDataFeed` source type
+- Removed `DataSourceParameter` property and serialized `DataSourceParameter` properties for all datafeed sources into `DataFeedSource` types
+- Renamed `AlertSnoozeCondition` to `MetricAnomalyAlertSnoozeCondition` and `MetricAlertConditions` to `MetricAnomalyAlertConditions`
+
+## 1.0.0-beta.3 (2021-02-09)
+
+- Added AAD authentication support
+- Added support for API key and Subscription key rotation
+- Added a map property in DataFeed object for mapping of metric name to metric id
+- [Breaking] All update methods now return just RestResponse instead of entire objects:
+  - `updateAlertConfig()` now returns `RestResponse` instead of `GetAnomalyAlertConfigurationResponse`
+  - `updateDatafeed` now returns `RestResponse` instead of `GetDatafeedResponse`
+  - `updateHook` now returns `RestResponse` instead of `GetHookResponse`
+  - `updateDetectionConfig` now returns `RestResponse` instead of `GetAnomalyDetectionConfigurationResponse`
+- [Breaking] Rename function `listDimensionValuesForDetectionConfig()` to `listAnomalyDimensionValues()`
 
 ## 1.0.0-beta.2 (2020-11-10)
 

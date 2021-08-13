@@ -17,7 +17,7 @@ describe("Plugin", function() {
     };
     let requestCount = 0;
     const FAILCOUNT = 2;
-    const sometimesThrow: Plugin<any> = async (context: RequestContext, next: Next<any>) => {
+    const sometimesThrow: Plugin<any> = async (context: RequestContext) => {
       requestCount++;
       if (context.path.includes("dbs") && requestCount <= FAILCOUNT) {
         throw {
@@ -45,6 +45,7 @@ describe("Plugin", function() {
     assert.notEqual(response, undefined);
     assert.equal(response.statusCode, successResponse.code);
     assert.deepEqual(response.resource, successResponse.result);
+    client.dispose();
   });
 
   it("should handle all operations", async function() {
@@ -56,11 +57,11 @@ describe("Plugin", function() {
       }
     };
     let requestCount = 0;
-    const alwaysSucceed: Plugin<any> = async (context: RequestContext, next: Next<any>) => {
+    const alwaysSucceed: Plugin<any> = async () => {
       requestCount++;
       return successResponse;
     };
-    const alwaysThrow: Plugin<any> = async (context: RequestContext, next: Next<any>) => {
+    const alwaysThrow: Plugin<any> = async () => {
       throw new Error("I always throw!");
     };
 
@@ -86,6 +87,7 @@ describe("Plugin", function() {
     assert.notEqual(response, undefined);
     assert.equal(response.statusCode, successResponse.code);
     assert.deepEqual(response.resource, successResponse.result);
+    client.dispose();
   });
 
   it("should allow next to be called", async function() {
@@ -97,7 +99,7 @@ describe("Plugin", function() {
       }
     };
     let innerRequestCount = 0;
-    const alwaysSucceed: Plugin<any> = async (context: RequestContext, next: Next<any>) => {
+    const alwaysSucceed: Plugin<any> = async () => {
       innerRequestCount++;
       return successResponse;
     };
@@ -135,5 +137,6 @@ describe("Plugin", function() {
     assert.notEqual(response, undefined);
     assert.equal(response.statusCode, successResponse.code);
     assert.deepEqual(response.resource, successResponse.result);
+    client.dispose();
   });
 });

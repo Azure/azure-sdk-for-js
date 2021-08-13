@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import qs from "qs";
+import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
+import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 import { createSpan } from "../util/tracing";
-import { AuthenticationErrorName } from "../client/errors";
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
+import { CredentialUnavailableError } from "../client/errors";
 import { IdentityClient, TokenResponse, TokenCredentialOptions } from "../client/identityClient";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 import { checkTenantId } from "../util/checkTenantId";
+import { processMultiTenantRequest } from "../util/validateMultiTenant";
 
 const logger = credentialLogger("AuthorizationCodeCredential");
 
@@ -28,6 +29,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
   private authorizationCode: string;
   private redirectUri: string;
   private lastTokenResponse: TokenResponse | null = null;
+  private allowMultiTenantAuthentication?: boolean;
 
   /**
    * Creates an instance of CodeFlowCredential with the details needed
@@ -38,7 +40,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
    * the authorization code flow to obtain an authorization code to be used
    * with this credential.  A full example of this flow is provided here:
    *
-   * https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/manual/authorizationCodeSample.ts
+   * https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/manual/authorizationCodeSample.ts
    *
    * @param tenantId - The Azure Active Directory tenant (directory) ID or name.
    *                 'common' may be used when dealing with multi-tenant scenarios.
@@ -68,7 +70,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
    * the authorization code flow to obtain an authorization code to be used
    * with this credential.  A full example of this flow is provided here:
    *
-   * https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/manual/authorizationCodeSample.ts
+   * https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/manual/authorizationCodeSample.ts
    *
    * @param tenantId - The Azure Active Directory tenant (directory) ID or name.
    *                 'common' may be used when dealing with multi-tenant scenarios.
@@ -118,14 +120,13 @@ export class AuthorizationCodeCredential implements TokenCredential {
       options = redirectUriOrOptions as TokenCredentialOptions;
     }
 
+    this.allowMultiTenantAuthentication = options?.allowMultiTenantAuthentication;
     this.identityClient = new IdentityClient(options);
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if
-   * successful.  If authentication cannot be performed at this time, this method may
-   * return null.  If an error occurs during authentication, an {@link AuthenticationError}
-   * containing failure details will be thrown.
+   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    *
    * @param scopes - The list of scopes for which the token will have access.
    * @param options - The options used to configure any requests this
@@ -134,11 +135,12 @@ export class AuthorizationCodeCredential implements TokenCredential {
   public async getToken(
     scopes: string | string[],
     options?: GetTokenOptions
-  ): Promise<AccessToken | null> {
-    const { span, options: newOptions } = createSpan(
-      "AuthorizationCodeCredential-getToken",
-      options
-    );
+  ): Promise<AccessToken> {
+    const tenantId =
+      processMultiTenantRequest(this.tenantId, this.allowMultiTenantAuthentication, options) ||
+      this.tenantId;
+
+    const { span, updatedOptions } = createSpan("AuthorizationCodeCredential-getToken", options);
     try {
       let tokenResponse: TokenResponse | null = null;
       let scopeString = typeof scopes === "string" ? scopes : scopes.join(" ");
@@ -149,52 +151,61 @@ export class AuthorizationCodeCredential implements TokenCredential {
       // Try to use the refresh token first
       if (this.lastTokenResponse && this.lastTokenResponse.refreshToken) {
         tokenResponse = await this.identityClient.refreshAccessToken(
-          this.tenantId,
+          tenantId,
           this.clientId,
           scopeString,
           this.lastTokenResponse.refreshToken,
           this.clientSecret,
           undefined,
-          newOptions
+          updatedOptions
         );
       }
 
+      const query = new URLSearchParams({
+        client_id: this.clientId,
+        grant_type: "authorization_code",
+        scope: scopeString,
+        code: this.authorizationCode,
+        redirect_uri: this.redirectUri
+      });
+
+      if (this.clientSecret) {
+        query.set("client_secret", this.clientSecret);
+      }
+
       if (tokenResponse === null) {
-        const urlSuffix = getIdentityTokenEndpointSuffix(this.tenantId);
-        const webResource = this.identityClient.createWebResource({
-          url: `${this.identityClient.authorityHost}/${this.tenantId}/${urlSuffix}`,
+        const urlSuffix = getIdentityTokenEndpointSuffix(tenantId);
+        const pipelineRequest = createPipelineRequest({
+          url: `${this.identityClient.authorityHost}/${tenantId}/${urlSuffix}`,
           method: "POST",
-          disableJsonStringifyOnBody: true,
-          deserializationMapper: undefined,
-          body: qs.stringify({
-            client_id: this.clientId,
-            grant_type: "authorization_code",
-            scope: scopeString,
-            code: this.authorizationCode,
-            redirect_uri: this.redirectUri,
-            client_secret: this.clientSecret
-          }),
-          headers: {
+          body: query.toString(),
+          headers: createHttpHeaders({
             Accept: "application/json",
             "Content-Type": "application/x-www-form-urlencoded"
-          },
-          abortSignal: options && options.abortSignal,
-          spanOptions: newOptions.tracingOptions && newOptions.tracingOptions.spanOptions
+          }),
+          tracingOptions: {
+            spanOptions: updatedOptions?.tracingOptions?.spanOptions,
+            tracingContext: updatedOptions?.tracingOptions?.tracingContext
+          }
         });
 
-        tokenResponse = await this.identityClient.sendTokenRequest(webResource);
+        tokenResponse = await this.identityClient.sendTokenRequest(
+          pipelineRequest,
+          (response: any) => new Date(response?.expires_on).getTime()
+        );
       }
 
       this.lastTokenResponse = tokenResponse;
       logger.getToken.info(formatSuccess(scopes));
-      return (tokenResponse && tokenResponse.accessToken) || null;
+      const token = tokenResponse && tokenResponse.accessToken;
+
+      if (!token) {
+        throw new CredentialUnavailableError("Failed to retrieve a valid token");
+      }
+      return token;
     } catch (err) {
-      const code =
-        err.name === AuthenticationErrorName
-          ? CanonicalCode.UNAUTHENTICATED
-          : CanonicalCode.UNKNOWN;
       span.setStatus({
-        code,
+        code: SpanStatusCode.ERROR,
         message: err.message
       });
       logger.getToken.info(formatError(scopes, err));

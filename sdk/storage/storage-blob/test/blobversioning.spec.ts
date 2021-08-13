@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
@@ -146,11 +149,11 @@ describe("Blob versioning", () => {
       "UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved."
     );
     const blockBlobCount = 3;
-    let blockBlobClients: BlockBlobClient[] = new Array(blockBlobCount);
-    let versions: string[] = new Array(blockBlobCount);
+    const blockBlobClients: BlockBlobClient[] = new Array(blockBlobCount);
+    const versions: string[] = new Array(blockBlobCount);
     for (let i = 0; i < blockBlobCount; i++) {
-      let tmpBlobName = `blob${i}`;
-      let tmpBlockBlobClient = containerClient.getBlockBlobClient(tmpBlobName);
+      const tmpBlobName = `blob${i}`;
+      const tmpBlockBlobClient = containerClient.getBlockBlobClient(tmpBlobName);
       blockBlobClients[i] = tmpBlockBlobClient;
     }
     // Upload blobs.
@@ -163,7 +166,7 @@ describe("Blob versioning", () => {
     // Assemble batch delete request.
     const blobBatchClient = blobServiceClient.getBlobBatchClient();
     const credential = getGenericCredential("");
-    let batchDeleteRequest = new BlobBatch();
+    const batchDeleteRequest = new BlobBatch();
     for (let i = 0; i < blockBlobCount; i++) {
       await batchDeleteRequest.deleteBlob(
         blockBlobClients[i].withVersion(versions[i]!).url,

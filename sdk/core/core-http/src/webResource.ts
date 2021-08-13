@@ -9,7 +9,7 @@ import { HttpOperationResponse } from "./httpOperationResponse";
 import { OperationResponse } from "./operationResponse";
 import { ProxySettings } from "./serviceClient";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { SpanOptions } from "@azure/core-tracing";
+import { SpanOptions, Context } from "@azure/core-tracing";
 import { SerializerOptions } from "./util/serializer.common";
 
 export type HttpMethods =
@@ -56,9 +56,14 @@ export interface WebResourceLike {
    */
   headers: HttpHeadersLike;
   /**
+   * @deprecated Use streamResponseStatusCodes property instead.
    * Whether or not the body of the HttpOperationResponse should be treated as a stream.
    */
   streamResponseBody?: boolean;
+  /**
+   * A list of response status codes whose corresponding HttpOperationResponse body should be treated as a stream.
+   */
+  streamResponseStatusCodes?: Set<number>;
   /**
    * Whether or not the HttpOperationResponse should be deserialized. If this is undefined, then the
    * HttpOperationResponse should be deserialized.
@@ -122,9 +127,14 @@ export interface WebResourceLike {
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
 
   /**
-   * Options used to create a span when tracing is enabled.
+   * Tracing: Options used to create a span when tracing is enabled.
    */
   spanOptions?: SpanOptions;
+
+  /**
+   * Tracing: Context used when creating spans.
+   */
+  tracingContext?: Context;
 
   /**
    * Validates that the required properties such as method, url, headers["Content-Type"],
@@ -180,9 +190,14 @@ export class WebResource implements WebResourceLike {
   body?: any;
   headers: HttpHeadersLike;
   /**
+   * @deprecated Use streamResponseStatusCodes property instead.
    * Whether or not the body of the HttpOperationResponse should be treated as a stream.
    */
   streamResponseBody?: boolean;
+  /**
+   * A list of status codes whose corresponding HttpOperationResponse body should be treated as a stream.
+   */
+  streamResponseStatusCodes?: Set<number>;
   /**
    * Whether or not the HttpOperationResponse should be deserialized. If this is undefined, then the
    * HttpOperationResponse should be deserialized.
@@ -219,9 +234,14 @@ export class WebResource implements WebResourceLike {
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
 
   /**
-   * Options used to create a span when tracing is enabled.
+   * Tracing: Options used to create a span when tracing is enabled.
    */
   spanOptions?: SpanOptions;
+
+  /**
+   * Tracing: Context used when creating Spans.
+   */
+  tracingContext?: Context;
 
   constructor(
     url?: string,
@@ -237,9 +257,11 @@ export class WebResource implements WebResourceLike {
     onDownloadProgress?: (progress: TransferProgressEvent) => void,
     proxySettings?: ProxySettings,
     keepAlive?: boolean,
-    decompressResponse?: boolean
+    decompressResponse?: boolean,
+    streamResponseStatusCodes?: Set<number>
   ) {
     this.streamResponseBody = streamResponseBody;
+    this.streamResponseStatusCodes = streamResponseStatusCodes;
     this.url = url || "";
     this.method = method || "GET";
     this.headers = isHttpHeadersLike(headers) ? headers : new HttpHeaders(headers);
@@ -481,6 +503,10 @@ export class WebResource implements WebResourceLike {
       this.spanOptions = options.spanOptions;
     }
 
+    if (options.tracingContext) {
+      this.tracingContext = options.tracingContext;
+    }
+
     this.abortSignal = options.abortSignal;
     this.onDownloadProgress = options.onDownloadProgress;
     this.onUploadProgress = options.onUploadProgress;
@@ -507,7 +533,8 @@ export class WebResource implements WebResourceLike {
       this.onDownloadProgress,
       this.proxySettings,
       this.keepAlive,
-      this.decompressResponse
+      this.decompressResponse,
+      this.streamResponseStatusCodes
     );
 
     if (this.formData) {
@@ -618,7 +645,14 @@ export interface RequestPrepareOptions {
   abortSignal?: AbortSignalLike;
   onUploadProgress?: (progress: TransferProgressEvent) => void;
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
+  /**
+   * Tracing: Options used to create a span when tracing is enabled.
+   */
   spanOptions?: SpanOptions;
+  /**
+   * Tracing: Context used when creating spans.
+   */
+  tracingContext?: Context;
 }
 
 /**
@@ -667,9 +701,14 @@ export interface RequestOptionsBase {
   shouldDeserialize?: boolean | ((response: HttpOperationResponse) => boolean);
 
   /**
-   * Options used to create a span when tracing is enabled.
+   * Tracing: Options used to create a span when tracing is enabled.
    */
   spanOptions?: SpanOptions;
+
+  /**
+   * Tracing: Context used when creating spans.
+   */
+  tracingContext?: Context;
 
   [key: string]: any;
 

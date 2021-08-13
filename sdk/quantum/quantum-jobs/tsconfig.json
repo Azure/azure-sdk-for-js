@@ -1,0 +1,27 @@
+{
+  "extends": "../../../tsconfig.package",
+  "compilerOptions": {
+    "strict": true,
+    "sourceMap": true,
+    "lib": [
+      "es6",
+      "dom"
+    ],
+    "declaration": true,
+    "outDir": "./dist-esm",
+    "declarationDir": "./types"
+  },
+  "include": [
+    "./src/**/*.ts",
+    "./test/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "types",
+    "temp",
+    "browser",
+    "dist",
+    "dist-esm",
+    "./samples/**/*.ts"
+  ]
+}

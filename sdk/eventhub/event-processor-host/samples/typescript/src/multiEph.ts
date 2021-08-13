@@ -22,6 +22,10 @@ import {
   delay
 } from "@azure/event-processor-host";
 
+console.warn(
+  "The package @azure/event-processor-host is deprecated in favor of @azure/event-hubs and @azure/eventhubs-checkpointstore-blob"
+);
+
 // Define Storage and Event Hubs connection strings and related Event Hubs entity name here
 const ehConnectionString = "";
 const eventHubsName = "";

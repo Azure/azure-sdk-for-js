@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 // explicitly exporting types that we need.
 
@@ -25,17 +25,16 @@ export {
   FileItem,
   FileListHandlesResponse,
   FileServiceProperties,
-  FileSetHTTPHeadersResponse,
   FileSetMetadataResponse,
   FileStartCopyResponse,
   FileUploadRangeFromURLOptionalParams,
   FileUploadRangeFromURLResponse,
   FileUploadRangeResponse,
+  PermissionCopyModeType,
   HandleItem,
   ListSharesIncludeType,
   FileRange as RangeModel,
   ServiceGetPropertiesResponse,
-  ServiceListSharesSegmentResponse as ServiceListSharesSegmentResponseModel,
   ServiceSetPropertiesResponse,
   ShareCreatePermissionResponse,
   ShareCreateResponse,
@@ -69,16 +68,18 @@ export {
   FileGetPropertiesHeaders,
   FileProperty,
   FileListHandlesHeaders,
-  FileType,
   CorsRule,
   Metrics,
-  FileSetHTTPHeadersHeaders,
+  FileSetHttpHeadersHeaders as FileSetHTTPHeadersHeaders,
+  FileSetHttpHeadersResponse as FileSetHTTPHeadersResponse,
   FileSetMetadataHeaders,
   FileStartCopyHeaders,
   FileUploadRangeFromURLHeaders,
   FileUploadRangeHeaders,
+  FileType,
   ServiceGetPropertiesHeaders,
-  ListSharesResponse,
+  ListFilesIncludeType,
+  ListSharesResponse as ListSharesResponseModel,
   RetentionPolicy,
   ServiceListSharesSegmentHeaders,
   ServiceSetPropertiesHeaders,

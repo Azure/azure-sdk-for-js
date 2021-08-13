@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as dotenv from "dotenv";
 import * as assert from "assert";
 import { AbortController } from "@azure/abort-controller";

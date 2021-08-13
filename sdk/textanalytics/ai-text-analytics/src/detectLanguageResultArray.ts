@@ -1,18 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  TextDocumentBatchStatistics,
-  DocumentLanguage,
-  DocumentError,
-  DetectLanguageInput
-} from "./generated/models";
+import { TextDocumentBatchStatistics, LanguageResult, TextDocumentInput } from "./generated/models";
 import {
   DetectLanguageResult,
   makeDetectLanguageResult,
   makeDetectLanguageErrorResult
 } from "./detectLanguageResult";
-import { sortResponseIdObjects } from "./util";
+import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult";
 
 /**
  * Array of `DetectLanguageResult` objects corresponding to a batch of input documents, and
@@ -32,34 +27,17 @@ export interface DetectLanguageResultArray extends Array<DetectLanguageResult> {
   modelVersion: string;
 }
 
+/**
+ * @internal
+ */
 export function makeDetectLanguageResultArray(
-  input: DetectLanguageInput[],
-  documents: DocumentLanguage[],
-  errors: DocumentError[],
-  modelVersion: string,
-  statistics?: TextDocumentBatchStatistics
+  input: TextDocumentInput[],
+  response: LanguageResult
 ): DetectLanguageResultArray {
-  const unsortedResult = documents
-    .map(
-      (document): DetectLanguageResult => {
-        return makeDetectLanguageResult(
-          document.id,
-          document.detectedLanguage,
-          document.warnings,
-          document.statistics
-        );
-      }
-    )
-    .concat(
-      errors.map(
-        (error): DetectLanguageResult => {
-          return makeDetectLanguageErrorResult(error.id, error.error);
-        }
-      )
-    );
-  const result = sortResponseIdObjects(input, unsortedResult);
-  return Object.assign(result, {
-    statistics,
-    modelVersion
-  });
+  return combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion(
+    input,
+    response,
+    makeDetectLanguageResult,
+    makeDetectLanguageErrorResult
+  );
 }

@@ -1,8 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { getTracer, getTraceParentHeader } from "@azure/core-tracing";
-import { SpanOptions, SpanKind } from "@opentelemetry/api";
+import {
+  getTraceParentHeader,
+  createSpanFunction,
+  SpanKind,
+  SpanStatusCode,
+  isSpanContextValid
+} from "@azure/core-tracing";
 import {
   RequestPolicyFactory,
   RequestPolicy,
@@ -12,6 +17,11 @@ import {
 import { WebResourceLike } from "../webResource";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { URLBuilder } from "../url";
+
+const createSpan = createSpanFunction({
+  packagePrefix: "",
+  namespace: ""
+});
 
 export interface TracingPolicyOptions {
   userAgent?: string;
@@ -38,18 +48,23 @@ export class TracingPolicy extends BaseRequestPolicy {
   }
 
   public async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
-    if (!request.spanOptions || !request.spanOptions.parent) {
+    if (!request.tracingContext) {
       return this._nextPolicy.sendRequest(request);
     }
 
     // create a new span
-    const tracer = getTracer();
-    const spanOptions: SpanOptions = {
-      ...request.spanOptions,
-      kind: SpanKind.CLIENT
-    };
     const path = URLBuilder.parse(request.url).getPath() || "/";
-    const span = tracer.startSpan(path, spanOptions);
+
+    const { span } = createSpan(path, {
+      tracingOptions: {
+        spanOptions: {
+          ...request.spanOptions,
+          kind: SpanKind.CLIENT
+        },
+        tracingContext: request.tracingContext
+      }
+    });
+
     span.setAttributes({
       "http.method": request.method,
       "http.url": request.url,
@@ -62,9 +77,9 @@ export class TracingPolicy extends BaseRequestPolicy {
 
     try {
       // set headers
-      const spanContext = span.context();
+      const spanContext = span.spanContext();
       const traceParentHeader = getTraceParentHeader(spanContext);
-      if (traceParentHeader) {
+      if (traceParentHeader && isSpanContextValid(spanContext)) {
         request.headers.set("traceparent", traceParentHeader);
         const traceState = spanContext.traceState && spanContext.traceState.serialize();
         // if tracestate is set, traceparent MUST be set, so only set tracestate after traceparent
@@ -79,11 +94,19 @@ export class TracingPolicy extends BaseRequestPolicy {
       if (serviceRequestId) {
         span.setAttribute("serviceRequestId", serviceRequestId);
       }
-      span.end();
+      span.setStatus({
+        code: SpanStatusCode.OK
+      });
       return response;
     } catch (err) {
-      span.end();
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: err.message
+      });
+      span.setAttribute("http.status_code", err.statusCode);
       throw err;
+    } finally {
+      span.end();
     }
   }
 }

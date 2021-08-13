@@ -1,7 +1,11 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { AbortController } from "@azure/abort-controller";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
+import { join } from "path";
 
 import {
   AccessControlChangeCounters,
@@ -367,7 +371,7 @@ describe("DataLakePathClient Node.js only", () => {
   });
 
   it("move with shared key to authenticate source, SAS to authenticate destination", async () => {
-    let destFileName = recorder.getUniqueName("destfile");
+    const destFileName = recorder.getUniqueName("destfile");
     const sasFileSystemClient = getDataLakeFileSystemClientWithSASCredential({
       fileSystemName: fileSystemClient.name,
       pathName: destFileName,
@@ -380,7 +384,7 @@ describe("DataLakePathClient Node.js only", () => {
   });
 
   it("move with SAS to authenticate source, SAS to authenticate destination", async () => {
-    let destFileName = recorder.getUniqueName("destfile");
+    const destFileName = recorder.getUniqueName("destfile");
     const sasFileSystemClient = getDataLakeFileSystemClientWithSASCredential({
       fileSystemName: fileSystemClient.name,
       expiresOn: new Date(Date.now() + 60 * 1000),
@@ -423,6 +427,23 @@ describe("DataLakePathClient Node.js only", () => {
         ]
       }
     });
+  });
+
+  it("query should work with Parquet input configuration", async function() {
+    //Enable the case when STG78 - version 2020-10-02 features is enabled in production.
+    this.skip();
+    const parquetFilePath = join("test", "resources", "parquet.parquet");
+
+    const fileClient2 = fileSystemClient.getFileClient(fileName + "2");
+    await fileClient2.uploadFile(parquetFilePath);
+
+    const response = await fileClient2.query("select * from blobstorage where id < 1;", {
+      inputTextConfiguration: {
+        kind: "parquet"
+      }
+    });
+
+    assert.deepStrictEqual(await bodyToString(response), "0,mdifjt55.ea3,mdifjt55.ea3\n");
   });
 });
 

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
+import { Context } from "mocha";
 import { env, Recorder } from "@azure/test-utils-recorder";
 
 import {
@@ -21,7 +22,7 @@ describe("Certificates client - LRO - certificate operation", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     const authentication = await authenticate(this);
     certificateSuffix = authentication.suffix;
     client = authentication.client;
@@ -35,7 +36,7 @@ describe("Certificates client - LRO - certificate operation", () => {
 
   // The tests follow
 
-  it("can wait until a certificate is created by getting the poller from getCertificateOperation", async function() {
+  it("can wait until a certificate is created by getting the poller from getCertificateOperation", async function(this: Context) {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );
@@ -60,11 +61,9 @@ describe("Certificates client - LRO - certificate operation", () => {
 
     // The final certificate operation can also be obtained this way:
     assert.equal(poller.getOperationState().certificateOperation!.status, "completed");
-
-    await testClient.flushCertificate(certificateName);
   });
 
-  it("can resume from a stopped poller", async function() {
+  it("can resume from a stopped poller", async function(this: Context) {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );
@@ -93,7 +92,5 @@ describe("Certificates client - LRO - certificate operation", () => {
     const operation: CertificateOperation = resumePoller.getOperationState().certificateOperation!;
     assert.equal(operation.status, "completed");
     assert.ok(resumePoller.getOperationState().isCompleted);
-
-    await testClient.flushCertificate(certificateName);
   });
 });

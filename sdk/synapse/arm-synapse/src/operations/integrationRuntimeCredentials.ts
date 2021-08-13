@@ -85,7 +85,7 @@ const syncOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

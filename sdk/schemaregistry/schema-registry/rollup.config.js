@@ -1,14 +1,3 @@
-import * as base from "./rollup.base.config";
+import { makeConfig } from "@azure/dev-tool/shared-config/rollup";
 
-const inputs = [];
-
-if (!process.env.ONLY_BROWSER) {
-  inputs.push(base.nodeConfig());
-}
-
-if (!process.env.ONLY_NODE) {
-  inputs.push(base.browserConfig());
-  inputs.push(base.browserConfig(false, true));
-}
-
-export default inputs;
+export default makeConfig(require("./package.json"));

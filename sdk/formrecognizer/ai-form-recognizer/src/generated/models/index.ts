@@ -8,39 +8,23 @@
 
 import * as coreHttp from "@azure/core-http";
 
-/**
- * Request parameter to train a new custom model.
- */
+/** Request parameter to train a new custom model. */
 export interface TrainRequest {
-  /**
-   * Source path containing the training documents.
-   */
+  /** Source path containing the training documents. */
   source: string;
-  /**
-   * Filter to apply to the documents in the source path for training.
-   */
+  /** Filter to apply to the documents in the source path for training. */
   sourceFilter?: TrainSourceFilter;
-  /**
-   * Use label file for training a model.
-   */
+  /** Use label file for training a model. */
   useLabelFile?: boolean;
-  /**
-   * Optional user defined model name (max length: 1024).
-   */
+  /** Optional user defined model name (max length: 1024). */
   modelName?: string;
 }
 
-/**
- * Filter to apply to the documents in the source path for training.
- */
+/** Filter to apply to the documents in the source path for training. */
 export interface TrainSourceFilter {
-  /**
-   * A case-sensitive prefix string to filter documents in the source path for training. For example, when using a Azure storage blob Uri, use the prefix to restrict sub folders for training.
-   */
+  /** A case-sensitive prefix string to filter documents in the source path for training. For example, when using a Azure storage blob Uri, use the prefix to restrict sub folders for training. */
   prefix?: string;
-  /**
-   * A flag to indicate if sub folders within the set of prefix folders will also need to be included when searching for content to be preprocessed.
-   */
+  /** A flag to indicate if sub folders within the set of prefix folders will also need to be included when searching for content to be preprocessed. */
   includeSubfolders?: boolean;
 }
 
@@ -53,822 +37,660 @@ export interface ErrorInformation {
   message: string;
 }
 
-/**
- * Response to the get custom model operation.
- */
+/** Response to the get custom model operation. */
 export interface Model {
-  /**
-   * Basic custom model information.
-   */
+  /** Basic custom model information. */
   modelInfo: ModelInfo;
-  /**
-   * Keys extracted by the custom model.
-   */
+  /** Keys extracted by the custom model. */
   keys?: KeysResult;
-  /**
-   * Training result for custom model.
-   */
+  /** Training result for custom model. */
   trainResult?: TrainResult;
-  /**
-   * Training result for composed model.
-   */
+  /** Training result for composed model. */
   composedTrainResults?: TrainResult[];
 }
 
-/**
- * Basic custom model information.
- */
+/** Basic custom model information. */
 export interface ModelInfo {
-  /**
-   * Model identifier.
-   */
+  /** Model identifier. */
   modelId: string;
-  /**
-   * Status of the model.
-   */
+  /** Status of the model. */
   status: ModelStatus;
-  /**
-   * Date and time (UTC) when the model was created.
-   */
+  /** Date and time (UTC) when the model was created. */
   trainingStartedOn: Date;
-  /**
-   * Date and time (UTC) when the status was last updated.
-   */
+  /** Date and time (UTC) when the status was last updated. */
   trainingCompletedOn: Date;
-  /**
-   * Optional user defined model name (max length: 1024).
-   */
+  /** Optional user defined model name (max length: 1024). */
   modelName?: string;
-  /**
-   * Optional model attributes.
-   */
+  /** Optional model attributes. */
   attributes?: Attributes;
 }
 
-/**
- * Optional model attributes.
- */
+/** Optional model attributes. */
 export interface Attributes {
-  /**
-   * Is this model composed? (default: false).
-   */
+  /** Is this model composed? (default: false). */
   isComposed?: boolean;
 }
 
-/**
- * Keys extracted by the custom model.
- */
+/** Keys extracted by the custom model. */
 export interface KeysResult {
-  /**
-   * Object mapping clusterIds to a list of keys.
-   */
+  /** Object mapping clusterIds to a list of keys. */
   clusters: { [propertyName: string]: string[] };
 }
 
-/**
- * Custom model training result.
- */
+/** Custom model training result. */
 export interface TrainResult {
-  /**
-   * List of the documents used to train the model and any errors reported in each document.
-   */
+  /** List of the documents used to train the model and any errors reported in each document. */
   trainingDocuments: TrainingDocumentInfo[];
-  /**
-   * List of fields used to train the model and the train operation error reported by each.
-   */
+  /** List of fields used to train the model and the train operation error reported by each. */
   fields?: FormFieldsReport[];
-  /**
-   * Average accuracy.
-   */
+  /** Average accuracy. */
   averageModelAccuracy?: number;
-  /**
-   * Model identifier.
-   */
+  /** Model identifier. */
   modelId?: string;
-  /**
-   * Errors returned during the training operation.
-   */
+  /** Errors returned during the training operation. */
   errors?: ErrorInformation[];
 }
 
-/**
- * Report for a custom model training document.
- */
+/** Report for a custom model training document. */
 export interface TrainingDocumentInfo {
-  /**
-   * Training document name.
-   */
+  /** Training document name. */
   name: string;
-  /**
-   * Total number of pages trained.
-   */
+  /** Total number of pages trained. */
   pageCount: number;
-  /**
-   * List of errors.
-   */
+  /** List of errors. */
   errors: ErrorInformation[];
-  /**
-   * Status of the training operation.
-   */
+  /** Status of the training operation. */
   status: TrainStatus;
 }
 
-/**
- * Report for a custom model training field.
- */
+/** Report for a custom model training field. */
 export interface FormFieldsReport {
-  /**
-   * Training field name.
-   */
+  /** Training field name. */
   fieldName: string;
-  /**
-   * Estimated extraction accuracy for this field.
-   */
+  /** Estimated extraction accuracy for this field. */
   accuracy: number;
 }
 
-/**
- * Uri or local path to source data.
- */
+/** Uri or local path to source data. */
 export interface SourcePath {
-  /**
-   * File source path.
-   */
+  /** File source path. */
   source?: string;
 }
 
-/**
- * Status and result of the queued analyze operation.
- */
+/** Status and result of the queued analyze operation. */
 export interface AnalyzeOperationResult {
-  /**
-   * Operation status.
-   */
+  /** Operation status. */
   status: OperationStatus;
-  /**
-   * Date and time (UTC) when the analyze operation was submitted.
-   */
+  /** Date and time (UTC) when the analyze operation was submitted. */
   createdOn: Date;
-  /**
-   * Date and time (UTC) when the status was last updated.
-   */
+  /** Date and time (UTC) when the status was last updated. */
   lastModified: Date;
-  /**
-   * Results of the analyze operation.
-   */
+  /** Results of the analyze operation. */
   analyzeResult?: AnalyzeResult;
 }
 
-/**
- * Analyze operation result.
- */
+/** Analyze operation result. */
 export interface AnalyzeResult {
-  /**
-   * Version of schema used for this result.
-   */
+  /** Version of schema used for this result. */
   version: string;
-  /**
-   * Text extracted from the input.
-   */
+  /** Text extracted from the input. */
   readResults: ReadResult[];
-  /**
-   * Page-level information extracted from the input.
-   */
+  /** Page-level information extracted from the input. */
   pageResults?: PageResult[];
-  /**
-   * Document-level information extracted from the input.
-   */
+  /** Document-level information extracted from the input. */
   documentResults?: DocumentResult[];
-  /**
-   * List of errors reported during the analyze operation.
-   */
+  /** List of errors reported during the analyze operation. */
   errors?: ErrorInformation[];
 }
 
-/**
- * Text extracted from a page in the input document.
- */
+/** Text extracted from a page in the input document. */
 export interface ReadResult {
-  /**
-   * The 1-based page number in the input document.
-   */
+  /** The 1-based page number in the input document. */
   pageNumber: number;
-  /**
-   * The general orientation of the text in clockwise direction, measured in degrees between (-180, 180].
-   */
+  /** The general orientation of the text in clockwise direction, measured in degrees between (-180, 180]. */
   angle: number;
-  /**
-   * The width of the image/PDF in pixels/inches, respectively.
-   */
+  /** The width of the image/PDF in pixels/inches, respectively. */
   width: number;
-  /**
-   * The height of the image/PDF in pixels/inches, respectively.
-   */
+  /** The height of the image/PDF in pixels/inches, respectively. */
   height: number;
-  /**
-   * The unit used by the width, height and boundingBox properties. For images, the unit is "pixel". For PDF, the unit is "inch".
-   */
+  /** The unit used by the width, height and boundingBox properties. For images, the unit is "pixel". For PDF, the unit is "inch". */
   unit: LengthUnit;
-  /**
-   * The detected language on the page overall.
-   */
-  language?: Language;
-  /**
-   * When includeTextDetails is set to true, a list of recognized text lines. The maximum number of lines returned is 300 per page. The lines are sorted top to bottom, left to right, although in certain cases proximity is treated with higher priority. As the sorting order depends on the detected text, it may change across images and OCR version updates. Thus, business logic should be built upon the actual line location instead of order.
-   */
+  /** When includeTextDetails is set to true, a list of recognized text lines. The maximum number of lines returned is 300 per page. The lines are sorted top to bottom, left to right, although in certain cases proximity is treated with higher priority. As the sorting order depends on the detected text, it may change across images and OCR version updates. Thus, business logic should be built upon the actual line location instead of order. */
   lines?: TextLine[];
-  /**
-   * List of selection marks extracted from the page.
-   */
+  /** List of selection marks extracted from the page. */
   selectionMarks?: SelectionMark[];
 }
 
-/**
- * An object representing an extracted text line.
- */
+/** An object representing an extracted text line. */
 export interface TextLine {
-  /**
-   * The text content of the line.
-   */
+  /** The text content of the line. */
   text: string;
-  /**
-   * Bounding box of an extracted line.
-   */
+  /** Bounding box of an extracted line. */
   boundingBox: number[];
-  /**
-   * The detected language of this line, if different from the overall page language.
-   */
-  language?: Language;
-  /**
-   * List of words in the text line.
-   */
+  /** List of words in the text line. */
   words: TextWord[];
-  /**
-   * Text appearance properties.
-   */
-  appearance?: Appearance;
+  /** Text appearance properties. */
+  appearance?: TextAppearance;
 }
 
-/**
- * An object representing a word.
- */
+/** An object representing a word. */
 export interface TextWord {
-  /**
-   * The text content of the word.
-   */
+  /** The text content of the word. */
   text: string;
-  /**
-   * Bounding box of an extracted word.
-   */
+  /** Bounding box of an extracted word. */
   boundingBox: number[];
-  /**
-   * Confidence value.
-   */
+  /** Confidence value. */
   confidence?: number;
 }
 
-/**
- * An object representing the appearance of the text line.
- */
-export interface Appearance {
-  /**
-   * An object representing the style of the text line.
-   */
-  style: Style;
+/** An object representing the appearance of the text line. */
+export interface TextAppearance {
+  /** An object representing the style of the text line. */
+  style: TextStyle;
 }
 
-/**
- * An object representing the style of the text line.
- */
-export interface Style {
-  /**
-   * The text line style name, including handwriting and other.
-   */
-  name: TextStyle;
-  /**
-   * The confidence of text line style.
-   */
+/** An object representing the style of the text line. */
+export interface TextStyle {
+  /** The text line style name, including handwriting and other. */
+  name: StyleName;
+  /** The confidence of text line style. */
   confidence: number;
 }
 
-/**
- * Information about the extracted selection mark.
- */
+/** Information about the extracted selection mark. */
 export interface SelectionMark {
-  /**
-   * Bounding box of the selection mark.
-   */
+  /** Bounding box of the selection mark. */
   boundingBox: number[];
-  /**
-   * Confidence value.
-   */
+  /** Confidence value. */
   confidence: number;
-  /**
-   * State of the selection mark.
-   */
+  /** State of the selection mark. */
   state: SelectionMarkState;
 }
 
-/**
- * Extracted information from a single page.
- */
+/** Extracted information from a single page. */
 export interface PageResult {
-  /**
-   * Page number.
-   */
+  /** Page number. */
   pageNumber: number;
-  /**
-   * Cluster identifier.
-   */
+  /** Cluster identifier. */
   clusterId?: number;
-  /**
-   * List of key-value pairs extracted from the page.
-   */
+  /** List of key-value pairs extracted from the page. */
   keyValuePairs?: KeyValuePair[];
-  /**
-   * List of data tables extracted from the page.
-   */
+  /** List of data tables extracted from the page. */
   tables?: DataTable[];
 }
 
-/**
- * Information about the extracted key-value pair.
- */
+/** Information about the extracted key-value pair. */
 export interface KeyValuePair {
-  /**
-   * A user defined label for the key/value pair entry.
-   */
+  /** A user defined label for the key/value pair entry. */
   label?: string;
-  /**
-   * Information about the extracted key in a key-value pair.
-   */
+  /** Information about the extracted key in a key-value pair. */
   key: KeyValueElement;
-  /**
-   * Information about the extracted value in a key-value pair.
-   */
+  /** Information about the extracted value in a key-value pair. */
   value: KeyValueElement;
-  /**
-   * Confidence value.
-   */
+  /** Confidence value. */
   confidence: number;
 }
 
-/**
- * Information about the extracted key or value in a key-value pair.
- */
+/** Information about the extracted key or value in a key-value pair. */
 export interface KeyValueElement {
-  /**
-   * Semantic data type of the key value element.
-   */
+  /** Semantic data type of the key value element. */
   type?: KeyValueType;
-  /**
-   * The text content of the key or value.
-   */
+  /** The text content of the key or value. */
   text: string;
-  /**
-   * Bounding box of the key or value.
-   */
+  /** Bounding box of the key or value. */
   boundingBox?: number[];
-  /**
-   * When includeTextDetails is set to true, a list of references to the text elements constituting this key or value.
-   */
+  /** When includeTextDetails is set to true, a list of references to the text elements constituting this key or value. */
   elements?: string[];
 }
 
-/**
- * Information about the extracted table contained in a page.
- */
+/** Information about the extracted table contained in a page. */
 export interface DataTable {
-  /**
-   * Number of rows.
-   */
+  /** Number of rows. */
   rows: number;
-  /**
-   * Number of columns.
-   */
+  /** Number of columns. */
   columns: number;
-  /**
-   * List of cells contained in the table.
-   */
+  /** List of cells contained in the table. */
   cells: DataTableCell[];
-  /**
-   * Bounding box of the table.
-   */
+  /** Bounding box of the table. */
   boundingBox: number[];
 }
 
-/**
- * Information about the extracted cell in a table.
- */
+/** Information about the extracted cell in a table. */
 export interface DataTableCell {
-  /**
-   * Row index of the cell.
-   */
+  /** Row index of the cell. */
   rowIndex: number;
-  /**
-   * Column index of the cell.
-   */
+  /** Column index of the cell. */
   columnIndex: number;
-  /**
-   * Number of rows spanned by this cell.
-   */
+  /** Number of rows spanned by this cell. */
   rowSpan?: number;
-  /**
-   * Number of columns spanned by this cell.
-   */
+  /** Number of columns spanned by this cell. */
   columnSpan?: number;
-  /**
-   * Text content of the cell.
-   */
+  /** Text content of the cell. */
   text: string;
-  /**
-   * Bounding box of the cell.
-   */
+  /** Bounding box of the cell. */
   boundingBox: number[];
-  /**
-   * Confidence value.
-   */
+  /** Confidence value. */
   confidence: number;
-  /**
-   * When includeTextDetails is set to true, a list of references to the text elements constituting this table cell.
-   */
+  /** When includeTextDetails is set to true, a list of references to the text elements constituting this table cell. */
   elements?: string[];
-  /**
-   * Is the current cell a header cell?
-   */
+  /** Is the current cell a header cell? */
   isHeader?: boolean;
-  /**
-   * Is the current cell a footer cell?
-   */
+  /** Is the current cell a footer cell? */
   isFooter?: boolean;
 }
 
-/**
- * A set of extracted fields corresponding to the input document.
- */
+/** A set of extracted fields corresponding to the input document. */
 export interface DocumentResult {
-  /**
-   * Document type.
-   */
+  /** Document type. */
   docType: string;
-  /**
-   * Model identifier.
-   */
+  /** Model identifier. */
   modelId?: string;
-  /**
-   * First and last page number where the document is found.
-   */
+  /** First and last page number where the document is found. */
   pageRange: number[];
-  /**
-   * Predicted document type confidence.
-   */
+  /** Predicted document type confidence. */
   docTypeConfidence?: number;
-  /**
-   * Dictionary of named field values.
-   */
+  /** Dictionary of named field values. */
   fields: { [propertyName: string]: FieldValue };
 }
 
-/**
- * Recognized field value.
- */
+/** Recognized field value. */
 export interface FieldValue {
-  /**
-   * Type of field value.
-   */
+  /** Type of field value. */
   type: FieldValueType;
-  /**
-   * String value.
-   */
+  /** String value. */
   valueString?: string;
-  /**
-   * Date value.
-   */
+  /** Date value. */
   valueDate?: Date;
   /**
    * Time value.
    * This value should be an ISO-8601 formatted string representing time. E.g. "HH:MM:SS" or "HH:MM:SS.mm".
    */
   valueTime?: string;
-  /**
-   * Phone number value.
-   */
+  /** Phone number value. */
   valuePhoneNumber?: string;
-  /**
-   * Floating point value.
-   */
+  /** Floating point value. */
   valueNumber?: number;
-  /**
-   * Integer value.
-   */
+  /** Integer value. */
   valueInteger?: number;
-  /**
-   * Array of field values.
-   */
+  /** Array of field values. */
   valueArray?: FieldValue[];
-  /**
-   * Dictionary of named field values.
-   */
+  /** Dictionary of named field values. */
   valueObject?: { [propertyName: string]: FieldValue };
-  /**
-   * Selection mark value.
-   */
+  /** Selection mark value. */
   valueSelectionMark?: FieldValueSelectionMark;
-  /**
-   * Text content of the extracted field.
-   */
+  /** 3-letter country code (ISO 3166-1 alpha-3). */
+  valueCountryRegion?: string;
+  /** Text content of the extracted field. */
   text?: string;
-  /**
-   * Bounding box of the field value, if appropriate.
-   */
+  /** Bounding box of the field value, if appropriate. */
   boundingBox?: number[];
-  /**
-   * Confidence score.
-   */
+  /** Confidence score. */
   confidence?: number;
-  /**
-   * When includeTextDetails is set to true, a list of references to the text elements constituting this field.
-   */
+  /** When includeTextDetails is set to true, a list of references to the text elements constituting this field. */
   elements?: string[];
-  /**
-   * The 1-based page number in the input document.
-   */
+  /** The 1-based page number in the input document. */
   pageNumber?: number;
 }
 
-/**
- * Request parameter to copy an existing custom model from the source resource to a target resource referenced by the resource ID.
- */
+/** Request parameter to copy an existing custom model from the source resource to a target resource referenced by the resource ID. */
 export interface CopyRequest {
-  /**
-   * Azure Resource Id of the target Form Recognizer resource where the model is copied to.
-   */
+  /** Azure Resource Id of the target Form Recognizer resource where the model is copied to. */
   targetResourceId: string;
-  /**
-   * Location of the target Azure resource. A valid Azure region name supported by Cognitive Services.
-   */
+  /** Location of the target Azure resource. A valid Azure region name supported by Cognitive Services. */
   targetResourceRegion: string;
-  /**
-   * Entity that encodes claims to authorize the copy request.
-   */
+  /** Entity that encodes claims to authorize the copy request. */
   copyAuthorization: CopyAuthorizationResult;
 }
 
-/**
- * Request parameter that contains authorization claims for copy operation.
- */
+/** Request parameter that contains authorization claims for copy operation. */
 export interface CopyAuthorizationResult {
-  /**
-   * Model identifier.
-   */
+  /** Model identifier. */
   modelId: string;
-  /**
-   * Token claim used to authorize the request.
-   */
+  /** Token claim used to authorize the request. */
   accessToken: string;
-  /**
-   * The time when the access token expires. The date is represented as the number of seconds from 1970-01-01T0:0:0Z UTC until the expiration time.
-   */
+  /** The time when the access token expires. The date is represented as the number of seconds from 1970-01-01T0:0:0Z UTC until the expiration time. */
   expirationDateTimeTicks: number;
 }
 
-/**
- * Status and result of the queued copy operation.
- */
+/** Status and result of the queued copy operation. */
 export interface CopyOperationResult {
-  /**
-   * Operation status.
-   */
+  /** Operation status. */
   status: OperationStatus;
-  /**
-   * Date and time (UTC) when the copy operation was submitted.
-   */
+  /** Date and time (UTC) when the copy operation was submitted. */
   createdOn: Date;
-  /**
-   * Date and time (UTC) when the status was last updated.
-   */
+  /** Date and time (UTC) when the status was last updated. */
   lastModified: Date;
-  /**
-   * Results of the copy operation.
-   */
+  /** Results of the copy operation. */
   copyResult?: CopyResult;
 }
 
-/**
- * Custom model copy result.
- */
+/** Custom model copy result. */
 export interface CopyResult {
-  /**
-   * Identifier of the target model.
-   */
+  /** Identifier of the target model. */
   modelId: string;
-  /**
-   * Errors returned during the copy operation.
-   */
+  /** Errors returned during the copy operation. */
   errors?: ErrorInformation[];
 }
 
-/**
- * Request contract for compose operation.
- */
+/** Request contract for compose operation. */
 export interface ComposeRequest {
-  /**
-   * List of model ids to compose.
-   */
+  /** List of model ids to compose. */
   modelIds: string[];
-  /**
-   * Optional user defined model name (max length: 1024).
-   */
+  /** Optional user defined model name (max length: 1024). */
   modelName?: string;
 }
 
-/**
- * Response to the list custom models operation.
- */
+/** Response to the list custom models operation. */
 export interface Models {
-  /**
-   * Summary of all trained custom models.
-   */
+  /** Summary of all trained custom models. */
   summary?: ModelsSummary;
-  /**
-   * Collection of trained custom models.
-   */
+  /** Collection of trained custom models. */
   modelList?: ModelInfo[];
-  /**
-   * Link to the next page of custom models.
-   */
+  /** Link to the next page of custom models. */
   nextLink?: string;
 }
 
-/**
- * Summary of all trained custom models.
- */
+/** Summary of all trained custom models. */
 export interface ModelsSummary {
-  /**
-   * Current count of trained custom models.
-   */
+  /** Current count of trained custom models. */
   count: number;
-  /**
-   * Max number of models that can be trained for this account.
-   */
+  /** Max number of models that can be trained for this account. */
   limit: number;
-  /**
-   * Date and time (UTC) when the summary was last updated.
-   */
+  /** Date and time (UTC) when the summary was last updated. */
   lastModified: Date;
 }
 
-/**
- * Defines headers for GeneratedClient_trainCustomModelAsync operation.
- */
+/** Defines headers for GeneratedClient_trainCustomModelAsync operation. */
 export interface GeneratedClientTrainCustomModelAsyncHeaders {
-  /**
-   * Location and ID of the model being trained. The status of model training is specified in the status property at the model location.
-   */
+  /** Location and ID of the model being trained. The status of model training is specified in the status property at the model location. */
   location?: string;
 }
 
-/**
- * Defines headers for GeneratedClient_analyzeWithCustomModel operation.
- */
+/** Defines headers for GeneratedClient_analyzeWithCustomModel operation. */
 export interface GeneratedClientAnalyzeWithCustomModelHeaders {
-  /**
-   * URL containing the resultId used to track the progress and obtain the result of the analyze operation.
-   */
+  /** URL containing the resultId used to track the progress and obtain the result of the analyze operation. */
   operationLocation?: string;
 }
 
-/**
- * Defines headers for GeneratedClient_copyCustomModel operation.
- */
+/** Defines headers for GeneratedClient_copyCustomModel operation. */
 export interface GeneratedClientCopyCustomModelHeaders {
-  /**
-   * URL containing the resultId used to track the progress and obtain the result of the copy operation.
-   */
+  /** URL containing the resultId used to track the progress and obtain the result of the copy operation. */
   operationLocation?: string;
 }
 
-/**
- * Defines headers for GeneratedClient_generateModelCopyAuthorization operation.
- */
+/** Defines headers for GeneratedClient_generateModelCopyAuthorization operation. */
 export interface GeneratedClientGenerateModelCopyAuthorizationHeaders {
-  /**
-   * Location and ID of the model being copied. The status of model copy is specified in the status property at the model location.
-   */
+  /** Location and ID of the model being copied. The status of model copy is specified in the status property at the model location. */
   location?: string;
 }
 
-/**
- * Defines headers for GeneratedClient_composeCustomModelsAsync operation.
- */
+/** Defines headers for GeneratedClient_composeCustomModelsAsync operation. */
 export interface GeneratedClientComposeCustomModelsAsyncHeaders {
-  /**
-   * Location and ID of the composed model. The status of composed model is specified in the status property at the model location.
-   */
+  /** Location and ID of the composed model. The status of composed model is specified in the status property at the model location. */
   location?: string;
 }
 
-/**
- * Defines headers for GeneratedClient_analyzeBusinessCardAsync operation.
- */
+/** Defines headers for GeneratedClient_analyzeBusinessCardAsync operation. */
 export interface GeneratedClientAnalyzeBusinessCardAsyncHeaders {
-  /**
-   * URL containing the resultId used to track the progress and obtain the result of the analyze operation.
-   */
+  /** URL containing the resultId used to track the progress and obtain the result of the analyze operation. */
   operationLocation?: string;
 }
 
-/**
- * Defines headers for GeneratedClient_analyzeInvoiceAsync operation.
- */
+/** Defines headers for GeneratedClient_analyzeInvoiceAsync operation. */
 export interface GeneratedClientAnalyzeInvoiceAsyncHeaders {
-  /**
-   * URL containing the resultId used to track the progress and obtain the result of the analyze operation.
-   */
+  /** URL containing the resultId used to track the progress and obtain the result of the analyze operation. */
   operationLocation?: string;
 }
 
-/**
- * Defines headers for GeneratedClient_analyzeReceiptAsync operation.
- */
+/** Defines headers for GeneratedClient_analyzeIdDocumentAsync operation. */
+export interface GeneratedClientAnalyzeIdDocumentAsyncHeaders {
+  /** URL containing the resultId used to track the progress and obtain the result of the analyze operation. */
+  operationLocation?: string;
+}
+
+/** Defines headers for GeneratedClient_analyzeReceiptAsync operation. */
 export interface GeneratedClientAnalyzeReceiptAsyncHeaders {
-  /**
-   * URL containing the resultId used to track the progress and obtain the result of the analyze operation.
-   */
+  /** URL containing the resultId used to track the progress and obtain the result of the analyze operation. */
   operationLocation?: string;
 }
 
-/**
- * Defines headers for GeneratedClient_analyzeLayoutAsync operation.
- */
+/** Defines headers for GeneratedClient_analyzeLayoutAsync operation. */
 export interface GeneratedClientAnalyzeLayoutAsyncHeaders {
-  /**
-   * URL containing the resultId used to track the progress and obtain the result of the analyze operation.
-   */
+  /** URL containing the resultId used to track the progress and obtain the result of the analyze operation. */
   operationLocation?: string;
 }
 
+/** Known values of {@link KeyValueType} that the service accepts. */
+export const enum KnownKeyValueType {
+  String = "string",
+  SelectionMark = "selectionMark"
+}
+
 /**
- * Defines values for Language.
+ * Defines values for KeyValueType. \
+ * {@link KnownKeyValueType} can be used interchangeably with KeyValueType,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **string** \
+ * **selectionMark**
  */
-export type Language =
-  | "en"
-  | "es"
-  | "de"
-  | "fr"
-  | "it"
-  | "nl"
-  | "pt"
-  | "zh-Hans"
-  | string;
+export type KeyValueType = string;
+
+/** Known values of {@link FieldValueSelectionMark} that the service accepts. */
+export const enum KnownFieldValueSelectionMark {
+  Selected = "selected",
+  Unselected = "unselected"
+}
+
 /**
- * Defines values for TextStyle.
+ * Defines values for FieldValueSelectionMark. \
+ * {@link KnownFieldValueSelectionMark} can be used interchangeably with FieldValueSelectionMark,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **selected** \
+ * **unselected**
  */
-export type TextStyle = "other" | "handwriting" | string;
+export type FieldValueSelectionMark = string;
+
+/** Known values of {@link FormLocale} that the service accepts. */
+export const enum KnownFormLocale {
+  EnAU = "en-AU",
+  EnCA = "en-CA",
+  EnGB = "en-GB",
+  EnIN = "en-IN",
+  EnUS = "en-US"
+}
+
 /**
- * Defines values for SelectionMarkState.
+ * Defines values for FormLocale. \
+ * {@link KnownFormLocale} can be used interchangeably with FormLocale,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **en-AU** \
+ * **en-CA** \
+ * **en-GB** \
+ * **en-IN** \
+ * **en-US**
  */
-export type SelectionMarkState = "selected" | "unselected" | string;
+export type FormLocale = string;
+
+/** Known values of {@link FormLanguage} that the service accepts. */
+export const enum KnownFormLanguage {
+  Af = "af",
+  Ast = "ast",
+  Bi = "bi",
+  Br = "br",
+  Ca = "ca",
+  Ceb = "ceb",
+  Ch = "ch",
+  Co = "co",
+  Crh = "crh",
+  Cs = "cs",
+  Csb = "csb",
+  Da = "da",
+  De = "de",
+  En = "en",
+  Es = "es",
+  Et = "et",
+  Eu = "eu",
+  Fi = "fi",
+  Fil = "fil",
+  Fj = "fj",
+  Fr = "fr",
+  Fur = "fur",
+  Fy = "fy",
+  Ga = "ga",
+  Gd = "gd",
+  Gil = "gil",
+  Gl = "gl",
+  Gv = "gv",
+  Hni = "hni",
+  Hsb = "hsb",
+  Ht = "ht",
+  Hu = "hu",
+  Ia = "ia",
+  Id = "id",
+  It = "it",
+  Iu = "iu",
+  Ja = "ja",
+  Jv = "jv",
+  Kaa = "kaa",
+  Kac = "kac",
+  Kea = "kea",
+  Kha = "kha",
+  Kl = "kl",
+  Ko = "ko",
+  Ku = "ku",
+  Kw = "kw",
+  Lb = "lb",
+  Ms = "ms",
+  Mww = "mww",
+  Nap = "nap",
+  Nl = "nl",
+  No = "no",
+  Oc = "oc",
+  Pl = "pl",
+  Pt = "pt",
+  Quc = "quc",
+  Rm = "rm",
+  Sco = "sco",
+  Sl = "sl",
+  Sq = "sq",
+  Sv = "sv",
+  Sw = "sw",
+  Tet = "tet",
+  Tr = "tr",
+  Tt = "tt",
+  Uz = "uz",
+  Vo = "vo",
+  Wae = "wae",
+  Yua = "yua",
+  Za = "za",
+  ZhHans = "zh-Hans",
+  ZhHant = "zh-Hant",
+  Zu = "zu"
+}
+
 /**
- * Defines values for KeyValueType.
+ * Defines values for FormLanguage. \
+ * {@link KnownFormLanguage} can be used interchangeably with FormLanguage,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **af** \
+ * **ast** \
+ * **bi** \
+ * **br** \
+ * **ca** \
+ * **ceb** \
+ * **ch** \
+ * **co** \
+ * **crh** \
+ * **cs** \
+ * **csb** \
+ * **da** \
+ * **de** \
+ * **en** \
+ * **es** \
+ * **et** \
+ * **eu** \
+ * **fi** \
+ * **fil** \
+ * **fj** \
+ * **fr** \
+ * **fur** \
+ * **fy** \
+ * **ga** \
+ * **gd** \
+ * **gil** \
+ * **gl** \
+ * **gv** \
+ * **hni** \
+ * **hsb** \
+ * **ht** \
+ * **hu** \
+ * **ia** \
+ * **id** \
+ * **it** \
+ * **iu** \
+ * **ja** \
+ * **jv** \
+ * **kaa** \
+ * **kac** \
+ * **kea** \
+ * **kha** \
+ * **kl** \
+ * **ko** \
+ * **ku** \
+ * **kw** \
+ * **lb** \
+ * **ms** \
+ * **mww** \
+ * **nap** \
+ * **nl** \
+ * **no** \
+ * **oc** \
+ * **pl** \
+ * **pt** \
+ * **quc** \
+ * **rm** \
+ * **sco** \
+ * **sl** \
+ * **sq** \
+ * **sv** \
+ * **sw** \
+ * **tet** \
+ * **tr** \
+ * **tt** \
+ * **uz** \
+ * **vo** \
+ * **wae** \
+ * **yua** \
+ * **za** \
+ * **zh-Hans** \
+ * **zh-Hant** \
+ * **zu**
  */
-export type KeyValueType = "string" | "selectionMark" | string;
-/**
- * Defines values for FieldValueSelectionMark.
- */
-export type FieldValueSelectionMark = "selected" | "unselected" | string;
-/**
- * Defines values for Locale.
- */
-export type Locale = "en-AU" | "en-CA" | "en-GB" | "en-IN" | "en-US" | string;
-/**
- * Defines values for ModelStatus.
- */
+export type FormLanguage = string;
+/** Defines values for ModelStatus. */
 export type ModelStatus = "creating" | "ready" | "invalid";
-/**
- * Defines values for TrainStatus.
- */
+/** Defines values for TrainStatus. */
 export type TrainStatus = "succeeded" | "partiallySucceeded" | "failed";
-/**
- * Defines values for ContentType.
- */
+/** Defines values for ContentType. */
 export type ContentType =
   | "application/pdf"
   | "image/bmp"
   | "image/jpeg"
   | "image/png"
   | "image/tiff";
-/**
- * Defines values for OperationStatus.
- */
+/** Defines values for OperationStatus. */
 export type OperationStatus = "notStarted" | "running" | "succeeded" | "failed";
-/**
- * Defines values for LengthUnit.
- */
+/** Defines values for LengthUnit. */
 export type LengthUnit = "pixel" | "inch";
-/**
- * Defines values for FieldValueType.
- */
+/** Defines values for StyleName. */
+export type StyleName = "other" | "handwriting";
+/** Defines values for SelectionMarkState. */
+export type SelectionMarkState = "selected" | "unselected";
+/** Defines values for FieldValueType. */
 export type FieldValueType =
   | "string"
   | "date"
@@ -878,533 +700,385 @@ export type FieldValueType =
   | "integer"
   | "array"
   | "object"
-  | "selectionMark";
+  | "selectionMark"
+  | "countryRegion";
+/** Defines values for FormReadingOrder. */
+export type FormReadingOrder = "basic" | "natural";
 
-/**
- * Contains response data for the trainCustomModelAsync operation.
- */
+/** Contains response data for the trainCustomModelAsync operation. */
 export type GeneratedClientTrainCustomModelAsyncResponse = GeneratedClientTrainCustomModelAsyncHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
+    /** The parsed HTTP response headers. */
     parsedHeaders: GeneratedClientTrainCustomModelAsyncHeaders;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface GeneratedClientGetCustomModelOptionalParams
   extends coreHttp.OperationOptions {
-  /**
-   * Include list of extracted keys in model information.
-   */
+  /** Include list of extracted keys in model information. */
   includeKeys?: boolean;
 }
 
-/**
- * Contains response data for the getCustomModel operation.
- */
+/** Contains response data for the getCustomModel operation. */
 export type GeneratedClientGetCustomModelResponse = Model & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: Model;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface GeneratedClientAnalyzeWithCustomModel$binaryOptionalParams
   extends coreHttp.OperationOptions {
-  /**
-   * Include text lines and element references in the result.
-   */
+  /** Include text lines and element references in the result. */
   includeTextDetails?: boolean;
+  /** Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma. */
+  pages?: string[];
 }
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface GeneratedClientAnalyzeWithCustomModel$jsonOptionalParams
   extends coreHttp.OperationOptions {
-  /**
-   * .json, .pdf, .jpg, .png or .tiff type file stream.
-   */
+  /** .json, .pdf, .jpg, .png, .tiff or .bmp type file stream. */
   fileStream?: SourcePath;
-  /**
-   * Include text lines and element references in the result.
-   */
+  /** Include text lines and element references in the result. */
   includeTextDetails?: boolean;
+  /** Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma. */
+  pages?: string[];
 }
 
-/**
- * Contains response data for the analyzeWithCustomModel operation.
- */
+/** Contains response data for the analyzeWithCustomModel operation. */
 export type GeneratedClientAnalyzeWithCustomModelResponse = GeneratedClientAnalyzeWithCustomModelHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
+    /** The parsed HTTP response headers. */
     parsedHeaders: GeneratedClientAnalyzeWithCustomModelHeaders;
   };
 };
 
-/**
- * Contains response data for the getAnalyzeFormResult operation.
- */
+/** Contains response data for the getAnalyzeFormResult operation. */
 export type GeneratedClientGetAnalyzeFormResultResponse = AnalyzeOperationResult & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: AnalyzeOperationResult;
   };
 };
 
-/**
- * Contains response data for the copyCustomModel operation.
- */
+/** Contains response data for the copyCustomModel operation. */
 export type GeneratedClientCopyCustomModelResponse = GeneratedClientCopyCustomModelHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
+    /** The parsed HTTP response headers. */
     parsedHeaders: GeneratedClientCopyCustomModelHeaders;
   };
 };
 
-/**
- * Contains response data for the getCustomModelCopyResult operation.
- */
+/** Contains response data for the getCustomModelCopyResult operation. */
 export type GeneratedClientGetCustomModelCopyResultResponse = CopyOperationResult & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: CopyOperationResult;
   };
 };
 
-/**
- * Contains response data for the generateModelCopyAuthorization operation.
- */
+/** Contains response data for the generateModelCopyAuthorization operation. */
 export type GeneratedClientGenerateModelCopyAuthorizationResponse = GeneratedClientGenerateModelCopyAuthorizationHeaders &
   CopyAuthorizationResult & {
-    /**
-     * The underlying HTTP response.
-     */
+    /** The underlying HTTP response. */
     _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
+      /** The response body as text (string format) */
       bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
+      /** The response body as parsed JSON or XML */
       parsedBody: CopyAuthorizationResult;
-      /**
-       * The parsed HTTP response headers.
-       */
+      /** The parsed HTTP response headers. */
       parsedHeaders: GeneratedClientGenerateModelCopyAuthorizationHeaders;
     };
   };
 
-/**
- * Contains response data for the composeCustomModelsAsync operation.
- */
+/** Contains response data for the composeCustomModelsAsync operation. */
 export type GeneratedClientComposeCustomModelsAsyncResponse = GeneratedClientComposeCustomModelsAsyncHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
+    /** The parsed HTTP response headers. */
     parsedHeaders: GeneratedClientComposeCustomModelsAsyncHeaders;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface GeneratedClientAnalyzeBusinessCardAsync$binaryOptionalParams
   extends coreHttp.OperationOptions {
-  /**
-   * Include text lines and element references in the result.
-   */
+  /** Include text lines and element references in the result. */
   includeTextDetails?: boolean;
-  /**
-   * Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default).
-   */
-  locale?: Locale;
+  /** Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma. */
+  pages?: string[];
+  /** Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default). */
+  locale?: FormLocale;
 }
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface GeneratedClientAnalyzeBusinessCardAsync$jsonOptionalParams
   extends coreHttp.OperationOptions {
-  /**
-   * .json, .pdf, .jpg, .png or .tiff type file stream.
-   */
+  /** .json, .pdf, .jpg, .png, .tiff or .bmp type file stream. */
   fileStream?: SourcePath;
-  /**
-   * Include text lines and element references in the result.
-   */
+  /** Include text lines and element references in the result. */
   includeTextDetails?: boolean;
-  /**
-   * Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default).
-   */
-  locale?: Locale;
+  /** Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma. */
+  pages?: string[];
+  /** Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default). */
+  locale?: FormLocale;
 }
 
-/**
- * Contains response data for the analyzeBusinessCardAsync operation.
- */
+/** Contains response data for the analyzeBusinessCardAsync operation. */
 export type GeneratedClientAnalyzeBusinessCardAsyncResponse = GeneratedClientAnalyzeBusinessCardAsyncHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
+    /** The parsed HTTP response headers. */
     parsedHeaders: GeneratedClientAnalyzeBusinessCardAsyncHeaders;
   };
 };
 
-/**
- * Contains response data for the getAnalyzeBusinessCardResult operation.
- */
+/** Contains response data for the getAnalyzeBusinessCardResult operation. */
 export type GeneratedClientGetAnalyzeBusinessCardResultResponse = AnalyzeOperationResult & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: AnalyzeOperationResult;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface GeneratedClientAnalyzeInvoiceAsync$binaryOptionalParams
   extends coreHttp.OperationOptions {
-  /**
-   * Include text lines and element references in the result.
-   */
+  /** Include text lines and element references in the result. */
   includeTextDetails?: boolean;
-  /**
-   * Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default).
-   */
-  locale?: Locale;
+  /** Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma. */
+  pages?: string[];
+  /** Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default). */
+  locale?: FormLocale;
 }
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface GeneratedClientAnalyzeInvoiceAsync$jsonOptionalParams
   extends coreHttp.OperationOptions {
-  /**
-   * .json, .pdf, .jpg, .png or .tiff type file stream.
-   */
+  /** .json, .pdf, .jpg, .png, .tiff or .bmp type file stream. */
   fileStream?: SourcePath;
-  /**
-   * Include text lines and element references in the result.
-   */
+  /** Include text lines and element references in the result. */
   includeTextDetails?: boolean;
-  /**
-   * Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default).
-   */
-  locale?: Locale;
+  /** Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma. */
+  pages?: string[];
+  /** Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default). */
+  locale?: FormLocale;
 }
 
-/**
- * Contains response data for the analyzeInvoiceAsync operation.
- */
+/** Contains response data for the analyzeInvoiceAsync operation. */
 export type GeneratedClientAnalyzeInvoiceAsyncResponse = GeneratedClientAnalyzeInvoiceAsyncHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
+    /** The parsed HTTP response headers. */
     parsedHeaders: GeneratedClientAnalyzeInvoiceAsyncHeaders;
   };
 };
 
-/**
- * Contains response data for the getAnalyzeInvoiceResult operation.
- */
+/** Contains response data for the getAnalyzeInvoiceResult operation. */
 export type GeneratedClientGetAnalyzeInvoiceResultResponse = AnalyzeOperationResult & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: AnalyzeOperationResult;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
+export interface GeneratedClientAnalyzeIdDocumentAsync$binaryOptionalParams
+  extends coreHttp.OperationOptions {
+  /** Include text lines and element references in the result. */
+  includeTextDetails?: boolean;
+  /** Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma. */
+  pages?: string[];
+}
+
+/** Optional parameters. */
+export interface GeneratedClientAnalyzeIdDocumentAsync$jsonOptionalParams
+  extends coreHttp.OperationOptions {
+  /** .json, .pdf, .jpg, .png, .tiff or .bmp type file stream. */
+  fileStream?: SourcePath;
+  /** Include text lines and element references in the result. */
+  includeTextDetails?: boolean;
+  /** Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma. */
+  pages?: string[];
+}
+
+/** Contains response data for the analyzeIdDocumentAsync operation. */
+export type GeneratedClientAnalyzeIdDocumentAsyncResponse = GeneratedClientAnalyzeIdDocumentAsyncHeaders & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The parsed HTTP response headers. */
+    parsedHeaders: GeneratedClientAnalyzeIdDocumentAsyncHeaders;
+  };
+};
+
+/** Contains response data for the getAnalyzeIdDocumentResult operation. */
+export type GeneratedClientGetAnalyzeIdDocumentResultResponse = AnalyzeOperationResult & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: AnalyzeOperationResult;
+  };
+};
+
+/** Optional parameters. */
 export interface GeneratedClientAnalyzeReceiptAsync$binaryOptionalParams
   extends coreHttp.OperationOptions {
-  /**
-   * Include text lines and element references in the result.
-   */
+  /** Include text lines and element references in the result. */
   includeTextDetails?: boolean;
-  /**
-   * Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default).
-   */
-  locale?: Locale;
+  /** Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma. */
+  pages?: string[];
+  /** Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default). */
+  locale?: FormLocale;
 }
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface GeneratedClientAnalyzeReceiptAsync$jsonOptionalParams
   extends coreHttp.OperationOptions {
-  /**
-   * .json, .pdf, .jpg, .png or .tiff type file stream.
-   */
+  /** .json, .pdf, .jpg, .png, .tiff or .bmp type file stream. */
   fileStream?: SourcePath;
-  /**
-   * Include text lines and element references in the result.
-   */
+  /** Include text lines and element references in the result. */
   includeTextDetails?: boolean;
-  /**
-   * Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default).
-   */
-  locale?: Locale;
+  /** Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma. */
+  pages?: string[];
+  /** Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default). */
+  locale?: FormLocale;
 }
 
-/**
- * Contains response data for the analyzeReceiptAsync operation.
- */
+/** Contains response data for the analyzeReceiptAsync operation. */
 export type GeneratedClientAnalyzeReceiptAsyncResponse = GeneratedClientAnalyzeReceiptAsyncHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
+    /** The parsed HTTP response headers. */
     parsedHeaders: GeneratedClientAnalyzeReceiptAsyncHeaders;
   };
 };
 
-/**
- * Contains response data for the getAnalyzeReceiptResult operation.
- */
+/** Contains response data for the getAnalyzeReceiptResult operation. */
 export type GeneratedClientGetAnalyzeReceiptResultResponse = AnalyzeOperationResult & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: AnalyzeOperationResult;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface GeneratedClientAnalyzeLayoutAsync$binaryOptionalParams
   extends coreHttp.OperationOptions {
-  /**
-   * The BCP-47 language code of the text in the document. Currently, only English ('en'), Dutch (‘nl’), French (‘fr’), German (‘de’), Italian (‘it’), Portuguese (‘pt'), simplified Chinese ('zh-Hans') and Spanish ('es') are supported (print – nine languages and handwritten – English only). Layout supports auto language identification and multi language documents, so only provide a language code if you would like to force the documented to be processed as that specific language.
-   */
-  language?: Language;
-  /**
-   * Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma or space.
-   */
+  /** Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma. */
   pages?: string[];
+  /** Currently, only Afrikaans (‘af’), Albanian (‘sq’), Asturian (‘ast’), Basque (‘eu’), Bislama (‘bi’), Breton (‘br’), Catalan (‘ca’), Cebuano (‘ceb’), Chamorro (‘ch’), Cornish (‘kw’), Corsican (‘co’), Crimean Tatar - Latin script(‘crh’), Czech (‘cs’), Danish (‘da’), Dutch (‘nl’), English ('en'), Estonian (‘et’), Fijian (‘fj’), Filipino (‘fil’), Finnish (‘fi’), French (‘fr’), Friulian (‘fur’), Galician (‘gl’), German (‘de’), Gilbertese (‘gil’), Greenlandic (‘kl’), Haitian Creole (‘ht’), Hani (‘hni’), Hmong Daw (‘mww’), Hungarian (‘hu’), Indonesian (‘id’), Interlingua (‘ia’), Inuktitut (‘iu’), Irish (‘ga’), Italian (‘it’), Japanese (‘ja’), Javanese (‘jv’), Kabuverdianu (‘kea’), Kachin (‘kac’), Kara-Kalpak (‘kaa’), Kashubian (‘csb’), Khasi (‘kha’), Korean (‘ko’), Kurdish - Latin script (‘ku’), K’iche’ (‘quc’), Luxembourgish (‘lb’), Malay (‘ms’), Manx (‘gv’), Neapolitan (‘nap’), Norwegian (‘no’), Occitan (‘oc’), Polish (‘pl’), Portuguese (‘pt’), Romansh (‘rm’), Scots (‘sco’), Scottish Gaelic (‘gd’), simplified Chinese (‘zh-Hans’), Slovenian (‘sl’), Spanish (‘es’), Swahili (‘sw’), Swedish (‘sv’), Tatar - Latin script (‘tt’), Tetum (‘tet’), traditional Chinese (‘zh-Hant’), Turkish (‘tr’), Upper Sorbian (‘hsb’), Uzbek (‘uz’), Volapük (‘vo’), Walser (‘wae’), Western Frisian (‘fy’), Yucatec Maya (‘yua’), Zhuang (‘za’) and Zulu (‘zu’) are supported (print – seventy-three languages and handwritten – English only). Layout supports auto language identification and multi language documents, so only provide a language code if you would like to force the documented to be processed as that specific language. */
+  language?: FormLanguage;
+  /** Reading order algorithm to sort the text lines returned. Supported reading orders include: basic(default), natural. */
+  readingOrder?: FormReadingOrder;
 }
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface GeneratedClientAnalyzeLayoutAsync$jsonOptionalParams
   extends coreHttp.OperationOptions {
-  /**
-   * .json, .pdf, .jpg, .png or .tiff type file stream.
-   */
+  /** .json, .pdf, .jpg, .png, .tiff or .bmp type file stream. */
   fileStream?: SourcePath;
-  /**
-   * The BCP-47 language code of the text in the document. Currently, only English ('en'), Dutch (‘nl’), French (‘fr’), German (‘de’), Italian (‘it’), Portuguese (‘pt'), simplified Chinese ('zh-Hans') and Spanish ('es') are supported (print – nine languages and handwritten – English only). Layout supports auto language identification and multi language documents, so only provide a language code if you would like to force the documented to be processed as that specific language.
-   */
-  language?: Language;
-  /**
-   * Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma or space.
-   */
+  /** Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma. */
   pages?: string[];
+  /** Currently, only Afrikaans (‘af’), Albanian (‘sq’), Asturian (‘ast’), Basque (‘eu’), Bislama (‘bi’), Breton (‘br’), Catalan (‘ca’), Cebuano (‘ceb’), Chamorro (‘ch’), Cornish (‘kw’), Corsican (‘co’), Crimean Tatar - Latin script(‘crh’), Czech (‘cs’), Danish (‘da’), Dutch (‘nl’), English ('en'), Estonian (‘et’), Fijian (‘fj’), Filipino (‘fil’), Finnish (‘fi’), French (‘fr’), Friulian (‘fur’), Galician (‘gl’), German (‘de’), Gilbertese (‘gil’), Greenlandic (‘kl’), Haitian Creole (‘ht’), Hani (‘hni’), Hmong Daw (‘mww’), Hungarian (‘hu’), Indonesian (‘id’), Interlingua (‘ia’), Inuktitut (‘iu’), Irish (‘ga’), Italian (‘it’), Japanese (‘ja’), Javanese (‘jv’), Kabuverdianu (‘kea’), Kachin (‘kac’), Kara-Kalpak (‘kaa’), Kashubian (‘csb’), Khasi (‘kha’), Korean (‘ko’), Kurdish - Latin script (‘ku’), K’iche’ (‘quc’), Luxembourgish (‘lb’), Malay (‘ms’), Manx (‘gv’), Neapolitan (‘nap’), Norwegian (‘no’), Occitan (‘oc’), Polish (‘pl’), Portuguese (‘pt’), Romansh (‘rm’), Scots (‘sco’), Scottish Gaelic (‘gd’), simplified Chinese (‘zh-Hans’), Slovenian (‘sl’), Spanish (‘es’), Swahili (‘sw’), Swedish (‘sv’), Tatar - Latin script (‘tt’), Tetum (‘tet’), traditional Chinese (‘zh-Hant’), Turkish (‘tr’), Upper Sorbian (‘hsb’), Uzbek (‘uz’), Volapük (‘vo’), Walser (‘wae’), Western Frisian (‘fy’), Yucatec Maya (‘yua’), Zhuang (‘za’) and Zulu (‘zu’) are supported (print – seventy-three languages and handwritten – English only). Layout supports auto language identification and multi language documents, so only provide a language code if you would like to force the documented to be processed as that specific language. */
+  language?: FormLanguage;
+  /** Reading order algorithm to sort the text lines returned. Supported reading orders include: basic(default), natural. */
+  readingOrder?: FormReadingOrder;
 }
 
-/**
- * Contains response data for the analyzeLayoutAsync operation.
- */
+/** Contains response data for the analyzeLayoutAsync operation. */
 export type GeneratedClientAnalyzeLayoutAsyncResponse = GeneratedClientAnalyzeLayoutAsyncHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
+    /** The parsed HTTP response headers. */
     parsedHeaders: GeneratedClientAnalyzeLayoutAsyncHeaders;
   };
 };
 
-/**
- * Contains response data for the getAnalyzeLayoutResult operation.
- */
+/** Contains response data for the getAnalyzeLayoutResult operation. */
 export type GeneratedClientGetAnalyzeLayoutResultResponse = AnalyzeOperationResult & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: AnalyzeOperationResult;
   };
 };
 
-/**
- * Contains response data for the listCustomModels operation.
- */
+/** Contains response data for the listCustomModels operation. */
 export type GeneratedClientListCustomModelsResponse = Models & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: Models;
   };
 };
 
-/**
- * Contains response data for the getCustomModels operation.
- */
+/** Contains response data for the getCustomModels operation. */
 export type GeneratedClientGetCustomModelsResponse = Models & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: Models;
   };
 };
 
-/**
- * Contains response data for the listCustomModelsNext operation.
- */
+/** Contains response data for the listCustomModelsNext operation. */
 export type GeneratedClientListCustomModelsNextResponse = Models & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: Models;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface GeneratedClientOptionalParams
   extends coreHttp.ServiceClientOptions {
-  /**
-   * Overrides client endpoint.
-   */
+  /** Overrides client endpoint. */
   endpoint?: string;
 }

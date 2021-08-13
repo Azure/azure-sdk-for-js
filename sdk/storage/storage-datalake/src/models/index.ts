@@ -1471,7 +1471,6 @@ export interface PathDeleteHeaders {
 /**
  * @interface
  * An interface representing the FilesystemList.
- * @extends Array<Filesystem>
  */
 export interface FilesystemList extends Array<Filesystem> {
   filesystems?: Filesystem[];
@@ -1480,7 +1479,6 @@ export interface FilesystemList extends Array<Filesystem> {
 /**
  * @interface
  * An interface representing the PathList.
- * @extends Array<Path>
  */
 export interface PathList extends Array<Path> {
   paths?: Path[];
@@ -1490,7 +1488,6 @@ export interface PathList extends Array<Path> {
  * Defines values for PathResourceType.
  * Possible values include: 'directory', 'file'
  * @readonly
- * @enum {string}
  */
 export type PathResourceType = 'directory' | 'file';
 
@@ -1498,7 +1495,6 @@ export type PathResourceType = 'directory' | 'file';
  * Defines values for PathRenameMode.
  * Possible values include: 'legacy', 'posix'
  * @readonly
- * @enum {string}
  */
 export type PathRenameMode = 'legacy' | 'posix';
 
@@ -1506,7 +1502,6 @@ export type PathRenameMode = 'legacy' | 'posix';
  * Defines values for PathUpdateAction.
  * Possible values include: 'append', 'flush', 'setProperties', 'setAccessControl'
  * @readonly
- * @enum {string}
  */
 export type PathUpdateAction = 'append' | 'flush' | 'setProperties' | 'setAccessControl';
 
@@ -1514,7 +1509,6 @@ export type PathUpdateAction = 'append' | 'flush' | 'setProperties' | 'setAccess
  * Defines values for PathLeaseAction.
  * Possible values include: 'acquire', 'break', 'change', 'renew', 'release'
  * @readonly
- * @enum {string}
  */
 export type PathLeaseAction = 'acquire' | 'break' | 'change' | 'renew' | 'release';
 
@@ -1522,7 +1516,6 @@ export type PathLeaseAction = 'acquire' | 'break' | 'change' | 'renew' | 'releas
  * Defines values for PathGetPropertiesAction.
  * Possible values include: 'getAccessControl', 'getStatus'
  * @readonly
- * @enum {string}
  */
 export type PathGetPropertiesAction = 'getAccessControl' | 'getStatus';
 

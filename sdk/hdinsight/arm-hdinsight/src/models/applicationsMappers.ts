@@ -12,6 +12,7 @@ export {
   ApplicationGetHttpsEndpoint,
   ApplicationListResult,
   ApplicationProperties,
+  AsyncOperationResult,
   Autoscale,
   AutoscaleCapacity,
   AutoscaleRecurrence,
@@ -32,6 +33,7 @@ export {
   EncryptionInTransitProperties,
   ErrorResponse,
   Errors,
+  ExcludedServicesConfig,
   HardwareProfile,
   KafkaRestProperties,
   LinuxOperatingSystemProfile,
@@ -48,6 +50,8 @@ export {
   SecurityProfile,
   SshProfile,
   SshPublicKey,
+  StorageAccount,
+  StorageProfile,
   TrackedResource,
   VirtualNetworkProfile
 } from "../models/mappers";

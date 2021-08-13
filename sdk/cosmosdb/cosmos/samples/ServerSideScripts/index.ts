@@ -10,7 +10,7 @@ logSampleHeader("Server Side Scripts");
 const client = new CosmosClient({ endpoint, key });
 
 // Path to stored procedure definition
-const sprocDefinition = require("./upsert");
+const sprocDefinition = require("./upsert"); // eslint-disable-line @typescript-eslint/no-require-imports
 
 // Execute the stored procedure with the following parameters.
 const sprocParams = [
@@ -20,14 +20,14 @@ const sprocParams = [
   }
 ];
 
-async function run() {
+async function run(): Promise<void> {
   const { database } = await client.databases.create({ id: databaseId });
   const { container } = await database.containers.create({ id: containerId });
 
   logStep("Creating the sproc: '" + sprocDefinition.id + "'");
 
   // Query for the stored procedure.
-  const { sproc, resource: sprocDef } = await container.scripts.storedProcedures.create(sprocDefinition);
+  const { sproc } = await container.scripts.storedProcedures.create(sprocDefinition);
 
   logStep("Executing the sproc: '" + sproc.id + "'");
   console.log("Sproc parameters: " + JSON.stringify(sprocParams));

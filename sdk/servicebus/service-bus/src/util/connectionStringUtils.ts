@@ -9,7 +9,7 @@ import { parseConnectionString } from "@azure/core-amqp";
 export interface ServiceBusConnectionStringProperties {
   /**
    * The fully qualified Service Bus namespace extracted from the "Endpoint" in the
-   * connection string. This is likely to be similar to "{yournamespace}.servicebus.windows.net".
+   * connection string. This is likely to be similar to `{yournamespace}.servicebus.windows.net`.
    * This is typically used to construct the ServiceBusClient.
    */
   fullyQualifiedNamespace: string;
@@ -47,7 +47,7 @@ export interface ServiceBusConnectionStringProperties {
 /**
  * Parses given connection string into the different properties applicable to Azure Service Bus.
  * The properties are useful to then construct a ServiceBusClient.
- * @param connectionString The connection string associated with the Shared Access Policy created
+ * @param connectionString - The connection string associated with the Shared Access Policy created
  * for the Service Bus namespace, queue or topic.
  */
 export function parseServiceBusConnectionString(

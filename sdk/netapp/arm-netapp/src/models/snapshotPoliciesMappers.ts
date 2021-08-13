@@ -7,6 +7,7 @@
  */
 
 export {
+  AccountEncryption,
   ActiveDirectory,
   Backup,
   BackupPatch,
@@ -30,6 +31,7 @@ export {
   SnapshotPolicy,
   SnapshotPolicyPatch,
   SnapshotPolicyVolumeList,
+  SystemData,
   Vault,
   Volume,
   VolumeBackupProperties,

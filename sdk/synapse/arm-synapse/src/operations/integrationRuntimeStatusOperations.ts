@@ -85,7 +85,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.IntegrationRuntimeStatusResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

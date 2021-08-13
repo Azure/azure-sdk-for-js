@@ -16,6 +16,10 @@ import {
   delay
 } from "@azure/event-processor-host";
 
+console.warn(
+  "The package @azure/event-processor-host is deprecated in favor of @azure/event-hubs and @azure/eventhubs-checkpointstore-blob"
+);
+
 // Define IoT Hub and storage connection strings here
 const iotConnectionString = "";
 const storageConnectionString = "";

@@ -17,7 +17,7 @@ import { OfferDefinition } from "./OfferDefinition";
 export class Offers {
   /**
    * @hidden
-   * @param client The parent {@link CosmosClient} for the offers.
+   * @param client - The parent {@link CosmosClient} for the offers.
    */
   constructor(
     public readonly client: CosmosClient,
@@ -26,14 +26,12 @@ export class Offers {
 
   /**
    * Query all offers.
-   * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
-   * @param options
+   * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
    */
   public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
   /**
    * Query all offers.
-   * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
-   * @param options
+   * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
    */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
@@ -51,7 +49,6 @@ export class Offers {
 
   /**
    * Read all offers.
-   * @param options
    * @example Read all offers to array.
    * ```typescript
    * const {body: offerList} = await client.offers.readAll().fetchAll();

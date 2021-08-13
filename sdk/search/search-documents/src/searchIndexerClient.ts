@@ -1,14 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { KeyCredential } from "@azure/core-auth";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
   createPipelineFromOptions,
   InternalPipelineOptions,
   operationOptionsToRequestOptionsBase,
-  PipelineOptions
+  PipelineOptions,
+  RequestPolicyFactory,
+  bearerTokenAuthenticationPolicy
 } from "@azure/core-http";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { SDK_VERSION } from "./constants";
 import { SearchIndexerStatus } from "./generated/service/models";
 import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient";
@@ -44,7 +46,12 @@ import { odataMetadataPolicy } from "./odataMetadataPolicy";
 /**
  * Client options used to configure Cognitive Search API requests.
  */
-export type SearchIndexerClientOptions = PipelineOptions;
+export interface SearchIndexerClientOptions extends PipelineOptions {
+  /**
+   * The API version to use when communicating with the service.
+   */
+  apiVersion?: string;
+}
 
 /**
  * Class to perform operations to manage
@@ -55,7 +62,7 @@ export class SearchIndexerClient {
   /**
    * The API version to use when communicating with the service.
    */
-  public readonly apiVersion: string = "2020-06-30";
+  public readonly apiVersion: string = "2020-06-30-Preview";
 
   /**
    * The endpoint of the search service
@@ -81,13 +88,13 @@ export class SearchIndexerClient {
    *   new AzureKeyCredential("<Admin Key>");
    * );
    * ```
-   * @param {string} endpoint The endpoint of the search service
-   * @param {KeyCredential} credential Used to authenticate requests to the service.
-   * @param {SearchIndexerClientOptions} [options] Used to configure the Search client.
+   * @param endpoint - The endpoint of the search service
+   * @param credential - Used to authenticate requests to the service.
+   * @param options - Used to configure the Search client.
    */
   constructor(
     endpoint: string,
-    credential: KeyCredential,
+    credential: KeyCredential | TokenCredential,
     options: SearchIndexerClientOptions = {}
   ) {
     this.endpoint = endpoint;
@@ -119,21 +126,31 @@ export class SearchIndexerClient {
       }
     };
 
-    const pipeline = createPipelineFromOptions(
-      internalPipelineOptions,
-      createSearchApiKeyCredentialPolicy(credential)
-    );
+    const requestPolicyFactory: RequestPolicyFactory = isTokenCredential(credential)
+      ? bearerTokenAuthenticationPolicy(credential, utils.DEFAULT_SEARCH_SCOPE)
+      : createSearchApiKeyCredentialPolicy(credential);
+
+    const pipeline = createPipelineFromOptions(internalPipelineOptions, requestPolicyFactory);
 
     if (Array.isArray(pipeline.requestPolicyFactories)) {
       pipeline.requestPolicyFactories.unshift(odataMetadataPolicy("minimal"));
     }
 
-    this.client = new GeneratedClient(this.apiVersion, this.endpoint, pipeline);
+    let apiVersion = this.apiVersion;
+
+    if (options.apiVersion) {
+      if (!["2020-06-30", "2021-04-30-Preview"].includes(options.apiVersion)) {
+        throw new Error(`Invalid Api Version: ${options.apiVersion}`);
+      }
+      apiVersion = options.apiVersion;
+    }
+
+    this.client = new GeneratedClient(this.endpoint, apiVersion, pipeline);
   }
 
   /**
    * Retrieves a list of existing indexers in the service.
-   * @param options Options to the list indexers operation.
+   * @param options - Options to the list indexers operation.
    */
   public async listIndexers(options: ListIndexersOptions = {}): Promise<Array<SearchIndexer>> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-listIndexers", options);
@@ -144,7 +161,7 @@ export class SearchIndexerClient {
       return result.indexers.map(utils.generatedSearchIndexerToPublicSearchIndexer);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -155,7 +172,7 @@ export class SearchIndexerClient {
 
   /**
    * Retrieves a list of names of existing indexers in the service.
-   * @param options Options to the list indexers operation.
+   * @param options - Options to the list indexers operation.
    */
   public async listIndexersNames(options: ListIndexersOptions = {}): Promise<Array<string>> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-listIndexersNames", options);
@@ -167,7 +184,7 @@ export class SearchIndexerClient {
       return result.indexers.map((idx) => idx.name);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -178,7 +195,7 @@ export class SearchIndexerClient {
 
   /**
    * Retrieves a list of existing data sources in the service.
-   * @param options Options to the list indexers operation.
+   * @param options - Options to the list indexers operation.
    */
   public async listDataSourceConnections(
     options: ListDataSourceConnectionsOptions = {}
@@ -194,7 +211,7 @@ export class SearchIndexerClient {
       return result.dataSources.map(utils.generatedDataSourceToPublicDataSource);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -205,7 +222,7 @@ export class SearchIndexerClient {
 
   /**
    * Retrieves a list of names of existing data sources in the service.
-   * @param options Options to the list indexers operation.
+   * @param options - Options to the list indexers operation.
    */
   public async listDataSourceConnectionsNames(
     options: ListDataSourceConnectionsOptions = {}
@@ -222,7 +239,7 @@ export class SearchIndexerClient {
       return result.dataSources.map((ds) => ds.name);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -233,7 +250,7 @@ export class SearchIndexerClient {
 
   /**
    * Retrieves a list of existing Skillsets in the service.
-   * @param options Options to the list Skillsets operation.
+   * @param options - Options to the list Skillsets operation.
    */
   public async listSkillsets(
     options: ListSkillsetsOptions = {}
@@ -246,7 +263,7 @@ export class SearchIndexerClient {
       return result.skillsets.map(utils.generatedSkillsetToPublicSkillset);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -257,7 +274,7 @@ export class SearchIndexerClient {
 
   /**
    * Retrieves a list of names of existing Skillsets in the service.
-   * @param options Options to the list Skillsets operation.
+   * @param options - Options to the list Skillsets operation.
    */
   public async listSkillsetsNames(options: ListSkillsetsOptions = {}): Promise<Array<string>> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-listSkillsetsNames", options);
@@ -269,7 +286,7 @@ export class SearchIndexerClient {
       return result.skillsets.map((sks) => sks.name);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -280,8 +297,8 @@ export class SearchIndexerClient {
 
   /**
    * Retrieves information about an Indexer.
-   * @param indexerName The name of the Indexer.
-   * @param options Additional optional arguments.
+   * @param indexerName - The name of the Indexer.
+   * @param options - Additional optional arguments.
    */
   public async getIndexer(
     indexerName: string,
@@ -296,7 +313,7 @@ export class SearchIndexerClient {
       return utils.generatedSearchIndexerToPublicSearchIndexer(result);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -307,8 +324,8 @@ export class SearchIndexerClient {
 
   /**
    * Retrieves information about a DataSource
-   * @param dataSourceName The name of the DataSource
-   * @param options Additional optional arguments
+   * @param dataSourceName - The name of the DataSource
+   * @param options - Additional optional arguments
    */
   public async getDataSourceConnection(
     dataSourceConnectionName: string,
@@ -326,7 +343,7 @@ export class SearchIndexerClient {
       return utils.generatedDataSourceToPublicDataSource(result);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -337,8 +354,8 @@ export class SearchIndexerClient {
 
   /**
    * Retrieves information about an Skillset.
-   * @param indexName The name of the Skillset.
-   * @param options Additional optional arguments.
+   * @param indexName - The name of the Skillset.
+   * @param options - Additional optional arguments.
    */
   public async getSkillset(
     skillsetName: string,
@@ -353,7 +370,7 @@ export class SearchIndexerClient {
       return utils.generatedSkillsetToPublicSkillset(result);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -364,8 +381,8 @@ export class SearchIndexerClient {
 
   /**
    * Creates a new indexer in a search service.
-   * @param indexer The indexer definition to create in a search service.
-   * @param options Additional optional arguments.
+   * @param indexer - The indexer definition to create in a search service.
+   * @param options - Additional optional arguments.
    */
   public async createIndexer(
     indexer: SearchIndexer,
@@ -380,7 +397,7 @@ export class SearchIndexerClient {
       return utils.generatedSearchIndexerToPublicSearchIndexer(result);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -391,8 +408,8 @@ export class SearchIndexerClient {
 
   /**
    * Creates a new dataSource in a search service.
-   * @param dataSourceConnection The dataSource definition to create in a search service.
-   * @param options Additional optional arguments.
+   * @param dataSourceConnection - The dataSource definition to create in a search service.
+   * @param options - Additional optional arguments.
    */
   public async createDataSourceConnection(
     dataSourceConnection: SearchIndexerDataSourceConnection,
@@ -410,7 +427,7 @@ export class SearchIndexerClient {
       return utils.generatedDataSourceToPublicDataSource(result);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -421,8 +438,8 @@ export class SearchIndexerClient {
 
   /**
    * Creates a new skillset in a search service.
-   * @param skillset The skillset containing one or more skills to create in a search service.
-   * @param options Additional optional arguments.
+   * @param skillset - The skillset containing one or more skills to create in a search service.
+   * @param options - Additional optional arguments.
    */
   public async createSkillset(
     skillset: SearchIndexerSkillset,
@@ -437,7 +454,7 @@ export class SearchIndexerClient {
       return utils.generatedSkillsetToPublicSkillset(result);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -448,8 +465,8 @@ export class SearchIndexerClient {
 
   /**
    * Creates a new indexer or modifies an existing one.
-   * @param indexer The information describing the indexer to be created/updated.
-   * @param options Additional optional arguments.
+   * @param indexer - The information describing the indexer to be created/updated.
+   * @param options - Additional optional arguments.
    */
   public async createOrUpdateIndexer(
     indexer: SearchIndexer,
@@ -467,13 +484,15 @@ export class SearchIndexerClient {
         utils.publicSearchIndexerToGeneratedSearchIndexer(indexer),
         {
           ...operationOptionsToRequestOptionsBase(updatedOptions),
-          ifMatch: etag
+          ifMatch: etag,
+          ignoreResetRequirements: options.ignoreResetRequirements,
+          disableCacheReprocessingChangeDetection: options.disableCacheReprocessingChangeDetection
         }
       );
       return utils.generatedSearchIndexerToPublicSearchIndexer(result);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -484,8 +503,8 @@ export class SearchIndexerClient {
 
   /**
    * Creates a new datasource or modifies an existing one.
-   * @param dataSourceConnection The information describing the datasource to be created/updated.
-   * @param options Additional optional arguments.
+   * @param dataSourceConnection - The information describing the datasource to be created/updated.
+   * @param options - Additional optional arguments.
    */
   public async createOrUpdateDataSourceConnection(
     dataSourceConnection: SearchIndexerDataSourceConnection,
@@ -503,13 +522,14 @@ export class SearchIndexerClient {
         utils.publicDataSourceToGeneratedDataSource(dataSourceConnection),
         {
           ...operationOptionsToRequestOptionsBase(updatedOptions),
-          ifMatch: etag
+          ifMatch: etag,
+          ignoreResetRequirements: options.ignoreResetRequirements
         }
       );
       return utils.generatedDataSourceToPublicDataSource(result);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -520,8 +540,8 @@ export class SearchIndexerClient {
 
   /**
    * Creates a new Skillset or modifies an existing one.
-   * @param skillset The information describing the index to be created.
-   * @param options Additional optional arguments.
+   * @param skillset - The information describing the index to be created.
+   * @param options - Additional optional arguments.
    */
   public async createOrUpdateSkillset(
     skillset: SearchIndexerSkillset,
@@ -539,14 +559,16 @@ export class SearchIndexerClient {
         utils.publicSkillsetToGeneratedSkillset(skillset),
         {
           ...operationOptionsToRequestOptionsBase(updatedOptions),
-          ifMatch: etag
+          ifMatch: etag,
+          ignoreResetRequirements: options.ignoreResetRequirements,
+          disableCacheReprocessingChangeDetection: options.disableCacheReprocessingChangeDetection
         }
       );
 
       return utils.generatedSkillsetToPublicSkillset(result);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -557,8 +579,8 @@ export class SearchIndexerClient {
 
   /**
    * Deletes an existing indexer.
-   * @param indexer Indexer/Name of the indexer to delete.
-   * @param options Additional optional arguments.
+   * @param indexer - Indexer/Name of the indexer to delete.
+   * @param options - Additional optional arguments.
    */
   public async deleteIndexer(
     indexer: string | SearchIndexer,
@@ -574,13 +596,13 @@ export class SearchIndexerClient {
           ? indexer.etag
           : undefined;
 
-      await this.client.indexers.deleteMethod(indexerName, {
+      await this.client.indexers.delete(indexerName, {
         ...operationOptionsToRequestOptionsBase(updatedOptions),
         ifMatch: etag
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -591,8 +613,8 @@ export class SearchIndexerClient {
 
   /**
    * Deletes an existing datasource.
-   * @param dataSource Datasource/Name of the datasource to delete.
-   * @param options Additional optional arguments.
+   * @param dataSource - Datasource/Name of the datasource to delete.
+   * @param options - Additional optional arguments.
    */
   public async deleteDataSourceConnection(
     dataSourceConnection: string | SearchIndexerDataSourceConnection,
@@ -612,13 +634,13 @@ export class SearchIndexerClient {
           ? dataSourceConnection.etag
           : undefined;
 
-      await this.client.dataSources.deleteMethod(dataSourceConnectionName, {
+      await this.client.dataSources.delete(dataSourceConnectionName, {
         ...operationOptionsToRequestOptionsBase(updatedOptions),
         ifMatch: etag
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -629,8 +651,8 @@ export class SearchIndexerClient {
 
   /**
    * Deletes an existing Skillset.
-   * @param skillset Skillset/Name of the Skillset to delete.
-   * @param options Additional optional arguments.
+   * @param skillset - Skillset/Name of the Skillset to delete.
+   * @param options - Additional optional arguments.
    */
   public async deleteSkillset(
     skillset: string | SearchIndexerSkillset,
@@ -646,13 +668,13 @@ export class SearchIndexerClient {
           ? skillset.etag
           : undefined;
 
-      await this.client.skillsets.deleteMethod(skillsetName, {
+      await this.client.skillsets.delete(skillsetName, {
         ...operationOptionsToRequestOptionsBase(updatedOptions),
         ifMatch: etag
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -663,8 +685,8 @@ export class SearchIndexerClient {
 
   /**
    * Returns the current status and execution history of an indexer.
-   * @param indexerName The name of the indexer.
-   * @param options Additional optional arguments.
+   * @param indexerName - The name of the indexer.
+   * @param options - Additional optional arguments.
    */
   public async getIndexerStatus(
     indexerName: string,
@@ -679,7 +701,7 @@ export class SearchIndexerClient {
       return result;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -690,8 +712,8 @@ export class SearchIndexerClient {
 
   /**
    * Resets the change tracking state associated with an indexer.
-   * @param indexerName The name of the indexer to reset.
-   * @param options Additional optional arguments.
+   * @param indexerName - The name of the indexer to reset.
+   * @param options - Additional optional arguments.
    */
   public async resetIndexer(indexerName: string, options: ResetIndexerOptions = {}): Promise<void> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-resetIndexer", options);
@@ -702,7 +724,7 @@ export class SearchIndexerClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -713,8 +735,8 @@ export class SearchIndexerClient {
 
   /**
    * Runs an indexer on-demand.
-   * @param indexerName The name of the indexer to run.
-   * @param options Additional optional arguments.
+   * @param indexerName - The name of the indexer to run.
+   * @param options - Additional optional arguments.
    */
   public async runIndexer(indexerName: string, options: RunIndexerOptions = {}): Promise<void> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-runIndexer", options);
@@ -725,7 +747,7 @@ export class SearchIndexerClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

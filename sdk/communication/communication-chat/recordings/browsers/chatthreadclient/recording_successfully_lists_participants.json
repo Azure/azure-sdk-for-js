@@ -1,0 +1,22 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://endpoint/chat/threads/19%3A3UhaYJAgmFT9pQAXBl_Zu_rxT_KhqrS08VzfQ39UqUI1%40thread.v2/participants",
+   "query": {
+    "api-version": "2021-04-05-preview6"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"value\":[{\"communicationIdentifier\":{\"rawId\":\"8:acs:1b5cc06b-f352-4571-b1e6-d9b259b7c776_0000000a-ac42-dc82-a175-5b3a0d000960\",\"communicationUser\":{\"id\":\"8:acs:1b5cc06b-f352-4571-b1e6-d9b259b7c776_0000000a-ac42-dc82-a175-5b3a0d000960\"}},\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"},{\"communicationIdentifier\":{\"rawId\":\"8:acs:1b5cc06b-f352-4571-b1e6-d9b259b7c776_0000000a-ac42-dd19-a175-5b3a0d000961\",\"communicationUser\":{\"id\":\"8:acs:1b5cc06b-f352-4571-b1e6-d9b259b7c776_0000000a-ac42-dd19-a175-5b3a0d000961\"}},\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"},{\"communicationIdentifier\":{\"rawId\":\"8:acs:1b5cc06b-f352-4571-b1e6-d9b259b7c776_0000000a-ac42-f300-a175-5b3a0d000962\",\"communicationUser\":{\"id\":\"8:acs:1b5cc06b-f352-4571-b1e6-d9b259b7c776_0000000a-ac42-f300-a175-5b3a0d000962\"}},\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"}]}",
+   "responseHeaders": {
+    "content-type": "application/json; charset=utf-8"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "f4cc3c6bd04fd6621cf0a53395745ca9"
+}

@@ -1,0 +1,45 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/metricsadvisor/v1.0/hooks",
+   "query": {},
+   "requestBody": "{\"hookType\":\"Webhook\",\"hookName\":\"js-test-webHook-162266598935904075\",\"description\":\"description\",\"hookParameter\":{\"endpoint\":\"https://mawebhook.azurewebsites.net/api/HttpTrigger\",\"username\":\"user\",\"password\":\"pass\"}}",
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "ee8c8a32-6e85-4373-8d84-6f9d4985ce70",
+    "content-length": "0",
+    "date": "Wed, 02 Jun 2021 20:33:10 GMT",
+    "location": "https://endpoint/metricsadvisor/v1.0/hooks/9c105aba-f8ad-4b80-a7d5-ab86e3f81b30",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "797",
+    "x-request-id": "ee8c8a32-6e85-4373-8d84-6f9d4985ce70"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/metricsadvisor/v1.0/hooks/9c105aba-f8ad-4b80-a7d5-ab86e3f81b30",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"hookId\":\"9c105aba-f8ad-4b80-a7d5-ab86e3f81b30\",\"hookName\":\"js-test-webHook-162266598935904075\",\"hookType\":\"Webhook\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"kaghiya@microsoft.com\"],\"hookParameter\":{\"endpoint\":\"https://mawebhook.azurewebsites.net/api/HttpTrigger\",\"username\":\"user\",\"password\":\"pass\",\"headers\":{},\"certificateKey\":\"\",\"certificatePassword\":\"\"}}",
+   "responseHeaders": {
+    "apim-request-id": "f2c7af72-f021-4e94-9e86-92da68d1739d",
+    "content-length": "376",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 02 Jun 2021 20:33:10 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "159",
+    "x-request-id": "f2c7af72-f021-4e94-9e86-92da68d1739d"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "36d1e8c0d68e21ba2e6a1ada1169f12c"
+}

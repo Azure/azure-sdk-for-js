@@ -8,6 +8,7 @@ import shim from "rollup-plugin-shim";
 import json from "@rollup/plugin-json";
 import * as path from "path";
 import inject from "@rollup/plugin-inject";
+import { openTelemetryCommonJs } from "@azure/dev-tool/shared-config/rollup";
 
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
@@ -49,7 +50,11 @@ export function nodeConfig(test = false) {
 
   if (test) {
     // Entry points - test files under the `test` folder(common for both browser and node), node specific test files
-    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/unit/*.spec.js"];
+    baseConfig.input = [
+      "dist-esm/test/*.spec.js",
+      "dist-esm/test/unit/*.spec.js",
+      "dist-esm/test/public/*.spec.js"
+    ];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
     // different output file
@@ -98,7 +103,7 @@ export function browserConfig(test = false) {
           chai: ["assert", "expect", "use"],
           assert: ["ok", "equal", "strictEqual", "deepEqual", "fail", "throws", "notEqual"],
           events: ["EventEmitter"],
-          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          ...openTelemetryCommonJs()
         }
       }),
 
@@ -116,7 +121,11 @@ export function browserConfig(test = false) {
   baseConfig.onwarn = ignoreKnownWarnings;
 
   if (test) {
-    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/unit/*.spec.js"];
+    baseConfig.input = [
+      "dist-esm/test/*.spec.js",
+      "dist-esm/test/unit/*.spec.js",
+      "dist-esm/test/public/*.spec.js"
+    ];
 
     baseConfig.external.unshift(...["process"]);
 
@@ -134,7 +143,7 @@ export function browserConfig(test = false) {
       ...[shim({ path: `export function join() {}`, dotenv: `export function config() { }` })]
     );
 
-    baseConfig.output.file = "test-browser/index.js";
+    baseConfig.output.file = "dist-test/index.browser.js";
 
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also

@@ -1,9 +1,12 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 
 import { AbortController } from "@azure/abort-controller";
 import { isNode, URLBuilder, URLQuery } from "@azure/core-http";
-import { setTracer, SpanGraph, TestTracer } from "@azure/core-tracing";
+import { SpanGraph, setTracer } from "@azure/test-utils";
 import { delay, isLiveMode, record, Recorder } from "@azure/test-utils-recorder";
 
 import { FileStartCopyOptions, ShareClient, ShareDirectoryClient, ShareFileClient } from "../src";
@@ -14,7 +17,7 @@ import { truncatedISO8061Date } from "../src/utils/utils.common";
 import { bodyToString, compareBodyWithUint8Array, getBSU, recorderEnvSetup } from "./utils";
 import { MockPolicyFactory } from "./utils/MockPolicyFactory";
 import { FILE_MAX_SIZE_BYTES } from "../src/utils/constants";
-import { isIE } from "./utils/index.browser";
+import { setSpan, context } from "@azure/core-tracing";
 
 dotenv.config();
 
@@ -32,7 +35,7 @@ describe("FileClient", () => {
     "D:(A;;FA;;;SY)(A;;FA;;;BA)(A;;0x1200a9;;;S-1-5-21-397955417-626881126-188441444-3053964)";
   let recorder: Recorder;
 
-  let fullFileAttributes = new FileSystemAttributes();
+  const fullFileAttributes = new FileSystemAttributes();
   fullFileAttributes.readonly = true;
   fullFileAttributes.hidden = true;
   fullFileAttributes.system = true;
@@ -150,11 +153,6 @@ describe("FileClient", () => {
   });
 
   it("create largest file", async function() {
-    // IE complains about "Arithmetic result exceeded 32 bits".
-    if (!isNode && isIE()) {
-      this.skip();
-    }
-
     const fileSize = FILE_MAX_SIZE_BYTES;
     const cResp = await fileClient.create(fileSize);
     assert.equal(cResp.errorCode, undefined);
@@ -181,12 +179,7 @@ describe("FileClient", () => {
     assert.ok(result.fileParentId!);
     assert.ok(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
-    // IE11 sends "cache-control: no-cache"/"cache-control:max-age=0" for every requests
-    if (!isNode && isIE()) {
-      assert.ok(result.cacheControl);
-    } else {
-      assert.ok(!result.cacheControl);
-    }
+    assert.ok(!result.cacheControl);
     assert.ok(!result.contentType);
     assert.ok(!result.contentMD5);
     assert.ok(!result.contentEncoding);
@@ -274,10 +267,7 @@ describe("FileClient", () => {
 
     assert.ok(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
-    // IE11 force adds `cache-control: no-cache` for requests sent to Azure Storage server.
-    // So, cacheControl has `no-cache` as its value instead of undefined.
-    // Disabling the following check until the issue is resolved.
-    // assert.ok(!result.cacheControl);
+    assert.ok(!result.cacheControl);
     assert.ok(!result.contentType);
     assert.ok(!result.contentMD5);
     assert.ok(!result.contentEncoding);
@@ -373,7 +363,7 @@ describe("FileClient", () => {
     await fileClient.create(1024);
     const newFileClient = dirClient.getFileClient(recorder.getUniqueName("copiedfile"));
 
-    let fileAttributesInstance = new FileSystemAttributes();
+    const fileAttributesInstance = new FileSystemAttributes();
     fileAttributesInstance.hidden = true;
     fileAttributesInstance.system = true;
     const fileAttributes = fileAttributesInstance.toString();
@@ -410,7 +400,7 @@ describe("FileClient", () => {
     const newFileClient = dirClient.getFileClient(recorder.getUniqueName("copiedfile"));
 
     const createPermResp = await shareClient.createPermission(filePermissionInSDDL);
-    let fileAttributesInstance = new FileSystemAttributes();
+    const fileAttributesInstance = new FileSystemAttributes();
     fileAttributesInstance.hidden = true;
     fileAttributesInstance.system = true;
     const fileAttributes = fileAttributesInstance.toString();
@@ -734,7 +724,6 @@ describe("FileClient", () => {
       // tslint:disable-next-line:no-empty
     } catch (err) {
       assert.equal(err.name, "AbortError");
-      assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
     }
     assert.ok(eventTriggered);
   });
@@ -848,12 +837,11 @@ describe("FileClient", () => {
   });
 
   it("create with tracing", async () => {
-    const tracer = new TestTracer();
-    setTracer(tracer);
+    const tracer = setTracer();
     const rootSpan = tracer.startSpan("root");
     await fileClient.create(content.length, {
       tracingOptions: {
-        spanOptions: { parent: rootSpan.context() }
+        tracingContext: setSpan(context.active(), rootSpan)
       }
     });
     rootSpan.end();
@@ -883,7 +871,7 @@ describe("FileClient", () => {
       ]
     };
 
-    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
+    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
     assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
   });
 });

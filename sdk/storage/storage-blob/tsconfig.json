@@ -1,7 +1,6 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "target": "es5",
     "declarationDir": "./typings/latest",
     "outDir": "./dist-esm",
     "lib": ["dom", "es5", "es6", "es7", "esnext"]
@@ -12,7 +11,8 @@
     "./typings/**/*.d.ts",
     "../storage-internal-avro/node_modules",
     "../storage-common/node_modules",
-    "./samples/**"
+    "./samples/**",
+    "test/perfstress/track-1/"
   ],
   "include": [
     "./src/**/*.ts",

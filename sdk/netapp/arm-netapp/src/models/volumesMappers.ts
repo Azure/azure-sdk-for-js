@@ -7,6 +7,7 @@
  */
 
 export {
+  AccountEncryption,
   ActiveDirectory,
   AuthorizeRequest,
   Backup,
@@ -31,6 +32,7 @@ export {
   ReplicationStatus,
   Snapshot,
   SnapshotPolicy,
+  SystemData,
   Vault,
   Volume,
   VolumeBackupProperties,

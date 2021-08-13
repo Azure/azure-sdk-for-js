@@ -3,7 +3,7 @@
 trigger:
   branches:
     include:
-      - master
+      - main
       - release/*
       - hotfix/*
   paths:
@@ -13,7 +13,7 @@ trigger:
 pr:
   branches:
     include:
-      - master
+      - main
       - feature/*
       - release/*
       - hotfix/*
@@ -28,9 +28,13 @@ extends:
     Artifacts:
       - name: azure-communication-common
         safeName: azurecommunicationcommon
-      - name: azure-communication-administration
-        safeName: azurecommunicationadministration
       - name: azure-communication-sms
         safeName: azurecommunicationsms
       - name: azure-communication-chat
         safeName: azurecommunicationchat
+      - name: azure-communication-identity
+        safeName: azurecommunicationidentity
+      - name: azure-communication-phone-numbers
+        safeName: azurecommunicationphonenumbers
+      - name: azure-communication-network-traversal
+        safeName: azurecommunicationnetworktraversal

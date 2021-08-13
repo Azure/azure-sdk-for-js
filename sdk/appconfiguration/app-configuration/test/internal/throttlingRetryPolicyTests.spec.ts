@@ -34,11 +34,14 @@ describe("ThrottlingRetryPolicy", () => {
   };
 
   function createDefaultThrottlingRetryPolicy(
-    response: HttpOperationResponse = defaultResponse,
+    httpOperationResponse: HttpOperationResponse = defaultResponse,
     nextPolicyCreator: (response: HttpOperationResponse) => RequestPolicy = (response) =>
       new PassThroughPolicy(response)
-  ) {
-    return new ThrottlingRetryPolicy(nextPolicyCreator(response), new RequestPolicyOptions());
+  ): ThrottlingRetryPolicy {
+    return new ThrottlingRetryPolicy(
+      nextPolicyCreator(httpOperationResponse),
+      new RequestPolicyOptions()
+    );
   }
 
   describe("sendRequest", () => {
@@ -81,7 +84,7 @@ describe("ThrottlingRetryPolicy", () => {
       };
       const policy = createDefaultThrottlingRetryPolicy(mockResponse, (_) => {
         return {
-          sendRequest: (_: WebResource) => {
+          sendRequest: (_wr: WebResource) => {
             throw new RestError("some other error, but not an 429 with a timeout", "", 500);
           }
         };

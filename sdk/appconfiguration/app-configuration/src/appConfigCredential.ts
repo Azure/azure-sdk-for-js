@@ -1,12 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ServiceClientCredentials, WebResource, URLBuilder } from "@azure/core-http";
+import {
+  ServiceClientCredentials,
+  WebResource,
+  URLBuilder,
+  WebResourceLike
+} from "@azure/core-http";
 import { sha256Digest, sha256Hmac } from "./internal/cryptoHelpers";
 
 /**
  * @internal
- * @hidden
  */
 export class AppConfigCredential implements ServiceClientCredentials {
   private credential: string;
@@ -23,7 +27,7 @@ export class AppConfigCredential implements ServiceClientCredentials {
    * @param webResource - The WebResource to be signed.
    * @returns The signed request object.
    */
-  async signRequest(webResource: WebResource): Promise<WebResource> {
+  async signRequest(webResource: WebResourceLike): Promise<WebResource> {
     const verb = webResource.method.toUpperCase();
     const utcNow = new Date().toUTCString();
 

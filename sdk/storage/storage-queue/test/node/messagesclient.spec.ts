@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import { getQSU, getConnectionStringFromEnvironment } from "../utils";
 import { record, Recorder } from "@azure/test-utils-recorder";
@@ -29,14 +32,14 @@ describe("QueueClient message methods, Node.js only", () => {
   });
 
   it("enqueue, peek, dequeue with 64KB characters including special char which is computed after encoding", async () => {
-    let specialChars =
+    const specialChars =
       "!@#$%^&*()_+`-=[]|};'\":,./?><`~漢字㒈保ᨍ揫^p[뷁)׷񬓔7񈺝l鮍򧽶ͺ簣ڞ츊䈗㝯綞߫⯹?ÎᦡC왶żsmt㖩닡򈸱𕩣ОլFZ򃀮9tC榅ٻ컦驿Ϳ[𱿛봻烌󱰷򙥱Ռ򽒏򘤰δŊϜ췮㐦9ͽƙp퐂ʩ由巩KFÓ֮򨾭⨿󊻅aBm󶴂旨Ϣ񓙠򻐪񇧱򆋸ջ֨ipn򒷐ꝷՆ򆊙斡賆𒚑m˞𻆕󛿓򐞺Ӯ򡗺򴜍<񐸩԰Bu)򁉂񖨞á<џɏ嗂�⨣1PJ㬵┡ḸI򰱂ˮaࢸ۳i灛ȯɨb𹺪򕕱뿶uٔ䎴񷯆Φ륽󬃨س_NƵ¦";
-    let buffer = Buffer.alloc(64 * 1024); //64KB
+    const buffer = Buffer.alloc(64 * 1024); // 64KB
     buffer.fill("a");
     buffer.write(specialChars, 0);
-    let messageContent = buffer.toString();
+    const messageContent = buffer.toString();
 
-    let eResult = await queueClient.sendMessage(messageContent, {
+    const eResult = await queueClient.sendMessage(messageContent, {
       messageTimeToLive: 40,
       visibilityTimeout: 0
     });
@@ -50,7 +53,7 @@ describe("QueueClient message methods, Node.js only", () => {
     assert.ok(eResult.nextVisibleOn);
     assert.ok(eResult.version);
 
-    let pResult = await queueClient.peekMessages({ numberOfMessages: 2 });
+    const pResult = await queueClient.peekMessages({ numberOfMessages: 2 });
     assert.ok(pResult.date);
     assert.ok(pResult.requestId);
     assert.ok(eResult.clientRequestId);
@@ -62,7 +65,7 @@ describe("QueueClient message methods, Node.js only", () => {
     assert.deepStrictEqual(pResult.peekedMessageItems[0].insertedOn, eResult.insertedOn);
     assert.deepStrictEqual(pResult.peekedMessageItems[0].expiresOn, eResult.expiresOn);
 
-    let dResult = await queueClient.receiveMessages({
+    const dResult = await queueClient.receiveMessages({
       visibilityTimeout: 10,
       numberOfMessages: 2
     });
@@ -81,12 +84,12 @@ describe("QueueClient message methods, Node.js only", () => {
   });
 
   it("enqueue negative with 65537B(64KB+1B) characters including special char which is computed after encoding", async () => {
-    let specialChars =
+    const specialChars =
       "!@#$%^&*()_+`-=[]|};'\":,./?><`~漢字㒈保ᨍ揫^p[뷁)׷񬓔7񈺝l鮍򧽶ͺ簣ڞ츊䈗㝯綞߫⯹?ÎᦡC왶żsmt㖩닡򈸱𕩣ОլFZ򃀮9tC榅ٻ컦驿Ϳ[𱿛봻烌󱰷򙥱Ռ򽒏򘤰δŊϜ췮㐦9ͽƙp퐂ʩ由巩KFÓ֮򨾭⨿󊻅aBm󶴂旨Ϣ񓙠򻐪񇧱򆋸ջ֨ipn򒷐ꝷՆ򆊙斡賆𒚑m˞𻆕󛿓򐞺Ӯ򡗺򴜍<񐸩԰Bu)򁉂񖨞á<џɏ嗂�⨣1PJ㬵┡ḸI򰱂ˮaࢸ۳i灛ȯɨb𹺪򕕱뿶uٔ䎴񷯆Φ륽󬃨س_NƵ¦";
-    let buffer = Buffer.alloc(64 * 1024 + 1);
+    const buffer = Buffer.alloc(64 * 1024 + 1);
     buffer.fill("a");
     buffer.write(specialChars, 0);
-    let messageContent = buffer.toString();
+    const messageContent = buffer.toString();
 
     let error;
     try {

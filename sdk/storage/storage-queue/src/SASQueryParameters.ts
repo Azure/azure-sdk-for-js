@@ -1,14 +1,11 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { SasIPRange, ipRangeToString } from "./SasIPRange";
 import { truncatedISO8061Date } from "./utils/utils.common";
 
 /**
  * Protocols for generated SAS.
- *
- * @export
- * @enum {string}
  */
 export enum SASProtocol {
   /**
@@ -30,67 +27,43 @@ export enum SASProtocol {
  * these query parameters).
  *
  * NOTE: Instances of this class are immutable.
- *
- * @export
- * @class SASQueryParameters
  */
 export class SASQueryParameters {
   /**
    * The storage API version.
-   *
-   * @type {string}
-   * @memberof SASQueryParameters
    */
   public readonly version: string;
 
   /**
    * Optional. The allowed HTTP protocol(s).
-   *
-   * @type {SASProtocol}
-   * @memberof SASQueryParameters
    */
   public readonly protocol?: SASProtocol;
 
   /**
    * Optional. The start time for this SAS token.
-   *
-   * @type {Date}
-   * @memberof SASQueryParameters
    */
   public readonly startsOn?: Date;
 
   /**
    * Optional only when identifier is provided. The expiry time for this SAS token.
-   *
-   * @type {Date}
-   * @memberof SASQueryParameters
    */
   public readonly expiresOn?: Date;
 
   /**
    * Optional only when identifier is provided.
    * Please refer to {@link AccountSASPermissions}, {@link QueueSASPermissions} for more details.
-   *
-   * @type {string}
-   * @memberof SASQueryParameters
    */
   public readonly permissions?: string;
 
   /**
    * Optional. The storage services being accessed (only for Account SAS). Please refer to {@link AccountSASServices}
    * for more details.
-   *
-   * @type {string}
-   * @memberof SASQueryParameters
    */
   public readonly services?: string;
 
   /**
    * Optional. The storage resource types being accessed (only for Account SAS). Please refer to
    * {@link AccountSASResourceTypes} for more details.
-   *
-   * @type {string}
-   * @memberof SASQueryParameters
    */
   public readonly resourceTypes?: string;
 
@@ -98,34 +71,21 @@ export class SASQueryParameters {
    * Optional. The signed identifier (only for {@link QueueSASSignatureValues}).
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
-   *
-   * @type {string}
-   * @memberof SASQueryParameters
    */
   public readonly identifier?: string;
 
   /**
    * Optional. The storage queue (only for {@link QueueSASSignatureValues}).
-   *
-   * @type {string}
-   * @memberof SASQueryParameters
    */
   public readonly resource?: string;
 
   /**
    * The signature for the SAS token.
-   *
-   * @type {string}
-   * @memberof SASQueryParameters
    */
   public readonly signature: string;
 
   /**
    * Inner value of getter ipRange.
-   *
-   * @private
-   * @type {SasIPRange}
-   * @memberof SASQueryParameters
    */
   private readonly ipRangeInner?: SasIPRange;
 
@@ -133,8 +93,6 @@ export class SASQueryParameters {
    * Optional. IP range allowed for this SAS.
    *
    * @readonly
-   * @type {(SasIPRange | undefined)}
-   * @memberof SASQueryParameters
    */
   public get ipRange(): SasIPRange | undefined {
     if (this.ipRangeInner) {
@@ -149,17 +107,17 @@ export class SASQueryParameters {
   /**
    * Creates an instance of SASQueryParameters.
    *
-   * @param {string} version Representing the storage version
-   * @param {string} signature Representing the signature for the SAS token
-   * @param {string} [permissions] Representing the storage permissions
-   * @param {string} [services] Representing the storage services being accessed (only for Account SAS)
-   * @param {string} [resourceTypes] Representing the storage resource types being accessed (only for Account SAS)
-   * @param {SASProtocol} [protocol] Representing the allowed HTTP protocol(s)
-   * @param {Date} [startsOn] Representing the start time for this SAS token
-   * @param {Date} [expiresOn] Representing the expiry time for this SAS token
-   * @param {SasIPRange} [ipRange] Representing the range of valid IP addresses for this SAS token
-   * @param {string} [identifier] Representing the signed identifier (only for Service SAS)
-   * @param {string} [resource] Representing the storage queue (only for Service SAS)
+   * @param version - Representing the storage version
+   * @param signature - Representing the signature for the SAS token
+   * @param permissions - Representing the storage permissions
+   * @param services - Representing the storage services being accessed (only for Account SAS)
+   * @param resourceTypes - Representing the storage resource types being accessed (only for Account SAS)
+   * @param protocol - Representing the allowed HTTP protocol(s)
+   * @param startsOn - Representing the start time for this SAS token
+   * @param expiresOn - Representing the expiry time for this SAS token
+   * @param ipRange - Representing the range of valid IP addresses for this SAS token
+   * @param identifier - Representing the signed identifier (only for Service SAS)
+   * @param resource - Representing the storage queue (only for Service SAS)
    */
   constructor(
     version: string,
@@ -190,8 +148,6 @@ export class SASQueryParameters {
   /**
    * Encodes all SAS query parameters into a string that can be appended to a URL.
    *
-   * @returns {string}
-   * @memberof SASQueryParameters
    */
   public toString(): string {
     const params: string[] = ["sv", "ss", "srt", "spr", "st", "se", "sip", "si", "sr", "sp", "sig"];
@@ -252,12 +208,9 @@ export class SASQueryParameters {
   /**
    * A private helper method used to filter and append query key/value pairs into an array.
    *
-   * @private
-   * @param {string[]} queries
-   * @param {string} key
-   * @param {string} [value]
-   * @returns {void}
-   * @memberof SASQueryParameters
+   * @param queries -
+   * @param key -
+   * @param value -
    */
   private tryAppendQueryParameter(queries: string[], key: string, value?: string): void {
     if (!value) {

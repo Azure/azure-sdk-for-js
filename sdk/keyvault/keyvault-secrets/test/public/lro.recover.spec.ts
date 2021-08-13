@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
+import { Context } from "mocha";
 import { env, Recorder } from "@azure/test-utils-recorder";
 import { PollerStoppedError } from "@azure/core-lro";
 
@@ -18,7 +19,7 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     const authentication = await authenticate(this);
     secretSuffix = authentication.secretSuffix;
     client = authentication.client;
@@ -32,7 +33,7 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
 
   // The tests follow
 
-  it("can wait until a secret is recovered", async function() {
+  it("can wait until a secret is recovered", async function(this: Context) {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -53,11 +54,9 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
 
     // The final secret can also be obtained this way:
     assert.equal(poller.getOperationState().result!.name, secretName);
-
-    await testClient.flushSecret(secretName);
   });
 
-  it("can resume from a stopped poller", async function() {
+  it("can resume from a stopped poller", async function(this: Context) {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -91,12 +90,10 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
     const secretProperties: SecretProperties = await resumePoller.pollUntilDone();
     assert.equal(secretProperties.name, secretName);
     assert.ok(resumePoller.getOperationState().isCompleted);
-
-    await testClient.flushSecret(secretName);
   });
 
   // On playback mode, the tests happen too fast for the timeout to work
-  it("can attempt to recover a deleted secret with requestOptions timeout", async function() {
+  it("can attempt to recover a deleted secret with requestOptions timeout", async function(this: Context) {
     recorder.skip(undefined, "Timeout tests don't work on playback mode.");
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`

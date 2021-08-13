@@ -10,76 +10,76 @@ import { logger } from "./log";
  */
 export interface AmqpMessageProperties {
   /**
-   * @property {string | number | Buffer} [messageId] The application message identifier that uniquely identifies a message.
+   * The application message identifier that uniquely identifies a message.
    * The user is responsible for making sure that this is unique in the given context. Guids usually make a good fit.
    */
   messageId?: string | number | Buffer;
   /**
-   * @property {string} [replyTo] The address of the node to send replies to.
+   * The address of the node to send replies to.
    */
   replyTo?: string;
   /**
-   * @property {string} [to] The address of the node the message is destined for.
+   * The address of the node the message is destined for.
    */
   to?: string;
   /**
-   * @property {string | number | Buffer} [correlationId] The id that can be used to mark or identify messages between clients.
+   * The id that can be used to mark or identify messages between clients.
    */
   correlationId?: string | number | Buffer;
   /**
-   * @property {string} [contentType] MIME type for the message.
+   * MIME type for the message.
    */
   contentType?: string;
   /**
-   * @property {string} [contentEncoding] The content-encoding property is used as a modifier to the content-type.
+   * The content-encoding property is used as a modifier to the content-type.
    * When present, its value indicates what additional content encodings have been applied to the application-data.
    */
   contentEncoding?: string;
   /**
-   * @property {number} [absoluteExpiryTime] The time when this message is considered expired.
+   * The time when this message is considered expired.
    */
   absoluteExpiryTime?: number;
   /**
-   * @property {number} [creationTime] The time this message was created.
+   * The time this message was created.
    */
   creationTime?: number;
   /**
-   * @property {string} [groupId] The group this message belongs to.
+   * The group this message belongs to.
    */
   groupId?: string;
   /**
-   * @property {number} [groupSequence] The sequence number of this message with its group.
+   * The sequence number of this message with its group.
    */
   groupSequence?: number;
   /**
-   * @property {string} [replyToGroupId] The group the reply message belongs to.
+   * The group the reply message belongs to.
    */
   replyToGroupId?: string;
   /**
-   * @property {string} [subject] A common field for summary information about the message
+   * A common field for summary information about the message
    * content and purpose.
    */
   subject?: string;
   // /**
-  //  * @property {string} [userId] The identity of the user responsible for producing the message.
+  //  * The identity of the user responsible for producing the message.
   //  */
   // userId?: string;
 }
 
 /**
  * Describes the operations that can be performed on the amqp message properties.
- * @module AmqpMessageProperties
  */
+// eslint-disable-next-line @typescript-eslint/no-redeclare -- renaming constant would be a breaking change.
 export const AmqpMessageProperties = {
   /**
    * Converts MessageProperties to RheaMessageProperties.
-   * @param {MessageProperties} props Message properties.
-   * @returns {RheaMessageProperties} RheaMessageProperties.
+   * @param props - Message properties.
+   * @returns RheaMessageProperties.
    */
   toRheaMessageProperties(props: AmqpMessageProperties): RheaMessageProperties {
     const amqpProperties: RheaMessageProperties = {};
     if (props.absoluteExpiryTime != undefined) {
-      amqpProperties.absolute_expiry_time = props.absoluteExpiryTime;
+      amqpProperties.absolute_expiry_time = new Date(props.absoluteExpiryTime);
     }
     if (props.contentEncoding != undefined) {
       amqpProperties.content_encoding = props.contentEncoding;
@@ -91,7 +91,7 @@ export const AmqpMessageProperties = {
       amqpProperties.correlation_id = props.correlationId;
     }
     if (props.creationTime != undefined) {
-      amqpProperties.creation_time = props.creationTime;
+      amqpProperties.creation_time = new Date(props.creationTime);
     }
     if (props.groupId != undefined) {
       amqpProperties.group_id = props.groupId;
@@ -124,13 +124,13 @@ export const AmqpMessageProperties = {
 
   /**
    * Converts RheaMessageProperties to MessageProperties.
-   * @param {RheaMessageProperties} props Amqp message properties.
-   * @returns {AmqpMessageProperties} MessageProperties.
+   * @param props - Amqp message properties.
+   * @returns MessageProperties.
    */
   fromRheaMessageProperties(props: RheaMessageProperties): AmqpMessageProperties {
     const msgProperties: AmqpMessageProperties = {};
     if (props.absolute_expiry_time != undefined) {
-      msgProperties.absoluteExpiryTime = props.absolute_expiry_time;
+      msgProperties.absoluteExpiryTime = props.absolute_expiry_time.getTime();
     }
     if (props.content_encoding != undefined) {
       msgProperties.contentEncoding = props.content_encoding;
@@ -142,7 +142,7 @@ export const AmqpMessageProperties = {
       msgProperties.correlationId = props.correlation_id;
     }
     if (props.creation_time != undefined) {
-      msgProperties.creationTime = props.creation_time;
+      msgProperties.creationTime = props.creation_time.getTime();
     }
     if (props.group_id != undefined) {
       msgProperties.groupId = props.group_id;

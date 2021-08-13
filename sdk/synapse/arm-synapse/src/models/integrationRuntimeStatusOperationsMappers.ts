@@ -8,7 +8,9 @@
 
 export {
   discriminators,
-  CloudError,
+  ErrorAdditionalInfo,
+  ErrorDetail,
+  ErrorResponse,
   IntegrationRuntimeStatus,
   IntegrationRuntimeStatusResponse,
   LinkedIntegrationRuntime,

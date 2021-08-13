@@ -19,7 +19,7 @@ export class IndexDocumentsBatch<T> {
 
   /**
    * Upload an array of documents to the index.
-   * @param documents The documents to upload.
+   * @param documents - The documents to upload.
    */
   public upload(documents: T[]): void {
     const batch = documents.map<IndexDocumentsAction<T>>((doc) => {
@@ -35,7 +35,7 @@ export class IndexDocumentsBatch<T> {
   /**
    * Update a set of documents in the index.
    * For more details about how merging works, see https://docs.microsoft.com/en-us/rest/api/searchservice/AddUpdate-or-Delete-Documents
-   * @param documents The updated documents.
+   * @param documents - The updated documents.
    */
   public merge(documents: T[]): void {
     const batch = documents.map<IndexDocumentsAction<T>>((doc) => {
@@ -51,7 +51,7 @@ export class IndexDocumentsBatch<T> {
   /**
    * Update a set of documents in the index or uploads them if they don't exist.
    * For more details about how merging works, see https://docs.microsoft.com/en-us/rest/api/searchservice/AddUpdate-or-Delete-Documents
-   * @param documents The new/updated documents.
+   * @param documents - The new/updated documents.
    */
   public mergeOrUpload(documents: T[]): void {
     const batch = documents.map<IndexDocumentsAction<T>>((doc) => {
@@ -66,14 +66,14 @@ export class IndexDocumentsBatch<T> {
 
   /**
    * Delete a set of documents.
-   * @param keyName The name of their primary key in the index.
-   * @param keyValues The primary key values of documents to delete.
+   * @param keyName - The name of their primary key in the index.
+   * @param keyValues - The primary key values of documents to delete.
    */
   public delete(keyName: keyof T, keyValues: string[]): void;
 
   /**
    * Delete a set of documents.
-   * @param documents Documents to be deleted.
+   * @param documents - Documents to be deleted.
    */
   public delete(documents: T[]): void;
 

@@ -1,8 +1,8 @@
 # Testing
 
-To test this project, make sure to build it by following our [building instructions](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#building), then follow the [testing instructions](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#testing).
+To test this project, make sure to build it by following our [building instructions](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#building), then follow the [testing instructions](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#testing).
 
-You can use existing Azure resources for the live tests, or generate new ones by using our [New-TestResources.ps1](https://github.com/Azure/azure-sdk-for-js/blob/master/eng/common/TestResources/New-TestResources.ps1) script, which will use an [ARM template](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/test-resources.json) that already has all of the the necessary configurations.
+You can use existing Azure resources for the live tests, or generate new ones by using our [New-TestResources.ps1](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/common/TestResources/New-TestResources.ps1) script, which will use an [ARM template](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/test-resources.json) that already has all of the the necessary configurations.
 
 The Azure resource that is used by the tests in this project is:
 
@@ -14,7 +14,7 @@ To run the live tests, you will also need to set the below environment variables
 - `AZURE_CLIENT_ID`: The client ID of an Azure Active Directory application.
 - `AZURE_CLIENT_SECRET`: The client secret of an Azure Active Directory application.
 - `AZURE_TENANT_ID`: The Tenant ID of your organization in Azure Active Directory.
-- `KEYVAULT_NAME`: The name of the KeyVault to use.
+- `KEYVAULT_URI`: The URI of the KeyVault to use.
 
 The live tests in this project will create, modify and delete [secrets](https://docs.microsoft.com/azure/key-vault/secrets/about-secrets) inside of the provided Azure Key Vault.
 

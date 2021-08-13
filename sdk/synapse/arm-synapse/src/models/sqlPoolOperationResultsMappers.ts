@@ -9,6 +9,6 @@
 export {
   discriminators,
   ErrorAdditionalInfo,
-  ErrorContract,
+  ErrorDetail,
   ErrorResponse
 } from "../models/mappers";

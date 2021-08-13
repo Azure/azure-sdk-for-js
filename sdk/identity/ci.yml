@@ -3,7 +3,7 @@
 trigger:
   branches:
     include:
-      - master
+      - main
       - release/*
       - hotfix/*
   paths:
@@ -13,7 +13,7 @@ trigger:
 pr:
   branches:
     include:
-      - master
+      - main
       - feature/*
       - release/*
       - hotfix/*
@@ -28,3 +28,7 @@ extends:
     Artifacts:
       - name: azure-identity
         safeName: azureidentity
+      - name: azure-identity-cache-persistence
+        safeName: azureidentitycachepersistence
+      - name: azure-identity-vscode
+        safeName: azureidentityvscode

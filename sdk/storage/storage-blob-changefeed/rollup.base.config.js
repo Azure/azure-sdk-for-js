@@ -7,6 +7,7 @@ import cjs from "@rollup/plugin-commonjs";
 import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
+import * as path from "path";
 import shim from "rollup-plugin-shim";
 // import visualizer from "rollup-plugin-visualizer";
 
@@ -55,6 +56,15 @@ export function nodeConfig(test = false) {
       cjs()
     ],
     onwarn(warning, warn) {
+      if (
+        warning.code === "CIRCULAR_DEPENDENCY" &&
+        warning.importer.indexOf(path.normalize("node_modules/@opentelemetry/api")) >= 0
+      ) {
+        // opentelemetry contains circular references but it doesn't cause issues.
+        // Tracked in https://github.com/open-telemetry/opentelemetry-js-api/issues/87
+        return;
+      }
+
       if (warning.code === "CIRCULAR_DEPENDENCY") {
         throw new Error(warning.message);
       }
@@ -146,12 +156,26 @@ export function browserConfig(test = false) {
             "notDeepEqual",
             "notDeepStrictEqual"
           ],
-          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          ...openTelemetryCommonJs()
         }
       })
     ],
     onwarn(warning, warn) {
-      if (warning.code === "CIRCULAR_DEPENDENCY") {
+      if (
+        warning.code === "CIRCULAR_DEPENDENCY" &&
+        warning.importer.indexOf(path.normalize("node_modules/@opentelemetry/api")) >= 0
+      ) {
+        // opentelemetry contains circular references but it doesn't cause issues.
+        // Tracked in https://github.com/open-telemetry/opentelemetry-js-api/issues/87
+        return;
+      }
+
+      if (
+        warning.code === "CIRCULAR_DEPENDENCY" ||
+        warning.code === "UNRESOLVED_IMPORT"
+        // Unresolved imports in the browser may break apps with frameworks such as angular.
+        // Shim the modules with dummy src files for browser to avoid regressions.
+      ) {
         throw new Error(warning.message);
       }
       warn(warning);
@@ -165,8 +189,8 @@ export function browserConfig(test = false) {
     ];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "dist-test/index.browser.js";
-    // mark fs-extra as external
-    baseConfig.external = ["fs-extra"];
+
+    baseConfig.external = [];
 
     baseConfig.context = "null";
 

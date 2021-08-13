@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/* eslint-disable no-invalid-this */
 import { isPlaybackMode, record, Recorder, isLiveMode } from "@azure/test-utils-recorder";
+import { Context } from "mocha";
+import { Suite } from "mocha";
 import { assert } from "chai";
 import { SearchIndexClient, SynonymMap, SearchIndex } from "../../../src";
 import { Hotel } from "../utils/interfaces";
@@ -18,13 +19,13 @@ import { delay } from "@azure/core-http";
 
 const TEST_INDEX_NAME = isLiveMode() ? createRandomIndexName() : "hotel-live-test3";
 
-describe("SearchIndexClient", function() {
+describe("SearchIndexClient", function(this: Suite) {
   let recorder: Recorder;
   let indexClient: SearchIndexClient;
 
   this.timeout(99999);
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     ({ indexClient } = createClients<Hotel>(TEST_INDEX_NAME));
     if (!isPlaybackMode()) {
       await createSynonymMaps(indexClient);

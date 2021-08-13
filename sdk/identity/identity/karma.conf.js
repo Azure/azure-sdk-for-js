@@ -1,6 +1,12 @@
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
-require("dotenv").config({ path: "../.env" });
+require("dotenv").config();
+const {
+  jsonRecordingFilterFunction,
+  isPlaybackMode,
+  isSoftRecordMode,
+  isRecordMode
+} = require("@azure/test-utils-recorder");
 
 module.exports = function(config) {
   config.set({
@@ -20,19 +26,16 @@ module.exports = function(config) {
       "karma-ie-launcher",
       "karma-env-preprocessor",
       "karma-coverage",
-      "karma-remap-istanbul",
+      "karma-sourcemap-loader",
       "karma-junit-reporter",
       "karma-json-preprocessor"
     ],
 
     // list of files / patterns to load in the browser
     files: [
-      // polyfill service supporting IE11 missing features
-      // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys
-      "https://cdn.polyfill.io/v2/polyfill.js?features=Symbol,Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys|always",
-      "test-browser/index.js",
-      { pattern: "test-browser/index.js.map", type: "html", included: false, served: true }
-    ],
+      "dist-test/index.browser.js",
+      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true }
+    ].concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []),
 
     // list of files / patterns to exclude
     exclude: [],
@@ -40,37 +43,32 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      "**/*.js": ["env"],
+      "**/*.js": ["sourcemap", "env"],
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
-      "test-browser/index.js": ["coverage"],
+      // "dist-test/index.browser.js": ["coverage"],
       "recordings/browsers/**/*.json": ["json"]
     },
 
     // inject following environment values into browser testing with window.__env__
     // environment values MUST be exported or set with same console running "karma start"
     // https://www.npmjs.com/package/karma-env-preprocessor
-    envPreprocessor: ["ACCOUNT_NAME", "ACCOUNT_SAS", "TEST_MODE"],
+    envPreprocessor: ["AZURE_CLIENT_ID", "AZURE_CLIENT_SECRET", "AZURE_TENANT_ID", "TEST_MODE"],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["mocha", "coverage", "karma-remap-istanbul", "junit"],
+    reporters: ["mocha", "coverage", "junit"],
 
     coverageReporter: {
       // specify a common output directory
       dir: "coverage-browser/",
-      reporters: [{ type: "json", subdir: ".", file: "coverage.json" }]
-    },
-
-    remapIstanbulReporter: {
-      src: "coverage-browser/coverage.json",
-      reports: {
-        lcovonly: "coverage-browser/lcov.info",
-        html: "coverage-browser/html/report",
-        "text-summary": null,
-        cobertura: "./coverage-browser/cobertura-coverage.xml"
-      }
+      reporters: [
+        { type: "json", subdir: ".", file: "coverage.json" },
+        { type: "lcovonly", subdir: ".", file: "lcov.info" },
+        { type: "html", subdir: "html" },
+        { type: "cobertura", subdir: ".", file: "cobertura-coverage.xml" }
+      ]
     },
 
     junitReporter: {
@@ -96,10 +94,15 @@ module.exports = function(config) {
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: false,
 
-    // start these browsers
-    // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    // 'ChromeHeadless', 'Chrome', 'Firefox', 'Edge', 'IE'
-    browsers: ["ChromeHeadless"],
+    // --no-sandbox allows our tests to run in Linux without having to change the system.
+    // --disable-web-security allows us to authenticate from the browser without having to write tests using interactive auth, which would be far more complex.
+    browsers: ["ChromeHeadlessNoSandbox"],
+    customLaunchers: {
+      ChromeHeadlessNoSandbox: {
+        base: "ChromeHeadless",
+        flags: ["--no-sandbox", "--disable-web-security"]
+      }
+    },
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits

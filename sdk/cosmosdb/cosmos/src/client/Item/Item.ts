@@ -27,15 +27,15 @@ export class Item {
   /**
    * Returns a reference URL to the resource. Used for linking in Permissions.
    */
-  public get url() {
+  public get url(): string {
     return createDocumentUri(this.container.database.id, this.container.id, this.id);
   }
 
   /**
    * @hidden
-   * @param container The parent {@link Container}.
-   * @param id The id of the given {@link Item}.
-   * @param partitionKey The primary key of the given {@link Item} (only for partitioned containers).
+   * @param container - The parent {@link Container}.
+   * @param id - The id of the given {@link Item}.
+   * @param partitionKey - The primary key of the given {@link Item} (only for partitioned containers).
    */
   constructor(
     public readonly container: Container,
@@ -56,7 +56,7 @@ export class Item {
    *
    * There is no set schema for JSON items. They may contain any number of custom properties.
    *
-   * @param options Additional options for the request
+   * @param options - Additional options for the request
    *
    * @example Using custom type for response
    * ```typescript
@@ -111,8 +111,8 @@ export class Item {
    *
    * There is no set schema for JSON items. They may contain any number of custom properties.
    *
-   * @param body The definition to replace the existing {@link Item}'s definition with.
-   * @param options Additional options for the request
+   * @param body - The definition to replace the existing {@link Item}'s definition with.
+   * @param options - Additional options for the request
    */
   public replace(
     body: ItemDefinition,
@@ -126,8 +126,8 @@ export class Item {
    *
    * There is no set schema for JSON items. They may contain any number of custom properties.
    *
-   * @param body The definition to replace the existing {@link Item}'s definition with.
-   * @param options Additional options for the request
+   * @param body - The definition to replace the existing {@link Item}'s definition with.
+   * @param options - Additional options for the request
    */
   public replace<T extends ItemDefinition>(
     body: T,
@@ -175,7 +175,7 @@ export class Item {
    * Any provided type, T, is not necessarily enforced by the SDK.
    * You may get more or less properties and it's up to your logic to enforce it.
    *
-   * @param options Additional options for the request
+   * @param options - Additional options for the request
    */
   public async delete<T extends ItemDefinition = any>(
     options: RequestOptions = {}

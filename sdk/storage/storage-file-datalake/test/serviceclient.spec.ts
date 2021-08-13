@@ -1,9 +1,23 @@
-import { record, Recorder } from "@azure/test-utils-recorder";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { delay, isLiveMode, record, Recorder } from "@azure/test-utils-recorder";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 
-import { DataLakeServiceClient, ServiceListFileSystemsSegmentResponse } from "../src";
-import { getDataLakeServiceClient, getTokenDataLakeServiceClient, recorderEnvSetup } from "./utils";
+import {
+  DataLakeServiceClient,
+  DataLakeServiceProperties,
+  ServiceListFileSystemsSegmentResponse
+} from "../src";
+import {
+  getDataLakeServiceClient,
+  getSASConnectionStringFromEnvironment,
+  getTokenDataLakeServiceClient,
+  recorderEnvSetup,
+  getGenericDataLakeServiceClient,
+  isBrowser
+} from "./utils";
 
 dotenv.config();
 
@@ -16,6 +30,100 @@ describe("DataLakeServiceClient", () => {
 
   afterEach(async function() {
     await recorder.stop();
+  });
+
+  it("SetProperties and GetProperties", async () => {
+    const serviceClient = getDataLakeServiceClient();
+    const previousProperties = await serviceClient.getProperties();
+
+    let serviceProperties: DataLakeServiceProperties;
+
+    serviceProperties = {
+      blobAnalyticsLogging: {
+        deleteProperty: true,
+        read: true,
+        retentionPolicy: {
+          days: 5,
+          enabled: true
+        },
+        version: "1.0",
+        write: true
+      },
+      minuteMetrics: {
+        enabled: true,
+        includeAPIs: true,
+        retentionPolicy: {
+          days: 4,
+          enabled: true
+        },
+        version: "1.0"
+      },
+      hourMetrics: {
+        enabled: true,
+        includeAPIs: true,
+        retentionPolicy: {
+          days: 3,
+          enabled: true
+        },
+        version: "1.0"
+      },
+      deleteRetentionPolicy: {
+        days: 2,
+        enabled: true
+      }
+    };
+
+    if (!isBrowser()) {
+      serviceProperties.cors = [
+        {
+          allowedHeaders: "*",
+          allowedMethods: "GET",
+          allowedOrigins: "example.com",
+          exposedHeaders: "*",
+          maxAgeInSeconds: 8888
+        }
+      ];
+    }
+
+    await serviceClient.setProperties(serviceProperties);
+    await delay(5 * 1000);
+
+    let properties = await serviceClient.getProperties();
+    if (!isBrowser()) {
+      assert.deepStrictEqual(serviceProperties.cors, properties.cors);
+    }
+    assert.deepStrictEqual(serviceProperties.blobAnalyticsLogging, properties.blobAnalyticsLogging);
+    assert.deepStrictEqual(serviceProperties.hourMetrics, properties.hourMetrics);
+    assert.deepStrictEqual(serviceProperties.minuteMetrics, properties.minuteMetrics);
+    assert.deepStrictEqual(
+      serviceProperties.deleteRetentionPolicy?.days,
+      properties.deleteRetentionPolicy?.days
+    );
+    assert.deepStrictEqual(
+      serviceProperties.deleteRetentionPolicy?.enabled,
+      properties.deleteRetentionPolicy?.enabled
+    );
+
+    // Cleanup
+    await serviceClient.setProperties(previousProperties);
+    await delay(5 * 1000);
+
+    properties = await serviceClient.getProperties();
+    assert.deepStrictEqual(previousProperties.cors, properties.cors);
+    assert.deepStrictEqual(
+      previousProperties.blobAnalyticsLogging,
+      properties.blobAnalyticsLogging
+    );
+    assert.deepStrictEqual(previousProperties.hourMetrics, properties.hourMetrics);
+    assert.deepStrictEqual(previousProperties.minuteMetrics, properties.minuteMetrics);
+    assert.deepStrictEqual(
+      previousProperties.deleteRetentionPolicy?.days,
+      properties.deleteRetentionPolicy?.days
+    );
+    assert.deepStrictEqual(
+      previousProperties.deleteRetentionPolicy?.enabled,
+      properties.deleteRetentionPolicy?.enabled
+    );
   });
 
   it("ListFileSystems with default parameters", async () => {
@@ -345,5 +453,113 @@ describe("DataLakeServiceClient", () => {
     assert.notDeepStrictEqual(response.signedService, undefined);
     assert.notDeepStrictEqual(response.signedObjectId, undefined);
     assert.notDeepStrictEqual(response.signedExpiresOn, undefined);
+  });
+
+  it("can be created from SASConnString", async () => {
+    const newClient = DataLakeServiceClient.fromConnectionString(
+      getSASConnectionStringFromEnvironment(),
+      {
+        retryOptions: {
+          maxTries: 1
+        }
+      }
+    );
+
+    const listIter = newClient.listFileSystems();
+    await listIter.next();
+    assert.ok(newClient.url.includes("dfs"));
+  });
+
+  it("renameFileSystem should work", async function() {
+    if (isLiveMode()) {
+      // Turn on this case when the Container Rename feature is ready in the service side.
+      this.skip();
+    }
+
+    const serviceClient = getDataLakeServiceClient();
+    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.create();
+
+    const newFileSystemName = recorder.getUniqueName("newfilesystem");
+    // const renameRes = await serviceClient.renameFileSystem(fileSystemName, newFileSystemName);
+    const renameRes = await serviceClient["renameFileSystem"](fileSystemName, newFileSystemName);
+
+    const newFileSystemClient = serviceClient.getFileSystemClient(newFileSystemName);
+    assert.deepStrictEqual(newFileSystemClient, renameRes.fileSystemClient);
+    await newFileSystemClient.getProperties();
+
+    await newFileSystemClient.delete();
+  });
+
+  it("renameFileSystem should work with source lease", async function() {
+    if (isLiveMode()) {
+      // Turn on this case when the Container Rename feature is ready in the service side.
+      this.skip();
+    }
+
+    const serviceClient = getDataLakeServiceClient();
+    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.create();
+
+    const leaseClient = fileSystemClient.getDataLakeLeaseClient();
+    await leaseClient.acquireLease(-1);
+
+    const newFileSystemName = recorder.getUniqueName("newfilesystem");
+    // const renameRes = await serviceClient.renameFileSystem(fileSystemName, newFileSystemName, {
+    const renameRes = await serviceClient["renameFileSystem"](fileSystemName, newFileSystemName, {
+      sourceCondition: { leaseId: leaseClient.leaseId }
+    });
+
+    const newFileSystemClient = serviceClient.getFileSystemClient(newFileSystemName);
+    assert.deepStrictEqual(newFileSystemClient, renameRes.fileSystemClient);
+    await newFileSystemClient.getProperties();
+
+    await newFileSystemClient.delete();
+  });
+
+  it("undelete and list deleted file system should work", async function() {
+    let serviceClient: DataLakeServiceClient;
+    try {
+      serviceClient = getGenericDataLakeServiceClient("DFS_SOFT_DELETE_");
+    } catch (err) {
+      this.skip();
+    }
+
+    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.create();
+
+    const metadata = { a: "a" };
+    await fileSystemClient.setMetadata(metadata);
+
+    await fileSystemClient.delete();
+    await delay(30 * 1000);
+
+    let listed = false;
+    for await (const fileSystemItem of serviceClient.listFileSystems({
+      includeDeleted: true,
+      includeMetadata: true
+    })) {
+      if (fileSystemItem.deleted && fileSystemItem.name === fileSystemName) {
+        listed = true;
+        // verify list container response
+        assert.ok(fileSystemItem.versionId);
+        assert.ok(fileSystemItem.deleted);
+        assert.ok(fileSystemItem.properties.deletedOn);
+        assert.ok(fileSystemItem.properties.remainingRetentionDays);
+        assert.deepStrictEqual(fileSystemItem.metadata, metadata);
+
+        const restoreRes = await serviceClient.undeleteFileSystem(
+          fileSystemName,
+          fileSystemItem.versionId!
+        );
+        assert.equal(restoreRes.fileSystemClient.name, fileSystemName);
+        await restoreRes.fileSystemClient.delete();
+        break;
+      }
+    }
+    assert.ok(listed);
   });
 });

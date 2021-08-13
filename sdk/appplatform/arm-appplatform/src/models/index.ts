@@ -547,6 +547,10 @@ export interface AppResourceProperties {
    */
   httpsOnly?: boolean;
   /**
+   * Indicate if end to end TLS is enabled.
+   */
+  enableEndToEndTLS?: boolean;
+  /**
    * Date time when the resource is created
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */

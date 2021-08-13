@@ -42,6 +42,9 @@ try {
         Write-Host "Reason cannot be empty to deprecate package version"
         exit 1
       }
+      if ($pkgVersion -eq 'all') {
+        $nameAndVersion = $packageName
+      }
       Write-Host "Deprecate package $nameAndVersion, reason: $reason"
       Write-Host "npm deprecate $($nameAndVersion) $reason"
       npm deprecate $nameAndVersion $reason

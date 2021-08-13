@@ -6,13 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 import { GeneratedClientOptionalParams } from "./models";
 
-const packageName = "@azure/data-tables";
-const packageVersion = "1.0.0-beta.4";
-
-export class GeneratedClientContext extends coreHttp.ServiceClient {
+/** @internal */
+export class GeneratedClientContext extends coreClient.ServiceClient {
   url: string;
   version: string;
 
@@ -30,18 +28,25 @@ export class GeneratedClientContext extends coreHttp.ServiceClient {
     if (!options) {
       options = {};
     }
+    const defaults: GeneratedClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8"
+    };
 
-    if (!options.userAgent) {
-      const defaultUserAgent = coreHttp.getDefaultUserAgentValue();
-      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
-    }
+    const packageDetails = `azsdk-js-data-tables/12.1.2`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
 
-    super(undefined, options);
-
-    this.requestContentType = "application/json; charset=utf-8";
-
-    this.baseUri = options.endpoint || "{url}";
-
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint || "{url}"
+    };
+    super(optionsWithDefaults);
     // Parameter assignments
     this.url = url;
 

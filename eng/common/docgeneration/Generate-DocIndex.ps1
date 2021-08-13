@@ -10,13 +10,6 @@ Param (
 )
 . "${PSScriptRoot}\..\scripts\common.ps1"
 
-# Given the metadata url under https://github.com/Azure/azure-sdk/tree/master/_data/releases/latest, 
-# the function will return the csv metadata back as part of response.
-function Get-CSVMetadata ([string]$MetadataUri) {
-    $metadataResponse = Invoke-RestMethod -Uri $MetadataUri -method "GET" -MaximumRetryCount 3 -RetryIntervalSec 10 | ConvertFrom-Csv
-    return $metadataResponse
-}
-  
 # Given the github io blob storage url and language regex,
 # the helper function will return a list of artifact names.
 function Get-BlobStorage-Artifacts($blobStorageUrl, $blobDirectoryRegex, $blobArtifactsReplacement) {
@@ -34,7 +27,7 @@ function Get-BlobStorage-Artifacts($blobStorageUrl, $blobDirectoryRegex, $blobAr
         $blobStorageUrlPageToken = $blobStorageUrl + "&marker=$pageToken"
         $resp = Invoke-RestMethod -Method Get -Uri $blobStorageUrlPageToken
       }
-      # Convert to xml documents. 
+      # Convert to xml documents.
       $xmlDoc = [xml](removeBomFromString $resp)
       foreach ($elem in $xmlDoc.EnumerationResults.Blobs.BlobPrefix) {
         # What service return like "dotnet/Azure.AI.Anomalydetector/", needs to fetch out "Azure.AI.Anomalydetector"
@@ -46,8 +39,8 @@ function Get-BlobStorage-Artifacts($blobStorageUrl, $blobDirectoryRegex, $blobAr
     } while ($pageToken)
     return $returnedArtifacts
   }
-  
-# The sequence of Bom bytes differs by different encoding. 
+
+# The sequence of Bom bytes differs by different encoding.
 # The helper function here is only to strip the utf-8 encoding system as it is used by blob storage list api.
 # Return the original string if not in BOM utf-8 sequence.
 function RemoveBomFromString([string]$bomAwareString) {
@@ -62,8 +55,8 @@ function RemoveBomFromString([string]$bomAwareString) {
     }
     return $bomAwareString
 }
-  
-function Get-TocMapping { 
+
+function Get-TocMapping {
     Param (
         [Parameter(Mandatory = $true)] [Object[]] $metadata,
         [Parameter(Mandatory = $true)] [String[]] $artifacts
@@ -72,18 +65,12 @@ function Get-TocMapping {
     $orderServiceMapping = @{}
 
     foreach ($artifact in $artifacts) {
-        $packageInfo = $metadata | ? {$_.Package -eq $artifact}
-        
-        if ($packageInfo -and $packageInfo[0].Hide -eq 'true') {
-            LogDebug "The artifact $artifact set 'Hide' to 'true'."
-            continue
-        }
+        $packageInfo = $metadata | ? { $_.Package -eq $artifact -and $_.Hide -ne "true" }
         $serviceName = ""
         $displayName = ""
         if (!$packageInfo) {
-            LogWarning "There is no artifact $artifact. Please check csv of Azure/azure-sdk/_data/release/latest repo if this is intended. "
-            # If no service name retrieved, print out warning message, and put it into Other page.
-            $serviceName = "Other"
+            LogDebug "There is no service name for artifact $artifact or it is marked as hidden. Please check csv of Azure/azure-sdk/_data/release/latest repo if this is intended. "
+            continue
         }
         elseif (!$packageInfo[0].ServiceName) {
             LogWarning "There is no service name for artifact $artifact. Please check csv of Azure/azure-sdk/_data/release/latest repo if this is intended. "
@@ -100,10 +87,10 @@ function Get-TocMapping {
         }
         $orderServiceMapping[$artifact] = @($serviceName, $displayName)
     }
-    return $orderServiceMapping                   
+    return $orderServiceMapping
 }
 
-function GenerateDocfxTocContent([Hashtable]$tocContent, [String]$lang) {
+function GenerateDocfxTocContent([Hashtable]$tocContent, [String]$lang, [String]$campaignId = "UA-62780441-46") {
     LogDebug "Start generating the docfx toc and build docfx site..."
 
     LogDebug "Initializing Default DocFx Site..."
@@ -113,6 +100,15 @@ function GenerateDocfxTocContent([Hashtable]$tocContent, [String]$lang) {
     LogDebug "Copying template and configuration..."
     New-Item -Path "${DocOutDir}" -Name "templates" -ItemType "directory" -Force
     Copy-Item "${DocGenDir}/templates/*" -Destination "${DocOutDir}/templates" -Force -Recurse
+
+    $headerTemplateLocation = "${DocOutDir}/templates/matthews/partials/head.tmpl.partial"
+
+    if ($campaignId -and (Test-Path $headerTemplateLocation)){
+        $headerTemplateContent = Get-Content -Path $headerTemplateLocation -Raw
+        $headerTemplateContent = $headerTemplateContent -replace "GA_CAMPAIGN_ID", $campaignId
+        Set-Content -Path $headerTemplateLocation -Value $headerTemplateContent -NoNewline
+    }
+
     Copy-Item "${DocGenDir}/docfx.json" -Destination "${DocOutDir}/" -Force
     $YmlPath = "${DocOutDir}/api"
     New-Item -Path $YmlPath -Name "toc.yml" -Force
@@ -122,7 +118,7 @@ function GenerateDocfxTocContent([Hashtable]$tocContent, [String]$lang) {
         $artifact = $serviceMapping.Key
         $serviceName = $serviceMapping.Value[0]
         $displayName = $serviceMapping.Value[1]
-        
+
         $fileName = ($serviceName -replace '\s', '').ToLower().Trim()
         if ($visitedService.ContainsKey($serviceName)) {
             if ($displayName) {
@@ -158,7 +154,7 @@ function GenerateDocfxTocContent([Hashtable]$tocContent, [String]$lang) {
     & $($DocFx) build "${DocOutDir}/docfx.json"
     # The line below is used for testing in local
     #docfx build "${DocOutDir}/docfx.json"
-    Copy-Item "${DocGenDir}/assets/logo.svg" -Destination "${DocOutDir}/_site/" -Force    
+    Copy-Item "${DocGenDir}/assets/logo.svg" -Destination "${DocOutDir}/_site/" -Force
 }
 
 function UpdateDocIndexFiles {
@@ -172,13 +168,14 @@ function UpdateDocIndexFiles {
     $docfxContent = Get-Content -Path $DocfxJsonPath -Raw
     $docfxContent = $docfxContent -replace "`"_appTitle`": `"`"", "`"_appTitle`": `"Azure SDK for $appTitleLang`""
     $docfxContent = $docfxContent -replace "`"_appFooter`": `"`"", "`"_appFooter`": `"Azure SDK for $appTitleLang`""
-    Set-Content -Path $DocfxJsonPath -Value $docfxContent
+    Set-Content -Path $DocfxJsonPath -Value $docfxContent -NoNewline
     # Update main.js var lang
     $mainJsContent = Get-Content -Path $MainJsPath -Raw
     $mainJsContent = $mainJsContent -replace "var SELECTED_LANGUAGE = ''", "var SELECTED_LANGUAGE = '$lang'"
     # Update main.js package regex and replacement
     $mainJsContent = $mainJsContent -replace "var PACKAGE_REGEX = ''", "var PACKAGE_REGEX = $packageRegex"
     $mainJsContent = $mainJsContent -replace "var PACKAGE_REPLACEMENT = ''", "var PACKAGE_REPLACEMENT = `"$regexReplacement`""
+
     Set-Content -Path $MainJsPath -Value $mainJsContent -NoNewline
 }
 
@@ -188,5 +185,7 @@ if ($GetGithubIoDocIndexFn -and (Test-Path "function:$GetGithubIoDocIndexFn"))
 }
 else
 {
-    LogWarning "The function 'GetGithubIoDocIndexFn' was not found."
+    LogWarning "The function for 'GetGithubIoDocIndexFn' was not found.`
+    Make sure it is present in eng/scripts/Language-Settings.ps1 and referenced in eng/common/scripts/common.ps1.`
+    See https://github.com/Azure/azure-sdk-tools/blob/main/doc/common/common_engsys.md#code-structure"
 }

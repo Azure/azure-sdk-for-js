@@ -1,0 +1,50 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/series/query",
+   "query": {
+    "$maxpagesize": "2"
+   },
+   "requestBody": "{\"activeSince\":\"2020-08-05T00:00:00.000Z\"}",
+   "status": 200,
+   "response": "{\"value\":[{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimension\":{\"city\":\"Miami\",\"category\":\"Health & Personal Care\"}},{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimension\":{\"city\":\"Rio de Janeiro\",\"category\":\"Historical & Advertising Collectibles\"}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/series/query?$maxpagesize=2&$skip=2\"}",
+   "responseHeaders": {
+    "apim-request-id": "cd322ca8-13bb-4846-bdcc-4e1cbaf3e571",
+    "content-length": "443",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 02 Jun 2021 07:09:46 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "105",
+    "x-request-id": "cd322ca8-13bb-4846-bdcc-4e1cbaf3e571"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/series/query",
+   "query": {
+    "$maxpagesize": "2",
+    "$skip": "2"
+   },
+   "requestBody": "{\"activeSince\":\"2020-08-05T00:00:00.000Z\"}",
+   "status": 200,
+   "response": "{\"value\":[{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimension\":{\"city\":\"Belo Horizonte\",\"category\":\"Electronics (Consumer)\"}},{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimension\":{\"city\":\"Kinshasa\",\"category\":\"Beauty\"}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/series/query?$maxpagesize=2&$skip=4\"}",
+   "responseHeaders": {
+    "apim-request-id": "d0507a3e-57ff-4a39-b209-eaae7158db9c",
+    "content-length": "415",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 02 Jun 2021 07:09:46 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "115",
+    "x-request-id": "d0507a3e-57ff-4a39-b209-eaae7158db9c"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "9f8ae67d376a3c5e30a4ff4999e9ef9f"
+}

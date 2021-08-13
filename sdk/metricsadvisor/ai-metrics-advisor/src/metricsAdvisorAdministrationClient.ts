@@ -10,6 +10,7 @@ import {
   OperationOptions,
   RestResponse
 } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import "@azure/core-paging";
 
@@ -17,25 +18,21 @@ import { logger } from "./logger";
 import { createSpan } from "./tracing";
 import { MetricsAdvisorKeyCredential } from "./metricsAdvisorKeyCredentialPolicy";
 import { createClientPipeline } from "./createClientPipeline";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { GeneratedClient } from "./generated/generatedClient";
 import {
   IngestionStatus,
   DataFeedGranularity,
-  DataFeedOptions,
-  DataFeed,
+  MetricsAdvisorDataFeed,
   DataFeedPatch,
   WebNotificationHook,
   EmailNotificationHook,
   WebNotificationHookPatch,
   EmailNotificationHookPatch,
   AnomalyDetectionConfiguration,
-  GetDataFeedResponse,
-  GetAnomalyDetectionConfigurationResponse,
-  GetAnomalyAlertConfigurationResponse,
-  GetHookResponse,
+  AnomalyDetectionConfigurationPatch,
   NotificationHookUnion,
-  DataFeedRollupMethod,
+  DataFeedAutoRollupMethod,
   DataFeedsPageResponse,
   IngestionStatusPageResponse,
   AlertConfigurationsPageResponse,
@@ -43,9 +40,12 @@ import {
   HooksPageResponse,
   DataFeedStatus,
   GetIngestionProgressResponse,
-  AnomalyAlertConfiguration
+  AnomalyAlertConfiguration,
+  DataSourceCredentialEntityUnion,
+  DataSourceCredentialPatch,
+  CredentialsPageResponse
 } from "./models";
-import { DataSourceType, NeedRollupEnum } from "./generated/models";
+import { DataSourceType, HookInfoUnion, NeedRollupEnum } from "./generated/models";
 import {
   fromServiceAnomalyDetectionConfiguration,
   fromServiceDataFeedDetailUnion,
@@ -56,7 +56,12 @@ import {
   toServiceAnomalyDetectionConfigurationPatch,
   toServiceAlertConfiguration,
   toServiceAlertConfigurationPatch,
-  toServiceGranularity
+  toServiceGranularity,
+  toServiceCredentialPatch,
+  toServiceCredential,
+  fromServiceCredential,
+  toServiceDataFeedSource,
+  toServiceDataFeedSourcePatch
 } from "./transforms";
 
 /**
@@ -67,26 +72,38 @@ export interface MetricsAdvisorAdministrationClientOptions extends PipelineOptio
 /**
  * Options for listing data feed ingestion status
  */
-export type ListDataFeedIngestionStatusOptions = {
+export interface ListDataFeedIngestionStatusOptions extends OperationOptions {
+  /** Number of items to skip */
   skip?: number;
-} & OperationOptions;
+}
 
 /**
  * Options for listing hooks
  */
-export type ListHooksOptions = {
+export interface ListHooksOptions extends OperationOptions {
+  /** Number of items to skip */
   skip?: number;
   /**
    * filter hook by its name
    */
   hookName?: string;
-} & OperationOptions;
+}
+
+/**
+ * Options for listing data source credentials
+ */
+export interface ListDataSourceCredentialsOptions extends OperationOptions {
+  /** Number of items to skip */
+  skip?: number;
+}
 
 /**
  * Options for listing data feeds
  */
-export type ListDataFeedsOptions = {
+export interface ListDataFeedsOptions extends OperationOptions {
+  /** Number of items to skip */
   skip?: number;
+  /** Filters for listing datafeeds */
   filter?: {
     /**
      * filter data feed by its name
@@ -109,20 +126,20 @@ export type ListDataFeedsOptions = {
      */
     creator?: string;
   };
-} & OperationOptions;
+}
 
 /**
  * describes the input to Create Data Feed operation
  */
 export type DataFeedDescriptor = Omit<
-  DataFeed,
+  MetricsAdvisorDataFeed,
   "id" | "metricIds" | "isAdmin" | "status" | "creator" | "createdOn"
 >;
 
 /**
  * Options for creating data feed
  */
-export type CreateDataFeedOptions = DataFeedOptions & OperationOptions;
+export interface CreateDataFeedOptions extends OperationOptions {}
 
 /**
  * Client class for interacting with Azure Metrics Advisor Service to perform management operations
@@ -134,15 +151,11 @@ export class MetricsAdvisorAdministrationClient {
   public readonly endpointUrl: string;
 
   /**
-   * @internal
-   * @hidden
    * A reference to service client options.
    */
   private readonly pipeline: ServiceClientOptions;
 
   /**
-   * @internal
-   * @hidden
    * A reference to the auto-generated MetricsAdvisor HTTP client.
    */
   private readonly client: GeneratedClient;
@@ -165,7 +178,7 @@ export class MetricsAdvisorAdministrationClient {
    */
   constructor(
     endpointUrl: string,
-    credential: MetricsAdvisorKeyCredential,
+    credential: TokenCredential | MetricsAdvisorKeyCredential,
     options: MetricsAdvisorAdministrationClientOptions = {}
   ) {
     this.endpointUrl = endpointUrl;
@@ -177,12 +190,12 @@ export class MetricsAdvisorAdministrationClient {
    * Adds a new data feed for a specific data source and provided settings
    * @param feed - the data feed object to create
    * @param options - The options parameter.
+   * @returns Response with Datafeed object
    */
-
   public async createDataFeed(
     feed: DataFeedDescriptor,
-    operationOptions: OperationOptions = {}
-  ): Promise<GetDataFeedResponse> {
+    operationOptions: CreateDataFeedOptions = {}
+  ): Promise<MetricsAdvisorDataFeed> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-createDataFeed",
       operationOptions
@@ -196,8 +209,8 @@ export class MetricsAdvisorAdministrationClient {
       rollupSettings,
       missingDataPointFillSettings,
       accessMode,
-      adminEmails,
-      viewerEmails,
+      admins,
+      viewers,
       description
     } = feed;
 
@@ -221,7 +234,7 @@ export class MetricsAdvisorAdministrationClient {
       rollupSettings?.rollupType === "AutoRollup" || rollupSettings?.rollupType === "AlreadyRollup"
         ? rollupSettings.rollupIdentificationValue
         : undefined;
-    const rollUpMethod: DataFeedRollupMethod | undefined =
+    const rollUpMethod: DataFeedAutoRollupMethod | undefined =
       rollupSettings?.rollupType === "AutoRollup" ? rollupSettings.rollupMethod : undefined;
     const fillMissingPointType = missingDataPointFillSettings?.fillType;
     const fillMissingPointValue =
@@ -233,7 +246,7 @@ export class MetricsAdvisorAdministrationClient {
       const body = {
         dataFeedName: name,
         ...toServiceGranularity(granularity),
-        ...source,
+        ...toServiceDataFeedSource(source),
         metrics: schema.metrics,
         dimension: schema.dimensions,
         timestampColumn: schema.timestampColumn,
@@ -249,8 +262,8 @@ export class MetricsAdvisorAdministrationClient {
         fillMissingPointType,
         fillMissingPointValue,
         viewMode: accessMode,
-        admins: adminEmails,
-        viewers: viewerEmails,
+        admins: admins,
+        viewers: viewers,
         dataFeedDescription: description,
         ...finalOptions
       };
@@ -263,7 +276,7 @@ export class MetricsAdvisorAdministrationClient {
       return this.getDataFeed(feedId);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -277,11 +290,10 @@ export class MetricsAdvisorAdministrationClient {
    * @param id - id for the data feed to retrieve
    * @param options - The options parameter.
    */
-
   public async getDataFeed(
     id: string,
     options: OperationOptions = {}
-  ): Promise<GetDataFeedResponse> {
+  ): Promise<MetricsAdvisorDataFeed> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-getDataFeed",
       options
@@ -290,11 +302,11 @@ export class MetricsAdvisorAdministrationClient {
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const result = await this.client.getDataFeedById(id, requestOptions);
-      const resultDataFeed: DataFeed = fromServiceDataFeedDetailUnion(result);
-      return { ...resultDataFeed, _response: result._response };
+      const resultDataFeed: MetricsAdvisorDataFeed = fromServiceDataFeedDetailUnion(result);
+      return resultDataFeed;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -355,10 +367,9 @@ export class MetricsAdvisorAdministrationClient {
    * ```
    * @param options - The options parameter.
    */
-
   public listDataFeeds(
     options: ListDataFeedsOptions = {}
-  ): PagedAsyncIterableIterator<DataFeed, DataFeedsPageResponse> {
+  ): PagedAsyncIterableIterator<MetricsAdvisorDataFeed, DataFeedsPageResponse> {
     const iter = this.listItemsOfDataFeeds(options);
     return {
       /**
@@ -385,13 +396,9 @@ export class MetricsAdvisorAdministrationClient {
     };
   }
 
-  /**
-   * @internal
-   * @hidden
-   */
   private async *listItemsOfDataFeeds(
     options: ListDataFeedsOptions
-  ): AsyncIterableIterator<DataFeed> {
+  ): AsyncIterableIterator<MetricsAdvisorDataFeed> {
     for await (const segment of this.listSegmentsOfDataFeeds(options)) {
       if (segment) {
         yield* segment;
@@ -399,10 +406,6 @@ export class MetricsAdvisorAdministrationClient {
     }
   }
 
-  /**
-   * @internal
-   * @hidden
-   */
   private async *listSegmentsOfDataFeeds(
     options: ListDataFeedsOptions & { maxPageSize?: number },
     continuationToken?: string
@@ -411,8 +414,8 @@ export class MetricsAdvisorAdministrationClient {
     if (continuationToken === undefined) {
       segmentResponse = await this.client.listDataFeeds({
         ...options.filter,
-        ...options,
-        top: options?.maxPageSize
+        maxpagesize: options.maxPageSize,
+        ...options
       });
       const dataFeeds = segmentResponse.value?.map((d) => {
         return fromServiceDataFeedDetailUnion(d);
@@ -421,10 +424,7 @@ export class MetricsAdvisorAdministrationClient {
         enumerable: true,
         value: segmentResponse.nextLink
       });
-      yield Object.defineProperty(resultArray, "_response", {
-        enumerable: false,
-        value: segmentResponse._response
-      });
+      yield resultArray;
 
       continuationToken = segmentResponse.nextLink;
     }
@@ -434,8 +434,8 @@ export class MetricsAdvisorAdministrationClient {
     while (continuationToken) {
       segmentResponse = await this.client.listDataFeedsNext(continuationToken, {
         ...options.filter,
-        ...options,
-        top: options?.maxPageSize
+        maxpagesize: options.maxPageSize,
+        ...options
       });
       const dataFeeds = segmentResponse.value?.map((d) => {
         return fromServiceDataFeedDetailUnion(d);
@@ -444,10 +444,7 @@ export class MetricsAdvisorAdministrationClient {
         enumerable: true,
         value: segmentResponse.nextLink
       });
-      yield Object.defineProperty(resultArray, "_response", {
-        enumerable: false,
-        value: segmentResponse._response
-      });
+      yield resultArray;
 
       continuationToken = segmentResponse.nextLink;
     }
@@ -464,7 +461,7 @@ export class MetricsAdvisorAdministrationClient {
     dataFeedId: string,
     patch: DataFeedPatch,
     options: OperationOptions = {}
-  ): Promise<GetDataFeedResponse> {
+  ): Promise<MetricsAdvisorDataFeed> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-updateDataFeed",
       options
@@ -476,8 +473,7 @@ export class MetricsAdvisorAdministrationClient {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const patchBody = {
         // source
-        dataSourceType: patch.source.dataSourceType,
-        dataSourceParameter: patch.source.dataSourceParameter,
+        ...toServiceDataFeedSourcePatch(patch.source),
         // name and description
         dataFeedName: patch.name,
         dataFeedDescription: patch.description,
@@ -499,16 +495,17 @@ export class MetricsAdvisorAdministrationClient {
             : undefined,
         // other options
         viewMode: patch.accessMode,
-        admins: patch.adminEmails,
-        viewers: patch.viewerEmails,
+        admins: patch.admins,
+        viewers: patch.viewers,
         status: patch.status,
         actionLinkTemplate: patch.actionLinkTemplate
       };
-      await this.client.updateDataFeed(dataFeedId, patchBody, requestOptions);
-      return this.getDataFeed(dataFeedId);
+      const result = await this.client.updateDataFeed(dataFeedId, patchBody, requestOptions);
+      const resultDataFeed: MetricsAdvisorDataFeed = fromServiceDataFeedDetailUnion(result);
+      return resultDataFeed;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -534,7 +531,7 @@ export class MetricsAdvisorAdministrationClient {
       return await this.client.deleteDataFeed(id, requestOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -547,11 +544,12 @@ export class MetricsAdvisorAdministrationClient {
    * Creates an anomaly detection configuration for a given metric
    * @param config - The detection configuration object to create
    * @param options - The options parameter
+   * @returns Response with Detection Config object
    */
   public async createDetectionConfig(
     config: Omit<AnomalyDetectionConfiguration, "id">,
     options: OperationOptions = {}
-  ): Promise<GetAnomalyDetectionConfigurationResponse> {
+  ): Promise<AnomalyDetectionConfiguration> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-createDetectionConfig",
       options
@@ -571,7 +569,7 @@ export class MetricsAdvisorAdministrationClient {
       return this.getDetectionConfig(configId);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -589,7 +587,7 @@ export class MetricsAdvisorAdministrationClient {
   public async getDetectionConfig(
     id: string,
     options: OperationOptions = {}
-  ): Promise<GetAnomalyDetectionConfigurationResponse> {
+  ): Promise<AnomalyDetectionConfiguration> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-getDetectionConfig",
       options
@@ -598,13 +596,10 @@ export class MetricsAdvisorAdministrationClient {
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const result = await this.client.getAnomalyDetectionConfiguration(id, requestOptions);
-      return {
-        ...fromServiceAnomalyDetectionConfiguration(result),
-        _response: result._response
-      };
+      return fromServiceAnomalyDetectionConfiguration(result);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -622,9 +617,9 @@ export class MetricsAdvisorAdministrationClient {
 
   public async updateDetectionConfig(
     id: string,
-    patch: Partial<Omit<AnomalyDetectionConfiguration, "id" | "metricId">>,
+    patch: AnomalyDetectionConfigurationPatch,
     options: OperationOptions = {}
-  ): Promise<GetAnomalyDetectionConfigurationResponse> {
+  ): Promise<AnomalyDetectionConfiguration> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-updateDetectionConfig",
       options
@@ -633,11 +628,15 @@ export class MetricsAdvisorAdministrationClient {
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const transformed = toServiceAnomalyDetectionConfigurationPatch(patch);
-      await this.client.updateAnomalyDetectionConfiguration(id, transformed, requestOptions);
-      return this.getDetectionConfig(id);
+      const result = await this.client.updateAnomalyDetectionConfiguration(
+        id,
+        transformed,
+        requestOptions
+      );
+      return fromServiceAnomalyDetectionConfiguration(result);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -666,7 +665,7 @@ export class MetricsAdvisorAdministrationClient {
       return await this.client.deleteAnomalyDetectionConfiguration(id, requestOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -678,11 +677,12 @@ export class MetricsAdvisorAdministrationClient {
   /**
    * Creates anomaly alerting configuration for a given metric
    * @param config - The alert configuration object to create
+   * @returns Response with Alert object
    */
   public async createAlertConfig(
     config: Omit<AnomalyAlertConfiguration, "id">,
     options: OperationOptions = {}
-  ): Promise<GetAnomalyAlertConfigurationResponse> {
+  ): Promise<AnomalyAlertConfiguration> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-createAlertConfig",
       options
@@ -702,7 +702,7 @@ export class MetricsAdvisorAdministrationClient {
       return this.getAlertConfig(configId);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -714,14 +714,14 @@ export class MetricsAdvisorAdministrationClient {
   /**
    * Updates an anomaly alert configuration for the given configuration id
    * @param id - id of the anomaly alert configuration to update
-   * @param patch - Input to the update anomaly alert configuration operation {@link AnomalyAlertConfigurationPatch}
+   * @param patch - Input to the update anomaly alert configuration operation
    * @param options - The options parameter
    */
   public async updateAlertConfig(
     id: string,
     patch: Partial<Omit<AnomalyAlertConfiguration, "id">>,
     options: OperationOptions = {}
-  ): Promise<GetAnomalyAlertConfigurationResponse> {
+  ): Promise<AnomalyAlertConfiguration> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-updateAlertConfig",
       options
@@ -730,11 +730,15 @@ export class MetricsAdvisorAdministrationClient {
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const transformed = toServiceAlertConfigurationPatch(patch);
-      await this.client.updateAnomalyAlertingConfiguration(id, transformed, requestOptions);
-      return this.getAlertConfig(id);
+      const result = await this.client.updateAnomalyAlertingConfiguration(
+        id,
+        transformed,
+        requestOptions
+      );
+      return fromServiceAlertConfiguration(result);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -752,7 +756,7 @@ export class MetricsAdvisorAdministrationClient {
   public async getAlertConfig(
     id: string,
     options: OperationOptions = {}
-  ): Promise<GetAnomalyAlertConfigurationResponse> {
+  ): Promise<AnomalyAlertConfiguration> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-getAlertConfig",
       options
@@ -761,10 +765,10 @@ export class MetricsAdvisorAdministrationClient {
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const result = await this.client.getAnomalyAlertingConfiguration(id, requestOptions);
-      return { ...fromServiceAlertConfiguration(result), _response: result._response };
+      return fromServiceAlertConfiguration(result);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -793,7 +797,7 @@ export class MetricsAdvisorAdministrationClient {
       return await this.client.deleteAnomalyAlertingConfiguration(id, requestOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -801,11 +805,6 @@ export class MetricsAdvisorAdministrationClient {
       span.end();
     }
   }
-
-  /**
-   * @internal
-   * @hidden
-   */
 
   private async *listSegmentsOfAlertingConfigurations(
     detectionConfigId: string,
@@ -817,17 +816,9 @@ export class MetricsAdvisorAdministrationClient {
       options
     );
 
-    const alertConfigurations = segment.value.map((c) => fromServiceAlertConfiguration(c));
-    yield Object.defineProperty(alertConfigurations, "_response", {
-      enumerable: false,
-      value: segment._response
-    });
+    const alertConfigurations = segment.value?.map((c) => fromServiceAlertConfiguration(c)) ?? [];
+    yield alertConfigurations;
   }
-
-  /**
-   * @internal
-   * @hidden
-   */
 
   private async *listItemsOfAlertingConfigurations(
     detectionConfigId: string,
@@ -932,11 +923,12 @@ export class MetricsAdvisorAdministrationClient {
    * Adds a new hook
    * @param hookInfo - Information for the new hook consists of the hook type, name, description, external link and hook parameter
    * @param options - The options parameter.
+   * @returns  Response with Hook object
    */
   public async createHook(
     hookInfo: EmailNotificationHook | WebNotificationHook,
     options: OperationOptions = {}
-  ): Promise<GetHookResponse> {
+  ): Promise<NotificationHookUnion> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-createHook",
       options
@@ -944,15 +936,16 @@ export class MetricsAdvisorAdministrationClient {
 
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      const { hookType, name, description, externalLink, hookParameter } = hookInfo;
+      const { hookType, name, description, externalLink, admins, hookParameter } = hookInfo;
       const result = await this.client.createHook(
         {
           hookType,
           name,
           description,
           externalLink,
+          admins,
           hookParameter
-        },
+        } as HookInfoUnion,
         requestOptions
       );
       if (!result.location) {
@@ -963,7 +956,7 @@ export class MetricsAdvisorAdministrationClient {
       return this.getHook(hookId);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -978,7 +971,7 @@ export class MetricsAdvisorAdministrationClient {
    * @param options - The options parameter.
    */
 
-  public async getHook(id: string, options: OperationOptions = {}): Promise<GetHookResponse> {
+  public async getHook(id: string, options: OperationOptions = {}): Promise<NotificationHookUnion> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-getHook",
       options
@@ -989,10 +982,10 @@ export class MetricsAdvisorAdministrationClient {
       const resultHookResponse: NotificationHookUnion = fromServiceHookInfoUnion(
         result._response.parsedBody
       );
-      return { ...resultHookResponse, _response: result._response };
+      return resultHookResponse;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1000,11 +993,6 @@ export class MetricsAdvisorAdministrationClient {
       span.end();
     }
   }
-
-  /**
-   * @internal
-   * @hidden
-   */
 
   private async *listSegmentOfHooks(
     continuationToken?: string,
@@ -1015,17 +1003,14 @@ export class MetricsAdvisorAdministrationClient {
     if (continuationToken === undefined) {
       segmentResponse = await this.client.listHooks({
         ...options,
-        top: maxPageSize
+        maxpagesize: maxPageSize
       });
       const hooks = segmentResponse.value?.map((h) => fromServiceHookInfoUnion(h)) || [];
       const resultArray = Object.defineProperty(hooks, "continuationToken", {
         enumerable: true,
         value: segmentResponse.nextLink
       });
-      yield Object.defineProperty(resultArray, "_response", {
-        enumerable: false,
-        value: segmentResponse._response
-      });
+      yield resultArray;
       continuationToken = segmentResponse.nextLink;
     }
 
@@ -1038,18 +1023,10 @@ export class MetricsAdvisorAdministrationClient {
         enumerable: true,
         value: segmentResponse.nextLink
       });
-      yield Object.defineProperty(resultArray, "_response", {
-        enumerable: false,
-        value: segmentResponse._response
-      });
+      yield resultArray;
       continuationToken = segmentResponse.nextLink;
     }
   }
-
-  /**
-   * @internal
-   * @hidden
-   */
 
   private async *listItemsOfHooks(
     options: ListHooksOptions = {}
@@ -1138,25 +1115,28 @@ export class MetricsAdvisorAdministrationClient {
   /**
    * Updates hook for the given hook id
    * @param id - id of the hook to update
-   * @param patch - Input to the update hook of type Email {@link EmailHookPatch} or WebHook {@link WebhookHookPatch}
+   * @param patch - Input to the update hook of type Email {@link EmailNotificationHookPatch} or WebHook {@link WebhookNotificationHookPatch}
    * @param options - The options parameter
    */
   public async updateHook(
     id: string,
     patch: EmailNotificationHookPatch | WebNotificationHookPatch,
     options: OperationOptions = {}
-  ): Promise<GetHookResponse> {
+  ): Promise<NotificationHookUnion> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-updateHook",
       options
     );
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      await this.client.updateHook(id, patch, requestOptions);
-      return this.getHook(id);
+      const result = await this.client.updateHook(id, patch, requestOptions);
+      const resultHookResponse: NotificationHookUnion = fromServiceHookInfoUnion(
+        result._response.parsedBody
+      );
+      return resultHookResponse;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1181,7 +1161,7 @@ export class MetricsAdvisorAdministrationClient {
       return await this.client.deleteHook(id, requestOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1190,29 +1170,16 @@ export class MetricsAdvisorAdministrationClient {
     }
   }
 
-  /**
-   * @internal
-   * @hidden
-   */
-
   private async *listSegmentsOfDetectionConfigurations(
     metricId: string,
     options: OperationOptions & { maxPageSize?: number } = {}
   ): AsyncIterableIterator<DetectionConfigurationsPageResponse> {
     // Service doesn't support server-side paging now
     const segment = await this.client.getAnomalyDetectionConfigurationsByMetric(metricId, options);
-    const configs = segment.value.map((c) => fromServiceAnomalyDetectionConfiguration(c));
-    const resultArray = Object.defineProperty(configs, "_response", {
-      enumerable: false,
-      value: segment._response
-    });
+    const configs = segment.value?.map((c) => fromServiceAnomalyDetectionConfiguration(c)) ?? [];
+    const resultArray = configs;
     yield resultArray;
   }
-
-  /**
-   * @internal
-   * @hidden
-   */
 
   private async *listItemsOfDetectionConfigurations(
     detectionConfigId: string,
@@ -1334,12 +1301,11 @@ export class MetricsAdvisorAdministrationClient {
       const response = await this.client.getIngestionProgress(dataFeedId, requestOptions);
       return {
         latestActiveTimestamp: response.latestActiveTimestamp?.getTime(),
-        latestSuccessTimestamp: response.latestSuccessTimestamp?.getTime(),
-        _response: response._response
+        latestSuccessTimestamp: response.latestSuccessTimestamp?.getTime()
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1348,10 +1314,6 @@ export class MetricsAdvisorAdministrationClient {
     }
   }
 
-  /**
-   * @internal
-   * @hidden
-   */
   private async *listSegmentOfIngestionStatus(
     dataFeedId: string,
     startTime: Date,
@@ -1369,7 +1331,7 @@ export class MetricsAdvisorAdministrationClient {
         },
         {
           ...options,
-          top: options?.maxPageSize
+          maxpagesize: options?.maxPageSize
         }
       );
       const resultArray = Object.defineProperty(
@@ -1386,10 +1348,7 @@ export class MetricsAdvisorAdministrationClient {
           value: segmentResponse.nextLink
         }
       );
-      yield Object.defineProperty(resultArray, "_response", {
-        enumerable: false,
-        value: segmentResponse._response
-      });
+      yield resultArray;
 
       continuationToken = segmentResponse.nextLink;
     }
@@ -1420,19 +1379,12 @@ export class MetricsAdvisorAdministrationClient {
           value: segmentResponse.nextLink
         }
       );
-      yield Object.defineProperty(resultArray, "_response", {
-        enumerable: false,
-        value: segmentResponse._response
-      });
+      yield resultArray;
 
       continuationToken = segmentResponse.nextLink;
     }
   }
 
-  /**
-   * @internal
-   * @hidden
-   */
   private async *listItemsOfIngestionStatus(
     dataFeedId: string,
     startTime: Date,
@@ -1581,7 +1533,262 @@ export class MetricsAdvisorAdministrationClient {
       return result;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Creates data source credential for the given id
+   * @param dataSourceCredential - the credential entity object to create
+   * @param options - The options parameter
+   */
+  public async createDataSourceCredential(
+    dataSourceCredential: DataSourceCredentialEntityUnion,
+    options: OperationOptions = {}
+  ): Promise<DataSourceCredentialEntityUnion> {
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "MetricsAdvisorAdministrationClient-createDataSourceCredential",
+      options
+    );
+    try {
+      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
+      // transformation
+      const transformedCred = toServiceCredential(dataSourceCredential);
+      const result = await this.client.createCredential(transformedCred, requestOptions);
+      if (!result.location) {
+        throw new Error("Expected a valid location to retrieve the created credential entity");
+      }
+      const lastSlashIndex = result.location.lastIndexOf("/");
+      const credEntityId = result.location.substring(lastSlashIndex + 1);
+      return this.getDataSourceCredential(credEntityId);
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Retrieves data source credential for the given id
+   * @param id - id of the credential entity to retrieve
+   * @param options - The options parameter
+   */
+
+  public async getDataSourceCredential(
+    id: string,
+    options: OperationOptions = {}
+  ): Promise<DataSourceCredentialEntityUnion> {
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "MetricsAdvisorAdministrationClient-getDataSourceCredential",
+      options
+    );
+    try {
+      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
+      const result = await this.client.getCredential(id, requestOptions);
+      const resultCred = fromServiceCredential(result);
+      return resultCred;
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Returns an async iterable iterator to list data source credentials based on options
+   *
+   * `.byPage()` returns an async iterable iterator to list the credentials in pages.
+   *
+   * Example using `for await` syntax:
+   *
+   * ```js
+   * const client = new MetricsAdvisorAdministrationClient(endpoint,
+   *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey));
+   * const dataSourceCredentialList = client.listDataSourceCredential();
+   * let i = 1;
+   * for await (const dataSourceCredential of dataSourceCredentialList){
+   *  console.log(`dataSourceCredential ${i++}:`);
+   *  console.log(dataSourceCredential);
+   * }
+   * ```
+   *
+   * Example using `iter.next()`:
+   *
+   * ```js
+   * let iter = client.listDataSourceCredential();
+   * let result = await iter.next();
+   * while (!result.done) {
+   *   console.dir(result);
+   *   result = await iter.next();
+   * }
+   * ```
+   *
+   * Example using `byPage()`:
+   *
+   * ```js
+   * const pages = client.listDataSourceCredential().byPage({ maxPageSize: 2 });
+   * let page = await pages.next();
+   * let i = 1;
+   * while (!page.done) {
+   *  if (page.value) {
+   *    console.log(`-- page ${i++}`);
+   *    for (const credential of page.value) {
+   *      console.log("dataSource credential-");
+   *      console.dir(credential);
+   *    }
+   *  }
+   *  page = await pages.next();
+   * }
+   * ```
+   */
+  public listDataSourceCredential(
+    options: ListDataSourceCredentialsOptions = {}
+  ): PagedAsyncIterableIterator<DataSourceCredentialEntityUnion, CredentialsPageResponse> {
+    const iter = this.listItemsOfDataSourceCredentials(options);
+    return {
+      /**
+       * The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings: PageSettings = {}) => {
+        return this.listSegmentsOfCredentialEntities(
+          {
+            ...options,
+            maxPageSize: settings.maxPageSize
+          },
+          settings.continuationToken
+        );
+      }
+    };
+  }
+
+  private async *listItemsOfDataSourceCredentials(
+    options: ListDataSourceCredentialsOptions
+  ): AsyncIterableIterator<DataSourceCredentialEntityUnion> {
+    for await (const segment of this.listSegmentsOfCredentialEntities(options)) {
+      if (segment) {
+        yield* segment;
+      }
+    }
+  }
+
+  private async *listSegmentsOfCredentialEntities(
+    options: ListDataSourceCredentialsOptions & { maxPageSize?: number },
+    continuationToken?: string
+  ): AsyncIterableIterator<CredentialsPageResponse> {
+    let segmentResponse;
+    if (continuationToken === undefined) {
+      segmentResponse = await this.client.listCredentials({
+        maxpagesize: options.maxPageSize,
+        ...options
+      });
+      const credentials = segmentResponse.value?.map((d) => {
+        return fromServiceCredential(d);
+      });
+      const resultArray = Object.defineProperty(credentials || [], "continuationToken", {
+        enumerable: true,
+        value: segmentResponse.nextLink
+      });
+      yield resultArray;
+
+      continuationToken = segmentResponse.nextLink;
+    }
+
+    // we are using nextLink so don't send 'skip' in options
+    delete options.skip;
+    while (continuationToken) {
+      segmentResponse = await this.client.listCredentialsNext(continuationToken, {
+        maxpagesize: options.maxPageSize,
+        ...options
+      });
+      const credentials = segmentResponse.value?.map((d) => {
+        return fromServiceCredential(d);
+      });
+      const resultArray = Object.defineProperty(credentials || [], "continuationToken", {
+        enumerable: true,
+        value: segmentResponse.nextLink
+      });
+      yield resultArray;
+
+      continuationToken = segmentResponse.nextLink;
+    }
+  }
+  /**
+   * Updates data source credential for the given id
+   * @param id - id of the credential entity to update
+   * @param patch -  Input to the update credential entity operation {@link DataSourceCredentialPatch}
+   * @param options - The options parameter
+   */
+  public async updateDataSourceCredential(
+    id: string,
+    patch: DataSourceCredentialPatch,
+    options: OperationOptions = {}
+  ): Promise<DataSourceCredentialEntityUnion> {
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "MetricsAdvisorAdministrationClient-updateDataSourceCredential",
+      options
+    );
+    try {
+      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
+      const result = await this.client.updateCredential(
+        id,
+        toServiceCredentialPatch(patch),
+        requestOptions
+      );
+      const resultCred = fromServiceCredential(result);
+      return resultCred;
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Deletes data source credential for the given id
+   * @param id - id of the credential entity to delete
+   * @param options - The options parameter
+   */
+  public async deleteDataSourceCredential(
+    id: string,
+    options: OperationOptions = {}
+  ): Promise<RestResponse> {
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "MetricsAdvisorAdministrationClient-deleteDataSourceCredential",
+      options
+    );
+
+    try {
+      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
+      return await this.client.deleteCredential(id, requestOptions);
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

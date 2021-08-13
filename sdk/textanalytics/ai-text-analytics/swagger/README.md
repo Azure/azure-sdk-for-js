@@ -12,12 +12,12 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/25616b92ccaec6c8bd3dd51f1312243bca88fe2d/specification/cognitiveservices/data-plane/TextAnalytics/preview/v3.1-preview.3/TextAnalytics.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/d758c4205d331c552cafbb755ed02673b9fa5e22/specification/cognitiveservices/data-plane/TextAnalytics/preview/v3.2-preview.1/TextAnalytics.json
 add-credentials: false
-package-version: 5.1.0-beta.3
+package-version: 5.2.0-beta.2
 v3: true
-use-extension:
-  "@autorest/typescript": "6.0.0-dev.20201027.1"
+hide-clients: true
+typescript: true
 ```
 
 ## Customizations for Track 2 Generator
@@ -155,18 +155,6 @@ directive:
       $["x-ms-client-name"] = "dataSourceEntityId";
 ```
 
-### Remove Entity/Match offset/length
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions..properties
-    transform: >
-      if ($.length !== undefined) {
-        $.length = undefined;
-      }
-```
-
 ### Rename SentimentConfidenceScorePerLabel -> SentimentConfidenceScores
 
 ```yaml
@@ -205,6 +193,16 @@ directive:
     where: $.definitions.TextAnalyticsWarning.properties
     transform: >
       delete $["targetRef"];
+```
+
+### Remove taskName
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions..properties
+    transform: >
+      delete $["taskName"];
 ```
 
 ### Rename text input objects to avoid "export as"

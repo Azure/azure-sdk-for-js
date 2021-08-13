@@ -13,7 +13,6 @@ export {
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityResponse,
   ErrorAdditionalInfo,
-  ErrorContract,
   ErrorDetail,
   ErrorResponse,
   OperationMetaLogSpecification,

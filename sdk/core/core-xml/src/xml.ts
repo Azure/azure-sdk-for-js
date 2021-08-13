@@ -62,11 +62,11 @@ xml2jsBuilderSettings.renderOpts = {
 
 /**
  * Converts given JSON object to XML string
- * @param obj JSON object to be converted into XML string
- * @param opts Options that govern the XML building of given JSON object
+ * @param obj - JSON object to be converted into XML string
+ * @param opts - Options that govern the XML building of given JSON object
  * `rootName` indicates the name of the root element in the resulting XML
  */
-export function stringifyXML(obj: any, opts: XmlOptions = {}): string {
+export function stringifyXML(obj: unknown, opts: XmlOptions = {}): string {
   xml2jsBuilderSettings.rootName = opts.rootName;
   xml2jsBuilderSettings.charkey = opts.xmlCharKey ?? XML_CHARKEY;
   const builder = new xml2js.Builder(xml2jsBuilderSettings);
@@ -75,8 +75,8 @@ export function stringifyXML(obj: any, opts: XmlOptions = {}): string {
 
 /**
  * Converts given XML string into JSON
- * @param str String containing the XML content to be parsed into JSON
- * @param opts Options that govern the parsing of given xml string
+ * @param str - String containing the XML content to be parsed into JSON
+ * @param opts - Options that govern the parsing of given xml string
  * `includeRoot` indicates whether the root element is to be included or not in the output
  */
 export function parseXML(str: string, opts: XmlOptions = {}): Promise<any> {

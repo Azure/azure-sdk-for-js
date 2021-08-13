@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 // This file is used as a shim of "BufferScheduler" for some browser bundlers
 // when trying to bundle "BufferScheduler"

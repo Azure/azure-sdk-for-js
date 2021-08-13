@@ -442,7 +442,7 @@ const updateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.IntegrationRuntimeResource
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -470,7 +470,7 @@ const getOperationSpec: msRest.OperationSpec = {
     },
     304: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -494,7 +494,7 @@ const upgradeOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -519,7 +519,7 @@ const listByWorkspaceOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.IntegrationRuntimeListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -554,7 +554,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
     },
     202: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -580,7 +580,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -607,7 +607,7 @@ const beginStartOperationSpec: msRest.OperationSpec = {
     },
     202: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -632,7 +632,7 @@ const beginStopOperationSpec: msRest.OperationSpec = {
     200: {},
     202: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -657,7 +657,7 @@ const beginEnableInteractiveQueryOperationSpec: msRest.OperationSpec = {
     200: {},
     202: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -682,7 +682,7 @@ const beginDisableInteractiveQueryOperationSpec: msRest.OperationSpec = {
     200: {},
     202: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -706,7 +706,7 @@ const listByWorkspaceNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.IntegrationRuntimeListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

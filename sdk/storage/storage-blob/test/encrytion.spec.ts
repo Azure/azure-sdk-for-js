@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { getBSU, recorderEnvSetup } from "./utils";
@@ -30,8 +33,8 @@ describe("Encryption Scope", function() {
       encryptionScopeName1 = process.env[encryptionScopeEnvVar1];
       encryptionScopeName2 = process.env[encryptionScopeEnvVar2];
     } else {
-      encryptionScopeName1 = (window as any).__env__[encryptionScopeEnvVar1];
-      encryptionScopeName2 = (window as any).__env__[encryptionScopeEnvVar2];
+      encryptionScopeName1 = (self as any).__env__[encryptionScopeEnvVar1];
+      encryptionScopeName2 = (self as any).__env__[encryptionScopeEnvVar2];
     }
 
     if ((!encryptionScopeName1 || !encryptionScopeName2) && !isPlaybackMode()) {

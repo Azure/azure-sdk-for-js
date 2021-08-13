@@ -1,14 +1,14 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { TokenCredential } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { ContainerClient } from "@azure/storage-blob";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { DataLakeLeaseClient } from "./DataLakeLeaseClient";
-import { FileSystemOperations } from "./generated/src/operations";
+import { FileSystem } from "./generated/src/operations";
 import {
   AccessPolicy,
   FileSystemCreateOptions,
@@ -33,52 +33,52 @@ import {
   FileSystemListPathsResponse,
   FileSystemCreateIfNotExistsResponse,
   FileSystemDeleteIfExistsResponse,
-  FileSystemGenerateSasUrlOptions
+  FileSystemGenerateSasUrlOptions,
+  FileSystemListDeletedPathsResponse,
+  ListDeletedPathsOptions,
+  DeletedPath,
+  FileSystemUndeletePathResponse,
+  FileSystemUndeletePathOption,
+  ListDeletedPathsSegmentOptions
 } from "./models";
 import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import { toContainerPublicAccessType, toPublicAccessType, toPermissions } from "./transforms";
-import { createSpan } from "./utils/tracing";
+import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
 import { appendToURLPath, appendToURLQuery } from "./utils/utils.common";
 import { DataLakeFileClient, DataLakeDirectoryClient } from "./clients";
 import { generateDataLakeSASQueryParameters } from "./sas/DataLakeSASSignatureValues";
+import { DeletionIdKey, PathResultTypeConstants } from "./utils/constants";
+import { PathClientInternal } from "./utils/PathClientInternal";
 
 /**
  * A DataLakeFileSystemClient represents a URL to the Azure Storage file system
  * allowing you to manipulate its directories and files.
- *
- * @export
- * @class DataLakeFileSystemClient
- * @extends {StorageClient}
  */
 export class DataLakeFileSystemClient extends StorageClient {
   /**
    * fileSystemContext provided by protocol layer.
-   *
-   * @private
-   * @type {FileSystemOperations}
-   * @memberof DataLakeFileSystemClient
    */
-  private fileSystemContext: FileSystemOperations;
+  private fileSystemContext: FileSystem;
 
   /**
-   * blobContainerClient provided by @azure/storage-blob package.
-   *
-   * @private
-   * @type {ContainerClient}
-   * @memberof DataLakeFileSystemClient
+   * fileSystemContext provided by protocol layer.
+   */
+  private fileSystemContextToBlobEndpoint: FileSystem;
+
+  /**
+   * blobContainerClient provided by `@azure/storage-blob` package.
    */
   private blobContainerClient: ContainerClient;
 
   /**
    * Creates an instance of DataLakeFileSystemClient from url and credential.
    *
-   * @param {string} url A Client string pointing to Azure Storage data lake file system, such as
+   * @param url - A Client string pointing to Azure Storage data lake file system, such as
    *                     "https://myaccount.dfs.core.windows.net/filesystem". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.dfs.core.windows.net/filesystem?sasString".
-   * @param {(StorageSharedKeyCredential | AnonymousCredential | TokenCredential)} [credential] Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
-   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
-   * @memberof DataLakeFileSystemClient
+   * @param credential - Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the `@azure/identity` package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+   * @param options - Optional. Options to configure the HTTP pipeline.
    */
   constructor(
     url: string,
@@ -89,12 +89,11 @@ export class DataLakeFileSystemClient extends StorageClient {
   /**
    * Creates an instance of DataLakeFileSystemClient from url and pipeline.
    *
-   * @param {string} url A Client string pointing to Azure Storage data lake file system, such as
+   * @param url - A Client string pointing to Azure Storage data lake file system, such as
    *                     "https://myaccount.dfs.core.windows.net/filesystem". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.dfs.core.windows.net/filesystem?sasString".
-   * @param {Pipeline} pipeline Call newPipeline() to create a default
+   * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof DataLakeFileSystemClient
    */
   constructor(url: string, pipeline: Pipeline);
 
@@ -121,7 +120,8 @@ export class DataLakeFileSystemClient extends StorageClient {
       super(url, pipeline);
     }
 
-    this.fileSystemContext = new FileSystemOperations(this.storageClientContext);
+    this.fileSystemContext = new FileSystem(this.storageClientContext);
+    this.fileSystemContextToBlobEndpoint = new FileSystem(this.storageClientContextToBlobEndpoint);
     this.blobContainerClient = new ContainerClient(this.blobEndpointUrl, this.pipeline);
   }
 
@@ -129,8 +129,6 @@ export class DataLakeFileSystemClient extends StorageClient {
    * Name of current file system.
    *
    * @readonly
-   * @type {string}
-   * @memberof DataLakeFileSystemClient
    */
   public get name(): string {
     return this.blobContainerClient.containerName;
@@ -139,9 +137,7 @@ export class DataLakeFileSystemClient extends StorageClient {
   /**
    * Creates a {@link DataLakeDirectoryClient} object under current file system.
    *
-   * @param {string} directoryName
-   * @returns {DataLakeDirectoryClient}
-   * @memberof DataLakeFileSystemClient
+   * @param directoryName -
    */
   public getDirectoryClient(directoryName: string): DataLakeDirectoryClient {
     return new DataLakeDirectoryClient(
@@ -153,9 +149,7 @@ export class DataLakeFileSystemClient extends StorageClient {
   /**
    * Creates a {@link DataLakeFileClient} object under current file system.
    *
-   * @param {string} fileName
-   * @returns {DataLakeFileClient}
-   * @memberof DataLakeFileSystemClient
+   * @param fileName -
    */
   public getFileClient(fileName: string): DataLakeFileClient {
     return new DataLakeFileClient(
@@ -167,9 +161,7 @@ export class DataLakeFileSystemClient extends StorageClient {
   /**
    * Get a {@link DataLakeLeaseClient} that manages leases on the file system.
    *
-   * @param {string} [proposeLeaseId] Optional. Initial proposed lease Id.
-   * @returns {DataLakeLeaseClient}
-   * @memberof DataLakeFileSystemClient
+   * @param proposeLeaseId - Optional. Initial proposed lease Id.
    */
   public getDataLakeLeaseClient(proposeLeaseId?: string): DataLakeLeaseClient {
     return new DataLakeLeaseClient(this.blobContainerClient.getBlobLeaseClient(proposeLeaseId));
@@ -181,24 +173,19 @@ export class DataLakeFileSystemClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-container
    *
-   * @param {FileSystemCreateOptions} [options={}] Optional. Options when creating file system.
-   * @returns {Promise<FileSystemCreateResponse>}
-   * @memberof DataLakeFileSystemClient
+   * @param options - Optional. Options when creating file system.
    */
   public async create(options: FileSystemCreateOptions = {}): Promise<FileSystemCreateResponse> {
-    const { span, spanOptions } = createSpan(
-      "DataLakeFileSystemClient-create",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("DataLakeFileSystemClient-create", options);
     try {
       return await this.blobContainerClient.create({
         ...options,
         access: toContainerPublicAccessType(options.access),
-        tracingOptions: { ...options.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -213,26 +200,24 @@ export class DataLakeFileSystemClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-container
    *
-   * @param {FileSystemCreateOptions} [options={}]
-   * @returns {Promise<FileSystemCreateIfNotExistsResponse>}
-   * @memberof DataLakeFileSystemClient
+   * @param options -
    */
   public async createIfNotExists(
     options: FileSystemCreateOptions = {}
   ): Promise<FileSystemCreateIfNotExistsResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "DataLakeFileSystemClient-createIfNotExists",
-      options.tracingOptions
+      options
     );
     try {
       return await this.blobContainerClient.createIfNotExists({
         ...options,
         access: toContainerPublicAccessType(options.access),
-        tracingOptions: { ...options.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -248,23 +233,15 @@ export class DataLakeFileSystemClient extends StorageClient {
    * applications. Vice versa new file system with the same name might be added by other clients or
    * applications after this function completes.
    *
-   * @param {FileSystemExistsOptions} [options={}]
-   * @returns {Promise<boolean>}
-   * @memberof DataLakeFileSystemClient
+   * @param options -
    */
   public async exists(options: FileSystemExistsOptions = {}): Promise<boolean> {
-    const { span, spanOptions } = createSpan(
-      "DataLakeFileSystemClient-exists",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("DataLakeFileSystemClient-exists", options);
     try {
-      return await this.blobContainerClient.exists({
-        ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
+      return await this.blobContainerClient.exists(updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -278,23 +255,18 @@ export class DataLakeFileSystemClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-container
    *
-   * @param {FileSystemDeleteOptions} [options={}] Optional. Options when deleting file system.
-   * @returns {Promise<FileSystemDeleteResponse>}
-   * @memberof DataLakeFileSystemClient
+   * @param options - Optional. Options when deleting file system.
    */
   public async delete(options: FileSystemDeleteOptions = {}): Promise<FileSystemDeleteResponse> {
-    const { span, spanOptions } = createSpan(
-      "DataLakeFileSystemClient-delete",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("DataLakeFileSystemClient-delete", options);
     try {
       return await this.blobContainerClient.delete({
         ...options,
-        tracingOptions: { ...options.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -308,25 +280,17 @@ export class DataLakeFileSystemClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-container
    *
-   * @param {FileSystemDeleteOptions} [options={}]
-   * @returns {Promise<FileSystemDeleteIfExistsResponse>}
-   * @memberof DataLakeFileSystemClient
+   * @param options -
    */
   public async deleteIfExists(
     options: FileSystemDeleteOptions = {}
   ): Promise<FileSystemDeleteIfExistsResponse> {
-    const { span, spanOptions } = createSpan(
-      "DataLakeFileSystemClient-deleteIfExists",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("DataLakeFileSystemClient-deleteIfExists", options);
     try {
-      return await this.blobContainerClient.deleteIfExists({
-        ...options,
-        tracingOptions: { ...options.tracingOptions, spanOptions }
-      });
+      return await this.blobContainerClient.deleteIfExists(updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -346,21 +310,16 @@ export class DataLakeFileSystemClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-container-properties
    *
-   * @param {FileSystemGetPropertiesOptions} [options={}] Optional. Options when getting file system properties.
-   * @returns {Promise<FileSystemGetPropertiesResponse>}
-   * @memberof DataLakeFileSystemClient
+   * @param options - Optional. Options when getting file system properties.
    */
   public async getProperties(
     options: FileSystemGetPropertiesOptions = {}
   ): Promise<FileSystemGetPropertiesResponse> {
-    const { span, spanOptions } = createSpan(
-      "DataLakeFileSystemClient-getProperties",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("DataLakeFileSystemClient-getProperties", options);
     try {
       const rawResponse = await this.blobContainerClient.getProperties({
         ...options,
-        tracingOptions: { ...options.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       });
 
       // Transfer and rename blobPublicAccess to publicAccess
@@ -375,7 +334,7 @@ export class DataLakeFileSystemClient extends StorageClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -392,28 +351,23 @@ export class DataLakeFileSystemClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-metadata
    *
-   * @param {Metadata} [metadata] Replace existing metadata with this value.
+   * @param metadata - Replace existing metadata with this value.
    *                              If no value provided the existing metadata will be removed.
-   * @param {FileSystemSetMetadataOptions} [options={}] Optional. Options when setting file system metadata.
-   * @returns {Promise<FileSystemSetMetadataResponse>}
-   * @memberof DataLakeFileSystemClient
+   * @param options - Optional. Options when setting file system metadata.
    */
   public async setMetadata(
     metadata?: Metadata,
     options: FileSystemSetMetadataOptions = {}
   ): Promise<FileSystemSetMetadataResponse> {
-    const { span, spanOptions } = createSpan(
-      "DataLakeFileSystemClient-setMetadata",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("DataLakeFileSystemClient-setMetadata", options);
     try {
       return await this.blobContainerClient.setMetadata(metadata, {
         ...options,
-        tracingOptions: { ...options.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -431,21 +385,19 @@ export class DataLakeFileSystemClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-container-acl
    *
-   * @param {FileSystemGetAccessPolicyOptions} [options={}] Optional. Options when getting file system access policy.
-   * @returns {Promise<FileSystemGetAccessPolicyResponse>}
-   * @memberof DataLakeFileSystemClient
+   * @param options - Optional. Options when getting file system access policy.
    */
   public async getAccessPolicy(
     options: FileSystemGetAccessPolicyOptions = {}
   ): Promise<FileSystemGetAccessPolicyResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "DataLakeFileSystemClient-getAccessPolicy",
-      options.tracingOptions
+      options
     );
     try {
       const rawResponse = await this.blobContainerClient.getAccessPolicy({
         ...options,
-        tracingOptions: { ...options.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       });
 
       // Transfer and rename blobPublicAccess to publicAccess
@@ -460,7 +412,7 @@ export class DataLakeFileSystemClient extends StorageClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -479,20 +431,18 @@ export class DataLakeFileSystemClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-acl
    *
-   * @param {PublicAccessType} [access] Optional. The level of public access to data in the file system.
-   * @param {SignedIdentifier<AccessPolicy>[]} [fileSystemAcl] Optional. Array of elements each having a unique Id and details of the access policy.
-   * @param {FileSystemSetAccessPolicyOptions} [options={}] Optional. Options when setting file system access policy.
-   * @returns {Promise<FileSystemSetAccessPolicyResponse>}
-   * @memberof DataLakeFileSystemClient
+   * @param access - Optional. The level of public access to data in the file system.
+   * @param fileSystemAcl - Optional. Array of elements each having a unique Id and details of the access policy.
+   * @param options - Optional. Options when setting file system access policy.
    */
   public async setAccessPolicy(
     access?: PublicAccessType,
     fileSystemAcl?: SignedIdentifier<AccessPolicy>[],
     options: FileSystemSetAccessPolicyOptions = {}
   ): Promise<FileSystemSetAccessPolicyResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "DataLakeFileSystemClient-setAccessPolicy",
-      options.tracingOptions
+      options
     );
     try {
       return await this.blobContainerClient.setAccessPolicy(
@@ -500,12 +450,12 @@ export class DataLakeFileSystemClient extends StorageClient {
         fileSystemAcl,
         {
           ...options,
-          tracingOptions: { ...options.tracingOptions, spanOptions }
+          tracingOptions: updatedOptions.tracingOptions
         }
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -583,9 +533,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/rest/api/storageservices/list-blobs
    *
-   * @param {ListPathsOptions} [options={}] Optional. Options when listing paths.
-   * @returns {PagedAsyncIterableIterator<Path, FileSystemListPathsResponse>}
-   * @memberof DataLakeFileSystemClient
+   * @param options - Optional. Options when listing paths.
    */
   public listPaths(
     options: ListPathsOptions = {}
@@ -633,16 +581,16 @@ export class DataLakeFileSystemClient extends StorageClient {
     continuation?: string,
     options: ListPathsSegmentOptions = {}
   ): Promise<FileSystemListPathsResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "DataLakeFileSystemClient-listPathsSegment",
-      options.tracingOptions
+      options
     );
     try {
       const rawResponse = await this.fileSystemContext.listPaths(options.recursive || false, {
         continuation,
         ...options,
         upn: options.userPrincipalName,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
 
       const response = rawResponse as FileSystemListPathsResponse;
@@ -658,7 +606,213 @@ export class DataLakeFileSystemClient extends StorageClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Returns an async iterable iterator to list all the paths (directories and files)
+   * under the specified file system.
+   *
+   * .byPage() returns an async iterable iterator to list the paths in pages.
+   *
+   * Example using `for await` syntax:
+   *
+   * ```js
+   * // Get the fileSystemClient before you run these snippets,
+   * // Can be obtained from `serviceClient.getFileSystemClient("<your-filesystem-name>");`
+   * let i = 1;
+   * for await (const deletePath of fileSystemClient.listDeletedPaths()) {
+   *   console.log(`Path ${i++}: ${deletePath.name}`);
+   * }
+   * ```
+   *
+   * Example using `iter.next()`:
+   *
+   * ```js
+   * let i = 1;
+   * let iter = fileSystemClient.listDeletedPaths();
+   * let deletedPathItem = await iter.next();
+   * while (!deletedPathItem.done) {
+   *   console.log(`Path ${i++}: ${deletedPathItem.value.name}`);
+   *   pathItem = await iter.next();
+   * }
+   * ```
+   *
+   * Example using `byPage()`:
+   *
+   * ```js
+   * // passing optional maxPageSize in the page settings
+   * let i = 1;
+   * for await (const response of fileSystemClient.listDeletedPaths().byPage({ maxPageSize: 20 })) {
+   *   for (const deletePath of response.pathItems) {
+   *     console.log(`Path ${i++}: ${deletePath.name}`);
+   *   }
+   * }
+   * ```
+   *
+   * Example using paging with a marker:
+   *
+   * ```js
+   * let i = 1;
+   * let iterator = fileSystemClient.listDeletedPaths().byPage({ maxPageSize: 2 });
+   * let response = (await iterator.next()).value;
+   *
+   * // Prints 2 path names
+   * for (const path of response.pathItems) {
+   *   console.log(`Path ${i++}: ${path.name}}`);
+   * }
+   *
+   * // Gets next marker
+   * let marker = response.continuationToken;
+   *
+   * // Passing next marker as continuationToken
+   *
+   * iterator = fileSystemClient.listDeletedPaths().byPage({ continuationToken: marker, maxPageSize: 10 });
+   * response = (await iterator.next()).value;
+   *
+   * // Prints 10 path names
+   * for (const deletePath of response.deletedPathItems) {
+   *   console.log(`Path ${i++}: ${deletePath.name}`);
+   * }
+   * ```
+   *
+   * @see https://docs.microsoft.com/rest/api/storageservices/list-blobs
+   *
+   * @param options - Optional. Options when listing deleted paths.
+   */
+  public listDeletedPaths(
+    options: ListDeletedPathsOptions = {}
+  ): PagedAsyncIterableIterator<DeletedPath, FileSystemListDeletedPathsResponse> {
+    const iter = this.listDeletedItems(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings: PageSettings = {}) => {
+        return this.listDeletedSegments(settings.continuationToken, {
+          maxResults: settings.maxPageSize,
+          ...options
+        });
+      }
+    };
+  }
+  private async *listDeletedItems(
+    options: ListDeletedPathsOptions = {}
+  ): AsyncIterableIterator<DeletedPath> {
+    for await (const response of this.listDeletedSegments(undefined, options)) {
+      yield* response.pathItems || [];
+    }
+  }
+
+  private async *listDeletedSegments(
+    continuation?: string,
+    options: ListDeletedPathsSegmentOptions = {}
+  ): AsyncIterableIterator<FileSystemListDeletedPathsResponse> {
+    let response;
+    if (!!continuation || continuation === undefined) {
+      do {
+        response = await this.listDeletedPathsSegment(continuation, options);
+        continuation = response.continuation;
+        yield response;
+      } while (continuation);
+    }
+  }
+
+  private async listDeletedPathsSegment(
+    continuation?: string,
+    options: ListDeletedPathsSegmentOptions = {}
+  ): Promise<FileSystemListDeletedPathsResponse> {
+    const { span, updatedOptions } = createSpan(
+      "DataLakeFileSystemClient-listDeletedPathsSegment",
+      options
+    );
+    try {
+      const rawResponse = await this.fileSystemContextToBlobEndpoint.listBlobHierarchySegment({
+        marker: continuation,
+        ...options,
+        prefix: options.prefix === "" ? undefined : options.prefix,
+        ...convertTracingToRequestOptionsBase(updatedOptions)
+      });
+
+      const response = rawResponse as FileSystemListDeletedPathsResponse;
+      response.pathItems = [];
+      for (const path of rawResponse.segment.blobItems || []) {
+        response.pathItems.push({
+          name: path.name,
+          deletionId: path.deletionId,
+          deletedOn: path.properties.deletedTime,
+          remainingRetentionDays: path.properties.remainingRetentionDays
+        });
+      }
+
+      if (!(response.nextMarker == undefined || response.nextMarker === "")) {
+        response.continuation = response.nextMarker;
+      }
+
+      return response;
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Restores a soft deleted path.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/undelete-blob
+   *
+   * @param deletedPath - Required.  The path of the deleted path.
+   *
+   * @param deletionId - Required.  The deletion ID associated with the soft deleted path.
+   *
+   */
+
+  public async undeletePath(
+    deletedPath: string,
+    deletionId: string,
+    options: FileSystemUndeletePathOption = {}
+  ): Promise<FileSystemUndeletePathResponse> {
+    const { span, updatedOptions } = createSpan("DataLakeFileSystemClient-undeletePath", options);
+    try {
+      const pathClient = new PathClientInternal(
+        appendToURLPath(this.blobEndpointUrl, encodeURIComponent(deletedPath)),
+        this.pipeline
+      );
+
+      const rawResponse = await pathClient.blobPathContext.undelete({
+        undeleteSource: "?" + DeletionIdKey + "=" + deletionId,
+        ...options,
+        tracingOptions: updatedOptions.tracingOptions
+      });
+
+      if (rawResponse.resourceType === PathResultTypeConstants.DirectoryResourceType) {
+        return {
+          pathClient: this.getDirectoryClient(deletedPath),
+          ...rawResponse
+        };
+      } else {
+        return {
+          pathClient: this.getFileClient(deletedPath),
+          ...rawResponse
+        };
+      }
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -675,9 +829,8 @@ export class DataLakeFileSystemClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
-   * @param {FileSystemGenerateSasUrlOptions} options Optional parameters.
-   * @returns {Promise<string>} The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
-   * @memberof DataLakeFileSystemClient
+   * @param options - Optional parameters.
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    */
   public generateSasUrl(options: FileSystemGenerateSasUrlOptions): Promise<string> {
     return new Promise((resolve) => {

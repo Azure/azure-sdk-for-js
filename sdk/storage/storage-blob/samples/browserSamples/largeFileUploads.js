@@ -104,6 +104,7 @@ async function upload() {
 
   const file = document.getElementById("file").files[0];
   await blockBlobClient.uploadBrowserData(file, {
-    maxSingleShotSize: 4 * 1024 * 1024
+    maxSingleShotSize: 4 * 1024 * 1024,
+    blobHTTPHeaders: { blobContentType: file.type } // set mimetype
   });
 }

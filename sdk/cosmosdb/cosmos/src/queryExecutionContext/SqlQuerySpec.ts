@@ -26,7 +26,7 @@ export interface SqlQuerySpec {
  * Represents a parameter in a Parameterized SQL query, specified in {@link SqlQuerySpec}
  */
 export interface SqlParameter {
-  /** Name of the parameter. (i.e. "@lastName") */
+  /** Name of the parameter. (i.e. `@lastName`) */
   name: string;
   /** Value of the parameter (this is safe to come from users, assuming they are authorized) */
   value: JSONValue;

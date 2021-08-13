@@ -10,6 +10,7 @@ import {
 } from "./common";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { CosmosHeaders } from "./queryExecutionContext";
+import { sanitizeEndpoint } from "./utils/checkURL";
 
 /** @hidden */
 export interface RequestInfo {
@@ -24,12 +25,6 @@ export type TokenProvider = (requestInfo: RequestInfo) => Promise<string>;
 
 /**
  * @hidden
- * @param clientOptions
- * @param verb
- * @param path
- * @param resourceId
- * @param resourceType
- * @param headers
  */
 export async function setAuthorizationHeader(
   clientOptions: CosmosClientOptions,
@@ -68,6 +63,15 @@ export async function setAuthorizationHeader(
     headers[Constants.HttpHeaders.Authorization] = encodeURIComponent(
       await clientOptions.tokenProvider({ verb, path, resourceId, resourceType, headers })
     );
+  } else if (clientOptions.aadCredentials) {
+    if (typeof clientOptions.aadCredentials?.getToken !== "function") {
+      throw new Error("Cannot use AAD Credentials without `getToken`. See @azure/identity docs");
+    }
+    const hrefEndpoint = sanitizeEndpoint(clientOptions.endpoint);
+    const token = await clientOptions.aadCredentials.getToken(`${hrefEndpoint}/.default`);
+    const AUTH_PREFIX = `type=aad&ver=1.0&sig=`;
+    const authorizationToken = `${AUTH_PREFIX}${token.token}`;
+    headers[Constants.HttpHeaders.Authorization] = encodeURIComponent(authorizationToken);
   }
 }
 
@@ -81,7 +85,7 @@ export async function setAuthorizationTokenHeaderUsingMasterKey(
   resourceType: ResourceType,
   headers: CosmosHeaders,
   masterKey: string
-) {
+): Promise<void> {
   // TODO This should live in cosmos-sign
   if (resourceType === ResourceType.offer) {
     resourceId = resourceId && resourceId.toLowerCase();
@@ -94,16 +98,13 @@ export async function setAuthorizationTokenHeaderUsingMasterKey(
 
 /**
  * @hidden
- * @param resourceTokens
- * @param path
- * @param resourceId
  */
 // TODO: Resource tokens
 export function getAuthorizationTokenUsingResourceTokens(
   resourceTokens: { [resourceId: string]: string },
   path: string,
   resourceId: string
-) {
+): string {
   if (resourceTokens && Object.keys(resourceTokens).length > 0) {
     // For database account access(through getDatabaseAccount API), path and resourceId are "",
     // so in this case we return the first token to be used for creating the auth header as the

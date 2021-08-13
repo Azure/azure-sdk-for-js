@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { QueueClient } from "../src/QueueClient";
@@ -28,7 +31,7 @@ describe("QueueClient messageId methods", () => {
   });
 
   it("update and delete empty message with default parameters", async () => {
-    let eResult = await queueClient.sendMessage(messageContent);
+    const eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expiresOn);
     assert.ok(eResult.insertedOn);
@@ -39,8 +42,8 @@ describe("QueueClient messageId methods", () => {
     assert.ok(eResult.nextVisibleOn);
     assert.ok(eResult.version);
 
-    let newMessage = "";
-    let uResult = await queueClient.updateMessage(
+    const newMessage = "";
+    const uResult = await queueClient.updateMessage(
       eResult.messageId,
       eResult.popReceipt,
       newMessage
@@ -56,7 +59,7 @@ describe("QueueClient messageId methods", () => {
     assert.equal(pResult.peekedMessageItems.length, 1);
     assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, newMessage);
 
-    let dResult = await queueClient.deleteMessage(eResult.messageId, uResult.popReceipt!);
+    const dResult = await queueClient.deleteMessage(eResult.messageId, uResult.popReceipt!);
     assert.ok(dResult.date);
     assert.ok(dResult.requestId);
     assert.ok(dResult.version);
@@ -66,7 +69,7 @@ describe("QueueClient messageId methods", () => {
   });
 
   it("update and delete message with all parameters", async () => {
-    let eResult = await queueClient.sendMessage(messageContent);
+    const eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expiresOn);
     assert.ok(eResult.insertedOn);
@@ -76,8 +79,8 @@ describe("QueueClient messageId methods", () => {
     assert.ok(eResult.nextVisibleOn);
     assert.ok(eResult.version);
 
-    let newMessage = "New Message";
-    let uResult = await queueClient.updateMessage(
+    const newMessage = "New Message";
+    const uResult = await queueClient.updateMessage(
       eResult.messageId,
       eResult.popReceipt,
       newMessage,
@@ -89,18 +92,18 @@ describe("QueueClient messageId methods", () => {
     assert.ok(uResult.requestId);
     assert.ok(uResult.popReceipt);
 
-    let pResult = await queueClient.peekMessages();
+    const pResult = await queueClient.peekMessages();
     assert.equal(pResult.peekedMessageItems.length, 0);
 
     await delay(11 * 1000); // Sleep 11 seconds, and wait the message to be visible again
 
-    let pResult2 = await queueClient.peekMessages();
+    const pResult2 = await queueClient.peekMessages();
     assert.equal(pResult2.peekedMessageItems.length, 1);
     assert.deepStrictEqual(pResult2.peekedMessageItems[0].messageText, newMessage);
   });
 
   it("update and delete message with all parameters - test sas connection string MessageIdClient constructor", async () => {
-    let eResult = await queueClient.sendMessage(messageContent);
+    const eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expiresOn);
     assert.ok(eResult.insertedOn);
@@ -110,8 +113,8 @@ describe("QueueClient messageId methods", () => {
     assert.ok(eResult.nextVisibleOn);
     assert.ok(eResult.version);
 
-    let newMessage = "New Message";
-    let uResult = await queueClient.updateMessage(
+    const newMessage = "New Message";
+    const uResult = await queueClient.updateMessage(
       eResult.messageId,
       eResult.popReceipt,
       newMessage,
@@ -123,18 +126,18 @@ describe("QueueClient messageId methods", () => {
     assert.ok(uResult.requestId);
     assert.ok(uResult.popReceipt);
 
-    let pResult = await queueClient.peekMessages();
+    const pResult = await queueClient.peekMessages();
     assert.equal(pResult.peekedMessageItems.length, 0);
 
     await delay(11 * 1000); // Sleep 11 seconds, and wait the message to be visible again
 
-    let pResult2 = await queueClient.peekMessages();
+    const pResult2 = await queueClient.peekMessages();
     assert.equal(pResult2.peekedMessageItems.length, 1);
     assert.deepStrictEqual(pResult2.peekedMessageItems[0].messageText, newMessage);
   });
 
   it("update message with 64KB characters size which is computed after encoding", async () => {
-    let eResult = await queueClient.sendMessage(messageContent);
+    const eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expiresOn);
     assert.ok(eResult.insertedOn);
@@ -144,8 +147,8 @@ describe("QueueClient messageId methods", () => {
     assert.ok(eResult.nextVisibleOn);
     assert.ok(eResult.version);
 
-    let newMessage = new Array(64 * 1024 + 1).join("a");
-    let uResult = await queueClient.updateMessage(
+    const newMessage = new Array(64 * 1024 + 1).join("a");
+    const uResult = await queueClient.updateMessage(
       eResult.messageId,
       eResult.popReceipt,
       newMessage
@@ -156,13 +159,13 @@ describe("QueueClient messageId methods", () => {
     assert.ok(uResult.requestId);
     assert.ok(uResult.popReceipt);
 
-    let pResult = await queueClient.peekMessages();
+    const pResult = await queueClient.peekMessages();
     assert.equal(pResult.peekedMessageItems.length, 1);
     assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, newMessage);
   });
 
   it("update message negative with 65537B (64KB+1B) characters size which is computed after encoding", async () => {
-    let eResult = await queueClient.sendMessage(messageContent);
+    const eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expiresOn);
     assert.ok(eResult.insertedOn);
@@ -172,7 +175,7 @@ describe("QueueClient messageId methods", () => {
     assert.ok(eResult.nextVisibleOn);
     assert.ok(eResult.version);
 
-    let newMessage = new Array(64 * 1024 + 2).join("a");
+    const newMessage = new Array(64 * 1024 + 2).join("a");
 
     let error;
     try {
@@ -189,7 +192,7 @@ describe("QueueClient messageId methods", () => {
   });
 
   it("delete message negative", async () => {
-    let eResult = await queueClient.sendMessage(messageContent);
+    const eResult = await queueClient.sendMessage(messageContent);
 
     let error;
     try {

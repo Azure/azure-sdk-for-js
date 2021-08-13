@@ -9,24 +9,30 @@
 
 import * as Models from "./models";
 import * as msRest from "@azure/ms-rest-js";
+import { TokenCredential } from "@azure/core-auth";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-containerservice";
-const packageVersion = "13.0.0";
+const packageVersion = "13.3.0";
 
 export class ContainerServiceClientContext extends msRestAzure.AzureServiceClient {
-  credentials: msRest.ServiceClientCredentials;
+  credentials: msRest.ServiceClientCredentials | TokenCredential;
   subscriptionId: string;
   apiVersion?: string;
 
   /**
    * Initializes a new instance of the ContainerServiceClient class.
-   * @param credentials Credentials needed for the client to connect to Azure.
+   * @param credentials Credentials needed for the client to connect to Azure. Credentials
+   * implementing the TokenCredential interface from the @azure/identity package are recommended. For
+   * more information about these credentials, see
+   * {@link https://www.npmjs.com/package/@azure/identity}. Credentials implementing the
+   * ServiceClientCredentials interface from the older packages @azure/ms-rest-nodeauth and
+   * @azure/ms-rest-browserauth are also supported.
    * @param subscriptionId Subscription credentials which uniquely identify Microsoft Azure
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ContainerServiceClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.ContainerServiceClientOptions) {
     if (credentials == undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
@@ -37,14 +43,14 @@ export class ContainerServiceClientContext extends msRestAzure.AzureServiceClien
     if (!options) {
       options = {};
     }
-    if(!options.userAgent) {
+    if (!options.userAgent) {
       const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
     super(credentials, options);
 
-    this.apiVersion = '2020-12-01';
+    this.apiVersion = '2021-03-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
@@ -52,10 +58,10 @@ export class ContainerServiceClientContext extends msRestAzure.AzureServiceClien
     this.credentials = credentials;
     this.subscriptionId = subscriptionId;
 
-    if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
+    if (options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }
-    if(options.longRunningOperationRetryTimeout !== null && options.longRunningOperationRetryTimeout !== undefined) {
+    if (options.longRunningOperationRetryTimeout !== null && options.longRunningOperationRetryTimeout !== undefined) {
       this.longRunningOperationRetryTimeout = options.longRunningOperationRetryTimeout;
     }
   }

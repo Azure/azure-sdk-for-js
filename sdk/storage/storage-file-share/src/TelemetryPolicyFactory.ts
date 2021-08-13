@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import {
   isNode,
@@ -15,22 +15,16 @@ import { SDK_VERSION } from "./utils/constants";
 
 /**
  * TelemetryPolicyFactory is a factory class helping generating {@link TelemetryPolicy} objects.
- *
- * @export
- * @class TelemetryPolicyFactory
- * @implements {RequestPolicyFactory}
  */
 export class TelemetryPolicyFactory implements RequestPolicyFactory {
   /**
    * @internal
-   * @hidden
    */
   public readonly telemetryString: string;
 
   /**
    * Creates an instance of TelemetryPolicyFactory.
-   * @param {UserAgentOptions} [telemetry]
-   * @memberof TelemetryPolicyFactory
+   * @param telemetry -
    */
   constructor(telemetry?: UserAgentOptions) {
     const userAgentInfo: string[] = [];
@@ -62,10 +56,8 @@ export class TelemetryPolicyFactory implements RequestPolicyFactory {
   /**
    * Creates a {@link RequestPolicy} object.
    *
-   * @param {RequestPolicy} nextPolicy
-   * @param {RequestPolicyOptions} options
-   * @returns {TelemetryPolicy}
-   * @memberof TelemetryPolicyFactory
+   * @param nextPolicy -
+   * @param options -
    */
   public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): TelemetryPolicy {
     return new TelemetryPolicy(nextPolicy, options, this.telemetryString);

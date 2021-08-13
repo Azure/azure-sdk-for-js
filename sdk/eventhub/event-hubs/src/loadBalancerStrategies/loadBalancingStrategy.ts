@@ -7,15 +7,14 @@ import { logger } from "../log";
 /**
  * Determines which partitions to claim as part of load balancing.
  * @internal
- * @hidden
  */
 export interface LoadBalancingStrategy {
   /**
    * Implements load balancing by taking into account current ownership and
    * the full set of partitions in the Event Hub.
-   * @param ourOwnerId The id we should assume is _our_ id when checking for ownership.
-   * @param claimedPartitionOwnershipMap The current claimed ownerships for partitions.
-   * @param partitionIds Partitions to assign owners to.
+   * @param ourOwnerId - The id we should assume is _our_ id when checking for ownership.
+   * @param claimedPartitionOwnershipMap - The current claimed ownerships for partitions.
+   * @param partitionIds - Partitions to assign owners to.
    * @returns Partition ids to claim.
    */
   getPartitionsToCliam(
@@ -28,7 +27,6 @@ export interface LoadBalancingStrategy {
 /**
  * Counts of the EventProcessors that currently own partitions.
  * @internal
- * @hidden
  */
 interface EventProcessorCounts {
   /**
@@ -58,10 +56,9 @@ interface EventProcessorCounts {
  * inactivity time limit are assumed to be owned by dead event processors.
  * These will not be included in the map returned by this method.
  *
- * @param partitionOwnershipMap The existing PartitionOwnerships mapped by partition.
- * @param expirationIntervalInMs The length of time a PartitionOwnership claim is valid.
+ * @param partitionOwnershipMap - The existing PartitionOwnerships mapped by partition.
+ * @param expirationIntervalInMs - The length of time a PartitionOwnership claim is valid.
  * @hidden
- * @internal
  */
 function getActivePartitionOwnerships(
   partitionOwnershipMap: Map<string, PartitionOwnership>,
@@ -89,9 +86,8 @@ function getActivePartitionOwnerships(
 /**
  * Calculates the minimum number of partitions each EventProcessor should own,
  * and the number of EventProcessors that should have an extra partition assigned.
- * @param ownerToOwnershipMap The current ownerships for partitions.
- * @param partitionIds The full list of the Event Hub's partition ids.
- * @hidden
+ * @param ownerToOwnershipMap - The current ownerships for partitions.
+ * @param partitionIds - The full list of the Event Hub's partition ids.
  * @internal
  */
 function calculateBalancedLoadCounts(
@@ -128,10 +124,9 @@ function calculateBalancedLoadCounts(
  * shouldOwnMorePartitions(), both of which depend on knowing if our current list
  * of EventProcessors is actually in the proper state.
  *
- * @param minPartitionsPerOwner The number of required partitions per EventProcessor.
- * @param ownerToOwnershipMap The current ownerships for partitions.
+ * @param minPartitionsPerOwner - The number of required partitions per EventProcessor.
+ * @param ownerToOwnershipMap - The current ownerships for partitions.
  * @internal
- * @hidden
  */
 function getEventProcessorCounts(
   minPartitionsPerOwner: number,
@@ -171,10 +166,9 @@ function getEventProcessorCounts(
  * minimum required number of partitions (and additional partitions, if the # of partitions
  * is not evenly divisible by the # of EventProcessors).
  *
- * @param requiredNumberOfOwnersWithExtraPartition The # of EventProcessors that process an additional partition, in addition to the required minimum.
- * @param totalExpectedProcessors The total # of EventProcessors we expect.
- * @param eventProcessorCounts EventProcessor counts, grouped by criteria.
- * @hidden
+ * @param requiredNumberOfOwnersWithExtraPartition - The # of EventProcessors that process an additional partition, in addition to the required minimum.
+ * @param totalExpectedProcessors - The total # of EventProcessors we expect.
+ * @param eventProcessorCounts - EventProcessor counts, grouped by criteria.
  * @internal
  */
 function isLoadBalanced(
@@ -191,11 +185,10 @@ function isLoadBalanced(
 /**
  * Determines the number of new partitions to claim for this particular processor.
  *
- * @param minRequired The minimum required number of partitions.
- * @param requiredNumberOfOwnersWithExtraPartition The current number of processors that should have an additional partition.
- * @param numPartitionsOwnedByUs The number of partitions we currently own.
- * @param eventProcessorCounts Processors, grouped by criteria.
- * @hidden
+ * @param minRequired - The minimum required number of partitions.
+ * @param requiredNumberOfOwnersWithExtraPartition - The current number of processors that should have an additional partition.
+ * @param numPartitionsOwnedByUs - The number of partitions we currently own.
+ * @param eventProcessorCounts - Processors, grouped by criteria.
  * @internal
  */
 function getNumberOfPartitionsToClaim(
@@ -223,13 +216,12 @@ function getNumberOfPartitionsToClaim(
 /**
  * Determines which partitions can be stolen from other owners while maintaining
  * a balanced state.
- * @param numberOfPartitionsToClaim The number of partitions the owner needs to claim to reach a balanced state.
- * @param minPartitionsPerOwner The minimum number of partitions each owner needs for the partition load to be balanced.
- * @param requiredNumberOfOwnersWithExtraPartition The number of owners that should have 1 extra partition.
- * @param ourOwnerId The id of _our_ owner.
- * @param ownerToOwnershipMap The current ownerships for partitions.
+ * @param numberOfPartitionsToClaim - The number of partitions the owner needs to claim to reach a balanced state.
+ * @param minPartitionsPerOwner - The minimum number of partitions each owner needs for the partition load to be balanced.
+ * @param requiredNumberOfOwnersWithExtraPartition - The number of owners that should have 1 extra partition.
+ * @param ourOwnerId - The id of _our_ owner.
+ * @param ownerToOwnershipMap - The current ownerships for partitions.
  * @internal
- * @hidden
  */
 function findPartitionsToSteal(
   numberOfPartitionsToClaim: number,
@@ -285,13 +277,12 @@ function findPartitionsToSteal(
 /**
  * Identifies all of the partitions that can be claimed by the specified owner for
  * that owner to reach a balanced state.
- * @param OwnerId The id we should assume is _our_ id when checking for ownership.
- * @param claimedPartitionOwnershipMap The current claimed ownerships for partitions.
- * @param partitionIds Partitions to assign owners to.
- * @param expirationIntervalInMs The length of time a partition claim is valid.
+ * @param OwnerId - The id we should assume is _our_ id when checking for ownership.
+ * @param claimedPartitionOwnershipMap - The current claimed ownerships for partitions.
+ * @param partitionIds - Partitions to assign owners to.
+ * @param expirationIntervalInMs - The length of time a partition claim is valid.
  * @returns Partition ids that may be claimed.
  * @internal
- * @hidden
  */
 export function listAvailablePartitions(
   ownerId: string,

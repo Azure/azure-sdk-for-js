@@ -13,4 +13,4 @@ interface Window {
 }
 declare let navigator: Navigator;
 
-declare let window: Window;
+declare let self: Window & typeof globalThis

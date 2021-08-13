@@ -1,0 +1,24 @@
+{
+  "name": "samples-web-workers-js",
+  "private": true,
+  "version": "1.0.0",
+  "description": "A simple example of using Azure SDK in Web Workers",
+  "main": "index.js",
+  "scripts": {
+    "prestart": "npm install",
+    "start": "parcel index.html"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "parcel-bundler": "^1.12.5",
+    "prettier": "^1.19.1"
+  },
+  "browserslist": [
+    "last 1 Chrome versions"
+  ],
+  "dependencies": {
+    "@azure/storage-blob": "^12.5.0",
+    "jsdom": "^16.5.0"
+  }
+}

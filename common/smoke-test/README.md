@@ -5,7 +5,7 @@ uses package dependencies, loads all packages into a single process, and
 executes code samples to ensure basic end to end scenarios work as expected.
 
 Smoke Tests are meant to be run periodically in an Azure DevOps pipeline. See
-[`smoke-tests.yml`](https://github.com/Azure/azure-sdk-for-js/blob/master/common/smoke-test/smoke-tests.yml) to configure Smoke Tests in an Azure
+[`smoke-tests.yml`](https://github.com/Azure/azure-sdk-for-js/blob/main/common/smoke-test/smoke-tests.yml) to configure Smoke Tests in an Azure
 DevOps pipeline. When run in an Azure DevOps pipeline specify the `-CI` flag to
 ensure environment variables are properly set and error/warning messages are
 properly surfaced during the execution.
@@ -24,7 +24,7 @@ package.
 - PowerShell 7
 - [Azure Powershell cmdlets](https://docs.microsoft.com/powershell/azure/install-az-ps?view=azps-4.7.0)
 - Node 12.x
-- Azure SDK for JS [`dev-tool`](https://github.com/Azure/azure-sdk-for-js/blob/master/common/tools/dev-tool)
+- Azure SDK for JS [`dev-tool`](https://github.com/Azure/azure-sdk-for-js/blob/main/common/tools/dev-tool)
 
 ## Configuring Samples
 
@@ -38,7 +38,7 @@ To opt-out, set the value in the `sdk/<service>/<package>/package.json`.
 To opt-out of all smoke tests:
 
 ```json
-  "//smokeTestConfiguration": {
+  "//sampleConfiguration": {
     "skipFolder": true
   }
 ```
@@ -47,7 +47,7 @@ To opt-out particular files that will fail unnecessarily in tests (note files
 not skipped will be included in smoke tests):
 
 ```json
-  "//smokeTestConfiguration": {
+  "//sampleConfiguration": {
     "skip": [
       "anonymousCred.js",
       "azureAdAuth.js",
@@ -102,6 +102,6 @@ npm i
 node run.js
 ```
 
-NOTE: `node run.js` must be run from within the same powershell session that Initialize-SmokeTests.ps1 was run, 
+NOTE: `node run.js` must be run from within the same powershell session that Initialize-SmokeTests.ps1 was run,
 since that script sets the NODE_PATH variable to the current directory (so that module imports from the samples will be redirected).
 To run `node run.js` from a separate session, set/export the NODE_PATH variable to the `<current directory>/node_modules`.

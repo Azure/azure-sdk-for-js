@@ -32,7 +32,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 
 ## Prerequisites
 
-The sample are compatible with Node.js >= 8.0.0, except for the samples that use the async `for await` syntax, which require Node.js >= 10.0.0.
+The samples are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
 
 You need [an Azure subscription][freesub] and [an Azure Storage account][azstorage] to run these sample programs. Samples retrieve credentials to access the storage account from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
 
@@ -66,22 +66,22 @@ npx cross-env ACCOUNT_NAME="<account name>" ACCOUNT_KEY="<account key>" node bas
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[advanced]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples/javascript/advanced.js
-[anonymouscred]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples/javascript/anonymousCred.js
-[azureadauth]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples/javascript/azureAdAuth.js
-[basic]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples/javascript/basic.js
-[customizedclientheaders]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples/javascript/customizedClientHeaders.js
-[custompipeline]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples/javascript/customPipeline.js
-[errorsandresponses]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples/javascript/errorsAndResponses.js
-[iterators-blobs-hierarchy]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples/javascript/iterators-blobs-hierarchy.js
-[iterators-blobs]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples/javascript/iterators-blobs.js
-[iterators-containers]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples/javascript/iterators-containers.js
-[iterators-without-await]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples/javascript/iterators-without-await.js
-[proxyauth]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples/javascript/proxyAuth.js
-[readingsnapshot]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples/javascript/readingSnapshot.js
-[sharedkeycred]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples/javascript/sharedKeyCred.js
-[withconnstring]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples/javascript/withConnString.js
+[advanced]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob/samples/javascript/advanced.js
+[anonymouscred]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob/samples/javascript/anonymousCred.js
+[azureadauth]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob/samples/javascript/azureAdAuth.js
+[basic]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob/samples/javascript/basic.js
+[customizedclientheaders]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob/samples/javascript/customizedClientHeaders.js
+[custompipeline]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob/samples/javascript/customPipeline.js
+[errorsandresponses]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob/samples/javascript/errorsAndResponses.js
+[iterators-blobs-hierarchy]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob/samples/javascript/iterators-blobs-hierarchy.js
+[iterators-blobs]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob/samples/javascript/iterators-blobs.js
+[iterators-containers]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob/samples/javascript/iterators-containers.js
+[iterators-without-await]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob/samples/javascript/iterators-without-await.js
+[proxyauth]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob/samples/javascript/proxyAuth.js
+[readingsnapshot]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob/samples/javascript/readingSnapshot.js
+[sharedkeycred]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob/samples/javascript/sharedKeyCred.js
+[withconnstring]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob/samples/javascript/withConnString.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/storage-blob
 [azstorage]: https://docs.microsoft.com/azure/storage/common/storage-account-overview
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob/README.md

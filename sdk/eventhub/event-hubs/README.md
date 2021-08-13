@@ -1,17 +1,18 @@
-# Azure Event Hubs client library for Javascript
+# Azure Event Hubs client library for JavaScript
 
 Azure Event Hubs is a highly scalable publish-subscribe service that can ingest millions of events per second and stream them to multiple consumers. This lets you process and analyze the massive amounts of data produced by your connected devices and applications. If you would like to know more about Azure Event Hubs, you may wish to review: [What is Event Hubs](https://docs.microsoft.com/azure/event-hubs/event-hubs-about)?
 
 The Azure Event Hubs client library allows you to send and receive events in your Node.js application.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs) |
-[Package (npm)](https://www.npmjs.com/package/@azure/event-hubs) |
-[API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/event-hubs) |
-[Product documentation](https://azure.microsoft.com/services/event-hubs/) |
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples)
+Key links:
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs)
+- [Package (npm)](https://www.npmjs.com/package/@azure/event-hubs)
+- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/event-hubs)
+- [Product documentation](https://azure.microsoft.com/services/event-hubs/)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/samples)
 
 **NOTE**: If you are using version 2.1.0 or lower and want to migrate to the latest version
-of this package please look at our [migration guide to move from EventHubs V2 to EventHubs V5](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/migrationguide.md)
+of this package please look at our [migration guide to move from EventHubs V2 to EventHubs V5](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/migrationguide.md)
 
 Samples for v2 and documentation are still available here:
 
@@ -19,7 +20,7 @@ Samples for v2 and documentation are still available here:
 [Package for v2.1.0 (npm)](https://www.npmjs.com/package/@azure/event-hubs/v/2.1.0) |
 [Samples for v2.1.0](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples)
 
-## Getting Started
+## Getting started
 
 ### Install the package
 
@@ -27,11 +28,17 @@ Install the Azure Event Hubs client library using npm
 
 `npm install @azure/event-hubs`
 
+### Currently supported environments
+
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+
 ### Prerequisites
 
-You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
-[Event Hubs Namespace](https://docs.microsoft.com/azure/event-hubs/) to use this package.
-If you are using this package in a Node.js application, then use Node.js 8.x or higher.
+- An [Azure subscription](https://azure.microsoft.com/free/)
+- An [Event Hubs Namespace](https://docs.microsoft.com/azure/event-hubs/)
 
 #### Configure Typescript
 
@@ -263,10 +270,10 @@ async function main() {
 
   const subscription = client.subscribe(
     {
-      processEvents: async(events, context) => {
+      processEvents: async (events, context) => {
         // event processing code goes here
       },
-      processError: async(err, context) => {
+      processError: async (err, context) => {
         // error reporting/handling code here
       }
     },
@@ -394,10 +401,10 @@ async function main() {
   const subscription = client.subscribe(
     partitionIds[0],
     {
-      processEvents: async(events, context) => {
+      processEvents: async (events, context) => {
         // event processing code goes here
       },
-      processError: async(err, context) => {
+      processError: async (err, context) => {
         // error reporting/handling code here
       }
     },
@@ -450,7 +457,7 @@ main();
 
 The Event Hubs library depends on the [rhea-promise](https://github.com/amqp/rhea-promise) library for managing connections, sending and receiving events over the [AMQP](https://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
 
-### Enable logs
+### Logging
 
 You can set the `AZURE_LOG_LEVEL` environment variable to enable logging to `stderr`:
 
@@ -459,7 +466,7 @@ export AZURE_LOG_LEVEL=verbose
 ```
 
 For more detailed instructions on how to enable logs, you can look at the
-[@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger).
+[@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
 You can alternatively set the `DEBUG` environment variable to get logs when using this library.
 This can be useful if you also want to emit logs from the dependencies `rhea-promise` and `rhea` as well.
@@ -492,16 +499,16 @@ export DEBUG=azure*,rhea*,-rhea:raw,-rhea:message
 export DEBUG=azure:*:(error|warning),rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
 ```
 
-## Next Steps
+## Next steps
 
 ### More sample code
 
-Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples)
+Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/samples)
 directory for detailed examples of how to use this library to send and receive events to/from
 [Event Hubs](https://docs.microsoft.com/azure/event-hubs/event-hubs-about).
 
 ## Contributing
 
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Feventhub%2Fevent-hubs%2FREADME.png)

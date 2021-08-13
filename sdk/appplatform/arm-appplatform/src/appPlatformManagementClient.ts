@@ -8,6 +8,7 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
+import { TokenCredential } from "@azure/core-auth";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
@@ -30,12 +31,17 @@ class AppPlatformManagementClient extends AppPlatformManagementClientContext {
 
   /**
    * Initializes a new instance of the AppPlatformManagementClient class.
-   * @param credentials Credentials needed for the client to connect to Azure.
+   * @param credentials Credentials needed for the client to connect to Azure. Credentials
+   * implementing the TokenCredential interface from the @azure/identity package are recommended. For
+   * more information about these credentials, see
+   * {@link https://www.npmjs.com/package/@azure/identity}. Credentials implementing the
+   * ServiceClientCredentials interface from the older packages @azure/ms-rest-nodeauth and
+   * @azure/ms-rest-browserauth are also supported.
    * @param subscriptionId Gets subscription ID which uniquely identify the Microsoft Azure
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.AppPlatformManagementClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.AppPlatformManagementClientOptions) {
     super(credentials, subscriptionId, options);
     this.services = new operations.Services(this);
     this.configServers = new operations.ConfigServers(this);

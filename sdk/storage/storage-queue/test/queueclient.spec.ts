@@ -1,8 +1,12 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
 import * as dotenv from "dotenv";
 import { QueueClient, QueueServiceClient } from "../src";
-import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
+import { setSpan, context } from "@azure/core-tracing";
+import { SpanGraph, setTracer } from "@azure/test-utils";
 import { URLBuilder, RestError } from "@azure/core-http";
 import { Recorder, record } from "@azure/test-utils-recorder";
 import { recorderEnvSetup } from "./utils/testutils.common";
@@ -194,11 +198,12 @@ describe("QueueClient", () => {
   });
 
   it("getProperties with tracing", async () => {
-    const tracer = new TestTracer();
-    setTracer(tracer);
+    const tracer = setTracer();
     const rootSpan = tracer.startSpan("root");
     await queueClient.getProperties({
-      tracingOptions: { spanOptions: { parent: rootSpan.context() } }
+      tracingOptions: {
+        tracingContext: setSpan(context.active(), rootSpan)
+      }
     });
     rootSpan.end();
 
@@ -227,14 +232,14 @@ describe("QueueClient", () => {
       ]
     };
 
-    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
+    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
     assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
   });
 });
 
 describe("QueueClient - Verify Name Properties", () => {
-  let queueName = "queueName";
-  let accountName = "myAccount";
+  const queueName = "queueName";
+  const accountName = "myAccount";
 
   function verifyNameProperties(url: string, accountName: string, queueName: string) {
     const newClient = new QueueClient(url);

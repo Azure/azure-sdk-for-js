@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import { newPipeline, ShareClient, StorageSharedKeyCredential, SignedIdentifier } from "../../src";
 import { getBSU, getConnectionStringFromEnvironment, recorderEnvSetup } from "./../utils";

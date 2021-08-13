@@ -1,0 +1,54 @@
+parameters:
+  - name: ServiceDirectory
+    type: string
+    default: not-specified
+  - name: Artifacts
+    type: object
+    default: []
+  - name: Matrix
+    type: string
+  - name: DependsOn
+    type: string
+    default: ''
+  - name: UsePlatformContainer
+    type: boolean
+    default: false
+  - name: CloudConfig
+    type: object
+    default: {}
+
+jobs:
+  - job:
+    displayName: 'UnitTest'
+
+    condition: |
+      and(
+        succeededOrFailed(),
+        ne(variables['Skip.Test'], 'true'),
+        ne(${{ parameters.Matrix }}, '{}')
+      )
+
+    dependsOn:
+       - ${{ parameters.DependsOn }}
+
+    strategy:
+      matrix: $[ ${{ parameters.Matrix }} ]
+
+    pool:
+      name: $(Pool)
+      vmImage: $(OSVmImage)
+
+    ${{ if eq(parameters.UsePlatformContainer, 'true') }}:
+      # Add a default so the job doesn't fail when the matrix is empty
+      container: $[ variables['Container'] ]
+
+    variables:
+      - template: ../variables/globals.yml
+
+    steps:
+      - template: ../steps/common.yml
+
+      - template: ../steps/test.yml
+        parameters:
+          Artifacts: ${{ parameters.Artifacts }}
+          ServiceDirectory: ${{ parameters.ServiceDirectory }}

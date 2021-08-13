@@ -2,6 +2,6 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "module": "es6",
-    "outDir": "es"
+    "outDir": "dist-esm"
   }
 }

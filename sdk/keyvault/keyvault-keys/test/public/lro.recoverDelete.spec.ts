@@ -2,11 +2,12 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
+import { Context } from "mocha";
 import { env, Recorder } from "@azure/test-utils-recorder";
 import { PollerStoppedError } from "@azure/core-lro";
 
 import { KeyClient, DeletedKey } from "../../src";
-import { assertThrowsAbortError } from "../utils/utils.common";
+import { assertThrowsAbortError, getServiceVersion } from "../utils/utils.common";
 import { testPollerProperties } from "../utils/recorderUtils";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
@@ -18,8 +19,8 @@ describe("Keys client - Long Running Operations - recoverDelete", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function() {
-    const authentication = await authenticate(this);
+  beforeEach(async function(this: Context) {
+    const authentication = await authenticate(this, getServiceVersion());
     keySuffix = authentication.keySuffix;
     client = authentication.client;
     testClient = authentication.testClient;
@@ -32,7 +33,7 @@ describe("Keys client - Long Running Operations - recoverDelete", () => {
 
   // The tests follow
 
-  it("can wait until a key is recovered", async function() {
+  it("can wait until a key is recovered", async function(this: Context) {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
 
@@ -55,7 +56,7 @@ describe("Keys client - Long Running Operations - recoverDelete", () => {
     await testClient.flushKey(keyName);
   });
 
-  it("can resume from a stopped poller", async function() {
+  it("can resume from a stopped poller", async function(this: Context) {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     const deletePoller = await client.beginDeleteKey(keyName, testPollerProperties);
@@ -92,7 +93,7 @@ describe("Keys client - Long Running Operations - recoverDelete", () => {
   });
 
   // On playback mode, the tests happen too fast for the timeout to work
-  it("can recover a deleted key with requestOptions timeout", async function() {
+  it("can recover a deleted key with requestOptions timeout", async function(this: Context) {
     recorder.skip(undefined, "Timeout tests don't work on playback mode.");
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");

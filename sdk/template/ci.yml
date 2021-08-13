@@ -3,7 +3,7 @@
 trigger:
   branches:
     include:
-      - master
+      - main
       - release/*
       - hotfix/*
   paths:
@@ -13,7 +13,7 @@ trigger:
 pr:
   branches:
     include:
-      - master
+      - main
       - feature/*
       - release/*
       - hotfix/*
@@ -25,7 +25,6 @@ extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: template
-    TestPipeline: true
     Artifacts:
       - name: azure-template
         safeName: azuretemplate

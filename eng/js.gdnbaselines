@@ -1,0 +1,4380 @@
+{
+  "version": "1.0.0",
+  "baselines": {
+    "baseline": {
+      "name": "baseline",
+      "createdDate": "2021-01-29 00:17:00Z",
+      "lastUpdatedDate": "2021-01-29 00:17:00Z"
+    }
+  },
+  "results": {
+    "0e45759bd65c724f31cff5303ca95c6574ad324939d4cba604ff5a29c5b1491b": {
+      "signature": "0e45759bd65c724f31cff5303ca95c6574ad324939d4cba604ff5a29c5b1491b",
+      "target": "eng/tools/publish-to-npm.ps1",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0030",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "e021cb94f0f515b8b0d6a7f17f878e437820187224b19e966f7403213082a507": {
+      "signature": "e021cb94f0f515b8b0d6a7f17f878e437820187224b19e966f7403213082a507",
+      "target": "eng/tools/publish-to-npm.ps1",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0030",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "e1a3fea15e1957cf65f181c01bc08c5961fcea8b6484d56d397899eced44f2f0": {
+      "signature": "e1a3fea15e1957cf65f181c01bc08c5961fcea8b6484d56d397899eced44f2f0",
+      "target": "sdk/communication/communication-common/README.md",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-AZURE0140",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "946d65a9db7cf3100bfdd8788f115f1411e06a5c7142db3f40b94eef3ed31a7e": {
+      "signature": "946d65a9db7cf3100bfdd8788f115f1411e06a5c7142db3f40b94eef3ed31a7e",
+      "target": "sdk/keyvault/keyvault-certificates/ca.key",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0020",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "76f01d1bdebff7283820c353498789ef105003a836a3618d1ac9712885bb0842": {
+      "signature": "76f01d1bdebff7283820c353498789ef105003a836a3618d1ac9712885bb0842",
+      "target": "sdk/search/search-documents/README.md",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0130",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "c6cfee11f940c9f3c9dce5f76d28755d292c22505c67804b898b36f979a5ccbe": {
+      "signature": "c6cfee11f940c9f3c9dce5f76d28755d292c22505c67804b898b36f979a5ccbe",
+      "target": "sdk/batch/arm-batch/test/batchManagementClient.spec.ts",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0020",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "17ffa2542bb8c615d4b74ad54f8dea9bc4b1e487d812d457a383e7128d47cd10": {
+      "signature": "17ffa2542bb8c615d4b74ad54f8dea9bc4b1e487d812d457a383e7128d47cd10",
+      "target": "sdk/batch/arm-batch/test/batchManagementClient.spec.ts",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "5e2b4128ed6838ee0a486cba8505f94da4bea02eb126191f2064d5f9116ed814": {
+      "signature": "5e2b4128ed6838ee0a486cba8505f94da4bea02eb126191f2064d5f9116ed814",
+      "target": "sdk/batch/arm-batch/test/batchManagementClient.spec.ts",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "d2a452a2e4cdea12f3161f80a24b58824a96c767a935eeda33405bfdcf066ba5": {
+      "signature": "d2a452a2e4cdea12f3161f80a24b58824a96c767a935eeda33405bfdcf066ba5",
+      "target": "sdk/batch/arm-batch/test/batchManagementClient.spec.ts",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "0322bdb12b1b5c53ccf444d3d97940b19759c547165ece42153bdb74979c1a8a": {
+      "signature": "0322bdb12b1b5c53ccf444d3d97940b19759c547165ece42153bdb74979c1a8a",
+      "target": "sdk/batch/arm-batch/test/batchManagementClient.spec.ts",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "52f51c98bb322c8fbe8f1bd0ac552e18d297b9809e5094d7b8e70480736def73": {
+      "signature": "52f51c98bb322c8fbe8f1bd0ac552e18d297b9809e5094d7b8e70480736def73",
+      "target": "sdk/batch/batch/test/batchClient.spec.ts",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "3006da59c2e3819b36673abcc0e435bb39db6e92381eb5c6f2de830984df0e7b": {
+      "signature": "3006da59c2e3819b36673abcc0e435bb39db6e92381eb5c6f2de830984df0e7b",
+      "target": "sdk/batch/batch/test/batchClient.spec.ts",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "d5744b511938504bc88c2e79843171a4c55496455fa02e81b34d9117aaf31e68": {
+      "signature": "d5744b511938504bc88c2e79843171a4c55496455fa02e81b34d9117aaf31e68",
+      "target": "sdk/batch/batch/test/batchClient.spec.ts",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "1e342781fa25e1b9c93a4d3ce65a6d197fadecd4fe44e7db81ab1b022c82b293": {
+      "signature": "1e342781fa25e1b9c93a4d3ce65a6d197fadecd4fe44e7db81ab1b022c82b293",
+      "target": "sdk/batch/batch/test/batchClient.spec.ts",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "b80c5737a0bf902805a8eb3276b0f4efdca296afb278913f56dc33f360cb60ed": {
+      "signature": "b80c5737a0bf902805a8eb3276b0f4efdca296afb278913f56dc33f360cb60ed",
+      "target": "sdk/core/core-http/test/logFilterTests.ts",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "92d89b5da6266a1e1795ea0e1381bce2defb4d7e004c002e3201336c04919039": {
+      "signature": "92d89b5da6266a1e1795ea0e1381bce2defb4d7e004c002e3201336c04919039",
+      "target": "sdk/eventgrid/eventgrid/test/generateSharedAccessSignature.spec.ts",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-AZURE0130",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "5b0c232abbfc7d952e79629a7ffa7df18866028c279e2df47068475df41cd529": {
+      "signature": "5b0c232abbfc7d952e79629a7ffa7df18866028c279e2df47068475df41cd529",
+      "target": "sdk/identity/identity/test/azure-identity-chain-test.crt",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0020",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "a5273330808138cbf60fb0f12f780893921c0b2a7f67080d8a605930c58335bc": {
+      "signature": "a5273330808138cbf60fb0f12f780893921c0b2a7f67080d8a605930c58335bc",
+      "target": "sdk/identity/identity/test/azure-identity-test.crt",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0020",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "473bda232f3d235a3391de696f84de75d8119e9d2a47a5d57bdae55068daaf4a": {
+      "signature": "473bda232f3d235a3391de696f84de75d8119e9d2a47a5d57bdae55068daaf4a",
+      "target": "sdk/servicebus/service-bus/test/atomManagement.spec.ts",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-AZURE0130",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "1a679b71e7836be92bfec868e7132f08da994020fb0c86fc57c3016715e1dc32": {
+      "signature": "1a679b71e7836be92bfec868e7132f08da994020fb0c86fc57c3016715e1dc32",
+      "target": "sdk/servicebus/service-bus/test/atomManagement.spec.ts",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-AZURE0130",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "8c3b947a4389d8592f681b28287afe467ef384c58eeb2cfda05f690cb20cc3fb": {
+      "signature": "8c3b947a4389d8592f681b28287afe467ef384c58eeb2cfda05f690cb20cc3fb",
+      "target": "sdk/servicebus/service-bus/test/atomManagement.spec.ts",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-AZURE0130",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "76d8ffd8c53c6d01e2d4a291042ebdc0f5e3b17ff18a06aa805f66972a99038b": {
+      "signature": "76d8ffd8c53c6d01e2d4a291042ebdc0f5e3b17ff18a06aa805f66972a99038b",
+      "target": "sdk/servicebus/service-bus/test/atomManagement.spec.ts",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-AZURE0130",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "e4219de603999227fa07e1fa05b6ca0173beee265ed3f4f7a492889ae2686f6b": {
+      "signature": "e4219de603999227fa07e1fa05b6ca0173beee265ed3f4f7a492889ae2686f6b",
+      "target": "sdk/synapse/synapse-artifacts/review/synapse-artifacts.api.md",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "b546c67cfb9262a367f2d598ad0dcebdf057a65edef363bbebfaa93acd0af426": {
+      "signature": "b546c67cfb9262a367f2d598ad0dcebdf057a65edef363bbebfaa93acd0af426",
+      "target": "sdk/synapse/synapse-artifacts/review/synapse-artifacts.api.md",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "4310ef9af8ac8f6c4884bcdffc2100adb7e80d2a27b8af5fda17f05c5ffee967": {
+      "signature": "4310ef9af8ac8f6c4884bcdffc2100adb7e80d2a27b8af5fda17f05c5ffee967",
+      "target": "sdk/core/core-http/test/policies/proxyPolicyTests.browser.ts",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "2998969ac738f0a1033ebc3942a9b62eec64512c6e454c17ab58969f35249382": {
+      "signature": "2998969ac738f0a1033ebc3942a9b62eec64512c6e454c17ab58969f35249382",
+      "target": "sdk/core/core-http/test/policies/proxyPolicyTests.node.ts",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "5c7e3a95955681d9b870763306f69dd12b6e4dada0132f42d012a7cd1f0c2fb5": {
+      "signature": "5c7e3a95955681d9b870763306f69dd12b6e4dada0132f42d012a7cd1f0c2fb5",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/test/public/datafeed.spec.ts",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "6f9f26160f7fac3c87ed3c2b428bce2972f0d458a81d1faa1857326fe1dc1d06": {
+      "signature": "6f9f26160f7fac3c87ed3c2b428bce2972f0d458a81d1faa1857326fe1dc1d06",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/test/public/hookTests.spec.ts",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "e94723dfd5f451f0b799a867bdcf86bf511e2d8be9f6126bf63c64d31d098598": {
+      "signature": "e94723dfd5f451f0b799a867bdcf86bf511e2d8be9f6126bf63c64d31d098598",
+      "target": "sdk/servicebus/service-bus/test/internal/atomXml.spec.ts",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-AZURE0130",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "2e29eba0c424e8cf678a59f7e2c35a7349c6b7c53d3ca2a575557729bcdd8f26": {
+      "signature": "2e29eba0c424e8cf678a59f7e2c35a7349c6b7c53d3ca2a575557729bcdd8f26",
+      "target": "sdk/servicebus/service-bus/test/internal/atomXml.spec.ts",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-AZURE0130",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "f91704b09043fcac7c5a940a386dbff722f38ee97036fc654f1f9706867f1f1a": {
+      "signature": "f91704b09043fcac7c5a940a386dbff722f38ee97036fc654f1f9706867f1f1a",
+      "target": "sdk/storage/storage-blob/test/utils/constants.ts",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0140",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "7101f7e573e0ca58493ea16a914fc77d25f91d400f54b6771952d0cf87db83de": {
+      "signature": "7101f7e573e0ca58493ea16a914fc77d25f91d400f54b6771952d0cf87db83de",
+      "target": "sdk/tables/data-tables/test/unit/sharedKeyCredential.spec.ts",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-AZURE0130",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "97ee5388e8602f3078f4ef2a3f6816c4bcb5ee20457e49d04ded2863addc1fd5": {
+      "signature": "97ee5388e8602f3078f4ef2a3f6816c4bcb5ee20457e49d04ded2863addc1fd5",
+      "target": "sdk/attestation/attestation/recordings/browsers/aad_attestation_client/recording_attestsgxaad.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "552b320b74a9e589d2e088a384e31d9e7d4d43a3daf1e6423f84cc3377ab5bc1": {
+      "signature": "552b320b74a9e589d2e088a384e31d9e7d4d43a3daf1e6423f84cc3377ab5bc1",
+      "target": "sdk/attestation/attestation/recordings/browsers/aad_attestation_client/recording_attestsgxisolated.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "5f393e19e57099a0fec989ad75e2b92e77651d52e4a6cc5acfce8642177a79fe": {
+      "signature": "5f393e19e57099a0fec989ad75e2b92e77651d52e4a6cc5acfce8642177a79fe",
+      "target": "sdk/attestation/attestation/recordings/browsers/aad_attestation_client/recording_attestsgxshared.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "82d661c0b9b09ae523e4f7dfa45c02100eba2426ce49c821ae931ed8acda19e9": {
+      "signature": "82d661c0b9b09ae523e4f7dfa45c02100eba2426ce49c821ae931ed8acda19e9",
+      "target": "sdk/attestation/attestation/recordings/browsers/policygetsettests_/recording_getpolicyaad.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "26b4a1d6e869a290d8b8abbfa3174bc7bf646ecc6a175c661520679deb367cc3": {
+      "signature": "26b4a1d6e869a290d8b8abbfa3174bc7bf646ecc6a175c661520679deb367cc3",
+      "target": "sdk/attestation/attestation/recordings/browsers/policygetsettests_/recording_getpolicyisolated.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "320d1d7ed51389a70c136aee99152f8103de8c5d2196bf71003be821b31bd8cb": {
+      "signature": "320d1d7ed51389a70c136aee99152f8103de8c5d2196bf71003be821b31bd8cb",
+      "target": "sdk/attestation/attestation/recordings/browsers/policygetsettests_/recording_getpolicyshared.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "228a20c686ba044f31386e0e3c8300682c5764d9bafd73e8ede1a1ea19976778": {
+      "signature": "228a20c686ba044f31386e0e3c8300682c5764d9bafd73e8ede1a1ea19976778",
+      "target": "sdk/attestation/attestation/recordings/browsers/policymanagementtests_/recording_getpolicyisolated.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "6062357051dedd3a41369188d8978d751606a49ab13c7c52dc8e69ad250082eb": {
+      "signature": "6062357051dedd3a41369188d8978d751606a49ab13c7c52dc8e69ad250082eb",
+      "target": "sdk/attestation/attestation/recordings/browsers/policymanagementtests_/recording_getpolicymanagementcertificatesaad.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "f86abf97d175a932221f2509588052f468f5d6d827ff562b9b0dd1c3802e134a": {
+      "signature": "f86abf97d175a932221f2509588052f468f5d6d827ff562b9b0dd1c3802e134a",
+      "target": "sdk/attestation/attestation/recordings/browsers/policymanagementtests_/recording_getpolicyshared.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "df9ac02b72881846e97b0436d6420d8707d537afb86f884e174d1f910fec57f1": {
+      "signature": "df9ac02b72881846e97b0436d6420d8707d537afb86f884e174d1f910fec57f1",
+      "target": "sdk/attestation/attestation/recordings/browsers/tokencerttests/recording_getcertificatesaad.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "58eccad1d5d736c33355089e2158a92c68d3365cd2e92eaf375ceea0c936e082": {
+      "signature": "58eccad1d5d736c33355089e2158a92c68d3365cd2e92eaf375ceea0c936e082",
+      "target": "sdk/attestation/attestation/recordings/browsers/tokencerttests/recording_getcertificatesisolated.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "9ab9e40f78e711b1502f25f4fee46a67337769ba7fe1a9d994926359fff10e6b": {
+      "signature": "9ab9e40f78e711b1502f25f4fee46a67337769ba7fe1a9d994926359fff10e6b",
+      "target": "sdk/attestation/attestation/recordings/browsers/tokencerttests/recording_getcertificatesshared.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "0d0bb442c0903991eb0fd51a7858967fc2b3fe1bad45edff9b08f0302db050a7": {
+      "signature": "0d0bb442c0903991eb0fd51a7858967fc2b3fe1bad45edff9b08f0302db050a7",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_components__read_update_and_delete_operations/recording_get_component_not_existing.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "7431dc93831528003c965efe0733e26d67c42b89aad28cdc61ec0a72dcdba457": {
+      "signature": "7431dc93831528003c965efe0733e26d67c42b89aad28cdc61ec0a72dcdba457",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_components__read_update_and_delete_operations/recording_get_component_simple.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "5c9e6bb84143281c7a1ff16ccdd463cfcecb37770c0f5ba5032ee341147c9a76": {
+      "signature": "5c9e6bb84143281c7a1ff16ccdd463cfcecb37770c0f5ba5032ee341147c9a76",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_components__read_update_and_delete_operations/recording_update_component_add.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "d4e91ef118ac6ae0698d0f7c0196b50666a098471a8f041887c94edcb67409c3": {
+      "signature": "d4e91ef118ac6ae0698d0f7c0196b50666a098471a8f041887c94edcb67409c3",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_components__read_update_and_delete_operations/recording_update_component_conditionally_if_present.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "ba5f4e0677b74efe918b8b8731ec58b0edcfc51ea929b01956946b75f5f35065": {
+      "signature": "ba5f4e0677b74efe918b8b8731ec58b0edcfc51ea929b01956946b75f5f35065",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_components__read_update_and_delete_operations/recording_update_component_invalid_conditions.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "25ba6225ff9ac4a0a277bffd37a7a77685415186712b484022363733a215dd96": {
+      "signature": "25ba6225ff9ac4a0a277bffd37a7a77685415186712b484022363733a215dd96",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_components__read_update_and_delete_operations/recording_update_component_invalid_patch.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "0b7ecf44158390fce918994ac12d0b78d412e5179ed5d2e51f9db754e07ac918": {
+      "signature": "0b7ecf44158390fce918994ac12d0b78d412e5179ed5d2e51f9db754e07ac918",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_components__read_update_and_delete_operations/recording_update_component_multiple.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "79248ebe3bc64b75b98b86a71d4c20dad5f5d4094dbad5e8970437f07fb767a0": {
+      "signature": "79248ebe3bc64b75b98b86a71d4c20dad5f5d4094dbad5e8970437f07fb767a0",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_components__read_update_and_delete_operations/recording_update_component_not_exisiting.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "3e6b229af0dea055716395227d4a179f0d2d60325c813d403b765d8b4e3d6110": {
+      "signature": "3e6b229af0dea055716395227d4a179f0d2d60325c813d403b765d8b4e3d6110",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_components__read_update_and_delete_operations/recording_update_component_remove.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "67da1832cb16eb077b3b1a0f63b04fbea5c6382f1e68e70b37009fe97b6e3682": {
+      "signature": "67da1832cb16eb077b3b1a0f63b04fbea5c6382f1e68e70b37009fe97b6e3682",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_components__read_update_and_delete_operations/recording_update_component_replace.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "71c9cc1f8ad53d2b6d281098fe6550fb352057dcac9d693e74315ea1448bb62f": {
+      "signature": "71c9cc1f8ad53d2b6d281098fe6550fb352057dcac9d693e74315ea1448bb62f",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_eventroutes__create_read_list_and_delete_operations/recording_create_event_route_no_endpoint.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "bfe86f5eecc64d151d67b8c683ad9b4b06c6d548d082309df53f9912a26f2dd9": {
+      "signature": "bfe86f5eecc64d151d67b8c683ad9b4b06c6d548d082309df53f9912a26f2dd9",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_eventroutes__create_read_list_and_delete_operations/recording_delete_event_route_not_exisiting.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "ee98a938723aa66723bc244264a5f40532916cf9c45939823a0249277be7f22b": {
+      "signature": "ee98a938723aa66723bc244264a5f40532916cf9c45939823a0249277be7f22b",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_eventroutes__create_read_list_and_delete_operations/recording_get_event_route_not_exisiting.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "ccffb42a07c320d9d6f93d0237ba0b7b6a80b9c8ae98782adf1368f669622756": {
+      "signature": "ccffb42a07c320d9d6f93d0237ba0b7b6a80b9c8ae98782adf1368f669622756",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_eventroutes__create_read_list_and_delete_operations/recording_list_event_routes.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "72641ae160068f8dbd34c9fca8901fde2c90595f441a35553807815e2b9c9fa9": {
+      "signature": "72641ae160068f8dbd34c9fca8901fde2c90595f441a35553807815e2b9c9fa9",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_models__create_read_list_delete_operations/recording_create_models.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "728040f4af58e162935dea7ffdc78058f211ea3835b8884cb183da46e6d2c99d": {
+      "signature": "728040f4af58e162935dea7ffdc78058f211ea3835b8884cb183da46e6d2c99d",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_models__create_read_list_delete_operations/recording_create_models_empty.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "877614d53248f0beacb340e260b014415df795bf9122ef40884a413205370b2a": {
+      "signature": "877614d53248f0beacb340e260b014415df795bf9122ef40884a413205370b2a",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_models__create_read_list_delete_operations/recording_create_model_existing.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "0e3f50d548a0aba568da768774a3c68f6a349c5938706c596506d9d921ae4317": {
+      "signature": "0e3f50d548a0aba568da768774a3c68f6a349c5938706c596506d9d921ae4317",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_models__create_read_list_delete_operations/recording_create_model_invalid_model.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "44da994e4a6d7ff1b74194720339f2ada2f4b7041217eb50ce2b68cb357974b6": {
+      "signature": "44da994e4a6d7ff1b74194720339f2ada2f4b7041217eb50ce2b68cb357974b6",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_models__create_read_list_delete_operations/recording_create_model_invalid_reference.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "6db9eaa7ae23e742abb6cb47971342d043fefcc8b12ea7122945f0f2890b7ee7": {
+      "signature": "6db9eaa7ae23e742abb6cb47971342d043fefcc8b12ea7122945f0f2890b7ee7",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_models__create_read_list_delete_operations/recording_decommission_model.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "efc1fb7c95f4dca4f69cb374c4c3b2895594c6e6643f6f3747121de0c8b838c7": {
+      "signature": "efc1fb7c95f4dca4f69cb374c4c3b2895594c6e6643f6f3747121de0c8b838c7",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_models__create_read_list_delete_operations/recording_decommission_model_already_decomissioned.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "dc8a8f4271227f60d7248cb2367785fc5ee11cb96a73b1d2be5fb5e1df077bbd": {
+      "signature": "dc8a8f4271227f60d7248cb2367785fc5ee11cb96a73b1d2be5fb5e1df077bbd",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_models__create_read_list_delete_operations/recording_decommission_model_not_existing.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "1efa52dcd667c95c8fa0934217ac703b4e2efd0ae833b5883e645181632e25e7": {
+      "signature": "1efa52dcd667c95c8fa0934217ac703b4e2efd0ae833b5883e645181632e25e7",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_models__create_read_list_delete_operations/recording_delete_model.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "b0ece32792d6adf6c9e29295629052c915602615870b6aa1f99dc4f062cc5a0a": {
+      "signature": "b0ece32792d6adf6c9e29295629052c915602615870b6aa1f99dc4f062cc5a0a",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_models__create_read_list_delete_operations/recording_delete_model_already_deleted.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "2978b581bb08c7d6663245945f195dc1649f9e070027ba37d25e10da06bb8af8": {
+      "signature": "2978b581bb08c7d6663245945f195dc1649f9e070027ba37d25e10da06bb8af8",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_models__create_read_list_delete_operations/recording_delete_model_not_existing.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "f3425dc0a0a92cf7b89869e70fc9a90333064585f9b028b828dd34f44fc6bb09": {
+      "signature": "f3425dc0a0a92cf7b89869e70fc9a90333064585f9b028b828dd34f44fc6bb09",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_models__create_read_list_delete_operations/recording_delete_model_with_dependencies.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "ff67dfa32a120121fd3033474f77124e550e73e398aab7109638863e229d7c31": {
+      "signature": "ff67dfa32a120121fd3033474f77124e550e73e398aab7109638863e229d7c31",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_models__create_read_list_delete_operations/recording_get_model.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "127231cb09f0e56bd6e04af6bd9d13eb00091be86bd6f3fbaa7aec3a1ffc6f39": {
+      "signature": "127231cb09f0e56bd6e04af6bd9d13eb00091be86bd6f3fbaa7aec3a1ffc6f39",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_models__create_read_list_delete_operations/recording_get_model_not_existing.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "591701959069ff6ae17420ef2476bbd8c160c692411222bbda0843f3bec32097": {
+      "signature": "591701959069ff6ae17420ef2476bbd8c160c692411222bbda0843f3bec32097",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_models__create_read_list_delete_operations/recording_get_model_with_definition.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "84d76ae0b621385088fc258f7fabd604f6badd03a0b556a5589abf8fe62b0d72": {
+      "signature": "84d76ae0b621385088fc258f7fabd604f6badd03a0b556a5589abf8fe62b0d72",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_models__create_read_list_delete_operations/recording_list_models.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "7d9d808c30550c5526f7f5954b7775523102cfefa8c3d56efe9cae500823710b": {
+      "signature": "7d9d808c30550c5526f7f5954b7775523102cfefa8c3d56efe9cae500823710b",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_models__create_read_list_delete_operations/recording_list_models_with_definition.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "b1e06fa9d8451a64459461b46402779392b8e03a0c4980530fd216bceba71841": {
+      "signature": "b1e06fa9d8451a64459461b46402779392b8e03a0c4980530fd216bceba71841",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_relationships__create_read_list_delete_operations/recording_create_basic_relationship.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "558c0026fb0ee3ecef32f3fe03c4cebd99ec719a1d89b3684ed23d67763a0049": {
+      "signature": "558c0026fb0ee3ecef32f3fe03c4cebd99ec719a1d89b3684ed23d67763a0049",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_relationships__create_read_list_delete_operations/recording_create_invalid_relationship__invalid_twin_id.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "2b8917ab1be1a4d5b3022ada0fc6a98c346a5905475d2973f31c3e170d6fca56": {
+      "signature": "2b8917ab1be1a4d5b3022ada0fc6a98c346a5905475d2973f31c3e170d6fca56",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_relationships__create_read_list_delete_operations/recording_create_invalid_relationship__invalid_twin_target_id.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "22cfdeccd517b51fd4b15660ad28064e7a4be1d76cc84654d880075b038c9637": {
+      "signature": "22cfdeccd517b51fd4b15660ad28064e7a4be1d76cc84654d880075b038c9637",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_relationships__create_read_list_delete_operations/recording_create_relationship_conditionally.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "a24832d8082511b078a082a17c6bfac6d8d202cfd860040a84b21b51e2e4c107": {
+      "signature": "a24832d8082511b078a082a17c6bfac6d8d202cfd860040a84b21b51e2e4c107",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_relationships__create_read_list_delete_operations/recording_delete_relationship.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "421abc288c4a17cf86e45ea45dd63457b83f9622aa5c348eaf589e13002f1e74": {
+      "signature": "421abc288c4a17cf86e45ea45dd63457b83f9622aa5c348eaf589e13002f1e74",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_relationships__create_read_list_delete_operations/recording_delete_relationship_not_existing.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "8d76c648dfaf4d0a9dec9fe4427e60541079e00a801d45aeecbf3001b6c49c02": {
+      "signature": "8d76c648dfaf4d0a9dec9fe4427e60541079e00a801d45aeecbf3001b6c49c02",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_relationships__create_read_list_delete_operations/recording_get_relationship.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "49cfa5c58d74fcc6af758623fe89a240a74ab9b6868e8ecbdb1d9c10355e37f7": {
+      "signature": "49cfa5c58d74fcc6af758623fe89a240a74ab9b6868e8ecbdb1d9c10355e37f7",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_relationships__create_read_list_delete_operations/recording_get_relationship_not_existing.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "ddcefd839c49a4f896b573a1349762530faf399f8d4a9109070afd55a3a4e16e": {
+      "signature": "ddcefd839c49a4f896b573a1349762530faf399f8d4a9109070afd55a3a4e16e",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_relationships__create_read_list_delete_operations/recording_list_incoming_relationships.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "9f7d12d2af736b886f94971f588cd2abc8b52a27f52a2bfabdc40e3959184c8b": {
+      "signature": "9f7d12d2af736b886f94971f588cd2abc8b52a27f52a2bfabdc40e3959184c8b",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_relationships__create_read_list_delete_operations/recording_list_relationships.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "73671f50bd9ff76f24ce6a2e5ffb2806bd7d53b29d193f8138086ec7b2ce5797": {
+      "signature": "73671f50bd9ff76f24ce6a2e5ffb2806bd7d53b29d193f8138086ec7b2ce5797",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_relationships__create_read_list_delete_operations/recording_update_relationship_add.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "6090ea3b9eaba286076924aeb3f0363a8732529d6285223565c023737aa20e0d": {
+      "signature": "6090ea3b9eaba286076924aeb3f0363a8732529d6285223565c023737aa20e0d",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_relationships__create_read_list_delete_operations/recording_update_relationship_conditionally.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "87612d4a6837b9e7dd22778047232c6fa3b81553ce358792a1e4264739c0eb13": {
+      "signature": "87612d4a6837b9e7dd22778047232c6fa3b81553ce358792a1e4264739c0eb13",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_relationships__create_read_list_delete_operations/recording_update_relationship_invalid_patch.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "0b80637923b927500d3a5b507c986dd5c3ff94d0bacf2cbc8c438e1166db7aa1": {
+      "signature": "0b80637923b927500d3a5b507c986dd5c3ff94d0bacf2cbc8c438e1166db7aa1",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_relationships__create_read_list_delete_operations/recording_update_relationship_multiple.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "ff31f349cb010610a4a9ce409f521d3440505b3a9adf4a39d4a8df8e0adc7311": {
+      "signature": "ff31f349cb010610a4a9ce409f521d3440505b3a9adf4a39d4a8df8e0adc7311",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_relationships__create_read_list_delete_operations/recording_update_relationship_not_existing.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "56c278edc0a099a055d75a355ba5a0ac258fded8a396484530886110d0b3551d": {
+      "signature": "56c278edc0a099a055d75a355ba5a0ac258fded8a396484530886110d0b3551d",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_relationships__create_read_list_delete_operations/recording_update_relationship_remove.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "3f4177a7066ca06764ac846cb366c74429eda5bae3635446caa04c14d9f1948d": {
+      "signature": "3f4177a7066ca06764ac846cb366c74429eda5bae3635446caa04c14d9f1948d",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_relationships__create_read_list_delete_operations/recording_update_relationship_replace.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "9dbc94a428cfa4265aec515dd30c9354230d8a6651f522c70372eb6de203b90f": {
+      "signature": "9dbc94a428cfa4265aec515dd30c9354230d8a6651f522c70372eb6de203b90f",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins_relationships__create_read_list_delete_operations/recording_upsert_relationship.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "743eafbb4acc40ae46c6cae8a1a860630fd5b919d0102706fa7c0aa81320e3f1": {
+      "signature": "743eafbb4acc40ae46c6cae8a1a860630fd5b919d0102706fa7c0aa81320e3f1",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins__create_read_update_delete_and_telemetry_operations/recording_create_a_simple_digital_twin.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "44f72e1f759b4d72f7177c344598bdec487b17d73dccce3bc24d26884732b97c": {
+      "signature": "44f72e1f759b4d72f7177c344598bdec487b17d73dccce3bc24d26884732b97c",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins__create_read_update_delete_and_telemetry_operations/recording_create_digitaltwin_conditionally_if_missing.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "2d988e2e4c26cac71987a0fda4f10269aa4edd32985a580029c59488488c18cc": {
+      "signature": "2d988e2e4c26cac71987a0fda4f10269aa4edd32985a580029c59488488c18cc",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins__create_read_update_delete_and_telemetry_operations/recording_create_digitaltwin_without_model.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "4e122648dbda8d3e700025262116b1f6ff413fcc78c34dc88da2048b3ee81ce6": {
+      "signature": "4e122648dbda8d3e700025262116b1f6ff413fcc78c34dc88da2048b3ee81ce6",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins__create_read_update_delete_and_telemetry_operations/recording_create_invalid_digitaltwin.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "d9324ba91690c9714c3f40a998a9143cf6f2ae83494d1574733b5aea81dbef47": {
+      "signature": "d9324ba91690c9714c3f40a998a9143cf6f2ae83494d1574733b5aea81dbef47",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins__create_read_update_delete_and_telemetry_operations/recording_delete_digitaltwin.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "23476683683c3803413d2aab3b3be739827dfc6ebf1855903e4d06cb2ba5172c": {
+      "signature": "23476683683c3803413d2aab3b3be739827dfc6ebf1855903e4d06cb2ba5172c",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins__create_read_update_delete_and_telemetry_operations/recording_delete_digitaltwin_if_present.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "419f84443705cd2e7ff7f0019eaf43c97c46e7639f37da643c374712c9a9180b": {
+      "signature": "419f84443705cd2e7ff7f0019eaf43c97c46e7639f37da643c374712c9a9180b",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins__create_read_update_delete_and_telemetry_operations/recording_delete_digitaltwin_not_existing.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "69b18de5c6f85ece98dc4328e72ecaa82b2156e14d5c49001ee25ab549430473": {
+      "signature": "69b18de5c6f85ece98dc4328e72ecaa82b2156e14d5c49001ee25ab549430473",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins__create_read_update_delete_and_telemetry_operations/recording_delete_digital_twin_invalid_conditions.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "35fb2e97b5fb7308f67da347bde7ba896030c4f887d10930307b28adf4626264": {
+      "signature": "35fb2e97b5fb7308f67da347bde7ba896030c4f887d10930307b28adf4626264",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins__create_read_update_delete_and_telemetry_operations/recording_get_digitaltwin.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "7ce34d69e284ab39a809cf652d42ae1dcc98f8ab54fe8c18c310a550a24cbab8": {
+      "signature": "7ce34d69e284ab39a809cf652d42ae1dcc98f8ab54fe8c18c310a550a24cbab8",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins__create_read_update_delete_and_telemetry_operations/recording_get_digitaltwin_not_existing.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "422c8de703e5efc2bf8aaf5af6664f0ab14416c2c823c371414dc6bbb48352cf": {
+      "signature": "422c8de703e5efc2bf8aaf5af6664f0ab14416c2c823c371414dc6bbb48352cf",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins__create_read_update_delete_and_telemetry_operations/recording_query_digital_twin.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "32ee1fda45b14a6e1da8668d36c3d5d8e804dedf58c5f165b7694884c978c896": {
+      "signature": "32ee1fda45b14a6e1da8668d36c3d5d8e804dedf58c5f165b7694884c978c896",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins__create_read_update_delete_and_telemetry_operations/recording_query_digital_twin_invalid_expression.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "b89ea384cdf4a63d1adc34fd6a4dba709c5dc349be2fe66106f50ce74b58382e": {
+      "signature": "b89ea384cdf4a63d1adc34fd6a4dba709c5dc349be2fe66106f50ce74b58382e",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins__create_read_update_delete_and_telemetry_operations/recording_update_a_simple_digital_twin.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "c656398b3bc709e7a2fa4a1fd36f6c93e88f664aa532e66ae8a052cc0e482719": {
+      "signature": "c656398b3bc709e7a2fa4a1fd36f6c93e88f664aa532e66ae8a052cc0e482719",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins__create_read_update_delete_and_telemetry_operations/recording_update_digital_twin_add.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "bea19fba890a8760b2ce06f74bf9bc9a202155f691988c862a5dfe95ec0c6423": {
+      "signature": "bea19fba890a8760b2ce06f74bf9bc9a202155f691988c862a5dfe95ec0c6423",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins__create_read_update_delete_and_telemetry_operations/recording_update_digital_twin_confditionally_if_present.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "5f8ff7abfd2d076671c2d511d28db30c8754df5c3d069ac166dcc76a6edbf74f": {
+      "signature": "5f8ff7abfd2d076671c2d511d28db30c8754df5c3d069ac166dcc76a6edbf74f",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins__create_read_update_delete_and_telemetry_operations/recording_update_digital_twin_invalid_conditions.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "943373bd20534455f41d888fbe63a3496fc7fb0fa6afd14649e60673108d7297": {
+      "signature": "943373bd20534455f41d888fbe63a3496fc7fb0fa6afd14649e60673108d7297",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins__create_read_update_delete_and_telemetry_operations/recording_update_digital_twin_invalid_patch.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "f2ec350eea5cffdccd9610f5ad7015eb464e435bc27c16cab853297024fcf35d": {
+      "signature": "f2ec350eea5cffdccd9610f5ad7015eb464e435bc27c16cab853297024fcf35d",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins__create_read_update_delete_and_telemetry_operations/recording_update_digital_twin_multiple.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "14795ead53aff753966e7050194bfe57ca3159b76c8f806f000801c884af0a0b": {
+      "signature": "14795ead53aff753966e7050194bfe57ca3159b76c8f806f000801c884af0a0b",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins__create_read_update_delete_and_telemetry_operations/recording_update_digital_twin_not_existing.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "3f2162c5efac9e28d510fd85390e7aa87c5ddb91a7ca68538837867cf369a39c": {
+      "signature": "3f2162c5efac9e28d510fd85390e7aa87c5ddb91a7ca68538837867cf369a39c",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins__create_read_update_delete_and_telemetry_operations/recording_update_digital_twin_remove.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "d3ea2b9961a0064d3575cdbb62c85601d6f4946444119ca41ecf058b72bcbd7b": {
+      "signature": "d3ea2b9961a0064d3575cdbb62c85601d6f4946444119ca41ecf058b72bcbd7b",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins__create_read_update_delete_and_telemetry_operations/recording_update_digital_twin_replace.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "48982ec86d1c687d44af88a67af33b4ebb63d2f37adca392d881e7fd6d9b7f0a": {
+      "signature": "48982ec86d1c687d44af88a67af33b4ebb63d2f37adca392d881e7fd6d9b7f0a",
+      "target": "sdk/digitaltwins/digital-twins-core/recordings/browsers/digitaltwins__create_read_update_delete_and_telemetry_operations/recording_upsert_digital_twin_invalid_conditions.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "f9db007f537567e19fd05fbcfbd97301c25b96d4b978750c00d998a5b4d3b220": {
+      "signature": "f9db007f537567e19fd05fbcfbd97301c25b96d4b978750c00d998a5b4d3b220",
+      "target": "sdk/formrecognizer/ai-form-recognizer/recordings/browsers/aad_formtrainingclient/recording_compose_model.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "7c598386407617ad2d43a7d985a4774af167037987adbb6b2fe81a77e148a941": {
+      "signature": "7c598386407617ad2d43a7d985a4774af167037987adbb6b2fe81a77e148a941",
+      "target": "sdk/formrecognizer/ai-form-recognizer/recordings/browsers/aad_formtrainingclient/recording_copy_model.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "27288bd3c1b134830b6852df78b1d9a2772a75f46cead5606c40e7e6e4077b8a": {
+      "signature": "27288bd3c1b134830b6852df78b1d9a2772a75f46cead5606c40e7e6e4077b8a",
+      "target": "sdk/formrecognizer/ai-form-recognizer/recordings/browsers/aad_formtrainingclient_model_training_account_properties/recording_has_trained_models_and_limits.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "0c1a6bd08d8be4b94fc0c7d320d3f17e3a1ade3b42cf4cb9eadeaa8c70644e4e": {
+      "signature": "0c1a6bd08d8be4b94fc0c7d320d3f17e3a1ade3b42cf4cb9eadeaa8c70644e4e",
+      "target": "sdk/formrecognizer/ai-form-recognizer/recordings/browsers/aad_formtrainingclient_model_training_model_information/recording_delete_models_from_the_account.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "ceac5e02053fb64d35f966c9db747b6b4fa5794dc61a0ce949884e0a65a27443": {
+      "signature": "ceac5e02053fb64d35f966c9db747b6b4fa5794dc61a0ce949884e0a65a27443",
+      "target": "sdk/formrecognizer/ai-form-recognizer/recordings/browsers/aad_formtrainingclient_model_training_model_information/recording_iterate_models_in_account.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "6c53dad6070cd6fd7f864c8c1ea8187078ade22ad1134ec0be02eb9b00229ba2": {
+      "signature": "6c53dad6070cd6fd7f864c8c1ea8187078ade22ad1134ec0be02eb9b00229ba2",
+      "target": "sdk/formrecognizer/ai-form-recognizer/recordings/browsers/aad_formtrainingclient_model_training_model_information/recording_oldstyle_iteration_with_next_model_info.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "c0969169b0e39f88bf1253f37410009b332be7506be18f5b7361ad67c4ccf777": {
+      "signature": "c0969169b0e39f88bf1253f37410009b332be7506be18f5b7361ad67c4ccf777",
+      "target": "sdk/formrecognizer/ai-form-recognizer/recordings/browsers/aad_formtrainingclient_model_training_model_with_labels_no_subfolders_and_no_prefix/recording_getmodel_verification.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "a42cd8224b1d65c203afacab0e0329376a7b5d6c06e68279f040639e02a31c32": {
+      "signature": "a42cd8224b1d65c203afacab0e0329376a7b5d6c06e68279f040639e02a31c32",
+      "target": "sdk/formrecognizer/ai-form-recognizer/recordings/browsers/aad_formtrainingclient_model_training_model_with_labels_no_subfolders_and_no_prefix/recording_validate_model_training_response.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "6e2f6dd5c7863709f66b9ee802001c9da297006a8153a036e95821b51cf95e06": {
+      "signature": "6e2f6dd5c7863709f66b9ee802001c9da297006a8153a036e95821b51cf95e06",
+      "target": "sdk/formrecognizer/ai-form-recognizer/recordings/browsers/aad_formtrainingclient_model_training_model_with_labels_no_subfolders_and_no_prefix_recognition/recording_form_from_url.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "77aa79109d849e6b2b308481d7be111b0142c135f35345dade16fa66c7eb751e": {
+      "signature": "77aa79109d849e6b2b308481d7be111b0142c135f35345dade16fa66c7eb751e",
+      "target": "sdk/formrecognizer/ai-form-recognizer/recordings/browsers/aad_formtrainingclient_model_training_model_with_labels_no_subfolders_and_prefix/recording_getmodel_verification.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "1363f009295a884aaba62248ef0c70c04a9a960d7758d703cfce1def296160e8": {
+      "signature": "1363f009295a884aaba62248ef0c70c04a9a960d7758d703cfce1def296160e8",
+      "target": "sdk/formrecognizer/ai-form-recognizer/recordings/browsers/aad_formtrainingclient_model_training_model_with_labels_no_subfolders_and_prefix/recording_validate_model_training_response.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "29192b3271f319b33167444e5bcbab0040bb4eeefd5e597c8c2b2955b4bb4ae8": {
+      "signature": "29192b3271f319b33167444e5bcbab0040bb4eeefd5e597c8c2b2955b4bb4ae8",
+      "target": "sdk/formrecognizer/ai-form-recognizer/recordings/browsers/aad_formtrainingclient_model_training_model_with_labels_no_subfolders_and_prefix_recognition/recording_form_from_url.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "e869a7559b76e178f91b05f2a50c3401fed1e0224363389cbbe29f3cd0e19695": {
+      "signature": "e869a7559b76e178f91b05f2a50c3401fed1e0224363389cbbe29f3cd0e19695",
+      "target": "sdk/formrecognizer/ai-form-recognizer/recordings/browsers/aad_formtrainingclient_model_training_model_with_no_labels_no_subfolders_and_no_prefix/recording_getmodel_verification.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "850202bc57f740b6a0837898e2aeca8e4bc7f0cf960f54c7232834395f887dae": {
+      "signature": "850202bc57f740b6a0837898e2aeca8e4bc7f0cf960f54c7232834395f887dae",
+      "target": "sdk/formrecognizer/ai-form-recognizer/recordings/browsers/aad_formtrainingclient_model_training_model_with_no_labels_no_subfolders_and_no_prefix/recording_validate_model_training_response.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "3dc0ae626c87bf6278d60621807adad706a9e09f816c861d9b7c270a75cba239": {
+      "signature": "3dc0ae626c87bf6278d60621807adad706a9e09f816c861d9b7c270a75cba239",
+      "target": "sdk/formrecognizer/ai-form-recognizer/recordings/browsers/aad_formtrainingclient_model_training_model_with_no_labels_no_subfolders_and_no_prefix_recognition/recording_form_from_url.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "43768f8d8ff197377f4044e256d073b90ddfe4967285a5be3b6dc08494a9d6ea": {
+      "signature": "43768f8d8ff197377f4044e256d073b90ddfe4967285a5be3b6dc08494a9d6ea",
+      "target": "sdk/formrecognizer/ai-form-recognizer/recordings/browsers/aad_formtrainingclient_model_training_model_with_no_labels_no_subfolders_and_prefix/recording_getmodel_verification.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "5d76c94b8d4fc7f8639fda6df9bbe3c681c7a6db4c1f90f27043a95e498c48c7": {
+      "signature": "5d76c94b8d4fc7f8639fda6df9bbe3c681c7a6db4c1f90f27043a95e498c48c7",
+      "target": "sdk/formrecognizer/ai-form-recognizer/recordings/browsers/aad_formtrainingclient_model_training_model_with_no_labels_no_subfolders_and_prefix/recording_validate_model_training_response.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "0a6491b3b27db70a477dc6c7fa140766f55b74091a212b62df26278707055677": {
+      "signature": "0a6491b3b27db70a477dc6c7fa140766f55b74091a212b62df26278707055677",
+      "target": "sdk/formrecognizer/ai-form-recognizer/recordings/browsers/aad_formtrainingclient_model_training_model_with_no_labels_no_subfolders_and_prefix_recognition/recording_form_from_url.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "cf1ada67f73ed7e43180f49fb27cd188a3307356efb81cd32dcd25da7f28ee2e": {
+      "signature": "cf1ada67f73ed7e43180f49fb27cd188a3307356efb81cd32dcd25da7f28ee2e",
+      "target": "sdk/formrecognizer/ai-form-recognizer/recordings/browsers/aad_formtrainingclient_model_training_model_with_no_labels_subfolders_and_no_prefix/recording_getmodel_verification.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "0b12b03c230e2ad54e50b688e81942a2732f8d01784abc271a675e5da709fd92": {
+      "signature": "0b12b03c230e2ad54e50b688e81942a2732f8d01784abc271a675e5da709fd92",
+      "target": "sdk/formrecognizer/ai-form-recognizer/recordings/browsers/aad_formtrainingclient_model_training_model_with_no_labels_subfolders_and_no_prefix/recording_validate_model_training_response.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "3833f8e575de24cf02d0423cd0eaed113e7953716f8a28251ea7ce9a3fa505f0": {
+      "signature": "3833f8e575de24cf02d0423cd0eaed113e7953716f8a28251ea7ce9a3fa505f0",
+      "target": "sdk/formrecognizer/ai-form-recognizer/recordings/browsers/aad_formtrainingclient_model_training_model_with_no_labels_subfolders_and_no_prefix_recognition/recording_form_from_url.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "9567e4e71ae7b00dacfb50f70e508951d043068a9d0271c8c4c5b50799b98c97": {
+      "signature": "9567e4e71ae7b00dacfb50f70e508951d043068a9d0271c8c4c5b50799b98c97",
+      "target": "sdk/formrecognizer/ai-form-recognizer/recordings/browsers/aad_formtrainingclient_model_training_model_with_no_labels_subfolders_and_prefix/recording_getmodel_verification.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "da52cc7f38f95a2ddeffaaa0026b8ccf3299d9bf55782b522420f89673d726c9": {
+      "signature": "da52cc7f38f95a2ddeffaaa0026b8ccf3299d9bf55782b522420f89673d726c9",
+      "target": "sdk/formrecognizer/ai-form-recognizer/recordings/browsers/aad_formtrainingclient_model_training_model_with_no_labels_subfolders_and_prefix/recording_validate_model_training_response.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "7b7067e4f3e4fbbaa179273c6a945d82fdc382cb167ea1626d28534c0db6e832": {
+      "signature": "7b7067e4f3e4fbbaa179273c6a945d82fdc382cb167ea1626d28534c0db6e832",
+      "target": "sdk/formrecognizer/ai-form-recognizer/recordings/browsers/aad_formtrainingclient_model_training_model_with_no_labels_subfolders_and_prefix_recognition/recording_form_from_url.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "10b54adcc178fea9f4ab9e089062fc563f82c4253c52af009246d0d74c9c52da": {
+      "signature": "10b54adcc178fea9f4ab9e089062fc563f82c4253c52af009246d0d74c9c52da",
+      "target": "sdk/keyvault/keyvault-certificates/recordings/browsers/certificates_client__merge_and_import_certificates/recording_can_import_a_certificate_from_a_certificates_base64_secret_value.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0020",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "033f9a11b3ee8476b658ce16b24979931f13ace4eac15d0e38efe5becee37d9b": {
+      "signature": "033f9a11b3ee8476b658ce16b24979931f13ace4eac15d0e38efe5becee37d9b",
+      "target": "sdk/keyvault/keyvault-certificates/recordings/browsers/certificates_client__merge_and_import_certificates/recording_can_import_a_certificate_from_a_certificates_base64_secret_value.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0020",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "5ca6b467579a98f7d51bba5d80516aeaebd10cf3216b2a2b1e20a41462fa3c39": {
+      "signature": "5ca6b467579a98f7d51bba5d80516aeaebd10cf3216b2a2b1e20a41462fa3c39",
+      "target": "sdk/keyvault/keyvault-certificates/recordings/browsers/certificates_client__merge_and_import_certificates/recording_can_import_a_certificate_from_a_certificates_non_base64_secret_value.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0020",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "7e098d60dacd671173753f7556b79b56a03cdbd2de45258efb0d46e76fd32351": {
+      "signature": "7e098d60dacd671173753f7556b79b56a03cdbd2de45258efb0d46e76fd32351",
+      "target": "sdk/keyvault/keyvault-certificates/recordings/browsers/certificates_client__merge_and_import_certificates/recording_can_import_a_certificate_from_a_certificates_non_base64_secret_value.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0020",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "4cec89bdca10b846f292da56ca85f7e1c05d7b156935c4cc74c0a8b6f0f5e488": {
+      "signature": "4cec89bdca10b846f292da56ca85f7e1c05d7b156935c4cc74c0a8b6f0f5e488",
+      "target": "sdk/keyvault/keyvault-certificates/recordings/node/certificates_client__create_read_update_and_delete/recording_can_get_a_certificates_secret_in_pkcs_12_format.js",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0020",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "2d2ec42290d826561c136cfb479ec132ec92bff2ccdd4cced9aa03c42905a7b2": {
+      "signature": "2d2ec42290d826561c136cfb479ec132ec92bff2ccdd4cced9aa03c42905a7b2",
+      "target": "sdk/keyvault/keyvault-certificates/recordings/node/certificates_client__merge_and_import_certificates/recording_can_import_a_certificate_from_a_certificates_base64_secret_value.js",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0020",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "6a52887f89a6b5dc487f86ec4948687cda0b8e84cc25d44495ac6fcb91c9fb8f": {
+      "signature": "6a52887f89a6b5dc487f86ec4948687cda0b8e84cc25d44495ac6fcb91c9fb8f",
+      "target": "sdk/keyvault/keyvault-certificates/recordings/node/certificates_client__merge_and_import_certificates/recording_can_import_a_certificate_from_a_certificates_base64_secret_value.js",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0020",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "9fbcfe27198d38724d780e107466b18b2987215bfe3aba09ea20ce60dead29bf": {
+      "signature": "9fbcfe27198d38724d780e107466b18b2987215bfe3aba09ea20ce60dead29bf",
+      "target": "sdk/keyvault/keyvault-certificates/recordings/node/certificates_client__merge_and_import_certificates/recording_can_import_a_certificate_from_a_certificates_non_base64_secret_value.js",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0020",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "5a6bf6012c8e0a559bab942490c22c6ec7052b91f36f540fe5df0ebe352fdb7d": {
+      "signature": "5a6bf6012c8e0a559bab942490c22c6ec7052b91f36f540fe5df0ebe352fdb7d",
+      "target": "sdk/keyvault/keyvault-certificates/recordings/node/certificates_client__merge_and_import_certificates/recording_can_import_a_certificate_from_a_certificates_non_base64_secret_value.js",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0020",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "fd7d7288fefe81f9c82cb690212365bd57ca049db4156a081aac1f1a4527e780": {
+      "signature": "fd7d7288fefe81f9c82cb690212365bd57ca049db4156a081aac1f1a4527e780",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_an_azure_application_insights_feed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "04ad399f919c88cdb733ce4028dc07e61da67388f7e06dedc8ad2e2d39c578b3": {
+      "signature": "04ad399f919c88cdb733ce4028dc07e61da67388f7e06dedc8ad2e2d39c578b3",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_an_azure_blob_datafeed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "30b372a8d4971c8d969789766323a678aff7600b21929eac9881ce69c12cf788": {
+      "signature": "30b372a8d4971c8d969789766323a678aff7600b21929eac9881ce69c12cf788",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_an_azure_cosmos_db_feed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "57562b2ccce459bb12ecac6f0d8306f91019bd5244c381d614c15016a19adbbe": {
+      "signature": "57562b2ccce459bb12ecac6f0d8306f91019bd5244c381d614c15016a19adbbe",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_an_azure_data_explorer_feed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "15932296c4c7f32410d8807d66773812a24646d9ba114ca9a1e4ac6da277f70a": {
+      "signature": "15932296c4c7f32410d8807d66773812a24646d9ba114ca9a1e4ac6da277f70a",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_an_azure_sql_server_feed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "4b78fc98cb40de141060af96ea30dbfa63bb575b307c50f02bafffa05ea2d49a": {
+      "signature": "4b78fc98cb40de141060af96ea30dbfa63bb575b307c50f02bafffa05ea2d49a",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_an_azure_table_feed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "e3aae2da0cc4ea8732482130f22afac2a1a510b0f0f4d56cc2b430a739961157": {
+      "signature": "e3aae2da0cc4ea8732482130f22afac2a1a510b0f0f4d56cc2b430a739961157",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_http_request_feed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "351ddc67f7327b4b78165c8c2d2a1f4936a5b5add47355273a87ad1ac2790a50": {
+      "signature": "351ddc67f7327b4b78165c8c2d2a1f4936a5b5add47355273a87ad1ac2790a50",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_influxdb_data_feed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "5e95a267777f546535cf68a778052b871d6d6fc68d4350dd717848e90241b415": {
+      "signature": "5e95a267777f546535cf68a778052b871d6d6fc68d4350dd717848e90241b415",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_influxdb_data_feed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "3e130b6a6556cff84329939707a670b9f74f3d329c0d85043b7a1eaa98691950": {
+      "signature": "3e130b6a6556cff84329939707a670b9f74f3d329c0d85043b7a1eaa98691950",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_influxdb_data_feed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "b80b1ecbc428d9c1047b08c17aa75d37320024e5505c100e4b4d60dc24e1766e": {
+      "signature": "b80b1ecbc428d9c1047b08c17aa75d37320024e5505c100e4b4d60dc24e1766e",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_mongodb_data_feed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "8d312fdf82456212ea858df6b5e25b3984ac5b6fbb5fe974c3ef958277c6c334": {
+      "signature": "8d312fdf82456212ea858df6b5e25b3984ac5b6fbb5fe974c3ef958277c6c334",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_mysql_data_feed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "666c07d63d45c6b3a4f792d872e81498399a937f72afd7dd688e4a931efebb2a": {
+      "signature": "666c07d63d45c6b3a4f792d872e81498399a937f72afd7dd688e4a931efebb2a",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_postgresql_data_feed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "cb0270689c555c222e4fca45d0e1d9ec5eaee8c57d6cd19c971c27af9e526619": {
+      "signature": "cb0270689c555c222e4fca45d0e1d9ec5eaee8c57d6cd19c971c27af9e526619",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_deletes_an_azure_application_insights_feed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "d7864c562ed98be86a3ba7bfc9b762306d236469a8e27bcbbd7f9591ef4d5712": {
+      "signature": "d7864c562ed98be86a3ba7bfc9b762306d236469a8e27bcbbd7f9591ef4d5712",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_deletes_an_azure_blob_datafeed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "fd973c9af0ebcbb137d0433b42624ec7f4991c8fcd5e6a5e32481e20535fad2c": {
+      "signature": "fd973c9af0ebcbb137d0433b42624ec7f4991c8fcd5e6a5e32481e20535fad2c",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_deletes_an_azure_cosmos_db.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "0f9d0927e7c9a0807e3f1a7badd51a529d69c44c9cdd3879240a1d87a809f123": {
+      "signature": "0f9d0927e7c9a0807e3f1a7badd51a529d69c44c9cdd3879240a1d87a809f123",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_deletes_an_azure_data_explorer_feed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "d8383691d2a20f0e7ce69f8dd2518032674f220914e5a2e17a378f0d9fe756ea": {
+      "signature": "d8383691d2a20f0e7ce69f8dd2518032674f220914e5a2e17a378f0d9fe756ea",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_deletes_an_azure_sql_server_feed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "980b0fd32006e17f3f6f100fffa1f3cbf1394cb5ccbdfeeea29a4ab7ca92fd2b": {
+      "signature": "980b0fd32006e17f3f6f100fffa1f3cbf1394cb5ccbdfeeea29a4ab7ca92fd2b",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_deletes_an_azure_table_feed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "5020727d44ae1232f9ecb76683e1054607707cd3232c9d725e657b44b71f74e8": {
+      "signature": "5020727d44ae1232f9ecb76683e1054607707cd3232c9d725e657b44b71f74e8",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_deletes_http_request_feed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "e14eabf92a4366eee975be008357997d4c7e7b611ca16bfae17d6f06e111a4db": {
+      "signature": "e14eabf92a4366eee975be008357997d4c7e7b611ca16bfae17d6f06e111a4db",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_deletes_influxdb_data_feed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "ed952ce0834c8a797805009b239be4cf95eb3578379664caaf5c1b5ad7b52cd2": {
+      "signature": "ed952ce0834c8a797805009b239be4cf95eb3578379664caaf5c1b5ad7b52cd2",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_deletes_mongodb_data_feed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "033f05683abe32a7824951c145d451fa969058d91ad95f0ad56a0d6d08127cf8": {
+      "signature": "033f05683abe32a7824951c145d451fa969058d91ad95f0ad56a0d6d08127cf8",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_deletes_mysql_data_feed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "7ab49a0edf8b842eff3e17b2997a801f58d115df7e7ee125140cefa516dbbe0e": {
+      "signature": "7ab49a0edf8b842eff3e17b2997a801f58d115df7e7ee125140cefa516dbbe0e",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_deletes_postgresql_data_feed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "8ff566ed95d31036827a3660eab2c1995b081d8c929e366f8e70d22f78479bb4": {
+      "signature": "8ff566ed95d31036827a3660eab2c1995b081d8c929e366f8e70d22f78479bb4",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_lists_datafeed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "9beed84315fa5b44664998eda201ec6217e8c6ef2d42afaa243708a7a762b65e": {
+      "signature": "9beed84315fa5b44664998eda201ec6217e8c6ef2d42afaa243708a7a762b65e",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_lists_datafeed_by_pages.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "207ba6ae71cfef7b5ec29825a8f3eaef24f167fc955920438e0e07255e3cde0b": {
+      "signature": "207ba6ae71cfef7b5ec29825a8f3eaef24f167fc955920438e0e07255e3cde0b",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_retrieves_an_azure_blob_datafeed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "560cd12fd3555ea9f60592b443d85e04d9bf37fa304981a31f7c9a0e93704710": {
+      "signature": "560cd12fd3555ea9f60592b443d85e04d9bf37fa304981a31f7c9a0e93704710",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_updates_an_azure_blob_datafeed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "aee0a8af1eaabca2aa4d205eee67a7b512590be180091db34e12a4699e5b8c23": {
+      "signature": "aee0a8af1eaabca2aa4d205eee67a7b512590be180091db34e12a4699e5b8c23",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_updates_data_feed_to_have_a_different_data_source_type.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "8441d4567d2fc1ca918f02f7c59df6fb13593a93d2875840fc9f91aa63d760b8": {
+      "signature": "8441d4567d2fc1ca918f02f7c59df6fb13593a93d2875840fc9f91aa63d760b8",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_detection_and_alert_configs_crud_operations/recording_creates_an_alert_configuration.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "5c4fe315520f73172d1f97e73cbecbf2dc734c73298abf5128898cf27bd3f46a": {
+      "signature": "5c4fe315520f73172d1f97e73cbecbf2dc734c73298abf5128898cf27bd3f46a",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_detection_and_alert_configs_crud_operations/recording_creates_a_detection_configuration.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "25a4d32c9fd068bc136b4d587517d55cb615eef5896a2741644e68def68f7b99": {
+      "signature": "25a4d32c9fd068bc136b4d587517d55cb615eef5896a2741644e68def68f7b99",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_detection_and_alert_configs_crud_operations/recording_deletes_an_alert_configuration.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "77662f2c378f76ad1953b7aab93e80523a7bd2289f2f43f87023d5534036488c": {
+      "signature": "77662f2c378f76ad1953b7aab93e80523a7bd2289f2f43f87023d5534036488c",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_detection_and_alert_configs_crud_operations/recording_deletes_a_detection_configuration.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "62ebe5720fb1f50ced9b036e4dcf8b7a2efbcb1eb95dd62ad4a16778b4a4cd90": {
+      "signature": "62ebe5720fb1f50ced9b036e4dcf8b7a2efbcb1eb95dd62ad4a16778b4a4cd90",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_detection_and_alert_configs_crud_operations/recording_lists_alert_configurations_one_by_one_and_by_pages.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "5517fe8ac9a00deb1c413e3e343f6fa0fadf75506ee2302d8c03ea3337d37e49": {
+      "signature": "5517fe8ac9a00deb1c413e3e343f6fa0fadf75506ee2302d8c03ea3337d37e49",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_detection_and_alert_configs_crud_operations/recording_lists_detection_configurations.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "ec015192d4c9663251091810040031ed0bb3542ecd78cca56a86b669ddf1b433": {
+      "signature": "ec015192d4c9663251091810040031ed0bb3542ecd78cca56a86b669ddf1b433",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_detection_and_alert_configs_crud_operations/recording_lists_detection_configurations_by_page.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "c4d12f07eb74bd1e0fbb63611c58acf472451344205af5a2d9c5ba24a6cebd84": {
+      "signature": "c4d12f07eb74bd1e0fbb63611c58acf472451344205af5a2d9c5ba24a6cebd84",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_detection_and_alert_configs_crud_operations/recording_retrieves_an_alert_configuration.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "7af4bcb5215de6d10062a72ac02b5004f5b798d81da1de32c58f09bfd8662d35": {
+      "signature": "7af4bcb5215de6d10062a72ac02b5004f5b798d81da1de32c58f09bfd8662d35",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_detection_and_alert_configs_crud_operations/recording_retrieves_a_detection_configuration.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "009f2db0e19042efd7423842bb42bd84ab765820a1d9bed2a4a110e5403fcb04": {
+      "signature": "009f2db0e19042efd7423842bb42bd84ab765820a1d9bed2a4a110e5403fcb04",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_detection_and_alert_configs_crud_operations/recording_updates_an_alert_configuration.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "e55cb60312cdc1e04f8ab32382c095246d0672e0ce693c58caf6986fc28b1601": {
+      "signature": "e55cb60312cdc1e04f8ab32382c095246d0672e0ce693c58caf6986fc28b1601",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_detection_and_alert_configs_crud_operations/recording_updates_a_detection_configuration.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "5308974573eb91c04bb35691a910106afb972ed1e74ef11f1996aa05139fcbbf": {
+      "signature": "5308974573eb91c04bb35691a910106afb972ed1e74ef11f1996aa05139fcbbf",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_ingestion/recording_gets_ingestion_progress.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "cbdcc288827bbc47e73af6736ac6bc1cf175e8268258a5d8e72d51a2dce2b62f": {
+      "signature": "cbdcc288827bbc47e73af6736ac6bc1cf175e8268258a5d8e72d51a2dce2b62f",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_ingestion/recording_lists_ingestion_status.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "27dd6e716caabf5006878806414db9a1bc1b3ebb990f7a41f2b57a83d33270e6": {
+      "signature": "27dd6e716caabf5006878806414db9a1bc1b3ebb990f7a41f2b57a83d33270e6",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_ingestion/recording_lists_ingestion_status_by_page.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "d315759c8ffbb169cbb87b6ca9d95e1408dfa846d4677c714bc0f5a0c620bd71": {
+      "signature": "d315759c8ffbb169cbb87b6ca9d95e1408dfa846d4677c714bc0f5a0c620bd71",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_ingestion/recording_lists_ingestion_status_with_datetime_strings.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "fb5ee18c9f0514ae2c7f0f61d539ee9d20b294e5d53609a59a0fdc95097656fc": {
+      "signature": "fb5ee18c9f0514ae2c7f0f61d539ee9d20b294e5d53609a59a0fdc95097656fc",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_ingestion/recording_refreshes_ingesetion_status.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "5aac59316784789ef640da2e8d77801255ef4c7e264cd405b0416837c4f26b4d": {
+      "signature": "5aac59316784789ef640da2e8d77801255ef4c7e264cd405b0416837c4f26b4d",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_gets_root_causes_of_an_incident.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "4d0f9fa79bc56887841ff55ffdb2e8f1552f2d0c77a377ee6bd2b4b00a73bebb": {
+      "signature": "4d0f9fa79bc56887841ff55ffdb2e8f1552f2d0c77a377ee6bd2b4b00a73bebb",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_listanomaliesfordetectionconfiguration.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "04e4f49eac6a29455e6da3bb54e1f7163ca85ac6f1e022c20e1e6a46507654e2": {
+      "signature": "04e4f49eac6a29455e6da3bb54e1f7163ca85ac6f1e022c20e1e6a46507654e2",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_listanomaliesfordetectionconfiguration_by_page.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "8978048f3b08a91a7903142d299bb203177ebc97ce2557daa3f7f9007dead4b9": {
+      "signature": "8978048f3b08a91a7903142d299bb203177ebc97ce2557daa3f7f9007dead4b9",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_listanomaliesfordetectionconfiguration_with_datetime_strings.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "537e142bfcd2524cf9d2089a3293650db52224aab21e67dc25a59d1cd7c055ad": {
+      "signature": "537e142bfcd2524cf9d2089a3293650db52224aab21e67dc25a59d1cd7c055ad",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_listdimensionvaluesfordetectionconfiguration.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "5ec793d50c75d2a7deb8bdd2e0e1a14cf5600e095fa4fa02319d0a147d3e987e": {
+      "signature": "5ec793d50c75d2a7deb8bdd2e0e1a14cf5600e095fa4fa02319d0a147d3e987e",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_listdimensionvaluesfordetectionconfiguration_by_page.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "8470f8f5626170e412e94aab8eb02310c466a28af072672ad1a28eae5f0b332c": {
+      "signature": "8470f8f5626170e412e94aab8eb02310c466a28af072672ad1a28eae5f0b332c",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_listdimensionvaluesfordetectionconfiguration_with_datetime_strings.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "cc9709a23e9fd35e87c1e20b36b197f99268d0c490e7a7cb810059eb5edf547e": {
+      "signature": "cc9709a23e9fd35e87c1e20b36b197f99268d0c490e7a7cb810059eb5edf547e",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_listincidentsfordetectionconfiguration.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "db088faf72ee07044134a7571e96f0366ae66e69d45df6f938458e05490a1c82": {
+      "signature": "db088faf72ee07044134a7571e96f0366ae66e69d45df6f938458e05490a1c82",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_listincidentsfordetectionconfiguration_by_page.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "f568a24d98af4a2ea792123da478662b072a374982272980f519e9fdb5808229": {
+      "signature": "f568a24d98af4a2ea792123da478662b072a374982272980f519e9fdb5808229",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_listincidentsfordetectionconfiguration_with_datetime_strings.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "7c676d4829c16f1c6452a1dd7194e6e202ba0403b284d28ef7ee07515c929824": {
+      "signature": "7c676d4829c16f1c6452a1dd7194e6e202ba0403b284d28ef7ee07515c929824",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_listmetricdimensionvalues.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "c88f805075387fd8f798821b27187397dcb0789999b6591f66469fcdc1902de9": {
+      "signature": "c88f805075387fd8f798821b27187397dcb0789999b6591f66469fcdc1902de9",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_listmetricdimensionvalues_by_page.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "72fbc075da7c4e4c5650c9bd33cab1e503ca24661666ac0740ba8315a5e14b30": {
+      "signature": "72fbc075da7c4e4c5650c9bd33cab1e503ca24661666ac0740ba8315a5e14b30",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_listmetricseriesdefinitions.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "bf13a700547a2e9009e47b13cd93717b60957c8bc3761cf4ef46917b5a74db76": {
+      "signature": "bf13a700547a2e9009e47b13cd93717b60957c8bc3761cf4ef46917b5a74db76",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_listmetricseriesdefinitions_by_page.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "e9a65acf102a10060eb694ec52d0853eff6f4ae0438f9421d694cffefc50ad1f": {
+      "signature": "e9a65acf102a10060eb694ec52d0853eff6f4ae0438f9421d694cffefc50ad1f",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_listmetricseriesdefinitions_with_datetime_string.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "eb558e5a29d2eb1d5782f1c8d525d996e2f738b7d05b10da468e731083147ec5": {
+      "signature": "eb558e5a29d2eb1d5782f1c8d525d996e2f738b7d05b10da468e731083147ec5",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_lists_alerts_for_alert_configuration.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "081af64cd0358527bb66f519702b9432eb8aa85ea8fd88d53edccb2e9b11c090": {
+      "signature": "081af64cd0358527bb66f519702b9432eb8aa85ea8fd88d53edccb2e9b11c090",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_lists_alerts_for_alert_configuration_by_page.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "f54eead542e1315f11365ba535115334b689a7e3dbf4d1a3961b9a3ca1e6564c": {
+      "signature": "f54eead542e1315f11365ba535115334b689a7e3dbf4d1a3961b9a3ca1e6564c",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_lists_alerts_for_alert_configuration_with_datetime_strings.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "ba7f9fddb69677edf8553a62a06158ca2325e4e004acd52e5243096cb4c5af51": {
+      "signature": "ba7f9fddb69677edf8553a62a06158ca2325e4e004acd52e5243096cb4c5af51",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_lists_anomalies_for_alert.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "129ab82b3f186972e820937c18536ff1215e06ea5c21701da66433b3a8c3a0f8": {
+      "signature": "129ab82b3f186972e820937c18536ff1215e06ea5c21701da66433b3a8c3a0f8",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_lists_anomalies_for_alert_by_page.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "a62a5068c1155c83740b9bd8810303e18a8fe4cc03f6e649be6b4e820bffdfbf": {
+      "signature": "a62a5068c1155c83740b9bd8810303e18a8fe4cc03f6e649be6b4e820bffdfbf",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_lists_incidents_for_alert.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "4360e41600cc664e1cf5fa68b7012cbd14c1dfc4d5caa2c6b6ebb5f40c6deb05": {
+      "signature": "4360e41600cc664e1cf5fa68b7012cbd14c1dfc4d5caa2c6b6ebb5f40c6deb05",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_lists_incidents_for_alert_by_page.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "3a55ababb461980f617214b21e3cc0ce01472175c7c1a37cb68bf99dd4f1b975": {
+      "signature": "3a55ababb461980f617214b21e3cc0ce01472175c7c1a37cb68bf99dd4f1b975",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_lists_series_data_for_a_metric.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "c605f5c736b874f36c76955185af508220459b628fb61c7d954b81036e65d502": {
+      "signature": "c605f5c736b874f36c76955185af508220459b628fb61c7d954b81036e65d502",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_lists_series_data_for_a_metric_with_datetime_strings.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "016555623c0792d97d683c15c32a9157d04a911d0c9193f37862c94ad95dad0c": {
+      "signature": "016555623c0792d97d683c15c32a9157d04a911d0c9193f37862c94ad95dad0c",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_list_enriched_data_for_a_detection_configuration.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "5ee33555c2734c1499ec0a5e85fa8c8b2d651255f538af3a2ef98d7887bca9da": {
+      "signature": "5ee33555c2734c1499ec0a5e85fa8c8b2d651255f538af3a2ef98d7887bca9da",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_list_enriched_data_for_a_detection_configuration_with_datetime_strings.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "4bc3a57a29be1b5890cfa3396321bf124f705f7073e41c3a36125ee1ed407480": {
+      "signature": "4bc3a57a29be1b5890cfa3396321bf124f705f7073e41c3a36125ee1ed407480",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_list_metric_enrichment_status.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "2dc0196f48229127bb84d0e13bd937ce88df13abf5dbcfee5f5cba5e0e2844ce": {
+      "signature": "2dc0196f48229127bb84d0e13bd937ce88df13abf5dbcfee5f5cba5e0e2844ce",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_list_metric_enrichment_status_by_page.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "afd0b39ef7cb893cce475888c80ed8c8639339bc73643cc9e2f3ad127aacec36": {
+      "signature": "afd0b39ef7cb893cce475888c80ed8c8639339bc73643cc9e2f3ad127aacec36",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_list_metric_enrichment_status_with_datetime_strings.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "1b535e7aa0a6aea5ad38cbd9172b813b2e71448f537aaeda5ffb8b52a7442937": {
+      "signature": "1b535e7aa0a6aea5ad38cbd9172b813b2e71448f537aaeda5ffb8b52a7442937",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_feedback/recording_creates_anomaly_feedback.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "8d3a0d4292f5ebc816197860f214cb19b70fbe4686fe58194f3a1254f17c25ba": {
+      "signature": "8d3a0d4292f5ebc816197860f214cb19b70fbe4686fe58194f3a1254f17c25ba",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_feedback/recording_creates_changepoint_feedback.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "87dd509f3f5137b10fea7fee3aee4c809245599f8ed134feec1f8c1368d0a10b": {
+      "signature": "87dd509f3f5137b10fea7fee3aee4c809245599f8ed134feec1f8c1368d0a10b",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_feedback/recording_creates_comment_feedback.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "4325765536de53db37cfdc64b5b598230c5dc28c7f00f4866912d26e86919a3c": {
+      "signature": "4325765536de53db37cfdc64b5b598230c5dc28c7f00f4866912d26e86919a3c",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_feedback/recording_creates_period_feedback.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "3443aec2e527418d04a3c66290ea743ce0a20f9aa51895d19a0127efc6cfaf2d": {
+      "signature": "3443aec2e527418d04a3c66290ea743ce0a20f9aa51895d19a0127efc6cfaf2d",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_feedback/recording_lists_anomaly_feedbacks.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "5a8fb5a8434b66d1a7dad38cb3633cb2907e3d9b34297f717fad95820755a706": {
+      "signature": "5a8fb5a8434b66d1a7dad38cb3633cb2907e3d9b34297f717fad95820755a706",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_feedback/recording_lists_anomaly_feedbacks_by_page.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "b3edb954a05384e43e0071728ee217d9091c4da12bfc85cf1fa740a28afda1c2": {
+      "signature": "b3edb954a05384e43e0071728ee217d9091c4da12bfc85cf1fa740a28afda1c2",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_feedback/recording_lists_anomaly_feedbacks_with_datetime_strings.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "3908c0f9415b608d8c61ba3d9513cd8ef2a073734618739426c6b09574e01c78": {
+      "signature": "3908c0f9415b608d8c61ba3d9513cd8ef2a073734618739426c6b09574e01c78",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_feedback/recording_retrieves_anomaly_feedback.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "752fb97fef9c267a822b85dc6f17c87b5ba84f9be6b8ed689d3ad23d56cad68a": {
+      "signature": "752fb97fef9c267a822b85dc6f17c87b5ba84f9be6b8ed689d3ad23d56cad68a",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_hooks/recording_creates_email_hook.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "6c0b6e4464db7b1c3112b407dda170eb7fd7ad08943f7a18ac8adbe716cb08d0": {
+      "signature": "6c0b6e4464db7b1c3112b407dda170eb7fd7ad08943f7a18ac8adbe716cb08d0",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_hooks/recording_creates_web_hook.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "a2289698d8e1fc2724d3010b0d942605ecef667746597b3713047d637072e17e": {
+      "signature": "a2289698d8e1fc2724d3010b0d942605ecef667746597b3713047d637072e17e",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_hooks/recording_deletes_email_hook.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "c6d8715ce5f171ded87e526bf30c7d2b49dfd73f85d4d6583030b9a9d08841f0": {
+      "signature": "c6d8715ce5f171ded87e526bf30c7d2b49dfd73f85d4d6583030b9a9d08841f0",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_hooks/recording_deletes_web_hook.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "c2a5a3a2993451878a02be800bbc09c92d8d03c838f264fbc1469f13ad65b9ed": {
+      "signature": "c2a5a3a2993451878a02be800bbc09c92d8d03c838f264fbc1469f13ad65b9ed",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_hooks/recording_lists_hooks.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "66c3c783cc9e4b552a5373315c2c5d200e7e63ed47655b8e11b3e5998c1b13f2": {
+      "signature": "66c3c783cc9e4b552a5373315c2c5d200e7e63ed47655b8e11b3e5998c1b13f2",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_hooks/recording_lists_hooks.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "9bcba3b5d2fd0fb3b5d6999b52d62438fb6e6e2a1236eaa035b6a396d7e27874": {
+      "signature": "9bcba3b5d2fd0fb3b5d6999b52d62438fb6e6e2a1236eaa035b6a396d7e27874",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_hooks/recording_lists_hooks_by_page.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "9712e9cbfc1cf3401de6cad39c7814a46a831ace8e530b494b85873674fa999a": {
+      "signature": "9712e9cbfc1cf3401de6cad39c7814a46a831ace8e530b494b85873674fa999a",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_hooks/recording_lists_hooks_by_page.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "7e1b9e9ddb7322e61f8b9cc79661222da7939086511bbdbf68fd0d0bcb03c0c3": {
+      "signature": "7e1b9e9ddb7322e61f8b9cc79661222da7939086511bbdbf68fd0d0bcb03c0c3",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_hooks/recording_updates_email_hook.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "9367766428665aca08a5d78e11873734ea820db8789fc1055963f1cdb01b33cc": {
+      "signature": "9367766428665aca08a5d78e11873734ea820db8789fc1055963f1cdb01b33cc",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_hooks/recording_updates_web_hook.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0030",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "fbb4088b506f395b457bf5eec3f0d66049d936bca251b7d9b156d8c71229eb58": {
+      "signature": "fbb4088b506f395b457bf5eec3f0d66049d936bca251b7d9b156d8c71229eb58",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_hooks/recording_updates_web_hook.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "c93a2f1a6a2b5d59aed174351d9201e38f02e5fc615e352a2f83c937d1a7539b": {
+      "signature": "c93a2f1a6a2b5d59aed174351d9201e38f02e5fc615e352a2f83c937d1a7539b",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_hooks/recording_updates_web_hook.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "d6448a8827048b15e2f84abd857303b459e3ef91c7da14972e134ace342e822c": {
+      "signature": "d6448a8827048b15e2f84abd857303b459e3ef91c7da14972e134ace342e822c",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/api_key_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_influxdb_data_feed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "79c8101c30f9e89610dfdf73be40d570e3b6520e30fe514a50910933ff0003d8": {
+      "signature": "79c8101c30f9e89610dfdf73be40d570e3b6520e30fe514a50910933ff0003d8",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/api_key_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_influxdb_data_feed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "ebbe72e5d300afdf02a48518c21ffa6f742dd033a221a0fb373db3db4ccbef38": {
+      "signature": "ebbe72e5d300afdf02a48518c21ffa6f742dd033a221a0fb373db3db4ccbef38",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/api_key_metricsadvisorclient_hooks/recording_lists_hooks.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "67dd050d04fe3f3f011b531c74dbf48f99cf769d41fae3d68127c669b357ad86": {
+      "signature": "67dd050d04fe3f3f011b531c74dbf48f99cf769d41fae3d68127c669b357ad86",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/api_key_metricsadvisorclient_hooks/recording_lists_hooks_by_page.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "e17df0150b590cac7b6fb646a7978074ff9b29b8b7b767df86f3cd25ce4fb438": {
+      "signature": "e17df0150b590cac7b6fb646a7978074ff9b29b8b7b767df86f3cd25ce4fb438",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/api_key_metricsadvisorclient_hooks/recording_updates_web_hook.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "cbf20bd9cd6494fa13e67bcc1f523fe0d03f53aa1f51b73d537870edfe1277eb": {
+      "signature": "cbf20bd9cd6494fa13e67bcc1f523fe0d03f53aa1f51b73d537870edfe1277eb",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/api_key_metricsadvisorclient_hooks/recording_updates_web_hook.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "b2faef705ca57f1606b763166ebfc5ac687cce09a1899d33841a7e0d77cc930b": {
+      "signature": "b2faef705ca57f1606b763166ebfc5ac687cce09a1899d33841a7e0d77cc930b",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/node/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_influxdb_data_feed.js",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "f5cd31ffb48f5eb7eb2f60f95965fa91231334bcc764889730d6c84851ce78d8": {
+      "signature": "f5cd31ffb48f5eb7eb2f60f95965fa91231334bcc764889730d6c84851ce78d8",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/node/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_influxdb_data_feed.js",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "ea1370d85a93b3e5095fda7c095c4301cf2c6c065ab75593bac03523a66d96f3": {
+      "signature": "ea1370d85a93b3e5095fda7c095c4301cf2c6c065ab75593bac03523a66d96f3",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/node/aad_metricsadvisorclient_hooks/recording_lists_hooks.js",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "fc94209ecebd4b0e8ba53a1e936744a2aa260b2240fd57885602e22835eb05aa": {
+      "signature": "fc94209ecebd4b0e8ba53a1e936744a2aa260b2240fd57885602e22835eb05aa",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/node/aad_metricsadvisorclient_hooks/recording_lists_hooks_by_page.js",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "a2801453082a5595a087caa2f18ecbfcb38a767b5ba4b0918eae67457392c26d": {
+      "signature": "a2801453082a5595a087caa2f18ecbfcb38a767b5ba4b0918eae67457392c26d",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/node/aad_metricsadvisorclient_hooks/recording_updates_web_hook.js",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "eef2ccf5b3ca04d81ea7490426b2b052908ee8c12d0cb2416eb0f7ce6e5156b1": {
+      "signature": "eef2ccf5b3ca04d81ea7490426b2b052908ee8c12d0cb2416eb0f7ce6e5156b1",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/node/aad_metricsadvisorclient_hooks/recording_updates_web_hook.js",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "c201eaeb7b9282d7065bb4c3126c5c8274011789b6cbe4245679affbf71859bf": {
+      "signature": "c201eaeb7b9282d7065bb4c3126c5c8274011789b6cbe4245679affbf71859bf",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/node/api_key_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_influxdb_data_feed.js",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "d5e58c955816704af63eae1a9e4a91556d4c3c5ff4b137f53df95fc075431ff1": {
+      "signature": "d5e58c955816704af63eae1a9e4a91556d4c3c5ff4b137f53df95fc075431ff1",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/node/api_key_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_influxdb_data_feed.js",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "eebfb43d08923aaeaf72f91157dbac44f6a13e2ddb978cfe719bf725817587c7": {
+      "signature": "eebfb43d08923aaeaf72f91157dbac44f6a13e2ddb978cfe719bf725817587c7",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/node/api_key_metricsadvisorclient_hooks/recording_lists_hooks.js",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "d21eff017e7977686306e26020e85ca616db2e084268da275e105f3a3def1bf4": {
+      "signature": "d21eff017e7977686306e26020e85ca616db2e084268da275e105f3a3def1bf4",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/node/api_key_metricsadvisorclient_hooks/recording_lists_hooks_by_page.js",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "b9144cf5c0b2abc6b8d106bce68cfc673668fad5a9c50979f73ce651bc43b596": {
+      "signature": "b9144cf5c0b2abc6b8d106bce68cfc673668fad5a9c50979f73ce651bc43b596",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/node/api_key_metricsadvisorclient_hooks/recording_updates_web_hook.js",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "d1cf3c60bc2373f5d3c25001f086cbd688f4b53ceca382bc0c669898872de536": {
+      "signature": "d1cf3c60bc2373f5d3c25001f086cbd688f4b53ceca382bc0c669898872de536",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/node/api_key_metricsadvisorclient_hooks/recording_updates_web_hook.js",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "a6d2d4edce74b82a10750299017e4cb65c3882a1c107e46077a91aee691e0a37": {
+      "signature": "a6d2d4edce74b82a10750299017e4cb65c3882a1c107e46077a91aee691e0a37",
+      "target": "sdk/schemaregistry/schema-registry/recordings/browsers/schemaregistryclient/recording_fails_to_get_schema_id_when_given_invalid_args.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "3f6e12a0273f428ed0ae54e07e49674c4db6e52c28df4cfbacbb0f7a689dad29": {
+      "signature": "3f6e12a0273f428ed0ae54e07e49674c4db6e52c28df4cfbacbb0f7a689dad29",
+      "target": "sdk/schemaregistry/schema-registry/recordings/browsers/schemaregistryclient/recording_fails_to_get_schema_id_when_no_matching_schema_exists.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "ffbed58dd7e612be3a343534ae3cb80f31f320b1fee92182548c5c020eeed3a4": {
+      "signature": "ffbed58dd7e612be3a343534ae3cb80f31f320b1fee92182548c5c020eeed3a4",
+      "target": "sdk/schemaregistry/schema-registry/recordings/browsers/schemaregistryclient/recording_fails_to_get_schema_when_no_schema_exists_with_given_id.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "21b0d8e123a3ebbfc479d87eb3f375fc1bfe21d3b0b90e1e8c85b5c083ff84d9": {
+      "signature": "21b0d8e123a3ebbfc479d87eb3f375fc1bfe21d3b0b90e1e8c85b5c083ff84d9",
+      "target": "sdk/schemaregistry/schema-registry/recordings/browsers/schemaregistryclient/recording_gets_schema_by_id.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "8c726ffdd08eee6f33d4a285ef14339084eea3769c5204a892bee949ac273fa6": {
+      "signature": "8c726ffdd08eee6f33d4a285ef14339084eea3769c5204a892bee949ac273fa6",
+      "target": "sdk/schemaregistry/schema-registry/recordings/browsers/schemaregistryclient/recording_gets_schema_id.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "fd9bf2436aa5a79471b1b5343dac693a84289807002d1c87c8b673a5d6623ed3": {
+      "signature": "fd9bf2436aa5a79471b1b5343dac693a84289807002d1c87c8b673a5d6623ed3",
+      "target": "sdk/schemaregistry/schema-registry/recordings/browsers/schemaregistryclient/recording_registers_schema.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "fb1163ce631f492b1b7e809a5436d16f41edf33151d7ea268beb7d52a018267d": {
+      "signature": "fb1163ce631f492b1b7e809a5436d16f41edf33151d7ea268beb7d52a018267d",
+      "target": "sdk/schemaregistry/schema-registry/recordings/browsers/schemaregistryclient/recording_rejects_schema_registration_with_invalid_args.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "00bb8e56f32b52e62f3f20937304a1b849607de8401fa8569db5f982c5c4fab7": {
+      "signature": "00bb8e56f32b52e62f3f20937304a1b849607de8401fa8569db5f982c5c4fab7",
+      "target": "sdk/search/search-documents/recordings/node/searchindexerclient_datasourceconnections/recording_creates_the_datasourceconnection_object_using_createorupdatedatasourceconnection.js",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-AZURE0070",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "fee505c77e0867e17f65bd24ea8307e9f3d53c982abe50df3a35ca09f6f0ac34": {
+      "signature": "fee505c77e0867e17f65bd24ea8307e9f3d53c982abe50df3a35ca09f6f0ac34",
+      "target": "sdk/search/search-documents/samples/javascript/src/readonlyQuery.js",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0130",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "50347a92b3276b6706e2e3032c3f5e2ca9c31c016d7b4b7467683df0cb258372": {
+      "signature": "50347a92b3276b6706e2e3032c3f5e2ca9c31c016d7b4b7467683df0cb258372",
+      "target": "sdk/search/search-documents/samples/typescript/src/readonlyQuery.ts",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0130",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "d69dbac9ff5469b3b576e1d38e30a23bb7912c38ccd9b25243f4d3075559fc5b": {
+      "signature": "d69dbac9ff5469b3b576e1d38e30a23bb7912c38ccd9b25243f4d3075559fc5b",
+      "target": "sdk/search/search-documents/test/public/node/searchIndexerClient.spec.ts",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-AZURE0070",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "fda057a63a55f5835ec2556d2c270a7e453fa0e51ed0ba19db0fcafd1fbc511e": {
+      "signature": "fda057a63a55f5835ec2556d2c270a7e453fa0e51ed0ba19db0fcafd1fbc511e",
+      "target": "sdk/search/search-documents/test/public/utils/setup.ts",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-AZURE0070",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "5d58535ad159a92092c84dddd1324477cae856e54f546506e45a4d080eea4d91": {
+      "signature": "5d58535ad159a92092c84dddd1324477cae856e54f546506e45a4d080eea4d91",
+      "target": "sdk/storage/storage-blob/recordings/node/blobbatch/recording_deleteblobs_should_work_for_batch_delete.js",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-AZURE0130",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "762edf602bdd2466db5552929662d9824783d944c5a5eb2816411b033d6aae5b": {
+      "signature": "762edf602bdd2466db5552929662d9824783d944c5a5eb2816411b033d6aae5b",
+      "target": "sdk/storage/storage-blob/recordings/node/blobbatch/recording_setblobsaccesstier_should_work_for_batch_set_tier.js",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-AZURE0130",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "c9e9d30bc34649ffbff842727ce6f9e3776de6fe6afba2c19cb957e93e13e945": {
+      "signature": "c9e9d30bc34649ffbff842727ce6f9e3776de6fe6afba2c19cb957e93e13e945",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_analyzesentiment/recording_client_accepts_string_and_language.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "3e7291d2ae6f62fe1445562d0f650477b52039fdd51ba58b25bc65be0432882c": {
+      "signature": "3e7291d2ae6f62fe1445562d0f650477b52039fdd51ba58b25bc65be0432882c",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_analyzesentiment/recording_client_accepts_string_with_no_language.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "117ba00a583e84e449c37c65ef6fdf8b3c0894e714244a14468ad27f8f21af47": {
+      "signature": "117ba00a583e84e449c37c65ef6fdf8b3c0894e714244a14468ad27f8f21af47",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_analyzesentiment/recording_client_accepts_textdocumentinput.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "13bb9f1d241cde2d3ac26e04c177cda1356180436d6c42a8230ea36ab829f313": {
+      "signature": "13bb9f1d241cde2d3ac26e04c177cda1356180436d6c42a8230ea36ab829f313",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_analyzesentiment/recording_client_gets_negative_mined_opinions.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "97bf5a24061fdd26911db6c1f9e714ebf980012d6e547fbae5c9aee3f15ed2ea": {
+      "signature": "97bf5a24061fdd26911db6c1f9e714ebf980012d6e547fbae5c9aee3f15ed2ea",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_analyzesentiment/recording_client_gets_no_mined_opinions.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "583d157f43d2f74bfad54615e231b115553325cc4e6fc2d735f73fb950e07229": {
+      "signature": "583d157f43d2f74bfad54615e231b115553325cc4e6fc2d735f73fb950e07229",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_analyzesentiment/recording_client_gets_positive_mined_opinions.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "188b1e384c4a966b7a14d91ee87f19a96689c4ebac3e7ea49bad51d490826ed4": {
+      "signature": "188b1e384c4a966b7a14d91ee87f19a96689c4ebac3e7ea49bad51d490826ed4",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_analyzesentiment/recording_service_has_a_bug_when_referencing_opinions_in_doc_6_or_greater.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "ce66961f9c937b57bc199fb639209c276ecb8a8657ee23307d67682c27c13a88": {
+      "signature": "ce66961f9c937b57bc199fb639209c276ecb8a8657ee23307d67682c27c13a88",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_analyzesentiment/recording_service_returns_an_error_for_an_empty_document.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "d7c0034061f055652696829f5723dee2ccbcb6b3df037eebd838d0004c1b4071": {
+      "signature": "d7c0034061f055652696829f5723dee2ccbcb6b3df037eebd838d0004c1b4071",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_analyzesentiment/recording_service_returns_error_for_invalid_language.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "dd9023825e57ff68715a627003ce02144353b3cc77fd886d0f1dd8a4b908de0a": {
+      "signature": "dd9023825e57ff68715a627003ce02144353b3cc77fd886d0f1dd8a4b908de0a",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_detectlanguage/recording_client_accepts_a_countryhint.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "660016045999c46bfe0941ebee97333ed30b17479345ca64c24fc4b9c2fc1284": {
+      "signature": "660016045999c46bfe0941ebee97333ed30b17479345ca64c24fc4b9c2fc1284",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_detectlanguage/recording_client_accepts_mixedcountry_detectlanguageinput.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "241e89148a3e0d273c1d1ba9c004762fc01e5e6460e98845286384c6cba631c0": {
+      "signature": "241e89148a3e0d273c1d1ba9c004762fc01e5e6460e98845286384c6cba631c0",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_detectlanguage/recording_client_accepts_none_country_hint_with_detectlanguageinput_input.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "1c37e32aa107657fbd089628262fad7a8b727c1f320daefe12dc01c349ce5de9": {
+      "signature": "1c37e32aa107657fbd089628262fad7a8b727c1f320daefe12dc01c349ce5de9",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_detectlanguage/recording_client_accepts_none_country_hint_with_string_input.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "1c6e7cfec9804867cfb86ba3897cdb8930951e1aaf68170b723623fedc3d633f": {
+      "signature": "1c6e7cfec9804867cfb86ba3897cdb8930951e1aaf68170b723623fedc3d633f",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_detectlanguage/recording_client_accepts_no_countryhint.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "08546082d9465d285ab886e5ea329a113acdaba649ed20b1c36440854bac865b": {
+      "signature": "08546082d9465d285ab886e5ea329a113acdaba649ed20b1c36440854bac865b",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_detectlanguage/recording_service_errors_on_invalid_country_hint.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "effaf25724178a57bde8650cd41d70ab9dd4e0ca8b3bb21938ab2e45f9122e14": {
+      "signature": "effaf25724178a57bde8650cd41d70ab9dd4e0ca8b3bb21938ab2e45f9122e14",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_extractkeyphrases/recording_client_accepts_mixedlanguage_textdocumentinput.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "9613b17af232e50add8dfebb4d1a9bc80c480b628c98b8bd6fb4e8dcb4e4a413": {
+      "signature": "9613b17af232e50add8dfebb4d1a9bc80c480b628c98b8bd6fb4e8dcb4e4a413",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_extractkeyphrases/recording_client_accepts_string_with_a_language_specified.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "5f49a846261c1e5027a1c14ac9ed5b51a7f006dec2fb0568521866fbcfed6986": {
+      "signature": "5f49a846261c1e5027a1c14ac9ed5b51a7f006dec2fb0568521866fbcfed6986",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_extractkeyphrases/recording_client_accepts_string_with_no_language.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "a62bbe6cc9729ac2beef4734b5a433c748ce7e13dc5a076e59942da4c71052dd": {
+      "signature": "a62bbe6cc9729ac2beef4734b5a433c748ce7e13dc5a076e59942da4c71052dd",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_extractkeyphrases/recording_service_errors_on_unsupported_language.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "3b9b91036e0012f46e3b840172adcdc996b5999a963a099b2f62830341f260fe": {
+      "signature": "3b9b91036e0012f46e3b840172adcdc996b5999a963a099b2f62830341f260fe",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_extractkeyphrases/recording_service_reports_warning_for_long_words.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "393e126b983abc04ff9c0c2ccfc6d05450c2706bdc8365c787b3f987e4769cb1": {
+      "signature": "393e126b983abc04ff9c0c2ccfc6d05450c2706bdc8365c787b3f987e4769cb1",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_recognizeentities/recording_client_accepts_mixedlanguage_textdocumentinput.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "046bdbe4723d0c0784e1af825a92c508d83e30035d0e36b7dc6b5d170a5059a8": {
+      "signature": "046bdbe4723d0c0784e1af825a92c508d83e30035d0e36b7dc6b5d170a5059a8",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_recognizeentities/recording_client_accepts_string_with_a_language_specified.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "7356e2bc1060d907db2657519bfbb2acea97c23cf7da0b1b140ec3943f2e6ba4": {
+      "signature": "7356e2bc1060d907db2657519bfbb2acea97c23cf7da0b1b140ec3943f2e6ba4",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_recognizeentities/recording_client_accepts_string_with_no_language.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "356aab026d5c26a46c88aa3706656896f9dba4401893b6e14e2f2403af4d50a4": {
+      "signature": "356aab026d5c26a46c88aa3706656896f9dba4401893b6e14e2f2403af4d50a4",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_recognizeentities/recording_client_throws_exception_for_too_many_inputs.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "82732e9e11e0c4fc46281a601b7dbf279dae9a976bf58cb718855c375faa284b": {
+      "signature": "82732e9e11e0c4fc46281a601b7dbf279dae9a976bf58cb718855c375faa284b",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_recognizeentities/recording_service_errors_on_unsupported_language.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "a902bc3e0b9e094fdc0180f88fba88a7035f02b66543a5a4debeabf122f1c447": {
+      "signature": "a902bc3e0b9e094fdc0180f88fba88a7035f02b66543a5a4debeabf122f1c447",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_recognizelinkedentities/recording_client_accepts_mixedlanguage_textdocumentinput.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "054266b8dfabfa4ac4fca53ec604838b0d8a012e690d9898c738530fae73a23a": {
+      "signature": "054266b8dfabfa4ac4fca53ec604838b0d8a012e690d9898c738530fae73a23a",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_recognizelinkedentities/recording_client_accepts_string_with_a_language_specified.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "a1f9e11f9f0db33dffb84ce8b860355f8de8018a515599d60dfdbad00ae29094": {
+      "signature": "a1f9e11f9f0db33dffb84ce8b860355f8de8018a515599d60dfdbad00ae29094",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_recognizelinkedentities/recording_client_accepts_string_with_no_language.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "59542af7e61f3c8ef7c31e8afb5e559ff4a3f31a97ff543c45dd195d2da657ec": {
+      "signature": "59542af7e61f3c8ef7c31e8afb5e559ff4a3f31a97ff543c45dd195d2da657ec",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_recognizelinkedentities/recording_client_throws_exception_for_too_many_inputs.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "504c14f17c1d51e49d2dd95aeeb31616e3db8a35a8245647273707ed0afde7fa": {
+      "signature": "504c14f17c1d51e49d2dd95aeeb31616e3db8a35a8245647273707ed0afde7fa",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_recognizelinkedentities/recording_service_errors_on_unsupported_language.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "e8041f59b7545ce1c1ab1b344dc6730d7382c9142978ba83f9b911511d3be303": {
+      "signature": "e8041f59b7545ce1c1ab1b344dc6730d7382c9142978ba83f9b911511d3be303",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_recognizepiientities/recording_accepts_domain_filter.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "4f6b856635623989a9d19fad50d8d169fcbcd67f36a49b4a59efb1f2cae0b31a": {
+      "signature": "4f6b856635623989a9d19fad50d8d169fcbcd67f36a49b4a59efb1f2cae0b31a",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_recognizepiientities/recording_client_accepts_mixedlanguage_textdocumentinput.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "e738f0495982d05208ceed4213b251b1d48b9583d69e8f6dac8e387de527fef0": {
+      "signature": "e738f0495982d05208ceed4213b251b1d48b9583d69e8f6dac8e387de527fef0",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_recognizepiientities/recording_client_accepts_string_with_a_language_specified.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "3e93ba18f67011fa6ed195649f85a39687c8855e685ebc25beebef82c74a9d49": {
+      "signature": "3e93ba18f67011fa6ed195649f85a39687c8855e685ebc25beebef82c74a9d49",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_recognizepiientities/recording_client_accepts_string_with_no_language.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "c55a4d2b4d0c1c4a203ba3ad0eb0145b3eabecd283557e7dfca1a87daf8b35ed": {
+      "signature": "c55a4d2b4d0c1c4a203ba3ad0eb0145b3eabecd283557e7dfca1a87daf8b35ed",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_recognizepiientities/recording_client_correctly_reports_recognition_of_piilike_pattern.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "849a5b582698a34a8560e63828539fab2d37f3e03f8907f2d3faa23feb4c060f": {
+      "signature": "849a5b582698a34a8560e63828539fab2d37f3e03f8907f2d3faa23feb4c060f",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_recognizepiientities/recording_client_throws_on_empty_list.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "43d180552e6f0b797ae1179bdd2efd0df421a477410787b36c1008fe1fee4dea": {
+      "signature": "43d180552e6f0b797ae1179bdd2efd0df421a477410787b36c1008fe1fee4dea",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_recognizepiientities/recording_service_errors_on_unsupported_language.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "959cb2232ad2e679f7abd2d1bb7e23277930b82b92f221368f722bc760dca813": {
+      "signature": "959cb2232ad2e679f7abd2d1bb7e23277930b82b92f221368f722bc760dca813",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_string_encoding/recording_diacritics_nfc.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "c5daac5fa24e4d6c776dadd80e554430f5da145c8d354c1e4be6280f4d1b1529": {
+      "signature": "c5daac5fa24e4d6c776dadd80e554430f5da145c8d354c1e4be6280f4d1b1529",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_string_encoding/recording_diacritics_nfd.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "5f9c26762fe66e4f4e2ea8f9cc410c5e3cc632f6fb03cdfe3d335cb9d86ec52f": {
+      "signature": "5f9c26762fe66e4f4e2ea8f9cc410c5e3cc632f6fb03cdfe3d335cb9d86ec52f",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_string_encoding/recording_emoji.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "afa89c37526b6b3cc974f3a5dcb78b3f50a319540109b4eb5cca67d70f9ddd1d": {
+      "signature": "afa89c37526b6b3cc974f3a5dcb78b3f50a319540109b4eb5cca67d70f9ddd1d",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_string_encoding/recording_emoji_with_skin_tone_modifier.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "49273667885716e82dc17d182be539ac5b64f0060c0caf71a64c05f80b472e19": {
+      "signature": "49273667885716e82dc17d182be539ac5b64f0060c0caf71a64c05f80b472e19",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_string_encoding/recording_family_emoji.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "fd37bb624db6480c6575f8ccac30cc2d83f2c40e5604605ab15e3b3588337da0": {
+      "signature": "fd37bb624db6480c6575f8ccac30cc2d83f2c40e5604605ab15e3b3588337da0",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_string_encoding/recording_family_emoji_wit_skin_tone_modifier.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "39b6d3e63d9f199c477687a93a09e29504801b0d6bc3b42ea7c6d5976b918303": {
+      "signature": "39b6d3e63d9f199c477687a93a09e29504801b0d6bc3b42ea7c6d5976b918303",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_string_encoding/recording_korean_nfc.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "bf082aa247ccbd56af41cf738929ac97c51b1f973ae4a6f042a2a69789d8f2c9": {
+      "signature": "bf082aa247ccbd56af41cf738929ac97c51b1f973ae4a6f042a2a69789d8f2c9",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_string_encoding/recording_korean_nfd.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "8df1cb9623406274b2b3d02f18652cbdbc90e65d5afa0ac19ae9363f63cdf412": {
+      "signature": "8df1cb9623406274b2b3d02f18652cbdbc90e65d5afa0ac19ae9363f63cdf412",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_fast_tests_string_encoding/recording_zalgo.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "089e6331548428b924890de8acd6ffaf75621c3b5b0f42b9e48d7a0ceb8ad806": {
+      "signature": "089e6331548428b924890de8acd6ffaf75621c3b5b0f42b9e48d7a0ceb8ad806",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_lros_analyze/recording_bad_request_empty_string.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "d59fba193589fc94de10d0df6556de1094bffe4abe5bd064091541dbb54fdd7d": {
+      "signature": "d59fba193589fc94de10d0df6556de1094bffe4abe5bd064091541dbb54fdd7d",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_lros_analyze/recording_each_doc_has_a_language_hint.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "cd347eb69b96e018511dcec83f0828c2d21cc3e27dacf1e9efafa18802ea00b2": {
+      "signature": "cd347eb69b96e018511dcec83f0828c2d21cc3e27dacf1e9efafa18802ea00b2",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_lros_analyze/recording_invalid_language_hint.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "93900aac066d6bfd80b2b97fe59cdaeea1a30effbe03e776c5d62a9aa8dcaf6c": {
+      "signature": "93900aac066d6bfd80b2b97fe59cdaeea1a30effbe03e776c5d62a9aa8dcaf6c",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_lros_analyze/recording_output_order_is_same_as_the_inputs_one_with_multiple_tasks.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "ec03721ec01a4cabfbadf20bacd34333e70929fe094fe790b575cd2e3965e586": {
+      "signature": "ec03721ec01a4cabfbadf20bacd34333e70929fe094fe790b575cd2e3965e586",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_lros_analyze/recording_out_of_order_input_ids_with_multiple_tasks.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "f3541128ee8818f85d6741329acdfbb810de71b1e1084b043104dc583faa7b6a": {
+      "signature": "f3541128ee8818f85d6741329acdfbb810de71b1e1084b043104dc583faa7b6a",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_lros_analyze/recording_paged_results_with_custom_page_size.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "67201f31bb4ffe46822a4a1805f6cbe29b69f4281b15466c576d7e2502d40783": {
+      "signature": "67201f31bb4ffe46822a4a1805f6cbe29b69f4281b15466c576d7e2502d40783",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_lros_analyze/recording_pii_redacted_test_is_not_empty.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "a686a12c79551a00b35e6a6b4b4ad8d8dcdeec9a42c2781611eaf9f98c901e99": {
+      "signature": "a686a12c79551a00b35e6a6b4b4ad8d8dcdeec9a42c2781611eaf9f98c901e99",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_lros_analyze/recording_single_entities_recognition_task.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "144b160af337a5fee59bf2878357e024773fec12f2068f80fa3ebf61f9144f82": {
+      "signature": "144b160af337a5fee59bf2878357e024773fec12f2068f80fa3ebf61f9144f82",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_lros_analyze/recording_single_entity_recognition_task.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "cad372f715862a6dacc51fd72a01d9c39b711cc346f3d611e0f935c15966cb84": {
+      "signature": "cad372f715862a6dacc51fd72a01d9c39b711cc346f3d611e0f935c15966cb84",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_lros_analyze/recording_single_key_phrases_task.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "b6f795250583b98189476db741a6e4c13df463097114a2313da7a8323225dac2": {
+      "signature": "b6f795250583b98189476db741a6e4c13df463097114a2313da7a8323225dac2",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_lros_analyze/recording_single_pii_entities_recognition_task.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "a62bfabc00061df5307312247ef982ee3cd6df5db703204e557555dca801e409": {
+      "signature": "a62bfabc00061df5307312247ef982ee3cd6df5db703204e557555dca801e409",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_lros_analyze/recording_whole_batch_input_with_a_language_hint.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "2e9c5416c04035982ac5965a36ddc4b7055e414cef686c284df62401ef575e31": {
+      "signature": "2e9c5416c04035982ac5965a36ddc4b7055e414cef686c284df62401ef575e31",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_lros_analyze/recording_whole_batch_language_hint.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "9b9f128de1a0d14acf792a61aab4bb9a20ee9b54ebbdf7628e596f6e0161229a": {
+      "signature": "9b9f128de1a0d14acf792a61aab4bb9a20ee9b54ebbdf7628e596f6e0161229a",
+      "target": "sdk/textanalytics/ai-text-analytics/recordings/browsers/aad_textanalyticsclient_lros_analyze/recording_whole_batch_with_no_language_hint.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "9800dd79c23b99af80e1d269e46a3f9fee36ca0cbb4fff3ad95af99ac32b942a": {
+      "signature": "9800dd79c23b99af80e1d269e46a3f9fee36ca0cbb4fff3ad95af99ac32b942a",
+      "target": "sdk/search/search-documents/samples/javascript/src/dataSourceConnections/createDataSourceConnection.js",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-AZURE0070",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "58d571f9107dead2e2e341b6bc0c21d639067c4ef1b31b4cb0743f0244410588": {
+      "signature": "58d571f9107dead2e2e341b6bc0c21d639067c4ef1b31b4cb0743f0244410588",
+      "target": "sdk/search/search-documents/samples/typescript/src/dataSourceConnections/createDataSourceConnection.ts",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-AZURE0070",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    }
+  }
+}

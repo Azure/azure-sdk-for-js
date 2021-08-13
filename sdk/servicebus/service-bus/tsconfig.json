@@ -3,15 +3,19 @@
   "compilerOptions": {
     "declarationDir": "./types",
     "outDir": "./dist-esm",
-    "lib": ["dom"],
-    "downlevelIteration": true
+    "lib": ["dom", "ES2018.AsyncIterable"],
+    "downlevelIteration": true,
+    "paths": {
+      "@azure/service-bus": ["./src/index"]
+    }
   },
   "exclude": [
     "node_modules",
     "./types/**/*.d.ts",
     "./samples/**/*.ts",
-    "test/perf/*",
+    "test/perf-js-libs/*",
+    "test/perf/track-1",
     "test/stress*"
   ],
-  "include": ["./src/**/*.ts", "./test/**/*.ts"]
+  "include": ["./src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"]
 }

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
+import { Context } from "mocha";
 import { PollerStoppedError } from "@azure/core-lro";
 import { env, Recorder } from "@azure/test-utils-recorder";
 
@@ -17,7 +18,7 @@ describe("Certificates client - LRO - create", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     const authentication = await authenticate(this);
     certificateSuffix = authentication.suffix;
     client = authentication.client;
@@ -31,7 +32,7 @@ describe("Certificates client - LRO - create", () => {
 
   // The tests follow
 
-  it("can wait until a certificate is created", async function() {
+  it("can wait until a certificate is created", async function(this: Context) {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );
@@ -51,11 +52,9 @@ describe("Certificates client - LRO - create", () => {
 
     // The final certificate can also be obtained this way:
     assert.equal(poller.getOperationState().result!.name, certificateName);
-
-    await testClient.flushCertificate(certificateName);
   });
 
-  it("can resume from a stopped poller", async function() {
+  it("can resume from a stopped poller", async function(this: Context) {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );
@@ -91,7 +90,5 @@ describe("Certificates client - LRO - create", () => {
     const createdCertificate: KeyVaultCertificate = await resumePoller.pollUntilDone();
     assert.equal(createdCertificate.name, certificateName);
     assert.ok(resumePoller.getOperationState().isCompleted);
-
-    await testClient.flushCertificate(certificateName);
   });
 });

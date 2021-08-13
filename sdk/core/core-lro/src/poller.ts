@@ -287,7 +287,6 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
 
   /**
    * @internal
-   * @hidden
    * Starts a loop that will break only if the poller is done
    * or if the poller is stopped.
    */
@@ -303,7 +302,6 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
 
   /**
    * @internal
-   * @hidden
    * pollOnce does one polling, by calling to the update method of the underlying
    * poll operation to make any relevant change effective.
    *
@@ -312,7 +310,6 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
    * @param options - Optional properties passed to the operation's update method.
    */
   private async pollOnce(options: { abortSignal?: AbortSignalLike } = {}): Promise<void> {
-    const state: PollOperationState<TResult> = this.operation.state;
     try {
       if (!this.isDone()) {
         this.operation = await this.operation.update({
@@ -325,11 +322,11 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
           // we are not expecting a result anyway. To assert that we might not
           // have a result eventually after finishing polling, we cast the result
           // to TResult.
-          this.resolve(state.result as TResult);
+          this.resolve(this.operation.state.result as TResult);
         }
       }
     } catch (e) {
-      state.error = e;
+      this.operation.state.error = e;
       if (this.reject) {
         this.reject(e);
       }
@@ -339,7 +336,6 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
 
   /**
    * @internal
-   * @hidden
    * fireProgress calls the functions passed in via onProgress the method of the poller.
    *
    * It loops over all of the callbacks received from onProgress, and executes them, sending them
@@ -355,7 +351,6 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
 
   /**
    * @internal
-   * @hidden
    * Invokes the underlying operation's cancel method, and rejects the
    * pollUntilDone promise.
    */

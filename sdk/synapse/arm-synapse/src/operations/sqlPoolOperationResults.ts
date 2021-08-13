@@ -103,7 +103,7 @@ const getLocationHeaderResultOperationSpec: msRest.OperationSpec = {
       }
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

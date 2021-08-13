@@ -41,6 +41,11 @@ describe("XML serializer", function() {
       assert.deepStrictEqual(xml, ``);
     });
 
+    it("with <parsererror> element", async function() {
+      const xml: any = await parseXML(`<errors><parsererror>error 1</parsererror></errors>`);
+      assert.deepStrictEqual(xml, { parsererror: "error 1" });
+    });
+
     it("with empty element with attribute", async function() {
       const xml: any = await parseXML(`<fruit healthy="true" />`);
       assert.deepStrictEqual(xml, {

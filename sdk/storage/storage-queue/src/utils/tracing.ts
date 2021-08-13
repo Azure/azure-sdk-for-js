@@ -1,41 +1,30 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
-import { Span, SpanOptions as OTSpanOptions, SpanKind } from "@opentelemetry/api";
-import { getTracer, SpanOptions, OperationTracingOptions } from "@azure/core-tracing";
+import { OperationOptions, RequestOptionsBase } from "@azure/core-http";
+import { createSpanFunction } from "@azure/core-tracing";
 
 /**
  * Creates a span using the global tracer.
- * @param {string} operationName The name of the operation being performed.
- * @param {SpanOptions} options The options for the underlying http request.
+ * @internal
  */
-export function createSpan(
-  operationName: string,
-  tracingOptions: OperationTracingOptions = {}
-): { span: Span; spanOptions: SpanOptions } {
-  const tracer = getTracer();
-  const spanOptions: OTSpanOptions = {
-    ...tracingOptions.spanOptions,
-    kind: SpanKind.INTERNAL
-  };
+export const createSpan = createSpanFunction({
+  packagePrefix: "Azure.Storage.Queue",
+  namespace: "Microsoft.Storage"
+});
 
-  const span = tracer.startSpan(`Azure.Storage.Queue.${operationName}`, spanOptions);
-  span.setAttribute("az.namespace", "Microsoft.Storage");
-
-  let newOptions = tracingOptions.spanOptions || {};
-  if (span.isRecording()) {
-    newOptions = {
-      ...tracingOptions.spanOptions,
-      parent: span.context(),
-      attributes: {
-        ...spanOptions.attributes,
-        "az.namespace": "Microsoft.Storage"
-      }
-    };
-  }
-
+/**
+ * @internal
+ *
+ * Adapt the tracing options from OperationOptions to what they need to be for
+ * RequestOptionsBase (when we update to later OpenTelemetry versions this is now
+ * two separate fields, not just one).
+ */
+export function convertTracingToRequestOptionsBase(
+  options?: OperationOptions
+): Pick<RequestOptionsBase, "spanOptions" | "tracingContext"> {
   return {
-    span,
-    spanOptions: newOptions
+    spanOptions: options?.tracingOptions?.spanOptions,
+    tracingContext: options?.tracingOptions?.tracingContext
   };
 }

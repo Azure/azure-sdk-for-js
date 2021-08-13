@@ -2,33 +2,42 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { OperationOptions, RequestOptionsBase } from "@azure/core-http";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import {
   KeyVaultClientFullRestoreOperationOptionalParams,
-  KeyVaultClientRestoreStatusResponse
+  KeyVaultClientRestoreStatusResponse,
+  RestoreOperation
 } from "../../generated/models";
-import { createSpan, setParentSpan } from "../../../../keyvault-common/src";
 import { KeyVaultClientFullRestoreOperationResponse } from "../../generated/models";
 import {
   KeyVaultAdminPollOperation,
   KeyVaultAdminPollOperationState
 } from "../keyVaultAdminPoller";
+import { KeyVaultBeginRestoreOptions, KeyVaultRestoreResult } from "../../backupClientModels";
+import { createTraceFunction } from "../../tracingHelpers";
+import { OperationOptions } from "@azure/core-client";
+
+/**
+ * @internal
+ */
+const withTrace = createTraceFunction("Azure.KeyVault.Admin.KeyVaultRestorePoller");
 
 /**
  * An interface representing the publicly available properties of the state of a restore Key Vault's poll operation.
  */
-export interface RestoreOperationState extends KeyVaultAdminPollOperationState<undefined> {}
+export interface KeyVaultRestoreOperationState
+  extends KeyVaultAdminPollOperationState<KeyVaultRestoreResult> {}
 
 /**
  * An internal interface representing the state of a restore Key Vault's poll operation.
  * @internal
  */
-export interface RestorePollOperationState extends KeyVaultAdminPollOperationState<undefined> {
+export interface KeyVaultRestorePollOperationState
+  extends KeyVaultAdminPollOperationState<KeyVaultRestoreResult> {
   /**
    * The URI of the blob storage account.
    */
-  blobStorageUri: string;
+  folderUri: string;
   /**
    * The SAS token.
    */
@@ -42,15 +51,15 @@ export interface RestorePollOperationState extends KeyVaultAdminPollOperationSta
 /**
  * An interface representing a restore Key Vault's poll operation.
  */
-export class RestorePollOperation extends KeyVaultAdminPollOperation<
-  RestorePollOperationState,
-  string
+export class KeyVaultRestorePollOperation extends KeyVaultAdminPollOperation<
+  KeyVaultRestorePollOperationState,
+  KeyVaultRestoreResult
 > {
   constructor(
-    public state: RestorePollOperationState,
+    public state: KeyVaultRestorePollOperationState,
     private vaultUrl: string,
     private client: KeyVaultClient,
-    private requestOptions: RequestOptionsBase = {}
+    private requestOptions: KeyVaultBeginRestoreOptions = {}
   ) {
     super(state, {
       cancelMessage: "Cancelling the restoration full Key Vault backup is not supported."
@@ -60,15 +69,12 @@ export class RestorePollOperation extends KeyVaultAdminPollOperation<
   /**
    * Tracing the fullRestore operation
    */
-  private async fullRestore(
+  private fullRestore(
     options: KeyVaultClientFullRestoreOperationOptionalParams
   ): Promise<KeyVaultClientFullRestoreOperationResponse> {
-    const span = createSpan("generatedClient.fullRestore", options);
-    try {
-      return await this.client.fullRestoreOperation(this.vaultUrl, setParentSpan(span, options));
-    } finally {
-      span.end();
-    }
+    return withTrace("fullRestore", options, (updatedOptions) =>
+      this.client.fullRestoreOperation(this.vaultUrl, updatedOptions)
+    );
   }
 
   /**
@@ -78,12 +84,9 @@ export class RestorePollOperation extends KeyVaultAdminPollOperation<
     jobId: string,
     options: OperationOptions
   ): Promise<KeyVaultClientRestoreStatusResponse> {
-    const span = createSpan("generatedClient.restoreStatus", options);
-    try {
-      return await this.client.restoreStatus(this.vaultUrl, jobId, setParentSpan(span, options));
-    } finally {
-      span.end();
-    }
+    return withTrace("restoreStatus", options, (updatedOptions) =>
+      this.client.restoreStatus(this.vaultUrl, jobId, updatedOptions)
+    );
   }
 
   /**
@@ -92,11 +95,11 @@ export class RestorePollOperation extends KeyVaultAdminPollOperation<
   async update(
     options: {
       abortSignal?: AbortSignalLike;
-      fireProgress?: (state: RestorePollOperationState) => void;
+      fireProgress?: (state: KeyVaultRestorePollOperationState) => void;
     } = {}
-  ): Promise<RestorePollOperation> {
+  ): Promise<KeyVaultRestorePollOperation> {
     const state = this.state;
-    const { blobStorageUri, sasToken, folderName } = state;
+    const { folderUri, sasToken, folderName } = state;
 
     if (options.abortSignal) {
       this.requestOptions.abortSignal = options.abortSignal;
@@ -108,59 +111,52 @@ export class RestorePollOperation extends KeyVaultAdminPollOperation<
         restoreBlobDetails: {
           folderToRestore: folderName,
           sasTokenParameters: {
-            storageResourceUri: blobStorageUri,
+            storageResourceUri: folderUri,
             token: sasToken
           }
         }
       });
 
-      const { startTime, jobId, endTime, error, status, statusDetails } = serviceOperation;
-
-      if (!startTime) {
-        state.error = new Error(`Missing "startTime" from the full restore operation.`);
-        state.isCompleted = true;
-        return this;
+      this.mapState(serviceOperation);
+    } else if (!state.isCompleted) {
+      if (!state.jobId) {
+        throw new Error(`Missing "jobId" from the full restore operation.`);
       }
-
-      state.isStarted = true;
-      state.jobId = jobId;
-      state.endTime = endTime;
-      state.startTime = startTime;
-      state.status = status;
-      state.statusDetails = statusDetails;
-
-      if (endTime) {
-        state.isCompleted = true;
-      }
-      if (error && error.message) {
-        state.isCompleted = true;
-        state.error = new Error(error.message);
-      }
-    }
-
-    if (!state.jobId) {
-      state.error = new Error(`Missing "jobId" from the full restore operation.`);
-      state.isCompleted = true;
-      return this;
-    }
-
-    if (!state.isCompleted) {
       const serviceOperation = await this.restoreStatus(state.jobId, this.requestOptions);
-      const { endTime, status, statusDetails, error } = serviceOperation;
-
-      state.endTime = endTime;
-      state.status = status;
-      state.statusDetails = statusDetails;
-
-      if (endTime) {
-        state.isCompleted = true;
-      }
-      if (error && error.message) {
-        state.isCompleted = true;
-        state.error = new Error(error.message);
-      }
+      this.mapState(serviceOperation);
     }
 
     return this;
+  }
+
+  private mapState(serviceOperation: RestoreOperation): void {
+    const state = this.state;
+    const { startTime, jobId, endTime, error, status, statusDetails } = serviceOperation;
+
+    if (!startTime) {
+      throw new Error(
+        `Missing "startTime" from the full restore operation. Restore did not start successfully.`
+      );
+    }
+
+    state.isStarted = true;
+    state.jobId = jobId;
+    state.endTime = endTime;
+    state.startTime = startTime;
+    state.status = status;
+    state.statusDetails = statusDetails;
+
+    state.isCompleted = !!endTime;
+
+    if (state.isCompleted && error?.code) {
+      throw new Error(error?.message || statusDetails);
+    }
+
+    if (state.isCompleted) {
+      state.result = {
+        startTime,
+        endTime
+      };
+    }
   }
 }

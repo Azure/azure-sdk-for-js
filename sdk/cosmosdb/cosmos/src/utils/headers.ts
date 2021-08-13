@@ -10,7 +10,15 @@ export async function generateHeaders(
   resourceType: ResourceType = ResourceType.none,
   resourceId: string = "",
   date = new Date()
-) {
+): Promise<{
+  [x: string]: string;
+}> {
+  if (masterKey.startsWith("type=sas&")) {
+    return {
+      [Constants.HttpHeaders.Authorization]: encodeURIComponent(masterKey),
+      [Constants.HttpHeaders.XDate]: date.toUTCString()
+    };
+  }
   const sig = await signature(masterKey, method, resourceType, resourceId, date);
 
   return {
@@ -25,7 +33,7 @@ async function signature(
   resourceType: ResourceType,
   resourceId: string = "",
   date = new Date()
-) {
+): Promise<string> {
   const type = "master";
   const version = "1.0";
   const text =

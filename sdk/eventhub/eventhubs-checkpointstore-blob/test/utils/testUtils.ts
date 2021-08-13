@@ -1,8 +1,10 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import * as dotenv from "dotenv";
 dotenv.config();
+
+declare const self: any;
 
 export const isNode =
   !!process && !!process.version && !!process.versions && !!process.versions.node;
@@ -15,8 +17,7 @@ function getEnvVarValue(name: string): string | undefined {
   if (isNode) {
     return process.env[name];
   } else {
-    // @ts-ignore
-    return window.__env__[name];
+    return self.__env__[name];
   }
 }
 

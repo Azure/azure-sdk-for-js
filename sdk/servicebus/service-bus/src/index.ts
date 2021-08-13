@@ -4,7 +4,14 @@
 /// <reference lib="es2015" />
 /// <reference lib="esnext.asynciterable" />
 
-export { delay, MessagingError, RetryOptions, TokenType, WebSocketOptions } from "@azure/core-amqp";
+export {
+  delay,
+  MessagingError,
+  RetryOptions,
+  RetryMode,
+  TokenType,
+  WebSocketOptions
+} from "@azure/core-amqp";
 export { TokenCredential } from "@azure/core-auth";
 export { OperationOptions } from "@azure/core-http";
 export { Delivery, WebSocketImpl } from "rhea-promise";

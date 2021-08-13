@@ -6,10 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Table, Service } from "./operations";
+import { TableImpl, ServiceImpl } from "./operations";
+import { Table, Service } from "./operationsInterfaces";
 import { GeneratedClientContext } from "./generatedClientContext";
 import { GeneratedClientOptionalParams } from "./models";
 
+/** @internal */
 export class GeneratedClient extends GeneratedClientContext {
   /**
    * Initializes a new instance of the GeneratedClient class.
@@ -18,8 +20,8 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   constructor(url: string, options?: GeneratedClientOptionalParams) {
     super(url, options);
-    this.table = new Table(this);
-    this.service = new Service(this);
+    this.table = new TableImpl(this);
+    this.service = new ServiceImpl(this);
   }
 
   table: Table;

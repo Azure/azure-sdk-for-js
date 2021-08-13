@@ -24,7 +24,7 @@ param (
 
 . (Join-Path $PSScriptRoot common.ps1)
 
-$releaseReplaceRegex = "(https://github.com/$RepoId/(?:blob|tree)/)master"
+$releaseReplaceRegex = "(https://github.com/$RepoId/(?:blob|tree)/)main"
 
 function GetMetaData {
   if (Test-Path Variable:MetadataUri) {
@@ -67,11 +67,11 @@ function GetAdjustedReadmeContent($pkgInfo){
       $fileContent = $fileContent -replace $titleRegex, "`${0} - Version $($pkgInfo.PackageVersion) `n"
       $foundTitle = $matches["filetitle"]
     }
-    # Replace github master link with release tag.
+    # Replace github main link with release tag.
     $ReplacementPattern = "`${1}$($pkgInfo.Tag)"
     $fileContent = $fileContent -replace $releaseReplaceRegex, $ReplacementPattern
-  
-    $header = "---`ntitle: $foundTitle`nkeywords: Azure, $Language, SDK, API, $($pkgInfo.PackageId), $service`nauthor: maggiepint`nms.author: magpint`nms.date: $date`nms.topic: article`nms.prod: azure`nms.technology: azure`nms.devlang: $Language`nms.service: $service`n---`n"
+
+    $header = "---`ntitle: $foundTitle`nkeywords: Azure, $Language, SDK, API, $($pkgInfo.PackageId), $service`nauthor: maggiepint`nms.author: magpint`nms.date: $date`nms.topic: reference`nms.prod: azure`nms.technology: azure`nms.devlang: $Language`nms.service: $service`n---`n"
 
     if ($fileContent) {
       return "$header`n$fileContent"
@@ -93,13 +93,17 @@ $targets = ($Configs | ConvertFrom-Json).targets
 foreach ($config in $targets) {
   if ($config.mode -eq "Preview") { $includePreview = $true } else { $includePreview = $false }
   $pkgsFiltered = $pkgs | ? { $_.IsPrerelease -eq $includePreview}
+  $suffix = ""
+  if ($config.suffix) {
+    $suffix = $config.suffix
+  }
 
   if ($pkgsFiltered) {
     Write-Host "Given the visible artifacts, $($config.mode) Readme updates against $($config.path_to_config) will be processed for the following packages."
     Write-Host ($pkgsFiltered | % { $_.PackageId + " " + $_.PackageVersion })
-  
+
     foreach ($packageInfo in $pkgsFiltered) {
-      $readmeName = "$($packageInfo.PackageId.Replace('azure-','').Replace('Azure.', '').Replace('@azure/', '').ToLower())-readme.md"
+      $readmeName = "$($packageInfo.DocsReadMeName.ToLower())-readme${suffix}.md"
       $readmeFolder = Join-Path $DocRepoLocation $config.content_folder
       $readmeLocation = Join-Path $readmeFolder $readmeName
 
@@ -111,12 +115,12 @@ foreach ($config in $targets) {
       if ($packageInfo.ReadmeContent) {
         $adjustedContent = GetAdjustedReadmeContent -pkgInfo $packageInfo
       }
-  
+
       if ($adjustedContent) {
         try {
           Push-Location $DocRepoLocation
           Set-Content -Path $readmeLocation -Value $adjustedContent -Force
-  
+
           Write-Host "Updated readme for $readmeName."
         } catch {
           Write-Host $_

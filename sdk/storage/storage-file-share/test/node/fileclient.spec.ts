@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import { Buffer } from "buffer";
 import * as fs from "fs";
@@ -5,7 +8,7 @@ import * as path from "path";
 import * as zlib from "zlib";
 import { Duplex } from "stream";
 
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { isPlaybackMode, record, Recorder } from "@azure/test-utils-recorder";
 
 import {
   FileSASPermissions,
@@ -17,7 +20,14 @@ import {
   StorageSharedKeyCredential
 } from "../../src";
 import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
-import { bodyToString, createRandomLocalFile, getBSU, recorderEnvSetup } from "../utils";
+import {
+  bodyToString,
+  createRandomLocalFile,
+  getBlobServceClient,
+  getBSU,
+  getTokenCredential,
+  recorderEnvSetup
+} from "../utils";
 
 describe("FileClient Node.js only", () => {
   let shareName: string;
@@ -214,6 +224,50 @@ describe("FileClient Node.js only", () => {
 
     await fileURL2.uploadRangeFromURL(`${fileClient.url}?${sas}`, 0, 0, 512);
     await fileURL2.uploadRangeFromURL(`${fileClient.url}?${sas}`, 512, 512, 512);
+
+    const range1 = await fileURL2.download(0, 512);
+    const range2 = await fileURL2.download(512, 512);
+
+    assert.equal(await bodyToString(range1, 512), "a".repeat(512));
+    assert.equal(await bodyToString(range2, 512), "b".repeat(512));
+  });
+
+  it("uploadRangeFromURL - source bearer token", async function() {
+    if (!isPlaybackMode()) {
+      // Enable this case, when the STG78 feature is enabled in production.
+      this.skip();
+    }
+    const blobServiceClient = getBlobServceClient();
+    const containerClient = blobServiceClient.getContainerClient(
+      recorder.getUniqueName("container")
+    );
+    await containerClient.create();
+    const blockBlob = containerClient.getBlockBlobClient(recorder.getUniqueName("blockBlob"));
+
+    const content = "a".repeat(512) + "b".repeat(512);
+
+    await blockBlob.upload(content, content.length);
+
+    const fileName2 = recorder.getUniqueName("file2");
+    const tokenCredential = getTokenCredential();
+    const accessToken = await tokenCredential.getToken([]);
+    const fileURL2 = dirClient.getFileClient(fileName2);
+
+    await fileURL2.create(1024);
+
+    await fileURL2.uploadRangeFromURL(blockBlob.url, 0, 0, 512, {
+      sourceAuthorization: {
+        scheme: "Bearer",
+        parameter: accessToken!.token
+      }
+    });
+
+    await fileURL2.uploadRangeFromURL(blockBlob.url, 512, 512, 512, {
+      sourceAuthorization: {
+        scheme: "Bearer",
+        parameter: accessToken!.token
+      }
+    });
 
     const range1 = await fileURL2.download(0, 512);
     const range2 = await fileURL2.download(512, 512);

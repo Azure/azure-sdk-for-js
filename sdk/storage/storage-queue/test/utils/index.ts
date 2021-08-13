@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
 import { newPipeline } from "../../src/Pipeline";
 import { QueueServiceClient } from "../../src/QueueServiceClient";

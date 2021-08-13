@@ -19,7 +19,10 @@ import {
   KeyOperationsParameters as KeyOperationsParametersMapper,
   KeySignParameters as KeySignParametersMapper,
   KeyVerifyParameters as KeyVerifyParametersMapper,
-  KeyExportParameters as KeyExportParametersMapper
+  KeyExportParameters as KeyExportParametersMapper,
+  KeyReleaseParameters as KeyReleaseParametersMapper,
+  KeyRotationPolicy as KeyRotationPolicyMapper,
+  GetRandomBytesRequest as GetRandomBytesRequestMapper
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -229,8 +232,8 @@ export const additionalAuthenticatedData: OperationParameter = {
   mapper: KeyOperationsParametersMapper
 };
 
-export const tag: OperationParameter = {
-  parameterPath: ["options", "tag"],
+export const authenticationTag: OperationParameter = {
+  parameterPath: ["options", "authenticationTag"],
   mapper: KeyOperationsParametersMapper
 };
 
@@ -259,9 +262,44 @@ export const signature: OperationParameter = {
   mapper: KeyVerifyParametersMapper
 };
 
-export const environment: OperationParameter = {
-  parameterPath: "environment",
+export const wrappingKey: OperationParameter = {
+  parameterPath: ["options", "wrappingKey"],
   mapper: KeyExportParametersMapper
+};
+
+export const wrappingKid: OperationParameter = {
+  parameterPath: ["options", "wrappingKid"],
+  mapper: KeyExportParametersMapper
+};
+
+export const enc: OperationParameter = {
+  parameterPath: ["options", "enc"],
+  mapper: KeyExportParametersMapper
+};
+
+export const target: OperationParameter = {
+  parameterPath: "target",
+  mapper: KeyReleaseParametersMapper
+};
+
+export const nonce: OperationParameter = {
+  parameterPath: ["options", "nonce"],
+  mapper: KeyReleaseParametersMapper
+};
+
+export const enc1: OperationParameter = {
+  parameterPath: ["options", "enc"],
+  mapper: KeyReleaseParametersMapper
+};
+
+export const keyRotationPolicy: OperationParameter = {
+  parameterPath: "keyRotationPolicy",
+  mapper: KeyRotationPolicyMapper
+};
+
+export const count: OperationParameter = {
+  parameterPath: "count",
+  mapper: GetRandomBytesRequestMapper
 };
 
 export const nextLink: OperationURLParameter = {

@@ -9,7 +9,7 @@
 export {
   discriminators,
   ErrorAdditionalInfo,
-  ErrorContract,
+  ErrorDetail,
   ErrorResponse,
   SqlPoolUsage,
   SqlPoolUsageListResult

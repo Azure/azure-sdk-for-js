@@ -10,6 +10,7 @@ import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import shim from "rollup-plugin-shim";
 import inject from "@rollup/plugin-inject";
+import { openTelemetryCommonJs } from "@azure/dev-tool/shared-config/rollup";
 
 import path from "path";
 
@@ -19,7 +20,7 @@ const input = "dist-esm/src/index.js";
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = ["events", "util", "os"];
+  const externalNodeBuiltins = ["events", "util", "os", "url"];
   const baseConfig = {
     input: input,
     external: depNames.concat(externalNodeBuiltins),
@@ -43,11 +44,11 @@ export function nodeConfig(test = false) {
 
   if (test) {
     // entry point is every test file
-    baseConfig.input = "dist-esm/test/**/*.spec.js";
+    baseConfig.input = ["dist-esm/test/internal/**/*.spec.js", "dist-esm/test/public/**/*.spec.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
     // different output file
-    baseConfig.output.file = "test-dist/index.js";
+    baseConfig.output.file = "dist-test/index.js";
 
     // mark assert as external
     baseConfig.external.push(
@@ -122,7 +123,7 @@ export function browserConfig(test = false) {
 
       cjs({
         namedExports: {
-          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"],
+          ...openTelemetryCommonJs(),
           chai: ["should", "assert"],
           assert: ["equal", "deepEqual", "notEqual"]
         }
@@ -143,9 +144,13 @@ export function browserConfig(test = false) {
   };
 
   if (test) {
-    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/impl/*.spec.js"];
+    baseConfig.input = [
+      "dist-esm/test/public/*.spec.js",
+      "dist-esm/test/internal/*.spec.js",
+      "dist-esm/test/internal/impl/*.spec.js"
+    ];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
-    baseConfig.output.file = "test-browser/index.js";
+    baseConfig.output.file = "dist-test/index.browser.js";
 
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also

@@ -1,11 +1,11 @@
 {
   "name": "@azure/eventhubs-checkpointstore-blob",
   "sdk-type": "client",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "An Azure Storage Blob solution to store checkpoints when using Event Hubs.",
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/eventhubs-checkpointstore-blob/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/eventhubs-checkpointstore-blob/",
   "repository": "github:Azure/azure-sdk-for-js",
   "sideEffects": false,
   "keywords": [
@@ -21,7 +21,7 @@
   "module": "dist-esm/src/index.js",
   "types": "./typings/eventhubs-checkpointstore-blob.d.ts",
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=12.0.0"
   },
   "files": [
     "dist/",
@@ -34,21 +34,21 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
-    "build:samples": "dev-tool samples prep && cd dist-samples && tsc",
+    "build:samples": "echo Obsolete",
     "build:test:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c rollup.test.config.js 2>&1",
     "build:test:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c rollup.test.config.js 2>&1",
     "build:test": "npm run build:test:node",
-    "build": "tsc -p . && rollup -c 2>&1 && npm run extract-api",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-esm test-dist typings *.tgz *.log",
-    "execute:samples": "echo skipped",
+    "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf dist dist-* typings *.tgz *.log",
+    "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
-    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace dist-esm/test/*.spec.js",
+    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"dist-esm/test/*.spec.js\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix",
-    "lint": "eslint package.json api-extractor.json src test --ext .ts -f html -o event-hubs-lintReport.html || exit 0",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
@@ -57,14 +57,15 @@
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --mode file --out ./dist/docs ./src"
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "dependencies": {
-    "@azure/event-hubs": "^5.0.0",
+    "@azure/abort-controller": "^1.0.0",
+    "@azure/event-hubs": "^5.6.0",
     "@azure/logger": "^1.0.0",
-    "@azure/storage-blob": "^12.3.0",
+    "@azure/storage-blob": "^12.6.0",
     "events": "^3.0.0",
-    "tslib": "^2.0.0"
+    "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
@@ -81,7 +82,7 @@
     "@types/chai-string": "^1.4.1",
     "@types/debug": "^4.1.4",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^8.0.0",
+    "@types/node": "^12.0.0",
     "assert": "^1.4.1",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
@@ -93,7 +94,7 @@
     "esm": "^3.2.18",
     "guid-typescript": "^1.0.9",
     "inherits": "^2.0.3",
-    "karma": "^5.1.0",
+    "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-edge-launcher": "^0.4.2",
@@ -103,7 +104,7 @@
     "karma-junit-reporter": "^2.0.1",
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
-    "karma-remap-istanbul": "^0.6.0",
+    "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^1.18.0",
     "nyc": "^14.0.0",
@@ -114,12 +115,21 @@
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^4.0.4",
-    "ts-node": "^8.3.0",
-    "typescript": "4.1.2",
+    "ts-node": "^9.0.0",
+    "typescript": "~4.2.0",
     "util": "^0.12.1",
-    "typedoc": "0.15.0"
+    "typedoc": "0.15.2"
   },
-  "//smokeTestConfiguration": {
-    "skipFolder": true
+  "//sampleConfiguration": {
+    "skipFolder": true,
+    "productName": "Azure Event Hubs - Checkpoint Store",
+    "productSlugs": [
+      "azure",
+      "azure-event-hubs"
+    ],
+    "requiredResources": {
+      "Azure Event Hub": "https://docs.microsoft.com/azure/event-hubs/event-hubs-create",
+      "Azure Storage Account": "https://docs.microsoft.com/azure/storage/common/storage-account-overview"
+    }
   }
 }

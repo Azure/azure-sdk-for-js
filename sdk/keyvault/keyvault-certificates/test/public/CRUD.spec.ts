@@ -2,9 +2,12 @@
 // Licensed under the MIT license.
 
 import os from "os";
+import { Context } from "mocha";
 import fs from "fs";
 import childProcess from "child_process";
-import * as assert from "assert";
+import { assert } from "chai";
+import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
+
 import { env, Recorder } from "@azure/test-utils-recorder";
 import { AbortController } from "@azure/abort-controller";
 import { SecretClient } from "@azure/keyvault-secrets";
@@ -32,7 +35,7 @@ describe("Certificates client - create, read, update and delete", () => {
     subject: "cn=MyCert"
   };
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     const authentication = await authenticate(this);
     suffix = authentication.suffix;
     client = authentication.client;
@@ -49,7 +52,7 @@ describe("Certificates client - create, read, update and delete", () => {
 
   // The tests follow
 
-  it("can create a certificate", async function() {
+  it("can create a certificate", async function(this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const poller = await client.beginCreateCertificate(
       certificateName,
@@ -62,10 +65,9 @@ describe("Certificates client - create, read, update and delete", () => {
       certificateName,
       "Unexpected name in result from beginCreateCertificate()."
     );
-    await testClient.flushCertificate(certificateName);
   });
 
-  it("can abort creating a certificate", async function() {
+  it("can abort creating a certificate", async function(this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const controller = new AbortController();
 
@@ -80,7 +82,7 @@ describe("Certificates client - create, read, update and delete", () => {
   });
 
   // On playback mode, the tests happen too fast for the timeout to work - in browsers
-  it("can create a certificate with requestOptions timeout", async function() {
+  it("can create a certificate with requestOptions timeout", async function(this: Context) {
     recorder.skip("browser", "Timeout tests don't work on playback mode.");
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
@@ -114,7 +116,7 @@ describe("Certificates client - create, read, update and delete", () => {
     );
   });
 
-  it("can update the tags of a certificate", async function() {
+  it("can update the tags of a certificate", async function(this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
     await client.beginCreateCertificate(
@@ -134,10 +136,9 @@ describe("Certificates client - create, read, update and delete", () => {
       "value",
       "Expect attribute 'tags' to be updated."
     );
-    await testClient.flushCertificate(certificateName);
   });
 
-  it("can disable a certificate", async function() {
+  it("can disable a certificate", async function(this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
     const poller = await client.beginCreateCertificate(
@@ -156,11 +157,9 @@ describe("Certificates client - create, read, update and delete", () => {
 
     result = await client.getCertificate(certificateName);
     assert.equal(result.properties.enabled, false);
-
-    await testClient.flushCertificate(certificateName);
   });
 
-  it("can disable a certificate version", async function() {
+  it("can disable a certificate version", async function(this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
     const poller = await client.beginCreateCertificate(
@@ -181,12 +180,10 @@ describe("Certificates client - create, read, update and delete", () => {
 
     result = await client.getCertificateVersion(certificateName, version);
     assert.equal(result.properties.enabled, false);
-
-    await testClient.flushCertificate(certificateName);
   });
 
   // On playback mode, the tests happen too fast for the timeout to work
-  it("can update certificate with requestOptions timeout", async function() {
+  it("can update certificate with requestOptions timeout", async function(this: Context) {
     recorder.skip(undefined, "Timeout tests don't work on playback mode.");
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
@@ -207,7 +204,7 @@ describe("Certificates client - create, read, update and delete", () => {
     });
   });
 
-  it("can get a certificate", async function() {
+  it("can get a certificate", async function(this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     await client.beginCreateCertificate(
       certificateName,
@@ -220,10 +217,9 @@ describe("Certificates client - create, read, update and delete", () => {
       certificateName,
       "Unexpected certificate name in result from beginCreateCertificate()."
     );
-    await testClient.flushCertificate(certificateName);
   });
 
-  it("can get a certificate's secret in PKCS 12 format", async function() {
+  it("can get a certificate's secret in PKCS 12 format", async function(this: Context) {
     recorder.skip("browser", "This test uses the file system.");
     // Skipping this test from the live browser test runs, because we use the file system.
     if (!isNode) {
@@ -266,12 +262,11 @@ describe("Certificates client - create, read, update and delete", () => {
         .split(/-----(BEGIN|END) CERTIFICATE-----/g)[2]
         .split(os.EOL)
         .join("")
+        .replace(/\n/g, "")
     );
-
-    await testClient.flushCertificate(certificateName);
   });
 
-  it("can get a certificate's secret in PEM format", async function() {
+  it("can get a certificate's secret in PEM format", async function(this: Context) {
     recorder.skip("browser", "This test uses the file system.");
     // Skipping this test from the live browser test runs, because we use the file system.
     if (!isNode) {
@@ -298,16 +293,15 @@ describe("Certificates client - create, read, update and delete", () => {
       .slice(0, -2) // Removing -----END CERTIFICATE-----
       .join("")
       .split("-----BEGIN CERTIFICATE-----") // Removing the PEM header
-      .slice(-1);
+      .slice(-1)
+      .join("");
 
     // The PEM encoded public certificate should be the same as the Base64 encoded CER
     assert.equal(base64CER, base64PublicCertificate);
-
-    await testClient.flushCertificate(certificateName);
   });
 
   // On playback mode, the tests happen too fast for the timeout to work
-  it("can get a certificate with requestOptions timeout", async function() {
+  it("can get a certificate with requestOptions timeout", async function(this: Context) {
     recorder.skip(undefined, "Timeout tests don't work on playback mode.");
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     await client.beginCreateCertificate(
@@ -320,7 +314,7 @@ describe("Certificates client - create, read, update and delete", () => {
     });
   });
 
-  it("can retrieve the latest version of a certificate value", async function() {
+  it("can retrieve the latest version of a certificate value", async function(this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     await client.beginCreateCertificate(
       certificateName,
@@ -335,10 +329,9 @@ describe("Certificates client - create, read, update and delete", () => {
       certificateName,
       "Unexpected certificate name in result from beginCreateCertificate()."
     );
-    await testClient.flushCertificate(certificateName);
   });
 
-  it("can get a certificate (Non Existing)", async function() {
+  it("can get a certificate (Non Existing)", async function(this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     let error;
     try {
@@ -351,7 +344,7 @@ describe("Certificates client - create, read, update and delete", () => {
     assert.equal(error.statusCode, 404);
   });
 
-  it("can delete a certificate", async function() {
+  it("can delete a certificate", async function(this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     await client.beginCreateCertificate(
       certificateName,
@@ -377,11 +370,10 @@ describe("Certificates client - create, read, update and delete", () => {
     }
 
     await poller.pollUntilDone();
-    await testClient.purgeCertificate(certificateName);
   });
 
   // On playback mode, the tests happen too fast for the timeout to work
-  it("can delete a certificate with requestOptions timeout", async function() {
+  it("can delete a certificate with requestOptions timeout", async function(this: Context) {
     recorder.skip(undefined, "Timeout tests don't work on playback mode.");
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     await client.beginCreateCertificate(
@@ -399,7 +391,7 @@ describe("Certificates client - create, read, update and delete", () => {
     });
   });
 
-  it("can delete a certificate (Non Existing)", async function() {
+  it("can delete a certificate (Non Existing)", async function(this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     let error;
     try {
@@ -413,7 +405,7 @@ describe("Certificates client - create, read, update and delete", () => {
   });
 
   describe("can get a deleted certificate", () => {
-    it("using beginDeleteCertificate's poller", async function() {
+    it("using beginDeleteCertificate's poller", async function(this: Context) {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
       await client.beginCreateCertificate(
         certificateName,
@@ -431,11 +423,9 @@ describe("Certificates client - create, read, update and delete", () => {
         certificateName,
         "Unexpected certificate name in result from pollUntilDone()."
       );
-
-      await testClient.purgeCertificate(certificateName);
     });
 
-    it("using getDeletedCertificate", async function() {
+    it("using getDeletedCertificate", async function(this: Context) {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
       await client.beginCreateCertificate(
         certificateName,
@@ -455,11 +445,9 @@ describe("Certificates client - create, read, update and delete", () => {
         certificateName,
         "Unexpected certificate name in result from getDeletedCertificate()."
       );
-
-      await testClient.purgeCertificate(certificateName);
     });
 
-    it("can not get a certificate that never existed", async function() {
+    it("can not get a certificate that never existed", async function(this: Context) {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
       let error;
       try {
@@ -473,7 +461,7 @@ describe("Certificates client - create, read, update and delete", () => {
     });
   });
 
-  it("can create, read, and delete a certificate issuer", async function() {
+  it("can create, read, and delete a certificate issuer", async function(this: Context) {
     const issuerName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
@@ -490,6 +478,7 @@ describe("Certificates client - create, read, update and delete", () => {
       ]
     });
     assert.equal(createResponse.administratorContacts![0].email, "admin@microsoft.com");
+    assert.equal(createResponse.accountId, "keyvaultuser");
 
     // Creating a certificate with that issuer
     await client.beginCreateCertificate(
@@ -520,10 +509,12 @@ describe("Certificates client - create, read, update and delete", () => {
           email: "admin@microsoft.com",
           phone: "4255555555"
         }
-      ]
+      ],
+      accountId: "keyvaultuser2"
     });
     getResponse = await client.getIssuer(issuerName);
     assert.equal(getResponse.administratorContacts![0].email, "admin@microsoft.com");
+    assert.equal(getResponse.accountId, "keyvaultuser2");
 
     // Delete
     await client.deleteIssuer(issuerName);
@@ -535,11 +526,9 @@ describe("Certificates client - create, read, update and delete", () => {
       error = e;
     }
     assert.equal(error.message, "Issuer not found");
-
-    await testClient.flushCertificate(certificateName);
   });
 
-  it("can update a certificate's policy", async function() {
+  it("can update a certificate's policy", async function(this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
     await client.beginCreateCertificate(
@@ -557,11 +546,9 @@ describe("Certificates client - create, read, update and delete", () => {
     });
     const updated = await client.getCertificate(certificateName);
     assert.equal(updated.policy!.subject, "cn=MyOtherCert");
-
-    await testClient.flushCertificate(certificateName);
   });
 
-  it("can read, cancel and delete a certificate's operation", async function() {
+  it("can read, cancel and delete a certificate's operation", async function(this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     await client.beginCreateCertificate(
       certificateName,
@@ -593,8 +580,6 @@ describe("Certificates client - create, read, update and delete", () => {
       error = e;
     }
     assert.equal(error.message, `Pending certificate not found: ${certificateName}`);
-
-    await testClient.flushCertificate(certificateName);
   });
 
   it("can set, read and delete a certificate's contacts", async function() {
@@ -633,5 +618,29 @@ describe("Certificates client - create, read, update and delete", () => {
       error = e;
     }
     assert.equal(error.code, "ContactsNotFound");
+  });
+
+  it("supports tracing", async function(this: Context) {
+    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+    await supportsTracing(
+      async (tracingOptions) => {
+        const poller = await client.beginCreateCertificate(
+          certificateName,
+          basicCertificatePolicy,
+          {
+            ...testPollerProperties,
+            tracingOptions
+          }
+        );
+        await poller.pollUntilDone();
+        await client.getCertificate(certificateName, { tracingOptions });
+      },
+      [
+        "Azure.KeyVault.Certificates.CreateCertificatePoller.createCertificate",
+        "Azure.KeyVault.Certificates.CreateCertificatePoller.getPlainCertificateOperation",
+        "Azure.KeyVault.Certificates.CreateCertificatePoller.getCertificate",
+        "Azure.KeyVault.Certificates.CertificateClient.getCertificate"
+      ]
+    );
   });
 });

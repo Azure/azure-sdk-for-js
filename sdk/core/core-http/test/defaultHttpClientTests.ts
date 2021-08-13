@@ -4,6 +4,7 @@
 /* eslint-disable no-unused-expressions */
 
 import { assert, AssertionError } from "chai";
+import { Context } from "mocha";
 import * as sinon from "sinon";
 import { AbortController } from "@azure/abort-controller";
 import "chai/register-should";
@@ -236,9 +237,8 @@ describe("defaultHttpClient", function() {
     }
   });
 
-  it("should give a graceful error for nonexistent hosts", async function() {
+  it("should give a graceful error for nonexistent hosts", async function(this: Context) {
     // Increase timeout to give the request time to fail
-    // eslint-disable-next-line no-invalid-this
     this.timeout(10000);
     const requestUrl = "http://fake.domain";
     const request = new WebResource(requestUrl, "GET");

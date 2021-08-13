@@ -1,12 +1,10 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 /**
  * Convert a Browser Blob object into ArrayBuffer.
  *
- * @export
- * @param {Blob} blob
- * @returns {Promise<ArrayBuffer>}
+ * @param blob -
  */
 export async function blobToArrayBuffer(blob: Blob): Promise<ArrayBuffer> {
   const fileReader = new FileReader();
@@ -22,9 +20,7 @@ export async function blobToArrayBuffer(blob: Blob): Promise<ArrayBuffer> {
 /**
  * Convert a Browser Blob object into string.
  *
- * @export
- * @param {Blob} blob
- * @returns {Promise<ArrayBuffer>}
+ * @param blob -
  */
 export async function blobToString(blob: Blob): Promise<string> {
   const fileReader = new FileReader();

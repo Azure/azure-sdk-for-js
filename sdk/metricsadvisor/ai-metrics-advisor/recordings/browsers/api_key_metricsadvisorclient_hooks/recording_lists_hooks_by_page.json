@@ -1,0 +1,52 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://endpoint/metricsadvisor/v1.0/hooks",
+   "query": {
+    "$maxpagesize": "2",
+    "hookName": "js-test"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"value\":[{\"hookId\":\"874704b3-80d3-4e78-929d-64be2accfb4f\",\"hookName\":\"js-test-emailHook-161531685824404287\",\"hookType\":\"Email\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"kaghiya@microsoft.com\"],\"hookParameter\":{\"toList\":[\"test@example.com\"]}},{\"hookId\":\"54b8eea6-fdfc-4fd7-a7b5-b8dfa1d37d70\",\"hookName\":\"js-test-emailHook-161531705673800660\",\"hookType\":\"Email\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"kaghiya@microsoft.com\"],\"hookParameter\":{\"toList\":[\"test@example.com\"]}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/hooks?hookName=js-test&$maxpagesize=2&$skip=2\"}",
+   "responseHeaders": {
+    "apim-request-id": "6702e1aa-9c27-4894-8916-62d11e381c01",
+    "content-length": "646",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 02 Jun 2021 20:33:18 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "135",
+    "x-request-id": "6702e1aa-9c27-4894-8916-62d11e381c01"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint:443/metricsadvisor/v1.0/hooks",
+   "query": {
+    "hookName": "js-test",
+    "$maxpagesize": "2",
+    "$skip": "2"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"value\":[{\"hookId\":\"2a5859d5-6df2-463e-840d-350a980f3291\",\"hookName\":\"js-test-emailHook-162265643099209817\",\"hookType\":\"Email\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"kaghiya@microsoft.com\"],\"hookParameter\":{\"toList\":[\"test2@example.com\",\"test3@example.com\"]}},{\"hookId\":\"33b47ff4-4820-4724-9a3b-e6443045e857\",\"hookName\":\"js-test-emailHook-162266598935904618\",\"hookType\":\"Email\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"kaghiya@microsoft.com\"],\"hookParameter\":{\"toList\":[\"test2@example.com\",\"test3@example.com\"]}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/hooks?hookName=js-test&$maxpagesize=2&$skip=4\"}",
+   "responseHeaders": {
+    "apim-request-id": "0f1ac618-9f59-4887-8096-665a50d4e2f7",
+    "content-length": "688",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 02 Jun 2021 20:33:18 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "176",
+    "x-request-id": "0f1ac618-9f59-4887-8096-665a50d4e2f7"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "ea986a158887843fb47c827d9f56440c"
+}

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { TokenCredential } from "@azure/core-http";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import * as assert from "assert";

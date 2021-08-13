@@ -7,21 +7,15 @@ import { SegmentCursor, ShardCursor } from "./models/ChangeFeedCursor";
 import { CommonOptions } from "@azure/storage-blob";
 import { AbortSignalLike } from "@azure/core-http";
 import { createSpan } from "./utils/tracing";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 
 /**
  * Options to configure {@link Segment.getChange} operation.
- *
- * @export
- * @interface SegmentGetChangeOptions
  */
 export interface SegmentGetChangeOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof SegmentGetChangeOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -52,7 +46,6 @@ export class Segment {
     this.shardIndex = shardIndex;
     this._dateTime = dateTime;
 
-    // TODO: add polyfill for Array.prototype.fill for IE11
     this.shardDone = Array(shards.length).fill(false);
     this.shardDoneCount = 0;
   }
@@ -64,7 +57,7 @@ export class Segment {
   public async getChange(
     options: SegmentGetChangeOptions = {}
   ): Promise<BlobChangeFeedEvent | undefined> {
-    const { span, spanOptions } = createSpan("Segment-getChange", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("Segment-getChange", options);
 
     try {
       if (this.shardIndex >= this.shards.length || this.shardIndex < 0) {
@@ -81,7 +74,7 @@ export class Segment {
         const currentShard = this.shards[this.shardIndex];
         event = await currentShard.getChange({
           abortSignal: options.abortSignal,
-          tracingOptions: { ...options.tracingOptions, spanOptions }
+          tracingOptions: updatedOptions.tracingOptions
         });
 
         if (!currentShard.hasNext()) {
@@ -94,7 +87,7 @@ export class Segment {
       return event;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

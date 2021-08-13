@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineOptions, OperationOptions } from "@azure/core-http";
+import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 
 /**
  * Identifies a Schema by its unique ID, version, and location.
@@ -57,7 +57,7 @@ export interface Schema extends SchemaId {
 /**
  * Options for SchemaRegistrationClient.
  */
-export interface SchemaRegistryClientOptions extends PipelineOptions {}
+export interface SchemaRegistryClientOptions extends CommonClientOptions {}
 
 /**
  * Options for SchemaRegistryClient.registerSchema.
@@ -98,15 +98,18 @@ export interface SchemaRegistry {
    * content.
    *
    * @param schema - Schema to match.
-   * @returns Matched schema's ID.
+   * @returns Matched schema's ID or undefined if no matching schema was found.
    */
-  getSchemaId(schema: SchemaDescription, options?: GetSchemaIdOptions): Promise<SchemaId>;
+  getSchemaId(
+    schema: SchemaDescription,
+    options?: GetSchemaIdOptions
+  ): Promise<SchemaId | undefined>;
 
   /**
    * Gets an existing schema by ID.
    *
    * @param id - Unique schema ID.
-   * @returns Schema with given ID.
+   * @returns Schema with given ID or undefined if no schema was found with the given ID.
    */
-  getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema>;
+  getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema | undefined>;
 }

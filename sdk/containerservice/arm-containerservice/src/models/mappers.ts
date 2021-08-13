@@ -641,6 +641,12 @@ export const ManagedClusterAgentPoolProfileProperties: msRest.CompositeMapper = 
           name: "String"
         }
       },
+      osSKU: {
+        serializedName: "osSKU",
+        type: {
+          name: "String"
+        }
+      },
       maxCount: {
         serializedName: "maxCount",
         type: {
@@ -723,6 +729,12 @@ export const ManagedClusterAgentPoolProfileProperties: msRest.CompositeMapper = 
           name: "Boolean"
         }
       },
+      nodePublicIPPrefixID: {
+        serializedName: "nodePublicIPPrefixID",
+        type: {
+          name: "String"
+        }
+      },
       scaleSetPriority: {
         serializedName: "scaleSetPriority",
         defaultValue: 'Regular',
@@ -800,6 +812,18 @@ export const ManagedClusterAgentPoolProfileProperties: msRest.CompositeMapper = 
         serializedName: "enableEncryptionAtHost",
         type: {
           name: "Boolean"
+        }
+      },
+      enableFIPS: {
+        serializedName: "enableFIPS",
+        type: {
+          name: "Boolean"
+        }
+      },
+      gpuInstanceProfile: {
+        serializedName: "gpuInstanceProfile",
+        type: {
+          name: "String"
         }
       }
     }
@@ -889,6 +913,12 @@ export const AgentPool: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      osSKU: {
+        serializedName: "properties.osSKU",
+        type: {
+          name: "String"
+        }
+      },
       maxCount: {
         serializedName: "properties.maxCount",
         type: {
@@ -971,6 +1001,12 @@ export const AgentPool: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
+      nodePublicIPPrefixID: {
+        serializedName: "properties.nodePublicIPPrefixID",
+        type: {
+          name: "String"
+        }
+      },
       scaleSetPriority: {
         serializedName: "properties.scaleSetPriority",
         defaultValue: 'Regular',
@@ -1049,6 +1085,18 @@ export const AgentPool: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      enableFIPS: {
+        serializedName: "properties.enableFIPS",
+        type: {
+          name: "Boolean"
+        }
+      },
+      gpuInstanceProfile: {
+        serializedName: "properties.gpuInstanceProfile",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1077,6 +1125,12 @@ export const ManagedClusterWindowsProfile: msRest.CompositeMapper = {
         serializedName: "licenseType",
         type: {
           name: "String"
+        }
+      },
+      enableCSIProxy: {
+        serializedName: "enableCSIProxy",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -1524,6 +1578,94 @@ export const MaintenanceConfiguration: msRest.CompositeMapper = {
   }
 };
 
+export const RunCommandRequest: msRest.CompositeMapper = {
+  serializedName: "RunCommandRequest",
+  type: {
+    name: "Composite",
+    className: "RunCommandRequest",
+    modelProperties: {
+      command: {
+        required: true,
+        serializedName: "command",
+        type: {
+          name: "String"
+        }
+      },
+      context: {
+        serializedName: "context",
+        type: {
+          name: "String"
+        }
+      },
+      clusterToken: {
+        serializedName: "clusterToken",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RunCommandResult: msRest.CompositeMapper = {
+  serializedName: "RunCommandResult",
+  type: {
+    name: "Composite",
+    className: "RunCommandResult",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      exitCode: {
+        readOnly: true,
+        serializedName: "properties.exitCode",
+        type: {
+          name: "Number"
+        }
+      },
+      startedAt: {
+        readOnly: true,
+        serializedName: "properties.startedAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      finishedAt: {
+        readOnly: true,
+        serializedName: "properties.finishedAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      logs: {
+        readOnly: true,
+        serializedName: "properties.logs",
+        type: {
+          name: "String"
+        }
+      },
+      reason: {
+        readOnly: true,
+        serializedName: "properties.reason",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ContainerServiceVMDiagnostics: msRest.CompositeMapper = {
   serializedName: "ContainerServiceVMDiagnostics",
   type: {
@@ -1678,6 +1820,12 @@ export const ManagedClusterPodIdentity: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      bindingSelector: {
+        serializedName: "bindingSelector",
+        type: {
+          name: "String"
+        }
+      },
       identity: {
         required: true,
         serializedName: "identity",
@@ -1749,6 +1897,12 @@ export const ManagedClusterPodIdentityProfile: msRest.CompositeMapper = {
     modelProperties: {
       enabled: {
         serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      allowNetworkPluginKubenet: {
+        serializedName: "allowNetworkPluginKubenet",
         type: {
           name: "Boolean"
         }
@@ -2010,6 +2164,97 @@ export const ManagedClusterPropertiesIdentityProfileValue: msRest.CompositeMappe
   }
 };
 
+export const PrivateLinkResource: msRest.CompositeMapper = {
+  serializedName: "PrivateLinkResource",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkResource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      groupId: {
+        serializedName: "groupId",
+        type: {
+          name: "String"
+        }
+      },
+      requiredMembers: {
+        serializedName: "requiredMembers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      privateLinkServiceID: {
+        readOnly: true,
+        serializedName: "privateLinkServiceID",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterHTTPProxyConfig: msRest.CompositeMapper = {
+  serializedName: "ManagedClusterHTTPProxyConfig",
+  type: {
+    name: "Composite",
+    className: "ManagedClusterHTTPProxyConfig",
+    modelProperties: {
+      httpProxy: {
+        serializedName: "httpProxy",
+        type: {
+          name: "String"
+        }
+      },
+      httpsProxy: {
+        serializedName: "httpsProxy",
+        type: {
+          name: "String"
+        }
+      },
+      noProxy: {
+        serializedName: "noProxy",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      trustedCa: {
+        serializedName: "trustedCa",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ManagedClusterIdentityUserAssignedIdentitiesValue: msRest.CompositeMapper = {
   serializedName: "ManagedClusterIdentity_userAssignedIdentitiesValue",
   type: {
@@ -2103,6 +2348,28 @@ export const ManagedClusterSKU: msRest.CompositeMapper = {
   }
 };
 
+export const ExtendedLocation: msRest.CompositeMapper = {
+  serializedName: "ExtendedLocation",
+  type: {
+    name: "Composite",
+    className: "ExtendedLocation",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ManagedCluster: msRest.CompositeMapper = {
   serializedName: "ManagedCluster",
   type: {
@@ -2144,6 +2411,12 @@ export const ManagedCluster: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      fqdnSubdomain: {
+        serializedName: "properties.fqdnSubdomain",
+        type: {
+          name: "String"
+        }
+      },
       fqdn: {
         readOnly: true,
         serializedName: "properties.fqdn",
@@ -2154,6 +2427,13 @@ export const ManagedCluster: msRest.CompositeMapper = {
       privateFQDN: {
         readOnly: true,
         serializedName: "properties.privateFQDN",
+        type: {
+          name: "String"
+        }
+      },
+      azurePortalFQDN: {
+        readOnly: true,
+        serializedName: "properties.azurePortalFQDN",
         type: {
           name: "String"
         }
@@ -2281,6 +2561,31 @@ export const ManagedCluster: msRest.CompositeMapper = {
           }
         }
       },
+      privateLinkResources: {
+        serializedName: "properties.privateLinkResources",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateLinkResource"
+            }
+          }
+        }
+      },
+      disableLocalAccounts: {
+        serializedName: "properties.disableLocalAccounts",
+        type: {
+          name: "Boolean"
+        }
+      },
+      httpProxyConfig: {
+        serializedName: "properties.httpProxyConfig",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterHTTPProxyConfig"
+        }
+      },
       identity: {
         serializedName: "identity",
         type: {
@@ -2293,6 +2598,13 @@ export const ManagedCluster: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ManagedClusterSKU"
+        }
+      },
+      extendedLocation: {
+        serializedName: "extendedLocation",
+        type: {
+          name: "Composite",
+          className: "ExtendedLocation"
         }
       }
     }
@@ -2750,58 +3062,6 @@ export const PrivateEndpointConnectionListResult: msRest.CompositeMapper = {
   }
 };
 
-export const PrivateLinkResource: msRest.CompositeMapper = {
-  serializedName: "PrivateLinkResource",
-  type: {
-    name: "Composite",
-    className: "PrivateLinkResource",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      groupId: {
-        serializedName: "groupId",
-        type: {
-          name: "String"
-        }
-      },
-      requiredMembers: {
-        serializedName: "requiredMembers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      privateLinkServiceID: {
-        readOnly: true,
-        serializedName: "privateLinkServiceID",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const PrivateLinkResourcesListResult: msRest.CompositeMapper = {
   serializedName: "PrivateLinkResourcesListResult",
   type: {
@@ -2816,6 +3076,74 @@ export const PrivateLinkResourcesListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "PrivateLinkResource"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const OSOptionProperty: msRest.CompositeMapper = {
+  serializedName: "OSOptionProperty",
+  type: {
+    name: "Composite",
+    className: "OSOptionProperty",
+    modelProperties: {
+      osType: {
+        required: true,
+        serializedName: "os-type",
+        type: {
+          name: "String"
+        }
+      },
+      enableFipsImage: {
+        required: true,
+        serializedName: "enable-fips-image",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const OSOptionProfile: msRest.CompositeMapper = {
+  serializedName: "OSOptionProfile",
+  type: {
+    name: "Composite",
+    className: "OSOptionProfile",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      osOptionPropertyList: {
+        required: true,
+        serializedName: "properties.osOptionPropertyList",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "OSOptionProperty"
             }
           }
         }

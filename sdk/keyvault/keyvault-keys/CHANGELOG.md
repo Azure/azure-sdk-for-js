@@ -1,11 +1,105 @@
 # Release History
 
+## 4.4.0-beta.2 (Unreleased)
 
-## 4.2.0-beta.3 (Unreleased)
+### Features Added
 
-- [Breaking] Removed `dist-browser` from the published package. To bundle the Azure SDK libraries for the browsers, please read our bundling guide: [link](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md).
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 4.4.0-beta.1 (2021-08-10)
+
+### Features Added
+
+- Added support for Secure key Release from a Managed HSM.
+  - Added `KeyClient.releaseKey` to release a key from a Managed HSM.
+  - Added `exportable` and `releasePolicy` to `KeyVaultKey.properties`, `createKeyOptions`, and `importKeyOptions` in order to specify whether the key is exportable and the associated release policy.
+- Added an overload to `KeyClient.updateKeyProperties` that allows the version to be omitted, updating the latest key version.
+- Added support for `KeyClient.getRandomBytes` which, when connected to a managed HSM, can be used to generate a byte array of a given length with random values.
+- Updated the service version to 7.3-preview.
+
+## 4.3.0 (2021-07-29)
+
+### New Features
+
+- Support for Node.js 8 and IE 11 has been dropped. Please see our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+- Changed TS compilation target to ES2017 to produce smaller bundles and use more native platform features.
+- Updated our internal core package dependencies to their latest versions to add support for Opentelemetry 1.0.0, which is compatible with the latest versions of our other client libraries.
+
+## 4.3.0-beta.1 (2021-07-07)
+
+### Features Added
+
+- With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+- Added support for `KeyClient.getRandomBytes` which, when connected to a managed HSM, can be used to generate a byte array of a given length with random values.
+- Updated the service version to 7.3-preview.
+
+## 4.2.2 (2021-07-07)
+
+### Key Bugs Fixed
+
+- Fixed an issue where `CryptographyClient.signData` and `CryptographyClient.verifyData` convenience methods would fail to find a valid hashing algorithm when using Elliptic Curve keys.
+
+## 4.2.1 (2021-06-15)
+
+### Bug Fixes
+
+- Fixed an issue where bundling could fail when importing this library due to an incorrectly set import.
+
+## 4.2.0 (2021-06-15)
+
+### New Features
+
+- Added support for local cryptography operations. If supported by the key type and algorithm, the `CryptographyClient` will attempt to perform a cryptography operation locally.
+- Added support for symmetric keys in Managed HSMs including support for AES encryption algorithms to encrypt, decrypt, wrap, and unwrap using symmetric keys.
+- Added support for the 7.2 version of the Key Vault service API.
+
+### Bug Fixes
+
+- Fixed a bug with `beginDeleteKey` and `beginRecoverDeletedKey` in which unknown service errors wouldn't bubble up properly to the end users.
+- Fixed bug with the list operations which were returning misplaced properties. Fixes customer issue: [15353](https://github.com/Azure/azure-sdk-for-js/issues/15353).
+- Fixed an issue where retrying a failed initial Key Vault request may result in an empty body.
+
+### Changes since 4.2.0-beta.5:
+
+- Removed the now obsolete `KeyOperationsOptions` and replaced it with `CryptographyOptions`.
+  - Introduced in 4.2.0-beta.1 to support additional encryption parameters for AES encryption, we have since moved these parameters outside of the options bag so a separate `KeyOperationsOptions` is now redundant.
+- Fixed a bug with `beginDeleteKey` and `beginRecoverDeletedKey` in which unknown service errors wouldn't bubble up properly to the end users.
+- Fixed bug with the list operations which were returning misplaced properties. Fixes customer issue: [15353](https://github.com/Azure/azure-sdk-for-js/issues/15353).
+- Exported a method to parse Key Vault Key Ids: `parseKeyVaultKeyIdentifier`.
+
+## 4.2.0-beta.5 (2021-04-06)
+
+- Added local cryptography support for encryption / decryption for `A128CBCPAD`, `A192CBCPAD`, and `A256CBCPAD`.
+- For AES-CBC encryption we will now generate an IV if the user did not pass it in, making `iv` optional for those parameters.
+- Improved tracing across the various KeyVault libraries. By switching to a consistent naming convention, ensuring spans are always closed appropriately, and setting the correct status when an operation errors developers can expect an improved experience when enabling distributed tracing.
+  - We now ensure tracing spans are properly closed with an appropriate status when an operation throws an exception.
+  - If a traced operation throws an exception we will now properly record the exception message in the tracing span.
+  - Finally, naming conventions have been standardized across the KeyVault libraries taking the format of `Azure.KeyVault.<PACKAGE NAME>.<CLIENT NAME>`.
+- Fixed an issue where retrying a failed initial Key Vault request may result in an empty body.
+- [Breaking] Removed the now unused `LocalCryptographyAlgorithmName` type (Added in 4.2.0-beta.1 to support `LocalCryptographyClient` and unused since 4.2.0-beta.4)
+- Updated `CryptographyClient` to ensure that any local cryptography error is properly handled. We will now try to perform the operation locally where we can but fallback to KeyVault if the local operation fails.
+
+## 4.2.0-beta.4 (2021-03-09)
+
+- Updated the Latest service version to 7.2.
+- Added `curve` to `createKeyOptions` to be used when creating an `EC` key.
+- Deprecated the current `encrypt` and `decrypt` methods in favor of the more flexible overloads that take an `{Encrypt|Decrypt}Parameters` and allow passing in algorithm specific parameters. This enables support for the various AES algorithms used in Managed HSM. The deprecated methods continue to function and there's no timeline for their removal.
+- Added `additionalAuthenticatedData`, `iv`, and `authenticationTag` to `EncryptResult` in order to support AES encryption and decryption.
+- Refactored the various cryptography providers and updated the error messages to be clearer and more descriptive.
+
+## 4.2.0-beta.3 (2021-02-09)
+
+- [Breaking] Removed `dist-browser` from the published package. To bundle the Azure SDK libraries for the browsers, please read our bundling guide: [link](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Bundling.md).
 - Updated the Key Vault Keys Long Running Operation Pollers to follow a more compact and meaningful approach moving forward.
 - Bug fix: The logging of HTTP requests wasn't properly working - now it has been fixed and tests have been written that verify the fix.
+- Added a constructor overload to `CryptographyClient` that takes a `JsonWebKey` and allows for local-only subset of operations.
+- Added `KeyId` to the public API of CryptographyClient.
+- [Breaking] Removed `parseKeyVaultKeysId` from the public API and made `KeyOptionsOptions.additionalAuthenticatedData` a readonly property.
+- Added a `createOctKey` convenience method to create a key of type `oct` or `oct-HSM` as appropriate.
 
 ## 4.2.0-beta.2 (2020-10-06)
 
@@ -19,7 +113,7 @@
 ## 4.2.0-beta.1 (2020-09-11)
 
 - Added `parseKeyVaultKeysIdentifier` and `ParsedKeyVaultKeysIdentifier` to help with parsing the unique identifiers of Key Vault Keys.
-- Added the basic structure of a new client to perform local cryptography operations, which is now called `LocalCryptographyClient`.  
+- Added the basic structure of a new client to perform local cryptography operations, which is now called `LocalCryptographyClient`.
   - The existing `CryptographyClient`, when initialized, will create one instance of a local cryptography client, which can be retrieved by calling to a new method that is part of the `CryptographyClient` class: `getLocalCryptographyClient()`.
   - The `LocalCryptographyClient` currently has limited support of the cryptography operations available on the `CryptographyClient`. More operations will be added over time.
 
@@ -27,19 +121,14 @@
 
 4.1.0 had changes both relative to the last GA release, `4.0.4`, and the last preview release, `4.1.0-preview.1`.
 
-### Changes since 4.0.4
-
-- Added the optional `serviceVersion` property to the `KeyClient` and `CryptographyClient` optional parameters to control the version of the Key Vault service being used by the clients.
-    - It defaults to the latest supported API version, which currently is `7.1`.
-    - Other supported service version at the moment is `7.0`.
-- Added `import` to the list of possible values for `KeyOperation`.
-- Added `recoverableDays` as an optional property to `KeyProperties` which denotes the number of days in which the key can be recovered after deletion. This is only applicable for Azure Key Vaults with the soft-delete setting enabled.
-- Fixed [bug 10352](https://github.com/Azure/azure-sdk-for-js/issues/10352), which caused cryptography operations on RSA-HSM keys to fail.
-
-### Changes since 4.1.0-preview.1
-
-- Renamed the `apiVersion` property to the `KeyClient` constructor as `serviceVersion`.
-- Moved from service version `7.1-preview` to `7.1`.
+- Added the optional serviceVersion property to the KeyClient and CryptographyClient optional parameters to control the version of the Key Vault service being used by the clients.
+  - It defaults to the latest supported API version, which currently is 7.1.
+  - Other supported service version at the moment is 7.0.
+- Added import to the list of possible values for KeyOperation.
+- Added recoverableDays as an optional property to KeyProperties which denotes the number of days in which the key can be recovered after deletion. This is only applicable for Azure Key Vaults with the soft-delete setting enabled.
+- Fixed bug 10352, which caused cryptography operations on RSA-HSM keys to fail.
+- Renamed the apiVersion property to the KeyClient constructor as serviceVersion.
+- Moved from service version 7.1-preview to 7.1.
 
 ## 4.0.4 (2020-06-01)
 

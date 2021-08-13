@@ -13,7 +13,6 @@ export interface BeginRestoreKeyBackupOptions extends KeyPollerOptions {}
 
 /**
  * @internal
- * @hidden
  * An interface representing the KeyClient. For internal use.
  */
 export interface TestKeyClientInterface {

@@ -1,0 +1,30 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: "${K8S_POD_NAME}"
+  namespace: "${KUBERNETES_NAMESPACE}"
+spec:
+  restartPolicy: Never
+  containers:
+    - name: sb-stressperf
+      image: "${DOCKER_IMAGE_NAME}"
+      env:
+        - name: SERVICEBUS_CONNECTION_STRING
+          valueFrom:
+            secretKeyRef:
+              name: "${K8S_SECRET_NAME}"
+              key: SERVICEBUS_CONNECTION_STRING
+        - name: APPINSIGHTS_INSTRUMENTATIONKEY
+          valueFrom:
+            secretKeyRef:
+              name: "${K8S_SECRET_NAME}"
+              key: APPINSIGHTS_INSTRUMENTATIONKEY
+      command:
+        - node
+        - /src/dist/${SCENARIO_JS_BASE_NAME}.js
+      # the cluster we're currently using is a bit more free-for-all as we figure out sizing.
+      # resources:
+      #   requests:
+      #     cpu: 1
+      #     memory: 500Mi
+      imagePullPolicy: Always

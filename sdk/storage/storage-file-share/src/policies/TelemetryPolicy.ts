@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import {
   BaseRequestPolicy,
@@ -15,25 +15,18 @@ import { HeaderConstants } from "../utils/constants";
 
 /**
  * TelemetryPolicy is a policy used to tag user-agent header for every requests.
- *
- * @class TelemetryPolicy
- * @extends {BaseRequestPolicy}
  */
 export class TelemetryPolicy extends BaseRequestPolicy {
   /**
    * Telemetry string.
-   *
-   * @type {string}
-   * @memberof TelemetryPolicy
    */
   public readonly telemetry: string;
 
   /**
    * Creates an instance of TelemetryPolicy.
-   * @param {RequestPolicy} nextPolicy
-   * @param {RequestPolicyOptions} options
-   * @param {TelemetryOptions} [telemetry]
-   * @memberof TelemetryPolicy
+   * @param nextPolicy -
+   * @param options -
+   * @param telemetry -
    */
   constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, telemetry: string) {
     super(nextPolicy, options);
@@ -43,9 +36,7 @@ export class TelemetryPolicy extends BaseRequestPolicy {
   /**
    * Sends out request.
    *
-   * @param {WebResource} request
-   * @returns {Promise<HttpOperationResponse>}
-   * @memberof TelemetryPolicy
+   * @param request -
    */
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     if (isNode) {

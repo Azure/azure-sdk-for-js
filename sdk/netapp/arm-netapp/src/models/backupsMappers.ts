@@ -7,6 +7,7 @@
  */
 
 export {
+  AccountEncryption,
   ActiveDirectory,
   Backup,
   BackupPatch,
@@ -14,6 +15,7 @@ export {
   BackupPolicyDetails,
   BackupPolicyPatch,
   BackupsList,
+  BackupStatus,
   BaseResource,
   CapacityPool,
   CapacityPoolPatch,
@@ -26,8 +28,10 @@ export {
   NetAppAccount,
   NetAppAccountPatch,
   ReplicationObject,
+  RestoreStatus,
   Snapshot,
   SnapshotPolicy,
+  SystemData,
   Vault,
   Volume,
   VolumeBackupProperties,
