@@ -138,7 +138,7 @@ describe("etags", () => {
     assert.equal(updatedSetting.etag, configurationSetting.etag);
   });
 
-  it("(set|clear)readonly using etags", async () => {
+  it.only("(set|clear)readonly using etags", async () => {
     const addedSetting = await client.getConfigurationSetting({ key });
 
     const badEtagSetting = {
