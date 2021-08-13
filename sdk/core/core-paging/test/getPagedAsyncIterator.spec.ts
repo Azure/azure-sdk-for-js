@@ -6,7 +6,7 @@ import { getPagedAsyncIterator, PagedResult } from "../src";
 
 function buildIterator<T>(input: T) {
   return getPagedAsyncIterator({
-    firstPageLink: "",
+    firstPageLink: 0,
     async getPage() {
       return Promise.resolve({ page: input });
     }
@@ -47,15 +47,14 @@ describe("getPagedAsyncIterator", function() {
 
   it("should return an iterator over multiple pages (collections)", async function() {
     const collection = Array.from(Array(10), (_, i) => i + 1);
-    const pagedResult: PagedResult<number[]> = {
-      firstPageLink: "0",
+    const pagedResult: PagedResult<number[], number> = {
+      firstPageLink: 0,
       async getPage(pageLink, maxPageSize) {
-        const currIndex = parseInt(pageLink);
         const top = maxPageSize || 5;
-        if (currIndex < collection.length) {
+        if (pageLink < collection.length) {
           return Promise.resolve({
-            page: collection.slice(currIndex, Math.min(currIndex + top, collection.length)),
-            nextPageLink: top < collection.length - currIndex ? `${currIndex + top}` : undefined
+            page: collection.slice(pageLink, Math.min(pageLink + top, collection.length)),
+            nextPageLink: top < collection.length - pageLink ? pageLink + top : undefined
           });
         } else {
           throw new Error("should not get here");
@@ -83,24 +82,25 @@ describe("getPagedAsyncIterator", function() {
   it("should return an iterator over multiple pages (non-collections)", async function() {
     const maxPageSize = 5;
     const collection = Array.from(Array(10), (_, i) => i + 1);
-    const pagedResult: PagedResult<Record<string, unknown>> = {
-      firstPageLink: "0",
+    const pagedResult: PagedResult<Record<string, unknown>, number> = {
+      firstPageLink: 0,
       async getPage(pageLink, maxPageSize) {
-        const currIndex = parseInt(pageLink);
         const top = maxPageSize || 5;
-        if (currIndex < collection.length) {
+        if (pageLink < collection.length) {
           return Promise.resolve({
             page: {
-              res: collection.slice(currIndex, Math.min(currIndex + top, collection.length))
+              res: collection.slice(pageLink, Math.min(pageLink + top, collection.length))
             },
-            nextPageLink: top < collection.length - currIndex ? `${currIndex + top}` : undefined
+            nextPageLink: top < collection.length - pageLink ? pageLink + top : undefined
           });
         } else {
           throw new Error("should not get here");
         }
       }
     };
-    const iterator = getPagedAsyncIterator<Record<string, any>, Record<string, any>>(pagedResult);
+    const iterator = getPagedAsyncIterator<Record<string, any>, Record<string, any>, number>(
+      pagedResult
+    );
     let receivedItems = []; // they're pages too
     let pagesCount = 0;
     for await (const val of iterator) {
