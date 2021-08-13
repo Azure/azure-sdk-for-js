@@ -1575,10 +1575,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-niAuZrwrjKck4+XhoCw6AAVQBENHftpXw9F4ryk66fTgYaKQ53R4FI7c9vUGGw5vQis1HKBHDR1gcYI/Bq1xvw==
-  /@types/node/16.6.1:
-    dev: false
-    resolution:
-      integrity: sha512-Sr7BhXEAer9xyGuCN3Ek9eg9xPviCF2gfu9kTfuU2HkTVAMYSDeX40fvpmo72n5nansg3nsBjuQBrsS28r+NUw==
   /@types/prettier/2.0.2:
     dev: false
     resolution:
@@ -1601,7 +1597,7 @@ packages:
       integrity: sha512-EEhsLsD6UsDM1yFhAvy0Cjr6VwmpMWqFBCb9w07wVugF7w9nfajxLuVmngTIpgS6svCnm6Vaw+MZhoDCKnOfsw==
   /@types/resolve/1.17.1:
     dependencies:
-      '@types/node': 16.6.1
+      '@types/node': 12.20.19
     dev: false
     resolution:
       integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==
@@ -6470,7 +6466,7 @@ packages:
   /rollup/1.32.1:
     dependencies:
       '@types/estree': 0.0.50
-      '@types/node': 16.6.1
+      '@types/node': 12.20.19
       acorn: 7.4.1
     dev: false
     hasBin: true
