@@ -770,7 +770,7 @@ import {
   WebAppsListVnetConnectionsSlotResponse,
   WebAppsGetVnetConnectionSlotOptionalParams,
   WebAppsGetVnetConnectionSlotResponse,
-  VnetInfo,
+  VnetInfoResource,
   WebAppsCreateOrUpdateVnetConnectionSlotOptionalParams,
   WebAppsCreateOrUpdateVnetConnectionSlotResponse,
   WebAppsDeleteVnetConnectionSlotOptionalParams,
@@ -15238,7 +15238,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     vnetName: string,
     slot: string,
-    connectionEnvelope: VnetInfo,
+    connectionEnvelope: VnetInfoResource,
     options?: WebAppsCreateOrUpdateVnetConnectionSlotOptionalParams
   ): Promise<WebAppsCreateOrUpdateVnetConnectionSlotResponse> {
     return this.client.sendOperationRequest(
@@ -15285,7 +15285,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     vnetName: string,
     slot: string,
-    connectionEnvelope: VnetInfo,
+    connectionEnvelope: VnetInfoResource,
     options?: WebAppsUpdateVnetConnectionSlotOptionalParams
   ): Promise<WebAppsUpdateVnetConnectionSlotResponse> {
     return this.client.sendOperationRequest(
@@ -16059,7 +16059,7 @@ export class WebAppsImpl implements WebApps {
     resourceGroupName: string,
     name: string,
     vnetName: string,
-    connectionEnvelope: VnetInfo,
+    connectionEnvelope: VnetInfoResource,
     options?: WebAppsCreateOrUpdateVnetConnectionOptionalParams
   ): Promise<WebAppsCreateOrUpdateVnetConnectionResponse> {
     return this.client.sendOperationRequest(
@@ -16100,7 +16100,7 @@ export class WebAppsImpl implements WebApps {
     resourceGroupName: string,
     name: string,
     vnetName: string,
-    connectionEnvelope: VnetInfo,
+    connectionEnvelope: VnetInfoResource,
     options?: WebAppsUpdateVnetConnectionOptionalParams
   ): Promise<WebAppsUpdateVnetConnectionResponse> {
     return this.client.sendOperationRequest(
@@ -26403,7 +26403,9 @@ const listVnetConnectionsSlotOperationSpec: coreClient.OperationSpec = {
       bodyMapper: {
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "VnetInfo" } }
+          element: {
+            type: { name: "Composite", className: "VnetInfoResource" }
+          }
         }
       }
     },
@@ -26428,7 +26430,7 @@ const getVnetConnectionSlotOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VnetInfo
+      bodyMapper: Mappers.VnetInfoResource
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -26452,7 +26454,7 @@ const createOrUpdateVnetConnectionSlotOperationSpec: coreClient.OperationSpec = 
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.VnetInfo
+      bodyMapper: Mappers.VnetInfoResource
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -26503,7 +26505,7 @@ const updateVnetConnectionSlotOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.VnetInfo
+      bodyMapper: Mappers.VnetInfoResource
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -27195,7 +27197,9 @@ const listVnetConnectionsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: {
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "VnetInfo" } }
+          element: {
+            type: { name: "Composite", className: "VnetInfoResource" }
+          }
         }
       }
     },
@@ -27219,7 +27223,7 @@ const getVnetConnectionOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VnetInfo
+      bodyMapper: Mappers.VnetInfoResource
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -27242,7 +27246,7 @@ const createOrUpdateVnetConnectionOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.VnetInfo
+      bodyMapper: Mappers.VnetInfoResource
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -27291,7 +27295,7 @@ const updateVnetConnectionOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.VnetInfo
+      bodyMapper: Mappers.VnetInfoResource
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse

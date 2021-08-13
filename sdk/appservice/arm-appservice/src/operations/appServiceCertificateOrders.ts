@@ -688,7 +688,8 @@ export class AppServiceCertificateOrdersImpl
   }
 
   /**
-   * Description for Verify domain ownership for this certificate order.
+   * Resend domain verification ownership email containing steps on how to verify a domain for a given
+   * certificate order
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param nameIdentifier Email address
@@ -707,7 +708,13 @@ export class AppServiceCertificateOrdersImpl
   }
 
   /**
-   * Description for Verify domain ownership for this certificate order.
+   * This method is used to obtain the site seal information for an issued certificate. A site seal is a
+   * graphic that the certificate purchaser can embed on their web site to show their visitors
+   * information about their SSL certificate. If a web site visitor clicks on the site seal image, a
+   * pop-up page is displayed that contains detailed information about the SSL certificate. The site seal
+   * token is used to link the site seal graphic image to the appropriate certificate details pop-up page
+   * display when a user clicks on the site seal. The site seal images are expected to be static images
+   * and hosted by the reseller, to minimize delays for customer page load times.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param siteSealRequest Site seal request.
@@ -971,9 +978,6 @@ const updateOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.AppServiceCertificateOrder
     },
-    201: {
-      bodyMapper: Mappers.AppServiceCertificateOrder
-    },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
@@ -1097,9 +1101,6 @@ const updateCertificateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.AppServiceCertificateResource
-    },
-    201: {
       bodyMapper: Mappers.AppServiceCertificateResource
     },
     default: {

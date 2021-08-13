@@ -646,7 +646,7 @@ import {
   WebAppsListVnetConnectionsSlotResponse,
   WebAppsGetVnetConnectionSlotOptionalParams,
   WebAppsGetVnetConnectionSlotResponse,
-  VnetInfo,
+  VnetInfoResource,
   WebAppsCreateOrUpdateVnetConnectionSlotOptionalParams,
   WebAppsCreateOrUpdateVnetConnectionSlotResponse,
   WebAppsDeleteVnetConnectionSlotOptionalParams,
@@ -6415,7 +6415,7 @@ export interface WebApps {
     name: string,
     vnetName: string,
     slot: string,
-    connectionEnvelope: VnetInfo,
+    connectionEnvelope: VnetInfoResource,
     options?: WebAppsCreateOrUpdateVnetConnectionSlotOptionalParams
   ): Promise<WebAppsCreateOrUpdateVnetConnectionSlotResponse>;
   /**
@@ -6450,7 +6450,7 @@ export interface WebApps {
     name: string,
     vnetName: string,
     slot: string,
-    connectionEnvelope: VnetInfo,
+    connectionEnvelope: VnetInfoResource,
     options?: WebAppsUpdateVnetConnectionSlotOptionalParams
   ): Promise<WebAppsUpdateVnetConnectionSlotResponse>;
   /**
@@ -6792,7 +6792,7 @@ export interface WebApps {
     resourceGroupName: string,
     name: string,
     vnetName: string,
-    connectionEnvelope: VnetInfo,
+    connectionEnvelope: VnetInfoResource,
     options?: WebAppsCreateOrUpdateVnetConnectionOptionalParams
   ): Promise<WebAppsCreateOrUpdateVnetConnectionResponse>;
   /**
@@ -6821,7 +6821,7 @@ export interface WebApps {
     resourceGroupName: string,
     name: string,
     vnetName: string,
-    connectionEnvelope: VnetInfo,
+    connectionEnvelope: VnetInfoResource,
     options?: WebAppsUpdateVnetConnectionOptionalParams
   ): Promise<WebAppsUpdateVnetConnectionResponse>;
   /**

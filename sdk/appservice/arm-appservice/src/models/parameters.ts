@@ -89,7 +89,7 @@ import {
   DeletedAppRestoreRequest as DeletedAppRestoreRequestMapper,
   SnapshotRestoreRequest as SnapshotRestoreRequestMapper,
   SiteSourceControl as SiteSourceControlMapper,
-  VnetInfo as VnetInfoMapper
+  VnetInfoResource as VnetInfoResourceMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -132,7 +132,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-01-15",
+    defaultValue: "2021-02-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -1643,5 +1643,5 @@ export const additionalFlags: OperationQueryParameter = {
 
 export const connectionEnvelope4: OperationParameter = {
   parameterPath: "connectionEnvelope",
-  mapper: VnetInfoMapper
+  mapper: VnetInfoResourceMapper
 };

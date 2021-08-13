@@ -36,9 +36,15 @@ export type AddressResponse = ProxyOnlyResource & {
     vipMappings?: VirtualIPMapping[];
 };
 
-// @public (undocumented)
-export type AllowedAudiencesValidation = ProxyOnlyResource & {
+// @public
+export interface AllowedAudiencesValidation {
     allowedAudiences?: string[];
+}
+
+// @public
+export type AllowedPrincipals = ProxyOnlyResource & {
+    groups?: string[];
+    identities?: string[];
 };
 
 // @public
@@ -98,10 +104,10 @@ export type Apple = ProxyOnlyResource & {
 };
 
 // @public
-export type AppleRegistration = ProxyOnlyResource & {
+export interface AppleRegistration {
     clientId?: string;
     clientSecretSettingName?: string;
-};
+}
 
 // @public
 export interface ApplicationLogsConfig {
@@ -411,7 +417,7 @@ export type AppServiceCertificateResource = Resource & {
 // @public
 export interface AppServiceEnvironment {
     clusterSettings?: NameValuePair[];
-    readonly dedicatedHostCount?: number;
+    dedicatedHostCount?: number;
     dnsSuffix?: string;
     frontEndScaleFactor?: number;
     readonly hasLinuxWorkers?: boolean;
@@ -425,6 +431,7 @@ export interface AppServiceEnvironment {
     readonly suspended?: boolean;
     userWhitelistedIpRanges?: string[];
     virtualNetwork: VirtualNetworkProfile;
+    zoneRedundant?: boolean;
 }
 
 // @public
@@ -449,7 +456,8 @@ export type AppServiceEnvironmentPatchResource = ProxyOnlyResource & {
     clusterSettings?: NameValuePair[];
     userWhitelistedIpRanges?: string[];
     readonly hasLinuxWorkers?: boolean;
-    readonly dedicatedHostCount?: number;
+    dedicatedHostCount?: number;
+    zoneRedundant?: boolean;
 };
 
 // @public
@@ -468,7 +476,8 @@ export type AppServiceEnvironmentResource = Resource & {
     clusterSettings?: NameValuePair[];
     userWhitelistedIpRanges?: string[];
     readonly hasLinuxWorkers?: boolean;
-    readonly dedicatedHostCount?: number;
+    dedicatedHostCount?: number;
+    zoneRedundant?: boolean;
 };
 
 // @public
@@ -1036,6 +1045,7 @@ export type AppServicePlan = Resource & {
     targetWorkerSizeId?: number;
     readonly provisioningState?: ProvisioningState;
     kubeEnvironmentProfile?: KubeEnvironmentProfile;
+    zoneRedundant?: boolean;
 };
 
 // @public
@@ -1067,6 +1077,7 @@ export type AppServicePlanPatchResource = ProxyOnlyResource & {
     targetWorkerSizeId?: number;
     readonly provisioningState?: ProvisioningState;
     kubeEnvironmentProfile?: KubeEnvironmentProfile;
+    zoneRedundant?: boolean;
 };
 
 // @public
@@ -1172,7 +1183,7 @@ export interface AppServicePlansGetVnetFromServerFarmOptionalParams extends core
 }
 
 // @public
-export type AppServicePlansGetVnetFromServerFarmResponse = VnetInfo;
+export type AppServicePlansGetVnetFromServerFarmResponse = VnetInfoResource;
 
 // @public
 export interface AppServicePlansGetVnetGatewayOptionalParams extends coreClient.OperationOptions {
@@ -1267,7 +1278,7 @@ export interface AppServicePlansListVnetsOptionalParams extends coreClient.Opera
 }
 
 // @public
-export type AppServicePlansListVnetsResponse = VnetInfo[];
+export type AppServicePlansListVnetsResponse = VnetInfoResource[];
 
 // @public
 export interface AppServicePlansListWebAppsByHybridConnectionNextOptionalParams extends coreClient.OperationOptions {
@@ -1369,15 +1380,17 @@ export interface ArmPlan {
 export type AseV3NetworkingConfiguration = ProxyOnlyResource & {
     readonly windowsOutboundIpAddresses?: string[];
     readonly linuxOutboundIpAddresses?: string[];
+    readonly externalInboundIpAddresses?: string[];
+    readonly internalInboundIpAddresses?: string[];
     allowNewPrivateEndpointConnections?: boolean;
 };
 
 // @public
-export type AuthPlatform = ProxyOnlyResource & {
+export interface AuthPlatform {
+    configFilePath?: string;
     enabled?: boolean;
     runtimeVersion?: string;
-    configFilePath?: string;
-};
+}
 
 // @public
 export interface AutoHealActions {
@@ -1412,18 +1425,18 @@ export interface AutoHealTriggers {
 }
 
 // @public
-export type AzureActiveDirectory = ProxyOnlyResource & {
+export interface AzureActiveDirectory {
     enabled?: boolean;
-    registration?: AzureActiveDirectoryRegistration;
-    login?: AzureActiveDirectoryLogin;
-    validation?: AzureActiveDirectoryValidation;
     isAutoProvisioned?: boolean;
-};
+    login?: AzureActiveDirectoryLogin;
+    registration?: AzureActiveDirectoryRegistration;
+    validation?: AzureActiveDirectoryValidation;
+}
 
 // @public
 export type AzureActiveDirectoryLogin = ProxyOnlyResource & {
-    disableWWWAuthenticate?: boolean;
     loginParameters?: string[];
+    disableWWWAuthenticate?: boolean;
 };
 
 // @public
@@ -1432,12 +1445,15 @@ export type AzureActiveDirectoryRegistration = ProxyOnlyResource & {
     clientId?: string;
     clientSecretSettingName?: string;
     clientSecretCertificateThumbprint?: string;
+    clientSecretCertificateSubjectAlternativeName?: string;
+    clientSecretCertificateIssuer?: string;
 };
 
 // @public
 export type AzureActiveDirectoryValidation = ProxyOnlyResource & {
     jwtClaimChecks?: JwtClaimChecks;
     allowedAudiences?: string[];
+    defaultAuthorizationPolicy?: DefaultAuthorizationPolicy;
 };
 
 // @public
@@ -1464,9 +1480,9 @@ export type AzureStaticWebApps = ProxyOnlyResource & {
 };
 
 // @public
-export type AzureStaticWebAppsRegistration = ProxyOnlyResource & {
+export interface AzureStaticWebAppsRegistration {
     clientId?: string;
-};
+}
 
 // @public
 export interface AzureStorageInfoValue {
@@ -1807,10 +1823,10 @@ export type CheckNameResourceTypes = string;
 export type ClientCertMode = "Required" | "Optional" | "OptionalInteractiveUser";
 
 // @public
-export type ClientRegistration = ProxyOnlyResource & {
+export interface ClientRegistration {
     clientId?: string;
     clientSecretSettingName?: string;
-};
+}
 
 // @public
 export type CloneAbilityResult = "Cloneable" | "PartiallyCloneable" | "NotCloneable";
@@ -1981,10 +1997,10 @@ export interface ContinuousWebJobCollection {
 export type ContinuousWebJobStatus = "Initializing" | "Starting" | "Running" | "PendingRestart" | "Stopped";
 
 // @public
-export type CookieExpiration = ProxyOnlyResource & {
+export interface CookieExpiration {
     convention?: CookieExpirationConvention;
     timeToExpiration?: string;
-};
+}
 
 // @public
 export type CookieExpirationConvention = "FixedTime" | "IdentityProviderDerived";
@@ -2138,6 +2154,12 @@ export interface DataTableResponseObject {
 }
 
 // @public
+export interface DefaultAuthorizationPolicy {
+    allowedApplications?: string[];
+    allowedPrincipals?: AllowedPrincipals;
+}
+
+// @public
 export interface DefaultErrorResponse {
     readonly error?: DefaultErrorResponseError;
 }
@@ -2266,7 +2288,15 @@ export interface DetectorAbnormalTimePeriod {
 }
 
 // @public
-export type DetectorDefinition = ProxyOnlyResource & {
+export interface DetectorDefinition {
+    readonly description?: string;
+    readonly displayName?: string;
+    readonly isEnabled?: boolean;
+    readonly rank?: number;
+}
+
+// @public
+export type DetectorDefinitionResource = ProxyOnlyResource & {
     readonly displayName?: string;
     readonly description?: string;
     readonly rank?: number;
@@ -2339,7 +2369,7 @@ export interface DiagnosticData {
 // @public
 export interface DiagnosticDetectorCollection {
     readonly nextLink?: string;
-    value: DetectorDefinition[];
+    value: DetectorDefinitionResource[];
 }
 
 // @public
@@ -2394,8 +2424,8 @@ export interface Diagnostics {
     listSiteAnalysesSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, slot: string, options?: DiagnosticsListSiteAnalysesSlotOptionalParams): PagedAsyncIterableIterator<AnalysisDefinition>;
     listSiteDetectorResponses(resourceGroupName: string, siteName: string, options?: DiagnosticsListSiteDetectorResponsesOptionalParams): PagedAsyncIterableIterator<DetectorResponse>;
     listSiteDetectorResponsesSlot(resourceGroupName: string, siteName: string, slot: string, options?: DiagnosticsListSiteDetectorResponsesSlotOptionalParams): PagedAsyncIterableIterator<DetectorResponse>;
-    listSiteDetectors(resourceGroupName: string, siteName: string, diagnosticCategory: string, options?: DiagnosticsListSiteDetectorsOptionalParams): PagedAsyncIterableIterator<DetectorDefinition>;
-    listSiteDetectorsSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, slot: string, options?: DiagnosticsListSiteDetectorsSlotOptionalParams): PagedAsyncIterableIterator<DetectorDefinition>;
+    listSiteDetectors(resourceGroupName: string, siteName: string, diagnosticCategory: string, options?: DiagnosticsListSiteDetectorsOptionalParams): PagedAsyncIterableIterator<DetectorDefinitionResource>;
+    listSiteDetectorsSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, slot: string, options?: DiagnosticsListSiteDetectorsSlotOptionalParams): PagedAsyncIterableIterator<DetectorDefinitionResource>;
     listSiteDiagnosticCategories(resourceGroupName: string, siteName: string, options?: DiagnosticsListSiteDiagnosticCategoriesOptionalParams): PagedAsyncIterableIterator<DiagnosticCategory>;
     listSiteDiagnosticCategoriesSlot(resourceGroupName: string, siteName: string, slot: string, options?: DiagnosticsListSiteDiagnosticCategoriesSlotOptionalParams): PagedAsyncIterableIterator<DiagnosticCategory>;
 }
@@ -2469,7 +2499,7 @@ export interface DiagnosticsGetSiteDetectorOptionalParams extends coreClient.Ope
 }
 
 // @public
-export type DiagnosticsGetSiteDetectorResponse = DetectorDefinition;
+export type DiagnosticsGetSiteDetectorResponse = DetectorDefinitionResource;
 
 // @public
 export interface DiagnosticsGetSiteDetectorResponseOptionalParams extends coreClient.OperationOptions {
@@ -2496,7 +2526,7 @@ export interface DiagnosticsGetSiteDetectorSlotOptionalParams extends coreClient
 }
 
 // @public
-export type DiagnosticsGetSiteDetectorSlotResponse = DetectorDefinition;
+export type DiagnosticsGetSiteDetectorSlotResponse = DetectorDefinitionResource;
 
 // @public
 export interface DiagnosticsGetSiteDiagnosticCategoryOptionalParams extends coreClient.OperationOptions {
@@ -2966,11 +2996,13 @@ export type Enum15 = string;
 // @public
 export interface ErrorEntity {
     code?: string;
+    details?: ErrorEntity[];
     extendedCode?: string;
     innerErrors?: ErrorEntity[];
     message?: string;
     messageTemplate?: string;
     parameters?: string[];
+    target?: string;
 }
 
 // @public
@@ -2985,12 +3017,12 @@ export interface ExtendedLocation {
 }
 
 // @public
-export type Facebook = ProxyOnlyResource & {
+export interface Facebook {
     enabled?: boolean;
-    registration?: AppRegistration;
     graphApiVersion?: string;
     login?: LoginScopes;
-};
+    registration?: AppRegistration;
+}
 
 // @public
 export interface FileSystemApplicationLogsConfig {
@@ -3005,16 +3037,16 @@ export interface FileSystemHttpLogsConfig {
 }
 
 // @public
-export type FileSystemTokenStore = ProxyOnlyResource & {
+export interface FileSystemTokenStore {
     directory?: string;
-};
+}
 
 // @public
-export type ForwardProxy = ProxyOnlyResource & {
+export interface ForwardProxy {
     convention?: ForwardProxyConvention;
     customHostHeaderName?: string;
     customProtoHeaderName?: string;
-};
+}
 
 // @public
 export type ForwardProxyConvention = "NoProxy" | "Standard" | "Custom";
@@ -3205,12 +3237,12 @@ export interface GlobalGetSubscriptionOperationWithAsyncResponseOptionalParams e
 }
 
 // @public
-export type GlobalValidation = ProxyOnlyResource & {
+export interface GlobalValidation {
+    excludedPaths?: string[];
+    redirectToProvider?: string;
     requireAuthentication?: boolean;
     unauthenticatedClientAction?: UnauthenticatedClientActionV2;
-    redirectToProvider?: string;
-    excludedPaths?: string[];
-};
+}
 
 // @public
 export type Google = ProxyOnlyResource & {
@@ -3312,16 +3344,16 @@ export interface HttpLogsConfig {
 }
 
 // @public
-export type HttpSettings = ProxyOnlyResource & {
+export interface HttpSettings {
+    forwardProxy?: ForwardProxy;
     requireHttps?: boolean;
     routes?: HttpSettingsRoutes;
-    forwardProxy?: ForwardProxy;
-};
+}
 
 // @public
-export type HttpSettingsRoutes = ProxyOnlyResource & {
+export interface HttpSettingsRoutes {
     apiPrefix?: string;
-};
+}
 
 // @public
 export type HybridConnection = ProxyOnlyResource & {
@@ -3365,19 +3397,19 @@ export interface IdentifierCollection {
 }
 
 // @public
-export type IdentityProviders = ProxyOnlyResource & {
+export interface IdentityProviders {
+    apple?: Apple;
     azureActiveDirectory?: AzureActiveDirectory;
-    facebook?: Facebook;
-    gitHub?: GitHub;
-    google?: Google;
-    twitter?: Twitter;
+    azureStaticWebApps?: AzureStaticWebApps;
     customOpenIdConnectProviders?: {
         [propertyName: string]: CustomOpenIdConnectProvider;
     };
+    facebook?: Facebook;
+    gitHub?: GitHub;
+    google?: Google;
     legacyMicrosoftAccount?: LegacyMicrosoftAccount;
-    apple?: Apple;
-    azureStaticWebApps?: AzureStaticWebApps;
-};
+    twitter?: Twitter;
+}
 
 // @public
 export type InAvailabilityReasonType = string;
@@ -3422,10 +3454,10 @@ export interface IpSecurityRestriction {
 export type IssueType = "ServiceIncident" | "AppDeployment" | "AppCrash" | "RuntimeIssueDetected" | "AseDeployment" | "UserIssue" | "PlatformIssue" | "Other";
 
 // @public
-export type JwtClaimChecks = ProxyOnlyResource & {
-    allowedGroups?: string[];
+export interface JwtClaimChecks {
     allowedClientApplications?: string[];
-};
+    allowedGroups?: string[];
+}
 
 // @public
 export interface KeyInfo {
@@ -3924,24 +3956,24 @@ export interface LogAnalyticsConfiguration {
 }
 
 // @public
-export type Login = ProxyOnlyResource & {
-    routes?: LoginRoutes;
-    tokenStore?: TokenStore;
-    preserveUrlFragmentsForLogins?: boolean;
+export interface Login {
     allowedExternalRedirectUrls?: string[];
     cookieExpiration?: CookieExpiration;
     nonce?: Nonce;
-};
+    preserveUrlFragmentsForLogins?: boolean;
+    routes?: LoginRoutes;
+    tokenStore?: TokenStore;
+}
 
 // @public
-export type LoginRoutes = ProxyOnlyResource & {
+export interface LoginRoutes {
     logoutEndpoint?: string;
-};
+}
 
 // @public
-export type LoginScopes = ProxyOnlyResource & {
+export interface LoginScopes {
     scopes?: string[];
-};
+}
 
 // @public
 export type LogLevel = "Off" | "Verbose" | "Information" | "Warning" | "Error";
@@ -4109,41 +4141,41 @@ export interface NetworkTrace {
 }
 
 // @public
-export type Nonce = ProxyOnlyResource & {
-    validateNonce?: boolean;
+export interface Nonce {
     nonceExpirationInterval?: string;
-};
+    validateNonce?: boolean;
+}
 
 // @public
 export type NotificationLevel = "Critical" | "Warning" | "Information" | "NonUrgentSuggestion";
 
 // @public
-export type OpenIdConnectClientCredential = ProxyOnlyResource & {
-    method?: "ClientSecretPost";
+export interface OpenIdConnectClientCredential {
     clientSecretSettingName?: string;
-};
+    method?: "ClientSecretPost";
+}
 
 // @public
-export type OpenIdConnectConfig = ProxyOnlyResource & {
+export interface OpenIdConnectConfig {
     authorizationEndpoint?: string;
-    tokenEndpoint?: string;
-    issuer?: string;
     certificationUri?: string;
+    issuer?: string;
+    tokenEndpoint?: string;
     wellKnownOpenIdConfiguration?: string;
-};
+}
 
 // @public
-export type OpenIdConnectLogin = ProxyOnlyResource & {
+export interface OpenIdConnectLogin {
     nameClaimType?: string;
     scopes?: string[];
-};
+}
 
 // @public
-export type OpenIdConnectRegistration = ProxyOnlyResource & {
-    clientId?: string;
+export interface OpenIdConnectRegistration {
     clientCredential?: OpenIdConnectClientCredential;
+    clientId?: string;
     openIdConnectConfiguration?: OpenIdConnectConfig;
-};
+}
 
 // @public
 export interface Operation {
@@ -6428,12 +6460,12 @@ export interface TldLegalAgreementCollection {
 }
 
 // @public
-export type TokenStore = ProxyOnlyResource & {
-    enabled?: boolean;
-    tokenRefreshExtensionHours?: number;
-    fileSystem?: FileSystemTokenStore;
+export interface TokenStore {
     azureBlobStorage?: BlobStorageTokenStore;
-};
+    enabled?: boolean;
+    fileSystem?: FileSystemTokenStore;
+    tokenRefreshExtensionHours?: number;
+}
 
 // @public
 export type TopLevelDomain = ProxyOnlyResource & {
@@ -6506,19 +6538,19 @@ export interface TriggeredJobHistoryCollection {
 }
 
 // @public
-export type TriggeredJobRun = ProxyOnlyResource & {
+export interface TriggeredJobRun {
+    duration?: string;
+    endTime?: Date;
+    errorUrl?: string;
+    jobName?: string;
+    outputUrl?: string;
+    startTime?: Date;
+    status?: TriggeredWebJobStatus;
+    trigger?: string;
+    url?: string;
     webJobId?: string;
     webJobName?: string;
-    status?: TriggeredWebJobStatus;
-    startTime?: Date;
-    endTime?: Date;
-    duration?: string;
-    outputUrl?: string;
-    errorUrl?: string;
-    url?: string;
-    jobName?: string;
-    trigger?: string;
-};
+}
 
 // @public
 export type TriggeredWebJob = ProxyOnlyResource & {
@@ -6555,10 +6587,10 @@ export type Twitter = ProxyOnlyResource & {
 };
 
 // @public
-export type TwitterRegistration = ProxyOnlyResource & {
+export interface TwitterRegistration {
     consumerKey?: string;
     consumerSecretSettingName?: string;
-};
+}
 
 // @public
 export type UnauthenticatedClientAction = "RedirectToLoginPage" | "AllowAnonymous";
@@ -6676,7 +6708,18 @@ export type VnetGateway = ProxyOnlyResource & {
 };
 
 // @public
-export type VnetInfo = ProxyOnlyResource & {
+export interface VnetInfo {
+    certBlob?: string;
+    readonly certThumbprint?: string;
+    dnsServers?: string;
+    isSwift?: boolean;
+    readonly resyncRequired?: boolean;
+    readonly routes?: VnetRoute[];
+    vnetResourceId?: string;
+}
+
+// @public
+export type VnetInfoResource = ProxyOnlyResource & {
     vnetResourceId?: string;
     readonly certThumbprint?: string;
     certBlob?: string;
@@ -6861,10 +6904,10 @@ export interface WebApps {
     createOrUpdateRelayServiceConnectionSlot(resourceGroupName: string, name: string, entityName: string, slot: string, connectionEnvelope: RelayServiceConnectionEntity, options?: WebAppsCreateOrUpdateRelayServiceConnectionSlotOptionalParams): Promise<WebAppsCreateOrUpdateRelayServiceConnectionSlotResponse>;
     createOrUpdateSwiftVirtualNetworkConnectionWithCheck(resourceGroupName: string, name: string, connectionEnvelope: SwiftVirtualNetwork, options?: WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckOptionalParams): Promise<WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckResponse>;
     createOrUpdateSwiftVirtualNetworkConnectionWithCheckSlot(resourceGroupName: string, name: string, slot: string, connectionEnvelope: SwiftVirtualNetwork, options?: WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotOptionalParams): Promise<WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotResponse>;
-    createOrUpdateVnetConnection(resourceGroupName: string, name: string, vnetName: string, connectionEnvelope: VnetInfo, options?: WebAppsCreateOrUpdateVnetConnectionOptionalParams): Promise<WebAppsCreateOrUpdateVnetConnectionResponse>;
+    createOrUpdateVnetConnection(resourceGroupName: string, name: string, vnetName: string, connectionEnvelope: VnetInfoResource, options?: WebAppsCreateOrUpdateVnetConnectionOptionalParams): Promise<WebAppsCreateOrUpdateVnetConnectionResponse>;
     createOrUpdateVnetConnectionGateway(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, connectionEnvelope: VnetGateway, options?: WebAppsCreateOrUpdateVnetConnectionGatewayOptionalParams): Promise<WebAppsCreateOrUpdateVnetConnectionGatewayResponse>;
     createOrUpdateVnetConnectionGatewaySlot(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, slot: string, connectionEnvelope: VnetGateway, options?: WebAppsCreateOrUpdateVnetConnectionGatewaySlotOptionalParams): Promise<WebAppsCreateOrUpdateVnetConnectionGatewaySlotResponse>;
-    createOrUpdateVnetConnectionSlot(resourceGroupName: string, name: string, vnetName: string, slot: string, connectionEnvelope: VnetInfo, options?: WebAppsCreateOrUpdateVnetConnectionSlotOptionalParams): Promise<WebAppsCreateOrUpdateVnetConnectionSlotResponse>;
+    createOrUpdateVnetConnectionSlot(resourceGroupName: string, name: string, vnetName: string, slot: string, connectionEnvelope: VnetInfoResource, options?: WebAppsCreateOrUpdateVnetConnectionSlotOptionalParams): Promise<WebAppsCreateOrUpdateVnetConnectionSlotResponse>;
     delete(resourceGroupName: string, name: string, options?: WebAppsDeleteOptionalParams): Promise<void>;
     deleteBackup(resourceGroupName: string, name: string, backupId: string, options?: WebAppsDeleteBackupOptionalParams): Promise<void>;
     deleteBackupConfiguration(resourceGroupName: string, name: string, options?: WebAppsDeleteBackupConfigurationOptionalParams): Promise<void>;
@@ -7186,10 +7229,10 @@ export interface WebApps {
     updateSourceControlSlot(resourceGroupName: string, name: string, slot: string, siteSourceControl: SiteSourceControl, options?: WebAppsUpdateSourceControlSlotOptionalParams): Promise<WebAppsUpdateSourceControlSlotResponse>;
     updateSwiftVirtualNetworkConnectionWithCheck(resourceGroupName: string, name: string, connectionEnvelope: SwiftVirtualNetwork, options?: WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckOptionalParams): Promise<WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckResponse>;
     updateSwiftVirtualNetworkConnectionWithCheckSlot(resourceGroupName: string, name: string, slot: string, connectionEnvelope: SwiftVirtualNetwork, options?: WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotOptionalParams): Promise<WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotResponse>;
-    updateVnetConnection(resourceGroupName: string, name: string, vnetName: string, connectionEnvelope: VnetInfo, options?: WebAppsUpdateVnetConnectionOptionalParams): Promise<WebAppsUpdateVnetConnectionResponse>;
+    updateVnetConnection(resourceGroupName: string, name: string, vnetName: string, connectionEnvelope: VnetInfoResource, options?: WebAppsUpdateVnetConnectionOptionalParams): Promise<WebAppsUpdateVnetConnectionResponse>;
     updateVnetConnectionGateway(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, connectionEnvelope: VnetGateway, options?: WebAppsUpdateVnetConnectionGatewayOptionalParams): Promise<WebAppsUpdateVnetConnectionGatewayResponse>;
     updateVnetConnectionGatewaySlot(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, slot: string, connectionEnvelope: VnetGateway, options?: WebAppsUpdateVnetConnectionGatewaySlotOptionalParams): Promise<WebAppsUpdateVnetConnectionGatewaySlotResponse>;
-    updateVnetConnectionSlot(resourceGroupName: string, name: string, vnetName: string, slot: string, connectionEnvelope: VnetInfo, options?: WebAppsUpdateVnetConnectionSlotOptionalParams): Promise<WebAppsUpdateVnetConnectionSlotResponse>;
+    updateVnetConnectionSlot(resourceGroupName: string, name: string, vnetName: string, slot: string, connectionEnvelope: VnetInfoResource, options?: WebAppsUpdateVnetConnectionSlotOptionalParams): Promise<WebAppsUpdateVnetConnectionSlotResponse>;
 }
 
 // @public
@@ -7511,14 +7554,14 @@ export interface WebAppsCreateOrUpdateVnetConnectionOptionalParams extends coreC
 }
 
 // @public
-export type WebAppsCreateOrUpdateVnetConnectionResponse = VnetInfo;
+export type WebAppsCreateOrUpdateVnetConnectionResponse = VnetInfoResource;
 
 // @public
 export interface WebAppsCreateOrUpdateVnetConnectionSlotOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type WebAppsCreateOrUpdateVnetConnectionSlotResponse = VnetInfo;
+export type WebAppsCreateOrUpdateVnetConnectionSlotResponse = VnetInfoResource;
 
 // @public
 export interface WebAppsDeleteBackupConfigurationOptionalParams extends coreClient.OperationOptions {
@@ -8533,14 +8576,14 @@ export interface WebAppsGetVnetConnectionOptionalParams extends coreClient.Opera
 }
 
 // @public
-export type WebAppsGetVnetConnectionResponse = VnetInfo;
+export type WebAppsGetVnetConnectionResponse = VnetInfoResource;
 
 // @public
 export interface WebAppsGetVnetConnectionSlotOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type WebAppsGetVnetConnectionSlotResponse = VnetInfo;
+export type WebAppsGetVnetConnectionSlotResponse = VnetInfoResource;
 
 // @public
 export interface WebAppsGetWebJobOptionalParams extends coreClient.OperationOptions {
@@ -9656,14 +9699,14 @@ export interface WebAppsListVnetConnectionsOptionalParams extends coreClient.Ope
 }
 
 // @public
-export type WebAppsListVnetConnectionsResponse = VnetInfo[];
+export type WebAppsListVnetConnectionsResponse = VnetInfoResource[];
 
 // @public
 export interface WebAppsListVnetConnectionsSlotOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type WebAppsListVnetConnectionsSlotResponse = VnetInfo[];
+export type WebAppsListVnetConnectionsSlotResponse = VnetInfoResource[];
 
 // @public
 export interface WebAppsListWebJobsNextOptionalParams extends coreClient.OperationOptions {
@@ -10272,14 +10315,14 @@ export interface WebAppsUpdateVnetConnectionOptionalParams extends coreClient.Op
 }
 
 // @public
-export type WebAppsUpdateVnetConnectionResponse = VnetInfo;
+export type WebAppsUpdateVnetConnectionResponse = VnetInfoResource;
 
 // @public
 export interface WebAppsUpdateVnetConnectionSlotOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateVnetConnectionSlotResponse = VnetInfo;
+export type WebAppsUpdateVnetConnectionSlotResponse = VnetInfoResource;
 
 // @public
 export type WebJob = ProxyOnlyResource & {

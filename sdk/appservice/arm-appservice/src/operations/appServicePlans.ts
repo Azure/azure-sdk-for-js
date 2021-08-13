@@ -1583,7 +1583,9 @@ const listVnetsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: {
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "VnetInfo" } }
+          element: {
+            type: { name: "Composite", className: "VnetInfoResource" }
+          }
         }
       }
     },
@@ -1607,7 +1609,7 @@ const getVnetFromServerFarmOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VnetInfo
+      bodyMapper: Mappers.VnetInfoResource
     },
     404: {
       isError: true

@@ -862,6 +862,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-keyvault",
+      "projectFolder": "sdk/keyvault/arm-keyvault",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-appservice",
       "projectFolder": "sdk/appservice/arm-appservice",
       "versionPolicyName": "management"

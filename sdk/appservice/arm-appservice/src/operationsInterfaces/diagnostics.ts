@@ -16,7 +16,7 @@ import {
   DiagnosticsListSiteDiagnosticCategoriesOptionalParams,
   AnalysisDefinition,
   DiagnosticsListSiteAnalysesOptionalParams,
-  DetectorDefinition,
+  DetectorDefinitionResource,
   DiagnosticsListSiteDetectorsOptionalParams,
   DiagnosticsListSiteDetectorResponsesSlotOptionalParams,
   DiagnosticsListSiteDiagnosticCategoriesSlotOptionalParams,
@@ -111,7 +111,7 @@ export interface Diagnostics {
     siteName: string,
     diagnosticCategory: string,
     options?: DiagnosticsListSiteDetectorsOptionalParams
-  ): PagedAsyncIterableIterator<DetectorDefinition>;
+  ): PagedAsyncIterableIterator<DetectorDefinitionResource>;
   /**
    * Description for List Site Detector Responses
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -167,7 +167,7 @@ export interface Diagnostics {
     diagnosticCategory: string,
     slot: string,
     options?: DiagnosticsListSiteDetectorsSlotOptionalParams
-  ): PagedAsyncIterableIterator<DetectorDefinition>;
+  ): PagedAsyncIterableIterator<DetectorDefinitionResource>;
   /**
    * Description for Get Hosting Environment Detector Response
    * @param resourceGroupName Name of the resource group to which the resource belongs.

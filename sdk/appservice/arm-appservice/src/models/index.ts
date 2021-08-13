@@ -711,11 +711,10 @@ export interface AppServiceEnvironment {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly hasLinuxWorkers?: boolean;
-  /**
-   * Dedicated Host Count
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dedicatedHostCount?: number;
+  /** Dedicated Host Count */
+  dedicatedHostCount?: number;
+  /** Whether or not this App Service Environment is zone-redundant. */
+  zoneRedundant?: boolean;
 }
 
 /** Specification for using a Virtual Network. */
@@ -1559,6 +1558,10 @@ export interface ErrorEntity {
   parameters?: string[];
   /** Inner errors. */
   innerErrors?: ErrorEntity[];
+  /** Error Details. */
+  details?: ErrorEntity[];
+  /** The error target. */
+  target?: string;
   /** Basic error code. */
   code?: string;
   /** Any details of the error. */
@@ -1746,6 +1749,36 @@ export interface HybridConnectionCollection {
   readonly nextLink?: string;
 }
 
+/** Virtual Network information contract. */
+export interface VnetInfo {
+  /** The Virtual Network's resource ID. */
+  vnetResourceId?: string;
+  /**
+   * The client certificate thumbprint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly certThumbprint?: string;
+  /**
+   * A certificate file (.cer) blob containing the public key of the private key used to authenticate a
+   * Point-To-Site VPN connection.
+   */
+  certBlob?: string;
+  /**
+   * The routes that this Virtual Network connection uses.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly routes?: VnetRoute[];
+  /**
+   * <code>true</code> if a resync is required; otherwise, <code>false</code>.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resyncRequired?: boolean;
+  /** DNS servers to be used by this Virtual Network. This should be a comma-separated list of IP addresses. */
+  dnsServers?: string;
+  /** Flag that is used to denote if this is VNET injection */
+  isSwift?: boolean;
+}
+
 /** Collection of certificates. */
 export interface CertificateCollection {
   /** Collection of resources. */
@@ -1854,6 +1887,30 @@ export interface AnalysisData {
   detectorMetaData?: ResponseMetaData;
 }
 
+/** Class representing detector definition */
+export interface DetectorDefinition {
+  /**
+   * Display name of the detector
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * Description of the detector
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /**
+   * Detector Rank
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rank?: number;
+  /**
+   * Flag representing whether detector is enabled or not.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isEnabled?: boolean;
+}
+
 /** Class representing Diagnostic Metric information */
 export interface DiagnosticMetricSet {
   /** Name of the metric */
@@ -1907,7 +1964,7 @@ export interface DataSource {
 /** Collection of Diagnostic Detectors */
 export interface DiagnosticDetectorCollection {
   /** Collection of resources. */
-  value: DetectorDefinition[];
+  value: DetectorDefinitionResource[];
   /**
    * Link to next page of resources.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2875,6 +2932,292 @@ export interface SiteConfigResourceCollection {
   readonly nextLink?: string;
 }
 
+/** The configuration settings of the platform of App Service Authentication/Authorization. */
+export interface AuthPlatform {
+  /** <code>true</code> if the Authentication / Authorization feature is enabled for the current app; otherwise, <code>false</code>. */
+  enabled?: boolean;
+  /**
+   * The RuntimeVersion of the Authentication / Authorization feature in use for the current app.
+   * The setting in this value can control the behavior of certain features in the Authentication / Authorization module.
+   */
+  runtimeVersion?: string;
+  /**
+   * The path of the config file containing auth settings if they come from a file.
+   * If the path is relative, base will the site's root directory.
+   */
+  configFilePath?: string;
+}
+
+/** The configuration settings that determines the validation flow of users using App Service Authentication/Authorization. */
+export interface GlobalValidation {
+  /** <code>true</code> if the authentication flow is required any request is made; otherwise, <code>false</code>. */
+  requireAuthentication?: boolean;
+  /** The action to take when an unauthenticated client attempts to access the app. */
+  unauthenticatedClientAction?: UnauthenticatedClientActionV2;
+  /**
+   * The default authentication provider to use when multiple providers are configured.
+   * This setting is only needed if multiple providers are configured and the unauthenticated client
+   * action is set to "RedirectToLoginPage".
+   */
+  redirectToProvider?: string;
+  /** The paths for which unauthenticated flow would not be redirected to the login page. */
+  excludedPaths?: string[];
+}
+
+/** The configuration settings of each of the identity providers used to configure App Service Authentication/Authorization. */
+export interface IdentityProviders {
+  /** The configuration settings of the Azure Active directory provider. */
+  azureActiveDirectory?: AzureActiveDirectory;
+  /** The configuration settings of the Facebook provider. */
+  facebook?: Facebook;
+  /** The configuration settings of the GitHub provider. */
+  gitHub?: GitHub;
+  /** The configuration settings of the Google provider. */
+  google?: Google;
+  /** The configuration settings of the Twitter provider. */
+  twitter?: Twitter;
+  /**
+   * The map of the name of the alias of each custom Open ID Connect provider to the
+   * configuration settings of the custom Open ID Connect provider.
+   */
+  customOpenIdConnectProviders?: {
+    [propertyName: string]: CustomOpenIdConnectProvider;
+  };
+  /** The configuration settings of the legacy Microsoft Account provider. */
+  legacyMicrosoftAccount?: LegacyMicrosoftAccount;
+  /** The configuration settings of the Apple provider. */
+  apple?: Apple;
+  /** The configuration settings of the Azure Static Web Apps provider. */
+  azureStaticWebApps?: AzureStaticWebApps;
+}
+
+/** The configuration settings of the Azure Active directory provider. */
+export interface AzureActiveDirectory {
+  /** <code>false</code> if the Azure Active Directory provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
+  enabled?: boolean;
+  /** The configuration settings of the Azure Active Directory app registration. */
+  registration?: AzureActiveDirectoryRegistration;
+  /** The configuration settings of the Azure Active Directory login flow. */
+  login?: AzureActiveDirectoryLogin;
+  /** The configuration settings of the Azure Active Directory token validation flow. */
+  validation?: AzureActiveDirectoryValidation;
+  /**
+   * Gets a value indicating whether the Azure AD configuration was auto-provisioned using 1st party tooling.
+   * This is an internal flag primarily intended to support the Azure Management Portal. Users should not
+   * read or write to this property.
+   */
+  isAutoProvisioned?: boolean;
+}
+
+/** The configuration settings of the checks that should be made while validating the JWT Claims. */
+export interface JwtClaimChecks {
+  /** The list of the allowed groups. */
+  allowedGroups?: string[];
+  /** The list of the allowed client applications. */
+  allowedClientApplications?: string[];
+}
+
+/** The configuration settings of the Azure Active Directory default authorization policy. */
+export interface DefaultAuthorizationPolicy {
+  /** The configuration settings of the Azure Active Directory allowed principals. */
+  allowedPrincipals?: AllowedPrincipals;
+  /** The configuration settings of the Azure Active Directory allowed applications. */
+  allowedApplications?: string[];
+}
+
+/** The configuration settings of the Facebook provider. */
+export interface Facebook {
+  /** <code>false</code> if the Facebook provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
+  enabled?: boolean;
+  /** The configuration settings of the app registration for the Facebook provider. */
+  registration?: AppRegistration;
+  /** The version of the Facebook api to be used while logging in. */
+  graphApiVersion?: string;
+  /** The configuration settings of the login flow. */
+  login?: LoginScopes;
+}
+
+/** The configuration settings of the login flow, including the scopes that should be requested. */
+export interface LoginScopes {
+  /** A list of the scopes that should be requested while authenticating. */
+  scopes?: string[];
+}
+
+/** The configuration settings of the app registration for providers that have client ids and client secrets */
+export interface ClientRegistration {
+  /** The Client ID of the app used for login. */
+  clientId?: string;
+  /** The app setting name that contains the client secret. */
+  clientSecretSettingName?: string;
+}
+
+/** The configuration settings of the Allowed Audiences validation flow. */
+export interface AllowedAudiencesValidation {
+  /** The configuration settings of the allowed list of audiences from which to validate the JWT token. */
+  allowedAudiences?: string[];
+}
+
+/** The configuration settings of the app registration for the Twitter provider. */
+export interface TwitterRegistration {
+  /**
+   * The OAuth 1.0a consumer key of the Twitter application used for sign-in.
+   * This setting is required for enabling Twitter Sign-In.
+   * Twitter Sign-In documentation: https://dev.twitter.com/web/sign-in
+   */
+  consumerKey?: string;
+  /**
+   * The app setting name that contains the OAuth 1.0a consumer secret of the Twitter
+   * application used for sign-in.
+   */
+  consumerSecretSettingName?: string;
+}
+
+/** The configuration settings of the app registration for the custom Open ID Connect provider. */
+export interface OpenIdConnectRegistration {
+  /** The client id of the custom Open ID Connect provider. */
+  clientId?: string;
+  /** The authentication credentials of the custom Open ID Connect provider. */
+  clientCredential?: OpenIdConnectClientCredential;
+  /** The configuration settings of the endpoints used for the custom Open ID Connect provider. */
+  openIdConnectConfiguration?: OpenIdConnectConfig;
+}
+
+/** The authentication client credentials of the custom Open ID Connect provider. */
+export interface OpenIdConnectClientCredential {
+  /** The method that should be used to authenticate the user. */
+  method?: "ClientSecretPost";
+  /** The app setting that contains the client secret for the custom Open ID Connect provider. */
+  clientSecretSettingName?: string;
+}
+
+/** The configuration settings of the endpoints used for the custom Open ID Connect provider. */
+export interface OpenIdConnectConfig {
+  /** The endpoint to be used to make an authorization request. */
+  authorizationEndpoint?: string;
+  /** The endpoint to be used to request a token. */
+  tokenEndpoint?: string;
+  /** The endpoint that issues the token. */
+  issuer?: string;
+  /** The endpoint that provides the keys necessary to validate the token. */
+  certificationUri?: string;
+  /** The endpoint that contains all the configuration endpoints for the provider. */
+  wellKnownOpenIdConfiguration?: string;
+}
+
+/** The configuration settings of the login flow of the custom Open ID Connect provider. */
+export interface OpenIdConnectLogin {
+  /** The name of the claim that contains the users name. */
+  nameClaimType?: string;
+  /** A list of the scopes that should be requested while authenticating. */
+  scopes?: string[];
+}
+
+/** The configuration settings of the registration for the Apple provider */
+export interface AppleRegistration {
+  /** The Client ID of the app used for login. */
+  clientId?: string;
+  /** The app setting name that contains the client secret. */
+  clientSecretSettingName?: string;
+}
+
+/** The configuration settings of the registration for the Azure Static Web Apps provider */
+export interface AzureStaticWebAppsRegistration {
+  /** The Client ID of the app used for login. */
+  clientId?: string;
+}
+
+/** The configuration settings of the login flow of users using App Service Authentication/Authorization. */
+export interface Login {
+  /** The routes that specify the endpoints used for login and logout requests. */
+  routes?: LoginRoutes;
+  /** The configuration settings of the token store. */
+  tokenStore?: TokenStore;
+  /** <code>true</code> if the fragments from the request are preserved after the login request is made; otherwise, <code>false</code>. */
+  preserveUrlFragmentsForLogins?: boolean;
+  /**
+   * External URLs that can be redirected to as part of logging in or logging out of the app. Note that the query string part of the URL is ignored.
+   * This is an advanced setting typically only needed by Windows Store application backends.
+   * Note that URLs within the current domain are always implicitly allowed.
+   */
+  allowedExternalRedirectUrls?: string[];
+  /** The configuration settings of the session cookie's expiration. */
+  cookieExpiration?: CookieExpiration;
+  /** The configuration settings of the nonce used in the login flow. */
+  nonce?: Nonce;
+}
+
+/** The routes that specify the endpoints used for login and logout requests. */
+export interface LoginRoutes {
+  /** The endpoint at which a logout request should be made. */
+  logoutEndpoint?: string;
+}
+
+/** The configuration settings of the token store. */
+export interface TokenStore {
+  /**
+   * <code>true</code> to durably store platform-specific security tokens that are obtained during login flows; otherwise, <code>false</code>.
+   *  The default is <code>false</code>.
+   */
+  enabled?: boolean;
+  /**
+   * The number of hours after session token expiration that a session token can be used to
+   * call the token refresh API. The default is 72 hours.
+   */
+  tokenRefreshExtensionHours?: number;
+  /** The configuration settings of the storage of the tokens if a file system is used. */
+  fileSystem?: FileSystemTokenStore;
+  /** The configuration settings of the storage of the tokens if blob storage is used. */
+  azureBlobStorage?: BlobStorageTokenStore;
+}
+
+/** The configuration settings of the storage of the tokens if a file system is used. */
+export interface FileSystemTokenStore {
+  /** The directory in which the tokens will be stored. */
+  directory?: string;
+}
+
+/** The configuration settings of the session cookie's expiration. */
+export interface CookieExpiration {
+  /** The convention used when determining the session cookie's expiration. */
+  convention?: CookieExpirationConvention;
+  /** The time after the request is made when the session cookie should expire. */
+  timeToExpiration?: string;
+}
+
+/** The configuration settings of the nonce used in the login flow. */
+export interface Nonce {
+  /** <code>false</code> if the nonce should not be validated while completing the login flow; otherwise, <code>true</code>. */
+  validateNonce?: boolean;
+  /** The time after the request is made when the nonce should expire. */
+  nonceExpirationInterval?: string;
+}
+
+/** The configuration settings of the HTTP requests for authentication and authorization requests made against App Service Authentication/Authorization. */
+export interface HttpSettings {
+  /** <code>false</code> if the authentication/authorization responses not having the HTTPS scheme are permissible; otherwise, <code>true</code>. */
+  requireHttps?: boolean;
+  /** The configuration settings of the paths HTTP requests. */
+  routes?: HttpSettingsRoutes;
+  /** The configuration settings of a forward proxy used to make the requests. */
+  forwardProxy?: ForwardProxy;
+}
+
+/** The configuration settings of the paths HTTP requests. */
+export interface HttpSettingsRoutes {
+  /** The prefix that should precede all the authentication/authorization paths. */
+  apiPrefix?: string;
+}
+
+/** The configuration settings of a forward proxy used to make the requests. */
+export interface ForwardProxy {
+  /** The convention used to determine the url of the request made. */
+  convention?: ForwardProxyConvention;
+  /** The name of the header containing the host of the request. */
+  customHostHeaderName?: string;
+  /** The name of the header containing the scheme of the request. */
+  customProtoHeaderName?: string;
+}
+
 export interface ApiKVReferenceCollection {
   /** Collection of resources. */
   value: ApiKVReference[];
@@ -3379,6 +3722,32 @@ export interface TriggeredWebJobCollection {
   readonly nextLink?: string;
 }
 
+/** Triggered Web Job Run Information. */
+export interface TriggeredJobRun {
+  /** Job ID. */
+  webJobId?: string;
+  /** Job name. */
+  webJobName?: string;
+  /** Job status. */
+  status?: TriggeredWebJobStatus;
+  /** Start time. */
+  startTime?: Date;
+  /** End time. */
+  endTime?: Date;
+  /** Job duration. */
+  duration?: string;
+  /** Output URL. */
+  outputUrl?: string;
+  /** Error URL. */
+  errorUrl?: string;
+  /** Job URL. */
+  url?: string;
+  /** Job name. */
+  jobName?: string;
+  /** Job trigger. */
+  trigger?: string;
+}
+
 /** Collection of Kudu continuous web job information elements. */
 export interface TriggeredJobHistoryCollection {
   /** Collection of resources. */
@@ -3617,11 +3986,10 @@ export type AppServiceEnvironmentResource = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly hasLinuxWorkers?: boolean;
-  /**
-   * Dedicated Host Count
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dedicatedHostCount?: number;
+  /** Dedicated Host Count */
+  dedicatedHostCount?: number;
+  /** Whether or not this App Service Environment is zone-redundant. */
+  zoneRedundant?: boolean;
 };
 
 /** A web app, a mobile app backend, or an API app. */
@@ -3856,6 +4224,11 @@ export type AppServicePlan = Resource & {
   readonly provisioningState?: ProvisioningState;
   /** Specification for the Kubernetes Environment to use for the App Service plan. */
   kubeEnvironmentProfile?: KubeEnvironmentProfile;
+  /**
+   * If <code>true</code>, this App Service Plan will perform availability zone balancing.
+   * If <code>false</code>, this App Service Plan will not perform availability zone balancing.
+   */
+  zoneRedundant?: boolean;
 };
 
 /** SSL certificate for an app. */
@@ -4338,11 +4711,10 @@ export type AppServiceEnvironmentPatchResource = ProxyOnlyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly hasLinuxWorkers?: boolean;
-  /**
-   * Dedicated Host Count
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dedicatedHostCount?: number;
+  /** Dedicated Host Count */
+  dedicatedHostCount?: number;
+  /** Whether or not this App Service Environment is zone-redundant. */
+  zoneRedundant?: boolean;
 };
 
 /** Describes main public IP address and any extra virtual IPs. */
@@ -4380,6 +4752,10 @@ export type AseV3NetworkingConfiguration = ProxyOnlyResource & {
   readonly windowsOutboundIpAddresses?: string[];
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly linuxOutboundIpAddresses?: string[];
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly externalInboundIpAddresses?: string[];
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly internalInboundIpAddresses?: string[];
   /** Property to enable and disable new private endpoint connection creation on ASE */
   allowNewPrivateEndpointConnections?: boolean;
 };
@@ -4562,6 +4938,11 @@ export type AppServicePlanPatchResource = ProxyOnlyResource & {
   readonly provisioningState?: ProvisioningState;
   /** Specification for the Kubernetes Environment to use for the App Service plan. */
   kubeEnvironmentProfile?: KubeEnvironmentProfile;
+  /**
+   * If <code>true</code>, this App Service Plan will perform availability zone balancing.
+   * If <code>false</code>, this App Service Plan will not perform availability zone balancing.
+   */
+  zoneRedundant?: boolean;
 };
 
 /** Hybrid Connection contract. This is used to configure a Hybrid Connection. */
@@ -4632,8 +5013,8 @@ export type VnetRoute = ProxyOnlyResource & {
   routeType?: RouteType;
 };
 
-/** Virtual Network information contract. */
-export type VnetInfo = ProxyOnlyResource & {
+/** Virtual Network information ARM resource. */
+export type VnetInfoResource = ProxyOnlyResource & {
   /** The Virtual Network's resource ID. */
   vnetResourceId?: string;
   /**
@@ -4817,8 +5198,22 @@ export type AnalysisDefinition = ProxyOnlyResource & {
   readonly description?: string;
 };
 
-/** Class representing detector definition */
-export type DetectorDefinition = ProxyOnlyResource & {
+/** Class representing a diagnostic analysis done on an application */
+export type DiagnosticAnalysis = ProxyOnlyResource & {
+  /** Start time of the period */
+  startTime?: Date;
+  /** End time of the period */
+  endTime?: Date;
+  /** List of time periods. */
+  abnormalTimePeriods?: AbnormalTimePeriod[];
+  /** Data by each detector */
+  payload?: AnalysisData[];
+  /** Data by each detector for detectors that did not corelate */
+  nonCorrelatedDetectors?: DetectorDefinition[];
+};
+
+/** ARM resource for a detector definition */
+export type DetectorDefinitionResource = ProxyOnlyResource & {
   /**
    * Display name of the detector
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4839,20 +5234,6 @@ export type DetectorDefinition = ProxyOnlyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isEnabled?: boolean;
-};
-
-/** Class representing a diagnostic analysis done on an application */
-export type DiagnosticAnalysis = ProxyOnlyResource & {
-  /** Start time of the period */
-  startTime?: Date;
-  /** End time of the period */
-  endTime?: Date;
-  /** List of time periods. */
-  abnormalTimePeriods?: AbnormalTimePeriod[];
-  /** Data by each detector */
-  payload?: AnalysisData[];
-  /** Data by each detector for detectors that did not corelate */
-  nonCorrelatedDetectors?: DetectorDefinition[];
 };
 
 /** Class representing Response from Diagnostic Detectors */
@@ -6188,38 +6569,6 @@ export type SiteAuthSettings = ProxyOnlyResource & {
   configVersion?: string;
 };
 
-/** The configuration settings of the platform of App Service Authentication/Authorization. */
-export type AuthPlatform = ProxyOnlyResource & {
-  /** <code>true</code> if the Authentication / Authorization feature is enabled for the current app; otherwise, <code>false</code>. */
-  enabled?: boolean;
-  /**
-   * The RuntimeVersion of the Authentication / Authorization feature in use for the current app.
-   * The setting in this value can control the behavior of certain features in the Authentication / Authorization module.
-   */
-  runtimeVersion?: string;
-  /**
-   * The path of the config file containing auth settings if they come from a file.
-   * If the path is relative, base will the site's root directory.
-   */
-  configFilePath?: string;
-};
-
-/** The configuration settings that determines the validation flow of users using App Service Authentication/Authorization. */
-export type GlobalValidation = ProxyOnlyResource & {
-  /** <code>true</code> if the authentication flow is required any request is made; otherwise, <code>false</code>. */
-  requireAuthentication?: boolean;
-  /** The action to take when an unauthenticated client attempts to access the app. */
-  unauthenticatedClientAction?: UnauthenticatedClientActionV2;
-  /**
-   * The default authentication provider to use when multiple providers are configured.
-   * This setting is only needed if multiple providers are configured and the unauthenticated client
-   * action is set to "RedirectToLoginPage".
-   */
-  redirectToProvider?: string;
-  /** The paths for which unauthenticated flow would not be redirected to the login page. */
-  excludedPaths?: string[];
-};
-
 /** The configuration settings of the Azure Active Directory app registration. */
 export type AzureActiveDirectoryRegistration = ProxyOnlyResource & {
   /**
@@ -6243,24 +6592,35 @@ export type AzureActiveDirectoryRegistration = ProxyOnlyResource & {
    * a replacement for the Client Secret. It is also optional.
    */
   clientSecretCertificateThumbprint?: string;
+  /**
+   * An alternative to the client secret thumbprint, that is the subject alternative name of a certificate used for signing purposes. This property acts as
+   * a replacement for the Client Secret Certificate Thumbprint. It is also optional.
+   */
+  clientSecretCertificateSubjectAlternativeName?: string;
+  /**
+   * An alternative to the client secret thumbprint, that is the issuer of a certificate used for signing purposes. This property acts as
+   * a replacement for the Client Secret Certificate Thumbprint. It is also optional.
+   */
+  clientSecretCertificateIssuer?: string;
 };
 
 /** The configuration settings of the Azure Active Directory login flow. */
 export type AzureActiveDirectoryLogin = ProxyOnlyResource & {
-  disableWWWAuthenticate?: boolean;
   /**
    * Login parameters to send to the OpenID Connect authorization endpoint when
    * a user logs in. Each parameter must be in the form "key=value".
    */
   loginParameters?: string[];
+  /** <code>true</code> if the www-authenticate provider should be omitted from the request; otherwise, <code>false</code>. */
+  disableWWWAuthenticate?: boolean;
 };
 
-/** The configuration settings of the checks that should be made while validating the JWT Claims. */
-export type JwtClaimChecks = ProxyOnlyResource & {
+/** The configuration settings of the Azure Active Directory allowed principals. */
+export type AllowedPrincipals = ProxyOnlyResource & {
   /** The list of the allowed groups. */
-  allowedGroups?: string[];
-  /** The list of the allowed client applications. */
-  allowedClientApplications?: string[];
+  groups?: string[];
+  /** The list of the allowed identities. */
+  identities?: string[];
 };
 
 /** The configuration settings of the Azure Active Directory token validation flow. */
@@ -6269,24 +6629,8 @@ export type AzureActiveDirectoryValidation = ProxyOnlyResource & {
   jwtClaimChecks?: JwtClaimChecks;
   /** The list of audiences that can make successful authentication/authorization requests. */
   allowedAudiences?: string[];
-};
-
-/** The configuration settings of the Azure Active directory provider. */
-export type AzureActiveDirectory = ProxyOnlyResource & {
-  /** <code>false</code> if the Azure Active Directory provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
-  enabled?: boolean;
-  /** The configuration settings of the Azure Active Directory app registration. */
-  registration?: AzureActiveDirectoryRegistration;
-  /** The configuration settings of the Azure Active Directory login flow. */
-  login?: AzureActiveDirectoryLogin;
-  /** The configuration settings of the Azure Active Directory token validation flow. */
-  validation?: AzureActiveDirectoryValidation;
-  /**
-   * Gets a value indicating whether the Azure AD configuration was auto-provisioned using 1st party tooling.
-   * This is an internal flag primarily intended to support the Azure Management Portal. Users should not
-   * read or write to this property.
-   */
-  isAutoProvisioned?: boolean;
+  /** The configuration settings of the default authorization policy. */
+  defaultAuthorizationPolicy?: DefaultAuthorizationPolicy;
 };
 
 /** The configuration settings of the app registration for providers that have app ids and app secrets */
@@ -6297,32 +6641,6 @@ export type AppRegistration = ProxyOnlyResource & {
   appSecretSettingName?: string;
 };
 
-/** The configuration settings of the login flow, including the scopes that should be requested. */
-export type LoginScopes = ProxyOnlyResource & {
-  /** A list of the scopes that should be requested while authenticating. */
-  scopes?: string[];
-};
-
-/** The configuration settings of the Facebook provider. */
-export type Facebook = ProxyOnlyResource & {
-  /** <code>false</code> if the Facebook provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
-  enabled?: boolean;
-  /** The configuration settings of the app registration for the Facebook provider. */
-  registration?: AppRegistration;
-  /** The version of the Facebook api to be used while logging in. */
-  graphApiVersion?: string;
-  /** The configuration settings of the login flow. */
-  login?: LoginScopes;
-};
-
-/** The configuration settings of the app registration for providers that have client ids and client secrets */
-export type ClientRegistration = ProxyOnlyResource & {
-  /** The Client ID of the app used for login. */
-  clientId?: string;
-  /** The app setting name that contains the client secret. */
-  clientSecretSettingName?: string;
-};
-
 /** The configuration settings of the GitHub provider. */
 export type GitHub = ProxyOnlyResource & {
   /** <code>false</code> if the GitHub provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
@@ -6331,10 +6649,6 @@ export type GitHub = ProxyOnlyResource & {
   registration?: ClientRegistration;
   /** The configuration settings of the login flow. */
   login?: LoginScopes;
-};
-
-export type AllowedAudiencesValidation = ProxyOnlyResource & {
-  allowedAudiences?: string[];
 };
 
 /** The configuration settings of the Google provider. */
@@ -6349,67 +6663,12 @@ export type Google = ProxyOnlyResource & {
   validation?: AllowedAudiencesValidation;
 };
 
-/** The configuration settings of the app registration for the Twitter provider. */
-export type TwitterRegistration = ProxyOnlyResource & {
-  /**
-   * The OAuth 1.0a consumer key of the Twitter application used for sign-in.
-   * This setting is required for enabling Twitter Sign-In.
-   * Twitter Sign-In documentation: https://dev.twitter.com/web/sign-in
-   */
-  consumerKey?: string;
-  /**
-   * The app setting name that contains the OAuth 1.0a consumer secret of the Twitter
-   * application used for sign-in.
-   */
-  consumerSecretSettingName?: string;
-};
-
 /** The configuration settings of the Twitter provider. */
 export type Twitter = ProxyOnlyResource & {
   /** <code>false</code> if the Twitter provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
   enabled?: boolean;
   /** The configuration settings of the app registration for the Twitter provider. */
   registration?: TwitterRegistration;
-};
-
-/** The authentication client credentials of the custom Open ID Connect provider. */
-export type OpenIdConnectClientCredential = ProxyOnlyResource & {
-  /** The method that should be used to authenticate the user. */
-  method?: "ClientSecretPost";
-  /** The app setting that contains the client secret for the custom Open ID Connect provider. */
-  clientSecretSettingName?: string;
-};
-
-/** The configuration settings of the endpoints used for the custom Open ID Connect provider. */
-export type OpenIdConnectConfig = ProxyOnlyResource & {
-  /** The endpoint to be used to make an authorization request. */
-  authorizationEndpoint?: string;
-  /** The endpoint to be used to request a token. */
-  tokenEndpoint?: string;
-  /** The endpoint that issues the token. */
-  issuer?: string;
-  /** The endpoint that provides the keys necessary to validate the token. */
-  certificationUri?: string;
-  /** The endpoint that contains all the configuration endpoints for the provider. */
-  wellKnownOpenIdConfiguration?: string;
-};
-
-/** The configuration settings of the app registration for the custom Open ID Connect provider. */
-export type OpenIdConnectRegistration = ProxyOnlyResource & {
-  /** The client id of the custom Open ID Connect provider. */
-  clientId?: string;
-  /** The authentication credentials of the custom Open ID Connect provider. */
-  clientCredential?: OpenIdConnectClientCredential;
-  /** The configuration settings of the endpoints used for the custom Open ID Connect provider. */
-  openIdConnectConfiguration?: OpenIdConnectConfig;
-};
-
-/** The configuration settings of the login flow of the custom Open ID Connect provider. */
-export type OpenIdConnectLogin = ProxyOnlyResource & {
-  /** The name of the claim that contains the users name. */
-  nameClaimType?: string;
-  /** A list of the scopes that should be requested while authenticating. */
-  scopes?: string[];
 };
 
 /** The configuration settings of the custom Open ID Connect provider. */
@@ -6434,14 +6693,6 @@ export type LegacyMicrosoftAccount = ProxyOnlyResource & {
   validation?: AllowedAudiencesValidation;
 };
 
-/** The configuration settings of the registration for the Apple provider */
-export type AppleRegistration = ProxyOnlyResource & {
-  /** The Client ID of the app used for login. */
-  clientId?: string;
-  /** The app setting name that contains the client secret. */
-  clientSecretSettingName?: string;
-};
-
 /** The configuration settings of the Apple provider. */
 export type Apple = ProxyOnlyResource & {
   /** <code>false</code> if the Apple provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
@@ -6452,12 +6703,6 @@ export type Apple = ProxyOnlyResource & {
   login?: LoginScopes;
 };
 
-/** The configuration settings of the registration for the Azure Static Web Apps provider */
-export type AzureStaticWebAppsRegistration = ProxyOnlyResource & {
-  /** The Client ID of the app used for login. */
-  clientId?: string;
-};
-
 /** The configuration settings of the Azure Static Web Apps provider. */
 export type AzureStaticWebApps = ProxyOnlyResource & {
   /** <code>false</code> if the Azure Static Web Apps provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
@@ -6466,129 +6711,10 @@ export type AzureStaticWebApps = ProxyOnlyResource & {
   registration?: AzureStaticWebAppsRegistration;
 };
 
-/** The configuration settings of each of the identity providers used to configure App Service Authentication/Authorization. */
-export type IdentityProviders = ProxyOnlyResource & {
-  /** The configuration settings of the Azure Active directory provider. */
-  azureActiveDirectory?: AzureActiveDirectory;
-  /** The configuration settings of the Facebook provider. */
-  facebook?: Facebook;
-  /** The configuration settings of the GitHub provider. */
-  gitHub?: GitHub;
-  /** The configuration settings of the Google provider. */
-  google?: Google;
-  /** The configuration settings of the Twitter provider. */
-  twitter?: Twitter;
-  /**
-   * The map of the name of the alias of each custom Open ID Connect provider to the
-   * configuration settings of the custom Open ID Connect provider.
-   */
-  customOpenIdConnectProviders?: {
-    [propertyName: string]: CustomOpenIdConnectProvider;
-  };
-  /** The configuration settings of the legacy Microsoft Account provider. */
-  legacyMicrosoftAccount?: LegacyMicrosoftAccount;
-  /** The configuration settings of the Apple provider. */
-  apple?: Apple;
-  /** The configuration settings of the Azure Static Web Apps provider. */
-  azureStaticWebApps?: AzureStaticWebApps;
-};
-
-/** The routes that specify the endpoints used for login and logout requests. */
-export type LoginRoutes = ProxyOnlyResource & {
-  /** The endpoint at which a logout request should be made. */
-  logoutEndpoint?: string;
-};
-
-/** The configuration settings of the storage of the tokens if a file system is used. */
-export type FileSystemTokenStore = ProxyOnlyResource & {
-  /** The directory in which the tokens will be stored. */
-  directory?: string;
-};
-
 /** The configuration settings of the storage of the tokens if blob storage is used. */
 export type BlobStorageTokenStore = ProxyOnlyResource & {
   /** The name of the app setting containing the SAS URL of the blob storage containing the tokens. */
   sasUrlSettingName?: string;
-};
-
-/** The configuration settings of the token store. */
-export type TokenStore = ProxyOnlyResource & {
-  /**
-   * <code>true</code> to durably store platform-specific security tokens that are obtained during login flows; otherwise, <code>false</code>.
-   *  The default is <code>false</code>.
-   */
-  enabled?: boolean;
-  /**
-   * The number of hours after session token expiration that a session token can be used to
-   * call the token refresh API. The default is 72 hours.
-   */
-  tokenRefreshExtensionHours?: number;
-  /** The configuration settings of the storage of the tokens if a file system is used. */
-  fileSystem?: FileSystemTokenStore;
-  /** The configuration settings of the storage of the tokens if blob storage is used. */
-  azureBlobStorage?: BlobStorageTokenStore;
-};
-
-/** The configuration settings of the session cookie's expiration. */
-export type CookieExpiration = ProxyOnlyResource & {
-  /** The convention used when determining the session cookie's expiration. */
-  convention?: CookieExpirationConvention;
-  /** The time after the request is made when the session cookie should expire. */
-  timeToExpiration?: string;
-};
-
-/** The configuration settings of the nonce used in the login flow. */
-export type Nonce = ProxyOnlyResource & {
-  /** <code>false</code> if the nonce should not be validated while completing the login flow; otherwise, <code>true</code>. */
-  validateNonce?: boolean;
-  /** The time after the request is made when the nonce should expire. */
-  nonceExpirationInterval?: string;
-};
-
-/** The configuration settings of the login flow of users using App Service Authentication/Authorization. */
-export type Login = ProxyOnlyResource & {
-  /** The routes that specify the endpoints used for login and logout requests. */
-  routes?: LoginRoutes;
-  /** The configuration settings of the token store. */
-  tokenStore?: TokenStore;
-  /** <code>true</code> if the fragments from the request are preserved after the login request is made; otherwise, <code>false</code>. */
-  preserveUrlFragmentsForLogins?: boolean;
-  /**
-   * External URLs that can be redirected to as part of logging in or logging out of the app. Note that the query string part of the URL is ignored.
-   * This is an advanced setting typically only needed by Windows Store application backends.
-   * Note that URLs within the current domain are always implicitly allowed.
-   */
-  allowedExternalRedirectUrls?: string[];
-  /** The configuration settings of the session cookie's expiration. */
-  cookieExpiration?: CookieExpiration;
-  /** The configuration settings of the nonce used in the login flow. */
-  nonce?: Nonce;
-};
-
-/** The configuration settings of the paths HTTP requests. */
-export type HttpSettingsRoutes = ProxyOnlyResource & {
-  /** The prefix that should precede all the authentication/authorization paths. */
-  apiPrefix?: string;
-};
-
-/** The configuration settings of a forward proxy used to make the requests. */
-export type ForwardProxy = ProxyOnlyResource & {
-  /** The convention used to determine the url of the request made. */
-  convention?: ForwardProxyConvention;
-  /** The name of the header containing the host of the request. */
-  customHostHeaderName?: string;
-  /** The name of the header containing the scheme of the request. */
-  customProtoHeaderName?: string;
-};
-
-/** The configuration settings of the HTTP requests for authentication and authorization requests made against App Service Authentication/Authorization. */
-export type HttpSettings = ProxyOnlyResource & {
-  /** <code>false</code> if the authentication/authorization responses not having the HTTPS scheme are permissible; otherwise, <code>true</code>. */
-  requireHttps?: boolean;
-  /** The configuration settings of the paths HTTP requests. */
-  routes?: HttpSettingsRoutes;
-  /** The configuration settings of a forward proxy used to make the requests. */
-  forwardProxy?: ForwardProxy;
 };
 
 /** Configuration settings for the Azure App Service Authentication / Authorization V2 feature. */
@@ -7258,32 +7384,6 @@ export type SiteSourceControl = ProxyOnlyResource & {
   isMercurial?: boolean;
   /** If GitHub Action is selected, than the associated configuration. */
   gitHubActionConfiguration?: GitHubActionConfiguration;
-};
-
-/** Triggered Web Job Run Information. */
-export type TriggeredJobRun = ProxyOnlyResource & {
-  /** Job ID. */
-  webJobId?: string;
-  /** Job name. */
-  webJobName?: string;
-  /** Job status. */
-  status?: TriggeredWebJobStatus;
-  /** Start time. */
-  startTime?: Date;
-  /** End time. */
-  endTime?: Date;
-  /** Job duration. */
-  duration?: string;
-  /** Output URL. */
-  outputUrl?: string;
-  /** Error URL. */
-  errorUrl?: string;
-  /** Job URL. */
-  url?: string;
-  /** Job name. */
-  jobName?: string;
-  /** Job trigger. */
-  trigger?: string;
 };
 
 /** Triggered Web Job Information. */
@@ -9258,14 +9358,14 @@ export interface AppServicePlansListVnetsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listVnets operation. */
-export type AppServicePlansListVnetsResponse = VnetInfo[];
+export type AppServicePlansListVnetsResponse = VnetInfoResource[];
 
 /** Optional parameters. */
 export interface AppServicePlansGetVnetFromServerFarmOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getVnetFromServerFarm operation. */
-export type AppServicePlansGetVnetFromServerFarmResponse = VnetInfo;
+export type AppServicePlansGetVnetFromServerFarmResponse = VnetInfoResource;
 
 /** Optional parameters. */
 export interface AppServicePlansGetVnetGatewayOptionalParams
@@ -9565,7 +9665,7 @@ export interface DiagnosticsGetSiteDetectorOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSiteDetector operation. */
-export type DiagnosticsGetSiteDetectorResponse = DetectorDefinition;
+export type DiagnosticsGetSiteDetectorResponse = DetectorDefinitionResource;
 
 /** Optional parameters. */
 export interface DiagnosticsExecuteSiteDetectorOptionalParams
@@ -9656,7 +9756,7 @@ export interface DiagnosticsGetSiteDetectorSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSiteDetectorSlot operation. */
-export type DiagnosticsGetSiteDetectorSlotResponse = DetectorDefinition;
+export type DiagnosticsGetSiteDetectorSlotResponse = DetectorDefinitionResource;
 
 /** Optional parameters. */
 export interface DiagnosticsExecuteSiteDetectorSlotOptionalParams
@@ -13446,21 +13546,21 @@ export interface WebAppsListVnetConnectionsSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listVnetConnectionsSlot operation. */
-export type WebAppsListVnetConnectionsSlotResponse = VnetInfo[];
+export type WebAppsListVnetConnectionsSlotResponse = VnetInfoResource[];
 
 /** Optional parameters. */
 export interface WebAppsGetVnetConnectionSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getVnetConnectionSlot operation. */
-export type WebAppsGetVnetConnectionSlotResponse = VnetInfo;
+export type WebAppsGetVnetConnectionSlotResponse = VnetInfoResource;
 
 /** Optional parameters. */
 export interface WebAppsCreateOrUpdateVnetConnectionSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdateVnetConnectionSlot operation. */
-export type WebAppsCreateOrUpdateVnetConnectionSlotResponse = VnetInfo;
+export type WebAppsCreateOrUpdateVnetConnectionSlotResponse = VnetInfoResource;
 
 /** Optional parameters. */
 export interface WebAppsDeleteVnetConnectionSlotOptionalParams
@@ -13471,7 +13571,7 @@ export interface WebAppsUpdateVnetConnectionSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateVnetConnectionSlot operation. */
-export type WebAppsUpdateVnetConnectionSlotResponse = VnetInfo;
+export type WebAppsUpdateVnetConnectionSlotResponse = VnetInfoResource;
 
 /** Optional parameters. */
 export interface WebAppsGetVnetConnectionGatewaySlotOptionalParams
@@ -13659,21 +13759,21 @@ export interface WebAppsListVnetConnectionsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listVnetConnections operation. */
-export type WebAppsListVnetConnectionsResponse = VnetInfo[];
+export type WebAppsListVnetConnectionsResponse = VnetInfoResource[];
 
 /** Optional parameters. */
 export interface WebAppsGetVnetConnectionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getVnetConnection operation. */
-export type WebAppsGetVnetConnectionResponse = VnetInfo;
+export type WebAppsGetVnetConnectionResponse = VnetInfoResource;
 
 /** Optional parameters. */
 export interface WebAppsCreateOrUpdateVnetConnectionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdateVnetConnection operation. */
-export type WebAppsCreateOrUpdateVnetConnectionResponse = VnetInfo;
+export type WebAppsCreateOrUpdateVnetConnectionResponse = VnetInfoResource;
 
 /** Optional parameters. */
 export interface WebAppsDeleteVnetConnectionOptionalParams
@@ -13684,7 +13784,7 @@ export interface WebAppsUpdateVnetConnectionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateVnetConnection operation. */
-export type WebAppsUpdateVnetConnectionResponse = VnetInfo;
+export type WebAppsUpdateVnetConnectionResponse = VnetInfoResource;
 
 /** Optional parameters. */
 export interface WebAppsGetVnetConnectionGatewayOptionalParams

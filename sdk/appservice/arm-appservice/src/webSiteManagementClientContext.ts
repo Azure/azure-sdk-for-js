@@ -66,6 +66,6 @@ export class WebSiteManagementClientContext extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-01-15";
+    this.apiVersion = options.apiVersion || "2021-02-01";
   }
 }
