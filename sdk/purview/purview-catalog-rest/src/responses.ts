@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { HttpResponse } from "@azure-rest/core-client";
 import {
   EntityMutationResponse,
   AtlasEntitiesWithExtInfo,
@@ -10,16 +11,15 @@ import {
   AtlasEntityHeader,
   AtlasGlossary,
   AtlasGlossaryCategory,
-  DictionaryOfpathsCic80AAtlasV2GlossaryCategoryCategoryguidRelatedGetResponses200ContentApplicationJsonSchemaAdditionalpropertiesDictionary,
+  AtlasRelatedCategoryHeader,
   AtlasRelatedTermHeader,
   AtlasGlossaryTerm,
   AtlasRelatedObjectId,
-  DictionaryOfpathsV84KwqAtlasV2GlossaryTermsTermguidRelatedGetResponses200ContentApplicationJsonSchemaAdditionalpropertiesDictionary,
-  AtlasRelatedCategoryHeader,
   AtlasGlossaryExtInfo,
   ImportCSVOperation,
   SearchResult,
   SuggestResult,
+  BrowseResult,
   AutoCompleteResult,
   AtlasLineageInfo,
   AtlasRelationship,
@@ -34,7 +34,6 @@ import {
   AtlasTypeDefHeader,
   TermTemplateDef,
 } from "./models";
-import { HttpResponse } from "@azure-rest/core-client";
 
 /**
  * Create or update an entity in Atlas.
@@ -71,6 +70,7 @@ export interface EntityDeleteByGuids200Response extends HttpResponse {
 /** Associate a classification to multiple entities in bulk. */
 export interface EntityAddClassification204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 /** Get complete definition of an entity given its GUID. */
@@ -105,6 +105,7 @@ export interface EntityGetClassification200Response extends HttpResponse {
 /** Delete a given classification from an existing entity represented by a GUID. */
 export interface EntityDeleteClassification204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 /** List classifications for a given entity represented by a GUID. */
@@ -116,11 +117,13 @@ export interface EntityGetClassifications200Response extends HttpResponse {
 /** Add classifications to an existing entity represented by a GUID. */
 export interface EntityAddClassifications204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 /** Update classifications to an existing entity represented by a guid. */
 export interface EntityUpdateClassifications204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 /**
@@ -167,22 +170,25 @@ export interface EntityDeleteByUniqueAttribute200Response extends HttpResponse {
 /** Delete a given classification from an entity identified by its type and unique attributes. */
 export interface EntityDeleteClassificationByUniqueAttribute204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 /** Add classification to the entity identified by its type and unique attributes. */
 export interface EntityAddClassificationsByUniqueAttribute204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 /** Update classification on an entity identified by its type and unique attributes. */
 export interface EntityUpdateClassificationsByUniqueAttribute204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 /** Set classifications on entities in bulk. */
 export interface EntitySetClassifications200Response extends HttpResponse {
   status: "200";
-  body: string[];
+  body: Array<string>;
 }
 
 /**
@@ -196,7 +202,7 @@ export interface EntitySetClassifications200Response extends HttpResponse {
  *
  * The REST request would look something like this
  *
- * GET /v2/entity/bulk/uniqueAttribute/type/hive_db?attr_0:qualifiedName=db1\@cl1&attr_2:qualifiedName=db2\@cl1
+ * GET /v2/entity/bulk/uniqueAttribute/type/hive_db?attr_0:qualifiedName=db1@cl1&attr_2:qualifiedName=db2@cl1
  */
 export interface EntityGetEntitiesByUniqueAttributes200Response extends HttpResponse {
   status: "200";
@@ -212,7 +218,7 @@ export interface EntityGetHeader200Response extends HttpResponse {
 /** Get all glossaries registered with Atlas. */
 export interface GlossaryListGlossaries200Response extends HttpResponse {
   status: "200";
-  body: AtlasGlossary[];
+  body: Array<AtlasGlossary>;
 }
 
 /** Create a glossary. */
@@ -224,7 +230,7 @@ export interface GlossaryCreateGlossary200Response extends HttpResponse {
 /** Create glossary category in bulk. */
 export interface GlossaryCreateGlossaryCategories200Response extends HttpResponse {
   status: "200";
-  body: AtlasGlossaryCategory[];
+  body: Array<AtlasGlossaryCategory>;
 }
 
 /** Create a glossary category. */
@@ -248,6 +254,7 @@ export interface GlossaryUpdateGlossaryCategory200Response extends HttpResponse 
 /** Delete a glossary category. */
 export interface GlossaryDeleteGlossaryCategory204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 /** Update the glossary category partially. */
@@ -259,13 +266,13 @@ export interface GlossaryPartialUpdateGlossaryCategory200Response extends HttpRe
 /** Get all related categories (parent and children). Limit, offset, and sort parameters are currently not being enabled and won't work even they are passed. */
 export interface GlossaryListRelatedCategories200Response extends HttpResponse {
   status: "200";
-  body: DictionaryOfpathsCic80AAtlasV2GlossaryCategoryCategoryguidRelatedGetResponses200ContentApplicationJsonSchemaAdditionalpropertiesDictionary;
+  body: Record<string, Array<AtlasRelatedCategoryHeader>>;
 }
 
 /** Get all terms associated with the specific category. */
 export interface GlossaryListCategoryTerms200Response extends HttpResponse {
   status: "200";
-  body: AtlasRelatedTermHeader[];
+  body: Array<AtlasRelatedTermHeader>;
 }
 
 /** Create a glossary term. */
@@ -289,6 +296,7 @@ export interface GlossaryUpdateGlossaryTerm200Response extends HttpResponse {
 /** Delete a glossary term. */
 export interface GlossaryDeleteGlossaryTerm204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 /** Update the glossary term partially. */
@@ -300,34 +308,37 @@ export interface GlossaryPartialUpdateGlossaryTerm200Response extends HttpRespon
 /** Create glossary terms in bulk. */
 export interface GlossaryCreateGlossaryTerms200Response extends HttpResponse {
   status: "200";
-  body: AtlasGlossaryTerm[];
+  body: Array<AtlasGlossaryTerm>;
 }
 
 /** Get all related objects assigned with the specified term. */
 export interface GlossaryGetEntitiesAssignedWithTerm200Response extends HttpResponse {
   status: "200";
-  body: AtlasRelatedObjectId[];
+  body: Array<AtlasRelatedObjectId>;
 }
 
 /** Assign the given term to the provided list of related objects. */
 export interface GlossaryAssignTermToEntities204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 /** Delete the term assignment for the given list of related objects. */
 export interface GlossaryRemoveTermAssignmentFromEntities204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 /** Delete the term assignment for the given list of related objects. */
 export interface GlossaryDeleteTermAssignmentFromEntities204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 /** Get all related terms for a specific term by its GUID. Limit, offset, and sort parameters are currently not being enabled and won't work even they are passed. */
 export interface GlossaryListRelatedTerms200Response extends HttpResponse {
   status: "200";
-  body: DictionaryOfpathsV84KwqAtlasV2GlossaryTermsTermguidRelatedGetResponses200ContentApplicationJsonSchemaAdditionalpropertiesDictionary;
+  body: Record<string, Array<AtlasRelatedTermHeader>>;
 }
 
 /** Get a specific Glossary by its GUID. */
@@ -345,18 +356,19 @@ export interface GlossaryUpdateGlossary200Response extends HttpResponse {
 /** Delete a glossary. */
 export interface GlossaryDeleteGlossary204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 /** Get the categories belonging to a specific glossary. */
 export interface GlossaryListGlossaryCategories200Response extends HttpResponse {
   status: "200";
-  body: AtlasGlossaryCategory[];
+  body: Array<AtlasGlossaryCategory>;
 }
 
 /** Get the category headers belonging to a specific glossary. */
 export interface GlossaryListGlossaryCategoriesHeaders200Response extends HttpResponse {
   status: "200";
-  body: AtlasRelatedCategoryHeader[];
+  body: Array<AtlasRelatedCategoryHeader>;
 }
 
 /** Get a specific glossary with detailed information. */
@@ -374,13 +386,13 @@ export interface GlossaryPartialUpdateGlossary200Response extends HttpResponse {
 /** Get terms belonging to a specific glossary. */
 export interface GlossaryListGlossaryTerms200Response extends HttpResponse {
   status: "200";
-  body: AtlasGlossaryTerm[];
+  body: Array<AtlasGlossaryTerm>;
 }
 
 /** Get term headers belonging to a specific glossary. */
 export interface GlossaryListGlossaryTermHeaders200Response extends HttpResponse {
   status: "200";
-  body: AtlasRelatedTermHeader[];
+  body: Array<AtlasRelatedTermHeader>;
 }
 
 /** Import Glossary Terms from local csv file */
@@ -404,13 +416,14 @@ export interface GlossaryGetImportCsvOperationStatus200Response extends HttpResp
 /** Export Glossary Terms as csv file */
 export interface GlossaryExportGlossaryTermsAsCsv200Response extends HttpResponse {
   status: "200";
+  /** Value may contain any sequence of octets */
   body: string;
 }
 
 /** Get terms by glossary name. */
 export interface GlossaryListTermsByGlossaryName200Response extends HttpResponse {
   status: "200";
-  body: AtlasGlossaryTerm[];
+  body: Array<AtlasGlossaryTerm>;
 }
 
 /** Gets data using search. */
@@ -425,6 +438,12 @@ export interface DiscoverySuggest200Response extends HttpResponse {
   body: SuggestResult;
 }
 
+/** Browse entities by path or entity type. */
+export interface DiscoveryBrowse200Response extends HttpResponse {
+  status: "200";
+  body: BrowseResult;
+}
+
 /** Get auto complete options. */
 export interface DiscoveryAutoComplete200Response extends HttpResponse {
   status: "200";
@@ -432,13 +451,13 @@ export interface DiscoveryAutoComplete200Response extends HttpResponse {
 }
 
 /** Get lineage info of the entity specified by GUID. */
-export interface GetLineageGraph200Response extends HttpResponse {
+export interface LineageGetLineageGraph200Response extends HttpResponse {
   status: "200";
   body: AtlasLineageInfo;
 }
 
 /** Return immediate next page lineage info about entity with pagination */
-export interface NextPageLineage200Response extends HttpResponse {
+export interface LineageNextPageLineage200Response extends HttpResponse {
   status: "200";
   body: AtlasLineageInfo;
 }
@@ -464,6 +483,7 @@ export interface RelationshipGet200Response extends HttpResponse {
 /** Delete a relationship between entities by its GUID. */
 export interface RelationshipDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 /** Get the classification definition for the given GUID. */
@@ -541,6 +561,7 @@ export interface TypesGetTypeDefinitionByName200Response extends HttpResponse {
 /** Delete API for type identified by its name. */
 export interface TypesDeleteTypeByName204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 /** Get all type definitions in Atlas in bulk. */
@@ -567,12 +588,13 @@ export interface TypesUpdateAtlasTypeDefinitions200Response extends HttpResponse
 /** Delete API for all types in bulk. */
 export interface TypesDeleteTypeDefinitions204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 /** List all type definitions returned as a list of minimal information header. */
 export interface TypesListTypeDefinitionHeaders200Response extends HttpResponse {
   status: "200";
-  body: AtlasTypeDefHeader[];
+  body: Array<AtlasTypeDefHeader>;
 }
 
 /** Get the term template definition for the given GUID. */
