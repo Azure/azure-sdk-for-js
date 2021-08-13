@@ -42,6 +42,7 @@ export {
   CommonClientOptions,
   Span,
   SpanKind,
+  OperationTracingOptions,
   SpanStatusCode,
   createSpanFunction
 } from "./interfaces";

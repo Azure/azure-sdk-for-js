@@ -561,4 +561,4 @@ export interface CommonClientOptions extends PipelineOptions {
   allowInsecureConnection?: boolean;
 }
 
-export { createSpanFunction, Span, SpanKind, SpanStatusCode };
+export { createSpanFunction, Span, SpanKind, SpanStatusCode, OperationTracingOptions };

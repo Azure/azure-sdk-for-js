@@ -8,12 +8,12 @@ import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
 import { Context } from '@azure/core-tracing';
 import { createSpanFunction } from '@azure/core-tracing';
+import { CreateSpanFunctionArgs } from '@azure/core-tracing';
 import { Debugger } from '@azure/logger';
 import { GetTokenOptions } from '@azure/core-auth';
 import { isTokenCredential } from '@azure/core-auth';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { Span } from '@azure/core-tracing';
-import { CreateSpanFunctionArgs as SpanConfig } from '@azure/core-tracing';
 import { SpanKind } from '@azure/core-tracing';
 import { SpanOptions } from '@azure/core-tracing';
 import { SpanStatusCode } from '@azure/core-tracing';
@@ -164,6 +164,10 @@ export const Constants: {
 export function createPipelineFromOptions(pipelineOptions: InternalPipelineOptions, authPolicyFactory?: RequestPolicyFactory): ServiceClientOptions;
 
 export { createSpanFunction }
+
+export { CreateSpanFunctionArgs }
+
+export { CreateSpanFunctionArgs as SpanConfig }
 
 // Warning: (ae-forgotten-export) The symbol "FetchHttpClient" needs to be exported by the entry point coreHttp.d.ts
 //
@@ -505,6 +509,8 @@ export interface OperationSpec {
     readonly urlParameters?: ReadonlyArray<OperationURLParameter>;
 }
 
+export { OperationTracingOptions }
+
 // @public
 export interface OperationURLParameter extends OperationParameter {
     skipEncoding?: boolean;
@@ -807,8 +813,6 @@ export interface SimpleMapperType {
 }
 
 export { Span }
-
-export { SpanConfig }
 
 export { SpanKind }
 

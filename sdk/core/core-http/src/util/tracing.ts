@@ -3,8 +3,10 @@
 
 export {
   createSpanFunction,
+  CreateSpanFunctionArgs,
   CreateSpanFunctionArgs as SpanConfig, // for backwards compatibility
   Span,
   SpanStatusCode,
-  SpanKind
+  SpanKind,
+  OperationTracingOptions
 } from "@azure/core-tracing";

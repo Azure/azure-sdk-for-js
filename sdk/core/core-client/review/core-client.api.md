@@ -275,6 +275,8 @@ export interface OperationSpec {
     readonly urlParameters?: ReadonlyArray<OperationURLParameter>;
 }
 
+export { OperationTracingOptions }
+
 // @public
 export interface OperationURLParameter extends OperationParameter {
     skipEncoding?: boolean;
