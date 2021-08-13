@@ -15,7 +15,7 @@ import {
   ResourceSetRuleConfigsGetParameters,
   ResourceSetRuleConfigsCreateOrUpdateParameters,
   ResourceSetRuleConfigsDeleteParameters,
-  ResourceSetRuleConfigsListByAccountParameters
+  ResourceSetRuleConfigsListByAccountParameters,
 } from "./parameters";
 import {
   AccountsGet200Response,
@@ -46,7 +46,7 @@ import {
   ResourceSetRuleConfigsDelete204Response,
   ResourceSetRuleConfigsDeletedefaultResponse,
   ResourceSetRuleConfigsListByAccount200Response,
-  ResourceSetRuleConfigsListByAccountdefaultResponse
+  ResourceSetRuleConfigsListByAccountdefaultResponse,
 } from "./responses";
 import { getClient, ClientOptions, Client } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
@@ -73,9 +73,7 @@ export interface AccountsRegenerateKeys {
   /** Regenerate the authorization keys associated with this data catalog. */
   post(
     options: AccountsRegenerateKeysParameters
-  ): Promise<
-    AccountsRegenerateKeys200Response | AccountsRegenerateKeysdefaultResponse
-  >;
+  ): Promise<AccountsRegenerateKeys200Response | AccountsRegenerateKeysdefaultResponse>;
 }
 
 export interface CollectionsGet {
@@ -86,10 +84,7 @@ export interface CollectionsGet {
   /** Creates or updates a collection entity. */
   put(
     options: CollectionsCreateOrUpdateParameters
-  ): Promise<
-    | CollectionsCreateOrUpdate200Response
-    | CollectionsCreateOrUpdatedefaultResponse
-  >;
+  ): Promise<CollectionsCreateOrUpdate200Response | CollectionsCreateOrUpdatedefaultResponse>;
   /** Deletes a Collection entity. */
   delete(
     options?: CollectionsDeleteParameters
@@ -100,10 +95,7 @@ export interface CollectionsListByAccount {
   /** List the collections in the account. */
   get(
     options?: CollectionsListByAccountParameters
-  ): Promise<
-    | CollectionsListByAccount200Response
-    | CollectionsListByAccountdefaultResponse
-  >;
+  ): Promise<CollectionsListByAccount200Response | CollectionsListByAccountdefaultResponse>;
 }
 
 export interface CollectionsGetChildCollectionNames {
@@ -120,20 +112,14 @@ export interface CollectionsGetCollectionPath {
   /** Gets the parent name and parent friendly name chains that represent the collection path. */
   get(
     options?: CollectionsGetCollectionPathParameters
-  ): Promise<
-    | CollectionsGetCollectionPath200Response
-    | CollectionsGetCollectionPathdefaultResponse
-  >;
+  ): Promise<CollectionsGetCollectionPath200Response | CollectionsGetCollectionPathdefaultResponse>;
 }
 
 export interface ResourceSetRuleConfigsGet {
   /** Get a resource set config service model. */
   get(
     options?: ResourceSetRuleConfigsGetParameters
-  ): Promise<
-    | ResourceSetRuleConfigsGet200Response
-    | ResourceSetRuleConfigsGetdefaultResponse
-  >;
+  ): Promise<ResourceSetRuleConfigsGet200Response | ResourceSetRuleConfigsGetdefaultResponse>;
   /** Creates or updates an resource set config. */
   put(
     options: ResourceSetRuleConfigsCreateOrUpdateParameters
@@ -169,10 +155,7 @@ export interface Routes {
   /** Resource for '/regeneratekeys' has methods for the following verbs: post */
   (path: "/regeneratekeys"): AccountsRegenerateKeys;
   /** Resource for '/collections/\{collectionName\}' has methods for the following verbs: get, put, delete */
-  (
-    path: "/collections/{collectionName}",
-    collectionName: string
-  ): CollectionsGet;
+  (path: "/collections/{collectionName}", collectionName: string): CollectionsGet;
   /** Resource for '/collections' has methods for the following verbs: get */
   (path: "/collections"): CollectionsListByAccount;
   /** Resource for '/collections/\{collectionName\}/getChildCollectionNames' has methods for the following verbs: get */
@@ -186,9 +169,7 @@ export interface Routes {
     collectionName: string
   ): CollectionsGetCollectionPath;
   /** Resource for '/resourceSetRuleConfigs/defaultResourceSetRuleConfig' has methods for the following verbs: get, put, delete */
-  (
-    path: "/resourceSetRuleConfigs/defaultResourceSetRuleConfig"
-  ): ResourceSetRuleConfigsGet;
+  (path: "/resourceSetRuleConfigs/defaultResourceSetRuleConfig"): ResourceSetRuleConfigsGet;
   /** Resource for '/resourceSetRuleConfigs' has methods for the following verbs: get */
   (path: "/resourceSetRuleConfigs"): ResourceSetRuleConfigsListByAccount;
 }
@@ -207,8 +188,8 @@ export default function PurviewAccount(
   options = {
     ...options,
     credentials: {
-      scopes: ["https://purview.azure.net/.default"]
-    }
+      scopes: ["https://purview.azure.net/.default"],
+    },
   };
 
   return getClient(baseUrl, credentials, options) as PurviewAccountRestClient;

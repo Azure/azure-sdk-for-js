@@ -11,7 +11,7 @@ import {
   CollectionNameResponseList,
   CollectionPathResponse,
   ResourceSetRuleConfig,
-  ResourceSetRuleConfigList
+  ResourceSetRuleConfigList,
 } from "./models";
 
 /** Get an account */
@@ -111,15 +111,13 @@ export interface CollectionsListByAccountdefaultResponse extends HttpResponse {
 }
 
 /** Lists the child collections names in the collection. */
-export interface CollectionsGetChildCollectionNames200Response
-  extends HttpResponse {
+export interface CollectionsGetChildCollectionNames200Response extends HttpResponse {
   status: "200";
   body: CollectionNameResponseList;
 }
 
 /** Lists the child collections names in the collection. */
-export interface CollectionsGetChildCollectionNamesdefaultResponse
-  extends HttpResponse {
+export interface CollectionsGetChildCollectionNamesdefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseModel;
 }
@@ -131,8 +129,7 @@ export interface CollectionsGetCollectionPath200Response extends HttpResponse {
 }
 
 /** Gets the parent name and parent friendly name chains that represent the collection path. */
-export interface CollectionsGetCollectionPathdefaultResponse
-  extends HttpResponse {
+export interface CollectionsGetCollectionPathdefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseModel;
 }
@@ -150,15 +147,13 @@ export interface ResourceSetRuleConfigsGetdefaultResponse extends HttpResponse {
 }
 
 /** Creates or updates an resource set config. */
-export interface ResourceSetRuleConfigsCreateOrUpdate200Response
-  extends HttpResponse {
+export interface ResourceSetRuleConfigsCreateOrUpdate200Response extends HttpResponse {
   status: "200";
   body: ResourceSetRuleConfig;
 }
 
 /** Creates or updates an resource set config. */
-export interface ResourceSetRuleConfigsCreateOrUpdatedefaultResponse
-  extends HttpResponse {
+export interface ResourceSetRuleConfigsCreateOrUpdatedefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseModel;
 }
@@ -176,22 +171,19 @@ export interface ResourceSetRuleConfigsDelete204Response extends HttpResponse {
 }
 
 /** Deletes a ResourceSetRuleConfig resource. */
-export interface ResourceSetRuleConfigsDeletedefaultResponse
-  extends HttpResponse {
+export interface ResourceSetRuleConfigsDeletedefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseModel;
 }
 
 /** Get a resource set config service model. */
-export interface ResourceSetRuleConfigsListByAccount200Response
-  extends HttpResponse {
+export interface ResourceSetRuleConfigsListByAccount200Response extends HttpResponse {
   status: "200";
   body: ResourceSetRuleConfigList;
 }
 
 /** Get a resource set config service model. */
-export interface ResourceSetRuleConfigsListByAccountdefaultResponse
-  extends HttpResponse {
+export interface ResourceSetRuleConfigsListByAccountdefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseModel;
 }

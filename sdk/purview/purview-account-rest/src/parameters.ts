@@ -6,7 +6,7 @@ import {
   DataPlaneAccountUpdateParameters,
   AccessKeyOptions,
   Collection,
-  ResourceSetRuleConfig
+  ResourceSetRuleConfig,
 } from "./models";
 
 export type AccountsGetParameters = RequestParameters;
@@ -15,16 +15,14 @@ export interface AccountsUpdateBodyParam {
   body: DataPlaneAccountUpdateParameters;
 }
 
-export type AccountsUpdateParameters = AccountsUpdateBodyParam &
-  RequestParameters;
+export type AccountsUpdateParameters = AccountsUpdateBodyParam & RequestParameters;
 export type AccountsListKeysParameters = RequestParameters;
 
 export interface AccountsRegenerateKeysBodyParam {
   body: AccessKeyOptions;
 }
 
-export type AccountsRegenerateKeysParameters = AccountsRegenerateKeysBodyParam &
-  RequestParameters;
+export type AccountsRegenerateKeysParameters = AccountsRegenerateKeysBodyParam & RequestParameters;
 export type CollectionsGetParameters = RequestParameters;
 
 export interface CollectionsCreateOrUpdateBodyParam {
