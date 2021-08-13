@@ -1,10 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
+import {
+  TokenCredential,
+  GetTokenOptions,
+  AccessToken,
+  TokenCredentialRefresher
+} from "@azure/core-auth";
 import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
-import { createTokenCycler } from "../util/tokenCycler";
 
 /**
  * The programmatic identifier of the bearerTokenAuthenticationPolicy.
@@ -75,7 +79,7 @@ export interface BearerTokenAuthenticationPolicyOptions {
   /**
    * The TokenCredential implementation that can supply the bearer token.
    */
-  credential?: TokenCredential;
+  credential?: TokenCredential | TokenCredentialRefresher;
   /**
    * The scopes for which the bearer token applies.
    */
@@ -153,12 +157,19 @@ export function bearerTokenAuthenticationPolicy(
         );
       }
 
+      // TODO:
+      // If we changed the AuthorizeRequestOptions to incldue the credential instead of the getAccessToken method,
+      // then we could skip this part and just pass any of these credentials directly.
       const refreshCredential = request.authenticationOptions?.credential ?? credential;
+      const getAccessToken =
+        (refreshCredential as TokenCredentialRefresher)?.refreshToken?.bind(refreshCredential) ??
+        refreshCredential?.getToken.bind(refreshCredential) ??
+        (() => Promise.resolve(null));
 
       await callbacks.authorizeRequest({
         scopes: Array.isArray(scopes) ? scopes : [scopes],
         request,
-        getAccessToken: refreshCredential?.refreshToken ?? (() => Promise.resolve(null))
+        getAccessToken
       });
 
       let response: PipelineResponse;

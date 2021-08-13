@@ -9,6 +9,7 @@ import { AzureLogger } from '@azure/logger';
 import { CommonClientOptions } from '@azure/core-client';
 import { GetTokenOptions } from '@azure/core-auth';
 import { TokenCredential } from '@azure/core-auth';
+import { TokenCredentialRefresher } from '@azure/core-auth';
 
 export { AccessToken }
 
@@ -100,7 +101,7 @@ export interface AzurePowerShellCredentialOptions extends TokenCredentialOptions
 export type BrowserLoginStyle = "redirect" | "popup";
 
 // @public
-export class ChainedTokenCredential implements TokenCredential {
+export class ChainedTokenCredential extends RefreshTokenCredential {
     constructor(...sources: TokenCredential[]);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
     selectedCredential?: TokenCredential;
@@ -247,6 +248,20 @@ export class ManagedIdentityCredential implements TokenCredential {
     constructor(clientId: string, options?: TokenCredentialOptions);
     constructor(options?: TokenCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
+    }
+
+// @public
+export interface RefreshOptions {
+    forcedRefreshWindowInMs: number;
+    refreshWindowInMs: number;
+    retryIntervalInMs: number;
+}
+
+// @public
+export abstract class RefreshTokenCredential implements TokenCredentialRefresher {
+    abstract getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+    refreshOptions: RefreshOptions;
+    refreshToken(scopes: string | string[], tokenOptions: GetTokenOptions): Promise<AccessToken>;
     }
 
 // @public

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential } from "@azure/core-auth";
+import { TokenCredential, TokenCredentialRefresher } from "@azure/core-auth";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { OperationTracingOptions } from "@azure/core-tracing";
 
@@ -164,7 +164,7 @@ export interface PipelineRequest {
     /**
      * Optionally swap the operation credential.
      */
-    credential?: TokenCredential;
+    credential?: TokenCredential | TokenCredentialRefresher;
   };
 
   /**

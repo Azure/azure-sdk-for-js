@@ -15,11 +15,12 @@ import { PipelinePolicy } from '@azure/core-rest-pipeline';
 import { PipelineRequest } from '@azure/core-rest-pipeline';
 import { PipelineResponse } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
+import { TokenCredentialRefresher } from '@azure/core-auth';
 import { TransferProgressEvent } from '@azure/core-rest-pipeline';
 
 // @public
 export interface AuthenticationOptions {
-    credential?: TokenCredential;
+    credential?: TokenCredential | TokenCredentialRefresher;
 }
 
 // @public (undocumented)

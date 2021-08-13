@@ -104,6 +104,11 @@ export interface TokenCredential {
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
 }
 
+// @public
+export interface TokenCredentialRefresher extends TokenCredential {
+    refreshToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+}
+
 
 // (No @packageDocumentation comment for this package)
 

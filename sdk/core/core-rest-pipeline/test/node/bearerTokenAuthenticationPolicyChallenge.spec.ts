@@ -333,7 +333,6 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
     assert.deepEqual(finalSendRequestHeaders, [
       undefined,
       `Bearer ${getTokenResponses[0].token}`,
-      `Bearer ${getTokenResponses[1].token}`,
       `Bearer ${getTokenResponses[1].token}`
     ]);
   });

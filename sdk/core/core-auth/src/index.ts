@@ -11,6 +11,7 @@ export { AzureSASCredential, SASCredential, isSASCredential } from "./azureSASCr
 
 export {
   TokenCredential,
+  TokenCredentialRefresher,
   GetTokenOptions,
   AccessToken,
   isTokenCredential

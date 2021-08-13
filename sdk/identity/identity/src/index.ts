@@ -20,6 +20,7 @@ export {
   DefaultAzureCredential,
   DefaultAzureCredentialOptions
 } from "./credentials/defaultAzureCredential";
+export { RefreshTokenCredential, RefreshOptions } from "./credentials/refreshTokenCredential";
 export {
   EnvironmentCredential,
   EnvironmentCredentialOptions

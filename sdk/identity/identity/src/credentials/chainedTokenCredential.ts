@@ -7,6 +7,7 @@ import { AggregateAuthenticationError, CredentialUnavailableError } from "../cli
 import { createSpan } from "../util/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
+import { RefreshTokenCredential } from "./refreshTokenCredential";
 
 /**
  * @internal
@@ -17,7 +18,7 @@ export const logger = credentialLogger("ChainedTokenCredential");
  * Enables multiple `TokenCredential` implementations to be tried in order
  * until one of the getToken methods returns an access token.
  */
-export class ChainedTokenCredential implements TokenCredential {
+export class ChainedTokenCredential extends RefreshTokenCredential {
   /**
    * The message to use when the chained token fails to get a token
    */
@@ -44,6 +45,7 @@ export class ChainedTokenCredential implements TokenCredential {
    * ```
    */
   constructor(...sources: TokenCredential[]) {
+    super(); // The RefreshTokenCycler has an empty constructor.
     this._sources = sources;
   }
 

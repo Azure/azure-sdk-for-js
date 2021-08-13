@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential } from "@azure/core-auth";
+import { TokenCredential, TokenCredentialRefresher } from "@azure/core-auth";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { OperationTracingOptions } from "@azure/core-tracing";
 import {
@@ -56,7 +56,7 @@ export interface AuthenticationOptions {
   /**
    * Optionally swap the operation credential.
    */
-  credential?: TokenCredential;
+  credential?: TokenCredential | TokenCredentialRefresher;
 }
 
 export type RequiredSerializerOptions = {
@@ -294,14 +294,14 @@ export interface OperationSpec {
    * This value can be used to aide in serialization if it is provided.
    */
   readonly mediaType?:
-  | "json"
-  | "xml"
-  | "form"
-  | "binary"
-  | "multipart"
-  | "text"
-  | "unknown"
-  | string;
+    | "json"
+    | "xml"
+    | "form"
+    | "binary"
+    | "multipart"
+    | "text"
+    | "unknown"
+    | string;
   /**
    * The parameter that will be used to construct the HTTP request's body.
    */
@@ -413,20 +413,20 @@ export type MapperType =
 
 export interface SimpleMapperType {
   name:
-  | "Base64Url"
-  | "Boolean"
-  | "ByteArray"
-  | "Date"
-  | "DateTime"
-  | "DateTimeRfc1123"
-  | "Object"
-  | "Stream"
-  | "String"
-  | "TimeSpan"
-  | "UnixTime"
-  | "Uuid"
-  | "Number"
-  | "any";
+    | "Base64Url"
+    | "Boolean"
+    | "ByteArray"
+    | "Date"
+    | "DateTime"
+    | "DateTimeRfc1123"
+    | "Object"
+    | "Stream"
+    | "String"
+    | "TimeSpan"
+    | "UnixTime"
+    | "Uuid"
+    | "Number"
+    | "any";
 }
 
 export interface CompositeMapperType {

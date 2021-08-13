@@ -10,6 +10,7 @@ import { Debugger } from '@azure/logger';
 import { GetTokenOptions } from '@azure/core-auth';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
+import { TokenCredentialRefresher } from '@azure/core-auth';
 
 // @public
 export interface AddPipelineOptions {
@@ -52,7 +53,7 @@ export const bearerTokenAuthenticationPolicyName = "bearerTokenAuthenticationPol
 // @public
 export interface BearerTokenAuthenticationPolicyOptions {
     challengeCallbacks?: ChallengeCallbacks;
-    credential?: TokenCredential;
+    credential?: TokenCredential | TokenCredentialRefresher;
     scopes: string | string[];
 }
 
@@ -188,6 +189,9 @@ export interface PipelineRequest {
     abortSignal?: AbortSignalLike;
     agent?: Agent;
     allowInsecureConnection?: boolean;
+    authenticationOptions?: {
+        credential?: TokenCredential | TokenCredentialRefresher;
+    };
     body?: RequestBodyType;
     disableKeepAlive?: boolean;
     formData?: FormDataMap;

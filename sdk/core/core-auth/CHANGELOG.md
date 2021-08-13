@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- New interface added: `TokenCredentialRefresher`. Represents a credential that can refresh a token over time.
+
 ### Breaking Changes
 
 ### Key Bugs Fixed

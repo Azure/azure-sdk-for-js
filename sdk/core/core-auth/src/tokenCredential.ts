@@ -22,6 +22,22 @@ export interface TokenCredential {
 }
 
 /**
+ * Represents a credential capable of refreshing an authentication token over time.
+ */
+export interface TokenCredentialRefresher extends TokenCredential {
+  /**
+   * Retrieves previously stored token, or retrieves a new token.
+   *
+   * This method is called automatically by Azure SDK client libraries.
+   *
+   * @param scopes - The list of scopes for which the token will have access.
+   * @param options - The options used to configure any requests this
+   *                TokenCredential implementation might make.
+   */
+  refreshToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+}
+
+/**
  * Defines options for TokenCredential.getToken.
  */
 export interface GetTokenOptions {
