@@ -1,5 +1,15 @@
 # Release History
 
+## 3.13.0 (2021-08-10)
+
+### Features Added
+
+- Adds TransactionalBatch to items `container.items.batch(operations)`
+
+### Bugs Fixed
+
+- Fixed bulk requests which had operations without partitionKey specified.
+
 ## 3.12.3 (2021-07-23)
 
 ### Bugs Fixed
