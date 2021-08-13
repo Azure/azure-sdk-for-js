@@ -1,5 +1,6 @@
 {
   "name": "@azure-tests/perf-storage-blob-track-1",
+  "sdk-type": "perf-test",
   "version": "1.0.0",
   "description": "",
   "main": "",
