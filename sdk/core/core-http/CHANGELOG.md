@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- `tracingPolicy` will no longer propagate tracing errors to the caller, instead logging and continuing. [PR #16916](https://github.com/Azure/azure-sdk-for-js/pull/16916)
+
 ### Other Changes
 
 ## 2.1.0 (2021-07-22)
