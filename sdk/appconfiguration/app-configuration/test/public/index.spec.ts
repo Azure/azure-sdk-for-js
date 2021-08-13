@@ -12,7 +12,7 @@ import {
   startRecorder
 } from "./utils/testHelpers";
 import { AppConfigurationClient, ConfigurationSetting, ConfigurationSettingParam } from "../../src";
-import { Recorder, delay } from "@azure/test-utils-recorder";
+import { Recorder, delay, isLiveMode } from "@azure/test-utils-recorder";
 import { Context } from "mocha";
 
 describe("AppConfigurationClient", () => {
@@ -723,7 +723,12 @@ describe("AppConfigurationClient", () => {
       assert.ok(foundMyExactSettingToo);
     });
 
-    it("list with multiple pages", async () => {
+    it("list with multiple pages", async function() {
+      // This occasionally hits 429 error (throttling).
+      // To avoid hitting the service with too many requests, skipping the test in live.
+      // Remove the following line if you want to hit the live service.
+      if (isLiveMode()) this.skip();
+
       const key = recorder.getUniqueName("listMultiplePagesOfResults");
 
       // this number is arbitrarily chosen to match the size of a page + 1
