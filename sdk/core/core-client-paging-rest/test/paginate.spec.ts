@@ -229,7 +229,7 @@ interface MockResponse {
  * @param response - Responses to return, the actual request url is matched to one of the paths in the responses and the defined object is returned.
  * if no path matches a 404 error is returned
  */
-function mockResponse(client: Client, responses: MockResponse[]) {
+function mockResponse(client: Client, responses: MockResponse[]): void {
   let count = 0;
 
   client.pipeline.addPolicy({

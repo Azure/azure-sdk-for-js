@@ -17,7 +17,7 @@ export interface PaginateOptions {
 }
 
 // @public
-export function paginateResponse<TReturn>(client: Client, initialResponse: HttpResponse, options?: PaginateOptions): PagedAsyncIterableIterator<TReturn, TReturn[]>;
+export function paginateResponse<TElement>(client: Client, initialResponse: HttpResponse, options?: PaginateOptions): PagedAsyncIterableIterator<TElement>;
 
 
 ```
