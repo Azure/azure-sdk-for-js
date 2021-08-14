@@ -56,6 +56,10 @@ export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolic
 
       const span = tryCreateSpan(request, userAgent);
 
+      if (!span) {
+        return next(request);
+      }
+
       try {
         const response = await next(request);
         tryProcessResponse(span, response);
@@ -111,30 +115,30 @@ function tryCreateSpan(request: PipelineRequest, userAgent?: string): Span | und
   }
 }
 
-function tryProcessError(span: Span | undefined, err: any): void {
+function tryProcessError(span: Span, err: any): void {
   try {
-    span?.setStatus({
+    span.setStatus({
       code: SpanStatusCode.ERROR,
       message: err.message
     });
-    span?.setAttribute("http.status_code", err.statusCode);
-    span?.end();
+    span.setAttribute("http.status_code", err.statusCode);
+    span.end();
   } catch (error) {
     logger.warning(`Skipping tracing span processing due to an error: ${error.message}`);
   }
 }
 
-function tryProcessResponse(span: Span | undefined, response: PipelineResponse): void {
+function tryProcessResponse(span: Span, response: PipelineResponse): void {
   try {
-    span?.setAttribute("http.status_code", response.status);
+    span.setAttribute("http.status_code", response.status);
     const serviceRequestId = response.headers.get("x-ms-request-id");
     if (serviceRequestId) {
-      span?.setAttribute("serviceRequestId", serviceRequestId);
+      span.setAttribute("serviceRequestId", serviceRequestId);
     }
-    span?.setStatus({
+    span.setStatus({
       code: SpanStatusCode.OK
     });
-    span?.end();
+    span.end();
   } catch (error) {
     logger.warning(`Skipping tracing span processing due to an error: ${error.message}`);
   }

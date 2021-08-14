@@ -56,6 +56,10 @@ export class TracingPolicy extends BaseRequestPolicy {
 
     const span = this.tryCreateSpan(request);
 
+    if (!span) {
+      return this._nextPolicy.sendRequest(request);
+    }
+
     try {
       const response = await this._nextPolicy.sendRequest(request);
       this.tryProcessResponse(span, response);
@@ -108,30 +112,30 @@ export class TracingPolicy extends BaseRequestPolicy {
     }
   }
 
-  private tryProcessError(span: Span | undefined, err: any): void {
+  private tryProcessError(span: Span, err: any): void {
     try {
-      span?.setStatus({
+      span.setStatus({
         code: SpanStatusCode.ERROR,
         message: err.message
       });
-      span?.setAttribute("http.status_code", err.statusCode);
-      span?.end();
+      span.setAttribute("http.status_code", err.statusCode);
+      span.end();
     } catch (error) {
       logger.warning(`Skipping tracing span processing due to an error: ${error.message}`);
     }
   }
 
-  private tryProcessResponse(span: Span | undefined, response: HttpOperationResponse): void {
+  private tryProcessResponse(span: Span, response: HttpOperationResponse): void {
     try {
-      span?.setAttribute("http.status_code", response.status);
+      span.setAttribute("http.status_code", response.status);
       const serviceRequestId = response.headers.get("x-ms-request-id");
       if (serviceRequestId) {
-        span?.setAttribute("serviceRequestId", serviceRequestId);
+        span.setAttribute("serviceRequestId", serviceRequestId);
       }
-      span?.setStatus({
+      span.setStatus({
         code: SpanStatusCode.OK
       });
-      span?.end();
+      span.end();
     } catch (error) {
       logger.warning(`Skipping tracing span processing due to an error: ${error.message}`);
     }
