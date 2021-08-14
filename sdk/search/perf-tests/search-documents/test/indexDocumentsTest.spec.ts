@@ -22,8 +22,10 @@ export class IndexDocumentsTest extends SearchDocumentsBase<SearchDocumentsTestO
   }
 
   async runAsync(): Promise<void> {
-    for(let i = 0; i < this.hotels.length; i++) {
-      this.hotels[i].hotelId = (Math.floor(Math.random() * ((this.hotels.length * 2) - this.hotels.length + 1) + this.hotels.length)).toString();
+    for (let i = 0; i < this.hotels.length; i++) {
+      this.hotels[i].hotelId = Math.floor(
+        Math.random() * (this.hotels.length * 2 - this.hotels.length + 1) + this.hotels.length
+      ).toString();
     }
     const batch: IndexDocumentsBatch<Hotel> = new IndexDocumentsBatch<Hotel>();
     batch.upload(this.hotels);

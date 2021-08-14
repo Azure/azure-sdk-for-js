@@ -1,5 +1,6 @@
 {
   "name": "@azure-tests/perf-ai-form-recognizer",
+  "sdk-type": "perf-test",
   "version": "1.0.0",
   "private": true,
   "description": "Performance Tests for @azure/ai-form-recognizer",
