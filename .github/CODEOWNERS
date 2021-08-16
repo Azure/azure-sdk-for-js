@@ -35,6 +35,7 @@
 
 # PRLabel: %Communication
 /sdk/communication/ @DominikMe @0rland0Wats0n @ankitarorabit @Azure/azure-sdk-communication-code-reviewers
+/sdk/communication/communication-identity/ @petrsvihlik @martinbarnas-ms
 
 # PRLabel: %Container Registry
 /sdk/containerregistry/ @jeremymeng
@@ -72,6 +73,21 @@
 # PRLabel: %Tables
 /sdk/tables/ @joheredi
 
+# PRLabel: %Purview
+/sdk/purview/ @joheredi
+
+# PRLabel: %Farmbeats
+/sdk/agrifood/ @joheredi
+
+# PRLabel: %ConfidentialLedger
+/sdk/confidentialledger/ @joheredi
+
+# PRLabel: %DocumentTranslator
+/sdk/documenttranslator/ @joheredi
+
+# PRLabel: %WebPubSub
+/sdk/web-pubsub/ @xirzec @bterlson @vicancy
+
 # PRLabel: %EngSys
 /sdk/template/ @Azure/azure-sdk-eng
 
@@ -89,8 +105,8 @@
 # PRLabel: %Search
 /sdk/search/ @xirzec @sarangan12
 
-/sdk/applicationinsights/applicationinsights-query/ @divyajay @geneh @alongafni
-/sdk/operationalinsights/loganalytics/ @divyajay @geneh @alongafni
+/sdk/applicationinsights/applicationinsights-query/ @divyajay @alongafni
+/sdk/operationalinsights/loganalytics/ @divyajay @alongafni
 
 /sdk/cognitiveservices/cognitiveservices-qnamaker-runtime/ @bingisbestest @nerajput1607
 /sdk/cognitiveservices/cognitiveservices-qnamaker/ @bingisbestest @nerajput1607
@@ -107,7 +123,7 @@
 
 # PRLabel: %Monitor
 /sdk/monitor/ @hectorhdzg @applicationinsights-js-owners @richardpark-msft
-/sdk/monitor/monitor-query @richardpark-msft @maorleger
+/sdk/monitor/monitor-query @KarishmaGhiya @maorleger @richardpark-msft
 
 ###########
 # Tools
@@ -119,9 +135,9 @@
 ###########
 # Eng Sys
 ###########
-/eng/   @weshaggard @praveenkuttappan @mikeharder @mitchdenny @danieljurek
+/eng/   @weshaggard @praveenkuttappan @mikeharder @danieljurek
 /**/tests.yml   @benbp
-/**/ci.yml      @mitchdenny
+/**/ci.yml      @praveenkuttappan
 
 ###########
 # Config
@@ -134,3 +150,6 @@
 /tsconfig.json @mikeharder @praveenkuttappan @witemple-msft @deyaaeldeen
 /**/tsconfig.json @witemple-msft @deyaaeldeen
 /.scripts/ @mikeharder @praveenkuttappan @KarishmaGhiya
+
+# Add owners for notifications for specific pipelines
+/eng/pipelines/aggregate-reports.yml         @ramya-rao-a

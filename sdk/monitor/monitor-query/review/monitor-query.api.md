@@ -4,8 +4,8 @@
 
 ```ts
 
-import { OperationOptions } from '@azure/core-http';
-import { PipelineOptions } from '@azure/core-http';
+import { OperationOptions } from '@azure/core-client';
+import { PipelineOptions } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -13,19 +13,14 @@ export type AggregationType = "None" | "Average" | "Count" | "Minimum" | "Maximu
 
 // @public
 export interface BatchQuery {
-    azureResourceIds?: string[];
+    additionalWorkspaces?: string[];
     includeQueryStatistics?: boolean;
-    qualifiedNames?: string[];
+    includeVisualization?: boolean;
     query: string;
     serverTimeoutInSeconds?: number;
     timespan: string;
-    workspace: string;
-    workspaceIds?: string[];
-    workspaces?: string[];
+    workspaceId: string;
 }
-
-// @public
-export type ColumnDataType = string;
 
 // @public
 export const Durations: {
@@ -43,7 +38,7 @@ export const Durations: {
 
 // @public
 export interface ErrorDetail {
-    additionalProperties?: any;
+    additionalProperties?: Record<string, unknown>;
     code: string;
     message: string;
     resources?: string[];
@@ -53,7 +48,7 @@ export interface ErrorDetail {
 
 // @public
 export interface ErrorInfo {
-    additionalProperties?: any;
+    additionalProperties?: Record<string, unknown>;
     code: string;
     details?: ErrorDetail[];
     innererror?: ErrorInfo;
@@ -81,10 +76,7 @@ export interface GetMetricNamespacesResult {
 }
 
 // @public
-export interface LogsColumn {
-    name?: string;
-    type?: ColumnDataType;
-}
+export type LogsColumnType = string;
 
 // @public
 export class LogsQueryClient {
@@ -101,7 +93,7 @@ export interface LogsQueryClientOptions extends PipelineOptions {
 
 // @public
 export interface LogsTable {
-    columns: LogsColumn[];
+    columns: MetricColumn[];
     name: string;
     rows: (Date | string | number | Record<string, unknown> | boolean)[][];
 }
@@ -114,7 +106,7 @@ export interface MetadataValue {
 
 // @public
 export interface Metric {
-    displayDescription: string;
+    displayDescription?: string;
     errorCode?: string;
     id: string;
     name: string;
@@ -130,6 +122,15 @@ export interface MetricAvailability {
 }
 
 // @public
+export type MetricClass = string;
+
+// @public
+export interface MetricColumn {
+    name?: string;
+    type?: LogsColumnType;
+}
+
+// @public
 export interface MetricDefinition {
     category?: string;
     dimensions?: string[];
@@ -140,6 +141,23 @@ export interface MetricDefinition {
     name?: string;
     primaryAggregationType?: AggregationType;
     resourceId?: string;
+    unit?: MetricUnit;
+}
+
+// @public
+export interface MetricDefinition {
+    category?: string;
+    dimensions?: string[];
+    displayDescription?: string;
+    id?: string;
+    isDimensionRequired?: boolean;
+    metricAvailabilities?: MetricAvailability[];
+    metricClass?: MetricClass;
+    name?: string;
+    namespace?: string;
+    primaryAggregationType?: AggregationType;
+    resourceId?: string;
+    supportedAggregationTypes?: AggregationType[];
     unit?: MetricUnit;
 }
 
@@ -201,19 +219,25 @@ export interface QueryLogsBatchResult {
         status?: number;
         tables?: LogsTable[];
         error?: ErrorInfo;
+        statistics?: any;
+        visualization?: any;
     }[];
 }
 
 // @public
 export interface QueryLogsOptions extends OperationOptions {
+    additionalWorkspaces?: string[];
     includeQueryStatistics?: boolean;
+    includeVisualization?: boolean;
     serverTimeoutInSeconds?: number;
 }
 
 // @public
 export interface QueryLogsResult {
+    error?: ErrorInfo;
     statistics?: any;
     tables: LogsTable[];
+    visualization?: any;
 }
 
 // @public

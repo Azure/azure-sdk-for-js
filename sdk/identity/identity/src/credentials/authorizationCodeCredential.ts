@@ -1,10 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import qs from "qs";
-
+import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
-
 import { createSpan } from "../util/tracing";
 import { CredentialUnavailableError } from "../client/errors";
 import { IdentityClient, TokenResponse, TokenCredentialOptions } from "../client/identityClient";
@@ -12,6 +10,7 @@ import { SpanStatusCode } from "@azure/core-tracing";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 import { checkTenantId } from "../util/checkTenantId";
+import { processMultiTenantRequest } from "../util/validateMultiTenant";
 
 const logger = credentialLogger("AuthorizationCodeCredential");
 
@@ -30,6 +29,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
   private authorizationCode: string;
   private redirectUri: string;
   private lastTokenResponse: TokenResponse | null = null;
+  private allowMultiTenantAuthentication?: boolean;
 
   /**
    * Creates an instance of CodeFlowCredential with the details needed
@@ -120,6 +120,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
       options = redirectUriOrOptions as TokenCredentialOptions;
     }
 
+    this.allowMultiTenantAuthentication = options?.allowMultiTenantAuthentication;
     this.identityClient = new IdentityClient(options);
   }
 
@@ -135,6 +136,10 @@ export class AuthorizationCodeCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken> {
+    const tenantId =
+      processMultiTenantRequest(this.tenantId, this.allowMultiTenantAuthentication, options) ||
+      this.tenantId;
+
     const { span, updatedOptions } = createSpan("AuthorizationCodeCredential-getToken", options);
     try {
       let tokenResponse: TokenResponse | null = null;
@@ -146,7 +151,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
       // Try to use the refresh token first
       if (this.lastTokenResponse && this.lastTokenResponse.refreshToken) {
         tokenResponse = await this.identityClient.refreshAccessToken(
-          this.tenantId,
+          tenantId,
           this.clientId,
           scopeString,
           this.lastTokenResponse.refreshToken,
@@ -156,31 +161,38 @@ export class AuthorizationCodeCredential implements TokenCredential {
         );
       }
 
+      const query = new URLSearchParams({
+        client_id: this.clientId,
+        grant_type: "authorization_code",
+        scope: scopeString,
+        code: this.authorizationCode,
+        redirect_uri: this.redirectUri
+      });
+
+      if (this.clientSecret) {
+        query.set("client_secret", this.clientSecret);
+      }
+
       if (tokenResponse === null) {
-        const urlSuffix = getIdentityTokenEndpointSuffix(this.tenantId);
-        const webResource = this.identityClient.createWebResource({
-          url: `${this.identityClient.authorityHost}/${this.tenantId}/${urlSuffix}`,
+        const urlSuffix = getIdentityTokenEndpointSuffix(tenantId);
+        const pipelineRequest = createPipelineRequest({
+          url: `${this.identityClient.authorityHost}/${tenantId}/${urlSuffix}`,
           method: "POST",
-          disableJsonStringifyOnBody: true,
-          deserializationMapper: undefined,
-          body: qs.stringify({
-            client_id: this.clientId,
-            grant_type: "authorization_code",
-            scope: scopeString,
-            code: this.authorizationCode,
-            redirect_uri: this.redirectUri,
-            client_secret: this.clientSecret
-          }),
-          headers: {
+          body: query.toString(),
+          headers: createHttpHeaders({
             Accept: "application/json",
             "Content-Type": "application/x-www-form-urlencoded"
-          },
-          abortSignal: options && options.abortSignal,
-          spanOptions: updatedOptions?.tracingOptions?.spanOptions,
-          tracingContext: updatedOptions?.tracingOptions?.tracingContext
+          }),
+          tracingOptions: {
+            spanOptions: updatedOptions?.tracingOptions?.spanOptions,
+            tracingContext: updatedOptions?.tracingOptions?.tracingContext
+          }
         });
 
-        tokenResponse = await this.identityClient.sendTokenRequest(webResource);
+        tokenResponse = await this.identityClient.sendTokenRequest(
+          pipelineRequest,
+          (response: any) => new Date(response?.expires_on).getTime()
+        );
       }
 
       this.lastTokenResponse = tokenResponse;

@@ -26,15 +26,23 @@ Using the cryptography client available in this library you also have access to:
 
 > Note: This package cannot be used in the browser due to Azure Key Vault service limitations, please refer to [this document][cors] for guidance.
 
-[Source code][package-gh] | [Package (npm)][package-npm] | [API Reference Documentation][docs] | [Product documentation][docs-service] | [Samples][samples]
+Key links:
+- [Source code][package-gh]
+- [Package (npm)][package-npm]
+- [API Reference Documentation][docs]
+- [Product documentation][docs-service]
+- [Samples][samples]
 
 ## Getting started
 
+### Currently supported environments
+
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+
 ### Prerequisites
 
-- An [Azure subscription][azure-sub].
-- An existing Azure Key Vault Managed HSM. If you need to create an Azure Key Vault, you can use the [Azure CLI][azure-cli].
-- Use [Node.js](https://nodejs.org/) 10.x or higher.
+- An [Azure subscription](https://azure.microsoft.com/free/)
+- A [Key Vault resource](https://docs.microsoft.com/azure/key-vault/quick-create-portal)
 
 ### Install the package
 

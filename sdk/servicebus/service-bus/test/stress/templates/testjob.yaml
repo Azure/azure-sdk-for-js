@@ -1,0 +1,16 @@
+{{- include "stress-test-addons.deploy-job-template.from-pod" (list . "stress.service-bus") -}}
+
+{{- define "stress.service-bus" -}}
+metadata:
+  labels:
+    testInstance: "service-bus-{{ .Scenario }}-{{ .Release.Name }}-{{ .Release.Revision }}"
+    testName: service-bus-{{ .Scenario }}
+    chaos: "true"
+spec:
+  containers:
+    - name: sb-stressperf
+      imagePullPolicy: Always
+      command: ["node", "/app/dist/src/{{ .Scenario }}.js"]
+      image: {{ default "stresstestregistry.azurecr.io/javascript" .Values.repository }}/stress:{{ default "v1" .Values.tag }}
+      {{- include "stress-test-addons.container-env" . | nindent 6 }}
+{{- end -}}

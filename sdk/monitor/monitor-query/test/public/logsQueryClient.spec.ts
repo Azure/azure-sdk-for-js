@@ -15,17 +15,17 @@ import {
   loggerForTest
 } from "./shared/testShared";
 import { ErrorInfo } from "../../src/generated/logquery/src";
-import { RestError, RetryOptions } from "@azure/core-http";
+import { ExponentialRetryPolicyOptions, RestError } from "@azure/core-rest-pipeline";
 
 describe("LogsQueryClient live tests", function() {
   let monitorWorkspaceId: string;
-  let createClient: (retryOptions?: RetryOptions) => LogsQueryClient;
+  let createClient: (retryOptions?: ExponentialRetryPolicyOptions) => LogsQueryClient;
   let testRunId: string;
 
   before(function(this: Context) {
     monitorWorkspaceId = getMonitorWorkspaceId(this);
 
-    createClient = (retryOptions?: RetryOptions) =>
+    createClient = (retryOptions?: ExponentialRetryPolicyOptions) =>
       new LogsQueryClient(createTestClientSecretCredential(), {
         retryOptions
       });
@@ -119,7 +119,7 @@ describe("LogsQueryClient live tests", function() {
   });
 
   it("includeQueryStatistics", async () => {
-    const query = await createClient().queryLogs(
+    const results = await createClient().queryLogs(
       monitorWorkspaceId,
       "AppEvents | limit 1",
       Durations.last24Hours,
@@ -130,8 +130,28 @@ describe("LogsQueryClient live tests", function() {
 
     // TODO: statistics are not currently modeled in the generated code but
     // the executionTime field is pretty useful.
-    assert.isOk(query.statistics);
-    assert.isNumber(query.statistics?.query?.executionTime);
+    assert.isOk(results.statistics);
+    assert.isNumber(results.statistics?.query?.executionTime);
+  });
+
+  it("includeRender/includeVisualization", async () => {
+    const results = await createClient().queryLogs(
+      monitorWorkspaceId,
+      `datatable (s: string, i: long) [ "a", 1, "b", 2, "c", 3 ] | render columnchart with (title="the chart title", xtitle="the x axis title")`,
+      Durations.last24Hours,
+      {
+        includeVisualization: true
+      }
+    );
+
+    // TODO: render/visualizations are not currently modeled in the generated
+    // code
+    assert.deepNestedInclude(results.visualization, {
+      // an example of the data (not currently modeled)
+      visualization: "columnchart",
+      xTitle: "the x axis title",
+      title: "the chart title"
+    });
   });
 
   it("query with types", async () => {
@@ -233,7 +253,7 @@ describe("LogsQueryClient live tests", function() {
     const result = await createClient().queryLogsBatch({
       queries: [
         {
-          workspace: monitorWorkspaceId,
+          workspaceId: monitorWorkspaceId,
           query: constantsQuery,
           timespan: Durations.last5Minutes
         }
@@ -342,12 +362,12 @@ describe("LogsQueryClient live tests", function() {
       // (we'll wait until the data is there before running all the tests)
       await checkLogsHaveBeenIngested({
         maxTries: 240,
-        secondsBetweenQueries: 1
+        secondsBetweenQueries: 5
       });
     });
 
     it("queryLogs (last day)", async () => {
-      const kustoQuery = `AppDependencies | where Properties['testRunId'] == '${testRunId}' | project Kind=Properties["kind"], Name, Target, TestRunId=Properties['testRunId']`;
+      const kustoQuery = `AppDependencies | where Properties['testRunId'] == '${testRunId}'| project Kind=Properties["kind"], Name, Target, TestRunId=Properties['testRunId']`;
 
       const singleQueryLogsResult = await createClient().queryLogs(
         monitorWorkspaceId,
@@ -373,12 +393,12 @@ describe("LogsQueryClient live tests", function() {
       const batchRequest: QueryLogsBatch = {
         queries: [
           {
-            workspace: monitorWorkspaceId,
-            query: `AppDependencies | where Properties['testRunId'] == '${testRunId}' | project Kind=Properties["kind"], Name, Target, TestRunId=Properties['testRunId']`,
+            workspaceId: monitorWorkspaceId,
+            query: `AppDependencies | where Properties['testRunId'] == '${testRunId}'| project Kind=Properties["kind"], Name, Target, TestRunId=Properties['testRunId']`,
             timespan: Durations.last24Hours
           },
           {
-            workspace: monitorWorkspaceId,
+            workspaceId: monitorWorkspaceId,
             query: `AppDependencies | where Properties['testRunId'] == '${testRunId}' | count`,
             timespan: Durations.last24Hours,
             includeQueryStatistics: true,

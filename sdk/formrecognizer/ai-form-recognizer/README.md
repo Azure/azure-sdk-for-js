@@ -8,18 +8,25 @@ Azure Cognitive Services [Form Recognizer](https://azure.microsoft.com/services/
 
 **Note:** This package targets Azure Form Recognizer service API version 2.x.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/ai-form-recognizer) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/ai-form-recognizer) |
-[Product documentation](https://docs.microsoft.com/azure/cognitive-services/form-recognizer/) |
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/formrecognizer/ai-form-recognizer/samples)
+Key links:
+- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/) |
+- [Package (NPM)](https://www.npmjs.com/package/@azure/ai-form-recognizer) |
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/ai-form-recognizer) |
+- [Product documentation](https://docs.microsoft.com/azure/cognitive-services/form-recognizer/) |
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/formrecognizer/ai-form-recognizer/samples)
 
 ## Getting started
 
+### Currently supported environments
+
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) version 8.x.x or higher
-- An [Azure subscription][azure_sub].
+- An [Azure subscription](https://azure.microsoft.com/free/)
 - A [Cognitive Services or Form Recognizer resource][fr_or_cs_resource]. If you need to create the resource, you can use the [Azure Portal][azure_portal] or [Azure CLI][azure_cli].
 
 #### Create a Form Recognizer resource

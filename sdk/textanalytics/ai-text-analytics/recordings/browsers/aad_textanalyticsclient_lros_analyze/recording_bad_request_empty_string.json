@@ -4,14 +4,14 @@
    "method": "POST",
    "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
    "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 12 May 2021 19:20:09 GMT",
+    "date": "Tue, 03 Aug 2021 23:02:34 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -20,21 +20,21 @@
     "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11722.21 - WUS2 ProdSlices",
-    "x-ms-request-id": "1f623800-874c-4277-b16b-879ac5dbbe00"
+    "x-ms-ests-server": "2.1.11898.12 - WUS2 ProdSlices",
+    "x-ms-request-id": "f823dead-411d-4004-8a58-fd5bbf0be200"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.1-preview.5/analyze",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze",
    "query": {},
-   "requestBody": "{\"tasks\":{\"entityRecognitionPiiTasks\":[{\"parameters\":{\"model-version\":\"latest\",\"stringIndexType\":\"Utf16CodeUnit\"}}]},\"analysisInput\":{\"documents\":[{\"id\":\"0\",\"text\":\"\",\"language\":\"en\"}]}}",
+   "requestBody": "{\"analysisInput\":{\"documents\":[{\"id\":\"0\",\"text\":\"\",\"language\":\"en\"}]},\"tasks\":{\"entityRecognitionPiiTasks\":[{\"parameters\":{\"model-version\":\"latest\",\"stringIndexType\":\"Utf16CodeUnit\"}}]}}",
    "status": 400,
-   "response": "{\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocumentBatch\",\"message\":\"Missing input documents.\"}}}",
+   "response": "{\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocumentBatch\",\"message\":\"Document text is empty.\"}}}",
    "responseHeaders": {
-    "apim-request-id": "53000d79-1f39-44a3-bcb4-799964582c41",
+    "apim-request-id": "9cb95f3e-b1c3-4542-bc60-0929fd8eb8ad",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 12 May 2021 19:20:10 GMT",
+    "date": "Tue, 03 Aug 2021 23:02:34 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
@@ -46,5 +46,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "df4c50f939c2f492603cb35f015630f7"
+ "hash": "f9f441a825a1fe550fcd21e25757994a"
 }

@@ -66,7 +66,7 @@ matrix([[true, false]] as const, async (useAad) => {
           azureTableFeedName = recorder.getUniqueName("js-test-tableFeed-");
         }
         if (recorder && !eventHubsFeedName) {
-          eventHubsFeedName = recorder.getUniqueName("js-test-httpRequestFeed-");
+          eventHubsFeedName = recorder.getUniqueName("js-test-eventhubRequestFeed-");
         }
         if (recorder && !logAnalyticsFeedName) {
           logAnalyticsFeedName = recorder.getUniqueName("js-test-logAnalyticsFeed-");
@@ -343,7 +343,7 @@ matrix([[true, false]] as const, async (useAad) => {
               fillType: "PreviousValue"
             },
             accessMode: "Public",
-            viewerEmails: ["viewer1@example.com"],
+            viewers: ["viewer1@example.com"],
             actionLinkTemplate: "Updated Azure Blob action link template"
           };
           const updated = await client.updateDataFeed(createdAzureBlobDataFeedId, patch);
@@ -364,7 +364,7 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.equal((updated.rollupSettings! as any).rollupIdentificationValue, "__Existing__");
           assert.equal(updated.missingDataPointFillSettings?.fillType, "PreviousValue");
           assert.equal(updated.accessMode, "Public");
-          assert.deepStrictEqual(updated.viewerEmails, ["viewer1@example.com"]);
+          assert.deepStrictEqual(updated.viewers, ["viewer1@example.com"]);
           assert.equal(updated.actionLinkTemplate, "Updated Azure Blob action link template");
         });
 
@@ -377,7 +377,7 @@ matrix([[true, false]] as const, async (useAad) => {
             applicationId: testEnv.METRICS_ADVISOR_AZURE_APPINSIGHTS_APPLICATION_ID,
             apiKey: testEnv.METRICS_ADVISOR_AZURE_APPINSIGHTS_API_KEY,
             query:
-              "let gran=60m; let starttime=datetime(@StartTime); let endtime=starttime + gran; requests | where timestamp >= starttime and timestamp < endtime | summarize request_count = count(), duration_avg_ms = avg(duration), duration_95th_ms = percentile(duration, 95), duration_max_ms = max(duration) by resultCode"
+              "let gran=60m; let starttime=datetime(@StartTime); let endtime=starttime + gran; requests | where timestamp >= starttime and timestamp < endtime | summarize request_count = count(), duration_avg_ms = avg(duration), duration_95th_ms = percentile(duration, 95), duration_max_ms = max(duration) by resultCode"
           };
           const actual = await client.createDataFeed({
             name: appInsightsFeedName,
@@ -400,7 +400,7 @@ matrix([[true, false]] as const, async (useAad) => {
             assert.equal(actual.source.apiKey, undefined);
             assert.equal(
               actual.source.query,
-              "let gran=60m; let starttime=datetime(@StartTime); let endtime=starttime + gran; requests | where timestamp >= starttime and timestamp < endtime | summarize request_count = count(), duration_avg_ms = avg(duration), duration_95th_ms = percentile(duration, 95), duration_max_ms = max(duration) by resultCode"
+              "let gran=60m; let starttime=datetime(@StartTime); let endtime=starttime + gran; requests | where timestamp >= starttime and timestamp < endtime | summarize request_count = count(), duration_avg_ms = avg(duration), duration_95th_ms = percentile(duration, 95), duration_max_ms = max(duration) by resultCode"
             );
           }
         });
@@ -712,7 +712,7 @@ matrix([[true, false]] as const, async (useAad) => {
           await verifyDataFeedDeletion(this, client, createdDataLakeGenId);
         });
 
-        it.skip("creates Eventhubs data feed", async () => {
+        it("creates Eventhubs data feed", async () => {
           const expectedSource: AzureEventHubsDataFeedSource = {
             dataSourceType: "AzureEventHubs",
             authenticationType: "Basic",
@@ -738,7 +738,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it.skip("deletes Eventhubs data feed", async function(this: Context) {
+        it("deletes Eventhubs data feed", async function(this: Context) {
           await verifyDataFeedDeletion(this, client, createdEventhubsId);
         });
 
@@ -765,12 +765,14 @@ matrix([[true, false]] as const, async (useAad) => {
           createdLogAnalyticsId = actual.id;
           assert.equal(actual.source.dataSourceType, expectedSource.dataSourceType);
           if (actual.source.dataSourceType === "AzureLogAnalytics") {
-            assert.equal(actual.source.clientId, expectedSource.clientId);
-            assert.equal(actual.source.authenticationType, expectedSource.authenticationType);
             assert.equal(actual.source.query, expectedSource.query);
-            assert.equal(actual.source.tenantId, expectedSource.tenantId);
             assert.equal(actual.source.workspaceId, expectedSource.workspaceId);
-            assert.equal(actual.source.clientSecret, undefined);
+            assert.equal(actual.source.authenticationType, expectedSource.authenticationType);
+            if (actual.source.authenticationType === "Basic") {
+              assert.equal(actual.source.tenantId, expectedSource.tenantId);
+              assert.equal(actual.source.clientId, expectedSource.clientId);
+              assert.equal(actual.source.clientSecret, undefined);
+            }
           }
         });
 

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { v4 as uuid } from "uuid";
+import { v4 } from "uuid";
+const uuid = v4;
 import { PartitionKeyRange } from "./client/Container/PartitionKeyRange";
 import { Resource } from "./client/Resource";
 import { Constants, HTTPMethod, OperationType, ResourceType } from "./common/constants";
@@ -37,7 +38,7 @@ export class ClientContext {
   private readonly sessionContainer: SessionContainer;
   private connectionPolicy: ConnectionPolicy;
 
-  public partitionKeyDefinitionCache: { [containerUrl: string]: any }; // TODO: ParitionKeyDefinitionCache
+  public partitionKeyDefinitionCache: { [containerUrl: string]: any }; // TODO: PartitionKeyDefinitionCache
   public constructor(
     private cosmosClientOptions: CosmosClientOptions,
     private globalEndpointManager: GlobalEndpointManager
@@ -542,6 +543,63 @@ export class ClientContext {
 
   public getReadEndpoint(): Promise<string> {
     return this.globalEndpointManager.getReadEndpoint();
+  }
+
+  public getWriteEndpoints(): Promise<readonly string[]> {
+    return this.globalEndpointManager.getWriteEndpoints();
+  }
+
+  public getReadEndpoints(): Promise<readonly string[]> {
+    return this.globalEndpointManager.getReadEndpoints();
+  }
+
+  public async batch<T>({
+    body,
+    path,
+    partitionKey,
+    resourceId,
+    options = {}
+  }: {
+    body: T;
+    path: string;
+    partitionKey: string;
+    resourceId: string;
+    options?: RequestOptions;
+  }): Promise<Response<any>> {
+    try {
+      const request: RequestContext = {
+        globalEndpointManager: this.globalEndpointManager,
+        requestAgent: this.cosmosClientOptions.agent,
+        connectionPolicy: this.connectionPolicy,
+        method: HTTPMethod.post,
+        client: this,
+        operationType: OperationType.Batch,
+        path,
+        body,
+        resourceType: ResourceType.item,
+        resourceId,
+        plugins: this.cosmosClientOptions.plugins,
+        options
+      };
+
+      request.headers = await this.buildHeaders(request);
+      request.headers[Constants.HttpHeaders.IsBatchRequest] = true;
+      request.headers[Constants.HttpHeaders.PartitionKey] = partitionKey;
+      request.headers[Constants.HttpHeaders.IsBatchAtomic] = true;
+
+      this.applySessionToken(request);
+
+      request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
+        request.resourceType,
+        request.operationType
+      );
+      const response = await executePlugins(request, executeRequest, PluginOn.operation);
+      this.captureSessionToken(undefined, path, OperationType.Batch, response.headers);
+      return response;
+    } catch (err) {
+      this.captureSessionToken(err, path, OperationType.Upsert, (err as ErrorResponse).headers);
+      throw err;
+    }
   }
 
   public async bulk<T>({

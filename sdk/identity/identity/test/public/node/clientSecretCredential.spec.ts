@@ -3,8 +3,8 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import assert from "assert";
-import { env, delay, isLiveMode } from "@azure/test-utils-recorder";
+import { assert } from "chai";
+import { env, delay, isRecordMode } from "@azure/test-utils-recorder";
 import { AbortController } from "@azure/abort-controller";
 import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
 import { ClientSecretCredential, RegionalAuthority } from "../../../src";
@@ -54,7 +54,6 @@ describe("ClientSecretCredential", function() {
     } catch (e) {
       error = e;
     }
-    console.log(error);
     assert.equal(error?.name, "CredentialUnavailableError");
     assert.ok(error?.message.includes("could not resolve endpoints"));
   });
@@ -83,7 +82,10 @@ describe("ClientSecretCredential", function() {
   );
 
   it("supports specifying the regional authority", async function(this: Context) {
-    if (isLiveMode()) {
+    // This test is extremely slow. Let's skip it for now.
+    // I've tried Sinon's clock and it doesn't affect it.
+    // We have internal tests that check that the parameters are properly sent to MSAL, which should be enough from the perspective of the SDK.
+    if (!isRecordMode()) {
       this.skip();
     }
 

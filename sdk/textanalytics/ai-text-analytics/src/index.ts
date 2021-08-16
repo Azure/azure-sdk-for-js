@@ -32,7 +32,9 @@ export {
   AnalyzeActionsOperationMetadata,
   StringIndexType,
   RecognizeLinkedEntitiesAction,
-  AnalyzeSentimentAction
+  AnalyzeSentimentAction,
+  ExtractSummaryAction,
+  KnownSummarySentencesSortBy
 } from "./textAnalyticsClient";
 export { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
 export {
@@ -72,6 +74,13 @@ export {
 } from "./extractKeyPhrasesResult";
 export { ExtractKeyPhrasesResultArray } from "./extractKeyPhrasesResultArray";
 export {
+  ExtractSummaryResult,
+  ExtractSummaryErrorResult,
+  ExtractSummarySuccessResult,
+  SummarySentence
+} from "./extractSummaryResult";
+export { ExtractSummaryResultArray } from "./extractSummaryResultArray";
+export {
   RecognizeLinkedEntitiesResult,
   RecognizeLinkedEntitiesErrorResult,
   RecognizeLinkedEntitiesSuccessResult
@@ -110,7 +119,10 @@ export {
   RecognizeLinkedEntitiesActionErrorResult,
   AnalyzeSentimentActionErrorResult,
   AnalyzeSentimentActionResult,
-  AnalyzeSentimentActionSuccessResult
+  AnalyzeSentimentActionSuccessResult,
+  ExtractSummaryActionResult,
+  ExtractSummaryActionSuccessResult,
+  ExtractSummaryActionErrorResult
 } from "./analyzeActionsResult";
 export {
   ErrorCode,
@@ -118,6 +130,8 @@ export {
   TextAnalyticsErrorResult,
   TextAnalyticsSuccessResult
 } from "./textAnalyticsResult";
+
+export { TextAnalyticsAction } from "./textAnalyticsAction";
 
 // Models
 export {
@@ -147,5 +161,7 @@ export {
   Association as EntityAssociation,
   Certainty as EntityCertainty,
   Conditionality as EntityConditionality,
-  RelationType as HealthcareEntityRelationType
+  RelationType as HealthcareEntityRelationType,
+  KnownHealthcareEntityCategory,
+  HealthcareEntityCategory
 } from "./generated/models";

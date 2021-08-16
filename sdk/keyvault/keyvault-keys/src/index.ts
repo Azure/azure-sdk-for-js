@@ -59,7 +59,13 @@ import {
   KeyClientOptions,
   CryptographyClientOptions,
   LATEST_API_VERSION,
-  CreateOctKeyOptions
+  CreateOctKeyOptions,
+  GetRandomBytesOptions,
+  ReleaseKeyOptions,
+  ReleaseKeyResult,
+  KeyReleasePolicy,
+  KeyExportEncryptionAlgorithm,
+  RandomBytes
 } from "./keysModels";
 
 import { CryptographyClient } from "./cryptographyClient";
@@ -136,6 +142,8 @@ export {
   EncryptResult,
   GetDeletedKeyOptions,
   GetKeyOptions,
+  GetRandomBytesOptions,
+  RandomBytes,
   ImportKeyOptions,
   JsonWebKey,
   KeyCurveName,
@@ -176,7 +184,11 @@ export {
   VerifyResult,
   WrapKeyOptions,
   WrapResult,
-  logger
+  logger,
+  ReleaseKeyOptions,
+  ReleaseKeyResult,
+  KeyReleasePolicy,
+  KeyExportEncryptionAlgorithm
 };
 
 const withTrace = createTraceFunction("Azure.KeyVault.Keys.KeyClient");
@@ -282,13 +294,14 @@ export class KeyClient {
     let unflattenedOptions = {};
 
     if (options) {
-      const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = options;
+      const { enabled, notBefore, expiresOn: expires, exportable, ...remainingOptions } = options;
       unflattenedOptions = {
         ...remainingOptions,
         keyAttributes: {
           enabled,
           notBefore,
-          expires
+          expires,
+          exportable
         }
       };
     }
@@ -383,6 +396,7 @@ export class KeyClient {
       const {
         enabled,
         notBefore,
+        exportable,
         expiresOn: expires,
         hardwareProtected: hsm,
         ...remainingOptions
@@ -393,7 +407,8 @@ export class KeyClient {
           enabled,
           notBefore,
           expires,
-          hsm
+          hsm,
+          exportable
         }
       };
     }
@@ -458,7 +473,7 @@ export class KeyClient {
    * Example usage:
    * ```ts
    * let keyName = "MyKey";
-   * let client = new KeyClient(url, credentials);
+   * let client = new KeyClient(vaultUrl, credentials);
    * let key = await client.getKey(keyName);
    * let result = await client.updateKeyProperties(keyName, key.properties.version, { enabled: false });
    * ```
@@ -470,8 +485,33 @@ export class KeyClient {
   public updateKeyProperties(
     name: string,
     keyVersion: string,
-    options: UpdateKeyPropertiesOptions = {}
+    options?: UpdateKeyPropertiesOptions
+  ): Promise<KeyVaultKey>;
+  /**
+   * The updateKeyProperties method changes specified properties of the latest version of an existing stored key. Properties that
+   * are not specified in the request are left unchanged. The value of a key itself cannot be
+   * changed. This operation requires the keys/set permission.
+   *
+   * Example usage:
+   * ```ts
+   * let keyName = "MyKey";
+   * let client = new KeyClient(vaultUrl, credentials);
+   * let key = await client.getKey(keyName);
+   * let result = await client.updateKeyProperties(keyName, { enabled: false });
+   * ```
+   * Updates the properties associated with a specified key in a given key vault.
+   * @param name - The name of the key.
+   * @param keyVersion - The version of the key.
+   * @param options - The optional parameters.
+   */
+  public updateKeyProperties(
+    name: string,
+    options?: UpdateKeyPropertiesOptions
+  ): Promise<KeyVaultKey>;
+  public updateKeyProperties(
+    ...args: [string, string, UpdateKeyPropertiesOptions?] | [string, UpdateKeyPropertiesOptions?]
   ): Promise<KeyVaultKey> {
+    const [name, keyVersion, options] = this.disambiguateUpdateKeyPropertiesArgs(args);
     return withTrace(`updateKeyProperties`, options, async (updatedOptions) => {
       const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = updatedOptions;
       const unflattenedOptions = {
@@ -490,6 +530,25 @@ export class KeyClient {
       );
       return getKeyFromKeyBundle(response);
     });
+  }
+
+  /**
+   * Standardizes an overloaded arguments collection for the updateKeyProperties method.
+   *
+   * @param args - The arguments collection.
+   * @returns - The standardized arguments collection.
+   * @internal
+   */
+  private disambiguateUpdateKeyPropertiesArgs(
+    args: [string, string, UpdateKeyPropertiesOptions?] | [string, UpdateKeyPropertiesOptions?]
+  ): [string, string, UpdateKeyPropertiesOptions] {
+    if (typeof args[1] === "string") {
+      // [name, keyVersion, options?] => [name, keyVersion, options || {}]
+      return [args[0], args[1], args[2] || {}];
+    } else {
+      // [name, options?] => [name , "", options || {}]
+      return [args[0], "", args[1] || {}];
+    }
   }
 
   /**
@@ -650,6 +709,60 @@ export class KeyClient {
     });
   }
 
+  /**
+   * Gets the requested number of bytes containing random values from a managed HSM.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new KeyClient(vaultUrl, credentials);
+   * let { bytes } = await client.getRandomBytes(10);
+   * ```
+   * @param count - The number of bytes to generate between 1 and 128 inclusive.
+   * @param options - The optional parameters.
+   */
+  public getRandomBytes(count: number, options: GetRandomBytesOptions = {}): Promise<RandomBytes> {
+    return withTrace("getRandomBytes", options, async (updatedOptions) => {
+      const response = await this.client.getRandomBytes(this.vaultUrl, count, updatedOptions);
+      return { bytes: response.value! };
+    });
+  }
+
+  /**
+   * Releases a key from a managed HSM.
+   *
+   * The release key operation is applicable to all key types. The operation requires the key to be marked exportable and the keys/release permission.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new KeyClient(vaultUrl, credentials);
+   * let result = await client.releaseKey("myKey", target)
+   * ```
+   *
+   * @param name - The name of the key.
+   * @param options - The optional parameters.
+   */
+  public releaseKey(
+    name: string,
+    target: string,
+    options: ReleaseKeyOptions = {}
+  ): Promise<ReleaseKeyResult> {
+    return withTrace("releaseKey", options, async (updatedOptions) => {
+      const { nonce, algorithm, ...rest } = updatedOptions;
+      const result = await this.client.release(
+        this.vaultUrl,
+        name,
+        options?.version || "",
+        target,
+        {
+          enc: algorithm,
+          nonce,
+          ...rest
+        }
+      );
+
+      return { value: result.value! };
+    });
+  }
   /**
    * @internal
    * @hidden

@@ -6,8 +6,8 @@
 
 import { AccessToken } from '@azure/core-auth';
 import { AzureLogger } from '@azure/logger';
+import { CommonClientOptions } from '@azure/core-client';
 import { GetTokenOptions } from '@azure/core-auth';
-import { PipelineOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-auth';
 
 export { AccessToken }
@@ -20,6 +20,16 @@ export class AggregateAuthenticationError extends Error {
 
 // @public
 export const AggregateAuthenticationErrorName = "AggregateAuthenticationError";
+
+// @public
+export class ApplicationCredential extends ChainedTokenCredential {
+    constructor(options?: ApplicationCredentialOptions);
+}
+
+// @public
+export interface ApplicationCredentialOptions extends TokenCredentialOptions, CredentialPersistenceOptions {
+    managedIdentityClientId?: string;
+}
 
 // @public
 export class AuthenticationError extends Error {
@@ -66,12 +76,24 @@ export enum AzureAuthorityHosts {
 
 // @public
 export class AzureCliCredential implements TokenCredential {
+    constructor(options?: AzureCliCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
+    }
+
+// @public
+export interface AzureCliCredentialOptions extends TokenCredentialOptions {
+    tenantId?: string;
 }
 
 // @public
 export class AzurePowerShellCredential implements TokenCredential {
+    constructor(options?: AzurePowerShellCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+    }
+
+// @public
+export interface AzurePowerShellCredentialOptions extends TokenCredentialOptions {
+    tenantId?: string;
 }
 
 // @public
@@ -81,6 +103,7 @@ export type BrowserLoginStyle = "redirect" | "popup";
 export class ChainedTokenCredential implements TokenCredential {
     constructor(...sources: TokenCredential[]);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
+    selectedCredential?: TokenCredential;
     protected UnavailableMessage: string;
 }
 
@@ -196,6 +219,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
 // @public
 export interface InteractiveBrowserCredentialBrowserOptions extends InteractiveCredentialOptions {
     clientId: string;
+    loginHint?: string;
     loginStyle?: BrowserLoginStyle;
     redirectUri?: string | (() => string);
     tenantId?: string;
@@ -204,6 +228,7 @@ export interface InteractiveBrowserCredentialBrowserOptions extends InteractiveC
 // @public
 export interface InteractiveBrowserCredentialOptions extends InteractiveCredentialOptions, CredentialPersistenceOptions {
     clientId?: string;
+    loginHint?: string;
     redirectUri?: string | (() => string);
     tenantId?: string;
 }
@@ -294,7 +319,8 @@ export interface TokenCachePersistenceOptions {
 export { TokenCredential }
 
 // @public
-export interface TokenCredentialOptions extends PipelineOptions {
+export interface TokenCredentialOptions extends CommonClientOptions {
+    allowMultiTenantAuthentication?: boolean;
     authorityHost?: string;
 }
 
@@ -314,7 +340,7 @@ export interface UsernamePasswordCredentialOptions extends TokenCredentialOption
 // @public
 export class VisualStudioCodeCredential implements TokenCredential {
     constructor(options?: VisualStudioCodeCredentialOptions);
-    getToken(scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken>;
+    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
     }
 
 // @public

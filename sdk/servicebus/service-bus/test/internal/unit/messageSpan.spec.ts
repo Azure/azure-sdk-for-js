@@ -3,20 +3,14 @@
 
 import chai from "chai";
 import { createMessageSpan } from "../../../src/diagnostics/tracing";
-import { TestTracer, setTracer, getTracer } from "@azure/core-tracing";
+import { setTracer } from "@azure/test-utils";
 
 const should = chai.should();
 const assert = chai.assert;
 
 describe("#createMessageSpan()", () => {
-  const origTracer = getTracer();
-
   before(() => {
-    setTracer(new TestTracer());
-  });
-
-  after(() => {
-    setTracer(origTracer);
+    setTracer();
   });
 
   it("should create a span without a parent", () => {

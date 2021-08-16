@@ -19,13 +19,17 @@ describe("Project Resolution", async () => {
     await assert.isRejected(resolveProject(p), /filesystem root/);
   });
 
-  // Issue: https://github.com/Azure/azure-sdk-for-js/issues/13202
-  it.skip("resolution finds dev-tool package", async () => {
+  it("resolution finds dev-tool package", async () => {
     const packageInfo = await resolveProject(__dirname);
     assert.equal(packageInfo.name, "@azure/dev-tool");
     assert.match(
       packageInfo.path,
-      new RegExp(`.*${path.sep}${path.join("common", "tools", "dev-tool")}`)
+      // Replacement below is required because of escaping. A single backslash is
+      // interpreted as an escape character in the RegExp compiler, but we need
+      // it to be interpreted _literally_ in windows file paths, so we double-escape them.
+      new RegExp(
+        `.*${(path.sep + path.join("common", "tools", "dev-tool")).replace(/\\/g, "\\\\")}`
+      )
     );
   });
 });

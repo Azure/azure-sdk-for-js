@@ -36,6 +36,7 @@ export type AnalyzeActionsPollerLike = PollerLike<AnalyzeActionsOperationState, 
 export interface AnalyzeActionsResult {
     analyzeSentimentResults: AnalyzeSentimentActionResult[];
     extractKeyPhrasesResults: ExtractKeyPhrasesActionResult[];
+    extractSummaryResults: ExtractSummaryActionResult[];
     recognizeEntitiesResults: RecognizeCategorizedEntitiesActionResult[];
     recognizeLinkedEntitiesResults: RecognizeLinkedEntitiesActionResult[];
     recognizePiiEntitiesResults: RecognizePiiEntitiesActionResult[];
@@ -65,12 +66,11 @@ export interface AnalyzeHealthcareOperationState extends AnalysisPollOperationSt
 }
 
 // @public
-export type AnalyzeSentimentAction = {
-    modelVersion?: string;
-    stringIndexType?: StringIndexType;
+export interface AnalyzeSentimentAction extends TextAnalyticsAction {
     disableServiceLogs?: boolean;
     includeOpinionMining?: boolean;
-};
+    stringIndexType?: StringIndexType;
+}
 
 // @public
 export type AnalyzeSentimentActionErrorResult = TextAnalyticsActionErrorResult;
@@ -209,12 +209,11 @@ export interface EntityDataSource {
 export type ErrorCode = ErrorCodeValue | InnerErrorCodeValue;
 
 // @public
-export type ErrorCodeValue = "InvalidRequest" | "InvalidArgument" | "InternalServerError" | "ServiceUnavailable" | "NotFound";
+export type ErrorCodeValue = string;
 
 // @public
-export interface ExtractKeyPhrasesAction {
+export interface ExtractKeyPhrasesAction extends TextAnalyticsAction {
     disableServiceLogs?: boolean;
-    modelVersion?: string;
 }
 
 // @public
@@ -250,11 +249,51 @@ export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResu
 }
 
 // @public
+export interface ExtractSummaryAction extends TextAnalyticsAction {
+    disableServiceLogs?: boolean;
+    maxSentenceCount?: number;
+    orderBy?: string;
+    stringIndexType?: StringIndexType;
+}
+
+// @public
+export type ExtractSummaryActionErrorResult = TextAnalyticsActionErrorResult;
+
+// @public
+export type ExtractSummaryActionResult = ExtractSummaryActionSuccessResult | ExtractSummaryActionErrorResult;
+
+// @public
+export interface ExtractSummaryActionSuccessResult extends TextAnalyticsActionSuccessState {
+    results: ExtractSummaryResultArray;
+}
+
+// @public
+export type ExtractSummaryErrorResult = TextAnalyticsErrorResult;
+
+// @public
+export type ExtractSummaryResult = ExtractSummarySuccessResult | ExtractSummaryErrorResult;
+
+// @public
+export interface ExtractSummaryResultArray extends Array<ExtractSummaryResult> {
+    modelVersion: string;
+    statistics?: TextDocumentBatchStatistics;
+}
+
+// @public
+export interface ExtractSummarySuccessResult extends TextAnalyticsSuccessResult {
+    sentences: SummarySentence[];
+}
+
+// @public
 export interface HealthcareEntity extends Entity {
     assertion?: EntityAssertion;
+    category: HealthcareEntityCategory;
     dataSources: EntityDataSource[];
     normalizedText?: string;
 }
+
+// @public
+export type HealthcareEntityCategory = string;
 
 // @public
 export interface HealthcareEntityRelation {
@@ -278,7 +317,63 @@ export type HealthcareEntityRelationType = string;
 export type InnerErrorCodeValue = string;
 
 // @public
-export const enum KnownInnerErrorCodeValue {
+export enum KnownHealthcareEntityCategory {
+    // (undocumented)
+    AdministrativeEvent = "ADMINISTRATIVE_EVENT",
+    // (undocumented)
+    AGE = "AGE",
+    // (undocumented)
+    BodyStructure = "BODY_STRUCTURE",
+    // (undocumented)
+    CareEnvironment = "CARE_ENVIRONMENT",
+    // (undocumented)
+    ConditionQualifier = "CONDITION_QUALIFIER",
+    // (undocumented)
+    Date = "DATE",
+    // (undocumented)
+    Diagnosis = "DIAGNOSIS",
+    // (undocumented)
+    Direction = "DIRECTION",
+    // (undocumented)
+    Dosage = "DOSAGE",
+    // (undocumented)
+    ExaminationName = "EXAMINATION_NAME",
+    // (undocumented)
+    FamilyRelation = "FAMILY_RELATION",
+    // (undocumented)
+    Frequency = "FREQUENCY",
+    // (undocumented)
+    Gender = "GENDER",
+    // (undocumented)
+    GeneORProtein = "GENE_OR_PROTEIN",
+    // (undocumented)
+    HealthcareProfession = "HEALTHCARE_PROFESSION",
+    // (undocumented)
+    MeasurementUnit = "MEASUREMENT_UNIT",
+    // (undocumented)
+    MeasurementValue = "MEASUREMENT_VALUE",
+    // (undocumented)
+    MedicationClass = "MEDICATION_CLASS",
+    // (undocumented)
+    MedicationForm = "MEDICATION_FORM",
+    // (undocumented)
+    MedicationName = "MEDICATION_NAME",
+    // (undocumented)
+    MedicationRoute = "MEDICATION_ROUTE",
+    // (undocumented)
+    RelationalOperator = "RELATIONAL_OPERATOR",
+    // (undocumented)
+    SymptomORSign = "SYMPTOM_OR_SIGN",
+    // (undocumented)
+    Time = "TIME",
+    // (undocumented)
+    TreatmentName = "TREATMENT_NAME",
+    // (undocumented)
+    Variant = "VARIANT"
+}
+
+// @public
+export enum KnownInnerErrorCodeValue {
     // (undocumented)
     EmptyRequest = "EmptyRequest",
     // (undocumented)
@@ -300,7 +395,10 @@ export const enum KnownInnerErrorCodeValue {
 }
 
 // @public
-export const enum KnownWarningCode {
+export type KnownSummarySentencesSortBy = "Offset" | "Rank";
+
+// @public
+export enum KnownWarningCode {
     // (undocumented)
     DocumentTruncated = "DocumentTruncated",
     // (undocumented)
@@ -370,11 +468,10 @@ export enum PiiEntityDomain {
 }
 
 // @public
-export type RecognizeCategorizedEntitiesAction = {
-    modelVersion?: string;
-    stringIndexType?: StringIndexType;
+export interface RecognizeCategorizedEntitiesAction extends TextAnalyticsAction {
     disableServiceLogs?: boolean;
-};
+    stringIndexType?: StringIndexType;
+}
 
 // @public
 export type RecognizeCategorizedEntitiesActionErrorResult = TextAnalyticsActionErrorResult;
@@ -410,11 +507,10 @@ export interface RecognizeCategorizedEntitiesSuccessResult extends TextAnalytics
 }
 
 // @public
-export type RecognizeLinkedEntitiesAction = {
-    modelVersion?: string;
-    stringIndexType?: StringIndexType;
+export interface RecognizeLinkedEntitiesAction extends TextAnalyticsAction {
     disableServiceLogs?: boolean;
-};
+    stringIndexType?: StringIndexType;
+}
 
 // @public
 export type RecognizeLinkedEntitiesActionErrorResult = TextAnalyticsActionErrorResult;
@@ -450,12 +546,12 @@ export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSucce
 }
 
 // @public
-export type RecognizePiiEntitiesAction = {
-    domain?: PiiEntityDomain;
-    modelVersion?: string;
-    stringIndexType?: StringIndexType;
+export interface RecognizePiiEntitiesAction extends TextAnalyticsAction {
+    categoriesFilter?: PiiEntityCategory[];
     disableServiceLogs?: boolean;
-};
+    domainFilter?: PiiEntityDomain;
+    stringIndexType?: StringIndexType;
+}
 
 // @public
 export type RecognizePiiEntitiesActionErrorResult = TextAnalyticsActionErrorResult;
@@ -530,6 +626,14 @@ export interface SentimentConfidenceScores {
 export type StringIndexType = "TextElement_v8" | "UnicodeCodePoint" | "Utf16CodeUnit";
 
 // @public
+export interface SummarySentence {
+    length: number;
+    offset: number;
+    rankScore: number;
+    text: string;
+}
+
+// @public
 export interface TargetConfidenceScoreLabel {
     // (undocumented)
     negative: number;
@@ -547,6 +651,12 @@ export interface TargetSentiment {
 }
 
 // @public
+export interface TextAnalyticsAction {
+    actionName?: string;
+    modelVersion?: string;
+}
+
+// @public
 export interface TextAnalyticsActionErrorResult {
     readonly error: TextAnalyticsError;
     readonly failedOn: Date;
@@ -556,6 +666,7 @@ export interface TextAnalyticsActionErrorResult {
 export interface TextAnalyticsActions {
     analyzeSentimentActions?: AnalyzeSentimentAction[];
     extractKeyPhrasesActions?: ExtractKeyPhrasesAction[];
+    extractSummaryActions?: ExtractSummaryAction[];
     recognizeEntitiesActions?: RecognizeCategorizedEntitiesAction[];
     recognizeLinkedEntitiesActions?: RecognizeLinkedEntitiesAction[];
     recognizePiiEntitiesActions?: RecognizePiiEntitiesAction[];
@@ -618,7 +729,7 @@ export interface TextAnalyticsOperationOptions extends OperationOptions {
 }
 
 // @public
-export type TextAnalyticsOperationStatus = "notStarted" | "running" | "succeeded" | "failed" | "rejected" | "cancelled" | "cancelling" | "partiallyCompleted";
+export type TextAnalyticsOperationStatus = "notStarted" | "running" | "succeeded" | "failed" | "rejected" | "cancelled" | "cancelling";
 
 // @public
 export interface TextAnalyticsSuccessResult {

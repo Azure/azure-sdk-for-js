@@ -51,6 +51,10 @@ export interface ConnectionContext {
    * The subprotocol of this connection.
    */
   subprotocol?: string;
+  /**
+   * Get the additional states for the connection, such states are perserved throughout the lifetime of the connection.
+   */
+  states: Record<string, any>;
 }
 
 /**
@@ -153,6 +157,12 @@ export interface DisconnectedRequest {
  */
 export interface ConnectResponseHandler {
   /**
+   * Set the state of the connection
+   * @param name The name of the state
+   * @param value The value of the state
+   */
+  setState(name: string, value: unknown): void;
+  /**
    * Return success response to the service.
    * @param response The response for the connect event.
    */
@@ -169,6 +179,12 @@ export interface ConnectResponseHandler {
  * The handler to set user event response
  */
 export interface UserEventResponseHandler {
+  /**
+   * Set the state of the connection
+   * @param name The name of the state
+   * @param value The value of the state
+   */
+  setState(name: string, value: unknown): void;
   /**
    * Return success response with data to be delivered to the client WebSocket connection.
    * @param data The payload data to be returned to the client.

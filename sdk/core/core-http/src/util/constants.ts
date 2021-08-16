@@ -5,7 +5,7 @@ export const Constants = {
   /**
    * The core-http version
    */
-  coreHttpVersion: "2.0.0",
+  coreHttpVersion: "2.1.1",
 
   /**
    * Specifies HTTP.
@@ -52,7 +52,8 @@ export const Constants = {
     },
 
     StatusCodes: {
-      TooManyRequests: 429
+      TooManyRequests: 429,
+      ServiceUnavailable: 503
     }
   },
 

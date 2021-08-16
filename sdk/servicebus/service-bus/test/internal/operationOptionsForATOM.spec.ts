@@ -11,7 +11,7 @@ import { AbortController } from "@azure/abort-controller";
 import { WebResource } from "@azure/core-http";
 import { executeAtomXmlOperation } from "../../src/util/atomXmlHelper";
 import { NamespaceResourceSerializer } from "../../src/serializers/namespaceResourceSerializer";
-import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
+import { TestTracer, SpanGraph, setTracer } from "@azure/test-utils";
 import { setSpan, context } from "@azure/core-tracing";
 
 chai.use(chaiAsPromised);

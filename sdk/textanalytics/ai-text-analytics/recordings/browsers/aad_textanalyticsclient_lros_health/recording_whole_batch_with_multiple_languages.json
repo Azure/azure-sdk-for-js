@@ -1,0 +1,128 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1331",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 23:06:04 GMT",
+    "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11898.12 - WUS2 ProdSlices",
+    "x-ms-request-id": "4d274dc1-121c-4d44-9bd0-6b27f8170b01"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs",
+   "query": {
+    "stringIndexType": "Utf16CodeUnit"
+   },
+   "requestBody": "{\"documents\":[{\"id\":\"1\",\"text\":\"I should take my cat to the veterinarian.\"},{\"id\":\"2\",\"text\":\"Este es un document escrito en Español.\"},{\"id\":\"3\",\"text\":\"猫は幸せ\"}]}",
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "1a62c21d-1e8e-4fb9-959e-3644baba0460",
+    "date": "Tue, 03 Aug 2021 23:06:03 GMT",
+    "operation-location": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/400f5110-b23a-4104-a176-169bac43e264",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "158"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/400f5110-b23a-4104-a176-169bac43e264",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"400f5110-b23a-4104-a176-169bac43e264\",\"lastUpdateDateTime\":\"2021-08-03T23:06:04Z\",\"createdDateTime\":\"2021-08-03T23:06:04Z\",\"expirationDateTime\":\"2021-08-04T23:06:04Z\",\"status\":\"running\",\"errors\":[]}",
+   "responseHeaders": {
+    "apim-request-id": "0e6a8bf8-952e-42b2-95f3-52051351e710",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 23:06:03 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "7"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/400f5110-b23a-4104-a176-169bac43e264",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"400f5110-b23a-4104-a176-169bac43e264\",\"lastUpdateDateTime\":\"2021-08-03T23:06:04Z\",\"createdDateTime\":\"2021-08-03T23:06:04Z\",\"expirationDateTime\":\"2021-08-04T23:06:04Z\",\"status\":\"running\",\"errors\":[]}",
+   "responseHeaders": {
+    "apim-request-id": "1ccbdeeb-da11-4f81-8603-3f65b32f0cde",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 23:06:03 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "9"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/400f5110-b23a-4104-a176-169bac43e264",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"400f5110-b23a-4104-a176-169bac43e264\",\"lastUpdateDateTime\":\"2021-08-03T23:06:04Z\",\"createdDateTime\":\"2021-08-03T23:06:04Z\",\"expirationDateTime\":\"2021-08-04T23:06:04Z\",\"status\":\"succeeded\",\"errors\":[],\"results\":{\"documents\":[{\"id\":\"1\",\"entities\":[{\"offset\":28,\"length\":12,\"text\":\"veterinarian\",\"category\":\"HealthcareProfession\",\"confidenceScore\":0.98}],\"relations\":[],\"warnings\":[]},{\"id\":\"2\",\"entities\":[],\"relations\":[],\"warnings\":[]},{\"id\":\"3\",\"entities\":[],\"relations\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-05-15\"}}",
+   "responseHeaders": {
+    "apim-request-id": "6240fb25-828a-4c71-8e28-5e7323b17ac6",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 23:06:06 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "60"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/400f5110-b23a-4104-a176-169bac43e264",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"400f5110-b23a-4104-a176-169bac43e264\",\"lastUpdateDateTime\":\"2021-08-03T23:06:04Z\",\"createdDateTime\":\"2021-08-03T23:06:04Z\",\"expirationDateTime\":\"2021-08-04T23:06:04Z\",\"status\":\"succeeded\",\"errors\":[],\"results\":{\"documents\":[{\"id\":\"1\",\"entities\":[{\"offset\":28,\"length\":12,\"text\":\"veterinarian\",\"category\":\"HealthcareProfession\",\"confidenceScore\":0.98}],\"relations\":[],\"warnings\":[]},{\"id\":\"2\",\"entities\":[],\"relations\":[],\"warnings\":[]},{\"id\":\"3\",\"entities\":[],\"relations\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-05-15\"}}",
+   "responseHeaders": {
+    "apim-request-id": "fb4ab3e5-244e-4a71-84c6-5505e92d38d5",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 23:06:06 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "60"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "f3267441b7ab6a02ab19ebc4d82dc0c5"
+}

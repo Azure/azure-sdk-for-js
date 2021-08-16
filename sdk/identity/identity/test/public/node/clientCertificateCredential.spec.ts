@@ -3,8 +3,8 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import assert from "assert";
 import * as path from "path";
+import { assert } from "chai";
 import { AbortController } from "@azure/abort-controller";
 import { env, isPlaybackMode, delay } from "@azure/test-utils-recorder";
 import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
@@ -22,7 +22,7 @@ describe("ClientCertificateCredential", function() {
     await cleanup();
   });
 
-  const certificatePath = path.join(ASSET_PATH, "cert.pem");
+  const certificatePath = path.join(ASSET_PATH, "fake-cert.pem");
   const scope = "https://vault.azure.net/.default";
 
   it("authenticates", async function(this: Context) {

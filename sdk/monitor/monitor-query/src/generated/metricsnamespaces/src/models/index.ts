@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
 /** Represents collection of metric namespaces. */
 export interface MetricNamespaceCollection {
@@ -43,7 +43,7 @@ export interface ErrorResponse {
 }
 
 /** Known values of {@link ApiVersion20171201Preview} that the service accepts. */
-export const enum KnownApiVersion20171201Preview {
+export enum KnownApiVersion20171201Preview {
   /** Api Version '2017-12-01-preview' */
   TwoThousandSeventeen1201Preview = "2017-12-01-preview"
 }
@@ -52,13 +52,13 @@ export const enum KnownApiVersion20171201Preview {
  * Defines values for ApiVersion20171201Preview. \
  * {@link KnownApiVersion20171201Preview} can be used interchangeably with ApiVersion20171201Preview,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **2017-12-01-preview**: Api Version '2017-12-01-preview'
  */
 export type ApiVersion20171201Preview = string;
 
 /** Known values of {@link NamespaceClassification} that the service accepts. */
-export const enum KnownNamespaceClassification {
+export enum KnownNamespaceClassification {
   Platform = "Platform",
   Custom = "Custom",
   Qos = "Qos"
@@ -68,7 +68,7 @@ export const enum KnownNamespaceClassification {
  * Defines values for NamespaceClassification. \
  * {@link KnownNamespaceClassification} can be used interchangeably with NamespaceClassification,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **Platform** \
  * **Custom** \
  * **Qos**
@@ -77,26 +77,17 @@ export type NamespaceClassification = string;
 
 /** Optional parameters. */
 export interface MetricNamespacesListOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The ISO 8601 conform Date start time from which to query for metric namespaces. */
   startTime?: string;
 }
 
 /** Contains response data for the list operation. */
-export type MetricNamespacesListResponse = MetricNamespaceCollection & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: MetricNamespaceCollection;
-  };
-};
+export type MetricNamespacesListResponse = MetricNamespaceCollection;
 
 /** Optional parameters. */
-export interface MetricsNamespacesClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+export interface MonitorManagementClientOptionalParams
+  extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Overrides client endpoint. */

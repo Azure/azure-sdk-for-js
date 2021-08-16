@@ -944,7 +944,7 @@ export interface PathUpdateOptionalParams extends coreHttp.OperationOptions {
   pathHttpHeaders?: PathHttpHeaders;
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
-  /** Optional. The number of paths processed with each invocation is limited. If the number of paths to be processed exceeds this limit, a continuation token is returned in the response header x-ms-continuation. When a continuation token is  returned in the response, it must be percent-encoded and specified in a subsequent invocation of setAcessControlRecursive operation. */
+  /** Optional. The number of paths processed with each invocation is limited. If the number of paths to be processed exceeds this limit, a continuation token is returned in the response header x-ms-continuation. When a continuation token is  returned in the response, it must be percent-encoded and specified in a subsequent invocation of setAccessControlRecursive operation. */
   continuation?: string;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;

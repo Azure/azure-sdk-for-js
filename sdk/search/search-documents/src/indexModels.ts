@@ -13,7 +13,8 @@ import {
   Speller,
   Answers,
   CaptionResult,
-  AnswerResult
+  AnswerResult,
+  Captions
 } from "./generated/data/models";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
@@ -289,6 +290,10 @@ export interface SearchRequest {
    * Search request for the next page of results.
    */
   top?: number;
+  /** A value that specifies whether captions should be returned as part of the search response. */
+  captions?: Captions;
+  /** The comma-separated list of field names used for semantic search. */
+  semanticFields?: string;
 }
 
 /**
@@ -441,7 +446,7 @@ export type SearchResult<T> = {
    * Captions are the most representative passages from the document relatively to the search query. They are often used as document summary. Captions are only returned for queries of type 'semantic'.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly captions?: CaptionResult[] | null;
+  readonly captions?: CaptionResult[];
 
   document: T;
 };
@@ -475,7 +480,7 @@ export interface SearchDocumentsResultBase {
    * not specified or set to 'none'.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly answers?: AnswerResult[] | null;
+  readonly answers?: AnswerResult[];
 }
 
 /**

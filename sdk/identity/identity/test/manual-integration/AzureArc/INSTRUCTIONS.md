@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- A non-Azure Windows or Linux virtual machine with NodeJS, NPM, and git installed.
+- A non-Azure Windows or Linux virtual machine with Node.js, NPM, and git installed.
 - Administrator privileges on the VM.
 - An Azure Key Vault.
 

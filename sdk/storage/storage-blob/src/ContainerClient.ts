@@ -43,7 +43,7 @@ import {
   ContainerRequestConditions,
   ModifiedAccessConditions
 } from "./models";
-import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
+import { newPipeline, PipelineLike, isPipelineLike, StoragePipelineOptions } from "./Pipeline";
 import { CommonOptions, StorageClient } from "./StorageClient";
 import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
 import {
@@ -421,6 +421,7 @@ export interface BlobItem {
   metadata?: { [propertyName: string]: string };
   tags?: Tags;
   objectReplicationSourceProperties?: ObjectReplicationPolicy[];
+  hasVersionsOnly?: boolean;
 }
 
 /**
@@ -516,6 +517,18 @@ export interface ContainerListBlobsOptions extends CommonOptions {
    * Specifies whether blob tags be returned in the response.
    */
   includeTags?: boolean;
+  /**
+   * Specifies whether deleted blob with versions be returned in the response.
+   */
+  includeDeletedwithVersions?: boolean;
+  /**
+   * Specifies whether blob immutability policy be returned in the response.
+   */
+  includeImmutabilityPolicy?: boolean;
+  /**
+   * Specifies whether blob legal hold be returned in the response.
+   */
+  includeLegalHold?: boolean;
 }
 
 /**
@@ -610,7 +623,7 @@ export class ContainerClient extends StorageClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  constructor(url: string, pipeline: Pipeline);
+  constructor(url: string, pipeline: PipelineLike);
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName?:
@@ -618,13 +631,13 @@ export class ContainerClient extends StorageClient {
       | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
-      | Pipeline,
+      | PipelineLike,
     options?: StoragePipelineOptions
   ) {
-    let pipeline: Pipeline;
+    let pipeline: PipelineLike;
     let url: string;
     options = options || {};
-    if (credentialOrPipelineOrContainerName instanceof Pipeline) {
+    if (isPipelineLike(credentialOrPipelineOrContainerName)) {
       // (url: string, pipeline: Pipeline)
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
@@ -1254,6 +1267,7 @@ export class ContainerClient extends StorageClient {
         ...options,
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
+
       const wrappedResponse: ContainerListBlobFlatSegmentResponse = {
         ...response,
         _response: response._response, // _response is made non-enumerable
@@ -1473,6 +1487,15 @@ export class ContainerClient extends StorageClient {
     if (options.includeTags) {
       include.push("tags");
     }
+    if (options.includeDeletedwithVersions) {
+      include.push("deletedwithversions");
+    }
+    if (options.includeImmutabilityPolicy) {
+      include.push("immutabilitypolicy");
+    }
+    if (options.includeLegalHold) {
+      include.push("legalhold");
+    }
     if (options.prefix === "") {
       options.prefix = undefined;
     }
@@ -1680,6 +1703,15 @@ export class ContainerClient extends StorageClient {
     }
     if (options.includeTags) {
       include.push("tags");
+    }
+    if (options.includeDeletedwithVersions) {
+      include.push("deletedwithversions");
+    }
+    if (options.includeImmutabilityPolicy) {
+      include.push("immutabilitypolicy");
+    }
+    if (options.includeLegalHold) {
+      include.push("legalhold");
     }
     if (options.prefix === "") {
       options.prefix = undefined;

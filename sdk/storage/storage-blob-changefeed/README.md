@@ -11,15 +11,26 @@ Use the client libraries in this package to:
 - Reading change feed events, all or within a time range
 - Resuming reading events from a saved position
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob-changefeed) |
-[Package (npm)](https://www.npmjs.com/package/@azure/storage-blob-changefeed/) |
-[API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-blob-changefeed) |
-[Product documentation](https://docs.microsoft.com/azure/storage/blobs/storage-blob-change-feed) |
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob-changefeed/samples) |
+Key links:
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob-changefeed)
+- [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob-changefeed/)
+- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-blob-changefeed)
+- [Product documentation](https://docs.microsoft.com/azure/storage/blobs/storage-blob-change-feed)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob-changefeed/samples)
 
 ## Getting started
 
-**Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a [Storage Account](https://docs.microsoft.com/azure/storage/blobs/storage-quickstart-blobs-portal) to use this package. If you are using this package in a Node.js application, then Node.js version 8.0.0 or higher is required.
+### Currently supported environments
+
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+
+### Prerequisites
+
+- An [Azure subscription](https://azure.microsoft.com/free/) 
+- A [Storage Account](https://docs.microsoft.com/azure/storage/blobs/storage-quickstart-blobs-portal)
 
 ### Install the package
 

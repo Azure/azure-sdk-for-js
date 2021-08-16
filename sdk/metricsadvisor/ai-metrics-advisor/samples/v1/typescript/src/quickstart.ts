@@ -14,7 +14,7 @@ import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,
   AnomalyAlert,
-  GetDataFeedResponse,
+  MetricsAdvisorDataFeed,
   MetricsAdvisorClient,
   WebNotificationHook,
   DataFeedDescriptor,
@@ -90,7 +90,7 @@ async function createDataFeed(
   adminClient: MetricsAdvisorAdministrationClient,
   sqlServerConnectionString: string,
   sqlServerQuery: string
-): Promise<GetDataFeedResponse> {
+): Promise<MetricsAdvisorDataFeed> {
   console.log("Creating Datafeed...");
   const dataFeed: DataFeedDescriptor = {
     name: "test_datafeed_" + new Date().getTime().toString(),
@@ -138,7 +138,7 @@ async function createDataFeed(
       fillType: "SmartFilling"
     },
     accessMode: "Private",
-    adminEmails: ["xyz@microsoft.com"]
+    admins: ["xyz@microsoft.com"]
   };
   const result = await adminClient.createDataFeed(dataFeed);
 

@@ -18,11 +18,15 @@ export class StorageClientContext extends coreHttp.ServiceClient {
 
   /**
    * Initializes a new instance of the StorageClientContext class.
-   * @param url The URL of the service account, queue or message that is the targe of the desired
+   * @param url The URL of the service account, queue or message that is the target of the desired
    *            operation.
    * @param options The parameter options
    */
   constructor(url: string, options?: StorageClientOptionalParams) {
+    if (url === undefined) {
+      throw new Error("'url' cannot be null");
+    }
+
     // Initializing default values for options
     if (!options) {
       options = {};

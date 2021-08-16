@@ -39,6 +39,9 @@ import {
 } from "./models";
 import { RecognizeContentResultResponse } from "./internalModels";
 
+/**
+ * @internal
+ */
 function toBoundingBox(original: number[]): Point2D[] {
   return [
     { x: original[0], y: original[1] },
@@ -48,6 +51,25 @@ function toBoundingBox(original: number[]): Point2D[] {
   ];
 }
 
+/**
+ * Utility type to remove null | undefined from a type.
+ * @internal
+ */
+type NotNull<T> = T extends null | undefined ? never : T;
+
+/**
+ * Extracts the keys of a type whose value types are assignable to a Condition.
+ * @internal
+ */
+type KeysWhere<T, Condition> = NotNull<
+  {
+    [K in keyof T]: T[K] extends Condition ? K : never;
+  }[keyof T]
+>;
+
+/**
+ * @internal
+ */
 export function toTextLine(original: TextLineModel, pageNumber: number): FormLine {
   const appearance =
     original.appearance !== undefined
@@ -77,6 +99,9 @@ export function toTextLine(original: TextLineModel, pageNumber: number): FormLin
   return line;
 }
 
+/**
+ * @internal
+ */
 export function toSelectionMark(original: SelectionMark, pageNumber: number): FormSelectionMark {
   return {
     kind: "selectionMark",
@@ -87,6 +112,9 @@ export function toSelectionMark(original: SelectionMark, pageNumber: number): Fo
   };
 }
 
+/**
+ * @internal
+ */
 export function toFormPage(original: ReadResultModel): FormPage {
   return {
     pageNumber: original.pageNumber,
@@ -99,25 +127,44 @@ export function toFormPage(original: ReadResultModel): FormPage {
   };
 }
 
-// Note: might need to support other element types in future, e.g., checkbox
-const textPattern = /\/readResults\/(\d+)\/lines\/(\d+)(?:\/words\/(\d+))?/;
+/**
+ * A RegExp that can handle parsing an ElementReference. It handles any keys of FormPage and
+ * Supports optionally specifying "words" at the end. This is kind of hacked together, but
+ * can handle all the valid element references in Form Recognizer so far.
+ */
+const elementReferencePattern = /\/readResults\/(\d+)\/([a-z][a-zA-Z]*)\/(\d+)(?:\/words\/(\d+))?/;
 
-export function toFormContent(element: string, readResults: FormPage[]): FormElement {
-  const result = textPattern.exec(element);
-  if (!result || !result[0] || !result[1] || !result[2]) {
-    throw new Error(`Unexpected element reference encountered: ${element}`);
+/**
+ * Parse an ElementReference of a known structure.
+ * @internal
+ * @param ref - the string representation (JSON Pointer) of the ElementReference
+ * @param readResults - The transformed ReadResults into which the reference points
+ * @returns a reference to the FormElement that the ElementReference refers to
+ */
+export function elementReferenceToFormElement(ref: string, readResults: FormPage[]): FormElement {
+  const result = elementReferencePattern.exec(ref);
+
+  if (result === null) {
+    throw new Error(`Unexpected element reference encountered: "${ref}"`);
   }
 
   const readIndex = Number.parseInt(result[1]);
-  const lineIndex = Number.parseInt(result[2]);
-  if (result[3]) {
-    const wordIndex = Number.parseInt(result[3]);
-    return readResults[readIndex].lines![lineIndex].words[wordIndex];
-  } else {
-    return readResults[readIndex].lines![lineIndex];
+  const elementKind = result[2] as KeysWhere<FormPage, FormElement[] | undefined>;
+  const elementIndex = Number.parseInt(result[3]);
+  const wordIndex = Number.parseInt(result[4]);
+
+  const baseElement = readResults[readIndex][elementKind]![elementIndex];
+
+  if (!Number.isNaN(wordIndex) && elementKind === "lines") {
+    return (baseElement as FormLine).words[wordIndex];
   }
+
+  return baseElement;
 }
 
+/**
+ * @internal
+ */
 export function toFieldData(
   pageNumber: number,
   original: KeyValueElementModel,
@@ -127,10 +174,15 @@ export function toFieldData(
     pageNumber,
     text: original.text,
     boundingBox: original.boundingBox ? toBoundingBox(original.boundingBox) : undefined,
-    fieldElements: original.elements?.map((element) => toFormContent(element, readResults!))
+    fieldElements: original.elements?.map((element) =>
+      elementReferenceToFormElement(element, readResults!)
+    )
   };
 }
 
+/**
+ * @internal
+ */
 export function toFormFieldFromKeyValuePairModel(
   pageNumber: number,
   original: KeyValuePairModel,
@@ -146,6 +198,9 @@ export function toFormFieldFromKeyValuePairModel(
   };
 }
 
+/**
+ * @internal
+ */
 export function toFormTable(
   original: DataTableModel,
   readResults: FormPage[],
@@ -158,7 +213,9 @@ export function toFormTable(
     cells: original.cells.map((cell) => ({
       boundingBox: toBoundingBox(cell.boundingBox),
       columnIndex: cell.columnIndex,
-      fieldElements: cell.elements?.map((element) => toFormContent(element, readResults)),
+      fieldElements: cell.elements?.map((element) =>
+        elementReferenceToFormElement(element, readResults)
+      ),
       rowIndex: cell.rowIndex,
       columnSpan: cell.columnSpan ?? 1,
       rowSpan: cell.rowSpan ?? 1,
@@ -172,6 +229,9 @@ export function toFormTable(
   };
 }
 
+/**
+ * @internal
+ */
 export function toFormPages(
   readResults?: ReadResultModel[],
   pageResults?: PageResultModel[]
@@ -192,6 +252,9 @@ export function toFormPages(
   );
 }
 
+/**
+ * @internal
+ */
 export function toRecognizedFormArray(
   original: GetAnalyzeFormResultResponse,
   expectedDocTypePrefix?: string
@@ -221,6 +284,9 @@ export function toRecognizedFormArray(
   }
 }
 
+/**
+ * @internal
+ */
 export function toFormFieldFromFieldValueModel(
   original: FieldValueModel,
   key: string,
@@ -283,13 +349,18 @@ export function toFormFieldFromFieldValueModel(
       pageNumber: original.pageNumber ?? 0,
       text: original.text,
       boundingBox: original.boundingBox ? toBoundingBox(original.boundingBox) : undefined,
-      fieldElements: original.elements?.map((element) => toFormContent(element, readResults))
+      fieldElements: original.elements?.map((element) =>
+        elementReferenceToFormElement(element, readResults)
+      )
     },
     valueType: original.type,
     value
   } as FormField;
 }
 
+/**
+ * @internal
+ */
 export function toFieldsFromFieldValue(
   original: { [propertyName: string]: FieldValueModel | null },
   readResults: FormPage[]
@@ -309,6 +380,9 @@ export function toFieldsFromFieldValue(
   return result;
 }
 
+/**
+ * @internal
+ */
 export function toFieldsFromKeyValuePairs(
   pageNumber: number,
   original: KeyValuePairModel[],
@@ -326,6 +400,9 @@ export function toFieldsFromKeyValuePairs(
   return result;
 }
 
+/**
+ * @internal
+ */
 export function toFormFromPageResult(original: PageResultModel, pages: FormPage[]): RecognizedForm {
   return {
     formType: `form-${original.clusterId}`,
@@ -337,6 +414,9 @@ export function toFormFromPageResult(original: PageResultModel, pages: FormPage[
   };
 }
 
+/**
+ * @internal
+ */
 export function toRecognizedForm(original: DocumentResultModel, pages: FormPage[]): RecognizedForm {
   return {
     formType: original.docType,
@@ -350,6 +430,9 @@ export function toRecognizedForm(original: DocumentResultModel, pages: FormPage[
   };
 }
 
+/**
+ * @internal
+ */
 export function toRecognizeContentResultResponse(
   original: GetAnalyzeLayoutResultResponse
 ): RecognizeContentResultResponse {
@@ -383,6 +466,9 @@ export function toRecognizeContentResultResponse(
   }
 }
 
+/**
+ * @internal
+ */
 function flattenTrainingDocuments(
   original: GetCustomModelResponse
 ): TrainingDocumentInfo[] | undefined {
@@ -409,6 +495,9 @@ function flattenTrainingDocuments(
   return undefined;
 }
 
+/**
+ * @internal
+ */
 function toSubmodelsFromComposedTrainResults(results: TrainResult[]): CustomFormSubmodel[] {
   const mappedSubmodels = results.map((r) => toSubmodelsFromTrainResultLabeled(r));
 
@@ -416,6 +505,9 @@ function toSubmodelsFromComposedTrainResults(results: TrainResult[]): CustomForm
   return ([] as CustomFormSubmodel[]).concat(...mappedSubmodels);
 }
 
+/**
+ * @internal
+ */
 function toSubmodelsFromTrainResultLabeled(
   result: TrainResult,
   modelName?: string
@@ -438,6 +530,9 @@ function toSubmodelsFromTrainResultLabeled(
   ];
 }
 
+/**
+ * @internal
+ */
 function toSubmodelsFromTrainResultUnlabeled(
   keys: KeysResult,
   modelId: string
@@ -460,6 +555,9 @@ function toSubmodelsFromTrainResultUnlabeled(
   );
 }
 
+/**
+ * @internal
+ */
 function flattenCustomFormSubmodels(
   original: GetCustomModelResponse
 ): CustomFormSubmodel[] | undefined {
@@ -477,6 +575,9 @@ function flattenCustomFormSubmodels(
   return undefined;
 }
 
+/**
+ * @internal
+ */
 export function toCustomFormModelProperties(
   original: Attributes | undefined
 ): CustomFormModelProperties | undefined {
@@ -489,6 +590,9 @@ export function toCustomFormModelProperties(
   }
 }
 
+/**
+ * @internal
+ */
 export function toFormModelResponse(response: GetCustomModelResponse): FormModelResponse {
   return {
     status: response.modelInfo.status,

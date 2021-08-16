@@ -69,10 +69,12 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
     curve?: KeyCurveName;
     enabled?: boolean;
     readonly expiresOn?: Date;
+    exportable?: boolean;
     hsm?: boolean;
     keyOps?: KeyOperation[];
     keySize?: number;
     notBefore?: Date;
+    releasePolicy?: KeyReleasePolicy;
     tags?: {
         [propertyName: string]: string;
     };
@@ -176,11 +178,17 @@ export interface GetKeyOptions extends coreHttp.OperationOptions {
 }
 
 // @public
+export interface GetRandomBytesOptions extends coreHttp.OperationOptions {
+}
+
+// @public
 export interface ImportKeyOptions extends coreHttp.OperationOptions {
     enabled?: boolean;
     expiresOn?: Date;
+    exportable?: boolean;
     hardwareProtected?: boolean;
     notBefore?: Date;
+    releasePolicy?: KeyReleasePolicy;
     tags?: {
         [propertyName: string]: string;
     };
@@ -218,13 +226,16 @@ export class KeyClient {
     createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<KeyVaultKey>;
     getDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<DeletedKey>;
     getKey(name: string, options?: GetKeyOptions): Promise<KeyVaultKey>;
+    getRandomBytes(count: number, options?: GetRandomBytesOptions): Promise<RandomBytes>;
     importKey(name: string, key: JsonWebKey, options?: ImportKeyOptions): Promise<KeyVaultKey>;
     listDeletedKeys(options?: ListDeletedKeysOptions): PagedAsyncIterableIterator<DeletedKey>;
     listPropertiesOfKeys(options?: ListPropertiesOfKeysOptions): PagedAsyncIterableIterator<KeyProperties>;
     listPropertiesOfKeyVersions(name: string, options?: ListPropertiesOfKeyVersionsOptions): PagedAsyncIterableIterator<KeyProperties>;
     purgeDeletedKey(name: string, options?: PurgeDeletedKeyOptions): Promise<void>;
+    releaseKey(name: string, target: string, options?: ReleaseKeyOptions): Promise<ReleaseKeyResult>;
     restoreKeyBackup(backup: Uint8Array, options?: RestoreKeyBackupOptions): Promise<KeyVaultKey>;
     updateKeyProperties(name: string, keyVersion: string, options?: UpdateKeyPropertiesOptions): Promise<KeyVaultKey>;
+    updateKeyProperties(name: string, options?: UpdateKeyPropertiesOptions): Promise<KeyVaultKey>;
     readonly vaultUrl: string;
 }
 
@@ -235,6 +246,9 @@ export interface KeyClientOptions extends coreHttp.PipelineOptions {
 
 // @public
 export type KeyCurveName = string;
+
+// @public
+export type KeyExportEncryptionAlgorithm = string;
 
 // @public
 export type KeyOperation = string;
@@ -250,18 +264,26 @@ export interface KeyProperties {
     readonly createdOn?: Date;
     enabled?: boolean;
     expiresOn?: Date;
+    exportable?: boolean;
     id?: string;
     readonly managed?: boolean;
     name: string;
     notBefore?: Date;
     recoverableDays?: number;
     readonly recoveryLevel?: DeletionRecoveryLevel;
+    releasePolicy?: KeyReleasePolicy;
     tags?: {
         [propertyName: string]: string;
     };
     readonly updatedOn?: Date;
     vaultUrl: string;
     version?: string;
+}
+
+// @public
+export interface KeyReleasePolicy {
+    contentType?: string;
+    data?: Uint8Array;
 }
 
 // @public
@@ -327,7 +349,7 @@ export const enum KnownKeyCurveNames {
 }
 
 // @public
-export const enum KnownKeyOperations {
+export enum KnownKeyOperations {
     Decrypt = "decrypt",
     Encrypt = "encrypt",
     Import = "import",
@@ -395,6 +417,23 @@ export interface PurgeDeletedKeyOptions extends coreHttp.OperationOptions {
 }
 
 // @public
+export interface RandomBytes {
+    bytes: Uint8Array;
+}
+
+// @public
+export interface ReleaseKeyOptions extends coreHttp.OperationOptions {
+    algorithm?: KeyExportEncryptionAlgorithm;
+    nonce?: string;
+    version?: string;
+}
+
+// @public
+export interface ReleaseKeyResult {
+    value: string;
+}
+
+// @public
 export interface RestoreKeyBackupOptions extends coreHttp.OperationOptions {
 }
 
@@ -444,6 +483,7 @@ export interface UpdateKeyPropertiesOptions extends coreHttp.OperationOptions {
     expiresOn?: Date;
     keyOps?: KeyOperation[];
     notBefore?: Date;
+    releasePolicy?: KeyReleasePolicy;
     tags?: {
         [propertyName: string]: string;
     };

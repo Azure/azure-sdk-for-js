@@ -10,16 +10,27 @@ Use the client libraries in this package to:
 - Create/List/Delete Queues
 - Send/Receive/Peek/Clear/Update/Delete Queue Messages
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-queue) |
-[Package (npm)](https://www.npmjs.com/package/@azure/storage-queue) |
-[API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-queue) |
-[Product documentation](https://docs.microsoft.com/azure/storage/queues/storage-queues-introduction) |
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-queue/samples) |
-[Azure Storage Queue REST APIs](https://docs.microsoft.com/rest/api/storageservices/queue-service-rest-api)
+Key links:
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-queue)
+- [Package (npm)](https://www.npmjs.com/package/@azure/storage-queue)
+- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-queue)
+- [Product documentation](https://docs.microsoft.com/azure/storage/queues/storage-queues-introduction)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-queue/samples)
+- [Azure Storage Queue REST APIs](https://docs.microsoft.com/rest/api/storageservices/queue-service-rest-api)
 
 ## Getting started
 
-**Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a [Storage Account](https://docs.microsoft.com/azure/storage/queues/storage-quickstart-queues-portal) to use this package. If you are using this package in a Node.js application, then Node.js version 8.0.0 or higher is required.
+### Currently supported environments
+
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+
+### Prerequisites
+
+- An [Azure subscription](https://azure.microsoft.com/free/) 
+- A [Storage Account](https://docs.microsoft.com/azure/storage/common/storage-account-create)
 
 ### Install the package
 

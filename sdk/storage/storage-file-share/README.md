@@ -15,16 +15,27 @@ Use the client libraries in this package to:
 > It has been renamed to `@azure/storage-file-share` to better align with the upcoming new package
 > for Azure Storage Files DataLake and provide a consistent set of APIs for working with files on Azure.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share) |
-[Package (npm)](https://www.npmjs.com/package/@azure/storage-file-share/) |
-[API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-file-share) |
-[Product documentation](https://docs.microsoft.com/azure/storage/files/storage-files-introduction) |
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples) |
-[Azure Storage File REST APIs](https://docs.microsoft.com/rest/api/storageservices/file-service-rest-api)
+Key links:
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share)
+- [Package (npm)](https://www.npmjs.com/package/@azure/storage-file-share/)
+- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-file-share)
+- [Product documentation](https://docs.microsoft.com/azure/storage/files/storage-files-introduction)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples)
+- [Azure Storage File REST APIs](https://docs.microsoft.com/rest/api/storageservices/file-service-rest-api)
 
 ## Getting started
 
-**Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a [Storage Account](https://docs.microsoft.com/azure/storage/files/storage-how-to-use-files-portal) to use this package. If you are using this package in a Node.js application, then Node.js version 8.0.0 or higher is required.
+### Currently supported environments
+
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+
+### Prerequisites
+
+- An [Azure subscription](https://azure.microsoft.com/free/) 
+- A [Storage Account](https://docs.microsoft.com/azure/storage/common/storage-account-create)
 
 ### Install the package
 

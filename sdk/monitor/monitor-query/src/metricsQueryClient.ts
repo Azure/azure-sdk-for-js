@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { TokenCredential } from "@azure/core-auth";
-import {
-  bearerTokenAuthenticationPolicy,
-  createPipelineFromOptions,
-  PipelineOptions
-} from "@azure/core-http";
+import { PipelineOptions, bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 
 import {
   GetMetricDefinitionsOptions,
@@ -17,16 +13,16 @@ import {
 } from "./models/publicMetricsModels";
 
 import {
-  KnownApiVersion20170501Preview as MetricsApiVersion,
+  KnownApiVersion201801 as MetricsApiVersion,
   MonitorManagementClient as GeneratedMetricsClient
 } from "./generated/metrics/src";
 import {
-  KnownApiVersion20170501Preview as MetricDefinitionsApiVersion,
-  MetricsDefinitionsClient as GeneratedMetricsDefinitionsClient
+  KnownApiVersion201801 as MetricDefinitionsApiVersion,
+  MonitorManagementClient as GeneratedMetricsDefinitionsClient
 } from "./generated/metricsdefinitions/src";
 import {
   KnownApiVersion20171201Preview as MetricNamespacesApiVersion,
-  MetricsNamespacesClient as GeneratedMetricsNamespacesClient
+  MonitorManagementClient as GeneratedMetricsNamespacesClient
 } from "./generated/metricsnamespaces/src";
 import {
   convertRequestForMetrics,
@@ -58,31 +54,32 @@ export class MetricsQueryClient {
    * @param options - Options for the client like controlling request retries.
    */
   constructor(tokenCredential: TokenCredential, options?: MetricsQueryClientOptions) {
-    const bearerTokenPolicy = bearerTokenAuthenticationPolicy(
-      tokenCredential,
-      formatScope(options?.endpoint)
-    );
-
     const serviceClientOptions = {
-      ...createPipelineFromOptions(options || {}, bearerTokenPolicy),
+      ...options,
       $host: options?.endpoint,
       endpoint: options?.endpoint
     };
-
+    const bearerTokenPolicy = bearerTokenAuthenticationPolicy({
+      credential: tokenCredential,
+      scopes: formatScope(options?.endpoint)
+    });
     this._metricsClient = new GeneratedMetricsClient(
-      MetricsApiVersion.TwoThousandSeventeen0501Preview,
+      MetricsApiVersion.TwoThousandEighteen0101,
       serviceClientOptions
     );
+    this._metricsClient.pipeline.addPolicy(bearerTokenPolicy);
 
     this._definitionsClient = new GeneratedMetricsDefinitionsClient(
-      MetricDefinitionsApiVersion.TwoThousandSeventeen0501Preview,
+      MetricDefinitionsApiVersion.TwoThousandEighteen0101,
       serviceClientOptions
     );
+    this._definitionsClient.pipeline.addPolicy(bearerTokenPolicy);
 
     this._namespacesClient = new GeneratedMetricsNamespacesClient(
       MetricNamespacesApiVersion.TwoThousandSeventeen1201Preview,
       serviceClientOptions
     );
+    this._namespacesClient.pipeline.addPolicy(bearerTokenPolicy);
   }
 
   /**

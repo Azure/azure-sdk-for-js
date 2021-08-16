@@ -12,16 +12,27 @@ Use the client libraries in this package to:
 - Create/Read/List/Update/Delete Page Blobs
 - Create/Read/List/Update/Delete Append Blobs
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob) |
-[Package (npm)](https://www.npmjs.com/package/@azure/storage-blob/) |
-[API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-blob) |
-[Product documentation](https://docs.microsoft.com/azure/storage/blobs/storage-blobs-overview) |
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob/samples) |
-[Azure Storage Blob REST APIs](https://docs.microsoft.com/rest/api/storageservices/blob-service-rest-api)
+Key links
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob) 
+- [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob/) 
+- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-blob) 
+- [Product documentation](https://docs.microsoft.com/azure/storage/blobs/storage-blobs-overview)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob/samples)
+- [Azure Storage Blob REST APIs](https://docs.microsoft.com/rest/api/storageservices/blob-service-rest-api)
 
 ## Getting started
 
-**Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a [Storage Account](https://docs.microsoft.com/azure/storage/blobs/storage-quickstart-blobs-portal) to use this package. If you are using this package in a Node.js application, then Node.js version 8.0.0 or higher is required.
+### Currently supported environments
+
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+
+### Prerequisites
+
+- An [Azure subscription](https://azure.microsoft.com/free/) 
+- A [Storage Account](https://docs.microsoft.com/azure/storage/blobs/storage-quickstart-blobs-portal)
 
 ### Install the package
 

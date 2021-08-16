@@ -54,7 +54,6 @@ const getPackageJsons = (searchDir) => {
   // This gets all the directories with package.json at the `sdk/<service>/<service-sdk>` level excluding "arm-" packages
   const sdkDirectories = fs
     .readdirSync(searchDir)
-    .filter((f) => !f.startsWith("arm-")) // exclude libraries starting with "arm-"
     .map((f) => path.join(searchDir, f, "package.json")); // turn potential directory names into package.json paths
 
   // This gets all the directories with package.json at the `sdk/<service>/<service-sdk>/perf-tests` level excluding "-track-1" perf test packages
@@ -78,7 +77,7 @@ const getServicePackages = (baseDir, serviceDirs) => {
     const packageJsons = getPackageJsons(searchDir);
     for (const filePath of packageJsons) {
       const contents = JSON.parse(fs.readFileSync(filePath, "utf8"));
-      if (contents["sdk-type"] === "client") {
+      if (contents["sdk-type"] === "client" || contents["sdk-type"] === "mgmt" || contents["sdk-type"] === "perf-test") {
         packageNames.push(contents.name);
         packageDirs.push(path.dirname(filePath));
       }
@@ -134,6 +133,8 @@ function tryGetPkgRelativePath(absolutePath) {
   return sdkDirectoryPathStartIndex === -1 ? absolutePath : absolutePath.substring(sdkDirectoryPathStartIndex);
 }
 
+
+const rushx_runner_path = path.join(baseDir, "common/scripts/install-run-rushx.js");
 if (serviceDirs.length === 0) {
   spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...rushParams);
 } else {
@@ -158,12 +159,12 @@ if (serviceDirs.length === 0) {
 
     case "lint":
       for (const packageDir of packageDirs) {
-        spawnNode(packageDir, "../../../common/scripts/install-run-rushx.js", action);
+        spawnNode(packageDir, rushx_runner_path, action);
       }
       break;
     case "check-format":
       for (const packageDir of packageDirs) {
-        if (spawnNode(packageDir, "../../../common/scripts/install-run-rushx.js", action) !== 0) {
+        if (spawnNode(packageDir, rushx_runner_path, action) !== 0) {
           console.log(`\nInvoke "rushx format" inside ${tryGetPkgRelativePath(packageDir)} to fix formatting\n`);
         }
       }

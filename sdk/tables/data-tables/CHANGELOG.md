@@ -1,6 +1,27 @@
 # Release History
 
-## 12.1.0 (Unreleased)
+## 12.1.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 12.1.1 (2021-08-10)
+
+### Bugs Fixed
+
+- Fixed inconsistent return type for number and strings when setting `disableTypeConversion` option. [#16736](https://github.com/Azure/azure-sdk-for-js/pull/16736)
+- Fix [#15854](https://github.com/Azure/azure-sdk-for-js/issues/15701) when submitting transactions by ensuring the `allowInsecureConnection` client option is respected. [#16587](https://github.com/Azure/azure-sdk-for-js/pull/16587)
+
+### Other Changes
+
+- Update dependency of `@azure/core-xml`. [#16816](https://github.com/Azure/azure-sdk-for-js/pull/16816)
+
+## 12.1.0 (2021-07-07)
 
 ### Acknowledgments
 
@@ -10,6 +31,9 @@ Thank you to our developer community members who helped to make the Azure Tables
 
 ### Features Added
 
+- With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+- Updated our internal core package dependencies to their latest versions in order to add support for Opentelemetry 1.0.0 which is compatible with the latest versions of our other client libraries.
+- Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
 - Support for Azure Active Directory (AAD) authorization has been added to `TableServiceClient` and `TableClient`. This enables use of `TokenCredential` credentials. Note: Only Azure Storage API endpoints currently support AAD authorization. [#15852](https://github.com/Azure/azure-sdk-for-js/pull/15852)
 
 ### Fixed
@@ -17,7 +41,7 @@ Thank you to our developer community members who helped to make the Azure Tables
 - Fix [#15664](https://github.com/Azure/azure-sdk-for-js/issues/15701), adding check to make sure we always have only one forward slash (`/`) added to the end of the URL [#15698](https://github.com/Azure/azure-sdk-for-js/pull/15698) (A community contribution, courtesy of _[eestein](https://github.com/eestein))_
 - Fix [#15701](https://github.com/Azure/azure-sdk-for-js/issues/15701) by improving error handling and reporting on `submitTransaction`. [#15852](https://github.com/Azure/azure-sdk-for-js/pull/15852)
 - Fix [#15921](https://github.com/Azure/azure-sdk-for-js/issues/15921) incorrect `url` import and missing browser mapping for `computeHMACSHA256` [#15944](https://github.com/Azure/azure-sdk-for-js/pull/15944)
-- Fix [#15854](https://github.com/Azure/autorest.typescript/issues/892) by setting `allowInsecureConnection` to true when using the development connection string.
+- Fix [#15854]https://github.com/Azure/azure-sdk-for-js/issues/15854) by setting `allowInsecureConnection` to true when using the development connection string.
 
 ## 12.0.0 (2021-06-09)
 

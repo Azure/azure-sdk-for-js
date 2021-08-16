@@ -6,7 +6,7 @@
 
 import { AppConfigCredential } from "./appConfigCredential";
 import { AppConfiguration } from "./generated/src/appConfiguration";
-import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   isTokenCredential,
   exponentialRetryPolicy,
@@ -17,7 +17,7 @@ import {
   userAgentPolicy
 } from "@azure/core-http";
 import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
-import { TokenCredential } from "@azure/identity";
+import { TokenCredential } from "@azure/core-auth";
 
 import "@azure/core-asynciterator-polyfill";
 
@@ -35,6 +35,8 @@ import {
   ListConfigurationSettingsOptions,
   ListRevisionsOptions,
   ListRevisionsPage,
+  PageSettings,
+  RetryOptions,
   SetConfigurationSettingOptions,
   SetConfigurationSettingParam,
   SetConfigurationSettingResponse,
@@ -70,7 +72,7 @@ const packageName = "azsdk-js-app-configuration";
  * User - Agent header. There's a unit test that makes sure it always stays in sync.
  * @internal
  */
-export const packageVersion = "1.2.0-beta.3";
+export const packageVersion = "1.3.0";
 const apiVersion = "1.0";
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
 const deserializationContentTypes = {
@@ -99,6 +101,11 @@ export interface AppConfigurationClientOptions {
    * Options for adding user agent details to outgoing requests.
    */
   userAgentOptions?: UserAgentOptions;
+
+  /**
+   * Options that control how to retry failed requests.
+   */
+  retryOptions?: RetryOptions;
 }
 
 /**
@@ -287,7 +294,7 @@ export class AppConfigurationClient {
    */
   listConfigurationSettings(
     options: ListConfigurationSettingsOptions = {}
-  ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage> {
+  ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
     const iter = this.getListConfigurationSettingsIterator(options);
 
     return {
@@ -297,10 +304,13 @@ export class AppConfigurationClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (_: PageSettings = {}) => {
+      byPage: (settings: PageSettings = {}) => {
         // The appconfig service doesn't currently support letting you select a page size
         // so we're ignoring their setting for now.
-        return this.listConfigurationSettingsByPage(options);
+        return this.listConfigurationSettingsByPage({
+          ...options,
+          continuationToken: settings.continuationToken
+        });
       }
     };
   }
@@ -316,7 +326,7 @@ export class AppConfigurationClient {
   }
 
   private async *listConfigurationSettingsByPage(
-    options: ListConfigurationSettingsOptions = {}
+    options: ListConfigurationSettingsOptions & PageSettings = {}
   ): AsyncIterableIterator<ListConfigurationSettingPage> {
     let currentResponse = await this._trace(
       "listConfigurationSettings",
@@ -325,7 +335,8 @@ export class AppConfigurationClient {
         const response = await this.client.getKeyValues({
           ...newOptions,
           ...formatAcceptDateTime(options),
-          ...formatFiltersAndSelect(options)
+          ...formatFiltersAndSelect(options),
+          after: options.continuationToken
         });
 
         return response;
@@ -361,10 +372,13 @@ export class AppConfigurationClient {
 
   private *createListConfigurationPageFromResponse(
     currentResponse: AppConfigurationGetKeyValuesResponse
-  ) {
+  ): Generator<ListConfigurationSettingPage> {
     yield {
       ...currentResponse,
-      items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : []
+      items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : [],
+      continuationToken: currentResponse.nextLink
+        ? extractAfterTokenFromNextLink(currentResponse.nextLink)
+        : undefined
     };
   }
 
@@ -380,7 +394,7 @@ export class AppConfigurationClient {
    */
   listRevisions(
     options?: ListRevisionsOptions
-  ): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage> {
+  ): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage, PageSettings> {
     const iter = this.getListRevisionsIterator(options);
 
     return {
@@ -390,10 +404,13 @@ export class AppConfigurationClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (_: PageSettings = {}) => {
+      byPage: (settings: PageSettings = {}) => {
         // The appconfig service doesn't currently support letting you select a page size
         // so we're ignoring their setting for now.
-        return this.listRevisionsByPage(options);
+        return this.listRevisionsByPage({
+          ...options,
+          continuationToken: settings.continuationToken
+        });
       }
     };
   }
@@ -409,22 +426,20 @@ export class AppConfigurationClient {
   }
 
   private async *listRevisionsByPage(
-    options: ListRevisionsOptions = {}
+    options: ListRevisionsOptions & PageSettings = {}
   ): AsyncIterableIterator<ListRevisionsPage> {
     let currentResponse = await this._trace("listRevisions", options, async (newOptions) => {
       const response = await this.client.getRevisions({
         ...newOptions,
         ...formatAcceptDateTime(options),
-        ...formatFiltersAndSelect(newOptions)
+        ...formatFiltersAndSelect(newOptions),
+        after: options.continuationToken
       });
 
       return response;
     });
 
-    yield {
-      ...currentResponse,
-      items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : []
-    };
+    yield* this.createListRevisionsPageFromResponse(currentResponse);
 
     while (currentResponse.nextLink) {
       currentResponse = await this._trace("listRevisions", options, (newOptions) => {
@@ -440,11 +455,20 @@ export class AppConfigurationClient {
         break;
       }
 
-      yield {
-        ...currentResponse,
-        items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : []
-      };
+      yield* this.createListRevisionsPageFromResponse(currentResponse);
     }
+  }
+
+  private *createListRevisionsPageFromResponse(
+    currentResponse: AppConfigurationGetKeyValuesResponse
+  ) {
+    yield {
+      ...currentResponse,
+      items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : [],
+      continuationToken: currentResponse.nextLink
+        ? extractAfterTokenFromNextLink(currentResponse.nextLink)
+        : undefined
+    };
   }
 
   /**
@@ -511,7 +535,7 @@ export class AppConfigurationClient {
   /**
    * Adds an external synchronization token to ensure service requests receive up-to-date values.
    *
-   * @param syncToken The synchronization token value.
+   * @param syncToken - The synchronization token value.
    */
   updateSyncToken(syncToken: string): void {
     this._syncTokens.addSyncTokenFromHeaderValue(syncToken);
@@ -529,7 +553,7 @@ export function getGeneratedClientOptions(
   const retryPolicies = [
     exponentialRetryPolicy(),
     systemErrorRetryPolicy(),
-    throttlingRetryPolicy()
+    throttlingRetryPolicy(internalAppConfigOptions.retryOptions)
   ];
 
   const userAgent = getUserAgentPrefix(

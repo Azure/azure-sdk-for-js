@@ -16,21 +16,29 @@ Use the client library for Azure Key Vault Certificates in your Node.js applicat
 
 > Note: This package cannot be used in the browser due to Azure Key Vault service limitations, please refer to [this document](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/cors/ts/README.md) for guidance.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-certificates) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-certificates) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-certificates) | [Product documentation](https://azure.microsoft.com/services/key-vault/) | [Samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples)
+Key links:
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-certificates)
+- [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-certificates)
+- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-certificates)
+- [Product documentation](https://azure.microsoft.com/services/key-vault/)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples)
 
 ## Getting started
+
+### Currently supported environments
+
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+
+### Prerequisites
+
+- An [Azure subscription](https://azure.microsoft.com/free/)
+- A [Key Vault resource](https://docs.microsoft.com/azure/key-vault/quick-create-portal)
 
 ### Install the package
 
 Install the Azure Key Vault Certificates client library using npm
 
 `npm install @azure/keyvault-certificates`
-
-### Prerequisites
-
-- An [Azure subscription](https://azure.microsoft.com/free/).
-- An existing Azure Key Vault. If you need to create an Azure Key Vault, you can use the [Azure CLI](https://docs.microsoft.com/azure/key-vault/general/quick-create-cli).
-- Use [Node.js](https://nodejs.org/) 10.x or higher.
 
 ### Install the identity library
 
@@ -377,6 +385,8 @@ by using the [KeyVault Secrets client][keyvault-secrets-client].
 // Using the same credential object we used before,
 // and the same keyVaultUrl,
 // let's create a SecretClient
+import { SecretClient } from "@azure/keyvault-secrets";
+
 const secretClient = new SecretClient(keyVaultUrl, credential);
 
 // Assuming you've already created a Key Vault certificate,

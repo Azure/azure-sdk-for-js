@@ -78,14 +78,16 @@ import {
   MatchConditions,
   ModificationConditions,
   ModifiedAccessConditions,
-  BlobQueryArrowField
+  BlobQueryArrowField,
+  BlobImmutabilityPolicy,
+  HttpAuthorization
 } from "./models";
 import {
   PageBlobGetPageRangesDiffResponse,
   PageBlobGetPageRangesResponse,
   rangeResponseFromModel
 } from "./PageBlobRangeResponse";
-import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
+import { newPipeline, PipelineLike, isPipelineLike, StoragePipelineOptions } from "./Pipeline";
 import {
   BlobBeginCopyFromUrlPoller,
   BlobBeginCopyFromUrlPollState,
@@ -112,6 +114,7 @@ import {
   extractConnectionStringParts,
   generateBlockID,
   getURLParameter,
+  httpAuthorizationToString,
   isIpEndpointStyle,
   parseObjectReplicationRecord,
   setURLParameter,
@@ -131,6 +134,11 @@ import { SasIPRange } from "./sas/SasIPRange";
 import { generateBlobSASQueryParameters } from "./sas/BlobSASSignatureValues";
 import { BlobSASPermissions } from "./sas/BlobSASPermissions";
 import { BlobLeaseClient } from "./BlobLeaseClient";
+import {
+  BlobDeleteImmutabilityPolicyResponse,
+  BlobSetImmutabilityPolicyResponse,
+  BlobSetLegalHoldResponse
+} from "./generatedModels";
 
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
@@ -532,6 +540,18 @@ export interface BlobStartCopyFromURLOptions extends CommonOptions {
    */
   rehydratePriority?: RehydratePriority;
   /**
+   * Optional. Specifies immutability policy for a blob.
+   * Note that is parameter is only applicable to a blob within a container that
+   * has version level worm enabled.
+   */
+  immutabilityPolicy?: BlobImmutabilityPolicy;
+  /**
+   * Optional. Indicates if a legal hold should be placed on the blob.
+   * Note that is parameter is only applicable to a blob within a container that
+   * has version level worm enabled.
+   */
+  legalHold?: boolean;
+  /**
    * Blob tags.
    */
   tags?: Tags;
@@ -583,9 +603,25 @@ export interface BlobSyncCopyFromURLOptions extends CommonOptions {
    */
   sourceContentMD5?: Uint8Array;
   /**
+   * Optional. Specifies immutability policy for a blob.
+   * Note that is parameter is only applicable to a blob within a container that
+   * has version level worm enabled.
+   */
+  immutabilityPolicy?: BlobImmutabilityPolicy;
+  /**
+   * Optional. Indicates if a legal hold should be placed on the blob.
+   * Note that is parameter is only applicable to a blob within a container that
+   * has version level worm enabled.
+   */
+  legalHold?: boolean;
+  /**
    * Blob tags.
    */
   tags?: Tags;
+  /**
+   * Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source.
+   */
+  sourceAuthorization?: HttpAuthorization;
 }
 
 /**
@@ -760,6 +796,40 @@ export interface BlobGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
 }
 
 /**
+ * Options for deleting immutability policy {@link BlobClient.deleteImmutabilityPolicy} operation.
+ */
+export interface BlobDeleteImmutabilityPolicyOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Options for setting immutability policy {@link BlobClient.setImmutabilityPolicy} operation.
+ */
+export interface BlobSetImmutabilityPolicyOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+  modifiedAccessCondition?: ModificationConditions;
+}
+
+/**
+ * Options for setting legal hold {@link BlobClient.setLegalHold} operation.
+ */
+export interface BlobSetLegalHoldOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
  * A BlobClient represents a URL to an Azure Storage blob; the blob may be a block blob,
  * append blob, or page blob.
  */
@@ -843,7 +913,7 @@ export class BlobClient extends StorageClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  constructor(url: string, pipeline: Pipeline);
+  constructor(url: string, pipeline: PipelineLike);
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName?:
@@ -851,14 +921,14 @@ export class BlobClient extends StorageClient {
       | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
-      | Pipeline,
+      | PipelineLike,
     blobNameOrOptions?: string | StoragePipelineOptions,
     options?: StoragePipelineOptions
   ) {
     options = options || {};
-    let pipeline: Pipeline;
+    let pipeline: PipelineLike;
     let url: string;
-    if (credentialOrPipelineOrContainerName instanceof Pipeline) {
+    if (isPipelineLike(credentialOrPipelineOrContainerName)) {
       // (url: string, pipeline: Pipeline)
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
@@ -1715,7 +1785,11 @@ export class BlobClient extends StorageClient {
           sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince
         },
         sourceContentMD5: options.sourceContentMD5,
+        copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
         blobTagsString: toBlobTagsString(options.tags),
+        immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
+        immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
+        legalHold: options.legalHold,
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
@@ -2071,6 +2145,9 @@ export class BlobClient extends StorageClient {
           sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince,
           sourceIfTags: options.sourceConditions.tagConditions
         },
+        immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
+        immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
+        legalHold: options.legalHold,
         rehydratePriority: options.rehydratePriority,
         tier: toAccessTier(options.tier),
         blobTagsString: toBlobTagsString(options.tags),
@@ -2121,6 +2198,86 @@ export class BlobClient extends StorageClient {
       resolve(appendToURLQuery(this.url, sas));
     });
   }
+
+  /**
+   * Delete the immutablility policy on the blob.
+   *
+   * @param options - Optional options to delete immutability policy on the blob.
+   */
+  public async deleteImmutabilityPolicy(
+    options?: BlobDeleteImmutabilityPolicyOptions
+  ): Promise<BlobDeleteImmutabilityPolicyResponse> {
+    const { span, updatedOptions } = createSpan("BlobClient-deleteImmutabilityPolicy", options);
+    try {
+      return await this.blobContext.deleteImmutabilityPolicy({
+        abortSignal: options?.abortSignal,
+        ...convertTracingToRequestOptionsBase(updatedOptions)
+      });
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Set immutablility policy on the blob.
+   *
+   * @param options - Optional options to set immutability policy on the blob.
+   */
+  public async setImmutabilityPolicy(
+    immutabilityPolicy: BlobImmutabilityPolicy,
+    options?: BlobSetImmutabilityPolicyOptions
+  ): Promise<BlobSetImmutabilityPolicyResponse> {
+    const { span, updatedOptions } = createSpan("BlobClient-setImmutabilityPolicy", options);
+    try {
+      return await this.blobContext.setImmutabilityPolicy({
+        abortSignal: options?.abortSignal,
+        immutabilityPolicyExpiry: immutabilityPolicy.expiriesOn,
+        immutabilityPolicyMode: immutabilityPolicy.policyMode,
+        modifiedAccessConditions: options?.modifiedAccessCondition,
+        ...convertTracingToRequestOptionsBase(updatedOptions)
+      });
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Set legal hold on the blob.
+   *
+   * @param options - Optional options to set legal hold on the blob.
+   */
+  public async setLegalHold(
+    legalHoldEnabled: boolean,
+    options?: BlobSetLegalHoldOptions
+  ): Promise<BlobSetLegalHoldResponse> {
+    const { span, updatedOptions } = createSpan("BlobClient-setLegalHold", options);
+    try {
+      return await this.blobContext.setLegalHold(legalHoldEnabled, {
+        abortSignal: options?.abortSignal,
+        ...convertTracingToRequestOptionsBase(updatedOptions)
+      });
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
 }
 
 /**
@@ -2160,6 +2317,18 @@ export interface AppendBlobCreateOptions extends CommonOptions {
    */
   encryptionScope?: string;
   /**
+   * Optional. Specifies immutability policy for a blob.
+   * Note that is parameter is only applicable to a blob within a container that
+   * has version level worm enabled.
+   */
+  immutabilityPolicy?: BlobImmutabilityPolicy;
+  /**
+   * Optional. Indicates if a legal hold should be placed on the blob.
+   * Note that is parameter is only applicable to a blob within a container that
+   * has version level worm enabled.
+   */
+  legalHold?: boolean;
+  /**
    * Blob tags.
    */
   tags?: Tags;
@@ -2196,6 +2365,18 @@ export interface AppendBlobCreateIfNotExistsOptions extends CommonOptions {
    * Storage Services.
    */
   encryptionScope?: string;
+  /**
+   * Optional. Specifies immutability policy for a blob.
+   * Note that is parameter is only applicable to a blob within a container that
+   * has version level worm enabled.
+   */
+  immutabilityPolicy?: BlobImmutabilityPolicy;
+  /**
+   * Optional. Indicates if a legal hold should be placed on the blob.
+   * Note that is parameter is only applicable to a blob within a container that
+   * has version level worm enabled.
+   */
+  legalHold?: boolean;
 }
 
 /**
@@ -2301,6 +2482,10 @@ export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
    * Storage Services.
    */
   encryptionScope?: string;
+  /**
+   * Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source.
+   */
+  sourceAuthorization?: HttpAuthorization;
 }
 
 /**
@@ -2381,7 +2566,7 @@ export class AppendBlobClient extends BlobClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  constructor(url: string, pipeline: Pipeline);
+  constructor(url: string, pipeline: PipelineLike);
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName:
@@ -2389,16 +2574,16 @@ export class AppendBlobClient extends BlobClient {
       | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
-      | Pipeline,
+      | PipelineLike,
     blobNameOrOptions?: string | StoragePipelineOptions,
     options?: StoragePipelineOptions
   ) {
     // In TypeScript we cannot simply pass all parameters to super() like below so have to duplicate the code instead.
     //   super(s, credentialOrPipelineOrContainerNameOrOptions, blobNameOrOptions, options);
-    let pipeline: Pipeline;
+    let pipeline: PipelineLike;
     let url: string;
     options = options || {};
-    if (credentialOrPipelineOrContainerName instanceof Pipeline) {
+    if (isPipelineLike(credentialOrPipelineOrContainerName)) {
       // (url: string, pipeline: Pipeline)
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
@@ -2516,6 +2701,9 @@ export class AppendBlobClient extends BlobClient {
         },
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
+        immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
+        immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
+        legalHold: options.legalHold,
         blobTagsString: toBlobTagsString(options.tags),
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
@@ -2710,6 +2898,7 @@ export class AppendBlobClient extends BlobClient {
           sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
           sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince
         },
+        copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
         ...convertTracingToRequestOptionsBase(updatedOptions)
@@ -2770,6 +2959,18 @@ export interface BlockBlobUploadOptions extends CommonOptions {
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
    */
   tier?: BlockBlobTier | string;
+  /**
+   * Optional. Specifies immutability policy for a blob.
+   * Note that is parameter is only applicable to a blob within a container that
+   * has version level worm enabled.
+   */
+  immutabilityPolicy?: BlobImmutabilityPolicy;
+  /**
+   * Optional. Indicates if a legal hold should be placed on the blob.
+   * Note that is parameter is only applicable to a blob within a container that
+   * has version level worm enabled.
+   */
+  legalHold?: boolean;
   /**
    * Blob tags.
    */
@@ -2844,6 +3045,10 @@ export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
    * Optional. Conditions to meet for the source Azure Blob.
    */
   sourceConditions?: ModifiedAccessConditions;
+  /**
+   * Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source.
+   */
+  sourceAuthorization?: HttpAuthorization;
 }
 
 /**
@@ -2928,6 +3133,16 @@ export interface BlobQueryArrowConfiguration {
 }
 
 /**
+ * Options to query blob with Parquet format. Only valid for {@link BlockBlobQueryOptions.inputTextConfiguration}.
+ */
+export interface BlobQueryParquetConfiguration {
+  /**
+   * Kind.
+   */
+  kind: "parquet";
+}
+
+/**
  * Options to configure {@link BlockBlobClient.query} operation.
  */
 export interface BlockBlobQueryOptions extends CommonOptions {
@@ -2939,7 +3154,10 @@ export interface BlockBlobQueryOptions extends CommonOptions {
   /**
    * Configurations for the query input.
    */
-  inputTextConfiguration?: BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration;
+  inputTextConfiguration?:
+    | BlobQueryJsonTextConfiguration
+    | BlobQueryCsvTextConfiguration
+    | BlobQueryParquetConfiguration;
   /**
    * Configurations for the query output.
    */
@@ -3057,6 +3275,10 @@ export interface BlockBlobStageBlockFromURLOptions extends CommonOptions {
    * Storage Services.
    */
   encryptionScope?: string;
+  /**
+   * Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source.
+   */
+  sourceAuthorization?: HttpAuthorization;
 }
 
 /**
@@ -3091,6 +3313,18 @@ export interface BlockBlobCommitBlockListOptions extends CommonOptions {
    * Storage Services.
    */
   encryptionScope?: string;
+  /**
+   * Optional. Specifies immutability policy for a blob.
+   * Note that is parameter is only applicable to a blob within a container that
+   * has version level worm enabled.
+   */
+  immutabilityPolicy?: BlobImmutabilityPolicy;
+  /**
+   * Optional. Indicates if a legal hold should be placed on the blob.
+   * Note that is parameter is only applicable to a blob within a container that
+   * has version level worm enabled.
+   */
+  legalHold?: boolean;
   /**
    * Access tier.
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
@@ -3330,7 +3564,7 @@ export class BlockBlobClient extends BlobClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  constructor(url: string, pipeline: Pipeline);
+  constructor(url: string, pipeline: PipelineLike);
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName?:
@@ -3338,16 +3572,16 @@ export class BlockBlobClient extends BlobClient {
       | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
-      | Pipeline,
+      | PipelineLike,
     blobNameOrOptions?: string | StoragePipelineOptions,
     options?: StoragePipelineOptions
   ) {
     // In TypeScript we cannot simply pass all parameters to super() like below so have to duplicate the code instead.
     //   super(s, credentialOrPipelineOrContainerNameOrOptions, blobNameOrOptions, options);
-    let pipeline: Pipeline;
+    let pipeline: PipelineLike;
     let url: string;
     options = options || {};
-    if (credentialOrPipelineOrContainerName instanceof Pipeline) {
+    if (isPipelineLike(credentialOrPipelineOrContainerName)) {
       // (url: string, pipeline: Pipeline)
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
@@ -3559,6 +3793,9 @@ export class BlockBlobClient extends BlobClient {
         },
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
+        immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
+        immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
+        legalHold: options.legalHold,
         tier: toAccessTier(options.tier),
         blobTagsString: toBlobTagsString(options.tags),
         ...convertTracingToRequestOptionsBase(updatedOptions)
@@ -3617,6 +3854,7 @@ export class BlockBlobClient extends BlobClient {
           sourceIfTags: options.sourceConditions?.tagConditions
         },
         cpkInfo: options.customerProvidedKey,
+        copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
         tier: toAccessTier(options.tier),
         blobTagsString: toBlobTagsString(options.tags),
         ...convertTracingToRequestOptionsBase(updatedOptions)
@@ -3714,6 +3952,7 @@ export class BlockBlobClient extends BlobClient {
         sourceRange: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
+        copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
@@ -3760,6 +3999,9 @@ export class BlockBlobClient extends BlobClient {
           },
           cpkInfo: options.customerProvidedKey,
           encryptionScope: options.encryptionScope,
+          immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
+          immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
+          legalHold: options.legalHold,
           tier: toAccessTier(options.tier),
           blobTagsString: toBlobTagsString(options.tags),
           ...convertTracingToRequestOptionsBase(updatedOptions)
@@ -4212,6 +4454,18 @@ export interface PageBlobCreateOptions extends CommonOptions {
    */
   encryptionScope?: string;
   /**
+   * Optional. Specifies immutability policy for a blob.
+   * Note that is parameter is only applicable to a blob within a container that
+   * has version level worm enabled.
+   */
+  immutabilityPolicy?: BlobImmutabilityPolicy;
+  /**
+   * Optional. Indicates if a legal hold should be placed on the blob.
+   * Note that is parameter is only applicable to a blob within a container that
+   * has version level worm enabled.
+   */
+  legalHold?: boolean;
+  /**
    * Access tier.
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
    */
@@ -4255,6 +4509,18 @@ export interface PageBlobCreateIfNotExistsOptions extends CommonOptions {
    * Storage Services.
    */
   encryptionScope?: string;
+  /**
+   * Optional. Specifies immutability policy for a blob.
+   * Note that is parameter is only applicable to a blob within a container that
+   * has version level worm enabled.
+   */
+  immutabilityPolicy?: BlobImmutabilityPolicy;
+  /**
+   * Optional. Indicates if a legal hold should be placed on the blob.
+   * Note that is parameter is only applicable to a blob within a container that
+   * has version level worm enabled.
+   */
+  legalHold?: boolean;
   /**
    * Access tier.
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
@@ -4462,6 +4728,10 @@ export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
    * Storage Services.
    */
   encryptionScope?: string;
+  /**
+   * Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source.
+   */
+  sourceAuthorization?: HttpAuthorization;
 }
 
 /**
@@ -4534,7 +4804,7 @@ export class PageBlobClient extends BlobClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  constructor(url: string, pipeline: Pipeline);
+  constructor(url: string, pipeline: PipelineLike);
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName:
@@ -4542,16 +4812,16 @@ export class PageBlobClient extends BlobClient {
       | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
-      | Pipeline,
+      | PipelineLike,
     blobNameOrOptions?: string | StoragePipelineOptions,
     options?: StoragePipelineOptions
   ) {
     // In TypeScript we cannot simply pass all parameters to super() like below so have to duplicate the code instead.
     //   super(s, credentialOrPipelineOrContainerNameOrOptions, blobNameOrOptions, options);
-    let pipeline: Pipeline;
+    let pipeline: PipelineLike;
     let url: string;
     options = options || {};
-    if (credentialOrPipelineOrContainerName instanceof Pipeline) {
+    if (isPipelineLike(credentialOrPipelineOrContainerName)) {
       // (url: string, pipeline: Pipeline)
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
@@ -4667,6 +4937,9 @@ export class PageBlobClient extends BlobClient {
         },
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
+        immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
+        immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
+        legalHold: options.legalHold,
         tier: toAccessTier(options.tier),
         blobTagsString: toBlobTagsString(options.tags),
         ...convertTracingToRequestOptionsBase(updatedOptions)
@@ -4826,6 +5099,7 @@ export class PageBlobClient extends BlobClient {
           },
           cpkInfo: options.customerProvidedKey,
           encryptionScope: options.encryptionScope,
+          copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
           ...convertTracingToRequestOptionsBase(updatedOptions)
         }
       );

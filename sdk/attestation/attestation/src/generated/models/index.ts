@@ -31,13 +31,13 @@ export interface CloudErrorBody {
 /** The response to an attestation policy management API */
 export interface PolicyCertificatesResponse {
   /** An RFC7519 JSON Web Token structure containing a PolicyCertificatesResults object which contains the certificates used to validate policy changes */
-  token?: string;
+  token: string;
 }
 
 /** The response to an attestation policy management API */
 export interface PolicyCertificatesModifyResponse {
   /** An RFC7519 JSON Web Token structure whose body is a PolicyCertificatesModificationResult object. */
-  token?: string;
+  token: string;
 }
 
 /** Attestation request for Intel SGX enclaves */
@@ -106,7 +106,7 @@ export interface JsonWebKeySet {
    * can choose to assign a meaning to the order for their purposes, if
    * desired.
    */
-  keys?: JsonWebKey[];
+  keys: JsonWebKey[];
 }
 
 export interface JsonWebKey {
@@ -190,15 +190,15 @@ export interface AttestationCertificateManagementBody {
 /** The result of a call to retrieve policy certificates. */
 export interface PolicyCertificatesResult {
   /** SHA256 Hash of the binary representation certificate which was added or removed */
-  policyCertificates?: JsonWebKeySet;
+  policyCertificates: JsonWebKeySet;
 }
 
 /** The result of a policy certificate modification */
 export interface PolicyCertificatesModificationResult {
   /** Hex encoded SHA1 Hash of the binary representation certificate which was added or removed */
-  certificateThumbprint?: string;
+  certificateThumbprint: string;
   /** The result of the operation */
-  certificateResolution?: CertificateModification;
+  certificateResolution: CertificateModification;
 }
 
 export interface StoredAttestationPolicy {
@@ -209,9 +209,9 @@ export interface StoredAttestationPolicy {
 /** The result of a policy certificate modification */
 export interface PolicyResult {
   /** The result of the operation */
-  policyResolution?: PolicyModification;
+  policyResolution: PolicyModification;
   /** The SHA256 hash of the policy object modified */
-  policyTokenHash?: Uint8Array;
+  policyTokenHash: Uint8Array;
   /** The certificate used to sign the policy object, if specified */
   policySigner?: JsonWebKey;
   /** A JSON Web Token containing a StoredAttestationPolicy object with the attestation policy */
@@ -219,11 +219,11 @@ export interface PolicyResult {
 }
 
 /** A Microsoft Azure Attestation response token body - the body of a response token issued by MAA */
-export interface AttestationResult {
+export interface GeneratedAttestationResult {
   /** Unique Identifier for the token */
-  jti?: string;
+  jti: string;
   /** The Principal who issued the token */
-  iss?: string;
+  iss: string;
   /** The time at which the token was issued, in the number of seconds since 1970-01-0T00:00:00Z UTC */
   iat?: number;
   /** The expiration time after which the token is no longer valid, in the number of seconds since 1970-01-0T00:00:00Z UTC */
@@ -231,43 +231,43 @@ export interface AttestationResult {
   /** The not before time before which the token cannot be considered valid, in the number of seconds since 1970-01-0T00:00:00Z UTC */
   nbf?: number;
   /** An RFC 7800 Proof of Possession Key */
-  cnf?: any;
+  cnf?: Record<string, unknown>;
   /** The Nonce input to the attestation request, if provided. */
   nonce?: string;
   /** The Schema version of this structure. Current Value: 1.0 */
-  version?: string;
+  version: string;
   /** Runtime Claims */
-  runtimeClaims?: any;
+  runtimeClaims?: Record<string, unknown>;
   /** Inittime Claims */
-  inittimeClaims?: any;
+  inittimeClaims?: Record<string, unknown>;
   /** Policy Generated Claims */
-  policyClaims?: any;
+  policyClaims?: Record<string, unknown>;
   /** The Attestation type being attested. */
-  verifierType?: string;
+  verifierType: string;
   /** The certificate used to sign the policy object, if specified. */
   policySigner?: JsonWebKey;
   /** The SHA256 hash of the BASE64URL encoded policy text used for attestation */
-  policyHash?: Uint8Array;
+  policyHash: Uint8Array;
   /** True if the enclave is debuggable, false otherwise */
-  isDebuggable?: boolean;
+  isDebuggable: boolean;
   /** The SGX Product ID for the enclave. */
-  productId?: number;
+  productId: number;
   /** The HEX encoded SGX MRENCLAVE value for the enclave. */
-  mrEnclave?: string;
+  mrEnclave: string;
   /** The HEX encoded SGX MRSIGNER value for the enclave. */
-  mrSigner?: string;
+  mrSigner: string;
   /** The SGX SVN value for the enclave. */
-  svn?: number;
+  svn: number;
   /** A copy of the RuntimeData specified as an input to the attest call. */
   enclaveHeldData?: Uint8Array;
   /** The SGX SVN value for the enclave. */
-  sgxCollateral?: any;
+  sgxCollateral?: Record<string, unknown>;
   /** DEPRECATED: Private Preview version of x-ms-ver claim. */
   deprecatedVersion?: string;
   /** DEPRECATED: Private Preview version of x-ms-sgx-is-debuggable claim. */
   deprecatedIsDebuggable?: boolean;
   /** DEPRECATED: Private Preview version of x-ms-sgx-collateral claim. */
-  deprecatedSgxCollateral?: any;
+  deprecatedSgxCollateral?: Record<string, unknown>;
   /** DEPRECATED: Private Preview version of x-ms-sgx-ehd claim. */
   deprecatedEnclaveHeldData?: Uint8Array;
   /** DEPRECATED: Private Preview version of x-ms-sgx-ehd claim. */
@@ -291,7 +291,7 @@ export interface AttestationResult {
 }
 
 /** Known values of {@link AttestationType} that the service accepts. */
-export const enum KnownAttestationType {
+export enum KnownAttestationType {
   /** Intel Software Guard eXtensions */
   SgxEnclave = "SgxEnclave",
   /** OpenEnclave extensions to SGX */
@@ -304,7 +304,7 @@ export const enum KnownAttestationType {
  * Defines values for AttestationType. \
  * {@link KnownAttestationType} can be used interchangeably with AttestationType,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **SgxEnclave**: Intel Software Guard eXtensions \
  * **OpenEnclave**: OpenEnclave extensions to SGX \
  * **Tpm**: Edge TPM Virtualization Based Security
@@ -312,7 +312,7 @@ export const enum KnownAttestationType {
 export type AttestationType = string;
 
 /** Known values of {@link DataType} that the service accepts. */
-export const enum KnownDataType {
+export enum KnownDataType {
   /** The contents of the field should be treated as binary and not interpreted by MAA. */
   Binary = "Binary",
   /** The contents of the field should be treated as a JSON object and may be further interpreted by MAA. */
@@ -323,14 +323,14 @@ export const enum KnownDataType {
  * Defines values for DataType. \
  * {@link KnownDataType} can be used interchangeably with DataType,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **Binary**: The contents of the field should be treated as binary and not interpreted by MAA. \
  * **JSON**: The contents of the field should be treated as a JSON object and may be further interpreted by MAA.
  */
 export type DataType = string;
 
 /** Known values of {@link CertificateModification} that the service accepts. */
-export const enum KnownCertificateModification {
+export enum KnownCertificateModification {
   /** After the operation was performed, the certificate is in the set of certificates. */
   IsPresent = "IsPresent",
   /** After the operation was performed, the certificate is no longer present in the set of certificates. */
@@ -341,14 +341,14 @@ export const enum KnownCertificateModification {
  * Defines values for CertificateModification. \
  * {@link KnownCertificateModification} can be used interchangeably with CertificateModification,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **IsPresent**: After the operation was performed, the certificate is in the set of certificates. \
  * **IsAbsent**: After the operation was performed, the certificate is no longer present in the set of certificates.
  */
 export type CertificateModification = string;
 
 /** Known values of {@link PolicyModification} that the service accepts. */
-export const enum KnownPolicyModification {
+export enum KnownPolicyModification {
   /** The specified policy object was updated. */
   Updated = "Updated",
   /** The specified policy object was removed. */
@@ -359,7 +359,7 @@ export const enum KnownPolicyModification {
  * Defines values for PolicyModification. \
  * {@link KnownPolicyModification} can be used interchangeably with PolicyModification,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **Updated**: The specified policy object was updated. \
  * **Removed**: The specified policy object was removed.
  */
@@ -372,7 +372,8 @@ export interface PolicyGetOptionalParams extends coreClient.OperationOptions {}
 export type PolicyGetResponse = PolicyResponse;
 
 /** Optional parameters. */
-export interface PolicySetModelOptionalParams extends coreClient.OperationOptions {}
+export interface PolicySetModelOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the set operation. */
 export type PolicySetModelResponse = PolicyResponse;
@@ -438,10 +439,7 @@ export interface MetadataConfigurationGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type MetadataConfigurationGetResponse = {
-  /** The parsed response body. */
-  body: any;
-};
+export type MetadataConfigurationGetResponse = Record<string, unknown>;
 
 /** Optional parameters. */
 export interface GeneratedClientOptionalParams

@@ -145,6 +145,7 @@ export const Constants: {
         };
         StatusCodes: {
             TooManyRequests: number;
+            ServiceUnavailable: number;
         };
     };
     HeaderConstants: {
@@ -557,8 +558,10 @@ export function promiseToServiceCallback<T>(promise: Promise<HttpOperationRespon
 // @public (undocumented)
 export type ProxyOptions = ProxySettings;
 
-// @public (undocumented)
-export function proxyPolicy(proxySettings?: ProxySettings): RequestPolicyFactory;
+// @public
+export function proxyPolicy(proxySettings?: ProxySettings, options?: {
+    customNoProxyList?: string[];
+}): RequestPolicyFactory;
 
 // @public
 export interface ProxySettings {

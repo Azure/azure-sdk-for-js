@@ -1,16 +1,33 @@
 # Release History
 
-## 2.0.0 (Unreleased)
+## 2.1.1 (Unreleased)
 
 ### Features Added
 
-- Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 2.1.0 (2021-07-22)
+
+### Features Added
+
+- `tracingPolicy` will no longer inject invalid traceparent headers if an incorrect tracer implementation is used.
+- `proxyPolicy` now allows passing in a list of no-proxy patterns to override global ones loaded from NO_PROXY environment variable [PR #16414](https://github.com/Azure/azure-sdk-for-js/pull/16414)
+
+## 2.0.0 (2021-06-30)
+
+### Features Added
+
+- Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features.
+- Added support for the `Retry-After` header on responses with status code 503, Service Unavailable.
+- Added support for multiple retries on the `ThrottlingRetryPolicy` (up to 3 by default).
 
 ### Breaking Changes
 
 - Updated @azure/core-tracing to version `1.0.0-preview.12`. See [@azure/core-tracing CHANGELOG](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-tracing/CHANGELOG.md) for details about breaking changes with tracing.
-
-### Key Bugs Fixed
 
 ### Fixed
 

@@ -1,6 +1,32 @@
 # Release History
 
-## 1.2.0 (UNRELEASED)
+## 1.3.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.3.0 (2021-08-04)
+
+### Features Added
+
+- Updated to use version 1.0.0-preview.13 of `@azure/core-tracing`.
+
+### Key Bugs Fixed
+
+- Fixed an issue where APIs that accepted a Blob didn't work with File objects. See [#16754](https://github.com/Azure/azure-sdk-for-js/issues/16754) for more details.
+
+## 1.2.2 (2021-07-13)
+
+### Key Bugs Fixed
+
+- Fixed the return value during the flattening the response for `HEAD` HTTP Requests. This will ensure that the return value will indicate the presence/absence of the resource. Please refer [#1037](https://github.com/Azure/autorest.typescript/issues/1037) for more details.
+
+## 1.2.1 (2021-06-30)
 
 ### Features Added
 

@@ -1,10 +1,40 @@
 # Release History
 
-## 1.1.0 (Unreleased)
+## 1.2.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.2.0 (2021-08-04)
+
+### Features Added
+
+- Updated to use version 1.0.0-preview.13 of `@azure/core-tracing`.
+- `tracingPolicy` will no longer inject invalid traceparent headers if an incorrect tracer implementation is used.
+- `proxyPolicy` now allows passing in a list of no-proxy patterns to override global ones loaded from NO_PROXY environment variable [PR #16414](https://github.com/Azure/azure-sdk-for-js/pull/16414)
+
+## 1.1.1 (2021-07-13)
+
+### Key Bugs Fixed
+
+- Fixed an issue with `HEAD` HTTP Requests. Destroyed the response before resolving the promise which will ensure that the code does not hang up. Please refer [#1037](https://github.com/Azure/autorest.typescript/issues/1037) for more details.
+
+## 1.1.0 (2021-06-30)
 
 ### Fixed
 
 - Fixed an issue where `proxySettings` does not work when there is username but no password [Issue 15720](https://github.com/Azure/azure-sdk-for-js/issues/15720)
+
+### Features Added
+
+- Added support for the `Retry-After` header on responses with status code 503, Service Unavailable.
+- The `ExponentialRetryPolicy` will now ignore `503` responses if they have the `Retry-After` header.
+- Added support for multiple retries on the `ThrottlingRetryPolicy` (up to 3 by default).
 
 ### Breaking Changes
 

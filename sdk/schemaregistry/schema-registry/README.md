@@ -5,14 +5,16 @@ providing schema storage, versioning, and management. The registry is leveraged
 by serializers to reduce payload size while describing payload structure with
 schema identifiers rather than full schemas.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/schemaregistry/schema-registry) |
-[Package (npm)](https://www.npmjs.com/package/@azure/schema-registry) |
-[API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/schema-registry) |
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/schemaregistry/schema-registry/samples)
+Key links:
+
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/schemaregistry/schema-registry)
+- [Package (npm)](https://www.npmjs.com/package/@azure/schema-registry)
+- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/schema-registry)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/schemaregistry/schema-registry/samples)
 
 ## Getting started
 
-- Node.js version 8.x.x or higher
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
 
 ### Prerequisites
 
@@ -71,6 +73,9 @@ schema registry.
 
 ### Register a schema
 
+`registerSchema` sends a request to the service to register a schema, and then keeps
+a copy of the schema and its service ID in a local private cache.
+
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
 const { SchemaRegistryClient } = require("@azure/schema-registry");
@@ -89,6 +94,8 @@ console.log(registered.id);
 ```
 
 ### Get ID of existing schema
+
+`getSchemaId` will send a request to the service only if the local cache did not have the schema.
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -110,6 +117,8 @@ if (found) {
 ```
 
 ### Get content of existing schema by ID
+
+Similarly to `getSchemaId`, `getSchemaById` will send a request to the service only if the local cache did not have the schema ID.
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");

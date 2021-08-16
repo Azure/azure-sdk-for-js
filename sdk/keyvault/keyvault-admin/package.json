@@ -2,7 +2,7 @@
   "name": "@azure/keyvault-admin",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "4.1.0-beta.1",
+  "version": "4.2.0-beta.2",
   "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's administrative functions.",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/README.md",
@@ -27,7 +27,7 @@
   "module": "dist-esm/keyvault-admin/src/index.js",
   "types": "./types/keyvault-admin.d.ts",
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=12.0.0"
   },
   "files": [
     "types/keyvault-admin.d.ts",
@@ -107,10 +107,10 @@
     "@azure/core-auth": "^1.3.0",
     "@azure/core-client": "^1.0.0",
     "@azure/core-http": "^2.0.0",
-    "@azure/core-lro": "^2.0.0",
+    "@azure/core-lro": "^2.2.0",
     "@azure/core-paging": "^1.1.1",
     "@azure/core-rest-pipeline": "^1.1.0",
-    "@azure/core-tracing": "1.0.0-preview.12",
+    "@azure/core-tracing": "1.0.0-preview.13",
     "@azure/logger": "^1.0.0",
     "@types/uuid": "^8.0.0",
     "tslib": "^2.2.0",
@@ -123,6 +123,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "2.0.0-beta.4",
     "@azure/keyvault-keys": "^4.2.1",
+    "@azure/test-utils": "^1.0.0",
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "11.0.2",
@@ -133,7 +134,7 @@
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^8.0.0",
+    "@types/node": "^12.0.0",
     "@types/sinon": "^9.0.4",
     "assert": "^1.4.1",
     "chai": "^4.2.0",

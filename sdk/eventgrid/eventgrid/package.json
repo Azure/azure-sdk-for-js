@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure Event Grid service.",
-  "version": "4.3.1",
+  "version": "4.5.0",
   "keywords": [
     "node",
     "azure",
@@ -22,7 +22,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=12.0.0"
   },
   "files": [
     "dist/",
@@ -50,8 +50,8 @@
         "prefix": "package-version"
       },
       {
-        "path": "src/constants.ts",
-        "prefix": "SDK_VERSION"
+        "path": "src/generated/generatedClientContext.ts",
+        "prefix": "packageDetails"
       }
     ]
   },
@@ -60,7 +60,7 @@
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:autorest": "autorest ./swagger/README.md --typescript --v3",
+    "build:autorest": "autorest ./swagger/README.md --typescript --v3 && node ./scripts/setPathToEmpty.js",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:samples": "echo Obsolete",
@@ -92,7 +92,7 @@
     "@azure/core-auth": "^1.3.0",
     "@azure/core-client": "^1.0.0",
     "@azure/core-rest-pipeline": "^1.1.0",
-    "@azure/core-tracing": "1.0.0-preview.12",
+    "@azure/core-tracing": "1.0.0-preview.13",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0",
     "uuid": "^8.3.0"
@@ -101,6 +101,7 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/service-bus": "^7.0.0",
+    "@azure/test-utils": "^1.0.0",
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "11.0.2",
@@ -111,7 +112,7 @@
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^8.0.0",
+    "@types/node": "^12.0.0",
     "@types/sinon": "^9.0.4",
     "@types/uuid": "^8.0.0",
     "chai": "^4.2.0",

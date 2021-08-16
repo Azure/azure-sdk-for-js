@@ -7,5 +7,6 @@
  */
 
 export * from "./models";
-export { MetricsDefinitionsClient } from "./metricsDefinitionsClient";
-export { MetricsDefinitionsClientContext } from "./metricsDefinitionsClientContext";
+export { MonitorManagementClient } from "./monitorManagementClient";
+export { MonitorManagementClientContext } from "./monitorManagementClientContext";
+export * from "./operationsInterfaces";

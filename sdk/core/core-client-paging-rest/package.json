@@ -1,8 +1,8 @@
 {
   "name": "@azure-rest/core-client-paging",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "A helper library which implements Autorest x-ms-pageable spec for pagination.",
-  "sdk-type": "core",
+  "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "types": "types/latest/core-client-paging-rest.d.ts",
@@ -11,17 +11,15 @@
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:browser": "npm run build:ts && cross-env ONLY_BROWSER=true rollup -c 2>&1",
-    "build:node": "npm run build:ts && cross-env ONLY_NODE=true rollup -c 2>&1",
-    "build:samples": "echo Skipped.",
+    "build:samples": "echo Obsolete",
     "build:test": "tsc -p . && rollup -c 2>&1",
-    "build:ts": "tsc -p .",
-    "build": "npm run build:ts && rollup -c 2>&1 && api-extractor run --local",
-    "check-format": "prettier --list-different \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-* types *.tgz *.log",
+    "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf dist dist-* temp types *.tgz *.log",
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src",
     "execute:samples": "echo skipped",
-    "extract-api": "npm run build:ts && api-extractor run --local",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "extract-api": "tsc -p . && api-extractor run --local",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -29,18 +27,17 @@
     "lint": "eslint package.json api-extractor.json src test --ext .ts",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
-    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
-    "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
-    "test": "npm run clean && npm run build:test && npm run unit-test",
+    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
+    "test:node": "npm run clean && tsc -p . && npm run unit-test:node && npm run integration-test:node",
+    "test": "npm run clean && tsc -p . && npm run unit-test:node && rollup -c 2>&1 && npm run unit-test:browser && npm run integration-test",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/{,!(browser)/**/}*.spec.ts\"",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
+    "unit-test:node": "mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/{,!(browser)/**/}*.spec.ts\"",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/src/latest/core-client-paging-rest.d.ts",
+    "types/latest/core-client-paging-rest.d.ts",
     "README.md",
     "LICENSE"
   ],
@@ -55,22 +52,22 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=12.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-client-paging-rest/",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
-    "@azure/core-paging": "^1.1.1",
-    "@azure/core-rest-pipeline": "^1.0.3",
-    "@azure-rest/core-client": "1.0.0-beta.5",
+    "@azure/core-paging": "^1.2.0",
+    "@azure/core-rest-pipeline": "^1.1.0",
+    "@azure-rest/core-client": "1.0.0-beta.6",
     "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "7.13.2",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^8.0.0",
+    "@types/node": "^12.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/dev-tool": "^1.0.0",
     "chai": "^4.2.0",

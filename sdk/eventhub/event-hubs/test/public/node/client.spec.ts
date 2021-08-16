@@ -10,7 +10,7 @@ chai.use(chaiString);
 import { EnvVarKeys, getEnvVars } from "../utils/testUtils";
 import { EnvironmentCredential, TokenCredential } from "@azure/identity";
 import { EventHubProducerClient, EventHubConsumerClient } from "../../../src";
-import { getTracer, setTracer, TestTracer } from "@azure/core-tracing";
+import { TestTracer, setTracer, resetTracer } from "@azure/test-utils";
 const env = getEnvVars();
 
 describe("Create clients using Azure Identity", function(): void {
@@ -70,15 +70,13 @@ describe("Create clients using Azure Identity", function(): void {
   });
 
   describe("tracing", () => {
-    const tracer = new TestTracer();
-    const origTracer = getTracer();
-
+    let tracer: TestTracer;
     before(() => {
-      setTracer(tracer);
+      tracer = setTracer();
     });
 
     after(() => {
-      setTracer(origTracer);
+      resetTracer();
     });
 
     it("getEventHubProperties() creates a span with a peer.address attribute as the FQNS", async () => {

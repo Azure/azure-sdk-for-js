@@ -7,13 +7,11 @@ import {
   Context as OTContext,
   getSpanContext,
   getTracer,
-  NoOpSpan,
   setSpanContext,
   SpanOptions,
-  SpanStatusCode,
-  TestSpan,
-  TestTracer
+  SpanStatusCode
 } from "@azure/core-tracing";
+import { TestSpan, TestTracer } from "@azure/test-utils";
 import { ServiceBusMessageImpl, ServiceBusReceivedMessage } from "../../../src/serviceBusMessage";
 import {
   createAndEndProcessingSpan,
@@ -311,7 +309,7 @@ describe("Tracing tests", () => {
     };
 
     it("basic span properties are set", async () => {
-      const fakeParentSpanContext = new NoOpSpan().spanContext();
+      const fakeParentSpanContext = tracer.startSpan("test").spanContext();
 
       createProcessingSpan([], receiverProperties, connectionConfig, {
         tracingOptions: {
@@ -324,7 +322,8 @@ describe("Tracing tests", () => {
       tracer.spanOptions!.kind!.should.equal(SpanKind.CONSUMER);
       getSpanContext(tracer.context!)!.should.equal(fakeParentSpanContext);
 
-      const attributes = tracer.getRootSpans()[0].attributes;
+      const attributes = tracer.getActiveSpans().find((s) => s.name === "Azure.ServiceBus.process")
+        ?.attributes;
 
       attributes!.should.deep.equal({
         "az.namespace": "Microsoft.ServiceBus",

@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import Sinon from "sinon";
-import assert from "assert";
+import { assert } from "chai";
 import { PublicClientApplication } from "@azure/msal-node";
 import { env, isLiveMode } from "@azure/test-utils-recorder";
 import { DeviceCodeCredential } from "../../../src";

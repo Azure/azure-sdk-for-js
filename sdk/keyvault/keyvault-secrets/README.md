@@ -19,14 +19,23 @@ Use the client library for Azure Key Vault Secrets in your Node.js application t
 
 > Note: This package cannot be used in the browser due to Azure Key Vault service limitations, please refer to [this document](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/cors/ts/README.md) for guidance.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-secrets) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-secrets) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-secrets) | [Product documentation](https://azure.microsoft.com/services/key-vault/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-secrets/samples)
+Key links:
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-secrets)
+- [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-secrets)
+- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-secrets)
+- [Product documentation](https://azure.microsoft.com/services/key-vault/)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-secrets/samples)
 
 ## Getting started
 
-**Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
-[Key Vault resource](https://docs.microsoft.com/azure/key-vault/quick-create-portal) to use this package.
+### Currently supported environments
 
-If you are using this package in a Node.js application, then use Node.js 8.x or higher.
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+
+### Prerequisites
+
+- An [Azure subscription](https://azure.microsoft.com/free/)
+- A [Key Vault resource](https://docs.microsoft.com/azure/key-vault/quick-create-portal)
 
 ### Install the package
 

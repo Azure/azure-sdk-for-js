@@ -1,12 +1,13 @@
 let nock = require('nock');
 
-module.exports.hash = "3afaa64df3eeab28842ce1f03082e907";
+module.exports.hash = "ef90c96725e8c95905086af9bf6b09e1";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F")
-  .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [ 'Cache-Control',
+  .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
+  'Cache-Control',
   'no-store, no-cache',
   'Pragma',
   'no-cache',
@@ -21,39 +22,39 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '8a0d8775-ec8e-4ff6-8657-133fef510500',
+  '3cfbaaa6-4e1b-4920-bc95-a98c139fc700',
   'x-ms-ests-server',
-  '2.1.11722.21 - SCUS ProdSlices',
+  '2.1.11829.8 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=AvdLD2y-oatMiFpwSkE7LmV4ycTJBAAAAAelQNgOAAAA; expires=Fri, 25-Jun-2021 20:22:36 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AuprCnhyY41DlXA04J6n6rR4ycTJBAAAAGkJZNgOAAAA; expires=Thu, 22-Jul-2021 16:40:13 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 26 May 2021 20:22:35 GMT',
+  'Tue, 22 Jun 2021 16:40:12 GMT',
   'Content-Length',
-  '1321' ]);
+  '1321'
+]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .put('/scenes/satellite/ingest-data/test-job-id-1622056799928', {"farmerId":"test-farmer-id-1622056799928","boundaryId":"test-boundary-id-1622056799928","startDateTime":"2020-02-01T08:00:00.000Z","endDateTime":"2020-03-02T08:00:00.000Z","data":{"imageNames":["LAI"]}})
+  .put('/scenes/satellite/ingest-data/jhjob103node', {"farmerId":"tst103node","boundaryId":"jhboundary103node","startDateTime":"2020-02-01T08:00:00.000Z","endDateTime":"2020-03-02T08:00:00.000Z","data":{"imageNames":["LAI"]}})
   .query(true)
-  .reply(202, {"farmerId":"test-farmer-id-1622056799928","boundaryId":"test-boundary-id-1622056799928","startDateTime":"2020-02-01T08:00:00Z","endDateTime":"2020-03-02T08:00:00Z","provider":"Microsoft","source":"Sentinel_2_L2A","data":{"imageNames":["LAI"],"imageFormats":["TIF"],"imageResolutions":[10]},"id":"test-job-id-1622056799928","status":"Waiting","message":"Created job 'test-job-id-1622056799928' to fetch satellite data for boundary 'test-boundary-id-1622056799928' from startDate '02/01/2020' to endDate '03/02/2020' (both inclusive).","createdDateTime":"2021-05-26T20:22:36Z","lastActionDateTime":"2021-05-26T20:22:36Z","startTime":"2021-05-26T20:22:36Z"}, [ 'Server',
-  'nginx/1.19.1',
+  .reply(202, {"farmerId":"tst103node","boundaryId":"jhboundary103node","startDateTime":"2020-02-01T08:00:00Z","endDateTime":"2020-03-02T08:00:00Z","provider":"Microsoft","source":"Sentinel_2_L2A","data":{"imageNames":["LAI"],"imageFormats":["TIF"],"imageResolutions":[10]},"id":"jhjob103node","status":"Waiting","message":"Created job 'jhjob103node' to fetch satellite data for boundary 'jhboundary103node' from startDate '02/01/2020' to endDate '03/02/2020' (both inclusive).","createdDateTime":"2021-06-22T16:40:13Z","lastActionDateTime":"2021-06-22T16:40:13Z","startTime":"2021-06-22T16:40:13Z"}, [
   'Date',
-  'Wed, 26 May 2021 20:22:36 GMT',
+  'Tue, 22 Jun 2021 16:40:13 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
-  '657',
+  '587',
   'Connection',
   'keep-alive',
   'location',
-  'https://endpoint/scenes/satellite/ingest-data/test-job-id-1622056799928?api-version=2021-03-31-preview',
+  'https://endpoint/scenes/satellite/ingest-data/jhjob103node?api-version=2021-03-31-preview',
   'x-ms-request-id',
-  '0HM903JASEQ5E:00000002',
+  '0HM9KPK8BCNOU:00000001',
   'operation-location',
-  'https://endpoint/scenes/satellite/ingest-data/test-job-id-1622056799928?api-version=2021-03-31-preview',
+  'https://endpoint/scenes/satellite/ingest-data/jhjob103node?api-version=2021-03-31-preview',
   'api-supported-versions',
   '2021-03-31-preview',
   'api-deprecated-versions',
@@ -61,15 +62,15 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'x-ms-throttle-information',
   '5',
   'Strict-Transport-Security',
-  'max-age=15724800; includeSubDomains' ]);
+  'max-age=15724800; includeSubDomains'
+]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('/scenes/satellite/ingest-data/test-job-id-1622056799928')
+  .get('/scenes/satellite/ingest-data/jhjob103node')
   .query(true)
-  .reply(200, ["1f8b080000000000000384915d6bc2301486ff4ac84d37b09a46ecb477b221086e175b61e01089cda966b4cd484e8521fef79d5a75c8e606b9c97b9ef3f59e1dcf952bc14d354f3882c7b0fd874687512ca518c477a3d1480e7987af6c5d69e53ebfd993f21bed51397c5008a9298112a49022143214512a868910f4e68441a57f407de22ea00f67b7468323e2d164ce7a9b63d3c2d62e6bd25ea0425341b194cb991c53442b543cd97153aa353ca9123c4fdef86c3ce58b4e2b4eac2b151ee4743a39cbcfe06d51a3b155138a44572cf6143a6ffc6e575796c59a32f8ab3234c99a24eae9a92069f70e6843cd28970557ab040c2dcb01b30df38417854160cd1e2cb78e9d9c3e16b86a7cc072674b76369f0542f644d46b8c3d7438fa4d7abf47a156bf5959dc30536545edcd166ebb347fd64e7d799c28148350c6a9148994493f6e8e53288fe3acb1ec7ff630d75fc8fe0b0000ffff","0300f3bf29d391020000"], [ 'Server',
-  'nginx/1.19.1',
+  .reply(200, ["1f8b08000000000004038451cb6ac33010fc15a18b5b8813592ea1f8165a0281b487d650680941b1d6b1826d15691d2821ffde95f36ac8a1a083343b33bb3bdaf152b906dc4cf38ca3c744a4add5c0077c65bb562bf7d35736d5e9792178540e9f15426e1a20b51452c442c622c9c56326049d4ff28156df9052e25d91be9ddd1a0d8e6c5e4ce1acb72592d6dbce15c1fb1d5a342dd44bb99ccb0955b442c5b31d378d5ac3ab6ac0f3ec8bcf2733be181cc0a9758dc21ece67d333fc06ded61d1adb8652228662b12745587f536decea6a3fec88c43f94a1e66bea4a6d3cf523ecc9016dae192958f4571831b4ac042c2ae68951d70681856959691d3ba51834a7fbb163c44a671b764e9545428e44320ab1f6a6c720094f47543ae0772b8b15336d5177de6ce17e48531687d9ae534f62318ea5cc9371f620b2240d5f532b8f932264f13fb79febf2d3b776fb5f000000ffff","0300e7d121b44b020000"], [
   'Date',
-  'Wed, 26 May 2021 20:22:37 GMT',
+  'Tue, 22 Jun 2021 16:40:14 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Transfer-Encoding',
@@ -79,7 +80,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Vary',
   'Accept-Encoding',
   'x-ms-request-id',
-  '0HM903JA9C7E9:00000001',
+  '0HM9KPK871A32:00000001',
   'api-supported-versions',
   '2021-03-31-preview',
   'api-deprecated-versions',
@@ -89,88 +90,5 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Content-Encoding',
-  'gzip' ]);
-
-nock('https://endpoint', {"encodedQueryParams":true})
-  .get('/scenes/satellite/ingest-data/test-job-id-1622056799928')
-  .query(true)
-  .reply(200, ["1f8b08000000000000037c925d6bc2301486ff4ac84d37b09a46ecb477b221086e17ae570e91d89e6a469b8ce45418e27fdfa955876c0ab9c97b9ef3f5267b5e2857819be63ce1081ec3f61eea3c8c6229c5207e1a8d4672c83b7c6d6b932bf7fdcb9e95ff688fcae18b4248750594208514a190a18852314c84a0b3200c4cfe07ea1377057d39bbd33938225e75e6acb705362d6cedb226ed1d0c6a03e54aae66724c915ca1e2c99eeb4a6de04d55e079f2c167e3295f765a71625da5f028a7d3c9459e83b7658dda9a261489ae581e2874d9f8d3ae6f2c8b3565f0796d8c361b92a8a7a782a43d3ba00d7346b92cb8592560685901986d9927bc2c35026bf6608575ececf4a9c04de30356385bb18bf92c10b227a25e63ecb1c3c96fd2fb3d0ab5fac3dae296699395b5d73b78ecd2fc593bf5f5e344a11884324ea548a44cfa71f338a5f238ce1acbeeb2c3c5f953dc2b77f8010000ffff","03005d10c59b91020000"], [ 'Server',
-  'nginx/1.19.1',
-  'Date',
-  'Wed, 26 May 2021 20:22:43 GMT',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Transfer-Encoding',
-  'chunked',
-  'Connection',
-  'keep-alive',
-  'Vary',
-  'Accept-Encoding',
-  'x-ms-request-id',
-  '0HM903JCGNAKF:00000002',
-  'api-supported-versions',
-  '2021-03-31-preview',
-  'api-deprecated-versions',
-  '2020-12-31-preview',
-  'x-ms-throttle-information',
-  '1',
-  'Strict-Transport-Security',
-  'max-age=15724800; includeSubDomains',
-  'Content-Encoding',
-  'gzip' ]);
-
-nock('https://endpoint', {"encodedQueryParams":true})
-  .get('/scenes/satellite/ingest-data/test-job-id-1622056799928')
-  .query(true)
-  .reply(200, ["1f8b08000000000000037c925d6bc2301486ff4ac84d37b09a46ecb477b221086e17ae570e91d89e6a469b8ce45418e27fdfa955876c0ab9c97b9ef3f5267b5e2857819be63ce1081ec3f61eea3c8c6229c5207e1a8d4672c83b7c6d6b932bf7fdcb9e95ff688fcae18b4248750594208514a190a18852314c84a0b3200c4cfe07ea1377057d39bbd33938225e75e6acb705362d6cedb226ed1d0c6a03e54aae66724c915ca1e2c99eeb4a6de04d55e079f2c167e3295f765a71625da5f028a7d3c9459e83b7658dda9a261489ae581e2874d9f8d3ae6f2c8b3565f0796d8c361b92a8a7a782a43d3ba00d7346b92cb8592560685901986d9927bc2c35026bf6608575ececf4a9c04de30356385bb18bf92c10b227a25e63ecb1c3c96fd2fb3d0ab5fac3dae296699395b5d73b78ecd2fc593bf5f5e344a11884324ea548a44cfa71f338a5f238ce1acbeeb2c3c5f953dc2b77f8010000ffff","03005d10c59b91020000"], [ 'Server',
-  'nginx/1.19.1',
-  'Date',
-  'Wed, 26 May 2021 20:22:48 GMT',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Transfer-Encoding',
-  'chunked',
-  'Connection',
-  'keep-alive',
-  'Vary',
-  'Accept-Encoding',
-  'x-ms-request-id',
-  '0HM903J177QF5:00000001',
-  'api-supported-versions',
-  '2021-03-31-preview',
-  'api-deprecated-versions',
-  '2020-12-31-preview',
-  'x-ms-throttle-information',
-  '1',
-  'Strict-Transport-Security',
-  'max-age=15724800; includeSubDomains',
-  'Content-Encoding',
-  'gzip' ]);
-
-nock('https://endpoint', {"encodedQueryParams":true})
-  .get('/scenes/satellite/ingest-data/test-job-id-1622056799928')
-  .query(true)
-  .reply(200, ["1f8b08000000000000037c915f6bc23014c5bf4ac8b32d699cd5f64d1842c1ed61f6c9212336b79a91265b920a227ef7dd28baff425e72cfefdc9c9b7ba0ad701db84ad29206f02139df1325932ce79c8df27151147c4207746d7b2385db7fb297ca5fb40fc2857b11a0561da08133ce12c61396d56c52328667891818f90b1a22f70d7a7376a72438241e54e3acb76d884fd8de35d1b600139401fdc25fe67c8a8a1441d0f240552736f0283af0b47ca6f3694557837371665d27c2a95c57b36bf909bcd57d50d6442963295b1d51ba4efc6ad7ff0c1b7a1f93f44d032041c610bd13b1536516d0582351cf783a1ee613c6f201c5501e5f8c26fc00ad5500127313e589d809a5c55a0369ad23194761ef49eb6c472e7f419421610bc4c17b8fc94046335e85d9404a4e39bc6f7badf7a485d06ccf80f8da30c5908d03b4fdd84196b051c2f39ab392f37298c71d68e1c3b489f3dc62ef8ae565f7b7dbe1de6ff5387e000000ffff","030095b56bc399020000"], [ 'Server',
-  'nginx/1.19.1',
-  'Date',
-  'Wed, 26 May 2021 20:22:54 GMT',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Transfer-Encoding',
-  'chunked',
-  'Connection',
-  'keep-alive',
-  'Vary',
-  'Accept-Encoding',
-  'x-ms-request-id',
-  '0HM903JA9C7E9:00000002',
-  'api-supported-versions',
-  '2021-03-31-preview',
-  'api-deprecated-versions',
-  '2020-12-31-preview',
-  'x-ms-throttle-information',
-  '1',
-  'Strict-Transport-Security',
-  'max-age=15724800; includeSubDomains',
-  'Content-Encoding',
-  'gzip' ]);
+  'gzip'
+]);

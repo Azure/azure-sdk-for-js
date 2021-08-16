@@ -72,6 +72,14 @@ export class ChangeFeedResponse<T> {
 export class ClientContext {
     constructor(cosmosClientOptions: CosmosClientOptions, globalEndpointManager: GlobalEndpointManager);
     // (undocumented)
+    batch<T>({ body, path, partitionKey, resourceId, options }: {
+        body: T;
+        path: string;
+        partitionKey: string;
+        resourceId: string;
+        options?: RequestOptions;
+    }): Promise<Response<any>>;
+    // (undocumented)
     bulk<T>({ body, path, partitionKeyRangeId, resourceId, bulkOptions, options }: {
         body: T;
         path: string;
@@ -112,7 +120,11 @@ export class ClientContext {
     // (undocumented)
     getReadEndpoint(): Promise<string>;
     // (undocumented)
+    getReadEndpoints(): Promise<readonly string[]>;
+    // (undocumented)
     getWriteEndpoint(): Promise<string>;
+    // (undocumented)
+    getWriteEndpoints(): Promise<readonly string[]>;
     // (undocumented)
     partitionKeyDefinitionCache: {
         [containerUrl: string]: any;
@@ -235,7 +247,9 @@ export enum ConnectionMode {
 // @public
 export interface ConnectionPolicy {
     connectionMode?: ConnectionMode;
+    enableBackgroundEndpointRefreshing?: boolean;
     enableEndpointDiscovery?: boolean;
+    endpointRefreshRateInMs?: number;
     preferredLocations?: string[];
     requestTimeout?: number;
     retryOptions?: RetryOptions;
@@ -403,6 +417,10 @@ export const Constants: {
         MinimumInclusiveEffectivePartitionKey: string;
         MaximumExclusiveEffectivePartitionKey: string;
     };
+    EffectivePartitionKeyConstants: {
+        MinimumInclusiveEffectivePartitionKey: string;
+        MaximumExclusiveEffectivePartitionKey: string;
+    };
 };
 
 // @public
@@ -486,9 +504,12 @@ export class CosmosClient {
     constructor(options: CosmosClientOptions);
     database(id: string): Database;
     readonly databases: Databases;
+    dispose(): void;
     getDatabaseAccount(options?: RequestOptions): Promise<ResourceResponse<DatabaseAccount>>;
     getReadEndpoint(): Promise<string>;
+    getReadEndpoints(): Promise<readonly string[]>;
     getWriteEndpoint(): Promise<string>;
+    getWriteEndpoints(): Promise<readonly string[]>;
     offer(id: string): Offer;
     readonly offers: Offers;
 }
@@ -839,6 +860,7 @@ export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T &
 // @public
 export class Items {
     constructor(container: Container, clientContext: ClientContext);
+    batch(operations: OperationInput[], partitionKey?: string, options?: RequestOptions): Promise<Response<any>>;
     bulk(operations: OperationInput[], bulkOptions?: BulkOptions, options?: RequestOptions): Promise<OperationResponse[]>;
     changeFeed(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     changeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
@@ -1291,6 +1313,8 @@ export type ReplaceOperation = OperationWithItem & {
 
 // @public (undocumented)
 export interface ReplaceOperationInput {
+    // (undocumented)
+    id: string;
     // (undocumented)
     ifMatch?: string;
     // (undocumented)

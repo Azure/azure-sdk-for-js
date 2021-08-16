@@ -80,7 +80,7 @@ export function nodeConfig(test = false) {
     baseConfig.output.file = "dist-test/index.node.js";
 
     // mark assert packages we use as external
-    baseConfig.external.push("assert");
+    baseConfig.external.push("assert", "path");
 
     baseConfig.external.push(...Object.keys(pkg.dependencies), ...Object.keys(pkg.devDependencies));
 
@@ -107,7 +107,7 @@ export function browserConfig(test = false) {
       },
       sourcemap: true
     },
-    external: ["nock", "fs-extra"],
+    external: ["nock", "fs-extra", "path"],
     preserveSymlinks: false,
     plugins: [
       sourcemaps(),
@@ -161,7 +161,12 @@ export function browserConfig(test = false) {
 
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.plugins.unshift(
-      ...[shim({ path: `export function join() {}`, dotenv: `export function config() { }` })]
+      ...[
+        shim({
+          path: `export function join() {}`,
+          dotenv: `export function config() { }`
+        })
+      ]
     );
 
     baseConfig.output.file = "dist-test/index.browser.js";

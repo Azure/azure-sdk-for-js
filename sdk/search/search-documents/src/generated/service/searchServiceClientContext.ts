@@ -8,17 +8,17 @@
 
 import * as coreHttp from "@azure/core-http";
 import {
-  ApiVersion20200630Preview,
+  ApiVersion20210430Preview,
   SearchServiceClientOptionalParams
 } from "./models";
 
 const packageName = "@azure/search-documents";
-const packageVersion = "11.3.0-beta.1";
+const packageVersion = "11.3.0-beta.3";
 
 /** @internal */
 export class SearchServiceClientContext extends coreHttp.ServiceClient {
   endpoint: string;
-  apiVersion: ApiVersion20200630Preview;
+  apiVersion: ApiVersion20210430Preview;
 
   /**
    * Initializes a new instance of the SearchServiceClientContext class.
@@ -28,7 +28,7 @@ export class SearchServiceClientContext extends coreHttp.ServiceClient {
    */
   constructor(
     endpoint: string,
-    apiVersion: ApiVersion20200630Preview,
+    apiVersion: ApiVersion20210430Preview,
     options?: SearchServiceClientOptionalParams
   ) {
     if (endpoint === undefined) {
@@ -43,17 +43,20 @@ export class SearchServiceClientContext extends coreHttp.ServiceClient {
       options = {};
     }
 
-    if (!options.userAgent) {
-      const defaultUserAgent = coreHttp.getDefaultUserAgentValue();
-      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
-    }
+    const defaultUserAgent = `azsdk-js-${packageName.replace(
+      "@azure/",
+      ""
+    )}/${packageVersion} ${coreHttp.getDefaultUserAgentValue()}`;
 
-    super(undefined, options);
+    super(undefined, {
+      ...options,
+      userAgent: options.userAgent
+        ? `${options.userAgent} ${defaultUserAgent}`
+        : `${defaultUserAgent}`
+    });
 
     this.requestContentType = "application/json; charset=utf-8";
-
     this.baseUri = options.endpoint || "{endpoint}";
-
     // Parameter assignments
     this.endpoint = endpoint;
     this.apiVersion = apiVersion;
