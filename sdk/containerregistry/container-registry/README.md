@@ -10,6 +10,7 @@ Use the client library for Azure Container Registry to:
 - Delete images and artifacts, repositories and tags
 
 Key links:
+
 - [Source code][source]
 - [Package (NPM)][package]
 - [API reference documentation][api_docs]
@@ -203,7 +204,7 @@ async function main() {
     let imageCount = 0;
     // Delete images older than the first three.
     for await (const manifest of imageManifests) {
-      if (imageCount++ > imagesToKeep) {
+      if (imageCount++ >= imagesToKeep) {
         const image = repository.getArtifact(manifest.digest);
         console.log(`Deleting image with digest ${manifest.digest}`);
         console.log(`  Deleting the following tags from the image:`);
