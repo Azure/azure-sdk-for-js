@@ -174,16 +174,20 @@ export function fixInvalidBatchQueryResponse(
  * @internal
  */
 export function convertRequestForMetrics(
-  timespan: string,
   queryMetricsOptions: QueryMetricsOptions | undefined
 ): GeneratedMetricsListOptionalParams {
   if (!queryMetricsOptions) {
-    return {
-      timespan
-    };
+    return {};
   }
 
-  const { orderBy, metricNames, aggregations, metricNamespace, ...rest } = queryMetricsOptions;
+  const {
+    orderBy,
+    metricNames,
+    aggregations,
+    metricNamespace,
+    timespan,
+    ...rest
+  } = queryMetricsOptions;
 
   const obj: GeneratedMetricsListOptionalParams = {
     ...rest,

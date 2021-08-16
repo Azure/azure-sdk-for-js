@@ -18,10 +18,12 @@ import {
 export interface QueryMetricsOptions extends OperationOptions {
   /** The interval (i.e. timegrain) of the query. */
   interval?: string;
+  /** The enclosing timespan for metrics. This is an ISO8601 time period value. */
+  timespan?: string;
   /** The names of the metrics to retrieve **/
   metricNames?: string[];
   /** The list of aggregation types (comma separated) to retrieve. */
-  aggregations?: string[];
+  aggregations?: AggregationType[];
   /**
    * The maximum number of records to retrieve.
    * Valid only if $filter is specified.

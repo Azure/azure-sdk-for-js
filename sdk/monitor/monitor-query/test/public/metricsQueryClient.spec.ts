@@ -4,6 +4,7 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 import { Durations, MetricsQueryClient } from "../../src";
+import { timespan } from "../../src/generated/logquery/src/models/parameters";
 
 import { createTestClientSecretCredential, getMetricsArmResourceId } from "./shared/testShared";
 
@@ -22,7 +23,7 @@ describe("MetricsClient live tests", function() {
 
     // you can only query 20 metrics at a time.
     for (const definition of metricDefinitions.definitions) {
-      const result = await metricsQueryClient.queryMetrics(resourceId, Durations.last24Hours, {
+      const result = await metricsQueryClient.queryMetrics(resourceId, {
         metricNames: [definition.name || ""]
       });
 
@@ -46,8 +47,9 @@ describe("MetricsClient live tests", function() {
         }
       }
 
-      const newResults = await metricsQueryClient.queryMetrics(resourceId, Durations.last24Hours, {
-        metricNames: definitionNames
+      const newResults = await metricsQueryClient.queryMetrics(resourceId, {
+        metricNames: definitionNames,
+        timespan: Durations.last24Hours
       });
 
       assert.ok(newResults);
@@ -62,14 +64,11 @@ describe("MetricsClient live tests", function() {
     assert.isNotEmpty(firstMetricDefinition.name);
     assert.isNotEmpty(firstMetricDefinition.namespace);
 
-    const individualMetricWithNamespace = metricsQueryClient.queryMetrics(
-      resourceId,
-      Durations.last24Hours,
-      {
-        metricNames: [firstMetricDefinition.name!],
-        metricNamespace: firstMetricDefinition.namespace
-      }
-    );
+    const individualMetricWithNamespace = metricsQueryClient.queryMetrics(resourceId, {
+      metricNames: [firstMetricDefinition.name!],
+      timespan: Durations.last24Hours,
+      metricNamespace: firstMetricDefinition.namespace
+    });
 
     assert.ok(individualMetricWithNamespace);
   });

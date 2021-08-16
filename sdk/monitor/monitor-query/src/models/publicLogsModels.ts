@@ -84,7 +84,7 @@ export interface BatchQuery {
   /** The query to execute. */
   query: string;
   /** The timespan over which to query data. This is an ISO8601 time period value.  This timespan is applied in addition to any that are specified in the query expression. */
-  timespan: string;
+  timespan?: string;
   /**
    * A list of workspaces that are included in the query, except for the one set as the `workspaceId` parameter
    * These may consist of the following identifier formats:
