@@ -4,7 +4,6 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 import { Durations, MetricsQueryClient } from "../../src";
-import { timespan } from "../../src/generated/logquery/src/models/parameters";
 
 import { createTestClientSecretCredential, getMetricsArmResourceId } from "./shared/testShared";
 

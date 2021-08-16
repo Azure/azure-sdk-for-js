@@ -110,7 +110,7 @@ describe("Model unit tests", () => {
       // (Required<T> just to make sure I don't forget a field)
       const track2Model: Required<QueryMetricsOptions> = {
         abortSignal,
-        aggregations: ["agg1", "agg2"],
+        aggregations: ["Average", "Maximum"],
         filter: "arbitraryFilter",
         interval: "arbitraryInterval",
         metricNames: ["name1", "name2"],
@@ -119,19 +119,19 @@ describe("Model unit tests", () => {
         requestOptions,
         resultType: "Data",
         top: 10,
+        timespan: "arbitraryTimespan",
         tracingOptions,
         serializerOptions,
         onResponse
       };
 
       const actualMetricsRequest: GeneratedMetricsListOptionalParams = convertRequestForMetrics(
-        "arbitraryTimespan",
         track2Model
       );
 
       const expectedMetricsRequest: GeneratedMetricsListOptionalParams = {
         abortSignal,
-        aggregation: "agg1,agg2",
+        aggregation: "Average,Maximum",
         filter: "arbitraryFilter",
         interval: "arbitraryInterval",
         metricnames: "name1,name2",
@@ -150,10 +150,10 @@ describe("Model unit tests", () => {
     });
 
     it("convertRequestForMetrics (only required fields)", () => {
-      assert.deepEqual(convertRequestForMetrics(Durations.lastDay, undefined), {
+      assert.deepEqual(convertRequestForMetrics({ timespan: Durations.lastDay }), {
         timespan: Durations.lastDay
       });
-      assert.deepEqual(convertRequestForMetrics(Durations.last2Days, {}), {
+      assert.deepEqual(convertRequestForMetrics({ timespan: Durations.last2Days }), {
         timespan: Durations.last2Days
       });
     });

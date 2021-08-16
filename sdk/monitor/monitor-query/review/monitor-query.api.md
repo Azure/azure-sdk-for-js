@@ -18,7 +18,7 @@ export interface BatchQuery {
     includeVisualization?: boolean;
     query: string;
     serverTimeoutInSeconds?: number;
-    timespan: string;
+    timespan?: string;
     workspaceId: string;
 }
 
@@ -185,7 +185,7 @@ export class MetricsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: MetricsClientOptions);
     getMetricDefinitions(resourceUri: string, options?: GetMetricDefinitionsOptions): Promise<GetMetricDefinitionsResult>;
     getMetricNamespaces(resourceUri: string, options?: GetMetricNamespacesOptions): Promise<GetMetricNamespacesResult>;
-    queryMetrics(resourceUri: string, timespan: string, options?: QueryMetricsOptions): Promise<QueryMetricsResult>;
+    queryMetrics(resourceUri: string, options?: QueryMetricsOptions): Promise<QueryMetricsResult>;
 }
 
 // @public
@@ -242,13 +242,14 @@ export interface QueryLogsResult {
 
 // @public
 export interface QueryMetricsOptions extends OperationOptions {
-    aggregations?: string[];
+    aggregations?: AggregationType[];
     filter?: string;
     interval?: string;
     metricNames?: string[];
     metricNamespace?: string;
     orderBy?: string;
     resultType?: ResultType;
+    timespan?: string;
     top?: number;
 }
 
