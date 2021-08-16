@@ -18,7 +18,7 @@ rest-level-client: true
 add-credentials: true
 credential-scopes: "https://purview.azure.net/.default"
 use-extension:
-  "@autorest/typescript": "6.0.0-alpha.8.20210812.1"
+  "@autorest/typescript": "https://aka.ms/azsdk/typescript/rlc"
 ```
 
 ```yaml

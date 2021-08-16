@@ -2159,12 +2159,12 @@ packages:
       node: '>= 0.4'
     resolution:
       integrity: sha512-SA5mXJWrId1TaQjfxUYghbqQ/hYioKmLJvPJyDuYRtXXenFNMjj4hSSt1Cf1xsuXSXrtxrVC5Ot4eU6cOtBDdA==
-  /avsc/5.7.2:
+  /avsc/5.7.3:
     dev: false
     engines:
       node: '>=0.11'
     resolution:
-      integrity: sha512-9fZMS1meEfZriKMiLmOlQu4/3WFGkH2BM5aU++iRciUeHJ8L4K0T+bfYqpQS7X2ywEu18Dqp6aq9fIRXkvZ+TQ==
+      integrity: sha512-uUbetCWczQHbsKyX1C99XpQHBM8SWfovvaZhPIj23/1uV7SQf0WeRZbiLpw0JZm+LHTChfNgrLfDJOVoU2kU+A==
   /aws-sign2/0.7.0:
     dev: false
     resolution:
@@ -2369,7 +2369,7 @@ packages:
     dependencies:
       caniuse-lite: 1.0.30001251
       colorette: 1.3.0
-      electron-to-chromium: 1.3.805
+      electron-to-chromium: 1.3.806
       escalade: 3.1.1
       node-releases: 1.1.74
     dev: false
@@ -3120,10 +3120,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
-  /electron-to-chromium/1.3.805:
+  /electron-to-chromium/1.3.806:
     dev: false
     resolution:
-      integrity: sha512-uUJF59M6pNSRHQaXwdkaNB4BhSQ9lldRdG1qCjlrAFkynPGDc5wPoUcYEQQeQGmKyAWJPvGkYAWmtVrxWmDAkg==
+      integrity: sha512-AH/otJLAAecgyrYp0XK1DPiGVWcOgwPeJBOLeuFQ5l//vhQhwC9u6d+GijClqJAmsHG4XDue81ndSQPohUu0xA==
   /emoji-regex/7.0.3:
     dev: false
     resolution:
@@ -3277,13 +3277,13 @@ packages:
       eslint: '>=7.0.0'
     resolution:
       integrity: sha512-rV4Qu0C3nfJKPOAhFujFxB7RMP+URFyQqqOZW9DMRD7ZDTFyjaIlETU3xzHELt++4ugC0+Jm084HQYkkJe+Ivg==
-  /eslint-import-resolver-node/0.3.5:
+  /eslint-import-resolver-node/0.3.6:
     dependencies:
       debug: 3.2.7
       resolve: 1.20.0
     dev: false
     resolution:
-      integrity: sha512-XMoPKjSpXbkeJ7ZZ9icLnJMTY5Mc1kZbCakHquaFsXPpyWOwK0TK6CODO+0ca54UoM9LKOxyUNnoVZRl8TeaAg==
+      integrity: sha512-0En0w03NRVMn9Uiyn8YRPDKvWjxCWkslUEhGNTdGx15RvPJYQ+lbOlqrlNI2vEAs4pDYK4f/HN2TbDmk5TP0iw==
   /eslint-module-utils/2.6.2:
     dependencies:
       debug: 3.2.7
@@ -3312,7 +3312,7 @@ packages:
       debug: 2.6.9
       doctrine: 2.1.0
       eslint: 7.32.0
-      eslint-import-resolver-node: 0.3.5
+      eslint-import-resolver-node: 0.3.6
       eslint-module-utils: 2.6.2
       find-up: 2.1.0
       has: 1.0.3
@@ -4952,10 +4952,10 @@ packages:
       '0': node >=0.6.0
     resolution:
       integrity: sha1-MT5mvB5cwG5Di8G3SZwuXFastqI=
-  /jsrsasign/10.3.0:
+  /jsrsasign/10.3.2:
     dev: false
     resolution:
-      integrity: sha512-irDIKKFW++EAELgP3fjFi5/Fn0XEyfuQTTgpbeFwCGkV6tRIYZl3uraRea2HTXWCstcSZuDaCbdAhU1n+075Bg==
+      integrity: sha512-ZlBW/+rfxJZZZMTM/MSWLtKJrbuio7GHfOMGtt2gLzNPVe4IrYCggtQi3Of6e9jOc90Y8CLCdbAGPHDBmBD9Zg==
   /jssha/2.4.2:
     deprecated: jsSHA versions < 3.0.0 will no longer receive feature updates
     dev: false
@@ -8892,7 +8892,7 @@ packages:
       eslint: 7.32.0
       esm: 3.2.25
       inherits: 2.0.4
-      jsrsasign: 10.3.0
+      jsrsasign: 10.3.2
       karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
@@ -9543,7 +9543,7 @@ packages:
     dev: false
     name: '@rush-temp/core-client-paging'
     resolution:
-      integrity: sha512-Ccr/pJL8OOZx3loL11Au8iprx0KyCc3AELZ/8nZlrHAE2r8r7PDGbeh0NQmu1hJOdn1xv7vB3IX7nFDRn3pDtw==
+      integrity: sha512-bsDMFvEcIAb5YzNyy2nbN/9r6iqMizurHzWN6bT+C4son4pDW7+ij6qMx/FKi9l+HiMhx8Ns6prqJypy8g30IQ==
       tarball: file:projects/core-client-paging.tgz
     version: 0.0.0
   file:projects/core-client.tgz:
@@ -11580,7 +11580,7 @@ packages:
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
       '@types/node': 12.20.19
-      avsc: 5.7.2
+      avsc: 5.7.3
       buffer: 5.7.1
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4

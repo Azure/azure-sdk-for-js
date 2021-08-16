@@ -2,23 +2,22 @@
  "recordings": [
   {
    "method": "GET",
-   "url": "https://skrattestation.azurewebsites.net//generate-test-token",
+   "url": "https://skr_attestation.azure.net//generate-test-token",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"token\":\"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImpfRUZtUTVVQm9lNHJMNUltNmw1cU1rQXN0QXluaE5JQUJ6dFZLQ0RMV1UiLCJqa3UiOiJodHRwczovL3NrcmF0dGVzdGF0aW9uLmF6dXJld2Vic2l0ZXMubmV0L2tleXMifQ.eyJpc3MiOiJodHRwczovL3NrcmF0dGVzdGF0aW9uLmF6dXJld2Vic2l0ZXMubmV0LyIsInNkay10ZXN0Ijp0cnVlLCJ4LW1zLWluaXR0aW1lIjp7fSwieC1tcy1ydW50aW1lIjp7ImtleXMiOlt7Imt0eSI6IlJTQSIsImtpZCI6ImZha2UtcmVsZWFzZS1rZXkiLCJ1c2UiOiJlbmMiLCJlIjoiQVFBQiIsIm4iOiJzTFQ5clY2anVJOUdVRHM2TFpBUkw0WENadXpZVGVjQmRpSDVDdmZwUXhzUFczYUEycDcyOXJVeXc3MHhkQWxlWEUydjVjZExkX1Nlcy1Ramg4NnlHc0lsZWdlSGtzSnFXNC1hejE1OWdhMWVkTnhYbndMb2k1b2Z3bnlfS1FVemt3T1IwdnhaV0Qtb0R4QWE4aXZxU0Z2OXdYdVU4aVZlRkE0VUZLYjU0N3BlWE1ZNkhkM2F0Z0JIanVEMWdhOHNBRjNOVXRBVE1IODVHWnFublpKOXRiMDVDT2tTaGVUbWJPaWdkRE1JUTFQX3YzTjFWVVBVVmNiWG5MdzYxMExuZG9Sd3MwdFh4c2UtblExaGRpU3JCVC0xNFZhcjBxX2YwU2drTzhXMm9WMVdLTmNkNVJKeWRXdS1rNWtYUkM4NHZBcVcyeGNCWU1XSWhnWWJaU21YUVEifV19LCJtYWEtZWhkIjoic2RrLXRlc3QiLCJpYXQiOjE2MjcwODgyNTAsImV4cCI6MTk0MjY2NDI1MH0.aBReJ1rDr6SoYgMl8D9EchIG3u7MLtVNW2pReZj2mkokrKQVhpV-0dH9lIL3PcJctYIdat9ZTpZUMmuj8ezLUn6otAvLcOjAnkyOH2C7TzyqVkKEhRqj6xUd2_hyTzsEIc9QvkAXcbTm8QSXnwHI_NtzpC6Fdl0pZMfirltbzUgz_0LNkN_yOD4f7sTdu_O4BDfxicwvBRqYdqWtPCKA4rgjrS3R9ebeCuj3QgGL2pQT-9n4Sf2kgJdKtP4lV0gwNR9Zo2NoGWVPwJKyPxbNbe1iC8QikQNApd9Mc415mgLqn6OV90ajtyyhSye2xmZ2O1x-RsXJ9eM7JbUNceHEFA\"}",
+   "response": "{\"token\":\"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjA3djBzZFJmcFo0emVPQllXYkU2N21BcXhBR3RfWGRTY0V4TndscmZhc3MiLCJqa3UiOiJodHRwczovL21hbGVnZWR5bmF0dGVzdGF0dGVzdGF0aW9uLmF6dXJld2Vic2l0ZXMubmV0L2tleXMifQ.eyJpc3MiOiJodHRwczovL21hbGVnZWR5bmF0dGVzdGF0dGVzdGF0aW9uLmF6dXJld2Vic2l0ZXMubmV0LyIsInNkay10ZXN0Ijp0cnVlLCJ4LW1zLWluaXR0aW1lIjp7fSwieC1tcy1ydW50aW1lIjp7ImtleXMiOlt7Imt0eSI6IlJTQSIsImtpZCI6ImZha2UtcmVsZWFzZS1rZXkiLCJ1c2UiOiJlbmMiLCJlIjoiQVFBQiIsIm4iOiJ2ZExMXzVDOUE5ZkljSVJ6RjNvSFkzTVY4RTRINDRGX0J0WjBiWHdNdGNEb2xlT3pTS28tMkVxU0w3TDFzQW9sM1Y2SDNrNFQwRk5sTF9fTFQtcFNyUUk3WW80Yk5ZZkprY0FFOWhoVkFBZFd3NDBJYjNpMWRjMnZwTEdtMG5PTWlYb2FsV3VNLVVyLUlNRUM4OVB5Ri1BUWVQTF9Va0lJQk5XMGFWYVhBMGY1SUs3YzNobllfT0U5RzF2anR4MTFyaWdvVDVMNUQ3aWtaU3hNeHFUamU0OXhWc0pBUjNtWGZ2QU1abllkQ3VoQkFicmFsaUpQYWtTbDNFVzNqMEFxdVNUZnFDNDVkMXNjclNNZ0pxUzhvTWstSFJRbmU5cGJvbUJ6UFNlUjVYTzJmaWphTDhLVlNvUjN2Yl9HeUhtTFp6M09CNXk3U3RyYjZEOE11bnpMWHcifV19LCJtYWEtZWhkIjoic2RrLXRlc3QiLCJpYXQiOjE2MjgzNzk2MDAsImV4cCI6MTYyODk4NDQwMH0.xhrY5kIH4SHPKCpUi0iFhU7xNPPOKHcpdJaUaJWjrBjAljA9rRoLWfwB7k4OCUxQR5QJrk3rU_5yB65uDJpSNEodSICvc59IauD613F_ki_Ej027IjoMdB9b11d0CMS-LlARt0i1tbjVqhkI0FQAIJO7FTrPqmxHqv5kOiq8Aum2636S6F8JgQQi6Nuk918hAVgI3xGigoqmslCHF6ZX-0pNr8qlz65eq5Z1pZXBl6SmZKt6Fi2Fao4LrFyX22dZNCDJQ3Vd_Z9V6U9yugUt6Q0-ZiHy8c8bJAn-xjsQaiylzvTPUhHp5ndmdGKHHwYiCxQXQIBVB3K-5N8XqNTmNg\",\"attestationToken\":\"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjA3djBzZFJmcFo0emVPQllXYkU2N21BcXhBR3RfWGRTY0V4TndscmZhc3MiLCJqa3UiOiJodHRwczovL21hbGVnZWR5bmF0dGVzdGF0dGVzdGF0aW9uLmF6dXJld2Vic2l0ZXMubmV0L2tleXMifQ.eyJpc3MiOiJodHRwczovL21hbGVnZWR5bmF0dGVzdGF0dGVzdGF0aW9uLmF6dXJld2Vic2l0ZXMubmV0LyIsInNkay10ZXN0Ijp0cnVlLCJ4LW1zLWluaXR0aW1lIjp7fSwieC1tcy1ydW50aW1lIjp7ImtleXMiOlt7Imt0eSI6IlJTQSIsImtpZCI6ImZha2UtcmVsZWFzZS1rZXkiLCJ1c2UiOiJlbmMiLCJlIjoiQVFBQiIsIm4iOiJ2ZExMXzVDOUE5ZkljSVJ6RjNvSFkzTVY4RTRINDRGX0J0WjBiWHdNdGNEb2xlT3pTS28tMkVxU0w3TDFzQW9sM1Y2SDNrNFQwRk5sTF9fTFQtcFNyUUk3WW80Yk5ZZkprY0FFOWhoVkFBZFd3NDBJYjNpMWRjMnZwTEdtMG5PTWlYb2FsV3VNLVVyLUlNRUM4OVB5Ri1BUWVQTF9Va0lJQk5XMGFWYVhBMGY1SUs3YzNobllfT0U5RzF2anR4MTFyaWdvVDVMNUQ3aWtaU3hNeHFUamU0OXhWc0pBUjNtWGZ2QU1abllkQ3VoQkFicmFsaUpQYWtTbDNFVzNqMEFxdVNUZnFDNDVkMXNjclNNZ0pxUzhvTWstSFJRbmU5cGJvbUJ6UFNlUjVYTzJmaWphTDhLVlNvUjN2Yl9HeUhtTFp6M09CNXk3U3RyYjZEOE11bnpMWHcifV19LCJtYWEtZWhkIjoic2RrLXRlc3QiLCJpYXQiOjE2MjgzNzk2MDAsImV4cCI6MTYyODk4NDQwMH0.xhrY5kIH4SHPKCpUi0iFhU7xNPPOKHcpdJaUaJWjrBjAljA9rRoLWfwB7k4OCUxQR5QJrk3rU_5yB65uDJpSNEodSICvc59IauD613F_ki_Ej027IjoMdB9b11d0CMS-LlARt0i1tbjVqhkI0FQAIJO7FTrPqmxHqv5kOiq8Aum2636S6F8JgQQi6Nuk918hAVgI3xGigoqmslCHF6ZX-0pNr8qlz65eq5Z1pZXBl6SmZKt6Fi2Fao4LrFyX22dZNCDJQ3Vd_Z9V6U9yugUt6Q0-ZiHy8c8bJAn-xjsQaiylzvTPUhHp5ndmdGKHHwYiCxQXQIBVB3K-5N8XqNTmNg\"}",
    "responseHeaders": {
-    "content-length": "1305",
+    "content-length": "2684",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 24 Jul 2021 00:57:30 GMT",
-    "etag": "W/\"519-MP7NTdL/4j3iR+8Ml5JJ4t82Btk\"",
-    "status": "200",
+    "date": "Sat, 07 Aug 2021 23:39:59 GMT",
+    "etag": "W/\"a7c-9sWet8AcUX6Mg9OxDthea6LhfYs\"",
     "x-powered-by": "Express"
    }
   },
   {
    "method": "POST",
-   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/policynonexportable162708825113401638/create",
+   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/policynonexportable162837960169007748/create",
    "query": {
     "api-version": "7.3-preview"
    },
@@ -34,7 +33,7 @@
     "www-authenticate": "Bearer authorization=\"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012\", resource=\"https://managedhsm.azure.net\"",
     "x-content-type-options": "nosniff",
     "x-frame-options": "SAMEORIGIN",
-    "x-ms-request-id": "1f8ce9da-ec1a-11eb-b771-000d3a7a3d40",
+    "x-ms-request-id": "c80e4756-f7d8-11eb-847e-000d3a0f8fc4",
     "x-ms-server-latency": "0"
    }
   },
@@ -49,7 +48,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1322",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 24 Jul 2021 00:57:30 GMT",
+    "date": "Sat, 07 Aug 2021 23:40:00 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -58,19 +57,19 @@
     "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11898.8 - EUS ProdSlices",
-    "x-ms-request-id": "3a5661f3-94b1-49c7-b525-5cf61c8c5500"
+    "x-ms-ests-server": "2.1.11935.12 - WUS2 ProdSlices",
+    "x-ms-request-id": "a0e080dd-c12e-4f0e-aca9-4c63af763a00"
    }
   },
   {
    "method": "POST",
-   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/policynonexportable162708825113401638/create",
+   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/policynonexportable162837960169007748/create",
    "query": {
     "api-version": "7.3-preview"
    },
-   "requestBody": "{\"kty\":\"RSA\",\"attributes\":{},\"release_policy\":{\"data\":\"eyJhbnlPZiI6W3siYW55T2YiOlt7ImNsYWltIjoic2RrLXRlc3QiLCJjb25kaXRpb24iOiJlcXVhbHMiLCJ2YWx1ZSI6InRydWUifV0sImF1dGhvcml0eSI6Imh0dHBzOi8vc2tyYXR0ZXN0YXRpb24uYXp1cmV3ZWJzaXRlcy5uZXQvIn1dLCJ2ZXJzaW9uIjoiMS4wIn0\"}}",
+   "requestBody": "{\"kty\":\"RSA\",\"attributes\":{},\"release_policy\":{\"data\":\"eyJhbnlPZiI6W3siYW55T2YiOlt7ImNsYWltIjoic2RrLXRlc3QiLCJjb25kaXRpb24iOiJlcXVhbHMiLCJ2YWx1ZSI6InRydWUifV0sImF1dGhvcml0eSI6Imh0dHBzOi8vc2tyX2F0dGVzdGF0aW9uLmF6dXJlLm5ldC8ifV0sInZlcnNpb24iOiIxLjAifQ\"}}",
    "status": 400,
-   "response": "{\"error\":{\"code\":\"BadParameter\",\"message\":\"Non-exportable keys must not have release policy (Activity ID: 1fafded6-ec1a-11eb-b771-000d3a7a3d40)\"}}",
+   "response": "{\"error\":{\"code\":\"BadParameter\",\"message\":\"Non-exportable keys must not have release policy (Activity ID: c832b9e2-f7d8-11eb-847e-000d3a0f8fc4)\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "146",
@@ -79,14 +78,14 @@
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
     "x-frame-options": "SAMEORIGIN",
-    "x-ms-request-id": "1fafded6-ec1a-11eb-b771-000d3a7a3d40",
-    "x-ms-server-latency": "15"
+    "x-ms-request-id": "c832b9e2-f7d8-11eb-847e-000d3a0f8fc4",
+    "x-ms-server-latency": "18"
    }
   }
  ],
  "uniqueTestInfo": {
   "uniqueName": {
-   "policynonexportable": "policynonexportable162708825113401638"
+   "policynonexportable": "policynonexportable162837960169007748"
   },
   "newDate": {}
  },

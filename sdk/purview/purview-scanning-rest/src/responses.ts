@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpResponse } from "@azure-rest/core-client";
 import {
   AzureKeyVault,
   ErrorResponseModel,
@@ -21,6 +20,7 @@ import {
   SystemScanRuleset,
   Trigger,
 } from "./models";
+import { HttpResponse } from "@azure-rest/core-client";
 
 /** Gets key vault information */
 export interface KeyVaultConnectionsGet200Response extends HttpResponse {
@@ -55,7 +55,6 @@ export interface KeyVaultConnectionsDelete200Response extends HttpResponse {
 /** Deletes the key vault connection associated with the account */
 export interface KeyVaultConnectionsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the key vault connection associated with the account */
@@ -115,7 +114,6 @@ export interface ClassificationRulesDelete200Response extends HttpResponse {
 /** Deletes a classification rule */
 export interface ClassificationRulesDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a classification rule */
@@ -201,7 +199,6 @@ export interface DataSourcesDelete200Response extends HttpResponse {
 /** Deletes a data source */
 export interface DataSourcesDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a data source */
@@ -291,7 +288,6 @@ export interface ScansDelete200Response extends HttpResponse {
 /** Deletes the scan associated with the data source */
 export interface ScansDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the scan associated with the data source */
@@ -387,7 +383,6 @@ export interface ScanRulesetsDelete200Response extends HttpResponse {
 /** Deletes a scan ruleset */
 export interface ScanRulesetsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a scan ruleset */
@@ -507,7 +502,6 @@ export interface TriggersDeleteTrigger200Response extends HttpResponse {
 /** Deletes the trigger associated with the scan */
 export interface TriggersDeleteTrigger204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the trigger associated with the scan */

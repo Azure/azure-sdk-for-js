@@ -12,8 +12,8 @@ import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
 export interface AtlasAttributeDef {
-    cardinality?: "SINGLE" | "LIST" | "SET";
-    constraints?: Array<AtlasConstraintDef>;
+    cardinality?: Cardinality;
+    constraints?: AtlasConstraintDef[];
     defaultValue?: string;
     description?: string;
     includeInNotification?: boolean;
@@ -21,11 +21,14 @@ export interface AtlasAttributeDef {
     isOptional?: boolean;
     isUnique?: boolean;
     name?: string;
-    options?: Record<string, string>;
+    options?: AtlasAttributeDefOptionsDictionary;
     typeName?: string;
     valuesMaxCount?: number;
     valuesMinCount?: number;
 }
+
+// @public (undocumented)
+export type AtlasAttributeDefOptionsDictionary = Record<string, string>;
 
 // @public (undocumented)
 export interface AtlasBaseModelObject {
@@ -34,7 +37,7 @@ export interface AtlasBaseModelObject {
 
 // @public (undocumented)
 export interface AtlasBaseTypeDef {
-    category?: "PRIMITIVE" | "OBJECT_ID_TYPE" | "ENUM" | "STRUCT" | "CLASSIFICATION" | "ENTITY" | "ARRAY" | "MAP" | "RELATIONSHIP" | "TERM_TEMPLATE";
+    category?: TypeCategory;
     createdBy?: string;
     createTime?: number;
     dateFormatter?: DateFormat;
@@ -42,7 +45,7 @@ export interface AtlasBaseTypeDef {
     guid?: string;
     lastModifiedTS?: string;
     name?: string;
-    options?: Record<string, string>;
+    options?: AtlasBaseTypeDefOptionsDictionary;
     serviceType?: string;
     typeVersion?: string;
     updatedBy?: string;
@@ -51,94 +54,145 @@ export interface AtlasBaseTypeDef {
 }
 
 // @public (undocumented)
-export interface AtlasClassification extends AtlasStruct {
+export type AtlasBaseTypeDefOptionsDictionary = Record<string, string>;
+
+// @public (undocumented)
+export type AtlasClassification = AtlasClassificationBase & AtlasStruct;
+
+// @public (undocumented)
+export interface AtlasClassificationBase {
     entityGuid?: string;
-    entityStatus?: "ACTIVE" | "DELETED";
+    entityStatus?: Status;
     removePropagationsOnEntityDelete?: boolean;
     source?: string;
-    sourceDetails?: Record<string, Record<string, unknown>>;
-    validityPeriods?: Array<TimeBoundary>;
+    sourceDetails?: AtlasClassificationSourceDetailsDictionary;
+    validityPeriods?: TimeBoundary[];
 }
 
 // @public (undocumented)
-export interface AtlasClassificationDef extends AtlasStructDef {
-    entityTypes?: Array<string>;
-    subTypes?: Array<string>;
-    superTypes?: Array<string>;
+export type AtlasClassificationDef = AtlasClassificationDefBase & AtlasStructDef;
+
+// @public (undocumented)
+export interface AtlasClassificationDefBase {
+    entityTypes?: string[];
+    subTypes?: string[];
+    superTypes?: string[];
 }
 
 // @public (undocumented)
-export interface AtlasClassifications extends PList {
+export type AtlasClassifications = AtlasClassificationsBase & PList;
+
+// @public (undocumented)
+export interface AtlasClassificationsBase {
 }
+
+// @public (undocumented)
+export type AtlasClassificationSourceDetailsDictionary = Record<string, any>;
 
 // @public (undocumented)
 export interface AtlasConstraintDef {
-    params?: Record<string, Record<string, unknown>>;
+    params?: AtlasConstraintDefParamsDictionary;
     type?: string;
 }
 
 // @public (undocumented)
-export interface AtlasEntitiesWithExtInfo extends AtlasEntityExtInfo {
-    entities?: Array<AtlasEntity>;
+export type AtlasConstraintDefParamsDictionary = Record<string, any>;
+
+// @public (undocumented)
+export type AtlasEntitiesWithExtInfo = AtlasEntitiesWithExtInfoBase & AtlasEntityExtInfo;
+
+// @public (undocumented)
+export interface AtlasEntitiesWithExtInfoBase {
+    entities?: AtlasEntity[];
 }
 
 // @public (undocumented)
-export interface AtlasEntity extends AtlasStruct {
-    classifications?: Array<AtlasClassification>;
-    contacts?: Record<string, Array<ContactBasic>>;
+export type AtlasEntity = AtlasEntityBase & AtlasStruct;
+
+// @public (undocumented)
+export interface AtlasEntityBase {
+    classifications?: AtlasClassification[];
+    contacts?: AtlasEntityContactsDictionary;
     createdBy?: string;
     createTime?: number;
     guid?: string;
     homeId?: string;
-    meanings?: Array<AtlasTermAssignmentHeader>;
+    meanings?: AtlasTermAssignmentHeader[];
     provenanceType?: number;
     proxy?: boolean;
-    relationshipAttributes?: Record<string, Record<string, unknown>>;
+    relationshipAttributes?: AtlasEntityRelationshipAttributesDictionary;
     source?: string;
-    sourceDetails?: Record<string, Record<string, unknown>>;
-    status?: "ACTIVE" | "DELETED";
+    sourceDetails?: AtlasEntitySourceDetailsDictionary;
+    status?: Status;
     updatedBy?: string;
     updateTime?: number;
     version?: number;
 }
 
 // @public (undocumented)
-export interface AtlasEntityDef extends AtlasStructDef {
-    relationshipAttributeDefs?: Array<AtlasRelationshipAttributeDef>;
-    subTypes?: Array<string>;
-    superTypes?: Array<string>;
+export type AtlasEntityContactsDictionary = Record<string, ContactBasic[]>;
+
+// @public (undocumented)
+export type AtlasEntityDef = AtlasEntityDefBase & AtlasStructDef;
+
+// @public (undocumented)
+export interface AtlasEntityDefBase {
+    relationshipAttributeDefs?: AtlasRelationshipAttributeDef[];
+    subTypes?: string[];
+    superTypes?: string[];
 }
 
 // @public (undocumented)
 export interface AtlasEntityExtInfo {
-    referredEntities?: Record<string, AtlasEntity>;
+    referredEntities?: AtlasEntityExtInfoReferredEntitiesDictionary;
 }
 
 // @public (undocumented)
-export interface AtlasEntityHeader extends AtlasStruct {
-    classificationNames?: Array<string>;
-    classifications?: Array<AtlasClassification>;
+export type AtlasEntityExtInfoReferredEntitiesDictionary = Record<string, AtlasEntity>;
+
+// @public (undocumented)
+export type AtlasEntityHeader = AtlasEntityHeaderBase & AtlasStruct;
+
+// @public (undocumented)
+export interface AtlasEntityHeaderBase {
+    classificationNames?: string[];
+    classifications?: AtlasClassification[];
     displayText?: string;
     guid?: string;
-    meaningNames?: Array<string>;
-    meanings?: Array<AtlasTermAssignmentHeader>;
-    status?: "ACTIVE" | "DELETED";
+    meaningNames?: string[];
+    meanings?: AtlasTermAssignmentHeader[];
+    status?: Status;
 }
 
 // @public (undocumented)
 export interface AtlasEntityHeaders {
-    guidHeaderMap?: Record<string, AtlasEntityHeader>;
+    guidHeaderMap?: AtlasEntityHeadersGuidHeaderMapDictionary;
 }
 
 // @public (undocumented)
-export interface AtlasEntityWithExtInfo extends AtlasEntityExtInfo {
+export type AtlasEntityHeadersGuidHeaderMapDictionary = Record<string, AtlasEntityHeader>;
+
+// @public (undocumented)
+export type AtlasEntityRelationshipAttributesDictionary = Record<string, any>;
+
+// @public (undocumented)
+export type AtlasEntitySourceDetailsDictionary = Record<string, any>;
+
+// @public (undocumented)
+export type AtlasEntityWithExtInfo = AtlasEntityWithExtInfoBase & AtlasEntityExtInfo;
+
+// @public (undocumented)
+export interface AtlasEntityWithExtInfoBase {
     entity?: AtlasEntity;
 }
 
 // @public (undocumented)
-export interface AtlasEnumDef extends AtlasBaseTypeDef {
+export type AtlasEnumDef = AtlasEnumDefBase & AtlasBaseTypeDef;
+
+// @public (undocumented)
+export interface AtlasEnumDefBase {
     defaultValue?: string;
-    elementDefs?: Array<AtlasEnumElementDef>;
+    elementDefs?: AtlasEnumElementDef[];
 }
 
 // @public (undocumented)
@@ -149,31 +203,43 @@ export interface AtlasEnumElementDef {
 }
 
 // @public (undocumented)
-export interface AtlasExtraTypeDef {
-    attributeDefs?: Array<AtlasAttributeDef>;
-    defaultValue?: string;
-    elementDefs?: Array<AtlasEnumElementDef>;
-    endDef1?: AtlasRelationshipEndDef;
-    endDef2?: AtlasRelationshipEndDef;
-    entityTypes?: Array<string>;
-    relationshipAttributeDefs?: Array<AtlasRelationshipAttributeDef>;
-    relationshipCategory?: "ASSOCIATION" | "AGGREGATION" | "COMPOSITION";
-    relationshipLabel?: string;
-    subTypes?: Array<string>;
-    superTypes?: Array<string>;
+export interface AtlasError {
+    errorCode?: string;
+    errorMessage?: string;
 }
 
 // @public (undocumented)
-export interface AtlasGlossary extends AtlasGlossaryBaseObject {
-    categories?: Array<AtlasRelatedCategoryHeader>;
+export interface AtlasExtraTypeDef {
+    attributeDefs?: AtlasAttributeDef[];
+    defaultValue?: string;
+    elementDefs?: AtlasEnumElementDef[];
+    endDef1?: AtlasRelationshipEndDef;
+    endDef2?: AtlasRelationshipEndDef;
+    entityTypes?: string[];
+    relationshipAttributeDefs?: AtlasRelationshipAttributeDef[];
+    relationshipCategory?: RelationshipCategory;
+    relationshipLabel?: string;
+    subTypes?: string[];
+    superTypes?: string[];
+}
+
+// @public (undocumented)
+export type AtlasGlossary = AtlasGlossaryBase & AtlasGlossaryBaseObject;
+
+// @public (undocumented)
+export interface AtlasGlossaryBase {
+    categories?: AtlasRelatedCategoryHeader[];
     language?: string;
-    terms?: Array<AtlasRelatedTermHeader>;
+    terms?: AtlasRelatedTermHeader[];
     usage?: string;
 }
 
 // @public (undocumented)
-export interface AtlasGlossaryBaseObject extends AtlasBaseModelObject {
-    classifications?: Array<AtlasClassification>;
+export type AtlasGlossaryBaseObject = AtlasGlossaryBaseObjectBase & AtlasBaseModelObject;
+
+// @public (undocumented)
+export interface AtlasGlossaryBaseObjectBase {
+    classifications?: AtlasClassification[];
     lastModifiedTS?: string;
     longDescription?: string;
     name?: string;
@@ -182,18 +248,30 @@ export interface AtlasGlossaryBaseObject extends AtlasBaseModelObject {
 }
 
 // @public (undocumented)
-export interface AtlasGlossaryCategory extends AtlasGlossaryBaseObject {
+export type AtlasGlossaryCategory = AtlasGlossaryCategoryBase & AtlasGlossaryBaseObject;
+
+// @public (undocumented)
+export interface AtlasGlossaryCategoryBase {
     anchor?: AtlasGlossaryHeader;
-    childrenCategories?: Array<AtlasRelatedCategoryHeader>;
+    childrenCategories?: AtlasRelatedCategoryHeader[];
     parentCategory?: AtlasRelatedCategoryHeader;
-    terms?: Array<AtlasRelatedTermHeader>;
+    terms?: AtlasRelatedTermHeader[];
 }
 
 // @public (undocumented)
-export interface AtlasGlossaryExtInfo extends AtlasGlossary {
-    categoryInfo?: Record<string, AtlasGlossaryCategory>;
-    termInfo?: Record<string, AtlasGlossaryTerm>;
+export type AtlasGlossaryExtInfo = AtlasGlossaryExtInfoBase & AtlasGlossary;
+
+// @public (undocumented)
+export interface AtlasGlossaryExtInfoBase {
+    categoryInfo?: AtlasGlossaryExtInfoCategoryInfoDictionary;
+    termInfo?: AtlasGlossaryExtInfoTermInfoDictionary;
 }
+
+// @public (undocumented)
+export type AtlasGlossaryExtInfoCategoryInfoDictionary = Record<string, AtlasGlossaryCategory>;
+
+// @public (undocumented)
+export type AtlasGlossaryExtInfoTermInfoDictionary = Record<string, AtlasGlossaryTerm>;
 
 // @public (undocumented)
 export interface AtlasGlossaryHeader {
@@ -203,58 +281,76 @@ export interface AtlasGlossaryHeader {
 }
 
 // @public (undocumented)
-export interface AtlasGlossaryTerm extends AtlasGlossaryBaseObject {
+export type AtlasGlossaryTerm = AtlasGlossaryTermBase & AtlasGlossaryBaseObject;
+
+// @public (undocumented)
+export interface AtlasGlossaryTermBase {
     abbreviation?: string;
     anchor?: AtlasGlossaryHeader;
-    antonyms?: Array<AtlasRelatedTermHeader>;
-    assignedEntities?: Array<AtlasRelatedObjectId>;
-    attributes?: Record<string, Record<string, Record<string, unknown>>>;
-    categories?: Array<AtlasTermCategorizationHeader>;
-    classifies?: Array<AtlasRelatedTermHeader>;
-    contacts?: Record<string, Array<ContactBasic>>;
+    antonyms?: AtlasRelatedTermHeader[];
+    assignedEntities?: AtlasRelatedObjectId[];
+    attributes?: TermCustomAttributesDictionary;
+    categories?: AtlasTermCategorizationHeader[];
+    classifies?: AtlasRelatedTermHeader[];
+    contacts?: AtlasGlossaryTermContactsDictionary;
     createdBy?: string;
     createTime?: number;
-    examples?: Array<string>;
-    isA?: Array<AtlasRelatedTermHeader>;
-    preferredTerms?: Array<AtlasRelatedTermHeader>;
-    preferredToTerms?: Array<AtlasRelatedTermHeader>;
-    replacedBy?: Array<AtlasRelatedTermHeader>;
-    replacementTerms?: Array<AtlasRelatedTermHeader>;
-    resources?: Array<ResourceLink>;
-    seeAlso?: Array<AtlasRelatedTermHeader>;
-    status?: "Draft" | "Approved" | "Alert" | "Expired";
-    synonyms?: Array<AtlasRelatedTermHeader>;
+    examples?: string[];
+    isA?: AtlasRelatedTermHeader[];
+    preferredTerms?: AtlasRelatedTermHeader[];
+    preferredToTerms?: AtlasRelatedTermHeader[];
+    replacedBy?: AtlasRelatedTermHeader[];
+    replacementTerms?: AtlasRelatedTermHeader[];
+    resources?: ResourceLink[];
+    seeAlso?: AtlasRelatedTermHeader[];
+    status?: TermStatus;
+    synonyms?: AtlasRelatedTermHeader[];
     // (undocumented)
-    templateName?: Array<Record<string, unknown>>;
-    translatedTerms?: Array<AtlasRelatedTermHeader>;
-    translationTerms?: Array<AtlasRelatedTermHeader>;
+    templateName?: any[];
+    translatedTerms?: AtlasRelatedTermHeader[];
+    translationTerms?: AtlasRelatedTermHeader[];
     updatedBy?: string;
     updateTime?: number;
     usage?: string;
-    validValues?: Array<AtlasRelatedTermHeader>;
-    validValuesFor?: Array<AtlasRelatedTermHeader>;
+    validValues?: AtlasRelatedTermHeader[];
+    validValuesFor?: AtlasRelatedTermHeader[];
 }
+
+// @public (undocumented)
+export type AtlasGlossaryTermContactsDictionary = Record<string, ContactBasic[]>;
 
 // @public (undocumented)
 export interface AtlasLineageInfo {
     baseEntityGuid?: string;
     childrenCount?: number;
-    guidEntityMap?: Record<string, AtlasEntityHeader>;
+    guidEntityMap?: AtlasLineageInfoGuidEntityMapDictionary;
     includeParent?: boolean;
     lineageDepth?: number;
-    lineageDirection?: "INPUT" | "OUTPUT" | "BOTH";
+    lineageDirection?: LineageDirection;
     lineageWidth?: number;
-    parentRelations?: Array<ParentRelation>;
-    relations?: Array<LineageRelation>;
-    widthCounts?: Record<string, Record<string, Record<string, unknown>>>;
+    parentRelations?: ParentRelation[];
+    relations?: LineageRelation[];
+    widthCounts?: AtlasLineageInfoWidthCountsDictionary;
 }
+
+// @public (undocumented)
+export type AtlasLineageInfoExtraPropertiesDictionary = Record<string, any>;
+
+// @public (undocumented)
+export type AtlasLineageInfoGuidEntityMapDictionary = Record<string, AtlasEntityHeader>;
+
+// @public (undocumented)
+export type AtlasLineageInfoWidthCountsDictionary = Record<string, AtlasLineageInfoExtraPropertiesDictionary>;
 
 // @public (undocumented)
 export interface AtlasObjectId {
     guid?: string;
     typeName?: string;
-    uniqueAttributes?: Record<string, Record<string, unknown>>;
+    uniqueAttributes?: AtlasObjectIdUniqueAttributesDictionary;
 }
+
+// @public (undocumented)
+export type AtlasObjectIdUniqueAttributesDictionary = Record<string, any>;
 
 // @public (undocumented)
 export interface AtlasRelatedCategoryHeader {
@@ -266,12 +362,15 @@ export interface AtlasRelatedCategoryHeader {
 }
 
 // @public (undocumented)
-export interface AtlasRelatedObjectId extends AtlasObjectId {
+export type AtlasRelatedObjectId = AtlasRelatedObjectIdBase & AtlasObjectId;
+
+// @public (undocumented)
+export interface AtlasRelatedObjectIdBase {
     displayText?: string;
-    entityStatus?: "ACTIVE" | "DELETED";
+    entityStatus?: Status;
     relationshipAttributes?: AtlasStruct;
     relationshipGuid?: string;
-    relationshipStatus?: "ACTIVE" | "DELETED";
+    relationshipStatus?: StatusAtlasRelationship;
     // (undocumented)
     relationshipType?: string;
 }
@@ -283,13 +382,25 @@ export interface AtlasRelatedTermHeader {
     expression?: string;
     relationGuid?: string;
     source?: string;
-    status?: "DRAFT" | "ACTIVE" | "DEPRECATED" | "OBSOLETE" | "OTHER";
+    status?: AtlasTermRelationshipStatus;
     steward?: string;
     termGuid?: string;
 }
 
 // @public (undocumented)
-export interface AtlasRelationship extends AtlasStruct {
+export type AtlasRelationship = AtlasRelationshipBase & AtlasStruct;
+
+// @public (undocumented)
+export type AtlasRelationshipAttributeDef = AtlasRelationshipAttributeDefBase & AtlasAttributeDef;
+
+// @public (undocumented)
+export interface AtlasRelationshipAttributeDefBase {
+    isLegacyAttribute?: boolean;
+    relationshipTypeName?: string;
+}
+
+// @public (undocumented)
+export interface AtlasRelationshipBase {
     createdBy?: string;
     createTime?: number;
     end1?: AtlasObjectId;
@@ -298,29 +409,26 @@ export interface AtlasRelationship extends AtlasStruct {
     homeId?: string;
     label?: string;
     provenanceType?: number;
-    status?: "ACTIVE" | "DELETED";
+    status?: StatusAtlasRelationship;
     updatedBy?: string;
     updateTime?: number;
     version?: number;
 }
 
 // @public (undocumented)
-export interface AtlasRelationshipAttributeDef extends AtlasAttributeDef {
-    isLegacyAttribute?: boolean;
-    relationshipTypeName?: string;
-}
+export type AtlasRelationshipDef = AtlasRelationshipDefBase & AtlasStructDef;
 
 // @public (undocumented)
-export interface AtlasRelationshipDef extends AtlasStructDef {
+export interface AtlasRelationshipDefBase {
     endDef1?: AtlasRelationshipEndDef;
     endDef2?: AtlasRelationshipEndDef;
-    relationshipCategory?: "ASSOCIATION" | "AGGREGATION" | "COMPOSITION";
+    relationshipCategory?: RelationshipCategory;
     relationshipLabel?: string;
 }
 
 // @public (undocumented)
 export interface AtlasRelationshipEndDef {
-    cardinality?: "SINGLE" | "LIST" | "SET";
+    cardinality?: Cardinality;
     description?: string;
     isContainer?: boolean;
     isLegacyAttribute?: boolean;
@@ -330,20 +438,29 @@ export interface AtlasRelationshipEndDef {
 
 // @public (undocumented)
 export interface AtlasRelationshipWithExtInfo {
-    referredEntities?: Record<string, AtlasEntityHeader>;
+    referredEntities?: AtlasRelationshipWithExtInfoReferredEntitiesDictionary;
     relationship?: AtlasRelationship;
 }
 
 // @public (undocumented)
+export type AtlasRelationshipWithExtInfoReferredEntitiesDictionary = Record<string, AtlasEntityHeader>;
+
+// @public (undocumented)
 export interface AtlasStruct {
-    attributes?: Record<string, Record<string, unknown>>;
+    attributes?: AtlasStructAttributesDictionary;
     lastModifiedTS?: string;
     typeName?: string;
 }
 
 // @public (undocumented)
-export interface AtlasStructDef extends AtlasBaseTypeDef {
-    attributeDefs?: Array<AtlasAttributeDef>;
+export type AtlasStructAttributesDictionary = Record<string, any>;
+
+// @public (undocumented)
+export type AtlasStructDef = AtlasStructDefBase & AtlasBaseTypeDef;
+
+// @public (undocumented)
+export interface AtlasStructDefBase {
+    attributeDefs?: AtlasAttributeDef[];
 }
 
 // @public (undocumented)
@@ -355,10 +472,13 @@ export interface AtlasTermAssignmentHeader {
     expression?: string;
     relationGuid?: string;
     source?: string;
-    status?: "DISCOVERED" | "PROPOSED" | "IMPORTED" | "VALIDATED" | "DEPRECATED" | "OBSOLETE" | "OTHER";
+    status?: AtlasTermAssignmentStatus;
     steward?: string;
     termGuid?: string;
 }
+
+// @public (undocumented)
+export type AtlasTermAssignmentStatus = "DISCOVERED" | "PROPOSED" | "IMPORTED" | "VALIDATED" | "DEPRECATED" | "OBSOLETE" | "OTHER";
 
 // @public (undocumented)
 export interface AtlasTermCategorizationHeader {
@@ -366,33 +486,51 @@ export interface AtlasTermCategorizationHeader {
     description?: string;
     displayText?: string;
     relationGuid?: string;
-    status?: "DRAFT" | "ACTIVE" | "DEPRECATED" | "OBSOLETE" | "OTHER";
+    status?: AtlasTermRelationshipStatus;
 }
 
 // @public (undocumented)
-export interface AtlasTypeDef extends AtlasBaseTypeDef, AtlasExtraTypeDef {
+export type AtlasTermRelationshipStatus = "DRAFT" | "ACTIVE" | "DEPRECATED" | "OBSOLETE" | "OTHER";
+
+// @public (undocumented)
+export type AtlasTypeDef = AtlasTypeDefBase & AtlasBaseTypeDef & AtlasExtraTypeDef;
+
+// @public (undocumented)
+export interface AtlasTypeDefBase {
 }
 
 // @public (undocumented)
 export interface AtlasTypeDefHeader {
-    category?: "PRIMITIVE" | "OBJECT_ID_TYPE" | "ENUM" | "STRUCT" | "CLASSIFICATION" | "ENTITY" | "ARRAY" | "MAP" | "RELATIONSHIP" | "TERM_TEMPLATE";
+    category?: TypeCategory;
     guid?: string;
     name?: string;
 }
 
 // @public (undocumented)
 export interface AtlasTypesDef {
-    classificationDefs?: Array<AtlasClassificationDef>;
-    entityDefs?: Array<AtlasEntityDef>;
-    enumDefs?: Array<AtlasEnumDef>;
-    relationshipDefs?: Array<AtlasRelationshipDef>;
-    structDefs?: Array<AtlasStructDef>;
-    termTemplateDefs?: Array<TermTemplateDef>;
+    classificationDefs?: AtlasClassificationDef[];
+    entityDefs?: AtlasEntityDef[];
+    enumDefs?: AtlasEnumDef[];
+    relationshipDefs?: AtlasRelationshipDef[];
+    structDefs?: AtlasStructDef[];
+    termTemplateDefs?: TermTemplateDef[];
+}
+
+// @public (undocumented)
+export type AtlasUserSavedSearch = AtlasUserSavedSearchBase & AtlasBaseModelObject;
+
+// @public (undocumented)
+export interface AtlasUserSavedSearchBase {
+    name?: string;
+    ownerName?: string;
+    searchParameters?: SearchParams;
+    searchType?: SavedSearchType;
+    uiParameters?: string;
 }
 
 // @public (undocumented)
 export interface AutoCompleteRequest {
-    filter?: Record<string, unknown>;
+    filter?: any;
     keywords?: string;
     limit?: number;
 }
@@ -400,7 +538,7 @@ export interface AutoCompleteRequest {
 // @public (undocumented)
 export interface AutoCompleteResult {
     // (undocumented)
-    value?: Array<AutoCompleteResultValue>;
+    value?: AutoCompleteResultValue[];
 }
 
 // @public (undocumented)
@@ -410,44 +548,34 @@ export interface AutoCompleteResultValue {
 }
 
 // @public (undocumented)
-export interface BrowseRequest {
-    entityType?: string;
-    limit?: number;
-    offset?: number;
-    path?: string;
+export interface AzureCatalogUser {
+    userId?: string;
 }
 
 // @public (undocumented)
-export interface BrowseResult {
-    searchCount?: number;
-    // (undocumented)
-    value?: Array<BrowseResultValue>;
+export type Cardinality = "SINGLE" | "LIST" | "SET";
+
+// @public (undocumented)
+export interface CatalogCreationRequest {
+    catalogId?: string;
+    catalogName?: string;
+    creatorUserId?: string;
+    eventHubConnectionString?: string;
 }
 
 // @public (undocumented)
-export interface BrowseResultOwner {
-    contactType?: string;
-    displayName?: string;
-    id?: string;
-    mail?: string;
-}
-
-// @public (undocumented)
-export interface BrowseResultValue {
-    entityType?: string;
-    id?: string;
-    isLeaf?: boolean;
-    name?: string;
-    owner?: Array<BrowseResultOwner>;
-    path?: string;
-    qualifiedName?: string;
+export interface CatalogDeletionRequest {
+    catalogName?: string;
 }
 
 // @public (undocumented)
 export interface ClassificationAssociateRequest {
     classification?: AtlasClassification;
-    entityGuids?: Array<string>;
+    entityGuids?: string[];
 }
+
+// @public (undocumented)
+export type Condition = "AND" | "OR";
 
 // @public (undocumented)
 export interface ContactBasic {
@@ -463,8 +591,24 @@ export interface ContactSearchResultValue {
 }
 
 // @public (undocumented)
+export interface Context {
+    value?: string;
+}
+
+// @public (undocumented)
+export interface DataScanPermissionCheckRequest {
+    catalogName?: string;
+    userId?: string;
+}
+
+// @public (undocumented)
+export interface DataScanPermissionCheckResponse {
+    result?: string;
+}
+
+// @public (undocumented)
 export interface DateFormat {
-    availableLocales?: Array<string>;
+    availableLocales?: string[];
     // (undocumented)
     calendar?: number;
     dateInstance?: DateFormat;
@@ -475,6 +619,18 @@ export interface DateFormat {
     timeInstance?: DateFormat;
     timeZone?: TimeZone;
 }
+
+// @public (undocumented)
+export type DictionaryOfpathsCic80AAtlasV2GlossaryCategoryCategoryguidRelatedGetResponses200ContentApplicationJsonSchemaAdditionalpropertiesDictionary = Record<string, AtlasRelatedCategoryHeader[]>;
+
+// @public (undocumented)
+export type DictionaryOfpathsV84KwqAtlasV2GlossaryTermsTermguidRelatedGetResponses200ContentApplicationJsonSchemaAdditionalpropertiesDictionary = Record<string, AtlasRelatedTermHeader[]>;
+
+// @public (undocumented)
+export type DictionaryOfStringDictionary = Record<string, string>;
+
+// @public (undocumented)
+export type Direction = "BOTH" | "INPUT" | "OUTPUT";
 
 // @public (undocumented)
 export interface DiscoveryAutoComplete {
@@ -491,32 +647,12 @@ export interface DiscoveryAutoComplete200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface DiscoveryAutoCompleteBodyParam {
+    // (undocumented)
     body: AutoCompleteRequest;
 }
 
 // @public (undocumented)
-export type DiscoveryAutoCompleteParameters = DiscoveryAutoCompleteBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface DiscoveryBrowse {
-    post(options: DiscoveryBrowseParameters): Promise<DiscoveryBrowse200Response>;
-}
-
-// @public
-export interface DiscoveryBrowse200Response extends HttpResponse {
-    // (undocumented)
-    body: BrowseResult;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface DiscoveryBrowseBodyParam {
-    body: BrowseRequest;
-}
-
-// @public (undocumented)
-export type DiscoveryBrowseParameters = DiscoveryBrowseBodyParam & RequestParameters;
+export type DiscoveryAutoCompleteParameters = RequestParameters & DiscoveryAutoCompleteBodyParam;
 
 // @public (undocumented)
 export interface DiscoveryQuery {
@@ -533,11 +669,12 @@ export interface DiscoveryQuery200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface DiscoveryQueryBodyParam {
+    // (undocumented)
     body: SearchRequest;
 }
 
 // @public (undocumented)
-export type DiscoveryQueryParameters = DiscoveryQueryBodyParam & RequestParameters;
+export type DiscoveryQueryParameters = RequestParameters & DiscoveryQueryBodyParam;
 
 // @public (undocumented)
 export interface DiscoverySuggest {
@@ -554,11 +691,12 @@ export interface DiscoverySuggest200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface DiscoverySuggestBodyParam {
+    // (undocumented)
     body: SuggestRequest;
 }
 
 // @public (undocumented)
-export type DiscoverySuggestParameters = DiscoverySuggestBodyParam & RequestParameters;
+export type DiscoverySuggestParameters = RequestParameters & DiscoverySuggestBodyParam;
 
 // @public (undocumented)
 export interface EntityAddClassification {
@@ -568,53 +706,44 @@ export interface EntityAddClassification {
 // @public
 export interface EntityAddClassification204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
 // @public (undocumented)
 export interface EntityAddClassificationBodyParam {
+    // (undocumented)
     body: ClassificationAssociateRequest;
 }
 
 // @public (undocumented)
-export type EntityAddClassificationParameters = EntityAddClassificationBodyParam & RequestParameters;
+export type EntityAddClassificationParameters = RequestParameters & EntityAddClassificationBodyParam;
 
 // @public
 export interface EntityAddClassifications204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
 
 // @public (undocumented)
 export interface EntityAddClassificationsBodyParam {
-    body: Array<AtlasClassification>;
-}
-
-// @public (undocumented)
-export interface EntityAddClassificationsByUniqueAttribute {
-    post(options: EntityAddClassificationsByUniqueAttributeParameters): Promise<EntityAddClassificationsByUniqueAttribute204Response>;
-    put(options: EntityUpdateClassificationsByUniqueAttributeParameters): Promise<EntityUpdateClassificationsByUniqueAttribute204Response>;
+    // (undocumented)
+    body: AtlasClassification[];
 }
 
 // @public
 export interface EntityAddClassificationsByUniqueAttribute204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
 
 // @public (undocumented)
 export interface EntityAddClassificationsByUniqueAttributeBodyParam {
-    body: Array<AtlasClassification>;
+    // (undocumented)
+    body: AtlasClassification[];
 }
 
 // @public (undocumented)
-export type EntityAddClassificationsByUniqueAttributeParameters = EntityAddClassificationsByUniqueAttributeQueryParam & EntityAddClassificationsByUniqueAttributeBodyParam & RequestParameters;
+export type EntityAddClassificationsByUniqueAttributeParameters = RequestParameters & EntityAddClassificationsByUniqueAttributeQueryParam & EntityAddClassificationsByUniqueAttributeBodyParam;
 
 // @public (undocumented)
 export interface EntityAddClassificationsByUniqueAttributeQueryParam {
@@ -628,7 +757,7 @@ export interface EntityAddClassificationsByUniqueAttributeQueryParamProperties {
 }
 
 // @public (undocumented)
-export type EntityAddClassificationsParameters = EntityAddClassificationsBodyParam & RequestParameters;
+export type EntityAddClassificationsParameters = RequestParameters & EntityAddClassificationsBodyParam;
 
 // @public (undocumented)
 export interface EntityCreateOrUpdate {
@@ -645,6 +774,7 @@ export interface EntityCreateOrUpdate200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface EntityCreateOrUpdateBodyParam {
+    // (undocumented)
     body: AtlasEntityWithExtInfo;
 }
 
@@ -658,14 +788,29 @@ export interface EntityCreateOrUpdateEntities200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface EntityCreateOrUpdateEntitiesBodyParam {
+    // (undocumented)
     body: AtlasEntitiesWithExtInfo;
 }
 
 // @public (undocumented)
-export type EntityCreateOrUpdateEntitiesParameters = EntityCreateOrUpdateEntitiesBodyParam & RequestParameters;
+export type EntityCreateOrUpdateEntitiesParameters = RequestParameters & EntityCreateOrUpdateEntitiesBodyParam;
 
 // @public (undocumented)
-export type EntityCreateOrUpdateParameters = EntityCreateOrUpdateBodyParam & RequestParameters;
+export type EntityCreateOrUpdateParameters = RequestParameters & EntityCreateOrUpdateBodyParam;
+
+// @public (undocumented)
+export interface EntityCreateRequestV2 {
+    entities?: AtlasEntitiesWithExtInfo;
+    type?: HookNotificationType;
+    user?: string;
+}
+
+// @public (undocumented)
+export interface EntityDeleteByGuid {
+    delete(options?: EntityDeleteByGuidParameters): Promise<EntityDeleteByGuid200Response>;
+    get(options?: EntityGetByGuidParameters): Promise<EntityGetByGuid200Response>;
+    put(options: EntityPartialUpdateEntityAttributeByGuidParameters): Promise<EntityPartialUpdateEntityAttributeByGuid200Response>;
+}
 
 // @public
 export interface EntityDeleteByGuid200Response extends HttpResponse {
@@ -678,6 +823,13 @@ export interface EntityDeleteByGuid200Response extends HttpResponse {
 // @public (undocumented)
 export type EntityDeleteByGuidParameters = RequestParameters;
 
+// @public (undocumented)
+export interface EntityDeleteByGuids {
+    delete(options?: EntityDeleteByGuidsParameters): Promise<EntityDeleteByGuids200Response>;
+    get(options?: EntityListByGuidsParameters): Promise<EntityListByGuids200Response>;
+    post(options: EntityCreateOrUpdateEntitiesParameters): Promise<EntityCreateOrUpdateEntities200Response>;
+}
+
 // @public
 export interface EntityDeleteByGuids200Response extends HttpResponse {
     // (undocumented)
@@ -687,7 +839,7 @@ export interface EntityDeleteByGuids200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export type EntityDeleteByGuidsParameters = EntityDeleteByGuidsQueryParam & RequestParameters;
+export type EntityDeleteByGuidsParameters = RequestParameters & EntityDeleteByGuidsQueryParam;
 
 // @public (undocumented)
 export interface EntityDeleteByGuidsQueryParam {
@@ -697,7 +849,14 @@ export interface EntityDeleteByGuidsQueryParam {
 
 // @public (undocumented)
 export interface EntityDeleteByGuidsQueryParamProperties {
-    guids: Array<string>;
+    guids: string[];
+}
+
+// @public (undocumented)
+export interface EntityDeleteByUniqueAttribute {
+    delete(options?: EntityDeleteByUniqueAttributeParameters): Promise<EntityDeleteByUniqueAttribute200Response>;
+    get(options?: EntityGetByUniqueAttributesParameters): Promise<EntityGetByUniqueAttributes200Response>;
+    put(options: EntityPartialUpdateEntityByUniqueAttributesParameters): Promise<EntityPartialUpdateEntityByUniqueAttributes200Response>;
 }
 
 // @public
@@ -709,7 +868,7 @@ export interface EntityDeleteByUniqueAttribute200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export type EntityDeleteByUniqueAttributeParameters = EntityDeleteByUniqueAttributeQueryParam & RequestParameters;
+export type EntityDeleteByUniqueAttributeParameters = RequestParameters & EntityDeleteByUniqueAttributeQueryParam;
 
 // @public (undocumented)
 export interface EntityDeleteByUniqueAttributeQueryParam {
@@ -722,10 +881,14 @@ export interface EntityDeleteByUniqueAttributeQueryParamProperties {
     "attr:qualifiedName"?: string;
 }
 
+// @public (undocumented)
+export interface EntityDeleteClassification {
+    delete(options?: EntityDeleteClassificationParameters): Promise<EntityDeleteClassification204Response>;
+    get(options?: EntityGetClassificationParameters): Promise<EntityGetClassification200Response>;
+}
+
 // @public
 export interface EntityDeleteClassification204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -738,13 +901,11 @@ export interface EntityDeleteClassificationByUniqueAttribute {
 // @public
 export interface EntityDeleteClassificationByUniqueAttribute204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
 // @public (undocumented)
-export type EntityDeleteClassificationByUniqueAttributeParameters = EntityDeleteClassificationByUniqueAttributeQueryParam & RequestParameters;
+export type EntityDeleteClassificationByUniqueAttributeParameters = RequestParameters & EntityDeleteClassificationByUniqueAttributeQueryParam;
 
 // @public (undocumented)
 export interface EntityDeleteClassificationByUniqueAttributeQueryParam {
@@ -761,10 +922,11 @@ export interface EntityDeleteClassificationByUniqueAttributeQueryParamProperties
 export type EntityDeleteClassificationParameters = RequestParameters;
 
 // @public (undocumented)
-export interface EntityGetByGuid {
-    delete(options?: EntityDeleteByGuidParameters): Promise<EntityDeleteByGuid200Response>;
-    get(options?: EntityGetByGuidParameters): Promise<EntityGetByGuid200Response>;
-    put(options: EntityPartialUpdateEntityAttributeByGuidParameters): Promise<EntityPartialUpdateEntityAttributeByGuid200Response>;
+export interface EntityDeleteRequestV2 {
+    // (undocumented)
+    entities?: AtlasObjectId[];
+    type?: HookNotificationType;
+    user?: string;
 }
 
 // @public
@@ -776,7 +938,7 @@ export interface EntityGetByGuid200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export type EntityGetByGuidParameters = EntityGetByGuidQueryParam & RequestParameters;
+export type EntityGetByGuidParameters = RequestParameters & EntityGetByGuidQueryParam;
 
 // @public (undocumented)
 export interface EntityGetByGuidQueryParam {
@@ -790,13 +952,6 @@ export interface EntityGetByGuidQueryParamProperties {
     minExtInfo?: boolean;
 }
 
-// @public (undocumented)
-export interface EntityGetByUniqueAttributes {
-    delete(options?: EntityDeleteByUniqueAttributeParameters): Promise<EntityDeleteByUniqueAttribute200Response>;
-    get(options?: EntityGetByUniqueAttributesParameters): Promise<EntityGetByUniqueAttributes200Response>;
-    put(options: EntityPartialUpdateEntityByUniqueAttributesParameters): Promise<EntityPartialUpdateEntityByUniqueAttributes200Response>;
-}
-
 // @public
 export interface EntityGetByUniqueAttributes200Response extends HttpResponse {
     // (undocumented)
@@ -806,7 +961,7 @@ export interface EntityGetByUniqueAttributes200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export type EntityGetByUniqueAttributesParameters = EntityGetByUniqueAttributesQueryParam & RequestParameters;
+export type EntityGetByUniqueAttributesParameters = RequestParameters & EntityGetByUniqueAttributesQueryParam;
 
 // @public (undocumented)
 export interface EntityGetByUniqueAttributesQueryParam {
@@ -821,12 +976,6 @@ export interface EntityGetByUniqueAttributesQueryParamProperties {
     minExtInfo?: boolean;
 }
 
-// @public (undocumented)
-export interface EntityGetClassification {
-    delete(options?: EntityDeleteClassificationParameters): Promise<EntityDeleteClassification204Response>;
-    get(options?: EntityGetClassificationParameters): Promise<EntityGetClassification200Response>;
-}
-
 // @public
 export interface EntityGetClassification200Response extends HttpResponse {
     // (undocumented)
@@ -837,13 +986,6 @@ export interface EntityGetClassification200Response extends HttpResponse {
 
 // @public (undocumented)
 export type EntityGetClassificationParameters = RequestParameters;
-
-// @public (undocumented)
-export interface EntityGetClassifications {
-    get(options?: EntityGetClassificationsParameters): Promise<EntityGetClassifications200Response>;
-    post(options: EntityAddClassificationsParameters): Promise<EntityAddClassifications204Response>;
-    put(options: EntityUpdateClassificationsParameters): Promise<EntityUpdateClassifications204Response>;
-}
 
 // @public
 export interface EntityGetClassifications200Response extends HttpResponse {
@@ -870,7 +1012,7 @@ export interface EntityGetEntitiesByUniqueAttributes200Response extends HttpResp
 }
 
 // @public (undocumented)
-export type EntityGetEntitiesByUniqueAttributesParameters = EntityGetEntitiesByUniqueAttributesQueryParam & RequestParameters;
+export type EntityGetEntitiesByUniqueAttributesParameters = RequestParameters & EntityGetEntitiesByUniqueAttributesQueryParam;
 
 // @public (undocumented)
 export interface EntityGetEntitiesByUniqueAttributesQueryParam {
@@ -901,13 +1043,6 @@ export interface EntityGetHeader200Response extends HttpResponse {
 // @public (undocumented)
 export type EntityGetHeaderParameters = RequestParameters;
 
-// @public (undocumented)
-export interface EntityListByGuids {
-    delete(options?: EntityDeleteByGuidsParameters): Promise<EntityDeleteByGuids200Response>;
-    get(options?: EntityListByGuidsParameters): Promise<EntityListByGuids200Response>;
-    post(options: EntityCreateOrUpdateEntitiesParameters): Promise<EntityCreateOrUpdateEntities200Response>;
-}
-
 // @public
 export interface EntityListByGuids200Response extends HttpResponse {
     // (undocumented)
@@ -917,7 +1052,7 @@ export interface EntityListByGuids200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export type EntityListByGuidsParameters = EntityListByGuidsQueryParam & RequestParameters;
+export type EntityListByGuidsParameters = RequestParameters & EntityListByGuidsQueryParam;
 
 // @public (undocumented)
 export interface EntityListByGuidsQueryParam {
@@ -927,18 +1062,27 @@ export interface EntityListByGuidsQueryParam {
 
 // @public (undocumented)
 export interface EntityListByGuidsQueryParamProperties {
-    excludeRelationshipTypes?: Array<string>;
-    guids: Array<string>;
+    excludeRelationshipTypes?: string[];
+    guids: string[];
     ignoreRelationships?: boolean;
     minExtInfo?: boolean;
 }
 
 // @public (undocumented)
 export interface EntityMutationResponse {
-    guidAssignments?: Record<string, string>;
-    mutatedEntities?: Record<string, Array<AtlasEntityHeader>>;
-    partialUpdatedEntities?: Array<AtlasEntityHeader>;
+    guidAssignments?: EntityMutationResponseGuidAssignmentsDictionary;
+    mutatedEntities?: EntityMutationResponseMutatedEntitiesDictionary;
+    partialUpdatedEntities?: AtlasEntityHeader[];
 }
+
+// @public (undocumented)
+export type EntityMutationResponseGuidAssignmentsDictionary = Record<string, string>;
+
+// @public (undocumented)
+export type EntityMutationResponseMutatedEntitiesDictionary = Record<string, AtlasEntityHeader[]>;
+
+// @public (undocumented)
+export type EntityOperation = "CREATE" | "UPDATE" | "PARTIAL_UPDATE" | "DELETE";
 
 // @public
 export interface EntityPartialUpdateEntityAttributeByGuid200Response extends HttpResponse {
@@ -950,11 +1094,12 @@ export interface EntityPartialUpdateEntityAttributeByGuid200Response extends Htt
 
 // @public (undocumented)
 export interface EntityPartialUpdateEntityAttributeByGuidBodyParam {
-    body: Record<string, unknown>;
+    // (undocumented)
+    body: any;
 }
 
 // @public (undocumented)
-export type EntityPartialUpdateEntityAttributeByGuidParameters = EntityPartialUpdateEntityAttributeByGuidQueryParam & EntityPartialUpdateEntityAttributeByGuidBodyParam & RequestParameters;
+export type EntityPartialUpdateEntityAttributeByGuidParameters = RequestParameters & EntityPartialUpdateEntityAttributeByGuidQueryParam & EntityPartialUpdateEntityAttributeByGuidBodyParam;
 
 // @public (undocumented)
 export interface EntityPartialUpdateEntityAttributeByGuidQueryParam {
@@ -977,11 +1122,12 @@ export interface EntityPartialUpdateEntityByUniqueAttributes200Response extends 
 
 // @public (undocumented)
 export interface EntityPartialUpdateEntityByUniqueAttributesBodyParam {
+    // (undocumented)
     body: AtlasEntityWithExtInfo;
 }
 
 // @public (undocumented)
-export type EntityPartialUpdateEntityByUniqueAttributesParameters = EntityPartialUpdateEntityByUniqueAttributesQueryParam & EntityPartialUpdateEntityByUniqueAttributesBodyParam & RequestParameters;
+export type EntityPartialUpdateEntityByUniqueAttributesParameters = RequestParameters & EntityPartialUpdateEntityByUniqueAttributesQueryParam & EntityPartialUpdateEntityByUniqueAttributesBodyParam;
 
 // @public (undocumented)
 export interface EntityPartialUpdateEntityByUniqueAttributesQueryParam {
@@ -995,6 +1141,14 @@ export interface EntityPartialUpdateEntityByUniqueAttributesQueryParamProperties
 }
 
 // @public (undocumented)
+export interface EntityPartialUpdateRequestV2 {
+    entity?: AtlasEntitiesWithExtInfo;
+    entityId?: AtlasObjectId;
+    type?: HookNotificationType;
+    user?: string;
+}
+
+// @public (undocumented)
 export interface EntitySetClassifications {
     post(options: EntitySetClassificationsParameters): Promise<EntitySetClassifications200Response>;
 }
@@ -1002,47 +1156,59 @@ export interface EntitySetClassifications {
 // @public
 export interface EntitySetClassifications200Response extends HttpResponse {
     // (undocumented)
-    body: Array<string>;
+    body: string[];
     // (undocumented)
     status: "200";
 }
 
 // @public (undocumented)
 export interface EntitySetClassificationsBodyParam {
+    // (undocumented)
     body: AtlasEntityHeaders;
 }
 
 // @public (undocumented)
-export type EntitySetClassificationsParameters = EntitySetClassificationsBodyParam & RequestParameters;
+export type EntitySetClassificationsParameters = RequestParameters & EntitySetClassificationsBodyParam;
+
+// @public (undocumented)
+export interface EntityUpdateClassifications {
+    get(options?: EntityGetClassificationsParameters): Promise<EntityGetClassifications200Response>;
+    post(options: EntityAddClassificationsParameters): Promise<EntityAddClassifications204Response>;
+    put(options: EntityUpdateClassificationsParameters): Promise<EntityUpdateClassifications204Response>;
+}
 
 // @public
 export interface EntityUpdateClassifications204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
 
 // @public (undocumented)
 export interface EntityUpdateClassificationsBodyParam {
-    body: Array<AtlasClassification>;
+    // (undocumented)
+    body: AtlasClassification[];
+}
+
+// @public (undocumented)
+export interface EntityUpdateClassificationsByUniqueAttribute {
+    post(options: EntityAddClassificationsByUniqueAttributeParameters): Promise<EntityAddClassificationsByUniqueAttribute204Response>;
+    put(options: EntityUpdateClassificationsByUniqueAttributeParameters): Promise<EntityUpdateClassificationsByUniqueAttribute204Response>;
 }
 
 // @public
 export interface EntityUpdateClassificationsByUniqueAttribute204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
 
 // @public (undocumented)
 export interface EntityUpdateClassificationsByUniqueAttributeBodyParam {
-    body: Array<AtlasClassification>;
+    // (undocumented)
+    body: AtlasClassification[];
 }
 
 // @public (undocumented)
-export type EntityUpdateClassificationsByUniqueAttributeParameters = EntityUpdateClassificationsByUniqueAttributeQueryParam & EntityUpdateClassificationsByUniqueAttributeBodyParam & RequestParameters;
+export type EntityUpdateClassificationsByUniqueAttributeParameters = RequestParameters & EntityUpdateClassificationsByUniqueAttributeQueryParam & EntityUpdateClassificationsByUniqueAttributeBodyParam;
 
 // @public (undocumented)
 export interface EntityUpdateClassificationsByUniqueAttributeQueryParam {
@@ -1056,23 +1222,82 @@ export interface EntityUpdateClassificationsByUniqueAttributeQueryParamPropertie
 }
 
 // @public (undocumented)
-export type EntityUpdateClassificationsParameters = EntityUpdateClassificationsBodyParam & RequestParameters;
+export type EntityUpdateClassificationsParameters = RequestParameters & EntityUpdateClassificationsBodyParam;
+
+// @public (undocumented)
+export interface EntityUpdateRequestV2 {
+    entities?: AtlasEntitiesWithExtInfo;
+    type?: HookNotificationType;
+    user?: string;
+}
+
+// @public (undocumented)
+interface Error_2 {
+    errorMessage?: string;
+}
+
+export { Error_2 as Error }
+
+// @public (undocumented)
+export interface FilterCriteria {
+    attributeName?: string;
+    attributeValue?: string;
+    condition?: Condition;
+    criterion?: FilterCriteria[];
+    operator?: Operator;
+}
+
+// @public (undocumented)
+export interface GetLineageGraph {
+    get(options?: GetLineageGraphParameters): Promise<GetLineageGraph200Response>;
+}
+
+// @public
+export interface GetLineageGraph200Response extends HttpResponse {
+    // (undocumented)
+    body: AtlasLineageInfo;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export type GetLineageGraphParameters = RequestParameters & GetLineageGraphQueryParam;
+
+// @public (undocumented)
+export interface GetLineageGraphQueryParam {
+    // (undocumented)
+    queryParameters: GetLineageGraphQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface GetLineageGraphQueryParamProperties {
+    depth?: number;
+    direction: Direction;
+    getDerivedLineage?: boolean;
+    includeParent?: boolean;
+    width?: number;
+}
 
 // @public
 export interface GlossaryAssignTermToEntities204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
 
 // @public (undocumented)
 export interface GlossaryAssignTermToEntitiesBodyParam {
-    body: Array<AtlasRelatedObjectId>;
+    // (undocumented)
+    body: AtlasRelatedObjectId[];
 }
 
 // @public (undocumented)
-export type GlossaryAssignTermToEntitiesParameters = GlossaryAssignTermToEntitiesBodyParam & RequestParameters;
+export type GlossaryAssignTermToEntitiesParameters = RequestParameters & GlossaryAssignTermToEntitiesBodyParam;
+
+// @public (undocumented)
+export interface GlossaryCreateGlossary {
+    get(options?: GlossaryListGlossariesParameters): Promise<GlossaryListGlossaries200Response>;
+    post(options: GlossaryCreateGlossaryParameters): Promise<GlossaryCreateGlossary200Response>;
+}
 
 // @public
 export interface GlossaryCreateGlossary200Response extends HttpResponse {
@@ -1084,6 +1309,7 @@ export interface GlossaryCreateGlossary200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface GlossaryCreateGlossaryBodyParam {
+    // (undocumented)
     body: AtlasGlossary;
 }
 
@@ -1095,18 +1321,19 @@ export interface GlossaryCreateGlossaryCategories {
 // @public
 export interface GlossaryCreateGlossaryCategories200Response extends HttpResponse {
     // (undocumented)
-    body: Array<AtlasGlossaryCategory>;
+    body: AtlasGlossaryCategory[];
     // (undocumented)
     status: "200";
 }
 
 // @public (undocumented)
 export interface GlossaryCreateGlossaryCategoriesBodyParam {
-    body: Array<AtlasGlossaryCategory>;
+    // (undocumented)
+    body: AtlasGlossaryCategory[];
 }
 
 // @public (undocumented)
-export type GlossaryCreateGlossaryCategoriesParameters = GlossaryCreateGlossaryCategoriesBodyParam & RequestParameters;
+export type GlossaryCreateGlossaryCategoriesParameters = RequestParameters & GlossaryCreateGlossaryCategoriesBodyParam;
 
 // @public (undocumented)
 export interface GlossaryCreateGlossaryCategory {
@@ -1123,14 +1350,15 @@ export interface GlossaryCreateGlossaryCategory200Response extends HttpResponse 
 
 // @public (undocumented)
 export interface GlossaryCreateGlossaryCategoryBodyParam {
+    // (undocumented)
     body: AtlasGlossaryCategory;
 }
 
 // @public (undocumented)
-export type GlossaryCreateGlossaryCategoryParameters = GlossaryCreateGlossaryCategoryBodyParam & RequestParameters;
+export type GlossaryCreateGlossaryCategoryParameters = RequestParameters & GlossaryCreateGlossaryCategoryBodyParam;
 
 // @public (undocumented)
-export type GlossaryCreateGlossaryParameters = GlossaryCreateGlossaryBodyParam & RequestParameters;
+export type GlossaryCreateGlossaryParameters = RequestParameters & GlossaryCreateGlossaryBodyParam;
 
 // @public (undocumented)
 export interface GlossaryCreateGlossaryTerm {
@@ -1147,11 +1375,12 @@ export interface GlossaryCreateGlossaryTerm200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface GlossaryCreateGlossaryTermBodyParam {
+    // (undocumented)
     body: AtlasGlossaryTerm;
 }
 
 // @public (undocumented)
-export type GlossaryCreateGlossaryTermParameters = GlossaryCreateGlossaryTermQueryParam & GlossaryCreateGlossaryTermBodyParam & RequestParameters;
+export type GlossaryCreateGlossaryTermParameters = RequestParameters & GlossaryCreateGlossaryTermQueryParam & GlossaryCreateGlossaryTermBodyParam;
 
 // @public (undocumented)
 export interface GlossaryCreateGlossaryTermQueryParam {
@@ -1172,18 +1401,19 @@ export interface GlossaryCreateGlossaryTerms {
 // @public
 export interface GlossaryCreateGlossaryTerms200Response extends HttpResponse {
     // (undocumented)
-    body: Array<AtlasGlossaryTerm>;
+    body: AtlasGlossaryTerm[];
     // (undocumented)
     status: "200";
 }
 
 // @public (undocumented)
 export interface GlossaryCreateGlossaryTermsBodyParam {
-    body: Array<AtlasGlossaryTerm>;
+    // (undocumented)
+    body: AtlasGlossaryTerm[];
 }
 
 // @public (undocumented)
-export type GlossaryCreateGlossaryTermsParameters = GlossaryCreateGlossaryTermsQueryParam & GlossaryCreateGlossaryTermsBodyParam & RequestParameters;
+export type GlossaryCreateGlossaryTermsParameters = RequestParameters & GlossaryCreateGlossaryTermsQueryParam & GlossaryCreateGlossaryTermsBodyParam;
 
 // @public (undocumented)
 export interface GlossaryCreateGlossaryTermsQueryParam {
@@ -1196,18 +1426,28 @@ export interface GlossaryCreateGlossaryTermsQueryParamProperties {
     includeTermHierarchy?: boolean;
 }
 
+// @public (undocumented)
+export interface GlossaryDeleteGlossary {
+    delete(options?: GlossaryDeleteGlossaryParameters): Promise<GlossaryDeleteGlossary204Response>;
+    get(options?: GlossaryGetGlossaryParameters): Promise<GlossaryGetGlossary200Response>;
+    put(options: GlossaryUpdateGlossaryParameters): Promise<GlossaryUpdateGlossary200Response>;
+}
+
 // @public
 export interface GlossaryDeleteGlossary204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
 
+// @public (undocumented)
+export interface GlossaryDeleteGlossaryCategory {
+    delete(options?: GlossaryDeleteGlossaryCategoryParameters): Promise<GlossaryDeleteGlossaryCategory204Response>;
+    get(options?: GlossaryGetGlossaryCategoryParameters): Promise<GlossaryGetGlossaryCategory200Response>;
+    put(options: GlossaryUpdateGlossaryCategoryParameters): Promise<GlossaryUpdateGlossaryCategory200Response>;
+}
+
 // @public
 export interface GlossaryDeleteGlossaryCategory204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -1218,10 +1458,15 @@ export type GlossaryDeleteGlossaryCategoryParameters = RequestParameters;
 // @public (undocumented)
 export type GlossaryDeleteGlossaryParameters = RequestParameters;
 
+// @public (undocumented)
+export interface GlossaryDeleteGlossaryTerm {
+    delete(options?: GlossaryDeleteGlossaryTermParameters): Promise<GlossaryDeleteGlossaryTerm204Response>;
+    get(options?: GlossaryGetGlossaryTermParameters): Promise<GlossaryGetGlossaryTerm200Response>;
+    put(options: GlossaryUpdateGlossaryTermParameters): Promise<GlossaryUpdateGlossaryTerm200Response>;
+}
+
 // @public
 export interface GlossaryDeleteGlossaryTerm204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -1229,21 +1474,28 @@ export interface GlossaryDeleteGlossaryTerm204Response extends HttpResponse {
 // @public (undocumented)
 export type GlossaryDeleteGlossaryTermParameters = RequestParameters;
 
+// @public (undocumented)
+export interface GlossaryDeleteTermAssignmentFromEntities {
+    delete(options: GlossaryDeleteTermAssignmentFromEntitiesParameters): Promise<GlossaryDeleteTermAssignmentFromEntities204Response>;
+    get(options?: GlossaryGetEntitiesAssignedWithTermParameters): Promise<GlossaryGetEntitiesAssignedWithTerm200Response>;
+    post(options: GlossaryAssignTermToEntitiesParameters): Promise<GlossaryAssignTermToEntities204Response>;
+    put(options: GlossaryRemoveTermAssignmentFromEntitiesParameters): Promise<GlossaryRemoveTermAssignmentFromEntities204Response>;
+}
+
 // @public
 export interface GlossaryDeleteTermAssignmentFromEntities204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
 
 // @public (undocumented)
 export interface GlossaryDeleteTermAssignmentFromEntitiesBodyParam {
-    body: Array<AtlasRelatedObjectId>;
+    // (undocumented)
+    body: AtlasRelatedObjectId[];
 }
 
 // @public (undocumented)
-export type GlossaryDeleteTermAssignmentFromEntitiesParameters = GlossaryDeleteTermAssignmentFromEntitiesBodyParam & RequestParameters;
+export type GlossaryDeleteTermAssignmentFromEntitiesParameters = RequestParameters & GlossaryDeleteTermAssignmentFromEntitiesBodyParam;
 
 // @public (undocumented)
 export interface GlossaryExportGlossaryTermsAsCsv {
@@ -1252,6 +1504,7 @@ export interface GlossaryExportGlossaryTermsAsCsv {
 
 // @public
 export interface GlossaryExportGlossaryTermsAsCsv200Response extends HttpResponse {
+    // (undocumented)
     body: string;
     // (undocumented)
     status: "200";
@@ -1259,11 +1512,12 @@ export interface GlossaryExportGlossaryTermsAsCsv200Response extends HttpRespons
 
 // @public (undocumented)
 export interface GlossaryExportGlossaryTermsAsCsvBodyParam {
-    body: Array<string>;
+    // (undocumented)
+    body: string[];
 }
 
 // @public (undocumented)
-export type GlossaryExportGlossaryTermsAsCsvParameters = GlossaryExportGlossaryTermsAsCsvQueryParam & GlossaryExportGlossaryTermsAsCsvBodyParam & RequestParameters;
+export type GlossaryExportGlossaryTermsAsCsvParameters = RequestParameters & GlossaryExportGlossaryTermsAsCsvQueryParam & GlossaryExportGlossaryTermsAsCsvBodyParam;
 
 // @public (undocumented)
 export interface GlossaryExportGlossaryTermsAsCsvQueryParam {
@@ -1290,7 +1544,7 @@ export interface GlossaryGetDetailedGlossary200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export type GlossaryGetDetailedGlossaryParameters = GlossaryGetDetailedGlossaryQueryParam & RequestParameters;
+export type GlossaryGetDetailedGlossaryParameters = RequestParameters & GlossaryGetDetailedGlossaryQueryParam;
 
 // @public (undocumented)
 export interface GlossaryGetDetailedGlossaryQueryParam {
@@ -1303,24 +1557,16 @@ export interface GlossaryGetDetailedGlossaryQueryParamProperties {
     includeTermHierarchy?: boolean;
 }
 
-// @public (undocumented)
-export interface GlossaryGetEntitiesAssignedWithTerm {
-    delete(options: GlossaryDeleteTermAssignmentFromEntitiesParameters): Promise<GlossaryDeleteTermAssignmentFromEntities204Response>;
-    get(options?: GlossaryGetEntitiesAssignedWithTermParameters): Promise<GlossaryGetEntitiesAssignedWithTerm200Response>;
-    post(options: GlossaryAssignTermToEntitiesParameters): Promise<GlossaryAssignTermToEntities204Response>;
-    put(options: GlossaryRemoveTermAssignmentFromEntitiesParameters): Promise<GlossaryRemoveTermAssignmentFromEntities204Response>;
-}
-
 // @public
 export interface GlossaryGetEntitiesAssignedWithTerm200Response extends HttpResponse {
     // (undocumented)
-    body: Array<AtlasRelatedObjectId>;
+    body: AtlasRelatedObjectId[];
     // (undocumented)
     status: "200";
 }
 
 // @public (undocumented)
-export type GlossaryGetEntitiesAssignedWithTermParameters = GlossaryGetEntitiesAssignedWithTermQueryParam & RequestParameters;
+export type GlossaryGetEntitiesAssignedWithTermParameters = RequestParameters & GlossaryGetEntitiesAssignedWithTermQueryParam;
 
 // @public (undocumented)
 export interface GlossaryGetEntitiesAssignedWithTermQueryParam {
@@ -1335,26 +1581,12 @@ export interface GlossaryGetEntitiesAssignedWithTermQueryParamProperties {
     sort?: string;
 }
 
-// @public (undocumented)
-export interface GlossaryGetGlossary {
-    delete(options?: GlossaryDeleteGlossaryParameters): Promise<GlossaryDeleteGlossary204Response>;
-    get(options?: GlossaryGetGlossaryParameters): Promise<GlossaryGetGlossary200Response>;
-    put(options: GlossaryUpdateGlossaryParameters): Promise<GlossaryUpdateGlossary200Response>;
-}
-
 // @public
 export interface GlossaryGetGlossary200Response extends HttpResponse {
     // (undocumented)
     body: AtlasGlossary;
     // (undocumented)
     status: "200";
-}
-
-// @public (undocumented)
-export interface GlossaryGetGlossaryCategory {
-    delete(options?: GlossaryDeleteGlossaryCategoryParameters): Promise<GlossaryDeleteGlossaryCategory204Response>;
-    get(options?: GlossaryGetGlossaryCategoryParameters): Promise<GlossaryGetGlossaryCategory200Response>;
-    put(options: GlossaryUpdateGlossaryCategoryParameters): Promise<GlossaryUpdateGlossaryCategory200Response>;
 }
 
 // @public
@@ -1371,13 +1603,6 @@ export type GlossaryGetGlossaryCategoryParameters = RequestParameters;
 // @public (undocumented)
 export type GlossaryGetGlossaryParameters = RequestParameters;
 
-// @public (undocumented)
-export interface GlossaryGetGlossaryTerm {
-    delete(options?: GlossaryDeleteGlossaryTermParameters): Promise<GlossaryDeleteGlossaryTerm204Response>;
-    get(options?: GlossaryGetGlossaryTermParameters): Promise<GlossaryGetGlossaryTerm200Response>;
-    put(options: GlossaryUpdateGlossaryTermParameters): Promise<GlossaryUpdateGlossaryTerm200Response>;
-}
-
 // @public
 export interface GlossaryGetGlossaryTerm200Response extends HttpResponse {
     // (undocumented)
@@ -1387,7 +1612,7 @@ export interface GlossaryGetGlossaryTerm200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export type GlossaryGetGlossaryTermParameters = GlossaryGetGlossaryTermQueryParam & RequestParameters;
+export type GlossaryGetGlossaryTermParameters = RequestParameters & GlossaryGetGlossaryTermQueryParam;
 
 // @public (undocumented)
 export interface GlossaryGetGlossaryTermQueryParam {
@@ -1431,6 +1656,7 @@ export interface GlossaryImportGlossaryTermsViaCsv202Response extends HttpRespon
 
 // @public (undocumented)
 export interface GlossaryImportGlossaryTermsViaCsvBodyParam {
+    // (undocumented)
     body: string;
 }
 
@@ -1449,11 +1675,12 @@ export interface GlossaryImportGlossaryTermsViaCsvByGlossaryName202Response exte
 
 // @public (undocumented)
 export interface GlossaryImportGlossaryTermsViaCsvByGlossaryNameBodyParam {
+    // (undocumented)
     body: string;
 }
 
 // @public (undocumented)
-export type GlossaryImportGlossaryTermsViaCsvByGlossaryNameParameters = GlossaryImportGlossaryTermsViaCsvByGlossaryNameQueryParam & GlossaryImportGlossaryTermsViaCsvByGlossaryNameBodyParam & RequestParameters;
+export type GlossaryImportGlossaryTermsViaCsvByGlossaryNameParameters = RequestParameters & GlossaryImportGlossaryTermsViaCsvByGlossaryNameQueryParam & GlossaryImportGlossaryTermsViaCsvByGlossaryNameBodyParam;
 
 // @public (undocumented)
 export interface GlossaryImportGlossaryTermsViaCsvByGlossaryNameQueryParam {
@@ -1467,7 +1694,7 @@ export interface GlossaryImportGlossaryTermsViaCsvByGlossaryNameQueryParamProper
 }
 
 // @public (undocumented)
-export type GlossaryImportGlossaryTermsViaCsvParameters = GlossaryImportGlossaryTermsViaCsvQueryParam & GlossaryImportGlossaryTermsViaCsvBodyParam & RequestParameters;
+export type GlossaryImportGlossaryTermsViaCsvParameters = RequestParameters & GlossaryImportGlossaryTermsViaCsvQueryParam & GlossaryImportGlossaryTermsViaCsvBodyParam;
 
 // @public (undocumented)
 export interface GlossaryImportGlossaryTermsViaCsvQueryParam {
@@ -1488,13 +1715,13 @@ export interface GlossaryListCategoryTerms {
 // @public
 export interface GlossaryListCategoryTerms200Response extends HttpResponse {
     // (undocumented)
-    body: Array<AtlasRelatedTermHeader>;
+    body: AtlasRelatedTermHeader[];
     // (undocumented)
     status: "200";
 }
 
 // @public (undocumented)
-export type GlossaryListCategoryTermsParameters = GlossaryListCategoryTermsQueryParam & RequestParameters;
+export type GlossaryListCategoryTermsParameters = RequestParameters & GlossaryListCategoryTermsQueryParam;
 
 // @public (undocumented)
 export interface GlossaryListCategoryTermsQueryParam {
@@ -1509,22 +1736,16 @@ export interface GlossaryListCategoryTermsQueryParamProperties {
     sort?: string;
 }
 
-// @public (undocumented)
-export interface GlossaryListGlossaries {
-    get(options?: GlossaryListGlossariesParameters): Promise<GlossaryListGlossaries200Response>;
-    post(options: GlossaryCreateGlossaryParameters): Promise<GlossaryCreateGlossary200Response>;
-}
-
 // @public
 export interface GlossaryListGlossaries200Response extends HttpResponse {
     // (undocumented)
-    body: Array<AtlasGlossary>;
+    body: AtlasGlossary[];
     // (undocumented)
     status: "200";
 }
 
 // @public (undocumented)
-export type GlossaryListGlossariesParameters = GlossaryListGlossariesQueryParam & RequestParameters;
+export type GlossaryListGlossariesParameters = RequestParameters & GlossaryListGlossariesQueryParam;
 
 // @public (undocumented)
 export interface GlossaryListGlossariesQueryParam {
@@ -1547,7 +1768,7 @@ export interface GlossaryListGlossaryCategories {
 // @public
 export interface GlossaryListGlossaryCategories200Response extends HttpResponse {
     // (undocumented)
-    body: Array<AtlasGlossaryCategory>;
+    body: AtlasGlossaryCategory[];
     // (undocumented)
     status: "200";
 }
@@ -1560,13 +1781,13 @@ export interface GlossaryListGlossaryCategoriesHeaders {
 // @public
 export interface GlossaryListGlossaryCategoriesHeaders200Response extends HttpResponse {
     // (undocumented)
-    body: Array<AtlasRelatedCategoryHeader>;
+    body: AtlasRelatedCategoryHeader[];
     // (undocumented)
     status: "200";
 }
 
 // @public (undocumented)
-export type GlossaryListGlossaryCategoriesHeadersParameters = GlossaryListGlossaryCategoriesHeadersQueryParam & RequestParameters;
+export type GlossaryListGlossaryCategoriesHeadersParameters = RequestParameters & GlossaryListGlossaryCategoriesHeadersQueryParam;
 
 // @public (undocumented)
 export interface GlossaryListGlossaryCategoriesHeadersQueryParam {
@@ -1582,7 +1803,7 @@ export interface GlossaryListGlossaryCategoriesHeadersQueryParamProperties {
 }
 
 // @public (undocumented)
-export type GlossaryListGlossaryCategoriesParameters = GlossaryListGlossaryCategoriesQueryParam & RequestParameters;
+export type GlossaryListGlossaryCategoriesParameters = RequestParameters & GlossaryListGlossaryCategoriesQueryParam;
 
 // @public (undocumented)
 export interface GlossaryListGlossaryCategoriesQueryParam {
@@ -1605,13 +1826,13 @@ export interface GlossaryListGlossaryTermHeaders {
 // @public
 export interface GlossaryListGlossaryTermHeaders200Response extends HttpResponse {
     // (undocumented)
-    body: Array<AtlasRelatedTermHeader>;
+    body: AtlasRelatedTermHeader[];
     // (undocumented)
     status: "200";
 }
 
 // @public (undocumented)
-export type GlossaryListGlossaryTermHeadersParameters = GlossaryListGlossaryTermHeadersQueryParam & RequestParameters;
+export type GlossaryListGlossaryTermHeadersParameters = RequestParameters & GlossaryListGlossaryTermHeadersQueryParam;
 
 // @public (undocumented)
 export interface GlossaryListGlossaryTermHeadersQueryParam {
@@ -1634,13 +1855,13 @@ export interface GlossaryListGlossaryTerms {
 // @public
 export interface GlossaryListGlossaryTerms200Response extends HttpResponse {
     // (undocumented)
-    body: Array<AtlasGlossaryTerm>;
+    body: AtlasGlossaryTerm[];
     // (undocumented)
     status: "200";
 }
 
 // @public (undocumented)
-export type GlossaryListGlossaryTermsParameters = GlossaryListGlossaryTermsQueryParam & RequestParameters;
+export type GlossaryListGlossaryTermsParameters = RequestParameters & GlossaryListGlossaryTermsQueryParam;
 
 // @public (undocumented)
 export interface GlossaryListGlossaryTermsQueryParam {
@@ -1664,13 +1885,13 @@ export interface GlossaryListRelatedCategories {
 // @public
 export interface GlossaryListRelatedCategories200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, Array<AtlasRelatedCategoryHeader>>;
+    body: DictionaryOfpathsCic80AAtlasV2GlossaryCategoryCategoryguidRelatedGetResponses200ContentApplicationJsonSchemaAdditionalpropertiesDictionary;
     // (undocumented)
     status: "200";
 }
 
 // @public (undocumented)
-export type GlossaryListRelatedCategoriesParameters = GlossaryListRelatedCategoriesQueryParam & RequestParameters;
+export type GlossaryListRelatedCategoriesParameters = RequestParameters & GlossaryListRelatedCategoriesQueryParam;
 
 // @public (undocumented)
 export interface GlossaryListRelatedCategoriesQueryParam {
@@ -1693,13 +1914,13 @@ export interface GlossaryListRelatedTerms {
 // @public
 export interface GlossaryListRelatedTerms200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, Array<AtlasRelatedTermHeader>>;
+    body: DictionaryOfpathsV84KwqAtlasV2GlossaryTermsTermguidRelatedGetResponses200ContentApplicationJsonSchemaAdditionalpropertiesDictionary;
     // (undocumented)
     status: "200";
 }
 
 // @public (undocumented)
-export type GlossaryListRelatedTermsParameters = GlossaryListRelatedTermsQueryParam & RequestParameters;
+export type GlossaryListRelatedTermsParameters = RequestParameters & GlossaryListRelatedTermsQueryParam;
 
 // @public (undocumented)
 export interface GlossaryListRelatedTermsQueryParam {
@@ -1722,13 +1943,13 @@ export interface GlossaryListTermsByGlossaryName {
 // @public
 export interface GlossaryListTermsByGlossaryName200Response extends HttpResponse {
     // (undocumented)
-    body: Array<AtlasGlossaryTerm>;
+    body: AtlasGlossaryTerm[];
     // (undocumented)
     status: "200";
 }
 
 // @public (undocumented)
-export type GlossaryListTermsByGlossaryNameParameters = GlossaryListTermsByGlossaryNameQueryParam & RequestParameters;
+export type GlossaryListTermsByGlossaryNameParameters = RequestParameters & GlossaryListTermsByGlossaryNameQueryParam;
 
 // @public (undocumented)
 export interface GlossaryListTermsByGlossaryNameQueryParam {
@@ -1758,7 +1979,8 @@ export interface GlossaryPartialUpdateGlossary200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface GlossaryPartialUpdateGlossaryBodyParam {
-    body: Record<string, string>;
+    // (undocumented)
+    body: DictionaryOfStringDictionary;
 }
 
 // @public (undocumented)
@@ -1776,14 +1998,15 @@ export interface GlossaryPartialUpdateGlossaryCategory200Response extends HttpRe
 
 // @public (undocumented)
 export interface GlossaryPartialUpdateGlossaryCategoryBodyParam {
-    body: Record<string, string>;
+    // (undocumented)
+    body: DictionaryOfStringDictionary;
 }
 
 // @public (undocumented)
-export type GlossaryPartialUpdateGlossaryCategoryParameters = GlossaryPartialUpdateGlossaryCategoryBodyParam & RequestParameters;
+export type GlossaryPartialUpdateGlossaryCategoryParameters = RequestParameters & GlossaryPartialUpdateGlossaryCategoryBodyParam;
 
 // @public (undocumented)
-export type GlossaryPartialUpdateGlossaryParameters = GlossaryPartialUpdateGlossaryQueryParam & GlossaryPartialUpdateGlossaryBodyParam & RequestParameters;
+export type GlossaryPartialUpdateGlossaryParameters = RequestParameters & GlossaryPartialUpdateGlossaryQueryParam & GlossaryPartialUpdateGlossaryBodyParam;
 
 // @public (undocumented)
 export interface GlossaryPartialUpdateGlossaryQueryParam {
@@ -1811,11 +2034,12 @@ export interface GlossaryPartialUpdateGlossaryTerm200Response extends HttpRespon
 
 // @public (undocumented)
 export interface GlossaryPartialUpdateGlossaryTermBodyParam {
-    body: Record<string, string>;
+    // (undocumented)
+    body: DictionaryOfStringDictionary;
 }
 
 // @public (undocumented)
-export type GlossaryPartialUpdateGlossaryTermParameters = GlossaryPartialUpdateGlossaryTermQueryParam & GlossaryPartialUpdateGlossaryTermBodyParam & RequestParameters;
+export type GlossaryPartialUpdateGlossaryTermParameters = RequestParameters & GlossaryPartialUpdateGlossaryTermQueryParam & GlossaryPartialUpdateGlossaryTermBodyParam;
 
 // @public (undocumented)
 export interface GlossaryPartialUpdateGlossaryTermQueryParam {
@@ -1831,18 +2055,17 @@ export interface GlossaryPartialUpdateGlossaryTermQueryParamProperties {
 // @public
 export interface GlossaryRemoveTermAssignmentFromEntities204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
 // @public (undocumented)
 export interface GlossaryRemoveTermAssignmentFromEntitiesBodyParam {
-    body: Array<AtlasRelatedObjectId>;
+    // (undocumented)
+    body: AtlasRelatedObjectId[];
 }
 
 // @public (undocumented)
-export type GlossaryRemoveTermAssignmentFromEntitiesParameters = GlossaryRemoveTermAssignmentFromEntitiesBodyParam & RequestParameters;
+export type GlossaryRemoveTermAssignmentFromEntitiesParameters = RequestParameters & GlossaryRemoveTermAssignmentFromEntitiesBodyParam;
 
 // @public
 export interface GlossaryUpdateGlossary200Response extends HttpResponse {
@@ -1854,6 +2077,7 @@ export interface GlossaryUpdateGlossary200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface GlossaryUpdateGlossaryBodyParam {
+    // (undocumented)
     body: AtlasGlossary;
 }
 
@@ -1867,14 +2091,15 @@ export interface GlossaryUpdateGlossaryCategory200Response extends HttpResponse 
 
 // @public (undocumented)
 export interface GlossaryUpdateGlossaryCategoryBodyParam {
+    // (undocumented)
     body: AtlasGlossaryCategory;
 }
 
 // @public (undocumented)
-export type GlossaryUpdateGlossaryCategoryParameters = GlossaryUpdateGlossaryCategoryBodyParam & RequestParameters;
+export type GlossaryUpdateGlossaryCategoryParameters = RequestParameters & GlossaryUpdateGlossaryCategoryBodyParam;
 
 // @public (undocumented)
-export type GlossaryUpdateGlossaryParameters = GlossaryUpdateGlossaryBodyParam & RequestParameters;
+export type GlossaryUpdateGlossaryParameters = RequestParameters & GlossaryUpdateGlossaryBodyParam;
 
 // @public
 export interface GlossaryUpdateGlossaryTerm200Response extends HttpResponse {
@@ -1886,11 +2111,21 @@ export interface GlossaryUpdateGlossaryTerm200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface GlossaryUpdateGlossaryTermBodyParam {
+    // (undocumented)
     body: AtlasGlossaryTerm;
 }
 
 // @public (undocumented)
-export type GlossaryUpdateGlossaryTermParameters = GlossaryUpdateGlossaryTermBodyParam & RequestParameters;
+export type GlossaryUpdateGlossaryTermParameters = RequestParameters & GlossaryUpdateGlossaryTermBodyParam;
+
+// @public (undocumented)
+export interface HookNotification {
+    type?: HookNotificationType;
+    user?: string;
+}
+
+// @public (undocumented)
+export type HookNotificationType = "TYPE_CREATE" | "TYPE_UPDATE" | "ENTITY_CREATE" | "ENTITY_PARTIAL_UPDATE" | "ENTITY_FULL_UPDATE" | "ENTITY_DELETE" | "ENTITY_CREATE_V2" | "ENTITY_PARTIAL_UPDATE_V2" | "ENTITY_FULL_UPDATE_V2" | "ENTITY_DELETE_V2";
 
 // @public (undocumented)
 export interface ImportCSVOperation {
@@ -1901,7 +2136,7 @@ export interface ImportCSVOperation {
     lastUpdateTime?: string;
     // (undocumented)
     properties?: ImportCSVOperationProperties;
-    status?: "NotStarted" | "Succeeded" | "Failed" | "Running";
+    status?: ImportCSVOperationStatus;
 }
 
 // @public (undocumented)
@@ -1917,65 +2152,10 @@ export interface ImportCSVOperationProperties {
 }
 
 // @public (undocumented)
-export interface LineageGetLineageGraph {
-    get(options?: LineageGetLineageGraphParameters): Promise<LineageGetLineageGraph200Response>;
-}
-
-// @public
-export interface LineageGetLineageGraph200Response extends HttpResponse {
-    // (undocumented)
-    body: AtlasLineageInfo;
-    // (undocumented)
-    status: "200";
-}
+export type ImportCSVOperationStatus = "NotStarted" | "Succeeded" | "Failed" | "Running";
 
 // @public (undocumented)
-export type LineageGetLineageGraphParameters = LineageGetLineageGraphQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface LineageGetLineageGraphQueryParam {
-    // (undocumented)
-    queryParameters: LineageGetLineageGraphQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface LineageGetLineageGraphQueryParamProperties {
-    depth?: number;
-    direction: "BOTH" | "INPUT" | "OUTPUT";
-    getDerivedLineage?: boolean;
-    includeParent?: boolean;
-    width?: number;
-}
-
-// @public (undocumented)
-export interface LineageNextPageLineage {
-    get(options?: LineageNextPageLineageParameters): Promise<LineageNextPageLineage200Response>;
-}
-
-// @public
-export interface LineageNextPageLineage200Response extends HttpResponse {
-    // (undocumented)
-    body: AtlasLineageInfo;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export type LineageNextPageLineageParameters = LineageNextPageLineageQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface LineageNextPageLineageQueryParam {
-    // (undocumented)
-    queryParameters: LineageNextPageLineageQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface LineageNextPageLineageQueryParamProperties {
-    direction: "BOTH" | "INPUT" | "OUTPUT";
-    getDerivedLineage?: boolean;
-    limit?: number;
-    offset?: number;
-}
+export type LineageDirection = "INPUT" | "OUTPUT" | "BOTH";
 
 // @public (undocumented)
 export interface LineageRelation {
@@ -1985,8 +2165,44 @@ export interface LineageRelation {
 }
 
 // @public (undocumented)
+export interface ListRoleAssignmentResponse {
+    // (undocumented)
+    roleAssignmentList?: RoleAssignmentEntry[];
+}
+
+// @public (undocumented)
+export interface NextPageLineage {
+    get(options?: NextPageLineageParameters): Promise<NextPageLineage200Response>;
+}
+
+// @public
+export interface NextPageLineage200Response extends HttpResponse {
+    // (undocumented)
+    body: AtlasLineageInfo;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export type NextPageLineageParameters = RequestParameters & NextPageLineageQueryParam;
+
+// @public (undocumented)
+export interface NextPageLineageQueryParam {
+    // (undocumented)
+    queryParameters: NextPageLineageQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface NextPageLineageQueryParamProperties {
+    direction: Direction;
+    getDerivedLineage?: boolean;
+    limit?: number;
+    offset?: number;
+}
+
+// @public (undocumented)
 export interface NumberFormat {
-    availableLocales?: Array<string>;
+    availableLocales?: string[];
     currency?: string;
     currencyInstance?: NumberFormat;
     groupingUsed?: boolean;
@@ -1999,8 +2215,11 @@ export interface NumberFormat {
     numberInstance?: NumberFormat;
     parseIntegerOnly?: boolean;
     percentInstance?: NumberFormat;
-    roundingMode?: "UP" | "DOWN" | "CEILING" | "FLOOR" | "HALF_UP" | "HALF_DOWN" | "HALF_EVEN" | "UNNECESSARY";
+    roundingMode?: RoundingMode;
 }
+
+// @public (undocumented)
+export type Operator = "LT" | "GT" | "LTE" | "GTE" | "EQ" | "NEQ" | "IN" | "LIKE" | "STARTS_WITH" | "ENDS_WITH" | "CONTAINS" | "CONTAINS_ANY" | "CONTAINS_ALL" | "IS_NULL" | "NOT_NULL";
 
 // @public (undocumented)
 export interface ParentRelation {
@@ -2021,10 +2240,10 @@ export interface Paths1Fy5A17GlossaryNameGlossarynameTermsImportPostRequestbodyC
 
 // @public (undocumented)
 export interface PList {
-    list?: Array<Record<string, unknown>>;
+    list?: any[];
     pageSize?: number;
     sortBy?: string;
-    sortType?: "NONE" | "ASC" | "DESC";
+    sortType?: SortType;
     startIndex?: number;
     totalCount?: number;
 }
@@ -2040,10 +2259,10 @@ export type PurviewCatalogRestClient = Client & {
 };
 
 // @public (undocumented)
-export interface RelationshipCreate {
-    post(options: RelationshipCreateParameters): Promise<RelationshipCreate200Response>;
-    put(options: RelationshipUpdateParameters): Promise<RelationshipUpdate200Response>;
-}
+export type Relation = "SEE_ALSO" | "SYNONYMS" | "ANTONYMS" | "PREFERRED_TO_TERMS" | "PREFERRED_TERMS" | "REPLACEMENT_TERMS" | "REPLACED_BY" | "TRANSLATION_TERMS" | "TRANSLATED_TERMS" | "ISA" | "CLASSIFIES" | "VALID_VALUES" | "VALID_VALUES_FOR";
+
+// @public (undocumented)
+export type RelationshipCategory = "ASSOCIATION" | "AGGREGATION" | "COMPOSITION";
 
 // @public
 export interface RelationshipCreate200Response extends HttpResponse {
@@ -2055,28 +2274,27 @@ export interface RelationshipCreate200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface RelationshipCreateBodyParam {
+    // (undocumented)
     body: AtlasRelationship;
 }
 
 // @public (undocumented)
-export type RelationshipCreateParameters = RelationshipCreateBodyParam & RequestParameters;
+export type RelationshipCreateParameters = RequestParameters & RelationshipCreateBodyParam;
+
+// @public (undocumented)
+export interface RelationshipDelete {
+    delete(options?: RelationshipDeleteParameters): Promise<RelationshipDelete204Response>;
+    get(options?: RelationshipGetParameters): Promise<RelationshipGet200Response>;
+}
 
 // @public
 export interface RelationshipDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
 
 // @public (undocumented)
 export type RelationshipDeleteParameters = RequestParameters;
-
-// @public (undocumented)
-export interface RelationshipGet {
-    delete(options?: RelationshipDeleteParameters): Promise<RelationshipDelete204Response>;
-    get(options?: RelationshipGetParameters): Promise<RelationshipGet200Response>;
-}
 
 // @public
 export interface RelationshipGet200Response extends HttpResponse {
@@ -2087,7 +2305,7 @@ export interface RelationshipGet200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export type RelationshipGetParameters = RelationshipGetQueryParam & RequestParameters;
+export type RelationshipGetParameters = RequestParameters & RelationshipGetQueryParam;
 
 // @public (undocumented)
 export interface RelationshipGetQueryParam {
@@ -2100,6 +2318,12 @@ export interface RelationshipGetQueryParamProperties {
     extendedInfo?: boolean;
 }
 
+// @public (undocumented)
+export interface RelationshipUpdate {
+    post(options: RelationshipCreateParameters): Promise<RelationshipCreate200Response>;
+    put(options: RelationshipUpdateParameters): Promise<RelationshipUpdate200Response>;
+}
+
 // @public
 export interface RelationshipUpdate200Response extends HttpResponse {
     // (undocumented)
@@ -2110,11 +2334,12 @@ export interface RelationshipUpdate200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface RelationshipUpdateBodyParam {
+    // (undocumented)
     body: AtlasRelationship;
 }
 
 // @public (undocumented)
-export type RelationshipUpdateParameters = RelationshipUpdateBodyParam & RequestParameters;
+export type RelationshipUpdateParameters = RequestParameters & RelationshipUpdateBodyParam;
 
 // @public (undocumented)
 export interface ResourceLink {
@@ -2123,33 +2348,42 @@ export interface ResourceLink {
 }
 
 // @public (undocumented)
+export interface RoleAssignmentEntry {
+    principalId?: string;
+    role?: string;
+}
+
+// @public (undocumented)
+export type RoundingMode = "UP" | "DOWN" | "CEILING" | "FLOOR" | "HALF_UP" | "HALF_DOWN" | "HALF_EVEN" | "UNNECESSARY";
+
+// @public (undocumented)
 export interface Routes {
     (path: "/atlas/v2/entity"): EntityCreateOrUpdate;
-    (path: "/atlas/v2/entity/bulk"): EntityListByGuids;
+    (path: "/atlas/v2/entity/bulk"): EntityDeleteByGuids;
     (path: "/atlas/v2/entity/bulk/classification"): EntityAddClassification;
-    (path: "/atlas/v2/entity/guid/{guid}", guid: string): EntityGetByGuid;
-    (path: "/atlas/v2/entity/guid/{guid}/classification/{classificationName}", guid: string, classificationName: string): EntityGetClassification;
-    (path: "/atlas/v2/entity/guid/{guid}/classifications", guid: string): EntityGetClassifications;
-    (path: "/atlas/v2/entity/uniqueAttribute/type/{typeName}", typeName: string): EntityGetByUniqueAttributes;
+    (path: "/atlas/v2/entity/guid/{guid}", guid: string): EntityDeleteByGuid;
+    (path: "/atlas/v2/entity/guid/{guid}/classification/{classificationName}", guid: string, classificationName: string): EntityDeleteClassification;
+    (path: "/atlas/v2/entity/guid/{guid}/classifications", guid: string): EntityUpdateClassifications;
+    (path: "/atlas/v2/entity/uniqueAttribute/type/{typeName}", typeName: string): EntityDeleteByUniqueAttribute;
     (path: "/atlas/v2/entity/uniqueAttribute/type/{typeName}/classification/{classificationName}", typeName: string, classificationName: string): EntityDeleteClassificationByUniqueAttribute;
-    (path: "/atlas/v2/entity/uniqueAttribute/type/{typeName}/classifications", typeName: string): EntityAddClassificationsByUniqueAttribute;
+    (path: "/atlas/v2/entity/uniqueAttribute/type/{typeName}/classifications", typeName: string): EntityUpdateClassificationsByUniqueAttribute;
     (path: "/atlas/v2/entity/bulk/setClassifications"): EntitySetClassifications;
     (path: "/atlas/v2/entity/bulk/uniqueAttribute/type/{typeName}", typeName: string): EntityGetEntitiesByUniqueAttributes;
     (path: "/atlas/v2/entity/guid/{guid}/header", guid: string): EntityGetHeader;
-    (path: "/atlas/v2/glossary"): GlossaryListGlossaries;
+    (path: "/atlas/v2/glossary"): GlossaryCreateGlossary;
     (path: "/atlas/v2/glossary/categories"): GlossaryCreateGlossaryCategories;
     (path: "/atlas/v2/glossary/category"): GlossaryCreateGlossaryCategory;
-    (path: "/atlas/v2/glossary/category/{categoryGuid}", categoryGuid: string): GlossaryGetGlossaryCategory;
+    (path: "/atlas/v2/glossary/category/{categoryGuid}", categoryGuid: string): GlossaryDeleteGlossaryCategory;
     (path: "/atlas/v2/glossary/category/{categoryGuid}/partial", categoryGuid: string): GlossaryPartialUpdateGlossaryCategory;
     (path: "/atlas/v2/glossary/category/{categoryGuid}/related", categoryGuid: string): GlossaryListRelatedCategories;
     (path: "/atlas/v2/glossary/category/{categoryGuid}/terms", categoryGuid: string): GlossaryListCategoryTerms;
     (path: "/atlas/v2/glossary/term"): GlossaryCreateGlossaryTerm;
-    (path: "/atlas/v2/glossary/term/{termGuid}", termGuid: string): GlossaryGetGlossaryTerm;
+    (path: "/atlas/v2/glossary/term/{termGuid}", termGuid: string): GlossaryDeleteGlossaryTerm;
     (path: "/atlas/v2/glossary/term/{termGuid}/partial", termGuid: string): GlossaryPartialUpdateGlossaryTerm;
     (path: "/atlas/v2/glossary/terms"): GlossaryCreateGlossaryTerms;
-    (path: "/atlas/v2/glossary/terms/{termGuid}/assignedEntities", termGuid: string): GlossaryGetEntitiesAssignedWithTerm;
+    (path: "/atlas/v2/glossary/terms/{termGuid}/assignedEntities", termGuid: string): GlossaryDeleteTermAssignmentFromEntities;
     (path: "/atlas/v2/glossary/terms/{termGuid}/related", termGuid: string): GlossaryListRelatedTerms;
-    (path: "/atlas/v2/glossary/{glossaryGuid}", glossaryGuid: string): GlossaryGetGlossary;
+    (path: "/atlas/v2/glossary/{glossaryGuid}", glossaryGuid: string): GlossaryDeleteGlossary;
     (path: "/atlas/v2/glossary/{glossaryGuid}/categories", glossaryGuid: string): GlossaryListGlossaryCategories;
     (path: "/atlas/v2/glossary/{glossaryGuid}/categories/headers", glossaryGuid: string): GlossaryListGlossaryCategoriesHeaders;
     (path: "/atlas/v2/glossary/{glossaryGuid}/detailed", glossaryGuid: string): GlossaryGetDetailedGlossary;
@@ -2163,12 +2397,11 @@ export interface Routes {
     (path: "/glossary/name/{glossaryName}/terms", glossaryName: string): GlossaryListTermsByGlossaryName;
     (path: "/search/query"): DiscoveryQuery;
     (path: "/search/suggest"): DiscoverySuggest;
-    (path: "/browse"): DiscoveryBrowse;
     (path: "/search/autocomplete"): DiscoveryAutoComplete;
-    (path: "/atlas/v2/lineage/{guid}", guid: string): LineageGetLineageGraph;
-    (path: "/lineage/{guid}/next/", guid: string): LineageNextPageLineage;
-    (path: "/atlas/v2/relationship"): RelationshipCreate;
-    (path: "/atlas/v2/relationship/guid/{guid}", guid: string): RelationshipGet;
+    (path: "/atlas/v2/lineage/{guid}", guid: string): GetLineageGraph;
+    (path: "/lineage/{guid}/next/", guid: string): NextPageLineage;
+    (path: "/atlas/v2/relationship"): RelationshipUpdate;
+    (path: "/atlas/v2/relationship/guid/{guid}", guid: string): RelationshipDelete;
     (path: "/atlas/v2/types/classificationdef/guid/{guid}", guid: string): TypesGetClassificationDefByGuid;
     (path: "/atlas/v2/types/classificationdef/name/{name}", name: string): TypesGetClassificationDefByName;
     (path: "/atlas/v2/types/entitydef/guid/{guid}", guid: string): TypesGetEntityDefinitionByGuid;
@@ -2180,18 +2413,21 @@ export interface Routes {
     (path: "/atlas/v2/types/structdef/guid/{guid}", guid: string): TypesGetStructDefByGuid;
     (path: "/atlas/v2/types/structdef/name/{name}", name: string): TypesGetStructDefByName;
     (path: "/atlas/v2/types/typedef/guid/{guid}", guid: string): TypesGetTypeDefinitionByGuid;
-    (path: "/atlas/v2/types/typedef/name/{name}", name: string): TypesGetTypeDefinitionByName;
-    (path: "/atlas/v2/types/typedefs"): TypesGetAllTypeDefinitions;
+    (path: "/atlas/v2/types/typedef/name/{name}", name: string): TypesDeleteTypeByName;
+    (path: "/atlas/v2/types/typedefs"): TypesDeleteTypeDefinitions;
     (path: "/atlas/v2/types/typedefs/headers"): TypesListTypeDefinitionHeaders;
     (path: "/types/termtemplatedef/guid/{guid}", guid: string): TypesGetTermTemplateDefByGuid;
     (path: "/types/termtemplatedef/name/{name}", name: string): TypesGetTermTemplateDefByName;
 }
 
 // @public (undocumented)
+export type SavedSearchType = "BASIC" | "ADVANCED";
+
+// @public (undocumented)
 export interface SearchFacetItem {
     count?: number;
     facet?: string;
-    sort?: Record<string, unknown>;
+    sort?: any;
 }
 
 // @public (undocumented)
@@ -2203,40 +2439,70 @@ export interface SearchFacetItemValue {
 // @public (undocumented)
 export interface SearchFacetResultValue {
     // (undocumented)
-    assetType?: Array<SearchFacetItemValue>;
+    assetType?: SearchFacetItemValue[];
     // (undocumented)
-    classification?: Array<SearchFacetItemValue>;
+    classification?: SearchFacetItemValue[];
     // (undocumented)
-    classificationCategory?: Array<SearchFacetItemValue>;
+    classificationCategory?: SearchFacetItemValue[];
     // (undocumented)
-    contactId?: Array<SearchFacetItemValue>;
+    contactId?: SearchFacetItemValue[];
     // (undocumented)
-    fileExtension?: Array<SearchFacetItemValue>;
+    fileExtension?: SearchFacetItemValue[];
     // (undocumented)
-    label?: Array<SearchFacetItemValue>;
+    label?: SearchFacetItemValue[];
     // (undocumented)
-    term?: Array<SearchFacetItemValue>;
+    term?: SearchFacetItemValue[];
 }
+
+// @public (undocumented)
+export interface SearchFilter {
+    getCount?: boolean;
+    maxRows?: number;
+    params?: SearchFilterParamsDictionary;
+    sortBy?: string;
+    sortType?: SortType;
+    startIndex?: number;
+}
+
+// @public (undocumented)
+export type SearchFilterParamsDictionary = Record<string, string[]>;
 
 // @public (undocumented)
 export interface SearchHighlights {
     // (undocumented)
-    description?: Array<string>;
+    description?: string[];
     // (undocumented)
-    entityType?: Array<string>;
+    entityType?: string[];
     // (undocumented)
-    id?: Array<string>;
+    id?: string[];
     // (undocumented)
-    name?: Array<string>;
+    name?: string[];
     // (undocumented)
-    qualifiedName?: Array<string>;
+    qualifiedName?: string[];
+}
+
+// @public (undocumented)
+export interface SearchParams {
+    attributes?: string[];
+    classification?: string;
+    entityFilters?: FilterCriteria;
+    excludeDeletedEntities?: boolean;
+    includeClassificationAttributes?: boolean;
+    includeSubClassifications?: boolean;
+    includeSubTypes?: boolean;
+    limit?: number;
+    offset?: number;
+    query?: string;
+    tagFilters?: FilterCriteria;
+    termName?: string;
+    typeName?: string;
 }
 
 // @public (undocumented)
 export interface SearchRequest {
     // (undocumented)
-    facets?: Array<SearchFacetItem>;
-    filter?: Record<string, unknown>;
+    facets?: SearchFacetItem[];
+    filter?: any;
     keywords?: string;
     limit?: number;
     offset?: number;
@@ -2247,7 +2513,7 @@ export interface SearchRequest {
 // @public (undocumented)
 export interface SearchRequestTaxonomySetting {
     // (undocumented)
-    assetTypes?: Array<string>;
+    assetTypes?: string[];
     facet?: SearchFacetItem;
 }
 
@@ -2256,30 +2522,39 @@ export interface SearchResult {
     searchCount?: number;
     searchFacets?: SearchFacetResultValue;
     // (undocumented)
-    value?: Array<SearchResultValue>;
+    value?: SearchResultValue[];
 }
 
 // @public (undocumented)
 export interface SearchResultValue {
-    assetType?: Array<string>;
-    classification?: Array<string>;
-    contact?: Array<ContactSearchResultValue>;
+    assetType?: string[];
+    classification?: string[];
+    contact?: ContactSearchResultValue[];
     description?: string;
     entityType?: string;
     id?: string;
-    label?: Array<string>;
+    label?: string[];
     name?: string;
     owner?: string;
     qualifiedName?: string;
     searchHighlights?: SearchHighlights;
     searchScore?: number;
     searchText?: string;
-    term?: Array<TermSearchResultValue>;
+    term?: TermSearchResultValue[];
 }
 
 // @public (undocumented)
+export type SortType = "NONE" | "ASC" | "DESC";
+
+// @public (undocumented)
+export type Status = "ACTIVE" | "DELETED";
+
+// @public (undocumented)
+export type StatusAtlasRelationship = "ACTIVE" | "DELETED";
+
+// @public (undocumented)
 export interface SuggestRequest {
-    filter?: Record<string, unknown>;
+    filter?: any;
     keywords?: string;
     limit?: number;
 }
@@ -2287,25 +2562,31 @@ export interface SuggestRequest {
 // @public (undocumented)
 export interface SuggestResult {
     // (undocumented)
-    value?: Array<SuggestResultValue>;
+    value?: SuggestResultValue[];
 }
 
 // @public (undocumented)
 export interface SuggestResultValue {
-    assetType?: Array<string>;
-    classification?: Array<string>;
-    contact?: Array<ContactSearchResultValue>;
+    assetType?: string[];
+    classification?: string[];
+    contact?: ContactSearchResultValue[];
     description?: string;
     entityType?: string;
     id?: string;
-    label?: Array<string>;
+    label?: string[];
     name?: string;
     owner?: string;
     qualifiedName?: string;
     searchScore?: number;
     searchText?: string;
-    term?: Array<TermSearchResultValue>;
+    term?: TermSearchResultValue[];
 }
+
+// @public (undocumented)
+export type TermCustomAttributesDictionary = Record<string, TermCustomAttributesExtraPropertiesDictionary>;
+
+// @public (undocumented)
+export type TermCustomAttributesExtraPropertiesDictionary = Record<string, any>;
 
 // @public (undocumented)
 export interface TermSearchResultValue {
@@ -2315,7 +2596,13 @@ export interface TermSearchResultValue {
 }
 
 // @public (undocumented)
-export interface TermTemplateDef extends AtlasStructDef {
+export type TermStatus = "Draft" | "Approved" | "Alert" | "Expired";
+
+// @public (undocumented)
+export type TermTemplateDef = TermTemplateDefBase & AtlasStructDef;
+
+// @public (undocumented)
+export interface TermTemplateDefBase {
 }
 
 // @public (undocumented)
@@ -2327,13 +2614,19 @@ export interface TimeBoundary {
 
 // @public (undocumented)
 export interface TimeZone {
-    availableIds?: Array<string>;
+    availableIds?: string[];
     default?: TimeZone;
     displayName?: string;
     dstSavings?: number;
     id?: string;
     rawOffset?: number;
 }
+
+// @public (undocumented)
+export type Type = "enum" | "entity" | "classification" | "relationship" | "struct" | "term_template";
+
+// @public (undocumented)
+export type TypeCategory = "PRIMITIVE" | "OBJECT_ID_TYPE" | "ENUM" | "STRUCT" | "CLASSIFICATION" | "ENTITY" | "ARRAY" | "MAP" | "RELATIONSHIP" | "TERM_TEMPLATE";
 
 // @public
 export interface TypesCreateTypeDefinitions200Response extends HttpResponse {
@@ -2345,16 +2638,21 @@ export interface TypesCreateTypeDefinitions200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface TypesCreateTypeDefinitionsBodyParam {
+    // (undocumented)
     body: AtlasTypesDef;
 }
 
 // @public (undocumented)
-export type TypesCreateTypeDefinitionsParameters = TypesCreateTypeDefinitionsBodyParam & RequestParameters;
+export type TypesCreateTypeDefinitionsParameters = RequestParameters & TypesCreateTypeDefinitionsBodyParam;
+
+// @public (undocumented)
+export interface TypesDeleteTypeByName {
+    delete(options?: TypesDeleteTypeByNameParameters): Promise<TypesDeleteTypeByName204Response>;
+    get(options?: TypesGetTypeDefinitionByNameParameters): Promise<TypesGetTypeDefinitionByName200Response>;
+}
 
 // @public
 export interface TypesDeleteTypeByName204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -2362,29 +2660,28 @@ export interface TypesDeleteTypeByName204Response extends HttpResponse {
 // @public (undocumented)
 export type TypesDeleteTypeByNameParameters = RequestParameters;
 
+// @public (undocumented)
+export interface TypesDeleteTypeDefinitions {
+    delete(options: TypesDeleteTypeDefinitionsParameters): Promise<TypesDeleteTypeDefinitions204Response>;
+    get(options?: TypesGetAllTypeDefinitionsParameters): Promise<TypesGetAllTypeDefinitions200Response>;
+    post(options: TypesCreateTypeDefinitionsParameters): Promise<TypesCreateTypeDefinitions200Response>;
+    put(options: TypesUpdateAtlasTypeDefinitionsParameters): Promise<TypesUpdateAtlasTypeDefinitions200Response>;
+}
+
 // @public
 export interface TypesDeleteTypeDefinitions204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
 
 // @public (undocumented)
 export interface TypesDeleteTypeDefinitionsBodyParam {
+    // (undocumented)
     body: AtlasTypesDef;
 }
 
 // @public (undocumented)
-export type TypesDeleteTypeDefinitionsParameters = TypesDeleteTypeDefinitionsBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface TypesGetAllTypeDefinitions {
-    delete(options: TypesDeleteTypeDefinitionsParameters): Promise<TypesDeleteTypeDefinitions204Response>;
-    get(options?: TypesGetAllTypeDefinitionsParameters): Promise<TypesGetAllTypeDefinitions200Response>;
-    post(options: TypesCreateTypeDefinitionsParameters): Promise<TypesCreateTypeDefinitions200Response>;
-    put(options: TypesUpdateAtlasTypeDefinitionsParameters): Promise<TypesUpdateAtlasTypeDefinitions200Response>;
-}
+export type TypesDeleteTypeDefinitionsParameters = RequestParameters & TypesDeleteTypeDefinitionsBodyParam;
 
 // @public
 export interface TypesGetAllTypeDefinitions200Response extends HttpResponse {
@@ -2395,7 +2692,7 @@ export interface TypesGetAllTypeDefinitions200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export type TypesGetAllTypeDefinitionsParameters = TypesGetAllTypeDefinitionsQueryParam & RequestParameters;
+export type TypesGetAllTypeDefinitionsParameters = RequestParameters & TypesGetAllTypeDefinitionsQueryParam;
 
 // @public (undocumented)
 export interface TypesGetAllTypeDefinitionsQueryParam {
@@ -2406,7 +2703,7 @@ export interface TypesGetAllTypeDefinitionsQueryParam {
 // @public (undocumented)
 export interface TypesGetAllTypeDefinitionsQueryParamProperties {
     includeTermTemplate?: boolean;
-    type?: "enum" | "entity" | "classification" | "relationship" | "struct" | "term_template";
+    type?: Type;
 }
 
 // @public (undocumented)
@@ -2617,12 +2914,6 @@ export interface TypesGetTypeDefinitionByGuid200Response extends HttpResponse {
 // @public (undocumented)
 export type TypesGetTypeDefinitionByGuidParameters = RequestParameters;
 
-// @public (undocumented)
-export interface TypesGetTypeDefinitionByName {
-    delete(options?: TypesDeleteTypeByNameParameters): Promise<TypesDeleteTypeByName204Response>;
-    get(options?: TypesGetTypeDefinitionByNameParameters): Promise<TypesGetTypeDefinitionByName200Response>;
-}
-
 // @public
 export interface TypesGetTypeDefinitionByName200Response extends HttpResponse {
     // (undocumented)
@@ -2642,13 +2933,13 @@ export interface TypesListTypeDefinitionHeaders {
 // @public
 export interface TypesListTypeDefinitionHeaders200Response extends HttpResponse {
     // (undocumented)
-    body: Array<AtlasTypeDefHeader>;
+    body: AtlasTypeDefHeader[];
     // (undocumented)
     status: "200";
 }
 
 // @public (undocumented)
-export type TypesListTypeDefinitionHeadersParameters = TypesListTypeDefinitionHeadersQueryParam & RequestParameters;
+export type TypesListTypeDefinitionHeadersParameters = RequestParameters & TypesListTypeDefinitionHeadersQueryParam;
 
 // @public (undocumented)
 export interface TypesListTypeDefinitionHeadersQueryParam {
@@ -2659,7 +2950,20 @@ export interface TypesListTypeDefinitionHeadersQueryParam {
 // @public (undocumented)
 export interface TypesListTypeDefinitionHeadersQueryParamProperties {
     includeTermTemplate?: boolean;
-    type?: "enum" | "entity" | "classification" | "relationship" | "struct" | "term_template";
+    type?: Type;
+}
+
+// @public (undocumented)
+export interface TypeStatistics {
+    typeStatistics?: TypeStatisticsDictionary;
+}
+
+// @public (undocumented)
+export type TypeStatisticsDictionary = Record<string, TypeStatisticsExtraProperties>;
+
+// @public (undocumented)
+export interface TypeStatisticsExtraProperties {
+    count?: number;
 }
 
 // @public
@@ -2672,11 +2976,48 @@ export interface TypesUpdateAtlasTypeDefinitions200Response extends HttpResponse
 
 // @public (undocumented)
 export interface TypesUpdateAtlasTypeDefinitionsBodyParam {
+    // (undocumented)
     body: AtlasTypesDef;
 }
 
 // @public (undocumented)
-export type TypesUpdateAtlasTypeDefinitionsParameters = TypesUpdateAtlasTypeDefinitionsBodyParam & RequestParameters;
+export type TypesUpdateAtlasTypeDefinitionsParameters = RequestParameters & TypesUpdateAtlasTypeDefinitionsBodyParam;
+
+// @public (undocumented)
+export interface UpdateRoleAssignmentRequest {
+    // (undocumented)
+    roleAssignmentList?: RoleAssignmentEntry[];
+}
+
+// @public (undocumented)
+export interface XmlNs0Plist {
+    list?: any[];
+    pageSize?: number;
+    sortBy?: string;
+    sortType?: XmlNs0SortType;
+    startIndex?: number;
+    totalCount?: number;
+}
+
+// @public (undocumented)
+export interface XmlNs0SearchFilter {
+    getCount?: boolean;
+    maxRows?: number;
+    params?: any;
+    sortBy?: string;
+    sortType?: XmlNs0SortType;
+    startIndex?: number;
+}
+
+// @public (undocumented)
+export type XmlNs0SortType = "NONE" | "ASC" | "DESC";
+
+// @public (undocumented)
+export interface XmlNs0TimeBoundary {
+    endTime?: string;
+    startTime?: string;
+    timeZone?: string;
+}
 
 
 // (No @packageDocumentation comment for this package)

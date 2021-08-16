@@ -61,10 +61,9 @@ import {
   GlossaryListTermsByGlossaryNameParameters,
   DiscoveryQueryParameters,
   DiscoverySuggestParameters,
-  DiscoveryBrowseParameters,
   DiscoveryAutoCompleteParameters,
-  LineageGetLineageGraphParameters,
-  LineageNextPageLineageParameters,
+  GetLineageGraphParameters,
+  NextPageLineageParameters,
   RelationshipCreateParameters,
   RelationshipUpdateParameters,
   RelationshipGetParameters,
@@ -150,10 +149,9 @@ import {
   GlossaryListTermsByGlossaryName200Response,
   DiscoveryQuery200Response,
   DiscoverySuggest200Response,
-  DiscoveryBrowse200Response,
   DiscoveryAutoComplete200Response,
-  LineageGetLineageGraph200Response,
-  LineageNextPageLineage200Response,
+  GetLineageGraph200Response,
+  NextPageLineage200Response,
   RelationshipCreate200Response,
   RelationshipUpdate200Response,
   RelationshipGet200Response,
@@ -191,7 +189,7 @@ export interface EntityCreateOrUpdate {
   post(options: EntityCreateOrUpdateParameters): Promise<EntityCreateOrUpdate200Response>;
 }
 
-export interface EntityListByGuids {
+export interface EntityDeleteByGuids {
   /** List entities in bulk identified by its GUIDs. */
   get(options?: EntityListByGuidsParameters): Promise<EntityListByGuids200Response>;
   /**
@@ -211,7 +209,7 @@ export interface EntityAddClassification {
   post(options: EntityAddClassificationParameters): Promise<EntityAddClassification204Response>;
 }
 
-export interface EntityGetByGuid {
+export interface EntityDeleteByGuid {
   /** Get complete definition of an entity given its GUID. */
   get(options?: EntityGetByGuidParameters): Promise<EntityGetByGuid200Response>;
   /**
@@ -227,7 +225,7 @@ export interface EntityGetByGuid {
   delete(options?: EntityDeleteByGuidParameters): Promise<EntityDeleteByGuid200Response>;
 }
 
-export interface EntityGetClassification {
+export interface EntityDeleteClassification {
   /** List classifications for a given entity represented by a GUID. */
   get(options?: EntityGetClassificationParameters): Promise<EntityGetClassification200Response>;
   /** Delete a given classification from an existing entity represented by a GUID. */
@@ -236,7 +234,7 @@ export interface EntityGetClassification {
   ): Promise<EntityDeleteClassification204Response>;
 }
 
-export interface EntityGetClassifications {
+export interface EntityUpdateClassifications {
   /** List classifications for a given entity represented by a GUID. */
   get(options?: EntityGetClassificationsParameters): Promise<EntityGetClassifications200Response>;
   /** Add classifications to an existing entity represented by a GUID. */
@@ -247,7 +245,7 @@ export interface EntityGetClassifications {
   ): Promise<EntityUpdateClassifications204Response>;
 }
 
-export interface EntityGetByUniqueAttributes {
+export interface EntityDeleteByUniqueAttribute {
   /**
    * Get complete definition of an entity given its type and unique attribute.
    * In addition to the typeName path parameter, attribute key-value pair(s) can be provided in the following format:
@@ -292,7 +290,7 @@ export interface EntityDeleteClassificationByUniqueAttribute {
   ): Promise<EntityDeleteClassificationByUniqueAttribute204Response>;
 }
 
-export interface EntityAddClassificationsByUniqueAttribute {
+export interface EntityUpdateClassificationsByUniqueAttribute {
   /** Add classification to the entity identified by its type and unique attributes. */
   post(
     options: EntityAddClassificationsByUniqueAttributeParameters
@@ -320,7 +318,7 @@ export interface EntityGetEntitiesByUniqueAttributes {
    *
    * The REST request would look something like this
    *
-   * GET /v2/entity/bulk/uniqueAttribute/type/hive_db?attr_0:qualifiedName=db1@cl1&attr_2:qualifiedName=db2@cl1
+   * GET /v2/entity/bulk/uniqueAttribute/type/hive_db?attr_0:qualifiedName=db1\@cl1&attr_2:qualifiedName=db2\@cl1
    */
   get(
     options?: EntityGetEntitiesByUniqueAttributesParameters
@@ -332,7 +330,7 @@ export interface EntityGetHeader {
   get(options?: EntityGetHeaderParameters): Promise<EntityGetHeader200Response>;
 }
 
-export interface GlossaryListGlossaries {
+export interface GlossaryCreateGlossary {
   /** Get all glossaries registered with Atlas. */
   get(options?: GlossaryListGlossariesParameters): Promise<GlossaryListGlossaries200Response>;
   /** Create a glossary. */
@@ -353,7 +351,7 @@ export interface GlossaryCreateGlossaryCategory {
   ): Promise<GlossaryCreateGlossaryCategory200Response>;
 }
 
-export interface GlossaryGetGlossaryCategory {
+export interface GlossaryDeleteGlossaryCategory {
   /** Get specific glossary category by its GUID. */
   get(
     options?: GlossaryGetGlossaryCategoryParameters
@@ -394,7 +392,7 @@ export interface GlossaryCreateGlossaryTerm {
   ): Promise<GlossaryCreateGlossaryTerm200Response>;
 }
 
-export interface GlossaryGetGlossaryTerm {
+export interface GlossaryDeleteGlossaryTerm {
   /** Get a specific glossary term by its GUID. */
   get(options?: GlossaryGetGlossaryTermParameters): Promise<GlossaryGetGlossaryTerm200Response>;
   /** Update the given glossary term by its GUID. */
@@ -421,7 +419,7 @@ export interface GlossaryCreateGlossaryTerms {
   ): Promise<GlossaryCreateGlossaryTerms200Response>;
 }
 
-export interface GlossaryGetEntitiesAssignedWithTerm {
+export interface GlossaryDeleteTermAssignmentFromEntities {
   /** Get all related objects assigned with the specified term. */
   get(
     options?: GlossaryGetEntitiesAssignedWithTermParameters
@@ -445,7 +443,7 @@ export interface GlossaryListRelatedTerms {
   get(options?: GlossaryListRelatedTermsParameters): Promise<GlossaryListRelatedTerms200Response>;
 }
 
-export interface GlossaryGetGlossary {
+export interface GlossaryDeleteGlossary {
   /** Get a specific Glossary by its GUID. */
   get(options?: GlossaryGetGlossaryParameters): Promise<GlossaryGetGlossary200Response>;
   /** Update the given glossary. */
@@ -539,34 +537,29 @@ export interface DiscoverySuggest {
   post(options: DiscoverySuggestParameters): Promise<DiscoverySuggest200Response>;
 }
 
-export interface DiscoveryBrowse {
-  /** Browse entities by path or entity type. */
-  post(options: DiscoveryBrowseParameters): Promise<DiscoveryBrowse200Response>;
-}
-
 export interface DiscoveryAutoComplete {
   /** Get auto complete options. */
   post(options: DiscoveryAutoCompleteParameters): Promise<DiscoveryAutoComplete200Response>;
 }
 
-export interface LineageGetLineageGraph {
+export interface GetLineageGraph {
   /** Get lineage info of the entity specified by GUID. */
-  get(options?: LineageGetLineageGraphParameters): Promise<LineageGetLineageGraph200Response>;
+  get(options?: GetLineageGraphParameters): Promise<GetLineageGraph200Response>;
 }
 
-export interface LineageNextPageLineage {
+export interface NextPageLineage {
   /** Return immediate next page lineage info about entity with pagination */
-  get(options?: LineageNextPageLineageParameters): Promise<LineageNextPageLineage200Response>;
+  get(options?: NextPageLineageParameters): Promise<NextPageLineage200Response>;
 }
 
-export interface RelationshipCreate {
+export interface RelationshipUpdate {
   /** Create a new relationship between entities. */
   post(options: RelationshipCreateParameters): Promise<RelationshipCreate200Response>;
   /** Update an existing relationship between entities. */
   put(options: RelationshipUpdateParameters): Promise<RelationshipUpdate200Response>;
 }
 
-export interface RelationshipGet {
+export interface RelationshipDelete {
   /** Get relationship information between entities by its GUID. */
   get(options?: RelationshipGetParameters): Promise<RelationshipGet200Response>;
   /** Delete a relationship between entities by its GUID. */
@@ -642,7 +635,7 @@ export interface TypesGetTypeDefinitionByGuid {
   ): Promise<TypesGetTypeDefinitionByGuid200Response>;
 }
 
-export interface TypesGetTypeDefinitionByName {
+export interface TypesDeleteTypeByName {
   /** Get the type definition by its name (unique). */
   get(
     options?: TypesGetTypeDefinitionByNameParameters
@@ -651,7 +644,7 @@ export interface TypesGetTypeDefinitionByName {
   delete(options?: TypesDeleteTypeByNameParameters): Promise<TypesDeleteTypeByName204Response>;
 }
 
-export interface TypesGetAllTypeDefinitions {
+export interface TypesDeleteTypeDefinitions {
   /** Get all type definitions in Atlas in bulk. */
   get(
     options?: TypesGetAllTypeDefinitionsParameters
@@ -698,24 +691,24 @@ export interface Routes {
   /** Resource for '/atlas/v2/entity' has methods for the following verbs: post */
   (path: "/atlas/v2/entity"): EntityCreateOrUpdate;
   /** Resource for '/atlas/v2/entity/bulk' has methods for the following verbs: get, post, delete */
-  (path: "/atlas/v2/entity/bulk"): EntityListByGuids;
+  (path: "/atlas/v2/entity/bulk"): EntityDeleteByGuids;
   /** Resource for '/atlas/v2/entity/bulk/classification' has methods for the following verbs: post */
   (path: "/atlas/v2/entity/bulk/classification"): EntityAddClassification;
   /** Resource for '/atlas/v2/entity/guid/\{guid\}' has methods for the following verbs: get, put, delete */
-  (path: "/atlas/v2/entity/guid/{guid}", guid: string): EntityGetByGuid;
+  (path: "/atlas/v2/entity/guid/{guid}", guid: string): EntityDeleteByGuid;
   /** Resource for '/atlas/v2/entity/guid/\{guid\}/classification/\{classificationName\}' has methods for the following verbs: get, delete */
   (
     path: "/atlas/v2/entity/guid/{guid}/classification/{classificationName}",
     guid: string,
     classificationName: string
-  ): EntityGetClassification;
+  ): EntityDeleteClassification;
   /** Resource for '/atlas/v2/entity/guid/\{guid\}/classifications' has methods for the following verbs: get, post, put */
-  (path: "/atlas/v2/entity/guid/{guid}/classifications", guid: string): EntityGetClassifications;
+  (path: "/atlas/v2/entity/guid/{guid}/classifications", guid: string): EntityUpdateClassifications;
   /** Resource for '/atlas/v2/entity/uniqueAttribute/type/\{typeName\}' has methods for the following verbs: get, put, delete */
   (
     path: "/atlas/v2/entity/uniqueAttribute/type/{typeName}",
     typeName: string
-  ): EntityGetByUniqueAttributes;
+  ): EntityDeleteByUniqueAttribute;
   /** Resource for '/atlas/v2/entity/uniqueAttribute/type/\{typeName\}/classification/\{classificationName\}' has methods for the following verbs: delete */
   (
     path: "/atlas/v2/entity/uniqueAttribute/type/{typeName}/classification/{classificationName}",
@@ -726,7 +719,7 @@ export interface Routes {
   (
     path: "/atlas/v2/entity/uniqueAttribute/type/{typeName}/classifications",
     typeName: string
-  ): EntityAddClassificationsByUniqueAttribute;
+  ): EntityUpdateClassificationsByUniqueAttribute;
   /** Resource for '/atlas/v2/entity/bulk/setClassifications' has methods for the following verbs: post */
   (path: "/atlas/v2/entity/bulk/setClassifications"): EntitySetClassifications;
   /** Resource for '/atlas/v2/entity/bulk/uniqueAttribute/type/\{typeName\}' has methods for the following verbs: get */
@@ -737,7 +730,7 @@ export interface Routes {
   /** Resource for '/atlas/v2/entity/guid/\{guid\}/header' has methods for the following verbs: get */
   (path: "/atlas/v2/entity/guid/{guid}/header", guid: string): EntityGetHeader;
   /** Resource for '/atlas/v2/glossary' has methods for the following verbs: get, post */
-  (path: "/atlas/v2/glossary"): GlossaryListGlossaries;
+  (path: "/atlas/v2/glossary"): GlossaryCreateGlossary;
   /** Resource for '/atlas/v2/glossary/categories' has methods for the following verbs: post */
   (path: "/atlas/v2/glossary/categories"): GlossaryCreateGlossaryCategories;
   /** Resource for '/atlas/v2/glossary/category' has methods for the following verbs: post */
@@ -746,7 +739,7 @@ export interface Routes {
   (
     path: "/atlas/v2/glossary/category/{categoryGuid}",
     categoryGuid: string
-  ): GlossaryGetGlossaryCategory;
+  ): GlossaryDeleteGlossaryCategory;
   /** Resource for '/atlas/v2/glossary/category/\{categoryGuid\}/partial' has methods for the following verbs: put */
   (
     path: "/atlas/v2/glossary/category/{categoryGuid}/partial",
@@ -765,7 +758,7 @@ export interface Routes {
   /** Resource for '/atlas/v2/glossary/term' has methods for the following verbs: post */
   (path: "/atlas/v2/glossary/term"): GlossaryCreateGlossaryTerm;
   /** Resource for '/atlas/v2/glossary/term/\{termGuid\}' has methods for the following verbs: get, put, delete */
-  (path: "/atlas/v2/glossary/term/{termGuid}", termGuid: string): GlossaryGetGlossaryTerm;
+  (path: "/atlas/v2/glossary/term/{termGuid}", termGuid: string): GlossaryDeleteGlossaryTerm;
   /** Resource for '/atlas/v2/glossary/term/\{termGuid\}/partial' has methods for the following verbs: put */
   (
     path: "/atlas/v2/glossary/term/{termGuid}/partial",
@@ -777,11 +770,11 @@ export interface Routes {
   (
     path: "/atlas/v2/glossary/terms/{termGuid}/assignedEntities",
     termGuid: string
-  ): GlossaryGetEntitiesAssignedWithTerm;
+  ): GlossaryDeleteTermAssignmentFromEntities;
   /** Resource for '/atlas/v2/glossary/terms/\{termGuid\}/related' has methods for the following verbs: get */
   (path: "/atlas/v2/glossary/terms/{termGuid}/related", termGuid: string): GlossaryListRelatedTerms;
   /** Resource for '/atlas/v2/glossary/\{glossaryGuid\}' has methods for the following verbs: get, put, delete */
-  (path: "/atlas/v2/glossary/{glossaryGuid}", glossaryGuid: string): GlossaryGetGlossary;
+  (path: "/atlas/v2/glossary/{glossaryGuid}", glossaryGuid: string): GlossaryDeleteGlossary;
   /** Resource for '/atlas/v2/glossary/\{glossaryGuid\}/categories' has methods for the following verbs: get */
   (
     path: "/atlas/v2/glossary/{glossaryGuid}/categories",
@@ -841,18 +834,16 @@ export interface Routes {
   (path: "/search/query"): DiscoveryQuery;
   /** Resource for '/search/suggest' has methods for the following verbs: post */
   (path: "/search/suggest"): DiscoverySuggest;
-  /** Resource for '/browse' has methods for the following verbs: post */
-  (path: "/browse"): DiscoveryBrowse;
   /** Resource for '/search/autocomplete' has methods for the following verbs: post */
   (path: "/search/autocomplete"): DiscoveryAutoComplete;
   /** Resource for '/atlas/v2/lineage/\{guid\}' has methods for the following verbs: get */
-  (path: "/atlas/v2/lineage/{guid}", guid: string): LineageGetLineageGraph;
+  (path: "/atlas/v2/lineage/{guid}", guid: string): GetLineageGraph;
   /** Resource for '/lineage/\{guid\}/next/' has methods for the following verbs: get */
-  (path: "/lineage/{guid}/next/", guid: string): LineageNextPageLineage;
+  (path: "/lineage/{guid}/next/", guid: string): NextPageLineage;
   /** Resource for '/atlas/v2/relationship' has methods for the following verbs: post, put */
-  (path: "/atlas/v2/relationship"): RelationshipCreate;
+  (path: "/atlas/v2/relationship"): RelationshipUpdate;
   /** Resource for '/atlas/v2/relationship/guid/\{guid\}' has methods for the following verbs: get, delete */
-  (path: "/atlas/v2/relationship/guid/{guid}", guid: string): RelationshipGet;
+  (path: "/atlas/v2/relationship/guid/{guid}", guid: string): RelationshipDelete;
   /** Resource for '/atlas/v2/types/classificationdef/guid/\{guid\}' has methods for the following verbs: get */
   (
     path: "/atlas/v2/types/classificationdef/guid/{guid}",
@@ -888,9 +879,9 @@ export interface Routes {
   /** Resource for '/atlas/v2/types/typedef/guid/\{guid\}' has methods for the following verbs: get */
   (path: "/atlas/v2/types/typedef/guid/{guid}", guid: string): TypesGetTypeDefinitionByGuid;
   /** Resource for '/atlas/v2/types/typedef/name/\{name\}' has methods for the following verbs: get, delete */
-  (path: "/atlas/v2/types/typedef/name/{name}", name: string): TypesGetTypeDefinitionByName;
+  (path: "/atlas/v2/types/typedef/name/{name}", name: string): TypesDeleteTypeByName;
   /** Resource for '/atlas/v2/types/typedefs' has methods for the following verbs: get, post, put, delete */
-  (path: "/atlas/v2/types/typedefs"): TypesGetAllTypeDefinitions;
+  (path: "/atlas/v2/types/typedefs"): TypesDeleteTypeDefinitions;
   /** Resource for '/atlas/v2/types/typedefs/headers' has methods for the following verbs: get */
   (path: "/atlas/v2/types/typedefs/headers"): TypesListTypeDefinitionHeaders;
   /** Resource for '/types/termtemplatedef/guid/\{guid\}' has methods for the following verbs: get */
