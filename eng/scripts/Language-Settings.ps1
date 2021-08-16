@@ -259,6 +259,7 @@ $PackageExclusions = @{
   '@azure-rest/core-client-paging'    = 'Cannot find types/latest/core-client-paging-rest.d.ts https://github.com/Azure/azure-sdk-for-js/issues/16677';
   '@azure/core-asynciterator-polyfill' = 'Docs CI fails https://github.com/Azure/azure-sdk-for-js/issues/16675';
   '@azure/batch'                       = 'Docs CI fails https://github.com/Azure/azure-sdk-for-js/issues/16809';
+  '@azure/arm-appservice'              = 'Docs CI fails https://github.com/Azure/azure-sdk-for-js/issues/16932';
 }
 
 function Update-javascript-DocsMsPackages($DocsRepoLocation, $DocsMetadata) {
