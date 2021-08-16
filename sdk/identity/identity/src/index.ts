@@ -24,6 +24,10 @@ export {
   EnvironmentCredential,
   EnvironmentCredentialOptions
 } from "./credentials/environmentCredential";
+export {
+  OnBehalfOfCredential,
+  OnBehalfOfCredentialOptions
+} from "./credentials/onBehalfOfCredential";
 export { ClientSecretCredential } from "./credentials/clientSecretCredential";
 export { ClientSecretCredentialOptions } from "./credentials/clientSecretCredentialOptions";
 export { ClientCertificateCredential } from "./credentials/clientCertificateCredential";

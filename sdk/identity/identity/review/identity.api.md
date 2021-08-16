@@ -250,6 +250,21 @@ export class ManagedIdentityCredential implements TokenCredential {
     }
 
 // @public
+export class OnBehalfOfCredential implements TokenCredential {
+    constructor(tenantId: string, clientId: string, clientSecret: string, options?: OnBehalfOfCredentialOptions);
+    // (undocumented)
+    getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken>;
+    // (undocumented)
+    userAssertionContext(userAssertion: string, callback: () => Promise<void>): Promise<void>;
+}
+
+// @public (undocumented)
+export interface OnBehalfOfCredentialOptions extends TokenCredentialOptions, CredentialPersistenceOptions {
+    // (undocumented)
+    userAssertion?: string;
+}
+
+// @public
 export enum RegionalAuthority {
     AsiaEast = "eastasia",
     AsiaSouthEast = "southeastasia",
