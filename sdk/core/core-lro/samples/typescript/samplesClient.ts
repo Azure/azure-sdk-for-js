@@ -25,7 +25,7 @@ export interface SamplePollOperationState extends PollOperationState<ReturnValue
    * As part of the operation state, we'll be using a reference to the client.
    * This will let us use the public methods of the client to reach to remote services.
    */
-  requestCount?: number;
+  requestCount: number;
   /**
    * To keep track of the progress we've made so far, we're going to record all the previously received ReturnValues in this array.
    */
@@ -116,14 +116,17 @@ class SamplePoller extends Poller<SamplePollOperationState, ReturnValue> {
 
   constructor({
     client,
+    requestCount,
     intervalInMs = 2000,
     resumeFrom
   }: {
     client: Client;
+    requestCount:number;
     intervalInMs?: number;
     resumeFrom?: string;
   }) {
     let state: SamplePollOperationState = {
+      requestCount,
       previousResponses: []
     };
 
@@ -195,9 +198,8 @@ class Client {
   public async makeRequest(state: SamplePollOperationState): Promise<ReturnValue> {
     // Let's assume the HTTP request happens here.
     await delay(1000);
-    state.requestCount = this.requestCount;
     return {
-      value: this.requestCount++
+      value: state.requestCount++
     };
   }
 
@@ -206,6 +208,7 @@ class Client {
   }): Promise<PollerLike<PollOperationState<ReturnValue>, ReturnValue>> {
     const poller = new SamplePoller({
       client: this,
+      requestCount: this.requestCount,
       ...options
     });
     await poller.poll();
