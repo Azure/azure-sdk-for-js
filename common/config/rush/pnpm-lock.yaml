@@ -2369,7 +2369,7 @@ packages:
     dependencies:
       caniuse-lite: 1.0.30001251
       colorette: 1.3.0
-      electron-to-chromium: 1.3.806
+      electron-to-chromium: 1.3.807
       escalade: 3.1.1
       node-releases: 1.1.74
     dev: false
@@ -3120,10 +3120,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
-  /electron-to-chromium/1.3.806:
+  /electron-to-chromium/1.3.807:
     dev: false
     resolution:
-      integrity: sha512-AH/otJLAAecgyrYp0XK1DPiGVWcOgwPeJBOLeuFQ5l//vhQhwC9u6d+GijClqJAmsHG4XDue81ndSQPohUu0xA==
+      integrity: sha512-p8uxxg2a23zRsvQ2uwA/OOI+O4BQxzaR7YKMIGGGQCpYmkFX2CVF5f0/hxLMV7yCr7nnJViCwHLhPfs52rIYCA==
   /emoji-regex/7.0.3:
     dev: false
     resolution:
@@ -4952,10 +4952,10 @@ packages:
       '0': node >=0.6.0
     resolution:
       integrity: sha1-MT5mvB5cwG5Di8G3SZwuXFastqI=
-  /jsrsasign/10.3.2:
+  /jsrsasign/10.4.0:
     dev: false
     resolution:
-      integrity: sha512-ZlBW/+rfxJZZZMTM/MSWLtKJrbuio7GHfOMGtt2gLzNPVe4IrYCggtQi3Of6e9jOc90Y8CLCdbAGPHDBmBD9Zg==
+      integrity: sha512-C8qLhiAssh/b74KJpGhWuFGG9cFhJqMCVuuHXRibb3Z5vPuAW0ue0jUirpoExCdpdhv4nD3sZ1DAwJURYJTm9g==
   /jssha/2.4.2:
     deprecated: jsSHA versions < 3.0.0 will no longer receive feature updates
     dev: false
@@ -8892,7 +8892,7 @@ packages:
       eslint: 7.32.0
       esm: 3.2.25
       inherits: 2.0.4
-      jsrsasign: 10.3.2
+      jsrsasign: 10.4.0
       karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
