@@ -98,7 +98,7 @@ function startSpan(spanName: string, spanOptions?: SpanOptions, context?: Contex
 export function createSpanFunction(args: CreateSpanFunctionArgs) {
   // Internally we can provide spanOptions to configure newly created spans, but these spanOptions are not part of our client library public API.
   return function<
-    T extends { tracingOptions?: OperationTracingOptions } & { spanOptions?: SpanOptions }
+    T extends { tracingOptions?: OperationTracingOptions; spanOptions?: SpanOptions }
   >(operationName: string, operationOptions?: T): { span: Span; updatedOptions: T } {
     const { tracingOptions, spanOptions, otherOptions } = pluckOptions(operationOptions || {});
 
