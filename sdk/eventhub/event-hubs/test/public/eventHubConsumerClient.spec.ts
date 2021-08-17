@@ -429,9 +429,8 @@ describe("EventHubConsumerClient", () => {
         )
       );
 
-      const subscription = clients[0].subscribe("0", tester, {
-        startPosition: latestEventPosition
-      });
+      const startPosition = await getStartingPositionsForTests(clients[0]);
+      const subscription = clients[0].subscribe("0", tester, { startPosition });
 
       subscriptions.push(subscription);
 
@@ -461,9 +460,8 @@ describe("EventHubConsumerClient", () => {
         )
       );
 
-      const subscription = clients[0].subscribe(tester, {
-        startPosition: latestEventPosition
-      });
+      const startPosition = await getStartingPositionsForTests(clients[0]);
+      const subscription = clients[0].subscribe(tester, { startPosition });
 
       await tester.runTestAndPoll(producerClient);
       subscriptions.push(subscription);
@@ -500,10 +498,9 @@ describe("EventHubConsumerClient", () => {
         )
       );
 
+      const startPosition = await getStartingPositionsForTests(clients[0]);
       for (const partitionId of await partitionIds) {
-        const subscription = clients[0].subscribe(partitionId, tester, {
-          startPosition: latestEventPosition
-        });
+        const subscription = clients[0].subscribe(partitionId, tester, { startPosition });
         subscriptions.push(subscription);
       }
 
@@ -542,12 +539,11 @@ describe("EventHubConsumerClient", () => {
           // also uses the BalancedLoadBalancingStrategy
         )
       );
+      const startPosition = await getStartingPositionsForTests(clients[0]);
 
       const tester = new ReceivedMessagesTester(partitionIds, true);
 
-      const subscriber1 = clients[0].subscribe(tester, {
-        startPosition: latestEventPosition
-      });
+      const subscriber1 = clients[0].subscribe(tester, { startPosition });
       subscriptions.push(subscriber1);
 
       clients.push(
@@ -560,9 +556,7 @@ describe("EventHubConsumerClient", () => {
         )
       );
 
-      const subscriber2 = clients[1].subscribe(tester, {
-        startPosition: latestEventPosition
-      });
+      const subscriber2 = clients[1].subscribe(tester, { startPosition });
       subscriptions.push(subscriber2);
 
       await tester.runTestAndPoll(producerClient);
@@ -610,9 +604,8 @@ describe("EventHubConsumerClient", () => {
 
       const tester = new ReceivedMessagesTester(partitionIds, true);
 
-      const subscriber1 = clients[0].subscribe(tester, {
-        startPosition: latestEventPosition
-      });
+      const startPosition = await getStartingPositionsForTests(clients[0]);
+      const subscriber1 = clients[0].subscribe(tester, { startPosition });
       subscriptions.push(subscriber1);
 
       clients.push(
@@ -630,9 +623,7 @@ describe("EventHubConsumerClient", () => {
         )
       );
 
-      const subscriber2 = clients[1].subscribe(tester, {
-        startPosition: latestEventPosition
-      });
+      const subscriber2 = clients[1].subscribe(tester, { startPosition });
       subscriptions.push(subscriber2);
 
       await tester.runTestAndPoll(producerClient);
