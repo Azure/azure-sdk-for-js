@@ -22,7 +22,7 @@ async function main() {
   const dataSources = await client.path("/collections").get();
 
   if (dataSources.status !== "200") {
-    throw dataSources;
+    console.log(`GET "/collections" failed with ${dataSources.status}`);
   }
 
   console.log(dataSources.body);
