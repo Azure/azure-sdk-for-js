@@ -28,11 +28,11 @@ export interface PaginateOptions {
    * Note: if nextLinkName is set to `null` only the first page is returned, no additional
    * requests are made.
    */
-  nextLinkName?: string | null;
+  nextLinkName?: string[] | string | null;
   /**
    * Indicates the name of the property in which the set of values is found. Default: `value`
    */
-  itemName?: string;
+  itemName?: string | string[];
 }
 
 /**
@@ -84,11 +84,27 @@ function checkPagingRequest(response: PathUncheckedResponse): void {
  * Gets for the value of nextLink in the body. If a custom nextLinkName was provided, it will be used instead of default
  */
 function getNextLink(body: unknown, paginateOptions: PaginateOptions = {}): string | undefined {
-  const nextLinkName = paginateOptions.nextLinkName ?? DEFAULT_NEXTLINK;
-  const nextLink = (body as Record<string, unknown>)[nextLinkName];
+  // Build a set with the passed custom nextLinkName or array of names
+  let nextLinkNames = new Set(paginateOptions.nextLinkName ?? DEFAULT_NEXTLINK);
+  // Add the default nextLinkName if it doesn't exist yet
+  nextLinkNames.add(DEFAULT_NEXTLINK);
+
+  let nextLink: string | undefined;
+
+  // Loop through the known nextLink names to find it in the body.
+  for (const nextLinkName of nextLinkNames) {
+    nextLink = (body as Record<string, unknown>)[nextLinkName] as string;
+    if (nextLink) {
+      break;
+    }
+  }
 
   if (typeof nextLink !== "string" && typeof nextLink !== "undefined") {
-    throw new Error(`Body Property ${nextLinkName} should be a string or undefined`);
+    throw new Error(
+      `Couldn't paginate response\nBody should contain a property named ${[...nextLinkNames].join(
+        " or "
+      )} which points to the next page.`
+    );
   }
 
   return nextLink;
@@ -99,11 +115,27 @@ function getNextLink(body: unknown, paginateOptions: PaginateOptions = {}): stri
  * a different value for itemName has been provided as part of the options.
  */
 function getElements<T = unknown>(body: unknown, paginateOptions: PaginateOptions = {}): T[] {
-  const valueName = paginateOptions?.itemName ?? DEFAULT_VALUES;
-  const value = (body as Record<string, unknown>)[valueName];
+  // Build a set with the passed custom itemName or array of names
+  let valueNames = new Set(paginateOptions.itemName ?? DEFAULT_VALUES);
+  // Add the default itemName if it doesn't exist yet
+  valueNames.add(DEFAULT_VALUES);
+  let value: unknown;
 
-  if (!Array.isArray(value)) {
-    throw new Error(`Body Property ${valueName} is not an array`);
+  // Loop through the known itemNames names to find it in the body.
+  for (const valueName of valueNames) {
+    const currentValue = (body as Record<string, unknown>)[valueName];
+    if (Array.isArray(currentValue)) {
+      value = currentValue;
+      break;
+    }
+  }
+
+  if (!value) {
+    throw new Error(
+      `Couldn't paginate response\n Body doesn't contain an array property with name: ${[
+        ...valueNames,
+      ].join(" OR ")}`
+    );
   }
 
   return (value as T[]) ?? [];

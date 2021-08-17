@@ -12,8 +12,8 @@ export { PagedAsyncIterableIterator }
 
 // @public
 export interface PaginateOptions {
-    itemName?: string;
-    nextLinkName?: string | null;
+    itemName?: string | string[];
+    nextLinkName?: string[] | string | null;
 }
 
 // @public
