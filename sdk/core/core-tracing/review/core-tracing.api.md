@@ -26,7 +26,7 @@ export function createSpanFunction(args: CreateSpanFunctionArgs): <T extends {
     spanOptions?: SpanOptions | undefined;
 }>(operationName: string, operationOptions?: T | undefined) => {
     span: Span;
-    updatedOptions: Omit<T, "spanOptions">;
+    updatedOptions: T;
 };
 
 // @public

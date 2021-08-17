@@ -162,7 +162,8 @@ describe("internal crypto tests", () => {
           encryptStub,
           { algorithm: "RSA1_5", plaintext: text },
           operationOptionsSinonMatcher({
-            requestOptions: { timeout: 5 }
+            requestOptions: { timeout: 5 },
+            tracingOptions: {}
           })
         );
       });
@@ -177,7 +178,8 @@ describe("internal crypto tests", () => {
           decryptStub,
           { algorithm: "RSA1_5", ciphertext: text },
           operationOptionsSinonMatcher({
-            requestOptions: { timeout: 5 }
+            requestOptions: { timeout: 5 },
+            tracingOptions: {}
           })
         );
       });
@@ -194,7 +196,8 @@ describe("internal crypto tests", () => {
           decryptStub,
           { algorithm: "RSA1_5", ciphertext: text },
           operationOptionsSinonMatcher({
-            requestOptions: { timeout: 5 }
+            requestOptions: { timeout: 5 },
+            tracingOptions: {}
           })
         );
       });
