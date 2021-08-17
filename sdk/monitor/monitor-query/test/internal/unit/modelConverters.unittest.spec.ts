@@ -112,8 +112,7 @@ describe("Model unit tests", () => {
         abortSignal,
         aggregations: ["Average", "Maximum"],
         filter: "arbitraryFilter",
-        interval: "arbitraryInterval",
-        metricNames: ["name1", "name2"],
+        granularity: "arbitraryInterval",
         metricNamespace: "myMetricNamespace",
         orderBy: "orderByClause",
         requestOptions,
@@ -126,7 +125,8 @@ describe("Model unit tests", () => {
       };
 
       const actualMetricsRequest: GeneratedMetricsListOptionalParams = convertRequestForMetrics(
-        track2Model
+        track2Model,
+        ["name1", "name2"]
       );
 
       const expectedMetricsRequest: GeneratedMetricsListOptionalParams = {
@@ -150,12 +150,18 @@ describe("Model unit tests", () => {
     });
 
     it("convertRequestForMetrics (only required fields)", () => {
-      assert.deepEqual(convertRequestForMetrics({ timespan: Durations.lastDay }), {
-        timespan: Durations.lastDay
-      });
-      assert.deepEqual(convertRequestForMetrics({ timespan: Durations.last2Days }), {
-        timespan: Durations.last2Days
-      });
+      assert.deepEqual(
+        convertRequestForMetrics({ timespan: Durations.lastDay }, ["SuccessfulCalls"]),
+        {
+          timespan: Durations.lastDay
+        }
+      );
+      assert.deepEqual(
+        convertRequestForMetrics({ timespan: Durations.last2Days }, ["SuccessfulCalls"]),
+        {
+          timespan: Durations.last2Days
+        }
+      );
     });
 
     it("convertResponseForMetrics (all fields)", () => {
@@ -242,7 +248,7 @@ describe("Model unit tests", () => {
           }
         ],
         cost: 100,
-        interval: "anInterval",
+        granularity: "anInterval",
         namespace: "aNamespace",
         resourceRegion: "aResourceRegion"
         // NOTE: _response is not returned as part of our track 2 response.

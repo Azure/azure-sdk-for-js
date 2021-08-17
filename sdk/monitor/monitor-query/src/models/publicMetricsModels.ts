@@ -16,12 +16,10 @@ import {
  * Options used when querying metrics.
  */
 export interface QueryMetricsOptions extends OperationOptions {
-  /** The interval (i.e. timegrain) of the query. */
-  interval?: string;
-  /** The enclosing timespan for metrics. This is an ISO8601 time period value. */
+  /** The interval (i.e. timegrain) of the query.This is an ISO8601 format duration value. */
+  granularity?: string;
+  /** The enclosing timespan for metrics. This is an ISO8601 format time interval value. */
   timespan?: string;
-  /** The names of the metrics to retrieve **/
-  metricNames?: string[];
   /** The list of aggregation types (comma separated) to retrieve. */
   aggregations?: AggregationType[];
   /**
@@ -92,7 +90,7 @@ export interface QueryMetricsResult {
   /** The timespan for which the data was retrieved. Its value consists of two datetimes concatenated, separated by '/'.  This may be adjusted in the future and returned back from what was originally requested. */
   timespan: string;
   /** The interval (window size) for which the metric data was returned in.  This may be adjusted in the future and returned back from what was originally requested.  This is not present if a metadata request was made. */
-  interval?: string;
+  granularity?: string;
   /** The namespace of the metrics been queried */
   namespace?: string;
   /** The region of the resource been queried for metrics. */

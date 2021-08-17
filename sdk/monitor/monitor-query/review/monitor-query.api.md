@@ -185,7 +185,7 @@ export class MetricsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: MetricsClientOptions);
     getMetricDefinitions(resourceUri: string, options?: GetMetricDefinitionsOptions): Promise<GetMetricDefinitionsResult>;
     getMetricNamespaces(resourceUri: string, options?: GetMetricNamespacesOptions): Promise<GetMetricNamespacesResult>;
-    queryMetrics(resourceUri: string, options?: QueryMetricsOptions): Promise<QueryMetricsResult>;
+    queryMetrics(resourceUri: string, metricNames: string[], options?: QueryMetricsOptions): Promise<QueryMetricsResult>;
 }
 
 // @public
@@ -244,8 +244,7 @@ export interface QueryLogsResult {
 export interface QueryMetricsOptions extends OperationOptions {
     aggregations?: AggregationType[];
     filter?: string;
-    interval?: string;
-    metricNames?: string[];
+    granularity?: string;
     metricNamespace?: string;
     orderBy?: string;
     resultType?: ResultType;
@@ -256,7 +255,7 @@ export interface QueryMetricsOptions extends OperationOptions {
 // @public
 export interface QueryMetricsResult {
     cost?: number;
-    interval?: string;
+    granularity?: string;
     metrics: Metric[];
     namespace?: string;
     resourceRegion?: string;

@@ -22,12 +22,10 @@ describe("MetricsClient live tests", function() {
 
     // you can only query 20 metrics at a time.
     for (const definition of metricDefinitions.definitions) {
-      const result = await metricsQueryClient.queryMetrics(resourceId, {
-        metricNames: [definition.name || ""]
-      });
+      const result = await metricsQueryClient.queryMetrics(resourceId, [definition.name || ""], {});
 
       assert.ok(result);
-      assert.ok(result.interval);
+      assert.ok(result.granularity);
       assert.isNotEmpty(result.metrics);
     }
 
@@ -46,8 +44,7 @@ describe("MetricsClient live tests", function() {
         }
       }
 
-      const newResults = await metricsQueryClient.queryMetrics(resourceId, {
-        metricNames: definitionNames,
+      const newResults = await metricsQueryClient.queryMetrics(resourceId, definitionNames, {
         timespan: Durations.last24Hours
       });
 
@@ -63,11 +60,14 @@ describe("MetricsClient live tests", function() {
     assert.isNotEmpty(firstMetricDefinition.name);
     assert.isNotEmpty(firstMetricDefinition.namespace);
 
-    const individualMetricWithNamespace = metricsQueryClient.queryMetrics(resourceId, {
-      metricNames: [firstMetricDefinition.name!],
-      timespan: Durations.last24Hours,
-      metricNamespace: firstMetricDefinition.namespace
-    });
+    const individualMetricWithNamespace = metricsQueryClient.queryMetrics(
+      resourceId,
+      [firstMetricDefinition.name!],
+      {
+        timespan: Durations.last24Hours,
+        metricNamespace: firstMetricDefinition.namespace
+      }
+    );
 
     assert.ok(individualMetricWithNamespace);
   });

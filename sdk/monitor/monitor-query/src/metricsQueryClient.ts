@@ -85,16 +85,18 @@ export class MetricsQueryClient {
   /**
    * Query metrics, given a resource URI
    * @param resourceUri - The resource URI to query.
+   * @param metricNames - The names of the metrics to retrieve
    * @param options - Options for querying metrics.
    * @returns A response containing metrics.
    */
   async queryMetrics(
     resourceUri: string,
+    metricNames: string[],
     options?: QueryMetricsOptions
   ): Promise<QueryMetricsResult> {
     const response = await this._metricsClient.metrics.list(
       resourceUri,
-      convertRequestForMetrics(options)
+      convertRequestForMetrics(options, metricNames)
     );
 
     return convertResponseForMetrics(response);

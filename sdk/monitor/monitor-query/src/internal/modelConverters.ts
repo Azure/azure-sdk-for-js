@@ -174,7 +174,8 @@ export function fixInvalidBatchQueryResponse(
  * @internal
  */
 export function convertRequestForMetrics(
-  queryMetricsOptions: QueryMetricsOptions | undefined
+  queryMetricsOptions: QueryMetricsOptions | undefined,
+  metricNames: string[]
 ): GeneratedMetricsListOptionalParams {
   if (!queryMetricsOptions) {
     return {};
@@ -182,10 +183,10 @@ export function convertRequestForMetrics(
 
   const {
     orderBy,
-    metricNames,
     aggregations,
     metricNamespace,
     timespan,
+    granularity,
     ...rest
   } = queryMetricsOptions;
 
@@ -205,6 +206,9 @@ export function convertRequestForMetrics(
   }
   if (metricNamespace) {
     obj.metricnamespace = metricNamespace;
+  }
+  if (granularity) {
+    obj.interval = granularity;
   }
   return obj;
 }
@@ -233,7 +237,7 @@ export function convertResponseForMetrics(
   });
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars -- eslint doesn't recognize that the extracted variables are prefixed with '_' and are purposefully unused.
-  const { resourceregion, value: _ignoredValue, ...rest } = generatedResponse;
+  const { resourceregion, value: _ignoredValue, interval, ...rest } = generatedResponse;
 
   const obj: QueryMetricsResult = {
     ...rest,
@@ -242,6 +246,9 @@ export function convertResponseForMetrics(
 
   if (resourceregion) {
     obj.resourceRegion = resourceregion;
+  }
+  if (interval) {
+    obj.granularity = interval;
   }
 
   return obj;
