@@ -253,9 +253,9 @@ export class ManagedIdentityCredential implements TokenCredential {
 export class OnBehalfOfCredential implements TokenCredential {
     constructor(tenantId: string, clientId: string, clientSecret: string, options?: OnBehalfOfCredentialOptions);
     // (undocumented)
-    getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken>;
+    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
     // (undocumented)
-    userAssertionContext(userAssertion: string, callback: () => Promise<void>): Promise<void>;
+    withContext<Callback extends () => ReturnType<Callback>>(userAssertion: string, callback: Callback): Promise<ReturnType<Callback>>;
 }
 
 // @public (undocumented)
