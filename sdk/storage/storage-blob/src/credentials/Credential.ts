@@ -15,12 +15,7 @@ export abstract class Credential implements RequestPolicyFactory {
    * @param _nextPolicy -
    * @param _options -
    */
-  public create(
-    // tslint:disable-next-line:variable-name
-    _nextPolicy: RequestPolicy,
-    // tslint:disable-next-line:variable-name
-    _options: RequestPolicyOptions
-  ): RequestPolicy {
+  public create(_nextPolicy: RequestPolicy, _options: RequestPolicyOptions): RequestPolicy {
     throw new Error("Method should be implemented in children classes.");
   }
 }

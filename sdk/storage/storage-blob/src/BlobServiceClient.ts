@@ -404,7 +404,12 @@ export class BlobServiceClient extends StorageClient {
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
-  public static fromConnectionString(connectionString: string, options?: StoragePipelineOptions) {
+  public static fromConnectionString(
+    connectionString: string,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
+    options?: StoragePipelineOptions
+  ): BlobServiceClient {
     options = options || {};
     const extractedCreds = extractConnectionStringParts(connectionString);
     if (extractedCreds.kind === "AccountConnString") {
@@ -466,6 +471,8 @@ export class BlobServiceClient extends StorageClient {
   constructor(
     url: string,
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   );
   /**
@@ -485,6 +492,8 @@ export class BlobServiceClient extends StorageClient {
       | AnonymousCredential
       | TokenCredential
       | PipelineLike,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   ) {
     let pipeline: PipelineLike;
@@ -630,6 +639,7 @@ export class BlobServiceClient extends StorageClient {
    * @param destinationContainerName - The new name of the container.
    * @param options - Options to configure Container Rename operation.
    */
+  /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
   // @ts-ignore Need to hide this interface for now. Make it public and turn on the live tests for it when the service is ready.
   private async renameContainer(
     sourceContainerName: string,
