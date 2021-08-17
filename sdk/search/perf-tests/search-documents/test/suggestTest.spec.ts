@@ -22,6 +22,6 @@ export class SuggestTest extends SearchDocumentsBase<SearchDocumentsTestOptions>
   }
 
   async runAsync(): Promise<void> {
-    await this.searchClient.suggest("historic", this.suggesterName)
+    await this.searchClient.suggest("historic", this.suggesterName);
   }
 }

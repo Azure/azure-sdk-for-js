@@ -43,7 +43,10 @@
   "allowedAlternativeVersions": {
     // Text Analytics uses this version and it is not released yet. I am making an exception
     // for it here and it should be removed once core-paging 1.2.0 is released.
-    "@azure/core-paging": ["^1.2.0"],
+    "@azure/core-paging": [
+      "^1.2.0",
+      "^1.2.0-alpha"
+    ],
     // "^12.6.0" is required for eventhubs-checkpointstore-blob to use the latest GA version
     // when there is a new beta version which is being maintained in the repo.
     // Remove "^12.6.0" when the storage-blob releases a stable version.
@@ -69,9 +72,9 @@
     // TODO: remove when released https://github.com/open-telemetry/opentelemetry-js/pull/1352
     // eslint v7.15 needs node v10.12
     "@types/node": [
-      "^10.0.0", 
+      "^10.0.0",
       "^10.12.0"
-	],
+    ],
     // @azure/event-processor-host is on a much lower major version
     "@azure/ms-rest-nodeauth": [
       "^0.9.2"
