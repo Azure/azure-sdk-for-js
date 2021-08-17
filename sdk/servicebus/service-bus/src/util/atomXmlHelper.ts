@@ -59,7 +59,6 @@ export async function executeAtomXmlOperation(
     onUploadProgress: operationOptions.requestOptions?.onUploadProgress,
     onDownloadProgress: operationOptions.requestOptions?.onDownloadProgress,
     abortSignal: operationOptions.abortSignal,
-    spanOptions: operationOptions.tracingOptions?.spanOptions,
     tracingContext: operationOptions.tracingOptions?.tracingContext,
     disableJsonStringifyOnBody: true
   };

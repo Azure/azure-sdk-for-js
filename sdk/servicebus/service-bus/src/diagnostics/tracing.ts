@@ -50,14 +50,14 @@ export function createServiceBusSpan(
   host: string,
   additionalSpanOptions?: SpanOptions
 ): { span: Span; updatedOptions: OperationOptions } {
+  console.log(
+    additionalSpanOptions,
+    "this would still need to be passed to createSpan when we introduce the new param"
+  );
   const { span, updatedOptions } = createSpan(operationName, {
     ...operationOptions,
     tracingOptions: {
-      ...operationOptions?.tracingOptions,
-      spanOptions: {
-        ...operationOptions?.tracingOptions?.spanOptions,
-        ...additionalSpanOptions
-      }
+      ...operationOptions?.tracingOptions
     }
   });
 

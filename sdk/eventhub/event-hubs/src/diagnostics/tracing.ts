@@ -30,14 +30,14 @@ export function createEventHubSpan(
   connectionConfig: Pick<EventHubConnectionConfig, "entityPath" | "host">,
   additionalSpanOptions?: SpanOptions
 ): { span: Span; updatedOptions: OperationOptions } {
+  console.log(
+    additionalSpanOptions,
+    "we would still need to pass this in when implementing the new createSpan param"
+  );
   const { span, updatedOptions } = _createSpan(operationName, {
     ...operationOptions,
     tracingOptions: {
-      ...operationOptions?.tracingOptions,
-      spanOptions: {
-        ...operationOptions?.tracingOptions?.spanOptions,
-        ...additionalSpanOptions
-      }
+      ...operationOptions?.tracingOptions
     }
   });
 
