@@ -28,11 +28,11 @@ export interface PaginateOptions {
    * Note: if nextLinkName is set to `null` only the first page is returned, no additional
    * requests are made.
    */
-  nextLinkName?: string[] | string | null;
+  nextLinkNames?: string[] | null;
   /**
    * Indicates the name of the property in which the set of values is found. Default: `value`
    */
-  itemName?: string | string[];
+  itemNames?: string[];
 }
 
 /**
@@ -58,10 +58,10 @@ export function paginateResponse<TElement>(
       const values = getElements<TElement>(result.body, options);
       return {
         page: values,
-        // According to x-ms-pageable is the nextLinkName is set to null we should only
+        // According to x-ms-pageable is the nextLinkNames is set to null we should only
         // return the first page and skip any additional queries even if the initial response
         // contains a nextLink.
-        nextPageLink: options.nextLinkName === null ? undefined : nextLink,
+        nextPageLink: options.nextLinkNames === null ? undefined : nextLink,
       };
     },
   };
@@ -81,11 +81,11 @@ function checkPagingRequest(response: PathUncheckedResponse): void {
 }
 
 /**
- * Gets for the value of nextLink in the body. If a custom nextLinkName was provided, it will be used instead of default
+ * Gets for the value of nextLink in the body. If a custom nextLinkNames was provided, it will be used instead of default
  */
 function getNextLink(body: unknown, paginateOptions: PaginateOptions = {}): string | undefined {
-  // Build a set with the passed custom nextLinkName or array of names
-  let nextLinkNames = new Set(paginateOptions.nextLinkName ?? DEFAULT_NEXTLINK);
+  // Build a set with the passed custom nextLinkNames
+  const nextLinkNames = new Set(paginateOptions.nextLinkNames ?? DEFAULT_NEXTLINK);
   // Add the default nextLinkName if it doesn't exist yet
   nextLinkNames.add(DEFAULT_NEXTLINK);
 
@@ -112,16 +112,16 @@ function getNextLink(body: unknown, paginateOptions: PaginateOptions = {}): stri
 
 /**
  * Gets the elements of the current request in the body. By default it will look in the `value` property unless
- * a different value for itemName has been provided as part of the options.
+ * a different value for itemNames has been provided as part of the options.
  */
 function getElements<T = unknown>(body: unknown, paginateOptions: PaginateOptions = {}): T[] {
-  // Build a set with the passed custom itemName or array of names
-  let valueNames = new Set(paginateOptions.itemName ?? DEFAULT_VALUES);
+  // Build a set with the passed custom set of itemNames
+  const valueNames = new Set(paginateOptions.itemNames ?? DEFAULT_VALUES);
   // Add the default itemName if it doesn't exist yet
   valueNames.add(DEFAULT_VALUES);
   let value: unknown;
 
-  // Loop through the known itemNames names to find it in the body.
+  // Loop through the known itemNames to find it in the body.
   for (const valueName of valueNames) {
     const currentValue = (body as Record<string, unknown>)[valueName];
     if (Array.isArray(currentValue)) {

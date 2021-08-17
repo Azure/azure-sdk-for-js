@@ -60,8 +60,8 @@ export function paginate<TReturn extends PathUncheckedResponse>(
   initialResponse: TReturn
 ): PagedAsyncIterableIterator<PaginateReturn<TReturn>, PaginateReturn<TReturn>[]> {
   return paginateResponse<PaginateReturn<TReturn>>(client, initialResponse, {
-    itemName: ["value", "values"],
-    nextLinkName: ["nextLink", "continuationLink"],
+    itemNames: ["value", "values"],
+    nextLinkNames: ["nextLink", "continuationLink"],
   });
 }
 
@@ -111,7 +111,7 @@ describe("Paginate heleper", () => {
     ]);
 
     const response: TestResponse = await client.pathUnchecked("/paging/nullnextlink").get();
-    const items = paginateResponse(client, response, { nextLinkName: null });
+    const items = paginateResponse(client, response, { nextLinkNames: null });
     const result = [];
 
     for await (const item of items) {
