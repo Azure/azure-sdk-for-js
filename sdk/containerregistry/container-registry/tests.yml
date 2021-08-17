@@ -7,7 +7,7 @@ stages:
       ServiceDirectory: containerregistry
       MatrixFilters:
         - DependencyVersion=^$
-        ${{ if contains(variables['Build.DefinitionName'], 'tests-weekly') }}:
+        - ${{ if contains(variables['Build.DefinitionName'], 'tests-weekly') }}:
           - Pool=.*mms-ubuntu-2004.*
       SupportedClouds: 'Public,UsGov,China'
       EnvVars:
