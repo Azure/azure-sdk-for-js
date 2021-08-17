@@ -150,18 +150,9 @@ describe("Model unit tests", () => {
     });
 
     it("convertRequestForMetrics (only required fields)", () => {
-      assert.deepEqual(
-        convertRequestForMetrics({ timespan: Durations.lastDay }, ["SuccessfulCalls"]),
-        {
-          timespan: Durations.lastDay
-        }
-      );
-      assert.deepEqual(
-        convertRequestForMetrics({ timespan: Durations.last2Days }, ["SuccessfulCalls"]),
-        {
-          timespan: Durations.last2Days
-        }
-      );
+      assert.deepEqual(convertRequestForMetrics({}, ["SuccessfulCalls"]), {
+        metricnames: ["SuccessfulCalls"]
+      });
     });
 
     it("convertResponseForMetrics (all fields)", () => {
