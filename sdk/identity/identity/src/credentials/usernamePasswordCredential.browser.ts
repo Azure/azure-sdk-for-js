@@ -91,7 +91,6 @@ export class UsernamePasswordCredential implements TokenCredential {
         }),
         abortSignal: options && options.abortSignal,
         tracingOptions: {
-          spanOptions: newOptions.tracingOptions && newOptions.tracingOptions.spanOptions,
           tracingContext: newOptions.tracingOptions && newOptions.tracingOptions.tracingContext
         }
       });

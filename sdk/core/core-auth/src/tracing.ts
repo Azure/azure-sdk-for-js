@@ -27,16 +27,6 @@ export declare type SpanAttributeValue =
   | Array<null | undefined | boolean>;
 
 /**
- * An interface that enables manual propagation of Spans.
- */
-export interface SpanOptions {
-  /**
-   * Attributes to set on the Span
-   */
-  attributes?: SpanAttributes;
-}
-
-/**
  * A light interface that tries to be structurally compatible with OpenTelemetry.
  */
 export declare interface SpanContext {

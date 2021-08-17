@@ -184,7 +184,6 @@ export class AuthorizationCodeCredential implements TokenCredential {
             "Content-Type": "application/x-www-form-urlencoded"
           }),
           tracingOptions: {
-            spanOptions: updatedOptions?.tracingOptions?.spanOptions,
             tracingContext: updatedOptions?.tracingOptions?.tracingContext
           }
         });

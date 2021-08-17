@@ -37,7 +37,6 @@ export async function msiGenericGetToken(
   const request = createPipelineRequest({
     abortSignal: getTokenOptions.abortSignal,
     tracingOptions: {
-      spanOptions: getTokenOptions.tracingOptions && getTokenOptions.tracingOptions.spanOptions,
       tracingContext:
         getTokenOptions.tracingOptions && getTokenOptions.tracingOptions.tracingContext
     },

@@ -92,7 +92,6 @@ export const imdsMsi: MSI = {
     }
 
     requestOptions.tracingOptions = {
-      spanOptions: options.tracingOptions && options.tracingOptions.spanOptions,
       tracingContext: options.tracingOptions && options.tracingOptions.tracingContext
     };
 

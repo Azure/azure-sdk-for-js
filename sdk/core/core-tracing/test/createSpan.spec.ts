@@ -72,11 +72,6 @@ describe("createSpan", () => {
 
     const expected: { tracingOptions?: OperationTracingOptions } = {
       tracingOptions: {
-        spanOptions: {
-          attributes: {
-            "az.namespace": "Microsoft.Test"
-          }
-        },
         tracingContext: updatedOptions.tracingOptions?.tracingContext
       }
     };
@@ -84,31 +79,7 @@ describe("createSpan", () => {
   });
 
   it("preserves existing attributes", () => {
-    const options: { tracingOptions?: OperationTracingOptions } = {
-      tracingOptions: {
-        spanOptions: {
-          attributes: {
-            foo: "bar"
-          }
-        }
-      }
-    };
-    const { span, updatedOptions } = createSpan("testMethod", options);
-    assert.ok(span);
-    assert.notStrictEqual(updatedOptions, options, "should return new object");
-
-    const expected: { tracingOptions?: OperationTracingOptions } = {
-      tracingOptions: {
-        spanOptions: {
-          attributes: {
-            "az.namespace": "Microsoft.Test",
-            foo: "bar"
-          }
-        },
-        tracingContext: updatedOptions.tracingOptions!.tracingContext
-      }
-    };
-    assert.deepEqual(updatedOptions, expected);
+    assert.fail("need to implement using context");
   });
 
   it("namespace and packagePrefix can be empty (and thus ignored)", () => {
@@ -139,11 +110,6 @@ describe("createSpan", () => {
 
     assert.deepEqual(updatedOptions, {
       tracingOptions: {
-        spanOptions: {
-          attributes: {
-            testAttribute: "testValue"
-          }
-        },
         tracingContext: updatedOptions.tracingOptions.tracingContext
       }
     });

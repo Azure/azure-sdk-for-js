@@ -25,6 +25,7 @@
     "unit-test": "npm run unit-test:node",
     "unit-test:node": "mocha --require ts-node/register test/**/*.spec.ts",
     "unit-test:browser": "echo skipped",
+    "test": "echo Skipped.",
     "build:samples": "echo Skipped.",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },

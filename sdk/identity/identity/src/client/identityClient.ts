@@ -175,7 +175,6 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
           "Content-Type": "application/x-www-form-urlencoded"
         }),
         tracingOptions: {
-          spanOptions: updatedOptions?.tracingOptions?.spanOptions,
           tracingContext: updatedOptions?.tracingOptions?.tracingContext
         }
       });

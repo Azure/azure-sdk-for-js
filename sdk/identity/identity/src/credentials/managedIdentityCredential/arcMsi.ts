@@ -107,7 +107,6 @@ export const arcMsi: MSI = {
       disableJsonStringifyOnBody: true,
       deserializationMapper: undefined,
       abortSignal: getTokenOptions.abortSignal,
-      spanOptions: getTokenOptions.tracingOptions && getTokenOptions.tracingOptions.spanOptions,
       ...prepareRequestOptions(resource)
     };
 
