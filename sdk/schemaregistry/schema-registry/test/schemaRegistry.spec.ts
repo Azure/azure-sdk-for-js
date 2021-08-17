@@ -206,4 +206,28 @@ describe("SchemaRegistryClient", function() {
     assertIsValidSchemaId(foundIdSecondCall);
     assert.equal(foundIdSecondCall?.id, registered.id);
   });
+
+  it.only("schema with whitespace", async () => {
+    const schema = {
+      name: "azsdk_js_test2",
+      group: testEnv.SCHEMA_REGISTRY_GROUP,
+      serializationType: "avro",
+      content:
+        "{\n" +
+        '  "type": "record",\n' +
+        '  "name": "Test",\n' +
+        '  "fields": [{ "name": "X", "type": { "type": "string" } }]\n' +
+        "}\n"
+    };
+    const registered = await client.registerSchema(schema, options);
+    assertIsValidSchemaId(registered);
+
+    const found = await client.getSchemaById(registered.id, {
+      onResponse: () => {
+        assert.fail("Unexpected call to the service");
+      }
+    });
+    assertIsValidSchemaId(found);
+    assert.equal(found.content, schema.content);
+  });
 });
