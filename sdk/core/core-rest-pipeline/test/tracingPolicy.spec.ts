@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai, { assert } from "chai";
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
+import { assert } from "chai";
 import * as sinon from "sinon";
 import {
   tracingPolicy,
@@ -424,7 +422,9 @@ describe("tracingPolicy", function() {
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.resolves(response);
 
-    await assert.isFulfilled(policy.sendRequest(request, next));
+    // Does not throw
+    const result = await policy.sendRequest(request, next);
+    assert.equal(result, response);
   });
 
   it("will not fail the request if response processing fails", async () => {
@@ -448,6 +448,8 @@ describe("tracingPolicy", function() {
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.resolves(response);
 
-    await assert.isFulfilled(policy.sendRequest(request, next));
+    // Does not throw
+    const result = await policy.sendRequest(request, next);
+    assert.equal(result, response);
   });
 });

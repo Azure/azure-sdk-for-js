@@ -118,7 +118,10 @@ export class TracingPolicy extends BaseRequestPolicy {
         code: SpanStatusCode.ERROR,
         message: err.message
       });
-      span.setAttribute("http.status_code", err.statusCode);
+
+      if (err.statusCode) {
+        span.setAttribute("http.status_code", err.statusCode);
+      }
       span.end();
     } catch (error) {
       logger.warning(`Skipping tracing span processing due to an error: ${error.message}`);

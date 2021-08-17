@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai, { assert } from "chai";
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
+import { assert } from "chai";
 import {
   RequestPolicy,
   WebResource,
@@ -365,7 +363,9 @@ describe("tracingPolicy", function() {
     request.tracingContext = setSpan(context.active(), ROOT_SPAN);
 
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
-    await assert.isFulfilled(policy.sendRequest(request));
+
+    const response = await policy.sendRequest(request);
+    assert.equal(response.status, 200);
   });
 
   it("will not fail the request if response processing fails", async () => {
@@ -378,6 +378,8 @@ describe("tracingPolicy", function() {
     request.tracingContext = setSpan(context.active(), ROOT_SPAN);
 
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
-    await assert.isFulfilled(policy.sendRequest(request));
+
+    const response = await policy.sendRequest(request);
+    assert.equal(response.status, 200);
   });
 });
