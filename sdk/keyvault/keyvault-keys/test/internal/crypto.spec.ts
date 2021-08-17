@@ -144,7 +144,8 @@ describe("internal crypto tests", () => {
           encryptStub,
           { algorithm: "RSA1_5", plaintext: text },
           operationOptionsSinonMatcher({
-            requestOptions: { timeout: 5 }
+            requestOptions: { timeout: 5 },
+            tracingOptions: {}
           })
         );
       });
@@ -423,7 +424,7 @@ function operationOptionsSinonMatcher<T extends OperationOptions>(
     assert.ok(actualOptions.tracingOptions?.tracingContext);
     delete actualOptions.tracingOptions?.tracingContext;
 
-    assert.deepEqual(expectedPropagatedOptions, actualOptions);
+    assert.deepEqual(actualOptions, expectedPropagatedOptions);
     return true;
   });
 }
