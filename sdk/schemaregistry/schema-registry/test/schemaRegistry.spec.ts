@@ -207,7 +207,7 @@ describe("SchemaRegistryClient", function() {
     assert.equal(foundIdSecondCall?.id, registered.id);
   });
 
-  it.only("schema with whitespace", async () => {
+  it("schema with whitespace", async () => {
     const schema = {
       name: "azsdk_js_test2",
       group: testEnv.SCHEMA_REGISTRY_GROUP,
