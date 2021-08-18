@@ -65,7 +65,8 @@ jobs:
       GdnBreakAllTools: false
       GdnBreakGdnToolCredScan: true
       GdnBreakGdnToolCredScanSeverity: Error
-      GdnBreakBaselineFiles: $(Build.SourcesDirectory)\eng\js.gdnbaselines
+      # Specify baseline file input to scan tool
+      # GdnBreakBaselineFiles: $(Build.SourcesDirectory)\eng\js.gdnbaselines
       GdnBreakBaselines: baseline  
       # Used for generating baseline file.
       # GdnBreakOutputBaselineFile: js
