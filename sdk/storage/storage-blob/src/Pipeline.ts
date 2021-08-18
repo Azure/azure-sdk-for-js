@@ -96,7 +96,7 @@ export interface PipelineLike {
 
 /**
  * A helper to decide if a given argument satisfies the Pipeline contract
- * @param pipeline An argument that may be a Pipeline
+ * @param pipeline - An argument that may be a Pipeline
  * @returns true when the argument satisfies the Pipeline contract
  */
 export function isPipelineLike(pipeline: unknown): pipeline is PipelineLike {

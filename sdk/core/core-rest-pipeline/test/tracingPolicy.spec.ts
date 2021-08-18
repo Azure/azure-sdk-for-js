@@ -401,4 +401,55 @@ describe("tracingPolicy", function() {
     assert.notExists(request.headers.get("traceparent"));
     assert.notExists(request.headers.get("tracestate"));
   });
+
+  it("will not fail the request if span setup fails", async () => {
+    const errorTracer = new MockTracer("", "", TraceFlags.SAMPLED, "");
+    sinon.stub(errorTracer, "startSpan").throws(new Error("Test Error"));
+    mockTracerProvider.setTracer(errorTracer);
+
+    const request = createPipelineRequest({
+      url: "https://bing.com",
+      tracingOptions: {
+        tracingContext: setSpan(context.active(), ROOT_SPAN)
+      }
+    });
+    const response: PipelineResponse = {
+      headers: createHttpHeaders(),
+      request: request,
+      status: 200
+    };
+    const policy = tracingPolicy();
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.resolves(response);
+
+    // Does not throw
+    const result = await policy.sendRequest(request, next);
+    assert.equal(result, response);
+  });
+
+  it("will not fail the request if response processing fails", async () => {
+    const errorTracer = new MockTracer("", "", TraceFlags.SAMPLED, "");
+    mockTracerProvider.setTracer(errorTracer);
+    const errorSpan = new MockSpan("", "", TraceFlags.SAMPLED, "");
+    sinon.stub(errorTracer, "startSpan").returns(errorSpan);
+
+    const request = createPipelineRequest({
+      url: "https://bing.com",
+      tracingOptions: {
+        tracingContext: setSpan(context.active(), ROOT_SPAN)
+      }
+    });
+    const response: PipelineResponse = {
+      headers: createHttpHeaders(),
+      request: request,
+      status: 200
+    };
+    const policy = tracingPolicy();
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.resolves(response);
+
+    // Does not throw
+    const result = await policy.sendRequest(request, next);
+    assert.equal(result, response);
+  });
 });

@@ -395,7 +395,7 @@ export enum KnownInnerErrorCodeValue {
 }
 
 // @public
-export type KnownSummarySentencesSortBy = "Offset" | "Rank";
+export type KnownSummarySentencesOrderBy = "Offset" | "Rank";
 
 // @public
 export enum KnownWarningCode {

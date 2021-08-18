@@ -35,7 +35,7 @@ export interface BlobQuickQueryStreamOptions {
 export class BlobQuickQueryStream extends Readable {
   private source: NodeJS.ReadableStream;
   private avroReader: AvroReader;
-  private avroIter: AsyncIterableIterator<Object | null>;
+  private avroIter: AsyncIterableIterator<unknown | null>;
   private avroPaused: boolean = true;
   private onProgress?: (progress: TransferProgressEvent) => void;
   private onError?: (error: BlobQueryError) => void;
@@ -55,7 +55,7 @@ export class BlobQuickQueryStream extends Readable {
     this.avroIter = this.avroReader.parseObjects({ abortSignal: options.abortSignal });
   }
 
-  public _read() {
+  public _read(): void {
     if (this.avroPaused) {
       this.readInternal().catch((err) => {
         this.emit("error", err);
@@ -79,21 +79,25 @@ export class BlobQuickQueryStream extends Readable {
 
       switch (schema) {
         case "com.microsoft.azure.storage.queryBlobContents.resultData":
-          const data = (obj as any).data;
-          if (data instanceof Uint8Array === false) {
-            throw Error("Invalid data in avro result record.");
-          }
-          if (!this.push(Buffer.from(data))) {
-            this.avroPaused = true;
+          {
+            const data = (obj as any).data;
+            if (data instanceof Uint8Array === false) {
+              throw Error("Invalid data in avro result record.");
+            }
+            if (!this.push(Buffer.from(data))) {
+              this.avroPaused = true;
+            }
           }
           break;
         case "com.microsoft.azure.storage.queryBlobContents.progress":
-          const bytesScanned = (obj as any).bytesScanned;
-          if (typeof bytesScanned !== "number") {
-            throw Error("Invalid bytesScanned in avro progress record.");
-          }
-          if (this.onProgress) {
-            this.onProgress({ loadedBytes: bytesScanned });
+          {
+            const bytesScanned = (obj as any).bytesScanned;
+            if (typeof bytesScanned !== "number") {
+              throw Error("Invalid bytesScanned in avro progress record.");
+            }
+            if (this.onProgress) {
+              this.onProgress({ loadedBytes: bytesScanned });
+            }
           }
           break;
         case "com.microsoft.azure.storage.queryBlobContents.end":
