@@ -1,5 +1,15 @@
 # Release History
 
+## 12.1.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 12.1.1 (2021-08-10)
 
 ### Bugs Fixed

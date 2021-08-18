@@ -10,6 +10,7 @@ Use the client library for Azure Container Registry to:
 - Delete images and artifacts, repositories and tags
 
 Key links:
+
 - [Source code][source]
 - [Package (NPM)][package]
 - [API reference documentation][api_docs]
@@ -171,7 +172,7 @@ async function main() {
   const image = client.getArtifact("library/hello-world", "v1");
 
   // Set permissions on the image's "latest" tag
-  await image.setTagProperties("latest", { canWrite: false, canDelete: false });
+  await image.updateTagProperties("latest", { canWrite: false, canDelete: false });
 }
 
 main().catch((err) => {
@@ -195,7 +196,7 @@ async function main() {
   const repositoryNames = client.listRepositoryNames();
   for await (const repositoryName of repositoryNames) {
     const repository = client.getRepository(repositoryName);
-    // Obtain the images ordered from newest to oldest
+    // Obtain the images ordered from newest to oldest by passing the `orderBy` option
     const imageManifests = repository.listManifestProperties({
       orderBy: "LastUpdatedOnDescending"
     });
@@ -203,7 +204,8 @@ async function main() {
     let imageCount = 0;
     // Delete images older than the first three.
     for await (const manifest of imageManifests) {
-      if (imageCount++ > imagesToKeep) {
+      imageCount++;
+      if (imageCount > imagesToKeep) {
         const image = repository.getArtifact(manifest.digest);
         console.log(`Deleting image with digest ${manifest.digest}`);
         console.log(`  Deleting the following tags from the image:`);

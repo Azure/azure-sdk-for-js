@@ -21,6 +21,7 @@ import {
 } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
 import { context, setSpan } from "@azure/core-tracing";
+import { Context } from "mocha";
 dotenv.config();
 
 describe("ContainerClient", () => {
@@ -30,7 +31,7 @@ describe("ContainerClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -879,7 +880,7 @@ describe("ContainerClient - Verify Name Properties", () => {
   const containerName = "containerName";
   const accountName = "myAccount";
 
-  function verifyNameProperties(url: string) {
+  function verifyNameProperties(url: string): void {
     const newClient = new ContainerClient(url);
     assert.equal(
       newClient.containerName,

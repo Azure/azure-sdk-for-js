@@ -416,7 +416,7 @@ class InnerBatchRequest {
 
     // Fast fail if url for sub request is invalid
     const path = getURLPath(subRequest.url);
-    if (!path || path == "") {
+    if (!path || path === "") {
       throw new RangeError(`Invalid url for sub request: '${subRequest.url}'`);
     }
   }
@@ -481,6 +481,8 @@ class BatchRequestAssemblePolicyFactory implements RequestPolicyFactory {
 }
 
 class BatchHeaderFilterPolicy extends BaseRequestPolicy {
+  // The base class has a protected constructor. Adding a public one to enable constructing of this class.
+  /* eslint-disable-next-line @typescript-eslint/no-useless-constructor*/
   constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
     super(nextPolicy, options);
   }
@@ -503,8 +505,6 @@ class BatchHeaderFilterPolicy extends BaseRequestPolicy {
 }
 
 class BatchHeaderFilterPolicyFactory implements RequestPolicyFactory {
-  constructor() {}
-
   public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): BatchHeaderFilterPolicy {
     return new BatchHeaderFilterPolicy(nextPolicy, options);
   }

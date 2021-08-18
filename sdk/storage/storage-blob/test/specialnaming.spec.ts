@@ -8,6 +8,7 @@ import { appendToURLPath } from "../src/utils/utils.common";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 import { ContainerClient } from "../src";
+import { Context } from "mocha";
 dotenv.config();
 
 describe("Special Naming Tests", () => {
@@ -17,7 +18,7 @@ describe("Special Naming Tests", () => {
   let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("1container-with-dash");

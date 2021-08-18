@@ -2,9 +2,8 @@
   "name": "@azure/batch",
   "author": "Microsoft Corporation",
   "description": "BatchServiceClient Library with typescript type definitions for node.js and browser.",
-  "version": "9.0.0",
+  "version": "10.0.0",
   "dependencies": {
-    "@azure/core-auth": "^1.1.4",
     "@azure/ms-rest-azure-js": "^2.1.0",
     "@azure/ms-rest-js": "^2.2.0",
     "jssha": "^3.2.0",
@@ -21,7 +20,7 @@
   "license": "MIT",
   "main": "./dist/batch.js",
   "module": "./esm/batchServiceClient.js",
-  "types": "./esm/batchServiceClient.d.ts",
+  "types": "./types/src/batchServiceClient.d.ts",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^20.0.0",
     "@rollup/plugin-json": "^4.1.0",
@@ -76,18 +75,11 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "files": [
-    "dist/**/*.js",
-    "dist/**/*.js.map",
-    "dist/**/*.d.ts",
-    "dist/**/*.d.ts.map",
-    "esm/**/*.js",
-    "esm/**/*.js.map",
-    "esm/**/*.d.ts",
-    "esm/**/*.d.ts.map",
-    "src/**/*.ts",
+    "dist/",
+    "dist-esm/src/",
+    "types/src/",
     "README.md",
-    "rollup.config.js",
-    "tsconfig.json"
+    "LICENSE"
   ],
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",

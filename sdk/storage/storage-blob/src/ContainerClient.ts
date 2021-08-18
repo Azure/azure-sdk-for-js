@@ -591,6 +591,8 @@ export class ContainerClient extends StorageClient {
    * @param containerName - Container name.
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
+  // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
   constructor(connectionString: string, containerName: string, options?: StoragePipelineOptions);
   /**
    * Creates an instance of ContainerClient.
@@ -608,6 +610,8 @@ export class ContainerClient extends StorageClient {
   constructor(
     url: string,
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   );
   /**
@@ -632,6 +636,8 @@ export class ContainerClient extends StorageClient {
       | AnonymousCredential
       | TokenCredential
       | PipelineLike,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   ) {
     let pipeline: PipelineLike;

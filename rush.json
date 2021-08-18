@@ -860,6 +860,21 @@
       "packageName": "@azure/arm-webpubsub",
       "projectFolder": "sdk/web-pubsub/arm-webpubsub",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-keyvault",
+      "projectFolder": "sdk/keyvault/arm-keyvault",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-sql",
+      "projectFolder": "sdk/sql/arm-sql",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-appservice",
+      "projectFolder": "sdk/appservice/arm-appservice",
+      "versionPolicyName": "management"
     }
   ]
 }
