@@ -10797,6 +10797,7 @@ packages:
       assert: 1.5.0
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
+      chai-exclude: 2.0.3_chai@4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -10835,7 +10836,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-keys'
     resolution:
-      integrity: sha512-kOilnDxsAXKFxWn9gxaAsGOvK3KbeIOqz9kuVoeJvbqMXbuBS36/pgBYdgXlPtMW46bF7AXDJcDiMQ0chcIBfg==
+      integrity: sha512-brA0Yf52odfAHjhPZJRZq5oK/X2fNGhVoFr7U2dYbaQ0iZFgVx1EgXoGCFmH9pSe5XHQ0W/IGmlHi2cAMcyv8A==
       tarball: file:projects/keyvault-keys.tgz
     version: 0.0.0
   file:projects/keyvault-secrets.tgz:
