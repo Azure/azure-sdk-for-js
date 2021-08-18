@@ -22,7 +22,8 @@ export interface ContextAPI {
 // @public
 export function createSpanFunction(args: CreateSpanFunctionArgs): <T extends {
     tracingOptions?: OperationTracingOptions | undefined;
-}>(operationName: string, operationOptions: T | undefined) => {
+    spanOptions?: SpanOptions | undefined;
+}>(operationName: string, operationOptions?: T | undefined) => {
     span: Span;
     updatedOptions: T;
 };
@@ -92,7 +93,6 @@ export interface Link {
 
 // @public
 export interface OperationTracingOptions {
-    spanOptions?: SpanOptions;
     tracingContext?: Context;
 }
 
