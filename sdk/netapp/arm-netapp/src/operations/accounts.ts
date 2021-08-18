@@ -27,6 +27,31 @@ export class Accounts {
   }
 
   /**
+   * List and describe all NetApp accounts in the subscription.
+   * @summary Describe all NetApp Accounts in a subscription
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AccountsListBySubscriptionResponse>
+   */
+  listBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.AccountsListBySubscriptionResponse>;
+  /**
+   * @param callback The callback
+   */
+  listBySubscription(callback: msRest.ServiceCallback<Models.NetAppAccountList>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetAppAccountList>): void;
+  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetAppAccountList>, callback?: msRest.ServiceCallback<Models.NetAppAccountList>): Promise<Models.AccountsListBySubscriptionResponse> {
+    return this.client.sendOperationRequest(
+      {
+        options
+      },
+      listBySubscriptionOperationSpec,
+      callback) as Promise<Models.AccountsListBySubscriptionResponse>;
+  }
+
+  /**
    * List and describe all NetApp accounts in the resource group.
    * @summary Describe all NetApp Accounts in a resource group
    * @param resourceGroupName The name of the resource group.
@@ -191,6 +216,35 @@ export class Accounts {
   }
 
   /**
+   * List and describe all NetApp accounts in the subscription.
+   * @summary Describe all NetApp Accounts in a subscription
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AccountsListBySubscriptionNextResponse>
+   */
+  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AccountsListBySubscriptionNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.NetAppAccountList>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetAppAccountList>): void;
+  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetAppAccountList>, callback?: msRest.ServiceCallback<Models.NetAppAccountList>): Promise<Models.AccountsListBySubscriptionNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listBySubscriptionNextOperationSpec,
+      callback) as Promise<Models.AccountsListBySubscriptionNextResponse>;
+  }
+
+  /**
    * List and describe all NetApp accounts in the resource group.
    * @summary Describe all NetApp Accounts in a resource group
    * @param nextPageLink The NextLink from the previous successful call to List operation.
@@ -222,6 +276,29 @@ export class Accounts {
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
+const listBySubscriptionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.NetApp/netAppAccounts",
+  urlParameters: [
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetAppAccountList
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts",
@@ -357,6 +434,30 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     },
     202: {
       bodyMapper: Mappers.NetAppAccount
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetAppAccountList
     },
     default: {
       bodyMapper: Mappers.CloudError

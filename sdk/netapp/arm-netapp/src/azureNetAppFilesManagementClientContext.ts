@@ -50,7 +50,7 @@ export class AzureNetAppFilesManagementClientContext extends msRestAzure.AzureSe
 
     super(credentials, options);
 
-    this.apiVersion = '2021-04-01';
+    this.apiVersion = '2021-06-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
