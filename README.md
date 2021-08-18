@@ -30,12 +30,11 @@ To get a list of all client libraries that follow the new guidelines, please vis
 
 Management libraries enable you to provision and manage Azure resources via the [Azure Resource Manager i.e. ARM](https://docs.microsoft.com/azure/azure-resource-manager/management/overview). You can recognize these libraries by `@azure/arm-` in their package names. These are purely auto-generated based on the swagger files that represent the APIs for resource management.
 
-Version 30 and above of these libraries follow the [Azure SDK Design Guidelines for TypeScript](https://azure.github.io/azure-sdk/typescript_introduction.html). These new versions provide a number of core capabilities that are shared amongst all Azure SDKs, including the intuitive Azure Identity library, an HTTP Pipeline with custom policies, error-handling, distributed tracing, and much more. A few helpful resources to get started with these are:
+Newer versions of these libraries follow the [Azure SDK Design Guidelines for TypeScript](https://azure.github.io/azure-sdk/typescript_introduction.html). These new versions provide a number of core capabilities that are shared amongst all Azure SDKs, including the intuitive Azure Identity library, an HTTP Pipeline with custom policies, error-handling, distributed tracing, and much more. A few helpful resources to get started with these are:
 
+- [List of management libraies that follow the new guidelines](https://azure.github.io/azure-sdk/releases/latest/mgmt/js.html)
 - [Documentation and code samples](https://aka.ms/azsdk/js/mgmt).
 - [Migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/MIGRATION-guide-for-next-generation-management-libraries.md) that shows how to transition from older versions of libraries.
-
-To get a list of all management libraries that follow the new guidelines, please visit our [Azure SDK releases page](https://azure.github.io/azure-sdk/releases/latest/mgmt/js.html).
 
 > NOTE: If you are experiencing authentication issues with the management libraries after upgrading certain packages, it's possible that you upgraded to the new versions of SDK without changing the authentication code, please refer to the migration guide mentioned above for proper instructions.
 
