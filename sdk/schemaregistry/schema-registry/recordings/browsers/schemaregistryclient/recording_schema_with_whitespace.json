@@ -11,7 +11,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1321",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 17 Aug 2021 20:18:51 GMT",
+    "date": "Wed, 18 Aug 2021 17:08:14 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -20,8 +20,8 @@
     "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11961.8 - EUS ProdSlices",
-    "x-ms-request-id": "accd2067-a81e-4fb4-b803-48934e25c600"
+    "x-ms-ests-server": "2.1.11961.8 - SCUS ProdSlices",
+    "x-ms-request-id": "0f27d023-eabb-4fe1-b762-0126305e1701"
    }
   },
   {
@@ -35,7 +35,30 @@
    "response": "{\"id\":\"207b5ecbbff7492d902647dfde854fff\"}",
    "responseHeaders": {
     "content-type": "application/json",
-    "date": "Tue, 17 Aug 2021 20:18:52 GMT",
+    "date": "Wed, 18 Aug 2021 17:08:15 GMT",
+    "location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test2/versions/1?api-version=2020-09-01-preview",
+    "schema-id": "207b5ecbbff7492d902647dfde854fff",
+    "schema-id-location": "https://endpoint/$schemagroups/getschemabyid/207b5ecbbff7492d902647dfde854fff?api-version=2020-09-01-preview",
+    "schema-version": "1",
+    "schema-versions-location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test2/versions?api-version=2020-09-01-preview",
+    "serialization-type": "Avro",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000",
+    "transfer-encoding": "chunked"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test2",
+   "query": {
+    "api-version": "2020-09-01-preview"
+   },
+   "requestBody": "{\n  \"type\": \"record\",\n  \"name\": \"Test\",\n  \"fields\": [{ \"name\": \"X\", \"type\": { \"type\": \"string\" } }]\n}\n",
+   "status": 200,
+   "response": "{\"id\":\"207b5ecbbff7492d902647dfde854fff\"}",
+   "responseHeaders": {
+    "content-type": "application/json",
+    "date": "Wed, 18 Aug 2021 17:08:16 GMT",
     "location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test2/versions/1?api-version=2020-09-01-preview",
     "schema-id": "207b5ecbbff7492d902647dfde854fff",
     "schema-id-location": "https://endpoint/$schemagroups/getschemabyid/207b5ecbbff7492d902647dfde854fff?api-version=2020-09-01-preview",
@@ -52,5 +75,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "5c90018bbfce4b95182f4c33c118631b"
+ "hash": "bb1dc66818b9788bf272a0c69750dba3"
 }

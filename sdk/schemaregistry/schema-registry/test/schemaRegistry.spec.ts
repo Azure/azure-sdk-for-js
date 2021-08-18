@@ -207,8 +207,8 @@ describe("SchemaRegistryClient", function() {
     assert.equal(foundIdSecondCall?.id, registered.id);
   });
 
-  it("schema with whitespace", async () => {
-    const schema = {
+  it.only("schema with whitespace", async () => {
+    const schema2 = {
       name: "azsdk_js_test2",
       group: testEnv.SCHEMA_REGISTRY_GROUP,
       serializationType: "avro",
@@ -219,15 +219,39 @@ describe("SchemaRegistryClient", function() {
         '  "fields": [{ "name": "X", "type": { "type": "string" } }]\n' +
         "}\n"
     };
-    const registered = await client.registerSchema(schema, options);
+    // content that is going to the service has whitespaces
+    const registered = await client.registerSchema(schema2, options);
     assertIsValidSchemaId(registered);
 
-    const found = await client.getSchemaById(registered.id, {
+    const foundSchema = await client.getSchemaById(registered.id, {
       onResponse: () => {
         assert.fail("Unexpected call to the service");
       }
     });
-    assertIsValidSchemaId(found);
-    assert.equal(found.content, schema.content);
+    assertIsValidSchemaId(foundSchema);
+    assert.equal(foundSchema.content, schema2.content);
+
+    let ran = false;
+    const foundId = await client.getSchemaId(
+      {
+        // content that comes from the service does not have whitespaces
+        content: foundSchema.content,
+        group: schema2.group,
+        name: schema2.name,
+        serializationType: foundSchema.serializationType
+      },
+      {
+        onResponse: () => {
+          ran = true;
+        }
+      }
+    );
+    // the schema comes from the service normalized so that its content has no whitespace
+    // which is different from the original schema that was registered first and lives
+    // in the cache. There is a trade-off between the perf hit for doing client-side
+    // normalization and the perf hit for doing an extra call to the service for the
+    // normalized one.
+    assert.isTrue(ran, "Expected call to the service happened");
+    assertIsValidSchemaId(foundId);
   });
 });
