@@ -45,7 +45,7 @@
     // for it here and it should be removed once core-paging 1.2.0 is released.
     "@azure/core-paging": [
       "^1.2.0",
-      "^1.2.0-alpha"
+      ">=1.2.0-alpha <1.2.0-alphb"
     ],
     // "^12.6.0" is required for eventhubs-checkpointstore-blob to use the latest GA version
     // when there is a new beta version which is being maintained in the repo.
