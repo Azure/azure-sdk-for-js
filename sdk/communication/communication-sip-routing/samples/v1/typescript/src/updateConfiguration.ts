@@ -5,10 +5,10 @@
  * @summary Create and then update a SIP routing configuration
  */
 
-const { SipRoutingClient } = require('@azure/communication-sip-routing');
+import { SipRoutingClient } from '@azure/communication-sip-routing';
+import dotenv from "dotenv";
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
 dotenv.config();
 
 async function main() {
