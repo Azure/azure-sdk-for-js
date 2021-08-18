@@ -875,6 +875,11 @@
       "packageName": "@azure/arm-appservice",
       "projectFolder": "sdk/appservice/arm-appservice",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-containerservice",
+      "projectFolder": "sdk/containerservice/arm-containerservice",
+      "versionPolicyName": "management"
     }
   ]
 }
