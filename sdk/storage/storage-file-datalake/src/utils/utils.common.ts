@@ -103,7 +103,7 @@ export function getValueInConnString(
     | "DefaultEndpointsProtocol"
     | "EndpointSuffix"
     | "SharedAccessSignature"
-) {
+): string {
   const elements = connectionString.split(";");
   for (const element of elements) {
     if (element.trim().startsWith(argument)) {
@@ -333,7 +333,7 @@ export function getURLPathAndQuery(url: string): string | undefined {
 
   let queryString = urlParsed.getQuery() || "";
   queryString = queryString.trim();
-  if (queryString != "") {
+  if (queryString !== "") {
     queryString = queryString.startsWith("?") ? queryString : `?${queryString}`; // Ensure query string start with '?'
   }
 
@@ -461,8 +461,13 @@ export function generateBlockID(blockIDPrefix: string, blockIndex: number): stri
  * @param aborter -
  * @param abortError -
  */
-export async function delay(timeInMs: number, aborter?: AbortSignalLike, abortError?: Error) {
+export async function delay(
+  timeInMs: number,
+  aborter?: AbortSignalLike,
+  abortError?: Error
+): Promise<void> {
   return new Promise<void>((resolve, reject) => {
+    /* eslint-disable-next-line prefer-const*/
     let timeout: any;
 
     const abortHandler = () => {
@@ -498,8 +503,7 @@ export function padStart(
   targetLength: number,
   padString: string = " "
 ): string {
-  // TS doesn't know this code needs to run downlevel sometimes.
-  // @ts-expect-error
+  // @ts-expect-error TS doesn't know this code needs to run downlevel sometimes.
   if (String.prototype.padStart) {
     return currentString.padStart(targetLength, padString);
   }
@@ -578,12 +582,12 @@ export function getAccountNameFromUrl(blobEndpointUrl: string): string {
 }
 
 export function isIpEndpointStyle(parsedUrl: URLBuilder): boolean {
-  if (parsedUrl.getHost() == undefined) {
+  if (parsedUrl.getHost() === undefined) {
     return false;
   }
 
   const host =
-    parsedUrl.getHost()! + (parsedUrl.getPort() == undefined ? "" : ":" + parsedUrl.getPort());
+    parsedUrl.getHost()! + (parsedUrl.getPort() === undefined ? "" : ":" + parsedUrl.getPort());
 
   // Case 1: Ipv6, use a broad regex to find out candidates whose host contains two ':'.
   // Case 2: localhost(:port), use broad regex to match port part.
