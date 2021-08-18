@@ -496,7 +496,8 @@ describe("Keys client - create, read, update and delete operations", () => {
                   action: "Notify",
                   timeBeforeExpiry: "P30D"
                 }
-              ]
+              ],
+              expiresIn: "P90D"
             },
             { tracingOptions }
           ),
