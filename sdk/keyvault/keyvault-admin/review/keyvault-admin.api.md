@@ -207,7 +207,7 @@ export enum KnownKeyVaultRoleScope {
 }
 
 // @public
-export const LATEST_API_VERSION = "7.2";
+export const LATEST_API_VERSION = "7.3-preview";
 
 // @public
 export interface ListRoleAssignmentsOptions extends OperationOptions {
@@ -240,7 +240,7 @@ export interface SetRoleDefinitionOptions extends OperationOptions {
 }
 
 // @public
-export type SUPPORTED_API_VERSIONS = "7.2";
+export type SUPPORTED_API_VERSIONS = "7.2" | "7.3-preview";
 
 
 // (No @packageDocumentation comment for this package)
