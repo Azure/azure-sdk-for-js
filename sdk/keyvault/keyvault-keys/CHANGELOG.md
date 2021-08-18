@@ -4,6 +4,11 @@
 
 ### Features Added
 
+- Added support for automated key rotation in Azure Key Vault.
+  > Note: Automated key rotation is currently in private preview and is not available to all Azure Key Vault customers.
+  - Added `KeyClient.rotateKey` to rotate a key on-demand.
+  - Added `KeyClient.updateKeyRotationPolicy` to update a key's automated rotation policy.
+
 ### Breaking Changes
 
 ### Bugs Fixed
@@ -20,10 +25,6 @@
 - Added an overload to `KeyClient.updateKeyProperties` that allows the version to be omitted, updating the latest key version.
 - Added support for `KeyClient.getRandomBytes` which, when connected to a managed HSM, can be used to generate a byte array of a given length with random values.
 - Updated the service version to 7.3-preview.
-- Added support for automated key rotation in Azure Key Vault.
-  > Note: Automated key rotation is currently in private preview and is not available to all Azure Key Vault customers.
-  - Added `KeyClient.rotateKey` to rotate a key on-demand.
-  - Added `KeyClient.updateKeyRotationPolicy` to update a key's automated rotation policy.
 
 ## 4.3.0 (2021-07-29)
 
