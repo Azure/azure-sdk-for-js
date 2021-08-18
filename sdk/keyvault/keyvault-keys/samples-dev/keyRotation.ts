@@ -58,7 +58,8 @@ export async function main(): Promise<void> {
   const newKeyVersion = await client.rotateKey(key.name);
   console.log("rotated key", newKeyVersion);
 
-  // Delete the key
+  // Delete the key. Deleting a key is a long running operation; however, for this sample we will
+  // fire-and-forget the process and assume the key was successfully deleted.
   await client.beginDeleteKey(key.name);
 }
 
