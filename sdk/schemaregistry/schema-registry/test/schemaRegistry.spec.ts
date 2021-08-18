@@ -251,7 +251,7 @@ describe("SchemaRegistryClient", function() {
     // in the cache. There is a trade-off between the perf hit for doing client-side
     // normalization and the perf hit for doing an extra call to the service for the
     // normalized one.
-    assert.isTrue(ran, "Expected call to the service happened");
+    assert.isTrue(ran, "Expected call to the service did not happen");
     assertIsValidSchemaId(foundId);
   });
 });
