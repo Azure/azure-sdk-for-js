@@ -55,7 +55,7 @@ export interface UpdateRepositoryPropertiesOptions extends OperationOptions {
  * A `repository` in a container registry is a logical grouping of images or artifacts that share the same name.  For example,
  * different versions of a `hello-world` application could have tags `v1` and `v2`, and be grouped by the repository `hello-world`.
  *
- * The {@link ContainerRepository"} interface is a helper that groups information and operations about a repository in this
+ * The {@link ContainerRepository} interface is a helper that groups information and operations about a repository in this
  * container registry.
  */
 export interface ContainerRepository {
