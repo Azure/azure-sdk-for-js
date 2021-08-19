@@ -6,7 +6,7 @@ import { TokenCredential } from "@azure/core-auth";
 import { PipelineOptions, bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 
 import {
-  QueryLogsBatch,
+  QueryLogsBatch as LogsBatchQuery,
   QueryLogsBatchOptions,
   QueryLogsBatchResult,
   QueryLogsOptions,
@@ -120,7 +120,7 @@ export class LogsQueryClient {
    * @returns The Logs query results for all the queries.
    */
   async queryLogsBatch(
-    batch: QueryLogsBatch,
+    batch: LogsBatchQuery,
     options?: QueryLogsBatchOptions
   ): Promise<QueryLogsBatchResult> {
     const generatedRequest = convertRequestForQueryBatch(batch);
