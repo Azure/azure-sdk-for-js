@@ -8,7 +8,8 @@ import {
   setSpan,
   context as otContext,
   getTracer,
-  Context
+  Context,
+  SpanKind
 } from "./interfaces";
 import { trace, INVALID_SPAN_CONTEXT } from "@opentelemetry/api";
 
@@ -71,9 +72,15 @@ function disambiguateParameters<T extends { tracingOptions?: OperationTracingOpt
   startSpanOptions?: SpanOptions
 ): [OperationTracingOptions, SpanOptions, T] {
   const { tracingOptions } = operationOptions;
+
+  // If startSpanOptions is provided, then we are using the new signature, 
+  // otherwise try to pluck it out of the tracingOptions.
+  const spanOptions: SpanOptions = startSpanOptions || (tracingOptions as any)?.spanOptions || {};
+  spanOptions.kind ||= SpanKind.INTERNAL;
+
   return [
     tracingOptions || {},
-    startSpanOptions || (tracingOptions as any)?.spanOptions || {},
+    spanOptions,
     operationOptions
   ];
 }
