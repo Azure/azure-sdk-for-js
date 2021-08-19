@@ -7,7 +7,8 @@ stages:
       ServiceDirectory: containerregistry
       MatrixFilters:
         - DependencyVersion=^$
-        - Pool=.*mms-ubuntu-2004.*
+        - ${{ if contains(variables['Build.DefinitionName'], 'tests-weekly') }}:
+          - Pool=.*mms-ubuntu-2004.*
       SupportedClouds: 'Public,UsGov,China'
       EnvVars:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)

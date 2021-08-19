@@ -184,7 +184,6 @@ export interface FullBackupOperation {
 }
 
 export interface RestoreOperationParameters {
-  /** SAS token parameter object containing Azure storage resourceUri and token */
   sasTokenParameters: SASTokenParameter;
   /** The Folder name of the blob where the previous successful full backup was stored */
   folderToRestore: string;
@@ -207,7 +206,6 @@ export interface RestoreOperation {
 }
 
 export interface SelectiveKeyRestoreOperationParameters {
-  /** SAS token parameter object containing Azure storage resourceUri and token */
   sasTokenParameters: SASTokenParameter;
   /** The Folder name of the blob where the previous successful full backup was stored */
   folder: string;
@@ -265,23 +263,23 @@ export interface KeyVaultClientSelectiveKeyRestoreOperationHeaders {
   azureAsyncOperation?: string;
 }
 
-/** Known values of {@link ApiVersion72} that the service accepts. */
-export const enum KnownApiVersion72 {
-  /** Api Version '7.2' */
-  Seven2 = "7.2"
+/** Known values of {@link ApiVersion73Preview} that the service accepts. */
+export enum KnownApiVersion73Preview {
+  /** Api Version '7.3-preview' */
+  Seven3Preview = "7.3-preview"
 }
 
 /**
- * Defines values for ApiVersion72. \
- * {@link KnownApiVersion72} can be used interchangeably with ApiVersion72,
+ * Defines values for ApiVersion73Preview. \
+ * {@link KnownApiVersion73Preview} can be used interchangeably with ApiVersion73Preview,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **7.2**: Api Version '7.2'
+ * **7.3-preview**: Api Version '7.3-preview'
  */
-export type ApiVersion72 = string;
+export type ApiVersion73Preview = string;
 
 /** Known values of {@link RoleType} that the service accepts. */
-export const enum KnownRoleType {
+export enum KnownRoleType {
   /** Built in role. */
   BuiltInRole = "AKVBuiltInRole",
   /** Custom role. */
@@ -299,7 +297,7 @@ export const enum KnownRoleType {
 export type RoleType = string;
 
 /** Known values of {@link DataAction} that the service accepts. */
-export const enum KnownDataAction {
+export enum KnownDataAction {
   /** Read HSM key metadata. */
   ReadHsmKey = "Microsoft.KeyVault/managedHsm/keys/read/action",
   /** Update an HSM key. */
@@ -320,6 +318,10 @@ export const enum KnownDataAction {
   WriteRoleAssignment = "Microsoft.KeyVault/managedHsm/roleAssignments/write/action",
   /** Get role definition. */
   ReadRoleDefinition = "Microsoft.KeyVault/managedHsm/roleDefinitions/read/action",
+  /** Create or update role definition. */
+  WriteRoleDefinition = "Microsoft.KeyVault/managedHsm/roleDefinitions/write/action",
+  /** Delete role definition. */
+  DeleteRoleDefinition = "Microsoft.KeyVault/managedHsm/roleDefinitions/delete/action",
   /** Encrypt using an HSM key. */
   EncryptHsmKey = "Microsoft.KeyVault/managedHsm/keys/encrypt/action",
   /** Decrypt using an HSM key. */
@@ -338,12 +340,16 @@ export const enum KnownDataAction {
   DeleteHsmKey = "Microsoft.KeyVault/managedHsm/keys/delete",
   /** Export an HSM key. */
   ExportHsmKey = "Microsoft.KeyVault/managedHsm/keys/export/action",
+  /** Release an HSM key using Secure Key Release. */
+  ReleaseKey = "Microsoft.KeyVault/managedHsm/keys/release/action",
   /** Import an HSM key. */
   ImportHsmKey = "Microsoft.KeyVault/managedHsm/keys/import/action",
   /** Purge a deleted HSM key. */
   PurgeDeletedHsmKey = "Microsoft.KeyVault/managedHsm/keys/deletedKeys/delete",
   /** Download an HSM security domain. */
   DownloadHsmSecurityDomain = "Microsoft.KeyVault/managedHsm/securitydomain/download/action",
+  /** Check status of HSM security domain download. */
+  DownloadHsmSecurityDomainStatus = "Microsoft.KeyVault/managedHsm/securitydomain/download/read",
   /** Upload an HSM security domain. */
   UploadHsmSecurityDomain = "Microsoft.KeyVault/managedHsm/securitydomain/upload/action",
   /** Check the status of the HSM security domain exchange file. */
@@ -357,7 +363,9 @@ export const enum KnownDataAction {
   /** Read an HSM backup status. */
   ReadHsmBackupStatus = "Microsoft.KeyVault/managedHsm/backup/status/action",
   /** Read an HSM restore status. */
-  ReadHsmRestoreStatus = "Microsoft.KeyVault/managedHsm/restore/status/action"
+  ReadHsmRestoreStatus = "Microsoft.KeyVault/managedHsm/restore/status/action",
+  /** Generate random numbers. */
+  RandomNumbersGenerate = "Microsoft.KeyVault/managedHsm/rng/action"
 }
 
 /**
@@ -375,6 +383,8 @@ export const enum KnownDataAction {
  * **Microsoft.KeyVault\/managedHsm\/roleAssignments\/read\/action**: Get role assignment. \
  * **Microsoft.KeyVault\/managedHsm\/roleAssignments\/write\/action**: Create or update role assignment. \
  * **Microsoft.KeyVault\/managedHsm\/roleDefinitions\/read\/action**: Get role definition. \
+ * **Microsoft.KeyVault\/managedHsm\/roleDefinitions\/write\/action**: Create or update role definition. \
+ * **Microsoft.KeyVault\/managedHsm\/roleDefinitions\/delete\/action**: Delete role definition. \
  * **Microsoft.KeyVault\/managedHsm\/keys\/encrypt\/action**: Encrypt using an HSM key. \
  * **Microsoft.KeyVault\/managedHsm\/keys\/decrypt\/action**: Decrypt using an HSM key. \
  * **Microsoft.KeyVault\/managedHsm\/keys\/wrap\/action**: Wrap using an HSM key. \
@@ -384,21 +394,24 @@ export const enum KnownDataAction {
  * **Microsoft.KeyVault\/managedHsm\/keys\/create**: Create an HSM key. \
  * **Microsoft.KeyVault\/managedHsm\/keys\/delete**: Delete an HSM key. \
  * **Microsoft.KeyVault\/managedHsm\/keys\/export\/action**: Export an HSM key. \
+ * **Microsoft.KeyVault\/managedHsm\/keys\/release\/action**: Release an HSM key using Secure Key Release. \
  * **Microsoft.KeyVault\/managedHsm\/keys\/import\/action**: Import an HSM key. \
  * **Microsoft.KeyVault\/managedHsm\/keys\/deletedKeys\/delete**: Purge a deleted HSM key. \
  * **Microsoft.KeyVault\/managedHsm\/securitydomain\/download\/action**: Download an HSM security domain. \
+ * **Microsoft.KeyVault\/managedHsm\/securitydomain\/download\/read**: Check status of HSM security domain download. \
  * **Microsoft.KeyVault\/managedHsm\/securitydomain\/upload\/action**: Upload an HSM security domain. \
  * **Microsoft.KeyVault\/managedHsm\/securitydomain\/upload\/read**: Check the status of the HSM security domain exchange file. \
  * **Microsoft.KeyVault\/managedHsm\/securitydomain\/transferkey\/read**: Download an HSM security domain transfer key. \
  * **Microsoft.KeyVault\/managedHsm\/backup\/start\/action**: Start an HSM backup. \
  * **Microsoft.KeyVault\/managedHsm\/restore\/start\/action**: Start an HSM restore. \
  * **Microsoft.KeyVault\/managedHsm\/backup\/status\/action**: Read an HSM backup status. \
- * **Microsoft.KeyVault\/managedHsm\/restore\/status\/action**: Read an HSM restore status.
+ * **Microsoft.KeyVault\/managedHsm\/restore\/status\/action**: Read an HSM restore status. \
+ * **Microsoft.KeyVault\/managedHsm\/rng\/action**: Generate random numbers.
  */
 export type DataAction = string;
 
 /** Known values of {@link RoleScope} that the service accepts. */
-export const enum KnownRoleScope {
+export enum KnownRoleScope {
   /** Global scope */
   Global = "/",
   /** Keys scope */
@@ -416,7 +429,7 @@ export const enum KnownRoleScope {
 export type RoleScope = string;
 
 /** Known values of {@link RoleDefinitionType} that the service accepts. */
-export const enum KnownRoleDefinitionType {
+export enum KnownRoleDefinitionType {
   MicrosoftAuthorizationRoleDefinitions = "Microsoft.Authorization/roleDefinitions"
 }
 

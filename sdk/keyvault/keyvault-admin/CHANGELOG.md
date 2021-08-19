@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Updated the service version to default to 7.3-preview.
+
 ### Breaking Changes
 
 ### Bugs Fixed

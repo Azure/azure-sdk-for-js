@@ -65,21 +65,20 @@ export interface AccountPropertiesManagedResources extends ManagedResources {
 }
 
 // @public (undocumented)
-export interface AccountsGet {
-    get(options?: AccountsGetParameters): Promise<AccountsGet200Response | AccountsGetdefaultResponse>;
-    patch(options: AccountsUpdateParameters): Promise<AccountsUpdate200Response | AccountsUpdatedefaultResponse>;
+export interface AccountsGetAccessKeys {
+    post(options?: AccountsGetAccessKeysParameters): Promise<AccountsGetAccessKeys200Response | AccountsGetAccessKeysdefaultResponse>;
 }
 
 // @public
-export interface AccountsGet200Response extends HttpResponse {
+export interface AccountsGetAccessKeys200Response extends HttpResponse {
     // (undocumented)
-    body: Account;
+    body: AccessKeys;
     // (undocumented)
     status: "200";
 }
 
 // @public
-export interface AccountsGetdefaultResponse extends HttpResponse {
+export interface AccountsGetAccessKeysdefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseModel;
     // (undocumented)
@@ -87,7 +86,32 @@ export interface AccountsGetdefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type AccountsGetParameters = RequestParameters;
+export type AccountsGetAccessKeysParameters = RequestParameters;
+
+// @public (undocumented)
+export interface AccountsGetAccountProperties {
+    get(options?: AccountsGetAccountPropertiesParameters): Promise<AccountsGetAccountProperties200Response | AccountsGetAccountPropertiesdefaultResponse>;
+    patch(options: AccountsUpdateAccountPropertiesParameters): Promise<AccountsUpdateAccountProperties200Response | AccountsUpdateAccountPropertiesdefaultResponse>;
+}
+
+// @public
+export interface AccountsGetAccountProperties200Response extends HttpResponse {
+    // (undocumented)
+    body: Account;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface AccountsGetAccountPropertiesdefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseModel;
+    // (undocumented)
+    status: "500";
+}
+
+// @public (undocumented)
+export type AccountsGetAccountPropertiesParameters = RequestParameters;
 
 // @public (undocumented)
 export interface AccountSku {
@@ -96,36 +120,12 @@ export interface AccountSku {
 }
 
 // @public (undocumented)
-export interface AccountsListKeys {
-    post(options?: AccountsListKeysParameters): Promise<AccountsListKeys200Response | AccountsListKeysdefaultResponse>;
+export interface AccountsRegenerateAccessKey {
+    post(options: AccountsRegenerateAccessKeyParameters): Promise<AccountsRegenerateAccessKey200Response | AccountsRegenerateAccessKeydefaultResponse>;
 }
 
 // @public
-export interface AccountsListKeys200Response extends HttpResponse {
-    // (undocumented)
-    body: AccessKeys;
-    // (undocumented)
-    status: "200";
-}
-
-// @public
-export interface AccountsListKeysdefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseModel;
-    // (undocumented)
-    status: "500";
-}
-
-// @public (undocumented)
-export type AccountsListKeysParameters = RequestParameters;
-
-// @public (undocumented)
-export interface AccountsRegenerateKeys {
-    post(options: AccountsRegenerateKeysParameters): Promise<AccountsRegenerateKeys200Response | AccountsRegenerateKeysdefaultResponse>;
-}
-
-// @public
-export interface AccountsRegenerateKeys200Response extends HttpResponse {
+export interface AccountsRegenerateAccessKey200Response extends HttpResponse {
     // (undocumented)
     body: AccessKeys;
     // (undocumented)
@@ -133,13 +133,13 @@ export interface AccountsRegenerateKeys200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface AccountsRegenerateKeysBodyParam {
+export interface AccountsRegenerateAccessKeyBodyParam {
     // (undocumented)
     body: AccessKeyOptions;
 }
 
 // @public
-export interface AccountsRegenerateKeysdefaultResponse extends HttpResponse {
+export interface AccountsRegenerateAccessKeydefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseModel;
     // (undocumented)
@@ -147,10 +147,10 @@ export interface AccountsRegenerateKeysdefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type AccountsRegenerateKeysParameters = AccountsRegenerateKeysBodyParam & RequestParameters;
+export type AccountsRegenerateAccessKeyParameters = AccountsRegenerateAccessKeyBodyParam & RequestParameters;
 
 // @public
-export interface AccountsUpdate200Response extends HttpResponse {
+export interface AccountsUpdateAccountProperties200Response extends HttpResponse {
     // (undocumented)
     body: Account;
     // (undocumented)
@@ -158,13 +158,13 @@ export interface AccountsUpdate200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface AccountsUpdateBodyParam {
+export interface AccountsUpdateAccountPropertiesBodyParam {
     // (undocumented)
     body: DataPlaneAccountUpdateParameters;
 }
 
 // @public
-export interface AccountsUpdatedefaultResponse extends HttpResponse {
+export interface AccountsUpdateAccountPropertiesdefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseModel;
     // (undocumented)
@@ -172,7 +172,7 @@ export interface AccountsUpdatedefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type AccountsUpdateParameters = AccountsUpdateBodyParam & RequestParameters;
+export type AccountsUpdateAccountPropertiesParameters = AccountsUpdateAccountPropertiesBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface AccountSystemData extends SystemData {
@@ -232,7 +232,7 @@ export interface CollectionReference {
 }
 
 // @public
-export interface CollectionsCreateOrUpdate200Response extends HttpResponse {
+export interface CollectionsCreateOrUpdateCollection200Response extends HttpResponse {
     // (undocumented)
     body: Collection;
     // (undocumented)
@@ -240,13 +240,13 @@ export interface CollectionsCreateOrUpdate200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface CollectionsCreateOrUpdateBodyParam {
+export interface CollectionsCreateOrUpdateCollectionBodyParam {
     // (undocumented)
     body: Collection;
 }
 
 // @public
-export interface CollectionsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface CollectionsCreateOrUpdateCollectiondefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseModel;
     // (undocumented)
@@ -254,10 +254,10 @@ export interface CollectionsCreateOrUpdatedefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type CollectionsCreateOrUpdateParameters = CollectionsCreateOrUpdateBodyParam & RequestParameters;
+export type CollectionsCreateOrUpdateCollectionParameters = CollectionsCreateOrUpdateCollectionBodyParam & RequestParameters;
 
 // @public
-export interface CollectionsDelete204Response extends HttpResponse {
+export interface CollectionsDeleteCollection204Response extends HttpResponse {
     // (undocumented)
     body: Record<string, unknown>;
     // (undocumented)
@@ -265,7 +265,7 @@ export interface CollectionsDelete204Response extends HttpResponse {
 }
 
 // @public
-export interface CollectionsDeletedefaultResponse extends HttpResponse {
+export interface CollectionsDeleteCollectiondefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseModel;
     // (undocumented)
@@ -273,38 +273,25 @@ export interface CollectionsDeletedefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type CollectionsDeleteParameters = RequestParameters;
+export type CollectionsDeleteCollectionParameters = RequestParameters;
 
 // @public (undocumented)
-export interface CollectionsGet {
-    delete(options?: CollectionsDeleteParameters): Promise<CollectionsDelete204Response | CollectionsDeletedefaultResponse>;
-    get(options?: CollectionsGetParameters): Promise<CollectionsGet200Response | CollectionsGetdefaultResponse>;
-    put(options: CollectionsCreateOrUpdateParameters): Promise<CollectionsCreateOrUpdate200Response | CollectionsCreateOrUpdatedefaultResponse>;
+export interface CollectionsGetCollection {
+    delete(options?: CollectionsDeleteCollectionParameters): Promise<CollectionsDeleteCollection204Response | CollectionsDeleteCollectiondefaultResponse>;
+    get(options?: CollectionsGetCollectionParameters): Promise<CollectionsGetCollection200Response | CollectionsGetCollectiondefaultResponse>;
+    put(options: CollectionsCreateOrUpdateCollectionParameters): Promise<CollectionsCreateOrUpdateCollection200Response | CollectionsCreateOrUpdateCollectiondefaultResponse>;
 }
 
 // @public
-export interface CollectionsGet200Response extends HttpResponse {
+export interface CollectionsGetCollection200Response extends HttpResponse {
     // (undocumented)
     body: Collection;
     // (undocumented)
     status: "200";
 }
 
-// @public (undocumented)
-export interface CollectionsGetChildCollectionNames {
-    get(options?: CollectionsGetChildCollectionNamesParameters): Promise<CollectionsGetChildCollectionNames200Response | CollectionsGetChildCollectionNamesdefaultResponse>;
-}
-
 // @public
-export interface CollectionsGetChildCollectionNames200Response extends HttpResponse {
-    // (undocumented)
-    body: CollectionNameResponseList;
-    // (undocumented)
-    status: "200";
-}
-
-// @public
-export interface CollectionsGetChildCollectionNamesdefaultResponse extends HttpResponse {
+export interface CollectionsGetCollectiondefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseModel;
     // (undocumented)
@@ -312,19 +299,7 @@ export interface CollectionsGetChildCollectionNamesdefaultResponse extends HttpR
 }
 
 // @public (undocumented)
-export type CollectionsGetChildCollectionNamesParameters = CollectionsGetChildCollectionNamesQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface CollectionsGetChildCollectionNamesQueryParam {
-    // (undocumented)
-    queryParameters?: CollectionsGetChildCollectionNamesQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface CollectionsGetChildCollectionNamesQueryParamProperties {
-    // (undocumented)
-    $skipToken?: string;
-}
+export type CollectionsGetCollectionParameters = RequestParameters;
 
 // @public (undocumented)
 export interface CollectionsGetCollectionPath {
@@ -348,22 +323,23 @@ export interface CollectionsGetCollectionPathdefaultResponse extends HttpRespons
 }
 
 // @public (undocumented)
-export type CollectionsGetCollectionPathParameters = CollectionsGetCollectionPathQueryParam & RequestParameters;
+export type CollectionsGetCollectionPathParameters = RequestParameters;
 
 // @public (undocumented)
-export interface CollectionsGetCollectionPathQueryParam {
-    // (undocumented)
-    queryParameters?: CollectionsGetCollectionPathQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface CollectionsGetCollectionPathQueryParamProperties {
-    // (undocumented)
-    $skipToken?: string;
+export interface CollectionsListChildCollectionNames {
+    get(options?: CollectionsListChildCollectionNamesParameters): Promise<CollectionsListChildCollectionNames200Response | CollectionsListChildCollectionNamesdefaultResponse>;
 }
 
 // @public
-export interface CollectionsGetdefaultResponse extends HttpResponse {
+export interface CollectionsListChildCollectionNames200Response extends HttpResponse {
+    // (undocumented)
+    body: CollectionNameResponseList;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface CollectionsListChildCollectionNamesdefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseModel;
     // (undocumented)
@@ -371,15 +347,27 @@ export interface CollectionsGetdefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type CollectionsGetParameters = RequestParameters;
+export type CollectionsListChildCollectionNamesParameters = CollectionsListChildCollectionNamesQueryParam & RequestParameters;
 
 // @public (undocumented)
-export interface CollectionsListByAccount {
-    get(options?: CollectionsListByAccountParameters): Promise<CollectionsListByAccount200Response | CollectionsListByAccountdefaultResponse>;
+export interface CollectionsListChildCollectionNamesQueryParam {
+    // (undocumented)
+    queryParameters?: CollectionsListChildCollectionNamesQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface CollectionsListChildCollectionNamesQueryParamProperties {
+    // (undocumented)
+    $skipToken?: string;
+}
+
+// @public (undocumented)
+export interface CollectionsListCollections {
+    get(options?: CollectionsListCollectionsParameters): Promise<CollectionsListCollections200Response | CollectionsListCollectionsdefaultResponse>;
 }
 
 // @public
-export interface CollectionsListByAccount200Response extends HttpResponse {
+export interface CollectionsListCollections200Response extends HttpResponse {
     // (undocumented)
     body: CollectionList;
     // (undocumented)
@@ -387,7 +375,7 @@ export interface CollectionsListByAccount200Response extends HttpResponse {
 }
 
 // @public
-export interface CollectionsListByAccountdefaultResponse extends HttpResponse {
+export interface CollectionsListCollectionsdefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseModel;
     // (undocumented)
@@ -395,16 +383,16 @@ export interface CollectionsListByAccountdefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type CollectionsListByAccountParameters = CollectionsListByAccountQueryParam & RequestParameters;
+export type CollectionsListCollectionsParameters = CollectionsListCollectionsQueryParam & RequestParameters;
 
 // @public (undocumented)
-export interface CollectionsListByAccountQueryParam {
+export interface CollectionsListCollectionsQueryParam {
     // (undocumented)
-    queryParameters?: CollectionsListByAccountQueryParamProperties;
+    queryParameters?: CollectionsListCollectionsQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface CollectionsListByAccountQueryParamProperties {
+export interface CollectionsListCollectionsQueryParamProperties {
     // (undocumented)
     $skipToken?: string;
 }
@@ -637,7 +625,7 @@ export interface ResourceSetRuleConfigList {
 }
 
 // @public
-export interface ResourceSetRuleConfigsCreateOrUpdate200Response extends HttpResponse {
+export interface ResourceSetRulesCreateOrUpdateResourceSetRule200Response extends HttpResponse {
     // (undocumented)
     body: ResourceSetRuleConfig;
     // (undocumented)
@@ -645,13 +633,13 @@ export interface ResourceSetRuleConfigsCreateOrUpdate200Response extends HttpRes
 }
 
 // @public (undocumented)
-export interface ResourceSetRuleConfigsCreateOrUpdateBodyParam {
+export interface ResourceSetRulesCreateOrUpdateResourceSetRuleBodyParam {
     // (undocumented)
     body: ResourceSetRuleConfig;
 }
 
 // @public
-export interface ResourceSetRuleConfigsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface ResourceSetRulesCreateOrUpdateResourceSetRuledefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseModel;
     // (undocumented)
@@ -659,10 +647,10 @@ export interface ResourceSetRuleConfigsCreateOrUpdatedefaultResponse extends Htt
 }
 
 // @public (undocumented)
-export type ResourceSetRuleConfigsCreateOrUpdateParameters = ResourceSetRuleConfigsCreateOrUpdateBodyParam & RequestParameters;
+export type ResourceSetRulesCreateOrUpdateResourceSetRuleParameters = ResourceSetRulesCreateOrUpdateResourceSetRuleBodyParam & RequestParameters;
 
 // @public
-export interface ResourceSetRuleConfigsDelete200Response extends HttpResponse {
+export interface ResourceSetRulesDeleteResourceSetRule200Response extends HttpResponse {
     // (undocumented)
     body: Record<string, unknown>;
     // (undocumented)
@@ -670,7 +658,7 @@ export interface ResourceSetRuleConfigsDelete200Response extends HttpResponse {
 }
 
 // @public
-export interface ResourceSetRuleConfigsDelete204Response extends HttpResponse {
+export interface ResourceSetRulesDeleteResourceSetRule204Response extends HttpResponse {
     // (undocumented)
     body: Record<string, unknown>;
     // (undocumented)
@@ -678,7 +666,7 @@ export interface ResourceSetRuleConfigsDelete204Response extends HttpResponse {
 }
 
 // @public
-export interface ResourceSetRuleConfigsDeletedefaultResponse extends HttpResponse {
+export interface ResourceSetRulesDeleteResourceSetRuledefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseModel;
     // (undocumented)
@@ -686,17 +674,17 @@ export interface ResourceSetRuleConfigsDeletedefaultResponse extends HttpRespons
 }
 
 // @public (undocumented)
-export type ResourceSetRuleConfigsDeleteParameters = RequestParameters;
+export type ResourceSetRulesDeleteResourceSetRuleParameters = RequestParameters;
 
 // @public (undocumented)
-export interface ResourceSetRuleConfigsGet {
-    delete(options?: ResourceSetRuleConfigsDeleteParameters): Promise<ResourceSetRuleConfigsDelete200Response | ResourceSetRuleConfigsDelete204Response | ResourceSetRuleConfigsDeletedefaultResponse>;
-    get(options?: ResourceSetRuleConfigsGetParameters): Promise<ResourceSetRuleConfigsGet200Response | ResourceSetRuleConfigsGetdefaultResponse>;
-    put(options: ResourceSetRuleConfigsCreateOrUpdateParameters): Promise<ResourceSetRuleConfigsCreateOrUpdate200Response | ResourceSetRuleConfigsCreateOrUpdatedefaultResponse>;
+export interface ResourceSetRulesGetResourceSetRule {
+    delete(options?: ResourceSetRulesDeleteResourceSetRuleParameters): Promise<ResourceSetRulesDeleteResourceSetRule200Response | ResourceSetRulesDeleteResourceSetRule204Response | ResourceSetRulesDeleteResourceSetRuledefaultResponse>;
+    get(options?: ResourceSetRulesGetResourceSetRuleParameters): Promise<ResourceSetRulesGetResourceSetRule200Response | ResourceSetRulesGetResourceSetRuledefaultResponse>;
+    put(options: ResourceSetRulesCreateOrUpdateResourceSetRuleParameters): Promise<ResourceSetRulesCreateOrUpdateResourceSetRule200Response | ResourceSetRulesCreateOrUpdateResourceSetRuledefaultResponse>;
 }
 
 // @public
-export interface ResourceSetRuleConfigsGet200Response extends HttpResponse {
+export interface ResourceSetRulesGetResourceSetRule200Response extends HttpResponse {
     // (undocumented)
     body: ResourceSetRuleConfig;
     // (undocumented)
@@ -704,7 +692,7 @@ export interface ResourceSetRuleConfigsGet200Response extends HttpResponse {
 }
 
 // @public
-export interface ResourceSetRuleConfigsGetdefaultResponse extends HttpResponse {
+export interface ResourceSetRulesGetResourceSetRuledefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseModel;
     // (undocumented)
@@ -712,15 +700,15 @@ export interface ResourceSetRuleConfigsGetdefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type ResourceSetRuleConfigsGetParameters = RequestParameters;
+export type ResourceSetRulesGetResourceSetRuleParameters = RequestParameters;
 
 // @public (undocumented)
-export interface ResourceSetRuleConfigsListByAccount {
-    get(options?: ResourceSetRuleConfigsListByAccountParameters): Promise<ResourceSetRuleConfigsListByAccount200Response | ResourceSetRuleConfigsListByAccountdefaultResponse>;
+export interface ResourceSetRulesListResourceSetRules {
+    get(options?: ResourceSetRulesListResourceSetRulesParameters): Promise<ResourceSetRulesListResourceSetRules200Response | ResourceSetRulesListResourceSetRulesdefaultResponse>;
 }
 
 // @public
-export interface ResourceSetRuleConfigsListByAccount200Response extends HttpResponse {
+export interface ResourceSetRulesListResourceSetRules200Response extends HttpResponse {
     // (undocumented)
     body: ResourceSetRuleConfigList;
     // (undocumented)
@@ -728,7 +716,7 @@ export interface ResourceSetRuleConfigsListByAccount200Response extends HttpResp
 }
 
 // @public
-export interface ResourceSetRuleConfigsListByAccountdefaultResponse extends HttpResponse {
+export interface ResourceSetRulesListResourceSetRulesdefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseModel;
     // (undocumented)
@@ -736,31 +724,31 @@ export interface ResourceSetRuleConfigsListByAccountdefaultResponse extends Http
 }
 
 // @public (undocumented)
-export type ResourceSetRuleConfigsListByAccountParameters = ResourceSetRuleConfigsListByAccountQueryParam & RequestParameters;
+export type ResourceSetRulesListResourceSetRulesParameters = ResourceSetRulesListResourceSetRulesQueryParam & RequestParameters;
 
 // @public (undocumented)
-export interface ResourceSetRuleConfigsListByAccountQueryParam {
+export interface ResourceSetRulesListResourceSetRulesQueryParam {
     // (undocumented)
-    queryParameters?: ResourceSetRuleConfigsListByAccountQueryParamProperties;
+    queryParameters?: ResourceSetRulesListResourceSetRulesQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface ResourceSetRuleConfigsListByAccountQueryParamProperties {
+export interface ResourceSetRulesListResourceSetRulesQueryParamProperties {
     // (undocumented)
     $skipToken?: string;
 }
 
 // @public (undocumented)
 export interface Routes {
-    (path: "/"): AccountsGet;
-    (path: "/listkeys"): AccountsListKeys;
-    (path: "/regeneratekeys"): AccountsRegenerateKeys;
-    (path: "/collections/{collectionName}", collectionName: string): CollectionsGet;
-    (path: "/collections"): CollectionsListByAccount;
-    (path: "/collections/{collectionName}/getChildCollectionNames", collectionName: string): CollectionsGetChildCollectionNames;
+    (path: "/"): AccountsGetAccountProperties;
+    (path: "/listkeys"): AccountsGetAccessKeys;
+    (path: "/regeneratekeys"): AccountsRegenerateAccessKey;
+    (path: "/collections/{collectionName}", collectionName: string): CollectionsGetCollection;
+    (path: "/collections"): CollectionsListCollections;
+    (path: "/collections/{collectionName}/getChildCollectionNames", collectionName: string): CollectionsListChildCollectionNames;
     (path: "/collections/{collectionName}/getCollectionPath", collectionName: string): CollectionsGetCollectionPath;
-    (path: "/resourceSetRuleConfigs/defaultResourceSetRuleConfig"): ResourceSetRuleConfigsGet;
-    (path: "/resourceSetRuleConfigs"): ResourceSetRuleConfigsListByAccount;
+    (path: "/resourceSetRuleConfigs/defaultResourceSetRuleConfig"): ResourceSetRulesGetResourceSetRule;
+    (path: "/resourceSetRuleConfigs"): ResourceSetRulesListResourceSetRules;
 }
 
 // @public (undocumented)

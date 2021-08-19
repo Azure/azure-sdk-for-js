@@ -9,79 +9,71 @@ import {
   ResourceSetRuleConfig,
 } from "./models";
 
-export type AccountsGetParameters = RequestParameters;
+export type AccountsGetAccountPropertiesParameters = RequestParameters;
 
-export interface AccountsUpdateBodyParam {
+export interface AccountsUpdateAccountPropertiesBodyParam {
   body: DataPlaneAccountUpdateParameters;
 }
 
-export type AccountsUpdateParameters = AccountsUpdateBodyParam & RequestParameters;
-export type AccountsListKeysParameters = RequestParameters;
+export type AccountsUpdateAccountPropertiesParameters = AccountsUpdateAccountPropertiesBodyParam &
+  RequestParameters;
+export type AccountsGetAccessKeysParameters = RequestParameters;
 
-export interface AccountsRegenerateKeysBodyParam {
+export interface AccountsRegenerateAccessKeyBodyParam {
   body: AccessKeyOptions;
 }
 
-export type AccountsRegenerateKeysParameters = AccountsRegenerateKeysBodyParam & RequestParameters;
-export type CollectionsGetParameters = RequestParameters;
+export type AccountsRegenerateAccessKeyParameters = AccountsRegenerateAccessKeyBodyParam &
+  RequestParameters;
+export type CollectionsGetCollectionParameters = RequestParameters;
 
-export interface CollectionsCreateOrUpdateBodyParam {
+export interface CollectionsCreateOrUpdateCollectionBodyParam {
   body: Collection;
 }
 
-export type CollectionsCreateOrUpdateParameters = CollectionsCreateOrUpdateBodyParam &
+export type CollectionsCreateOrUpdateCollectionParameters = CollectionsCreateOrUpdateCollectionBodyParam &
   RequestParameters;
-export type CollectionsDeleteParameters = RequestParameters;
+export type CollectionsDeleteCollectionParameters = RequestParameters;
 
-export interface CollectionsListByAccountQueryParamProperties {
+export interface CollectionsListCollectionsQueryParamProperties {
   $skipToken?: string;
 }
 
-export interface CollectionsListByAccountQueryParam {
-  queryParameters?: CollectionsListByAccountQueryParamProperties;
+export interface CollectionsListCollectionsQueryParam {
+  queryParameters?: CollectionsListCollectionsQueryParamProperties;
 }
 
-export type CollectionsListByAccountParameters = CollectionsListByAccountQueryParam &
+export type CollectionsListCollectionsParameters = CollectionsListCollectionsQueryParam &
   RequestParameters;
 
-export interface CollectionsGetChildCollectionNamesQueryParamProperties {
+export interface CollectionsListChildCollectionNamesQueryParamProperties {
   $skipToken?: string;
 }
 
-export interface CollectionsGetChildCollectionNamesQueryParam {
-  queryParameters?: CollectionsGetChildCollectionNamesQueryParamProperties;
+export interface CollectionsListChildCollectionNamesQueryParam {
+  queryParameters?: CollectionsListChildCollectionNamesQueryParamProperties;
 }
 
-export type CollectionsGetChildCollectionNamesParameters = CollectionsGetChildCollectionNamesQueryParam &
+export type CollectionsListChildCollectionNamesParameters = CollectionsListChildCollectionNamesQueryParam &
   RequestParameters;
+export type CollectionsGetCollectionPathParameters = RequestParameters;
+export type ResourceSetRulesGetResourceSetRuleParameters = RequestParameters;
 
-export interface CollectionsGetCollectionPathQueryParamProperties {
-  $skipToken?: string;
-}
-
-export interface CollectionsGetCollectionPathQueryParam {
-  queryParameters?: CollectionsGetCollectionPathQueryParamProperties;
-}
-
-export type CollectionsGetCollectionPathParameters = CollectionsGetCollectionPathQueryParam &
-  RequestParameters;
-export type ResourceSetRuleConfigsGetParameters = RequestParameters;
-
-export interface ResourceSetRuleConfigsCreateOrUpdateBodyParam {
+export interface ResourceSetRulesCreateOrUpdateResourceSetRuleBodyParam {
   body: ResourceSetRuleConfig;
 }
 
-export type ResourceSetRuleConfigsCreateOrUpdateParameters = ResourceSetRuleConfigsCreateOrUpdateBodyParam &
+export type ResourceSetRulesCreateOrUpdateResourceSetRuleParameters = ResourceSetRulesCreateOrUpdateResourceSetRuleBodyParam &
   RequestParameters;
-export type ResourceSetRuleConfigsDeleteParameters = RequestParameters;
+export type ResourceSetRulesDeleteResourceSetRuleParameters = RequestParameters;
 
-export interface ResourceSetRuleConfigsListByAccountQueryParamProperties {
+export interface ResourceSetRulesListResourceSetRulesQueryParamProperties {
   $skipToken?: string;
 }
 
-export interface ResourceSetRuleConfigsListByAccountQueryParam {
-  queryParameters?: ResourceSetRuleConfigsListByAccountQueryParamProperties;
+export interface ResourceSetRulesListResourceSetRulesQueryParam {
+  queryParameters?: ResourceSetRulesListResourceSetRulesQueryParamProperties;
 }
 
-export type ResourceSetRuleConfigsListByAccountParameters = ResourceSetRuleConfigsListByAccountQueryParam &
+export type ResourceSetRulesListResourceSetRulesParameters = ResourceSetRulesListResourceSetRulesQueryParam &
   RequestParameters;
