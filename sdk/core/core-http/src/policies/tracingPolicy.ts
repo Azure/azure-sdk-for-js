@@ -74,6 +74,8 @@ export class TracingPolicy extends BaseRequestPolicy {
     try {
       const path = URLBuilder.parse(request.url).getPath() || "/";
 
+      // Passing spanOptions as part of tracingOptions to maintain compatibility with the previous version of core-tracing.
+      // We can pass this as a separate parameter once we upgrade to the latest core-tracing.
       const { span } = createSpan(path, {
         tracingOptions: {
           spanOptions: {

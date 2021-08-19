@@ -83,11 +83,11 @@ function tryCreateSpan(request: PipelineRequest, userAgent?: string): Span | und
     const url = new URL(request.url);
     const path = url.pathname || "/";
 
-    const { span } = createSpan(
-      path,
-      { tracingOptions: request.tracingOptions },
-      createSpanOptions
-    );
+    // Passing spanOptions as part of tracingOptions to maintain compatibility with the previous version of core-tracing.
+    // We can pass this as a separate parameter once we upgrade to the latest core-tracing.
+    const { span } = createSpan(path, {
+      tracingOptions: { ...request.tracingOptions, spanOptions: createSpanOptions }
+    });
 
     span.setAttributes({
       "http.method": request.method,
