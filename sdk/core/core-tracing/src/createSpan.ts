@@ -103,17 +103,17 @@ export function createSpanFunction(args: CreateSpanFunctionArgs) {
     const { tracingOptions, spanOptions, otherOptions } = pluckOptions(operationOptions || {});
 
     const spanName = args.packagePrefix ? `${args.packagePrefix}.${operationName}` : operationName;
-    let context = tracingOptions?.tracingContext || otContext.active();
-    const span = startSpan(spanName, spanOptions, context);
+    let tracingContext = tracingOptions?.tracingContext || otContext.active();
+    const span = startSpan(spanName, spanOptions, tracingContext);
 
     if (args.namespace) {
       span.setAttribute("az.namespace", args.namespace);
-      context = context.setValue(Symbol.for("az.namespace"), args.namespace);
+      tracingContext = tracingContext.setValue(Symbol.for("az.namespace"), args.namespace);
     }
 
-    const newTracingOptions: Required<OperationTracingOptions> = {
+    const newTracingOptions: OperationTracingOptions = {
       ...tracingOptions,
-      tracingContext: setSpan(context, span)
+      tracingContext: setSpan(tracingContext, span)
     };
 
     const newOperationOptions = {

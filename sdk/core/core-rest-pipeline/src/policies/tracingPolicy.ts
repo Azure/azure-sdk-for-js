@@ -7,7 +7,8 @@ import {
   createSpanFunction,
   SpanStatusCode,
   isSpanContextValid,
-  Span
+  Span,
+  SpanOptions
 } from "@azure/core-tracing";
 import { SpanKind } from "@azure/core-tracing";
 import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
@@ -75,10 +76,12 @@ export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolic
 function tryCreateSpan(request: PipelineRequest, userAgent?: string): Span | undefined {
   try {
     // create a new span
-    const tracingOptions: OperationTracingOptions = {
+    // Backwards compatible with existing APIs that carried metadata about a span in spanOptions
+    // TODO: test this
+    const tracingOptions: OperationTracingOptions & { spanOptions?: SpanOptions } = {
       ...request.tracingOptions,
       spanOptions: {
-        ...request.tracingOptions?.spanOptions,
+        ...(request.tracingOptions as any)?.spanOptions,
         kind: SpanKind.CLIENT
       }
     };

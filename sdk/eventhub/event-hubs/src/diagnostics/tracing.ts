@@ -35,7 +35,7 @@ export function createEventHubSpan(
     tracingOptions: {
       ...operationOptions?.tracingOptions,
       spanOptions: {
-        ...operationOptions?.tracingOptions?.spanOptions,
+        ...(operationOptions?.tracingOptions as any)?.spanOptions,
         ...additionalSpanOptions
       }
     }

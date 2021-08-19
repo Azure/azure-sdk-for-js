@@ -24,7 +24,7 @@ export function convertTracingToRequestOptionsBase(
   options?: OperationOptions
 ): Pick<RequestOptionsBase, "spanOptions" | "tracingContext"> {
   return {
-    spanOptions: options?.tracingOptions?.spanOptions,
+    spanOptions: (options?.tracingOptions as any)?.spanOptions,
     tracingContext: options?.tracingOptions?.tracingContext
   };
 }

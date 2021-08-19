@@ -492,7 +492,7 @@ export class ServiceClient {
         }
 
         if (options.spanOptions) {
-          httpRequest.spanOptions = options.spanOptions;
+          (httpRequest as any).spanOptions = options.spanOptions;
         }
 
         if (options.tracingContext) {
