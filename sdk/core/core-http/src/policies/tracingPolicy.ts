@@ -94,6 +94,12 @@ export class TracingPolicy extends BaseRequestPolicy {
         span.setAttribute("http.user_agent", this.userAgent);
       }
 
+      const namespaceFromContext = request.tracingContext?.getValue(Symbol.for("az.namespace"));
+
+      if (typeof namespaceFromContext === "string") {
+        span.setAttribute("az.namespace", namespaceFromContext);
+      }
+
       // set headers
       const spanContext = span.spanContext();
       const traceParentHeader = getTraceParentHeader(spanContext);

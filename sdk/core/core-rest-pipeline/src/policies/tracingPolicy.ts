@@ -3,7 +3,6 @@
 
 import {
   getTraceParentHeader,
-  OperationTracingOptions,
   createSpanFunction,
   SpanStatusCode,
   isSpanContextValid,
@@ -75,21 +74,20 @@ export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolic
 
 function tryCreateSpan(request: PipelineRequest, userAgent?: string): Span | undefined {
   try {
-    // create a new span
     // Backwards compatible with existing APIs that carried metadata about a span in spanOptions
-    // TODO: test this
-    const tracingOptions: OperationTracingOptions & { spanOptions?: SpanOptions } = {
-      ...request.tracingOptions,
-      spanOptions: {
-        ...(request.tracingOptions as any)?.spanOptions,
-        kind: SpanKind.CLIENT
-      }
+    const createSpanOptions: SpanOptions = {
+      ...(request.tracingOptions as any)?.spanOptions,
+      kind: SpanKind.CLIENT
     };
 
     const url = new URL(request.url);
     const path = url.pathname || "/";
 
-    const { span } = createSpan(path, { tracingOptions });
+    const { span } = createSpan(
+      path,
+      { tracingOptions: request.tracingOptions },
+      createSpanOptions
+    );
 
     span.setAttributes({
       "http.method": request.method,
@@ -100,6 +98,15 @@ function tryCreateSpan(request: PipelineRequest, userAgent?: string): Span | und
     if (userAgent) {
       span.setAttribute("http.user_agent", userAgent);
     }
+
+    const namespaceFromContext = request.tracingOptions?.tracingContext?.getValue(
+      Symbol.for("az.namespace")
+    );
+
+    if (typeof namespaceFromContext === "string") {
+      span.setAttribute("az.namespace", namespaceFromContext);
+    }
+
     // set headers
     const spanContext = span.spanContext();
     const traceParentHeader = getTraceParentHeader(spanContext);
