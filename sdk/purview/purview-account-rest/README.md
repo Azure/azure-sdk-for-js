@@ -10,7 +10,7 @@ Azure Purview Account is a fully managed cloud service whose users can discover 
 
 Key links:
 - [Source code][source_code]
-- [Package (NPM)][catalog_npm]
+- [Package (NPM)][account_npm]
 - [API reference documentation][account_ref_docs]
 - [Product documentation][account_product_documentation]
 
@@ -73,26 +73,32 @@ This client is one of our REST clients. We highly recommend you read how to use 
 
 The following section shows you how to initialize and authenticate your client, then get all of your type-defs.
 
-- [Get All Type Definitions](#get-all-type-definitions "Get All Type Definitions")
+- [Get A List of Collections](#get-a-list-of-collections "Get A List of Collections")
 
 ```typescript
 import PurviewAccount from "@azure-rest/purview-account";
 import { DefaultAzureCredential } from "@azure/identity";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const endpoint = process.env["ENDPOINT"] || "";
 
 async function main() {
-  console.log("== List entity typedefs ==");
+  console.log("== List collections sample ==");
   const client = PurviewAccount(endpoint, new DefaultAzureCredential());
 
-  const dataSources = await client.path("/atlas/v2/types/typedefs").get();
+  const response = await client.path("/collections").get();
 
-  if (dataSources.status !== "200") {
-    throw dataSources;
+  if (response.status !== "200") {
+    console.log(`GET "/collections" failed with ${response.status}`);
   }
 
-  console.log(dataSources.body.entityDefs?.map((ds) => ds.name).join("\n"));
+  console.log(response.body);
 }
 
 main().catch(console.error);
+
 ```
 
 ## Troubleshooting
