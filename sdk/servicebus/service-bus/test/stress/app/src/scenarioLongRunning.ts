@@ -46,7 +46,6 @@ async function sendMessagesForever(
       } catch (err) {
         console.log(`Sending message failed: `, err);
         stressTest.trackError("send", err as Error);
-        sender = undefined;
       }
     },
     1000,

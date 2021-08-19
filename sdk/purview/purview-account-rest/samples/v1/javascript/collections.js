@@ -19,13 +19,13 @@ async function main() {
   console.log("== List collections sample ==");
   const client = PurviewAccount(endpoint, new DefaultAzureCredential());
 
-  const dataSources = await client.path("/collections").get();
+  const response = await client.path("/collections").get();
 
-  if (dataSources.status !== "200") {
-    console.log(`GET "/collections" failed with ${dataSources.status}`);
+  if (response.status !== "200") {
+    console.log(`GET "/collections" failed with ${response.status}`);
   }
 
-  console.log(dataSources.body);
+  console.log(response.body);
 }
 
 main().catch(console.error);

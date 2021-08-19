@@ -58,13 +58,13 @@ describe("The Certificates client should set the serviceVersion", () => {
   });
 
   // Adding this to the source would change the public API.
-  type ApIVersions = "7.0" | "7.1" | "7.2";
+  type ApiVersions = "7.0" | "7.1" | "7.2";
 
   it("it should allow us to specify an API version from a specific set of versions", async function() {
-    const versions: ApIVersions[] = ["7.0", "7.1", "7.2"];
+    const versions: ApiVersions[] = ["7.0", "7.1", "7.2"];
     for (const serviceVersion in versions) {
       const client = new CertificateClient(keyVaultUrl, credential, {
-        serviceVersion: serviceVersion as ApIVersions,
+        serviceVersion: serviceVersion as ApiVersions,
         httpClient: mockHttpClient
       });
       await client.getCertificate("certificateName");

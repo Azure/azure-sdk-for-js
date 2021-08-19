@@ -15,109 +15,109 @@ import {
 } from "./models";
 
 /** Get an account */
-export interface AccountsGet200Response extends HttpResponse {
+export interface AccountsGetAccountProperties200Response extends HttpResponse {
   status: "200";
   body: Account;
 }
 
 /** Get an account */
-export interface AccountsGetdefaultResponse extends HttpResponse {
+export interface AccountsGetAccountPropertiesdefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseModel;
 }
 
 /** Updates an account */
-export interface AccountsUpdate200Response extends HttpResponse {
+export interface AccountsUpdateAccountProperties200Response extends HttpResponse {
   status: "200";
   body: Account;
 }
 
 /** Updates an account */
-export interface AccountsUpdatedefaultResponse extends HttpResponse {
+export interface AccountsUpdateAccountPropertiesdefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseModel;
 }
 
 /** List the authorization keys associated with this account. */
-export interface AccountsListKeys200Response extends HttpResponse {
+export interface AccountsGetAccessKeys200Response extends HttpResponse {
   status: "200";
   body: AccessKeys;
 }
 
 /** List the authorization keys associated with this account. */
-export interface AccountsListKeysdefaultResponse extends HttpResponse {
+export interface AccountsGetAccessKeysdefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseModel;
 }
 
 /** Regenerate the authorization keys associated with this data catalog. */
-export interface AccountsRegenerateKeys200Response extends HttpResponse {
+export interface AccountsRegenerateAccessKey200Response extends HttpResponse {
   status: "200";
   body: AccessKeys;
 }
 
 /** Regenerate the authorization keys associated with this data catalog. */
-export interface AccountsRegenerateKeysdefaultResponse extends HttpResponse {
+export interface AccountsRegenerateAccessKeydefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseModel;
 }
 
 /** Get a collection */
-export interface CollectionsGet200Response extends HttpResponse {
+export interface CollectionsGetCollection200Response extends HttpResponse {
   status: "200";
   body: Collection;
 }
 
 /** Get a collection */
-export interface CollectionsGetdefaultResponse extends HttpResponse {
+export interface CollectionsGetCollectiondefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseModel;
 }
 
 /** Creates or updates a collection entity. */
-export interface CollectionsCreateOrUpdate200Response extends HttpResponse {
+export interface CollectionsCreateOrUpdateCollection200Response extends HttpResponse {
   status: "200";
   body: Collection;
 }
 
 /** Creates or updates a collection entity. */
-export interface CollectionsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface CollectionsCreateOrUpdateCollectiondefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseModel;
 }
 
 /** Deletes a Collection entity. */
-export interface CollectionsDelete204Response extends HttpResponse {
+export interface CollectionsDeleteCollection204Response extends HttpResponse {
   status: "204";
   body: Record<string, unknown>;
 }
 
 /** Deletes a Collection entity. */
-export interface CollectionsDeletedefaultResponse extends HttpResponse {
+export interface CollectionsDeleteCollectiondefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseModel;
 }
 
 /** List the collections in the account. */
-export interface CollectionsListByAccount200Response extends HttpResponse {
+export interface CollectionsListCollections200Response extends HttpResponse {
   status: "200";
   body: CollectionList;
 }
 
 /** List the collections in the account. */
-export interface CollectionsListByAccountdefaultResponse extends HttpResponse {
+export interface CollectionsListCollectionsdefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseModel;
 }
 
 /** Lists the child collections names in the collection. */
-export interface CollectionsGetChildCollectionNames200Response extends HttpResponse {
+export interface CollectionsListChildCollectionNames200Response extends HttpResponse {
   status: "200";
   body: CollectionNameResponseList;
 }
 
 /** Lists the child collections names in the collection. */
-export interface CollectionsGetChildCollectionNamesdefaultResponse extends HttpResponse {
+export interface CollectionsListChildCollectionNamesdefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseModel;
 }
@@ -135,55 +135,55 @@ export interface CollectionsGetCollectionPathdefaultResponse extends HttpRespons
 }
 
 /** Get a resource set config service model. */
-export interface ResourceSetRuleConfigsGet200Response extends HttpResponse {
+export interface ResourceSetRulesGetResourceSetRule200Response extends HttpResponse {
   status: "200";
   body: ResourceSetRuleConfig;
 }
 
 /** Get a resource set config service model. */
-export interface ResourceSetRuleConfigsGetdefaultResponse extends HttpResponse {
+export interface ResourceSetRulesGetResourceSetRuledefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseModel;
 }
 
 /** Creates or updates an resource set config. */
-export interface ResourceSetRuleConfigsCreateOrUpdate200Response extends HttpResponse {
+export interface ResourceSetRulesCreateOrUpdateResourceSetRule200Response extends HttpResponse {
   status: "200";
   body: ResourceSetRuleConfig;
 }
 
 /** Creates or updates an resource set config. */
-export interface ResourceSetRuleConfigsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface ResourceSetRulesCreateOrUpdateResourceSetRuledefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseModel;
 }
 
 /** Deletes a ResourceSetRuleConfig resource. */
-export interface ResourceSetRuleConfigsDelete200Response extends HttpResponse {
+export interface ResourceSetRulesDeleteResourceSetRule200Response extends HttpResponse {
   status: "200";
   body: Record<string, unknown>;
 }
 
 /** Deletes a ResourceSetRuleConfig resource. */
-export interface ResourceSetRuleConfigsDelete204Response extends HttpResponse {
+export interface ResourceSetRulesDeleteResourceSetRule204Response extends HttpResponse {
   status: "204";
   body: Record<string, unknown>;
 }
 
 /** Deletes a ResourceSetRuleConfig resource. */
-export interface ResourceSetRuleConfigsDeletedefaultResponse extends HttpResponse {
+export interface ResourceSetRulesDeleteResourceSetRuledefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseModel;
 }
 
 /** Get a resource set config service model. */
-export interface ResourceSetRuleConfigsListByAccount200Response extends HttpResponse {
+export interface ResourceSetRulesListResourceSetRules200Response extends HttpResponse {
   status: "200";
   body: ResourceSetRuleConfigList;
 }
 
 /** Get a resource set config service model. */
-export interface ResourceSetRuleConfigsListByAccountdefaultResponse extends HttpResponse {
+export interface ResourceSetRulesListResourceSetRulesdefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseModel;
 }
