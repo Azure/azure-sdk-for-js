@@ -74,7 +74,7 @@ export class ContainerRegistryClient {
    *    new DefaultAzureCredential()
    * );
    * ```
-   * @param endpoint - the URL to the Container Registry endpoint
+   * @param endpoint - the URL endpoint of the container registry
    * @param credential - used to authenticate requests to the service
    * @param options - optional configuration used to send requests to the service
    */
@@ -87,6 +87,8 @@ export class ContainerRegistryClient {
   /**
    * Creates an instance of a ContainerRegistryClient to interact with
    * an Azure Container Registry that has anonymous pull access enabled.
+   * Only operations that support anonymous access are enabled. Other service
+   * methods will throw errors.
    *
    * Example usage:
    * ```ts
@@ -96,7 +98,7 @@ export class ContainerRegistryClient {
    *    "<container registry API endpoint>",
    * );
    * ```
-   * @param endpoint - the URL to the Container Registry endpoint
+   * @param endpoint - the URL endpoint of the container registry
    * @param options - optional configuration used to send requests to the service
    */
   constructor(endpoint: string, options?: ContainerRegistryClientOptions);
@@ -145,7 +147,7 @@ export class ContainerRegistryClient {
   }
 
   /**
-   * Deletes the repository identified by the given name.
+   * Deletes the repository identified by the given name and all associated artifacts.
    *
    * @param repositoryName - the name of repository to delete
    * @param options - optional configuration for the operation
@@ -174,7 +176,7 @@ export class ContainerRegistryClient {
   }
 
   /**
-   * Returns an artifact for given repository name, and a tag or digest.
+   * Returns an instance of {@link RegistryArtifact} for calling service methods related to the artifact specified by `repositoryName` and `tagOrDigest`.
    *
    * @param repositoryName - the name of repository
    * @param tagOrDigest - tag or digest of the artifact to retrieve
@@ -193,7 +195,7 @@ export class ContainerRegistryClient {
   }
 
   /**
-   * Returns an instance of {@link ContainerRepository} that interacts with a container registry repository.
+   * Returns an instance of {@link ContainerRepository} for calling service methods related to the repository specified by `repositoryName`.
    *
    * @param repositoryName - the name of repository
    */
@@ -206,7 +208,7 @@ export class ContainerRegistryClient {
   }
 
   /**
-   * Returns an async iterable iterator to list repository names.
+   * Returns an async iterable iterator to list names of repositories in this registry.
    *
    * Example usage:
    * ```javascript
