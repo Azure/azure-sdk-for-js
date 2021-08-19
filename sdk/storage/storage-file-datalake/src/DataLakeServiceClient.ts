@@ -70,6 +70,8 @@ export class DataLakeServiceClient extends StorageClient {
   /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
   public static fromConnectionString(
     connectionString: string,
+    // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: StoragePipelineOptions
   ): DataLakeServiceClient {
     options = options || {};
