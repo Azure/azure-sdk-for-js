@@ -72,6 +72,14 @@ export class ChangeFeedResponse<T> {
 export class ClientContext {
     constructor(cosmosClientOptions: CosmosClientOptions, globalEndpointManager: GlobalEndpointManager);
     // (undocumented)
+    batch<T>({ body, path, partitionKey, resourceId, options }: {
+        body: T;
+        path: string;
+        partitionKey: string;
+        resourceId: string;
+        options?: RequestOptions;
+    }): Promise<Response<any>>;
+    // (undocumented)
     bulk<T>({ body, path, partitionKeyRangeId, resourceId, bulkOptions, options }: {
         body: T;
         path: string;
@@ -852,6 +860,7 @@ export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T &
 // @public
 export class Items {
     constructor(container: Container, clientContext: ClientContext);
+    batch(operations: OperationInput[], partitionKey?: string, options?: RequestOptions): Promise<Response<any>>;
     bulk(operations: OperationInput[], bulkOptions?: BulkOptions, options?: RequestOptions): Promise<OperationResponse[]>;
     changeFeed(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     changeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
@@ -1304,6 +1313,8 @@ export type ReplaceOperation = OperationWithItem & {
 
 // @public (undocumented)
 export interface ReplaceOperationInput {
+    // (undocumented)
+    id: string;
     // (undocumented)
     ifMatch?: string;
     // (undocumented)

@@ -37,7 +37,7 @@ describe("ClientCertificateCredential (internal)", function() {
     await cleanup();
   });
 
-  const certificatePath = path.join(ASSET_PATH, "cert.pem");
+  const certificatePath = path.join(ASSET_PATH, "fake-cert.pem");
   const scope = "https://vault.azure.net/.default";
 
   it("Should throw if the parameteres are not correctly specified", async function() {

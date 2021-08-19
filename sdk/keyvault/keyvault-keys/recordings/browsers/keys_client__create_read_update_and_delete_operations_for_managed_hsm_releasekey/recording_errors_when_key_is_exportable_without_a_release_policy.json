@@ -2,23 +2,22 @@
  "recordings": [
   {
    "method": "GET",
-   "url": "https://skrattestation.azurewebsites.net//generate-test-token",
+   "url": "https://skr_attestation.azure.net//generate-test-token",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"token\":\"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImpfRUZtUTVVQm9lNHJMNUltNmw1cU1rQXN0QXluaE5JQUJ6dFZLQ0RMV1UiLCJqa3UiOiJodHRwczovL3NrcmF0dGVzdGF0aW9uLmF6dXJld2Vic2l0ZXMubmV0L2tleXMifQ.eyJpc3MiOiJodHRwczovL3NrcmF0dGVzdGF0aW9uLmF6dXJld2Vic2l0ZXMubmV0LyIsInNkay10ZXN0Ijp0cnVlLCJ4LW1zLWluaXR0aW1lIjp7fSwieC1tcy1ydW50aW1lIjp7ImtleXMiOlt7Imt0eSI6IlJTQSIsImtpZCI6ImZha2UtcmVsZWFzZS1rZXkiLCJ1c2UiOiJlbmMiLCJlIjoiQVFBQiIsIm4iOiJ2b3JqQV92VEV5dGhrWkppSFJpSUZ4MnI0Y3VGWnlodDRmZ1JNdzEyVUtOMVB3TnBSbEpmZGdtdXJTZDdIZlM2STJ4eE9DZjlfdGcyUk9idWhNd054QUpYZXdiRFlVemdETVZ1SmQ5QWs4QzA2dU5zWjZLbnlNNkVvWUU1NDFGRFlKSW5vWDEzb1libl9sY29uU2ROTlU0NEdlSENsRnpvV081UGZXbHh6cEJ1bDk5NE9YR2VyNXZLb3RXU0hjTDZvVzdZclNFN21YcGozMkt2UjQtOElZd0I1SGtLZ1lOQkVQWW1EaTNJd2ZsWUJKQkxHbjlFZW15NGlyNTEzN3RDZUo0MnljTW1LOV9tNGZNNWVLOV84VmRjeHVxelFDc3llckFLQmRqdjE1QnhGZ3dOYXRUQjF6ZThiVDZMRENqeFRVQlBxQ2hYZkdUSktld3lpb0R3eFEifV19LCJtYWEtZWhkIjoic2RrLXRlc3QiLCJpYXQiOjE2MjcwODgyNTAsImV4cCI6MTk0MjY2NDI1MH0.oWUUUxE6FK-_xFV0MCBIOEo3bkR2D82x4l2bcm3CPkswdOzk_JWXMIG8MUNg2XsonC8WuPAcxlSpgcOAHSh2P9RuQYiF_4ISqWLpErEre3SpyZkGisFR1zzz1MnCHtj8IOeT61IGhngCic6Z9eAP1Xk0XV5sJalMcnKwR68iFTvgMfK4XvWQipyJOIsjVEqnfxSe0DufFBtUhUB8NGJFvY0gzfbwmXzZAqeYdokCswXF42HvPIyBTxN5wB_9RTlBgkmCUnQZNCZL7DUZI_bOKuLrfWIT-vM2ggWnQ8hIthjVZ9vBgKlWRdct1frJir4zJZb4VuV-cxEYLv-3tczykw\"}",
+   "response": "{\"token\":\"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjA3djBzZFJmcFo0emVPQllXYkU2N21BcXhBR3RfWGRTY0V4TndscmZhc3MiLCJqa3UiOiJodHRwczovL21hbGVnZWR5bmF0dGVzdGF0dGVzdGF0aW9uLmF6dXJld2Vic2l0ZXMubmV0L2tleXMifQ.eyJpc3MiOiJodHRwczovL21hbGVnZWR5bmF0dGVzdGF0dGVzdGF0aW9uLmF6dXJld2Vic2l0ZXMubmV0LyIsInNkay10ZXN0Ijp0cnVlLCJ4LW1zLWluaXR0aW1lIjp7fSwieC1tcy1ydW50aW1lIjp7ImtleXMiOlt7Imt0eSI6IlJTQSIsImtpZCI6ImZha2UtcmVsZWFzZS1rZXkiLCJ1c2UiOiJlbmMiLCJlIjoiQVFBQiIsIm4iOiJ6Z3gtVUhDOVhNWDV6WnZSUmZpVFlHNmNaUERBLVdRTjRrWDJCZWptT0FkXzV0UHZaV2EtVTBIS3N2Vm1WRW5DMWdDd01nU2Rqdmdhd2dlMFVidFB6VVVuU19BRVFiU243ZXQ1QXJzUDBIN0lvWmVfR1FmSGlYQkdxSUlwOENSczE1ZFcwN204X0Z1UkthejBQYUpfMzVySDF0YXN2ejNIeGxBczJvLXVscFpGZFVQbFBDMFR1VlZRSXl6TDZRZExQMzZZdjV5UnZ1X2ZvZ0ZXLThOMTBoTWRUQUh6MVhWSmY5dy1FSFowUjJPeDFQVVlPQmIxSGFodGJ4ZXdpTS1PT0xxRl9DUkRfRVJDcEF0UWxBZ1JVbWF6S1YwQll5cVJXQk9JUW1GV1FhWXBCX1U2S1N4dGVwamh2YTM0TFpBMWlGT1VueGxDSnVBTGV6bC1tRkpES1EifV19LCJtYWEtZWhkIjoic2RrLXRlc3QiLCJpYXQiOjE2MjgzNzk2MDAsImV4cCI6MTYyODk4NDQwMH0.QINdgew-fWlB68w1A7SgOpLtbclByj9bZD39kUJYzAAifOFWWQjT9TbbyX3r-u0SJYBTupyWZREtLdu_9_v9mFKzq2IoZ_-KVLhjHzOamU0n0XR-uLqyoFzBlxSTkus9kYbXjvWz25T80T1w_y4a38NbmQdS_9T7ZS-aEugcAlREXjLyPJoZtASadpF7p34NBBtRpfjAhPDt__Vnuy1_C9Hl0qD7eCuI35U-VUYO15GjqYlr0iuNIuKKtsL5OGMVDuteTbBzKf1YSAeUfKpLcysbkhZvBIvXzprVl-nqkMbWhThE3nHz6uMcdXpMchdYDAlbNpeh8yJ-f2NuGcIiEg\",\"attestationToken\":\"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjA3djBzZFJmcFo0emVPQllXYkU2N21BcXhBR3RfWGRTY0V4TndscmZhc3MiLCJqa3UiOiJodHRwczovL21hbGVnZWR5bmF0dGVzdGF0dGVzdGF0aW9uLmF6dXJld2Vic2l0ZXMubmV0L2tleXMifQ.eyJpc3MiOiJodHRwczovL21hbGVnZWR5bmF0dGVzdGF0dGVzdGF0aW9uLmF6dXJld2Vic2l0ZXMubmV0LyIsInNkay10ZXN0Ijp0cnVlLCJ4LW1zLWluaXR0aW1lIjp7fSwieC1tcy1ydW50aW1lIjp7ImtleXMiOlt7Imt0eSI6IlJTQSIsImtpZCI6ImZha2UtcmVsZWFzZS1rZXkiLCJ1c2UiOiJlbmMiLCJlIjoiQVFBQiIsIm4iOiJ6Z3gtVUhDOVhNWDV6WnZSUmZpVFlHNmNaUERBLVdRTjRrWDJCZWptT0FkXzV0UHZaV2EtVTBIS3N2Vm1WRW5DMWdDd01nU2Rqdmdhd2dlMFVidFB6VVVuU19BRVFiU243ZXQ1QXJzUDBIN0lvWmVfR1FmSGlYQkdxSUlwOENSczE1ZFcwN204X0Z1UkthejBQYUpfMzVySDF0YXN2ejNIeGxBczJvLXVscFpGZFVQbFBDMFR1VlZRSXl6TDZRZExQMzZZdjV5UnZ1X2ZvZ0ZXLThOMTBoTWRUQUh6MVhWSmY5dy1FSFowUjJPeDFQVVlPQmIxSGFodGJ4ZXdpTS1PT0xxRl9DUkRfRVJDcEF0UWxBZ1JVbWF6S1YwQll5cVJXQk9JUW1GV1FhWXBCX1U2S1N4dGVwamh2YTM0TFpBMWlGT1VueGxDSnVBTGV6bC1tRkpES1EifV19LCJtYWEtZWhkIjoic2RrLXRlc3QiLCJpYXQiOjE2MjgzNzk2MDAsImV4cCI6MTYyODk4NDQwMH0.QINdgew-fWlB68w1A7SgOpLtbclByj9bZD39kUJYzAAifOFWWQjT9TbbyX3r-u0SJYBTupyWZREtLdu_9_v9mFKzq2IoZ_-KVLhjHzOamU0n0XR-uLqyoFzBlxSTkus9kYbXjvWz25T80T1w_y4a38NbmQdS_9T7ZS-aEugcAlREXjLyPJoZtASadpF7p34NBBtRpfjAhPDt__Vnuy1_C9Hl0qD7eCuI35U-VUYO15GjqYlr0iuNIuKKtsL5OGMVDuteTbBzKf1YSAeUfKpLcysbkhZvBIvXzprVl-nqkMbWhThE3nHz6uMcdXpMchdYDAlbNpeh8yJ-f2NuGcIiEg\"}",
    "responseHeaders": {
-    "content-length": "1305",
+    "content-length": "2684",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 24 Jul 2021 00:57:29 GMT",
-    "etag": "W/\"519-zFvkdRuwZM5SNhS2zf1F8dqzzr4\"",
-    "status": "200",
+    "date": "Sat, 07 Aug 2021 23:39:59 GMT",
+    "etag": "W/\"a7c-k9YvBMl/tCGr1zH/tRpxIzfkTxI\"",
     "x-powered-by": "Express"
    }
   },
   {
    "method": "POST",
-   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/exportablenopolicy162708825049405352/create",
+   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/exportablenopolicy162837960116702242/create",
    "query": {
     "api-version": "7.3-preview"
    },
@@ -34,7 +33,7 @@
     "www-authenticate": "Bearer authorization=\"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012\", resource=\"https://managedhsm.azure.net\"",
     "x-content-type-options": "nosniff",
     "x-frame-options": "SAMEORIGIN",
-    "x-ms-request-id": "1f2b409a-ec1a-11eb-b771-000d3a7a3d40",
+    "x-ms-request-id": "c7be7604-f7d8-11eb-847e-000d3a0f8fc4",
     "x-ms-server-latency": "1"
    }
   },
@@ -49,7 +48,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1322",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 24 Jul 2021 00:57:30 GMT",
+    "date": "Sat, 07 Aug 2021 23:39:59 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -58,19 +57,19 @@
     "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11898.8 - NCUS ProdSlices",
-    "x-ms-request-id": "1ba24af9-1080-4c93-a423-e4dd26c22100"
+    "x-ms-ests-server": "2.1.11935.12 - NCUS ProdSlices",
+    "x-ms-request-id": "52cfc077-c310-4bc0-b4ea-b873c1a82a00"
    }
   },
   {
    "method": "POST",
-   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/exportablenopolicy162708825049405352/create",
+   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/exportablenopolicy162837960116702242/create",
    "query": {
     "api-version": "7.3-preview"
    },
    "requestBody": "{\"kty\":\"RSA\",\"attributes\":{\"exportable\":true}}",
    "status": 400,
-   "response": "{\"error\":{\"code\":\"BadParameter\",\"message\":\"Exportable keys must have release policy (Activity ID: 1f4cfafa-ec1a-11eb-b771-000d3a7a3d40)\"}}",
+   "response": "{\"error\":{\"code\":\"BadParameter\",\"message\":\"Exportable keys must have release policy (Activity ID: c7e378fa-f7d8-11eb-847e-000d3a0f8fc4)\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "138",
@@ -79,14 +78,14 @@
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
     "x-frame-options": "SAMEORIGIN",
-    "x-ms-request-id": "1f4cfafa-ec1a-11eb-b771-000d3a7a3d40",
-    "x-ms-server-latency": "15"
+    "x-ms-request-id": "c7e378fa-f7d8-11eb-847e-000d3a0f8fc4",
+    "x-ms-server-latency": "18"
    }
   }
  ],
  "uniqueTestInfo": {
   "uniqueName": {
-   "exportablenopolicy": "exportablenopolicy162708825049405352"
+   "exportablenopolicy": "exportablenopolicy162837960116702242"
   },
   "newDate": {}
  },

@@ -9,12 +9,37 @@ Link to the wiki - [Writing-Performance-Tests](https://github.com/Azure/azure-sd
 ## KeyConcepts
 
 - A **PerfStressTest** test is a test that will be executed repeatedly to show both the performance of the program, and how it behaves under stress.
-- Tests can have both a synchronous method called `run`, and an asynchronous method called `runAsync`. By default, `runAsync` will be the only method executed. If the command line parameter `--sync` is passed, only the `run` method will be executed instead.
+- Tests have an asynchronous method called `runAsync` which is executed based on the duration, iterations, and parallel options provided for the perf test. More about options below.
 - A **PerfStressOption** is a command line parameter. We use `minimist` to parse them appropriately, and then to consolidate them in a dictionary of options that is called `PerfStressOptionDictionary<string>`. The dictionary class accepts a union type of strings that defines the options that are allowed by each test.
 - Some default options are parsed by the PerfStress program. Their longer names are: `help`, `no-cleanups`, `parallel`, `duration`, `warmup`, `iterations`, `no-cleanup` and `milliseconds-to-log`.
 - PerfStress tests are executed as many times as possible until the `duration` parameter is specified. This process may repeat as many `iterations` are given. Before each iteration, tests might be called for a period of time up to `warmup`, to adjust to possible runtime optimizations. In each iteration, as many as `parallel` instances of the same test are called without waiting for each other, letting the event loop decide which one is prioritized (it's not true parallelism, but it's an approximation that aligns with the design in other languages, we might improve it over time).
 - Each test can have a `globalSetup` method, which is called once before the process begins, a `globalCleanup` method, which is called once after the process finishes.
 - Each test can have a `setup` method, which is called as many times as test instances are created (up to `parallel`), and help specify local state for each test instance. A `cleanup` method is also optional, called the same amount of times, but after finishing running the tests.
+- `test-proxy` url option - this option can be leveraged to avoid hitting throttling scenarios while testing the services. This option lets the requests go through the proxy server based on the url provided, we run runAsync method once in record mode to save the requests and responses in memory and then a ton of times in playback. Workflow with the test-proxy below.
+
+## Workflow with test proxy
+
+Steps below constitute the workflow of a typical perf test.
+
+- test resources are setup
+  - hitting the live service
+- then start record
+  - making a request to the proxy server to start recording
+  - proxy server gives a recording id, we'll use this id to save the actual requests and responses
+- run the runAsync once
+  - proxy-server saves all the requests and responses in memory
+- stop record
+  - making a request to the proxy server to stop recording
+- start playback
+  - making a request to the proxy server to start playback
+  - we use the same recording-id that we used in the record mode since that's the only way proxy-server knows what requests are supposed to be played back
+  - As a response, we get a new recording-id, which will be used for future playback requests
+- run runAsync again
+  - based on the duration, iterations, and parallel options provided for the perf test
+  - all the requests in the runAsync method are played back since we have already recorded them before
+- when the runAsync loops end, stop playback
+  - making a request to the proxy server to stop playing back
+- delete the live resources that we have created before
 
 ## Examples
 

@@ -13,6 +13,15 @@ Key links:
 
 ## Getting started
 
+### Currently supported environments
+
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+   - **Note:** If your application runs on Node.js v8 or lower and you cannot upgrade your Node.js version to latest stable version, then pin your `@azure/identity` dependency to version 1.1.0.
+- Latest versions of Safari, Chrome, Edge, and Firefox.
+   - **Note**: Among the different credentials exported in this library, `InteractiveBrowserCredential` is the only one that is supported in the browser.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+
 ### Install the package
 
 Install Azure Identity with `npm`:
@@ -25,12 +34,6 @@ npm install --save @azure/identity
 
 - An [Azure subscription](https://azure.microsoft.com/free/).
 - Optional: The [Azure CLI][azure_cli] and/or [Azure PowerShell][azure_powershell] can also be useful for authenticating in a development environment and managing account roles.
-
-#### Supported Node.js versions
-
-This version of `@azure/identity` supports stable (even numbered) versions of Node.js starting from v10. While it may run in Node.js v8, no support is guaranteed.
-
-> **Note:** If your application runs on Node.js v8 or lower, we strongly recommend you to upgrade your Node.js version to latest stable version or pin your `@azure/identity` dependency to version 1.1.0.
 
 ### When to use @azure/identity
 
