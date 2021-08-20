@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { Client, getClient, PathUncheckedResponse } from "@azure-rest/core-client";
 import { paginateResponse } from "../src/paginate";
-import { PipelineResponse, createHttpHeaders } from "@azure/core-rest-pipeline";
+import { PipelineResponse, createHttpHeaders, HttpHeaders } from "@azure/core-rest-pipeline";
 import { URL } from "../src/url";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
@@ -207,6 +207,60 @@ describe("Paginate heleper", () => {
 
     assert.deepEqual(result, [...expectedPages]);
   });
+
+  it("Paging_getMultiplePages with custom paging", async () => {
+    const expectedPages = [{ foo: 1 }, { foo: 2 }, { foo: 3 }];
+
+    const mockResponses: MockResponse[] = [
+      {
+        path: "/paging/multiple",
+        response: {
+          status: 200,
+          body: { fooValue: [expectedPages[0]] },
+          headers: createHttpHeaders({ nextLink: "/paging/multiple/1" }),
+        },
+      },
+      {
+        path: "/paging/multiple/1",
+        response: {
+          status: 200,
+          body: { fooValue: [expectedPages[1]] },
+          headers: createHttpHeaders({ nextLink: "/paging/multiple/2" }),
+        },
+      },
+      {
+        path: "/paging/multiple/2",
+        response: {
+          status: 200,
+          body: { fooValue: [expectedPages[2]] },
+        },
+      },
+    ];
+
+    mockResponse(client, mockResponses);
+
+    const response = await client.pathUnchecked("/paging/multiple").get();
+    let initial = true;
+    // Setup a custom paginate algorithm, looking at the headers for nextLink
+    const items = paginateResponse(client, response, async (pageLink: string) => {
+      if (initial) {
+        initial = false;
+        return { nextPageLink: response.headers.nextlink, page: response.body.fooValue };
+      } else {
+        const result = await client.pathUnchecked(pageLink).get();
+        return {
+          page: result.body.fooValue,
+          nextPageLink: result.headers.nextlink,
+        };
+      }
+    });
+    const result = [];
+    for await (const item of items) {
+      result.push(item);
+    }
+
+    assert.deepEqual(result, [...expectedPages]);
+  });
 });
 
 interface MockResponse {
@@ -214,6 +268,7 @@ interface MockResponse {
   response: {
     status: number;
     body: any;
+    headers?: HttpHeaders;
   };
 }
 
@@ -245,10 +300,10 @@ function mockResponse(client: Client, responses: MockResponse[]): void {
         };
       }
 
-      const { body, status } = response.response;
+      const { body, status, headers } = response.response;
       const bodyAsText = JSON.stringify(body);
       return {
-        headers: createHttpHeaders(),
+        headers: headers || createHttpHeaders(),
         request,
         status,
         bodyAsText,

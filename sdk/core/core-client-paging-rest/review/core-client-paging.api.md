@@ -8,6 +8,12 @@ import { Client } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 
+// @public
+export type GetPage<TLink, TPage> = (pageLink: TLink, maxPageSize?: number) => Promise<{
+    page: TPage;
+    nextPageLink?: TLink;
+}>;
+
 export { PagedAsyncIterableIterator }
 
 // @public
@@ -18,6 +24,9 @@ export interface PaginateOptions {
 
 // @public
 export function paginateResponse<TElement>(client: Client, initialResponse: HttpResponse, options?: PaginateOptions): PagedAsyncIterableIterator<TElement>;
+
+// @public
+export function paginateResponse<TElement>(client: Client, initialResponse: HttpResponse, getPage: GetPage<string, TElement[]>): PagedAsyncIterableIterator<TElement>;
 
 
 ```

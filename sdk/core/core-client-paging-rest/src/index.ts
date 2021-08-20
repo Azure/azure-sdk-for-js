@@ -6,5 +6,5 @@
  *
  * @packageDocumentation
  */
-export { paginateResponse, PaginateOptions } from "./paginate";
+export { paginateResponse, PaginateOptions, GetPage } from "./paginate";
 export { PagedAsyncIterableIterator } from "@azure/core-paging";

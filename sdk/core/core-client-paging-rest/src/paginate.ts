@@ -36,6 +36,17 @@ export interface PaginateOptions {
 }
 
 /**
+ * A function that returns a page of results.
+ */
+export type GetPage<TLink, TPage> = (
+  pageLink: TLink,
+  maxPageSize?: number
+) => Promise<{
+  page: TPage;
+  nextPageLink?: TLink;
+}>;
+
+/**
  * Helper to iterate pageable responses
  * @param client - Client to use for sending the request to get additional pages
  * @param initialResponse - The initial response
@@ -45,13 +56,47 @@ export interface PaginateOptions {
 export function paginateResponse<TElement>(
   client: Client,
   initialResponse: HttpResponse,
-  options: PaginateOptions = {}
+  options?: PaginateOptions
+): PagedAsyncIterableIterator<TElement>;
+/**
+ * Helper to iterate pageable responses
+ * @param client - Client to use for sending the request to get additional pages
+ * @param initialResponse - The initial response
+ * @param getPage - Function to define a custom pagination strategy, implementing how to get nextLink and current page
+ */
+export function paginateResponse<TElement>(
+  client: Client,
+  initialResponse: HttpResponse,
+  getPage: GetPage<string, TElement[]>
+): PagedAsyncIterableIterator<TElement>;
+export function paginateResponse<TElement>(
+  client: Client,
+  initialResponse: HttpResponse,
+  optionsOrGetPage: PaginateOptions | GetPage<string, TElement[]> | undefined
 ): PagedAsyncIterableIterator<TElement> {
+  let options: PaginateOptions = {};
+  let getPage: GetPage<string, TElement[]> | undefined;
+  let itemName: string | undefined;
+  let nextLinkName: string | undefined;
+
+  if (typeof optionsOrGetPage === "function") {
+    getPage = optionsOrGetPage;
+  } else {
+    options = optionsOrGetPage || {};
+    const pagingInfo = getPaginationProperties(initialResponse, options);
+    itemName = pagingInfo.itemName;
+    nextLinkName = pagingInfo.nextLinkName;
+  }
+
   let firstRun = true;
-  const { itemName, nextLinkName } = getPaginationProperties(initialResponse, options);
   const pagedResult: PagedResult<TElement[]> = {
     firstPageLink: "",
     async getPage(pageLink: string) {
+      // If there is a custom getPage defined, use it insetad of the default
+      if (getPage) {
+        return getPage(pageLink);
+      }
+
       const result = firstRun ? initialResponse : await client.pathUnchecked(pageLink).get();
       firstRun = false;
       checkPagingRequest(result);
@@ -86,12 +131,12 @@ function checkPagingRequest(response: PathUncheckedResponse): void {
  */
 function getPaginationProperties(initialResponse: HttpResponse, options: PaginateOptions = {}) {
   // Build a set with the passed custom nextLinkNames
-  const nextLinkNames = new Set(options.nextLinkNames ?? DEFAULT_NEXTLINK);
+  const nextLinkNames = new Set(options.nextLinkNames ?? []);
   // Add the default nextLinkName if it doesn't exist yet
   nextLinkNames.add(DEFAULT_NEXTLINK);
 
   // Build a set with the passed custom set of itemNames
-  const itemNames = new Set(options.itemNames ?? DEFAULT_VALUES);
+  const itemNames = new Set(options.itemNames ?? []);
   // Add the default itemName if it doesn't exist yet
   itemNames.add(DEFAULT_VALUES);
 
@@ -142,7 +187,7 @@ function getNextLink(body: unknown, nextLinkName?: string): string | undefined {
  * Gets the elements of the current request in the body. By default it will look in the `value` property unless
  * a different value for itemNames has been provided as part of the options.
  */
-function getElements<T = unknown>(body: unknown, itemName: string): T[] {
+function getElements<T = unknown>(body: unknown, itemName: string = "value"): T[] {
   const value = (body as Record<string, unknown>)[itemName];
 
   if (!Array.isArray(value)) {
