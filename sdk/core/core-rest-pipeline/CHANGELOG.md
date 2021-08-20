@@ -1,15 +1,30 @@
 # Release History
 
-## 1.1.1 (Unreleased)
+## 1.2.1 (Unreleased)
 
 ### Features Added
 
 ### Breaking Changes
 
+### Bugs Fixed
+
+- `tracingPolicy` will no longer propagate tracing errors to the caller, and such errors will be logged instead and the operation does not get interrupted. [PR #16916](https://github.com/Azure/azure-sdk-for-js/pull/16916)
+
+### Other Changes
+
+## 1.2.0 (2021-08-04)
+
+### Features Added
+
+- Updated to use version 1.0.0-preview.13 of `@azure/core-tracing`.
+- `tracingPolicy` will no longer inject invalid traceparent headers if an incorrect tracer implementation is used.
+- `proxyPolicy` now allows passing in a list of no-proxy patterns to override global ones loaded from NO_PROXY environment variable [PR #16414](https://github.com/Azure/azure-sdk-for-js/pull/16414)
+
+## 1.1.1 (2021-07-13)
+
 ### Key Bugs Fixed
 
-### Fixed
-
+- Fixed an issue with `HEAD` HTTP Requests. Destroyed the response before resolving the promise which will ensure that the code does not hang up. Please refer [#1037](https://github.com/Azure/autorest.typescript/issues/1037) for more details.
 
 ## 1.1.0 (2021-06-30)
 

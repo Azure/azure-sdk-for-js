@@ -4,7 +4,7 @@
 import { diag } from "@opentelemetry/api";
 import { ExportResult, ExportResultCode } from "@opentelemetry/core";
 import { ReadableSpan, SpanExporter } from "@opentelemetry/tracing";
-import { RestError } from "@azure/core-http";
+import { RestError } from "@azure/core-rest-pipeline";
 import { ConnectionStringParser } from "../utils/connectionStringParser";
 import { HttpSender, FileSystemPersist } from "../platform";
 import {

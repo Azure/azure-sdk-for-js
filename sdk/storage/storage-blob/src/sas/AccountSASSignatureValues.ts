@@ -91,6 +91,14 @@ export function generateAccountSASQueryParameters(
 
   if (
     accountSASSignatureValues.permissions &&
+    accountSASSignatureValues.permissions.setImmutabilityPolicy &&
+    version < "2020-08-04"
+  ) {
+    throw RangeError("'version' must be >= '2020-08-04' when provided 'i' permission.");
+  }
+
+  if (
+    accountSASSignatureValues.permissions &&
     accountSASSignatureValues.permissions.deleteVersion &&
     version < "2019-10-10"
   ) {

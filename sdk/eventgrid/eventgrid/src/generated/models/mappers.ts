@@ -5945,6 +5945,43 @@ export const PolicyInsightsPolicyStateDeletedEventData: coreClient.CompositeMapp
   }
 };
 
+export const ContainerServiceNewKubernetesVersionAvailableEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerServiceNewKubernetesVersionAvailableEventData",
+    modelProperties: {
+      latestSupportedKubernetesVersion: {
+        serializedName: "latestSupportedKubernetesVersion",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      latestStableKubernetesVersion: {
+        serializedName: "latestStableKubernetesVersion",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      lowestMinorKubernetesVersion: {
+        serializedName: "lowestMinorKubernetesVersion",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      latestPreviewKubernetesVersion: {
+        serializedName: "latestPreviewKubernetesVersion",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const IotHubDeviceCreatedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -6571,6 +6608,14 @@ export const AcsChatMessageReceivedEventData: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      metadata: {
+        serializedName: "metadata",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
       }
     }
   }
@@ -6587,6 +6632,14 @@ export const AcsChatMessageEditedEventData: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "String"
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       },
       editTime: {
@@ -6785,6 +6838,14 @@ export const AcsChatMessageReceivedInThreadEventData: coreClient.CompositeMapper
         type: {
           name: "String"
         }
+      },
+      metadata: {
+        serializedName: "metadata",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
       }
     }
   }
@@ -6801,6 +6862,14 @@ export const AcsChatMessageEditedInThreadEventData: coreClient.CompositeMapper =
         required: true,
         type: {
           name: "String"
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       },
       editTime: {

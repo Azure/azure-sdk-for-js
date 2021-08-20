@@ -2,11 +2,11 @@
 
 ## 3.1.0 (Unreleased)
 
-### Key Bugs Fixed
+### Features Added
 
+- Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
+- With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 - Updated to use the latest version of the `rhea` package.
-  Part of a fix for PR#15989, where draining messages could sometimes lead to message loss with `receiver.receiveMessages()`. 
-  [PR#15989](https://github.com/Azure/azure-sdk-for-js/pull/15989)
 
 ## 3.0.0 (2021-06-09)
 

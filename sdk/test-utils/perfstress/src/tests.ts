@@ -9,6 +9,14 @@ import {
   DefaultPerfStressOptions,
   defaultPerfStressOptions
 } from "./options";
+import {
+  TestProxyHttpClient,
+  TestProxyHttpClientV1,
+  testProxyHttpPolicy
+} from "./testProxyHttpClient";
+import { HttpClient } from "@azure/core-http";
+import { Pipeline } from "@azure/core-rest-pipeline";
+import { getHttpClient, getHttpClientV1 } from "./utils";
 
 /**
  * Defines the behavior of the PerfStressTest constructor, to use the class as a value.
@@ -27,6 +35,8 @@ export interface PerfStressTestConstructor<TOptions extends {} = {}> {
  * (initializations are as many as the "parallel" command line parameter specifies).
  */
 export abstract class PerfStressTest<TOptions = {}> {
+  public testProxyHttpClient!: TestProxyHttpClient;
+  public testProxyHttpClientV1!: TestProxyHttpClientV1;
   public abstract options: PerfStressOptionDictionary<TOptions>;
 
   public get parsedOptions(): PerfStressOptionDictionary<TOptions & DefaultPerfStressOptions> {
@@ -47,8 +57,39 @@ export abstract class PerfStressTest<TOptions = {}> {
   public setup?(): void | Promise<void>;
   public cleanup?(): void | Promise<void>;
 
-  public run?(abortSignal?: AbortSignalLike): void;
   public async runAsync?(abortSignal?: AbortSignalLike): Promise<void>;
+
+  /**
+   * configureClientOptionsCoreV1
+   *
+   * For core-v1 - libraries depending on core-http
+   * Apply this method on the client options to get the proxy tool support
+   *
+   * Note: httpClient must be part of the options bag, it is required for the perf framework to update the underlying client properly
+   */
+  public configureClientOptionsCoreV1<T>(options: T & { httpClient?: HttpClient }): T {
+    if (this.parsedOptions["test-proxy"].value) {
+      this.testProxyHttpClientV1 = getHttpClientV1(this.parsedOptions["test-proxy"].value!);
+      options.httpClient = this.testProxyHttpClientV1;
+    }
+    return options;
+  }
+
+  /**
+   * configureClient
+   *
+   * For core-v2 - libraries depending on core-rest-pipeline
+   * Apply this method on the client to get the proxy tool support.
+   *
+   * Note: Client must expose the pipeline property which is required for the perf framework to add its policies correctly
+   */
+  public configureClient<T>(client: T & { pipeline: Pipeline }): T {
+    if (this.parsedOptions["test-proxy"].value) {
+      this.testProxyHttpClient = getHttpClient(this.parsedOptions["test-proxy"].value!);
+      client.pipeline.addPolicy(testProxyHttpPolicy(this.testProxyHttpClient));
+    }
+    return client;
+  }
 }
 
 /**

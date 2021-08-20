@@ -1,16 +1,22 @@
 # Release History
 
-## 12.6.0 (Unreleased)
+## 12.7.0 (Unreleased)
 
 ### Features Added
+
 - With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
-- Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
 
 ### Breaking Changes
 
 ### Key Bugs Fixed
 
 ### Fixed
+
+## 12.6.0 (2021-08-02)
+
+- Support for Node.js 8 and IE 11 has been dropped. Please see our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+- Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
+- Updated our internal core package dependencies to their latest versions in order to add support for Opentelemetry 1.0.0 which is compatible with the latest versions of our other client libraries.
 
 ## 12.5.0 (2021-06-09)
 

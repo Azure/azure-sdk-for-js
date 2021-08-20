@@ -6,10 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { SynonymMaps } from "../operationsInterfaces";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { SearchServiceClient } from "../searchServiceClient";
+import { SearchServiceClientContext } from "../searchServiceClientContext";
 import {
   SynonymMap,
   SynonymMapsCreateOrUpdateOptionalParams,
@@ -24,14 +25,14 @@ import {
 } from "../models";
 
 /** Class representing a SynonymMaps. */
-export class SynonymMaps {
-  private readonly client: SearchServiceClient;
+export class SynonymMapsImpl implements SynonymMaps {
+  private readonly client: SearchServiceClientContext;
 
   /**
    * Initialize a new instance of the class SynonymMaps class.
    * @param client Reference to the service client
    */
-  constructor(client: SearchServiceClient) {
+  constructor(client: SearchServiceClientContext) {
     this.client = client;
   }
 

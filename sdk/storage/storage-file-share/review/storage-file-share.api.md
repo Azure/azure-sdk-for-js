@@ -132,7 +132,6 @@ export interface CopyFileSmbInfo {
     fileAttributes?: string;
     fileCreationTime?: string;
     fileLastWriteTime?: string;
-    // Warning: (ae-forgotten-export) The symbol "PermissionCopyModeType" needs to be exported by the entry point index.d.ts
     filePermissionCopyMode?: PermissionCopyModeType;
     ignoreReadOnly?: boolean;
     setArchiveAttribute?: boolean;
@@ -308,12 +307,28 @@ export type DirectoryGetPropertiesResponse = DirectoryGetPropertiesHeaders & {
 // @public
 export interface DirectoryItem {
     // (undocumented)
+    attributes?: string;
+    // (undocumented)
+    fileId?: string;
+    // (undocumented)
     name: string;
+    // (undocumented)
+    permissionKey?: string;
+    properties?: FileProperty;
 }
 
 // @public
 export interface DirectoryListFilesAndDirectoriesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    // (undocumented)
+    includeAttributes?: boolean;
+    // (undocumented)
+    includeEtag?: boolean;
+    includeExtendedInfo?: boolean;
+    // (undocumented)
+    includePermissionKey?: boolean;
+    // (undocumented)
+    includeTimestamps?: boolean;
     prefix?: string;
 }
 
@@ -743,7 +758,13 @@ export interface FileHttpHeaders {
 // @public
 export interface FileItem {
     // (undocumented)
+    attributes?: string;
+    // (undocumented)
+    fileId?: string;
+    // (undocumented)
     name: string;
+    // (undocumented)
+    permissionKey?: string;
     properties: FileProperty;
 }
 
@@ -802,7 +823,19 @@ export interface FileProperties extends FileAndDirectorySetPropertiesCommonOptio
 
 // @public
 export interface FileProperty {
+    // (undocumented)
+    changeTime?: Date;
     contentLength: number;
+    // (undocumented)
+    creationTime?: Date;
+    // (undocumented)
+    etag?: string;
+    // (undocumented)
+    lastAccessTime?: Date;
+    // (undocumented)
+    lastModified?: Date;
+    // (undocumented)
+    lastWriteTime?: Date;
 }
 
 // @public
@@ -971,6 +1004,7 @@ export interface FileUploadRangeFromURLHeaders {
 
 // @public
 export interface FileUploadRangeFromURLOptionalParams extends coreHttp.OperationOptions {
+    copySourceAuthorization?: string;
     leaseAccessConditions?: LeaseAccessConditions;
     sourceContentCrc64?: Uint8Array;
     sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
@@ -982,6 +1016,7 @@ export interface FileUploadRangeFromURLOptionalParams extends coreHttp.Operation
 export interface FileUploadRangeFromURLOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     leaseAccessConditions?: LeaseAccessConditions;
+    sourceAuthorization?: HttpAuthorization;
     sourceConditions?: SourceModifiedAccessConditions;
     sourceContentCrc64?: Uint8Array;
     timeoutInSeconds?: number;
@@ -1048,6 +1083,12 @@ export interface HandleItem {
     sessionId: string;
 }
 
+// @public
+export interface HttpAuthorization {
+    parameter: string;
+    scheme: string;
+}
+
 export { HttpHeaders }
 
 export { HttpOperationResponse }
@@ -1100,6 +1141,8 @@ export interface ListFilesAndDirectoriesSegmentResponse {
     // (undocumented)
     continuationToken: string;
     // (undocumented)
+    directoryId?: string;
+    // (undocumented)
     directoryPath: string;
     // (undocumented)
     marker?: string;
@@ -1115,6 +1158,9 @@ export interface ListFilesAndDirectoriesSegmentResponse {
     // (undocumented)
     shareSnapshot?: string;
 }
+
+// @public
+export type ListFilesIncludeType = "Timestamps" | "Etag" | "Attributes" | "PermissionKey";
 
 // @public
 export interface ListHandlesResponse {
@@ -1178,6 +1224,9 @@ export interface Metrics {
 
 // @public
 export function newPipeline(credential?: Credential, pipelineOptions?: StoragePipelineOptions): Pipeline;
+
+// @public
+export type PermissionCopyModeType = "source" | "override";
 
 // @public
 export class Pipeline {

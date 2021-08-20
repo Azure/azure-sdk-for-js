@@ -212,6 +212,16 @@ export interface KeyProperties {
    * the server.**
    */
   readonly managed?: boolean;
+
+  /**
+   * Indicates whether the private key can be exported.
+   */
+  exportable?: boolean;
+
+  /**
+   * A {@link KeyReleasePolicy} object specifying the rules under which the key can be exported.
+   */
+  releasePolicy?: KeyReleasePolicy;
 }
 
 /**
@@ -265,6 +275,21 @@ export interface DeletedKey {
 }
 
 /**
+ * The policy rules under which a key can be exported.
+ */
+export interface KeyReleasePolicy {
+  /**
+   * Content type and version of key release policy.
+   *
+   * Defaults to "application/json; charset=utf-8" if omitted.
+   */
+  contentType?: string;
+
+  /** Blob encoding the policy rules under which the key can be released. */
+  data?: Uint8Array;
+}
+
+/**
  * An interface representing the optional parameters that can be
  * passed to {@link createKey}
  */
@@ -303,6 +328,16 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
    * Whether to import as a hardware key (HSM) or software key.
    */
   hsm?: boolean;
+
+  /**
+   * Indicates whether the private key can be exported.
+   */
+  exportable?: boolean;
+
+  /**
+   * A {@link KeyReleasePolicy} object specifying the rules under which the key can be exported.
+   */
+  releasePolicy?: KeyReleasePolicy;
 }
 
 /**
@@ -378,6 +413,16 @@ export interface ImportKeyOptions extends coreHttp.OperationOptions {
    * Expiry date in UTC.
    */
   expiresOn?: Date;
+
+  /**
+   * Indicates whether the private key can be exported.
+   */
+  exportable?: boolean;
+
+  /**
+   * A {@link KeyReleasePolicy} object specifying the rules under which the key can be exported.
+   */
+  releasePolicy?: KeyReleasePolicy;
 }
 
 /**
@@ -405,6 +450,12 @@ export interface UpdateKeyPropertiesOptions extends coreHttp.OperationOptions {
    * Application specific metadata in the form of key-value pairs.
    */
   tags?: { [propertyName: string]: string };
+
+  /**
+   * A {@link KeyReleasePolicy} object specifying the rules under which the key can be exported.
+   * Only valid if the key is marked exportable, which cannot be changed after key creation.
+   */
+  releasePolicy?: KeyReleasePolicy;
 }
 
 /**
@@ -480,20 +531,146 @@ export interface CryptographyOptions extends coreHttp.OperationOptions {}
  */
 export interface GetRandomBytesOptions extends coreHttp.OperationOptions {}
 
+/**
+ * Options for {@link KeyClient.releaseKey}
+ */
+export interface ReleaseKeyOptions extends coreHttp.OperationOptions {
+  /** A client provided nonce for freshness. */
+  nonce?: string;
+
+  /** The {@link KeyExportEncryptionAlgorithm} to for protecting the exported key material. */
+  algorithm?: KeyExportEncryptionAlgorithm;
+
+  /**
+   * The version of the key to release. Defaults to the latest version of the key if omitted.
+   */
+  version?: string;
+}
+
+/**
+ * Result of the {@link KeyClient.releaseKey} operation.
+ */
+export interface ReleaseKeyResult {
+  /** A signed token containing the released key. */
+  value: string;
+}
+
 /** Known values of {@link KeyOperation} that the service accepts. */
 export enum KnownKeyOperations {
   /** Key operation - encrypt */
   Encrypt = "encrypt",
-  /** Key operation - encrypt */
+  /** Key operation - decrypt */
   Decrypt = "decrypt",
-  /** Key operation - encrypt */
+  /** Key operation - sign */
   Sign = "sign",
-  /** Key operation - encrypt */
+  /** Key operation - verify */
   Verify = "verify",
-  /** Key operation - encrypt */
+  /** Key operation - wrapKey */
   WrapKey = "wrapKey",
-  /** Key operation - encrypt */
+  /** Key operation - unwrapKey */
   UnwrapKey = "unwrapKey",
-  /** Key operation - encrypt */
+  /** Key operation - import */
   Import = "import"
 }
+
+/** Known values of {@link KeyExportEncryptionAlgorithm} that the service accepts. */
+export enum KnownKeyExportEncryptionAlgorithm {
+  CkmRsaAesKeyWrap = "CKM_RSA_AES_KEY_WRAP",
+  RsaAesKeyWrap256 = "RSA_AES_KEY_WRAP_256",
+  RsaAesKeyWrap384 = "RSA_AES_KEY_WRAP_384"
+}
+
+/* eslint-disable tsdoc/syntax */
+/**
+ * Defines values for KeyEncryptionAlgorithm.
+ * {@link KnownKeyExportEncryptionAlgorithm} can be used interchangeably with KeyEncryptionAlgorithm,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CKM_RSA_AES_KEY_WRAP** \
+ * **RSA_AES_KEY_WRAP_256** \
+ * **RSA_AES_KEY_WRAP_384**
+ */
+export type KeyExportEncryptionAlgorithm = string;
+/* eslint-enable tsdoc/syntax */
+
+/**
+ * Result of the {@link KeyClient.getRandomBytes} operation.
+ */
+export interface RandomBytes {
+  /** The random bytes returned by the service. */
+  bytes: Uint8Array;
+}
+/**
+ * Options for {@link KeyClient.rotateKey}
+ */
+export interface RotateKeyOptions extends coreHttp.OperationOptions {}
+
+/**
+ * The properties of a key rotation policy that the client can set for a given key.
+ */
+export interface KeyRotationPolicyProperties {
+  /**
+   * The expiry time of the policy that will be applied on new key versions, defined as an ISO 8601 duration.
+   */
+  expiresIn?: string;
+
+  /**
+   * Actions that will be performed by Key Vault over the lifetime of a key.
+   */
+  lifetimeActions?: KeyRotationLifetimeAction[];
+}
+
+/**
+ * The complete key rotation policy that belongs to a key.
+ */
+export interface KeyRotationPolicy extends KeyRotationPolicyProperties {
+  /**
+   * The identifier of the Key Rotation Policy.
+   */
+  readonly id: string;
+
+  /**
+   * The created time in UTC.
+   */
+  readonly createdOn: Date;
+
+  /**
+   * The last updated time in UTC.
+   */
+  readonly updatedOn?: Date;
+}
+
+/**
+ * An action and its corresponding trigger that will be performed by Key Vault over the lifetime of a key.
+ */
+export interface KeyRotationLifetimeAction {
+  /**
+   * Time after creation to attempt the specified action, defined as an ISO 8601 duration.
+   */
+  timeAfterCreate?: string;
+
+  /**
+   * Time before expiry to attempt the specified action, defined as an ISO 8601 duration.
+   */
+  timeBeforeExpiry?: string;
+
+  /**
+   * The action that will be executed.
+   */
+  action: KeyRotationPolicyAction;
+}
+
+/**
+ * The action that will be executed.
+ */
+export type KeyRotationPolicyAction = "Rotate" | "Notify";
+
+/**
+ * Options for {@link KeyClient.updateKeyRotationPolicy}
+ */
+export interface UpdateKeyRotationPolicyOptions extends coreHttp.OperationOptions {}
+
+/**
+ * Options for {@link KeyClient.getRotationPolicy}
+ */
+export interface GetKeyRotationPolicyOptions extends coreHttp.OperationOptions {}

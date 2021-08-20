@@ -12,12 +12,12 @@ export { PagedAsyncIterableIterator }
 
 // @public
 export interface PaginateOptions {
-    itemName?: string;
-    nextLinkName?: string | null;
+    itemNames?: string[];
+    nextLinkNames?: string[] | null;
 }
 
 // @public
-export function paginateResponse<TReturn>(client: Client, initialResponse: HttpResponse, options?: PaginateOptions): PagedAsyncIterableIterator<TReturn, TReturn[]>;
+export function paginateResponse<TElement>(client: Client, initialResponse: HttpResponse, options?: PaginateOptions): PagedAsyncIterableIterator<TElement>;
 
 
 ```

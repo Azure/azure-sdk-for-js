@@ -3,7 +3,7 @@
 
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-import { TestTracer, SpanGraph } from "@azure/test-utils";
+import { TestTracer, SpanGraph, setTracer } from "@azure/test-utils";
 import {
   bodyToString,
   getBSU,
@@ -20,7 +20,8 @@ import {
   BlobServiceClient
 } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
-import { context, setSpan, setTracer } from "@azure/core-tracing";
+import { context, setSpan } from "@azure/core-tracing";
+import { Context } from "mocha";
 dotenv.config();
 
 describe("ContainerClient", () => {
@@ -30,7 +31,7 @@ describe("ContainerClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -231,6 +232,30 @@ describe("ContainerClient", () => {
     for (const blob of blobClients) {
       await blob.delete();
     }
+  });
+
+  it("listBlobsFlat with includeDeletedwithVersions", async () => {
+    const blockBlobName = recorder.getUniqueName(`blockblob`);
+    const blobClient = containerClient.getBlobClient(blockBlobName);
+    const blockBlobClient = blobClient.getBlockBlobClient();
+    await blockBlobClient.upload("", 0);
+
+    await blobClient.delete();
+
+    const result = (
+      await containerClient
+        .listBlobsFlat({
+          includeDeletedwithVersions: true
+        })
+        .byPage()
+        .next()
+    ).value;
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.ok(containerClient.url.indexOf(result.containerName));
+    assert.deepStrictEqual(result.continuationToken, "");
+    assert.deepStrictEqual(result.segment.blobItems!.length, 1);
+    assert.deepStrictEqual(result.segment.blobItems![0].name, blockBlobName);
+    assert.ok(result.segment.blobItems![0].hasVersionsOnly);
   });
 
   it("listBlobFlat with blobs encrypted with CPK", async () => {
@@ -855,7 +880,7 @@ describe("ContainerClient - Verify Name Properties", () => {
   const containerName = "containerName";
   const accountName = "myAccount";
 
-  function verifyNameProperties(url: string) {
+  function verifyNameProperties(url: string): void {
     const newClient = new ContainerClient(url);
     assert.equal(
       newClient.containerName,

@@ -8,7 +8,7 @@ From `swagger/`:
 
 ```zsh
 rm -rf ../src/generated
-autorest --typescript --v3
+autorest swagger/README.md
 ```
 
 ## Configuration
@@ -24,6 +24,7 @@ source-code-folder-path: ./src/generated
 input-file: https://github.com/Azure/azure-rest-api-specs/blob/e47988f3ccaa90681f11cce59c25c638ff305692/specification/applicationinsights/data-plane/Monitor.Exporters/preview/2020-09-15_Preview/swagger.json
 add-credentials: false
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20210121.1"
+  "@autorest/typescript": "latest"
 package-version: 1.0.0-beta.4
+typescript: true
 ```

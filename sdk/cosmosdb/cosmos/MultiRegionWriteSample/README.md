@@ -1,0 +1,1 @@
+MultiRegionWrite scenarios sample

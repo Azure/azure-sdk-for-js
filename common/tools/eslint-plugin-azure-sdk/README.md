@@ -2,23 +2,33 @@
 
 An ESLint plugin enforcing [design guidelines for the JavaScript/TypeScript Azure SDK](https://azure.github.io/azure-sdk/typescript_introduction.html).
 
-## Installation
+## Installing and Building
 
-You'll first need to install [ESLint](https://eslint.org):
+**Note**: This is an internal package that can only be used within the azure-sdk-for-js monorepo.
 
-```shell
-npm i eslint --save-dev
+To enable `@azure/eslint-plugin-azure-sdk`, you'll need to add it to the list of `devDependencies` in your `package.json`:
+
+```javascript
+{
+  ...,
+  "devDependencies": {
+    ...,
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    ...
+  },
+  ...
+}
 ```
 
-Next, install `@azure/eslint-plugin-azure-sdk`:
+The ESLint plugin must be built from source as part of your package's depdendencies. The fastest way to build a single package and its dependencies is to run the command `rush build -t <package name>`. For example, to rebuild the Form Recognizer package and all of its dependencies, we run `rush build -t @azure/ai-form-recognizer`. This will rebuild `eslint-plugin-azure-sdk` if necessary and make it available for use by the package's NPM scripts.
 
-```shell
-npm install @azure/eslint-plugin-azure-sdk --save-dev
-```
+**You must rebuild `eslint-plugin-azure-sdk` after making changes to its own source files,** either using `rush build` as described above, or by entering the `common/tools/eslint-plugin-azure-sdk` directory (this directory) and running `rushx build`. Since the plugin is linked internally as part of our monorepo, the package does not need to be installed again after it is rebuilt.
+
+See [the contribution guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) for more details about contributing to the azure-sdk-for-js repository.
 
 ## Configuration
 
-To enable `@azure/eslint-plugin-azure-sdk`, you'll need to add it to the list of `devDependencies` in your `package.json`. ESLint will automatically use the configuration file `sdk/.eslintrc.json` as explained in the [docs](https://eslint.org/docs/user-guide/configuring#using-configuration-files-2). Optionally, you can have a custom `.eslintrc.json` file at the same location as your `package.json` file. A very simple one looks as follows: (note that the path to the base `.eslintrc.json` file may be different)
+ESLint will automatically use the configuration file `sdk/.eslintrc.json` as explained in the [docs](https://eslint.org/docs/user-guide/configuring#using-configuration-files-2). Optionally, you can have a custom `.eslintrc.json` file at the same location as your `package.json` file. A very simple one looks as follows: (note that the path to the base `.eslintrc.json` file may be different)
 
 ```json
 {

@@ -17,7 +17,7 @@
     "build:samples": "echo Skipped.",
     "build:test": "echo not needed",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-* typings *.tgz *.log",
+    "clean": "rimraf dist dist-* types *.tgz *.log",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "node dist-esm/test/index.spec.js",
@@ -59,12 +59,13 @@
     "mocha": "^7.1.1",
     "@azure/test-utils-recorder": "^1.0.0",
     "tslib": "^2.2.0",
-    "@azure/core-tracing": "1.0.0-preview.12"
+    "@azure/core-tracing": "1.0.0-preview.13"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@microsoft/api-extractor": "7.7.11",
+    "@opentelemetry/api": "^1.0.1",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",

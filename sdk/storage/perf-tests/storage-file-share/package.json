@@ -1,5 +1,6 @@
 {
   "name": "@azure-tests/perf-storage-file-share",
+  "sdk-type": "perf-test",
   "version": "1.0.0",
   "description": "",
   "main": "",
@@ -7,7 +8,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@azure/storage-file-share": "^12.5.0",
+    "@azure/storage-file-share": "^12.8.0-beta.1",
     "@azure/test-utils-perfstress": "^1.0.0",
     "dotenv": "^8.2.0",
     "uuid": "^8.3.0"
@@ -30,7 +31,7 @@
     "build:samples": "echo skipped",
     "build:test": "echo skipped",
     "check-format": "prettier --list-different --config ../../../../.prettierrc.json --ignore-path ../../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-* typings *.tgz *.log",
+    "clean": "rimraf dist dist-* types *.tgz *.log",
     "format": "prettier --write --config ../../../../.prettierrc.json --ignore-path ../../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",

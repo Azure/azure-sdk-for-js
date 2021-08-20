@@ -10,7 +10,7 @@ import {
   OperationParameter,
   OperationURLParameter,
   OperationQueryParameter
-} from "@azure/core-http";
+} from "@azure/core-client";
 import {
   LinkedServiceResource as LinkedServiceResourceMapper,
   ArtifactRenameRequest as ArtifactRenameRequestMapper,
@@ -452,8 +452,20 @@ export const accept1: OperationParameter = {
   }
 };
 
-export const xMsBlobConditionAppendpos: OperationParameter = {
-  parameterPath: ["options", "xMsBlobConditionAppendpos"],
+export const comp: OperationQueryParameter = {
+  parameterPath: "comp",
+  mapper: {
+    defaultValue: "appendblock",
+    isConstant: true,
+    serializedName: "comp",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const blobConditionAppendPosition: OperationParameter = {
+  parameterPath: ["options", "blobConditionAppendPosition"],
   mapper: {
     serializedName: "x-ms-blob-condition-appendpos",
     type: {

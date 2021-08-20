@@ -1,8 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */
-{
+ */{
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -339,7 +338,8 @@
     },
     {
       "packageName": "@azure-rest/purview-catalog",
-      "projectFolder": "sdk/purview/purview-catalog-rest"
+      "projectFolder": "sdk/purview/purview-catalog-rest",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure-rest/purview-scanning",
@@ -429,6 +429,11 @@
     {
       "packageName": "@azure/core-amqp",
       "projectFolder": "sdk/core/core-amqp",
+      "versionPolicyName": "core"
+    },
+    {
+      "packageName": "@azure-rest/core-client-lro",
+      "projectFolder": "sdk/core/core-client-lro-rest",
       "versionPolicyName": "core"
     },
     {
@@ -529,6 +534,11 @@
     {
       "packageName": "@azure/eventhubs-checkpointstore-blob",
       "projectFolder": "sdk/eventhub/eventhubs-checkpointstore-blob",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/eventhubs-checkpointstore-table",
+      "projectFolder": "sdk/eventhub/eventhubs-checkpointstore-table",
       "versionPolicyName": "client"
     },
     {
@@ -662,6 +672,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-tests/perf-data-tables",
+      "projectFolder": "sdk/tables/perf-tests/data-tables",
+      "versionPolicyName": "test"
+    },
+    {
       "packageName": "@azure/template",
       "projectFolder": "sdk/template/template",
       "versionPolicyName": "client"
@@ -708,7 +723,8 @@
     },
     {
       "packageName": "@azure/iot-modelsrepository",
-      "projectFolder": "sdk/iot/iot-modelsrepository"
+      "projectFolder": "sdk/iot/iot-modelsrepository",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure-tests/perf-ai-form-recognizer",
@@ -804,6 +820,71 @@
       "packageName": "@azure/mixed-reality-remote-rendering",
       "projectFolder": "sdk/remoterendering/mixed-reality-remote-rendering",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-network",
+      "projectFolder": "sdk/network/arm-network",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-compute",
+      "projectFolder": "sdk/compute/arm-compute",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-storage",
+      "projectFolder": "sdk/storage/arm-storage",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-resources",
+      "projectFolder": "sdk/resources/arm-resources",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-links",
+      "projectFolder": "sdk/links/arm-links",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-policy",
+      "projectFolder": "sdk/policy/arm-policy",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-locks",
+      "projectFolder": "sdk/locks/arm-locks",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-features",
+      "projectFolder": "sdk/features/arm-features",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-managedapplications",
+      "projectFolder": "sdk/managedapplications/arm-managedapplications",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-webpubsub",
+      "projectFolder": "sdk/web-pubsub/arm-webpubsub",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-keyvault",
+      "projectFolder": "sdk/keyvault/arm-keyvault",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-sql",
+      "projectFolder": "sdk/sql/arm-sql",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-appservice",
+      "projectFolder": "sdk/appservice/arm-appservice",
+      "versionPolicyName": "management"
     }
   ]
 }

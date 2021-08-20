@@ -41,6 +41,19 @@
    * This design avoids unnecessary churn in this file.
    */
   "allowedAlternativeVersions": {
+    // Text Analytics uses this version and it is not released yet. I am making an exception
+    // for it here and it should be removed once core-paging 1.2.0 is released.
+    "@azure/core-paging": [
+      "^1.2.0",
+      ">=1.2.0-alpha <1.2.0-alphb"
+    ],
+    // "^12.6.0" is required for eventhubs-checkpointstore-blob to use the latest GA version
+    // when there is a new beta version which is being maintained in the repo.
+    // Remove "^12.6.0" when the storage-blob releases a stable version.
+    // Add a new entry in case a new version is being tested through the perf tests (Example: "12.2.0").
+    "@azure/storage-blob": [
+      "^12.6.0"
+    ],
     "@azure/ms-rest-js": [
       "^2.0.0"
     ],
@@ -68,8 +81,8 @@
     ],
     // Idenity is moving from v1 to v2. Moving all packages to v2 is going to take a bit of time, in the mean time we could use v2 on the perf-identity tests.
     "@azure/identity": [
-      "^2.0.0-beta.5",
-      "2.0.0-beta.4",
+      "^2.0.0-beta.6", 
+      "2.0.0-beta.5", 
       "^1.1.0"
     ],
     // Issue #14771 tracks updating to these versions

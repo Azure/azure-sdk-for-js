@@ -5,7 +5,8 @@ import { JSONObject } from "../queryExecutionContext";
 import { extractPartitionKey } from "../extractPartitionKey";
 import { PartitionKeyDefinition } from "../documents";
 import { RequestOptions } from "..";
-import { v4 as uuid } from "uuid";
+import { v4 } from "uuid";
+const uuid = v4;
 
 export type Operation =
   | CreateOperation
@@ -98,6 +99,7 @@ export interface ReplaceOperationInput {
   ifNoneMatch?: string;
   operationType: typeof BulkOperationType.Replace;
   resourceBody: JSONObject;
+  id: string;
 }
 
 export type OperationWithItem = OperationBase & {
@@ -135,7 +137,7 @@ export function hasResource(
 
 export function getPartitionKeyToHash(operation: Operation, partitionProperty: string): any {
   const toHashKey = hasResource(operation)
-    ? (operation.resourceBody as any)[partitionProperty]
+    ? deepFind(operation.resourceBody, partitionProperty)
     : (operation.partitionKey && operation.partitionKey.replace(/[[\]"']/g, "")) ||
       operation.partitionKey;
   // We check for empty object since replace will stringify the value
@@ -185,4 +187,38 @@ export function decorateOperation(
     return { ...operation, partitionKey: "[{}]" };
   }
   return operation as Operation;
+}
+
+export function decorateBatchOperation(
+  operation: OperationInput,
+  options: RequestOptions = {}
+): Operation {
+  if (
+    operation.operationType === BulkOperationType.Create ||
+    operation.operationType === BulkOperationType.Upsert
+  ) {
+    if (
+      (operation.resourceBody.id === undefined || operation.resourceBody.id === "") &&
+      !options.disableAutomaticIdGeneration
+    ) {
+      operation.resourceBody.id = uuid();
+    }
+  }
+  return operation as Operation;
+}
+/**
+ * Util function for finding partition key values nested in objects at slash (/) separated paths
+ * @hidden
+ */
+export function deepFind<T, P extends string>(document: T, path: P): string | JSONObject {
+  const apath = path.split("/");
+  let h: any = document;
+  for (const p of apath) {
+    if (p in h) h = h[p];
+    else {
+      console.warn(`Partition key not found, using undefined: ${path} at ${p}`);
+      return "{}";
+    }
+  }
+  return h;
 }

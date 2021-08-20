@@ -11,7 +11,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Jun 2021 19:58:28 GMT",
+    "date": "Tue, 03 Aug 2021 22:59:51 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -20,13 +20,13 @@
     "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11829.9 - EUS ProdSlices",
-    "x-ms-request-id": "84bdf8e2-d00d-4332-9ea9-2d5e5e437900"
+    "x-ms-ests-server": "2.1.11898.12 - NCUS ProdSlices",
+    "x-ms-request-id": "ab5af9ba-835a-4a9a-b4c4-b58e75d10001"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.1/entities/recognition/pii",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/recognition/pii",
    "query": {
     "stringIndexType": "Utf16CodeUnit"
    },
@@ -34,13 +34,13 @@
    "status": 200,
    "response": "{\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid Language Code.\",\"innererror\":{\"code\":\"UnsupportedLanguageCode\",\"message\":\"Invalid language code. Supported languages: de,en,es,fr,it,ja,ko,pt-BR,pt-PT,zh-Hans. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition\"}}}],\"modelVersion\":\"2021-01-15\"}",
    "responseHeaders": {
-    "apim-request-id": "027fcc67-a453-4997-8a13-58a1411d240f",
+    "apim-request-id": "5ea74446-502f-4038-9eca-0c0467af758e",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Jun 2021 19:58:28 GMT",
+    "date": "Tue, 03 Aug 2021 22:59:50 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "7"
+    "x-envoy-upstream-service-time": "3"
    }
   }
  ],

@@ -2051,6 +2051,18 @@ export interface PolicyInsightsPolicyStateDeletedEventData {
   complianceReasonCode: string;
 }
 
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerService.NewKubernetesVersionAvailable event */
+export interface ContainerServiceNewKubernetesVersionAvailableEventData {
+  /** The highest PATCH Kubernetes version for the highest MINOR version supported by ManagedCluster resource */
+  latestSupportedKubernetesVersion: string;
+  /** The highest PATCH Kubernetes version for the MINOR version considered stable for the ManagedCluster resource */
+  latestStableKubernetesVersion: string;
+  /** The highest PATCH Kubernetes version for the lowest applicable MINOR version available for the ManagedCluster resource */
+  lowestMinorKubernetesVersion: string;
+  /** The highest PATCH Kubernetes version considered preview for the ManagedCluster resource. There might not be any version in preview at the time of publishing the event */
+  latestPreviewKubernetesVersion: string;
+}
+
 /** Event data for Microsoft.Devices.DeviceCreated event. */
 export type IotHubDeviceCreatedEventData = DeviceLifeCycleEvent & {};
 
@@ -2238,12 +2250,16 @@ export type AcsSmsReceivedEventData = AcsSmsEventBase & {
 export type AcsChatMessageReceivedEventData = AcsChatMessageEventBase & {
   /** The body of the chat message */
   messageBody: string;
+  /** The chat message metadata */
+  metadata: { [propertyName: string]: string };
 };
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatMessageEdited event. */
 export type AcsChatMessageEditedEventData = AcsChatMessageEventBase & {
   /** The body of the chat message */
   messageBody: string;
+  /** The chat message metadata */
+  metadata: { [propertyName: string]: string };
   /** The time at which the message was edited */
   editTime: string;
 };
@@ -2306,12 +2322,16 @@ export type AcsChatParticipantRemovedFromThreadWithUserEventData = AcsChatThread
 export type AcsChatMessageReceivedInThreadEventData = AcsChatMessageEventInThreadBase & {
   /** The body of the chat message */
   messageBody: string;
+  /** The chat message metadata */
+  metadata: { [propertyName: string]: string };
 };
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatMessageEditedInThread event. */
 export type AcsChatMessageEditedInThreadEventData = AcsChatMessageEventInThreadBase & {
   /** The body of the chat message */
   messageBody: string;
+  /** The chat message metadata */
+  metadata: { [propertyName: string]: string };
   /** The time at which the message was edited */
   editTime: string;
 };

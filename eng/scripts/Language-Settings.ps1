@@ -30,11 +30,7 @@ function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory)
     else {
       $pkgProp.SdkType = "unknown"
     }
-    if ($projectJson.name.StartsWith("@azure/arm"))
-    {
-      $pkgProp.SdkType = "mgmt"
-    }
-    $pkgProp.IsNewSdk = $pkgProp.SdkType -eq "client"
+    $pkgProp.IsNewSdk = ($pkgProp.SdkType -eq "client") -or ($pkgProp.SdkType -eq "mgmt")
     $pkgProp.ArtifactName = $jsStylePkgName
     return $pkgProp
   }
@@ -123,9 +119,11 @@ function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory)
 }
 
 function Get-javascript-DocsMsMetadataForPackage($PackageInfo) { 
+  $docsReadmeName = Split-Path -Path $PackageInfo.DirectoryPath -Leaf
+  Write-Host "Docs.ms Readme name: $($docsReadmeName)"
   New-Object PSObject -Property @{ 
-    DocsMsReadMeName = $PackageInfo.Name -replace "^@azure/" , ""
-    LatestReadMeLocation = 'docs-ref-services/latest'
+    DocsMsReadMeName      = $docsReadmeName
+    LatestReadMeLocation  = 'docs-ref-services/latest'
     PreviewReadMeLocation = 'docs-ref-services/preview'
     Suffix = ''
   }
@@ -136,7 +134,27 @@ function Get-javascript-DocsMsMetadataForPackage($PackageInfo) {
 # published at the "dev" tag. To prevent using a version which does not exist in 
 # NPM, use the "dev" tag instead.
 function Get-javascript-DocsMsDevLanguageSpecificPackageInfo($packageInfo) {
-  $packageInfo.Version = 'dev'
+  try
+  {
+    $npmPackageInfo = Invoke-RestMethod -Uri "https://registry.npmjs.com/$($packageInfo.Name)"
+
+    if ($npmPackageInfo.'dist-tags'.dev)
+    {
+      Write-Host "Using published version at 'dev' tag: '$($npmPackageInfo.'dist-tags'.dev)'"
+      $packageInfo.Version = $npmPackageInfo.'dist-tags'.dev
+    }
+    else
+    {
+      LogWarning "No 'dev' dist-tag available for '$($packageInfo.Name)'. Keeping current version '$($packageInfo.Version)'"
+    }
+  }
+  catch
+  {
+    LogWarning "Error getting package info from NPM for $($packageInfo.Name)"
+    LogWarning $_.Exception
+    LogWarning $_.Exception.StackTrace
+  }
+
   return $packageInfo
 }
 
@@ -187,7 +205,7 @@ function Get-javascript-GithubIoDocIndex()
   # Build up the artifact to service name mapping for GithubIo toc.
   $tocContent = Get-TocMapping -metadata $metadata -artifacts $artifacts
   # Generate yml/md toc files and build site.
-  GenerateDocfxTocContent -tocContent $tocContent -lang "JavaScript"
+  GenerateDocfxTocContent -tocContent $tocContent -lang "JavaScript" -campaignId "UA-62780441-43"
 }
 
 # "@azure/package-name@1.2.3" -> "@azure/package-name"
@@ -206,9 +224,44 @@ function Get-DocsMsPackageName($packageName, $packageVersion) {
   return "$(Get-PackageNameFromDocsMsConfig $packageName)@$packageVersion"
 }
 
+
+# Performs package validation for a list of packages provided in the doc 
+# onboarding format ("name" is the only required field): 
+# @{
+#   name = "@azure/attestation@dev";
+#   folder = "./types";
+#   registry = "<url>";
+#   ...
+# }
+function ValidatePackagesForDocs($packages) {
+  # Using GetTempPath because it works on linux and windows
+  $tempDirectory = Join-Path ([System.IO.Path]::GetTempPath()) ([System.IO.Path]::GetRandomFileName())
+  New-Item -ItemType Directory -Force -Path $tempDirectory | Out-Null
+
+  $scriptRoot = $PSScriptRoot
+  # Run this in parallel as each step takes a long time to run
+  $validationOutput = $packages | Foreach-Object -Parallel {
+    # Get value for variables outside of the Foreach-Object scope
+    $scriptRoot = "$using:scriptRoot"
+    $workingDirectory = "$using:tempDirectory"
+    return ."$scriptRoot\validate-docs-package.ps1" -Package $_ -WorkingDirectory $workingDirectory
+  }
+
+  # Clean up temp folder
+  Remove-Item -Path $tempDirectory -Force -Recurse -ErrorAction Ignore | Out-Null
+
+  return $validationOutput
+}
+
 $PackageExclusions = @{ 
-  '@azure/identity-vscode' = 'Fails type2docfx execution https://github.com/Azure/azure-sdk-for-js/issues/16303';
-  '@azure/identity-cache-persistence' = 'Fails typedoc2fx execution https://github.com/Azure/azure-sdk-for-js/issues/16310';
+  '@azure/identity-vscode'              = 'Fails type2docfx execution https://github.com/Azure/azure-sdk-for-js/issues/16303';
+  '@azure/identity-cache-persistence'   = 'Fails typedoc2fx execution https://github.com/Azure/azure-sdk-for-js/issues/16310';
+  '@azure-rest/core-client-paging'      = 'Cannot find types/latest/core-client-paging-rest.d.ts https://github.com/Azure/azure-sdk-for-js/issues/16677';
+  '@azure/core-asynciterator-polyfill'  = 'Docs CI fails https://github.com/Azure/azure-sdk-for-js/issues/16675';
+  '@azure/batch'                        = 'Docs CI fails https://github.com/Azure/azure-sdk-for-js/issues/16809';
+  '@azure/arm-appservice'               = 'Docs CI fails https://github.com/Azure/azure-sdk-for-js/issues/16932';
+  '@azure/arm-keyvault'                 = 'Docs CI fails https://github.com/Azure/azure-sdk-for-js/issues/16988';
+  '@azure/arm-sql'                      = 'Docs CI fails https://github.com/Azure/azure-sdk-for-js/issues/16989';
 }
 
 function Update-javascript-DocsMsPackages($DocsRepoLocation, $DocsMetadata) {
@@ -223,15 +276,17 @@ function Update-javascript-DocsMsPackages($DocsRepoLocation, $DocsMetadata) {
   UpdateDocsMsPackages `
     (Join-Path $DocsRepoLocation 'ci-configs/packages-preview.json') `
     'preview' `
-    $FilteredMetadata 
+    $FilteredMetadata `
+    (Join-Path $DocsRepoLocation 'ci-configs/packages-preview.json.log') # Log file for package validation
 
   UpdateDocsMsPackages `
     (Join-Path $DocsRepoLocation 'ci-configs/packages-latest.json') `
     'latest' `
-    $FilteredMetadata
+    $FilteredMetadata `
+    (Join-Path $DocsRepoLocation 'ci-configs/packages-latest.json.log') # Log file for package validation
 }
 
-function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata) {
+function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata, $PackageHistoryLogFile) {
   Write-Host "Updating configuration: $DocConfigFile with mode: $Mode"
   $packageConfig = Get-Content $DocConfigFile -Raw | ConvertFrom-Json
 
@@ -254,7 +309,7 @@ function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata) {
     # This handles packages which are not tracked in metadata but still need to
     # be built in Docs CI.
     if ($matchingPublishedPackageArray.Count -eq 0) {
-      Write-Host "Keep non-tracked preview package: $($package.name)"
+      Write-Host "Keep non-tracked package: $($package.name)"
       $outputPackages += $package
       continue
     }
@@ -294,11 +349,11 @@ function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata) {
 
   $remainingPackages = @() 
   if ($Mode -eq 'preview') { 
-    $remainingPackages = $DocsMetadata.Where({ 
+    $remainingPackages = $DocsMetadata.Where({
       $_.VersionPreview.Trim() -and !$outputPackagesHash.ContainsKey($_.Package)
     })
-  } else { 
-    $remainingPackages = $DocsMetadata.Where({ 
+  } else {
+    $remainingPackages = $DocsMetadata.Where({
       $_.VersionGA.Trim() -and !$outputPackagesHash.ContainsKey($_.Package)
     })
   }
@@ -322,8 +377,34 @@ function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata) {
     $outputPackages += @{ name = $packageName }
   }
 
-  $packageConfig.npm_package_sources = $outputPackages
+  $packageValidation = ValidatePackagesForDocs $outputPackages
+  $validationHash = @{}
+  foreach ($result in $packageValidation) {
+    $validationHash[$result.Package.name] = $result
+  }
+
+  # Remove invalid packages
+  $finalOutput = @()
+  foreach ($package in $outputPackages) {
+    if (!$validationHash[$package.name].Success) {
+      LogWarning "Removing invalid package: $($package.name)"
+
+      # If a package is removed create log entry for the removal
+      Add-Content `
+        -Path $PackageHistoryLogFile `
+        -Value @"
+Removed $($package.name) because of docs package validation failure on $(Get-Date -Format 'yyyy-MM-dd HH:mm K')
+`t$($validationHash[$package.name].Output -join "`n`t")
+"@
+      continue
+    }
+
+    $finalOutput += $package
+  }
+
+  $packageConfig.npm_package_sources = $finalOutput
   $packageConfig | ConvertTo-Json -Depth 100 | Set-Content $DocConfigFile
+  Write-Host "Onboarding configuration written to: $DocConfigFile"
 }
 
 # function is used to auto generate API View

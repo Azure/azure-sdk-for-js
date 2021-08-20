@@ -1,17 +1,24 @@
 # Release History
 
-## 12.7.0 (Unreleased)
+## 12.8.0-beta.1 (2021-07-28)
 
 ### Features Added
 
+- Added support for service version 2020-10-02.
+- Added support for Immutable Storage with Versioning
+  - Added BlobClient.setImmutibilityPolicy()
+  - Added BlobClient.seleteImmutabilityPolicy()
+  - Added BlobClient.setLegalHold()
+- Added support for listing deleted root blobs with versions `ContainerClient.listBlobFlat()` and `ContainerClient.listBlobHierarchy()`.
+- Added support for OAuth copy sources for synchronous copy operations.
+- Added support for Parquet as an input format in `BlockBlobClient.query()`.
 - With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+
+## 12.7.0 (2021-08-02)
+
+- Support for Node.js 8 and IE 11 has been dropped. Please see our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 - Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
-
-### Breaking Changes
-
-### Key Bugs Fixed
-
-### Fixed
+- Updated our internal core package dependencies to their latest versions in order to add support for Opentelemetry 1.0.0 which is compatible with the latest versions of our other client libraries.
 
 ## 12.6.0 (2021-06-09)
 

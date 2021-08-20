@@ -1,5 +1,43 @@
 # Release History
 
+## 3.13.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 3.13.0 (2021-08-10)
+
+### Features Added
+
+- Adds TransactionalBatch to items `container.items.batch(operations)`
+
+### Bugs Fixed
+
+- Fixed bulk requests which had operations without partitionKey specified.
+
+## 3.12.3 (2021-07-23)
+
+### Bugs Fixed
+
+- Fix bulk operations on containers with multiple partitions with nested partition keys
+
+## 3.12.2 (2021-07-21)
+
+### Features Added
+
+- Adopted target ES2017 to reduce bundle size.
+
+## 3.12.1 (2021-07-16)
+
+### Bugs Fixed
+
+- Returned default retryPolicy option `fixedRetryIntervalInMilliseconds` to its original default 0.
+
 ## 3.12.0 (2021-07-06)
 
 ### Features Added

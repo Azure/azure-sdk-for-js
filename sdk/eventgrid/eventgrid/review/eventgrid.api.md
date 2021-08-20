@@ -10,6 +10,7 @@ import { CommonClientOptions } from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
 import { SASCredential } from '@azure/core-auth';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AcsChatEventBase {
@@ -30,8 +31,25 @@ export type AcsChatMessageDeletedEventData = AcsChatMessageEventBase & {
 };
 
 // @public
+export type AcsChatMessageDeletedInThreadEventData = AcsChatMessageEventInThreadBase & {
+    deleteTime: string;
+};
+
+// @public
 export type AcsChatMessageEditedEventData = AcsChatMessageEventBase & {
     messageBody: string;
+    metadata: {
+        [propertyName: string]: string;
+    };
+    editTime: string;
+};
+
+// @public
+export type AcsChatMessageEditedInThreadEventData = AcsChatMessageEventInThreadBase & {
+    messageBody: string;
+    metadata: {
+        [propertyName: string]: string;
+    };
     editTime: string;
 };
 
@@ -46,8 +64,29 @@ export type AcsChatMessageEventBase = AcsChatEventBase & {
 };
 
 // @public
+export type AcsChatMessageEventInThreadBase = AcsChatEventInThreadBase & {
+    messageId: string;
+    senderCommunicationIdentifier: CommunicationIdentifierModel;
+    senderDisplayName: string;
+    composeTime: string;
+    type: string;
+    version: number;
+};
+
+// @public
 export type AcsChatMessageReceivedEventData = AcsChatMessageEventBase & {
     messageBody: string;
+    metadata: {
+        [propertyName: string]: string;
+    };
+};
+
+// @public
+export type AcsChatMessageReceivedInThreadEventData = AcsChatMessageEventInThreadBase & {
+    messageBody: string;
+    metadata: {
+        [propertyName: string]: string;
+    };
 };
 
 // @public
@@ -311,6 +350,14 @@ export type ContainerRegistryImageDeletedEventData = ContainerRegistryEventData 
 export type ContainerRegistryImagePushedEventData = ContainerRegistryEventData & {};
 
 // @public
+export interface ContainerServiceNewKubernetesVersionAvailableEventData {
+    latestPreviewKubernetesVersion: string;
+    latestStableKubernetesVersion: string;
+    latestSupportedKubernetesVersion: string;
+    lowestMinorKubernetesVersion: string;
+}
+
+// @public
 export interface DeviceConnectionStateEvent {
     deviceConnectionStateEventInfo: DeviceConnectionStateEventInfo;
     deviceId: string;
@@ -400,7 +447,7 @@ export interface EventGridEvent<T> {
 
 // @public
 export class EventGridPublisherClient<T extends InputSchema> {
-    constructor(endpointUrl: string, inputSchema: T, credential: KeyCredential | SASCredential, options?: EventGridPublisherClientOptions);
+    constructor(endpointUrl: string, inputSchema: T, credential: KeyCredential | SASCredential | TokenCredential, options?: EventGridPublisherClientOptions);
     readonly apiVersion: string;
     readonly endpointUrl: string;
     send(events: InputSchemaToInputTypeMap[T][], options?: SendOptions): Promise<void>;
@@ -1266,8 +1313,11 @@ export interface SystemEventNameToEventData {
     "Microsoft.AppConfiguration.KeyValueDeleted": AppConfigurationKeyValueDeletedEventData;
     "Microsoft.AppConfiguration.KeyValueModified": AppConfigurationKeyValueModifiedEventData;
     "Microsoft.Communication.ChatMessageDeleted": AcsChatMessageDeletedEventData;
+    "Microsoft.Communication.ChatMessageDeletedInThread": AcsChatMessageDeletedInThreadEventData;
     "Microsoft.Communication.ChatMessageEdited": AcsChatMessageEditedEventData;
+    "Microsoft.Communication.ChatMessageEditedInThread": AcsChatMessageEditedInThreadEventData;
     "Microsoft.Communication.ChatMessageReceived": AcsChatMessageReceivedEventData;
+    "Microsoft.Communication.ChatMessageReceivedInThread": AcsChatMessageReceivedInThreadEventData;
     "Microsoft.Communication.ChatParticipantAddedToThreadWithUser": AcsChatParticipantAddedToThreadWithUserEventData;
     "Microsoft.Communication.ChatParticipantRemovedFromThreadWithUser": AcsChatParticipantRemovedFromThreadWithUserEventData;
     "Microsoft.Communication.ChatThreadCreatedWithUser": AcsChatThreadCreatedWithUserEventData;
@@ -1282,6 +1332,7 @@ export interface SystemEventNameToEventData {
     "Microsoft.ContainerRegistry.ChartPushed": ContainerRegistryChartPushedEventData;
     "Microsoft.ContainerRegistry.ImageDeleted": ContainerRegistryImageDeletedEventData;
     "Microsoft.ContainerRegistry.ImagePushed": ContainerRegistryImagePushedEventData;
+    "Microsoft.ContainerService.NewKubernetesVersionAvailable": ContainerServiceNewKubernetesVersionAvailableEventData;
     "Microsoft.Devices.DeviceConnected": IotHubDeviceConnectedEventData;
     "Microsoft.Devices.DeviceCreated": IotHubDeviceCreatedEventData;
     "Microsoft.Devices.DeviceDeleted": IotHubDeviceDeletedEventData;

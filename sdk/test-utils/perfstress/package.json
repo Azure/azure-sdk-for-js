@@ -6,7 +6,7 @@
   "main": "dist-esm/src/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {},
-  "types": "./typings/src/index.d.ts",
+  "types": "./types/src/index.d.ts",
   "engines": {
     "node": ">=12.0.0"
   },
@@ -15,7 +15,7 @@
     "build": "tsc -p .",
     "build:test": "echo not needed",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-* typings *.tgz *.log",
+    "clean": "rimraf dist dist-* types *.tgz *.log",
     "extract-api": "echo skipped",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
@@ -62,6 +62,7 @@
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-http": "^2.0.0",
+    "@azure/core-rest-pipeline": "^1.1.0",
     "tslib": "^2.2.0",
     "node-fetch": "^2.6.0",
     "minimist": "~1.2.5",

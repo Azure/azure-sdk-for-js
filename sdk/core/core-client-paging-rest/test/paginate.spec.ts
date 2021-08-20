@@ -59,19 +59,10 @@ export function paginate<TReturn extends PathUncheckedResponse>(
   client: Client,
   initialResponse: TReturn
 ): PagedAsyncIterableIterator<PaginateReturn<TReturn>, PaginateReturn<TReturn>[]> {
-  return paginateResponse<PaginateReturn<TReturn>>(client, initialResponse);
-}
-
-/**
- *  Paginate helper function defining a custom property to find the paged elements.
- */
-export function paginateCustom<TReturn extends PathUncheckedResponse>(
-  client: Client,
-  initialResponse: TReturn
-): PagedAsyncIterableIterator<PaginateReturn<TReturn>, PaginateReturn<TReturn>[]> {
-  // The generator would generate this based on the swagger so that our users don't need to specify the itemName
-  // when it can be taken from the swagger
-  return paginateResponse<PaginateReturn<TReturn>>(client, initialResponse, { itemName: "values" });
+  return paginateResponse<PaginateReturn<TReturn>>(client, initialResponse, {
+    itemNames: ["value", "values"],
+    nextLinkNames: ["nextLink", "continuationLink"],
+  });
 }
 
 describe("Paginate heleper", () => {
@@ -120,7 +111,7 @@ describe("Paginate heleper", () => {
     ]);
 
     const response: TestResponse = await client.pathUnchecked("/paging/nullnextlink").get();
-    const items = paginateResponse(client, response, { nextLinkName: null });
+    const items = paginateResponse(client, response, { nextLinkNames: null });
     const result = [];
 
     for await (const item of items) {
@@ -141,7 +132,7 @@ describe("Paginate heleper", () => {
     ]);
 
     const response: TestResponseValues = await client.pathUnchecked("/paging/single").get();
-    const items = paginateCustom(client, response);
+    const items = paginate(client, response);
     const result = [];
     for await (const item of items) {
       // We get a strong type for item :)
@@ -157,7 +148,10 @@ describe("Paginate heleper", () => {
     mockResponse(client, [
       {
         path: "/paging/firstResponseEmpty/1",
-        response: { status: 200, body: { value: [], nextLink: "/paging/firstResponseEmpty/2" } },
+        response: {
+          status: 200,
+          body: { value: [], continuationLink: "/paging/firstResponseEmpty/2" },
+        },
       },
       {
         path: "/paging/firstResponseEmpty/2",
@@ -229,7 +223,7 @@ interface MockResponse {
  * @param response - Responses to return, the actual request url is matched to one of the paths in the responses and the defined object is returned.
  * if no path matches a 404 error is returned
  */
-function mockResponse(client: Client, responses: MockResponse[]) {
+function mockResponse(client: Client, responses: MockResponse[]): void {
   let count = 0;
 
   client.pipeline.addPolicy({

@@ -16,8 +16,7 @@ import {
 } from "../utils/recordedClient";
 import * as base64url from "../utils/base64url";
 
-import { KnownAttestationType } from "../../src/generated";
-import { stringToBytes } from "../../src/utils/utf8";
+import { KnownAttestationType } from "../../src";
 
 describe("[AAD] Attestation Client", function() {
   let recorder: Recorder;
@@ -168,7 +167,7 @@ describe("[AAD] Attestation Client", function() {
   /* TPM Attestation can only be performed on an AAD or isolated mode client.
    */
   it("#attestTpm", async () => {
-    const client = createRecordedClient("AAD");
+    const client = createRecordedClient("AAD", true);
     const adminClient = createRecordedAdminClient("AAD");
 
     // Set the policy on the instance to a known value.
@@ -205,15 +204,6 @@ describe("[AAD] Attestation Client", function() {
           runTimeJson: binaryRuntimeData
         })
       ).to.eventually.be.rejectedWith("Cannot provide both runTimeData and runTimeJson");
-    }
-
-    {
-      // If you say you're handing JSON to the service, it should be JSON.
-      await expect(
-        client.attestOpenEnclave(base64url.decodeString(_openEnclaveReport).subarray(0x10), {
-          runTimeJson: stringToBytes("{ xx: abcdefg, }")
-        })
-      ).to.eventually.be.rejectedWith("runTimeJson value cannot be parsed as JSON");
     }
 
     {
@@ -271,15 +261,6 @@ describe("[AAD] Attestation Client", function() {
     }
 
     {
-      // If you say you're handing JSON to the service, it should be JSON.
-      await expect(
-        client.attestSgxEnclave(base64url.decodeString(_openEnclaveReport).subarray(0x10), {
-          runTimeJson: stringToBytes("{ xx: abcdefg, }")
-        })
-      ).to.eventually.be.rejectedWith("runTimeJson value cannot be parsed as JSON");
-    }
-
-    {
       // An OpenEnclave report has a 16 byte header prepended to an SGX quote.
       //  To convert from OpenEnclave reports to SGX Quote, simplystrip the first
       //  16 bytes from the report.
@@ -320,19 +301,6 @@ describe("[AAD] Attestation Client", function() {
       expect(runtimeClaims.jwk.crv).is.equal("P-256");
 
       assert(attestationResult.token, "Expected a token from the service but did not receive one");
-    }
-
-    {
-      try {
-        // An OpenEnclave report has a 16 byte header prepended to an SGX quote.
-        //  To convert from OpenEnclave reports to SGX Quote, simplystrip the first
-        //  16 bytes from the report.
-        await client.attestSgxEnclave(base64url.decodeString(_openEnclaveReport).subarray(0x10), {
-          runTimeJson: stringToBytes('{"bogus": 10 }')
-        });
-      } catch (error) {
-        console.log(`Expected Exception thrown for invalid request: ${error.message}`);
-      }
     }
   }
 });

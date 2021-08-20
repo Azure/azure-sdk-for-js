@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import assert from "assert";
 import { Suite } from "mocha";
-import { Container } from "../../../src";
+import { Container, CosmosClient } from "../../../src";
 import { ItemDefinition } from "../../../src";
 import {
   bulkDeleteItems,
@@ -18,6 +18,7 @@ import {
   getTestContainer
 } from "../common/TestHelpers";
 import { BulkOperationType, OperationInput } from "../../../src";
+import { endpoint, masterKey } from "../common/_testConfig";
 
 interface TestItem {
   id?: string;
@@ -220,7 +221,7 @@ describe("Item CRUD", function(this: Suite) {
   });
 });
 
-describe("bulk item operations", function() {
+describe("bulk/batch item operations", function() {
   describe("with v1 container", function() {
     let container: Container;
     let readItemId: string;
@@ -360,7 +361,6 @@ describe("bulk item operations", function() {
         },
         {
           operationType: BulkOperationType.Replace,
-          partitionKey: 5,
           id: replaceItemId,
           resourceBody: { id: replaceItemId, name: "nice", key: 5 }
         }
@@ -520,6 +520,141 @@ describe("bulk item operations", function() {
 
       const deleteResponse = await container.items.bulk([operation]);
       assert.equal(deleteResponse[0].statusCode, 204);
+    });
+  });
+  describe("v2 multi partition container", async function() {
+    let container: Container;
+    let createItemId: string;
+    let upsertItemId: string;
+    before(async function() {
+      container = await getTestContainer("bulk container", undefined, {
+        partitionKey: {
+          paths: ["/nested/key"],
+          version: 2
+        },
+        throughput: 25100
+      });
+      createItemId = addEntropy("createItem");
+      upsertItemId = addEntropy("upsertItem");
+    });
+    it("creates an item with nested object partition key", async function() {
+      const operations: OperationInput[] = [
+        {
+          operationType: BulkOperationType.Create,
+          resourceBody: {
+            id: createItemId,
+            nested: {
+              key: "A"
+            }
+          }
+        },
+        {
+          operationType: BulkOperationType.Upsert,
+          resourceBody: {
+            id: upsertItemId,
+            nested: {
+              key: false
+            }
+          }
+        }
+      ];
+
+      const createResponse = await container.items.bulk(operations);
+      assert.equal(createResponse[0].statusCode, 201);
+    });
+  });
+
+  // TODO: Non-deterministic test. We can't guarantee we see any response with a 429 status code since the retries happen within the response
+  describe("item read retries", async function() {
+    it("retries on 429", async function() {
+      const client = new CosmosClient({ key: masterKey, endpoint });
+      const { resource: db } = await client.databases.create({
+        id: `small db ${Math.random() * 1000}`
+      });
+      const containerResponse = await client
+        .database(db.id)
+        .containers.create({ id: `small container ${Math.random() * 1000}`, throughput: 400 });
+      const container = containerResponse.container;
+      await container.items.create({ id: "readme" });
+      const arr = new Array(400);
+      const promises = [];
+      for (let i = 0; i < arr.length; i++) {
+        promises.push(container.item("readme").read());
+      }
+      const resp = await Promise.all(promises);
+      assert.equal(resp[0].statusCode, 200);
+    });
+  });
+
+  describe("v2 single partition container", async function() {
+    let container: Container;
+    let createItemId: string;
+    let otherItemId: string;
+    let upsertItemId: string;
+    let replaceItemId: string;
+    let deleteItemId: string;
+    before(async function() {
+      container = await getTestContainer("batch container");
+      deleteItemId = addEntropy("item1");
+      createItemId = addEntropy("item2");
+      otherItemId = addEntropy("item2");
+      upsertItemId = addEntropy("item4");
+      replaceItemId = addEntropy("item3");
+      await container.items.create({
+        id: deleteItemId,
+        key: "A",
+        class: "2010"
+      });
+      await container.items.create({
+        id: replaceItemId,
+        key: "A",
+        class: "2010"
+      });
+    });
+    it("can batch all operation types", async function() {
+      const operations: OperationInput[] = [
+        {
+          operationType: BulkOperationType.Create,
+          resourceBody: { id: createItemId, key: "A", school: "high" }
+        },
+        {
+          operationType: BulkOperationType.Upsert,
+          resourceBody: { id: upsertItemId, key: "B", school: "elementary" }
+        },
+        {
+          operationType: BulkOperationType.Replace,
+          id: replaceItemId,
+          resourceBody: { id: replaceItemId, key: "Z", school: "junior high" }
+        },
+        {
+          operationType: BulkOperationType.Delete,
+          id: deleteItemId
+        }
+      ];
+
+      const response = await container.items.batch(operations);
+      assert.equal(response.result[0].statusCode, 201);
+      assert.equal(response.result[1].statusCode, 201);
+      assert.equal(response.result[2].statusCode, 200);
+      assert.equal(response.result[3].statusCode, 204);
+    });
+    it("rolls back prior operations when one fails", async function() {
+      const operations: OperationInput[] = [
+        {
+          operationType: BulkOperationType.Upsert,
+          resourceBody: { id: otherItemId, key: "B", school: "elementary" }
+        },
+        {
+          operationType: BulkOperationType.Delete,
+          id: deleteItemId + addEntropy("make this 404")
+        }
+      ];
+
+      const deleteResponse = await container.items.batch(operations, "[{}]");
+      assert.equal(deleteResponse.result[0].statusCode, 424);
+      assert.equal(deleteResponse.result[1].statusCode, 404);
+      const { resource: readItem } = await container.item(otherItemId).read();
+      assert.equal(readItem, undefined);
     });
   });
 });
