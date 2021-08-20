@@ -259,7 +259,6 @@ $PackageExclusions = @{
   '@azure-rest/core-client-paging'      = 'Cannot find types/latest/core-client-paging-rest.d.ts https://github.com/Azure/azure-sdk-for-js/issues/16677';
   '@azure/core-asynciterator-polyfill'  = 'Docs CI fails https://github.com/Azure/azure-sdk-for-js/issues/16675';
   '@azure/batch'                        = 'Docs CI fails https://github.com/Azure/azure-sdk-for-js/issues/16809';
-  '@azure/arm-appservice'               = 'Docs CI fails https://github.com/Azure/azure-sdk-for-js/issues/16932';
   '@azure/arm-keyvault'                 = 'Docs CI fails https://github.com/Azure/azure-sdk-for-js/issues/16988';
   '@azure/arm-sql'                      = 'Docs CI fails https://github.com/Azure/azure-sdk-for-js/issues/16989';
 }
