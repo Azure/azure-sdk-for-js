@@ -8124,6 +8124,11 @@ packages:
         optional: true
     resolution:
       integrity: sha512-kQ/dHIzuLrS6Je9+uv81ueZomEwH0qVYstcAQ4/Z93K8zeko9gtAbttJWzoC5ukqXY1PpoouV3+VSOqEAFt5wg==
+  /wtfnode/0.9.1:
+    dev: false
+    hasBin: true
+    resolution:
+      integrity: sha512-Ip6C2KeQPl/F3aP1EfOnPoQk14Udd9lffpoqWDNH3Xt78svxPbv53ngtmtfI0q2Te3oTq79XKTnRNXVIn/GsPA==
   /xhr-mock/2.5.1:
     dependencies:
       global: 4.4.0
@@ -10267,10 +10272,11 @@ packages:
       typescript: 4.2.4
       uuid: 8.3.2
       ws: 7.5.3
+      wtfnode: 0.9.1
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-xuqq+iie3jgTet8h7aIAqAKOF/fOBYG0zBnAEuH0Dwhj8d6zEwT6KAvawPzhwwy+XDvvj7kdtJqCy+N+PR9kBg==
+      integrity: sha512-Zqx51TVh1O4MvQafpdCjxlMwEjbH/UIYk22qkvQDjShkkeLfOpk2jpbA59OP8oO3CseVune9M9MJmt4RJc97Zw==
       tarball: file:projects/event-hubs.tgz
     version: 0.0.0
   file:projects/event-processor-host.tgz:
