@@ -24,9 +24,9 @@ export {
   Pipeline,
   createEmptyPipeline,
   InternalPipelineOptions,
-  PipelineOptions,
-  createPipelineFromOptions
+  PipelineOptions
 } from "./pipeline";
+export { createPipelineFromOptions } from "./createPipelineFromOptions";
 export { createDefaultHttpClient } from "./defaultHttpClient";
 export { createHttpHeaders } from "./httpHeaders";
 export { createPipelineRequest, PipelineRequestOptions } from "./pipelineRequest";

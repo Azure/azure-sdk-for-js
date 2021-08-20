@@ -8,21 +8,10 @@ import {
   SendRequest,
   ProxySettings
 } from "./interfaces";
-import { LogPolicyOptions, logPolicy } from "./policies/logPolicy";
-import { UserAgentPolicyOptions, userAgentPolicy } from "./policies/userAgentPolicy";
-import { RedirectPolicyOptions, redirectPolicy } from "./policies/redirectPolicy";
-import {
-  ExponentialRetryPolicyOptions,
-  exponentialRetryPolicy
-} from "./policies/exponentialRetryPolicy";
-import { tracingPolicy } from "./policies/tracingPolicy";
-import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy";
-import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
-import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
-import { decompressResponsePolicy } from "./policies/decompressResponsePolicy";
-import { proxyPolicy } from "./policies/proxyPolicy";
-import { isNode } from "./util/helpers";
-import { formDataPolicy } from "./policies/formDataPolicy";
+import { LogPolicyOptions } from "./policies/logPolicy";
+import { UserAgentPolicyOptions } from "./policies/userAgentPolicy";
+import { RedirectPolicyOptions } from "./policies/redirectPolicy";
+import { ExponentialRetryPolicyOptions } from "./policies/exponentialRetryPolicy";
 
 /**
  * Policies are executed in phases.
@@ -129,7 +118,7 @@ interface PolicyGraphNode {
  * Do not export this class from the package.
  * @internal
  */
-class HttpPipeline implements Pipeline {
+export class HttpPipeline implements Pipeline {
   private _policies: PipelineDescriptor[] = [];
   private _orderedPolicies?: PipelinePolicy[];
 
@@ -424,29 +413,4 @@ export interface InternalPipelineOptions extends PipelineOptions {
    * Options to configure request/response logging.
    */
   loggingOptions?: LogPolicyOptions;
-}
-
-/**
- * Create a new pipeline with a default set of customizable policies.
- * @param options - Options to configure a custom pipeline.
- */
-export function createPipelineFromOptions(options: InternalPipelineOptions): Pipeline {
-  const pipeline = HttpPipeline.create();
-
-  if (isNode) {
-    pipeline.addPolicy(proxyPolicy(options.proxyOptions));
-    pipeline.addPolicy(decompressResponsePolicy());
-  }
-
-  pipeline.addPolicy(formDataPolicy());
-  pipeline.addPolicy(tracingPolicy(options.userAgentOptions));
-  pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));
-  pipeline.addPolicy(setClientRequestIdPolicy());
-  pipeline.addPolicy(throttlingRetryPolicy(), { phase: "Retry" });
-  pipeline.addPolicy(systemErrorRetryPolicy(options.retryOptions), { phase: "Retry" });
-  pipeline.addPolicy(exponentialRetryPolicy(options.retryOptions), { phase: "Retry" });
-  pipeline.addPolicy(redirectPolicy(options.redirectOptions), { afterPhase: "Retry" });
-  pipeline.addPolicy(logPolicy(options.loggingOptions), { afterPhase: "Retry" });
-
-  return pipeline;
 }
