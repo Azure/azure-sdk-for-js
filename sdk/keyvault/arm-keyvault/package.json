@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for KeyVaultManagementClient.",
-  "version": "30.0.0-beta.1",
+  "version": "30.0.0-beta.2",
   "engines": {
     "node": ">=12.0.0"
   },
@@ -63,7 +63,8 @@
     "rollup.config.js",
     "tsconfig.json",
     "review/*",
-    "CHANGELOG.md"
+    "CHANGELOG.md",
+    "types"
   ],
   "scripts": {
     "build": "tsc && rollup -c 2>&1 && npm run minify && mkdirp ./review && npm run extract-api",
