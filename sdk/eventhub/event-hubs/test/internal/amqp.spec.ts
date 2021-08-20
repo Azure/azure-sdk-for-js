@@ -6,6 +6,9 @@ import { Constants } from "@azure/core-amqp";
 import { fromRheaMessage, isAmqpAnnotatedMessage } from "../../src/eventData";
 const assert = chai.assert;
 
+setInterval(() => {
+  console.log(`[${new Date().toISOString()}] test hearbeat`);
+}, 60000).unref();
 describe("AMQP message encoding", () => {
   it("isAmqpAnnotatedMessage", () => {
     assert.isFalse(isAmqpAnnotatedMessage({}));
