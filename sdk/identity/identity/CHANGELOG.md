@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- `ClientSecretCredential`, `ClientCertificateCredential` and `UsernamePasswordCredential` now throw if the required parameters are not provided (even in JavaScript).
+
 ### Other Changes
 
 ## 2.0.0-beta.5 (2021-08-10)
