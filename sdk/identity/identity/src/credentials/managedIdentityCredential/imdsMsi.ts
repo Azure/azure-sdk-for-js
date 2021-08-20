@@ -91,7 +91,7 @@ export const imdsMsi: MSI = {
       requestOptions.headers.delete("Metadata");
     }
 
-    requestOptions.tracingOptions = { ...options.tracingOptions };
+    requestOptions.tracingOptions = options.tracingOptions;
 
     try {
       // Create a request with a timeout since we expect that

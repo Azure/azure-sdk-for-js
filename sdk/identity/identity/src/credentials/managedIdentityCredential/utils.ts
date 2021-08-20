@@ -36,7 +36,6 @@ export async function msiGenericGetToken(
 ): Promise<AccessToken | null> {
   const request = createPipelineRequest({
     abortSignal: getTokenOptions.abortSignal,
-    tracingOptions: { ...requestOptions.tracingOptions }, // TODO: why is this even necessary? we already splat out requestOptions
     ...requestOptions,
     allowInsecureConnection: true
   });
