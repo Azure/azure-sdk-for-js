@@ -52,7 +52,7 @@ export class ClientContext {
     this.connectionPolicy = cosmosClientOptions.connectionPolicy;
     this.sessionContainer = new SessionContainer();
     this.partitionKeyDefinitionCache = {};
-    this.pipeline;
+    this.pipeline = null;
     if (cosmosClientOptions.aadCredentials) {
       this.pipeline = createEmptyPipeline();
       const hrefEndpoint = sanitizeEndpoint(cosmosClientOptions.endpoint);
