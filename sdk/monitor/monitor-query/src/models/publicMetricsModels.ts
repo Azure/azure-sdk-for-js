@@ -15,7 +15,7 @@ import {
 /**
  * Options used when querying metrics.
  */
-export interface QueryMetricsOptions extends OperationOptions {
+export interface QueryOptions extends OperationOptions {
   /** The interval (i.e. timegrain) of the query.This is an ISO8601 format duration value. */
   granularity?: string;
   /** The enclosing timespan for metrics. This is an ISO8601 format time interval value. */
@@ -109,30 +109,6 @@ export interface GetMetricDefinitionsOptions extends OperationOptions {
   metricNamespace?: string;
 }
 
-/** Metric definition class specifies the metadata for a metric. */
-export interface MetricDefinition {
-  /** Flag to indicate whether the dimension is required. */
-  isDimensionRequired?: boolean;
-  /** the resource identifier of the resource that emitted the metric. */
-  resourceId?: string;
-  /** the name of the metric */
-  name?: string;
-  /** Detailed description of this metric. */
-  displayDescription?: string;
-  /** Custom category name for this metric. */
-  category?: string;
-  /** the unit of the metric. */
-  unit?: MetricUnit;
-  /** the primary aggregation type value defining how to use the values for display. */
-  primaryAggregationType?: AggregationType;
-  /** the collection of what aggregation intervals are available to be queried. */
-  metricAvailabilities?: MetricAvailability[];
-  /** the resource identifier of the metric definition. */
-  id?: string;
-  /** the name of the dimension */
-  dimensions?: string[];
-}
-
 /**
  * Metric definitions.
  */
@@ -161,9 +137,7 @@ export interface GetMetricNamespacesResult {
   namespaces: MetricNamespace[];
 }
 
-/**
- * Metric definition.
- */
+/** Metric definition class specifies the metadata for a metric. */
 export interface MetricDefinition {
   /** Flag to indicate whether the dimension is required. */
   isDimensionRequired?: boolean;

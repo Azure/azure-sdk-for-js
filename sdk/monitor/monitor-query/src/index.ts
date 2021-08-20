@@ -6,8 +6,8 @@
 //
 export { LogsQueryClientOptions, LogsQueryClient } from "./logsQueryClient";
 export {
-  BatchQuery,
-  QueryLogsBatch,
+  QueryBatch,
+  LogsBatchQuery,
   QueryLogsBatchOptions,
   QueryLogsBatchResult,
   QueryLogsOptions,
@@ -28,7 +28,7 @@ export {
   MetadataValue,
   Metric,
   MetricDefinition,
-  QueryMetricsOptions,
+  QueryOptions,
   QueryMetricsResult,
   TimeSeriesElement
 } from "./models/publicMetricsModels";

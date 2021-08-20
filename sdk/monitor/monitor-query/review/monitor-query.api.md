@@ -12,17 +12,6 @@ import { TokenCredential } from '@azure/core-auth';
 export type AggregationType = "None" | "Average" | "Count" | "Minimum" | "Maximum" | "Total";
 
 // @public
-export interface BatchQuery {
-    additionalWorkspaces?: string[];
-    includeQueryStatistics?: boolean;
-    includeVisualization?: boolean;
-    query: string;
-    serverTimeoutInSeconds?: number;
-    timespan?: string;
-    workspaceId: string;
-}
-
-// @public
 export const Durations: {
     readonly last7Days: "P7D";
     readonly last3Days: "P3D";
@@ -76,13 +65,18 @@ export interface GetMetricNamespacesResult {
 }
 
 // @public
+export interface LogsBatchQuery {
+    queries: QueryBatch[];
+}
+
+// @public
 export type LogsColumnType = string;
 
 // @public
 export class LogsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions);
     queryLogs(workspaceId: string, query: string, timespan: string, options?: QueryLogsOptions): Promise<QueryLogsResult>;
-    queryLogsBatch(batch: QueryLogsBatch, options?: QueryLogsBatchOptions): Promise<QueryLogsBatchResult>;
+    queryLogsBatch(batch: LogsBatchQuery, options?: QueryLogsBatchOptions): Promise<QueryLogsBatchResult>;
 }
 
 // @public
@@ -138,20 +132,6 @@ export interface MetricDefinition {
     id?: string;
     isDimensionRequired?: boolean;
     metricAvailabilities?: MetricAvailability[];
-    name?: string;
-    primaryAggregationType?: AggregationType;
-    resourceId?: string;
-    unit?: MetricUnit;
-}
-
-// @public
-export interface MetricDefinition {
-    category?: string;
-    dimensions?: string[];
-    displayDescription?: string;
-    id?: string;
-    isDimensionRequired?: boolean;
-    metricAvailabilities?: MetricAvailability[];
     metricClass?: MetricClass;
     name?: string;
     namespace?: string;
@@ -185,7 +165,7 @@ export class MetricsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: MetricsClientOptions);
     getMetricDefinitions(resourceUri: string, options?: GetMetricDefinitionsOptions): Promise<GetMetricDefinitionsResult>;
     getMetricNamespaces(resourceUri: string, options?: GetMetricNamespacesOptions): Promise<GetMetricNamespacesResult>;
-    queryMetrics(resourceUri: string, metricNames: string[], options?: QueryMetricsOptions): Promise<QueryMetricsResult>;
+    query(resourceUri: string, metricNames: string[], options?: QueryOptions): Promise<QueryMetricsResult>;
 }
 
 // @public
@@ -205,8 +185,14 @@ export interface MetricValue {
 export type NamespaceClassification = string;
 
 // @public
-export interface QueryLogsBatch {
-    queries: BatchQuery[];
+export interface QueryBatch {
+    additionalWorkspaces?: string[];
+    includeQueryStatistics?: boolean;
+    includeVisualization?: boolean;
+    query: string;
+    serverTimeoutInSeconds?: number;
+    timespan?: string;
+    workspaceId: string;
 }
 
 // @public
@@ -241,7 +227,17 @@ export interface QueryLogsResult {
 }
 
 // @public
-export interface QueryMetricsOptions extends OperationOptions {
+export interface QueryMetricsResult {
+    cost?: number;
+    granularity?: string;
+    metrics: Metric[];
+    namespace?: string;
+    resourceRegion?: string;
+    timespan: string;
+}
+
+// @public
+export interface QueryOptions extends OperationOptions {
     aggregations?: AggregationType[];
     filter?: string;
     granularity?: string;
@@ -250,16 +246,6 @@ export interface QueryMetricsOptions extends OperationOptions {
     resultType?: ResultType;
     timespan?: string;
     top?: number;
-}
-
-// @public
-export interface QueryMetricsResult {
-    cost?: number;
-    granularity?: string;
-    metrics: Metric[];
-    namespace?: string;
-    resourceRegion?: string;
-    timespan: string;
 }
 
 // @public

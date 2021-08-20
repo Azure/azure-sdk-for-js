@@ -30,7 +30,7 @@ import {
   GetMetricDefinitionsResult,
   GetMetricNamespacesResult,
   GetMetricDefinitionsOptions,
-  QueryMetricsOptions,
+  QueryOptions,
   QueryMetricsResult
 } from "../../../src";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -108,7 +108,7 @@ describe("Model unit tests", () => {
       const onResponse = {} as RawResponseCallback;
 
       // (Required<T> just to make sure I don't forget a field)
-      const track2Model: Required<QueryMetricsOptions> = {
+      const track2Model: Required<QueryOptions> = {
         abortSignal,
         aggregations: ["Average", "Maximum"],
         filter: "arbitraryFilter",

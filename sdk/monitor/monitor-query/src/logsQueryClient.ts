@@ -6,7 +6,7 @@ import { TokenCredential } from "@azure/core-auth";
 import { PipelineOptions, bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 
 import {
-  QueryLogsBatch as LogsBatchQuery,
+  LogsBatchQuery,
   QueryLogsBatchOptions,
   QueryLogsBatchResult,
   QueryLogsOptions,

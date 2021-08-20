@@ -8,7 +8,7 @@ import {
   GetMetricDefinitionsResult,
   GetMetricNamespacesOptions,
   GetMetricNamespacesResult,
-  QueryMetricsOptions,
+  QueryOptions,
   QueryMetricsResult
 } from "./models/publicMetricsModels";
 
@@ -92,7 +92,7 @@ export class MetricsQueryClient {
   async query(
     resourceUri: string,
     metricNames: string[],
-    options?: QueryMetricsOptions
+    options?: QueryOptions
   ): Promise<QueryMetricsResult> {
     const response = await this._metricsClient.metrics.list(
       resourceUri,

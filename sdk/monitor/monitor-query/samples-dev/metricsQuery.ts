@@ -31,14 +31,10 @@ export async function main() {
 
   console.log(`Picking an example metric to query: ${firstMetric.name}`);
 
-  const metricsResponse = await metricsQueryClient.queryMetrics(
-    metricsResourceId,
-    [firstMetric.name!],
-    {
-      granularity: "PT1M",
-      timespan: Durations.last5Minutes
-    }
-  );
+  const metricsResponse = await metricsQueryClient.query(metricsResourceId, [firstMetric.name!], {
+    granularity: "PT1M",
+    timespan: Durations.last5Minutes
+  });
 
   console.log(
     `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.granularity}, time span: ${metricsResponse.timespan}`

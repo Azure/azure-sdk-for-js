@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import { env } from "process";
 
-import { QueryLogsBatch, Durations, LogsQueryClient } from "../../src";
+import { LogsBatchQuery, Durations, LogsQueryClient } from "../../src";
 import { runWithTelemetry } from "../setupOpenTelemetry";
 
 import {
@@ -390,7 +390,7 @@ describe("LogsQueryClient live tests", function() {
     });
 
     it("queryLogsBatch", async () => {
-      const batchRequest: QueryLogsBatch = {
+      const batchRequest: LogsBatchQuery = {
         queries: [
           {
             workspaceId: monitorWorkspaceId,

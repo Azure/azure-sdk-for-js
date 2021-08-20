@@ -27,14 +27,14 @@ import { MetricNamespacesListResponse as GeneratedMetricNamespacesListResponse }
 import { formatPreferHeader } from "./util";
 
 import {
-  BatchQuery,
+  QueryBatch,
   GetMetricDefinitionsOptions,
   GetMetricDefinitionsResult,
   GetMetricNamespacesResult,
   LogsTable,
-  QueryLogsBatch,
+  LogsBatchQuery,
   QueryLogsBatchResult,
-  QueryMetricsOptions,
+  QueryOptions as QueryMetricsOptions,
   QueryMetricsResult
 } from "../../src";
 import { Metric, MetricDefinition, TimeSeriesElement } from "../models/publicMetricsModels";
@@ -43,14 +43,14 @@ import { FullOperationResponse } from "../../../../core/core-client/types/latest
 /**
  * @internal
  */
-export function convertRequestForQueryBatch(batch: QueryLogsBatch): GeneratedBatchRequest {
+export function convertRequestForQueryBatch(batch: LogsBatchQuery): GeneratedBatchRequest {
   let id = 0;
 
-  const requests: GeneratedBatchQueryRequest[] = batch.queries.map((query: BatchQuery) => {
+  const requests: GeneratedBatchQueryRequest[] = batch.queries.map((query: QueryBatch) => {
     const body: QueryBody &
       Partial<
         Pick<
-          BatchQuery,
+          QueryBatch,
           | "query"
           | "timespan"
           | "workspaceId"
