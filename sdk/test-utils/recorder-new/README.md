@@ -35,3 +35,7 @@ Reference: https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/A
 - Run `rush update && rush build -t .`
 - Run `rushx test:node`
 - Run `rushx test:browser`
+
+## Copying the recordings saved in the container
+
+- `docker cp <container_id>:/etc/testproxy/ temp-location`
