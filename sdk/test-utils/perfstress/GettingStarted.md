@@ -38,7 +38,7 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
     ```
 
 3.  Tests will live under `sdk/<service>/perf-tests/<service-sdk>/test`
-4.  Add a `package.json` such as [example-perf-package.json](https://github.com/Azure/azure-sdk-for-js/blob/fe9b1e5a50946f53b6491d7f67b2420d8ee1b229/sdk/storage/perf-tests/storage-file-datalake/package.json) at `sdk/<service>/perf-tests/<service-sdk>` folder.
+4.  Add a `package.json` such as [example-perf-package.json](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/perf-tests/storage-file-datalake/package.json) at `sdk/<service>/perf-tests/<service-sdk>` folder.
 
     Make sure to import your `<service-sdk>` and the `test-utils-perfstress` project.
 
@@ -55,6 +55,7 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
 
     ```json
      "name": "@azure-tests/perf-<service-sdk>",
+     "sdk-type": "perf-test",
      "private": true,
     ```
 
@@ -69,19 +70,17 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
     In the end, your tsconfig may look something like below.
 
     ```
-        {
-          "extends": "../../../../tsconfig.package",
-          "compilerOptions": {
-            "module": "CommonJS",
-            "target": "ES2015",
-            "declarationDir": "./typings/latest",
-            "lib": ["ES6", "ESNext.AsyncIterable"],
-            "noEmit": true
-          },
-          "compileOnSave": true,
-          "exclude": ["node_modules"],
-          "include": ["./test/**/*.ts"]
-        }
+         {
+           "extends": "../../../../tsconfig.package",
+           "compilerOptions": {
+             "module": "CommonJS",
+             "declarationDir": "./typings/latest",
+             "lib": ["ES6", "ESNext.AsyncIterable"],
+             "noEmit": true
+           },
+           "compileOnSave": true,
+           "include": ["./test/**/*.ts"]
+         }
     ```
 
 ### [For perf-testing track 1 version of the same package](#for-perf-testing-track-1-version-of-the-same-package)
@@ -107,6 +106,7 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
 
    ```json
     "name": "@azure-tests/perf-<service-sdk>-track-1",
+    "sdk-type": "perf-test"
     "private": true,
    ```
 
@@ -260,7 +260,7 @@ Example: Currently `@azure/<service-sdk>` is at 12.4.0 on master and you want to
   - `"@azure/<service-sdk>": [..., "12.2.0"]`
 - `rush update` (generates a new pnpm-lock file)
 - Navigate to `sdk\storage\perf-tests\<service-sdk>`
-- `rush build -t perf-test-<service-sdk>`
+- `rush build -t perf-<service-sdk>`
 - Run the tests as suggested before, example `npm run perf-test:node -- TestClassName --warmup 2 --duration 7 --iterations 2 --parallel 50`
 
 ## [Using Proxy Tool](#using-proxy-tool)

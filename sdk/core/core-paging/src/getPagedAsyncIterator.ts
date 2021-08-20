@@ -10,10 +10,15 @@ import { PagedAsyncIterableIterator, PageSettings, PagedResult } from "./models"
  * @param pagedResult - an object that specifies how to get pages.
  * @returns a paged async iterator that iterates over results.
  */
-export function getPagedAsyncIterator<TElement, TPage = TElement[], TPageSettings = PageSettings>(
-  pagedResult: PagedResult<TPage, TPageSettings>
+export function getPagedAsyncIterator<
+  TElement,
+  TPage = TElement[],
+  TPageSettings = PageSettings,
+  TLink = string
+>(
+  pagedResult: PagedResult<TPage, TPageSettings, TLink>
 ): PagedAsyncIterableIterator<TElement, TPage, TPageSettings> {
-  const iter = getItemAsyncIterator<TElement, TPage, TPageSettings>(pagedResult);
+  const iter = getItemAsyncIterator<TElement, TPage, TLink, TPageSettings>(pagedResult);
   return {
     next() {
       return iter.next();
@@ -25,15 +30,15 @@ export function getPagedAsyncIterator<TElement, TPage = TElement[], TPageSetting
       pagedResult?.byPage ??
       ((settings?: PageSettings) => {
         return getPageAsyncIterator(
-          pagedResult as PagedResult<TPage, PageSettings>,
+          pagedResult as PagedResult<TPage, PageSettings, TLink>,
           settings?.maxPageSize
         );
       })
   };
 }
 
-async function* getItemAsyncIterator<TElement, TPage, TPageSettings>(
-  pagedResult: PagedResult<TPage, TPageSettings>,
+async function* getItemAsyncIterator<TElement, TPage, TLink, TPageSettings>(
+  pagedResult: PagedResult<TPage, TPageSettings, TLink>,
   maxPageSize?: number
 ): AsyncIterableIterator<TElement> {
   const pages = getPageAsyncIterator(pagedResult, maxPageSize);
@@ -53,8 +58,8 @@ async function* getItemAsyncIterator<TElement, TPage, TPageSettings>(
   }
 }
 
-async function* getPageAsyncIterator<TPage, TPageSettings>(
-  pagedResult: PagedResult<TPage, TPageSettings>,
+async function* getPageAsyncIterator<TPage, TLink, TPageSettings>(
+  pagedResult: PagedResult<TPage, TPageSettings, TLink>,
   maxPageSize?: number
 ): AsyncIterableIterator<TPage> {
   let response = await pagedResult.getPage(pagedResult.firstPageLink, maxPageSize);

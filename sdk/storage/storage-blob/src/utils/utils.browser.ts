@@ -33,12 +33,22 @@ export async function blobToString(blob: Blob): Promise<string> {
   });
 }
 
-export function streamToBuffer() {}
+export function streamToBuffer(): void {
+  /* empty */
+}
 
-export function streamToBuffer2() {}
+export function streamToBuffer2(): void {
+  /* empty */
+}
 
-export function readStreamToLocalFile() {}
+export function readStreamToLocalFile(): void {
+  /* empty */
+}
 
-export const fsStat = function stat() {};
+export const fsStat = function stat(): void {
+  /* empty */
+};
 
-export const fsCreateReadStream = function createReadStream() {};
+export const fsCreateReadStream = function createReadStream(): void {
+  /* empty */
+};

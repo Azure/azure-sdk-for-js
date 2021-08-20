@@ -6,13 +6,15 @@ import {
   OperationTracingOptions,
   createSpanFunction,
   SpanStatusCode,
-  isSpanContextValid
+  isSpanContextValid,
+  Span
 } from "@azure/core-tracing";
 import { SpanKind } from "@azure/core-tracing";
 import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { URL } from "../util/url";
 import { getUserAgentValue } from "../util/userAgent";
+import { logger } from "../log";
 
 const createSpan = createSpanFunction({
   packagePrefix: "",
@@ -52,63 +54,94 @@ export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolic
         return next(request);
       }
 
-      // create a new span
-      const tracingOptions: OperationTracingOptions = {
-        ...request.tracingOptions,
-        spanOptions: {
-          ...request.tracingOptions.spanOptions,
-          kind: SpanKind.CLIENT
-        }
-      };
+      const span = tryCreateSpan(request, userAgent);
 
-      const url = new URL(request.url);
-      const path = url.pathname || "/";
-
-      const { span } = createSpan(path, { tracingOptions });
-
-      span.setAttributes({
-        "http.method": request.method,
-        "http.url": request.url,
-        requestId: request.requestId
-      });
-
-      if (userAgent) {
-        span.setAttribute("http.user_agent", userAgent);
+      if (!span) {
+        return next(request);
       }
 
       try {
-        // set headers
-        const spanContext = span.spanContext();
-        const traceParentHeader = getTraceParentHeader(spanContext);
-        if (traceParentHeader && isSpanContextValid(spanContext)) {
-          request.headers.set("traceparent", traceParentHeader);
-          const traceState = spanContext.traceState && spanContext.traceState.serialize();
-          // if tracestate is set, traceparent MUST be set, so only set tracestate after traceparent
-          if (traceState) {
-            request.headers.set("tracestate", traceState);
-          }
-        }
-
         const response = await next(request);
-        span.setAttribute("http.status_code", response.status);
-        const serviceRequestId = response.headers.get("x-ms-request-id");
-        if (serviceRequestId) {
-          span.setAttribute("serviceRequestId", serviceRequestId);
-        }
-        span.setStatus({
-          code: SpanStatusCode.OK
-        });
+        tryProcessResponse(span, response);
         return response;
       } catch (err) {
-        span.setStatus({
-          code: SpanStatusCode.ERROR,
-          message: err.message
-        });
-        span.setAttribute("http.status_code", err.statusCode);
+        tryProcessError(span, err);
         throw err;
-      } finally {
-        span.end();
       }
     }
   };
+}
+
+function tryCreateSpan(request: PipelineRequest, userAgent?: string): Span | undefined {
+  try {
+    // create a new span
+    const tracingOptions: OperationTracingOptions = {
+      ...request.tracingOptions,
+      spanOptions: {
+        ...request.tracingOptions?.spanOptions,
+        kind: SpanKind.CLIENT
+      }
+    };
+
+    const url = new URL(request.url);
+    const path = url.pathname || "/";
+
+    const { span } = createSpan(path, { tracingOptions });
+
+    span.setAttributes({
+      "http.method": request.method,
+      "http.url": request.url,
+      requestId: request.requestId
+    });
+
+    if (userAgent) {
+      span.setAttribute("http.user_agent", userAgent);
+    }
+    // set headers
+    const spanContext = span.spanContext();
+    const traceParentHeader = getTraceParentHeader(spanContext);
+    if (traceParentHeader && isSpanContextValid(spanContext)) {
+      request.headers.set("traceparent", traceParentHeader);
+      const traceState = spanContext.traceState && spanContext.traceState.serialize();
+      // if tracestate is set, traceparent MUST be set, so only set tracestate after traceparent
+      if (traceState) {
+        request.headers.set("tracestate", traceState);
+      }
+    }
+    return span;
+  } catch (error) {
+    logger.warning(`Skipping creating a tracing span due to an error: ${error.message}`);
+    return undefined;
+  }
+}
+
+function tryProcessError(span: Span, err: any): void {
+  try {
+    span.setStatus({
+      code: SpanStatusCode.ERROR,
+      message: err.message
+    });
+    if (err.statusCode) {
+      span.setAttribute("http.status_code", err.statusCode);
+    }
+    span.end();
+  } catch (error) {
+    logger.warning(`Skipping tracing span processing due to an error: ${error.message}`);
+  }
+}
+
+function tryProcessResponse(span: Span, response: PipelineResponse): void {
+  try {
+    span.setAttribute("http.status_code", response.status);
+    const serviceRequestId = response.headers.get("x-ms-request-id");
+    if (serviceRequestId) {
+      span.setAttribute("serviceRequestId", serviceRequestId);
+    }
+    span.setStatus({
+      code: SpanStatusCode.OK
+    });
+    span.end();
+  } catch (error) {
+    logger.warning(`Skipping tracing span processing due to an error: ${error.message}`);
+  }
 }
