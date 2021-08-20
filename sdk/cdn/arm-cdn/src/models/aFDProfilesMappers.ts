@@ -8,7 +8,11 @@
 
 export {
   discriminators,
+  AfdErrorResponse,
   ErrorResponse,
-  ResourceUsage,
-  ResourceUsageListResult
+  Usage,
+  UsageName,
+  UsagesListResult,
+  ValidateCustomDomainInput,
+  ValidateCustomDomainOutput
 } from "../models/mappers";

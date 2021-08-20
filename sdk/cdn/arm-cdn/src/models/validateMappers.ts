@@ -12,6 +12,7 @@ export {
   AFDDomainHttpsParameters,
   AFDEndpoint,
   AFDEndpointUpdateParameters,
+  AfdErrorResponse,
   AFDOrigin,
   AFDOriginGroup,
   AFDOriginGroupUpdateParameters,
@@ -85,7 +86,6 @@ export {
   PolicySettings,
   PostArgsMatchConditionParameters,
   Profile,
-  ProfileListResult,
   ProfileUpdateParameters,
   ProxyResource,
   QueryStringMatchConditionParameters,
@@ -99,8 +99,6 @@ export {
   RequestUriMatchConditionParameters,
   Resource,
   ResourceReference,
-  ResourceUsage,
-  ResourceUsageListResult,
   ResponseBasedOriginErrorDetectionParameters,
   Route,
   Rule,
@@ -112,8 +110,6 @@ export {
   SecurityPolicyWebApplicationFirewallAssociation,
   SecurityPolicyWebApplicationFirewallParameters,
   Sku,
-  SsoUri,
-  SupportedOptimizationTypesListResult,
   SystemData,
   TrackedResource,
   UrlFileExtensionMatchConditionParameters,
@@ -127,5 +123,7 @@ export {
   UrlSigningActionParameters,
   UrlSigningKey,
   UrlSigningKeyParameters,
-  UrlSigningParamIdentifier
+  UrlSigningParamIdentifier,
+  ValidateSecretInput,
+  ValidateSecretOutput
 } from "../models/mappers";
