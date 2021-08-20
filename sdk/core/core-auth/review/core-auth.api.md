@@ -79,21 +79,6 @@ export interface SASCredential {
 }
 
 // @public
-export interface SpanAttributes {
-    [attributeKey: string]: SpanAttributeValue | undefined;
-}
-
-// @public
-export type SpanAttributeValue = string | number | boolean | Array<null | undefined | string> | Array<null | undefined | number> | Array<null | undefined | boolean>;
-
-// @public
-export interface SpanContext {
-    spanId: string;
-    traceFlags: number;
-    traceId: string;
-}
-
-// @public
 export interface TokenCredential {
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
 }

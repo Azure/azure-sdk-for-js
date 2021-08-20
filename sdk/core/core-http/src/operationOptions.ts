@@ -68,10 +68,9 @@ export function operationOptionsToRequestOptionsBase<T extends OperationOptions>
 
   if (tracingOptions) {
     result.tracingContext = tracingOptions.tracingContext;
+    // Backwards compatibility
+    result.spanOptions = (tracingOptions as any)?.spanOptions;
   }
-
-  // Backwards compatibility
-  result.spanOptions = (tracingOptions as any)?.spanOptions;
 
   return result;
 }

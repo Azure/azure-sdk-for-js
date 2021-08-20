@@ -16,4 +16,4 @@ export {
   isTokenCredential
 } from "./tokenCredential";
 
-export { SpanContext, SpanAttributes, Context, SpanAttributeValue } from "./tracing";
+export { Context } from "./tracing";
