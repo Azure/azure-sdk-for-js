@@ -19,22 +19,17 @@ const paths = {
 };
 
 export class TestProxyHttpClient {
-  private static s_recordingServerUri = "http://localhost:5000";
+  private url: string;
   private _recordingId?: string;
   private _sessionFile: string;
-  private _startUri: string;
-  private _stopUri: string;
   private _mode: string;
   private _httpClient: HttpClient;
+  private _playback: boolean;
 
   constructor(sessionFile: string, playback: boolean) {
     this._sessionFile = sessionFile;
-    this._startUri = playback
-      ? TestProxyHttpClient.s_recordingServerUri + paths.playback + paths.start
-      : TestProxyHttpClient.s_recordingServerUri + paths.record + paths.start;
-    this._stopUri = playback
-      ? TestProxyHttpClient.s_recordingServerUri + paths.playback + paths.stop
-      : TestProxyHttpClient.s_recordingServerUri + paths.record + paths.stop;
+    this._playback = playback;
+    this.url = "http://localhost:5000";
     this._mode = playback ? "playback" : "record";
     this._httpClient = createDefaultHttpClient();
   }
@@ -46,7 +41,7 @@ export class TestProxyHttpClient {
 
       const upstreamUrl = new URL(request.url);
       const redirectedUrl = new URL(request.url);
-      const providedUrl = new URL(TestProxyHttpClient.s_recordingServerUri);
+      const providedUrl = new URL(this.url);
 
       redirectedUrl.host = providedUrl.host;
       redirectedUrl.port = providedUrl.port;
@@ -70,7 +65,10 @@ export class TestProxyHttpClient {
 
   async start(): Promise<void> {
     if (this._recordingId === undefined) {
-      const req = this._createRecordingRequest(this._startUri);
+      const startUri = this._playback
+        ? this.url + paths.playback + paths.start
+        : this.url + paths.record + paths.start;
+      const req = this._createRecordingRequest(startUri);
       const rsp = await this._httpClient.sendRequest({
         ...req,
         allowInsecureConnection: true
@@ -88,15 +86,18 @@ export class TestProxyHttpClient {
 
   async stop(): Promise<void> {
     if (this._recordingId !== undefined) {
-      const req = this._createRecordingRequest(this._stopUri);
+      const stopUri = this._playback
+        ? this.url + paths.playback + paths.stop
+        : this.url + paths.record + paths.stop;
+      const req = this._createRecordingRequest(stopUri);
       req.headers.set("x-recording-save", "true");
 
       await this._httpClient.sendRequest({ ...req, allowInsecureConnection: true });
     }
   }
 
-  private _createRecordingRequest(uri: string) {
-    const req = createPipelineRequest({ url: uri, method: "POST" });
+  private _createRecordingRequest(url: string) {
+    const req = createPipelineRequest({ url: url, method: "POST" });
     req.headers.set("x-recording-file", this._sessionFile);
     if (this._recordingId !== undefined) {
       req.headers.set("x-recording-id", this._recordingId);
