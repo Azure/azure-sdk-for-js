@@ -8,7 +8,7 @@
  * @azsdk-weight 40
  */
 
-import PurviewAccount from "@azure-rest/purview-account";
+import PurviewAccount, { paginate } from "@azure-rest/purview-account";
 import { DefaultAzureCredential } from "@azure/identity";
 import dotenv from "dotenv";
 
@@ -26,7 +26,11 @@ async function main() {
     console.log(`GET "/collections" failed with ${response.status}`);
   }
 
-  console.log(response.body);
+  const dataSources = paginate(client, response);
+
+  for await (const dataSource of dataSources) {
+    console.log(dataSource);
+  }
 }
 
 main().catch(console.error);

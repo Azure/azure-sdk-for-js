@@ -7,6 +7,8 @@
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
+import { PagedAsyncIterableIterator } from '@azure-rest/core-client-paging';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
 import { RequestParameters } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -485,6 +487,9 @@ export interface Filter {
     path: string;
 }
 
+// @public
+export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
+
 // @public (undocumented)
 export interface Identity {
     principalId?: string;
@@ -520,6 +525,16 @@ export interface NormalizationRule {
     // (undocumented)
     version?: number;
 }
+
+// @public
+export function paginate<TReturn extends PathUncheckedResponse>(client: Client, initialResponse: TReturn): PagedAsyncIterableIterator<PaginateReturn<TReturn>, PaginateReturn<TReturn>[]>;
+
+// @public
+export type PaginateReturn<TResult> = TResult extends {
+    body: {
+        value?: infer TPage;
+    };
+} ? GetArrayType<TPage> : Array<unknown>;
 
 // @public (undocumented)
 export interface PathPatternExtractorConfig {
