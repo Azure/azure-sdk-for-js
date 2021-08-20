@@ -9,7 +9,13 @@ import { AbortSignalLike } from '@azure/abort-controller';
 // @public
 export interface AccessToken {
     expiresOnTimestamp: number;
+    refreshOn?: number;
     token: string;
+}
+
+// @public
+export interface AuthenticationOptions {
+    userAssertion?: UserAssertion;
 }
 
 // @public
@@ -42,8 +48,12 @@ export interface Context {
 }
 
 // @public
+export function createUserAssertion(accessToken: string): UserAssertion;
+
+// @public
 export interface GetTokenOptions {
     abortSignal?: AbortSignalLike;
+    authenticationOptions?: AuthenticationOptions;
     requestOptions?: {
         timeout?: number;
     };
@@ -102,6 +112,12 @@ export interface SpanOptions {
 // @public
 export interface TokenCredential {
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+}
+
+// @public
+export interface UserAssertion {
+    // (undocumented)
+    accessToken: string;
 }
 
 

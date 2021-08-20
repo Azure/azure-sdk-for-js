@@ -11,6 +11,7 @@ import {
   PipelineOptions,
   HttpClient
 } from "@azure/core-rest-pipeline";
+import { AuthenticationOptions } from "@azure/core-auth";
 
 /**
  * Default key used to access the XML attributes.
@@ -106,6 +107,10 @@ export interface OperationOptions {
    * Options to override serialization/de-serialization behavior.
    */
   serializerOptions?: SerializerOptions;
+  /**
+   * Options to configure the authentication.
+   */
+  authenticationOptions?: AuthenticationOptions;
 
   /**
    * A function to be called each time a response is received from the server

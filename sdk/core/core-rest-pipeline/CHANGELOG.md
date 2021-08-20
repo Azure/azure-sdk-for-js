@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- The `bearerTokenAuthenticationPolicy` now allows `TokenCredential` instances to configure when to begin refreshing the token by returning a `refreshOn` property in the `AccessToken` that results from the credential's `getToken` method.
+
 ### Breaking Changes
 
 ### Bugs Fixed

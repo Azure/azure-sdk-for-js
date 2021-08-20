@@ -14,6 +14,7 @@ import { createHttpHeaders } from "./httpHeaders";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { generateUuid } from "./util/uuid";
 import { OperationTracingOptions } from "@azure/core-tracing";
+import { AuthenticationOptions } from "@azure/core-auth";
 
 /**
  * Settings to initialize a request.
@@ -87,6 +88,11 @@ export interface PipelineRequestOptions {
    * Options used to create a span when tracing is enabled.
    */
   tracingOptions?: OperationTracingOptions;
+
+  /**
+   * Options to configure the authentication.
+   */
+  authenticationOptions?: AuthenticationOptions;
 
   /**
    * Callback which fires upon upload progress.

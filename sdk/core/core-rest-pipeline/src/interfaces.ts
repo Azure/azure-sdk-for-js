@@ -3,6 +3,7 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { OperationTracingOptions } from "@azure/core-tracing";
+import { AuthenticationOptions } from "@azure/core-auth";
 
 /**
  * A HttpHeaders collection represented as a simple JSON object.
@@ -155,6 +156,11 @@ export interface PipelineRequest {
    * Tracing options to use for any created Spans.
    */
   tracingOptions?: OperationTracingOptions;
+
+  /**
+   * Options to configure the authentication.
+   */
+  authenticationOptions?: AuthenticationOptions;
 
   /**
    * Callback which fires upon upload progress.

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
+import { AuthenticationOptions } from "./authenticationOptions";
 import { Context, SpanOptions } from "./tracing";
 
 /**
@@ -57,6 +58,11 @@ export interface GetTokenOptions {
    * Allows specifying a tenantId. Useful to handle challenges that provide tenant Id hints.
    */
   tenantId?: string;
+
+  /**
+   * Allows configuring the authentication through the Azure SDK core pipelines.
+   */
+  authenticationOptions?: AuthenticationOptions;
 }
 
 /**
@@ -72,6 +78,12 @@ export interface AccessToken {
    * The access token's expiration timestamp in milliseconds, UNIX epoch time.
    */
   expiresOnTimestamp: number;
+
+  /**
+   * A unix timestamp that determines when to begin refreshing the token in the core pipelines.
+   * If unset, the default pipeline behavior will be to refresh the token one second before it expires.
+   */
+  refreshOn?: number;
 }
 
 /**

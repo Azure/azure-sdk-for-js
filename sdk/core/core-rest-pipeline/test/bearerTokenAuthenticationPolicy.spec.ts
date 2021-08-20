@@ -3,7 +3,12 @@
 
 import { assert } from "chai";
 import * as sinon from "sinon";
-import { TokenCredential, AccessToken } from "@azure/core-auth";
+import {
+  TokenCredential,
+  AccessToken,
+  AuthenticationOptions,
+  GetTokenOptions
+} from "@azure/core-auth";
 import {
   PipelinePolicy,
   createPipelineRequest,
@@ -51,7 +56,8 @@ describe("BearerTokenAuthenticationPolicy", function() {
     assert(
       fakeGetToken.calledWith(tokenScopes, {
         abortSignal: undefined,
-        tracingOptions: undefined
+        tracingOptions: undefined,
+        authenticationOptions: undefined
       }),
       "fakeGetToken called incorrectly."
     );
@@ -223,6 +229,69 @@ describe("BearerTokenAuthenticationPolicy", function() {
     assert.equal(expireDelayMs + 2 * getTokenDelay, Date.now() - startTime, exceptionMessage);
   });
 
+  it("it should be respected independently of the expiration date of the token if an AccessToken has a refreshOn property", async () => {
+    const expireDelayMs = defaultRefreshWindow + 100000000;
+    const tokenExpiration = Date.now() + expireDelayMs;
+    const refreshDelayMs = defaultRefreshWindow + 5000;
+    const refreshOn = Date.now() + refreshDelayMs;
+    const credential = new MockRefreshAzureCredential(
+      tokenExpiration,
+      undefined,
+      undefined,
+      refreshOn
+    );
+
+    const request = createPipelineRequest({ url: "https://example.com" });
+    const successResponse: PipelineResponse = {
+      headers: createHttpHeaders(),
+      request,
+      status: 200
+    };
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.resolves(successResponse);
+
+    const policy = createBearerTokenPolicy("test-scope", credential);
+
+    // The token is cached and remains cached for a bit.
+    await policy.sendRequest(request, next);
+    await policy.sendRequest(request, next);
+    assert.strictEqual(credential.authCount, 1);
+
+    // The token will remain cached until the refreshOn property is reached.
+
+    // Checking a bit before refreshOn
+    clock.tick(refreshDelayMs - 1000);
+    await policy.sendRequest(request, next);
+    assert.strictEqual(credential.authCount, 1);
+    // Now we wait until a bit after refreshOn
+    clock.tick(1100);
+    await policy.sendRequest(request, next);
+    assert.strictEqual(credential.authCount, 2);
+  });
+
+  it("it should pass authenticationOptions to the credential getToken method", async () => {
+    const expireDelayMs = defaultRefreshWindow + 1000;
+    const tokenExpiration = Date.now() + expireDelayMs;
+    const credential = new MockRefreshAzureCredential(tokenExpiration);
+
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      authenticationOptions: { userAssertion: { accessToken: "token" } }
+    });
+    const successResponse: PipelineResponse = {
+      headers: createHttpHeaders(),
+      request,
+      status: 200
+    };
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.resolves(successResponse);
+
+    const policy = createBearerTokenPolicy("test-scope", credential);
+
+    await policy.sendRequest(request, next);
+    assert.strictEqual(credential.authenticationOptions, request.authenticationOptions);
+  });
+
   it("throws if the target URI doesn't start with 'https'", async () => {
     const expireDelayMs = defaultRefreshWindow + 5000;
     const tokenExpiration = Date.now() + expireDelayMs;
@@ -259,15 +328,21 @@ describe("BearerTokenAuthenticationPolicy", function() {
 class MockRefreshAzureCredential implements TokenCredential {
   public authCount = 0;
   public shouldThrow: boolean = false;
+  public authenticationOptions?: AuthenticationOptions;
 
   constructor(
     public expiresOnTimestamp: number,
     public getTokenDelay?: number,
-    public clock?: sinon.SinonFakeTimers
+    public clock?: sinon.SinonFakeTimers,
+    public refreshOn?: number
   ) {}
 
-  public async getToken(): Promise<AccessToken> {
+  public async getToken(_scope: string, getTokenOptions?: GetTokenOptions): Promise<AccessToken> {
     this.authCount++;
+
+    if (getTokenOptions?.authenticationOptions) {
+      this.authenticationOptions = getTokenOptions.authenticationOptions;
+    }
 
     if (this.shouldThrow) {
       throw new Error("Failed to retrieve the token");
@@ -278,6 +353,10 @@ class MockRefreshAzureCredential implements TokenCredential {
       this.clock.tick(this.getTokenDelay);
     }
 
-    return { token: "mock-token", expiresOnTimestamp: this.expiresOnTimestamp };
+    return {
+      token: "mock-token",
+      expiresOnTimestamp: this.expiresOnTimestamp,
+      refreshOn: this.refreshOn
+    };
   }
 }

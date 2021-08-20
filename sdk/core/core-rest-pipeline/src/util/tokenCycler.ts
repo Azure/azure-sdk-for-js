@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import {
+  AccessToken,
+  AuthenticationOptions,
+  GetTokenOptions,
+  TokenCredential
+} from "@azure/core-auth";
 import { delay } from "./helpers";
 
 /**
@@ -34,6 +39,11 @@ export interface TokenCyclerOptions {
    * we will attempt to refresh the token.
    */
   refreshWindowInMs: number;
+  /**
+   * Allows receiving authentication configuration on a request by request basis.
+   * Sends that configuration to the TokenCredential through the `getToken` method.
+   */
+  authenticationOptions?: AuthenticationOptions;
 }
 
 // Default options for the cycler if none are provided
@@ -115,6 +125,7 @@ export function createTokenCycler(
     ...DEFAULT_CYCLER_OPTIONS,
     ...tokenCyclerOptions
   };
+  const authenticationOptions = tokenCyclerOptions?.authenticationOptions;
 
   /**
    * This little holder defines several predicates that we use to construct
@@ -128,18 +139,20 @@ export function createTokenCycler(
       return refreshWorker !== null;
     },
     /**
-     * Produces true if the cycler SHOULD refresh (we are within the refresh
-     * window and not already refreshing)
+     * Produces true if the cycler SHOULD refresh.
+     * If tokens have a `refreshOn` property, tokens should refresh if that unix date has been reached,
+     * otherwise they should refresh if they are within the refresing window and not already refreshing.
      */
     get shouldRefresh(): boolean {
       return (
         !cycler.isRefreshing &&
-        (token?.expiresOnTimestamp ?? 0) - options.refreshWindowInMs < Date.now()
+        // If we received a "refreshOn" value from a token, and the "refreshOn" date has been reached, we refresh.
+        ((token?.refreshOn ? Date.now() > token.refreshOn : false) ||
+          (token?.expiresOnTimestamp ?? 0) - options.refreshWindowInMs < Date.now())
       );
     },
     /**
-     * Produces true if the cycler MUST refresh (null or nearly-expired
-     * token).
+     * Produces true if the cycler MUST refresh (null or nearly-expired token).
      */
     get mustRefresh(): boolean {
       return (
@@ -159,7 +172,15 @@ export function createTokenCycler(
     if (!cycler.isRefreshing) {
       // We bind `scopes` here to avoid passing it around a lot
       const tryGetAccessToken = (): Promise<AccessToken | null> =>
-        credential.getToken(scopes, getTokenOptions);
+        credential.getToken(
+          scopes,
+          authenticationOptions
+            ? {
+                ...getTokenOptions,
+                authenticationOptions
+              }
+            : getTokenOptions
+        );
 
       // Take advantage of promise chaining to insert an assignment to `token`
       // before the refresh can be considered done.

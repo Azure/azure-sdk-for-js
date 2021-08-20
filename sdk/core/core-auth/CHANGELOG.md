@@ -4,6 +4,11 @@
 
 ### Features Added
 
+- Added new interfaces, `AuthenticationOptions` and `UserAssertion`, to allow configuring TokenCredentials during the authentication step in the core pipelines.
+  - Currently only supports specifying a `userAssertion`, which is used by the `OnBehalfOfCredential`.
+  - Also added a method, `createUserAssertion` that simplifies creating an `UserAssertion`. For future proofing.
+- Added optional property `refreshOn` on the `AccessToken` interface. If set, it determines when to refresh the token on the core pipelines.
+
 ### Breaking Changes
 
 ### Key Bugs Fixed

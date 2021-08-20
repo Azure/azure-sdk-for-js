@@ -4,6 +4,9 @@
 
 ### Features Added
 
+- Added property `authenticationOptions` to the `OperationOptions` interface, to allow configuring TokenCredentials during the authentication step in the pipelines.
+  - Currently only supports specifying a `userAssertion`, which is used by the `OnBehalfOfCredential`.
+
 ### Breaking Changes
 
 ### Bugs Fixed

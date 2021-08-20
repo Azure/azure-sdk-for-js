@@ -6,6 +6,7 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
+import { AuthenticationOptions } from '@azure/core-auth';
 import { Debugger } from '@azure/logger';
 import { GetTokenOptions } from '@azure/core-auth';
 import { OperationTracingOptions } from '@azure/core-tracing';
@@ -188,6 +189,7 @@ export interface PipelineRequest {
     abortSignal?: AbortSignalLike;
     agent?: Agent;
     allowInsecureConnection?: boolean;
+    authenticationOptions?: AuthenticationOptions;
     body?: RequestBodyType;
     disableKeepAlive?: boolean;
     formData?: FormDataMap;
@@ -208,6 +210,7 @@ export interface PipelineRequest {
 export interface PipelineRequestOptions {
     abortSignal?: AbortSignalLike;
     allowInsecureConnection?: boolean;
+    authenticationOptions?: AuthenticationOptions;
     body?: RequestBodyType;
     disableKeepAlive?: boolean;
     formData?: FormDataMap;

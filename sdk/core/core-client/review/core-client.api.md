@@ -5,6 +5,7 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
+import { AuthenticationOptions } from '@azure/core-auth';
 import { HttpClient } from '@azure/core-rest-pipeline';
 import { HttpMethods } from '@azure/core-rest-pipeline';
 import { InternalPipelineOptions } from '@azure/core-rest-pipeline';
@@ -202,6 +203,7 @@ export interface OperationArguments {
 // @public
 export interface OperationOptions {
     abortSignal?: AbortSignalLike;
+    authenticationOptions?: AuthenticationOptions;
     onResponse?: RawResponseCallback;
     requestOptions?: OperationRequestOptions;
     serializerOptions?: SerializerOptions;
