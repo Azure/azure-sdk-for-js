@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "ts-node authorizationCodeSample.ts"
   },
   "author": "",
   "license": "ISC",
@@ -13,6 +13,7 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "open": "^8.2.1",
-    "qs": "^6.10.1"
+    "qs": "^6.10.1",
+    "ts-node": "latest"
   }
 }

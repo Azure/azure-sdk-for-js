@@ -23,7 +23,7 @@ config();
 // http://localhost:8080/authresponse (port can be overridden with PORT env var)
 //
 // The user must also be able to grant access to the app for the resource
-// requested in the specified scopes, Azure KeyVault in this case.  If
+// requested in the specified scopes, Microsoft Graph in this case. If
 // the user cannot grant access to this resource due to administrator
 // settings in the AAD tenant, one of the following errors will be displayed on
 // the authorization page:
@@ -36,7 +36,7 @@ const clientId = process.env.AZURE_CLIENT_ID;
 const clientSecret = process.env.AZURE_CLIENT_SECRET;
 const redirectUri = `http://localhost:${port}/authresponse`;
 const authorityHost = "https://login.microsoftonline.com";
-const scopes = "https://vault.azure.net/.default";
+const scopes = "https://graph.microsoft.com/.default";
 
 if (tenantId === undefined || clientId === undefined) {
   console.error("AZURE_TENANT_ID and AZURE_CLIENT_ID environment variables must be set");

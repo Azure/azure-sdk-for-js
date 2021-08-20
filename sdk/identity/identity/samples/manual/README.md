@@ -4,13 +4,31 @@ This is a manual sample to test the `AuthorizationCodeCredential` class.
 
 Steps to run this sample:
 
-1. You must have built the Identity package outside of this folder before.
-2. Install `ts-node` as an executable binary for your local user, for example with `npm install -g ts-node`.
+1. Set up your environment with [these instructions](https://github.com/sadasant/azure-sdk-for-js/blob/identity/fix15188/CONTRIBUTING.md#setting-up-your-environment)
+
+2. Build the Identity package with dependencies.
+
+```bash
+cd <repo-path>/sdk/identity/identity
+rush build -t @azure/identity
+```
+
 3. Make sure you have an App Registration on your Azure Active Directory. This App Registration must:
 
 - Have a `http://localhost:8080/authresponse` as the Web redirect endpoint.
 - Have this option selected `Accounts in any organizational directory (Any Azure AD directory - Multitenant)`.
 
-4. Copy the `sample.env` into a file named `.env` in this folder and make sure to fill the values accordingly.
-5. Run `npm install` inside of this folder.
-6. Run the sample by entering this in your terminal `ts-node authorizationCodeSample.ts`. At the end, an `AccessToken` should be printed.
+On the Azure Portal, navigate to your app registration. On the side panel, select "Authentication".
+
+- Under "Supported Account Types", select `Accounts in any organizational directory (Any Azure AD directory - Multitenant)` .
+- Under "Platform Configurations", add a platform and select "Web". Then add `http://localhost:8080/authresponse` as the redirect URI. Then click "Configure".
+
+4. Navigate to the `samples/manual` folder
+
+```bash
+cd <repo-path>/sdk/identity/identity/samples/manual
+```
+
+5. Copy the `sample.env` into a file named `.env` in this folder and make sure to fill the values accordingly.
+6. Run `npm install` inside of this folder.
+7. Run the sample by entering this in your terminal `npm run test`. At the end, an `AccessToken` should be printed.
