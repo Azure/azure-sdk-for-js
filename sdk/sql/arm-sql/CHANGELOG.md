@@ -1,14 +1,8 @@
-# Release History
+## 30.0.0-beta.2 (2021-08-20)
 
-## 30.0.0-beta.2 (Unreleased)
+**Features**
 
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+	- fix package issues
 
 ## 30.0.0-beta.1 (2021-08-13)
 
@@ -19,6 +13,7 @@ While this package remains auto generated, the SDK generator itself has undergon
 Please note that this version has breaking changes, all of which were made after careful consideration during the authoring of the guidelines and user studies.
 
 **Noteworthy changes and features**
+
 - Authentication: The packages `@azure/ms-rest-nodeauth` or `@azure/ms-rest-browserauth` are no longer supported. Use package [@azure/identity](https://www.npmjs.com/package/@azure/identity) instead. Select a credential from Azure Identity examples based on the authentication method of your choice.
 - Callbacks: Method overloads that used callbacks have been removed and the use of promises is encouraged instead.
 - List operations now return an iterable result that follows the `PagedAsyncIterableIterator` interface as opposed to the previous model where you had to make a new request using the link to the next page.
