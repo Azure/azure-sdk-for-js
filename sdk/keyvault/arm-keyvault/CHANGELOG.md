@@ -7,6 +7,7 @@
 ### Breaking Changes
 
 ### Bugs Fixed
+- fix package issues
 
 ### Other Changes
 

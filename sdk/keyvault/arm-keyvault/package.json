@@ -63,7 +63,8 @@
     "rollup.config.js",
     "tsconfig.json",
     "review/*",
-    "CHANGELOG.md"
+    "CHANGELOG.md",
+    "types"
   ],
   "scripts": {
     "build": "tsc && rollup -c 2>&1 && npm run minify && mkdirp ./review && npm run extract-api",

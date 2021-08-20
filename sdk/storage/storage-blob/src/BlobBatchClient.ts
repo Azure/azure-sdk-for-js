@@ -73,8 +73,11 @@ export class BlobBatchClient {
   constructor(
     url: string,
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   );
+
   /**
    * Creates an instance of BlobBatchClient.
    *
@@ -92,6 +95,8 @@ export class BlobBatchClient {
       | AnonymousCredential
       | TokenCredential
       | PipelineLike,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   ) {
     let pipeline: PipelineLike;
@@ -137,6 +142,8 @@ export class BlobBatchClient {
   public async deleteBlobs(
     urls: string[],
     credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: BlobDeleteOptions
   ): Promise<BlobBatchDeleteBlobsResponse>;
 
@@ -152,6 +159,8 @@ export class BlobBatchClient {
    */
   public async deleteBlobs(
     blobClients: BlobClient[],
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: BlobDeleteOptions
   ): Promise<BlobBatchDeleteBlobsResponse>;
 
@@ -163,6 +172,8 @@ export class BlobBatchClient {
       | TokenCredential
       | BlobDeleteOptions
       | undefined,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: BlobDeleteOptions
   ): Promise<BlobBatchDeleteBlobsResponse> {
     const batch = new BlobBatch();
@@ -196,6 +207,8 @@ export class BlobBatchClient {
     urls: string[],
     credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     tier: AccessTier,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: BlobSetTierOptions
   ): Promise<BlobBatchSetBlobsAccessTierResponse>;
 
@@ -217,6 +230,8 @@ export class BlobBatchClient {
   public async setBlobsAccessTier(
     blobClients: BlobClient[],
     tier: AccessTier,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: BlobSetTierOptions
   ): Promise<BlobBatchSetBlobsAccessTierResponse>;
 
@@ -228,6 +243,8 @@ export class BlobBatchClient {
       | TokenCredential
       | AccessTier,
     tierOrOptions?: AccessTier | BlobSetTierOptions,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: BlobSetTierOptions
   ): Promise<BlobBatchSetBlobsAccessTierResponse> {
     const batch = new BlobBatch();
@@ -289,7 +306,7 @@ export class BlobBatchClient {
     batchRequest: BlobBatch,
     options: BlobBatchSubmitBatchOptionalParams = {}
   ): Promise<BlobBatchSubmitBatchResponse> {
-    if (!batchRequest || batchRequest.getSubRequests().size == 0) {
+    if (!batchRequest || batchRequest.getSubRequests().size === 0) {
       throw new RangeError("Batch request should contain one or more sub requests.");
     }
 
