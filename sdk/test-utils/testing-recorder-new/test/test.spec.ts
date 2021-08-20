@@ -7,7 +7,7 @@ config();
 
 describe("Tests", () => {
   it("storage test", async function() {
-    const file = `file_path.json`;
+    const file = (isNode ? "node_" : "browser_") + `file_path.json`;
     console.log(`env.TEST_MODE = ${env.TEST_MODE}`);
     const recorder = new RecordingHttpClient(file, isPlaybackMode());
     const options: StoragePipelineOptions = {};
@@ -15,9 +15,7 @@ describe("Tests", () => {
       options.httpClient = recorder;
     }
     const client = new QueueServiceClient(env.STORAGE_SAS_URL, undefined, options);
-    await client.createQueue(
-      (isNode ? "node" : "browser") + `-${Math.ceil(Math.random() * 1000) + 1000}`
-    );
+    await client.createQueue((isNode ? "node_" : "browser_") + 1320);
     await recorder.stop();
   });
 });
