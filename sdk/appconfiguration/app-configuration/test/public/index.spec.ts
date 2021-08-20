@@ -19,12 +19,12 @@ describe("AppConfigurationClient", () => {
   let client: AppConfigurationClient;
   let recorder: Recorder;
 
-  beforeEach(function (this: Context) {
+  beforeEach(function(this: Context) {
     recorder = startRecorder(this);
     client = createAppConfigurationClientForTests() || this.skip();
   });
 
-  afterEach(async function (this: Context) {
+  afterEach(async function(this: Context) {
     await recorder.stop();
   });
 
@@ -723,7 +723,7 @@ describe("AppConfigurationClient", () => {
       assert.ok(foundMyExactSettingToo);
     });
 
-    it("list with multiple pages", async function () {
+    it("list with multiple pages", async function() {
       // This occasionally hits 429 error (throttling) since we are making 100s of requests in the test to create, get and delete keys.
       // To avoid hitting the service with too many requests, skipping the test in live.
       // More details at https://github.com/Azure/azure-sdk-for-js/issues/16743
