@@ -4,13 +4,15 @@
 import { HttpOperationResponse, URLBuilder } from "@azure/core-http";
 import { DefaultHttpClient, WebResource, WebResourceLike } from "@azure/core-http";
 
+const paths = {
+  playback: "/playback",
+  record: "/record",
+  start: "/start",
+  stop: "/stop"
+};
+
 export class RecordingHttpClient extends DefaultHttpClient {
   private static s_recordingServerUri = "http://localhost:5000";
-  private static s_startPlaybackUri = RecordingHttpClient.s_recordingServerUri + "/playback/start";
-  private static s_stopPlaybackUri = RecordingHttpClient.s_recordingServerUri + "/playback/stop";
-  private static s_startRecordUri = RecordingHttpClient.s_recordingServerUri + "/record/start";
-  private static s_stopRecordUri = RecordingHttpClient.s_recordingServerUri + "/record/stop";
-
   private _httpClient: DefaultHttpClient;
   private _recordingId?: string;
   private _sessionFile: string;
@@ -22,18 +24,16 @@ export class RecordingHttpClient extends DefaultHttpClient {
     super();
     this._sessionFile = sessionFile;
     this._startUri = playback
-      ? RecordingHttpClient.s_startPlaybackUri
-      : RecordingHttpClient.s_startRecordUri;
+      ? RecordingHttpClient.s_recordingServerUri + paths.playback + paths.start
+      : RecordingHttpClient.s_recordingServerUri + paths.record + paths.start;
     this._stopUri = playback
-      ? RecordingHttpClient.s_stopPlaybackUri
-      : RecordingHttpClient.s_stopRecordUri;
+      ? RecordingHttpClient.s_recordingServerUri + paths.playback + paths.stop
+      : RecordingHttpClient.s_recordingServerUri + paths.record + paths.stop;
     this._mode = playback ? "playback" : "record";
     this._httpClient = new DefaultHttpClient();
-    console.log("in the RecordingHttpClient constructor");
   }
 
   async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
-    console.log("in the RecordingHttpClient: prepareRequest (browser)");
     await this.start();
 
     if (!request.headers.contains("x-recording-id")) {
@@ -49,14 +49,12 @@ export class RecordingHttpClient extends DefaultHttpClient {
       request.url = redirectedUrl.toString();
     }
 
-    console.log("in the RecordingHttpClient: callign super.prepareRequest");
     return await super.sendRequest(request);
   }
 
   async start(): Promise<void> {
     if (this._recordingId === undefined) {
       const req = this._createRecordingRequest(this._startUri);
-      console.log("in the RecordingHttpClient: inside start - calling _httpClient.sendRequest");
       const rsp = await this._httpClient.sendRequest(req);
       if (rsp.status !== 200) {
         throw new Error("Start request failed.");
@@ -73,7 +71,6 @@ export class RecordingHttpClient extends DefaultHttpClient {
     if (this._recordingId !== undefined) {
       const req = this._createRecordingRequest(this._stopUri);
       req.headers.set("x-recording-save", "true");
-      console.log("in the RecordingHttpClient: inside stop - calling _httpClient.sendRequest");
 
       await this._httpClient.sendRequest(req);
     }
