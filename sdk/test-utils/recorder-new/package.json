@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "./dist-esm/src/index.js": "./dist-esm/src/index.browser.js"
+    "./dist-esm/src/core-v1-recorder-node.js": "./dist-esm/src/core-v1-recorder-browser.js"
   },
   "types": "./types/src/index.d.ts",
   "scripts": {
