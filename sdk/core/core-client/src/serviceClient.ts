@@ -168,6 +168,10 @@ export class ServiceClient {
         request.abortSignal = options.abortSignal;
       }
 
+      if (options.authenticationOptions) {
+        request.authenticationOptions = options.authenticationOptions;
+      }
+
       if (options.tracingOptions) {
         request.tracingOptions = options.tracingOptions;
       }
