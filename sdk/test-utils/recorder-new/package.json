@@ -35,7 +35,7 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "typings/src",
+    "types/src",
     "README.md",
     "LICENSE"
   ],
@@ -54,7 +54,7 @@
   "engines": {
     "node": ">=8.0.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder-new/",
   "sideEffects": false,
   "private": true,
   "dependencies": {
