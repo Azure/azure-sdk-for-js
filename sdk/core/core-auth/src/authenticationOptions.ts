@@ -23,7 +23,7 @@ export interface AuthenticationOptions {
 }
 
 /**
- * Function that generates user assertions. Useful for future proofing.
+ * Function that generates user assertions.
  */
 export function createUserAssertion(accessToken: string): UserAssertion {
   return {
