@@ -11,8 +11,8 @@ const paths = {
   stop: "/stop"
 };
 
-export class RecordingHttpClient extends DefaultHttpClient {
-  private static s_recordingServerUri = "http://localhost:5000";
+export class TestProxyHttpClientCoreV1 extends DefaultHttpClient {
+  private url = "http://localhost:5000";
   private _httpClient: DefaultHttpClient;
   private _recordingId?: string;
   private _sessionFile: string;
@@ -24,11 +24,11 @@ export class RecordingHttpClient extends DefaultHttpClient {
     super();
     this._sessionFile = sessionFile;
     this._startUri = playback
-      ? RecordingHttpClient.s_recordingServerUri + paths.playback + paths.start
-      : RecordingHttpClient.s_recordingServerUri + paths.record + paths.start;
+      ? this.url + paths.playback + paths.start
+      : this.url + paths.record + paths.start;
     this._stopUri = playback
-      ? RecordingHttpClient.s_recordingServerUri + paths.playback + paths.stop
-      : RecordingHttpClient.s_recordingServerUri + paths.record + paths.stop;
+      ? this.url + paths.playback + paths.stop
+      : this.url + paths.record + paths.stop;
     this._mode = playback ? "playback" : "record";
     this._httpClient = new DefaultHttpClient();
   }

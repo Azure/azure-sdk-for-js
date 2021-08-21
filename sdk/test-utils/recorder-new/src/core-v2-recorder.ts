@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { WebResourceLike } from "@azure/core-http";
 import {
   createDefaultHttpClient,
   createPipelineRequest,
@@ -20,24 +21,27 @@ const paths = {
 
 export class TestProxyHttpClient {
   private url: string;
-  private _recordingId?: string;
+  public recordingId?: string;
+  public mode: string;
+  private httpClient: HttpClient;
   private _sessionFile: string;
-  private _mode: string;
-  private _httpClient: HttpClient;
   private _playback: boolean;
 
   constructor(sessionFile: string, playback: boolean) {
     this._sessionFile = sessionFile;
     this._playback = playback;
     this.url = "http://localhost:5000";
-    this._mode = playback ? "playback" : "record";
-    this._httpClient = createDefaultHttpClient();
+    this.mode = playback ? "playback" : "record";
+    this.httpClient = createDefaultHttpClient();
   }
-
-  redirectRequest(request: PipelineRequest): PipelineRequest {
+  // For core-v1
+  redirectRequest(request: WebResourceLike): WebResourceLike;
+  // For core-v2
+  redirectRequest(request: PipelineRequest): PipelineRequest;
+  redirectRequest(request: WebResourceLike | PipelineRequest) {
     if (!request.headers.get("x-recording-id")) {
-      request.headers.set("x-recording-id", this._recordingId!);
-      request.headers.set("x-recording-mode", this._mode);
+      request.headers.set("x-recording-id", this.recordingId!);
+      request.headers.set("x-recording-mode", this.mode);
 
       const upstreamUrl = new URL(request.url);
       const redirectedUrl = new URL(request.url);
@@ -55,7 +59,7 @@ export class TestProxyHttpClient {
   }
 
   async modifyRequest(request: PipelineRequest): Promise<PipelineRequest> {
-    if (this._recordingId && (this._mode === "record" || this._mode === "playback")) {
+    if (this.recordingId && (this.mode === "record" || this.mode === "playback")) {
       request = this.redirectRequest(request);
       request.allowInsecureConnection = true;
     }
@@ -64,12 +68,12 @@ export class TestProxyHttpClient {
   }
 
   async start(): Promise<void> {
-    if (this._recordingId === undefined) {
+    if (this.recordingId === undefined) {
       const startUri = this._playback
         ? this.url + paths.playback + paths.start
         : this.url + paths.record + paths.start;
       const req = this._createRecordingRequest(startUri);
-      const rsp = await this._httpClient.sendRequest({
+      const rsp = await this.httpClient.sendRequest({
         ...req,
         allowInsecureConnection: true
       });
@@ -80,27 +84,27 @@ export class TestProxyHttpClient {
       if (!id) {
         throw new Error("No recording ID returned.");
       }
-      this._recordingId = id;
+      this.recordingId = id;
     }
   }
 
   async stop(): Promise<void> {
-    if (this._recordingId !== undefined) {
+    if (this.recordingId !== undefined) {
       const stopUri = this._playback
         ? this.url + paths.playback + paths.stop
         : this.url + paths.record + paths.stop;
       const req = this._createRecordingRequest(stopUri);
       req.headers.set("x-recording-save", "true");
 
-      await this._httpClient.sendRequest({ ...req, allowInsecureConnection: true });
+      await this.httpClient.sendRequest({ ...req, allowInsecureConnection: true });
     }
   }
 
   private _createRecordingRequest(url: string) {
     const req = createPipelineRequest({ url: url, method: "POST" });
     req.headers.set("x-recording-file", this._sessionFile);
-    if (this._recordingId !== undefined) {
-      req.headers.set("x-recording-id", this._recordingId);
+    if (this.recordingId !== undefined) {
+      req.headers.set("x-recording-id", this.recordingId);
     }
     return req;
   }
