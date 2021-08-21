@@ -172,15 +172,8 @@ export function createTokenCycler(
     if (!cycler.isRefreshing) {
       // We bind `scopes` here to avoid passing it around a lot
       const tryGetAccessToken = (): Promise<AccessToken | null> =>
-        credential.getToken(
-          scopes,
-          authenticationOptions
-            ? {
-                ...getTokenOptions,
-                authenticationOptions
-              }
-            : getTokenOptions
-        );
+        const options = { ...getTokenOptions, authenticationOptions };
+        credential.getToken(scopes, options);
 
       // Take advantage of promise chaining to insert an assignment to `token`
       // before the refresh can be considered done.
