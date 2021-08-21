@@ -5,7 +5,7 @@
   "description": "This library uses the interfaces and helper methods from @azure/test-utils-recorder-new in the tests to show an example",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
-  "types": "./typings/src/index.d.ts",
+  "types": "./types/src/index.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "echo skipped",
@@ -14,7 +14,7 @@
     "build:test": "tsc -p .",
     "build": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-esm test-dist typings *.tgz",
+    "clean": "rimraf dist dist-esm test-dist types *.tgz",
     "extract-api": "echo skipped",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
@@ -35,7 +35,7 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "typings/src",
+    "types/src",
     "README.md",
     "LICENSE"
   ],
