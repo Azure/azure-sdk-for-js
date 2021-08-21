@@ -83,7 +83,7 @@ export interface AccessToken {
    * A unix timestamp that determines when to begin refreshing the token in the core pipelines.
    * If unset, the default pipeline behavior will be to refresh the token one second before it expires.
    */
-  refreshOn?: number;
+  refreshOnTimestamp?: number;
 }
 
 /**

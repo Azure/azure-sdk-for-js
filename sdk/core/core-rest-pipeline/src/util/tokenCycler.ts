@@ -140,14 +140,14 @@ export function createTokenCycler(
     },
     /**
      * Produces true if the cycler SHOULD refresh.
-     * If tokens have a `refreshOn` property, tokens should refresh if that unix date has been reached,
+     * If tokens have a `refreshOnTimestamp` property, tokens should refresh if that unix date has been reached,
      * otherwise they should refresh if they are within the refresing window and not already refreshing.
      */
     get shouldRefresh(): boolean {
       return (
         !cycler.isRefreshing &&
-        // If we received a "refreshOn" value from a token, and the "refreshOn" date has been reached, we refresh.
-        ((token?.refreshOn ? Date.now() > token.refreshOn : false) ||
+        // If we received a "refreshOnTimestamp" value from a token, and the "refreshOnTimestamp" date has been reached, we refresh.
+        ((token?.refreshOnTimestamp ? Date.now() > token.refreshOnTimestamp : false) ||
           (token?.expiresOnTimestamp ?? 0) - options.refreshWindowInMs < Date.now())
       );
     },

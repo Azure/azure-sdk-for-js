@@ -229,16 +229,16 @@ describe("BearerTokenAuthenticationPolicy", function() {
     assert.equal(expireDelayMs + 2 * getTokenDelay, Date.now() - startTime, exceptionMessage);
   });
 
-  it("it should be respected independently of the expiration date of the token if an AccessToken has a refreshOn property", async () => {
+  it("it should be respected independently of the expiration date of the token if an AccessToken has a refreshOnTimestamp property", async () => {
     const expireDelayMs = defaultRefreshWindow + 100000000;
     const tokenExpiration = Date.now() + expireDelayMs;
     const refreshDelayMs = defaultRefreshWindow + 5000;
-    const refreshOn = Date.now() + refreshDelayMs;
+    const refreshOnTimestamp = Date.now() + refreshDelayMs;
     const credential = new MockRefreshAzureCredential(
       tokenExpiration,
       undefined,
       undefined,
-      refreshOn
+      refreshOnTimestamp
     );
 
     const request = createPipelineRequest({ url: "https://example.com" });
@@ -257,13 +257,13 @@ describe("BearerTokenAuthenticationPolicy", function() {
     await policy.sendRequest(request, next);
     assert.strictEqual(credential.authCount, 1);
 
-    // The token will remain cached until the refreshOn property is reached.
+    // The token will remain cached until the refreshOnTimestamp property is reached.
 
-    // Checking a bit before refreshOn
+    // Checking a bit before refreshOnTimestamp
     clock.tick(refreshDelayMs - 1000);
     await policy.sendRequest(request, next);
     assert.strictEqual(credential.authCount, 1);
-    // Now we wait until a bit after refreshOn
+    // Now we wait until a bit after refreshOnTimestamp
     clock.tick(1100);
     await policy.sendRequest(request, next);
     assert.strictEqual(credential.authCount, 2);
@@ -334,7 +334,7 @@ class MockRefreshAzureCredential implements TokenCredential {
     public expiresOnTimestamp: number,
     public getTokenDelay?: number,
     public clock?: sinon.SinonFakeTimers,
-    public refreshOn?: number
+    public refreshOnTimestamp?: number
   ) {}
 
   public async getToken(_scope: string, getTokenOptions?: GetTokenOptions): Promise<AccessToken> {
@@ -356,7 +356,7 @@ class MockRefreshAzureCredential implements TokenCredential {
     return {
       token: "mock-token",
       expiresOnTimestamp: this.expiresOnTimestamp,
-      refreshOn: this.refreshOn
+      refreshOnTimestamp: this.refreshOnTimestamp
     };
   }
 }

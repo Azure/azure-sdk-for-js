@@ -47,7 +47,7 @@ describe("OnBehalfOfCredential", function() {
         })
       ]
     });
-    assert.isNumber(authDetails.result?.refreshOn);
+    assert.isNumber(authDetails.result?.refreshOnTimestamp);
     assert.equal(newMSALClientLogs(), 1);
 
     await sendCredentialRequests({

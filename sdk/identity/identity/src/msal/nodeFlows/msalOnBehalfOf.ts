@@ -45,7 +45,7 @@ export class MsalOnBehalfOf extends MsalNode {
       });
       return {
         ...this.handleResult(scopes, this.clientId, result || undefined),
-        refreshOn: Date.now()
+        refreshOnTimestamp: Date.now()
       };
     } catch (err) {
       throw this.handleError(scopes, err, options);
