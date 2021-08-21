@@ -23,13 +23,13 @@ export class TestProxyHttpClient {
   private url: string;
   public recordingId?: string;
   public mode: string;
-  private httpClient: HttpClient;
-  private _sessionFile: string;
-  private _playback: boolean;
+  public httpClient: HttpClient;
+  private sessionFile: string;
+  private playback: boolean;
 
   constructor(sessionFile: string, playback: boolean) {
-    this._sessionFile = sessionFile;
-    this._playback = playback;
+    this.sessionFile = sessionFile;
+    this.playback = playback;
     this.url = "http://localhost:5000";
     this.mode = playback ? "playback" : "record";
     this.httpClient = createDefaultHttpClient();
@@ -69,7 +69,7 @@ export class TestProxyHttpClient {
 
   async start(): Promise<void> {
     if (this.recordingId === undefined) {
-      const startUri = this._playback
+      const startUri = this.playback
         ? this.url + paths.playback + paths.start
         : this.url + paths.record + paths.start;
       const req = this._createRecordingRequest(startUri);
@@ -90,7 +90,7 @@ export class TestProxyHttpClient {
 
   async stop(): Promise<void> {
     if (this.recordingId !== undefined) {
-      const stopUri = this._playback
+      const stopUri = this.playback
         ? this.url + paths.playback + paths.stop
         : this.url + paths.record + paths.stop;
       const req = this._createRecordingRequest(stopUri);
@@ -102,7 +102,7 @@ export class TestProxyHttpClient {
 
   private _createRecordingRequest(url: string) {
     const req = createPipelineRequest({ url: url, method: "POST" });
-    req.headers.set("x-recording-file", this._sessionFile);
+    req.headers.set("x-recording-file", this.sessionFile);
     if (this.recordingId !== undefined) {
       req.headers.set("x-recording-id", this.recordingId);
     }
