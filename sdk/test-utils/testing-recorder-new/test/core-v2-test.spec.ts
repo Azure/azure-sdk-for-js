@@ -1,6 +1,6 @@
 import { isLiveMode, isPlaybackMode, env } from "@azure/test-utils-recorder";
 import { TableEntity, TableClient } from "@azure/data-tables";
-import { TestProxyHttpClient, testProxyHttpPolicy } from "@azure/test-utils-recorder-new";
+import { TestProxyHttpClient, recorderHttpPolicy } from "@azure/test-utils-recorder-new";
 import { config } from "dotenv";
 import { isNode } from "@azure/core-util";
 import { createSimpleEntity } from "./utils/utils";
@@ -13,7 +13,7 @@ describe("Tests", () => {
     const recorder = new TestProxyHttpClient(file, isPlaybackMode());
     const client = TableClient.fromConnectionString(env.TABLES_SAS_CONNECTION_STRING, "newtable");
     if (!isLiveMode()) {
-      client.pipeline.addPolicy(testProxyHttpPolicy(recorder));
+      client.pipeline.addPolicy(recorderHttpPolicy(recorder));
     }
     if (!isLiveMode()) await recorder.start();
     await client.createTable();

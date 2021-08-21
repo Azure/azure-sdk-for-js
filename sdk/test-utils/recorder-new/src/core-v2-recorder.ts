@@ -110,7 +110,7 @@ export class TestProxyHttpClient {
   }
 }
 
-export function testProxyHttpPolicy(testProxyHttpClient: TestProxyHttpClient): PipelinePolicy {
+export function recorderHttpPolicy(testProxyHttpClient: TestProxyHttpClient): PipelinePolicy {
   return {
     name: "recording policy",
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
