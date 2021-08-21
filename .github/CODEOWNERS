@@ -97,7 +97,7 @@
 /sdk/textanalytics/ @deyaaeldeen @witemple-msft
 
 # PRLabel: %Schema Registry
-/sdk/schemaregistry/ @deyaaeldeen
+/sdk/schemaregistry/ @deyaaeldeen @nguerrera
 
 # PRLabel: %Cognitive - Form Recognizer
 /sdk/formrecognizer/ @jeremymeng @witemple-msft
