@@ -116,7 +116,6 @@ export interface TokenCredential {
 
 // @public
 export interface UserAssertion {
-    // (undocumented)
     accessToken: string;
 }
 
