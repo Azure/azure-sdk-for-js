@@ -144,12 +144,16 @@ export function createTokenCycler(
      * otherwise they should refresh if they are within the refresing window and not already refreshing.
      */
     get shouldRefresh(): boolean {
-      return (
-        !cycler.isRefreshing &&
-        // If we received a "refreshOnTimestamp" value from a token, and the "refreshOnTimestamp" date has been reached, we refresh.
-        ((token?.refreshOnTimestamp ? Date.now() > token.refreshOnTimestamp : false) ||
-          (token?.expiresOnTimestamp ?? 0) - options.refreshWindowInMs < Date.now())
-      );
+      const refreshOnTimestamp = token?.refreshOnTimestamp;
+      const refreshOnTimestampExpired = refreshOnTimestamp && Date.now() > refreshOnTimestamp;
+
+      const expiresOnTimestamp = token?.expiresOnTimestamp ?? 0;
+      const refreshWindowReached = expiresOnTimestamp - options.refreshWindowInMs < Date.now();
+
+      // We should refresh if we're not already refreshing, and we happen to be in either of the following scenarios:
+      // - If we happen to have an expired "refreshOnTimestamp" value on a received token, or...
+      // - If the refresh window has been reached.
+      return !cycler.isRefreshing && (refreshOnTimestampExpired || refreshWindowReached);
     },
     /**
      * Produces true if the cycler MUST refresh (null or nearly-expired token).
