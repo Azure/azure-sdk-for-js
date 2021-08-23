@@ -64,14 +64,6 @@ export interface QueryLogsResult {
 /** Options when query logs with a batch. */
 export type QueryLogsBatchOptions = OperationOptions;
 
-/** An array of queries to run as a batch. */
-export interface LogsBatchQuery {
-  /**
-   * Queries that will be run for the batch.
-   */
-  queries: QueryBatch[];
-}
-
 /** The Analytics query. Learn more about the [Analytics query syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/) */
 // NOTE: 'id' is added automatically by our LogsClient.
 export interface QueryBatch {

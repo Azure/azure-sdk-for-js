@@ -32,7 +32,6 @@ import {
   GetMetricDefinitionsResult,
   GetMetricNamespacesResult,
   LogsTable,
-  LogsBatchQuery,
   QueryLogsBatchResult,
   QueryOptions as QueryMetricsOptions,
   QueryMetricsResult
@@ -43,10 +42,10 @@ import { FullOperationResponse } from "../../../../core/core-client/types/latest
 /**
  * @internal
  */
-export function convertRequestForQueryBatch(batch: LogsBatchQuery): GeneratedBatchRequest {
+export function convertRequestForQueryBatch(batch: QueryBatch[]): GeneratedBatchRequest {
   let id = 0;
 
-  const requests: GeneratedBatchQueryRequest[] = batch.queries.map((query: QueryBatch) => {
+  const requests: GeneratedBatchQueryRequest[] = batch.map((query: QueryBatch) => {
     const body: QueryBody &
       Partial<
         Pick<

@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import { env } from "process";
 
-import { LogsBatchQuery, Durations, LogsQueryClient } from "../../src";
+import { Durations, LogsQueryClient, QueryBatch } from "../../src";
 import { runWithTelemetry } from "../setupOpenTelemetry";
 
 import {
@@ -250,15 +250,13 @@ describe("LogsQueryClient live tests", function() {
           dynamiccolumn=print_6
       `;
 
-    const result = await createClient().queryLogsBatch({
-      queries: [
-        {
-          workspaceId: monitorWorkspaceId,
-          query: constantsQuery,
-          timespan: Durations.last5Minutes
-        }
-      ]
-    });
+    const result = await createClient().queryLogsBatch([
+      {
+        workspaceId: monitorWorkspaceId,
+        query: constantsQuery,
+        timespan: Durations.last5Minutes
+      }
+    ]);
 
     if ((result as any)["__fixApplied"]) {
       console.log(`TODO: Fix was required to pass`);
@@ -390,22 +388,20 @@ describe("LogsQueryClient live tests", function() {
     });
 
     it("queryLogsBatch", async () => {
-      const batchRequest: LogsBatchQuery = {
-        queries: [
-          {
-            workspaceId: monitorWorkspaceId,
-            query: `AppDependencies | where Properties['testRunId'] == '${testRunId}'| project Kind=Properties["kind"], Name, Target, TestRunId=Properties['testRunId']`,
-            timespan: Durations.last24Hours
-          },
-          {
-            workspaceId: monitorWorkspaceId,
-            query: `AppDependencies | where Properties['testRunId'] == '${testRunId}' | count`,
-            timespan: Durations.last24Hours,
-            includeQueryStatistics: true,
-            serverTimeoutInSeconds: 60 * 10
-          }
-        ]
-      };
+      const batchRequest: QueryBatch[] = [
+        {
+          workspaceId: monitorWorkspaceId,
+          query: `AppDependencies | where Properties['testRunId'] == '${testRunId}'| project Kind=Properties["kind"], Name, Target, TestRunId=Properties['testRunId']`,
+          timespan: Durations.last24Hours
+        },
+        {
+          workspaceId: monitorWorkspaceId,
+          query: `AppDependencies | where Properties['testRunId'] == '${testRunId}' | count`,
+          timespan: Durations.last24Hours,
+          includeQueryStatistics: true,
+          serverTimeoutInSeconds: 60 * 10
+        }
+      ];
 
       const result = await createClient().queryLogsBatch(batchRequest);
 

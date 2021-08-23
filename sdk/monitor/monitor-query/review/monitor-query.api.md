@@ -65,18 +65,13 @@ export interface GetMetricNamespacesResult {
 }
 
 // @public
-export interface LogsBatchQuery {
-    queries: QueryBatch[];
-}
-
-// @public
 export type LogsColumnType = string;
 
 // @public
 export class LogsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions);
     queryLogs(workspaceId: string, query: string, timespan: string, options?: QueryLogsOptions): Promise<QueryLogsResult>;
-    queryLogsBatch(batch: LogsBatchQuery, options?: QueryLogsBatchOptions): Promise<QueryLogsBatchResult>;
+    queryLogsBatch(batch: QueryBatch[], options?: QueryLogsBatchOptions): Promise<QueryLogsBatchResult>;
 }
 
 // @public
