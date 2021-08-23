@@ -106,6 +106,7 @@
     "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-multi-entry": "^3.0.0",
     "@types/debug": "^4.1.4",
+    "@types/fast-json-stable-stringify": "^2.0.0",
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
     "@types/priorityqueuejs": "^1.0.1",
