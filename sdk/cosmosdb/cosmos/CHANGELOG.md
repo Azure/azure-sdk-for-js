@@ -1,6 +1,6 @@
 # Release History
 
-## 3.13.1 (Unreleased)
+## 3.13.1 (2021-08-23)
 
 ### Features Added
 
