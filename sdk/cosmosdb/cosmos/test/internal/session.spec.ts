@@ -109,7 +109,7 @@ describe("Session Token", function(this: Suite) {
       id: "sessionTest"
     });
 
-    // Create items using both clients so they each establishes a session with the backend
+    // Create items using both clients so they each establish a session with the backend
     const container2 = await clientB.database("sessionTest").container("sessionTest");
     await Promise.all([createItem(container), createItem(container2)]);
 
