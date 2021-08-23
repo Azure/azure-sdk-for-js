@@ -74,7 +74,6 @@ export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolic
 
 function tryCreateSpan(request: PipelineRequest, userAgent?: string): Span | undefined {
   try {
-    // Backwards compatible with existing APIs that carried metadata about a span in spanOptions
     const createSpanOptions: SpanOptions = {
       ...(request.tracingOptions as any)?.spanOptions,
       kind: SpanKind.CLIENT
@@ -83,11 +82,19 @@ function tryCreateSpan(request: PipelineRequest, userAgent?: string): Span | und
     const url = new URL(request.url);
     const path = url.pathname || "/";
 
-    // Passing spanOptions as part of tracingOptions to maintain compatibility with the previous version of core-tracing.
+    // Passing spanOptions as part of tracingOptions to maintain compatibility @azure/core-tracing@preview.13 and earlier.
     // We can pass this as a separate parameter once we upgrade to the latest core-tracing.
     const { span } = createSpan(path, {
       tracingOptions: { ...request.tracingOptions, spanOptions: createSpanOptions }
     });
+
+    const namespaceFromContext = request.tracingOptions?.tracingContext?.getValue(
+      Symbol.for("az.namespace")
+    );
+
+    if (typeof namespaceFromContext === "string") {
+      span.setAttribute("az.namespace", namespaceFromContext);
+    }
 
     span.setAttributes({
       "http.method": request.method,
@@ -97,14 +104,6 @@ function tryCreateSpan(request: PipelineRequest, userAgent?: string): Span | und
 
     if (userAgent) {
       span.setAttribute("http.user_agent", userAgent);
-    }
-
-    const namespaceFromContext = request.tracingOptions?.tracingContext?.getValue(
-      Symbol.for("az.namespace")
-    );
-
-    if (typeof namespaceFromContext === "string") {
-      span.setAttribute("az.namespace", namespaceFromContext);
     }
 
     // set headers

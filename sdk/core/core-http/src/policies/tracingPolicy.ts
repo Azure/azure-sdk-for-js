@@ -74,7 +74,7 @@ export class TracingPolicy extends BaseRequestPolicy {
     try {
       const path = URLBuilder.parse(request.url).getPath() || "/";
 
-      // Passing spanOptions as part of tracingOptions to maintain compatibility with the previous version of core-tracing.
+      // Passing spanOptions as part of tracingOptions to maintain compatibility @azure/core-tracing@preview.13 and earlier.
       // We can pass this as a separate parameter once we upgrade to the latest core-tracing.
       const { span } = createSpan(path, {
         tracingOptions: {
@@ -86,6 +86,12 @@ export class TracingPolicy extends BaseRequestPolicy {
         }
       });
 
+      const namespaceFromContext = request.tracingContext?.getValue(Symbol.for("az.namespace"));
+
+      if (typeof namespaceFromContext === "string") {
+        span.setAttribute("az.namespace", namespaceFromContext);
+      }
+
       span.setAttributes({
         "http.method": request.method,
         "http.url": request.url,
@@ -94,12 +100,6 @@ export class TracingPolicy extends BaseRequestPolicy {
 
       if (this.userAgent) {
         span.setAttribute("http.user_agent", this.userAgent);
-      }
-
-      const namespaceFromContext = request.tracingContext?.getValue(Symbol.for("az.namespace"));
-
-      if (typeof namespaceFromContext === "string") {
-        span.setAttribute("az.namespace", namespaceFromContext);
       }
 
       // set headers

@@ -65,7 +65,7 @@ export function isTracingDisabled(): boolean {
 }
 
 /**
- * Maintains backwards compatibility with the previous `OperationTracingOptions` which included `SpanOptions`
+ * Maintains backwards compatibility with the previous `OperationTracingOptions` (@azure/core-tracing@preview.13 and earlier) which included `SpanOptions`
  */
 function disambiguateParameters<T extends { tracingOptions?: OperationTracingOptions }>(
   operationOptions: T,
@@ -123,7 +123,7 @@ function setNamespaceOnSpan(
     namespace
   );
 
-  // Here for backwards compatibility, but can be removed once we no longer use `spanOptions`
+  // Here for backwards compatibility, but can be removed once we no longer use `spanOptions` (every client and core library depends on a version higher than preview.13)
   const updatedSpanOptions = {
     ...spanOptions,
     attributes: {
@@ -160,7 +160,7 @@ export function createSpanFunction(args: CreateSpanFunctionArgs) {
    * @param operationOptions - The operation options containing the currently active tracing context when using manual span propagation.
    * @param startSpanOptions - The options to use when creating the span, and will be passed to the tracer.startSpan method.
    *
-   * @returns A span that can be used to create spans using the global tracer as well as updated options containing the currently active tracing context.
+   * @returns - A span from the global tracer provider, and an updatedOptions bag containing the new tracing context.
    *
    * Example usage:
    * ```ts

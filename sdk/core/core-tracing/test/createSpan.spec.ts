@@ -29,11 +29,12 @@ describe("createSpan", () => {
     tracerProvider.disable();
   });
 
-  it("is backwards compatible at runtime", () => {
+  it("is backwards compatible at runtime with versions prior to preview.13", () => {
     const testSpan = tracerProvider.getTracer("test").startSpan("test");
     const someContext = setSpan(otContext.active(), testSpan);
 
-    // Ensure we are backwards compatible with { tracingOptions: { spanOptions } }
+    // Ensure we are backwards compatible with { tracingOptions: { spanOptions } } shape which was
+    // used prior to preview.13 for setting span options.
     const options = {
       tracingOptions: {
         tracingContext: someContext,
