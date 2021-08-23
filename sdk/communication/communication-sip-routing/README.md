@@ -1,8 +1,8 @@
-# Azure Template client library for JavaScript
+# Azure Communication Service SIP Routing library for JavaScript
 
-<!-- NOTE: This README file is a template. Read through it and replace the instructions (keeping an eye out for package names like "@azure/template") with the ones that pertain to your package. For a complete example based on the real Azure App Configuration SDK, see README-TEMPLATE.md in this directory. -->
+[Azure Communication Services](https://azure.microsoft.com/en-us/services/communication-services/) is a set of rich communication APIs, video APIs, and SMS APIs for deploying your applications across any device, on any platform.
 
-This project is used as a template package for the Azure SDK for JavaScript. It is intended to help Azure SDK developers bootstrap new packages, and it provides an example of how to organize the code and documentation of a client library for an Azure service.
+This client library provides access to the SIP routing configuration and is one of the available ACS client libraries.
 
 ## Getting started
 
@@ -16,12 +16,12 @@ This project is used as a template package for the Azure SDK for JavaScript. It 
 
 Usually you'd put a shell command for provisioning the necessary Azure services here.
 
-### Install the `@azure/template` package
+### Install the `@azure/communication-sip-routing` package
 
-Install the Template client library for JavaScript with `npm`:
+Install the SIP routing client library for JavaScript with `npm`:
 
 ```bash
-npm install @azure/template
+npm install @azure/communication-sip-routing
 ```
 
 ### Browser support
@@ -29,26 +29,6 @@ npm install @azure/template
 #### JavaScript Bundle
 
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
-
-#### CORS
-
-<!--
-
-NOTE: if your service supports CORS natively please provide instructions for enabling CORS at the service level (similar to the sample below), otherwise replace this section with guidance such as:
-
-Due to Azure template service CORS limitation this library cannot be used to make direct calls to the template service from a browser. Please refer to [this document](https://github.com/Azure/azure-sdk-for-js/blob/master/samples/cors/ts/README.md) for guidance.
-
--->
-
-You need to set up [Cross-Origin Resource Sharing (CORS)](https://docs.microsoft.com/rest/api/storageservices/cross-origin-resource-sharing--cors--support-for-the-azure-storage-services) rules for your storage account if you need to develop for browsers. Go to Azure portal and Azure Storage Explorer, find your storage account, create new CORS rules for blob/queue/file/table service(s).
-
-For example, you can create the following CORS settings for debugging. But please customize the settings carefully according to your requirements in a production environment.
-
-- Allowed origins: \*
-- Allowed verbs: DELETE,GET,HEAD,MERGE,POST,OPTIONS,PUT
-- Allowed headers: \*
-- Exposed headers: \*
-- Maximum age (seconds): 86400
 
 ### Further examples
 

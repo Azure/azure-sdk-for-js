@@ -1,5 +1,10 @@
 # Release History
 
+## 1.0.0-alpha.20210823.1 (2021-08-23)
+
+- Added missing models to the TS type definitions.
+- Updated README
+
 ## 1.0.0-alpha.20210623.2 (2021-06-23)
 
 - Fixed the TS types definition path.
