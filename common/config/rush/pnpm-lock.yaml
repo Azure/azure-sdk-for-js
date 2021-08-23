@@ -8,6 +8,7 @@ dependencies:
   '@rush-temp/ai-text-analytics': file:projects/ai-text-analytics.tgz
   '@rush-temp/app-configuration': file:projects/app-configuration.tgz
   '@rush-temp/arm-appservice': file:projects/arm-appservice.tgz
+  '@rush-temp/arm-authorization': file:projects/arm-authorization.tgz
   '@rush-temp/arm-compute': file:projects/arm-compute.tgz
   '@rush-temp/arm-features': file:projects/arm-features.tgz
   '@rush-temp/arm-keyvault': file:projects/arm-keyvault.tgz
@@ -8670,6 +8671,26 @@ packages:
       integrity: sha512-O5f+BWzGqVFxpvEE9Tgt55OyDt1qgN3vO5dj4MHkff8gcwl9zmYQaQ+MEod9jGYgC2rZkCXlfLl9NmSDyoV54g==
       tarball: file:projects/arm-appservice.tgz
     version: 0.0.0
+  file:projects/arm-authorization.tgz:
+    dependencies:
+      '@microsoft/api-extractor': 7.7.11
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      mkdirp: 1.0.4
+      rollup: 1.32.1
+      rollup-plugin-node-resolve: 3.4.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.1
+    dev: false
+    name: '@rush-temp/arm-authorization'
+    resolution:
+      integrity: sha512-D/CqSXhx12TxJI8mzKjKVtKSMmqeHUeGJ/ZoSIQgpocxu4rcCvQW6UaI30xSarxR7rerzVoGKKCLd9PDXZEv0A==
+      tarball: file:projects/arm-authorization.tgz
+    version: 0.0.0
   file:projects/arm-compute.tgz:
     dependencies:
       '@microsoft/api-extractor': 7.7.11
@@ -12646,6 +12667,7 @@ specifiers:
   '@rush-temp/ai-text-analytics': file:./projects/ai-text-analytics.tgz
   '@rush-temp/app-configuration': file:./projects/app-configuration.tgz
   '@rush-temp/arm-appservice': file:./projects/arm-appservice.tgz
+  '@rush-temp/arm-authorization': file:./projects/arm-authorization.tgz
   '@rush-temp/arm-compute': file:./projects/arm-compute.tgz
   '@rush-temp/arm-features': file:./projects/arm-features.tgz
   '@rush-temp/arm-keyvault': file:./projects/arm-keyvault.tgz
