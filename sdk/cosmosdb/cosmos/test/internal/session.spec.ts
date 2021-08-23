@@ -115,7 +115,7 @@ describe.only("Session Token", function(this: Suite) {
       id: containerId
     });
 
-    // Create items using both clients so they each establishes a session with the backend
+    // Create items using both clients so they each establish a session with the backend
     const container2 = clientB.database(dbId).container(containerId);
     await Promise.all([createItem(container), createItem(container2)]);
 
