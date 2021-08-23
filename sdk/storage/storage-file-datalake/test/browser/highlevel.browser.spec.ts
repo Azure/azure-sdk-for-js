@@ -54,10 +54,6 @@ describe("Highlevel browser only", () => {
     await recorder.stop();
   });
 
-  after(async () => {
-    /* empty */
-  });
-
   it("upload should succeed with a single upload", async () => {
     recorder.skip("browser", "Temp file - recorder doesn't support saving the file");
     await fileClient.upload(tempFileSmall);

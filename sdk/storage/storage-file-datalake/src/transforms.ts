@@ -440,13 +440,13 @@ export function toPermissionsString(permissions: PathPermissions): string {
 }
 
 export function toAccessControlChangeFailureArray(
-  aclFailedEntry: AclFailedEntry[] = []
+  aclFailedEntries: AclFailedEntry[] = []
 ): AccessControlChangeError[] {
-  return aclFailedEntry.map((entry: AclFailedEntry) => {
+  return aclFailedEntries.map((aclFailedEntry: AclFailedEntry) => {
     return {
-      name: entry.name || "",
-      isDirectory: (entry.type || "").toLowerCase() === "directory",
-      message: entry.errorMessage || ""
+      name: aclFailedEntry.name || "",
+      isDirectory: (aclFailedEntry.type || "").toLowerCase() === "directory",
+      message: aclFailedEntry.errorMessage || ""
     };
   });
 }

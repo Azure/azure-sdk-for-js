@@ -11,8 +11,8 @@ import { SimpleTokenCredential } from "./testutils.common";
 export * from "./testutils.common";
 
 export function getGenericCredential(accountType: string): AnonymousCredential {
-  const anewAccountType = accountType; // bypass compiling error
-  accountType = anewAccountType;
+  const _accountType = accountType; // bypass compiling error
+  accountType = _accountType;
   return new AnonymousCredential();
 }
 
