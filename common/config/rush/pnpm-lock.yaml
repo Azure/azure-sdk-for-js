@@ -26,6 +26,7 @@ dependencies:
   '@rush-temp/communication-identity': file:projects/communication-identity.tgz
   '@rush-temp/communication-network-traversal': file:projects/communication-network-traversal.tgz
   '@rush-temp/communication-phone-numbers': file:projects/communication-phone-numbers.tgz
+  '@rush-temp/communication-sip-routing': file:projects/communication-sip-routing.tgz
   '@rush-temp/communication-sms': file:projects/communication-sms.tgz
   '@rush-temp/confidential-ledger': file:projects/confidential-ledger.tgz
   '@rush-temp/container-registry': file:projects/container-registry.tgz
@@ -9167,6 +9168,52 @@ packages:
       integrity: sha512-D5fyNkyCWhN4frTbBBAbsBBzdUN2Y5/6BZqxZWQHyN5OzY5RXVsQ3B3rm2vRkUkQy39eJh4mERYL2kS/U+LHew==
       tarball: file:projects/communication-phone-numbers.tgz
     version: 0.0.0
+  file:projects/communication-sip-routing.tgz:
+    dependencies:
+      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/identity': 1.5.1
+      '@microsoft/api-extractor': 7.7.11
+      '@types/chai': 4.2.21
+      '@types/chai-as-promised': 7.1.4
+      '@types/mocha': 7.0.2
+      '@types/node': 12.20.19
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      downlevel-dts: 0.4.0
+      eslint: 7.32.0
+      esm: 3.2.25
+      inherits: 2.0.4
+      karma: 6.3.4
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.0.3
+      karma-edge-launcher: 0.4.2_karma@6.3.4
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.3.4
+      karma-json-preprocessor: 0.3.3_karma@6.3.4
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1_karma@6.3.4
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.3.4
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 1.19.1
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      source-map-support: 0.5.19
+      tslib: 2.3.1
+      typedoc: 0.15.2
+      typescript: 4.2.4
+      util: 0.12.4
+    dev: false
+    name: '@rush-temp/communication-sip-routing'
+    resolution:
+      integrity: sha512-AozaAHWr0HTcRfSGbH/Yjid0tBwquQprIVqTkX2E1YX3boc0Tk8DRhPe/+7CJRNosPIuqVSiaxqqKG8IvKwEWw==
+      tarball: file:projects/communication-sip-routing.tgz
+    version: 0.0.0
   file:projects/communication-sms.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
@@ -12630,6 +12677,7 @@ specifiers:
   '@rush-temp/communication-identity': file:./projects/communication-identity.tgz
   '@rush-temp/communication-network-traversal': file:./projects/communication-network-traversal.tgz
   '@rush-temp/communication-phone-numbers': file:./projects/communication-phone-numbers.tgz
+  '@rush-temp/communication-sip-routing': file:./projects/communication-sip-routing.tgz
   '@rush-temp/communication-sms': file:./projects/communication-sms.tgz
   '@rush-temp/confidential-ledger': file:./projects/confidential-ledger.tgz
   '@rush-temp/container-registry': file:./projects/container-registry.tgz
