@@ -46,6 +46,8 @@
 - Updated the default timeout of the first request of the IMDS MSI from half a second to three seconds to compensate for the slowness caused by `node-fetch` for initial requests in specific environments, like Kubernetes pods.
 - Upgraded `@azure/core-http` to version `^2.0.0`, and `@azure/core-tracing` to version `1.0.0-preview.12`.
 
+- Upgraded the `AuthorizationCodeCredential` to use the latest `@azure/msal-node`.
+
 ## 2.0.0-beta.4 (2021-07-07)
 
 ### Features Added

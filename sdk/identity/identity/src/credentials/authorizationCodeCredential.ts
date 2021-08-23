@@ -1,16 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
-import { createSpan } from "../util/tracing";
-import { CredentialUnavailableError } from "../client/errors";
-import { IdentityClient, TokenResponse, TokenCredentialOptions } from "../client/identityClient";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { credentialLogger, formatSuccess, formatError } from "../util/logging";
-import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
+import { TokenCredentialOptions } from "../client/identityClient";
+import { credentialLogger } from "../util/logging";
 import { checkTenantId } from "../util/checkTenantId";
-import { processMultiTenantRequest } from "../util/validateMultiTenant";
+import { MsalAuthorizationCode } from "../msal/nodeFlows/msalAuthorizationCode";
+import { MsalFlow } from "../msal/flows";
+import { trace } from "../util/tracing";
 
 const logger = credentialLogger("AuthorizationCodeCredential");
 
@@ -22,14 +19,10 @@ const logger = credentialLogger("AuthorizationCodeCredential");
  * https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow
  */
 export class AuthorizationCodeCredential implements TokenCredential {
-  private identityClient: IdentityClient;
-  private tenantId: string;
-  private clientId: string;
-  private clientSecret: string | undefined;
+  private msalFlow: MsalFlow;
+  private disableAutomaticAuthentication?: boolean;
   private authorizationCode: string;
   private redirectUri: string;
-  private lastTokenResponse: TokenResponse | null = null;
-  private allowMultiTenantAuthentication?: boolean;
 
   /**
    * Creates an instance of CodeFlowCredential with the details needed
@@ -102,26 +95,30 @@ export class AuthorizationCodeCredential implements TokenCredential {
     options?: TokenCredentialOptions
   ) {
     checkTenantId(logger, tenantId);
-
-    this.clientId = clientId;
-    this.tenantId = tenantId;
+    let clientSecret: string | undefined = clientSecretOrAuthorizationCode;
 
     if (typeof redirectUriOrOptions === "string") {
       // the clientId+clientSecret constructor
-      this.clientSecret = clientSecretOrAuthorizationCode;
       this.authorizationCode = authorizationCodeOrRedirectUri;
       this.redirectUri = redirectUriOrOptions;
       // options okay
     } else {
       // clientId only
-      this.clientSecret = undefined;
       this.authorizationCode = clientSecretOrAuthorizationCode;
       this.redirectUri = authorizationCodeOrRedirectUri as string;
+      clientSecret = undefined;
       options = redirectUriOrOptions as TokenCredentialOptions;
     }
 
-    this.allowMultiTenantAuthentication = options?.allowMultiTenantAuthentication;
-    this.identityClient = new IdentityClient(options);
+    this.msalFlow = new MsalAuthorizationCode({
+      ...options,
+      clientSecret,
+      clientId,
+      tokenCredentialOptions: options || {},
+      logger,
+      redirectUri: this.redirectUri,
+      authorizationCode: this.authorizationCode
+    });
   }
 
   /**
@@ -132,86 +129,13 @@ export class AuthorizationCodeCredential implements TokenCredential {
    * @param options - The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
-  public async getToken(
-    scopes: string | string[],
-    options?: GetTokenOptions
-  ): Promise<AccessToken> {
-    const tenantId =
-      processMultiTenantRequest(this.tenantId, this.allowMultiTenantAuthentication, options) ||
-      this.tenantId;
-
-    const { span, updatedOptions } = createSpan("AuthorizationCodeCredential-getToken", options);
-    try {
-      let tokenResponse: TokenResponse | null = null;
-      let scopeString = typeof scopes === "string" ? scopes : scopes.join(" ");
-      if (scopeString.indexOf("offline_access") < 0) {
-        scopeString += " offline_access";
-      }
-
-      // Try to use the refresh token first
-      if (this.lastTokenResponse && this.lastTokenResponse.refreshToken) {
-        tokenResponse = await this.identityClient.refreshAccessToken(
-          tenantId,
-          this.clientId,
-          scopeString,
-          this.lastTokenResponse.refreshToken,
-          this.clientSecret,
-          undefined,
-          updatedOptions
-        );
-      }
-
-      const query = new URLSearchParams({
-        client_id: this.clientId,
-        grant_type: "authorization_code",
-        scope: scopeString,
-        code: this.authorizationCode,
-        redirect_uri: this.redirectUri
+  async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
+    return trace(`${this.constructor.name}.getToken`, options, async (newOptions) => {
+      const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
+      return this.msalFlow.getToken(arrayScopes, {
+        ...newOptions,
+        disableAutomaticAuthentication: this.disableAutomaticAuthentication
       });
-
-      if (this.clientSecret) {
-        query.set("client_secret", this.clientSecret);
-      }
-
-      if (tokenResponse === null) {
-        const urlSuffix = getIdentityTokenEndpointSuffix(tenantId);
-        const pipelineRequest = createPipelineRequest({
-          url: `${this.identityClient.authorityHost}/${tenantId}/${urlSuffix}`,
-          method: "POST",
-          body: query.toString(),
-          headers: createHttpHeaders({
-            Accept: "application/json",
-            "Content-Type": "application/x-www-form-urlencoded"
-          }),
-          tracingOptions: {
-            spanOptions: updatedOptions?.tracingOptions?.spanOptions,
-            tracingContext: updatedOptions?.tracingOptions?.tracingContext
-          }
-        });
-
-        tokenResponse = await this.identityClient.sendTokenRequest(
-          pipelineRequest,
-          (response: any) => new Date(response?.expires_on).getTime()
-        );
-      }
-
-      this.lastTokenResponse = tokenResponse;
-      logger.getToken.info(formatSuccess(scopes));
-      const token = tokenResponse && tokenResponse.accessToken;
-
-      if (!token) {
-        throw new CredentialUnavailableError("Failed to retrieve a valid token");
-      }
-      return token;
-    } catch (err) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: err.message
-      });
-      logger.getToken.info(formatError(scopes, err));
-      throw err;
-    } finally {
-      span.end();
-    }
+    });
   }
 }
