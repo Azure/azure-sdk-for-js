@@ -14,15 +14,20 @@ const packageVersion = "8.1.0";
 
 export class ComputerVisionClientContext extends msRest.ServiceClient {
   endpoint: string;
-  credentials: msRest.ServiceClientCredentials;
+  credentials: msRest.ServiceClientCredentials | TokenCredential;
 
   /**
    * Initializes a new instance of the ComputerVisionClientContext class.
    * @param endpoint Supported Cognitive Services endpoints.
    * @param credentials Subscription credentials which uniquely identify client subscription.
+   * Credentials implementing the TokenCredential interface from the @azure/identity package are
+   * recommended. For more information about these credentials, see
+   * {@link https://www.npmjs.com/package/@azure/identity}. Credentials implementing the
+   * ServiceClientCredentials interface from the older packages @azure/ms-rest-nodeauth and
+   * @azure/ms-rest-browserauth are also supported.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, endpoint: string, options?: msRest.ServiceClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, endpoint: string, options?: msRest.ServiceClientOptions) {
     if (endpoint == undefined) {
       throw new Error("'endpoint' cannot be null.");
     }
