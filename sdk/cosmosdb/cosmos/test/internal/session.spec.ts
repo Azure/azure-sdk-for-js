@@ -68,6 +68,7 @@ describe("New session token", function() {
   });
 });
 
+// eslint-disable-next-line
 describe.only("Session Token", function(this: Suite) {
   beforeEach(async function() {
     await removeAllDatabases();
