@@ -8,7 +8,7 @@ import { ConsistencyLevel } from "../../src";
 import { CosmosClient } from "../../src";
 import { SessionContainer } from "../../src/session/sessionContainer";
 import { endpoint, masterKey } from "../public/common/_testConfig";
-import { getTestDatabase, removeAllDatabases } from "../public/common/TestHelpers";
+import { addEntropy, getTestDatabase, removeAllDatabases } from "../public/common/TestHelpers";
 import { RequestContext } from "../../src";
 import { Response } from "../../src/request/Response";
 
@@ -68,7 +68,7 @@ describe("New session token", function() {
   });
 });
 
-describe("Session Token", function(this: Suite) {
+describe.only("Session Token", function(this: Suite) {
   beforeEach(async function() {
     await removeAllDatabases();
   });
@@ -95,28 +95,35 @@ describe("Session Token", function(this: Suite) {
             if (context.headers["x-ms-session-token"]) {
               context.headers["x-ms-session-token"] = "0:0#900000#3=8600000#10=-1";
             }
-            return next(context);
+            console.log(context.method, context.path, context.headers["x-ms-session-token"]);
+            const repsonse = await next(context);
+            console.log(repsonse.code, repsonse.substatus);
+            return repsonse;
           }
         }
       ]
     });
 
+    const dbId = addEntropy("sessionTestDB");
+    const containerId = addEntropy("sessionTestContainer");
+
     // Create Database and Container
     const { database } = await clientA.databases.createIfNotExists({
-      id: "sessionTest"
+      id: dbId
     });
     const { container } = await database.containers.createIfNotExists({
-      id: "sessionTest"
+      id: containerId
     });
 
     // Create items using both clients so they each establishes a session with the backend
-    const container2 = await clientB.database("sessionTest").container("sessionTest");
+    const container2 = clientB.database(dbId).container(containerId);
     await Promise.all([createItem(container), createItem(container2)]);
 
     // Create an item using client
     const id = await createItem(container);
     const { resource, statusCode } = await container2.item(id).read();
-    assert(resource);
+    console.log(statusCode, resource);
+    assert.ok(resource);
     assert.strictEqual(statusCode, 200);
   });
 });
