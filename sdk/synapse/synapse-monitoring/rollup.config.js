@@ -1,5 +1,5 @@
 import rollup from "rollup";
-import nodeResolve from "rollup-plugin-node-resolve";
+import nodeResolve from "@rollup/plugin-node-resolve";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import cjs from "@rollup/plugin-commonjs";
 import { openTelemetryCommonJs } from "@azure/dev-tool/shared-config/rollup";
