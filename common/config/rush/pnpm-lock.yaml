@@ -9942,7 +9942,7 @@ packages:
     dev: false
     name: '@rush-temp/cosmos'
     resolution:
-      integrity: sha512-BsRi7P/t0dCE+meCvDsGmLSVADUF4kFlR0Gt8JJu3FoBvRnG2eyUG4oDnYg71frICUhgptWpHWoLC7pOqlZdZg==
+      integrity: sha512-ccjG0WDeeY6YNl3ls3WPXeotL6A77FlJRlru9NBbNfJCTQnmyfHpEc/8V08uaNiePCL78AG8z8SaXM/5hvUD1g==
       tarball: file:projects/cosmos.tgz
     version: 0.0.0
   file:projects/data-tables.tgz:
