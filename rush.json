@@ -875,6 +875,11 @@
       "packageName": "@azure/arm-appservice",
       "projectFolder": "sdk/appservice/arm-appservice",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-templatespecs",
+      "projectFolder": "sdk/templatespecs/arm-templatespecs",
+      "versionPolicyName": "management"
     }
   ]
 }
