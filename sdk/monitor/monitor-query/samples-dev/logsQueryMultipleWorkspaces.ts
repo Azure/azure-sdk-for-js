@@ -35,7 +35,7 @@ export async function main() {
     additionalWorkspaces: [additionalWorkspaces1, additionalWorkspaces2]
   };
 
-  const result = await logsQueryClient.queryLogs(
+  const result = await logsQueryClient.query(
     monitorWorkspaceId,
     kustoQuery,
     // The timespan is an ISO8601 formatted time (or interval). Some common aliases

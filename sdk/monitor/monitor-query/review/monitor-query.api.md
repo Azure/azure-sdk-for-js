@@ -70,8 +70,8 @@ export type LogsColumnType = string;
 // @public
 export class LogsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions);
-    queryLogs(workspaceId: string, query: string, timespan: string, options?: QueryLogsOptions): Promise<QueryLogsResult>;
-    queryLogsBatch(batch: QueryBatch[], options?: QueryLogsBatchOptions): Promise<QueryLogsBatchResult>;
+    query(workspaceId: string, query: string, timespan: string, options?: QueryLogsOptions): Promise<QueryLogsResult>;
+    queryBatch(batch: QueryBatch[], options?: QueryLogsBatchOptions): Promise<QueryLogsBatchResult>;
 }
 
 // @public

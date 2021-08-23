@@ -32,7 +32,7 @@ export async function main() {
     includeQueryStatistics: true
   };
 
-  const result = await logsQueryClient.queryLogs(
+  const result = await logsQueryClient.query(
     monitorWorkspaceId,
     kustoQuery,
     // The timespan is an ISO8601 formatted time (or interval). Some common aliases

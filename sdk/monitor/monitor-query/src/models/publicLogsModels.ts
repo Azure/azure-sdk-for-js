@@ -10,7 +10,7 @@ import { Column as LogsColumn, ErrorInfo } from "../generated/logquery/src";
 /**
  * Options for querying logs.
  */
-export interface QueryLogsOptions extends OperationOptions {
+export interface QueryOptions extends OperationOptions {
   /**
    * A list of workspaces that are included in the query, except for the one set as the `workspaceId` parameter
    * These may consist of the following identifier formats:
@@ -62,7 +62,7 @@ export interface QueryLogsResult {
 }
 
 /** Options when query logs with a batch. */
-export type QueryLogsBatchOptions = OperationOptions;
+export type QueryBatchOptions = OperationOptions;
 
 /** The Analytics query. Learn more about the [Analytics query syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/) */
 // NOTE: 'id' is added automatically by our LogsClient.

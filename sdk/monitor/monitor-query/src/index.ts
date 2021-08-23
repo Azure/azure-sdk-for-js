@@ -7,9 +7,9 @@
 export { LogsQueryClientOptions, LogsQueryClient } from "./logsQueryClient";
 export {
   QueryBatch,
-  QueryLogsBatchOptions,
+  QueryBatchOptions as QueryLogsBatchOptions,
   QueryLogsBatchResult,
-  QueryLogsOptions,
+  QueryOptions as QueryLogsOptions,
   QueryLogsResult,
   // TODO: design issues around this still pending.
   // QueryStatistics,

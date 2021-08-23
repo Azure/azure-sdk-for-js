@@ -46,7 +46,7 @@ export async function main() {
     }
   ];
 
-  const result = await logsQueryClient.queryLogsBatch(queriesBatch);
+  const result = await logsQueryClient.queryBatch(queriesBatch);
 
   if (result.results == null) {
     throw new Error("No response for query");
