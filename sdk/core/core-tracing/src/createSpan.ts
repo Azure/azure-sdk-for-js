@@ -65,7 +65,7 @@ export function isTracingDisabled(): boolean {
 }
 
 /**
- * Maintains backwards compatibility with the previous `OperationTracingOptions` (@azure/core-tracing@preview.13 and earlier) which included `SpanOptions`
+ * Maintains backwards compatibility with the previous `OperationTracingOptions` (\@azure/core-tracing@preview.13 and earlier) which included `SpanOptions`
  */
 function disambiguateParameters<T extends { tracingOptions?: OperationTracingOptions }>(
   operationOptions: T,
