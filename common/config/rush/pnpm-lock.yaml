@@ -17,6 +17,7 @@ dependencies:
   '@rush-temp/arm-network': file:projects/arm-network.tgz
   '@rush-temp/arm-policy': file:projects/arm-policy.tgz
   '@rush-temp/arm-resources': file:projects/arm-resources.tgz
+  '@rush-temp/arm-resources-subscriptions': file:projects/arm-resources-subscriptions.tgz
   '@rush-temp/arm-sql': file:projects/arm-sql.tgz
   '@rush-temp/arm-storage': file:projects/arm-storage.tgz
   '@rush-temp/arm-webpubsub': file:projects/arm-webpubsub.tgz
@@ -8830,6 +8831,26 @@ packages:
       integrity: sha512-1cDd7l+RfNr7rAJxGMqLHW/zYV/F5tRFsA1R6RplSOTGg8yo1foORk8QvIa+oumecW/uYGC/jePfHrx55atGMQ==
       tarball: file:projects/arm-policy.tgz
     version: 0.0.0
+  file:projects/arm-resources-subscriptions.tgz:
+    dependencies:
+      '@microsoft/api-extractor': 7.7.11
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      mkdirp: 1.0.4
+      rollup: 1.32.1
+      rollup-plugin-node-resolve: 3.4.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.1
+    dev: false
+    name: '@rush-temp/arm-resources-subscriptions'
+    resolution:
+      integrity: sha512-6GWFjnVvh/TZyCDi+Fj6ShcBGzmKQ8mvChj7v+n68IPy8QUwXlB08EvQ5zo/7+jii9EwFGCBOQok/5+BISRnJg==
+      tarball: file:projects/arm-resources-subscriptions.tgz
+    version: 0.0.0
   file:projects/arm-resources.tgz:
     dependencies:
       '@microsoft/api-extractor': 7.7.11
@@ -12655,6 +12676,7 @@ specifiers:
   '@rush-temp/arm-network': file:./projects/arm-network.tgz
   '@rush-temp/arm-policy': file:./projects/arm-policy.tgz
   '@rush-temp/arm-resources': file:./projects/arm-resources.tgz
+  '@rush-temp/arm-resources-subscriptions': file:./projects/arm-resources-subscriptions.tgz
   '@rush-temp/arm-sql': file:./projects/arm-sql.tgz
   '@rush-temp/arm-storage': file:./projects/arm-storage.tgz
   '@rush-temp/arm-webpubsub': file:./projects/arm-webpubsub.tgz
