@@ -91,9 +91,11 @@ function Set-EnvironmentVariables {
 function New-DeployManifest {
   Write-Verbose "Detecting samples..."
   $javascriptSamples = Get-ChildItem -Path "$repoRoot/sdk/$ServiceDirectory/*/samples/javascript/" -Recurse -Include package.json
-  tree $repoRoot/sdk/$ServiceDirectory /F
+  tree "$($repoRoot)/sdk/$($ServiceDirectory)" /F
   Write-Host "xxxxxx"
-  dir $repoRoot/sdk/$ServiceDirectory/*/samples/javascript/*/package.json
+  dir "$($repoRoot)/sdk/$($ServiceDirectory)/*/samples/javascript/*/package.json"
+  Write-Host "xxxxxx"
+  tree "$repoRoot"
   Write-Host "xxxxxx"
   Write-Host "Found samples:"
   Write-Host $($javascriptSamples)
