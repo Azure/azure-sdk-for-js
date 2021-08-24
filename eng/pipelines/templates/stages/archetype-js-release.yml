@@ -225,7 +225,8 @@ stages:
               parameters:
                 Daily: false
                 ServiceDirectory: ${{ parameters.ServiceDirectory }}
-                Artifacts: ${{ parameters.Artifacts }}
+                ArtifactName: ${{ parameters.ArtifactName }}
+                Artifact: ${{ artifact }}
 
   - stage: Integration
     dependsOn: ${{parameters.DependsOn}}

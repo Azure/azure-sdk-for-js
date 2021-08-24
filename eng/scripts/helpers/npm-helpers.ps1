@@ -89,6 +89,8 @@ function GetNewNpmTags($packageName, $packageVersion)
     # Set next tag if new preview is higher than highest present on npm
     $highestNpmVersion = FindRecentPackageVersion -packageName $packageName
     $highestNpmVersion = [AzureEngSemanticVersion]::ParseVersionString($highestNpmVersion)
+    Write-Host "Highest version"
+    Write-Host $highestNpmVersion
     # New version is preview and if package is getting released first time or higher than currently available
     if ($highestNpmVersion -eq $null -or $newVersion.CompareTo($highestNpmVersion) -eq 1)
     {
@@ -99,6 +101,7 @@ function GetNewNpmTags($packageName, $packageVersion)
       }
     }    
   }
+  $setNext = $true
 
   $tag = ""
   $additionalTag = ""
