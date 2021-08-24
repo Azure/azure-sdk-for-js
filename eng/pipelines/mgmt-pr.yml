@@ -203,6 +203,7 @@ pr:
     - sdk/servicefabric/servicefabric
     - sdk/storage/storage-datalake
     - sdk/storage/storage-internal-avro
+    - sdk/resources-subscriptions/arm-resources-subscriptions
 
 variables:
   NodeVersion: 10.x
