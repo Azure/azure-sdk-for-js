@@ -359,7 +359,7 @@ describe("EventHubConsumerClient", () => {
         });
 
         await loopUntil({
-          maxTimes: 10,
+          maxTimes: 20,
           name:
             "Wait for subscription2 to read from all partitions and subscription1 to invoke close handlers",
           timeBetweenRunsMs: 1000,
