@@ -32,6 +32,7 @@ export {
   LegacyChargeSummary,
   LegacyReservationTransaction,
   LegacyUsageDetail,
+  Lots,
   LotSummary,
   ManagementGroupAggregatedCostResult,
   Marketplace,
@@ -57,6 +58,5 @@ export {
   Resource,
   Tag,
   TagsResult,
-  UsageDetail,
-  UsageDetailsListResult
+  UsageDetail
 } from "../models/mappers";
