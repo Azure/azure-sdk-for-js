@@ -562,6 +562,13 @@ export const CustomEntitiesTaskParameters: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      loggingOptOut: {
+        defaultValue: false,
+        serializedName: "loggingOptOut",
+        type: {
+          name: "Boolean"
+        }
+      },
       stringIndexType: {
         serializedName: "stringIndexType",
         type: {
@@ -604,6 +611,13 @@ export const CustomSingleClassificationTaskParameters: coreClient.CompositeMappe
         type: {
           name: "String"
         }
+      },
+      loggingOptOut: {
+        defaultValue: false,
+        serializedName: "loggingOptOut",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -640,6 +654,13 @@ export const CustomMultiClassificationTaskParameters: coreClient.CompositeMapper
         serializedName: "deploymentName",
         type: {
           name: "String"
+        }
+      },
+      loggingOptOut: {
+        defaultValue: false,
+        serializedName: "loggingOptOut",
+        type: {
+          name: "Boolean"
         }
       }
     }
