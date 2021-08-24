@@ -16,12 +16,12 @@ import {
 export const createCommunicationTokenCredentialPolicy = (
   credential: CommunicationTokenCredential
 ): PipelinePolicy => {
-  const options: BearerTokenAuthenticationPolicyOptions = {
+  const policyOptions: BearerTokenAuthenticationPolicyOptions = {
     credential: {
       getToken: (_scopes, options) => credential.getToken({ abortSignal: options?.abortSignal })
     },
     scopes: []
   };
 
-  return bearerTokenAuthenticationPolicy(options);
+  return bearerTokenAuthenticationPolicy(policyOptions);
 };
