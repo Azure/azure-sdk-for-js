@@ -53,3 +53,11 @@ export {
   SerializationPolicyOptions
 } from "./serializationPolicy";
 import "@azure/core-asynciterator-polyfill";
+
+export {
+  createSpanFunction,
+  Span,
+  SpanKind,
+  SpanStatusCode,
+  OperationTracingOptions
+} from "@azure/core-tracing";

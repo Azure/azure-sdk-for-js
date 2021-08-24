@@ -5,6 +5,7 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
+import { createSpanFunction } from '@azure/core-tracing';
 import { HttpClient } from '@azure/core-rest-pipeline';
 import { HttpMethods } from '@azure/core-rest-pipeline';
 import { InternalPipelineOptions } from '@azure/core-rest-pipeline';
@@ -14,6 +15,9 @@ import { PipelineOptions } from '@azure/core-rest-pipeline';
 import { PipelinePolicy } from '@azure/core-rest-pipeline';
 import { PipelineRequest } from '@azure/core-rest-pipeline';
 import { PipelineResponse } from '@azure/core-rest-pipeline';
+import { Span } from '@azure/core-tracing';
+import { SpanKind } from '@azure/core-tracing';
+import { SpanStatusCode } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
 import { TransferProgressEvent } from '@azure/core-rest-pipeline';
 
@@ -72,6 +76,8 @@ export function createClientPipeline(options?: InternalClientPipelineOptions): P
 export function createSerializer(modelMappers?: {
     [key: string]: any;
 }, isXML?: boolean): Serializer;
+
+export { createSpanFunction }
 
 // @public
 export interface DeserializationContentTypes {
@@ -269,6 +275,8 @@ export interface OperationSpec {
     readonly urlParameters?: ReadonlyArray<OperationURLParameter>;
 }
 
+export { OperationTracingOptions }
+
 // @public
 export interface OperationURLParameter extends OperationParameter {
     skipEncoding?: boolean;
@@ -365,11 +373,17 @@ export interface SimpleMapperType {
     name: "Base64Url" | "Boolean" | "ByteArray" | "Date" | "DateTime" | "DateTimeRfc1123" | "Object" | "Stream" | "String" | "TimeSpan" | "UnixTime" | "Uuid" | "Number" | "any";
 }
 
+export { Span }
+
 // @public
 export interface SpanConfig {
     namespace: string;
     packagePrefix: string;
 }
+
+export { SpanKind }
+
+export { SpanStatusCode }
 
 // @public
 export const XML_ATTRKEY = "$";
