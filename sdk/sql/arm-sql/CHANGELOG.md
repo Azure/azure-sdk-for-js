@@ -1,14 +1,8 @@
-# Release History
+## 30.0.0-beta.2 (2021-08-20)
 
-## 30.0.0-beta.2 (Unreleased)
+**Bug Fixes**
 
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+    - fix package issues
 
 ## 30.0.0-beta.1 (2021-08-13)
 
