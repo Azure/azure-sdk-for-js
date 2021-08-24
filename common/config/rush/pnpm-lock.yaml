@@ -12416,12 +12416,13 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
+      tslib: 2.3.1
       typescript: 4.2.4
       xhr-mock: 2.5.1
     dev: false
     name: '@rush-temp/test-utils-recorder-new'
     resolution:
-      integrity: sha512-bDhXydv7CtZ1xt40h6PvZDRoUNzPLNN3y+yNcg1q72An0LCpq9iNL9RfKbcWKjbLb8sMBSM30YHtHekcBCmQTw==
+      integrity: sha512-KEhQz0S+x6PDliL1K4kj5Edhkx/Ciual1AXaa0MkCdIsTIGuM/w3Uxc4g8QJUt8laUQaFSaKKVsOH0cgIzRL/g==
       tarball: file:projects/test-utils-recorder-new.tgz
     version: 0.0.0
   file:projects/test-utils-recorder.tgz:
