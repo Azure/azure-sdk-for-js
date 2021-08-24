@@ -42,7 +42,7 @@ describe("Model unit tests", () => {
         {
           query: "the kusto query",
           workspaceId: "the primary workspace id",
-          timespan: Durations.last24Hours
+          timespan: { duration: Durations.last24Hours }
         }
       ]);
 
@@ -66,11 +66,11 @@ describe("Model unit tests", () => {
         {
           query: "<placeholder>",
           workspaceId: "<placeholder>",
-          timespan: Durations.last24Hours
+          timespan: { duration: Durations.last24Hours }
         },
         {
           query: "the kusto query",
-          timespan: Durations.last5Minutes,
+          timespan: { duration: Durations.last5Minutes },
           workspaceId: "the primary workspace id",
           includeQueryStatistics: true,
           serverTimeoutInSeconds: 100,
@@ -114,7 +114,7 @@ describe("Model unit tests", () => {
         requestOptions,
         resultType: "Data",
         top: 10,
-        timespan: "arbitraryTimespan",
+        timespan: { duration: "arbitraryTimespan" },
         tracingOptions,
         serializerOptions,
         onResponse

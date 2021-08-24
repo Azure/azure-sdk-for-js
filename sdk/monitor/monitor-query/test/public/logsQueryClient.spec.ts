@@ -38,7 +38,9 @@ describe("LogsQueryClient live tests", function() {
     try {
       // TODO: there is an error details in the query, but when I run an invalid query it
       // throws (and ErrorDetails are just present in the exception.)
-      await createClient().query(monitorWorkspaceId, kustoQuery, Durations.lastDay);
+      await createClient().query(monitorWorkspaceId, kustoQuery, {
+        duration: Durations.lastDay
+      });
       assert.fail("Should have thrown an exception");
     } catch (err) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars -- eslint doesn't recognize that the extracted variables are prefixed with '_' and are purposefully unused.
@@ -82,7 +84,9 @@ describe("LogsQueryClient live tests", function() {
         monitorWorkspaceId,
         // slow query suggested by Pavel.
         "range x from 1 to 10000000000 step 1 | count",
-        Durations.last24Hours,
+        {
+          duration: Durations.last24Hours
+        },
         {
           // the query above easily takes longer than 1 second.
           serverTimeoutInSeconds: 1
@@ -122,7 +126,9 @@ describe("LogsQueryClient live tests", function() {
     const results = await createClient().query(
       monitorWorkspaceId,
       "AppEvents | limit 1",
-      Durations.last24Hours,
+      {
+        duration: Durations.last24Hours
+      },
       {
         includeQueryStatistics: true
       }
@@ -138,7 +144,9 @@ describe("LogsQueryClient live tests", function() {
     const results = await createClient().query(
       monitorWorkspaceId,
       `datatable (s: string, i: long) [ "a", 1, "b", 2, "c", 3 ] | render columnchart with (title="the chart title", xtitle="the x axis title")`,
-      Durations.last24Hours,
+      {
+        duration: Durations.last24Hours
+      },
       {
         includeVisualization: true
       }
@@ -166,11 +174,9 @@ describe("LogsQueryClient live tests", function() {
           dynamiccolumn=print_6
       `;
 
-    const results = await createClient().query(
-      monitorWorkspaceId,
-      constantsQuery,
-      Durations.last5Minutes
-    );
+    const results = await createClient().query(monitorWorkspaceId, constantsQuery, {
+      duration: Durations.last5Minutes
+    });
 
     const table = results.tables[0];
 
@@ -254,7 +260,7 @@ describe("LogsQueryClient live tests", function() {
       {
         workspaceId: monitorWorkspaceId,
         query: constantsQuery,
-        timespan: Durations.last5Minutes
+        timespan: { duration: Durations.last5Minutes }
       }
     ]);
 
@@ -367,11 +373,9 @@ describe("LogsQueryClient live tests", function() {
     it("queryLogs (last day)", async () => {
       const kustoQuery = `AppDependencies | where Properties['testRunId'] == '${testRunId}'| project Kind=Properties["kind"], Name, Target, TestRunId=Properties['testRunId']`;
 
-      const singleQueryLogsResult = await createClient().query(
-        monitorWorkspaceId,
-        kustoQuery,
-        Durations.lastDay
-      );
+      const singleQueryLogsResult = await createClient().query(monitorWorkspaceId, kustoQuery, {
+        duration: Durations.lastDay
+      });
 
       // TODO: the actual types aren't being deserialized (everything is coming back as 'string')
       // this is incorrect, it'll be updated.
@@ -392,12 +396,12 @@ describe("LogsQueryClient live tests", function() {
         {
           workspaceId: monitorWorkspaceId,
           query: `AppDependencies | where Properties['testRunId'] == '${testRunId}'| project Kind=Properties["kind"], Name, Target, TestRunId=Properties['testRunId']`,
-          timespan: Durations.last24Hours
+          timespan: { duration: Durations.last24Hours }
         },
         {
           workspaceId: monitorWorkspaceId,
           query: `AppDependencies | where Properties['testRunId'] == '${testRunId}' | count`,
-          timespan: Durations.last24Hours,
+          timespan: { duration: Durations.last24Hours },
           includeQueryStatistics: true,
           serverTimeoutInSeconds: 60 * 10
         }
@@ -445,7 +449,9 @@ describe("LogsQueryClient live tests", function() {
       const client = createClient();
 
       for (let i = 0; i < args.maxTries; ++i) {
-        const result = await client.query(monitorWorkspaceId, query, Durations.last24Hours);
+        const result = await client.query(monitorWorkspaceId, query, {
+          duration: Durations.last24Hours
+        });
 
         const numRows = result.tables?.[0].rows?.length;
 

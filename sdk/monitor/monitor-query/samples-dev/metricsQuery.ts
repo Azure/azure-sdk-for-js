@@ -33,7 +33,7 @@ export async function main() {
 
   const metricsResponse = await metricsQueryClient.query(metricsResourceId, [firstMetric.name!], {
     granularity: "PT1M",
-    timespan: Durations.last5Minutes
+    timespan: { duration: Durations.last5Minutes }
   });
 
   console.log(

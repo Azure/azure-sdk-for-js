@@ -37,7 +37,7 @@ describe("LogsQueryClient unit tests", () => {
     assert.equal(client["_logAnalytics"]["_baseUri"], "https://customEndpoint1");
 
     try {
-      await client.query("workspaceId", "query", Durations.last5Minutes);
+      await client.query("workspaceId", "query", { duration: Durations.last5Minutes });
       assert.fail("Should have thrown");
     } catch (err) {
       assert.deepNestedInclude(err, {

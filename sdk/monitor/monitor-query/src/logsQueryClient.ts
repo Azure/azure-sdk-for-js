@@ -20,6 +20,8 @@ import {
 } from "./internal/modelConverters";
 import { formatPreferHeader } from "./internal/util";
 import { FullOperationResponse, OperationOptions } from "@azure/core-client";
+import { TimeInterval } from "./models/common";
+import { convertTimespanToInterval } from "./timespanConversion";
 
 const defaultMonitorScope = "https://api.loganalytics.io/.default";
 
@@ -80,16 +82,20 @@ export class LogsQueryClient {
   async query(
     workspaceId: string,
     query: string,
-    timespan: string,
+    timespan: TimeInterval,
     options?: QueryOptions
   ): Promise<QueryLogsResult> {
+    let timeInterval: string = "";
+    if (timespan) {
+      timeInterval = convertTimespanToInterval(timespan);
+    }
     const { flatResponse, rawResponse } = await getRawResponse(
       (paramOptions) =>
         this._logAnalytics.query.execute(
           workspaceId,
           {
             query,
-            timespan,
+            timespan: timeInterval,
             workspaces: options?.additionalWorkspaces
           },
           paramOptions

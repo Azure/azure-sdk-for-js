@@ -38,6 +38,7 @@ import {
 } from "../../src";
 import { Metric, MetricDefinition, TimeSeriesElement } from "../models/publicMetricsModels";
 import { FullOperationResponse } from "../../../../core/core-client/types/latest/core-client";
+import { convertTimespanToInterval } from "../timespanConversion";
 
 /**
  * @internal
@@ -46,12 +47,11 @@ export function convertRequestForQueryBatch(batch: QueryBatch[]): GeneratedBatch
   let id = 0;
 
   const requests: GeneratedBatchQueryRequest[] = batch.map((query: QueryBatch) => {
-    const body: QueryBody &
+    const body: Exclude<QueryBody, "timespan"> &
       Partial<
         Pick<
           QueryBatch,
           | "query"
-          | "timespan"
           | "workspaceId"
           | "includeQueryStatistics"
           | "additionalWorkspaces"
@@ -59,10 +59,14 @@ export function convertRequestForQueryBatch(batch: QueryBatch[]): GeneratedBatch
           | "serverTimeoutInSeconds"
         >
       > = {
-      ...query
+      workspaceId: query.workspaceId,
+      query: query.query
     };
     if (query["additionalWorkspaces"]) {
       body["workspaces"] = query["additionalWorkspaces"].map((x) => x);
+    }
+    if (query["timespan"]) {
+      body["timespan"] = convertTimespanToInterval(query["timespan"]);
     }
     delete body["workspaceId"];
     delete body["includeQueryStatistics"];
@@ -190,9 +194,12 @@ export function convertRequestForMetrics(
   } = queryMetricsOptions;
 
   const obj: GeneratedMetricsListOptionalParams = {
-    ...rest,
-    timespan
+    ...rest
   };
+
+  if (timespan) {
+    obj.timespan = convertTimespanToInterval(timespan);
+  }
 
   if (orderBy) {
     obj.orderby = orderBy;

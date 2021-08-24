@@ -70,7 +70,7 @@ export type LogsColumnType = string;
 // @public
 export class LogsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions);
-    query(workspaceId: string, query: string, timespan: string, options?: QueryLogsOptions): Promise<QueryLogsResult>;
+    query(workspaceId: string, query: string, timespan: TimeInterval, options?: QueryLogsOptions): Promise<QueryLogsResult>;
     queryBatch(batch: QueryBatch[], options?: QueryLogsBatchOptions): Promise<QueryLogsBatchResult>;
 }
 
@@ -186,7 +186,7 @@ export interface QueryBatch {
     includeVisualization?: boolean;
     query: string;
     serverTimeoutInSeconds?: number;
-    timespan?: string;
+    timespan?: TimeInterval;
     workspaceId: string;
 }
 
@@ -239,12 +239,26 @@ export interface QueryOptions extends OperationOptions {
     metricNamespace?: string;
     orderBy?: string;
     resultType?: ResultType;
-    timespan?: string;
+    timespan?: TimeInterval;
     top?: number;
 }
 
 // @public
 export type ResultType = "Data" | "Metadata";
+
+// @public
+export type TimeInterval = {
+    startTime: Date;
+    endTime: Date;
+} | {
+    startTime: Date;
+    duration: string;
+} | {
+    duration: string;
+    endTime: Date;
+} | {
+    duration: string;
+};
 
 // @public
 export interface TimeSeriesElement {
