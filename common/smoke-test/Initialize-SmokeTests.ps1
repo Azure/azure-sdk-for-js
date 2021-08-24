@@ -92,28 +92,21 @@ function New-DeployManifest {
   Write-Verbose "Detecting samples..."
   # *(latest one, sort) with samples/v{x}/javascript
   $javascriptSamples = Get-ChildItem -Path "$repoRoot/sdk/$ServiceDirectory/*/samples/*/javascript/" -Recurse -Include package.json
-  tree "$($repoRoot)/sdk/$($ServiceDirectory)" /F
-  Write-Host "xxxxxx"
-  dir "$($repoRoot)/sdk/$($ServiceDirectory)/*/samples/javascript/*/package.json"
-  Write-Host "xxxxxx"
-  tree "$repoRoot"
-  Write-Host "xxxxxx"
   Write-Host "Found samples:"
   Write-Host $($javascriptSamples)
-  #(Get-ChildItem -Path "$repoRoot/sdk/$ServiceDirectory/*/samples/javascript/" -Directory
-  #  | Where-Object { Test-Path "$_/package.json" })
 
   $manifest = $javascriptSamples | ForEach-Object {
-    # Example: azure-sdk-for-js/sdk/appconfiguration/app-configuration/samples/javascript
+    Write-Host "HIHIHIHIHI"
+    # Example: azure-sdk-for-js/sdk/appconfiguration/app-configuration/samples/v1/javascript
     @{
       # Package name for example "app-configuration"
-      Name               = ((Join-Path $_ ../../) | Get-Item).Name;
+      Name               = ((Join-Path $_ ../../../) | Get-Item).Name;
 
       # Path to "app-configuration" part from example
-      PackageDirectory   = ((Join-Path $_ ../../) | Get-Item).FullName;
+      PackageDirectory   = ((Join-Path $_ ../../../) | Get-Item).FullName;
 
       # Service Directory for example "appconfiguration"
-      ResourcesDirectory = ((Join-Path $_ ../../../) | Get-Item).Name;
+      ResourcesDirectory = ((Join-Path $_ ../../../../) | Get-Item).Name;
     }
   }
 
