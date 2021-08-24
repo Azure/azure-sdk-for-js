@@ -113,16 +113,6 @@ export class ChatClient {
       updatedOptions.idempotencyToken = updatedOptions.idempotencyToken ?? generateUuid();
       const updatedRestModelOptions = mapToCreateChatThreadOptionsRestModel(updatedOptions);
 
-      // const { flatResponse } = await getRawResponse(
-      //   (paramOptions) => this.client.chat.createChatThread({
-      //     topic: request.topic,
-      //     participants: options.participants?.map((participant) =>
-      //       mapToChatParticipantRestModel(participant)
-      //     )
-      //   }, paramOptions),
-      //   updatedRestModelOptions || {}
-      // );
-
       const result = await this.client.chat.createChatThread(
         {
           topic: request.topic,
