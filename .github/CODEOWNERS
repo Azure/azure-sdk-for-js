@@ -108,8 +108,9 @@
 # PRLabel: %Search
 /sdk/search/ @xirzec @sarangan12
 
-/sdk/applicationinsights/applicationinsights-query/ @divyajay @alongafni
-/sdk/operationalinsights/loganalytics/ @divyajay @alongafni
+# PRLabel: %Monitor - ApplicationInsights
+# ServiceLabel: %Monitor - ApplicationInsights %Service Attention
+/sdk/applicationinsights/Microsoft.Azure.App*/  @omziv @anatse @raronen @ischrei @danhadari @azmonapplicationinsights
 
 /sdk/cognitiveservices/cognitiveservices-qnamaker-runtime/ @bingisbestest @nerajput1607
 /sdk/cognitiveservices/cognitiveservices-qnamaker/ @bingisbestest @nerajput1607
