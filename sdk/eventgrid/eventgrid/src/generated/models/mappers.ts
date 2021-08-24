@@ -5945,6 +5945,43 @@ export const PolicyInsightsPolicyStateDeletedEventData: coreClient.CompositeMapp
   }
 };
 
+export const ContainerServiceNewKubernetesVersionAvailableEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerServiceNewKubernetesVersionAvailableEventData",
+    modelProperties: {
+      latestSupportedKubernetesVersion: {
+        serializedName: "latestSupportedKubernetesVersion",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      latestStableKubernetesVersion: {
+        serializedName: "latestStableKubernetesVersion",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      lowestMinorKubernetesVersion: {
+        serializedName: "lowestMinorKubernetesVersion",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      latestPreviewKubernetesVersion: {
+        serializedName: "latestPreviewKubernetesVersion",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const IotHubDeviceCreatedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",

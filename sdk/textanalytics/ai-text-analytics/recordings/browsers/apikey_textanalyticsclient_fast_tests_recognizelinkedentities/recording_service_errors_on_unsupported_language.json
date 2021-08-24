@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.1/entities/linking",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/linking",
    "query": {
     "stringIndexType": "Utf16CodeUnit"
    },
@@ -10,9 +10,9 @@
    "status": 200,
    "response": "{\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid Language Code.\",\"innererror\":{\"code\":\"UnsupportedLanguageCode\",\"message\":\"Invalid language code. Supported languages: en,es. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition\"}}}],\"modelVersion\":\"2021-06-01\"}",
    "responseHeaders": {
-    "apim-request-id": "8cfa6aad-4553-4227-97ab-7436f8d57cf0",
+    "apim-request-id": "633661ed-5062-4603-a597-a515b829ebab",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 25 Jun 2021 20:13:42 GMT",
+    "date": "Tue, 03 Aug 2021 22:52:55 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",

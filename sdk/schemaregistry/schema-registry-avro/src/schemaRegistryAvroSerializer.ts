@@ -148,15 +148,6 @@ export class SchemaRegistryAvroSerializer {
     return schema.type.fromBuffer(payloadBuffer);
   }
 
-  //
-  // Avoid hitting the schema registry on every call by caching schemas.
-  //
-  // Currently the cache can only be discarded by throwing away the serializer
-  // and creating a new one, but this will be revisited after the initial
-  // preview:
-  //
-  // https://github.com/Azure/azure-sdk-for-js/issues/10438
-  //
   private readonly cacheByContent = new Map<string, CacheEntry>();
   private readonly cacheById = new Map<string, CacheEntry>();
 

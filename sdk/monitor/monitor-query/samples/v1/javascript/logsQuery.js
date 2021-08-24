@@ -24,6 +24,14 @@ async function main() {
     "AppEvents | project TimeGenerated, Name, AppRoleInstance | order by TimeGenerated asc | limit 10";
 
   console.log(`Running '${kustoQuery}' over the last 5 minutes`);
+  const queryLogsOptions = {
+    // explicitly control the amount of time the server can spend processing the query.
+    serverTimeoutInSeconds: 60,
+    // optionally enable returning additional statistics about the query's execution.
+    // (by default this is off)
+    includeQueryStatistics: true
+  };
+
   const result = await logsQueryClient.queryLogs(
     monitorWorkspaceId,
     kustoQuery,
@@ -31,14 +39,7 @@ async function main() {
     // are available (like lastDay, lastHour, last48Hours, etc..) but any properly formatted ISO8601
     // value is valid.
     Durations.lastHour,
-    {
-      // optionally enable returning additional statistics about the query's execution.
-      // (by default this is off)
-      includeQueryStatistics: true,
-
-      // explicitly control the amount of time the server can spend processing the query.
-      serverTimeoutInSeconds: 60
-    }
+    queryLogsOptions
   );
 
   const tablesFromResult = result.tables;

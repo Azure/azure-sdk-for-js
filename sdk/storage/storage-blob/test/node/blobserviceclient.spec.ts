@@ -7,12 +7,13 @@ import * as dotenv from "dotenv";
 import { BlobServiceClient, newPipeline, StorageSharedKeyCredential } from "../../src";
 import { getBSU, getConnectionStringFromEnvironment, recorderEnvSetup } from "../utils";
 import { record, Recorder } from "@azure/test-utils-recorder";
+import { Context } from "mocha";
 dotenv.config();
 
 describe("BlobServiceClient Node.js only", () => {
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
   });
 

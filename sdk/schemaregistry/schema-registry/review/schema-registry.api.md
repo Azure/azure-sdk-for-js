@@ -17,6 +17,11 @@ export interface GetSchemaIdOptions extends OperationOptions {
 }
 
 // @public
+export const enum KnownSerializationType {
+    Avro = "avro"
+}
+
+// @public
 export interface RegisterSchemaOptions extends OperationOptions {
 }
 
@@ -56,7 +61,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
     getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema | undefined>;
     getSchemaId(schema: SchemaDescription, options?: GetSchemaIdOptions): Promise<SchemaId | undefined>;
     registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaId>;
-}
+    }
 
 // @public
 export interface SchemaRegistryClientOptions extends CommonClientOptions {

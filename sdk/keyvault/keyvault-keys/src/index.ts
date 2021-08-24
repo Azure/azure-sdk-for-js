@@ -64,7 +64,15 @@ import {
   ReleaseKeyOptions,
   ReleaseKeyResult,
   KeyReleasePolicy,
-  KeyExportEncryptionAlgorithm
+  KeyExportEncryptionAlgorithm,
+  RandomBytes,
+  RotateKeyOptions,
+  UpdateKeyRotationPolicyOptions,
+  GetKeyRotationPolicyOptions,
+  KeyRotationLifetimeAction,
+  KeyRotationPolicy,
+  KeyRotationPolicyProperties,
+  KeyRotationPolicyAction
 } from "./keysModels";
 
 import { CryptographyClient } from "./cryptographyClient";
@@ -107,7 +115,8 @@ import { KeyVaultKeyIdentifier, parseKeyVaultKeyIdentifier } from "./identifier"
 import {
   getDeletedKeyFromDeletedKeyItem,
   getKeyFromKeyBundle,
-  getKeyPropertiesFromKeyItem
+  getKeyPropertiesFromKeyItem,
+  keyRotationTransformations
 } from "./transformations";
 import { createTraceFunction } from "../../keyvault-common/src";
 
@@ -142,6 +151,7 @@ export {
   GetDeletedKeyOptions,
   GetKeyOptions,
   GetRandomBytesOptions,
+  RandomBytes,
   ImportKeyOptions,
   JsonWebKey,
   KeyCurveName,
@@ -172,6 +182,7 @@ export {
   PollerLike,
   PurgeDeletedKeyOptions,
   RestoreKeyBackupOptions,
+  RotateKeyOptions,
   SignOptions,
   SignResult,
   UnwrapKeyOptions,
@@ -182,11 +193,17 @@ export {
   VerifyResult,
   WrapKeyOptions,
   WrapResult,
-  logger,
   ReleaseKeyOptions,
   ReleaseKeyResult,
   KeyReleasePolicy,
-  KeyExportEncryptionAlgorithm
+  KeyExportEncryptionAlgorithm,
+  KeyRotationPolicyAction,
+  KeyRotationPolicyProperties,
+  KeyRotationPolicy,
+  KeyRotationLifetimeAction,
+  UpdateKeyRotationPolicyOptions,
+  GetKeyRotationPolicyOptions,
+  logger
 };
 
 const withTrace = createTraceFunction("Azure.KeyVault.Keys.KeyClient");
@@ -471,7 +488,7 @@ export class KeyClient {
    * Example usage:
    * ```ts
    * let keyName = "MyKey";
-   * let client = new KeyClient(url, credentials);
+   * let client = new KeyClient(vaultUrl, credentials);
    * let key = await client.getKey(keyName);
    * let result = await client.updateKeyProperties(keyName, key.properties.version, { enabled: false });
    * ```
@@ -483,8 +500,33 @@ export class KeyClient {
   public updateKeyProperties(
     name: string,
     keyVersion: string,
-    options: UpdateKeyPropertiesOptions = {}
+    options?: UpdateKeyPropertiesOptions
+  ): Promise<KeyVaultKey>;
+  /**
+   * The updateKeyProperties method changes specified properties of the latest version of an existing stored key. Properties that
+   * are not specified in the request are left unchanged. The value of a key itself cannot be
+   * changed. This operation requires the keys/set permission.
+   *
+   * Example usage:
+   * ```ts
+   * let keyName = "MyKey";
+   * let client = new KeyClient(vaultUrl, credentials);
+   * let key = await client.getKey(keyName);
+   * let result = await client.updateKeyProperties(keyName, { enabled: false });
+   * ```
+   * Updates the properties associated with a specified key in a given key vault.
+   * @param name - The name of the key.
+   * @param keyVersion - The version of the key.
+   * @param options - The optional parameters.
+   */
+  public updateKeyProperties(
+    name: string,
+    options?: UpdateKeyPropertiesOptions
+  ): Promise<KeyVaultKey>;
+  public updateKeyProperties(
+    ...args: [string, string, UpdateKeyPropertiesOptions?] | [string, UpdateKeyPropertiesOptions?]
   ): Promise<KeyVaultKey> {
+    const [name, keyVersion, options] = this.disambiguateUpdateKeyPropertiesArgs(args);
     return withTrace(`updateKeyProperties`, options, async (updatedOptions) => {
       const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = updatedOptions;
       const unflattenedOptions = {
@@ -503,6 +545,25 @@ export class KeyClient {
       );
       return getKeyFromKeyBundle(response);
     });
+  }
+
+  /**
+   * Standardizes an overloaded arguments collection for the updateKeyProperties method.
+   *
+   * @param args - The arguments collection.
+   * @returns - The standardized arguments collection.
+   * @internal
+   */
+  private disambiguateUpdateKeyPropertiesArgs(
+    args: [string, string, UpdateKeyPropertiesOptions?] | [string, UpdateKeyPropertiesOptions?]
+  ): [string, string, UpdateKeyPropertiesOptions] {
+    if (typeof args[1] === "string") {
+      // [name, keyVersion, options?] => [name, keyVersion, options || {}]
+      return [args[0], args[1], args[2] || {}];
+    } else {
+      // [name, options?] => [name , "", options || {}]
+      return [args[0], "", args[1] || {}];
+    }
   }
 
   /**
@@ -669,15 +730,34 @@ export class KeyClient {
    * Example usage:
    * ```ts
    * let client = new KeyClient(vaultUrl, credentials);
-   * let bytes = await client.getRandomBytes(10);
+   * let { bytes } = await client.getRandomBytes(10);
    * ```
    * @param count - The number of bytes to generate between 1 and 128 inclusive.
    * @param options - The optional parameters.
    */
-  public getRandomBytes(count: number, options: GetRandomBytesOptions = {}): Promise<Uint8Array> {
+  public getRandomBytes(count: number, options: GetRandomBytesOptions = {}): Promise<RandomBytes> {
     return withTrace("getRandomBytes", options, async (updatedOptions) => {
       const response = await this.client.getRandomBytes(this.vaultUrl, count, updatedOptions);
-      return response.value!;
+      return { bytes: response.value! };
+    });
+  }
+
+  /**
+   * Rotates the key based on the key policy by generating a new version of the key. This operation requires the keys/rotate permission.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new KeyClient(vaultUrl, credentials);
+   * let key = await client.rotateKey("MyKey");
+   * ```
+   *
+   * @param name - The name of the key to rotate.
+   * @param options - The optional parameters.
+   */
+  public rotateKey(name: string, options: RotateKeyOptions = {}): Promise<KeyVaultKey> {
+    return withTrace("rotateKey", options, async (updatedOptions) => {
+      const key = await this.client.rotateKey(this.vaultUrl, name, updatedOptions);
+      return getKeyFromKeyBundle(key);
     });
   }
 
@@ -693,6 +773,7 @@ export class KeyClient {
    * ```
    *
    * @param name - The name of the key.
+   * @param target - The attestation assertion for the target of the key release.
    * @param options - The optional parameters.
    */
   public releaseKey(
@@ -717,6 +798,63 @@ export class KeyClient {
       return { value: result.value! };
     });
   }
+
+  /**
+   * Gets the rotation policy of a Key Vault Key.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new KeyClient(vaultUrl, credentials);
+   * await client.updateKeyRotationPolicy("MyKey", myPolicy);
+   * let result = await client.getKeyRotationPolicy("myKey");
+   * ```
+   *
+   * @param name - The name of the key.
+   * @param options - The optional parameters.
+   */
+  public getKeyRotationPolicy(
+    name: string,
+    options: GetKeyRotationPolicyOptions = {}
+  ): Promise<KeyRotationPolicy | undefined> {
+    return withTrace("getKeyRotationPolicy", options, async () => {
+      const policy = await this.client.getKeyRotationPolicy(this.vaultUrl, name);
+      if (policy.id) {
+        return keyRotationTransformations.generatedToPublic(policy);
+      }
+
+      return undefined;
+    });
+  }
+
+  /**
+   * Updates the rotation policy of a Key Vault Key.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new KeyClient(vaultUrl, credentials);
+   * const setPolicy = await client.updateKeyRotationPolicy("MyKey", myPolicy);
+   * ```
+   *
+   * @param name - The name of the key.
+   * @param policyProperties - The {@link KeyRotationPolicyProperties} for the policy.
+   * @param options - The optional parameters.
+   */
+  public updateKeyRotationPolicy(
+    name: string,
+    policy: KeyRotationPolicyProperties,
+    options: UpdateKeyRotationPolicyOptions = {}
+  ): Promise<KeyRotationPolicy> {
+    return withTrace("updateKeyRotationPolicy", options, async (updatedOptions) => {
+      const result = await this.client.updateKeyRotationPolicy(
+        this.vaultUrl,
+        name,
+        keyRotationTransformations.propertiesToGenerated(policy),
+        updatedOptions
+      );
+      return keyRotationTransformations.generatedToPublic(result);
+    });
+  }
+
   /**
    * @internal
    * @hidden

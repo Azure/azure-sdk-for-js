@@ -4,8 +4,8 @@
 
 ```ts
 
-import { OperationOptions } from '@azure/core-http';
-import { PipelineOptions } from '@azure/core-http';
+import { OperationOptions } from '@azure/core-client';
+import { PipelineOptions } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -13,15 +13,13 @@ export type AggregationType = "None" | "Average" | "Count" | "Minimum" | "Maximu
 
 // @public
 export interface BatchQuery {
-    azureResourceIds?: string[];
+    additionalWorkspaces?: string[];
     includeQueryStatistics?: boolean;
-    qualifiedNames?: string[];
+    includeVisualization?: boolean;
     query: string;
     serverTimeoutInSeconds?: number;
     timespan: string;
-    workspace: string;
-    workspaceIds?: string[];
-    workspaces?: string[];
+    workspaceId: string;
 }
 
 // @public
@@ -221,11 +219,14 @@ export interface QueryLogsBatchResult {
         status?: number;
         tables?: LogsTable[];
         error?: ErrorInfo;
+        statistics?: any;
+        visualization?: any;
     }[];
 }
 
 // @public
 export interface QueryLogsOptions extends OperationOptions {
+    additionalWorkspaces?: string[];
     includeQueryStatistics?: boolean;
     includeVisualization?: boolean;
     serverTimeoutInSeconds?: number;
@@ -233,6 +234,7 @@ export interface QueryLogsOptions extends OperationOptions {
 
 // @public
 export interface QueryLogsResult {
+    error?: ErrorInfo;
     statistics?: any;
     tables: LogsTable[];
     visualization?: any;

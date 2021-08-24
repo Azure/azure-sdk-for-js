@@ -52,8 +52,6 @@ describe("Certificates client - LRO - create", () => {
 
     // The final certificate can also be obtained this way:
     assert.equal(poller.getOperationState().result!.name, certificateName);
-
-    await testClient.flushCertificate(certificateName);
   });
 
   it("can resume from a stopped poller", async function(this: Context) {
@@ -92,7 +90,5 @@ describe("Certificates client - LRO - create", () => {
     const createdCertificate: KeyVaultCertificate = await resumePoller.pollUntilDone();
     assert.equal(createdCertificate.name, certificateName);
     assert.ok(resumePoller.getOperationState().isCompleted);
-
-    await testClient.flushCertificate(certificateName);
   });
 });

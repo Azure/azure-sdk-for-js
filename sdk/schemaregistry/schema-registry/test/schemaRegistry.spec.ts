@@ -11,6 +11,7 @@ import { ClientSecretCredential } from "@azure/identity";
 
 import { SchemaRegistryClient, SchemaDescription, SchemaId } from "../src/index";
 import { FullOperationResponse, OperationOptions } from "@azure/core-client";
+import { convertSchemaIdResponse } from "../src/conversions";
 
 const options: OperationOptions = {
   onResponse: (rawResponse: FullOperationResponse) => {
@@ -134,5 +135,123 @@ describe("SchemaRegistryClient", function() {
     const found = await client.getSchemaById(registered.id, options);
     assertIsValidSchemaId(found);
     assert.equal(found.content, schema.content);
+  });
+
+  it("cache schema and ID", async () => {
+    const registered = await client.registerSchema(schema, options);
+    assertIsValidSchemaId(registered);
+
+    const foundSchema = await client.getSchemaById(registered.id, {
+      onResponse: () => {
+        assert.fail("Unexpected call to the service");
+      }
+    });
+    assertIsValidSchemaId(foundSchema);
+    assert.equal(foundSchema.content, schema.content);
+
+    const foundId = await client.getSchemaId(schema, {
+      onResponse: () => {
+        assert.fail("Unexpected call to the service");
+      }
+    });
+    assertIsValidSchemaId(foundId);
+    assert.equal(foundId?.id, registered.id);
+  });
+
+  it("cache schema and ID if not registered by the current client instance", async () => {
+    // register a schema without caching.
+    const registered = await client["client"]["schema"]
+      .register(schema.group, schema.name, schema.serializationType, schema.content, options)
+      .then(convertSchemaIdResponse);
+    assertIsValidSchemaId(registered);
+
+    let firstCall = false;
+    // first call sends a request to the service and then cache the response
+    const foundSchemaFirstCall = await client.getSchemaById(registered.id, {
+      onResponse: () => {
+        firstCall = true;
+      }
+    });
+    assert.isTrue(firstCall, "Expected call to the service did not happen");
+    assertIsValidSchemaId(foundSchemaFirstCall);
+    assert.equal(foundSchemaFirstCall.content, schema.content);
+    // second call returns the result from the cache
+    const foundSchemaSecondCall = await client.getSchemaById(registered.id, {
+      onResponse: () => {
+        assert.fail("Unexpected call to the service");
+      }
+    });
+    assert.isTrue(firstCall, "Expected call to the service did not happen");
+    assertIsValidSchemaId(foundSchemaSecondCall);
+    assert.equal(foundSchemaSecondCall.content, schema.content);
+
+    firstCall = false;
+    // first call sends a request to the service and then cache the response
+    const foundIdFirstCall = await client.getSchemaId(schema, {
+      onResponse: () => {
+        firstCall = true;
+      }
+    });
+    assert.isTrue(firstCall, "Expected call to the service did not happen");
+    assertIsValidSchemaId(foundIdFirstCall);
+    assert.equal(foundIdFirstCall?.id, registered.id);
+
+    // second call returns the result from the cache
+    const foundIdSecondCall = await client.getSchemaId(schema, {
+      onResponse: () => {
+        assert.fail("Unexpected call to the service");
+      }
+    });
+    assert.isTrue(firstCall, "Expected call to the service did not happen");
+    assertIsValidSchemaId(foundIdSecondCall);
+    assert.equal(foundIdSecondCall?.id, registered.id);
+  });
+
+  it("schema with whitespace", async () => {
+    const schema2 = {
+      name: "azsdk_js_test2",
+      group: testEnv.SCHEMA_REGISTRY_GROUP,
+      serializationType: "avro",
+      content:
+        "{\n" +
+        '  "type": "record",\n' +
+        '  "name": "Test",\n' +
+        '  "fields": [{ "name": "X", "type": { "type": "string" } }]\n' +
+        "}\n"
+    };
+    // content that is going to the service has whitespaces
+    const registered = await client.registerSchema(schema2, options);
+    assertIsValidSchemaId(registered);
+
+    const foundSchema = await client.getSchemaById(registered.id, {
+      onResponse: () => {
+        assert.fail("Unexpected call to the service");
+      }
+    });
+    assertIsValidSchemaId(foundSchema);
+    assert.equal(foundSchema.content, schema2.content);
+
+    let ran = false;
+    const foundId = await client.getSchemaId(
+      {
+        // content that comes from the service does not have whitespaces
+        content: foundSchema.content,
+        group: schema2.group,
+        name: schema2.name,
+        serializationType: foundSchema.serializationType
+      },
+      {
+        onResponse: () => {
+          ran = true;
+        }
+      }
+    );
+    // the schema comes from the service normalized so that its content has no whitespace
+    // which is different from the original schema that was registered first and lives
+    // in the cache. There is a trade-off between the perf hit for doing client-side
+    // normalization and the perf hit for doing an extra call to the service for the
+    // normalized one.
+    assert.isTrue(ran, "Expected call to the service did not happen");
+    assertIsValidSchemaId(foundId);
   });
 });

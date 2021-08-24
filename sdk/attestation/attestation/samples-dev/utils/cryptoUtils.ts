@@ -16,7 +16,7 @@ export function createECDSKey(): [string, string] {
 }
 
 export function createRSAKey(): [string, string] {
-  const keyPair = jsrsasign.KEYUTIL.generateKeypair("RSA", 2048);
+  const keyPair = jsrsasign.KEYUTIL.generateKeypair("RSA", 1024);
   return [
     jsrsasign.KEYUTIL.getPEM(keyPair.prvKeyObj, "PKCS8PRV"),
     jsrsasign.KEYUTIL.getPEM(keyPair.pubKeyObj, "PKCS8PUB")

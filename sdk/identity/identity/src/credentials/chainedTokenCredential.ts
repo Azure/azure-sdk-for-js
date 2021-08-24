@@ -27,6 +27,11 @@ export class ChainedTokenCredential implements TokenCredential {
   private _sources: TokenCredential[] = [];
 
   /**
+   * The selected credential, in case users want to read it or use it directly.
+   */
+  public selectedCredential?: TokenCredential;
+
+  /**
    * Creates an instance of ChainedTokenCredential using the given credentials.
    *
    * @param sources - `TokenCredential` implementations to be tried in order.
@@ -57,15 +62,14 @@ export class ChainedTokenCredential implements TokenCredential {
    */
   async getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken> {
     let token = null;
-    let successfulCredentialName = "";
-    const errors = [];
+    const errors: Error[] = [];
 
     const { span, updatedOptions } = createSpan("ChainedTokenCredential-getToken", options);
 
     for (let i = 0; i < this._sources.length && token === null; i++) {
       try {
         token = await this._sources[i].getToken(scopes, updatedOptions);
-        successfulCredentialName = this._sources[i].constructor.name;
+        this.selectedCredential = this._sources[i];
       } catch (err) {
         if (
           err.name === "CredentialUnavailableError" ||
@@ -91,7 +95,9 @@ export class ChainedTokenCredential implements TokenCredential {
 
     span.end();
 
-    logger.getToken.info(`Result for ${successfulCredentialName}: ${formatSuccess(scopes)}`);
+    logger.getToken.info(
+      `Result for ${this.selectedCredential!.constructor.name}: ${formatSuccess(scopes)}`
+    );
 
     if (token === null) {
       throw new CredentialUnavailableError("Failed to retrieve a valid token");

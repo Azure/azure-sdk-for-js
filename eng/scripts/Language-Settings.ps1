@@ -205,7 +205,7 @@ function Get-javascript-GithubIoDocIndex()
   # Build up the artifact to service name mapping for GithubIo toc.
   $tocContent = Get-TocMapping -metadata $metadata -artifacts $artifacts
   # Generate yml/md toc files and build site.
-  GenerateDocfxTocContent -tocContent $tocContent -lang "JavaScript"
+  GenerateDocfxTocContent -tocContent $tocContent -lang "JavaScript" -campaignId "UA-62780441-43"
 }
 
 # "@azure/package-name@1.2.3" -> "@azure/package-name"
@@ -254,10 +254,13 @@ function ValidatePackagesForDocs($packages) {
 }
 
 $PackageExclusions = @{ 
-  '@azure/identity-vscode' = 'Fails type2docfx execution https://github.com/Azure/azure-sdk-for-js/issues/16303';
-  '@azure/identity-cache-persistence' = 'Fails typedoc2fx execution https://github.com/Azure/azure-sdk-for-js/issues/16310';
-  '@azure/arm-network' = 'Fails type2docfx execution https://github.com/Azure/azure-sdk-for-js/issues/16474';
-  '@azure/arm-compute' = 'Fails type2docfx execution https://github.com/Azure/azure-sdk-for-js/issues/16476';
+  '@azure/identity-vscode'              = 'Fails type2docfx execution https://github.com/Azure/azure-sdk-for-js/issues/16303';
+  '@azure/identity-cache-persistence'   = 'Fails typedoc2fx execution https://github.com/Azure/azure-sdk-for-js/issues/16310';
+  '@azure-rest/core-client-paging'      = 'Cannot find types/latest/core-client-paging-rest.d.ts https://github.com/Azure/azure-sdk-for-js/issues/16677';
+  '@azure/core-asynciterator-polyfill'  = 'Docs CI fails https://github.com/Azure/azure-sdk-for-js/issues/16675';
+  '@azure/batch'                        = 'Docs CI fails https://github.com/Azure/azure-sdk-for-js/issues/16809';
+  '@azure/arm-keyvault'                 = 'Docs CI fails https://github.com/Azure/azure-sdk-for-js/issues/16988';
+  '@azure/arm-sql'                      = 'Docs CI fails https://github.com/Azure/azure-sdk-for-js/issues/16989';
 }
 
 function Update-javascript-DocsMsPackages($DocsRepoLocation, $DocsMetadata) {

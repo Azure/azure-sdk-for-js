@@ -450,6 +450,12 @@ export interface UpdateKeyPropertiesOptions extends coreHttp.OperationOptions {
    * Application specific metadata in the form of key-value pairs.
    */
   tags?: { [propertyName: string]: string };
+
+  /**
+   * A {@link KeyReleasePolicy} object specifying the rules under which the key can be exported.
+   * Only valid if the key is marked exportable, which cannot be changed after key creation.
+   */
+  releasePolicy?: KeyReleasePolicy;
 }
 
 /**
@@ -553,17 +559,17 @@ export interface ReleaseKeyResult {
 export enum KnownKeyOperations {
   /** Key operation - encrypt */
   Encrypt = "encrypt",
-  /** Key operation - encrypt */
+  /** Key operation - decrypt */
   Decrypt = "decrypt",
-  /** Key operation - encrypt */
+  /** Key operation - sign */
   Sign = "sign",
-  /** Key operation - encrypt */
+  /** Key operation - verify */
   Verify = "verify",
-  /** Key operation - encrypt */
+  /** Key operation - wrapKey */
   WrapKey = "wrapKey",
-  /** Key operation - encrypt */
+  /** Key operation - unwrapKey */
   UnwrapKey = "unwrapKey",
-  /** Key operation - encrypt */
+  /** Key operation - import */
   Import = "import"
 }
 
@@ -586,3 +592,85 @@ export enum KnownKeyExportEncryptionAlgorithm {
  */
 export type KeyExportEncryptionAlgorithm = string;
 /* eslint-enable tsdoc/syntax */
+
+/**
+ * Result of the {@link KeyClient.getRandomBytes} operation.
+ */
+export interface RandomBytes {
+  /** The random bytes returned by the service. */
+  bytes: Uint8Array;
+}
+/**
+ * Options for {@link KeyClient.rotateKey}
+ */
+export interface RotateKeyOptions extends coreHttp.OperationOptions {}
+
+/**
+ * The properties of a key rotation policy that the client can set for a given key.
+ */
+export interface KeyRotationPolicyProperties {
+  /**
+   * The expiry time of the policy that will be applied on new key versions, defined as an ISO 8601 duration.
+   */
+  expiresIn?: string;
+
+  /**
+   * Actions that will be performed by Key Vault over the lifetime of a key.
+   */
+  lifetimeActions?: KeyRotationLifetimeAction[];
+}
+
+/**
+ * The complete key rotation policy that belongs to a key.
+ */
+export interface KeyRotationPolicy extends KeyRotationPolicyProperties {
+  /**
+   * The identifier of the Key Rotation Policy.
+   */
+  readonly id: string;
+
+  /**
+   * The created time in UTC.
+   */
+  readonly createdOn: Date;
+
+  /**
+   * The last updated time in UTC.
+   */
+  readonly updatedOn?: Date;
+}
+
+/**
+ * An action and its corresponding trigger that will be performed by Key Vault over the lifetime of a key.
+ */
+export interface KeyRotationLifetimeAction {
+  /**
+   * Time after creation to attempt the specified action, defined as an ISO 8601 duration.
+   */
+  timeAfterCreate?: string;
+
+  /**
+   * Time before expiry to attempt the specified action, defined as an ISO 8601 duration.
+   */
+  timeBeforeExpiry?: string;
+
+  /**
+   * The action that will be executed.
+   */
+  action: KeyRotationPolicyAction;
+}
+
+/**
+ * The action that will be executed.
+ */
+export type KeyRotationPolicyAction = "Rotate" | "Notify";
+
+/**
+ * Options for {@link KeyClient.updateKeyRotationPolicy}
+ */
+export interface UpdateKeyRotationPolicyOptions extends coreHttp.OperationOptions {}
+
+/**
+ * Options for {@link KeyClient.getRotationPolicy}
+ */
+export interface GetKeyRotationPolicyOptions extends coreHttp.OperationOptions {}

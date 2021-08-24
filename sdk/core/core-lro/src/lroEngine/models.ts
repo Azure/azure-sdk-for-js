@@ -27,6 +27,10 @@ export interface LroEngineOptions<TResult, TState> {
    * A function to process the state of the LRO.
    */
   updateState?: (state: TState, lastResponse: RawResponse) => void;
+  /**
+   * A predicate to determine whether the LRO finished processing.
+   */
+  isDone?: (lastResponse: unknown, state: TState) => boolean;
 }
 
 export const successStates = ["succeeded"];

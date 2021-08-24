@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.1/entities/recognition/pii",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/recognition/pii",
    "query": {
     "stringIndexType": "Utf16CodeUnit"
    },
@@ -10,19 +10,19 @@
    "status": 200,
    "response": "{\"documents\":[{\"redactedText\":\"Patient name is *** and SSN is ***********\",\"id\":\"0\",\"entities\":[{\"text\":\"Joe\",\"category\":\"Person\",\"offset\":16,\"length\":3,\"confidenceScore\":0.79},{\"text\":\"859-98-0987\",\"category\":\"USSocialSecurityNumber\",\"offset\":31,\"length\":11,\"confidenceScore\":0.65}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}",
    "responseHeaders": {
-    "apim-request-id": "ba611fc6-ce54-4e1e-9083-4ae7cca79f3f",
+    "apim-request-id": "44160fb6-03f0-4bd7-a187-06bc10fcb201",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1",
-    "date": "Fri, 25 Jun 2021 20:13:42 GMT",
+    "date": "Tue, 03 Aug 2021 22:52:54 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "30"
+    "x-envoy-upstream-service-time": "28"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.1/entities/recognition/pii",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/recognition/pii",
    "query": {
     "stringIndexType": "Utf16CodeUnit",
     "piiCategories": "USSocialSecurityNumber"
@@ -31,14 +31,14 @@
    "status": 200,
    "response": "{\"documents\":[{\"redactedText\":\"Patient name is Joe and SSN is ***********\",\"id\":\"0\",\"entities\":[{\"text\":\"859-98-0987\",\"category\":\"USSocialSecurityNumber\",\"offset\":31,\"length\":11,\"confidenceScore\":0.65}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}",
    "responseHeaders": {
-    "apim-request-id": "bd318be5-c605-42e9-9bf5-9dc4e716662e",
+    "apim-request-id": "938d945a-c53d-48ce-b922-f04f987a891d",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1",
-    "date": "Fri, 25 Jun 2021 20:13:42 GMT",
+    "date": "Tue, 03 Aug 2021 22:52:54 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "53"
+    "x-envoy-upstream-service-time": "30"
    }
   }
  ],

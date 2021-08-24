@@ -3,7 +3,6 @@
 
 import { SpanStatusCode } from "@azure/core-tracing";
 
-import { SDK_VERSION } from "./constants";
 import { GeneratedClient } from "./generated/generatedClient";
 
 import { logger } from "./logger";
@@ -59,11 +58,40 @@ export interface AttestationAdministrationClientOptions extends CommonClientOpti
  */
 export interface AttestationAdministrationClientOperationOptions extends OperationOptions {
   /**
-   * Options to be used on individual calls to validate attestation tokens
-   * received from the attestation service.
+   * Options to be used globally to validate attestation tokens received from
+   * the attestation service.
    */
   validationOptions?: AttestationTokenValidationOptions;
 }
+
+/**
+ * Operation options for the administration Policy operations.
+ */
+export interface AttestationAdministrationClientPolicyOperationOptions
+  extends AttestationAdministrationClientOperationOptions {
+  /**
+   * Optional Private key used to sign the token sent to the attestation service.
+   *
+   * Required for Isolated Mode attestation instances.
+   */
+  privateKey?: string;
+
+  /**
+   * Optional certificate which can validate the token sent to the attestation service.
+   *
+   * Required for Isolated Mode attestation instances.
+   *
+   * If the service instance is in Isolated mode, the certificate *must* be one
+   * of the configured policy management certificates.
+   */
+  certificate?: string;
+}
+
+/**
+ * Operation options for the Policy Certificates operations.
+ */
+export interface AttestationAdministrationClientPolicyCertificateOperationOptions
+  extends AttestationAdministrationClientOperationOptions {}
 
 /**
  * Attestation Client class.
@@ -101,17 +129,6 @@ export class AttestationAdministrationClient {
     credentials: TokenCredential,
     options: AttestationAdministrationClientOptions = {}
   ) {
-    // The below code helps us set a proper User-Agent header on all requests
-    const libInfo = `azsdk-js-api-security-attestation/${SDK_VERSION}`;
-    if (!options.userAgentOptions) {
-      options.userAgentOptions = {};
-    }
-    if (options.userAgentOptions.userAgentPrefix) {
-      options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
-    } else {
-      options.userAgentOptions.userAgentPrefix = libInfo;
-    }
-
     this._validationOptions = options.validationOptions;
 
     const internalPipelineOptions: GeneratedClientOptionalParams = {
@@ -141,7 +158,7 @@ export class AttestationAdministrationClient {
    */
   public async getPolicy(
     attestationType: AttestationType,
-    options: AttestationAdministrationClientOperationOptions = {}
+    options: AttestationAdministrationClientPolicyOperationOptions = {}
   ): Promise<AttestationResponse<string>> {
     const { span, updatedOptions } = createSpan(
       "AttestationAdministrationClient-getPolicy",
@@ -214,10 +231,7 @@ export class AttestationAdministrationClient {
   public async setPolicy(
     attestationType: AttestationType,
     newPolicyDocument: string,
-    options: AttestationAdministrationClientOperationOptions & {
-      privateKey?: string;
-      certificate?: string;
-    } = {}
+    options: AttestationAdministrationClientPolicyOperationOptions = {}
   ): Promise<AttestationResponse<PolicyResult>> {
     const { span, updatedOptions } = createSpan(
       "AttestationAdministrationClient-setPolicy",
@@ -298,10 +312,7 @@ export class AttestationAdministrationClient {
 
   public async resetPolicy(
     attestationType: AttestationType,
-    options: AttestationAdministrationClientOperationOptions & {
-      privateKey?: string;
-      certificate?: string;
-    } = {}
+    options: AttestationAdministrationClientPolicyOperationOptions = {}
   ): Promise<AttestationResponse<PolicyResult>> {
     const { span, updatedOptions } = createSpan(
       "AttestationAdministrationClient-setPolicy",
@@ -368,7 +379,7 @@ export class AttestationAdministrationClient {
    * @returns AttestationResponse wrapping a list of Attestation Signers.
    */
   public async getPolicyManagementCertificates(
-    options: AttestationAdministrationClientOperationOptions = {}
+    options: AttestationAdministrationClientPolicyCertificateOperationOptions = {}
   ): Promise<AttestationResponse<AttestationSigner[]>> {
     const { span, updatedOptions } = createSpan(
       "AttestationAdministrationClient-getPolicyManagementCertificates",
@@ -435,7 +446,7 @@ export class AttestationAdministrationClient {
     pemCertificate: string,
     privateKey: string,
     certificate: string,
-    options: AttestationAdministrationClientOperationOptions = {}
+    options: AttestationAdministrationClientPolicyCertificateOperationOptions = {}
   ): Promise<AttestationResponse<PolicyCertificatesModificationResult>> {
     const { span, updatedOptions } = createSpan(
       "AttestationAdministrationClient-addPolicyManagementCertificate",
@@ -553,7 +564,7 @@ export class AttestationAdministrationClient {
     pemCertificate: string,
     privateKey: string,
     certificate: string,
-    options: AttestationAdministrationClientOperationOptions = {}
+    options: AttestationAdministrationClientPolicyCertificateOperationOptions = {}
   ): Promise<AttestationResponse<PolicyCertificatesModificationResult>> {
     const { span, updatedOptions } = createSpan(
       "AttestationAdministrationClient-removePolicyManagementCertificate",

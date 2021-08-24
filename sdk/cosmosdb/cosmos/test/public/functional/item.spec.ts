@@ -221,7 +221,7 @@ describe("Item CRUD", function(this: Suite) {
   });
 });
 
-describe("bulk item operations", function() {
+describe("bulk/batch item operations", function() {
   describe("with v1 container", function() {
     let container: Container;
     let readItemId: string;
@@ -361,7 +361,6 @@ describe("bulk item operations", function() {
         },
         {
           operationType: BulkOperationType.Replace,
-          partitionKey: 5,
           id: replaceItemId,
           resourceBody: { id: replaceItemId, name: "nice", key: 5 }
         }
@@ -584,6 +583,78 @@ describe("bulk item operations", function() {
       }
       const resp = await Promise.all(promises);
       assert.equal(resp[0].statusCode, 200);
+    });
+  });
+
+  describe("v2 single partition container", async function() {
+    let container: Container;
+    let createItemId: string;
+    let otherItemId: string;
+    let upsertItemId: string;
+    let replaceItemId: string;
+    let deleteItemId: string;
+    before(async function() {
+      container = await getTestContainer("batch container");
+      deleteItemId = addEntropy("item1");
+      createItemId = addEntropy("item2");
+      otherItemId = addEntropy("item2");
+      upsertItemId = addEntropy("item4");
+      replaceItemId = addEntropy("item3");
+      await container.items.create({
+        id: deleteItemId,
+        key: "A",
+        class: "2010"
+      });
+      await container.items.create({
+        id: replaceItemId,
+        key: "A",
+        class: "2010"
+      });
+    });
+    it("can batch all operation types", async function() {
+      const operations: OperationInput[] = [
+        {
+          operationType: BulkOperationType.Create,
+          resourceBody: { id: createItemId, key: "A", school: "high" }
+        },
+        {
+          operationType: BulkOperationType.Upsert,
+          resourceBody: { id: upsertItemId, key: "B", school: "elementary" }
+        },
+        {
+          operationType: BulkOperationType.Replace,
+          id: replaceItemId,
+          resourceBody: { id: replaceItemId, key: "Z", school: "junior high" }
+        },
+        {
+          operationType: BulkOperationType.Delete,
+          id: deleteItemId
+        }
+      ];
+
+      const response = await container.items.batch(operations);
+      assert.equal(response.result[0].statusCode, 201);
+      assert.equal(response.result[1].statusCode, 201);
+      assert.equal(response.result[2].statusCode, 200);
+      assert.equal(response.result[3].statusCode, 204);
+    });
+    it("rolls back prior operations when one fails", async function() {
+      const operations: OperationInput[] = [
+        {
+          operationType: BulkOperationType.Upsert,
+          resourceBody: { id: otherItemId, key: "B", school: "elementary" }
+        },
+        {
+          operationType: BulkOperationType.Delete,
+          id: deleteItemId + addEntropy("make this 404")
+        }
+      ];
+
+      const deleteResponse = await container.items.batch(operations, "[{}]");
+      assert.equal(deleteResponse.result[0].statusCode, 424);
+      assert.equal(deleteResponse.result[1].statusCode, 404);
+      const { resource: readItem } = await container.item(otherItemId).read();
+      assert.equal(readItem, undefined);
     });
   });
 });

@@ -406,6 +406,13 @@ export const SearchIndexer: coreHttp.CompositeMapper = {
           name: "Composite",
           className: "SearchResourceEncryptionKey"
         }
+      },
+      cache: {
+        serializedName: "cache",
+        type: {
+          name: "Composite",
+          className: "SearchIndexerCache"
+        }
       }
     }
   }
@@ -629,6 +636,28 @@ export const FieldMappingFunction: coreHttp.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const SearchIndexerCache: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SearchIndexerCache",
+    modelProperties: {
+      storageConnectionString: {
+        serializedName: "storageConnectionString",
+        type: {
+          name: "String"
+        }
+      },
+      enableReprocessing: {
+        serializedName: "enableReprocessing",
+        nullable: true,
+        type: {
+          name: "Boolean"
         }
       }
     }

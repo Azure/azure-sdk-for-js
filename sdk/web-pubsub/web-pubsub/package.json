@@ -41,6 +41,18 @@
     "README.md",
     "LICENSE"
   ],
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/generated/generatedClientContext.ts",
+        "prefix": "packageDetails"
+      },
+      {
+        "path": "swagger/README.md",
+        "prefix": "package-version"
+      }
+    ]
+  },
   "browser": {
     "./dist-esm/src/util/url.js": "./dist-esm/src/util/url.browser.js"
   },
@@ -107,7 +119,7 @@
     "mocha-junit-reporter": "^1.18.0",
     "nyc": "^14.0.0",
     "prettier": "^1.16.4",
-    "puppeteer": "^3.3.0",
+    "puppeteer": "^10.2.0",
     "query-string": "^5.0.0",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
