@@ -8,6 +8,7 @@ To run the tests, build the package and run the test:node command.
 You will need to create a local `.env` file under the same directory as this readme. Within it, define:
 
 ```
-STORAGE_SAS_URL="<valid-queue-sas-url"
-TEST_MODE="record"
-```
+      "TEST_MODE",
+      "STORAGE_CONNECTION_STRING",
+      "STORAGE_SAS_URL",
+      "TABLES_SAS_CONNECTION_STRING"
