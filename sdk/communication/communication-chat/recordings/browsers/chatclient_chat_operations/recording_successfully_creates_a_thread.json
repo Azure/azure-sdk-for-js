@@ -8,7 +8,7 @@
    },
    "requestBody": "{\"createTokenWithScopes\":[\"chat\"]}",
    "status": 201,
-   "response": "{\"identity\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000c-04d7-afbe-e3c7-593a0d001240\"},\"accessToken\":{\"token\":\"token\",\"expiresOn\":\"2021-08-21T19:07:31.6672566+00:00\"}}",
+   "response": "{\"identity\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000c-159f-4ab1-71bf-a43a0d001eca\"},\"accessToken\":{\"token\":\"token\",\"expiresOn\":\"2021-08-25T01:19:28.5894592+00:00\"}}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }
@@ -21,9 +21,23 @@
    },
    "requestBody": "{\"createTokenWithScopes\":[\"chat\"]}",
    "status": 201,
-   "response": "{\"identity\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000c-04d7-b024-e3c7-593a0d001241\"},\"accessToken\":{\"token\":\"token\",\"expiresOn\":\"2021-08-21T19:07:31.7701417+00:00\"}}",
+   "response": "{\"identity\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000c-159f-4ba7-71bf-a43a0d001ecb\"},\"accessToken\":{\"token\":\"token\",\"expiresOn\":\"2021-08-25T01:19:28.9358409+00:00\"}}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint/chat/threads",
+   "query": {
+    "api-version": "2021-04-05-preview6"
+   },
+   "requestBody": "{\"topic\":\"test topic\",\"participants\":[{\"communicationIdentifier\":{\"communicationUser\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000c-159f-4ab1-71bf-a43a0d001eca\"}}},{\"communicationIdentifier\":{\"communicationUser\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000c-159f-4ba7-71bf-a43a0d001ecb\"}}}]}",
+   "status": 201,
+   "response": "{\"chatThread\":{\"id\":\"19:Kg1JSIKXYx_ZZUkQKyv7S_ltlbJ-6DarbvEe4WKiE441@thread.v2\",\"topic\":\"test topic\",\"createdOn\":\"2021-08-24T01:19:29Z\",\"createdByCommunicationIdentifier\":{\"rawId\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000c-159f-4ab1-71bf-a43a0d001eca\",\"communicationUser\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000c-159f-4ab1-71bf-a43a0d001eca\"}}}}",
+   "responseHeaders": {
+    "content-type": "application/json; charset=utf-8",
+    "location": "https://endpoint/chat/threads/19%3AKg1JSIKXYx_ZZUkQKyv7S_ltlbJ-6DarbvEe4WKiE441@thread.v2"
    }
   }
  ],

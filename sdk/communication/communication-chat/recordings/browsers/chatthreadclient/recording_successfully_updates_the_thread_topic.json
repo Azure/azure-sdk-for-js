@@ -1,5 +1,30 @@
 {
- "recordings": [],
+ "recordings": [
+  {
+   "method": "PATCH",
+   "url": "https://endpoint/chat/threads/19%3AcwODw3qkqtSaiOuyHTe0Y7WWDJprqrrKFya5vrQcbqw1%40thread.v2",
+   "query": {
+    "api-version": "2021-04-05-preview6"
+   },
+   "requestBody": "{\"topic\":\"new topic\"}",
+   "status": 204,
+   "response": "",
+   "responseHeaders": {}
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/chat/threads/19%3AcwODw3qkqtSaiOuyHTe0Y7WWDJprqrrKFya5vrQcbqw1%40thread.v2",
+   "query": {
+    "api-version": "2021-04-05-preview6"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"id\":\"19:cwODw3qkqtSaiOuyHTe0Y7WWDJprqrrKFya5vrQcbqw1@thread.v2\",\"topic\":\"new topic\",\"createdOn\":\"2021-08-24T01:19:30Z\",\"createdByCommunicationIdentifier\":{\"rawId\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000c-159f-5202-71bf-a43a0d001ecc\",\"communicationUser\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000c-159f-5202-71bf-a43a0d001ecc\"}}}",
+   "responseHeaders": {
+    "content-type": "application/json; charset=utf-8"
+   }
+  }
+ ],
  "uniqueTestInfo": {
   "uniqueName": {},
   "newDate": {}
