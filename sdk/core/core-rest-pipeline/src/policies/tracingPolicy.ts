@@ -126,7 +126,7 @@ function tryCreateSpan(request: PipelineRequest, userAgent?: string): Span | und
     return span;
   } catch (error) {
     logger.warning(`Skipping creating a tracing span due to an error: ${error.message}`);
-    return undefined;
+    return;
   }
 }
 
