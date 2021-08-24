@@ -96,7 +96,6 @@ function New-DeployManifest {
   Write-Host $($javascriptSamples)
 
   $manifest = $javascriptSamples | ForEach-Object {
-    Write-Host "HIHIHIHIHI"
     # Example: azure-sdk-for-js/sdk/appconfiguration/app-configuration/samples/v1/javascript
     @{
       # Package name for example "app-configuration"
@@ -121,7 +120,7 @@ function Update-SamplesForService {
 
   # Resolve full path for samples location. This has to be set after sample
   # prep because the directory will not resolve until the folder exists.
-  $entry.SamplesDirectory = Join-Path -Path $entry.PackageDirectory -ChildPath 'dist-samples/javascript' -Resolve
+  $entry.SamplesDirectory = "$repoRoot/sdk/$ServiceDirectory/*/dist-samples/*/javascript/"
 }
 
 function Update-SampleDependencies {
