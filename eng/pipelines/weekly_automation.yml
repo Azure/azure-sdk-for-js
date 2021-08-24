@@ -24,7 +24,7 @@ pr: none
       RepoName: azure-sdk-for-js
       BaseBranchName: $(DefaultBranch)
       PRBranchName: automated-rush-update-full
-      CommitMsg: "Automatic weekly rush update full"
-      PRTitle: "Automatic weekly rush update full"
-      PRBody: "Automatic rush update PR"
+      CommitMsg: "Automatic rush update --full"
+      PRTitle: "Automatic rush update --full"
+      PRBody: "This is an automatic PR generated weekly with changes from running the command rush update --full"
       PushArgs: "-f"
