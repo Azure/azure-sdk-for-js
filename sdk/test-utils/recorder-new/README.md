@@ -5,9 +5,8 @@ Feature work is being tracked at [#15829](https://github.com/Azure/azure-sdk-for
 
 ## Resources
 
-- https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/Azure.Sdk.Tools.TestProxy
-- https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/docker#build-and-run
-- https://github.com/HarshaNalluru/azure-sdk-for-js/tree/harshan/recorder/unified
+- [Azure SDK Tools Test Proxy](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/Azure.Sdk.Tools.TestProxy)
+- [Using Test Proxy with docker container](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/docker#build-and-run)
 
 ## Running the proxy server
 
