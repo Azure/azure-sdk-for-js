@@ -34,7 +34,7 @@
 /sdk/batch/ @dpwatrous @paterasMSFT @zfengms @deyaaeldeen
 
 # PRLabel: %Communication
-/sdk/communication/ @DominikMe @0rland0Wats0n @ankitarorabit @Azure/azure-sdk-communication-code-reviewers
+/sdk/communication/ @DominikMe @0rland0Wats0n @ankitarorabit @Azure/azure-sdk-communication-code-reviewers @LuChen-Microsoft
 /sdk/communication/communication-identity/ @petrsvihlik @martinbarnas-ms
 
 # PRLabel: %Container Registry
