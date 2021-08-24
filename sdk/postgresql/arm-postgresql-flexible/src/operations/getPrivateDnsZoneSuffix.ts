@@ -27,29 +27,22 @@ export class GetPrivateDnsZoneSuffix {
 
   /**
    * Get private DNS zone suffix in the cloud
-   * @param body The required parameters for getting private DNS zone suffix based on server type.
-   * Possible values include: 'PostgreSQL', 'PostgreSQLCitus', 'MySQL', 'MariaDb', 'Oracle'
    * @param [options] The optional parameters
    * @returns Promise<Models.GetPrivateDnsZoneSuffixExecuteResponse>
    */
-  execute(body: Models.Body, options?: msRest.RequestOptionsBase): Promise<Models.GetPrivateDnsZoneSuffixExecuteResponse>;
+  execute(options?: msRest.RequestOptionsBase): Promise<Models.GetPrivateDnsZoneSuffixExecuteResponse>;
   /**
-   * @param body The required parameters for getting private DNS zone suffix based on server type.
-   * Possible values include: 'PostgreSQL', 'PostgreSQLCitus', 'MySQL', 'MariaDb', 'Oracle'
    * @param callback The callback
    */
-  execute(body: Models.Body, callback: msRest.ServiceCallback<string>): void;
+  execute(callback: msRest.ServiceCallback<string>): void;
   /**
-   * @param body The required parameters for getting private DNS zone suffix based on server type.
-   * Possible values include: 'PostgreSQL', 'PostgreSQLCitus', 'MySQL', 'MariaDb', 'Oracle'
    * @param options The optional parameters
    * @param callback The callback
    */
-  execute(body: Models.Body, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  execute(body: Models.Body, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.GetPrivateDnsZoneSuffixExecuteResponse> {
+  execute(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
+  execute(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.GetPrivateDnsZoneSuffixExecuteResponse> {
     return this.client.sendOperationRequest(
       {
-        body,
         options
       },
       executeOperationSpec,
@@ -61,26 +54,13 @@ export class GetPrivateDnsZoneSuffix {
 const serializer = new msRest.Serializer(Mappers);
 const executeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.DBForPostgreSql/getPrivateDnsZoneSuffix",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
+  path: "providers/Microsoft.DBforPostgreSQL/getPrivateDnsZoneSuffix",
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
-  requestBody: {
-    parameterPath: "body",
-    mapper: {
-      required: true,
-      serializedName: "body",
-      type: {
-        name: "String"
-      }
-    }
-  },
   responses: {
     200: {
       bodyMapper: {

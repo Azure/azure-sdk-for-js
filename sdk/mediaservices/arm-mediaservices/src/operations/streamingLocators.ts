@@ -301,7 +301,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.StreamingLocatorCollection
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -326,9 +326,8 @@ const getOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.StreamingLocator
     },
-    404: {},
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -361,7 +360,7 @@ const createOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.StreamingLocator
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -386,7 +385,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -412,7 +411,7 @@ const listContentKeysOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ListContentKeysResponse
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -438,7 +437,7 @@ const listPathsOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ListPathsResponse
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -465,7 +464,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.StreamingLocatorCollection
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

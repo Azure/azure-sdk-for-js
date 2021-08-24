@@ -13,10 +13,11 @@ import * as msRestAzure from "@azure/ms-rest-azure-js";
 import { TokenCredential } from "@azure/core-auth";
 
 const packageName = "@azure/arm-postgresql-flexible";
-const packageVersion = "2.0.0";
+const packageVersion = "3.1.0";
 
 export class PostgreSQLManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials | TokenCredential;
+  apiVersion?: string;
   subscriptionId: string;
 
   /**
@@ -48,6 +49,7 @@ export class PostgreSQLManagementClientContext extends msRestAzure.AzureServiceC
 
     super(credentials, options);
 
+    this.apiVersion = '2021-06-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";

@@ -202,23 +202,45 @@ export interface AscOperation {
 }
 
 /**
- * Cache identity properties.
+ * An interface representing CacheIdentityUserAssignedIdentitiesValue.
  */
-export interface CacheIdentity {
+export interface CacheIdentityUserAssignedIdentitiesValue {
   /**
-   * The principal id of the cache.
+   * The principal ID of the user-assigned identity.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly principalId?: string;
   /**
-   * The tenant id associated with the cache.
+   * The client ID of the user-assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly clientId?: string;
+}
+
+/**
+ * Cache identity properties.
+ */
+export interface CacheIdentity {
+  /**
+   * The principal ID for the system-assigned identity of the cache.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID associated with the cache.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly tenantId?: string;
   /**
-   * The type of identity used for the cache. Possible values include: 'SystemAssigned', 'None'
+   * The type of identity used for the cache. Possible values include: 'SystemAssigned',
+   * 'UserAssigned', 'SystemAssigned, UserAssigned', 'None'
    */
   type?: CacheIdentityType;
+  /**
+   * A dictionary where each key is a user assigned identity resource ID, and each key's value is
+   * an empty dictionary.
+   */
+  userAssignedIdentities?: { [propertyName: string]: CacheIdentityUserAssignedIdentitiesValue };
 }
 
 /**
@@ -346,7 +368,8 @@ export interface CacheNetworkSettings {
    */
   dnsSearchDomain?: string;
   /**
-   * NTP server IP Address or FQDN for the cache to use. The default is time.windows.com.
+   * NTP server IP Address or FQDN for the cache to use. The default is time.windows.com. Default
+   * value: 'time.windows.com'.
    */
   ntpServer?: string;
 }
@@ -383,6 +406,11 @@ export interface CacheEncryptionSettings {
    * Specifies the location of the key encryption key in Key Vault.
    */
   keyEncryptionKey?: KeyVaultKeyReference;
+  /**
+   * Specifies whether the service will automatically rotate to the newest version of the key in
+   * the Key Vault.
+   */
+  rotationToLatestKeyVersionEnabled?: boolean;
 }
 
 /**
@@ -669,16 +697,18 @@ export interface Cache extends BaseResource {
    * https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property.
    * Possible values include: 'Succeeded', 'Failed', 'Cancelled', 'Creating', 'Deleting',
    * 'Updating'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  provisioningState?: ProvisioningStateType;
+  readonly provisioningState?: ProvisioningStateType;
   /**
    * Subnet used for the Cache.
    */
   subnet?: string;
   /**
    * Upgrade status of the Cache.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  upgradeStatus?: CacheUpgradeStatus;
+  readonly upgradeStatus?: CacheUpgradeStatus;
   /**
    * Specifies network settings of the cache.
    */
@@ -718,7 +748,7 @@ export interface NamespaceJunction {
    */
   nfsExport?: string;
   /**
-   * Name of the access policy applied to this junction.
+   * Name of the access policy applied to this junction. Default value: 'default'.
    */
   nfsAccessPolicy?: string;
 }
@@ -819,8 +849,9 @@ export interface StorageTarget extends StorageTargetResource {
    * https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property.
    * Possible values include: 'Succeeded', 'Failed', 'Cancelled', 'Creating', 'Deleting',
    * 'Updating'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  provisioningState?: ProvisioningStateType;
+  readonly provisioningState?: ProvisioningStateType;
   /**
    * Properties when targetType is nfs3.
    */
@@ -989,11 +1020,33 @@ export interface CachesBeginCreateOrUpdateOptionalParams extends msRest.RequestO
 /**
  * Optional Parameters.
  */
+export interface StorageTargetsDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Boolean value requesting the force delete operation for a storage target. Force delete
+   * discards unwritten-data in the cache instead of flushing it to back-end storage.
+   */
+  force?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface StorageTargetsCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Object containing the definition of a Storage Target.
    */
   storagetarget?: StorageTarget;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface StorageTargetsBeginDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Boolean value requesting the force delete operation for a storage target. Force delete
+   * discards unwritten-data in the cache instead of flushing it to back-end storage.
+   */
+  force?: string;
 }
 
 /**
@@ -1086,11 +1139,12 @@ export type MetricAggregationType = 'NotSpecified' | 'None' | 'Average' | 'Minim
 
 /**
  * Defines values for CacheIdentityType.
- * Possible values include: 'SystemAssigned', 'None'
+ * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned, UserAssigned',
+ * 'None'
  * @readonly
  * @enum {string}
  */
-export type CacheIdentityType = 'SystemAssigned' | 'None';
+export type CacheIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned' | 'None';
 
 /**
  * Defines values for CreatedByType.

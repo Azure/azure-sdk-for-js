@@ -385,7 +385,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.AssetCollection
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -410,9 +410,8 @@ const getOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.Asset
     },
-    404: {},
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -448,7 +447,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.Asset
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -473,7 +472,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -506,7 +505,7 @@ const updateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.Asset
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -539,7 +538,7 @@ const listContainerSasOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.AssetContainerSas
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -565,7 +564,7 @@ const getEncryptionKeyOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.StorageEncryptedAssetDecryptionData
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -591,7 +590,7 @@ const listStreamingLocatorsOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ListStreamingLocatorsResponse
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -618,7 +617,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.AssetCollection
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

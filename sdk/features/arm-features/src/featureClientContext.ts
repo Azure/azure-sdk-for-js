@@ -13,7 +13,11 @@ import * as msRestAzure from "@azure/ms-rest-azure-js";
 import { TokenCredential } from "@azure/core-auth";
 
 const packageName = "@azure/arm-features";
+<<<<<<< HEAD
 const packageVersion = "2.0.0";
+=======
+const packageVersion = "1.1.1";
+>>>>>>> cadd8b2463b742fae0ab6d0aa82e6ab30b2e7b2f
 
 export class FeatureClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials | TokenCredential;

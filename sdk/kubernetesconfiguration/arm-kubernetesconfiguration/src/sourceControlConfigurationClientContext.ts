@@ -13,7 +13,7 @@ import { TokenCredential } from "@azure/core-auth";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-kubernetesconfiguration";
-const packageVersion = "3.1.0";
+const packageVersion = "3.1.1";
 
 export class SourceControlConfigurationClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials | TokenCredential;
