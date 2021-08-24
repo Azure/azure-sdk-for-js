@@ -90,24 +90,22 @@ function Set-EnvironmentVariables {
 
 function New-DeployManifest {
   Write-Verbose "Detecting samples..."
-  $javascriptSamples = Get-ChildItem -Path "$repoRoot/sdk/$ServiceDirectory/*/samples/javascript/" 
-    | -Recurse -Include package.json
+  # *(latest one, sort) with samples/v{x}/javascript
+  $javascriptSamples = Get-ChildItem -Path "$repoRoot/sdk/$ServiceDirectory/*/samples/*/javascript/" -Recurse -Include package.json
   Write-Host "Found samples:"
-  Write-Host $(javascriptSamples)
-  #(Get-ChildItem -Path "$repoRoot/sdk/$ServiceDirectory/*/samples/javascript/" -Directory
-  #  | Where-Object { Test-Path "$_/package.json" })
+  Write-Host $($javascriptSamples)
 
   $manifest = $javascriptSamples | ForEach-Object {
-    # Example: azure-sdk-for-js/sdk/appconfiguration/app-configuration/samples/javascript
+    # Example: azure-sdk-for-js/sdk/appconfiguration/app-configuration/samples/v1/javascript
     @{
       # Package name for example "app-configuration"
-      Name               = ((Join-Path $_ ../../) | Get-Item).Name;
+      Name               = ((Join-Path $_ ../../../) | Get-Item).Name;
 
       # Path to "app-configuration" part from example
-      PackageDirectory   = ((Join-Path $_ ../../) | Get-Item).FullName;
+      PackageDirectory   = ((Join-Path $_ ../../../) | Get-Item).FullName;
 
       # Service Directory for example "appconfiguration"
-      ResourcesDirectory = ((Join-Path $_ ../../../) | Get-Item).Name;
+      ResourcesDirectory = ((Join-Path $_ ../../../../) | Get-Item).Name;
     }
   }
 
@@ -117,12 +115,12 @@ function New-DeployManifest {
 function Update-SamplesForService {
   Param([Parameter(Mandatory = $true)] $entry)
 
-  Write-Verbose "Preparing samples for $($entry.Name)"
-  dev-tool samples prep --directory $entry.PackageDirectory --use-packages
+  # Write-Verbose "Preparing samples for $($entry.Name)"
+  # dev-tool samples prep --directory $entry.PackageDirectory --use-packages
 
   # Resolve full path for samples location. This has to be set after sample
   # prep because the directory will not resolve until the folder exists.
-  $entry.SamplesDirectory = Join-Path -Path $entry.PackageDirectory -ChildPath 'dist-samples/javascript' -Resolve
+  $entry.SamplesDirectory = "$repoRoot/sdk/$ServiceDirectory/*/samples/*/javascript/"
 }
 
 function Update-SampleDependencies {
@@ -144,7 +142,7 @@ function Update-SampleDependencies {
         # For non-daily smoke tests (i.e. release smoke tests), specifically
         # override the package.json tag for the newly released package under test.
         # Tag will be either 'latest' or 'next'
-        $dependencies[$dep] = $TagOverride
+        $dependencies[$dep] = $TagOverride #latest hardcode for now
       } else {
         # For non-daily smoke tests and/or non-azure dependencies,
         # use whatever is in the source package.json
