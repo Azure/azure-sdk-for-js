@@ -2,7 +2,7 @@
 // Licensed under the MIT Licence.
 
 /**
- * @summary Demonstrates how to convert an IoT Hub connection string to an Event Hubs connection string that points to the built-in messaging endpoint.
+ * @summary Demonstrates how to convert an IoT Hub connection string to an Event Hubs connection string that points to the built-in messaging endpoint using WebSockets.
  */
 
 /*
@@ -12,33 +12,29 @@
  * https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-messages-read-builtin
  */
 
-import * as crypto from "crypto";
-import { Buffer } from "buffer";
-import { AmqpError, Connection, ReceiverEvents, parseConnectionString } from "rhea-promise";
-import * as rheaPromise from "rhea-promise";
-import { EventHubConsumerClient, earliestEventPosition } from "@azure/event-hubs";
+const crypto = require("crypto");
+const { Buffer } = require("buffer");
+const { Connection, ReceiverEvents, parseConnectionString } = require("rhea-promise");
+const rheaPromise = require("rhea-promise");
+const { EventHubConsumerClient, earliestEventPosition } = require("@azure/event-hubs");
+const WebSocket = require("ws");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config();
 
 /**
  * Type guard for AmqpError.
  * @param err - An unknown error.
  */
-function isAmqpError(err: any): err is AmqpError {
+function isAmqpError(err) {
   return rheaPromise.isAmqpError(err);
 }
 
 const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "";
 
 // This code is modified from https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-security#security-tokens.
-function generateSasToken(
-  resourceUri: string,
-  signingKey: string,
-  policyName: string,
-  expiresInMins: number
-): string {
+function generateSasToken(resourceUri, signingKey, policyName, expiresInMins) {
   resourceUri = encodeURIComponent(resourceUri);
 
   const expiresInSeconds = Math.ceil(Date.now() / 1000 + expiresInMins * 60);
@@ -60,12 +56,10 @@ function generateSasToken(
  * @returns An Event Hubs-compatible connection string in the format:
  * `"Endpoint=sb://<hostname>;EntityPath=<your-iot-hub>;SharedAccessKeyName=<KeyName>;SharedAccessKey=<Key>"`
  */
-async function convertIotHubToEventHubsConnectionString(connectionString: string): Promise<string> {
-  const { HostName, SharedAccessKeyName, SharedAccessKey } = parseConnectionString<{
-    HostName: string;
-    SharedAccessKeyName: string;
-    SharedAccessKey: string;
-  }>(connectionString);
+async function convertIotHubToEventHubsConnectionString(connectionString) {
+  const { HostName, SharedAccessKeyName, SharedAccessKey } = parseConnectionString(
+    connectionString
+  );
 
   // Verify that the required info is in the connection string.
   if (!HostName || !SharedAccessKey || !SharedAccessKeyName) {
@@ -93,9 +87,14 @@ async function convertIotHubToEventHubsConnectionString(connectionString: string
     host: HostName,
     hostname: HostName,
     username: `${SharedAccessKeyName}@sas.root.${iotHubName}`,
-    port: 5671,
+    port: 443,
     reconnect: false,
-    password: token
+    password: token,
+    webSocketOptions: {
+      webSocket: WebSocket,
+      protocol: ["AMQPWSB10"],
+      url: `wss://${HostName}:${443}/$servicebus/websocket`
+    }
   });
   await connection.open();
 
@@ -126,7 +125,7 @@ async function convertIotHubToEventHubsConnectionString(connectionString: string
   });
 }
 
-export async function main() {
+async function main() {
   console.log(`Running iothubConnectionString sample`);
 
   const eventHubsConnectionString = await convertIotHubToEventHubsConnectionString(

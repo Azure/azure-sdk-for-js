@@ -2,7 +2,7 @@
 // Licensed under the MIT Licence.
 
 /**
- * @summary Demonstrates how to convert an IoT Hub connection string to an Event Hubs connection string that points to the built-in messaging endpoint.
+ * @summary Demonstrates how to convert an IoT Hub connection string to an Event Hubs connection string that points to the built-in messaging endpoint using WebSockets.
  */
 
 /*
@@ -15,8 +15,9 @@
 import * as crypto from "crypto";
 import { Buffer } from "buffer";
 import { AmqpError, Connection, ReceiverEvents, parseConnectionString } from "rhea-promise";
-import * as rheaPromise from "rhea-promise";
+import rheaPromise from "rhea-promise";
 import { EventHubConsumerClient, earliestEventPosition } from "@azure/event-hubs";
+import WebSocket from "ws";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -93,9 +94,14 @@ async function convertIotHubToEventHubsConnectionString(connectionString: string
     host: HostName,
     hostname: HostName,
     username: `${SharedAccessKeyName}@sas.root.${iotHubName}`,
-    port: 5671,
+    port: 443,
     reconnect: false,
-    password: token
+    password: token,
+    webSocketOptions: {
+      webSocket: WebSocket,
+      protocol: ["AMQPWSB10"],
+      url: `wss://${HostName}:${443}/$servicebus/websocket`
+    }
   });
   await connection.open();
 
