@@ -82,6 +82,9 @@
     ]
   },
   "//sampleConfiguration": {
+    "dependencyOverrides": {
+      "@azure/identity": "^1.5.1"
+    },
     "extraFiles": {
       "./samples-browser": [
         "browser"
@@ -92,6 +95,7 @@
     },
     "skip": [
       "iothubConnectionString.js",
+      "iothubConnectionStringWebsockets.js",
       "useWithIotHub.js",
       "usingAadAuth.js"
     ],

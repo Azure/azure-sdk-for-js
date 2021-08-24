@@ -23,7 +23,7 @@
    * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
    * for details about these alternatives.
    */
-  "pnpmVersion": "5.15.0",
+  "pnpmVersion": "5.18.10",
   // "npmVersion": "4.5.0",
   // "yarnVersion": "1.9.4",
   /**
@@ -334,6 +334,11 @@
     {
       "packageName": "@azure-rest/agrifood-farming",
       "projectFolder": "sdk/agrifood/agrifood-farming-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/purview-account",
+      "projectFolder": "sdk/purview/purview-account-rest",
       "versionPolicyName": "client"
     },
     {
@@ -874,6 +879,11 @@
     {
       "packageName": "@azure/arm-appservice",
       "projectFolder": "sdk/appservice/arm-appservice",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-resources-subscriptions",
+      "projectFolder": "sdk/resources-subscriptions/arm-resources-subscriptions",
       "versionPolicyName": "management"
     }
   ]

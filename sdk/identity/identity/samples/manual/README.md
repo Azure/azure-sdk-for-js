@@ -4,7 +4,7 @@ This is a manual sample to test the `AuthorizationCodeCredential` class.
 
 Steps to run this sample:
 
-1. Set up your environment with [these instructions](https://github.com/sadasant/azure-sdk-for-js/blob/identity/fix15188/CONTRIBUTING.md#setting-up-your-environment)
+1. Set up your environment with [these instructions](https://github.com/azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#setting-up-your-environment).
 
 2. Build the Identity package with dependencies.
 

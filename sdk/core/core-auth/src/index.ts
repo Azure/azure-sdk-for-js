@@ -16,5 +16,5 @@ export {
   isTokenCredential
 } from "./tokenCredential";
 
-export { SpanContext, SpanOptions, SpanAttributes, Context, SpanAttributeValue } from "./tracing";
+export { Context } from "./tracing";
 export { UserAssertion, AuthenticationOptions, createUserAssertion } from "./authenticationOptions";

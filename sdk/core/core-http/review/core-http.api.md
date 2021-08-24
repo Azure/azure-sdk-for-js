@@ -613,7 +613,6 @@ export interface RequestOptionsBase {
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     serializerOptions?: SerializerOptions;
     shouldDeserialize?: boolean | ((response: HttpOperationResponse) => boolean);
-    spanOptions?: SpanOptions;
     timeout?: number;
     tracingContext?: Context;
 }
@@ -975,7 +974,6 @@ export interface WebResourceLike {
     };
     requestId: string;
     shouldDeserialize?: boolean | ((response: HttpOperationResponse) => boolean);
-    spanOptions?: SpanOptions;
     // @deprecated (undocumented)
     streamResponseBody?: boolean;
     streamResponseStatusCodes?: Set<number>;

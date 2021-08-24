@@ -140,8 +140,6 @@
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
-    "rollup-plugin-node-resolve": "^3.4.0",
-    "rollup-plugin-sourcemaps": "^0.4.2",
     "safe-buffer": "^5.2.1",
     "source-map-support": "^0.5.9",
     "ts-node": "^9.0.0",
