@@ -118,9 +118,7 @@ export class TestProxyHttpClient {
   async start(): Promise<void> {
     this.stateManager.validateState("starting");
     if (this.recordingId === undefined) {
-      const startUri = this.playback
-        ? this.url + paths.playback + paths.start
-        : this.url + paths.record + paths.start;
+      const startUri = `${this.url}${this.playback ? paths.playback : paths.record}${paths.start}`;
       const req = this._createRecordingRequest(startUri);
       const rsp = await this.httpClient.sendRequest({
         ...req,
@@ -141,9 +139,7 @@ export class TestProxyHttpClient {
   async stop(): Promise<void> {
     this.stateManager.validateState("stopping");
     if (this.recordingId !== undefined) {
-      const stopUri = this.playback
-        ? this.url + paths.playback + paths.stop
-        : this.url + paths.record + paths.stop;
+      const stopUri = `${this.url}${this.playback ? paths.playback : paths.record}${paths.stop}`;
       const req = this._createRecordingRequest(stopUri);
       req.headers.set("x-recording-save", "true");
 

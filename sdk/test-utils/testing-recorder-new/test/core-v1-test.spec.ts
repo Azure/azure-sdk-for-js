@@ -8,7 +8,6 @@ config();
 describe("Tests", () => {
   it("storage test", async function() {
     const file = (isNode ? "node_" : "browser_") + `core_v1_file_path.json`;
-    console.log(`env.TEST_MODE = ${env.TEST_MODE}`);
     const recorder = new TestProxyHttpClientCoreV1(file, isPlaybackMode());
     const options: StoragePipelineOptions = {};
     if (!isLiveMode()) {

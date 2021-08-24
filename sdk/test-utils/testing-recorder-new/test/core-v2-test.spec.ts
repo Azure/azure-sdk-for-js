@@ -9,7 +9,6 @@ config();
 describe("Tests", () => {
   it("tables test", async function() {
     const file = (isNode ? "node_" : "browser_") + `core_v2_file_path.json`;
-    console.log(`env.TEST_MODE = ${env.TEST_MODE}`);
     const recorder = new TestProxyHttpClient(file, isPlaybackMode());
     const client = TableClient.fromConnectionString(env.TABLES_SAS_CONNECTION_STRING, "newtable");
     if (!isLiveMode()) {
