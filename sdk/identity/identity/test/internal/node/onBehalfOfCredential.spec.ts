@@ -3,9 +3,13 @@
 
 import { assert } from "chai";
 import { isNode } from "@azure/core-util";
-import { OnBehalfOfCredential } from "../../src";
-import { createResponse, IdentityTestContext, SendCredentialRequests } from "../httpRequestsCommon";
-import { prepareIdentityTests, prepareMSALResponses } from "../httpRequests";
+import { OnBehalfOfCredential } from "../../../src";
+import {
+  createResponse,
+  IdentityTestContext,
+  SendCredentialRequests
+} from "../../httpRequestsCommon";
+import { prepareIdentityTests, prepareMSALResponses } from "../../httpRequests";
 import { createUserAssertion } from "@azure/core-auth";
 
 describe("OnBehalfOfCredential", function() {
