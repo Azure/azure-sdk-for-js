@@ -56,7 +56,8 @@ export class SessionRetryPolicy implements RetryPolicy {
       if (this.currentRetryAttemptCount > endpoints.length) {
         return false;
       } else {
-        retryContext.retryCount = ++this.currentRetryAttemptCount - 1;
+        this.currentRetryAttemptCount++;
+        retryContext.retryCount++;
         retryContext.retryRequestOnPreferredLocations = this.currentRetryAttemptCount > 1;
         retryContext.clearSessionTokenNotAvailable =
           this.currentRetryAttemptCount === endpoints.length;
@@ -66,7 +67,8 @@ export class SessionRetryPolicy implements RetryPolicy {
       if (this.currentRetryAttemptCount > 1) {
         return false;
       } else {
-        retryContext.retryCount = ++this.currentRetryAttemptCount - 1;
+        this.currentRetryAttemptCount++;
+        retryContext.retryCount++;
         retryContext.retryRequestOnPreferredLocations = false; // Forces all operations to primary write endpoint
         retryContext.clearSessionTokenNotAvailable = true;
         return true;
