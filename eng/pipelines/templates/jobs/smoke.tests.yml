@@ -5,9 +5,12 @@ parameters:
   - name: ServiceDirectory
     type: string
     default: ""
-  - name: Artifacts
+  - name: Artifact
     type: object
-    default: []
+    default: {}
+  - name: ArtifactName
+    type: string
+    default: ""
 
 jobs:
   - ${{ if and(eq(parameters.Daily, false), ne(variables['Skip.Release'], 'true')) }}:
@@ -126,6 +129,8 @@ jobs:
         workingDirectory: $(Build.SourcesDirectory)/common/tools/dev-tool
         displayName: Install dev-tool
 
+      - download: current
+        artifact: ${{parameters.ArtifactName}}
       - pwsh: |
           $(Build.SourcesDirectory)/eng/common/scripts/Import-AzModules.ps1
 
@@ -135,6 +140,9 @@ jobs:
 
           $packageOverrides = @()
           $packageOverrides += (dir env: | Where-Object { $_.Name.StartsWith("SMOKE_PACKAGE_") }).Value
+
+          $packageArtifact = Get-ChildItem $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{parameters.Artifact.name}}/*.tgz
+          $result = $(System.DefaultWorkingDirectory)/eng/scripts/get-npm-tags.ps1 -packageArtifact $packageArtifact -workingDirectory $(System.DefaultWorkingDirectory)/temp
 
           if ([System.Convert]::ToBoolean("${{ parameters.Daily }}")) {
             ./Initialize-SmokeTests.ps1 `
@@ -149,7 +157,7 @@ jobs:
               -CI `
               -Verbose `
               -Location '$(Location)' `
-              -TagOverride $(Tag) `
+              -TagOverride $result.Tag `
               -TagOverridePackages $packageOverrides `
               -ServiceDirectory ${{ parameters.ServiceDirectory }} `
               @subscriptionConfiguration `
@@ -161,8 +169,7 @@ jobs:
         env:
           # Pipelines yaml does not handle transferring non-string parameter types
           # into script blocks very well, so this is the best available workaround.
-          ${{ each artifact in parameters.Artifacts }}:
-            SMOKE_PACKAGE_${{ artifact.safeName }}: "@azure/${{ replace(artifact.name, 'azure-', '') }}"
+          SMOKE_PACKAGE_${{ parameters.Artifact.safeName }}: "@azure/${{ replace(parameters.Artifact.name, 'azure-', '') }}"
 
       - pwsh: Get-Content ./run-manifest.json
         workingDirectory: $(Build.SourcesDirectory)/common/smoke-test

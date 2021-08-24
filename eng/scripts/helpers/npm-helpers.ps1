@@ -99,6 +99,7 @@ function GetNewNpmTags($packageName, $packageVersion)
       }
     }    
   }
+  $setNext = $true
 
   $tag = ""
   $additionalTag = ""
