@@ -88,6 +88,12 @@ function tryCreateSpan(request: PipelineRequest, userAgent?: string): Span | und
       tracingOptions: { ...request.tracingOptions, spanOptions: createSpanOptions }
     });
 
+    // If the span is not recording, don't do any more work.
+    if (!span.isRecording()) {
+      span.end();
+      return;
+    }
+
     const namespaceFromContext = request.tracingOptions?.tracingContext?.getValue(
       Symbol.for("az.namespace")
     );
