@@ -16,6 +16,6 @@ export class TestProxyHttpClientCoreV1 extends TestProxyHttpClient {
     if (this.recordingId && (this.mode === "record" || this.mode === "playback")) {
       request = this.redirectRequest(request);
     }
-    return await this.httpClientCoreV1.sendRequest(request);
+    return this.httpClientCoreV1.sendRequest(request);
   }
 }

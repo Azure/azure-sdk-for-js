@@ -69,15 +69,13 @@ export class RecordingStateManager {
 }
 
 export class TestProxyHttpClient {
-  private url: string;
+  private url = "http://localhost:5000";
   public recordingId?: string;
   public mode: string;
   public httpClient: HttpClient;
-  private sessionFile: string;
-  private playback: boolean;
   private stateManager = new RecordingStateManager();
 
-  constructor(sessionFile: string, playback: boolean) {
+  constructor(private sessionFile: string, private playback: boolean) {
     this.sessionFile = sessionFile;
     this.playback = playback;
     this.url = "http://localhost:5000";
@@ -164,8 +162,8 @@ export function recorderHttpPolicy(testProxyHttpClient: TestProxyHttpClient): Pi
   return {
     name: "recording policy",
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      const modifiedRequest = await testProxyHttpClient.modifyRequest(request);
-      return next(modifiedRequest);
+      await testProxyHttpClient.modifyRequest(request);
+      return next(request);
     }
   };
 }

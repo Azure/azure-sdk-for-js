@@ -1,6 +1,6 @@
 ## Azure test-utils-recorder-new library for JavaScript
 
-This is an experimental tool to record and playback the tests in the JS repo by leveraging the unified out-of-proc test proxy server. This library is still under construction.
+This is an experimental tool to record and playback the tests in the JS repo by leveraging the unified out-of-process test proxy server. This library is still under construction.
 Feature work is being tracked at [#15829](https://github.com/Azure/azure-sdk-for-js/issues/15829)
 
 ## Resources
@@ -22,7 +22,7 @@ If the above command doesn't work directly, try [Troubleshooting Access to Publi
 
 Reference: [Using Test Proxy with docker container](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/docker#build-and-run)
 
-## Running the test at test-utils\testing-recorder-new
+## Run the tests using recorder-new at `test-utils/testing-recorder-new`
 
 - Navigate to the test-utils\testing-recorder-new folder
 - Run `rush update && rush build -t .`
