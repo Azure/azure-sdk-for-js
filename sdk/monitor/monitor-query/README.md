@@ -153,11 +153,9 @@ const logsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
 
 async function run() {
   const kustoQuery = "AppEvents | limit 1";
-  const result = await logsQueryClient.queryLogs(
-    azureLogAnalyticsWorkspaceId,
-    kustoQuery,
-    Durations.last24Hours
-  );
+  const result = await logsQueryClient.queryLogs(azureLogAnalyticsWorkspaceId, kustoQuery, {
+    duration: Durations.last24Hours
+  });
   const tablesFromResult = result.tables;
 
   if (tablesFromResult == null) {
@@ -232,7 +230,7 @@ A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob
   const result = await logsQueryClient.queryLogs(
     azureLogAnalyticsWorkspaceId,
     kustoQuery,
-    Durations.last24Hours,
+    {duration: Durations.last24Hours},
     queryLogsOptions
   );
 
@@ -272,35 +270,32 @@ export async function main() {
 
   const tokenCredential = new DefaultAzureCredential();
   const logsQueryClient = new LogsQueryClient(tokenCredential);
-
-  const queriesBatch: BatchQuery[] = [
+  const queriesBatch: QueryBatch[] = [
     {
       workspaceId: monitorWorkspaceId,
       query: "AppEvents | project TimeGenerated, Name, AppRoleInstance | limit 1",
-      timespan: "P1D"
+      timespan: { duration: "P1D" }
     },
     {
       workspaceId: monitorWorkspaceId,
       query: "AzureActivity | summarize count()",
-      timespan: "PT1H"
+      timespan: { duration: "PT1H" }
     },
     {
       workspaceId: monitorWorkspaceId,
       query:
         "AppRequests | take 10 | summarize avgRequestDuration=avg(DurationMs) by bin(TimeGenerated, 10m), _ResourceId",
-      timespan: "PT1H"
+      timespan: { duration: "PT1H" }
     },
     {
       workspaceId: monitorWorkspaceId,
       query: "AppRequests | take 2",
-      timespan: "PT1H"
+      timespan: { duration: "PT1H" },
+      includeQueryStatistics: true
     }
   ];
 
-  const result = await logsQueryClient.queryLogsBatch({
-    queries: queriesBatch
-  });
-
+  const result = await logsQueryClient.queryBatch(queriesBatch);
   if (result.results == null) {
     throw new Error("No response for query");
   }
@@ -423,7 +418,7 @@ export async function main() {
 
   const metricsResponse = await metricsQueryClient.queryMetrics(
     metricsResourceId,
-    Durations.last5Minutes,
+    { duration: Durations.last5Minutes },
     {
       metricNames: [firstMetric.name!],
       interval: "PT1M"
@@ -488,7 +483,7 @@ export async function main() {
 
   const metricsResponse = await metricsQueryClient.queryMetrics(
     metricsResourceId,
-    Durations.last5Minutes,
+    { duration: Durations.last5Minutes },
     {
       metricNames: ["MatchedEventCount"],
       interval: "PT1M",
@@ -544,7 +539,7 @@ const kustoQuery = "AppEvents | limit 1";
 const result = await logsQueryClient.queryLogs(
   azureLogAnalyticsWorkspaceId,
   kustoQuery,
-  Durations.last24Hours,
+  { duration: Durations.last24Hours },
   queryLogsOptions
 );
 ```
