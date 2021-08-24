@@ -146,8 +146,8 @@ describe("Model unit tests", () => {
     });
 
     it("convertRequestForMetrics (only required fields)", () => {
-      assert.deepEqual(convertRequestForMetrics({}, ["SuccessfulCalls"]), {
-        metricnames: ["SuccessfulCalls"]
+      assert.deepEqual(convertRequestForMetrics({}, ["SuccessfulCalls", "TotalCalls"]), {
+        metricnames: "SuccessfulCalls,TotalCalls"
       });
     });
 
