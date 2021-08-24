@@ -71,7 +71,7 @@ export function isTracingDisabled(): boolean {
 function disambiguateParameters<T extends { tracingOptions?: OperationTracingOptions }>(
   operationOptions: T,
   startSpanOptions?: SpanOptions
-): [OperationTracingOptions, SpanOptions, T] {
+): [OperationTracingOptions, SpanOptions] {
   const { tracingOptions } = operationOptions;
 
   // If startSpanOptions is provided, then we are using the new signature,
@@ -79,7 +79,7 @@ function disambiguateParameters<T extends { tracingOptions?: OperationTracingOpt
   const spanOptions: SpanOptions = startSpanOptions || (tracingOptions as any)?.spanOptions || {};
   spanOptions.kind = spanOptions.kind || SpanKind.INTERNAL;
 
-  return [tracingOptions || {}, spanOptions, operationOptions];
+  return [tracingOptions || {}, spanOptions];
 }
 
 /**
@@ -173,7 +173,7 @@ export function createSpanFunction(args: CreateSpanFunctionArgs) {
     operationOptions?: T,
     startSpanOptions?: SpanOptions
   ): { span: Span; updatedOptions: T } {
-    const [tracingOptions, spanOptions, otherOptions] = disambiguateParameters(
+    const [tracingOptions, spanOptions] = disambiguateParameters(
       operationOptions || ({} as T),
       startSpanOptions
     );
@@ -203,9 +203,9 @@ export function createSpanFunction(args: CreateSpanFunctionArgs) {
     };
 
     const newOperationOptions = {
-      ...otherOptions,
+      ...(operationOptions as T),
       tracingOptions: newTracingOptions
-    } as T & { tracingOptions: Required<OperationTracingOptions> };
+    };
 
     return {
       span,
