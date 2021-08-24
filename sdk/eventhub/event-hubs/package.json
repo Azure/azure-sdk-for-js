@@ -95,6 +95,7 @@
     },
     "skip": [
       "iothubConnectionString.js",
+      "iothubConnectionStringWebsockets.js",
       "useWithIotHub.js",
       "usingAadAuth.js"
     ],
