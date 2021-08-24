@@ -192,7 +192,7 @@ export class VirtualMachines {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deallocate(resourceGroupName: string, vmName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deallocate(resourceGroupName: string, vmName: string, options?: Models.VirtualMachinesDeallocateOptionalParams): Promise<msRest.RestResponse> {
     return this.beginDeallocate(resourceGroupName,vmName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -614,7 +614,7 @@ export class VirtualMachines {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeallocate(resourceGroupName: string, vmName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeallocate(resourceGroupName: string, vmName: string, options?: Models.VirtualMachinesBeginDeallocateOptionalParams): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -1278,6 +1278,7 @@ const beginDeallocateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
+    Parameters.hibernate,
     Parameters.apiVersion0
   ],
   headerParameters: [

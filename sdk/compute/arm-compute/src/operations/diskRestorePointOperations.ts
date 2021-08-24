@@ -266,7 +266,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.diskRestorePointName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -292,7 +292,7 @@ const listByRestorePointOperationSpec: msRest.OperationSpec = {
     Parameters.vmRestorePointName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -319,7 +319,7 @@ const beginGrantAccessOperationSpec: msRest.OperationSpec = {
     Parameters.diskRestorePointName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -354,7 +354,7 @@ const beginRevokeAccessOperationSpec: msRest.OperationSpec = {
     Parameters.diskRestorePointName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -377,7 +377,7 @@ const listByRestorePointNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage

@@ -51,6 +51,28 @@ export const ApiEntityReference: msRest.CompositeMapper = {
   }
 };
 
+export const VMSizeProperties: msRest.CompositeMapper = {
+  serializedName: "VMSizeProperties",
+  type: {
+    name: "Composite",
+    className: "VMSizeProperties",
+    modelProperties: {
+      vCPUsAvailable: {
+        serializedName: "vCPUsAvailable",
+        type: {
+          name: "Number"
+        }
+      },
+      vCPUsPerCore: {
+        serializedName: "vCPUsPerCore",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const HardwareProfile: msRest.CompositeMapper = {
   serializedName: "HardwareProfile",
   type: {
@@ -61,6 +83,13 @@ export const HardwareProfile: msRest.CompositeMapper = {
         serializedName: "vmSize",
         type: {
           name: "String"
+        }
+      },
+      vmSizeProperties: {
+        serializedName: "vmSizeProperties",
+        type: {
+          name: "Composite",
+          className: "VMSizeProperties"
         }
       }
     }
@@ -2638,6 +2667,12 @@ export const VirtualMachineExtension: msRest.CompositeMapper = {
           name: "Composite",
           className: "VirtualMachineExtensionInstanceView"
         }
+      },
+      suppressFailures: {
+        serializedName: "properties.suppressFailures",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -2725,6 +2760,12 @@ export const VirtualMachineScaleSetVMExtension: msRest.CompositeMapper = {
           name: "Composite",
           className: "VirtualMachineExtensionInstanceView"
         }
+      },
+      suppressFailures: {
+        serializedName: "properties.suppressFailures",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -2783,6 +2824,12 @@ export const VirtualMachineExtensionUpdate: msRest.CompositeMapper = {
         serializedName: "properties.protectedSettings",
         type: {
           name: "Object"
+        }
+      },
+      suppressFailures: {
+        serializedName: "properties.suppressFailures",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -2856,6 +2903,12 @@ export const VirtualMachineScaleSetVMExtensionUpdate: msRest.CompositeMapper = {
         serializedName: "properties.protectedSettings",
         type: {
           name: "Object"
+        }
+      },
+      suppressFailures: {
+        serializedName: "properties.suppressFailures",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -3272,7 +3325,6 @@ export const VirtualMachineInstallPatchesParameters: msRest.CompositeMapper = {
     className: "VirtualMachineInstallPatchesParameters",
     modelProperties: {
       maximumDuration: {
-        required: true,
         serializedName: "maximumDuration",
         type: {
           name: "String"
@@ -3869,6 +3921,12 @@ export const ImageReference: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      sharedGalleryImageId: {
+        serializedName: "sharedGalleryImageId",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -4168,6 +4226,63 @@ export const StorageProfile: msRest.CompositeMapper = {
   }
 };
 
+export const VMGalleryApplication: msRest.CompositeMapper = {
+  serializedName: "VMGalleryApplication",
+  type: {
+    name: "Composite",
+    className: "VMGalleryApplication",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "String"
+        }
+      },
+      order: {
+        serializedName: "order",
+        type: {
+          name: "Number"
+        }
+      },
+      packageReferenceId: {
+        required: true,
+        serializedName: "packageReferenceId",
+        type: {
+          name: "String"
+        }
+      },
+      configurationReference: {
+        serializedName: "configurationReference",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApplicationProfile: msRest.CompositeMapper = {
+  serializedName: "ApplicationProfile",
+  type: {
+    name: "Composite",
+    className: "ApplicationProfile",
+    modelProperties: {
+      galleryApplications: {
+        serializedName: "galleryApplications",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VMGalleryApplication"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const AdditionalCapabilities: msRest.CompositeMapper = {
   serializedName: "AdditionalCapabilities",
   type: {
@@ -4176,6 +4291,12 @@ export const AdditionalCapabilities: msRest.CompositeMapper = {
     modelProperties: {
       ultraSSDEnabled: {
         serializedName: "ultraSSDEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      hibernationEnabled: {
+        serializedName: "hibernationEnabled",
         type: {
           name: "Boolean"
         }
@@ -5429,6 +5550,13 @@ export const VirtualMachine: msRest.CompositeMapper = {
           className: "CapacityReservationProfile"
         }
       },
+      applicationProfile: {
+        serializedName: "properties.applicationProfile",
+        type: {
+          name: "Composite",
+          className: "ApplicationProfile"
+        }
+      },
       resources: {
         readOnly: true,
         serializedName: "resources",
@@ -5648,6 +5776,13 @@ export const VirtualMachineUpdate: msRest.CompositeMapper = {
           className: "CapacityReservationProfile"
         }
       },
+      applicationProfile: {
+        serializedName: "properties.applicationProfile",
+        type: {
+          name: "Composite",
+          className: "ApplicationProfile"
+        }
+      },
       identity: {
         serializedName: "identity",
         type: {
@@ -5800,6 +5935,12 @@ export const ScaleInPolicy: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      },
+      forceDeletion: {
+        serializedName: "forceDeletion",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -7193,6 +7334,12 @@ export const VirtualMachineScaleSetExtension: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      suppressFailures: {
+        serializedName: "properties.suppressFailures",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -7283,6 +7430,12 @@ export const VirtualMachineScaleSetExtensionUpdate: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      },
+      suppressFailures: {
+        serializedName: "properties.suppressFailures",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -7408,6 +7561,13 @@ export const VirtualMachineScaleSetVMProfile: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "CapacityReservationProfile"
+        }
+      },
+      applicationProfile: {
+        serializedName: "applicationProfile",
+        type: {
+          name: "Composite",
+          className: "ApplicationProfile"
         }
       }
     }
@@ -9604,6 +9764,25 @@ export const ResourceSkuLocationInfo: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      extendedLocations: {
+        readOnly: true,
+        serializedName: "extendedLocations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -11283,6 +11462,22 @@ export const SharingProfile: msRest.CompositeMapper = {
   }
 };
 
+export const SoftDeletePolicy: msRest.CompositeMapper = {
+  serializedName: "SoftDeletePolicy",
+  type: {
+    name: "Composite",
+    className: "SoftDeletePolicy",
+    modelProperties: {
+      isSoftDeleteEnabled: {
+        serializedName: "isSoftDeleteEnabled",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const Gallery: msRest.CompositeMapper = {
   serializedName: "Gallery",
   type: {
@@ -11315,6 +11510,13 @@ export const Gallery: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SharingProfile"
+        }
+      },
+      softDeletePolicy: {
+        serializedName: "properties.softDeletePolicy",
+        type: {
+          name: "Composite",
+          className: "SoftDeletePolicy"
         }
       }
     }
@@ -11395,6 +11597,13 @@ export const GalleryUpdate: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SharingProfile"
+        }
+      },
+      softDeletePolicy: {
+        serializedName: "properties.softDeletePolicy",
+        type: {
+          name: "Composite",
+          className: "SoftDeletePolicy"
         }
       }
     }
@@ -11603,6 +11812,12 @@ export const GalleryArtifactPublishingProfileBase: msRest.CompositeMapper = {
       },
       storageAccountType: {
         serializedName: "storageAccountType",
+        type: {
+          name: "String"
+        }
+      },
+      replicationMode: {
+        serializedName: "replicationMode",
         type: {
           name: "String"
         }
