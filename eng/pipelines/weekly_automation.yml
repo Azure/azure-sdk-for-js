@@ -1,6 +1,7 @@
 trigger: none
 pr: none
 
+jobs:
 - job: 'RushUpdate'
   displayName: 'Rush update full'
   variables:
