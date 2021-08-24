@@ -4,11 +4,15 @@
 import chai from "chai";
 import { Constants } from "@azure/core-amqp";
 import { fromRheaMessage, isAmqpAnnotatedMessage } from "../../src/eventData";
+import { isNode } from "@azure/test-utils";
 const assert = chai.assert;
 
-setInterval(() => {
-  console.log(`[${new Date().toISOString()}] test hearbeat`);
-}, 60000).unref();
+if (isNode) {
+  setInterval(() => {
+    console.log(`[${new Date().toISOString()}] test hearbeat`);
+  }, 60000).unref();
+}
+
 describe("AMQP message encoding", () => {
   it("isAmqpAnnotatedMessage", () => {
     assert.isFalse(isAmqpAnnotatedMessage({}));
