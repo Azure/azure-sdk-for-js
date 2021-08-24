@@ -17,6 +17,7 @@ dependencies:
   '@rush-temp/arm-network': file:projects/arm-network.tgz
   '@rush-temp/arm-policy': file:projects/arm-policy.tgz
   '@rush-temp/arm-resources': file:projects/arm-resources.tgz
+  '@rush-temp/arm-resources-subscriptions': file:projects/arm-resources-subscriptions.tgz
   '@rush-temp/arm-sql': file:projects/arm-sql.tgz
   '@rush-temp/arm-storage': file:projects/arm-storage.tgz
   '@rush-temp/arm-webpubsub': file:projects/arm-webpubsub.tgz
@@ -2377,12 +2378,6 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha512-3U5kUA5VPsRUA3nofm/BXX7GVHKfxz0hOBAPxXrIvHzlDRkQVqEn6yi8QJegxl4LzOHLdvb7XF5dVawa/VVYBg==
-  /builtin-modules/3.1.0:
-    dev: false
-    engines:
-      node: '>=6'
-    resolution:
-      integrity: sha512-k0KL0aWZuBt2lrxrcASWDfwOLMnodeQjodT/1SxEQAXsHANgo6ZC/VEaSEHCXt7aSTZ4/4H5LKa+tBXmW7Vtvw==
   /builtin-modules/3.2.0:
     dev: false
     engines:
@@ -8766,6 +8761,26 @@ packages:
       integrity: sha512-1cDd7l+RfNr7rAJxGMqLHW/zYV/F5tRFsA1R6RplSOTGg8yo1foORk8QvIa+oumecW/uYGC/jePfHrx55atGMQ==
       tarball: file:projects/arm-policy.tgz
     version: 0.0.0
+  file:projects/arm-resources-subscriptions.tgz:
+    dependencies:
+      '@microsoft/api-extractor': 7.7.11
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      mkdirp: 1.0.4
+      rollup: 1.32.1
+      rollup-plugin-node-resolve: 3.4.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.1
+    dev: false
+    name: '@rush-temp/arm-resources-subscriptions'
+    resolution:
+      integrity: sha512-6GWFjnVvh/TZyCDi+Fj6ShcBGzmKQ8mvChj7v+n68IPy8QUwXlB08EvQ5zo/7+jii9EwFGCBOQok/5+BISRnJg==
+      tarball: file:projects/arm-resources-subscriptions.tgz
+    version: 0.0.0
   file:projects/arm-resources.tgz:
     dependencies:
       '@microsoft/api-extractor': 7.7.11
@@ -10015,7 +10030,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.19
       '@types/prettier': 2.0.2
-      builtin-modules: 3.1.0
+      builtin-modules: 3.2.0
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
       chalk: 4.1.2
@@ -10037,7 +10052,7 @@ packages:
     dev: false
     name: '@rush-temp/dev-tool'
     resolution:
-      integrity: sha512-+7q1hRI4jTQ2Y1LjHYGsePZlA5jxrNzojz67B2cweYHQRSQdEaN1qR8L/b1HZUDXVVOyBgx/SmfXsadhIaem9g==
+      integrity: sha512-ZE8yx0myuy6CAIoZwrf9ngW6NEGhDPAusK9eCmpGjZBdRtaB8k9DVrf/WahKYK6jfsbP7v5ysAIXCGXJQ/hjJQ==
       tarball: file:projects/dev-tool.tgz
     version: 0.0.0
   file:projects/digital-twins-core.tgz:
@@ -12727,6 +12742,7 @@ specifiers:
   '@rush-temp/arm-network': file:./projects/arm-network.tgz
   '@rush-temp/arm-policy': file:./projects/arm-policy.tgz
   '@rush-temp/arm-resources': file:./projects/arm-resources.tgz
+  '@rush-temp/arm-resources-subscriptions': file:./projects/arm-resources-subscriptions.tgz
   '@rush-temp/arm-sql': file:./projects/arm-sql.tgz
   '@rush-temp/arm-storage': file:./projects/arm-storage.tgz
   '@rush-temp/arm-webpubsub': file:./projects/arm-webpubsub.tgz
