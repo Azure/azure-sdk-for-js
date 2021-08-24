@@ -8912,6 +8912,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.19
       '@types/sinon': 9.0.11
+      '@types/uuid': 8.3.1
       assert: 1.5.0
       chai: 4.3.4
       cross-env: 7.0.3
@@ -8947,10 +8948,11 @@ packages:
       typedoc: 0.15.2
       typescript: 4.2.4
       util: 0.12.4
+      uuid: 8.3.2
     dev: false
     name: '@rush-temp/communication-chat'
     resolution:
-      integrity: sha512-J9pI+zoofrbGE5JN7f+ylcCtejg5cfDEU6YCkj+vA8SlDhmatprWeHy33GDEArTjc+09EK8ZUQVmXXz1DUcm/Q==
+      integrity: sha512-iK/tanehdcoDEh8n3iLnc33ancPWTq92R7tTT6KpXhhj/j/cw77w0GXJEjPo0NOAIxFn8lGLZYq0Grkrr8lg2g==
       tarball: file:projects/communication-chat.tgz
     version: 0.0.0
   file:projects/communication-common.tgz:
