@@ -18,15 +18,9 @@ Run this command
 
 [Note: Update `temp-location` in the command to your desired location.]
 
-If the above command doesn't work directly, try logging in. [@Scott Beddall is trying to iron out the kinks :)]
+If the above command doesn't work directly, try [Troubleshooting Access to Public Container Registry](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/docker#troubleshooting-access-to-public-container-registry).
 
-> az login
-
-> az acr login --name azsdkengsys
-
-And then repeat the above command.
-
-Reference: https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/Azure.Sdk.Tools.TestProxy#via-docker-image
+Reference: [Using Test Proxy with docker container](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/docker#build-and-run)
 
 ## Running the test at test-utils\testing-recorder-new
 
