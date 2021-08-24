@@ -91,7 +91,7 @@ function tryCreateSpan(request: PipelineRequest, userAgent?: string): Span | und
     // If the span is not recording, don't do any more work.
     if (!span.isRecording()) {
       span.end();
-      return;
+      return undefined;
     }
 
     const namespaceFromContext = request.tracingOptions?.tracingContext?.getValue(
@@ -126,7 +126,7 @@ function tryCreateSpan(request: PipelineRequest, userAgent?: string): Span | und
     return span;
   } catch (error) {
     logger.warning(`Skipping creating a tracing span due to an error: ${error.message}`);
-    return;
+    return undefined;
   }
 }
 
