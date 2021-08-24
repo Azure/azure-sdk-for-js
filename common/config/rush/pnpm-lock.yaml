@@ -9046,7 +9046,7 @@ packages:
     peerDependencies:
       debug: '*'
     resolution:
-      integrity: sha512-DlX4f2f9BKT2l3aH351UEM3jokEvUpQnR89QNqdQKN2Pbp8QP+asZbsBQpBHWMaThLSUajxggf3zgrc2YcWqEA==
+      integrity: sha512-zx8djgQJHlI94UIzMfF4EF1t9RJN2IHkeaIu9abXStBBetsdfQgLVqPhpQ3IAqDMD2tTznSkvWbMnlIiwL24zA==
       tarball: file:projects/attestation.tgz
     version: 0.0.0
   file:projects/communication-chat.tgz_debug@4.3.2:
@@ -10795,7 +10795,7 @@ packages:
     dev: false
     name: '@rush-temp/iot-device-update'
     resolution:
-      integrity: sha512-tAwrKW8JsvOujf5Gan0s8I7q1ZjeZgcYvqww7VX0t528P0qEozwWKzgVRwBB5Zkz4jzNM0b+Vh+lL+EUB7VMgg==
+      integrity: sha512-kL3fFp9QhcyAryY2/YEo5eH90SDFUv0GXYrd54cWb6pr6l7xqh6Jel4YLbVQ7mlJW7Ts3lYODVqBTFFjEX3mKw==
       tarball: file:projects/iot-device-update.tgz
     version: 0.0.0
   file:projects/iot-modelsrepository.tgz_debug@4.3.2:
@@ -12542,6 +12542,7 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       eslint: 7.32.0
       rimraf: 3.0.2
       rollup: 1.32.1
