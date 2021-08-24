@@ -602,9 +602,6 @@
 # PRLabel: %Mgmt
 /resources-subscriptions/arm-resources-subscriptions @qiaozha @dw511214992
 
-# PRLabel: %Mgmt
-
-
 # PRLabel: %Monitor
 /sdk/monitor/ @hectorhdzg @applicationinsights-js-owners @richardpark-msft
 /sdk/monitor/monitor-query @KarishmaGhiya @maorleger @richardpark-msft
