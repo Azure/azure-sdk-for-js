@@ -86,6 +86,12 @@ export class TracingPolicy extends BaseRequestPolicy {
         }
       });
 
+      // If the span is not recording, don't do any more work.
+      if (!span.isRecording()) {
+        span.end();
+        return undefined;
+      }
+
       const namespaceFromContext = request.tracingContext?.getValue(Symbol.for("az.namespace"));
 
       if (typeof namespaceFromContext === "string") {

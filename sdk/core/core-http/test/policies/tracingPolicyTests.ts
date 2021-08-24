@@ -336,6 +336,7 @@ describe("tracingPolicy", function() {
   it("will not set headers if span is a NoOpSpan", async () => {
     mockTracerProvider.disable();
     const request = new WebResource();
+    request.tracingContext = setSpan(context.active(), ROOT_SPAN);
 
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);
@@ -377,6 +378,7 @@ describe("tracingPolicy", function() {
     const errorTracer = new MockTracer("", "", TraceFlags.SAMPLED, "");
     mockTracerProvider.setTracer(errorTracer);
     const errorSpan = new MockSpan("", "", TraceFlags.SAMPLED, "");
+    sinon.stub(errorSpan, "end").throws(new Error("Test Error"));
     sinon.stub(errorTracer, "startSpan").returns(errorSpan);
 
     const request = new WebResource();
