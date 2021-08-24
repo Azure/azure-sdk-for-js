@@ -59,7 +59,8 @@ export async function executeAtomXmlOperation(
     onUploadProgress: operationOptions.requestOptions?.onUploadProgress,
     onDownloadProgress: operationOptions.requestOptions?.onDownloadProgress,
     abortSignal: operationOptions.abortSignal,
-    spanOptions: operationOptions.tracingOptions?.spanOptions,
+    // By passing spanOptions if they exist at runtime, we're backwards compatible with @azure/core-tracing@preview.13 and earlier.
+    spanOptions: (operationOptions.tracingOptions as any)?.spanOptions,
     tracingContext: operationOptions.tracingOptions?.tracingContext,
     disableJsonStringifyOnBody: true
   };
