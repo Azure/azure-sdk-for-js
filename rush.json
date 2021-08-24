@@ -880,6 +880,11 @@
       "packageName": "@azure/arm-appservice",
       "projectFolder": "sdk/appservice/arm-appservice",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-resources-subscriptions",
+      "projectFolder": "sdk/resources-subscriptions/arm-resources-subscriptions",
+      "versionPolicyName": "management"
     }
   ]
 }
