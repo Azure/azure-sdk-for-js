@@ -3,7 +3,6 @@
 
 import { OperationOptions } from "@azure/core-client";
 import {
-  MetricNamespace,
   MetricValue,
   ResultType,
   MetricUnit,
@@ -132,21 +131,11 @@ export interface GetMetricDefinitionsResult {
 /**
  * Options used when getting metric namespaces.
  */
-export interface GetMetricNamespacesOptions {
+export interface ListMetricNamespacesOptions {
   // track 2 copy of `MetricNamespacesListOptionalParams`
 
   /** The ISO 8601 conform Date start time from which to query for metric namespaces. */
   startTime?: string;
-}
-
-/**
- * Metric namespaces.
- */
-export interface GetMetricNamespacesResult {
-  // track 2 version of MetricNamespacesListResponse
-
-  /** The metric namespaces. */
-  namespaces: MetricNamespace[];
 }
 
 /** Metric definition class specifies the metadata for a metric. */

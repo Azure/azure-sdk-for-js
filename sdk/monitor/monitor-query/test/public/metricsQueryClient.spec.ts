@@ -75,7 +75,7 @@ describe("MetricsClient live tests", function() {
   });
 
   it("listNamespaces", async () => {
-    const result = await metricsQueryClient.getMetricNamespaces(resourceId);
+    const result = metricsQueryClient.listMetricNamespaces(resourceId);
     assert.ok(result);
   });
   it("listDefinitions", async () => {

@@ -4,7 +4,9 @@
 
 ```ts
 
+import { CommonClientOptions } from '@azure/core-client';
 import { OperationOptions } from '@azure/core-client';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -55,13 +57,14 @@ export interface GetMetricDefinitionsResult {
 }
 
 // @public
-export interface GetMetricNamespacesOptions {
+export interface ListMetricNamespacesOptions {
     startTime?: string;
 }
 
 // @public
-export interface GetMetricNamespacesResult {
-    namespaces: MetricNamespace[];
+export interface LogsColumn {
+    name?: string;
+    type?: LogsColumnType;
 }
 
 // @public
@@ -78,9 +81,11 @@ export class LogsQueryClient {
 }
 
 // @public
-export interface LogsQueryClientOptions extends PipelineOptions {
+export interface LogsQueryClientOptions extends CommonClientOptions {
+    credentialOptions?: {
+        credentialScopes?: string | string[];
+    };
     endpoint?: string;
-    scopes?: string | string[];
 }
 
 // @public
@@ -93,7 +98,7 @@ export interface LogsQueryOptions extends OperationOptions {
 
 // @public
 export interface LogsTable {
-    columns: MetricColumn[];
+    columns: LogsColumn[];
     name: string;
     rows: (Date | string | number | Record<string, unknown> | boolean)[][];
 }
@@ -123,12 +128,6 @@ export interface MetricAvailability {
 
 // @public
 export type MetricClass = string;
-
-// @public
-export interface MetricColumn {
-    name?: string;
-    type?: LogsColumnType;
-}
 
 // @public
 export interface MetricDefinition {
@@ -170,7 +169,7 @@ export interface MetricsClientOptions extends PipelineOptions {
 export class MetricsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: MetricsClientOptions);
     getMetricDefinitions(resourceUri: string, options?: GetMetricDefinitionsOptions): Promise<GetMetricDefinitionsResult>;
-    getMetricNamespaces(resourceUri: string, options?: GetMetricNamespacesOptions): Promise<GetMetricNamespacesResult>;
+    listMetricNamespaces(resourceUri: string, options?: ListMetricNamespacesOptions): PagedAsyncIterableIterator<MetricNamespace>;
     query(resourceUri: string, metricNames: string[], options?: MetricsQueryOptions): Promise<MetricsQueryResult>;
 }
 

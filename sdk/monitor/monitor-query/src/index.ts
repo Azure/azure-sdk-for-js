@@ -22,8 +22,7 @@ export {
 export {
   GetMetricDefinitionsOptions,
   GetMetricDefinitionsResult,
-  GetMetricNamespacesOptions,
-  GetMetricNamespacesResult,
+  ListMetricNamespacesOptions,
   MetadataValue,
   Metric,
   MetricDefinition,
@@ -41,7 +40,7 @@ export { TimeInterval } from "./models/timeInterval";
 export {
   // TODO: these are the generated model names. We probably want to run them
   // through a manual review to make them consistent with style.
-  Column as MetricColumn,
+  Column as LogsColumn,
   LogsColumnType,
   ErrorDetail,
   ErrorInfo

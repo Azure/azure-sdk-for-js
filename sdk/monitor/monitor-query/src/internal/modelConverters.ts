@@ -22,15 +22,12 @@ import {
   MetricDefinitionsListResponse as GeneratedMetricDefinitionsListResponse
 } from "../generated/metricsdefinitions/src";
 
-import { MetricNamespacesListResponse as GeneratedMetricNamespacesListResponse } from "../generated/metricsnamespaces/src";
-
 import { formatPreferHeader } from "./util";
 
 import {
   QueryBatch,
   GetMetricDefinitionsOptions,
   GetMetricDefinitionsResult,
-  GetMetricNamespacesResult,
   LogsTable,
   QueryLogsBatchResult,
   MetricsQueryOptions,
@@ -311,17 +308,6 @@ export function convertResponseForMetricsDefinitions(
 
       return response;
     })
-  };
-}
-
-/**
- * @internal
- */
-export function convertResponseForMetricNamespaces(
-  generatedResponse: GeneratedMetricNamespacesListResponse
-): GetMetricNamespacesResult {
-  return {
-    namespaces: generatedResponse.value
   };
 }
 

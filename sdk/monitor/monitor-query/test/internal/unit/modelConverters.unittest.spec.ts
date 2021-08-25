@@ -16,8 +16,7 @@ import {
   convertRequestOptionsForMetricsDefinitions,
   convertRequestForMetrics,
   convertResponseForMetrics,
-  convertResponseForMetricsDefinitions,
-  convertResponseForMetricNamespaces
+  convertResponseForMetricsDefinitions
 } from "../../../src/internal/modelConverters";
 import {
   OperationRequestOptions,
@@ -28,7 +27,6 @@ import { OperationTracingOptions } from "@azure/core-tracing";
 import {
   Durations,
   GetMetricDefinitionsResult,
-  GetMetricNamespacesResult,
   GetMetricDefinitionsOptions,
   MetricsQueryOptions,
   MetricsQueryResult
@@ -334,14 +332,14 @@ describe("Model unit tests", () => {
       );
     });
 
-    it("convertResponseForMetricNamespaces", () => {
-      const actualResponse = convertResponseForMetricNamespaces({
-        value: [{ id: "anything" } as any]
-      });
+    // it("convertResponseForMetricNamespaces", () => {
+    //   const actualResponse = convertResponseForMetricNamespaces({
+    //     value: [{ id: "anything" } as any]
+    //   });
 
-      assert.deepEqual(actualResponse, <GetMetricNamespacesResult>{
-        namespaces: [{ id: "anything" } as any]
-      });
-    });
+    //   assert.deepEqual(actualResponse, <GetMetricNamespacesResult>{
+    //     namespaces: [{ id: "anything" } as any]
+    //   });
+    // });
   });
 });

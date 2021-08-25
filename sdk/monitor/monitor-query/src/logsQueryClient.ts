@@ -3,7 +3,6 @@
 
 import { AzureLogAnalytics } from "./generated/logquery/src/azureLogAnalytics";
 import { TokenCredential } from "@azure/core-auth";
-import { PipelineOptions, bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 
 import {
   QueryBatch,
@@ -19,7 +18,7 @@ import {
   convertResponseForQueryBatch
 } from "./internal/modelConverters";
 import { formatPreferHeader } from "./internal/util";
-import { FullOperationResponse, OperationOptions } from "@azure/core-client";
+import { CommonClientOptions, FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { TimeInterval } from "./models/timeInterval";
 import { convertTimespanToInterval } from "./timespanConversion";
 
@@ -28,7 +27,7 @@ const defaultMonitorScope = "https://api.loganalytics.io/.default";
 /**
  * Options for the LogsQueryClient.
  */
-export interface LogsQueryClientOptions extends PipelineOptions {
+export interface LogsQueryClientOptions extends CommonClientOptions {
   /**
    * The host to connect to.
    */
@@ -39,7 +38,9 @@ export interface LogsQueryClientOptions extends PipelineOptions {
    *
    * Defaults to 'https://api.loganalytics.io/.default'
    */
-  scopes?: string | string[];
+  credentialOptions?: {
+    credentialScopes?: string | string[];
+  };
 }
 
 /**
@@ -61,12 +62,14 @@ export class LogsQueryClient {
     this._logAnalytics = new AzureLogAnalytics({
       ...options,
       $host: options?.endpoint,
-      endpoint: options?.endpoint
+      endpoint: options?.endpoint,
+      credentialScopes: options?.credentialOptions?.credentialScopes ?? defaultMonitorScope,
+      credential: tokenCredential
     });
-    const scope = options?.scopes ?? defaultMonitorScope;
-    this._logAnalytics.pipeline.addPolicy(
-      bearerTokenAuthenticationPolicy({ scopes: scope, credential: tokenCredential })
-    );
+    // const scope = options?.scopes ?? defaultMonitorScope;
+    // this._logAnalytics.pipeline.addPolicy(
+    //   bearerTokenAuthenticationPolicy({ scopes: scope, credential: tokenCredential })
+    // );
   }
 
   /**

@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 import { TokenCredential } from "@azure/core-auth";
 import { PipelineOptions, bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 import {
   GetMetricDefinitionsOptions,
   GetMetricDefinitionsResult,
-  GetMetricNamespacesOptions,
-  GetMetricNamespacesResult,
+  ListMetricNamespacesOptions,
   MetricsQueryOptions,
   MetricsQueryResult
 } from "./models/publicMetricsModels";
@@ -22,12 +22,12 @@ import {
 } from "./generated/metricsdefinitions/src";
 import {
   KnownApiVersion20171201Preview as MetricNamespacesApiVersion,
+  MetricNamespace,
   MonitorManagementClient as GeneratedMetricsNamespacesClient
 } from "./generated/metricsnamespaces/src";
 import {
   convertRequestForMetrics,
   convertRequestOptionsForMetricsDefinitions,
-  convertResponseForMetricNamespaces,
   convertResponseForMetrics,
   convertResponseForMetricsDefinitions
 } from "./internal/modelConverters";
@@ -120,18 +120,77 @@ export class MetricsQueryClient {
     return convertResponseForMetricsDefinitions(response);
   }
 
+  // /**
+  //  * Get a list of metric namespaces, given a resource URI.
+  //  * @param resourceUri - The resource URI to get metric namespaces for.
+  //  * @param options - Options for getting metric namespaces.
+  //  * @returns Metric namespaces for a given resource URI.
+  //  */
+  // async getMetricNamespaces(
+  //   resourceUri: string,
+  //   options?: ListMetricNamespacesOptions
+  // ): Promise<GetMetricNamespacesResult> {
+  //   const response = await this._namespacesClient.metricNamespaces.list(resourceUri, options);
+  //   return convertResponseForMetricNamespaces(response);
+  // }
+
+  /**
+   * List alert segments for Metric Namespaces
+   */
+  private async *listSegmentOfMetricNamespaces(
+    resourceUri: string,
+    options: ListMetricNamespacesOptions = {}
+  ): AsyncIterableIterator<Array<MetricNamespace>> {
+    const segmentResponse = await this._namespacesClient.metricNamespaces.list(
+      resourceUri,
+      options
+    );
+    yield segmentResponse.value;
+  }
+  /**
+   * List items for Metric Namespaces
+   */
+  private async *listItemsOfMetricNamespaces(
+    resourceUri: string,
+    options?: ListMetricNamespacesOptions
+  ): AsyncIterableIterator<MetricNamespace> {
+    for await (const segment of this.listSegmentOfMetricNamespaces(resourceUri, options)) {
+      if (segment) {
+        yield* segment;
+      }
+    }
+  }
   /**
    * Get a list of metric namespaces, given a resource URI.
    * @param resourceUri - The resource URI to get metric namespaces for.
    * @param options - Options for getting metric namespaces.
    * @returns Metric namespaces for a given resource URI.
    */
-  async getMetricNamespaces(
+  listMetricNamespaces(
     resourceUri: string,
-    options?: GetMetricNamespacesOptions
-  ): Promise<GetMetricNamespacesResult> {
-    const response = await this._namespacesClient.metricNamespaces.list(resourceUri, options);
-    return convertResponseForMetricNamespaces(response);
+    options?: ListMetricNamespacesOptions
+  ): PagedAsyncIterableIterator<MetricNamespace> {
+    const iter = this.listItemsOfMetricNamespaces(resourceUri, options);
+    return {
+      /**
+       * The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * @returns an AsyncIterableIterator that works a page at a time
+       */
+      byPage: () => {
+        return this.listSegmentOfMetricNamespaces(resourceUri, options);
+      }
+    };
   }
 }
 
