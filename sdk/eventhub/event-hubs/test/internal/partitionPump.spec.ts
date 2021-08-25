@@ -34,7 +34,7 @@ describe("PartitionPump", () => {
         this.spanName = nameArg;
         this.spanOptions = optionsArg;
         this.context = contextArg;
-        return super.startSpan(nameArg, optionsArg);
+        return super.startSpan(nameArg, optionsArg, this.context);
       }
     }
 
@@ -87,9 +87,27 @@ describe("PartitionPump", () => {
       const thirdEvent = tracer.startSpan("c");
 
       const receivedEvents: ReceivedEventData[] = [
-        instrumentEventData({ ...requiredEventProperties }, firstEvent) as ReceivedEventData,
+        instrumentEventData(
+          { ...requiredEventProperties },
+          {
+            tracingOptions: {
+              tracingContext: setSpanContext(context.active(), firstEvent.spanContext())
+            }
+          },
+          "entityPath",
+          "host"
+        ).event as ReceivedEventData,
         { properties: {}, ...requiredEventProperties }, // no diagnostic ID means it gets skipped
-        instrumentEventData({ ...requiredEventProperties }, thirdEvent) as ReceivedEventData
+        instrumentEventData(
+          { ...requiredEventProperties },
+          {
+            tracingOptions: {
+              tracingContext: setSpanContext(context.active(), thirdEvent.spanContext())
+            }
+          },
+          "entityPath",
+          "host"
+        ).event as ReceivedEventData
       ];
 
       await createProcessingSpan(receivedEvents, eventHubProperties, {});
