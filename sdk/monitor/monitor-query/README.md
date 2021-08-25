@@ -221,41 +221,20 @@ A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob
 #### Set logs query timeout
 
 ```ts
-  // setting optional parameters
-   const queryLogsOptions: LogsQueryOptions = {
-    // explicitly control the amount of time the server can spend processing the query.
-    serverTimeoutInSeconds: 60
-  };
+// setting optional parameters
+const queryLogsOptions: LogsQueryOptions = {
+  // explicitly control the amount of time the server can spend processing the query.
+  serverTimeoutInSeconds: 60
+};
 
-  const result = await logsQueryClient.query(
-    azureLogAnalyticsWorkspaceId,
-    kustoQuery,
-    {duration: Durations.last24Hours},
-    queryLogsOptions
-  );
+const result = await logsQueryClient.query(
+  azureLogAnalyticsWorkspaceId,
+  kustoQuery,
+  { duration: Durations.last24Hours },
+  queryLogsOptions
+);
 
-  const tablesFromResult = result.tables;
-
-  if (tablesFromResult == null) {
-    console.log(`No results for query '${kustoQuery}'`);
-    return;
-  }
-
-  console.log(`Results for query '${kustoQuery}'`);
-
-// Formatting the table from results
-  for (const table of tablesFromResult) {
-    const columnHeaderString = table.columns
-      .map((column) => `${column.name}(${column.type}) `)
-      .join("| ");
-    console.log("| " + columnHeaderString);
-
-    for (const row of table.rows) {
-      const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
-      console.log("| " + columnValuesString);
-    }
-  }
-}
+const tablesFromResult = result.tables;
 ```
 
 ### Batch logs query
