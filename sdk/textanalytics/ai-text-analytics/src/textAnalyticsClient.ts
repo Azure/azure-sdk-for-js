@@ -1215,6 +1215,15 @@ function compileAnalyzeInput(actions: TextAnalyticsActions): GeneratedActions {
     ),
     extractiveSummarizationTasks: actions.extractSummaryActions?.map(
       compose(setStrEncodingParam, compose(setSentenceCount, compose(setOrderBy, addParamsToTask)))
+    ),
+    customEntityRecognitionTasks: actions.recognizeCustomEntities?.map(
+      compose(setStrEncodingParam, addParamsToTask)
+    ),
+    customSingleClassificationTasks: actions.classifyCustomSingleClass?.map(
+      compose(setStrEncodingParam, addParamsToTask)
+    ),
+    customMultiClassificationTasks: actions.classifyCustomMultiClass?.map(
+      compose(setStrEncodingParam, addParamsToTask)
     )
   };
 }
