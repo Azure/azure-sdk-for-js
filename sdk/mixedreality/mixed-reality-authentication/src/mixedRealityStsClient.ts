@@ -15,7 +15,7 @@ import {
 import { logger } from "./logger";
 import { MixedRealityStsClientOptions, GetTokenOptions } from "./models/options";
 import { createSpan } from "./tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { SpanStatusCode } from "@azure/core-http";
 import { SDK_VERSION } from "./constants";
 import { constructAuthenticationEndpointFromDomain } from "./util/authenticationEndpoint";
 import { AccessToken, AzureKeyCredential } from "@azure/core-auth";

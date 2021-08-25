@@ -53,7 +53,7 @@ import {
   QuerySpecification
 } from "./generated/models";
 import { createSpan } from "./tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { SpanStatusCode } from "@azure/core-http";
 import { logger } from "./logger";
 
 export const SDK_VERSION: string = "1.1.0";

@@ -11,7 +11,7 @@ import { ParsedBatchResponse } from "./BatchResponse";
 import { BatchResponseParser } from "./BatchResponseParser";
 import { utf8ByteLength } from "./BatchUtils";
 import { BlobBatch } from "./BlobBatch";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { SpanStatusCode } from "@azure/core-http";
 import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
 import { HttpResponse, TokenCredential } from "@azure/core-http";
 import { Service, Container } from "./generated/src/operations";

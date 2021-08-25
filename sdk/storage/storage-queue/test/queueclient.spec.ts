@@ -5,8 +5,7 @@ import * as assert from "assert";
 import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
 import * as dotenv from "dotenv";
 import { QueueClient, QueueServiceClient } from "../src";
-import { setSpan, context } from "@azure/core-tracing";
-import { SpanGraph, setTracer } from "@azure/test-utils";
+import { SpanGraph, setTracer, setSpan, tracingContext } from "@azure/test-utils";
 import { URLBuilder, RestError } from "@azure/core-http";
 import { Recorder, record } from "@azure/test-utils-recorder";
 import { recorderEnvSetup } from "./utils/testutils.common";
@@ -197,12 +196,13 @@ describe("QueueClient", () => {
     }
   });
 
+  // TODO: tracingContext might not be a great name since its the same name as the one used in the SDK... consider renaming it to otContext or something?
   it("getProperties with tracing", async () => {
     const tracer = setTracer();
     const rootSpan = tracer.startSpan("root");
     await queueClient.getProperties({
       tracingOptions: {
-        tracingContext: setSpan(context.active(), rootSpan)
+        tracingContext: setSpan(tracingContext.active(), rootSpan)
       }
     });
     rootSpan.end();

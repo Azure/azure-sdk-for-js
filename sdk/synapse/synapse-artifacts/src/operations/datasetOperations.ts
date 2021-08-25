@@ -11,7 +11,7 @@ import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { DatasetOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
+import * as coreTracing from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClientContext } from "../artifactsClientContext";
@@ -73,10 +73,7 @@ export class DatasetOperationsImpl implements DatasetOperations {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getDatasetsByWorkspaceNext(
-        continuationToken,
-        options
-      );
+      result = await this._getDatasetsByWorkspaceNext(continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -97,10 +94,7 @@ export class DatasetOperationsImpl implements DatasetOperations {
   private async _getDatasetsByWorkspace(
     options?: DatasetOperationsGetDatasetsByWorkspaceOptionalParams
   ): Promise<DatasetOperationsGetDatasetsByWorkspaceResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-_getDatasetsByWorkspace",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-_getDatasetsByWorkspace", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { options },
@@ -134,10 +128,7 @@ export class DatasetOperationsImpl implements DatasetOperations {
       DatasetOperationsCreateOrUpdateDatasetResponse
     >
   > {
-    const { span } = createSpan(
-      "ArtifactsClient-beginCreateOrUpdateDataset",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-beginCreateOrUpdateDataset", options || {});
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -159,9 +150,7 @@ export class DatasetOperationsImpl implements DatasetOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -210,11 +199,7 @@ export class DatasetOperationsImpl implements DatasetOperations {
     dataset: DatasetResource,
     options?: DatasetOperationsCreateOrUpdateDatasetOptionalParams
   ): Promise<DatasetOperationsCreateOrUpdateDatasetResponse> {
-    const poller = await this.beginCreateOrUpdateDataset(
-      datasetName,
-      dataset,
-      options
-    );
+    const poller = await this.beginCreateOrUpdateDataset(datasetName, dataset, options);
     return poller.pollUntilDone();
   }
 
@@ -254,10 +239,7 @@ export class DatasetOperationsImpl implements DatasetOperations {
     datasetName: string,
     options?: DatasetOperationsDeleteDatasetOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan(
-      "ArtifactsClient-beginDeleteDataset",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-beginDeleteDataset", options || {});
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -279,9 +261,7 @@ export class DatasetOperationsImpl implements DatasetOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -308,11 +288,7 @@ export class DatasetOperationsImpl implements DatasetOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { datasetName, options },
-      deleteDatasetOperationSpec
-    );
+    const lro = new LroImpl(sendOperation, { datasetName, options }, deleteDatasetOperationSpec);
     return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
@@ -343,10 +319,7 @@ export class DatasetOperationsImpl implements DatasetOperations {
     request: ArtifactRenameRequest,
     options?: DatasetOperationsRenameDatasetOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan(
-      "ArtifactsClient-beginRenameDataset",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-beginRenameDataset", options || {});
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -368,9 +341,7 @@ export class DatasetOperationsImpl implements DatasetOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -432,10 +403,7 @@ export class DatasetOperationsImpl implements DatasetOperations {
     nextLink: string,
     options?: DatasetOperationsGetDatasetsByWorkspaceNextOptionalParams
   ): Promise<DatasetOperationsGetDatasetsByWorkspaceNextResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-_getDatasetsByWorkspaceNext",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-_getDatasetsByWorkspaceNext", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { nextLink, options },
@@ -495,11 +463,7 @@ const createOrUpdateDatasetOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.dataset,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.datasetName],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer
 };

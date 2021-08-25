@@ -8,11 +8,10 @@ import { ShareClient, ShareDirectoryClient, FileSystemAttributes } from "../src"
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
-import { SpanGraph, setTracer } from "@azure/test-utils";
+import { SpanGraph, setTracer, setSpan, tracingContext } from "@azure/test-utils";
 import { URLBuilder } from "@azure/core-http";
 import { MockPolicyFactory } from "./utils/MockPolicyFactory";
 import { Pipeline } from "../src/Pipeline";
-import { setSpan, context } from "@azure/core-tracing";
 dotenv.config();
 
 describe("DirectoryClient", () => {
@@ -742,7 +741,7 @@ describe("DirectoryClient", () => {
     const tracer = setTracer();
     const rootSpan = tracer.startSpan("root");
     const tracingOptions = {
-      tracingContext: setSpan(context.active(), rootSpan)
+      tracingContext: setSpan(tracingContext.active(), rootSpan)
     };
     const directoryName = recorder.getUniqueName("directory");
     const { directoryClient: subDirClient } = await dirClient.createSubdirectory(directoryName, {

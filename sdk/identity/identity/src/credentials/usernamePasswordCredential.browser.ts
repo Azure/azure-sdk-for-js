@@ -5,7 +5,7 @@ import qs from "qs";
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { SpanStatusCode } from "@azure/core-client";
 import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";

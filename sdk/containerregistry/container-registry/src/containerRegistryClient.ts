@@ -11,7 +11,7 @@ import {
 } from "@azure/core-rest-pipeline";
 import { OperationOptions } from "@azure/core-client";
 
-import { SpanStatusCode } from "@azure/core-tracing";
+import { SpanStatusCode } from "@azure/core-client";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 

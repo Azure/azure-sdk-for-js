@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { LongRunningOperation, LroResponse, PollerLike, RawResponse } from "@azure/core-lro";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { SpanStatusCode } from "@azure/core-client";
 import { createSerializer, OperationOptions, OperationSpec } from "@azure/core-client";
 import {
   AnalyzeHealthcareEntitiesResult,

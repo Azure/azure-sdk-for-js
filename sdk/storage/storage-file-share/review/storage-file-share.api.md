@@ -14,7 +14,7 @@ import { HttpRequestBody } from '@azure/core-http';
 import { HttpResponse } from '@azure/core-http';
 import { HttpClient as IHttpClient } from '@azure/core-http';
 import { KeepAliveOptions } from '@azure/core-http';
-import { OperationTracingOptions } from '@azure/core-tracing';
+import { OperationTracingOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { ProxyOptions } from '@azure/core-http';
 import { Readable } from 'stream';

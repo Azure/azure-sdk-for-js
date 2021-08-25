@@ -5,7 +5,7 @@ import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-auth"
 
 import { AggregateAuthenticationError, CredentialUnavailableError } from "../client/errors";
 import { createSpan } from "../util/tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { SpanStatusCode } from "@azure/core-client";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 
 /**

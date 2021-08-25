@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SpanStatusCode } from "@azure/core-tracing";
+import { SpanStatusCode } from "@azure/core-client";
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 
 import { IdentityClient, TokenCredentialOptions } from "../../client/identityClient";

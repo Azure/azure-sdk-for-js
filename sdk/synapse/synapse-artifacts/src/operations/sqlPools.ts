@@ -9,7 +9,7 @@
 import { createSpan } from "../tracing";
 import { SqlPools } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
+import * as coreTracing from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClientContext } from "../artifactsClientContext";
@@ -36,15 +36,10 @@ export class SqlPoolsImpl implements SqlPools {
    * List Sql Pools
    * @param options The options parameters.
    */
-  async list(
-    options?: SqlPoolsListOptionalParams
-  ): Promise<SqlPoolsListResponse> {
+  async list(options?: SqlPoolsListOptionalParams): Promise<SqlPoolsListResponse> {
     const { span } = createSpan("ArtifactsClient-list", options || {});
     try {
-      const result = await this.client.sendOperationRequest(
-        { options },
-        listOperationSpec
-      );
+      const result = await this.client.sendOperationRequest({ options }, listOperationSpec);
       return result as SqlPoolsListResponse;
     } catch (error) {
       span.setStatus({

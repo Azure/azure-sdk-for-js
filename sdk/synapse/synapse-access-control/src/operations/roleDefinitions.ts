@@ -9,7 +9,6 @@
 import { createSpan } from "../tracing";
 import { RoleDefinitions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AccessControlClientContext } from "../accessControlClientContext";
@@ -41,10 +40,7 @@ export class RoleDefinitionsImpl implements RoleDefinitions {
   async listRoleDefinitions(
     options?: RoleDefinitionsListRoleDefinitionsOptionalParams
   ): Promise<RoleDefinitionsListRoleDefinitionsResponse> {
-    const { span } = createSpan(
-      "AccessControlClient-listRoleDefinitions",
-      options || {}
-    );
+    const { span } = createSpan("AccessControlClient-listRoleDefinitions", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { options },
@@ -53,7 +49,7 @@ export class RoleDefinitionsImpl implements RoleDefinitions {
       return result as RoleDefinitionsListRoleDefinitionsResponse;
     } catch (error) {
       span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
+        code: coreClient.SpanStatusCode.UNSET,
         message: error.message
       });
       throw error;
@@ -71,10 +67,7 @@ export class RoleDefinitionsImpl implements RoleDefinitions {
     roleDefinitionId: string,
     options?: RoleDefinitionsGetRoleDefinitionByIdOptionalParams
   ): Promise<RoleDefinitionsGetRoleDefinitionByIdResponse> {
-    const { span } = createSpan(
-      "AccessControlClient-getRoleDefinitionById",
-      options || {}
-    );
+    const { span } = createSpan("AccessControlClient-getRoleDefinitionById", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { roleDefinitionId, options },
@@ -83,7 +76,7 @@ export class RoleDefinitionsImpl implements RoleDefinitions {
       return result as RoleDefinitionsGetRoleDefinitionByIdResponse;
     } catch (error) {
       span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
+        code: coreClient.SpanStatusCode.UNSET,
         message: error.message
       });
       throw error;
@@ -99,19 +92,13 @@ export class RoleDefinitionsImpl implements RoleDefinitions {
   async listScopes(
     options?: RoleDefinitionsListScopesOptionalParams
   ): Promise<RoleDefinitionsListScopesResponse> {
-    const { span } = createSpan(
-      "AccessControlClient-listScopes",
-      options || {}
-    );
+    const { span } = createSpan("AccessControlClient-listScopes", options || {});
     try {
-      const result = await this.client.sendOperationRequest(
-        { options },
-        listScopesOperationSpec
-      );
+      const result = await this.client.sendOperationRequest({ options }, listScopesOperationSpec);
       return result as RoleDefinitionsListScopesResponse;
     } catch (error) {
       span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
+        code: coreClient.SpanStatusCode.UNSET,
         message: error.message
       });
       throw error;
@@ -141,11 +128,7 @@ const listRoleDefinitionsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorContract
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.scope1,
-    Parameters.isBuiltIn
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.scope1, Parameters.isBuiltIn],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer

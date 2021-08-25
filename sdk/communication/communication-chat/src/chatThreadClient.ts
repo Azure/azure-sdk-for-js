@@ -8,7 +8,7 @@ import {
   serializeCommunicationIdentifier
 } from "@azure/communication-common";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { SpanStatusCode } from "@azure/core-http";
 import { createSpan } from "./tracing";
 import {
   SendReadReceiptRequest,

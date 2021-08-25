@@ -9,7 +9,6 @@
 import { createSpan } from "../tracing";
 import { BigDataPools } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClientContext } from "../artifactsClientContext";
@@ -36,19 +35,14 @@ export class BigDataPoolsImpl implements BigDataPools {
    * List Big Data Pools
    * @param options The options parameters.
    */
-  async list(
-    options?: BigDataPoolsListOptionalParams
-  ): Promise<BigDataPoolsListResponse> {
+  async list(options?: BigDataPoolsListOptionalParams): Promise<BigDataPoolsListResponse> {
     const { span } = createSpan("ArtifactsClient-list", options || {});
     try {
-      const result = await this.client.sendOperationRequest(
-        { options },
-        listOperationSpec
-      );
+      const result = await this.client.sendOperationRequest({ options }, listOperationSpec);
       return result as BigDataPoolsListResponse;
     } catch (error) {
       span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
+        code: coreClient.SpanStatusCode.UNSET,
         message: error.message
       });
       throw error;
@@ -75,7 +69,7 @@ export class BigDataPoolsImpl implements BigDataPools {
       return result as BigDataPoolsGetResponse;
     } catch (error) {
       span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
+        code: coreClient.SpanStatusCode.UNSET,
         message: error.message
       });
       throw error;

@@ -9,7 +9,7 @@
 import { createSpan } from "../tracing";
 import { IntegrationRuntimes } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
+import * as coreTracing from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClientContext } from "../artifactsClientContext";
@@ -41,10 +41,7 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
   ): Promise<IntegrationRuntimesListResponse> {
     const { span } = createSpan("ArtifactsClient-list", options || {});
     try {
-      const result = await this.client.sendOperationRequest(
-        { options },
-        listOperationSpec
-      );
+      const result = await this.client.sendOperationRequest({ options }, listOperationSpec);
       return result as IntegrationRuntimesListResponse;
     } catch (error) {
       span.setStatus({

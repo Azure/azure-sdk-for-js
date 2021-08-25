@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Span, SpanStatusCode } from "@azure/core-tracing";
+import { Span, SpanStatusCode } from "@azure/core-http";
 
 import { RestError, OperationOptions } from "@azure/core-http";
-import { createSpanFunction } from "@azure/core-tracing";
+import { createSpanFunction } from "@azure/core-http";
 import { AppConfigurationClient } from "../appConfigurationClient";
 
 /** @internal */

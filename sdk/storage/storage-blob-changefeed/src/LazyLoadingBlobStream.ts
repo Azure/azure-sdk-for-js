@@ -5,7 +5,7 @@ import { Readable, ReadableOptions } from "stream";
 import { BlobClient, CommonOptions } from "@azure/storage-blob";
 import { AbortSignalLike } from "@azure/core-http";
 import { createSpan } from "./utils/tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { SpanStatusCode } from "@azure/core-http";
 
 /**
  * Options to configure the LazyLoadingBlobStream.

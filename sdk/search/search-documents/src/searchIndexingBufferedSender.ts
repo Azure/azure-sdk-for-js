@@ -16,7 +16,7 @@ import { IndexDocumentsResult } from "./generated/data/models";
 import { RestError, OperationOptions } from "@azure/core-http";
 import EventEmitter from "events";
 import { createSpan } from "./tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { SpanStatusCode } from "@azure/core-http";
 import { delay } from "@azure/core-http";
 import { getRandomIntegerInclusive } from "./serviceUtils";
 

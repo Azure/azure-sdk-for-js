@@ -22,7 +22,7 @@ import { AvroReaderFactory } from "./AvroReaderFactory";
 import { Segment } from "./Segment";
 import { BlobChangeFeedListChangesOptions } from "./models/models";
 import { createSpan } from "./utils/tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { SpanStatusCode } from "@azure/core-http";
 import { LazyLoadingBlobStreamFactory } from "./LazyLoadingBlobStreamFactory";
 
 interface MetaSegments {

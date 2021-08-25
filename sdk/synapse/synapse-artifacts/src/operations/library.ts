@@ -12,7 +12,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Library } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import * as coreTracing from "@azure/core-tracing";
+import * as coreTracing from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClientContext } from "../artifactsClientContext";
@@ -51,9 +51,7 @@ export class LibraryImpl implements Library {
    * Lists Library.
    * @param options The options parameters.
    */
-  public list(
-    options?: LibraryListOptionalParams
-  ): PagedAsyncIterableIterator<LibraryResource> {
+  public list(options?: LibraryListOptionalParams): PagedAsyncIterableIterator<LibraryResource> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -93,15 +91,10 @@ export class LibraryImpl implements Library {
    * Lists Library.
    * @param options The options parameters.
    */
-  private async _list(
-    options?: LibraryListOptionalParams
-  ): Promise<LibraryListOperationResponse> {
+  private async _list(options?: LibraryListOptionalParams): Promise<LibraryListOperationResponse> {
     const { span } = createSpan("ArtifactsClient-_list", options || {});
     try {
-      const result = await this.client.sendOperationRequest(
-        { options },
-        listOperationSpec
-      );
+      const result = await this.client.sendOperationRequest({ options }, listOperationSpec);
       return result as LibraryListOperationResponse;
     } catch (error) {
       span.setStatus({
@@ -146,9 +139,7 @@ export class LibraryImpl implements Library {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -175,11 +166,7 @@ export class LibraryImpl implements Library {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { libraryName, options },
-      flushOperationSpec
-    );
+    const lro = new LroImpl(sendOperation, { libraryName, options }, flushOperationSpec);
     return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
@@ -209,10 +196,7 @@ export class LibraryImpl implements Library {
     operationId: string,
     options?: LibraryGetOperationResultOptionalParams
   ): Promise<LibraryGetOperationResultResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-getOperationResult",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-getOperationResult", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { operationId, options },
@@ -262,9 +246,7 @@ export class LibraryImpl implements Library {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -291,11 +273,7 @@ export class LibraryImpl implements Library {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { libraryName, options },
-      deleteOperationSpec
-    );
+    const lro = new LroImpl(sendOperation, { libraryName, options }, deleteOperationSpec);
     return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
@@ -322,10 +300,7 @@ export class LibraryImpl implements Library {
    *                    extension length.
    * @param options The options parameters.
    */
-  async get(
-    libraryName: string,
-    options?: LibraryGetOptionalParams
-  ): Promise<LibraryGetResponse> {
+  async get(libraryName: string, options?: LibraryGetOptionalParams): Promise<LibraryGetResponse> {
     const { span } = createSpan("ArtifactsClient-get", options || {});
     try {
       const result = await this.client.sendOperationRequest(
@@ -376,9 +351,7 @@ export class LibraryImpl implements Library {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -405,11 +378,7 @@ export class LibraryImpl implements Library {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { libraryName, options },
-      createOperationSpec
-    );
+    const lro = new LroImpl(sendOperation, { libraryName, options }, createOperationSpec);
     return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs

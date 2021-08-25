@@ -11,7 +11,7 @@ import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PipelineOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
+import * as coreTracing from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClientContext } from "../artifactsClientContext";
@@ -75,10 +75,7 @@ export class PipelineOperationsImpl implements PipelineOperations {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getPipelinesByWorkspaceNext(
-        continuationToken,
-        options
-      );
+      result = await this._getPipelinesByWorkspaceNext(continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -99,10 +96,7 @@ export class PipelineOperationsImpl implements PipelineOperations {
   private async _getPipelinesByWorkspace(
     options?: PipelineOperationsGetPipelinesByWorkspaceOptionalParams
   ): Promise<PipelineOperationsGetPipelinesByWorkspaceResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-_getPipelinesByWorkspace",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-_getPipelinesByWorkspace", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { options },
@@ -136,10 +130,7 @@ export class PipelineOperationsImpl implements PipelineOperations {
       PipelineOperationsCreateOrUpdatePipelineResponse
     >
   > {
-    const { span } = createSpan(
-      "ArtifactsClient-beginCreateOrUpdatePipeline",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-beginCreateOrUpdatePipeline", options || {});
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -161,9 +152,7 @@ export class PipelineOperationsImpl implements PipelineOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -212,11 +201,7 @@ export class PipelineOperationsImpl implements PipelineOperations {
     pipeline: PipelineResource,
     options?: PipelineOperationsCreateOrUpdatePipelineOptionalParams
   ): Promise<PipelineOperationsCreateOrUpdatePipelineResponse> {
-    const poller = await this.beginCreateOrUpdatePipeline(
-      pipelineName,
-      pipeline,
-      options
-    );
+    const poller = await this.beginCreateOrUpdatePipeline(pipelineName, pipeline, options);
     return poller.pollUntilDone();
   }
 
@@ -256,10 +241,7 @@ export class PipelineOperationsImpl implements PipelineOperations {
     pipelineName: string,
     options?: PipelineOperationsDeletePipelineOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan(
-      "ArtifactsClient-beginDeletePipeline",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-beginDeletePipeline", options || {});
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -281,9 +263,7 @@ export class PipelineOperationsImpl implements PipelineOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -310,11 +290,7 @@ export class PipelineOperationsImpl implements PipelineOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { pipelineName, options },
-      deletePipelineOperationSpec
-    );
+    const lro = new LroImpl(sendOperation, { pipelineName, options }, deletePipelineOperationSpec);
     return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
@@ -345,10 +321,7 @@ export class PipelineOperationsImpl implements PipelineOperations {
     request: ArtifactRenameRequest,
     options?: PipelineOperationsRenamePipelineOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan(
-      "ArtifactsClient-beginRenamePipeline",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-beginRenamePipeline", options || {});
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -370,9 +343,7 @@ export class PipelineOperationsImpl implements PipelineOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -421,11 +392,7 @@ export class PipelineOperationsImpl implements PipelineOperations {
     request: ArtifactRenameRequest,
     options?: PipelineOperationsRenamePipelineOptionalParams
   ): Promise<void> {
-    const poller = await this.beginRenamePipeline(
-      pipelineName,
-      request,
-      options
-    );
+    const poller = await this.beginRenamePipeline(pipelineName, request, options);
     return poller.pollUntilDone();
   }
 
@@ -438,10 +405,7 @@ export class PipelineOperationsImpl implements PipelineOperations {
     pipelineName: string,
     options?: PipelineOperationsCreatePipelineRunOptionalParams
   ): Promise<PipelineOperationsCreatePipelineRunResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-createPipelineRun",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-createPipelineRun", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { pipelineName, options },
@@ -469,10 +433,7 @@ export class PipelineOperationsImpl implements PipelineOperations {
     nextLink: string,
     options?: PipelineOperationsGetPipelinesByWorkspaceNextOptionalParams
   ): Promise<PipelineOperationsGetPipelinesByWorkspaceNextResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-_getPipelinesByWorkspaceNext",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-_getPipelinesByWorkspaceNext", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { nextLink, options },
@@ -532,11 +493,7 @@ const createOrUpdatePipelineOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.pipeline,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.pipelineName],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer
 };

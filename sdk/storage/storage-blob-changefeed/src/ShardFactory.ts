@@ -7,7 +7,7 @@ import { Shard } from "./Shard";
 import { ContainerClient, CommonOptions } from "@azure/storage-blob";
 import { Chunk } from "./Chunk";
 import { AbortSignalLike } from "@azure/core-http";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { SpanStatusCode } from "@azure/core-http";
 import { createSpan } from "./utils/tracing";
 
 /**

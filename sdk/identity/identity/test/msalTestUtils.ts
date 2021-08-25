@@ -10,8 +10,8 @@ import {
 } from "@azure/test-utils-recorder";
 import Sinon, { createSandbox } from "sinon";
 import { assert } from "chai";
-import { OperationTracingOptions, setSpan, context as otContext } from "@azure/core-tracing";
-import { SpanGraph, setTracer } from "@azure/test-utils";
+import { OperationTracingOptions } from "@azure/core-client";
+import { SpanGraph, setTracer, setSpan, tracingContext as otContext } from "@azure/test-utils";
 import { MsalBaseUtilities } from "../src/msal/utils";
 
 export type MsalTestCleanup = () => Promise<void>;

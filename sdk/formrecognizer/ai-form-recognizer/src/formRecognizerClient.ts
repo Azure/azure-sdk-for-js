@@ -25,7 +25,7 @@ import {
   toRequestBody,
   getContentType
 } from "./common";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { SpanStatusCode } from "@azure/core-http";
 
 import { GeneratedClient } from "./generated/generatedClient";
 import {

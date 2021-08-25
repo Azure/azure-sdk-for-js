@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { isNode, isTokenCredential, TokenCredential } from "@azure/core-http";
-import { OperationTracingOptions } from "@azure/core-tracing";
+import { OperationTracingOptions } from "@azure/core-http";
 
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";

@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SpanStatusCode } from "@azure/core-tracing";
+import { SpanStatusCode } from "@azure/core-http";
 import { createSpan } from "../tracing";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import * as coreHttp from "@azure/core-http";
@@ -292,10 +292,7 @@ export class Updates {
     updateToImport: ImportUpdateInput,
     options?: coreHttp.OperationOptions
   ): Promise<UpdatesImportUpdateResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DeviceUpdateClient-importUpdate",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("DeviceUpdateClient-importUpdate", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       updateToImport,
       options: updatedOptions
@@ -330,10 +327,7 @@ export class Updates {
     version: string,
     options?: UpdatesGetUpdateOptionalParams
   ): Promise<UpdatesGetUpdateResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DeviceUpdateClient-getUpdate",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("DeviceUpdateClient-getUpdate", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       provider,
       name,
@@ -370,10 +364,7 @@ export class Updates {
     version: string,
     options?: coreHttp.OperationOptions
   ): Promise<UpdatesDeleteUpdateResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DeviceUpdateClient-deleteUpdate",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("DeviceUpdateClient-deleteUpdate", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       provider,
       name,
@@ -404,10 +395,7 @@ export class Updates {
   private async _getProviders(
     options?: coreHttp.OperationOptions
   ): Promise<UpdatesGetProvidersResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DeviceUpdateClient-_getProviders",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("DeviceUpdateClient-_getProviders", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       options: updatedOptions
     };
@@ -437,10 +425,7 @@ export class Updates {
     provider: string,
     options?: coreHttp.OperationOptions
   ): Promise<UpdatesGetNamesResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DeviceUpdateClient-_getNames",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("DeviceUpdateClient-_getNames", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       provider,
       options: updatedOptions
@@ -473,10 +458,7 @@ export class Updates {
     name: string,
     options?: coreHttp.OperationOptions
   ): Promise<UpdatesGetVersionsResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DeviceUpdateClient-_getVersions",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("DeviceUpdateClient-_getVersions", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       provider,
       name,
@@ -512,10 +494,7 @@ export class Updates {
     version: string,
     options?: coreHttp.OperationOptions
   ): Promise<UpdatesGetFilesResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DeviceUpdateClient-_getFiles",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("DeviceUpdateClient-_getFiles", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       provider,
       name,
@@ -554,10 +533,7 @@ export class Updates {
     fileId: string,
     options?: UpdatesGetFileOptionalParams
   ): Promise<UpdatesGetFileResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DeviceUpdateClient-getFile",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("DeviceUpdateClient-getFile", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       provider,
       name,
@@ -590,10 +566,7 @@ export class Updates {
   private async _getOperations(
     options?: UpdatesGetOperationsOptionalParams
   ): Promise<UpdatesGetOperationsResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DeviceUpdateClient-_getOperations",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("DeviceUpdateClient-_getOperations", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       options: updatedOptions
     };
@@ -623,10 +596,7 @@ export class Updates {
     operationId: string,
     options?: UpdatesGetOperationOptionalParams
   ): Promise<UpdatesGetOperationResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DeviceUpdateClient-getOperation",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("DeviceUpdateClient-getOperation", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       operationId,
       options: updatedOptions
@@ -659,7 +629,7 @@ export class Updates {
   ): Promise<UpdatesGetProvidersNextResponse> {
     const { span, updatedOptions } = createSpan(
       "DeviceUpdateClient-_getProvidersNext",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
@@ -693,10 +663,7 @@ export class Updates {
     nextLink: string,
     options?: coreHttp.OperationOptions
   ): Promise<UpdatesGetNamesNextResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DeviceUpdateClient-_getNamesNext",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("DeviceUpdateClient-_getNamesNext", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       provider,
       nextLink,
@@ -734,7 +701,7 @@ export class Updates {
   ): Promise<UpdatesGetVersionsNextResponse> {
     const { span, updatedOptions } = createSpan(
       "DeviceUpdateClient-_getVersionsNext",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
       provider,
@@ -774,10 +741,7 @@ export class Updates {
     nextLink: string,
     options?: coreHttp.OperationOptions
   ): Promise<UpdatesGetFilesNextResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DeviceUpdateClient-_getFilesNext",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("DeviceUpdateClient-_getFilesNext", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       provider,
       name,
@@ -813,7 +777,7 @@ export class Updates {
   ): Promise<UpdatesGetOperationsNextResponse> {
     const { span, updatedOptions } = createSpan(
       "DeviceUpdateClient-_getOperationsNext",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,

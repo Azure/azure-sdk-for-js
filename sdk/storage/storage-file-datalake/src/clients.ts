@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import { HttpRequestBody, isNode, TokenCredential } from "@azure/core-http";
 import { BlobClient, BlockBlobClient } from "@azure/storage-blob";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { SpanStatusCode } from "@azure/core-http";
 import { Readable } from "stream";
 
 import { BufferScheduler } from "../../storage-common/src";

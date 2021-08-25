@@ -24,7 +24,7 @@ import {
   IndexDocumentsResult
 } from "./generated/data/models";
 import { createSpan } from "./tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { SpanStatusCode } from "@azure/core-http";
 import { deserialize, serialize } from "./serialization";
 import {
   CountDocumentsOptions,

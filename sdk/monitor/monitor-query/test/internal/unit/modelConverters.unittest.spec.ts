@@ -22,9 +22,9 @@ import {
 import {
   OperationRequestOptions,
   RawResponseCallback,
-  SerializerOptions
+  SerializerOptions,
+  OperationTracingOptions
 } from "@azure/core-client";
-import { OperationTracingOptions } from "@azure/core-tracing";
 import {
   Durations,
   GetMetricDefinitionsResult,

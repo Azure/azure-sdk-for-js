@@ -14,7 +14,7 @@ import {
   OperationOptions,
   operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { SpanStatusCode } from "@azure/core-http";
 import {
   CommunicationNetworkTraversal,
   NetworkRelayRestClient

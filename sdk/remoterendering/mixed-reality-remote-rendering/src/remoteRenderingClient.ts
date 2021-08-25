@@ -2,8 +2,7 @@
 // Licensed under the MIT license.
 
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
-import { OperationOptions } from "@azure/core-client";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { OperationOptions, SpanStatusCode } from "@azure/core-client";
 
 import {
   AccessToken,

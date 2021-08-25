@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SpanStatusCode } from "@azure/core-tracing";
+import { SpanStatusCode } from "@azure/core-http";
 import { createSpan } from "../tracing";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import * as coreHttp from "@azure/core-http";
@@ -141,7 +141,7 @@ export class Deployments {
   ): Promise<DeploymentsGetAllDeploymentsResponse> {
     const { span, updatedOptions } = createSpan(
       "DeviceUpdateClient-_getAllDeployments",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
       options: updatedOptions
@@ -172,10 +172,7 @@ export class Deployments {
     deploymentId: string,
     options?: coreHttp.OperationOptions
   ): Promise<DeploymentsGetDeploymentResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DeviceUpdateClient-getDeployment",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("DeviceUpdateClient-getDeployment", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       deploymentId,
       options: updatedOptions
@@ -210,7 +207,7 @@ export class Deployments {
   ): Promise<DeploymentsCreateOrUpdateDeploymentResponse> {
     const { span, updatedOptions } = createSpan(
       "DeviceUpdateClient-createOrUpdateDeployment",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
       deploymentId,
@@ -245,7 +242,7 @@ export class Deployments {
   ): Promise<coreHttp.RestResponse> {
     const { span, updatedOptions } = createSpan(
       "DeviceUpdateClient-deleteDeployment",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
       deploymentId,
@@ -280,7 +277,7 @@ export class Deployments {
   ): Promise<DeploymentsGetDeploymentStatusResponse> {
     const { span, updatedOptions } = createSpan(
       "DeviceUpdateClient-getDeploymentStatus",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
       deploymentId,
@@ -315,7 +312,7 @@ export class Deployments {
   ): Promise<DeploymentsGetDeploymentDevicesResponse> {
     const { span, updatedOptions } = createSpan(
       "DeviceUpdateClient-_getDeploymentDevices",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
       deploymentId,
@@ -349,7 +346,7 @@ export class Deployments {
   ): Promise<DeploymentsCancelDeploymentResponse> {
     const { span, updatedOptions } = createSpan(
       "DeviceUpdateClient-cancelDeployment",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
       deploymentId,
@@ -383,7 +380,7 @@ export class Deployments {
   ): Promise<DeploymentsRetryDeploymentResponse> {
     const { span, updatedOptions } = createSpan(
       "DeviceUpdateClient-retryDeployment",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
       deploymentId,
@@ -417,7 +414,7 @@ export class Deployments {
   ): Promise<DeploymentsGetAllDeploymentsNextResponse> {
     const { span, updatedOptions } = createSpan(
       "DeviceUpdateClient-_getAllDeploymentsNext",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
@@ -453,7 +450,7 @@ export class Deployments {
   ): Promise<DeploymentsGetDeploymentDevicesNextResponse> {
     const { span, updatedOptions } = createSpan(
       "DeviceUpdateClient-_getDeploymentDevicesNext",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
       deploymentId,

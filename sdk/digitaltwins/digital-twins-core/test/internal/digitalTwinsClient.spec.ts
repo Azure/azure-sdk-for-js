@@ -33,7 +33,7 @@ import {
 } from "../../src/generated/models";
 import { DigitalTwinsClient } from "../../src/index";
 import { createSpan } from "../../src/tracing";
-import { getSpanContext } from "@azure/core-tracing";
+import { getSpanContext } from "@azure/test-utils";
 
 describe("DigitalTwinsClient", () => {
   let operationOptions: OperationOptions;

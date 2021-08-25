@@ -7,7 +7,7 @@ import {
   isNode,
   getDefaultProxySettings
 } from "@azure/core-http";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { SpanStatusCode } from "@azure/core-http";
 import {
   QueueCreateResponse,
   QueueDeleteResponse,

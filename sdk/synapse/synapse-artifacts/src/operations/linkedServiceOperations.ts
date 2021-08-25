@@ -11,7 +11,7 @@ import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { LinkedServiceOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
+import * as coreTracing from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClientContext } from "../artifactsClientContext";
@@ -73,10 +73,7 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getLinkedServicesByWorkspaceNext(
-        continuationToken,
-        options
-      );
+      result = await this._getLinkedServicesByWorkspaceNext(continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -85,9 +82,7 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
   private async *getLinkedServicesByWorkspacePagingAll(
     options?: LinkedServiceOperationsGetLinkedServicesByWorkspaceOptionalParams
   ): AsyncIterableIterator<LinkedServiceResource> {
-    for await (const page of this.getLinkedServicesByWorkspacePagingPage(
-      options
-    )) {
+    for await (const page of this.getLinkedServicesByWorkspacePagingPage(options)) {
       yield* page;
     }
   }
@@ -99,10 +94,7 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
   private async _getLinkedServicesByWorkspace(
     options?: LinkedServiceOperationsGetLinkedServicesByWorkspaceOptionalParams
   ): Promise<LinkedServiceOperationsGetLinkedServicesByWorkspaceResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-_getLinkedServicesByWorkspace",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-_getLinkedServicesByWorkspace", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { options },
@@ -132,16 +124,11 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
     options?: LinkedServiceOperationsCreateOrUpdateLinkedServiceOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<
-        LinkedServiceOperationsCreateOrUpdateLinkedServiceResponse
-      >,
+      PollOperationState<LinkedServiceOperationsCreateOrUpdateLinkedServiceResponse>,
       LinkedServiceOperationsCreateOrUpdateLinkedServiceResponse
     >
   > {
-    const { span } = createSpan(
-      "ArtifactsClient-beginCreateOrUpdateLinkedService",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-beginCreateOrUpdateLinkedService", options || {});
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -163,9 +150,7 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -231,10 +216,7 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
     linkedServiceName: string,
     options?: LinkedServiceOperationsGetLinkedServiceOptionalParams
   ): Promise<LinkedServiceOperationsGetLinkedServiceResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-getLinkedService",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-getLinkedService", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { linkedServiceName, options },
@@ -261,10 +243,7 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
     linkedServiceName: string,
     options?: LinkedServiceOperationsDeleteLinkedServiceOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan(
-      "ArtifactsClient-beginDeleteLinkedService",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-beginDeleteLinkedService", options || {});
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -286,9 +265,7 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -335,10 +312,7 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
     linkedServiceName: string,
     options?: LinkedServiceOperationsDeleteLinkedServiceOptionalParams
   ): Promise<void> {
-    const poller = await this.beginDeleteLinkedService(
-      linkedServiceName,
-      options
-    );
+    const poller = await this.beginDeleteLinkedService(linkedServiceName, options);
     return poller.pollUntilDone();
   }
 
@@ -353,10 +327,7 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
     request: ArtifactRenameRequest,
     options?: LinkedServiceOperationsRenameLinkedServiceOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan(
-      "ArtifactsClient-beginRenameLinkedService",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-beginRenameLinkedService", options || {});
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -378,9 +349,7 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -429,11 +398,7 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
     request: ArtifactRenameRequest,
     options?: LinkedServiceOperationsRenameLinkedServiceOptionalParams
   ): Promise<void> {
-    const poller = await this.beginRenameLinkedService(
-      linkedServiceName,
-      request,
-      options
-    );
+    const poller = await this.beginRenameLinkedService(linkedServiceName, request, options);
     return poller.pollUntilDone();
   }
 
@@ -447,10 +412,7 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
     nextLink: string,
     options?: LinkedServiceOperationsGetLinkedServicesByWorkspaceNextOptionalParams
   ): Promise<LinkedServiceOperationsGetLinkedServicesByWorkspaceNextResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-_getLinkedServicesByWorkspaceNext",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-_getLinkedServicesByWorkspaceNext", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { nextLink, options },
@@ -510,11 +472,7 @@ const createOrUpdateLinkedServiceOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.linkedService,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.linkedServiceName],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer
 };

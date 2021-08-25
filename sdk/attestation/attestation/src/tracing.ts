@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 //
-import { createSpanFunction } from "@azure/core-tracing";
+import { createSpanFunction } from "@azure/core-client";
 
 /**
  * Creates a span using the global tracer.

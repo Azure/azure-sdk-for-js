@@ -25,7 +25,7 @@ import { LeaseAccessConditions } from '@azure/storage-blob';
 import { LeaseOperationOptions } from '@azure/storage-blob';
 import { LeaseOperationResponse } from '@azure/storage-blob';
 import { ModifiedAccessConditions as ModifiedAccessConditions_2 } from '@azure/storage-blob';
-import { OperationTracingOptions } from '@azure/core-tracing';
+import { OperationTracingOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { ProxyOptions } from '@azure/core-http';
 import { Readable } from 'stream';

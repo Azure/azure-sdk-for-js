@@ -9,7 +9,7 @@
 import { createSpan } from "../tracing";
 import { SparkSessionOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
+import * as coreTracing from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SparkClientContext } from "../sparkClientContext";
@@ -80,10 +80,7 @@ export class SparkSessionOperationsImpl implements SparkSessionOperations {
     sparkSessionOptions: SparkSessionOptions,
     options?: SparkSessionOperationsCreateSparkSessionOptionalParams
   ): Promise<SparkSessionOperationsCreateSparkSessionResponse> {
-    const { span } = createSpan(
-      "SparkClient-createSparkSession",
-      options || {}
-    );
+    const { span } = createSpan("SparkClient-createSparkSession", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { sparkSessionOptions, options },
@@ -137,10 +134,7 @@ export class SparkSessionOperationsImpl implements SparkSessionOperations {
     sessionId: number,
     options?: SparkSessionOperationsCancelSparkSessionOptionalParams
   ): Promise<void> {
-    const { span } = createSpan(
-      "SparkClient-cancelSparkSession",
-      options || {}
-    );
+    const { span } = createSpan("SparkClient-cancelSparkSession", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { sessionId, options },
@@ -167,10 +161,7 @@ export class SparkSessionOperationsImpl implements SparkSessionOperations {
     sessionId: number,
     options?: SparkSessionOperationsResetSparkSessionTimeoutOptionalParams
   ): Promise<void> {
-    const { span } = createSpan(
-      "SparkClient-resetSparkSessionTimeout",
-      options || {}
-    );
+    const { span } = createSpan("SparkClient-resetSparkSessionTimeout", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { sessionId, options },
@@ -197,10 +188,7 @@ export class SparkSessionOperationsImpl implements SparkSessionOperations {
     sessionId: number,
     options?: SparkSessionOperationsGetSparkStatementsOptionalParams
   ): Promise<SparkSessionOperationsGetSparkStatementsResponse> {
-    const { span } = createSpan(
-      "SparkClient-getSparkStatements",
-      options || {}
-    );
+    const { span } = createSpan("SparkClient-getSparkStatements", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { sessionId, options },
@@ -229,10 +217,7 @@ export class SparkSessionOperationsImpl implements SparkSessionOperations {
     sparkStatementOptions: SparkStatementOptions,
     options?: SparkSessionOperationsCreateSparkStatementOptionalParams
   ): Promise<SparkSessionOperationsCreateSparkStatementResponse> {
-    const { span } = createSpan(
-      "SparkClient-createSparkStatement",
-      options || {}
-    );
+    const { span } = createSpan("SparkClient-createSparkStatement", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { sessionId, sparkStatementOptions, options },
@@ -290,10 +275,7 @@ export class SparkSessionOperationsImpl implements SparkSessionOperations {
     statementId: number,
     options?: SparkSessionOperationsCancelSparkStatementOptionalParams
   ): Promise<SparkSessionOperationsCancelSparkStatementResponse> {
-    const { span } = createSpan(
-      "SparkClient-cancelSparkStatement",
-      options || {}
-    );
+    const { span } = createSpan("SparkClient-cancelSparkStatement", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { sessionId, statementId, options },
@@ -315,8 +297,7 @@ export class SparkSessionOperationsImpl implements SparkSessionOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getSparkSessionsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/livyApi/versions/{livyApiVersion}/sparkPools/{sparkPoolName}/sessions",
+  path: "/livyApi/versions/{livyApiVersion}/sparkPools/{sparkPoolName}/sessions",
   httpMethod: "GET",
   responses: {
     200: {
@@ -324,17 +305,12 @@ const getSparkSessionsOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [Parameters.fromParam, Parameters.size, Parameters.detailed],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.livyApiVersion,
-    Parameters.sparkPoolName
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.livyApiVersion, Parameters.sparkPoolName],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createSparkSessionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/livyApi/versions/{livyApiVersion}/sparkPools/{sparkPoolName}/sessions",
+  path: "/livyApi/versions/{livyApiVersion}/sparkPools/{sparkPoolName}/sessions",
   httpMethod: "POST",
   responses: {
     200: {
@@ -343,18 +319,13 @@ const createSparkSessionOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.sparkSessionOptions,
   queryParameters: [Parameters.detailed],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.livyApiVersion,
-    Parameters.sparkPoolName
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.livyApiVersion, Parameters.sparkPoolName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
 const getSparkSessionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/livyApi/versions/{livyApiVersion}/sparkPools/{sparkPoolName}/sessions/{sessionId}",
+  path: "/livyApi/versions/{livyApiVersion}/sparkPools/{sparkPoolName}/sessions/{sessionId}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -372,8 +343,7 @@ const getSparkSessionOperationSpec: coreClient.OperationSpec = {
   serializer
 };
 const cancelSparkSessionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/livyApi/versions/{livyApiVersion}/sparkPools/{sparkPoolName}/sessions/{sessionId}",
+  path: "/livyApi/versions/{livyApiVersion}/sparkPools/{sparkPoolName}/sessions/{sessionId}",
   httpMethod: "DELETE",
   responses: { 200: {} },
   urlParameters: [

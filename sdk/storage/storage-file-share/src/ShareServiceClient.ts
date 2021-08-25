@@ -25,7 +25,7 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { isNode, HttpResponse } from "@azure/core-http";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { SpanStatusCode } from "@azure/core-http";
 import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
 import { ShareProtocols, toShareProtocols } from "./models";
 import { AccountSASPermissions } from "./AccountSASPermissions";

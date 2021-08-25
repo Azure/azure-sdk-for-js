@@ -10,7 +10,7 @@ import {
   URLBuilder,
   RequestOptionsBase
 } from "@azure/core-http";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { SpanStatusCode } from "@azure/core-http";
 import {
   EnqueuedMessage,
   DequeuedMessageItem,

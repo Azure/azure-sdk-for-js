@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { HttpRequestBody, HttpResponse, isNode, TransferProgressEvent } from "@azure/core-http";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { SpanStatusCode } from "@azure/core-http";
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
   CopyFileSmbInfo,

@@ -9,7 +9,7 @@
 import { createSpan } from "../tracing";
 import { WorkspaceGitRepoManagement } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
+import * as coreTracing from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClientContext } from "../artifactsClientContext";
@@ -20,8 +20,7 @@ import {
 } from "../models";
 
 /** Class representing a WorkspaceGitRepoManagement. */
-export class WorkspaceGitRepoManagementImpl
-  implements WorkspaceGitRepoManagement {
+export class WorkspaceGitRepoManagementImpl implements WorkspaceGitRepoManagement {
   private readonly client: ArtifactsClientContext;
 
   /**
@@ -41,10 +40,7 @@ export class WorkspaceGitRepoManagementImpl
     gitHubAccessTokenRequest: GitHubAccessTokenRequest,
     options?: WorkspaceGitRepoManagementGetGitHubAccessTokenOptionalParams
   ): Promise<WorkspaceGitRepoManagementGetGitHubAccessTokenResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-getGitHubAccessToken",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-getGitHubAccessToken", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { gitHubAccessTokenRequest, options },
@@ -76,11 +72,7 @@ const getGitHubAccessTokenOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.gitHubAccessTokenRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.clientRequestId
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.clientRequestId],
   mediaType: "json",
   serializer
 };

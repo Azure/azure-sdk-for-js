@@ -3,7 +3,7 @@
 
 import { RestError } from "@azure/core-rest-pipeline";
 import { FullOperationResponse, OperationOptions, OperationSpec } from "@azure/core-client";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { SpanStatusCode } from "@azure/core-client";
 import { URL, URLSearchParams } from "./utils/url";
 import { logger } from "./logger";
 import { GeneratedClient, StringIndexType as GeneratedStringIndexType } from "./generated";

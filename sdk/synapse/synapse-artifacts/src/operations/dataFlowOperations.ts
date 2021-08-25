@@ -11,7 +11,7 @@ import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { DataFlowOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
+import * as coreTracing from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClientContext } from "../artifactsClientContext";
@@ -73,10 +73,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getDataFlowsByWorkspaceNext(
-        continuationToken,
-        options
-      );
+      result = await this._getDataFlowsByWorkspaceNext(continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -106,10 +103,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
       DataFlowOperationsCreateOrUpdateDataFlowResponse
     >
   > {
-    const { span } = createSpan(
-      "ArtifactsClient-beginCreateOrUpdateDataFlow",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-beginCreateOrUpdateDataFlow", options || {});
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -131,9 +125,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -182,11 +174,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
     dataFlow: DataFlowResource,
     options?: DataFlowOperationsCreateOrUpdateDataFlowOptionalParams
   ): Promise<DataFlowOperationsCreateOrUpdateDataFlowResponse> {
-    const poller = await this.beginCreateOrUpdateDataFlow(
-      dataFlowName,
-      dataFlow,
-      options
-    );
+    const poller = await this.beginCreateOrUpdateDataFlow(dataFlowName, dataFlow, options);
     return poller.pollUntilDone();
   }
 
@@ -226,10 +214,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
     dataFlowName: string,
     options?: DataFlowOperationsDeleteDataFlowOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan(
-      "ArtifactsClient-beginDeleteDataFlow",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-beginDeleteDataFlow", options || {});
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -251,9 +236,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -280,11 +263,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { dataFlowName, options },
-      deleteDataFlowOperationSpec
-    );
+    const lro = new LroImpl(sendOperation, { dataFlowName, options }, deleteDataFlowOperationSpec);
     return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
@@ -315,10 +294,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
     request: ArtifactRenameRequest,
     options?: DataFlowOperationsRenameDataFlowOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan(
-      "ArtifactsClient-beginRenameDataFlow",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-beginRenameDataFlow", options || {});
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -340,9 +316,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -391,11 +365,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
     request: ArtifactRenameRequest,
     options?: DataFlowOperationsRenameDataFlowOptionalParams
   ): Promise<void> {
-    const poller = await this.beginRenameDataFlow(
-      dataFlowName,
-      request,
-      options
-    );
+    const poller = await this.beginRenameDataFlow(dataFlowName, request, options);
     return poller.pollUntilDone();
   }
 
@@ -406,10 +376,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
   private async _getDataFlowsByWorkspace(
     options?: DataFlowOperationsGetDataFlowsByWorkspaceOptionalParams
   ): Promise<DataFlowOperationsGetDataFlowsByWorkspaceResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-_getDataFlowsByWorkspace",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-_getDataFlowsByWorkspace", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { options },
@@ -437,10 +404,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
     nextLink: string,
     options?: DataFlowOperationsGetDataFlowsByWorkspaceNextOptionalParams
   ): Promise<DataFlowOperationsGetDataFlowsByWorkspaceNextResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-_getDataFlowsByWorkspaceNext",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-_getDataFlowsByWorkspaceNext", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { nextLink, options },
@@ -484,11 +448,7 @@ const createOrUpdateDataFlowOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.dataFlow,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.dataFlowName],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer
 };

@@ -17,7 +17,7 @@ import { createSpan } from "./tracing";
 import { GeneratedClientOptionalParams } from "./generated/models";
 import * as Mappers from "./generated/models/mappers";
 
-import { SpanStatusCode } from "@azure/core-tracing";
+import { SpanStatusCode } from "@azure/core-client";
 import { AttestationResponse, createAttestationResponse } from "./models/attestationResponse";
 
 import { TypeDeserializer } from "./utils/typeDeserializer";

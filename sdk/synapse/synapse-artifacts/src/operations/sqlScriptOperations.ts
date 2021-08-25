@@ -11,7 +11,7 @@ import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SqlScriptOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
+import * as coreTracing from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClientContext } from "../artifactsClientContext";
@@ -73,10 +73,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getSqlScriptsByWorkspaceNext(
-        continuationToken,
-        options
-      );
+      result = await this._getSqlScriptsByWorkspaceNext(continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -97,10 +94,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
   private async _getSqlScriptsByWorkspace(
     options?: SqlScriptOperationsGetSqlScriptsByWorkspaceOptionalParams
   ): Promise<SqlScriptOperationsGetSqlScriptsByWorkspaceResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-_getSqlScriptsByWorkspace",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-_getSqlScriptsByWorkspace", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { options },
@@ -134,10 +128,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
       SqlScriptOperationsCreateOrUpdateSqlScriptResponse
     >
   > {
-    const { span } = createSpan(
-      "ArtifactsClient-beginCreateOrUpdateSqlScript",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-beginCreateOrUpdateSqlScript", options || {});
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -159,9 +150,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -210,11 +199,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
     sqlScript: SqlScriptResource,
     options?: SqlScriptOperationsCreateOrUpdateSqlScriptOptionalParams
   ): Promise<SqlScriptOperationsCreateOrUpdateSqlScriptResponse> {
-    const poller = await this.beginCreateOrUpdateSqlScript(
-      sqlScriptName,
-      sqlScript,
-      options
-    );
+    const poller = await this.beginCreateOrUpdateSqlScript(sqlScriptName, sqlScript, options);
     return poller.pollUntilDone();
   }
 
@@ -254,10 +239,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
     sqlScriptName: string,
     options?: SqlScriptOperationsDeleteSqlScriptOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan(
-      "ArtifactsClient-beginDeleteSqlScript",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-beginDeleteSqlScript", options || {});
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -279,9 +261,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -343,10 +323,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
     request: ArtifactRenameRequest,
     options?: SqlScriptOperationsRenameSqlScriptOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan(
-      "ArtifactsClient-beginRenameSqlScript",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-beginRenameSqlScript", options || {});
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -368,9 +345,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -419,11 +394,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
     request: ArtifactRenameRequest,
     options?: SqlScriptOperationsRenameSqlScriptOptionalParams
   ): Promise<void> {
-    const poller = await this.beginRenameSqlScript(
-      sqlScriptName,
-      request,
-      options
-    );
+    const poller = await this.beginRenameSqlScript(sqlScriptName, request, options);
     return poller.pollUntilDone();
   }
 
@@ -437,10 +408,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
     nextLink: string,
     options?: SqlScriptOperationsGetSqlScriptsByWorkspaceNextOptionalParams
   ): Promise<SqlScriptOperationsGetSqlScriptsByWorkspaceNextResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-_getSqlScriptsByWorkspaceNext",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-_getSqlScriptsByWorkspaceNext", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { nextLink, options },
@@ -500,11 +468,7 @@ const createOrUpdateSqlScriptOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.sqlScript,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.sqlScriptName],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer
 };

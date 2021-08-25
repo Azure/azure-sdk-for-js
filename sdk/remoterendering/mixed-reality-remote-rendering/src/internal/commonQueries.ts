@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "@azure/core-client";
+import { OperationOptions, SpanStatusCode } from "@azure/core-client";
 import { RemoteRendering } from "../generated/operationsInterfaces";
 import { createSpan } from "../tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { AssetConversion, assetConversionFromConversion } from "./assetConversion";
 import { RenderingSession, renderingSessionFromSessionProperties } from "./renderingSession";
 

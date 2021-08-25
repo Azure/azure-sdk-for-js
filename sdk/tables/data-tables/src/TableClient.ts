@@ -54,7 +54,7 @@ import {
 } from "@azure/core-client";
 import { logger } from "./logger";
 import { createSpan } from "./utils/tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { SpanStatusCode } from "@azure/core-client";
 import { InternalTableTransaction } from "./TableTransaction";
 import { ListEntitiesResponse } from "./utils/internalModels";
 import { Uuid } from "./utils/uuid";

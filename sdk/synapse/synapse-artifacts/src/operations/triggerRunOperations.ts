@@ -9,7 +9,7 @@
 import { createSpan } from "../tracing";
 import { TriggerRunOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
+import * as coreTracing from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClientContext } from "../artifactsClientContext";
@@ -44,10 +44,7 @@ export class TriggerRunOperationsImpl implements TriggerRunOperations {
     runId: string,
     options?: TriggerRunOperationsRerunTriggerInstanceOptionalParams
   ): Promise<void> {
-    const { span } = createSpan(
-      "ArtifactsClient-rerunTriggerInstance",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-rerunTriggerInstance", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { triggerName, runId, options },
@@ -76,10 +73,7 @@ export class TriggerRunOperationsImpl implements TriggerRunOperations {
     runId: string,
     options?: TriggerRunOperationsCancelTriggerInstanceOptionalParams
   ): Promise<void> {
-    const { span } = createSpan(
-      "ArtifactsClient-cancelTriggerInstance",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-cancelTriggerInstance", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { triggerName, runId, options },
@@ -106,10 +100,7 @@ export class TriggerRunOperationsImpl implements TriggerRunOperations {
     filterParameters: RunFilterParameters,
     options?: TriggerRunOperationsQueryTriggerRunsByWorkspaceOptionalParams
   ): Promise<TriggerRunOperationsQueryTriggerRunsByWorkspaceResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-queryTriggerRunsByWorkspace",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-queryTriggerRunsByWorkspace", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { filterParameters, options },
@@ -140,11 +131,7 @@ const rerunTriggerInstanceOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.runId,
-    Parameters.triggerName
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.runId, Parameters.triggerName],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -158,11 +145,7 @@ const cancelTriggerInstanceOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.runId,
-    Parameters.triggerName
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.runId, Parameters.triggerName],
   headerParameters: [Parameters.accept],
   serializer
 };

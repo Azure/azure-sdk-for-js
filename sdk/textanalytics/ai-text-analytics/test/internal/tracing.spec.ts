@@ -4,8 +4,8 @@
 import { assert } from "chai";
 import * as sinon from "sinon";
 import { createSpan } from "../../src/tracing";
-import { TestSpan, setTracer } from "@azure/test-utils";
-import { SpanKind, TraceFlags } from "@azure/core-tracing";
+import { TestSpan, setTracer, TraceFlags } from "@azure/test-utils";
+import { SpanKind } from "@azure/core-client";
 
 describe("tracing.createSpan", () => {
   it("returns a created span with the right metadata", () => {

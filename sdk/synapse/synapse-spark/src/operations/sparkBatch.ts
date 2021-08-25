@@ -9,7 +9,7 @@
 import { createSpan } from "../tracing";
 import { SparkBatch } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
+import * as coreTracing from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SparkClientContext } from "../sparkClientContext";
@@ -70,10 +70,7 @@ export class SparkBatchImpl implements SparkBatch {
     sparkBatchJobOptions: SparkBatchJobOptions,
     options?: SparkBatchCreateSparkBatchJobOptionalParams
   ): Promise<SparkBatchCreateSparkBatchJobResponse> {
-    const { span } = createSpan(
-      "SparkClient-createSparkBatchJob",
-      options || {}
-    );
+    const { span } = createSpan("SparkClient-createSparkBatchJob", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { sparkBatchJobOptions, options },
@@ -127,10 +124,7 @@ export class SparkBatchImpl implements SparkBatch {
     batchId: number,
     options?: SparkBatchCancelSparkBatchJobOptionalParams
   ): Promise<void> {
-    const { span } = createSpan(
-      "SparkClient-cancelSparkBatchJob",
-      options || {}
-    );
+    const { span } = createSpan("SparkClient-cancelSparkBatchJob", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { batchId, options },
@@ -160,11 +154,7 @@ const getSparkBatchJobsOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [Parameters.fromParam, Parameters.size, Parameters.detailed],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.livyApiVersion,
-    Parameters.sparkPoolName
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.livyApiVersion, Parameters.sparkPoolName],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -178,18 +168,13 @@ const createSparkBatchJobOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.sparkBatchJobOptions,
   queryParameters: [Parameters.detailed],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.livyApiVersion,
-    Parameters.sparkPoolName
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.livyApiVersion, Parameters.sparkPoolName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
 const getSparkBatchJobOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/livyApi/versions/{livyApiVersion}/sparkPools/{sparkPoolName}/batches/{batchId}",
+  path: "/livyApi/versions/{livyApiVersion}/sparkPools/{sparkPoolName}/batches/{batchId}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -207,8 +192,7 @@ const getSparkBatchJobOperationSpec: coreClient.OperationSpec = {
   serializer
 };
 const cancelSparkBatchJobOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/livyApi/versions/{livyApiVersion}/sparkPools/{sparkPoolName}/batches/{batchId}",
+  path: "/livyApi/versions/{livyApiVersion}/sparkPools/{sparkPoolName}/batches/{batchId}",
   httpMethod: "DELETE",
   responses: { 200: {} },
   urlParameters: [

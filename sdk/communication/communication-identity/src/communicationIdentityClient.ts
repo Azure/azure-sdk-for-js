@@ -14,7 +14,7 @@ import {
   OperationOptions,
   operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { SpanStatusCode } from "@azure/core-http";
 import { CommunicationIdentity, IdentityRestClient } from "./generated/src/identityRestClient";
 import { SDK_VERSION } from "./constants";
 import { logger } from "./common/logger";

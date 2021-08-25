@@ -10,7 +10,7 @@ import {
   createPipelineRequest,
   RestError
 } from "@azure/core-rest-pipeline";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { SpanStatusCode } from "@azure/core-client";
 import { IdentityClient } from "../../client/identityClient";
 import { credentialLogger } from "../../util/logging";
 import { createSpan } from "../../util/tracing";

@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 import { createSpan, trace } from "../../src/internal/tracingHelpers";
-import { Span, SpanStatus, SpanStatusCode } from "@azure/core-tracing";
+import { Span, SpanStatus } from "@azure/test-utils";
 
 import * as assert from "assert";
 import sinon from "sinon";
 import { AppConfigurationClient } from "../../src/appConfigurationClient";
-import { AbortSignalLike, OperationOptions } from "@azure/core-http";
-import { OperationTracingOptions } from "@azure/core-tracing";
+import { AbortSignalLike, OperationOptions, SpanStatusCode } from "@azure/core-http";
+import { OperationTracingOptions } from "@azure/core-http";
 
 describe("tracingHelpers", () => {
   it("trace OK", async () => {

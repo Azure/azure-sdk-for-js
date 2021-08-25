@@ -12,7 +12,7 @@ import {
   RequestPolicyFactory,
   bearerTokenAuthenticationPolicy
 } from "@azure/core-http";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { SpanStatusCode } from "@azure/core-http";
 import { SDK_VERSION } from "./constants";
 import { AnalyzeResult } from "./generated/service/models";
 import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient";

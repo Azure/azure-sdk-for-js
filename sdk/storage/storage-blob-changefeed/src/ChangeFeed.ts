@@ -9,7 +9,7 @@ import { ChangeFeedCursor } from "./models/ChangeFeedCursor";
 import { getSegmentsInYear, minDate, getHost } from "./utils/utils.common";
 import { AbortSignalLike } from "@azure/core-http";
 import { createSpan } from "./utils/tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { SpanStatusCode } from "@azure/core-http";
 
 /**
  * Options to configure {@link ChangeFeed.getChange} operation.

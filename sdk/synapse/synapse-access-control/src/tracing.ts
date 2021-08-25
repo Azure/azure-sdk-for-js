@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { createSpanFunction } from "@azure/core-tracing";
+import { createSpanFunction } from "@azure/core-client";
 
 export const createSpan = createSpanFunction({
   namespace: "Azure.Synapse.AccessControl",

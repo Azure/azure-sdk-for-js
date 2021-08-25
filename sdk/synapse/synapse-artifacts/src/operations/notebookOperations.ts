@@ -11,7 +11,7 @@ import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { NotebookOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
+import * as coreTracing from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClientContext } from "../artifactsClientContext";
@@ -77,10 +77,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getNotebooksByWorkspaceNext(
-        continuationToken,
-        options
-      );
+      result = await this._getNotebooksByWorkspaceNext(continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -122,10 +119,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getNotebookSummaryByWorkSpaceNext(
-        continuationToken,
-        options
-      );
+      result = await this._getNotebookSummaryByWorkSpaceNext(continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -134,9 +128,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
   private async *getNotebookSummaryByWorkSpacePagingAll(
     options?: NotebookOperationsGetNotebookSummaryByWorkSpaceOptionalParams
   ): AsyncIterableIterator<NotebookResource> {
-    for await (const page of this.getNotebookSummaryByWorkSpacePagingPage(
-      options
-    )) {
+    for await (const page of this.getNotebookSummaryByWorkSpacePagingPage(options)) {
       yield* page;
     }
   }
@@ -148,10 +140,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
   private async _getNotebooksByWorkspace(
     options?: NotebookOperationsGetNotebooksByWorkspaceOptionalParams
   ): Promise<NotebookOperationsGetNotebooksByWorkspaceResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-_getNotebooksByWorkspace",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-_getNotebooksByWorkspace", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { options },
@@ -176,10 +165,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
   private async _getNotebookSummaryByWorkSpace(
     options?: NotebookOperationsGetNotebookSummaryByWorkSpaceOptionalParams
   ): Promise<NotebookOperationsGetNotebookSummaryByWorkSpaceResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-_getNotebookSummaryByWorkSpace",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-_getNotebookSummaryByWorkSpace", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { options },
@@ -213,10 +199,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
       NotebookOperationsCreateOrUpdateNotebookResponse
     >
   > {
-    const { span } = createSpan(
-      "ArtifactsClient-beginCreateOrUpdateNotebook",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-beginCreateOrUpdateNotebook", options || {});
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -238,9 +221,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -289,11 +270,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
     notebook: NotebookResource,
     options?: NotebookOperationsCreateOrUpdateNotebookOptionalParams
   ): Promise<NotebookOperationsCreateOrUpdateNotebookResponse> {
-    const poller = await this.beginCreateOrUpdateNotebook(
-      notebookName,
-      notebook,
-      options
-    );
+    const poller = await this.beginCreateOrUpdateNotebook(notebookName, notebook, options);
     return poller.pollUntilDone();
   }
 
@@ -333,10 +310,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
     notebookName: string,
     options?: NotebookOperationsDeleteNotebookOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan(
-      "ArtifactsClient-beginDeleteNotebook",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-beginDeleteNotebook", options || {});
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -358,9 +332,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -387,11 +359,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { notebookName, options },
-      deleteNotebookOperationSpec
-    );
+    const lro = new LroImpl(sendOperation, { notebookName, options }, deleteNotebookOperationSpec);
     return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
@@ -422,10 +390,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
     request: ArtifactRenameRequest,
     options?: NotebookOperationsRenameNotebookOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan(
-      "ArtifactsClient-beginRenameNotebook",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-beginRenameNotebook", options || {});
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -447,9 +412,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -498,11 +461,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
     request: ArtifactRenameRequest,
     options?: NotebookOperationsRenameNotebookOptionalParams
   ): Promise<void> {
-    const poller = await this.beginRenameNotebook(
-      notebookName,
-      request,
-      options
-    );
+    const poller = await this.beginRenameNotebook(notebookName, request, options);
     return poller.pollUntilDone();
   }
 
@@ -516,10 +475,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
     nextLink: string,
     options?: NotebookOperationsGetNotebooksByWorkspaceNextOptionalParams
   ): Promise<NotebookOperationsGetNotebooksByWorkspaceNextResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-_getNotebooksByWorkspaceNext",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-_getNotebooksByWorkspaceNext", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { nextLink, options },
@@ -626,11 +582,7 @@ const createOrUpdateNotebookOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.notebook,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.notebookName],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer
 };

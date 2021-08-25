@@ -9,7 +9,7 @@
 import { createSpan } from "../tracing";
 import { PipelineRunOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
+import * as coreTracing from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClientContext } from "../artifactsClientContext";
@@ -45,10 +45,7 @@ export class PipelineRunOperationsImpl implements PipelineRunOperations {
     filterParameters: RunFilterParameters,
     options?: PipelineRunOperationsQueryPipelineRunsByWorkspaceOptionalParams
   ): Promise<PipelineRunOperationsQueryPipelineRunsByWorkspaceResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-queryPipelineRunsByWorkspace",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-queryPipelineRunsByWorkspace", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { filterParameters, options },
@@ -75,10 +72,7 @@ export class PipelineRunOperationsImpl implements PipelineRunOperations {
     runId: string,
     options?: PipelineRunOperationsGetPipelineRunOptionalParams
   ): Promise<PipelineRunOperationsGetPipelineRunResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-getPipelineRun",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-getPipelineRun", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { runId, options },
@@ -109,10 +103,7 @@ export class PipelineRunOperationsImpl implements PipelineRunOperations {
     filterParameters: RunFilterParameters,
     options?: PipelineRunOperationsQueryActivityRunsOptionalParams
   ): Promise<PipelineRunOperationsQueryActivityRunsResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-queryActivityRuns",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-queryActivityRuns", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { pipelineName, runId, filterParameters, options },
@@ -139,10 +130,7 @@ export class PipelineRunOperationsImpl implements PipelineRunOperations {
     runId: string,
     options?: PipelineRunOperationsCancelPipelineRunOptionalParams
   ): Promise<void> {
-    const { span } = createSpan(
-      "ArtifactsClient-cancelPipelineRun",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-cancelPipelineRun", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { runId, options },
@@ -210,11 +198,7 @@ const queryActivityRunsOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.filterParameters,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.pipelineName,
-    Parameters.runId
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.pipelineName, Parameters.runId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer

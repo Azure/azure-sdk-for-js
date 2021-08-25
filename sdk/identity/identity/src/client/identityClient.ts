@@ -4,7 +4,7 @@
 import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-common";
 import { CommonClientOptions, ServiceClient } from "@azure/core-client";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { SpanStatusCode } from "@azure/core-client";
 import { isNode } from "@azure/core-util";
 import {
   createHttpHeaders,

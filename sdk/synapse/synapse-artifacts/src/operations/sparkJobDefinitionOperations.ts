@@ -11,7 +11,7 @@ import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SparkJobDefinitionOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
+import * as coreTracing from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClientContext } from "../artifactsClientContext";
@@ -38,8 +38,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class representing a SparkJobDefinitionOperations. */
-export class SparkJobDefinitionOperationsImpl
-  implements SparkJobDefinitionOperations {
+export class SparkJobDefinitionOperationsImpl implements SparkJobDefinitionOperations {
   private readonly client: ArtifactsClientContext;
 
   /**
@@ -78,10 +77,7 @@ export class SparkJobDefinitionOperationsImpl
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getSparkJobDefinitionsByWorkspaceNext(
-        continuationToken,
-        options
-      );
+      result = await this._getSparkJobDefinitionsByWorkspaceNext(continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -90,9 +86,7 @@ export class SparkJobDefinitionOperationsImpl
   private async *getSparkJobDefinitionsByWorkspacePagingAll(
     options?: SparkJobDefinitionOperationsGetSparkJobDefinitionsByWorkspaceOptionalParams
   ): AsyncIterableIterator<SparkJobDefinitionResource> {
-    for await (const page of this.getSparkJobDefinitionsByWorkspacePagingPage(
-      options
-    )) {
+    for await (const page of this.getSparkJobDefinitionsByWorkspacePagingPage(options)) {
       yield* page;
     }
   }
@@ -103,9 +97,7 @@ export class SparkJobDefinitionOperationsImpl
    */
   private async _getSparkJobDefinitionsByWorkspace(
     options?: SparkJobDefinitionOperationsGetSparkJobDefinitionsByWorkspaceOptionalParams
-  ): Promise<
-    SparkJobDefinitionOperationsGetSparkJobDefinitionsByWorkspaceResponse
-  > {
+  ): Promise<SparkJobDefinitionOperationsGetSparkJobDefinitionsByWorkspaceResponse> {
     const { span } = createSpan(
       "ArtifactsClient-_getSparkJobDefinitionsByWorkspace",
       options || {}
@@ -139,9 +131,7 @@ export class SparkJobDefinitionOperationsImpl
     options?: SparkJobDefinitionOperationsCreateOrUpdateSparkJobDefinitionOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<
-        SparkJobDefinitionOperationsCreateOrUpdateSparkJobDefinitionResponse
-      >,
+      PollOperationState<SparkJobDefinitionOperationsCreateOrUpdateSparkJobDefinitionResponse>,
       SparkJobDefinitionOperationsCreateOrUpdateSparkJobDefinitionResponse
     >
   > {
@@ -170,9 +160,7 @@ export class SparkJobDefinitionOperationsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -220,9 +208,7 @@ export class SparkJobDefinitionOperationsImpl
     sparkJobDefinitionName: string,
     sparkJobDefinition: SparkJobDefinitionResource,
     options?: SparkJobDefinitionOperationsCreateOrUpdateSparkJobDefinitionOptionalParams
-  ): Promise<
-    SparkJobDefinitionOperationsCreateOrUpdateSparkJobDefinitionResponse
-  > {
+  ): Promise<SparkJobDefinitionOperationsCreateOrUpdateSparkJobDefinitionResponse> {
     const poller = await this.beginCreateOrUpdateSparkJobDefinition(
       sparkJobDefinitionName,
       sparkJobDefinition,
@@ -240,10 +226,7 @@ export class SparkJobDefinitionOperationsImpl
     sparkJobDefinitionName: string,
     options?: SparkJobDefinitionOperationsGetSparkJobDefinitionOptionalParams
   ): Promise<SparkJobDefinitionOperationsGetSparkJobDefinitionResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-getSparkJobDefinition",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-getSparkJobDefinition", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { sparkJobDefinitionName, options },
@@ -270,10 +253,7 @@ export class SparkJobDefinitionOperationsImpl
     sparkJobDefinitionName: string,
     options?: SparkJobDefinitionOperationsDeleteSparkJobDefinitionOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan(
-      "ArtifactsClient-beginDeleteSparkJobDefinition",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-beginDeleteSparkJobDefinition", options || {});
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -295,9 +275,7 @@ export class SparkJobDefinitionOperationsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -344,10 +322,7 @@ export class SparkJobDefinitionOperationsImpl
     sparkJobDefinitionName: string,
     options?: SparkJobDefinitionOperationsDeleteSparkJobDefinitionOptionalParams
   ): Promise<void> {
-    const poller = await this.beginDeleteSparkJobDefinition(
-      sparkJobDefinitionName,
-      options
-    );
+    const poller = await this.beginDeleteSparkJobDefinition(sparkJobDefinitionName, options);
     return poller.pollUntilDone();
   }
 
@@ -361,16 +336,11 @@ export class SparkJobDefinitionOperationsImpl
     options?: SparkJobDefinitionOperationsExecuteSparkJobDefinitionOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<
-        SparkJobDefinitionOperationsExecuteSparkJobDefinitionResponse
-      >,
+      PollOperationState<SparkJobDefinitionOperationsExecuteSparkJobDefinitionResponse>,
       SparkJobDefinitionOperationsExecuteSparkJobDefinitionResponse
     >
   > {
-    const { span } = createSpan(
-      "ArtifactsClient-beginExecuteSparkJobDefinition",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-beginExecuteSparkJobDefinition", options || {});
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -392,9 +362,7 @@ export class SparkJobDefinitionOperationsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -442,10 +410,7 @@ export class SparkJobDefinitionOperationsImpl
     sparkJobDefinitionName: string,
     options?: SparkJobDefinitionOperationsExecuteSparkJobDefinitionOptionalParams
   ): Promise<SparkJobDefinitionOperationsExecuteSparkJobDefinitionResponse> {
-    const poller = await this.beginExecuteSparkJobDefinition(
-      sparkJobDefinitionName,
-      options
-    );
+    const poller = await this.beginExecuteSparkJobDefinition(sparkJobDefinitionName, options);
     return poller.pollUntilDone();
   }
 
@@ -460,10 +425,7 @@ export class SparkJobDefinitionOperationsImpl
     request: ArtifactRenameRequest,
     options?: SparkJobDefinitionOperationsRenameSparkJobDefinitionOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan(
-      "ArtifactsClient-beginRenameSparkJobDefinition",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-beginRenameSparkJobDefinition", options || {});
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -485,9 +447,7 @@ export class SparkJobDefinitionOperationsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -554,16 +514,11 @@ export class SparkJobDefinitionOperationsImpl
     options?: SparkJobDefinitionOperationsDebugSparkJobDefinitionOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<
-        SparkJobDefinitionOperationsDebugSparkJobDefinitionResponse
-      >,
+      PollOperationState<SparkJobDefinitionOperationsDebugSparkJobDefinitionResponse>,
       SparkJobDefinitionOperationsDebugSparkJobDefinitionResponse
     >
   > {
-    const { span } = createSpan(
-      "ArtifactsClient-beginDebugSparkJobDefinition",
-      options || {}
-    );
+    const { span } = createSpan("ArtifactsClient-beginDebugSparkJobDefinition", options || {});
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -585,9 +540,7 @@ export class SparkJobDefinitionOperationsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -651,9 +604,7 @@ export class SparkJobDefinitionOperationsImpl
   private async _getSparkJobDefinitionsByWorkspaceNext(
     nextLink: string,
     options?: SparkJobDefinitionOperationsGetSparkJobDefinitionsByWorkspaceNextOptionalParams
-  ): Promise<
-    SparkJobDefinitionOperationsGetSparkJobDefinitionsByWorkspaceNextResponse
-  > {
+  ): Promise<SparkJobDefinitionOperationsGetSparkJobDefinitionsByWorkspaceNextResponse> {
     const { span } = createSpan(
       "ArtifactsClient-_getSparkJobDefinitionsByWorkspaceNext",
       options || {}
@@ -717,11 +668,7 @@ const createOrUpdateSparkJobDefinitionOperationSpec: coreClient.OperationSpec = 
   requestBody: Parameters.sparkJobDefinition,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.sparkJobDefinitionName],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer
 };

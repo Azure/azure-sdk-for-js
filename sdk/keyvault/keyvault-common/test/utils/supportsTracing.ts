@@ -1,5 +1,5 @@
-import { setSpan, context as otContext, OperationTracingOptions } from "@azure/core-tracing";
-import { setTracer } from "@azure/test-utils";
+import { OperationTracingOptions } from "@azure/core-http";
+import { setTracer, setSpan, tracingContext } from "@azure/test-utils";
 import { assert } from "chai";
 
 const prefix = "Azure.KeyVault";
@@ -10,10 +10,9 @@ export async function supportsTracing(
 ): Promise<void> {
   const tracer = setTracer();
   const rootSpan = tracer.startSpan("root");
-  const tracingContext = setSpan(otContext.active(), rootSpan);
 
   try {
-    await callback({ tracingContext });
+    await callback({ tracingContext: setSpan(tracingContext.active(), rootSpan) });
   } finally {
     rootSpan.end();
   }

@@ -3,7 +3,7 @@
 
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-import { TestTracer, SpanGraph, setTracer } from "@azure/test-utils";
+import { TestTracer, SpanGraph, setTracer, tracingContext, setSpan } from "@azure/test-utils";
 import {
   bodyToString,
   getBSU,
@@ -20,7 +20,6 @@ import {
   BlobServiceClient
 } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
-import { context, setSpan } from "@azure/core-tracing";
 import { Context } from "mocha";
 dotenv.config();
 
@@ -724,7 +723,7 @@ describe("ContainerClient", () => {
       blobHTTPHeaders: options,
       metadata: options.metadata,
       tracingOptions: {
-        tracingContext: setSpan(context.active(), rootSpan)
+        tracingContext: setSpan(tracingContext.active(), rootSpan)
       }
     });
 

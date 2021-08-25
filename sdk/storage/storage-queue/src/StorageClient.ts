@@ -4,7 +4,7 @@
 import { StorageClientContext } from "./generated/src/storageClientContext";
 import { Pipeline } from "./Pipeline";
 import { getAccountNameFromUrl, getStorageClientContext } from "./utils/utils.common";
-import { OperationTracingOptions } from "@azure/core-tracing";
+import { OperationTracingOptions } from "@azure/core-http";
 import { Credential } from "./credentials/Credential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { isNode } from "@azure/core-http";
