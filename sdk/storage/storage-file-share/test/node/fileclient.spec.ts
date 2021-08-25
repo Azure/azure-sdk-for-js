@@ -258,14 +258,14 @@ describe("FileClient Node.js only", () => {
     await fileURL2.uploadRangeFromURL(blockBlob.url, 0, 0, 512, {
       sourceAuthorization: {
         scheme: "Bearer",
-        parameter: accessToken!.token
+        value: accessToken!.token
       }
     });
 
     await fileURL2.uploadRangeFromURL(blockBlob.url, 512, 512, 512, {
       sourceAuthorization: {
         scheme: "Bearer",
-        parameter: accessToken!.token
+        value: accessToken!.token
       }
     });
 
