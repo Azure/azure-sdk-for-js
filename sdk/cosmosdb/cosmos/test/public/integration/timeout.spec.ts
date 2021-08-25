@@ -1,9 +1,12 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import assert from "assert";
 import { Container, CosmosClient } from "../../../src";
 import { addEntropy, removeAllDatabases } from "../common/TestHelpers";
 import { endpoint, masterKey } from "../common/_testConfig";
 
-describe.only("Timeout", function() {
+describe("Timeout", function() {
   beforeEach(async function() {
     await removeAllDatabases();
   });
