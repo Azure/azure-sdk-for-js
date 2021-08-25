@@ -49,7 +49,8 @@ For more information about how to create an Azure AD Application check out [this
 ```javascript
 const { TemplateSpecsClient } = require("@azure/arm-templatespecs");
 const { DefaultAzureCredential } = require("@azure/identity");
-const client = new TemplateSpecsClient("<endpoint>", new DefaultAzureCredential());
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
+const client = new TemplateSpecsClient(new DefaultAzureCredential(), subscriptionId);
 ```
 
 ## Key concepts
