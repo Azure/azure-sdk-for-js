@@ -141,7 +141,7 @@ To find the resource URI:
 
 ### Querying logs
 
-The `LogsQueryClient` can be used to query a Monitor workspace using the Kusto Query language. The timespan can be specified as a string in an ISO8601 duration format.
+The `LogsQueryClient` can be used to query a Monitor workspace using the Kusto Query language. The timespan.duration can be specified as a string in an ISO8601 duration format.
 You can use the `Durations` constants provided for some commonly used ISO8601 durations.
 
 ```ts
