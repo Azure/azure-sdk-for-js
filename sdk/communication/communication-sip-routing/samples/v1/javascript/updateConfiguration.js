@@ -26,7 +26,7 @@ async function main() {
   const newConfig = {
     trunks: {
       "my-new-trunk.contoso.com": {
-        sipSignallingPort: 9999
+        sipSignalingPort: 9999
       }
     }
   };
@@ -40,7 +40,7 @@ async function main() {
   const updatedConfig = {
     trunks: {
       "my-new-trunk.contoso.com": {
-        sipSignallingPort: 10000
+        sipSignalingPort: 10000
       }
     }
   };

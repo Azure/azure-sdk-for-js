@@ -16,17 +16,17 @@ import {
   operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
 import { SpanStatusCode } from "@azure/core-tracing";
-import { 
-  AzureCommunicationSIPRoutingService as SIPRoutingService
-} from "./generated/src/azureCommunicationSIPRoutingService";
 import { SDK_VERSION } from "./constants";
 import { createSpan } from "./tracing";
 import { logger } from "./logger";
 import { extractOperationOptions } from "./extractOperationOptions";
 import {
+  AzureCommunicationSIPRoutingService as SIPRoutingService
+} from "./generated/src/azureCommunicationSIPRoutingService"
+import {
   GetSipConfigurationResponse,
   PatchSipConfigurationResponse,
-  SipConfigurationPatch
+  SipConfigurationPatch,
 } from "./models";
 
 
@@ -111,14 +111,13 @@ export class SipRoutingClient {
    */
   public async getSipConfiguration(
     options: SipConfigurationOptions = {}
-  ): Promise<GetSipConfigurationResponse[]> {
+  ): Promise<GetSipConfigurationResponse> {
     const { operationOptions } = extractOperationOptions(options);
     const { span, updatedOptions } = createSpan("SipRoutingClient-GetSipConfiguration", operationOptions);
 
     try {
       const reqOptions = operationOptionsToRequestOptionsBase(updatedOptions);
-      const response = await this.api.getSipConfiguration(reqOptions);
-      return [response];
+      return await this.api.getSipConfiguration(reqOptions);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

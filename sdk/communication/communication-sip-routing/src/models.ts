@@ -1,17 +1,3 @@
-import {
-  SipConfiguration,
-  SipConfigurationPatch,
-  Trunk,
-  TrunkPatch,
-  TrunkRoute,
-  CommunicationError,
-  CommunicationErrorResponse,
-  GetSipConfigurationResponse,
-  PatchSipConfigurationOptionalParams,
-  PatchSipConfigurationResponse,
-  OptionalParams,
-} from "./generatedModels";
-
 export {
   SipConfiguration,
   SipConfigurationPatch,
@@ -20,8 +6,8 @@ export {
   TrunkRoute,
   CommunicationError,
   CommunicationErrorResponse,
-  GetSipConfigurationResponse,
-  PatchSipConfigurationOptionalParams,
-  PatchSipConfigurationResponse,
-  OptionalParams
-};
+  AzureCommunicationSIPRoutingServiceGetSipConfigurationResponse as GetSipConfigurationResponse,
+  AzureCommunicationSIPRoutingServicePatchSipConfigurationOptionalParams as PatchSipConfigurationOptionalParams,
+  AzureCommunicationSIPRoutingServicePatchSipConfigurationResponse as PatchSipConfigurationResponse,
+  AzureCommunicationSIPRoutingServiceOptionalParams as OptionalParams
+} from "./generated/src/models";

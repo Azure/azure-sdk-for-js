@@ -5,7 +5,7 @@
  * @summary Create and then update a SIP routing configuration
  */
 
-import { SipRoutingClient } from '@azure/communication-sip-routing';
+import { SipConfigurationPatch, SipRoutingClient, TrunkPatch } from '@azure/communication-sip-routing';
 import dotenv from "dotenv";
 
 // Load the .env file if it exists
@@ -23,10 +23,10 @@ async function main() {
   console.log("== Create an initial configuration ==");
   
   // Create a new configuration so that we have a record to update in the next step
-  const newConfig = {
+  const newConfig: SipConfigurationPatch = {
     trunks: {
       "my-new-trunk.contoso.com": {
-        sipSignallingPort: 9999
+        sipSignalingPort: 9999
       }
     }
   };
@@ -37,10 +37,10 @@ async function main() {
   console.log("== Modify the configuration ==");
 
   // Modify the config by changing the port number
-  const updatedConfig = {
+  const updatedConfig: SipConfigurationPatch = {
     trunks: {
       "my-new-trunk.contoso.com": {
-        sipSignallingPort: 10000
+        sipSignalingPort: 10000
       }
     }
   };

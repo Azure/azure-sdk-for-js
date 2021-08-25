@@ -67,7 +67,7 @@ export interface SipConfigurationOptions extends OperationOptions {
 export interface SipConfigurationPatch {
     routes?: TrunkRoute[];
     trunks?: {
-        [propertyName: string]: TrunkPatch;
+        [propertyName: string]: TrunkPatch | null;
     };
 }
 
@@ -76,7 +76,7 @@ export class SipRoutingClient {
     constructor(connectionString: string, options?: SipRoutingClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: SipRoutingClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: SipRoutingClientOptions);
-    getSipConfiguration(options?: SipConfigurationOptions): Promise<GetSipConfigurationResponse[]>;
+    getSipConfiguration(options?: SipConfigurationOptions): Promise<GetSipConfigurationResponse>;
     updateSipConfiguration(request?: SipConfigurationPatch, options?: OperationOptions): Promise<PatchSipConfigurationResponse>;
 }
 

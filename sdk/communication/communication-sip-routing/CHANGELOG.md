@@ -1,5 +1,13 @@
 # Release History
 
+## 1.0.0-alpha.20210825.1 (2021-08-25)
+
+- Unwrapped the getSipConfiguration's response from an array.
+
+## 1.0.0-alpha.20210824.1 (2021-08-24)
+
+- Update the models definition.
+
 ## 1.0.0-alpha.20210823.1 (2021-08-23)
 
 - Added missing models to the TS type definitions.

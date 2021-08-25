@@ -13,8 +13,17 @@ This client library provides access to the SIP routing configuration and is one 
 ### Prerequisites
 
 - An [Azure subscription][azure_sub].
+- An Azure Communication Service (ACS) instance. You can create it e.g., in the Azure Portal or using the script below:
 
-Usually you'd put a shell command for provisioning the necessary Azure services here.
+```sh
+# If you don't have the az communication extension installed run the following:
+az extension add --name communication
+
+# Create the Azure Communication Services resource
+az communication create --name "<communicationName>" --location "Global" --data-location "United States" --resource-group "<resourceGroup>"
+
+az communication show --name "<communicationName>" --resource-group "<resourceGroup>"
+```
 
 ### Install the `@azure/communication-sip-routing` package
 
@@ -30,27 +39,109 @@ npm install @azure/communication-sip-routing
 
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
-### Further examples
-
-Top-level examples usually include things like creating and authenticating the main Client. If your service supports multiple means of authenticating (e.g. key-based and Azure Active Directory) you can give a separate example of each.
-
 ## Key concepts
 
-### ConfigurationClient
+### SIPRoutingClient
 
-Describe your primary client here. Talk about what operations it can do and when a developer would want to use it.
+The SIPRoutingClient can be used to:
 
-### Additional Examples
-
-Create a section for each top-level service concept you want to explain.
+- Retrieve an existing SIP routing configuration
+- Update the existing SIP routing configuration
 
 ## Examples
 
-### First Example
+### Getting an existing SIP routing configuration
 
-<!-- Examples should showcase the primary, or "champion" scenarios of the client SDK. -->
+```js
+const { SipRoutingClient } = require("@azure/communication-sip-routing");
 
-Create several code examples for how someone would use your library to accomplish a common task with the service.
+async function main() {
+  console.log("== Get SIP Routing Configuration ==");
+
+  // You will need to set this environment variable or edit the following values
+  const connectionString =
+    process.env.COMMUNICATION_SAMPLES_CONNECTION_STRING ||
+    "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
+
+  // Create a new client
+  const client = new SipRoutingClient(connectionString);
+
+  // Get the current configuration
+  const config = await client.getSipConfiguration();
+
+  // Print the configururation formatted as JSON into console
+  const json = JSON.stringify(config, null, 4);
+  console.log(json);
+}
+
+main().catch((error) => {
+  console.error("Encountered an error while getting configuration: ", error);
+  process.exit(1);
+});
+```
+
+### Updating an existing SIP routing configuration
+
+```js
+const { SipRoutingClient } = require("@azure/communication-sip-routing");
+
+async function main() {
+  // You will need to set this environment variable or edit the following values
+  const connectionString =
+    process.env.COMMUNICATION_SAMPLES_CONNECTION_STRING ||
+    "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
+
+  // Create a new client
+  const client = new SipRoutingClient(connectionString);
+
+  console.log("== Create an initial configuration ==");
+
+  // Create a new configuration so that we have a record to update in the next step
+  const newConfig = {
+    trunks: {
+      "my-new-trunk.contoso.com": {
+        sipSignalingPort: 9999
+      }
+    }
+  };
+
+  // Insert the new config
+  await client.updateSipConfiguration(newConfig);
+
+  console.log("== Modify the configuration ==");
+
+  // Modify the config by changing the port number
+  const updatedConfig = {
+    trunks: {
+      "my-new-trunk.contoso.com": {
+        sipSignalingPort: 10000
+      }
+    }
+  };
+
+  // Save the modified config
+  await client.updateSipConfiguration(updatedConfig);
+
+  console.log("== Delete the configuration ==");
+
+  // Finally, create an entry that deletes the trunk created previously as a clean-up
+  const trunkToDelete = {
+    trunks: {
+      "my-new-trunk.contoso.com": null
+    }
+  };
+
+  // Delete the trunk by saving the config back.
+  await client.updateSipConfiguration(trunkToDelete);
+
+  console.log("== Done ==");
+}
+
+main().catch((error) => {
+  console.error("Encountered an error while updating configuration: ", error);
+  process.exit(1);
+});
+```
 
 ## Troubleshooting
 
@@ -68,7 +159,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 ## Next steps
 
-Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template/samples) directory for detailed examples that demonstrate how to use the client libraries.
+Please take a look at the [samples](https://docs.microsoft.com/en-us/azure/communication-services/samples/overview) directory for detailed examples that demonstrate how to use the client libraries.
 
 ## Contributing
 
@@ -77,8 +168,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Ftemplate%2Ftemplate%2FREADME.png)
 
 [azure_cli]: https://docs.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
