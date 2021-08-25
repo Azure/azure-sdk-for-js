@@ -6,6 +6,7 @@ import { RawHttpHeaders as CoreRawHeaders } from "@azure/core-rest-pipeline";
  * REST clients allow headers to be number, boolean or strings, this function
  * stringifies these headers
  * @returns all headers values converted to strings
+ * @internal
  */
 export function toCoreRawHeaders(headers: RawHttpHeaders = {}): CoreRawHeaders {
   let coreHeaders: CoreRawHeaders = {};
