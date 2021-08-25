@@ -96,10 +96,8 @@ describe.skip("Session Token", function(this: Suite) {
             if (context.headers["x-ms-session-token"]) {
               context.headers["x-ms-session-token"] = "0:0#900000#3=8600000#10=-1";
             }
-            console.log(context.method, context.path, context.headers["x-ms-session-token"]);
-            const repsonse = await next(context);
-            console.log(repsonse.code, repsonse.substatus);
-            return repsonse;
+            const response = await next(context);
+            return response;
           }
         }
       ]
