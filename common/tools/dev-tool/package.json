@@ -26,6 +26,7 @@
     "unit-test:node": "mocha --require ts-node/register test/**/*.spec.ts",
     "unit-test:browser": "echo skipped",
     "build:samples": "echo Skipped.",
+    "test": "echo Skipped.",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "repository": "github:Azure/azure-sdk-for-js",

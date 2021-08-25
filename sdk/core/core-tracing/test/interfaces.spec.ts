@@ -47,24 +47,6 @@ describe("interface compatibility", () => {
 
   it("core-auth", () => {
     const coreTracingOptions: Required<coreTracing.OperationTracingOptions> = {
-      spanOptions: {
-        attributes: {
-          hello: "world"
-        },
-        kind: coreTracing.SpanKind.PRODUCER,
-        links: [
-          {
-            context: {
-              spanId: "spanId",
-              traceId: "traceId",
-              traceFlags: coreTracing.TraceFlags.NONE
-            },
-            attributes: {
-              hello2: "world2"
-            }
-          }
-        ]
-      },
       tracingContext: coreTracing.context.active()
     };
 

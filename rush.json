@@ -895,6 +895,11 @@
       "packageName": "@azure/arm-resources-subscriptions",
       "projectFolder": "sdk/resources-subscriptions/arm-resources-subscriptions",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-templatespecs",
+      "projectFolder": "sdk/templatespecs/arm-templatespecs",
+      "versionPolicyName": "management"
     }
   ]
 }
