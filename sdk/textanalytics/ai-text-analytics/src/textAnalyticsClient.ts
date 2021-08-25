@@ -62,7 +62,7 @@ import {
 } from "./util";
 import { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
 import { AnalysisPollOperationState, OperationMetadata } from "./pollerModels";
-import { TextAnalyticsAction } from "./textAnalyticsAction";
+import { CustomTextAnalyticsAction, TextAnalyticsAction } from "./textAnalyticsAction";
 import {
   AnalyzeHealthcareEntitiesPollerLike,
   AnalyzeHealthcareOperationState,
@@ -338,6 +338,60 @@ export interface ExtractSummaryAction extends TextAnalyticsAction {
 }
 
 /**
+ * Options for an recognize custom entities action.
+ */
+export interface RecognizeCustomEntitiesAction extends CustomTextAnalyticsAction {
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties.
+   * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringIndexType?: StringIndexType;
+  /**
+   * If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics
+   * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
+   * disables input logging and may limit our ability to remediate issues that occur.
+   */
+  disableServiceLogs?: boolean;
+}
+
+/**
+ * Options for an classify custom single class action.
+ */
+export interface ClassifyCustomSingleClassAction extends CustomTextAnalyticsAction {
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties.
+   * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringIndexType?: StringIndexType;
+  /**
+   * If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics
+   * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
+   * disables input logging and may limit our ability to remediate issues that occur.
+   */
+  disableServiceLogs?: boolean;
+}
+
+/**
+ * Options for a classify custom multi class action.
+ */
+export interface ClassifyCustomMultiClassAction extends CustomTextAnalyticsAction {
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties.
+   * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringIndexType?: StringIndexType;
+  /**
+   * If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics
+   * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
+   * disables input logging and may limit our ability to remediate issues that occur.
+   */
+  disableServiceLogs?: boolean;
+}
+
+/**
  * Description of collection of actions for the analyze API to perform on input documents. However, currently, the service can accept up to one action only per action type.
  */
 export interface TextAnalyticsActions {
@@ -365,6 +419,18 @@ export interface TextAnalyticsActions {
    * A collection of descriptions of summarization extraction actions. However, currently, the service can accept up to one action only for `extractSummary`.
    */
   extractSummaryActions?: ExtractSummaryAction[];
+  /**
+   * A collection of descriptions of custom entity recognition actions. However, currently, the service can accept up to one action only for `recognizeCustomEntities`.
+   */
+  recognizeCustomEntities?: RecognizeCustomEntitiesAction[];
+  /**
+   * A collection of descriptions of custom single classification actions. However, currently, the service can accept up to one action only for `classifyCustomSingleClass`.
+   */
+  classifyCustomSingleClass?: ClassifyCustomSingleClassAction[];
+  /**
+   * A collection of descriptions of custom multi classification actions. However, currently, the service can accept up to one action only for `classifyCustomMultiClass`.
+   */
+  classifyCustomMultiClass?: ClassifyCustomMultiClassAction[];
 }
 /**
  * Client class for interacting with Azure Text Analytics.

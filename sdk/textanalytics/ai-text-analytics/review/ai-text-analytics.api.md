@@ -35,8 +35,11 @@ export type AnalyzeActionsPollerLike = PollerLike<AnalyzeActionsOperationState, 
 // @public
 export interface AnalyzeActionsResult {
     analyzeSentimentResults: AnalyzeSentimentActionResult[];
+    classifyCustomMultiClass?: ClassifyCustomMultiClassActionResult[];
+    classifyCustomSingleClass?: ClassifyCustomSingleClassActionResult[];
     extractKeyPhrasesResults: ExtractKeyPhrasesActionResult[];
     extractSummaryResults: ExtractSummaryActionResult[];
+    recognizeCustomEntities?: RecognizeCustomEntitiesActionResult[];
     recognizeEntitiesResults: RecognizeCategorizedEntitiesActionResult[];
     recognizeLinkedEntitiesResults: RecognizeLinkedEntitiesActionResult[];
     recognizePiiEntitiesResults: RecognizePiiEntitiesActionResult[];
@@ -131,6 +134,89 @@ export interface BeginAnalyzeHealthcareEntitiesOptions extends TextAnalyticsOper
 
 // @public
 export interface CategorizedEntity extends Entity {
+}
+
+// @public
+export interface ClassifyCustomMultiClassAction extends CustomTextAnalyticsAction {
+    disableServiceLogs?: boolean;
+    stringIndexType?: StringIndexType;
+}
+
+// @public
+export type ClassifyCustomMultiClassActionErrorResult = TextAnalyticsActionErrorResult;
+
+// @public
+export type ClassifyCustomMultiClassActionResult = ClassifyCustomMultiClassActionSuccessResult | ClassifyCustomMultiClassActionErrorResult;
+
+// @public
+export interface ClassifyCustomMultiClassActionSuccessResult extends TextAnalyticsActionSuccessState {
+    results: ClassifyCustomMultiClassResultArray;
+}
+
+// @public
+export type ClassifyCustomMultiClassErrorResult = TextAnalyticsErrorResult;
+
+// @public
+export type ClassifyCustomMultiClassResult = ClassifyCustomMultiClassSuccessResult | ClassifyCustomMultiClassErrorResult;
+
+// @public
+export interface ClassifyCustomMultiClassResultArray extends Array<ClassifyCustomMultiClassResult> {
+    deploymentName: string;
+    projectName: string;
+    statistics?: TextDocumentBatchStatistics;
+}
+
+// @public
+export interface ClassifyCustomMultiClassSuccessResult extends TextAnalyticsSuccessResult {
+    classifications: CustomClassification[];
+}
+
+// @public
+export interface ClassifyCustomSingleClassAction extends CustomTextAnalyticsAction {
+    disableServiceLogs?: boolean;
+    stringIndexType?: StringIndexType;
+}
+
+// @public
+export type ClassifyCustomSingleClassActionErrorResult = TextAnalyticsActionErrorResult;
+
+// @public
+export type ClassifyCustomSingleClassActionResult = ClassifyCustomSingleClassActionSuccessResult | ClassifyCustomSingleClassActionErrorResult;
+
+// @public
+export interface ClassifyCustomSingleClassActionSuccessResult extends TextAnalyticsActionSuccessState {
+    results: ClassifyCustomSingleClassResultArray;
+}
+
+// @public
+export type ClassifyCustomSingleClassErrorResult = TextAnalyticsErrorResult;
+
+// @public
+export type ClassifyCustomSingleClassResult = ClassifyCustomSingleClassSuccessResult | ClassifyCustomSingleClassErrorResult;
+
+// @public
+export interface ClassifyCustomSingleClassResultArray extends Array<ClassifyCustomSingleClassResult> {
+    deploymentName: string;
+    projectName: string;
+    statistics?: TextDocumentBatchStatistics;
+}
+
+// @public
+export interface ClassifyCustomSingleClassSuccessResult extends TextAnalyticsSuccessResult {
+    classification: CustomClassification;
+}
+
+// Warning: (ae-forgotten-export) The symbol "ClassificationResult" needs to be exported by the entry point index.d.ts
+//
+// @public
+export interface CustomClassification extends ClassificationResult {
+}
+
+// @public
+export interface CustomTextAnalyticsAction {
+    actionName?: string;
+    deploymentName?: string;
+    projectName?: string;
 }
 
 // @public
@@ -507,6 +593,33 @@ export interface RecognizeCategorizedEntitiesSuccessResult extends TextAnalytics
 }
 
 // @public
+export interface RecognizeCustomEntitiesAction extends CustomTextAnalyticsAction {
+    disableServiceLogs?: boolean;
+    stringIndexType?: StringIndexType;
+}
+
+// @public
+export type RecognizeCustomEntitiesActionResult = RecongizeCustomEntitiesActionSuccessResult | RecongizeCustomEntitiesActionErrorResult;
+
+// @public
+export type RecognizeCustomEntitiesErrorResult = TextAnalyticsErrorResult;
+
+// @public
+export type RecognizeCustomEntitiesResult = RecognizeCustomEntitiesSuccessResult | RecognizeCustomEntitiesErrorResult;
+
+// @public
+export interface RecognizeCustomEntitiesResultArray extends Array<RecognizeCustomEntitiesResult> {
+    deploymentName: string;
+    projectName: string;
+    statistics?: TextDocumentBatchStatistics;
+}
+
+// @public
+export interface RecognizeCustomEntitiesSuccessResult extends TextAnalyticsSuccessResult {
+    entities: CategorizedEntity[];
+}
+
+// @public
 export interface RecognizeLinkedEntitiesAction extends TextAnalyticsAction {
     disableServiceLogs?: boolean;
     stringIndexType?: StringIndexType;
@@ -589,6 +702,14 @@ export interface RecognizePiiEntitiesSuccessResult extends TextAnalyticsSuccessR
     redactedText: string;
 }
 
+// @public
+export type RecongizeCustomEntitiesActionErrorResult = TextAnalyticsActionErrorResult;
+
+// @public
+export interface RecongizeCustomEntitiesActionSuccessResult extends TextAnalyticsActionSuccessState {
+    results: RecognizeCustomEntitiesResultArray;
+}
+
 // @public (undocumented)
 export interface SentenceAssessment {
     confidenceScores: TargetConfidenceScoreLabel;
@@ -665,8 +786,11 @@ export interface TextAnalyticsActionErrorResult {
 // @public
 export interface TextAnalyticsActions {
     analyzeSentimentActions?: AnalyzeSentimentAction[];
+    classifyCustomMultiClass?: ClassifyCustomMultiClassAction[];
+    classifyCustomSingleClass?: ClassifyCustomSingleClassAction[];
     extractKeyPhrasesActions?: ExtractKeyPhrasesAction[];
     extractSummaryActions?: ExtractSummaryAction[];
+    recognizeCustomEntities?: RecognizeCustomEntitiesAction[];
     recognizeEntitiesActions?: RecognizeCategorizedEntitiesAction[];
     recognizeLinkedEntitiesActions?: RecognizeLinkedEntitiesAction[];
     recognizePiiEntitiesActions?: RecognizePiiEntitiesAction[];

@@ -12,6 +12,8 @@
 - Linked Entity Recognition
 - Extractive Summarization
 - Healthcare Analysis
+- Recognition of Custom Entities
+- Custom Document Classification
 - Support Multiple Actions Per Document
 
 Use the client library to:

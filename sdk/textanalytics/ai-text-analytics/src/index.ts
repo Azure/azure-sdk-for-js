@@ -34,7 +34,10 @@ export {
   RecognizeLinkedEntitiesAction,
   AnalyzeSentimentAction,
   ExtractSummaryAction,
-  KnownSummarySentencesSortBy as KnownSummarySentencesOrderBy
+  KnownSummarySentencesSortBy as KnownSummarySentencesOrderBy,
+  RecognizeCustomEntitiesAction,
+  ClassifyCustomSingleClassAction,
+  ClassifyCustomMultiClassAction
 } from "./textAnalyticsClient";
 export { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
 export {
@@ -81,6 +84,25 @@ export {
 } from "./extractSummaryResult";
 export { ExtractSummaryResultArray } from "./extractSummaryResultArray";
 export {
+  RecognizeCustomEntitiesErrorResult,
+  RecognizeCustomEntitiesResult,
+  RecognizeCustomEntitiesSuccessResult
+} from "./recognizeCustomEntitiesResult";
+export { RecognizeCustomEntitiesResultArray } from "./recognizeCustomEntitiesResultArray";
+export {
+  ClassifyCustomSingleClassErrorResult,
+  ClassifyCustomSingleClassResult,
+  ClassifyCustomSingleClassSuccessResult,
+  CustomClassification
+} from "./classifyCustomSingleClassResult";
+export { ClassifyCustomSingleClassResultArray } from "./classifyCustomSingleClassResultArray";
+export {
+  ClassifyCustomMultiClassErrorResult,
+  ClassifyCustomMultiClassResult,
+  ClassifyCustomMultiClassSuccessResult
+} from "./classifyCustomMultiClassResult";
+export { ClassifyCustomMultiClassResultArray } from "./classifyCustomMultiClassResultArray";
+export {
   RecognizeLinkedEntitiesResult,
   RecognizeLinkedEntitiesErrorResult,
   RecognizeLinkedEntitiesSuccessResult
@@ -122,7 +144,16 @@ export {
   AnalyzeSentimentActionSuccessResult,
   ExtractSummaryActionResult,
   ExtractSummaryActionSuccessResult,
-  ExtractSummaryActionErrorResult
+  ExtractSummaryActionErrorResult,
+  RecognizeCustomEntitiesActionResult,
+  RecongizeCustomEntitiesActionErrorResult,
+  RecongizeCustomEntitiesActionSuccessResult,
+  ClassifyCustomMultiClassActionErrorResult,
+  ClassifyCustomMultiClassActionResult,
+  ClassifyCustomMultiClassActionSuccessResult,
+  ClassifyCustomSingleClassActionErrorResult,
+  ClassifyCustomSingleClassActionResult,
+  ClassifyCustomSingleClassActionSuccessResult
 } from "./analyzeActionsResult";
 export {
   ErrorCode,
@@ -131,7 +162,7 @@ export {
   TextAnalyticsSuccessResult
 } from "./textAnalyticsResult";
 
-export { TextAnalyticsAction } from "./textAnalyticsAction";
+export { TextAnalyticsAction, CustomTextAnalyticsAction } from "./textAnalyticsAction";
 
 // Models
 export {
