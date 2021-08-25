@@ -1,18 +1,103 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
-// https://github.com/karma-runner/karma-chrome-launcher
-process.env.CHROME_BIN = require("puppeteer").executablePath();
-require("dotenv").config();
-const {
-  jsonRecordingFilterFunction,
-  isPlaybackMode,
-  isSoftRecordMode,
-  isRecordMode
-} = require("@azure/test-utils-recorder");
+import * as fs from "fs-extra";
 
-module.exports = function(config) {
-  config.set({
+import { ConfigOptions as KarmaConfig, FilePattern } from "karma";
+import { executablePath } from "puppeteer";
+
+declare module "karma" {
+  export interface ConfigOptions {
+    envPreprocessor?: string[];
+    coverageReporter?: unknown;
+    junitReporter?: unknown;
+  }
+}
+
+const mode = (() => {
+  if (process.env.TEST_MODE === undefined) {
+    return "playback";
+  }
+  switch (process.env.TEST_MODE) {
+    case "record":
+    case "soft-record":
+    case "playback":
+    case "live":
+      return process.env.TEST_MODE;
+    default:
+      throw new Error("Unrecognized test mode: " + process.env.TEST_MODE);
+  }
+})();
+
+/**
+ * When `jsonRecordingFilterFunction` is passed as a filter to `jsonToFileReporter` in karma.conf.js,
+ * it captures the recordings(as JSON strings) from the console.logs.
+ *
+ * More Info -
+ * 1. JSON objects with `writeFile` property are captured and saved as recordings as per the `path` property.
+ * 2. If the captured object doesn't have the `writeFile` property, the object will be logged directly to the console.
+ *
+ * @param {{
+ *   writeFile: boolean;
+ *   path: string;
+ *   content: string;
+ * }} browserRecordingJsonObject
+ */
+export const jsonRecordingFilterFunction = function(browserRecordingJsonObject: {
+  writeFile: boolean;
+  path: string;
+  content: string;
+}) {
+  if (mode.endsWith("record")) {
+    if (browserRecordingJsonObject.writeFile) {
+      // Create the directories recursively incase they don't exist
+      try {
+        // Stripping away the filename from the file path and retaining the directory structure
+        fs.ensureDirSync(
+          browserRecordingJsonObject.path.substring(
+            0,
+            browserRecordingJsonObject.path.lastIndexOf("/") + 1
+          )
+        );
+      } catch (err) {
+        if (err.code !== "EEXIST") throw err;
+      }
+      fs.writeFile(
+        browserRecordingJsonObject.path,
+        JSON.stringify(browserRecordingJsonObject.content, null, " "),
+        (err: any) => {
+          if (err) {
+            throw err;
+          }
+        }
+      );
+    } else {
+      console.log(browserRecordingJsonObject);
+    }
+  }
+};
+
+interface KarmaConfigOptions {
+  browsers: string[];
+}
+
+const defaultOptions: KarmaConfigOptions = {
+  browsers: ["ChromeHeadlessNoSandbox"]
+};
+
+process.env.CHROME_BIN = executablePath();
+
+export function makeConfig(options: Partial<KarmaConfigOptions> = {}): KarmaConfig {
+  const fullOptions = { ...defaultOptions, ...options };
+
+  const mapFilesPattern: FilePattern = {
+    pattern: "dist-test/index.browser.js.map",
+    type: "html",
+    included: false,
+    served: true
+  };
+
+  return {
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: "./",
 
@@ -35,10 +120,9 @@ module.exports = function(config) {
     ],
 
     // list of files / patterns to load in the browser
-    files: [
-      "dist-test/index.browser.js",
-      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true }
-    ].concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []),
+    files: ["dist-test/index.browser.js", mapFilesPattern].concat(
+      mode === "playback" || mode === "soft-record" ? ["recordings/browsers/**/*.json"] : []
+    ),
 
     // list of files / patterns to exclude
     exclude: [],
@@ -47,7 +131,7 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       "**/*.js": ["env"],
-      "recordings/browsers/**/*.json": ["json"]
+      "**/*.json": ["json"]
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
       //"dist-test/index.browser.js": ["coverage"]
@@ -85,7 +169,7 @@ module.exports = function(config) {
     },
 
     jsonToFileReporter: {
-      filter: jsonRecordingFilterFunction,
+      filter: jsonRecordingFilterFunction as (obj: object) => boolean,
       outputPath: "."
     },
 
@@ -95,16 +179,12 @@ module.exports = function(config) {
     // enable / disable colors in the output (reporters and logs)
     colors: true,
 
-    // level of logging
-    // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    logLevel: config.LOG_INFO,
-
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: false,
 
     // --no-sandbox allows our tests to run in Linux without having to change the system.
     // --disable-web-security allows us to authenticate from the browser without having to write tests using interactive auth, which would be far more complex.
-    browsers: ["ChromeHeadlessNoSandbox"],
+    browsers: fullOptions.browsers,
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
         base: "ChromeHeadless",
@@ -124,7 +204,7 @@ module.exports = function(config) {
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
     browserConsoleLogOptions: {
-      terminal: !isRecordMode()
+      terminal: mode !== "record"
     },
 
     client: {
@@ -133,6 +213,6 @@ module.exports = function(config) {
         reporter: "html",
         timeout: "600000"
       }
-    }
-  });
-};
+    } as any
+  };
+}
