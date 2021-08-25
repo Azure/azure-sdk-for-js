@@ -26,7 +26,9 @@ export class Forecasts {
   }
 
   /**
-   * Lists the forecast charges by subscriptionId.
+   * Lists the forecast charges for scope defined. Please note that this API is no longer actively
+   * under development. We recommend using our new Forecast API moving forward:
+   * https://docs.microsoft.com/en-us/rest/api/cost-management/forecast/usage.
    * @param [options] The optional parameters
    * @returns Promise<Models.ForecastsListResponse>
    */
@@ -39,23 +41,14 @@ export class Forecasts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(
-    options: Models.ForecastsListOptionalParams,
-    callback: msRest.ServiceCallback<Models.ForecastsListResult>
-  ): void;
-  list(
-    options?:
-      | Models.ForecastsListOptionalParams
-      | msRest.ServiceCallback<Models.ForecastsListResult>,
-    callback?: msRest.ServiceCallback<Models.ForecastsListResult>
-  ): Promise<Models.ForecastsListResponse> {
+  list(options: Models.ForecastsListOptionalParams, callback: msRest.ServiceCallback<Models.ForecastsListResult>): void;
+  list(options?: Models.ForecastsListOptionalParams | msRest.ServiceCallback<Models.ForecastsListResult>, callback?: msRest.ServiceCallback<Models.ForecastsListResult>): Promise<Models.ForecastsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback
-    ) as Promise<Models.ForecastsListResponse>;
+      callback) as Promise<Models.ForecastsListResponse>;
   }
 }
 
@@ -64,9 +57,16 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Consumption/forecasts",
-  urlParameters: [Parameters.subscriptionId],
-  queryParameters: [Parameters.filter0, Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.filter0,
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.ForecastsListResult

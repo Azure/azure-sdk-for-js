@@ -14,22 +14,27 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { ConsumptionManagementClientContext } from "./consumptionManagementClientContext";
 
+
 class ConsumptionManagementClient extends ConsumptionManagementClientContext {
   // Operation groups
   usageDetails: operations.UsageDetails;
   marketplaces: operations.Marketplaces;
+  budgets: operations.Budgets;
+  tags: operations.Tags;
+  charges: operations.Charges;
   balances: operations.Balances;
   reservationsSummaries: operations.ReservationsSummaries;
   reservationsDetails: operations.ReservationsDetails;
   reservationRecommendations: operations.ReservationRecommendations;
-  budgets: operations.Budgets;
+  reservationRecommendationDetails: operations.ReservationRecommendationDetails;
+  reservationTransactions: operations.ReservationTransactions;
   priceSheet: operations.PriceSheet;
-  tags: operations.Tags;
   forecasts: operations.Forecasts;
   operations: operations.Operations;
   aggregatedCost: operations.AggregatedCost;
-  charges: operations.Charges;
-  tenants: operations.Tenants;
+  events: operations.EventsOperations;
+  lots: operations.LotsOperations;
+  credits: operations.Credits;
 
   /**
    * Initializes a new instance of the ConsumptionManagementClient class.
@@ -42,26 +47,26 @@ class ConsumptionManagementClient extends ConsumptionManagementClientContext {
    * @param subscriptionId Azure Subscription ID.
    * @param [options] The parameter options
    */
-  constructor(
-    credentials: msRest.ServiceClientCredentials | TokenCredential,
-    subscriptionId: string,
-    options?: Models.ConsumptionManagementClientOptions
-  ) {
+  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.ConsumptionManagementClientOptions) {
     super(credentials, subscriptionId, options);
     this.usageDetails = new operations.UsageDetails(this);
     this.marketplaces = new operations.Marketplaces(this);
+    this.budgets = new operations.Budgets(this);
+    this.tags = new operations.Tags(this);
+    this.charges = new operations.Charges(this);
     this.balances = new operations.Balances(this);
     this.reservationsSummaries = new operations.ReservationsSummaries(this);
     this.reservationsDetails = new operations.ReservationsDetails(this);
     this.reservationRecommendations = new operations.ReservationRecommendations(this);
-    this.budgets = new operations.Budgets(this);
+    this.reservationRecommendationDetails = new operations.ReservationRecommendationDetails(this);
+    this.reservationTransactions = new operations.ReservationTransactions(this);
     this.priceSheet = new operations.PriceSheet(this);
-    this.tags = new operations.Tags(this);
     this.forecasts = new operations.Forecasts(this);
     this.operations = new operations.Operations(this);
     this.aggregatedCost = new operations.AggregatedCost(this);
-    this.charges = new operations.Charges(this);
-    this.tenants = new operations.Tenants(this);
+    this.events = new operations.EventsOperations(this);
+    this.lots = new operations.LotsOperations(this);
+    this.credits = new operations.Credits(this);
   }
 }
 
