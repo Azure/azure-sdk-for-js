@@ -194,5 +194,6 @@ export {
   Conditionality as EntityConditionality,
   RelationType as HealthcareEntityRelationType,
   KnownHealthcareEntityCategory,
-  HealthcareEntityCategory
+  HealthcareEntityCategory,
+  ClassificationResult
 } from "./generated/models";

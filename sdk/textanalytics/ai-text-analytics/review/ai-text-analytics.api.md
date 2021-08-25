@@ -136,6 +136,12 @@ export interface BeginAnalyzeHealthcareEntitiesOptions extends TextAnalyticsOper
 export interface CategorizedEntity extends Entity {
 }
 
+// @public (undocumented)
+export interface ClassificationResult {
+    category: string;
+    confidenceScore: number;
+}
+
 // @public
 export interface ClassifyCustomMultiClassAction extends CustomTextAnalyticsAction {
     disableServiceLogs?: boolean;
@@ -206,8 +212,6 @@ export interface ClassifyCustomSingleClassSuccessResult extends TextAnalyticsSuc
     classification: CustomClassification;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ClassificationResult" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface CustomClassification extends ClassificationResult {
 }
