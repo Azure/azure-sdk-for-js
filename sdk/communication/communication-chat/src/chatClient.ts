@@ -21,7 +21,7 @@ import {
 } from "@azure/communication-signaling";
 import { getSignalingClient } from "./signaling/signalingClient";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SpanStatusCode } from "@azure/core-http";
+import { SpanStatusCode } from "@azure/core-client";
 import { createSpan } from "./tracing";
 import { ChatThreadClient } from "./chatThreadClient";
 import {

@@ -9,7 +9,7 @@ import { AbortController } from "@azure/abort-controller";
 import { setTracer } from "@azure/test-utils";
 import { Pipeline } from "@azure/storage-blob";
 import { SDK_VERSION } from "../src/utils/constants";
-import { setSpan, context } from "@azure/core-http";
+import { setSpan, tracingContext } from "@azure/test-utils";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -163,7 +163,7 @@ describe("BlobChangeFeedClient", async () => {
 
     const pageIter = changeFeedClient.listChanges({
       tracingOptions: {
-        tracingContext: setSpan(context.active(), rootSpan)
+        tracingContext: setSpan(tracingContext.active(), rootSpan)
       }
     });
     await pageIter.next();
