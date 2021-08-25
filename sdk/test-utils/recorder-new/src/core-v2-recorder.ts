@@ -19,28 +19,25 @@ const paths = {
   stop: "/stop"
 };
 
+type RecordingState = "started" | "stopped";
 /**
  * Helper class to manage the recording state to make sure the proxy-tool is not flooded with unintended requests.
- *
- * => then start
- * => run the runAsync
- * => stop record
- * => start playback
- * => stop playback
  */
 export class RecordingStateManager {
-  public state: "started" | "stopped" | undefined;
+  constructor() {
+    this.state = "stopped";
+  }
 
   /**
    * validateState
    */
-  public validateState(currentFlow: "starting" | "stopping") {
-    if (currentFlow === "starting") {
+  private validateState(nextState: RecordingState) {
+    if (nextState === "started") {
       if (this.state === "started") {
         throw new Error("Recorder Error: Already started, should not have called start again.");
       }
     }
-    if (currentFlow === "stopping") {
+    if (nextState === "stopped") {
       if (this.state === "stopped") {
         throw new Error("Recorder Error: Already stopped, should not have called stop again.");
       }
@@ -48,23 +45,26 @@ export class RecordingStateManager {
         throw new Error("Recorder Error: Please start before calling stop.");
       }
     }
-    if (currentFlow === "starting") {
+    if (nextState === "started") {
       if (this.state !== "stopped" && this.state !== undefined) {
         throw new Error("Recorder Error: Please stop before calling start.");
       }
     }
-    if (currentFlow === "stopping") {
+    if (nextState === "stopped") {
       if (this.state !== "started") {
         throw new Error("Recorder Error: Please start before calling stop.");
       }
     }
   }
 
-  /**
-   * setState
-   */
-  public setState(state: "started" | "stopped") {
-    this.state = state;
+  public get state(): RecordingState {
+    return this.state;
+  }
+
+  public set state(nextState: RecordingState) {
+    // Validate state transition
+    this.validateState(nextState);
+    this.state = nextState;
   }
 }
 
@@ -114,7 +114,7 @@ export class TestProxyHttpClient {
   }
 
   async start(): Promise<void> {
-    this.stateManager.validateState("starting");
+    this.stateManager.state = "started";
     if (this.recordingId === undefined) {
       const startUri = `${this.url}${this.playback ? paths.playback : paths.record}${paths.start}`;
       const req = this._createRecordingRequest(startUri);
@@ -131,11 +131,10 @@ export class TestProxyHttpClient {
       }
       this.recordingId = id;
     }
-    this.stateManager.setState("started");
   }
 
   async stop(): Promise<void> {
-    this.stateManager.validateState("stopping");
+    this.stateManager.state = "stopped";
     if (this.recordingId !== undefined) {
       const stopUri = `${this.url}${this.playback ? paths.playback : paths.record}${paths.stop}`;
       const req = this._createRecordingRequest(stopUri);
@@ -145,7 +144,6 @@ export class TestProxyHttpClient {
     } else {
       throw new Error("Recorder Error: Bad state, recordingId is not defined when called stop.");
     }
-    this.stateManager.setState("stopped");
   }
 
   private _createRecordingRequest(url: string) {
