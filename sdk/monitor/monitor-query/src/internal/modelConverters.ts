@@ -229,6 +229,7 @@ export function convertResponseForMetrics(
     return {
       ...metric,
       name: metric.name.value,
+      description: metric.displayDescription,
       timeseries: metric.timeseries.map(
         (ts: GeneratedTimeSeriesElement) =>
           <TimeSeriesElement>{
@@ -294,7 +295,8 @@ export function convertResponseForMetricsDefinitions(
       const { name, dimensions, ...rest } = genDef;
 
       const response: MetricDefinition = {
-        ...rest
+        ...rest,
+        description: rest.displayDescription
       };
 
       if (name?.value) {

@@ -20,7 +20,7 @@ import {
 } from "./internal/modelConverters";
 import { formatPreferHeader } from "./internal/util";
 import { FullOperationResponse, OperationOptions } from "@azure/core-client";
-import { TimeInterval } from "./models/common";
+import { TimeInterval } from "./models/timeInterval";
 import { convertTimespanToInterval } from "./timespanConversion";
 
 const defaultMonitorScope = "https://api.loganalytics.io/.default";

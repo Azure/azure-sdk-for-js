@@ -206,7 +206,7 @@ describe("Model unit tests", () => {
         metrics: [
           {
             id: "fakeMetric",
-            displayDescription: "displayDescription",
+            description: "displayDescription",
             errorCode: "anErrorCode",
             name: "fakeValue",
             timeseries: [

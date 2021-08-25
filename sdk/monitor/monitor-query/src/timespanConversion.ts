@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TimeInterval } from "./models/common";
+import { TimeInterval } from "./models/timeInterval";
 
 export function convertTimespanToInterval(timespan: TimeInterval): string {
   if (isObjectWithProperties(timespan, ["startTime", "endTime", "duration"])) {

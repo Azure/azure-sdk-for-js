@@ -11,7 +11,7 @@ import {
   AggregationType,
   MetricAvailability
 } from "..";
-import { TimeInterval } from "./common";
+import { TimeInterval } from "./timeInterval";
 
 /**
  * Options used when querying metrics.
@@ -63,7 +63,7 @@ export interface Metric {
   /** the name of the metric */
   name: string;
   /** Detailed description of this metric. */
-  displayDescription?: string;
+  description?: string;
   /** 'Success' or the error details on query failures for this metric. */
   errorCode?: string;
   /** the unit of the metric. */
@@ -160,7 +160,7 @@ export interface MetricDefinition {
   /** the name and the display name of the metric, i.e. it is a localizable string. */
   name?: string;
   /** Detailed description of this metric. */
-  displayDescription?: string;
+  description?: string;
   /** Custom category name for this metric. */
   category?: string;
   /** The class of the metric. */

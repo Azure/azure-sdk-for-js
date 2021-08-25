@@ -106,7 +106,7 @@ export interface MetadataValue {
 
 // @public
 export interface Metric {
-    displayDescription?: string;
+    description?: string;
     errorCode?: string;
     id: string;
     name: string;
@@ -133,8 +133,8 @@ export interface MetricColumn {
 // @public
 export interface MetricDefinition {
     category?: string;
+    description?: string;
     dimensions?: string[];
-    displayDescription?: string;
     id?: string;
     isDimensionRequired?: boolean;
     metricAvailabilities?: MetricAvailability[];

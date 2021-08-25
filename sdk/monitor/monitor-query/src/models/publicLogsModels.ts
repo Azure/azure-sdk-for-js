@@ -3,7 +3,7 @@
 
 import { OperationOptions } from "@azure/core-client";
 import { Column as LogsColumn, ErrorInfo } from "../generated/logquery/src";
-import { TimeInterval } from "./common";
+import { TimeInterval } from "./timeInterval";
 
 // https://dev.loganalytics.io/documentation/Using-the-API/RequestOptions
 // https://dev.loganalytics.io/documentation/Using-the-API/Timeouts
