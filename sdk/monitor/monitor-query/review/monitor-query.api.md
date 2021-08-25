@@ -68,16 +68,27 @@ export interface GetMetricNamespacesResult {
 export type LogsColumnType = string;
 
 // @public
+export type LogsQueryBatchOptions = OperationOptions;
+
+// @public
 export class LogsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions);
-    query(workspaceId: string, query: string, timespan: TimeInterval, options?: QueryLogsOptions): Promise<QueryLogsResult>;
-    queryBatch(batch: QueryBatch[], options?: QueryLogsBatchOptions): Promise<QueryLogsBatchResult>;
+    query(workspaceId: string, query: string, timespan: TimeInterval, options?: LogsQueryOptions): Promise<QueryLogsResult>;
+    queryBatch(batch: QueryBatch[], options?: LogsQueryBatchOptions): Promise<QueryLogsBatchResult>;
 }
 
 // @public
 export interface LogsQueryClientOptions extends PipelineOptions {
     endpoint?: string;
     scopes?: string | string[];
+}
+
+// @public
+export interface LogsQueryOptions extends OperationOptions {
+    additionalWorkspaces?: string[];
+    includeQueryStatistics?: boolean;
+    includeVisualization?: boolean;
+    serverTimeoutInSeconds?: number;
 }
 
 // @public
@@ -160,7 +171,29 @@ export class MetricsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: MetricsClientOptions);
     getMetricDefinitions(resourceUri: string, options?: GetMetricDefinitionsOptions): Promise<GetMetricDefinitionsResult>;
     getMetricNamespaces(resourceUri: string, options?: GetMetricNamespacesOptions): Promise<GetMetricNamespacesResult>;
-    query(resourceUri: string, metricNames: string[], options?: QueryOptions): Promise<QueryMetricsResult>;
+    query(resourceUri: string, metricNames: string[], options?: MetricsQueryOptions): Promise<MetricsQueryResult>;
+}
+
+// @public
+export interface MetricsQueryOptions extends OperationOptions {
+    aggregations?: AggregationType[];
+    filter?: string;
+    granularity?: string;
+    metricNamespace?: string;
+    orderBy?: string;
+    resultType?: ResultType;
+    timespan?: TimeInterval;
+    top?: number;
+}
+
+// @public
+export interface MetricsQueryResult {
+    cost?: number;
+    granularity?: string;
+    metrics: Metric[];
+    namespace?: string;
+    resourceRegion?: string;
+    timespan: string;
 }
 
 // @public
@@ -191,9 +224,6 @@ export interface QueryBatch {
 }
 
 // @public
-export type QueryLogsBatchOptions = OperationOptions;
-
-// @public
 export interface QueryLogsBatchResult {
     results?: {
         id?: string;
@@ -206,41 +236,11 @@ export interface QueryLogsBatchResult {
 }
 
 // @public
-export interface QueryLogsOptions extends OperationOptions {
-    additionalWorkspaces?: string[];
-    includeQueryStatistics?: boolean;
-    includeVisualization?: boolean;
-    serverTimeoutInSeconds?: number;
-}
-
-// @public
 export interface QueryLogsResult {
     error?: ErrorInfo;
     statistics?: any;
     tables: LogsTable[];
     visualization?: any;
-}
-
-// @public
-export interface QueryMetricsResult {
-    cost?: number;
-    granularity?: string;
-    metrics: Metric[];
-    namespace?: string;
-    resourceRegion?: string;
-    timespan: string;
-}
-
-// @public
-export interface QueryOptions extends OperationOptions {
-    aggregations?: AggregationType[];
-    filter?: string;
-    granularity?: string;
-    metricNamespace?: string;
-    orderBy?: string;
-    resultType?: ResultType;
-    timespan?: TimeInterval;
-    top?: number;
 }
 
 // @public

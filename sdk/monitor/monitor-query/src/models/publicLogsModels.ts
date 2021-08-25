@@ -11,7 +11,7 @@ import { TimeInterval } from "./common";
 /**
  * Options for querying logs.
  */
-export interface QueryOptions extends OperationOptions {
+export interface LogsQueryOptions extends OperationOptions {
   /**
    * A list of workspaces that are included in the query, except for the one set as the `workspaceId` parameter
    * These may consist of the following identifier formats:
@@ -51,7 +51,7 @@ export interface QueryStatistics {
 /**
  * Tables and statistic results from a logs query.
  */
-export interface QueryLogsResult {
+export interface LogsQueryResult {
   /** The list of tables, columns and rows. */
   tables: LogsTable[];
   /** Statistics represented in JSON format. */
@@ -63,7 +63,7 @@ export interface QueryLogsResult {
 }
 
 /** Options when query logs with a batch. */
-export type QueryBatchOptions = OperationOptions;
+export type LogsQueryBatchOptions = OperationOptions;
 
 /** The Analytics query. Learn more about the [Analytics query syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/) */
 // NOTE: 'id' is added automatically by our LogsClient.
@@ -104,7 +104,7 @@ export interface QueryBatch {
 }
 
 /** Results for a batch query. */
-export interface QueryLogsBatchResult {
+export interface LogsQueryBatchResult {
   /** An array of responses corresponding to each individual request in a batch. */
   results?: {
     id?: string;

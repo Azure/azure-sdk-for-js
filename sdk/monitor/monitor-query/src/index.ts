@@ -7,10 +7,10 @@
 export { LogsQueryClientOptions, LogsQueryClient } from "./logsQueryClient";
 export {
   QueryBatch,
-  QueryBatchOptions as QueryLogsBatchOptions,
-  QueryLogsBatchResult,
-  QueryOptions as QueryLogsOptions,
-  QueryLogsResult,
+  LogsQueryBatchOptions,
+  LogsQueryBatchResult as QueryLogsBatchResult,
+  LogsQueryOptions,
+  LogsQueryResult as QueryLogsResult,
   // TODO: design issues around this still pending.
   // QueryStatistics,
   LogsTable
@@ -27,8 +27,8 @@ export {
   MetadataValue,
   Metric,
   MetricDefinition,
-  QueryOptions,
-  QueryMetricsResult,
+  MetricsQueryOptions,
+  MetricsQueryResult,
   TimeSeriesElement
 } from "./models/publicMetricsModels";
 

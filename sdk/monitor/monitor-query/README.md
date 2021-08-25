@@ -153,7 +153,7 @@ const logsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
 
 async function run() {
   const kustoQuery = "AppEvents | limit 1";
-  const result = await logsQueryClient.queryLogs(azureLogAnalyticsWorkspaceId, kustoQuery, {
+  const result = await logsQueryClient.query(azureLogAnalyticsWorkspaceId, kustoQuery, {
     duration: Durations.last24Hours
   });
   const tablesFromResult = result.tables;
@@ -182,12 +182,12 @@ run().catch((err) => console.log("ERROR:", err));
 
 #### Handling the response for Logs Query
 
-The `queryLogs` API returns the `QueryLogsResult`.
+The `query` API for LogsQueryClient returns the `LogsQueryResult`.
 
 Here is a heirarchy of the response:
 
 ```
-QueryLogsResult
+LogsQueryResult
 |---statistics
 |---visalization
 |---error
@@ -222,12 +222,12 @@ A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob
 
 ```ts
   // setting optional parameters
-   const queryLogsOptions: QueryLogsOptions = {
+   const queryLogsOptions: LogsQueryOptions = {
     // explicitly control the amount of time the server can spend processing the query.
     serverTimeoutInSeconds: 60
   };
 
-  const result = await logsQueryClient.queryLogs(
+  const result = await logsQueryClient.query(
     azureLogAnalyticsWorkspaceId,
     kustoQuery,
     {duration: Durations.last24Hours},
@@ -335,12 +335,12 @@ export async function main() {
 
 #### Handling the response for Query Logs Batch
 
-The `queryLogsBatch` API returns the `QueryLogsBatchResult`.
+The `queryLogsBatch` API returns the `LogsQueryBatchResult`.
 
 Here is a heirarchy of the response:
 
 ```
-QueryLogsBatchResult
+LogsQueryBatchResult
 |---results (list of following objects)
     |---id
     |---status
@@ -531,7 +531,7 @@ The same log query can be executed across multiple Log Analytics workspaces. In 
 For example, the following query executes in three workspaces:
 
 ```ts
-const queryLogsOptions: QueryLogsOptions = {
+const queryLogsOptions: LogsQueryOptions = {
   additionalWorkspaces: ["<workspace2>", "<workspace3>"]
 };
 

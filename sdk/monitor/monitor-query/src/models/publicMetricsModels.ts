@@ -16,7 +16,7 @@ import { TimeInterval } from "./common";
 /**
  * Options used when querying metrics.
  */
-export interface QueryOptions extends OperationOptions {
+export interface MetricsQueryOptions extends OperationOptions {
   /** The interval (i.e. timegrain) of the query.{@link Durations} helper contains aliases for some common ISO8601 durations.
    * This is an ISO8601 duration value in the format P[n]Y[n]M[n]DT[n]H[n]M[n]S
    *  where  P is the duration designator (for period) placed at the start of the duration representation.
@@ -94,7 +94,7 @@ export interface TimeSeriesElement {
 /**
  * Metrics, including additional information like cost, the resourceRegion, etc...
  */
-export interface QueryMetricsResult {
+export interface MetricsQueryResult {
   // track 2 version of `MetricsListResponse`
 
   /** The integer value representing the cost of the query, for data case. */

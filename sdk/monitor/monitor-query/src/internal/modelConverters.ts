@@ -33,8 +33,8 @@ import {
   GetMetricNamespacesResult,
   LogsTable,
   QueryLogsBatchResult,
-  QueryOptions as QueryMetricsOptions,
-  QueryMetricsResult
+  MetricsQueryOptions,
+  MetricsQueryResult
 } from "../../src";
 import { Metric, MetricDefinition, TimeSeriesElement } from "../models/publicMetricsModels";
 import { FullOperationResponse } from "../../../../core/core-client/types/latest/core-client";
@@ -177,7 +177,7 @@ export function fixInvalidBatchQueryResponse(
  * @internal
  */
 export function convertRequestForMetrics(
-  queryMetricsOptions: QueryMetricsOptions | undefined,
+  queryMetricsOptions: MetricsQueryOptions | undefined,
   metricNames: string[]
 ): GeneratedMetricsListOptionalParams {
   if (!queryMetricsOptions) {
@@ -224,7 +224,7 @@ export function convertRequestForMetrics(
  */
 export function convertResponseForMetrics(
   generatedResponse: GeneratedMetricsListResponse
-): QueryMetricsResult {
+): MetricsQueryResult {
   const metrics: Metric[] = generatedResponse.value.map((metric: GeneratedMetric) => {
     return {
       ...metric,
@@ -245,7 +245,7 @@ export function convertResponseForMetrics(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars -- eslint doesn't recognize that the extracted variables are prefixed with '_' and are purposefully unused.
   const { resourceregion, value: _ignoredValue, interval, ...rest } = generatedResponse;
 
-  const obj: QueryMetricsResult = {
+  const obj: MetricsQueryResult = {
     ...rest,
     metrics
   };

@@ -7,10 +7,10 @@ import { PipelineOptions, bearerTokenAuthenticationPolicy } from "@azure/core-re
 
 import {
   QueryBatch,
-  QueryBatchOptions,
-  QueryLogsBatchResult,
-  QueryOptions,
-  QueryLogsResult
+  LogsQueryBatchOptions,
+  LogsQueryBatchResult,
+  LogsQueryOptions,
+  LogsQueryResult
 } from "./models/publicLogsModels";
 
 import {
@@ -83,8 +83,8 @@ export class LogsQueryClient {
     workspaceId: string,
     query: string,
     timespan: TimeInterval,
-    options?: QueryOptions
-  ): Promise<QueryLogsResult> {
+    options?: LogsQueryOptions
+  ): Promise<LogsQueryResult> {
     let timeInterval: string = "";
     if (timespan) {
       timeInterval = convertTimespanToInterval(timespan);
@@ -127,8 +127,8 @@ export class LogsQueryClient {
    */
   async queryBatch(
     batch: QueryBatch[],
-    options?: QueryBatchOptions
-  ): Promise<QueryLogsBatchResult> {
+    options?: LogsQueryBatchOptions
+  ): Promise<LogsQueryBatchResult> {
     const generatedRequest = convertRequestForQueryBatch(batch);
     const { flatResponse, rawResponse } = await getRawResponse(
       (paramOptions) => this._logAnalytics.query.batch(generatedRequest, paramOptions),

@@ -6,7 +6,7 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { Durations, LogsQueryClient, LogsTable, QueryLogsOptions } from "@azure/monitor-query";
+import { Durations, LogsQueryClient, LogsTable, LogsQueryOptions } from "@azure/monitor-query";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -26,7 +26,7 @@ export async function main() {
     "AppEvents | project TimeGenerated, Name, AppRoleInstance | order by TimeGenerated asc | limit 10";
 
   console.log(`Running '${kustoQuery}' over the last 5 minutes`);
-  const queryLogsOptions: QueryLogsOptions = {
+  const queryLogsOptions: LogsQueryOptions = {
     // explicitly control the amount of time the server can spend processing the query.
     serverTimeoutInSeconds: 60,
     // optionally enable returning additional statistics about the query's execution.
