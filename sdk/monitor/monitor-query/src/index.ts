@@ -33,7 +33,7 @@ export {
 } from "./models/publicMetricsModels";
 
 export { Durations } from "./models/constants";
-export { TimeInterval } from "./models/common";
+export { TimeInterval } from "./models/timeInterval";
 //
 // LogsClient: generated exports
 //
