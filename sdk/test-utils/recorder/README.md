@@ -1,5 +1,7 @@
 ## Azure test-utils-recorder SDK client library for JavaScript
 
+### **Note: This project is a test utility that assits with testing the packages maintained at the Azure SDK for JavaScript repository. This is not intended for the public utilization.**
+
 The Azure SDK for JavaScript is composed of a multitude of repositories that
 attempt to deliver a common, homogenous SDK to make use of all of the services
 that Azure can provide. Among the challenges of such a goal, we have some that
