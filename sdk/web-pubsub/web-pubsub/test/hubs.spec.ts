@@ -126,5 +126,12 @@ describe("HubClient", function() {
       // grantPermission validates connection ids, so we expect an error here.
       assert.equal(error.statusCode, 404);
     });
+
+    it("can generate client tokens", async () => {
+      let result = await client.generateClientToken({
+        userId: "brian"
+      });
+      console.log(result.token);
+    })
   });
 });

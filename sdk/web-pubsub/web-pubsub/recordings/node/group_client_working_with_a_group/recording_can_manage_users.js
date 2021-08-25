@@ -1,69 +1,45 @@
 let nock = require('nock');
 
-module.exports.hash = "4e60ac6ee2ad28a116e3843b0788971c";
+module.exports.hash = "46569ffa13813a00ed92859b614d5496";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .put('/api/hubs/simplechat/users/brian/groups/group')
   .query(true)
-  .reply(200, "", [
+  .reply(404, ["1f8b08000000000000030a2d4e2d5248482aca4ccc4b50c82c56c8cb2f5148cb2fcd4bd103000000ffff","0300cf51bf3f1a000000"], [
   'Date',
-  'Thu, 22 Apr 2021 16:33:13 GMT',
-  'Content-Length',
-  '0',
+  'Wed, 25 Aug 2021 20:26:01 GMT',
+  'Content-Type',
+  'text/plain; charset=utf-8',
+  'Transfer-Encoding',
+  'chunked',
   'Connection',
   'keep-alive',
+  'Vary',
+  'Accept-Encoding',
   'Strict-Transport-Security',
-  'max-age=15724800; includeSubDomains'
-]);
-
-nock('https://endpoint:443', {"encodedQueryParams":true})
-  .head('/api/hubs/simplechat/users/brian/groups/group')
-  .query(true)
-  .reply(200, "", [
-  'Date',
-  'Thu, 22 Apr 2021 16:33:13 GMT',
-  'Connection',
-  'keep-alive',
-  'Strict-Transport-Security',
-  'max-age=15724800; includeSubDomains'
-]);
-
-nock('https://endpoint:443', {"encodedQueryParams":true})
-  .head('/api/hubs/simplechat/users/jeff/groups/group')
-  .query(true)
-  .reply(404, "", [
-  'Date',
-  'Thu, 22 Apr 2021 16:33:14 GMT',
-  'Connection',
-  'keep-alive',
-  'Strict-Transport-Security',
-  'max-age=15724800; includeSubDomains'
+  'max-age=15724800; includeSubDomains',
+  'Content-Encoding',
+  'gzip'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .delete('/api/hubs/simplechat/users/brian/groups/group')
   .query(true)
-  .reply(200, "", [
+  .reply(200, ["1f8b08000000000000030a2d4e2d5248482aca4ccc4b50c82c56c8cb2f5148cb2fcd4bd103000000ffff","0300cf51bf3f1a000000"], [
   'Date',
-  'Thu, 22 Apr 2021 16:33:14 GMT',
-  'Content-Length',
-  '0',
+  'Wed, 25 Aug 2021 20:26:01 GMT',
+  'Content-Type',
+  'text/plain; charset=utf-8',
+  'Transfer-Encoding',
+  'chunked',
   'Connection',
   'keep-alive',
+  'Vary',
+  'Accept-Encoding',
   'Strict-Transport-Security',
-  'max-age=15724800; includeSubDomains'
-]);
-
-nock('https://endpoint:443', {"encodedQueryParams":true})
-  .head('/api/hubs/simplechat/users/brian/groups/group')
-  .query(true)
-  .reply(404, "", [
-  'Date',
-  'Thu, 22 Apr 2021 16:33:14 GMT',
-  'Connection',
-  'keep-alive',
-  'Strict-Transport-Security',
-  'max-age=15724800; includeSubDomains'
+  'max-age=15724800; includeSubDomains',
+  'Content-Encoding',
+  'gzip'
 ]);

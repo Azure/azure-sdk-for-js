@@ -1,15 +1,15 @@
 let nock = require('nock');
 
-module.exports.hash = "709c999753141aec3aca59c5aae20c4d";
+module.exports.hash = "8843298d006e41b95983175608ac5b1b";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .put('/api/hubs/simplechat/groups/group/connections/xxxx')
   .query(true)
-  .reply(404, ["1f8b080000000000000372cecfcb4b4d2ec9cccf53c84c51c8cb2f5148cb2fcd4b01000000ffff","03002a887b5e17000000"], [
+  .reply(404, ["1f8b080000000000000372cecfcb4b4d2ec9cccf5348a800820485cc6285bcfc1285b4fcd2bc143d00000000ffff","0300a3fa1ff91f000000"], [
   'Date',
-  'Thu, 22 Apr 2021 16:33:13 GMT',
+  'Wed, 25 Aug 2021 20:26:01 GMT',
   'Content-Type',
   'text/plain; charset=utf-8',
   'Transfer-Encoding',
@@ -29,7 +29,7 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   .query(true)
   .reply(200, ["1f8b0800000000000003f2cf06000000ffff","0300e5f958ec02000000"], [
   'Date',
-  'Thu, 22 Apr 2021 16:33:13 GMT',
+  'Wed, 25 Aug 2021 20:26:01 GMT',
   'Content-Type',
   'text/plain; charset=utf-8',
   'Transfer-Encoding',

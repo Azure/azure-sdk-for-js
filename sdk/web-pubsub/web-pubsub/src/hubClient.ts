@@ -3,9 +3,9 @@
 
 import { CommonClientOptions, FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { InternalPipelineOptions, RestError, RequestBodyType } from "@azure/core-rest-pipeline";
-import { GeneratedClient } from "./generated/generatedClient";
+import { AzureWebPubSubServiceRestAPI } from "./generated/azureWebPubSubServiceRestAPI";
 import { WebPubSubGroup, WebPubSubGroupImpl } from "./groupClient";
-import normalizeSendToAllOptions from "./normalizeOptions";
+import { normalizeSendToAllOptions, normalizeGenerateClientTokenOptions } from "./normalizeOptions";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { webPubSubKeyCredentialPolicy } from "./webPubSubCredentialPolicy";
 import { createSpan } from "./tracing";
@@ -165,7 +165,7 @@ export interface HubRevokePermissionOptions extends OperationOptions {
 }
 
 /**
- * Options for check if a connection has the specified permission
+ * Options for checking if a connection has the specified permission
  */
 export interface HubHasPermissionOptions extends OperationOptions {
   /**
@@ -176,10 +176,36 @@ export interface HubHasPermissionOptions extends OperationOptions {
 }
 
 /**
+ * Options for generating a token to connect a client to the Azure Web Pubsub service.
+ */
+export interface GenerateClientTokenOptions extends OperationOptions {
+  /**
+   * The userId for the client.
+   */
+  userId?: string;
+
+  /**
+   * The roles that the connection with the generated token will have.
+   * Roles give the client initial permissions to leave, join, or publish to groups when using PubSub subprotocol
+   * * `webpubsub.joinLeaveGroup`: the client can join or leave any group
+   * * `webpubsub.sendToGroup`: the client can send messages to any group
+   * * `webpubsub.joinLeaveGroup.<group>`: the client can join or leave group `<group>`
+   * * `webpubsub.sendToGroup.<group>`: the client can send messages to group `<group>`
+   *
+   * {@link https://azure.github.io/azure-webpubsub/references/pubsub-websocket-subprotocol#permissions}
+   */
+  roles?: string[];
+
+  /**
+   * Minutes until the token expires.
+   */
+  minutesToExpire?: number;
+}
+/**
  * Client for connecting to a Web PubSub hub
  */
 export class WebPubSubServiceClient {
-  private readonly client: GeneratedClient;
+  private readonly client: AzureWebPubSubServiceRestAPI;
   private credential!: AzureKeyCredential;
   private readonly clientOptions?: HubAdminClientOptions;
 
@@ -190,7 +216,7 @@ export class WebPubSubServiceClient {
   /**
    * The Web PubSub API version being used by this client
    */
-  public readonly apiVersion: string = "2020-10-01";
+  public readonly apiVersion: string = "2021-05-01-preview";
 
   /**
    * The Web PubSub endpoint this client is connected to
@@ -264,7 +290,7 @@ export class WebPubSubServiceClient {
       }
     };
 
-    this.client = new GeneratedClient(this.endpoint, internalPipelineOptions);
+    this.client = new AzureWebPubSubServiceRestAPI(this.endpoint, internalPipelineOptions);
     this.client.pipeline.addPolicy(webPubSubKeyCredentialPolicy(this.credential));
   }
 
@@ -536,7 +562,7 @@ export class WebPubSubServiceClient {
     );
 
     try {
-      return await this.client.webPubSub.closeClientConnection(
+      return await this.client.webPubSub.closeConnection(
         this.hubName,
         connectionId,
         updatedOptions
@@ -744,6 +770,20 @@ export class WebPubSubServiceClient {
           response: response
         });
       }
+    } finally {
+      span.end();
+    }
+  }
+
+  public async generateClientToken(options: GenerateClientTokenOptions = {}) {
+    const normalizedOptions = normalizeGenerateClientTokenOptions(options);
+    const { span, updatedOptions } = createSpan(
+      "WebPubSubServiceClient-hub-generateClientToken",
+      normalizedOptions
+    );
+
+    try {
+      return await this.client.webPubSub.generateClientToken(this.hubName, updatedOptions);
     } finally {
       span.end();
     }
