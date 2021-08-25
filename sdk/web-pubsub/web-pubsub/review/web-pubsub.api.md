@@ -8,6 +8,7 @@ import { AzureKeyCredential } from '@azure/core-auth';
 import { CommonClientOptions } from '@azure/core-client';
 import { OperationOptions } from '@azure/core-client';
 import { RequestBodyType } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 export { AzureKeyCredential }
 
@@ -156,7 +157,7 @@ export interface WebPubSubGroup {
 // @public
 export class WebPubSubServiceClient {
     constructor(connectionString: string, hubName: string, options?: HubAdminClientOptions);
-    constructor(endpoint: string, credential: AzureKeyCredential, hubName: string, options?: HubAdminClientOptions);
+    constructor(endpoint: string, credential: AzureKeyCredential | TokenCredential, hubName: string, options?: HubAdminClientOptions);
     readonly apiVersion: string;
     closeConnection(connectionId: string, options?: CloseConnectionOptions): Promise<void>;
     endpoint: string;

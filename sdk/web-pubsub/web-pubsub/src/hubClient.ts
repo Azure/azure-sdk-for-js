@@ -2,17 +2,18 @@
 // Licensed under the MIT license.
 
 import { CommonClientOptions, FullOperationResponse, OperationOptions } from "@azure/core-client";
-import { InternalPipelineOptions, RestError, RequestBodyType } from "@azure/core-rest-pipeline";
+import { RestError, RequestBodyType } from "@azure/core-rest-pipeline";
 import { AzureWebPubSubServiceRestAPI } from "./generated/azureWebPubSubServiceRestAPI";
 import { WebPubSubGroup, WebPubSubGroupImpl } from "./groupClient";
 import { normalizeSendToAllOptions, normalizeGenerateClientTokenOptions } from "./normalizeOptions";
-import { AzureKeyCredential } from "@azure/core-auth";
+import { AzureKeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { webPubSubKeyCredentialPolicy } from "./webPubSubCredentialPolicy";
 import { createSpan } from "./tracing";
 import { logger } from "./logger";
 import { parseConnectionString } from "./parseConnectionString";
 import jwt from "jsonwebtoken";
 import { getPayloadForMessage } from "./utils";
+import { AzureWebPubSubServiceRestAPIOptionalParams } from "./generated";
 
 /**
  * Options for closing a connection to a hub.
@@ -206,7 +207,7 @@ export interface GenerateClientTokenOptions extends OperationOptions {
  */
 export class WebPubSubServiceClient {
   private readonly client: AzureWebPubSubServiceRestAPI;
-  private credential!: AzureKeyCredential;
+  private credential!: AzureKeyCredential | TokenCredential;
   private readonly clientOptions?: HubAdminClientOptions;
 
   /**
@@ -257,22 +258,26 @@ export class WebPubSubServiceClient {
    */
   constructor(
     endpoint: string,
-    credential: AzureKeyCredential,
+    credential: AzureKeyCredential | TokenCredential,
     hubName: string,
     options?: HubAdminClientOptions
   );
   constructor(
     endpointOrConnectionString: string,
-    credsOrHubName?: AzureKeyCredential | string,
+    credsOrHubName?: AzureKeyCredential | TokenCredential | string,
     hubNameOrOpts?: string | HubAdminClientOptions,
     opts?: HubAdminClientOptions
   ) {
     // unpack constructor arguments
-    if (typeof credsOrHubName === "object" && "key" in credsOrHubName) {
+    if (typeof credsOrHubName === "object") {
       this.endpoint = endpointOrConnectionString;
-      this.credential = credsOrHubName;
       this.hubName = hubNameOrOpts as string;
       this.clientOptions = opts;
+      if ("key" in credsOrHubName) {
+        this.credential = credsOrHubName;
+      } else {
+        this.credential = credsOrHubName;
+      }
     } else {
       const parsedCs = parseConnectionString(endpointOrConnectionString);
       this.endpoint = parsedCs.endpoint;
@@ -281,17 +286,26 @@ export class WebPubSubServiceClient {
       this.clientOptions = hubNameOrOpts as HubAdminClientOptions;
     }
 
-    const internalPipelineOptions: InternalPipelineOptions = {
+    const internalPipelineOptions: AzureWebPubSubServiceRestAPIOptionalParams = {
       ...this.clientOptions,
       ...{
         loggingOptions: {
           logger: logger.info
         }
-      }
+      },
+      ...(isTokenCredential(this.credential)
+        ? {
+            credential: isTokenCredential(this.credential) ? this.credential : undefined,
+            credentialScopes: ["https://webpubsub.azure.com/.default"]
+          }
+        : {})
     };
 
     this.client = new AzureWebPubSubServiceRestAPI(this.endpoint, internalPipelineOptions);
-    this.client.pipeline.addPolicy(webPubSubKeyCredentialPolicy(this.credential));
+
+    if (!isTokenCredential(this.credential)) {
+      this.client.pipeline.addPolicy(webPubSubKeyCredentialPolicy(this.credential));
+    }
   }
 
   /**
@@ -301,6 +315,9 @@ export class WebPubSubServiceClient {
   public async getAuthenticationToken(
     options?: GetAuthenticationTokenOptions
   ): Promise<GetAuthenticationTokenResponse> {
+    if (isTokenCredential(this.credential)) {
+      throw new Error("getAuthenticationToken is not supported with a TokenCredential.");
+    }
     const endpoint = this.endpoint.endsWith("/") ? this.endpoint : this.endpoint + "/";
     const key = this.credential.key;
     const hub = this.hubName;

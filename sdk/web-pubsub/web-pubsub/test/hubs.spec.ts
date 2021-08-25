@@ -6,6 +6,7 @@ import { WebPubSubServiceClient, AzureKeyCredential } from "../src";
 import { assert } from "chai";
 import environmentSetup from "./testEnv";
 import { FullOperationResponse } from "@azure/core-client";
+import { DefaultAzureCredential } from "@azure/identity";
 
 describe("HubClient", function() {
   let recorder: Recorder;
@@ -40,6 +41,19 @@ describe("HubClient", function() {
         );
       });
     });
+
+    it.only("takes an endpoint, DefaultAzureCredential, a hub name, and options", () => {
+      assert.doesNotThrow(() => {
+        new WebPubSubServiceClient(
+          env.ENDPOINT,
+          new DefaultAzureCredential(),
+          "test-hub",
+          {
+            retryOptions: { maxRetries: 2 }
+          }
+        );
+      });
+    });
   });
 
   describe("Working with a hub", function() {
@@ -53,6 +67,20 @@ describe("HubClient", function() {
     });
 
     it("can broadcast", async () => {
+      await client.sendToAll("hello", { contentType: "text/plain", onResponse });
+      assert.equal(lastResponse?.status, 202);
+
+      await client.sendToAll({ x: 1, y: 2 }, { onResponse });
+      assert.equal(lastResponse?.status, 202);
+
+      const binaryMessage = new Uint8Array(10);
+      await client.sendToAll(binaryMessage.buffer, { onResponse });
+      assert.equal(lastResponse?.status, 202);
+    });
+
+    it.only("can broadcast using the DAC", async () => {
+      const client = new WebPubSubServiceClient(env.ENDPOINT, new DefaultAzureCredential(), "simplechat");
+
       await client.sendToAll("hello", { contentType: "text/plain", onResponse });
       assert.equal(lastResponse?.status, 202);
 
@@ -132,6 +160,6 @@ describe("HubClient", function() {
         userId: "brian"
       });
       console.log(result.token);
-    })
+    });
   });
 });
