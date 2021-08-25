@@ -154,6 +154,12 @@ export const MetricDimension: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      toBeExportedForShoebox: {
+        serializedName: "toBeExportedForShoebox",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -195,6 +201,64 @@ export const MetricSpecification: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      supportedAggregationTypes: {
+        serializedName: "supportedAggregationTypes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      supportedTimeGrainTypes: {
+        serializedName: "supportedTimeGrainTypes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      enableRegionalMdmAccount: {
+        serializedName: "enableRegionalMdmAccount",
+        type: {
+          name: "Boolean"
+        }
+      },
+      sourceMdmAccount: {
+        serializedName: "sourceMdmAccount",
+        type: {
+          name: "String"
+        }
+      },
+      sourceMdmNamespace: {
+        serializedName: "sourceMdmNamespace",
+        type: {
+          name: "String"
+        }
+      },
+      metricFilterPattern: {
+        serializedName: "metricFilterPattern",
+        type: {
+          name: "String"
+        }
+      },
+      fillGapWithZero: {
+        serializedName: "fillGapWithZero",
+        type: {
+          name: "Boolean"
+        }
+      },
+      category: {
+        serializedName: "category",
+        type: {
+          name: "String"
+        }
+      },
       internalMetricName: {
         serializedName: "internalMetricName",
         type: {
@@ -211,6 +275,12 @@ export const MetricSpecification: msRest.CompositeMapper = {
               className: "MetricDimension"
             }
           }
+        }
+      },
+      lockedAggregationType: {
+        serializedName: "lockedAggregationType",
+        type: {
+          name: "String"
         }
       }
     }
@@ -865,6 +935,84 @@ export const RemoteRenderingAccount: msRest.CompositeMapper = {
   }
 };
 
+export const ObjectAnchorsAccountIdentity: msRest.CompositeMapper = {
+  serializedName: "ObjectAnchorsAccount_identity",
+  type: {
+    name: "Composite",
+    className: "ObjectAnchorsAccountIdentity",
+    modelProperties: {
+      ...Identity.type.modelProperties
+    }
+  }
+};
+
+export const ObjectAnchorsAccount: msRest.CompositeMapper = {
+  serializedName: "ObjectAnchorsAccount",
+  type: {
+    name: "Composite",
+    className: "ObjectAnchorsAccount",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ObjectAnchorsAccountIdentity"
+        }
+      },
+      storageAccountName: {
+        serializedName: "properties.storageAccountName",
+        type: {
+          name: "String"
+        }
+      },
+      accountId: {
+        readOnly: true,
+        serializedName: "properties.accountId",
+        type: {
+          name: "String"
+        }
+      },
+      accountDomain: {
+        readOnly: true,
+        serializedName: "properties.accountDomain",
+        type: {
+          name: "String"
+        }
+      },
+      plan: {
+        serializedName: "plan",
+        type: {
+          name: "Composite",
+          className: "Identity"
+        }
+      },
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "Sku"
+        }
+      },
+      kind: {
+        serializedName: "kind",
+        type: {
+          name: "Composite",
+          className: "Sku"
+        }
+      },
+      systemData: {
+        readOnly: true,
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      }
+    }
+  }
+};
+
 export const OperationPage: msRest.CompositeMapper = {
   serializedName: "OperationPage",
   type: {
@@ -935,6 +1083,34 @@ export const RemoteRenderingAccountPage: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "RemoteRenderingAccount"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ObjectAnchorsAccountPage: msRest.CompositeMapper = {
+  serializedName: "ObjectAnchorsAccountPage",
+  type: {
+    name: "Composite",
+    className: "ObjectAnchorsAccountPage",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ObjectAnchorsAccount"
             }
           }
         }

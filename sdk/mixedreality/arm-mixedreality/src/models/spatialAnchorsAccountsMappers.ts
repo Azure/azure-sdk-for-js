@@ -13,6 +13,8 @@ export {
   BaseResource,
   CloudError,
   Identity,
+  ObjectAnchorsAccount,
+  ObjectAnchorsAccountIdentity,
   Plan,
   ProxyResource,
   RemoteRenderingAccount,
