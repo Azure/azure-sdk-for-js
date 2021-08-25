@@ -115,13 +115,12 @@ function New-DeployManifest {
 function Update-SamplesForService {
   Param([Parameter(Mandatory = $true)] $entry)
 
-  Write-Verbose "Preparing samples for $($entry.Name)"
-  dev-tool samples prep --directory $entry.PackageDirectory --use-packages
+  # Write-Verbose "Preparing samples for $($entry.Name)"
+  # dev-tool samples prep --directory $entry.PackageDirectory --use-packages
 
   # Resolve full path for samples location. This has to be set after sample
   # prep because the directory will not resolve until the folder exists.
-  tree "$repoRoot/sdk/$ServiceDirectory/template/" /F
-  $entry.SamplesDirectory = "$repoRoot/sdk/$ServiceDirectory/*/dist-samples/*/javascript/"
+  $entry.SamplesDirectory = "$repoRoot/sdk/$ServiceDirectory/*/samples/*/javascript/"
 }
 
 function Update-SampleDependencies {
