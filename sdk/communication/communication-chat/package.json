@@ -132,7 +132,7 @@
     "constantPaths": [
       {
         "path": "src/generated/src/chatApiClientContext.ts",
-        "prefix": "packageVersion"
+        "prefix": "packageDetails"
       },
       {
         "path": "swagger/README.md",
