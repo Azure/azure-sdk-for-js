@@ -20,6 +20,7 @@ dependencies:
   '@rush-temp/arm-resources-subscriptions': file:projects/arm-resources-subscriptions.tgz
   '@rush-temp/arm-sql': file:projects/arm-sql.tgz
   '@rush-temp/arm-storage': file:projects/arm-storage.tgz
+  '@rush-temp/arm-templatespecs': file:projects/arm-templatespecs.tgz
   '@rush-temp/arm-webpubsub': file:projects/arm-webpubsub.tgz
   '@rush-temp/attestation': file:projects/attestation.tgz
   '@rush-temp/communication-chat': file:projects/communication-chat.tgz
@@ -8841,6 +8842,26 @@ packages:
       integrity: sha512-qBc4PYovQxo5tZRHGNtgQLmfF7Uq8FVopd9F1Ghu5qcS68wESbBhwZ1px9/EjPWIHpPyrBzazFRMlvT+5gcthA==
       tarball: file:projects/arm-storage.tgz
     version: 0.0.0
+  file:projects/arm-templatespecs.tgz:
+    dependencies:
+      '@microsoft/api-extractor': 7.7.11
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      mkdirp: 1.0.4
+      rollup: 1.32.1
+      rollup-plugin-node-resolve: 3.4.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.1
+    dev: false
+    name: '@rush-temp/arm-templatespecs'
+    resolution:
+      integrity: sha512-xJ4r+nZre0Bli2nfn7U0n/MX7cbpw0zyG40XetY8XvGX5C07tKzeRa+1ptGSuaw8U3o4BOSWsDVCA6Z/YEZt2g==
+      tarball: file:projects/arm-templatespecs.tgz
+    version: 0.0.0
   file:projects/arm-webpubsub.tgz:
     dependencies:
       '@microsoft/api-extractor': 7.7.11
@@ -8911,7 +8932,7 @@ packages:
     dev: false
     name: '@rush-temp/attestation'
     resolution:
-      integrity: sha512-DlX4f2f9BKT2l3aH351UEM3jokEvUpQnR89QNqdQKN2Pbp8QP+asZbsBQpBHWMaThLSUajxggf3zgrc2YcWqEA==
+      integrity: sha512-zx8djgQJHlI94UIzMfF4EF1t9RJN2IHkeaIu9abXStBBetsdfQgLVqPhpQ3IAqDMD2tTznSkvWbMnlIiwL24zA==
       tarball: file:projects/attestation.tgz
     version: 0.0.0
   file:projects/communication-chat.tgz:
@@ -8929,6 +8950,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.19
       '@types/sinon': 9.0.11
+      '@types/uuid': 8.3.1
       assert: 1.5.0
       chai: 4.3.4
       cross-env: 7.0.3
@@ -8964,10 +8986,11 @@ packages:
       typedoc: 0.15.2
       typescript: 4.2.4
       util: 0.12.4
+      uuid: 8.3.2
     dev: false
     name: '@rush-temp/communication-chat'
     resolution:
-      integrity: sha512-J9pI+zoofrbGE5JN7f+ylcCtejg5cfDEU6YCkj+vA8SlDhmatprWeHy33GDEArTjc+09EK8ZUQVmXXz1DUcm/Q==
+      integrity: sha512-iK/tanehdcoDEh8n3iLnc33ancPWTq92R7tTT6KpXhhj/j/cw77w0GXJEjPo0NOAIxFn8lGLZYq0Grkrr8lg2g==
       tarball: file:projects/communication-chat.tgz
     version: 0.0.0
   file:projects/communication-common.tgz:
@@ -10585,7 +10608,7 @@ packages:
     dev: false
     name: '@rush-temp/iot-device-update'
     resolution:
-      integrity: sha512-tAwrKW8JsvOujf5Gan0s8I7q1ZjeZgcYvqww7VX0t528P0qEozwWKzgVRwBB5Zkz4jzNM0b+Vh+lL+EUB7VMgg==
+      integrity: sha512-kL3fFp9QhcyAryY2/YEo5eH90SDFUv0GXYrd54cWb6pr6l7xqh6Jel4YLbVQ7mlJW7Ts3lYODVqBTFFjEX3mKw==
       tarball: file:projects/iot-device-update.tgz
     version: 0.0.0
   file:projects/iot-modelsrepository.tgz:
@@ -12746,6 +12769,7 @@ specifiers:
   '@rush-temp/arm-resources-subscriptions': file:./projects/arm-resources-subscriptions.tgz
   '@rush-temp/arm-sql': file:./projects/arm-sql.tgz
   '@rush-temp/arm-storage': file:./projects/arm-storage.tgz
+  '@rush-temp/arm-templatespecs': file:./projects/arm-templatespecs.tgz
   '@rush-temp/arm-webpubsub': file:./projects/arm-webpubsub.tgz
   '@rush-temp/attestation': file:./projects/attestation.tgz
   '@rush-temp/communication-chat': file:./projects/communication-chat.tgz
