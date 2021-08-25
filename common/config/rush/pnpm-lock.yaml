@@ -1,43 +1,12 @@
 dependencies:
-  '@azure-rest/core-client': 1.0.0-beta.6
-  '@azure-rest/core-client-paging': 1.0.0-beta.1
-  '@azure/ai-form-recognizer': 3.1.0-beta.3
-  '@azure/ai-metrics-advisor': 1.0.0-beta.3
-  '@azure/ai-text-analytics': 5.1.0
-  '@azure/communication-identity': 1.0.0
-  '@azure/communication-signaling': 1.0.0-beta.7
-  '@azure/core-tracing': 1.0.0-preview.13
-  '@azure/event-hubs': 2.1.4
-  '@azure/keyvault-keys': 4.3.0
-  '@azure/logger-js': 1.3.2
-  '@azure/ms-rest-nodeauth': 0.9.3_debug@4.3.2
-  '@azure/msal-browser': 2.16.1
-  '@azure/msal-common': 4.5.1
-  '@azure/msal-node': 1.3.0_debug@4.3.2
-  '@azure/msal-node-extensions': 1.0.0-alpha.8
-  '@azure/storage-blob': 12.7.0
-  '@opentelemetry/api': 1.0.2
-  '@opentelemetry/core': 0.22.0_@opentelemetry+api@1.0.2
-  '@opentelemetry/instrumentation': 0.22.0_@opentelemetry+api@1.0.2
-  '@opentelemetry/instrumentation-http': 0.22.0_@opentelemetry+api@1.0.2
-  '@opentelemetry/node': 0.22.0_@opentelemetry+api@1.0.2
-  '@opentelemetry/resources': 0.22.0_@opentelemetry+api@1.0.2
-  '@opentelemetry/semantic-conventions': 0.22.0
-  '@opentelemetry/tracing': 0.22.0_@opentelemetry+api@1.0.2
-  '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-  '@rollup/plugin-inject': 4.0.2_rollup@1.32.1
-  '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-  '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-  '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-  '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
-  '@rush-temp/abort-controller': file:projects/abort-controller.tgz_debug@4.3.2
-  '@rush-temp/agrifood-farming': file:projects/agrifood-farming.tgz_debug@4.3.2
-  '@rush-temp/ai-anomaly-detector': file:projects/ai-anomaly-detector.tgz_debug@4.3.2
-  '@rush-temp/ai-document-translator': file:projects/ai-document-translator.tgz_debug@4.3.2
-  '@rush-temp/ai-form-recognizer': file:projects/ai-form-recognizer.tgz_debug@4.3.2
-  '@rush-temp/ai-metrics-advisor': file:projects/ai-metrics-advisor.tgz_debug@4.3.2
-  '@rush-temp/ai-text-analytics': file:projects/ai-text-analytics.tgz_debug@4.3.2
-  '@rush-temp/app-configuration': file:projects/app-configuration.tgz_debug@4.3.2
+  '@rush-temp/abort-controller': file:projects/abort-controller.tgz
+  '@rush-temp/agrifood-farming': file:projects/agrifood-farming.tgz
+  '@rush-temp/ai-anomaly-detector': file:projects/ai-anomaly-detector.tgz
+  '@rush-temp/ai-document-translator': file:projects/ai-document-translator.tgz
+  '@rush-temp/ai-form-recognizer': file:projects/ai-form-recognizer.tgz
+  '@rush-temp/ai-metrics-advisor': file:projects/ai-metrics-advisor.tgz
+  '@rush-temp/ai-text-analytics': file:projects/ai-text-analytics.tgz
+  '@rush-temp/app-configuration': file:projects/app-configuration.tgz
   '@rush-temp/arm-appservice': file:projects/arm-appservice.tgz
   '@rush-temp/arm-compute': file:projects/arm-compute.tgz
   '@rush-temp/arm-features': file:projects/arm-features.tgz
@@ -51,58 +20,59 @@ dependencies:
   '@rush-temp/arm-resources-subscriptions': file:projects/arm-resources-subscriptions.tgz
   '@rush-temp/arm-sql': file:projects/arm-sql.tgz
   '@rush-temp/arm-storage': file:projects/arm-storage.tgz
+  '@rush-temp/arm-templatespecs': file:projects/arm-templatespecs.tgz
   '@rush-temp/arm-webpubsub': file:projects/arm-webpubsub.tgz
-  '@rush-temp/attestation': file:projects/attestation.tgz_debug@4.3.2
-  '@rush-temp/communication-chat': file:projects/communication-chat.tgz_debug@4.3.2
-  '@rush-temp/communication-common': file:projects/communication-common.tgz_debug@4.3.2
-  '@rush-temp/communication-identity': file:projects/communication-identity.tgz_debug@4.3.2
-  '@rush-temp/communication-network-traversal': file:projects/communication-network-traversal.tgz_debug@4.3.2
-  '@rush-temp/communication-phone-numbers': file:projects/communication-phone-numbers.tgz_debug@4.3.2
-  '@rush-temp/communication-sms': file:projects/communication-sms.tgz_debug@4.3.2
-  '@rush-temp/confidential-ledger': file:projects/confidential-ledger.tgz_debug@4.3.2
-  '@rush-temp/container-registry': file:projects/container-registry.tgz_debug@4.3.2
+  '@rush-temp/attestation': file:projects/attestation.tgz
+  '@rush-temp/communication-chat': file:projects/communication-chat.tgz
+  '@rush-temp/communication-common': file:projects/communication-common.tgz
+  '@rush-temp/communication-identity': file:projects/communication-identity.tgz
+  '@rush-temp/communication-network-traversal': file:projects/communication-network-traversal.tgz
+  '@rush-temp/communication-phone-numbers': file:projects/communication-phone-numbers.tgz
+  '@rush-temp/communication-sms': file:projects/communication-sms.tgz
+  '@rush-temp/confidential-ledger': file:projects/confidential-ledger.tgz
+  '@rush-temp/container-registry': file:projects/container-registry.tgz
   '@rush-temp/core-amqp': file:projects/core-amqp.tgz
   '@rush-temp/core-asynciterator-polyfill': file:projects/core-asynciterator-polyfill.tgz
   '@rush-temp/core-auth': file:projects/core-auth.tgz
-  '@rush-temp/core-client': file:projects/core-client.tgz_debug@4.3.2
-  '@rush-temp/core-client-1': file:projects/core-client-1.tgz_debug@4.3.2
-  '@rush-temp/core-client-lro': file:projects/core-client-lro.tgz_debug@4.3.2
-  '@rush-temp/core-client-paging': file:projects/core-client-paging.tgz_debug@4.3.2
-  '@rush-temp/core-crypto': file:projects/core-crypto.tgz_debug@4.3.2
-  '@rush-temp/core-http': file:projects/core-http.tgz_debug@4.3.2
-  '@rush-temp/core-lro': file:projects/core-lro.tgz_debug@4.3.2
-  '@rush-temp/core-paging': file:projects/core-paging.tgz_debug@4.3.2
-  '@rush-temp/core-rest-pipeline': file:projects/core-rest-pipeline.tgz_debug@4.3.2
-  '@rush-temp/core-tracing': file:projects/core-tracing.tgz_debug@4.3.2
-  '@rush-temp/core-util': file:projects/core-util.tgz_debug@4.3.2
-  '@rush-temp/core-xml': file:projects/core-xml.tgz_debug@4.3.2
+  '@rush-temp/core-client': file:projects/core-client.tgz
+  '@rush-temp/core-client-1': file:projects/core-client-1.tgz
+  '@rush-temp/core-client-lro': file:projects/core-client-lro.tgz
+  '@rush-temp/core-client-paging': file:projects/core-client-paging.tgz
+  '@rush-temp/core-crypto': file:projects/core-crypto.tgz
+  '@rush-temp/core-http': file:projects/core-http.tgz
+  '@rush-temp/core-lro': file:projects/core-lro.tgz
+  '@rush-temp/core-paging': file:projects/core-paging.tgz
+  '@rush-temp/core-rest-pipeline': file:projects/core-rest-pipeline.tgz
+  '@rush-temp/core-tracing': file:projects/core-tracing.tgz
+  '@rush-temp/core-util': file:projects/core-util.tgz
+  '@rush-temp/core-xml': file:projects/core-xml.tgz
   '@rush-temp/cosmos': file:projects/cosmos.tgz
-  '@rush-temp/data-tables': file:projects/data-tables.tgz_debug@4.3.2
+  '@rush-temp/data-tables': file:projects/data-tables.tgz
   '@rush-temp/dev-tool': file:projects/dev-tool.tgz
-  '@rush-temp/digital-twins-core': file:projects/digital-twins-core.tgz_debug@4.3.2
+  '@rush-temp/digital-twins-core': file:projects/digital-twins-core.tgz
   '@rush-temp/eslint-plugin-azure-sdk': file:projects/eslint-plugin-azure-sdk.tgz
   '@rush-temp/event-hubs': file:projects/event-hubs.tgz
   '@rush-temp/event-processor-host': file:projects/event-processor-host.tgz
-  '@rush-temp/eventgrid': file:projects/eventgrid.tgz_debug@4.3.2
+  '@rush-temp/eventgrid': file:projects/eventgrid.tgz
   '@rush-temp/eventhubs-checkpointstore-blob': file:projects/eventhubs-checkpointstore-blob.tgz
   '@rush-temp/eventhubs-checkpointstore-table': file:projects/eventhubs-checkpointstore-table.tgz
-  '@rush-temp/identity': file:projects/identity.tgz_debug@4.3.2
-  '@rush-temp/identity-cache-persistence': file:projects/identity-cache-persistence.tgz_debug@4.3.2
+  '@rush-temp/identity': file:projects/identity.tgz
+  '@rush-temp/identity-cache-persistence': file:projects/identity-cache-persistence.tgz
   '@rush-temp/identity-vscode': file:projects/identity-vscode.tgz
   '@rush-temp/iot-device-update': file:projects/iot-device-update.tgz
-  '@rush-temp/iot-modelsrepository': file:projects/iot-modelsrepository.tgz_debug@4.3.2
+  '@rush-temp/iot-modelsrepository': file:projects/iot-modelsrepository.tgz
   '@rush-temp/keyvault-admin': file:projects/keyvault-admin.tgz
-  '@rush-temp/keyvault-certificates': file:projects/keyvault-certificates.tgz_debug@4.3.2
+  '@rush-temp/keyvault-certificates': file:projects/keyvault-certificates.tgz
   '@rush-temp/keyvault-common': file:projects/keyvault-common.tgz
-  '@rush-temp/keyvault-keys': file:projects/keyvault-keys.tgz_debug@4.3.2
-  '@rush-temp/keyvault-secrets': file:projects/keyvault-secrets.tgz_debug@4.3.2
-  '@rush-temp/logger': file:projects/logger.tgz_debug@4.3.2
-  '@rush-temp/mixed-reality-authentication': file:projects/mixed-reality-authentication.tgz_debug@4.3.2
-  '@rush-temp/mixed-reality-remote-rendering': file:projects/mixed-reality-remote-rendering.tgz_debug@4.3.2
+  '@rush-temp/keyvault-keys': file:projects/keyvault-keys.tgz
+  '@rush-temp/keyvault-secrets': file:projects/keyvault-secrets.tgz
+  '@rush-temp/logger': file:projects/logger.tgz
+  '@rush-temp/mixed-reality-authentication': file:projects/mixed-reality-authentication.tgz
+  '@rush-temp/mixed-reality-remote-rendering': file:projects/mixed-reality-remote-rendering.tgz
   '@rush-temp/mock-hub': file:projects/mock-hub.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:projects/monitor-opentelemetry-exporter.tgz
-  '@rush-temp/monitor-query': file:projects/monitor-query.tgz_debug@4.3.2
-  '@rush-temp/perf-ai-form-recognizer': file:projects/perf-ai-form-recognizer.tgz_debug@4.3.2
+  '@rush-temp/monitor-query': file:projects/monitor-query.tgz
+  '@rush-temp/perf-ai-form-recognizer': file:projects/perf-ai-form-recognizer.tgz
   '@rush-temp/perf-ai-metrics-advisor': file:projects/perf-ai-metrics-advisor.tgz
   '@rush-temp/perf-ai-text-analytics': file:projects/perf-ai-text-analytics.tgz
   '@rush-temp/perf-app-configuration': file:projects/perf-app-configuration.tgz
@@ -110,206 +80,39 @@ dependencies:
   '@rush-temp/perf-data-tables': file:projects/perf-data-tables.tgz
   '@rush-temp/perf-eventgrid': file:projects/perf-eventgrid.tgz
   '@rush-temp/perf-identity': file:projects/perf-identity.tgz
-  '@rush-temp/perf-keyvault-certificates': file:projects/perf-keyvault-certificates.tgz_debug@4.3.2
+  '@rush-temp/perf-keyvault-certificates': file:projects/perf-keyvault-certificates.tgz
   '@rush-temp/perf-keyvault-keys': file:projects/perf-keyvault-keys.tgz
-  '@rush-temp/perf-keyvault-secrets': file:projects/perf-keyvault-secrets.tgz_debug@4.3.2
-  '@rush-temp/perf-search-documents': file:projects/perf-search-documents.tgz_debug@4.3.2
+  '@rush-temp/perf-keyvault-secrets': file:projects/perf-keyvault-secrets.tgz
+  '@rush-temp/perf-search-documents': file:projects/perf-search-documents.tgz
   '@rush-temp/perf-storage-blob': file:projects/perf-storage-blob.tgz
   '@rush-temp/perf-storage-file-datalake': file:projects/perf-storage-file-datalake.tgz
   '@rush-temp/perf-storage-file-share': file:projects/perf-storage-file-share.tgz
-  '@rush-temp/purview-account': file:projects/purview-account.tgz_debug@4.3.2
-  '@rush-temp/purview-catalog': file:projects/purview-catalog.tgz_debug@4.3.2
-  '@rush-temp/purview-scanning': file:projects/purview-scanning.tgz_debug@4.3.2
-  '@rush-temp/quantum-jobs': file:projects/quantum-jobs.tgz_debug@4.3.2
-  '@rush-temp/schema-registry': file:projects/schema-registry.tgz_debug@4.3.2
-  '@rush-temp/schema-registry-avro': file:projects/schema-registry-avro.tgz_debug@4.3.2
-  '@rush-temp/search-documents': file:projects/search-documents.tgz_debug@4.3.2
+  '@rush-temp/purview-account': file:projects/purview-account.tgz
+  '@rush-temp/purview-catalog': file:projects/purview-catalog.tgz
+  '@rush-temp/purview-scanning': file:projects/purview-scanning.tgz
+  '@rush-temp/quantum-jobs': file:projects/quantum-jobs.tgz
+  '@rush-temp/schema-registry': file:projects/schema-registry.tgz
+  '@rush-temp/schema-registry-avro': file:projects/schema-registry-avro.tgz
+  '@rush-temp/search-documents': file:projects/search-documents.tgz
   '@rush-temp/service-bus': file:projects/service-bus.tgz
-  '@rush-temp/storage-blob': file:projects/storage-blob.tgz_debug@4.3.2
-  '@rush-temp/storage-blob-changefeed': file:projects/storage-blob-changefeed.tgz_debug@4.3.2
-  '@rush-temp/storage-file-datalake': file:projects/storage-file-datalake.tgz_debug@4.3.2
-  '@rush-temp/storage-file-share': file:projects/storage-file-share.tgz_debug@4.3.2
-  '@rush-temp/storage-internal-avro': file:projects/storage-internal-avro.tgz_debug@4.3.2
-  '@rush-temp/storage-queue': file:projects/storage-queue.tgz_debug@4.3.2
-  '@rush-temp/synapse-access-control': file:projects/synapse-access-control.tgz_debug@4.3.2
-  '@rush-temp/synapse-artifacts': file:projects/synapse-artifacts.tgz_debug@4.3.2
-  '@rush-temp/synapse-managed-private-endpoints': file:projects/synapse-managed-private-endpoints.tgz_debug@4.3.2
+  '@rush-temp/storage-blob': file:projects/storage-blob.tgz
+  '@rush-temp/storage-blob-changefeed': file:projects/storage-blob-changefeed.tgz
+  '@rush-temp/storage-file-datalake': file:projects/storage-file-datalake.tgz
+  '@rush-temp/storage-file-share': file:projects/storage-file-share.tgz
+  '@rush-temp/storage-internal-avro': file:projects/storage-internal-avro.tgz
+  '@rush-temp/storage-queue': file:projects/storage-queue.tgz
+  '@rush-temp/synapse-access-control': file:projects/synapse-access-control.tgz
+  '@rush-temp/synapse-artifacts': file:projects/synapse-artifacts.tgz
+  '@rush-temp/synapse-managed-private-endpoints': file:projects/synapse-managed-private-endpoints.tgz
   '@rush-temp/synapse-monitoring': file:projects/synapse-monitoring.tgz
-  '@rush-temp/synapse-spark': file:projects/synapse-spark.tgz_debug@4.3.2
-  '@rush-temp/template': file:projects/template.tgz_debug@4.3.2
-  '@rush-temp/test-utils': file:projects/test-utils.tgz_debug@4.3.2
-  '@rush-temp/test-utils-perfstress': file:projects/test-utils-perfstress.tgz_debug@4.3.2
-  '@rush-temp/test-utils-recorder': file:projects/test-utils-recorder.tgz_debug@4.3.2
-  '@rush-temp/video-analyzer-edge': file:projects/video-analyzer-edge.tgz_debug@4.3.2
-  '@rush-temp/web-pubsub': file:projects/web-pubsub.tgz_debug@4.3.2
-  '@rush-temp/web-pubsub-express': file:projects/web-pubsub-express.tgz_debug@4.3.2
-  '@types/async-lock': 1.1.3
-  '@types/chai': 4.2.21
-  '@types/chai-as-promised': 7.1.4
-  '@types/chai-string': 1.4.2
-  '@types/debug': 4.1.7
-  '@types/eslint': 7.2.14
-  '@types/estree': 0.0.50
-  '@types/express': 4.17.13
-  '@types/express-serve-static-core': 4.17.24
-  '@types/fast-json-stable-stringify': 2.1.0
-  '@types/fs-extra': 8.1.2
-  '@types/glob': 7.1.4
-  '@types/is-buffer': 2.0.0
-  '@types/json-schema': 7.0.9
-  '@types/jsonwebtoken': 8.5.5
-  '@types/jws': 3.2.4
-  '@types/jwt-decode': 2.2.1
-  '@types/long': 4.0.1
-  '@types/md5': 2.3.1
-  '@types/minimist': 1.2.2
-  '@types/mocha': 7.0.2
-  '@types/mock-fs': 4.10.0
-  '@types/mock-require': 2.0.0
-  '@types/nise': 1.4.0
-  '@types/node': 12.20.20
-  '@types/node-fetch': 2.5.12
-  '@types/prettier': 2.0.2
-  '@types/priorityqueuejs': 1.0.1
-  '@types/qs': 6.9.7
-  '@types/query-string': 6.2.0
-  '@types/semaphore': 1.1.1
-  '@types/sinon': 9.0.11
-  '@types/stoppable': 1.1.1
-  '@types/tough-cookie': 4.0.1
-  '@types/tunnel': 0.0.1
-  '@types/underscore': 1.11.3
-  '@types/uuid': 8.3.1
-  '@types/ws': 7.4.7
-  '@types/xml2js': 0.4.9
-  '@typescript-eslint/eslint-plugin': 4.19.0_359354e87b989469ccdce12bde18eddc
-  '@typescript-eslint/experimental-utils': 4.19.0_eslint@7.32.0+typescript@4.2.4
-  '@typescript-eslint/parser': 4.19.0_eslint@7.32.0+typescript@4.2.4
-  '@typescript-eslint/typescript-estree': 4.19.0_typescript@4.2.4
-  assert: 1.5.0
-  async-lock: 1.3.0
-  avsc: 5.7.3
-  azure-iothub: 1.14.3
-  azure-storage: 2.10.4
-  babel-runtime: 6.26.0
-  buffer: 5.7.1
-  builtin-modules: 3.2.0
-  chai: 4.3.4
-  chai-as-promised: 7.1.1_chai@4.3.4
-  chai-exclude: 2.0.3_chai@4.3.4
-  chai-string: 1.5.0_chai@4.3.4
-  chalk: 4.1.2
-  cloudevents: 4.0.3
-  cross-env: 7.0.3
-  csv-parse: 4.16.0
-  debug: 4.3.2
-  delay: 4.4.1
-  dotenv: 8.6.0
-  downlevel-dts: 0.4.0
-  es6-promise: 4.2.8
-  eslint: 7.32.0
-  eslint-config-prettier: 7.2.0_eslint@7.32.0
-  eslint-plugin-import: 2.24.1_eslint@7.32.0
-  eslint-plugin-no-only-tests: 2.6.0
-  eslint-plugin-node: 11.1.0_eslint@7.32.0
-  eslint-plugin-promise: 4.3.1
-  eslint-plugin-tsdoc: 0.2.14
-  esm: 3.2.25
-  events: 3.3.0
-  execa: 3.4.0
-  express: 4.17.1
-  fast-json-stable-stringify: 2.1.0
-  fetch-mock: 9.11.0_node-fetch@2.6.1
-  form-data: 3.0.1
-  fs-extra: 8.1.0
-  glob: 7.1.7
-  guid-typescript: 1.0.9
-  http-proxy-agent: 4.0.1
-  https-proxy-agent: 5.0.0
-  inherits: 2.0.4
-  is-buffer: 2.0.5
-  jsbi: 3.2.1
-  json-schema: 0.3.0
-  jsonwebtoken: 8.5.1
-  jsrsasign: 10.4.0
-  jssha: 3.2.0
-  jws: 4.0.0
-  jwt-decode: 2.2.0
-  karma: 6.3.4_debug@4.3.2
-  karma-chai: 0.1.0_chai@4.3.4+karma@6.3.4
-  karma-chrome-launcher: 3.1.0
-  karma-coverage: 2.0.3
-  karma-edge-launcher: 0.4.2_karma@6.3.4
-  karma-env-preprocessor: 0.1.1
-  karma-firefox-launcher: 1.3.0
-  karma-ie-launcher: 1.0.0_karma@6.3.4
-  karma-json-preprocessor: 0.3.3_karma@6.3.4
-  karma-json-to-file-reporter: 1.0.1
-  karma-junit-reporter: 2.0.1_karma@6.3.4
-  karma-mocha: 2.0.1
-  karma-mocha-reporter: 2.2.5_karma@6.3.4
-  karma-rollup-preprocessor: 7.0.7_rollup@1.32.1
-  karma-source-map-support: 1.4.0
-  karma-sourcemap-loader: 0.3.8
-  keytar: 7.7.0
-  long: 4.0.0
-  md5: 2.3.0
-  minimist: 1.2.5
-  mkdirp: 1.0.4
-  mocha: 7.2.0
-  mocha-junit-reporter: 1.23.3_mocha@7.2.0
-  mock-fs: 4.14.0
-  mock-require: 3.0.3
-  moment: 2.29.1
-  nise: 4.1.0
-  nock: 12.0.3
-  node-abort-controller: 1.2.1
-  node-fetch: 2.6.1
-  npm-run-all: 4.1.5
-  nyc: 14.1.1
-  open: 7.4.2
-  path-browserify: 1.0.1
-  priorityqueuejs: 1.0.0
-  process: 0.11.10
-  promise: 8.1.0
-  proxy-agent: 4.0.1
-  puppeteer: 10.2.0
-  qs: 6.10.1
-  query-string: 5.1.1
-  regenerator-runtime: 0.13.9
-  requirejs: 2.3.6
-  rhea: 2.0.4
-  rhea-promise: 2.1.0
-  rimraf: 3.0.2
-  rollup: 1.32.1
-  rollup-plugin-local-resolve: 1.0.7
-  rollup-plugin-node-resolve: 3.4.0
-  rollup-plugin-shim: 1.0.0
-  rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-  rollup-plugin-terser: 5.3.1_rollup@1.32.1
-  rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
-  safe-buffer: 5.2.1
-  semaphore: 1.1.0
-  shx: 0.3.3
-  sinon: 9.2.4
-  snap-shot-it: 7.9.6
-  source-map-support: 0.5.19
-  stoppable: 1.1.0
-  tough-cookie: 4.0.0
-  ts-node: 9.1.1_typescript@4.2.4
-  tslib: 2.3.1
-  tunnel: 0.0.6
-  typedoc: 0.15.2
-  typescript: 4.2.4
-  uglify-js: 3.14.1
-  universal-user-agent: 6.0.0
-  url: 0.11.0
-  util: 0.12.4
-  uuid: 8.3.2
-  ws: 7.5.3
-  xhr-mock: 2.5.1
-  xml2js: 0.4.23
-  yaml: 1.10.2
+  '@rush-temp/synapse-spark': file:projects/synapse-spark.tgz
+  '@rush-temp/template': file:projects/template.tgz
+  '@rush-temp/test-utils': file:projects/test-utils.tgz
+  '@rush-temp/test-utils-perfstress': file:projects/test-utils-perfstress.tgz
+  '@rush-temp/test-utils-recorder': file:projects/test-utils-recorder.tgz
+  '@rush-temp/video-analyzer-edge': file:projects/video-analyzer-edge.tgz
+  '@rush-temp/web-pubsub': file:projects/web-pubsub.tgz
+  '@rush-temp/web-pubsub-express': file:projects/web-pubsub-express.tgz
 lockfileVersion: 5.2
 packages:
   /@azure-rest/core-client-paging/1.0.0-beta.1:
@@ -664,7 +467,7 @@ packages:
       integrity: sha512-CxaMaEjwtsmIhWtjHyGimKO7RmES0YxPqGQ9+jKqGygNlhG5NYHktDaiQu6w7k3g+I51VaLXtVSt+BVFd6VWfQ==
   /@azure/identity/1.2.5_debug@4.3.2:
     dependencies:
-      '@azure/core-http': 1.2.3
+      '@azure/core-http': 1.2.6
       '@azure/core-tracing': 1.0.0-preview.9
       '@azure/logger': 1.0.2
       '@azure/msal-node': 1.0.0-beta.6_debug@4.3.2
@@ -688,6 +491,31 @@ packages:
       debug: '*'
     resolution:
       integrity: sha512-Q71Buur3RMcg6lCnisLL8Im562DBw+ybzgm+YQj/FbAaI8ZNu/zl/5z1fE4k3Q9LSIzYrz6HLRzlhdSBXpydlQ==
+  /@azure/identity/1.5.1:
+    dependencies:
+      '@azure/core-auth': 1.3.2
+      '@azure/core-client': 1.3.0
+      '@azure/core-rest-pipeline': 1.2.0
+      '@azure/core-tracing': 1.0.0-preview.12
+      '@azure/logger': 1.0.2
+      '@azure/msal-node': 1.0.0-beta.6
+      '@types/stoppable': 1.1.1
+      axios: 0.21.1
+      events: 3.3.0
+      jws: 4.0.0
+      msal: 1.4.12
+      open: 7.4.2
+      qs: 6.10.1
+      stoppable: 1.1.0
+      tslib: 2.3.1
+      uuid: 8.3.2
+    dev: false
+    engines:
+      node: '>=12.0.0'
+    optionalDependencies:
+      keytar: 7.7.0
+    resolution:
+      integrity: sha512-ENYdcHT72PwEb+aiL2G6WIXxdm8mO0LNLZVPXaSRZYNsIshre72MF1H/rnJvcVGX9uVDVClSbNPxXwY5MJPLjw==
   /@azure/identity/1.5.1_debug@4.3.2:
     dependencies:
       '@azure/core-auth': 1.3.2
@@ -715,7 +543,7 @@ packages:
       debug: '*'
     resolution:
       integrity: sha512-ENYdcHT72PwEb+aiL2G6WIXxdm8mO0LNLZVPXaSRZYNsIshre72MF1H/rnJvcVGX9uVDVClSbNPxXwY5MJPLjw==
-  /@azure/identity/2.0.0-beta.5_debug@4.3.2:
+  /@azure/identity/2.0.0-beta.5:
     dependencies:
       '@azure/abort-controller': 1.0.4
       '@azure/core-auth': 1.3.2
@@ -726,7 +554,7 @@ packages:
       '@azure/logger': 1.0.2
       '@azure/msal-browser': 2.16.1
       '@azure/msal-common': 4.5.1
-      '@azure/msal-node': 1.3.0_debug@4.3.2
+      '@azure/msal-node': 1.3.0
       '@types/stoppable': 1.1.1
       events: 3.3.0
       jws: 4.0.0
@@ -738,8 +566,6 @@ packages:
     dev: false
     engines:
       node: '>=12.0.0'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-x1AWJ2IxsVZkZ/REsuQxAqt1/LkDxKEgIAozH1x5WpuhyWvVRGyG3TxyTRB0dljc54+vWcXiThnPV1+g254Fxg==
   /@azure/keyvault-keys/4.3.0:
@@ -866,6 +692,15 @@ packages:
     requiresBuild: true
     resolution:
       integrity: sha512-wNZgJ5GShgjBufJFmgec/y0d1zRjn9VZlDP4W5ptXORum6HDK9VJzZfYEleItXW58DvaeEMX5zWI8yrdV8vivA==
+  /@azure/msal-node/1.0.0-beta.6:
+    dependencies:
+      '@azure/msal-common': 4.5.1
+      axios: 0.21.1
+      jsonwebtoken: 8.5.1
+      uuid: 8.3.2
+    dev: false
+    resolution:
+      integrity: sha512-ZQI11Uz1j0HJohb9JZLRD8z0moVcPks1AFW4Q/Gcl67+QvH4aKEJti7fjCcipEEZYb/qzLSO8U6IZgPYytsiJQ==
   /@azure/msal-node/1.0.0-beta.6_debug@4.3.2:
     dependencies:
       '@azure/msal-common': 4.5.1
@@ -877,17 +712,15 @@ packages:
       debug: '*'
     resolution:
       integrity: sha512-ZQI11Uz1j0HJohb9JZLRD8z0moVcPks1AFW4Q/Gcl67+QvH4aKEJti7fjCcipEEZYb/qzLSO8U6IZgPYytsiJQ==
-  /@azure/msal-node/1.3.0_debug@4.3.2:
+  /@azure/msal-node/1.3.0:
     dependencies:
       '@azure/msal-common': 4.5.1
-      axios: 0.21.1_debug@4.3.2
+      axios: 0.21.1
       jsonwebtoken: 8.5.1
       uuid: 8.3.2
     dev: false
     engines:
       node: 10 || 12 || 14 || 16
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-BM5S5sMB6N0aPux4l85NnRNO/5/G+w3oT+JtLbMDBsc/aUxLVYoWMmxVECrYzlQRm5QZzFWRo04Rv5AnAF7z2g==
   /@azure/storage-blob/12.7.0:
@@ -2314,6 +2147,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-xh1Rl34h6Fi1DC2WWKfxUTVqRsNnr6LsKz2+hfwDxQJWmrx8+c7ylaqBMcHfl1U1r2dsifOvKX3LQuLNZ+XSvA==
+  /axios/0.21.1:
+    dependencies:
+      follow-redirects: 1.14.2
+    dev: false
+    resolution:
+      integrity: sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==
   /axios/0.21.1_debug@3.2.7:
     dependencies:
       follow-redirects: 1.14.2_debug@3.2.7
@@ -2996,7 +2835,7 @@ packages:
       integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==
   /debug/3.2.6:
     dependencies:
-      ms: 2.1.1
+      ms: 2.1.3
     deprecated: Debug versions >=3.2.0 <3.2.7 || >=4 <4.3.1 have a low-severity ReDos regression when used in a Node.js environment. It is recommended you upgrade to 3.2.7 or 4.3.1. (https://github.com/visionmedia/debug/issues/797)
     dev: false
     resolution:
@@ -3915,6 +3754,17 @@ packages:
     dev: false
     resolution:
       integrity: sha512-+8GbtQBwEqutP0v3uajDDoN64K2ehmHd0cjlghhxh0WpcfPzAIjPA03e1VvHlxL02FVGR0A6lwXsNQKn3H1RNQ==
+  /follow-redirects/1.14.2:
+    dev: false
+    engines:
+      node: '>=4.0'
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    resolution:
+      integrity: sha512-yLR6WaE2lbF0x4K2qE2p9PEXKLDjUjnR/xmjS3wHAYxtlsI9MLLBJUZirAHKzUZDGLxje7w/cXR49WOUo4rbsA==
   /follow-redirects/1.14.2_debug@3.2.7:
     dependencies:
       debug: 3.2.7
@@ -4417,6 +4267,16 @@ packages:
       node: '>= 6'
     resolution:
       integrity: sha512-k0zdNgqWTGA6aeIRVpvfVob4fL52dTfaehylg0Y4UvSySvOq/Y+BOyPrgpUrA7HylqvU8vIZGsRuXmspskV0Tg==
+  /http-proxy/1.18.1:
+    dependencies:
+      eventemitter3: 4.0.7
+      follow-redirects: 1.14.2
+      requires-port: 1.0.0
+    dev: false
+    engines:
+      node: '>=8.0.0'
+    resolution:
+      integrity: sha512-7mz/721AbnJwIVbnaSv1Cz3Am0ZLT/UBwkC92VlxhXv/k/BBQfM2fXElQNC27BVGr0uwUpplYPQM9LnaBMR5NQ==
   /http-proxy/1.18.1_debug@4.3.2:
     dependencies:
       eventemitter3: 4.0.7
@@ -5114,7 +4974,7 @@ packages:
   /karma-chai/0.1.0_chai@4.3.4+karma@6.3.4:
     dependencies:
       chai: 4.3.4
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
     dev: false
     peerDependencies:
       chai: '*'
@@ -5143,7 +5003,7 @@ packages:
   /karma-edge-launcher/0.4.2_karma@6.3.4:
     dependencies:
       edge-launcher: 1.2.2
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
     dev: false
     engines:
       node: '>=4'
@@ -5163,7 +5023,7 @@ packages:
       integrity: sha512-Fi7xPhwrRgr+94BnHX0F5dCl1miIW4RHnzjIGxF8GaIEp7rNqX7LSi7ok63VXs3PS/5MQaQMhGxw+bvD+pibBQ==
   /karma-ie-launcher/1.0.0_karma@6.3.4:
     dependencies:
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       lodash: 4.17.21
     dev: false
     peerDependencies:
@@ -5172,7 +5032,7 @@ packages:
       integrity: sha1-SXmGhCxJAZA0bNifVJTKmDDG1Zw=
   /karma-json-preprocessor/0.3.3_karma@6.3.4:
     dependencies:
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
     dev: false
     peerDependencies:
       karma: '>=0.9'
@@ -5186,7 +5046,7 @@ packages:
       integrity: sha512-kNCi+0UrXAeTJMpMsHkHNbfmlErsYT+/haNakJIhsE/gtj3Jx7zWRg7BTc1HHSbH5KeVXVRJr3/KLB/NHWY7Hg==
   /karma-junit-reporter/2.0.1_karma@6.3.4:
     dependencies:
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       path-is-absolute: 1.0.1
       xmlbuilder: 12.0.0
     dev: false
@@ -5199,7 +5059,7 @@ packages:
   /karma-mocha-reporter/2.2.5_karma@6.3.4:
     dependencies:
       chalk: 2.4.2
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       log-symbols: 2.2.0
       strip-ansi: 4.0.0
     dev: false
@@ -5237,6 +5097,37 @@ packages:
     dev: false
     resolution:
       integrity: sha512-zorxyAakYZuBcHRJE+vbrK2o2JXLFWK8VVjiT/6P+ltLBUGUvqTEkUiQ119MGdOrK7mrmxXHZF1/pfT6GgIZ6g==
+  /karma/6.3.4:
+    dependencies:
+      body-parser: 1.19.0
+      braces: 3.0.2
+      chokidar: 3.5.2
+      colors: 1.4.0
+      connect: 3.7.0
+      di: 0.0.1
+      dom-serialize: 2.2.1
+      glob: 7.1.7
+      graceful-fs: 4.2.8
+      http-proxy: 1.18.1
+      isbinaryfile: 4.0.8
+      lodash: 4.17.21
+      log4js: 6.3.0
+      mime: 2.5.2
+      minimatch: 3.0.4
+      qjobs: 1.2.0
+      range-parser: 1.2.1
+      rimraf: 3.0.2
+      socket.io: 3.1.2
+      source-map: 0.6.1
+      tmp: 0.2.1
+      ua-parser-js: 0.7.28
+      yargs: 16.2.0
+    dev: false
+    engines:
+      node: '>= 10'
+    hasBin: true
+    resolution:
+      integrity: sha512-hbhRogUYIulfkBTZT7xoPrCYhRBnBoqbbL4fszWD0ReFGUxU+LYBr3dwKdAluaDQ/ynT9/7C+Lf7pPNW4gSx4Q==
   /karma/6.3.4_debug@4.3.2:
     dependencies:
       body-parser: 1.19.0
@@ -8329,7 +8220,7 @@ packages:
       commander: 2.20.3
     resolution:
       integrity: sha512-DUOKC/IhbkdLKKiV89gw9DUauTV8U/8yJl1sjf6MtDmzevLKOF2duNJ495S3MFVjqZarr+qNGCPbkg4mu4PpLw==
-  file:projects/abort-controller.tgz_debug@4.3.2:
+  file:projects/abort-controller.tgz:
     dependencies:
       '@microsoft/api-extractor': 7.7.11
       '@types/chai': 4.2.21
@@ -8340,7 +8231,7 @@ packages:
       delay: 4.4.1
       downlevel-dts: 0.4.0
       eslint: 7.32.0
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -8362,19 +8253,16 @@ packages:
       typedoc: 0.15.2
       typescript: 4.2.4
     dev: false
-    id: file:projects/abort-controller.tgz
     name: '@rush-temp/abort-controller'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-3SRPmSd7N2LLrFcT5H9X9MqQ6pj4ena7yqo8HETm7peMgbR+QCoQXX3tRWaNj5zE77czlyRA6BH1YvRSJONDnA==
       tarball: file:projects/abort-controller.tgz
     version: 0.0.0
-  file:projects/agrifood-farming.tgz_debug@4.3.2:
+  file:projects/agrifood-farming.tgz:
     dependencies:
       '@azure-rest/core-client': 1.0.0-beta.6
       '@azure-rest/core-client-paging': 1.0.0-beta.1
-      '@azure/identity': 1.5.1_debug@4.3.2
+      '@azure/identity': 1.5.1
       '@microsoft/api-extractor': 7.13.2
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
@@ -8383,7 +8271,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -8409,15 +8297,12 @@ packages:
       typedoc: 0.15.2
       typescript: 4.2.4
     dev: false
-    id: file:projects/agrifood-farming.tgz
     name: '@rush-temp/agrifood-farming'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-awf9qld3tztykzHz3AtGmczBEkcIEXCnT2bx6KJ+Tq02FXhmeQEOSJbW8I1zlNmaZ/f5rzqLmQkE5LQlF2eb5Q==
       tarball: file:projects/agrifood-farming.tgz
     version: 0.0.0
-  file:projects/ai-anomaly-detector.tgz_debug@4.3.2:
+  file:projects/ai-anomaly-detector.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
@@ -8435,7 +8320,7 @@ packages:
       dotenv: 8.6.0
       eslint: 7.32.0
       inherits: 2.0.4
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -8461,18 +8346,15 @@ packages:
       typescript: 4.2.4
       util: 0.12.4
     dev: false
-    id: file:projects/ai-anomaly-detector.tgz
     name: '@rush-temp/ai-anomaly-detector'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-05ENO24fcTEwd62pVrbaU8gnNFJkYZuxbULt2/4U0rS7Zd+J4podHLmt/TDzgPY4f37CLsJQhepH1SF0vFuR0g==
       tarball: file:projects/ai-anomaly-detector.tgz
     version: 0.0.0
-  file:projects/ai-document-translator.tgz_debug@4.3.2:
+  file:projects/ai-document-translator.tgz:
     dependencies:
       '@azure-rest/core-client': 1.0.0-beta.6
-      '@azure/identity': 1.5.1_debug@4.3.2
+      '@azure/identity': 1.5.1
       '@microsoft/api-extractor': 7.13.2
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
@@ -8481,7 +8363,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -8506,15 +8388,12 @@ packages:
       typedoc: 0.15.2
       typescript: 4.2.4
     dev: false
-    id: file:projects/ai-document-translator.tgz
     name: '@rush-temp/ai-document-translator'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-ZY3/5DXcK1oCGeZ2ZL0fsoQuUPO3/refq6JE2USAh1aicNbyUOGy9MbRW9IUFoMWK8WUPB6b457ys+5RLFi8Fg==
       tarball: file:projects/ai-document-translator.tgz
     version: 0.0.0
-  file:projects/ai-form-recognizer.tgz_debug@4.3.2:
+  file:projects/ai-form-recognizer.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
@@ -8527,7 +8406,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -8552,18 +8431,15 @@ packages:
       typedoc: 0.15.2
       typescript: 4.2.4
     dev: false
-    id: file:projects/ai-form-recognizer.tgz
     name: '@rush-temp/ai-form-recognizer'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-63BpAIOLtsD/Dzv65VUa0Ilp/Wdlvplq+ZQPhFp74xHG+JOxU3K99LQNMlhjuMbN1yWbuVrfA/021AH6MhUYHw==
       tarball: file:projects/ai-form-recognizer.tgz
     version: 0.0.0
-  file:projects/ai-metrics-advisor.tgz_debug@4.3.2:
+  file:projects/ai-metrics-advisor.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
-      '@azure/identity': 1.5.1_debug@4.3.2
+      '@azure/identity': 1.5.1
       '@microsoft/api-extractor': 7.7.11
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
@@ -8574,7 +8450,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -8600,15 +8476,12 @@ packages:
       typedoc: 0.15.2
       typescript: 4.2.4
     dev: false
-    id: file:projects/ai-metrics-advisor.tgz
     name: '@rush-temp/ai-metrics-advisor'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-avbOY5xtCp2MwPvWZKHVtgvdmmei4Zd8PMLkIwo5dwVLat30tnBkoLzQs8wyOMQGUtYOTH2KsTTjAFSqC0JvLA==
       tarball: file:projects/ai-metrics-advisor.tgz
     version: 0.0.0
-  file:projects/ai-text-analytics.tgz_debug@4.3.2:
+  file:projects/ai-text-analytics.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
@@ -8622,7 +8495,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -8649,15 +8522,12 @@ packages:
       typedoc: 0.15.2
       typescript: 4.2.4
     dev: false
-    id: file:projects/ai-text-analytics.tgz
     name: '@rush-temp/ai-text-analytics'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-lbwjbtzKBxhaHEzLPkUEzQxRRYLeMWhETlZ24JtDojF5/SR77KNfr0ZPGCbwNw7t02Ugr99S8/R1ypDcu4D4mw==
       tarball: file:projects/ai-text-analytics.tgz
     version: 0.0.0
-  file:projects/app-configuration.tgz_debug@4.3.2:
+  file:projects/app-configuration.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
@@ -8677,7 +8547,7 @@ packages:
       dotenv: 8.6.0
       eslint: 7.32.0
       esm: 3.2.25
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -8705,10 +8575,7 @@ packages:
       typescript: 4.2.4
       uglify-js: 3.14.1
     dev: false
-    id: file:projects/app-configuration.tgz
     name: '@rush-temp/app-configuration'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-fNgUdZxhWIakOlA6KXLJBiKe7YYYz4r4RqYjec9saLlaXUV01JhFLiBJkBbLMCuxts/cAZmBxKTd6m0vct5PqA==
       tarball: file:projects/app-configuration.tgz
@@ -8973,6 +8840,26 @@ packages:
       integrity: sha512-qBc4PYovQxo5tZRHGNtgQLmfF7Uq8FVopd9F1Ghu5qcS68wESbBhwZ1px9/EjPWIHpPyrBzazFRMlvT+5gcthA==
       tarball: file:projects/arm-storage.tgz
     version: 0.0.0
+  file:projects/arm-templatespecs.tgz:
+    dependencies:
+      '@microsoft/api-extractor': 7.7.11
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      mkdirp: 1.0.4
+      rollup: 1.32.1
+      rollup-plugin-node-resolve: 3.4.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.1
+    dev: false
+    name: '@rush-temp/arm-templatespecs'
+    resolution:
+      integrity: sha512-xJ4r+nZre0Bli2nfn7U0n/MX7cbpw0zyG40XetY8XvGX5C07tKzeRa+1ptGSuaw8U3o4BOSWsDVCA6Z/YEZt2g==
+      tarball: file:projects/arm-templatespecs.tgz
+    version: 0.0.0
   file:projects/arm-webpubsub.tgz:
     dependencies:
       '@microsoft/api-extractor': 7.7.11
@@ -8993,7 +8880,7 @@ packages:
       integrity: sha512-0EU10j+ZIAl/Hj/KR+2LjjS6Ik8nlvNX3xGtR9cxSIl2Wle+EOw+3YtTQt1E4spSlsWnPcvZXJ3WKyV8mvt6vg==
       tarball: file:projects/arm-webpubsub.tgz
     version: 0.0.0
-  file:projects/attestation.tgz_debug@4.3.2:
+  file:projects/attestation.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
@@ -9011,7 +8898,7 @@ packages:
       esm: 3.2.25
       inherits: 2.0.4
       jsrsasign: 10.4.0
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -9031,8 +8918,6 @@ packages:
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
-      rollup-plugin-node-resolve: 3.4.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       safe-buffer: 5.2.1
       source-map-support: 0.5.19
       ts-node: 9.1.1_typescript@4.2.4
@@ -9041,15 +8926,12 @@ packages:
       typescript: 4.2.4
       util: 0.12.4
     dev: false
-    id: file:projects/attestation.tgz
     name: '@rush-temp/attestation'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-zx8djgQJHlI94UIzMfF4EF1t9RJN2IHkeaIu9abXStBBetsdfQgLVqPhpQ3IAqDMD2tTznSkvWbMnlIiwL24zA==
       tarball: file:projects/attestation.tgz
     version: 0.0.0
-  file:projects/communication-chat.tgz_debug@4.3.2:
+  file:projects/communication-chat.tgz:
     dependencies:
       '@azure/communication-identity': 1.0.0
       '@azure/communication-signaling': 1.0.0-beta.7
@@ -9072,7 +8954,7 @@ packages:
       eslint: 7.32.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -9102,15 +8984,12 @@ packages:
       util: 0.12.4
       uuid: 8.3.2
     dev: false
-    id: file:projects/communication-chat.tgz
     name: '@rush-temp/communication-chat'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-iK/tanehdcoDEh8n3iLnc33ancPWTq92R7tTT6KpXhhj/j/cw77w0GXJEjPo0NOAIxFn8lGLZYq0Grkrr8lg2g==
       tarball: file:projects/communication-chat.tgz
     version: 0.0.0
-  file:projects/communication-common.tgz_debug@4.3.2:
+  file:projects/communication-common.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
@@ -9133,7 +9012,7 @@ packages:
       events: 3.3.0
       inherits: 2.0.4
       jwt-decode: 2.2.0
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -9159,15 +9038,12 @@ packages:
       typescript: 4.2.4
       util: 0.12.4
     dev: false
-    id: file:projects/communication-common.tgz
     name: '@rush-temp/communication-common'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-Y6t2s/oqQpZpz7TOgPeLrg8lQOBAuzUW0jj9j7hl6sa/WgFTXm+4aOeocTsPFGrDKtPxrjOuZmLv7LMtsYfinQ==
       tarball: file:projects/communication-common.tgz
     version: 0.0.0
-  file:projects/communication-identity.tgz_debug@4.3.2:
+  file:projects/communication-identity.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
@@ -9187,7 +9063,7 @@ packages:
       eslint: 7.32.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -9215,15 +9091,12 @@ packages:
       typedoc: 0.15.2
       typescript: 4.2.4
     dev: false
-    id: file:projects/communication-identity.tgz
     name: '@rush-temp/communication-identity'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-H7Nvbg9zQSTMqj7fct6mndyA1gtgGRZCo70vNfEVRsrR91DBpNmn84v3Cm0rd+z1BAZBDV32BBgNxVn5c7GZ9g==
       tarball: file:projects/communication-identity.tgz
     version: 0.0.0
-  file:projects/communication-network-traversal.tgz_debug@4.3.2:
+  file:projects/communication-network-traversal.tgz:
     dependencies:
       '@azure/communication-identity': 1.0.0
       '@azure/core-tracing': 1.0.0-preview.13
@@ -9244,7 +9117,7 @@ packages:
       eslint: 7.32.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -9272,15 +9145,12 @@ packages:
       typedoc: 0.15.2
       typescript: 4.2.4
     dev: false
-    id: file:projects/communication-network-traversal.tgz
     name: '@rush-temp/communication-network-traversal'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-cobZI4V/JCxaqy9iXtGMA7vMTPaZZM/xF+gwzhAIltv6jB++Tso+REchPQBVGu8GLbiTkqhL3nWVDVmvwZaZ0Q==
       tarball: file:projects/communication-network-traversal.tgz
     version: 0.0.0
-  file:projects/communication-phone-numbers.tgz_debug@4.3.2:
+  file:projects/communication-phone-numbers.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
@@ -9300,7 +9170,7 @@ packages:
       eslint: 7.32.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -9328,15 +9198,12 @@ packages:
       typedoc: 0.15.2
       typescript: 4.2.4
     dev: false
-    id: file:projects/communication-phone-numbers.tgz
     name: '@rush-temp/communication-phone-numbers'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-D5fyNkyCWhN4frTbBBAbsBBzdUN2Y5/6BZqxZWQHyN5OzY5RXVsQ3B3rm2vRkUkQy39eJh4mERYL2kS/U+LHew==
       tarball: file:projects/communication-phone-numbers.tgz
     version: 0.0.0
-  file:projects/communication-sms.tgz_debug@4.3.2:
+  file:projects/communication-sms.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
@@ -9356,7 +9223,7 @@ packages:
       eslint: 7.32.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -9383,18 +9250,15 @@ packages:
       typescript: 4.2.4
       util: 0.12.4
     dev: false
-    id: file:projects/communication-sms.tgz
     name: '@rush-temp/communication-sms'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-01aFxj59g7BFI3qe6gVOBIrJvSvYJXNo1iKEz85vXfZ/sBR1MKpYeStE1MfNeUtRavadt7Z6Z3FQvKolITGJWQ==
       tarball: file:projects/communication-sms.tgz
     version: 0.0.0
-  file:projects/confidential-ledger.tgz_debug@4.3.2:
+  file:projects/confidential-ledger.tgz:
     dependencies:
       '@azure-rest/core-client': 1.0.0-beta.6
-      '@azure/identity': 1.5.1_debug@4.3.2
+      '@azure/identity': 1.5.1
       '@microsoft/api-extractor': 7.13.2
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
@@ -9403,7 +9267,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -9428,15 +9292,12 @@ packages:
       typedoc: 0.15.2
       typescript: 4.2.4
     dev: false
-    id: file:projects/confidential-ledger.tgz
     name: '@rush-temp/confidential-ledger'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-EUZ7hrGyJG/Jb/V4Mkwmf+SRdwETCvaOlu0IjKTGMmKXSZamdY+AUfP+C+r0iVG5e337V6N4CU+aky5RNdiYPQ==
       tarball: file:projects/confidential-ledger.tgz
     version: 0.0.0
-  file:projects/container-registry.tgz_debug@4.3.2:
+  file:projects/container-registry.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
@@ -9450,7 +9311,7 @@ packages:
       dotenv: 8.6.0
       eslint: 7.32.0
       inherits: 2.0.4
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -9474,10 +9335,7 @@ packages:
       typescript: 4.2.4
       util: 0.12.4
     dev: false
-    id: file:projects/container-registry.tgz
     name: '@rush-temp/container-registry'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-SyFGUKFqwKOHPoeWsBqaV6xgDg1VnxkSEEWN927eg/J9/G8hT/HIzp4NSBNVP+MWMZCAkc3TGDZxIAqg1xdyLw==
       tarball: file:projects/container-registry.tgz
@@ -9575,7 +9433,7 @@ packages:
       integrity: sha512-pdVm8tTyrBXIMYR5CFDSjZLbIDYsKQNbABEICJfRW3c77f0pPGadRdvC34rieD68ZfNxIZ3wtxKEJdma8HPQYQ==
       tarball: file:projects/core-auth.tgz
     version: 0.0.0
-  file:projects/core-client-1.tgz_debug@4.3.2:
+  file:projects/core-client-1.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
@@ -9588,7 +9446,7 @@ packages:
       downlevel-dts: 0.4.0
       eslint: 7.32.0
       inherits: 2.0.4
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -9610,15 +9468,12 @@ packages:
       typescript: 4.2.4
       util: 0.12.4
     dev: false
-    id: file:projects/core-client-1.tgz
     name: '@rush-temp/core-client-1'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-mhHXTeAYj/Dku5gLxgH3oIpErdSTlPL2ivM4QFjpsbVaKI+Baw8AD1yZ6R+Z3560l3Ya5OgUoF289cL7XYRsMA==
       tarball: file:projects/core-client-1.tgz
     version: 0.0.0
-  file:projects/core-client-lro.tgz_debug@4.3.2:
+  file:projects/core-client-lro.tgz:
     dependencies:
       '@azure-rest/core-client': 1.0.0-beta.6
       '@microsoft/api-extractor': 7.13.2
@@ -9629,7 +9484,7 @@ packages:
       cross-env: 7.0.3
       eslint: 7.32.0
       inherits: 2.0.4
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -9651,15 +9506,12 @@ packages:
       typescript: 4.2.4
       util: 0.12.4
     dev: false
-    id: file:projects/core-client-lro.tgz
     name: '@rush-temp/core-client-lro'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-n7OJnwa3mZ4WMtwlX0t8UY0ZAPc877e+UfhsTLa5V+3Re0wkEvKUo1IvMedAgKPLag3MoTrRcxl3c3KXGXxGRA==
       tarball: file:projects/core-client-lro.tgz
     version: 0.0.0
-  file:projects/core-client-paging.tgz_debug@4.3.2:
+  file:projects/core-client-paging.tgz:
     dependencies:
       '@azure-rest/core-client': 1.0.0-beta.6
       '@microsoft/api-extractor': 7.13.2
@@ -9670,7 +9522,7 @@ packages:
       cross-env: 7.0.3
       eslint: 7.32.0
       inherits: 2.0.4
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -9692,15 +9544,12 @@ packages:
       typescript: 4.2.4
       util: 0.12.4
     dev: false
-    id: file:projects/core-client-paging.tgz
     name: '@rush-temp/core-client-paging'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-bsDMFvEcIAb5YzNyy2nbN/9r6iqMizurHzWN6bT+C4son4pDW7+ij6qMx/FKi9l+HiMhx8Ns6prqJypy8g30IQ==
       tarball: file:projects/core-client-paging.tgz
     version: 0.0.0
-  file:projects/core-client.tgz_debug@4.3.2:
+  file:projects/core-client.tgz:
     dependencies:
       '@microsoft/api-extractor': 7.13.2
       '@types/chai': 4.2.21
@@ -9710,7 +9559,7 @@ packages:
       cross-env: 7.0.3
       eslint: 7.32.0
       inherits: 2.0.4
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -9732,15 +9581,12 @@ packages:
       typescript: 4.2.4
       util: 0.12.4
     dev: false
-    id: file:projects/core-client.tgz
     name: '@rush-temp/core-client'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-A+GvNgdlwTt5h3ZbVfNlhfUSKtdo96ruE9aQ7Vvf83wsasti6gtLOQFPXPiLMvhvQoKg4eQ3iZU9TtNxW2RY+g==
       tarball: file:projects/core-client.tgz
     version: 0.0.0
-  file:projects/core-crypto.tgz_debug@4.3.2:
+  file:projects/core-crypto.tgz:
     dependencies:
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
@@ -9754,7 +9600,7 @@ packages:
       cross-env: 7.0.3
       downlevel-dts: 0.4.0
       eslint: 7.32.0
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -9776,15 +9622,12 @@ packages:
       typedoc: 0.15.2
       typescript: 4.2.4
     dev: false
-    id: file:projects/core-crypto.tgz
     name: '@rush-temp/core-crypto'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-ZU0iT6qVHE8T+fmuz9RUnJa9PWbee+NOun/0gVTto1le3NyXWX85zwsFpE7//wfKXTJnbqCyHmjdi3spPf3Xxg==
       tarball: file:projects/core-crypto.tgz
     version: 0.0.0
-  file:projects/core-http.tgz_debug@4.3.2:
+  file:projects/core-http.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/logger-js': 1.3.2
@@ -9810,7 +9653,7 @@ packages:
       fetch-mock: 9.11.0_node-fetch@2.6.1
       form-data: 3.0.1
       glob: 7.1.7
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chai: 0.1.0_chai@4.3.4+karma@6.3.4
       karma-chrome-launcher: 3.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -9842,15 +9685,12 @@ packages:
       xhr-mock: 2.5.1
       xml2js: 0.4.23
     dev: false
-    id: file:projects/core-http.tgz
     name: '@rush-temp/core-http'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-Ujq75kK/8PfJufRYz170HH4KuCmfnEWz2x/GoCf17Cya5XL9p5Vh/10h4bkm1JKEm3skqXzNoBw8jlZ6uZyysw==
       tarball: file:projects/core-http.tgz
     version: 0.0.0
-  file:projects/core-lro.tgz_debug@4.3.2:
+  file:projects/core-lro.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
@@ -9860,7 +9700,7 @@ packages:
       chai: 4.3.4
       cross-env: 7.0.3
       eslint: 7.32.0
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -9884,15 +9724,12 @@ packages:
       typescript: 4.2.4
       uglify-js: 3.14.1
     dev: false
-    id: file:projects/core-lro.tgz
     name: '@rush-temp/core-lro'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-NKGKcVkQq77E2dNBLMGvX3XKfoUspXmK7ozUe81I/hNJ1mX7kHTQ3/SV59NyKCjPoo+VTouUCWxoIgIvbIeHdg==
       tarball: file:projects/core-lro.tgz
     version: 0.0.0
-  file:projects/core-paging.tgz_debug@4.3.2:
+  file:projects/core-paging.tgz:
     dependencies:
       '@microsoft/api-extractor': 7.7.11
       '@types/chai': 4.2.21
@@ -9901,7 +9738,7 @@ packages:
       chai: 4.3.4
       downlevel-dts: 0.4.0
       eslint: 7.32.0
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -9921,15 +9758,12 @@ packages:
       typedoc: 0.15.2
       typescript: 4.2.4
     dev: false
-    id: file:projects/core-paging.tgz
     name: '@rush-temp/core-paging'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-L14f29bGNZ2/Q8Ax9MfR7QWs85WhJsUAlujI+yHvwRdAyKzlVNIPv0Z+y05QO35MeIlIfhyLoYY42kIbFIJaEw==
       tarball: file:projects/core-paging.tgz
     version: 0.0.0
-  file:projects/core-rest-pipeline.tgz_debug@4.3.2:
+  file:projects/core-rest-pipeline.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
@@ -9947,7 +9781,7 @@ packages:
       http-proxy-agent: 4.0.1
       https-proxy-agent: 5.0.0
       inherits: 2.0.4
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -9971,15 +9805,12 @@ packages:
       util: 0.12.4
       uuid: 8.3.2
     dev: false
-    id: file:projects/core-rest-pipeline.tgz
     name: '@rush-temp/core-rest-pipeline'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-CxDUyMFbD3nyXoeLjiKWHE7k88ZPwuuId8NF0g5bLwn5I+TR2c6FHdYWmoo2g3Fv85Vdi+hhiyvob2z/EZVjkg==
       tarball: file:projects/core-rest-pipeline.tgz
     version: 0.0.0
-  file:projects/core-tracing.tgz_debug@4.3.2:
+  file:projects/core-tracing.tgz:
     dependencies:
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 1.0.2
@@ -9992,7 +9823,7 @@ packages:
       cross-env: 7.0.3
       eslint: 7.32.0
       inherits: 2.0.4
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -10014,15 +9845,12 @@ packages:
       typescript: 4.2.4
       util: 0.12.4
     dev: false
-    id: file:projects/core-tracing.tgz
     name: '@rush-temp/core-tracing'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-hjSwB3OLU9ukMINsZaZWCTbo94TiJjihe2mLVuIWmd5x1kT9gTL0n9JmcToqc0WKJ1s3Ek8CieRv51HqlEHzFw==
       tarball: file:projects/core-tracing.tgz
     version: 0.0.0
-  file:projects/core-util.tgz_debug@4.3.2:
+  file:projects/core-util.tgz:
     dependencies:
       '@microsoft/api-extractor': 7.7.11
       '@types/chai': 4.2.21
@@ -10034,7 +9862,7 @@ packages:
       downlevel-dts: 0.4.0
       eslint: 7.32.0
       inherits: 2.0.4
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -10056,15 +9884,12 @@ packages:
       typescript: 4.2.4
       util: 0.12.4
     dev: false
-    id: file:projects/core-util.tgz
     name: '@rush-temp/core-util'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-ydQLFeHsAKS+g+FQV69KApmwIDrJ49u3dn/79yNATb5guThjqMlLEHio9p8JX2mO1vdwwZ8122dwdOezxCZolQ==
       tarball: file:projects/core-util.tgz
     version: 0.0.0
-  file:projects/core-xml.tgz_debug@4.3.2:
+  file:projects/core-xml.tgz:
     dependencies:
       '@microsoft/api-extractor': 7.7.11
       '@types/chai': 4.2.21
@@ -10077,7 +9902,7 @@ packages:
       downlevel-dts: 0.4.0
       eslint: 7.32.0
       inherits: 2.0.4
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -10100,10 +9925,7 @@ packages:
       util: 0.12.4
       xml2js: 0.4.23
     dev: false
-    id: file:projects/core-xml.tgz
     name: '@rush-temp/core-xml'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-7HkopyqzugsgMp7OWJt5PWvGY7w+YPNwbjjmjQFhcuynt1Mho/LlTvo9c9W/TX/Mb4BLRp7bWUfErSqgaYQOKQ==
       tarball: file:projects/core-xml.tgz
@@ -10159,7 +9981,7 @@ packages:
       integrity: sha512-ccjG0WDeeY6YNl3ls3WPXeotL6A77FlJRlru9NBbNfJCTQnmyfHpEc/8V08uaNiePCL78AG8z8SaXM/5hvUD1g==
       tarball: file:projects/cosmos.tgz
     version: 0.0.0
-  file:projects/data-tables.tgz_debug@4.3.2:
+  file:projects/data-tables.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
@@ -10180,7 +10002,7 @@ packages:
       downlevel-dts: 0.4.0
       eslint: 7.32.0
       inherits: 2.0.4
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -10209,10 +10031,7 @@ packages:
       util: 0.12.4
       uuid: 8.3.2
     dev: false
-    id: file:projects/data-tables.tgz
     name: '@rush-temp/data-tables'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-cWqpW1JbLdwesXg6WQtRh/9SKSxAWpwelOfZp+haQYOCHXdmYbc9I0f5fLqydvBmWj8VAH4p8hfuzHbgyqtLvg==
       tarball: file:projects/data-tables.tgz
@@ -10255,7 +10074,7 @@ packages:
       integrity: sha512-ZE8yx0myuy6CAIoZwrf9ngW6NEGhDPAusK9eCmpGjZBdRtaB8k9DVrf/WahKYK6jfsbP7v5ysAIXCGXJQ/hjJQ==
       tarball: file:projects/dev-tool.tgz
     version: 0.0.0
-  file:projects/digital-twins-core.tgz_debug@4.3.2:
+  file:projects/digital-twins-core.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
@@ -10274,7 +10093,7 @@ packages:
       dotenv: 8.6.0
       eslint: 7.32.0
       inherits: 2.0.4
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -10304,10 +10123,7 @@ packages:
       util: 0.12.4
       uuid: 8.3.2
     dev: false
-    id: file:projects/digital-twins-core.tgz
     name: '@rush-temp/digital-twins-core'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-IOXrMpOp6Z4NNY5eaomj603LAAh7cdsv2TqmJU+Z58tQ3HCL+TI30zpv04dzmfQb1zfzb0waZTAWhVwOqJqorg==
       tarball: file:projects/digital-twins-core.tgz
@@ -10471,7 +10287,7 @@ packages:
       integrity: sha512-syykBEfYcNEgeJPdJQjKC3+Nb7bGZQtl7VILYKDPkcDxCHCEqS2VarrIgIbylakamm+WF6oIXYqTVvTOLYRR8g==
       tarball: file:projects/event-processor-host.tgz
     version: 0.0.0
-  file:projects/eventgrid.tgz_debug@4.3.2:
+  file:projects/eventgrid.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
@@ -10491,7 +10307,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -10522,10 +10338,7 @@ packages:
       typescript: 4.2.4
       uuid: 8.3.2
     dev: false
-    id: file:projects/eventgrid.tgz
     name: '@rush-temp/eventgrid'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-suP2/agdK5a7rE8HX+kDc+/YsomXYI0fMWyvcBYgpSVuY+ZJFuvTY6LGw0dCiPjHNMpSEkiGK8xFjcYiwzeXRA==
       tarball: file:projects/eventgrid.tgz
@@ -10648,9 +10461,9 @@ packages:
       integrity: sha512-q/vN3CkN6I/IjykQnqmBRwc9vA4Af+iEb8tdE1869bdqoS4vFenc8w1DkcFv8DjsHgmVHVwaBaYzMfZizxs1FA==
       tarball: file:projects/eventhubs-checkpointstore-table.tgz
     version: 0.0.0
-  file:projects/identity-cache-persistence.tgz_debug@4.3.2:
+  file:projects/identity-cache-persistence.tgz:
     dependencies:
-      '@azure/msal-node': 1.3.0_debug@4.3.2
+      '@azure/msal-node': 1.3.0
       '@azure/msal-node-extensions': 1.0.0-alpha.8
       '@microsoft/api-extractor': 7.7.11
       '@types/jws': 3.2.4
@@ -10677,10 +10490,7 @@ packages:
       typescript: 4.2.4
       util: 0.12.4
     dev: false
-    id: file:projects/identity-cache-persistence.tgz
     name: '@rush-temp/identity-cache-persistence'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-SnI7/QeGdOAeOnjYAwtBChnZYOT9Z/Qjvqk4Qkb94ILK+8izD29cAyWUp/H+YAuWlRev/Zxt6v1QR5rzH57l1w==
       tarball: file:projects/identity-cache-persistence.tgz
@@ -10718,12 +10528,12 @@ packages:
       integrity: sha512-lFuhkhby9+WPPaubv7+LKPp+8s5EsaviysX8/U87It24uJOfCBCOj3iQHY+LwexMoBAV7phnSK4OyWu93gPQnQ==
       tarball: file:projects/identity-vscode.tgz
     version: 0.0.0
-  file:projects/identity.tgz_debug@4.3.2:
+  file:projects/identity.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/msal-browser': 2.16.1
       '@azure/msal-common': 4.5.1
-      '@azure/msal-node': 1.3.0_debug@4.3.2
+      '@azure/msal-node': 1.3.0
       '@microsoft/api-extractor': 7.7.11
       '@types/chai': 4.2.21
       '@types/jws': 3.2.4
@@ -10741,7 +10551,7 @@ packages:
       events: 3.3.0
       inherits: 2.0.4
       jws: 4.0.0
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-env-preprocessor: 0.1.1
@@ -10765,10 +10575,7 @@ packages:
       util: 0.12.4
       uuid: 8.3.2
     dev: false
-    id: file:projects/identity.tgz
     name: '@rush-temp/identity'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-lrMQMdCGOXdqtQAUIeoriX9Q9jYDJwoytNjfHLcRBDSLnXkFdCx22rus30wxahi7ep/TmhRCBWiwAZbos/zrwg==
       tarball: file:projects/identity.tgz
@@ -10800,7 +10607,7 @@ packages:
       integrity: sha512-kL3fFp9QhcyAryY2/YEo5eH90SDFUv0GXYrd54cWb6pr6l7xqh6Jel4YLbVQ7mlJW7Ts3lYODVqBTFFjEX3mKw==
       tarball: file:projects/iot-device-update.tgz
     version: 0.0.0
-  file:projects/iot-modelsrepository.tgz_debug@4.3.2:
+  file:projects/iot-modelsrepository.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
@@ -10818,7 +10625,7 @@ packages:
       eslint: 7.32.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -10846,10 +10653,7 @@ packages:
       typescript: 4.2.4
       util: 0.12.4
     dev: false
-    id: file:projects/iot-modelsrepository.tgz
     name: '@rush-temp/iot-modelsrepository'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-iUU687QdDdmA8oCN9f+SO7frInSu4tmqO3gZbb3ydUG26aimniEjgxro+1iBicDL1YMBMbraVsBqDwz39xIsvg==
       tarball: file:projects/iot-modelsrepository.tgz
@@ -10899,7 +10703,7 @@ packages:
       integrity: sha512-jNv8VwZFDHYzB7croMGVhILNMJBmAqP4s4azNwnt+D+g3yLNw6jfV9hQkJIoTxqkO2MPuzigpM+uU4zTWGSiZw==
       tarball: file:projects/keyvault-admin.tgz
     version: 0.0.0
-  file:projects/keyvault-certificates.tgz_debug@4.3.2:
+  file:projects/keyvault-certificates.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
@@ -10919,7 +10723,7 @@ packages:
       dotenv: 8.6.0
       eslint: 7.32.0
       esm: 3.2.25
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -10951,10 +10755,7 @@ packages:
       typescript: 4.2.4
       url: 0.11.0
     dev: false
-    id: file:projects/keyvault-certificates.tgz
     name: '@rush-temp/keyvault-certificates'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-CsAmbAoT4mTz9BstSyo7cLuvFTaoCquPn/aSs1w3bAmn+fcl2Q1WP1RO7AXw6RcH2whD2A8zVGhnZHfWanUg7g==
       tarball: file:projects/keyvault-certificates.tgz
@@ -10973,7 +10774,7 @@ packages:
       integrity: sha512-nqJYMdkZslJJL2Y7fIMCVXcAtsuKOm8ZMukvR5AW7V+uzqZ6s1nAQ+MCQtJlJsKwr8ittY4DXsM70/n0e/g74A==
       tarball: file:projects/keyvault-common.tgz
     version: 0.0.0
-  file:projects/keyvault-keys.tgz_debug@4.3.2:
+  file:projects/keyvault-keys.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
@@ -10996,7 +10797,7 @@ packages:
       dotenv: 8.6.0
       eslint: 7.32.0
       esm: 3.2.25
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -11028,15 +10829,12 @@ packages:
       typescript: 4.2.4
       url: 0.11.0
     dev: false
-    id: file:projects/keyvault-keys.tgz
     name: '@rush-temp/keyvault-keys'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-PFPW+cikOyiU1XhOeyb0yQj2Zijl9CG9sFGjoogY7wcfFSks6v5SP90jJAXEHTP7L+MtRIWciINJ6e+uRAgfYQ==
       tarball: file:projects/keyvault-keys.tgz
     version: 0.0.0
-  file:projects/keyvault-secrets.tgz_debug@4.3.2:
+  file:projects/keyvault-secrets.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
@@ -11056,7 +10854,7 @@ packages:
       dotenv: 8.6.0
       eslint: 7.32.0
       esm: 3.2.25
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -11088,15 +10886,12 @@ packages:
       typescript: 4.2.4
       url: 0.11.0
     dev: false
-    id: file:projects/keyvault-secrets.tgz
     name: '@rush-temp/keyvault-secrets'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-kRa9GCv0VNGIlGHyeBrmMGRusgVaOcA2ja0GN1Pe27dQ81KxLzp1HnNgrvwWQIl8rtzxnOQdQxP5I0JkOo+4jg==
       tarball: file:projects/keyvault-secrets.tgz
     version: 0.0.0
-  file:projects/logger.tgz_debug@4.3.2:
+  file:projects/logger.tgz:
     dependencies:
       '@microsoft/api-extractor': 7.7.11
       '@types/chai': 4.2.21
@@ -11108,7 +10903,7 @@ packages:
       delay: 4.4.1
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -11132,15 +10927,12 @@ packages:
       typedoc: 0.15.2
       typescript: 4.2.4
     dev: false
-    id: file:projects/logger.tgz
     name: '@rush-temp/logger'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-YWeJ6m2/5raDiQl0ZwISGuN3ucnQBJBRDcMd6eiW5iEiL7cHtMmp00lkuvZwSgrZP0xAiQU5sCDKnynkdq/Meg==
       tarball: file:projects/logger.tgz
     version: 0.0.0
-  file:projects/mixed-reality-authentication.tgz_debug@4.3.2:
+  file:projects/mixed-reality-authentication.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
@@ -11154,7 +10946,7 @@ packages:
       dotenv: 8.6.0
       eslint: 7.32.0
       inherits: 2.0.4
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -11178,18 +10970,15 @@ packages:
       typescript: 4.2.4
       util: 0.12.4
     dev: false
-    id: file:projects/mixed-reality-authentication.tgz
     name: '@rush-temp/mixed-reality-authentication'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-MkDOVDN8J/hqehxwB3Ow7DbduV3cYYvmwH95XEZA2ckD6e7NokCDzBbdLiS14hFVhP+spA9GAsqXoqS/Z+y7Ag==
       tarball: file:projects/mixed-reality-authentication.tgz
     version: 0.0.0
-  file:projects/mixed-reality-remote-rendering.tgz_debug@4.3.2:
+  file:projects/mixed-reality-remote-rendering.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
-      '@azure/identity': 1.5.1_debug@4.3.2
+      '@azure/identity': 1.5.1
       '@microsoft/api-extractor': 7.7.11
       '@types/chai': 4.2.21
       '@types/chai-as-promised': 7.1.4
@@ -11202,7 +10991,7 @@ packages:
       dotenv: 8.6.0
       eslint: 7.32.0
       inherits: 2.0.4
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -11226,10 +11015,7 @@ packages:
       util: 0.12.4
       uuid: 8.3.2
     dev: false
-    id: file:projects/mixed-reality-remote-rendering.tgz
     name: '@rush-temp/mixed-reality-remote-rendering'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-xc65YPH8+ITdOcyjH7t0PN8ee7Znf82odclurVIwJLgBkoKLdvkd8jAXXUbgeBoQ1Ma1H+PFaLhI8V4bo/yXJw==
       tarball: file:projects/mixed-reality-remote-rendering.tgz
@@ -11284,10 +11070,10 @@ packages:
       integrity: sha512-WYH8CaZOliclSLRlTl5xrJfy5dZtOvEc1ypw2W6qwQABZOeeF8geFXO6glkcxMCrEKIIeAjN14yyDXDQMsF3fg==
       tarball: file:projects/monitor-opentelemetry-exporter.tgz
     version: 0.0.0
-  file:projects/monitor-query.tgz_debug@4.3.2:
+  file:projects/monitor-query.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
-      '@azure/identity': 1.5.1_debug@4.3.2
+      '@azure/identity': 1.5.1
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 1.0.2
       '@opentelemetry/node': 0.22.0_@opentelemetry+api@1.0.2
@@ -11304,7 +11090,7 @@ packages:
       eslint: 7.32.0
       esm: 3.2.25
       inherits: 2.0.4
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -11328,18 +11114,15 @@ packages:
       typescript: 4.2.4
       util: 0.12.4
     dev: false
-    id: file:projects/monitor-query.tgz
     name: '@rush-temp/monitor-query'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-fnatli/y9QgLOQPIPd9kUw11qRXlM5fBisSJhxAD+m+SlrhOsvr0CjOacesQwj4quNSFApSg8qp6p0Fa97dmmw==
       tarball: file:projects/monitor-query.tgz
     version: 0.0.0
-  file:projects/perf-ai-form-recognizer.tgz_debug@4.3.2:
+  file:projects/perf-ai-form-recognizer.tgz:
     dependencies:
       '@azure/ai-form-recognizer': 3.1.0-beta.3
-      '@azure/identity': 2.0.0-beta.5_debug@4.3.2
+      '@azure/identity': 2.0.0-beta.5
       '@types/node': 12.20.20
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -11349,10 +11132,7 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
     dev: false
-    id: file:projects/perf-ai-form-recognizer.tgz
     name: '@rush-temp/perf-ai-form-recognizer'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-cmg8RiXO/9pVUmYYK0ORHeXYEhMAm3hM2wPJYPiWDxcLocHcSg+KHfNs/HsTqmCHC3ZJPAK0bkso2o5aQcX4og==
       tarball: file:projects/perf-ai-form-recognizer.tgz
@@ -11475,9 +11255,9 @@ packages:
       integrity: sha512-YDMT97rXScbEHFe5bEwYQ09icAXRcM+LBVDdo6Aw4/GppyW1LPjjS0XrtDh0yjZPmKYsUPIQ+uSlWHJhUTNuGA==
       tarball: file:projects/perf-identity.tgz
     version: 0.0.0
-  file:projects/perf-keyvault-certificates.tgz_debug@4.3.2:
+  file:projects/perf-keyvault-certificates.tgz:
     dependencies:
-      '@azure/identity': 2.0.0-beta.5_debug@4.3.2
+      '@azure/identity': 2.0.0-beta.5
       '@types/uuid': 8.3.1
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -11488,10 +11268,7 @@ packages:
       typescript: 4.2.4
       uuid: 8.3.2
     dev: false
-    id: file:projects/perf-keyvault-certificates.tgz
     name: '@rush-temp/perf-keyvault-certificates'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-Lu5DMEEQaLKxeYQUA3vi9NsM2eezMgulBxsE/1H1/CcQ19Stsa8ZSocg/VXR2leUez9TMMAt3BEFe0SUMq43Zg==
       tarball: file:projects/perf-keyvault-certificates.tgz
@@ -11514,9 +11291,9 @@ packages:
       integrity: sha512-FUfg2L8Ps3v42r3uxfQc2Ojf2Ccu9CqjM6e24zOEyxQcokdGw6l0Gy4sjOjem5bqyFEK98thY7yMl+YK10WffQ==
       tarball: file:projects/perf-keyvault-keys.tgz
     version: 0.0.0
-  file:projects/perf-keyvault-secrets.tgz_debug@4.3.2:
+  file:projects/perf-keyvault-secrets.tgz:
     dependencies:
-      '@azure/identity': 2.0.0-beta.5_debug@4.3.2
+      '@azure/identity': 2.0.0-beta.5
       '@types/uuid': 8.3.1
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -11527,17 +11304,14 @@ packages:
       typescript: 4.2.4
       uuid: 8.3.2
     dev: false
-    id: file:projects/perf-keyvault-secrets.tgz
     name: '@rush-temp/perf-keyvault-secrets'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-eNh/HrvUzTrZcgP2kjh13CFLWbWSVd73jjU5fupTSOdU8kk5xmDvjG5tKdwhXi9BGu5YV8qUz7cMJsFNrPLkdQ==
       tarball: file:projects/perf-keyvault-secrets.tgz
     version: 0.0.0
-  file:projects/perf-search-documents.tgz_debug@4.3.2:
+  file:projects/perf-search-documents.tgz:
     dependencies:
-      '@azure/identity': 2.0.0-beta.5_debug@4.3.2
+      '@azure/identity': 2.0.0-beta.5
       '@types/node': 12.20.20
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -11547,10 +11321,7 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
     dev: false
-    id: file:projects/perf-search-documents.tgz
     name: '@rush-temp/perf-search-documents'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-VTTCMcAvAZ9/7XurfiFIqnNtrosScqFV8h35jy4ae2u9Dy1fG0YmmUQlVEemNGWrlUNhKMhL8kr7fi6kuytkpg==
       tarball: file:projects/perf-search-documents.tgz
@@ -11611,11 +11382,11 @@ packages:
       integrity: sha512-puMNDli8g8FHzU3hcpWibrKOoXVSBbeZz2/mq+Eoan4HwJzUqyaTOllfsc0NXbFn2aNV9ETSLtcldPLsWckq9w==
       tarball: file:projects/perf-storage-file-share.tgz
     version: 0.0.0
-  file:projects/purview-account.tgz_debug@4.3.2:
+  file:projects/purview-account.tgz:
     dependencies:
       '@azure-rest/core-client': 1.0.0-beta.6
       '@azure-rest/core-client-paging': 1.0.0-beta.1
-      '@azure/identity': 1.5.1_debug@4.3.2
+      '@azure/identity': 1.5.1
       '@microsoft/api-extractor': 7.13.2
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
@@ -11624,7 +11395,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -11650,18 +11421,15 @@ packages:
       typedoc: 0.15.2
       typescript: 4.2.4
     dev: false
-    id: file:projects/purview-account.tgz
     name: '@rush-temp/purview-account'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-sZE8jjJ7JTiJ8dLNBN/RC1ATd15e/n7bXPWSUnmLmKdw1DRmJ7ga2R1CBZb8HVbHBRHuJCf1A04LXuYeyndlYQ==
       tarball: file:projects/purview-account.tgz
     version: 0.0.0
-  file:projects/purview-catalog.tgz_debug@4.3.2:
+  file:projects/purview-catalog.tgz:
     dependencies:
       '@azure-rest/core-client': 1.0.0-beta.6
-      '@azure/identity': 1.5.1_debug@4.3.2
+      '@azure/identity': 1.5.1
       '@microsoft/api-extractor': 7.13.2
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
@@ -11670,7 +11438,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -11696,18 +11464,15 @@ packages:
       typedoc: 0.15.2
       typescript: 4.2.4
     dev: false
-    id: file:projects/purview-catalog.tgz
     name: '@rush-temp/purview-catalog'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-q+6z0t3l58Kk5cSAprPa0Mwenfe25SafEDzBvlIEvnhnUNUGarIuujMMyFZQl2kA/BD0AR2BViAqjmoIWNLstQ==
       tarball: file:projects/purview-catalog.tgz
     version: 0.0.0
-  file:projects/purview-scanning.tgz_debug@4.3.2:
+  file:projects/purview-scanning.tgz:
     dependencies:
       '@azure-rest/core-client': 1.0.0-beta.6
-      '@azure/identity': 1.5.1_debug@4.3.2
+      '@azure/identity': 1.5.1
       '@microsoft/api-extractor': 7.13.2
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
@@ -11716,7 +11481,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -11742,15 +11507,12 @@ packages:
       typedoc: 0.15.2
       typescript: 4.2.4
     dev: false
-    id: file:projects/purview-scanning.tgz
     name: '@rush-temp/purview-scanning'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-y31TKyCDetv3Otry7fTLQekbusRP9t3zTur4bJURy6QQv3lmFzXRaeq0zlKu4TUgcC0eF8QIM/oGx5x81TFr2w==
       tarball: file:projects/purview-scanning.tgz
     version: 0.0.0
-  file:projects/quantum-jobs.tgz_debug@4.3.2:
+  file:projects/quantum-jobs.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/storage-blob': 12.7.0
@@ -11770,7 +11532,7 @@ packages:
       eslint: 7.32.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -11799,15 +11561,12 @@ packages:
       typescript: 4.2.4
       util: 0.12.4
     dev: false
-    id: file:projects/quantum-jobs.tgz
     name: '@rush-temp/quantum-jobs'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-h+6B6w9AE1mQWWhaThJVKkARgsrLHZ3VbGAXbRv1fV9tl87XAqeQXFvYc8jf+/m3LN08G5d+T2zV5PURVM9Icw==
       tarball: file:projects/quantum-jobs.tgz
     version: 0.0.0
-  file:projects/schema-registry-avro.tgz_debug@4.3.2:
+  file:projects/schema-registry-avro.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
@@ -11828,7 +11587,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -11857,15 +11616,12 @@ packages:
       typedoc: 0.15.2
       typescript: 4.2.4
     dev: false
-    id: file:projects/schema-registry-avro.tgz
     name: '@rush-temp/schema-registry-avro'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-y3veLp66pwbqa1gFwSTr0+WIOK6nxycdwu2eVbmxiktuhDlH9uksErsjkFqBWr08LY+LeAhxXlemEznDkD1lHw==
       tarball: file:projects/schema-registry-avro.tgz
     version: 0.0.0
-  file:projects/schema-registry.tgz_debug@4.3.2:
+  file:projects/schema-registry.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
@@ -11878,7 +11634,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -11902,15 +11658,12 @@ packages:
       typedoc: 0.15.2
       typescript: 4.2.4
     dev: false
-    id: file:projects/schema-registry.tgz
     name: '@rush-temp/schema-registry'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-kpM+lfpm+RUijWehDdUqZX2Ef5fE484On6tr56KO0B84Tqw0goVpjFpFop8SVQfaRLVfCe78rZVuuDNNaIAsPQ==
       tarball: file:projects/schema-registry.tgz
     version: 0.0.0
-  file:projects/search-documents.tgz_debug@4.3.2:
+  file:projects/search-documents.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
@@ -11929,7 +11682,7 @@ packages:
       eslint: 7.32.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -11959,10 +11712,7 @@ packages:
       typescript: 4.2.4
       util: 0.12.4
     dev: false
-    id: file:projects/search-documents.tgz
     name: '@rush-temp/search-documents'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-R5XMdxTSlVmE6gEBgEWvYVD0XdFPYkWh1HCGDfGmmLuLJLBOKFDSH1t2LjSX2q6ODKIA0R1uJk+qRcO/YfNfDQ==
       tarball: file:projects/search-documents.tgz
@@ -12042,7 +11792,7 @@ packages:
       integrity: sha512-P1Z6R/jpmdcQ7sFHv+TjYwLNqJpHE1hDwQSdR9RHCwUKa7sRTXn9uuN37kRp6Lh0xcEPxr4kQyPM9cvax3Hz2g==
       tarball: file:projects/service-bus.tgz
     version: 0.0.0
-  file:projects/storage-blob-changefeed.tgz_debug@4.3.2:
+  file:projects/storage-blob-changefeed.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
@@ -12062,7 +11812,7 @@ packages:
       esm: 3.2.25
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -12094,15 +11844,12 @@ packages:
       typescript: 4.2.4
       util: 0.12.4
     dev: false
-    id: file:projects/storage-blob-changefeed.tgz
     name: '@rush-temp/storage-blob-changefeed'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-l2xB0JrDXVl0ccsDQF6HUdJMLrgWrlf+7kjSIS6D/aQubfT9Jcci1Q6x9I0Hu+V0Ckd0l9RntJlH5neBgeYGJw==
       tarball: file:projects/storage-blob-changefeed.tgz
     version: 0.0.0
-  file:projects/storage-blob.tgz_debug@4.3.2:
+  file:projects/storage-blob.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
@@ -12123,7 +11870,7 @@ packages:
       esm: 3.2.25
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -12155,15 +11902,12 @@ packages:
       typescript: 4.2.4
       util: 0.12.4
     dev: false
-    id: file:projects/storage-blob.tgz
     name: '@rush-temp/storage-blob'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-79ne93qGeiT7gkt5g7wlYJIuXo7+s7Knf+az2+uAIpZmy3zjylTNhlHligX6CegULigzJXa8JccDPjLQvkNDQQ==
       tarball: file:projects/storage-blob.tgz
     version: 0.0.0
-  file:projects/storage-file-datalake.tgz_debug@4.3.2:
+  file:projects/storage-file-datalake.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
@@ -12185,7 +11929,7 @@ packages:
       events: 3.3.0
       execa: 3.4.0
       inherits: 2.0.4
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -12217,15 +11961,12 @@ packages:
       typescript: 4.2.4
       util: 0.12.4
     dev: false
-    id: file:projects/storage-file-datalake.tgz
     name: '@rush-temp/storage-file-datalake'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-At3RuFNf8sSWItc+cMILsylwyp2JM8WVIj31ju8L8cihiU+6iUqVCDOaGZUKFfLEITRZpCJikzs/BWaHJaN/2g==
       tarball: file:projects/storage-file-datalake.tgz
     version: 0.0.0
-  file:projects/storage-file-share.tgz_debug@4.3.2:
+  file:projects/storage-file-share.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
@@ -12244,7 +11985,7 @@ packages:
       esm: 3.2.25
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -12275,15 +12016,12 @@ packages:
       typescript: 4.2.4
       util: 0.12.4
     dev: false
-    id: file:projects/storage-file-share.tgz
     name: '@rush-temp/storage-file-share'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-pUtdyPmXXFjtTcvzkFiLve6joGVaK/CtnIh3xJ1tiJ2zGVzf/ohnn/S6Y5/Ts4kG0LgRDqblea/G3HXLz5B5NA==
       tarball: file:projects/storage-file-share.tgz
     version: 0.0.0
-  file:projects/storage-internal-avro.tgz_debug@4.3.2:
+  file:projects/storage-internal-avro.tgz:
     dependencies:
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
@@ -12299,7 +12037,7 @@ packages:
       eslint: 7.32.0
       esm: 3.2.25
       inherits: 2.0.4
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -12329,15 +12067,12 @@ packages:
       typescript: 4.2.4
       util: 0.12.4
     dev: false
-    id: file:projects/storage-internal-avro.tgz
     name: '@rush-temp/storage-internal-avro'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-jk3mCVJO6/9QwZ8h127xLa4d1UsA/SRZKKHKVnfu1pp4/f8kmw3ft1p+JGf/rWyasuEDzcb/adPH+T1jYflnQw==
       tarball: file:projects/storage-internal-avro.tgz
     version: 0.0.0
-  file:projects/storage-queue.tgz_debug@4.3.2:
+  file:projects/storage-queue.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
@@ -12355,7 +12090,7 @@ packages:
       eslint: 7.32.0
       esm: 3.2.25
       inherits: 2.0.4
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -12386,15 +12121,12 @@ packages:
       typescript: 4.2.4
       util: 0.12.4
     dev: false
-    id: file:projects/storage-queue.tgz
     name: '@rush-temp/storage-queue'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-5li7TcCHHn93gnKPHNCcUhiCasP3LPQx3/FV6723lKh/3d5Df0b/XoVZhd1Z3WvttUVVKh0XUlfJ16XhwLhWiw==
       tarball: file:projects/storage-queue.tgz
     version: 0.0.0
-  file:projects/synapse-access-control.tgz_debug@4.3.2:
+  file:projects/synapse-access-control.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
@@ -12408,7 +12140,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -12436,15 +12168,12 @@ packages:
       typescript: 4.2.4
       uglify-js: 3.14.1
     dev: false
-    id: file:projects/synapse-access-control.tgz
     name: '@rush-temp/synapse-access-control'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-RVfq3bQX8ZHaS1iulhPjb9R6OrbBAkzNMRqMK6e5vzQYEj5ukpbhUzvdtIyR1xsv1jqlmkqt0DciTj0detMpuA==
       tarball: file:projects/synapse-access-control.tgz
     version: 0.0.0
-  file:projects/synapse-artifacts.tgz_debug@4.3.2:
+  file:projects/synapse-artifacts.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
@@ -12458,7 +12187,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -12486,15 +12215,12 @@ packages:
       typescript: 4.2.4
       uglify-js: 3.14.1
     dev: false
-    id: file:projects/synapse-artifacts.tgz
     name: '@rush-temp/synapse-artifacts'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-IcdI8qzBTUKUUCyLMmD26R31qh42a3OSjf105lSHNzEtPUw7kEcnQxbUmJUxkZQIP4Fyngz3Pl6s+ug5fFGQMw==
       tarball: file:projects/synapse-artifacts.tgz
     version: 0.0.0
-  file:projects/synapse-managed-private-endpoints.tgz_debug@4.3.2:
+  file:projects/synapse-managed-private-endpoints.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
@@ -12506,7 +12232,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -12531,10 +12257,7 @@ packages:
       typescript: 4.2.4
       uglify-js: 3.14.1
     dev: false
-    id: file:projects/synapse-managed-private-endpoints.tgz
     name: '@rush-temp/synapse-managed-private-endpoints'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-VM1biqEOLBm5HgM5Vgr7KKpR6qfk0wYn78aW5HGIYHDSapRJusD0iLAA2OO+3UZKCTi90pujyR3qM6TEhp9omA==
       tarball: file:projects/synapse-managed-private-endpoints.tgz
@@ -12560,7 +12283,7 @@ packages:
       integrity: sha512-9xAsBYW7D1aeS2rUguFu9kpfkN4cXMYhida3m8TnwxetVkpOPFyIZ02UsUXMOxDPEEerAeYEWVo8E1tS3evR5Q==
       tarball: file:projects/synapse-monitoring.tgz
     version: 0.0.0
-  file:projects/synapse-spark.tgz_debug@4.3.2:
+  file:projects/synapse-spark.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
@@ -12572,7 +12295,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -12597,18 +12320,15 @@ packages:
       typescript: 4.2.4
       uglify-js: 3.14.1
     dev: false
-    id: file:projects/synapse-spark.tgz
     name: '@rush-temp/synapse-spark'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-pCc+qnb3gawpP7d+zeU9eeZLvE0iRC0xJBG2oBcz+5VnBvrfTGCnD/iiTZri7Xg/MyorR4HbAa9FB3yPSIQV7A==
       tarball: file:projects/synapse-spark.tgz
     version: 0.0.0
-  file:projects/template.tgz_debug@4.3.2:
+  file:projects/template.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
-      '@azure/identity': 2.0.0-beta.5_debug@4.3.2
+      '@azure/identity': 2.0.0-beta.5
       '@microsoft/api-extractor': 7.7.11
       '@types/chai': 4.2.21
       '@types/chai-as-promised': 7.1.4
@@ -12622,7 +12342,7 @@ packages:
       eslint: 7.32.0
       esm: 3.2.25
       inherits: 2.0.4
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -12646,21 +12366,18 @@ packages:
       typescript: 4.2.4
       util: 0.12.4
     dev: false
-    id: file:projects/template.tgz
     name: '@rush-temp/template'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-1lpg/gFXvcXfaJjoIsPXUvrADDF/FgXYq3/Ab8V7pnFHw+DsAA1aQYqZwQms51w1T6gZS8w0o8csvfxBuPM5Gg==
       tarball: file:projects/template.tgz
     version: 0.0.0
-  file:projects/test-utils-perfstress.tgz_debug@4.3.2:
+  file:projects/test-utils-perfstress.tgz:
     dependencies:
       '@types/minimist': 1.2.2
       '@types/node': 12.20.20
       '@types/node-fetch': 2.5.12
       eslint: 7.32.0
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-env-preprocessor: 0.1.1
@@ -12671,15 +12388,12 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
     dev: false
-    id: file:projects/test-utils-perfstress.tgz
     name: '@rush-temp/test-utils-perfstress'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-fTItTYBBwhhtVdOQ5qASInrtqY+mDuDqE9NCvItNO3FH8yp/DP67/q3g6QpEwimVRNVCIMt/EKikSFngBugZXQ==
       tarball: file:projects/test-utils-perfstress.tgz
     version: 0.0.0
-  file:projects/test-utils-recorder.tgz_debug@4.3.2:
+  file:projects/test-utils-recorder.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
@@ -12698,7 +12412,7 @@ packages:
       dotenv: 8.6.0
       eslint: 7.32.0
       fs-extra: 8.1.0
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -12731,15 +12445,12 @@ packages:
       typescript: 4.2.4
       xhr-mock: 2.5.1
     dev: false
-    id: file:projects/test-utils-recorder.tgz
     name: '@rush-temp/test-utils-recorder'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-o+4bABzOmiCzaivsCAZk8ZCI3177CpzJVB02UtvjjKHEnqpdtweFI5V//CEh7Nrv4FVTyHACqe+r8wSPC6igjQ==
       tarball: file:projects/test-utils-recorder.tgz
     version: 0.0.0
-  file:projects/test-utils.tgz_debug@4.3.2:
+  file:projects/test-utils.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
@@ -12751,7 +12462,7 @@ packages:
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
       eslint: 7.32.0
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-env-preprocessor: 0.1.1
@@ -12763,15 +12474,12 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
     dev: false
-    id: file:projects/test-utils.tgz
     name: '@rush-temp/test-utils'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-1nFHW6i1VskqJOs13yNZadavfaZwANSmI3f8+L0BrTQTz4ivAtIeMKBqQYYISFiM+yon+XOzf5nL+I9626+fQQ==
       tarball: file:projects/test-utils.tgz
     version: 0.0.0
-  file:projects/video-analyzer-edge.tgz_debug@4.3.2:
+  file:projects/video-analyzer-edge.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
@@ -12787,7 +12495,7 @@ packages:
       eslint: 7.32.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -12809,15 +12517,12 @@ packages:
       typescript: 4.2.4
       util: 0.12.4
     dev: false
-    id: file:projects/video-analyzer-edge.tgz
     name: '@rush-temp/video-analyzer-edge'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-+wAv6j5J2g+RNNNOSaA5mDBxH0nspdnIyM48CELNP3iwW4ZM3KrZdGqD0BgNgZYpPCzhlI/+artUZs5mf2pS1g==
       tarball: file:projects/video-analyzer-edge.tgz
     version: 0.0.0
-  file:projects/web-pubsub-express.tgz_debug@4.3.2:
+  file:projects/web-pubsub-express.tgz:
     dependencies:
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
@@ -12840,7 +12545,7 @@ packages:
       dotenv: 8.6.0
       eslint: 7.32.0
       esm: 3.2.25
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -12871,18 +12576,15 @@ packages:
       typedoc: 0.15.2
       typescript: 4.2.4
     dev: false
-    id: file:projects/web-pubsub-express.tgz
     name: '@rush-temp/web-pubsub-express'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-h1letzNPy07Lrfu21NRXT3WkDbO5G4aS8C2zAWiL/3UEdHRNMHH30jlWb3/49ExPeSOHvkzmo5O0IBmy2ulWCg==
       tarball: file:projects/web-pubsub-express.tgz
     version: 0.0.0
-  file:projects/web-pubsub.tgz_debug@4.3.2:
+  file:projects/web-pubsub.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
-      '@azure/identity': 1.5.1_debug@4.3.2
+      '@azure/identity': 1.5.1
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
@@ -12901,7 +12603,7 @@ packages:
       eslint: 7.32.0
       esm: 3.2.25
       jsonwebtoken: 8.5.1
-      karma: 6.3.4_debug@4.3.2
+      karma: 6.3.4
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-edge-launcher: 0.4.2_karma@6.3.4
@@ -12932,46 +12634,12 @@ packages:
       typedoc: 0.15.2
       typescript: 4.2.4
     dev: false
-    id: file:projects/web-pubsub.tgz
     name: '@rush-temp/web-pubsub'
-    peerDependencies:
-      debug: '*'
     resolution:
       integrity: sha512-ZtXKYnWBG3udDVIsSP1wmrrBsI189ObU3o+9k0GHASM/HLi88LUD5g+tNcIgf+4Kyun0mFr9ARzm3exABvJGbA==
       tarball: file:projects/web-pubsub.tgz
     version: 0.0.0
 specifiers:
-  '@azure-rest/core-client': 1.0.0-beta.6
-  '@azure-rest/core-client-paging': 1.0.0-beta.1
-  '@azure/ai-form-recognizer': 3.1.0-beta.3
-  '@azure/ai-metrics-advisor': 1.0.0-beta.3
-  '@azure/ai-text-analytics': ^5.1.0-beta.5
-  '@azure/communication-identity': ^1.0.0
-  '@azure/communication-signaling': 1.0.0-beta.7
-  '@azure/core-tracing': 1.0.0-preview.13
-  '@azure/event-hubs': ^2.1.4
-  '@azure/keyvault-keys': ^4.2.1
-  '@azure/logger-js': ^1.0.2
-  '@azure/ms-rest-nodeauth': ^0.9.2
-  '@azure/msal-browser': ^2.0.0
-  '@azure/msal-common': ^4.3.0
-  '@azure/msal-node': ^1.2.0
-  '@azure/msal-node-extensions': 1.0.0-alpha.8
-  '@azure/storage-blob': ^12.6.0
-  '@opentelemetry/api': ^1.0.1
-  '@opentelemetry/core': ^0.22.0
-  '@opentelemetry/instrumentation': 0.22.0
-  '@opentelemetry/instrumentation-http': 0.22.0
-  '@opentelemetry/node': 0.22.0
-  '@opentelemetry/resources': ^0.22.0
-  '@opentelemetry/semantic-conventions': ^0.22.0
-  '@opentelemetry/tracing': ^0.22.0
-  '@rollup/plugin-commonjs': 11.0.2
-  '@rollup/plugin-inject': ^4.0.0
-  '@rollup/plugin-json': ^4.0.0
-  '@rollup/plugin-multi-entry': ^3.0.0
-  '@rollup/plugin-node-resolve': ^8.0.0
-  '@rollup/plugin-replace': ^2.2.0
   '@rush-temp/abort-controller': file:./projects/abort-controller.tgz
   '@rush-temp/agrifood-farming': file:./projects/agrifood-farming.tgz
   '@rush-temp/ai-anomaly-detector': file:./projects/ai-anomaly-detector.tgz
@@ -12993,6 +12661,7 @@ specifiers:
   '@rush-temp/arm-resources-subscriptions': file:./projects/arm-resources-subscriptions.tgz
   '@rush-temp/arm-sql': file:./projects/arm-sql.tgz
   '@rush-temp/arm-storage': file:./projects/arm-storage.tgz
+  '@rush-temp/arm-templatespecs': file:./projects/arm-templatespecs.tgz
   '@rush-temp/arm-webpubsub': file:./projects/arm-webpubsub.tgz
   '@rush-temp/attestation': file:./projects/attestation.tgz
   '@rush-temp/communication-chat': file:./projects/communication-chat.tgz
@@ -13085,170 +12754,3 @@ specifiers:
   '@rush-temp/video-analyzer-edge': file:./projects/video-analyzer-edge.tgz
   '@rush-temp/web-pubsub': file:./projects/web-pubsub.tgz
   '@rush-temp/web-pubsub-express': file:./projects/web-pubsub-express.tgz
-  '@types/async-lock': ^1.1.0
-  '@types/chai': ^4.1.6
-  '@types/chai-as-promised': ^7.1.0
-  '@types/chai-string': ^1.4.1
-  '@types/debug': ^4.1.4
-  '@types/eslint': ~7.2.7
-  '@types/estree': ~0.0.46
-  '@types/express': ^4.16.0
-  '@types/express-serve-static-core': ^4.17.19
-  '@types/fast-json-stable-stringify': ^2.0.0
-  '@types/fs-extra': ^8.0.0
-  '@types/glob': ^7.1.1
-  '@types/is-buffer': ^2.0.0
-  '@types/json-schema': ^7.0.6
-  '@types/jsonwebtoken': ~8.5.0
-  '@types/jws': ^3.2.2
-  '@types/jwt-decode': ~2.2.1
-  '@types/long': ^4.0.0
-  '@types/md5': ^2.2.0
-  '@types/minimist': ~1.2.0
-  '@types/mocha': ^7.0.2
-  '@types/mock-fs': ~4.10.0
-  '@types/mock-require': ~2.0.0
-  '@types/nise': ^1.4.0
-  '@types/node': ^12.0.0
-  '@types/node-fetch': ^2.5.0
-  '@types/prettier': ~2.0.1
-  '@types/priorityqueuejs': ^1.0.1
-  '@types/qs': ^6.5.3
-  '@types/query-string': 6.2.0
-  '@types/semaphore': ^1.1.0
-  '@types/sinon': ^9.0.4
-  '@types/stoppable': ^1.1.0
-  '@types/tough-cookie': ^4.0.0
-  '@types/tunnel': ^0.0.1
-  '@types/underscore': ^1.8.8
-  '@types/uuid': ^8.0.0
-  '@types/ws': ^7.2.4
-  '@types/xml2js': ^0.4.3
-  '@typescript-eslint/eslint-plugin': ~4.19.0
-  '@typescript-eslint/experimental-utils': ~4.19.0
-  '@typescript-eslint/parser': ~4.19.0
-  '@typescript-eslint/typescript-estree': ~4.19.0
-  assert: ^1.4.1
-  async-lock: ^1.1.3
-  avsc: ^5.5.1
-  azure-iothub: ^1.13.1
-  azure-storage: ^2.10.2
-  babel-runtime: ^6.26.0
-  buffer: ^5.2.1
-  builtin-modules: ^3.1.0
-  chai: ^4.2.0
-  chai-as-promised: ^7.1.1
-  chai-exclude: ^2.0.2
-  chai-string: ^1.5.0
-  chalk: ~4.1.1
-  cloudevents: ^4.0.0
-  cross-env: ^7.0.2
-  csv-parse: ^4.4.0
-  debug: ^4.1.1
-  delay: ^4.2.0
-  dotenv: ^8.2.0
-  downlevel-dts: ~0.4.0
-  es6-promise: ^4.2.5
-  eslint: ^7.15.0
-  eslint-config-prettier: ^7.0.0
-  eslint-plugin-import: ^2.22.1
-  eslint-plugin-no-only-tests: ^2.4.0
-  eslint-plugin-node: ^11.1.0
-  eslint-plugin-promise: ^4.2.1
-  eslint-plugin-tsdoc: ^0.2.10
-  esm: ^3.2.18
-  events: ^3.0.0
-  execa: ^3.3.0
-  express: ^4.16.3
-  fast-json-stable-stringify: ^2.0.0
-  fetch-mock: ^9.10.1
-  form-data: ^3.0.0
-  fs-extra: ^8.1.0
-  glob: ^7.1.2
-  guid-typescript: ^1.0.9
-  http-proxy-agent: ^4.0.1
-  https-proxy-agent: ^5.0.0
-  inherits: ^2.0.3
-  is-buffer: ^2.0.3
-  jsbi: ^3.1.3
-  json-schema: ^0.3.0
-  jsonwebtoken: ^8.5.1
-  jsrsasign: ^10.3.0
-  jssha: ^3.1.0
-  jws: ^4.0.0
-  jwt-decode: ~2.2.0
-  karma: ^6.2.0
-  karma-chai: ^0.1.0
-  karma-chrome-launcher: ^3.0.0
-  karma-coverage: ^2.0.0
-  karma-edge-launcher: ^0.4.2
-  karma-env-preprocessor: ^0.1.1
-  karma-firefox-launcher: ^1.1.0
-  karma-ie-launcher: ^1.0.0
-  karma-json-preprocessor: ^0.3.3
-  karma-json-to-file-reporter: ^1.0.1
-  karma-junit-reporter: ^2.0.1
-  karma-mocha: ^2.0.1
-  karma-mocha-reporter: ^2.2.5
-  karma-rollup-preprocessor: ^7.0.0
-  karma-source-map-support: ~1.4.0
-  karma-sourcemap-loader: ^0.3.8
-  keytar: ^7.6.0
-  long: ^4.0.0
-  md5: ^2.2.1
-  minimist: ~1.2.5
-  mkdirp: ^1.0.4
-  mocha: ^7.1.1
-  mocha-junit-reporter: ^1.18.0
-  mock-fs: ^4.10.4
-  mock-require: ^3.0.3
-  moment: ^2.24.0
-  nise: ^4.0.3
-  nock: ^12.0.3
-  node-abort-controller: ^1.2.0
-  node-fetch: ^2.6.0
-  npm-run-all: ^4.1.5
-  nyc: ^14.0.0
-  open: ^7.0.0
-  path-browserify: ^1.0.0
-  priorityqueuejs: ^1.0.0
-  process: ^0.11.10
-  promise: ^8.0.3
-  proxy-agent: ^4.0.1
-  puppeteer: ^10.2.0
-  qs: ^6.7.0
-  query-string: ^5.0.0
-  regenerator-runtime: ^0.13.3
-  requirejs: ^2.3.5
-  rhea: ^2.0.3
-  rhea-promise: ^2.1.0
-  rimraf: ^3.0.0
-  rollup: ^1.16.3
-  rollup-plugin-local-resolve: ^1.0.7
-  rollup-plugin-node-resolve: ^3.4.0
-  rollup-plugin-shim: ^1.0.0
-  rollup-plugin-sourcemaps: ^0.4.2
-  rollup-plugin-terser: ^5.1.1
-  rollup-plugin-visualizer: ^4.0.4
-  safe-buffer: ^5.2.1
-  semaphore: ^1.0.5
-  shx: ^0.3.2
-  sinon: ^9.0.2
-  snap-shot-it: ^7.9.1
-  source-map-support: ^0.5.9
-  stoppable: ^1.1.0
-  tough-cookie: ^4.0.0
-  ts-node: ^9.0.0
-  tslib: ^2.2.0
-  tunnel: ^0.0.6
-  typedoc: 0.15.2
-  typescript: ~4.2.0
-  uglify-js: ^3.4.9
-  universal-user-agent: ^6.0.0
-  url: ^0.11.0
-  util: ^0.12.1
-  uuid: ^8.3.0
-  ws: ^7.1.1
-  xhr-mock: ^2.4.1
-  xml2js: ^0.4.19
-  yaml: ~1.10.0
