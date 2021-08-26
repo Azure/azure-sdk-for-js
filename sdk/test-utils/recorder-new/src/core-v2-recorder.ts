@@ -21,6 +21,13 @@ const paths = {
   stop: "/stop"
 };
 
+/**
+ * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
+ * eventually save them in record mode and playing them back in playback mode.
+ *
+ * This client is meant for the core-v2 SDKs(depending on core-rest-pipeline) and
+ * is supposed to be passed as an argument to the recorderHttpPolicy.
+ */
 export class TestProxyHttpClient {
   private url = "http://localhost:5000";
   public recordingId?: string;
@@ -35,10 +42,21 @@ export class TestProxyHttpClient {
     this.playback = isPlaybackMode();
     this.httpClient = createDefaultHttpClient();
   }
-  // For core-v1
+
+  /**
+   * For core-v1 (core-http)
+   */
   redirectRequest(request: WebResourceLike): WebResourceLike;
-  // For core-v2
+
+  /**
+   * For core-v2 (core-rest-pipeline)
+   */
   redirectRequest(request: PipelineRequest): PipelineRequest;
+
+  /**
+   * redirectRequest updates the request in record and playback modes to hit the proxy-tool with appropriate headers.
+   * Works for both core-v1 and core-v2
+   */
   redirectRequest(request: WebResourceLike | PipelineRequest) {
     if (isPlaybackMode() || isRecordMode()) {
       if (!request.headers.get("x-recording-id")) {
@@ -59,6 +77,9 @@ export class TestProxyHttpClient {
     return request;
   }
 
+  /**
+   * recorderHttpPolicy calls this method on the request to modify and hit the proxy-tool with appropriate headers.
+   */
   async modifyRequest(request: PipelineRequest): Promise<PipelineRequest> {
     if (isPlaybackMode() || isRecordMode()) {
       if (this.recordingId) {
@@ -69,6 +90,11 @@ export class TestProxyHttpClient {
     return request;
   }
 
+  /**
+   * Call this method to ping the proxy-tool with a start request
+   * signalling to start recording in the record mode
+   * or to start playing back in the playback mode.
+   */
   async start(): Promise<void> {
     if (isPlaybackMode() || isRecordMode()) {
       this.stateManager.state = "started";
@@ -93,6 +119,9 @@ export class TestProxyHttpClient {
     }
   }
 
+  /**
+   * Call this method to ping the proxy-tool with a stop request, this helps saving the recording in record mode.
+   */
   async stop(): Promise<void> {
     if (isPlaybackMode() || isRecordMode()) {
       this.stateManager.state = "stopped";
@@ -101,7 +130,10 @@ export class TestProxyHttpClient {
         const req = this._createRecordingRequest(stopUri);
         req.headers.set("x-recording-save", "true");
 
-        const rsp = await this.httpClient.sendRequest({ ...req, allowInsecureConnection: true });
+        const rsp = await this.httpClient.sendRequest({
+          ...req,
+          allowInsecureConnection: true
+        });
         if (rsp.status !== 200) {
           throw new RecorderError("Stop request failed.");
         }
@@ -111,6 +143,13 @@ export class TestProxyHttpClient {
     }
   }
 
+  /**
+   * Adds the recording file and the recording id headers to the requests that are sent to the proxy tool.
+   * These are required to appropriately save the recordings in the record mode and picking them up in playback.
+   *
+   * @private
+   * @param {string} url
+   */
   private _createRecordingRequest(url: string) {
     const req = createPipelineRequest({ url: url, method: "POST" });
     req.headers.set("x-recording-file", this.sessionFile);
@@ -121,6 +160,12 @@ export class TestProxyHttpClient {
   }
 }
 
+/**
+ * recorderHttpPolicy that can be added as a pipeline policy for any of the core-v2 SDKs(SDKs depending on core-rest-pipeline)
+ *
+ * @export
+ * @param {TestProxyHttpClient} testProxyHttpClient
+ */
 export function recorderHttpPolicy(testProxyHttpClient: TestProxyHttpClient): PipelinePolicy {
   return {
     name: "recording policy",
