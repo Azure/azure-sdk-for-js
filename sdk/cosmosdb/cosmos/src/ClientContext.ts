@@ -67,7 +67,7 @@ export class ClientContext {
               const AUTH_PREFIX = `type=aad&ver=1.0&sig=`;
               const authorizationToken = `${AUTH_PREFIX}${token}`;
               request.headers.set("Authorization", authorizationToken);
-            },
+            }
           }
         })
       );
@@ -179,9 +179,9 @@ export class ClientContext {
     this.applySessionToken(request);
     log.info(
       "query " +
-      requestId +
-      " started" +
-      (request.partitionKeyRangeId ? " pkrid: " + request.partitionKeyRangeId : "")
+        requestId +
+        " started" +
+        (request.partitionKeyRangeId ? " pkrid: " + request.partitionKeyRangeId : "")
     );
     log.silly(request);
     const start = Date.now();
