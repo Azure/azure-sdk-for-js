@@ -1,6 +1,16 @@
 # Release History
 
-## 3.2.0 (2021-08-10)
+## 3.2.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 3.2.0 (2021-08-11)
 
 ### Features Added
 
@@ -8,8 +18,6 @@
 - Updated our internal core package dependencies to their latest versions in order to add support for Opentelemetry 1.0.0 which is compatible with the latest versions of our other client libraries.
 - Changed TS compilation target to
   ES2017 in order to produce smaller bundles and use more native platform features
-
-### Breaking Changes
 
 ### Key Bugs Fixed
 

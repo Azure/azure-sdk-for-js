@@ -517,6 +517,8 @@ main().catch((err) => {
 });
 ```
 
+A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/metricsQuery.ts)
+
 ### Advanced scenarios
 
 #### Query multiple workspaces
@@ -545,6 +547,8 @@ const result = await logsQueryClient.queryLogs(
 );
 ```
 
+A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQueryMultipleWorkspaces.ts)
+
 For more samples see here: [samples][samples].
 
 ## Troubleshooting
@@ -566,6 +570,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 The following samples show you the various ways you can query your Log Analytics workspace:
 
 - [`logsQuery.ts`][samples_logsquery_ts] - Query logs in a Monitor workspace
+- [`logsQueryMultipleWorkspaces.ts`][samples_logquerymultipleworkspaces_ts] - Query logs in multiple workspaces
 - [`logsQueryBatch.ts`][samples_logquerybatch_ts] - Run multiple queries, simultaneously, with a batch in a Monitor workspace
 - [`metricsQuery.ts`][samples_metricsquery_ts] - Query metrics in a Monitor workspace
 
@@ -608,4 +613,5 @@ folder for more details.
 [samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-query/samples
 [samples_logsquery_ts]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQuery.ts
 [samples_logquerybatch_ts]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQueryBatch.ts
+[samples_logquerymultipleworkspaces_ts]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQueryMultipleWorkspaces.ts
 [samples_metricsquery_ts]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/metricsQuery.ts

@@ -1,5 +1,15 @@
 # Release History
 
+## 1.0.0-beta.5 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.0.0-beta.4 (2021-08-10)
 
 ### Features Added
@@ -11,10 +21,6 @@
 ### Breaking Changes
 
 - Renamed `workspace` to `workspaceId` in querybatch
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 1.0.0-beta.3 (2021-07-06)
 

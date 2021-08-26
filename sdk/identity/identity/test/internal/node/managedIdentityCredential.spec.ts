@@ -8,7 +8,7 @@ import { mkdtempSync, rmdirSync, unlinkSync, writeFileSync } from "fs";
 import { RestError } from "@azure/core-rest-pipeline";
 import { ManagedIdentityCredential } from "../../../src";
 import {
-  imdsEndpoint,
+  imdsHost,
   imdsApiVersion
 } from "../../../src/credentials/managedIdentityCredential/constants";
 import {
@@ -35,7 +35,7 @@ describe("ManagedIdentityCredential", function() {
     delete process.env.MSI_SECRET;
     delete process.env.IDENTITY_SERVER_THUMBPRINT;
     delete process.env.IMDS_ENDPOINT;
-    delete process.env.AZURE_POD_IDENTITY_TOKEN_URL;
+    delete process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST;
     testContext = await prepareIdentityTests({});
     sendCredentialRequests = testContext.sendCredentialRequests;
   });
@@ -48,7 +48,7 @@ describe("ManagedIdentityCredential", function() {
     process.env.MSI_SECRET = env.MSI_SECRET;
     process.env.IDENTITY_SERVER_THUMBPRINT = env.IDENTITY_SERVER_THUMBPRINT;
     process.env.IMDS_ENDPOINT = env.IMDS_ENDPOINT;
-    process.env.AZURE_POD_IDENTITY_TOKEN_URL = env.AZURE_POD_IDENTITY_TOKEN_URL;
+    process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST = env.AZURE_POD_IDENTITY_AUTHORITY_HOST;
     await testContext.restore();
   });
 
@@ -74,10 +74,7 @@ describe("ManagedIdentityCredential", function() {
     assert.equal(authRequest.method, "GET");
     assert.equal(query.get("client_id"), "client");
     assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
-    assert.ok(
-      authRequest.url.startsWith(imdsEndpoint),
-      "URL does not start with expected host and path"
-    );
+    assert.ok(authRequest.url.startsWith(imdsHost), "URL does not start with expected host");
     assert.ok(
       authRequest.url.indexOf(`api-version=${imdsApiVersion}`) > -1,
       "URL does not have expected version"
@@ -236,10 +233,55 @@ describe("ManagedIdentityCredential", function() {
     assert.equal(result?.token, "token");
   });
 
-  it("IMDS MSI skips verification if the AZURE_POD_IDENTITY_TOKEN_URL environment variable is available", async function() {
-    process.env.AZURE_POD_IDENTITY_TOKEN_URL = "token URL";
+  it("IMDS MSI skips verification if the AZURE_POD_IDENTITY_AUTHORITY_HOST environment variable is available", async function() {
+    process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST = "token URL";
 
     assert.ok(await imdsMsi.isAvailable());
+  });
+
+  it("IMDS MSI works even if the AZURE_POD_IDENTITY_AUTHORITY_HOST ends with a slash", async function() {
+    process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST = "http://10.0.0.1/";
+
+    const authDetails = await sendCredentialRequests({
+      scopes: ["https://service/.default"],
+      credential: new ManagedIdentityCredential("client"),
+      insecureResponses: [
+        createResponse(200, {
+          access_token: "token",
+          expires_on: "06/20/2019 02:57:58 +00:00"
+        })
+      ]
+    });
+
+    // The first request is the IMDS ping.
+    const imdsPingRequest = authDetails.requests[0];
+    assert.equal(
+      imdsPingRequest.url,
+      "http://10.0.0.1/metadata/identity/oauth2/token?resource=https%3A%2F%2Fservice&api-version=2018-02-01&client_id=client"
+    );
+  });
+
+  it("IMDS MSI works even if the AZURE_POD_IDENTITY_AUTHORITY_HOST doesn't end with a slash", async function() {
+    process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST = "http://10.0.0.1";
+
+    const authDetails = await sendCredentialRequests({
+      scopes: ["https://service/.default"],
+      credential: new ManagedIdentityCredential("client"),
+      insecureResponses: [
+        createResponse(200, {
+          access_token: "token",
+          expires_on: "06/20/2019 02:57:58 +00:00"
+        })
+      ]
+    });
+
+    // The first request is the IMDS ping.
+    const imdsPingRequest = authDetails.requests[0];
+
+    assert.equal(
+      imdsPingRequest.url,
+      "http://10.0.0.1/metadata/identity/oauth2/token?resource=https%3A%2F%2Fservice&api-version=2018-02-01&client_id=client"
+    );
   });
 
   it("doesn't try IMDS endpoint again once it can't be detected", async function() {

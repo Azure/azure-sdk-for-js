@@ -1,5 +1,17 @@
 # Release History
 
+## 4.2.0-beta.2 (Unreleased)
+
+### Features Added
+
+- Updated the service version to default to 7.3-preview.
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 4.2.0-beta.1 (2021-08-10)
 
 - Move generated client to use @azure/core-rest-pipeline. For more information about Core V2, please refer to [the documentation](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core#core-v1-and-core-v2).

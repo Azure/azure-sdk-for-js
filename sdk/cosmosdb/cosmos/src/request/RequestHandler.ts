@@ -81,7 +81,11 @@ async function httpRequest(
   }
 
   try {
-    response = await httpsClient.sendRequest(pipelineRequest);
+    if (requestContext.pipeline) {
+      response = await requestContext.pipeline.sendRequest(httpsClient, pipelineRequest);
+    } else {
+      response = await httpsClient.sendRequest(pipelineRequest);
+    }
   } catch (error) {
     if (error.name === "AbortError") {
       // If the user passed signal caused the abort, cancel the timeout and rethrow the error

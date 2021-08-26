@@ -1,5 +1,20 @@
 # Release History
 
+## 4.4.0-beta.2 (Unreleased)
+
+### Features Added
+
+- Added support for automated key rotation in Azure Key Vault.
+  > Note: Automated key rotation is currently in private preview and is not available to all Azure Key Vault customers.
+  - Added `KeyClient.rotateKey` to rotate a key on-demand.
+  - Added `KeyClient.updateKeyRotationPolicy` to update a key's automated rotation policy.
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 4.4.0-beta.1 (2021-08-10)
 
 ### Features Added

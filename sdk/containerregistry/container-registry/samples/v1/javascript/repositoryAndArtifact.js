@@ -55,6 +55,7 @@ async function main() {
 
 async function listTagProperties(artifact) {
   const tags = [];
+  // Obtain the tags ordered from newest to oldest by passing the `orderBy` option
   const iterator = artifact.listTagProperties({ orderBy: "LastUpdatedOnAscending" });
   for await (const tag of iterator) {
     tags.push(tag.name);

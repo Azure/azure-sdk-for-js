@@ -22,6 +22,16 @@ export class AggregateAuthenticationError extends Error {
 export const AggregateAuthenticationErrorName = "AggregateAuthenticationError";
 
 // @public
+export class ApplicationCredential extends ChainedTokenCredential {
+    constructor(options?: ApplicationCredentialOptions);
+}
+
+// @public
+export interface ApplicationCredentialOptions extends TokenCredentialOptions, CredentialPersistenceOptions {
+    managedIdentityClientId?: string;
+}
+
+// @public
 export class AuthenticationError extends Error {
     constructor(statusCode: number, errorBody: object | string | undefined | null);
     readonly errorResponse: ErrorResponse;
