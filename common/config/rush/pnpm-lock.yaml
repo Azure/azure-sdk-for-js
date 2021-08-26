@@ -108,8 +108,10 @@ dependencies:
   '@rush-temp/synapse-spark': file:projects/synapse-spark.tgz
   '@rush-temp/template': file:projects/template.tgz
   '@rush-temp/test-recorder': file:projects/test-recorder.tgz
+  '@rush-temp/test-recorder-new': file:projects/test-recorder-new.tgz
   '@rush-temp/test-utils': file:projects/test-utils.tgz
   '@rush-temp/test-utils-perfstress': file:projects/test-utils-perfstress.tgz
+  '@rush-temp/testing-recorder-new': file:projects/testing-recorder-new.tgz
   '@rush-temp/video-analyzer-edge': file:projects/video-analyzer-edge.tgz
   '@rush-temp/web-pubsub': file:projects/web-pubsub.tgz
   '@rush-temp/web-pubsub-express': file:projects/web-pubsub-express.tgz
@@ -467,7 +469,7 @@ packages:
       integrity: sha512-CxaMaEjwtsmIhWtjHyGimKO7RmES0YxPqGQ9+jKqGygNlhG5NYHktDaiQu6w7k3g+I51VaLXtVSt+BVFd6VWfQ==
   /@azure/identity/1.2.5_debug@4.3.2:
     dependencies:
-      '@azure/core-http': 1.2.3
+      '@azure/core-http': 1.2.6
       '@azure/core-tracing': 1.0.0-preview.9
       '@azure/logger': 1.0.2
       '@azure/msal-node': 1.0.0-beta.6_debug@4.3.2
@@ -2832,7 +2834,7 @@ packages:
       integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==
   /debug/3.2.6:
     dependencies:
-      ms: 2.1.1
+      ms: 2.1.3
     deprecated: Debug versions >=3.2.0 <3.2.7 || >=4 <4.3.1 have a low-severity ReDos regression when used in a Node.js environment. It is recommended you upgrade to 3.2.7 or 4.3.1. (https://github.com/visionmedia/debug/issues/797)
     dev: false
     resolution:
@@ -10462,7 +10464,7 @@ packages:
     dev: false
     name: '@rush-temp/eventhubs-checkpointstore-table'
     resolution:
-      integrity: sha512-q/vN3CkN6I/IjykQnqmBRwc9vA4Af+iEb8tdE1869bdqoS4vFenc8w1DkcFv8DjsHgmVHVwaBaYzMfZizxs1FA==
+      integrity: sha512-0jhBzig7V3jgzJ3tZCDF/TgCIyrLTK6jO0Tq4d7eJnwH4jgwsVfez9kHe4N6biL/vDNNbZjczRT6gv43F7w8rg==
       tarball: file:projects/eventhubs-checkpointstore-table.tgz
     version: 0.0.0
   file:projects/identity-cache-persistence.tgz:
@@ -11222,7 +11224,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-data-tables'
     resolution:
-      integrity: sha512-f2doZuJEA9xQMax2cjEggl0Byg6amPfr1k262SuxYABq0PHF+Bs33zXTektZIDRR/5tgpNsYEWpGEibRUIE76Q==
+      integrity: sha512-g4FRGr8Z+8vNBR9DdYBnTdG1RcbnfziJHkK5CuzPxmETBsphN6Xz/mYCxPxurBbedchx/6Jj26hV0CRl9aFWTA==
       tarball: file:projects/perf-data-tables.tgz
     version: 0.0.0
   file:projects/perf-eventgrid.tgz:
@@ -12372,6 +12374,58 @@ packages:
       integrity: sha512-Lxk07hkq8XQsOcKBYKnoR/mlC3Fb5T5uFvaatoZLvKY5LWsNewhJyq2GG/AexHT5HTYHU45Vquf66pCGmbmlBg==
       tarball: file:projects/template.tgz
     version: 0.0.0
+  file:projects/test-recorder-new.tgz:
+    dependencies:
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
+      '@types/chai': 4.2.21
+      '@types/fs-extra': 8.1.2
+      '@types/md5': 2.3.1
+      '@types/mocha': 7.0.2
+      '@types/mock-fs': 4.10.0
+      '@types/mock-require': 2.0.0
+      '@types/nise': 1.4.0
+      '@types/node': 12.20.20
+      chai: 4.3.4
+      dotenv: 8.6.0
+      eslint: 7.32.0
+      karma: 6.3.4
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.0.3
+      karma-edge-launcher: 0.4.2_karma@6.3.4
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.3.4
+      karma-json-preprocessor: 0.3.3_karma@6.3.4
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1_karma@6.3.4
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.3.4
+      karma-sourcemap-loader: 0.3.8
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      mock-fs: 4.14.0
+      mock-require: 3.0.3
+      npm-run-all: 4.1.5
+      nyc: 14.1.1
+      prettier: 1.19.1
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-shim: 1.0.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup-plugin-terser: 5.3.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      xhr-mock: 2.5.1
+    dev: false
+    name: '@rush-temp/test-recorder-new'
+    resolution:
+      integrity: sha512-zXJqZCFgMxSbWc4+R/99M13UE0qy9xNRo/dCa8CIevfOTbLUcNfOrW7iotKcPucJCNEWaEQtlplAaHbazKaz/w==
+      tarball: file:projects/test-recorder-new.tgz
+    version: 0.0.0
   file:projects/test-recorder.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
@@ -12479,6 +12533,59 @@ packages:
     resolution:
       integrity: sha512-KYPqGE75cahX+es1MnTMiFT3HkhcVE0xdDnNC2RUsyvwWAxewMbXns2ozRdYuR66khLy6BuVwPK6CqQPAtlqjw==
       tarball: file:projects/test-utils.tgz
+    version: 0.0.0
+  file:projects/testing-recorder-new.tgz:
+    dependencies:
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
+      '@types/chai': 4.2.21
+      '@types/fs-extra': 8.1.2
+      '@types/md5': 2.3.1
+      '@types/mocha': 7.0.2
+      '@types/mock-fs': 4.10.0
+      '@types/mock-require': 2.0.0
+      '@types/nise': 1.4.0
+      '@types/node': 12.20.20
+      '@types/uuid': 8.3.1
+      chai: 4.3.4
+      dotenv: 8.6.0
+      eslint: 7.32.0
+      karma: 6.3.4
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.0.3
+      karma-edge-launcher: 0.4.2_karma@6.3.4
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.3.4
+      karma-json-preprocessor: 0.3.3_karma@6.3.4
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1_karma@6.3.4
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.3.4
+      karma-sourcemap-loader: 0.3.8
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      mock-fs: 4.14.0
+      mock-require: 3.0.3
+      npm-run-all: 4.1.5
+      nyc: 14.1.1
+      prettier: 1.19.1
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-shim: 1.0.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup-plugin-terser: 5.3.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
+      typescript: 4.2.4
+      uuid: 8.3.2
+      xhr-mock: 2.5.1
+    dev: false
+    name: '@rush-temp/testing-recorder-new'
+    resolution:
+      integrity: sha512-aXWcH+zp0ffSDNjWDAAFIQaFBkBRzvWxmFa6D/L8y5EsfIm66bDa6Mu0GcbptpIR8EICXuRI4qsDlcMgHPUWpg==
+      tarball: file:projects/testing-recorder-new.tgz
     version: 0.0.0
   file:projects/video-analyzer-edge.tgz:
     dependencies:
@@ -12750,8 +12857,10 @@ specifiers:
   '@rush-temp/synapse-spark': file:./projects/synapse-spark.tgz
   '@rush-temp/template': file:./projects/template.tgz
   '@rush-temp/test-recorder': file:./projects/test-recorder.tgz
+  '@rush-temp/test-recorder-new': file:./projects/test-recorder-new.tgz
   '@rush-temp/test-utils': file:./projects/test-utils.tgz
   '@rush-temp/test-utils-perfstress': file:./projects/test-utils-perfstress.tgz
+  '@rush-temp/testing-recorder-new': file:./projects/testing-recorder-new.tgz
   '@rush-temp/video-analyzer-edge': file:./projects/video-analyzer-edge.tgz
   '@rush-temp/web-pubsub': file:./projects/web-pubsub.tgz
   '@rush-temp/web-pubsub-express': file:./projects/web-pubsub-express.tgz
