@@ -84,7 +84,7 @@ const client = new SchemaRegistryClient("<endpoint>", new DefaultAzureCredential
 
 const description = {
   name: "<name>",
-  group: "<group>",
+  groupName: "<group name>",
   serializationType: "<serialization type>"
   content: "<schema content>"
 }
@@ -105,7 +105,7 @@ const client = new SchemaRegistryClient("<endpoint>", new DefaultAzureCredential
 
 const description = {
   name: "<name>",
-  group: "<group>",
+  groupName: "<group name>",
   serializationType: "<serialization type>"
   content: "<schema content>"
 }
@@ -118,14 +118,14 @@ if (found) {
 
 ### Get content of existing schema by ID
 
-Similarly to `getSchemaId`, `getSchemaById` will send a request to the service only if the local cache did not have the schema ID.
+Similarly to `getSchemaId`, `getSchema` will send a request to the service only if the local cache did not have the schema ID.
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
 const { SchemaRegistryClient } = require("@azure/schema-registry");
 
 const client = new SchemaRegistryClient("<endpoint>", new DefaultAzureCredential());
-const foundSchema = await client.getSchemaById("<id>");
+const foundSchema = await client.getSchema("<id>");
 if (foundSchema) {
   console.log(`Got schema content=${foundSchema.content}`);
 }

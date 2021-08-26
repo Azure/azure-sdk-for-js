@@ -142,7 +142,7 @@ export class SchemaRegistryAvroSerializer {
 
     const schemaIdBuffer = buffer.slice(SCHEMA_ID_OFFSET, PAYLOAD_OFFSET);
     const schemaId = schemaIdBuffer.toString("utf-8");
-    const schema = await this.getSchemaById(schemaId);
+    const schema = await this.getSchema(schemaId);
     const payloadBuffer = buffer.slice(PAYLOAD_OFFSET);
 
     return schema.type.fromBuffer(payloadBuffer);
@@ -151,13 +151,13 @@ export class SchemaRegistryAvroSerializer {
   private readonly cacheByContent = new Map<string, CacheEntry>();
   private readonly cacheById = new Map<string, CacheEntry>();
 
-  private async getSchemaById(schemaId: string): Promise<CacheEntry> {
+  private async getSchema(schemaId: string): Promise<CacheEntry> {
     const cached = this.cacheById.get(schemaId);
     if (cached) {
       return cached;
     }
 
-    const schemaResponse = await this.registry.getSchemaById(schemaId);
+    const schemaResponse = await this.registry.getSchema(schemaId);
     if (!schemaResponse) {
       throw new Error(`Schema with ID '${schemaId}' not found.`);
     }
@@ -184,7 +184,7 @@ export class SchemaRegistryAvroSerializer {
     }
 
     const description = {
-      group: this.schemaGroup,
+      groupName: this.schemaGroup,
       name: avroType.name,
       serializationType: "avro",
       content: schema
@@ -197,7 +197,7 @@ export class SchemaRegistryAvroSerializer {
       const response = await this.registry.getSchemaId(description);
       if (!response) {
         throw new Error(
-          `Schema '${description.name}' not found in registry group '${description.group}', or not found to have matching content.`
+          `Schema '${description.name}' not found in registry group '${description.groupName}', or not found to have matching content.`
         );
       }
       id = response.id;
