@@ -24,9 +24,7 @@ type RecordingState = "started" | "stopped";
  * Helper class to manage the recording state to make sure the proxy-tool is not flooded with unintended requests.
  */
 export class RecordingStateManager {
-  constructor() {
-    this.state = "stopped";
-  }
+  private currentState: RecordingState = "stopped";
 
   /**
    * validateState
@@ -58,13 +56,13 @@ export class RecordingStateManager {
   }
 
   public get state(): RecordingState {
-    return this.state;
+    return this.currentState;
   }
 
   public set state(nextState: RecordingState) {
     // Validate state transition
     this.validateState(nextState);
-    this.state = nextState;
+    this.currentState = nextState;
   }
 }
 
