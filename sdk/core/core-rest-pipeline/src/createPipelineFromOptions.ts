@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { InternalPipelineOptions, Pipeline, createEmptyPipeline } from "./pipeline";
 import { decompressResponsePolicy } from "./policies/decompressResponsePolicy";
 import { exponentialRetryPolicy } from "./policies/exponentialRetryPolicy";
