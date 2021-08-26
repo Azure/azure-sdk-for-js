@@ -86,7 +86,7 @@ export class TestProxyHttpClient {
         }
         const id = rsp.headers.get("x-recording-id");
         if (!id) {
-          throw new RecorderError("No recording ID returned.");
+          throw new RecorderError("No recording ID returned for a successful start request.");
         }
         this.recordingId = id;
       }
