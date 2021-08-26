@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { isLiveMode, env } from "@azure/test-utils-recorder";
 import { QueueServiceClient, StoragePipelineOptions } from "@azure/storage-queue";
 import { TestProxyHttpClientCoreV1 } from "@azure/test-utils-recorder-new";

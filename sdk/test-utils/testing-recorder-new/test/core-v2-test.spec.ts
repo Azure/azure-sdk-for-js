@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { isLiveMode, env } from "@azure/test-utils-recorder";
 import { TableEntity, TableClient } from "@azure/data-tables";
 import { TestProxyHttpClient, recorderHttpPolicy } from "@azure/test-utils-recorder-new";
