@@ -2,24 +2,12 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import {
-  DeletedKeyBundle,
-  DeletedKeyItem,
-  KeyBundle,
-  KeyRotationPolicy as GeneratedKeyRotationPolicy
-} from "../../src/generated";
-import {
-  DeletedKey,
-  KeyProperties,
-  KeyVaultKey,
-  KeyRotationPolicy,
-  KeyRotationPolicyProperties
-} from "../../src/keysModels";
+import { DeletedKeyBundle, DeletedKeyItem, KeyBundle } from "../../src/generated";
+import { DeletedKey, KeyProperties, KeyVaultKey } from "../../src/keysModels";
 import {
   getDeletedKeyFromDeletedKeyItem,
   getKeyFromKeyBundle,
-  getKeyPropertiesFromKeyItem,
-  keyRotationTransformations
+  getKeyPropertiesFromKeyItem
 } from "../../src/transformations";
 import { stringToUint8Array } from "../utils/crypto";
 
@@ -264,90 +252,5 @@ describe("Transformations", () => {
 
     const key: KeyProperties = getKeyPropertiesFromKeyItem(item);
     assert.deepEqual(key, expectedResult);
-  });
-
-  describe("keyRotationTransformations", () => {
-    it("converts generated to public", () => {
-      const date = new Date();
-      const generated: GeneratedKeyRotationPolicy = {
-        attributes: {
-          created: date,
-          expiryTime: "P30D",
-          updated: date
-        },
-        id: "policy-id",
-        lifetimeActions: [
-          {
-            action: { type: "Rotate" },
-            trigger: { timeAfterCreate: "P90D", timeBeforeExpiry: "P90D" }
-          },
-          {
-            action: { type: "Notify" },
-            trigger: { timeAfterCreate: "P90D", timeBeforeExpiry: "P90D" }
-          }
-        ]
-      };
-
-      const expected: KeyRotationPolicy = {
-        createdOn: date,
-        expiresIn: "P30D",
-        updatedOn: date,
-        id: "policy-id",
-        lifetimeActions: [
-          {
-            action: "Rotate",
-            timeAfterCreate: "P90D",
-            timeBeforeExpiry: "P90D"
-          },
-          {
-            action: "Notify",
-            timeAfterCreate: "P90D",
-            timeBeforeExpiry: "P90D"
-          }
-        ]
-      };
-
-      assert.deepEqual(keyRotationTransformations.generatedToPublic(generated), expected);
-    });
-
-    it("converts properties to generated", () => {
-      const publicPolicy: KeyRotationPolicyProperties = {
-        expiresIn: "P30D",
-        lifetimeActions: [
-          {
-            action: "Rotate",
-            timeAfterCreate: "P90D",
-            timeBeforeExpiry: "P90D"
-          },
-          {
-            action: "Notify",
-            timeAfterCreate: "P90D",
-            timeBeforeExpiry: "P90D"
-          }
-        ]
-      };
-
-      const expected: GeneratedKeyRotationPolicy = {
-        attributes: {
-          expiryTime: "P30D"
-        },
-        lifetimeActions: [
-          {
-            action: { type: "Rotate" },
-            trigger: { timeAfterCreate: "P90D", timeBeforeExpiry: "P90D" }
-          },
-          {
-            action: { type: "Notify" },
-            trigger: { timeAfterCreate: "P90D", timeBeforeExpiry: "P90D" }
-          }
-        ]
-      };
-
-      assert.deepEqualExcludingEvery(
-        keyRotationTransformations.propertiesToGenerated(publicPolicy),
-        expected,
-        ["created", "updated"] as any
-      );
-    });
   });
 });
