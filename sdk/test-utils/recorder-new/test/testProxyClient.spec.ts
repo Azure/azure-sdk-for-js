@@ -29,32 +29,34 @@ describe("TestProxyClient functions", () => {
       expect(client.redirectRequest(initialRequest)).to.deep.equal(initialRequest);
     });
 
-    it("request unchanged if `x-recording-id` in headers", function() {
-      env.TEST_MODE = "record";
-      const request: PipelineRequest = {
-        ...initialRequest,
-        headers: createHttpHeaders({ "x-recording-id": "dummy-recording-id" })
-      };
-      const client = new TestProxyHttpClient("dummy_file_name");
-      expect(client.redirectRequest(request)).to.deep.equal(request);
-    });
+    ["record", "playback"].forEach((testMode) => {
+      it("request unchanged if `x-recording-id` in headers", function() {
+        env.TEST_MODE = testMode;
+        const request: PipelineRequest = {
+          ...initialRequest,
+          headers: createHttpHeaders({ "x-recording-id": "dummy-recording-id" })
+        };
+        const client = new TestProxyHttpClient("dummy_file_name");
+        expect(client.redirectRequest(request)).to.deep.equal(request);
+      });
 
-    it("url and headers get updated if no `x-recording-id` in headers", function() {
-      env.TEST_MODE = "record";
-      const request: PipelineRequest = {
-        ...initialRequest,
-        headers: createHttpHeaders({})
-      };
-      const client = new TestProxyHttpClient("dummy_file_name");
-      client.recordingId = "dummy-recording-id";
-      expect(client.redirectRequest(request)).to.deep.equal({
-        ...request,
-        url: "http://localhost:5000/dummy_path?sas=sas",
-        headers: createHttpHeaders({
-          "x-recording-upstream-base-uri": initialRequest.url,
-          "x-recording-id": client.recordingId,
-          "x-recording-mode": env.TEST_MODE
-        })
+      it("url and headers get updated if no `x-recording-id` in headers", function() {
+        env.TEST_MODE = testMode;
+        const request: PipelineRequest = {
+          ...initialRequest,
+          headers: createHttpHeaders({})
+        };
+        const client = new TestProxyHttpClient("dummy_file_name");
+        client.recordingId = "dummy-recording-id";
+        expect(client.redirectRequest(request)).to.deep.equal({
+          ...request,
+          url: "http://localhost:5000/dummy_path?sas=sas",
+          headers: createHttpHeaders({
+            "x-recording-upstream-base-uri": initialRequest.url,
+            "x-recording-id": client.recordingId,
+            "x-recording-mode": env.TEST_MODE
+          })
+        });
       });
     });
   });
@@ -69,60 +71,62 @@ describe("TestProxyClient functions", () => {
       await client.start();
     });
 
-    it("succeeds in playback or record modes and gets a recordingId", async function() {
-      env.TEST_MODE = "record";
-      const client = new TestProxyHttpClient("dummy_file_name");
-      const recordingId = "dummy-recording-id";
-      client.httpClient.sendRequest = (): Promise<PipelineResponse> => {
-        return Promise.resolve({
-          status: 200,
-          headers: createHttpHeaders({ "x-recording-id": recordingId }),
-          request: initialRequest
-        });
-      };
-      await client.start();
-      expect(client.recordingId).to.eql(recordingId);
-    });
-
-    it("throws if not received a 200 status code", async function() {
-      env.TEST_MODE = "record";
-      const client = new TestProxyHttpClient("dummy_file_name");
-      const recordingId = "dummy-recording-id";
-      client.httpClient.sendRequest = (): Promise<PipelineResponse> => {
-        return Promise.resolve({
-          status: 404,
-          headers: createHttpHeaders({ "x-recording-id": recordingId }),
-          request: initialRequest
-        });
-      };
-      try {
+    ["record", "playback"].forEach((testMode) => {
+      it("succeeds in playback or record modes and gets a recordingId", async function() {
+        env.TEST_MODE = testMode;
+        const client = new TestProxyHttpClient("dummy_file_name");
+        const recordingId = "dummy-recording-id";
+        client.httpClient.sendRequest = (): Promise<PipelineResponse> => {
+          return Promise.resolve({
+            status: 200,
+            headers: createHttpHeaders({ "x-recording-id": recordingId }),
+            request: initialRequest
+          });
+        };
         await client.start();
-        throw new Error("should not have reached here, start() call should have failed");
-      } catch (error) {
-        expect((error as RecorderError).name).to.equal("RecorderError");
-        expect((error as RecorderError).message).to.equal("Start request failed.");
-      }
-    });
+        expect(client.recordingId).to.eql(recordingId);
+      });
 
-    it("throws if not received a recording id upon 200 status code", async function() {
-      env.TEST_MODE = "record";
-      const client = new TestProxyHttpClient("dummy_file_name");
-      client.httpClient.sendRequest = (): Promise<PipelineResponse> => {
-        return Promise.resolve({
-          status: 200,
-          headers: createHttpHeaders({}),
-          request: initialRequest
-        });
-      };
-      try {
-        await client.start();
-        throw new Error("should not have reached here, start() call should have failed");
-      } catch (error) {
-        expect((error as RecorderError).name).to.equal("RecorderError");
-        expect((error as RecorderError).message).to.equal(
-          "No recording ID returned for a successful start request."
-        );
-      }
+      it("throws if not received a 200 status code", async function() {
+        env.TEST_MODE = testMode;
+        const client = new TestProxyHttpClient("dummy_file_name");
+        const recordingId = "dummy-recording-id";
+        client.httpClient.sendRequest = (): Promise<PipelineResponse> => {
+          return Promise.resolve({
+            status: 404,
+            headers: createHttpHeaders({ "x-recording-id": recordingId }),
+            request: initialRequest
+          });
+        };
+        try {
+          await client.start();
+          throw new Error("should not have reached here, start() call should have failed");
+        } catch (error) {
+          expect((error as RecorderError).name).to.equal("RecorderError");
+          expect((error as RecorderError).message).to.equal("Start request failed.");
+        }
+      });
+
+      it("throws if not received a recording id upon 200 status code", async function() {
+        env.TEST_MODE = testMode;
+        const client = new TestProxyHttpClient("dummy_file_name");
+        client.httpClient.sendRequest = (): Promise<PipelineResponse> => {
+          return Promise.resolve({
+            status: 200,
+            headers: createHttpHeaders({}),
+            request: initialRequest
+          });
+        };
+        try {
+          await client.start();
+          throw new Error("should not have reached here, start() call should have failed");
+        } catch (error) {
+          expect((error as RecorderError).name).to.equal("RecorderError");
+          expect((error as RecorderError).message).to.equal(
+            "No recording ID returned for a successful start request."
+          );
+        }
+      });
     });
   });
 
@@ -136,62 +140,64 @@ describe("TestProxyClient functions", () => {
       await client.stop();
     });
 
-    it("fails in playback or record modes if no recordingId", async function() {
-      env.TEST_MODE = "playback";
-      const client = new TestProxyHttpClient("dummy_file_name");
-      client.httpClient.sendRequest = (): Promise<PipelineResponse> => {
-        return Promise.resolve({
-          status: 200,
-          headers: createHttpHeaders(),
-          request: initialRequest
-        });
-      };
-      client["stateManager"].state = "started";
-      try {
-        await client.stop();
-        throw new Error("should not have reached here, stop() call should have failed");
-      } catch (error) {
-        expect((error as RecorderError).name).to.equal("RecorderError");
-        expect((error as RecorderError).message).to.equal(
-          "Bad state, recordingId is not defined when called stop."
-        );
-      }
-    });
+    ["record", "playback"].forEach((testMode) => {
+      it("fails in playback or record modes if no recordingId", async function() {
+        env.TEST_MODE = testMode;
+        const client = new TestProxyHttpClient("dummy_file_name");
+        client.httpClient.sendRequest = (): Promise<PipelineResponse> => {
+          return Promise.resolve({
+            status: 200,
+            headers: createHttpHeaders(),
+            request: initialRequest
+          });
+        };
+        client["stateManager"].state = "started";
+        try {
+          await client.stop();
+          throw new Error("should not have reached here, stop() call should have failed");
+        } catch (error) {
+          expect((error as RecorderError).name).to.equal("RecorderError");
+          expect((error as RecorderError).message).to.equal(
+            "Bad state, recordingId is not defined when called stop."
+          );
+        }
+      });
 
-    it("throws if status code is not 200", async function() {
-      env.TEST_MODE = "playback";
-      const client = new TestProxyHttpClient("dummy_file_name");
-      client.httpClient.sendRequest = (): Promise<PipelineResponse> => {
-        return Promise.resolve({
-          status: 401,
-          headers: createHttpHeaders(),
-          request: initialRequest
-        });
-      };
-      client.recordingId = "dummy-id";
-      client["stateManager"].state = "started";
-      try {
-        await client.stop();
-        throw new Error("should not have reached here, stop() call should have failed");
-      } catch (error) {
-        expect((error as RecorderError).name).to.equal("RecorderError");
-        expect((error as RecorderError).message).to.equal("Stop request failed.");
-      }
-    });
+      it("throws if status code is not 200", async function() {
+        env.TEST_MODE = testMode;
+        const client = new TestProxyHttpClient("dummy_file_name");
+        client.httpClient.sendRequest = (): Promise<PipelineResponse> => {
+          return Promise.resolve({
+            status: 401,
+            headers: createHttpHeaders(),
+            request: initialRequest
+          });
+        };
+        client.recordingId = "dummy-id";
+        client["stateManager"].state = "started";
+        try {
+          await client.stop();
+          throw new Error("should not have reached here, stop() call should have failed");
+        } catch (error) {
+          expect((error as RecorderError).name).to.equal("RecorderError");
+          expect((error as RecorderError).message).to.equal("Stop request failed.");
+        }
+      });
 
-    it("succeeds in playback or record modes", async function() {
-      env.TEST_MODE = "playback";
-      const client = new TestProxyHttpClient("dummy_file_name");
-      client.httpClient.sendRequest = (): Promise<PipelineResponse> => {
-        return Promise.resolve({
-          status: 200,
-          headers: createHttpHeaders(),
-          request: initialRequest
-        });
-      };
-      client.recordingId = "dummy-id";
-      client["stateManager"].state = "started";
-      await client.stop();
+      it("succeeds in playback or record modes", async function() {
+        env.TEST_MODE = testMode;
+        const client = new TestProxyHttpClient("dummy_file_name");
+        client.httpClient.sendRequest = (): Promise<PipelineResponse> => {
+          return Promise.resolve({
+            status: 200,
+            headers: createHttpHeaders(),
+            request: initialRequest
+          });
+        };
+        client.recordingId = "dummy-id";
+        client["stateManager"].state = "started";
+        await client.stop();
+      });
     });
   });
 
@@ -202,32 +208,34 @@ describe("TestProxyClient functions", () => {
       expect(await client.modifyRequest(initialRequest)).to.deep.equal(initialRequest);
     });
 
-    it("request unchanged if `x-recording-id` in headers", async function() {
-      env.TEST_MODE = "record";
-      const request: PipelineRequest = {
-        ...initialRequest,
-        headers: createHttpHeaders({ "x-recording-id": "dummy-recording-id" })
-      };
-      const client = new TestProxyHttpClient("dummy_file_name");
-      expect(await client.modifyRequest(request)).to.deep.equal(request);
-    });
+    ["record", "playback"].forEach((testMode) => {
+      it("request unchanged if `x-recording-id` in headers", async function() {
+        env.TEST_MODE = testMode;
+        const request: PipelineRequest = {
+          ...initialRequest,
+          headers: createHttpHeaders({ "x-recording-id": "dummy-recording-id" })
+        };
+        const client = new TestProxyHttpClient("dummy_file_name");
+        expect(await client.modifyRequest(request)).to.deep.equal(request);
+      });
 
-    it("url and headers get updated if no `x-recording-id` in headers", async function() {
-      env.TEST_MODE = "record";
-      const request: PipelineRequest = {
-        ...initialRequest,
-        headers: createHttpHeaders({})
-      };
-      const client = new TestProxyHttpClient("dummy_file_name");
-      client.recordingId = "dummy-recording-id";
-      expect(await client.modifyRequest(request)).to.deep.equal({
-        ...request,
-        url: "http://localhost:5000/dummy_path?sas=sas",
-        headers: createHttpHeaders({
-          "x-recording-upstream-base-uri": initialRequest.url,
-          "x-recording-id": client.recordingId,
-          "x-recording-mode": env.TEST_MODE
-        })
+      it("url and headers get updated if no `x-recording-id` in headers", async function() {
+        env.TEST_MODE = testMode;
+        const request: PipelineRequest = {
+          ...initialRequest,
+          headers: createHttpHeaders({})
+        };
+        const client = new TestProxyHttpClient("dummy_file_name");
+        client.recordingId = "dummy-recording-id";
+        expect(await client.modifyRequest(request)).to.deep.equal({
+          ...request,
+          url: "http://localhost:5000/dummy_path?sas=sas",
+          headers: createHttpHeaders({
+            "x-recording-upstream-base-uri": initialRequest.url,
+            "x-recording-id": client.recordingId,
+            "x-recording-mode": env.TEST_MODE
+          })
+        });
       });
     });
   });
