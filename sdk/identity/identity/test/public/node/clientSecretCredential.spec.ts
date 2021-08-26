@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import { assert } from "chai";
-import { env, delay, isRecordMode } from "@azure/test-utils-recorder";
+import { env, delay, isRecordMode } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
 import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
 import { ClientSecretCredential, RegionalAuthority } from "../../../src";

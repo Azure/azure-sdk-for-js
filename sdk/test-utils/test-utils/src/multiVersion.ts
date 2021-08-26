@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, isLiveMode } from "@azure/test-utils-recorder";
+import { env, isLiveMode } from "@azure-tools/test-recorder";
 import { getGlobalObject } from "./global";
 
 export interface TestFunctionWrapper {

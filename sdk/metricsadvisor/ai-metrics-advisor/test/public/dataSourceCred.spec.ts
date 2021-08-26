@@ -15,7 +15,7 @@ import {
   DataSourceSqlServerConnectionStringPatch
 } from "../../src";
 import { createRecordedAdminClient, makeCredential } from "./util/recordedClients";
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 
 describe("DataSourceCredential", () => {
   let client: MetricsAdvisorAdministrationClient;

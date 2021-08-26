@@ -5,7 +5,7 @@ import { ShareClient, ShareFileClient, ShareDirectoryClient } from "../src";
 import { getBSU, recorderEnvSetup } from "./utils/index";
 import * as assert from "assert";
 import { appendToURLPath } from "../src/utils/utils.common";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 import * as dotenv from "dotenv";
 dotenv.config();
 

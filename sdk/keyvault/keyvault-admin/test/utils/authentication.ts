@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { ClientSecretCredential } from "@azure/identity";
-import { isPlaybackMode, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import { isPlaybackMode, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 import { KeyClient } from "@azure/keyvault-keys";
 import { v4 as uuidv4 } from "uuid";
 

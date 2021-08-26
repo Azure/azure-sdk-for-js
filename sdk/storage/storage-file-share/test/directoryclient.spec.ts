@@ -5,7 +5,7 @@ import * as assert from "assert";
 import { getBSU, recorderEnvSetup } from "./utils";
 import * as dotenv from "dotenv";
 import { ShareClient, ShareDirectoryClient, FileSystemAttributes } from "../src";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
 import { SpanGraph, setTracer } from "@azure/test-utils";

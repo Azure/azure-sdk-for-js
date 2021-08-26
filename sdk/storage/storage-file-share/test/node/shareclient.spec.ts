@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import { newPipeline, ShareClient, StorageSharedKeyCredential, SignedIdentifier } from "../../src";
 import { getBSU, getConnectionStringFromEnvironment, recorderEnvSetup } from "./../utils";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 
 describe("ShareClient Node.js only", () => {
   let shareName: string;

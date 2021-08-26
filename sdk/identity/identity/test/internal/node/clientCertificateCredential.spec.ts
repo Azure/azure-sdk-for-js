@@ -7,7 +7,7 @@ import Sinon from "sinon";
 import { assert } from "chai";
 import * as path from "path";
 import { AbortController } from "@azure/abort-controller";
-import { env, isPlaybackMode, delay } from "@azure/test-utils-recorder";
+import { env, isPlaybackMode, delay } from "@azure-tools/test-recorder";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import { ClientCertificateCredential, RegionalAuthority } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http";
-import { env, isPlaybackMode, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import { env, isPlaybackMode, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 
 import { padStart } from "../../src/utils/utils.common";
 

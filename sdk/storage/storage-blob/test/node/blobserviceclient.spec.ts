@@ -6,7 +6,7 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { BlobServiceClient, newPipeline, StorageSharedKeyCredential } from "../../src";
 import { getBSU, getConnectionStringFromEnvironment, recorderEnvSetup } from "../utils";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 dotenv.config();
 

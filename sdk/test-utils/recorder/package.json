@@ -1,5 +1,5 @@
 {
-  "name": "@azure/test-utils-recorder",
+  "name": "@azure-tools/test-recorder",
   "version": "1.0.0",
   "sdk-type": "client",
   "description": "This library provides interfaces and helper methods to provide recording and playback capabilities for the tests in Azure JS/TS SDKs",
@@ -17,7 +17,7 @@
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:samples": "echo Skipped.",
     "build:test": "tsc -p . && rollup -c 2>&1",
-    "build": "tsc -p . && rollup -c 2>&1",
+    "build": "npm run clean && tsc -p . && rollup -c 2>&1",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* types *.tgz *.log",
     "extract-api": "echo skipped",
@@ -28,7 +28,6 @@
     "lint:fix": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src test --ext .ts -f html -o recorder-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
-    "prebuild": "npm run clean",
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 --full-trace --exclude \"dist-esm/**/browser/**/*.spec.js\" \"dist-esm/**/*.spec.js\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
