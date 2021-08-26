@@ -467,7 +467,7 @@ packages:
       integrity: sha512-CxaMaEjwtsmIhWtjHyGimKO7RmES0YxPqGQ9+jKqGygNlhG5NYHktDaiQu6w7k3g+I51VaLXtVSt+BVFd6VWfQ==
   /@azure/identity/1.2.5_debug@4.3.2:
     dependencies:
-      '@azure/core-http': 1.2.6
+      '@azure/core-http': 1.2.3
       '@azure/core-tracing': 1.0.0-preview.9
       '@azure/logger': 1.0.2
       '@azure/msal-node': 1.0.0-beta.6_debug@4.3.2
@@ -1529,13 +1529,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-6bSZTPaTIACxn48l50SR+axgrqm6qXFIxrdAKaG6PaJk3+zuUr35hBlgT7vOmJcum+OEaIBLtHV/qloEAFITeA==
-  /@types/fast-json-stable-stringify/2.1.0:
-    dependencies:
-      fast-json-stable-stringify: 2.1.0
-    deprecated: This is a stub types definition. fast-json-stable-stringify provides its own type definitions, so you do not need this installed.
-    dev: false
-    resolution:
-      integrity: sha512-IyNhGHu71jH1jCXTHmafuoAAdsbBON3kDh7u/UUhLmjYgN5TYB54e1R8ckTCiIevl2UuZaCsi9XRxineY5yUjw==
   /@types/fs-extra/8.1.2:
     dependencies:
       '@types/node': 12.20.20
@@ -1559,6 +1552,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-qcUXuemtEu+E5wZSJHNxUXeCZhAfXKQ41D+duX+VYPde7xyEVZci+/oXKJL13tnRs9lR2pr4fod59GT6/X1/yQ==
+  /@types/json5/0.0.29:
+    dev: false
+    resolution:
+      integrity: sha1-7ihweulOEdK4J7y+UnC86n8+ce4=
   /@types/jsonwebtoken/8.5.5:
     dependencies:
       '@types/node': 12.20.20
@@ -2343,7 +2340,7 @@ packages:
     dependencies:
       caniuse-lite: 1.0.30001251
       colorette: 1.3.0
-      electron-to-chromium: 1.3.815
+      electron-to-chromium: 1.3.817
       escalade: 3.1.1
       node-releases: 1.1.75
     dev: false
@@ -2705,11 +2702,11 @@ packages:
     requiresBuild: true
     resolution:
       integrity: sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==
-  /core-js/3.16.2:
+  /core-js/3.16.3:
     dev: false
     requiresBuild: true
     resolution:
-      integrity: sha512-P0KPukO6OjMpjBtHSceAZEWlDD1M2Cpzpg6dBbrjFqFhBHe/BwhxaP820xKOjRn/lZRQirrCusIpLS/n2sgXLQ==
+      integrity: sha512-lM3GftxzHNtPNUJg0v4pC2RC6puwMd6VZA7vXUczi+SKmCWSf4JwO89VJGMqbzmB7jlK7B5hr3S64PqwFL49cA==
   /core-util-is/1.0.2:
     dev: false
     resolution:
@@ -2835,7 +2832,7 @@ packages:
       integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==
   /debug/3.2.6:
     dependencies:
-      ms: 2.1.3
+      ms: 2.1.1
     deprecated: Debug versions >=3.2.0 <3.2.7 || >=4 <4.3.1 have a low-severity ReDos regression when used in a Node.js environment. It is recommended you upgrade to 3.2.7 or 4.3.1. (https://github.com/visionmedia/debug/issues/797)
     dev: false
     resolution:
@@ -3088,10 +3085,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
-  /electron-to-chromium/1.3.815:
+  /electron-to-chromium/1.3.817:
     dev: false
     resolution:
-      integrity: sha512-2QaE8L5l3BDf82ZXcm0TpWOPoCVUwrp3lKiYzgUbdhRAO2sW60ZdKS5T8yq4r7y1ZeiKJXnf5u8n9u3ldnj5Bw==
+      integrity: sha512-Vw0Faepf2Id9Kf2e97M/c99qf168xg86JLKDxivvlpBQ9KDtjSeX0v+TiuSE25PqeQfTz+NJs375b64ca3XOIQ==
   /emoji-regex/7.0.3:
     dev: false
     resolution:
@@ -3273,7 +3270,7 @@ packages:
       eslint: '>=4.19.1'
     resolution:
       integrity: sha512-GUmAsJaN4Fc7Gbtl8uOBlayo2DqhwWvEzykMHSCZHU3XdJ+NSzzZcVhXh3VxX5icqQ+oQdIEawXX8xkR3mIFmQ==
-  /eslint-plugin-import/2.24.1_eslint@7.32.0:
+  /eslint-plugin-import/2.24.2_eslint@7.32.0:
     dependencies:
       array-includes: 3.1.3
       array.prototype.flat: 1.2.4
@@ -3290,14 +3287,14 @@ packages:
       pkg-up: 2.0.0
       read-pkg-up: 3.0.0
       resolve: 1.20.0
-      tsconfig-paths: 3.10.1
+      tsconfig-paths: 3.11.0
     dev: false
     engines:
       node: '>=4'
     peerDependencies:
       eslint: ^2 || ^3 || ^4 || ^5 || ^6 || ^7.2.0
     resolution:
-      integrity: sha512-KSFWhNxPH8OGJwpRJJs+Z7I0a13E2iFQZJIvSnCu6KUs4qmgAm3xN9GYBCSoiGWmwA7gERZPXqYQjcoCROnYhQ==
+      integrity: sha512-hNVtyhiEtZmpsabL4neEj+6M5DCLgpYyG9nzJY8lZQeQXEn5UPW1DpUdsMHMXsq98dbNm7nt1w9ZMSVpfJdi8Q==
   /eslint-plugin-no-only-tests/2.6.0:
     dev: false
     engines:
@@ -3632,7 +3629,7 @@ packages:
     dependencies:
       '@babel/core': 7.15.0
       '@babel/runtime': 7.15.3
-      core-js: 3.16.2
+      core-js: 3.16.3
       debug: 4.3.2
       glob-to-regexp: 0.4.1
       is-subset: 0.1.1
@@ -4870,6 +4867,13 @@ packages:
     dev: false
     resolution:
       integrity: sha1-Epai1Y/UXxmg9s4B1lcB4sc1tus=
+  /json5/1.0.1:
+    dependencies:
+      minimist: 1.2.5
+    dev: false
+    hasBin: true
+    resolution:
+      integrity: sha512-aKS4WQjPenRxiQsC93MNfjx+nbF4PAdYzmd/1JIj8HYzqfbu86beTuNgXDzPknWk0n0uARlyewZo4s++ES36Ow==
   /json5/2.2.0:
     dependencies:
       minimist: 1.2.5
@@ -7620,14 +7624,15 @@ packages:
       typescript: '>=2.7'
     resolution:
       integrity: sha512-hPlt7ZACERQGf03M253ytLY3dHbGNGrAq9qIHWUY9XHYl1z7wYngSr3OQ5xmui8o2AaxsONxIzjafLUiWBo1Fg==
-  /tsconfig-paths/3.10.1:
+  /tsconfig-paths/3.11.0:
     dependencies:
-      json5: 2.2.0
+      '@types/json5': 0.0.29
+      json5: 1.0.1
       minimist: 1.2.5
       strip-bom: 3.0.0
     dev: false
     resolution:
-      integrity: sha512-rETidPDgCpltxF7MjBZlAFPUHv5aHH2MymyPvh+vEyWAED4Eb/WeMbsnD/JDr4OKPOA1TssDHgIcpTN5Kh0p6Q==
+      integrity: sha512-7ecdYDnIdmv639mmDwslG6KQg1Z9STTz1j7Gcz0xa+nshh/gKDAHcPxRbWOsA3SPp0tXP2leTcY9Kw+NAkfZzA==
   /tslib/1.14.1:
     dev: false
     resolution:
@@ -9937,7 +9942,6 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@types/debug': 4.1.7
-      '@types/fast-json-stable-stringify': 2.1.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.20
       '@types/priorityqueuejs': 1.0.1
@@ -10144,7 +10148,7 @@ packages:
       chai: 4.3.4
       eslint: 7.32.0
       eslint-config-prettier: 7.2.0_eslint@7.32.0
-      eslint-plugin-import: 2.24.1_eslint@7.32.0
+      eslint-plugin-import: 2.24.2_eslint@7.32.0
       eslint-plugin-no-only-tests: 2.6.0
       eslint-plugin-promise: 4.3.1
       eslint-plugin-tsdoc: 0.2.14
@@ -10593,8 +10597,6 @@ packages:
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
-      rollup-plugin-node-resolve: 3.4.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       source-map-support: 0.5.19
       tslib: 2.3.1
       typedoc: 0.15.2
@@ -12267,7 +12269,6 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       eslint: 7.32.0
       rimraf: 3.0.2
       rollup: 1.32.1
