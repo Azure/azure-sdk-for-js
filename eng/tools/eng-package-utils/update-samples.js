@@ -37,6 +37,12 @@ async function main(repoRoot, artifactName) {
     console.error(`Package is not found in rush.json for artifact ${artifactName}`);
     return;
   }
+
+  if (targetPackage.versionPolicyName == "management") {
+    console.error(`Skipping update samples for management package ${artifactName}`);
+    return;
+  }
+
   console.log(`Running samples update for package ${targetPackage.packageName}`);
   spawnNode(targetPackage.projectFolder, "samples publish --force");
 };
