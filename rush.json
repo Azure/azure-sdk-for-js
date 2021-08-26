@@ -778,7 +778,7 @@
     },
     {
       "packageName": "@azure-tests/perf-event-hubs",
-      "projectFolder": "sdk/eventhubs/perf-tests/event-hubs",
+      "projectFolder": "sdk/eventhub/perf-tests/event-hubs",
       "versionPolicyName": "test"
     },
     {
