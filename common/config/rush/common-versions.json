@@ -41,10 +41,10 @@
    * This design avoids unnecessary churn in this file.
    */
   "allowedAlternativeVersions": {
-    // challengeCallbacks is required for Cosmos SDK to handle AAD auth. Remove once this feature is in
+    // challengeCallback is required for Cosmos SDK to handle AAD auth. Remove once this feature is in
     // a shared release.
     "@azure/core-rest-pipeline": [
-      "^1.1.0-beta.3"
+      "^1.2.0"
     ],
     // Text Analytics uses this version and it is not released yet. I am making an exception
     // for it here and it should be removed once core-paging 1.2.0 is released.
