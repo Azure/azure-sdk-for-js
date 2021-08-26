@@ -39,7 +39,7 @@
   ],
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build": "tsc -p . && rollup -c 2>&1 && npm run extract-api",
+    "build": "npm run clean && tsc -p . && rollup -c 2>&1 && npm run extract-api",
     "build:test": "echo skipped",
     "build:samples": "echo Obsolete.",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
@@ -50,7 +50,6 @@
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix",
     "lint": "eslint package.json api-extractor.json src test --ext .ts",
-    "prebuild": "npm run clean",
     "pack": "npm pack 2>&1",
     "swagger": "autorest --typescript swagger/swagger.md",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
