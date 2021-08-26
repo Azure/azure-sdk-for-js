@@ -4,7 +4,8 @@ import AbortController from "node-abort-controller";
 import {
   createPipelineRequest,
   createHttpHeaders,
-  PipelineResponse
+  PipelineResponse,
+  bearerTokenAuthenticationPolicy
 } from "@azure/core-rest-pipeline";
 import { trimSlashes } from "../common";
 import { Constants } from "../common/constants";
@@ -114,12 +115,12 @@ async function httpRequest(
 
     log.warn(
       response.status +
-        " " +
-        requestContext.endpoint +
-        " " +
-        requestContext.path +
-        " " +
-        result.message
+      " " +
+      requestContext.endpoint +
+      " " +
+      requestContext.path +
+      " " +
+      result.message
     );
 
     errorResponse.code = response.status;

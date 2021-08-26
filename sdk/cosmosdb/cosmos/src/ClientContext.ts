@@ -60,7 +60,15 @@ export class ClientContext {
       this.pipeline.addPolicy(
         bearerTokenAuthenticationPolicy({
           credential: cosmosClientOptions.aadCredentials,
-          scopes: scope
+          scopes: scope,
+          challengeCallbacks: {
+            async authorizeRequest({ request, getAccessToken }) {
+              const token = await getAccessToken([scope], {});
+              const AUTH_PREFIX = `type=aad&ver=1.0&sig=`;
+              const authorizationToken = `${AUTH_PREFIX}${token}`;
+              request.headers.set("Authorization", authorizationToken);
+            },
+          }
         })
       );
     }
@@ -171,9 +179,9 @@ export class ClientContext {
     this.applySessionToken(request);
     log.info(
       "query " +
-        requestId +
-        " started" +
-        (request.partitionKeyRangeId ? " pkrid: " + request.partitionKeyRangeId : "")
+      requestId +
+      " started" +
+      (request.partitionKeyRangeId ? " pkrid: " + request.partitionKeyRangeId : "")
     );
     log.silly(request);
     const start = Date.now();
