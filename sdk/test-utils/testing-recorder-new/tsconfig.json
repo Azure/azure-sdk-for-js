@@ -2,7 +2,8 @@
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
     "declarationDir": "./typings/latest",
-    "outDir": "./dist-esm"
+    "outDir": "./dist-esm",
+    "lib": ["dom", "es2019"]
   },
   "compileOnSave": true,
   "include": ["./src/**/*.ts", "./test/**/*.ts"]

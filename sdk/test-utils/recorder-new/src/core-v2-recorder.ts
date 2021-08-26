@@ -138,7 +138,10 @@ export class TestProxyHttpClient {
       const req = this._createRecordingRequest(stopUri);
       req.headers.set("x-recording-save", "true");
 
-      await this.httpClient.sendRequest({ ...req, allowInsecureConnection: true });
+      const rsp = await this.httpClient.sendRequest({ ...req, allowInsecureConnection: true });
+      if (rsp.status !== 200) {
+        throw new Error("Stop request failed.");
+      }
     } else {
       throw new Error("Recorder Error: Bad state, recordingId is not defined when called stop.");
     }
