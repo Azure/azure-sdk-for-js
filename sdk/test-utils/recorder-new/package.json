@@ -1,5 +1,5 @@
 {
-  "name": "@azure/test-utils-recorder-new",
+  "name": "@azure-tools/test-recorder-new",
   "version": "1.0.0",
   "sdk-type": "utility",
   "description": "This library provides interfaces and helper methods to provide recording and playback capabilities for the tests in Azure JS/TS SDKs",
@@ -57,7 +57,7 @@
   "sideEffects": false,
   "private": true,
   "dependencies": {
-    "@azure/test-utils-recorder": "^1.0.0",
+    "@azure-tools/test-recorder": "^1.0.0",
     "@azure/core-http": "^2.0.0",
     "@azure/core-rest-pipeline": "^1.1.0"
   },

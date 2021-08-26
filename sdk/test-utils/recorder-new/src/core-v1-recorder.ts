@@ -3,7 +3,7 @@
 
 import { HttpClient, HttpOperationResponse } from "@azure/core-http";
 import { DefaultHttpClient, WebResourceLike } from "@azure/core-http";
-import { isPlaybackMode, isRecordMode } from "@azure/test-utils-recorder";
+import { isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import { TestProxyHttpClient } from "./core-v2-recorder";
 
 /**

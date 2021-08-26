@@ -1,8 +1,8 @@
 {
-  "name": "@azure/testing-recorder-new",
+  "name": "@azure-tools/testing-recorder-new",
   "version": "1.0.0",
   "sdk-type": "test",
-  "description": "This library uses the interfaces and helper methods from @azure/test-utils-recorder-new in the tests to show an example",
+  "description": "This library uses the interfaces and helper methods from @azure-tools/test-recorder-new in the tests to show an example",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "types": "./types/src/index.d.ts",
@@ -58,8 +58,8 @@
   "private": true,
   "devDependencies": {
     "@azure/core-util": "^1.0.0-beta.1",
-    "@azure/test-utils-recorder": "^1.0.0",
-    "@azure/test-utils-recorder-new": "^1.0.0",
+    "@azure-tools/test-recorder": "^1.0.0",
+    "@azure-tools/test-recorder-new": "^1.0.0",
     "@azure/storage-queue": "^12.6.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",

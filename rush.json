@@ -687,7 +687,7 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/testing-recorder-new",
+      "packageName": "@azure-tools/testing-recorder-new",
       "projectFolder": "sdk/test-utils/testing-recorder-new",
       "versionPolicyName": "test"
     },
@@ -702,7 +702,7 @@
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure/test-utils-recorder-new",
+      "packageName": "@azure-tools/test-recorder-new",
       "projectFolder": "sdk/test-utils/recorder-new",
       "versionPolicyName": "utility"
     },

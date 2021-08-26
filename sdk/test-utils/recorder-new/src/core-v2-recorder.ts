@@ -11,7 +11,7 @@ import {
   PipelineResponse,
   SendRequest
 } from "@azure/core-rest-pipeline";
-import { env, isPlaybackMode, isRecordMode } from "@azure/test-utils-recorder";
+import { env, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import { RecorderError, RecordingStateManager } from "./utils";
 
 const paths = {

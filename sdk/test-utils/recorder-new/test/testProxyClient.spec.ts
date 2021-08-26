@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { createHttpHeaders, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
-import { env } from "@azure/test-utils-recorder";
+import { env } from "@azure-tools/test-recorder";
 import { expect } from "chai";
 import { TestProxyHttpClient } from "../src";
 import { RecorderError, RecordingStateManager } from "../src/utils";

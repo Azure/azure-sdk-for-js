@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env } from "@azure/test-utils-recorder";
+import { env } from "@azure-tools/test-recorder";
 import { TableEntity, TableClient } from "@azure/data-tables";
-import { TestProxyHttpClient, recorderHttpPolicy } from "@azure/test-utils-recorder-new";
+import { TestProxyHttpClient, recorderHttpPolicy } from "@azure-tools/test-recorder-new";
 import { config } from "dotenv";
 import { isNode } from "@azure/core-util";
 import { createSimpleEntity } from "./utils/utils";
