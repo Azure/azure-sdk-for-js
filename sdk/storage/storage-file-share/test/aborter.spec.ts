@@ -5,7 +5,7 @@ import * as assert from "assert";
 
 import { AbortController } from "@azure/abort-controller";
 import { getBSU, recorderEnvSetup } from "./utils";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 import * as dotenv from "dotenv";
 import { ShareClient } from "../src";
 dotenv.config();

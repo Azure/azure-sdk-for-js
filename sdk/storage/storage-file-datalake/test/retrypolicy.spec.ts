@@ -10,7 +10,7 @@ import { DataLakeFileSystemClient, RestError, DataLakeServiceClient } from "../s
 import { newPipeline, Pipeline } from "../src/Pipeline";
 import { getDataLakeServiceClient, recorderEnvSetup } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 
 dotenv.config();
 

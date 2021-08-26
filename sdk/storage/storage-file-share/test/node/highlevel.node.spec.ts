@@ -11,7 +11,7 @@ import { createRandomLocalFile, getBSU, recorderEnvSetup } from "../utils";
 import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
 import { ShareClient, ShareDirectoryClient, ShareFileClient } from "../../src";
 import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 dotenv.config();
 
 // tslint:disable:no-empty

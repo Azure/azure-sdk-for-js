@@ -7,7 +7,7 @@ import Sinon from "sinon";
 import assert from "assert";
 import * as path from "path";
 
-import { env, isPlaybackMode } from "@azure/test-utils-recorder";
+import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 
 import {

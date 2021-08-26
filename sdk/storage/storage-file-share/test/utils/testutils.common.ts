@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { padStart } from "../../src/utils/utils.common";
-import { env, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import { env, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http";
 
 export function isBrowser(): boolean {

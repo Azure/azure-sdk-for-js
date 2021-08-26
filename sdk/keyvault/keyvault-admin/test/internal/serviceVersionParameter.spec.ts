@@ -12,7 +12,7 @@ import {
   HttpClient
 } from "@azure/core-rest-pipeline";
 import { ClientSecretCredential } from "@azure/identity";
-import { env } from "@azure/test-utils-recorder";
+import { env } from "@azure-tools/test-recorder";
 import { URL } from "url";
 
 // Adding this to the source would change the public API.
