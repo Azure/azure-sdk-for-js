@@ -5,7 +5,7 @@
 
 import { Context } from "mocha";
 
-import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 import PurviewAccount, { PurviewAccountRestClient } from "../../../src";
 import { ClientSecretCredential } from "@azure/identity";
 

@@ -10,7 +10,7 @@ import {
   getSoftDeleteBSU,
   getGenericBSU
 } from "./utils";
-import { record, delay, Recorder, isLiveMode } from "@azure/test-utils-recorder";
+import { record, delay, Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import * as dotenv from "dotenv";
 import { ShareServiceClient, ShareItem, ShareRootSquash } from "../src";
 dotenv.config();

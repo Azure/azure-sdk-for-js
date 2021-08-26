@@ -10,7 +10,7 @@ import {
   featureFlagContentType,
   featureFlagPrefix
 } from "../../src";
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { FeatureFlagValue, isFeatureFlag, parseFeatureFlag } from "../../src/featureFlag";
 

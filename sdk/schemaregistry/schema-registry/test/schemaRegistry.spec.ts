@@ -3,7 +3,7 @@
 
 import { createRecordedClient, testEnv } from "./utils/recordedClient";
 import { Context } from "mocha";
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { assert, use as chaiUse } from "chai";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);

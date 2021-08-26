@@ -7,7 +7,7 @@ import { SecretClient } from "../../src";
 import { LATEST_API_VERSION } from "../../src/secretsModels";
 import { HttpClient, WebResourceLike, HttpOperationResponse, HttpHeaders } from "@azure/core-http";
 import { ClientSecretCredential } from "@azure/identity";
-import { env } from "@azure/test-utils-recorder";
+import { env } from "@azure-tools/test-recorder";
 
 describe("The Secrets client should set the serviceVersion", () => {
   const keyVaultUrl = `https://keyVaultName.vault.azure.net`;

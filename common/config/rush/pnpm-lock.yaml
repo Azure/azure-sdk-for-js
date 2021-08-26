@@ -109,7 +109,7 @@ dependencies:
   '@rush-temp/template': file:projects/template.tgz
   '@rush-temp/test-utils': file:projects/test-utils.tgz
   '@rush-temp/test-utils-perfstress': file:projects/test-utils-perfstress.tgz
-  '@rush-temp/test-utils-recorder': file:projects/test-utils-recorder.tgz
+  '@rush-temp/test-recorder': file:projects/test-recorder.tgz
   '@rush-temp/video-analyzer-edge': file:projects/video-analyzer-edge.tgz
   '@rush-temp/web-pubsub': file:projects/web-pubsub.tgz
   '@rush-temp/web-pubsub-express': file:projects/web-pubsub-express.tgz
@@ -12393,7 +12393,7 @@ packages:
       integrity: sha512-fTItTYBBwhhtVdOQ5qASInrtqY+mDuDqE9NCvItNO3FH8yp/DP67/q3g6QpEwimVRNVCIMt/EKikSFngBugZXQ==
       tarball: file:projects/test-utils-perfstress.tgz
     version: 0.0.0
-  file:projects/test-utils-recorder.tgz:
+  file:projects/test-recorder.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
@@ -12445,10 +12445,10 @@ packages:
       typescript: 4.2.4
       xhr-mock: 2.5.1
     dev: false
-    name: '@rush-temp/test-utils-recorder'
+    name: '@rush-temp/test-recorder'
     resolution:
       integrity: sha512-o+4bABzOmiCzaivsCAZk8ZCI3177CpzJVB02UtvjjKHEnqpdtweFI5V//CEh7Nrv4FVTyHACqe+r8wSPC6igjQ==
-      tarball: file:projects/test-utils-recorder.tgz
+      tarball: file:projects/test-recorder.tgz
     version: 0.0.0
   file:projects/test-utils.tgz:
     dependencies:
@@ -12750,7 +12750,7 @@ specifiers:
   '@rush-temp/template': file:./projects/template.tgz
   '@rush-temp/test-utils': file:./projects/test-utils.tgz
   '@rush-temp/test-utils-perfstress': file:./projects/test-utils-perfstress.tgz
-  '@rush-temp/test-utils-recorder': file:./projects/test-utils-recorder.tgz
+  '@rush-temp/test-recorder': file:./projects/test-recorder.tgz
   '@rush-temp/video-analyzer-edge': file:./projects/video-analyzer-edge.tgz
   '@rush-temp/web-pubsub': file:./projects/web-pubsub.tgz
   '@rush-temp/web-pubsub-express': file:./projects/web-pubsub-express.tgz

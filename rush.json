@@ -692,7 +692,7 @@
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure/test-utils-recorder",
+      "packageName": "@azure-tools/test-recorder",
       "projectFolder": "sdk/test-utils/recorder",
       "versionPolicyName": "utility"
     },

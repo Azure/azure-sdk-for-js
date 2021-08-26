@@ -44,7 +44,7 @@
   "module": "./dist-esm/src/index.js",
   "types": "./types/synapse-managed-private-endpoints.d.ts",
   "devDependencies": {
-    "@azure/test-utils-recorder": "^1.0.0",
+    "@azure-tools/test-recorder": "^1.0.0",
     "@azure/identity": "2.0.0-beta.6",
     "typescript": "~4.2.0",
     "eslint": "^7.15.0",

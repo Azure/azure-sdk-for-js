@@ -11,7 +11,7 @@ import {
   recorderEnvSetup,
   getTokenBSU
 } from "./utils";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 import { BlobBatch } from "../src";
 import {
   ContainerClient,

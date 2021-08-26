@@ -3,7 +3,7 @@
 
 import { padStart } from "../../src/utils/utils.common";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { isPlaybackMode, env, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import { isPlaybackMode, env, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 
 export const testPollerProperties = {
   intervalInMs: isPlaybackMode() ? 0 : undefined

@@ -6,7 +6,7 @@
 import Sinon from "sinon";
 import { assert } from "chai";
 import { AbortController } from "@azure/abort-controller";
-import { env, delay } from "@azure/test-utils-recorder";
+import { env, delay } from "@azure-tools/test-recorder";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import { ClientSecretCredential, RegionalAuthority } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
