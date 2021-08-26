@@ -772,6 +772,16 @@
       "versionPolicyName": "test"
     },
     {
+      "packageName": "@azure-tests/perf-service-bus",
+      "projectFolder": "sdk/servicebus/perf-tests/service-bus",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-event-hubs",
+      "projectFolder": "sdk/eventhubs/perf-tests/event-hubs",
+      "versionPolicyName": "test"
+    },
+    {
       "packageName": "@azure/mixed-reality-authentication",
       "projectFolder": "sdk/mixedreality/mixed-reality-authentication",
       "versionPolicyName": "client"
