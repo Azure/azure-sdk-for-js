@@ -20,10 +20,7 @@ export class KeyVaultClientContext extends coreHttp.ServiceClient {
    * @param apiVersion Api Version
    * @param options The parameter options
    */
-  constructor(
-    apiVersion: ApiVersion73Preview,
-    options?: KeyVaultClientOptionalParams
-  ) {
+  constructor(apiVersion: ApiVersion73Preview, options?: KeyVaultClientOptionalParams) {
     if (apiVersion === undefined) {
       throw new Error("'apiVersion' cannot be null");
     }

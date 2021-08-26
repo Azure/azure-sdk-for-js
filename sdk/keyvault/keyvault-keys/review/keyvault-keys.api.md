@@ -178,10 +178,6 @@ export interface GetKeyOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export interface GetKeyRotationPolicyOptions extends coreHttp.OperationOptions {
-}
-
-// @public
 export interface GetRandomBytesOptions extends coreHttp.OperationOptions {
 }
 
@@ -230,7 +226,6 @@ export class KeyClient {
     createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<KeyVaultKey>;
     getDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<DeletedKey>;
     getKey(name: string, options?: GetKeyOptions): Promise<KeyVaultKey>;
-    getKeyRotationPolicy(name: string, options?: GetKeyRotationPolicyOptions): Promise<KeyRotationPolicy | undefined>;
     getRandomBytes(count: number, options?: GetRandomBytesOptions): Promise<RandomBytes>;
     importKey(name: string, key: JsonWebKey, options?: ImportKeyOptions): Promise<KeyVaultKey>;
     listDeletedKeys(options?: ListDeletedKeysOptions): PagedAsyncIterableIterator<DeletedKey>;
@@ -239,10 +234,8 @@ export class KeyClient {
     purgeDeletedKey(name: string, options?: PurgeDeletedKeyOptions): Promise<void>;
     releaseKey(name: string, target: string, options?: ReleaseKeyOptions): Promise<ReleaseKeyResult>;
     restoreKeyBackup(backup: Uint8Array, options?: RestoreKeyBackupOptions): Promise<KeyVaultKey>;
-    rotateKey(name: string, options?: RotateKeyOptions): Promise<KeyVaultKey>;
     updateKeyProperties(name: string, keyVersion: string, options?: UpdateKeyPropertiesOptions): Promise<KeyVaultKey>;
     updateKeyProperties(name: string, options?: UpdateKeyPropertiesOptions): Promise<KeyVaultKey>;
-    updateKeyRotationPolicy(name: string, policy: KeyRotationPolicyProperties, options?: UpdateKeyRotationPolicyOptions): Promise<KeyRotationPolicy>;
     readonly vaultUrl: string;
 }
 
@@ -294,29 +287,6 @@ export interface KeyReleasePolicy {
 }
 
 // @public
-export interface KeyRotationLifetimeAction {
-    action: KeyRotationPolicyAction;
-    timeAfterCreate?: string;
-    timeBeforeExpiry?: string;
-}
-
-// @public
-export interface KeyRotationPolicy extends KeyRotationPolicyProperties {
-    readonly createdOn: Date;
-    readonly id: string;
-    readonly updatedOn?: Date;
-}
-
-// @public
-export type KeyRotationPolicyAction = "Rotate" | "Notify";
-
-// @public
-export interface KeyRotationPolicyProperties {
-    expiresIn?: string;
-    lifetimeActions?: KeyRotationLifetimeAction[];
-}
-
-// @public
 export type KeyType = string;
 
 // @public
@@ -341,7 +311,7 @@ export interface KeyVaultKeyIdentifier {
 export type KeyWrapAlgorithm = "A128KW" | "A192KW" | "A256KW" | "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
 
 // @public
-export enum KnownDeletionRecoveryLevel {
+export const enum KnownDeletionRecoveryLevel {
     CustomizedRecoverable = "CustomizedRecoverable",
     CustomizedRecoverableProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription",
     CustomizedRecoverablePurgeable = "CustomizedRecoverable+Purgeable",
@@ -352,7 +322,7 @@ export enum KnownDeletionRecoveryLevel {
 }
 
 // @public
-export enum KnownEncryptionAlgorithms {
+export const enum KnownEncryptionAlgorithms {
     A128CBC = "A128CBC",
     A128Cbcpad = "A128CBCPAD",
     A128GCM = "A128GCM",
@@ -371,7 +341,7 @@ export enum KnownEncryptionAlgorithms {
 }
 
 // @public
-export enum KnownKeyCurveNames {
+export const enum KnownKeyCurveNames {
     P256 = "P-256",
     P256K = "P-256K",
     P384 = "P-384",
@@ -390,7 +360,7 @@ export enum KnownKeyOperations {
 }
 
 // @public
-export enum KnownKeyTypes {
+export const enum KnownKeyTypes {
     EC = "EC",
     ECHSM = "EC-HSM",
     Oct = "oct",
@@ -400,7 +370,7 @@ export enum KnownKeyTypes {
 }
 
 // @public
-export enum KnownSignatureAlgorithms {
+export const enum KnownSignatureAlgorithms {
     ES256 = "ES256",
     ES256K = "ES256K",
     ES384 = "ES384",
@@ -468,10 +438,6 @@ export interface RestoreKeyBackupOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export interface RotateKeyOptions extends coreHttp.OperationOptions {
-}
-
-// @public
 export interface RsaDecryptParameters {
     algorithm: RsaEncryptionAlgorithm;
     ciphertext: Uint8Array;
@@ -521,10 +487,6 @@ export interface UpdateKeyPropertiesOptions extends coreHttp.OperationOptions {
     tags?: {
         [propertyName: string]: string;
     };
-}
-
-// @public
-export interface UpdateKeyRotationPolicyOptions extends coreHttp.OperationOptions {
 }
 
 // @public
