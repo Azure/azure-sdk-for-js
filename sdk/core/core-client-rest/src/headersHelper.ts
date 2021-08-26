@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { RawHttpHeaders } from "./common";
 import { RawHttpHeaders as CoreRawHeaders } from "@azure/core-rest-pipeline";
 
@@ -9,7 +12,7 @@ import { RawHttpHeaders as CoreRawHeaders } from "@azure/core-rest-pipeline";
  * @internal
  */
 export function toCoreRawHeaders(headers: RawHttpHeaders = {}): CoreRawHeaders {
-  let coreHeaders: CoreRawHeaders = {};
+  const coreHeaders: CoreRawHeaders = {};
   for (const [name, value] of Object.entries(headers)) {
     coreHeaders[name] = String(value);
   }
