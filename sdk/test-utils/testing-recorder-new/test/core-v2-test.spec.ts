@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isLiveMode, env } from "@azure/test-utils-recorder";
+import { env } from "@azure/test-utils-recorder";
 import { TableEntity, TableClient } from "@azure/data-tables";
 import { TestProxyHttpClient, recorderHttpPolicy } from "@azure/test-utils-recorder-new";
 import { config } from "dotenv";
@@ -14,14 +14,12 @@ describe("Tests", () => {
     const file = (isNode ? "node_" : "browser_") + `core_v2_file_path.json`;
     const recorder = new TestProxyHttpClient(file);
     const client = TableClient.fromConnectionString(env.TABLES_SAS_CONNECTION_STRING, "newtable");
-    if (!isLiveMode()) {
-      client.pipeline.addPolicy(recorderHttpPolicy(recorder));
-    }
-    if (!isLiveMode()) await recorder.start();
+    client.pipeline.addPolicy(recorderHttpPolicy(recorder));
+    await recorder.start();
     await client.createTable();
     const simpleEntity: TableEntity = createSimpleEntity();
     await client.createEntity(simpleEntity);
     await client.deleteTable();
-    if (!isLiveMode()) await recorder.stop();
+    await recorder.stop();
   });
 });
