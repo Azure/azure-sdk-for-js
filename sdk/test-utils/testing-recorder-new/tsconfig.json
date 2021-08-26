@@ -2,8 +2,7 @@
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
     "declarationDir": "./typings/latest",
-    "outDir": "./dist-esm",
-    "lib": ["dom", "es5", "es6", "es7", "esnext"]
+    "outDir": "./dist-esm"
   },
   "compileOnSave": true,
   "include": ["./src/**/*.ts", "./test/**/*.ts"]
