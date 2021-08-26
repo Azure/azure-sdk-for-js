@@ -1,14 +1,10 @@
 # Release History
 
-## 3.13.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 3.13.1 (2021-08-23)
 
 ### Bugs Fixed
 
-### Other Changes
+- Fixed bugs in session token clearing logic. Session Not found (404, substatus 1002) was not being handled correctly by the session retry policy and would mistakenly retry the request with the same session token.
 
 ## 3.13.0 (2021-08-10)
 
@@ -41,8 +37,10 @@
 ## 3.12.0 (2021-07-06)
 
 ### Features Added
+
 - With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 - Added background refresher for endpoints, and new `ConnectionPolicy` options. Refreshing defaults to true, and the default refresh rate is every 5 minutes.
+
 ```js
 const client = new CosmosClient({
   endpoint,
@@ -52,13 +50,14 @@ const client = new CosmosClient({
     endpointRefreshRateInMs: 700,
     enableBackgroundEndpointRefreshing: true
   }
-})
+});
 ```
 
 - Added `client.dispose()` for closing the endpoint refresher verbosely. Necessary when destroying the CosmosClient inside existing processes like an express web server, or when you want to destroy the client and create a new one in the same process.
+
 ```js
-const client = new CosmosClient()
-client.dispose() // cancels background endpoint refreshing
+const client = new CosmosClient();
+client.dispose(); // cancels background endpoint refreshing
 ```
 
 ## 3.11.5 (2021-06-10)

@@ -51,7 +51,7 @@
     "build:test:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c rollup.test.config.js 2>&1",
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
     "build:types": "downlevel-dts types/latest types/3.1",
-    "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local && npm run build:types",
+    "build": "npm run clean && tsc -p . && rollup -c 2>&1 && api-extractor run --local && npm run build:types",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
@@ -64,7 +64,6 @@
     "lint": "eslint package.json api-extractor.json src test --ext .ts",
     "pack": "npm pack 2>&1",
     "perf-test:node": "tsc -p . --module \"commonjs\" && node dist-esm/test/perf/track-2/index.spec.js",
-    "prebuild": "npm run clean",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
@@ -82,6 +81,9 @@
     ]
   },
   "//sampleConfiguration": {
+    "dependencyOverrides": {
+      "@azure/identity": "^1.5.1"
+    },
     "extraFiles": {
       "./samples-browser": [
         "browser"
@@ -92,6 +94,7 @@
     },
     "skip": [
       "iothubConnectionString.js",
+      "iothubConnectionStringWebsockets.js",
       "useWithIotHub.js",
       "usingAadAuth.js"
     ],

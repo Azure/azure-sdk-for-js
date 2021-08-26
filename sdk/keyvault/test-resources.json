@@ -32,10 +32,10 @@
     },
     "hsmLocation": {
       "type": "string",
-      "defaultValue": "eastus2",
-      "allowedValues": ["eastus2", "southcentralus", "northeurope", "westeurope"],
+      "defaultValue": "eastus",
+      "allowedValues": ["eastus", "eastus2", "southcentralus", "northeurope", "westeurope"],
       "metadata": {
-        "description": "The location of the Managed HSM. By default, this is 'eastus2'."
+        "description": "The location of the Managed HSM. By default, this is 'eastus'."
       }
     },
     "enableHsm": {
@@ -140,8 +140,7 @@
                 "wrapKey",
                 "verify",
                 "sign",
-                "purge",
-                "rotate"
+                "purge"
               ],
               "secrets": ["get", "list", "set", "delete", "recover", "backup", "restore", "purge"],
               "certificates": [

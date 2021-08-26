@@ -12,7 +12,7 @@ import {
   HttpClient
 } from "@azure/core-rest-pipeline";
 import { ClientSecretCredential } from "@azure/identity";
-import { env } from "@azure/test-utils-recorder";
+import { env } from "@azure-tools/test-recorder";
 import { URL } from "url";
 
 // Adding this to the source would change the public API.
@@ -45,9 +45,9 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
 
   beforeEach(async () => {
     credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID!,
-      env.AZURE_CLIENT_ID!,
-      env.AZURE_CLIENT_SECRET!
+      env.AZURE_TENANT_ID || "tenant",
+      env.AZURE_CLIENT_ID || "client",
+      env.AZURE_CLIENT_SECRET || "secret"
     );
     sandbox = createSandbox();
   });

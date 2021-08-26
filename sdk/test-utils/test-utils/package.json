@@ -13,7 +13,7 @@
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build": "tsc -p . && rollup -c 2>&1",
+    "build": "npm run clean && tsc -p . && rollup -c 2>&1",
     "build:samples": "echo Skipped.",
     "build:test": "echo not needed",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
@@ -25,7 +25,6 @@
     "lint:fix": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src test --ext .ts",
     "pack": "npm pack 2>&1",
-    "prebuild": "npm run clean",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 120000 --full-trace \"test/{,!(browser)/**/}*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
@@ -57,7 +56,7 @@
   "private": true,
   "dependencies": {
     "mocha": "^7.1.1",
-    "@azure/test-utils-recorder": "^1.0.0",
+    "@azure-tools/test-recorder": "^1.0.0",
     "tslib": "^2.2.0",
     "@azure/core-tracing": "1.0.0-preview.13"
   },

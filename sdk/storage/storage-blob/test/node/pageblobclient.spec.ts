@@ -23,7 +23,7 @@ import {
 } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { record, delay, Recorder, isPlaybackMode } from "@azure/test-utils-recorder";
+import { record, delay, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { Test_CPK_INFO } from "../utils/constants";
 import { Context } from "mocha";
 

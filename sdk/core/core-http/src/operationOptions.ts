@@ -67,8 +67,9 @@ export function operationOptionsToRequestOptionsBase<T extends OperationOptions>
   }
 
   if (tracingOptions) {
-    result.spanOptions = tracingOptions.spanOptions;
     result.tracingContext = tracingOptions.tracingContext;
+    // By passing spanOptions if they exist at runtime, we're backwards compatible with @azure/core-tracing@preview.13 and earlier.
+    result.spanOptions = (tracingOptions as any)?.spanOptions;
   }
 
   return result;

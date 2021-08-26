@@ -8,7 +8,7 @@ import { QueueClient, QueueServiceClient } from "../src";
 import { setSpan, context } from "@azure/core-tracing";
 import { SpanGraph, setTracer } from "@azure/test-utils";
 import { URLBuilder, RestError } from "@azure/core-http";
-import { Recorder, record } from "@azure/test-utils-recorder";
+import { Recorder, record } from "@azure-tools/test-recorder";
 import { recorderEnvSetup } from "./utils/testutils.common";
 dotenv.config();
 

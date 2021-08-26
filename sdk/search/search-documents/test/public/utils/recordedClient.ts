@@ -3,7 +3,7 @@
 
 import * as dotenv from "dotenv";
 
-import { env, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import { env, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 import { isNode } from "@azure/core-http";
 
 import {

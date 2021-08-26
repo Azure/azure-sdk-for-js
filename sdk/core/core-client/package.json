@@ -6,8 +6,7 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "./dist-esm/src/base64.js": "./dist-esm/src/base64.browser.js",
-    "./dist-esm/src/url.js": "./dist-esm/src/url.browser.js"
+    "./dist-esm/src/base64.js": "./dist-esm/src/base64.browser.js"
   },
   "types": "types/latest/core-client.d.ts",
   "typesVersions": {
@@ -22,7 +21,7 @@
     "build:samples": "echo Obsolete",
     "build:test": "tsc -p . && rollup -c 2>&1",
     "build:types": "downlevel-dts types/latest/ types/3.1/",
-    "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local && npm run build:types",
+    "build": "npm run clean && tsc -p . && rollup -c 2>&1 && api-extractor run --local && npm run build:types",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src",
@@ -35,7 +34,6 @@
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json api-extractor.json src test --ext .ts",
     "pack": "npm pack 2>&1",
-    "prebuild": "npm run clean",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run clean && tsc -p . && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && tsc -p . && npm run unit-test:node && rollup -c 2>&1 && npm run unit-test:browser && npm run integration-test",

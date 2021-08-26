@@ -5,6 +5,7 @@
 ```ts
 
 import { AbortSignal } from 'node-abort-controller';
+import { Pipeline } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
@@ -1353,6 +1354,8 @@ export interface RequestContext {
     partitionKeyRangeId?: string;
     // (undocumented)
     path?: string;
+    // (undocumented)
+    pipeline?: Pipeline;
     // (undocumented)
     plugins: PluginConfig[];
     // (undocumented)
