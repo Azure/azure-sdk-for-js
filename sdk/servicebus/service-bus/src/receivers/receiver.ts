@@ -73,10 +73,8 @@ export interface ServiceBusReceiver {
 
   /**
    * Returns an iterator that can be used to receive messages from Service Bus.
-   * If the iterator is not able to fetch a new message in over a minute, `undefined` will be returned.
    *
    * @param options - A set of options to control the receive operation.
-   * - `maxWaitTimeInMs`: The time to wait to receive the message in each iteration.
    * - `abortSignal`: The signal to use to abort the ongoing operation.
    *
    * @throws Error if the underlying connection, client or receiver is closed.

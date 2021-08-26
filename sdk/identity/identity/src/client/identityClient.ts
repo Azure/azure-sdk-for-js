@@ -174,10 +174,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
           Accept: "application/json",
           "Content-Type": "application/x-www-form-urlencoded"
         }),
-        tracingOptions: {
-          spanOptions: updatedOptions?.tracingOptions?.spanOptions,
-          tracingContext: updatedOptions?.tracingOptions?.tracingContext
-        }
+        tracingOptions: updatedOptions?.tracingOptions
       });
 
       const response = await this.sendTokenRequest(request, expiresOnParser);

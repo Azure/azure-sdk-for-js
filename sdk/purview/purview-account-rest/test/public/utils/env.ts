@@ -1,4 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { URL, URLSearchParams } from "url";
+import * as dotenv from "dotenv";
+
+dotenv.config();

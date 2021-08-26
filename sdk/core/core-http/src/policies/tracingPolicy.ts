@@ -74,15 +74,29 @@ export class TracingPolicy extends BaseRequestPolicy {
     try {
       const path = URLBuilder.parse(request.url).getPath() || "/";
 
+      // Passing spanOptions as part of tracingOptions to maintain compatibility @azure/core-tracing@preview.13 and earlier.
+      // We can pass this as a separate parameter once we upgrade to the latest core-tracing.
       const { span } = createSpan(path, {
         tracingOptions: {
           spanOptions: {
-            ...request.spanOptions,
+            ...(request as any).spanOptions,
             kind: SpanKind.CLIENT
           },
           tracingContext: request.tracingContext
         }
       });
+
+      // If the span is not recording, don't do any more work.
+      if (!span.isRecording()) {
+        span.end();
+        return undefined;
+      }
+
+      const namespaceFromContext = request.tracingContext?.getValue(Symbol.for("az.namespace"));
+
+      if (typeof namespaceFromContext === "string") {
+        span.setAttribute("az.namespace", namespaceFromContext);
+      }
 
       span.setAttributes({
         "http.method": request.method,
