@@ -7,6 +7,7 @@ const inputs = [];
 
 if (!process.env.ONLY_BROWSER) {
   inputs.push(base.nodeConfig());
+  inputs.push(base.nodeConfig(true));
 }
 
 // Disable this until we are ready to run rollup for the browser.

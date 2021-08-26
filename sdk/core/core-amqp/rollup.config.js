@@ -7,10 +7,11 @@ const inputs = [];
 
 if (!process.env.ONLY_BROWSER) {
   inputs.push(base.nodeConfig());
+  // Node tests are run via ts-node so don't bundle tests
 }
 
 if (!process.env.ONLY_NODE) {
-  inputs.push(base.browserConfig());
+  inputs.push(base.browserConfig(true));
 }
 
 export default inputs;

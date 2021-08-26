@@ -7,11 +7,12 @@ const inputs = [];
 
 if (!process.env.ONLY_BROWSER) {
   inputs.push(base.nodeConfig());
+  inputs.push(base.nodeConfig(true));
 }
 
 // Disable this until we are ready to run rollup for the browser.
 if (!process.env.ONLY_NODE) {
-  inputs.push(base.browserConfig());
+  inputs.push(base.browserConfig(true));
 }
 
 export default inputs;

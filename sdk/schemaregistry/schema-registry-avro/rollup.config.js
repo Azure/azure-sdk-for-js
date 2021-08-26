@@ -4,11 +4,11 @@ const inputs = [];
 
 if (!process.env.ONLY_BROWSER) {
   inputs.push(base.nodeConfig());
+  inputs.push(base.nodeConfig(true));
 }
 
 if (!process.env.ONLY_NODE) {
-  inputs.push(base.browserConfig());
-  inputs.push(base.browserConfig(false, true));
+  inputs.push(base.browserConfig(true));
 }
 
 export default inputs;

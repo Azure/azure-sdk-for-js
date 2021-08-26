@@ -90,7 +90,7 @@
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:samples": "echo Obsolete.",
-    "build:test": "tsc -p . && rollup -c 2>&1",
+    "build:test": "echo skipped",
     "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
     "build:debug": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
