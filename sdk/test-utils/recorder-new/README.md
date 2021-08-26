@@ -31,4 +31,8 @@ Reference: [Using Test Proxy with docker container](https://github.com/Azure/azu
 
 ## Copying the recordings saved in the container
 
+For some reason, the volume mapping did not work for you, copy the recordings manually.
+
 - `docker cp <container_id>:/etc/testproxy/ temp-location`
+
+  [This will be fixed eventually [#Issue-17138](https://github.com/Azure/azure-sdk-for-js/issues/17138)]
