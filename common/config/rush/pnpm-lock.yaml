@@ -17,8 +17,10 @@ dependencies:
   '@rush-temp/arm-network': file:projects/arm-network.tgz
   '@rush-temp/arm-policy': file:projects/arm-policy.tgz
   '@rush-temp/arm-resources': file:projects/arm-resources.tgz
+  '@rush-temp/arm-resources-subscriptions': file:projects/arm-resources-subscriptions.tgz
   '@rush-temp/arm-sql': file:projects/arm-sql.tgz
   '@rush-temp/arm-storage': file:projects/arm-storage.tgz
+  '@rush-temp/arm-templatespecs': file:projects/arm-templatespecs.tgz
   '@rush-temp/arm-webpubsub': file:projects/arm-webpubsub.tgz
   '@rush-temp/attestation': file:projects/attestation.tgz
   '@rush-temp/communication-chat': file:projects/communication-chat.tgz
@@ -85,6 +87,7 @@ dependencies:
   '@rush-temp/perf-storage-blob': file:projects/perf-storage-blob.tgz
   '@rush-temp/perf-storage-file-datalake': file:projects/perf-storage-file-datalake.tgz
   '@rush-temp/perf-storage-file-share': file:projects/perf-storage-file-share.tgz
+  '@rush-temp/purview-account': file:projects/purview-account.tgz
   '@rush-temp/purview-catalog': file:projects/purview-catalog.tgz
   '@rush-temp/purview-scanning': file:projects/purview-scanning.tgz
   '@rush-temp/quantum-jobs': file:projects/quantum-jobs.tgz
@@ -2521,12 +2524,6 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha512-3U5kUA5VPsRUA3nofm/BXX7GVHKfxz0hOBAPxXrIvHzlDRkQVqEn6yi8QJegxl4LzOHLdvb7XF5dVawa/VVYBg==
-  /builtin-modules/3.1.0:
-    dev: false
-    engines:
-      node: '>=6'
-    resolution:
-      integrity: sha512-k0KL0aWZuBt2lrxrcASWDfwOLMnodeQjodT/1SxEQAXsHANgo6ZC/VEaSEHCXt7aSTZ4/4H5LKa+tBXmW7Vtvw==
   /builtin-modules/3.2.0:
     dev: false
     engines:
@@ -8888,6 +8885,26 @@ packages:
       integrity: sha512-1cDd7l+RfNr7rAJxGMqLHW/zYV/F5tRFsA1R6RplSOTGg8yo1foORk8QvIa+oumecW/uYGC/jePfHrx55atGMQ==
       tarball: file:projects/arm-policy.tgz
     version: 0.0.0
+  file:projects/arm-resources-subscriptions.tgz:
+    dependencies:
+      '@microsoft/api-extractor': 7.7.11
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      mkdirp: 1.0.4
+      rollup: 1.32.1
+      rollup-plugin-node-resolve: 3.4.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.0
+      typescript: 4.2.4
+      uglify-js: 3.13.9
+    dev: false
+    name: '@rush-temp/arm-resources-subscriptions'
+    resolution:
+      integrity: sha512-6GWFjnVvh/TZyCDi+Fj6ShcBGzmKQ8mvChj7v+n68IPy8QUwXlB08EvQ5zo/7+jii9EwFGCBOQok/5+BISRnJg==
+      tarball: file:projects/arm-resources-subscriptions.tgz
+    version: 0.0.0
   file:projects/arm-resources.tgz:
     dependencies:
       '@microsoft/api-extractor': 7.7.11
@@ -8947,6 +8964,26 @@ packages:
     resolution:
       integrity: sha512-qBc4PYovQxo5tZRHGNtgQLmfF7Uq8FVopd9F1Ghu5qcS68wESbBhwZ1px9/EjPWIHpPyrBzazFRMlvT+5gcthA==
       tarball: file:projects/arm-storage.tgz
+    version: 0.0.0
+  file:projects/arm-templatespecs.tgz:
+    dependencies:
+      '@microsoft/api-extractor': 7.7.11
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      mkdirp: 1.0.4
+      rollup: 1.32.1
+      rollup-plugin-node-resolve: 3.4.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.0
+      typescript: 4.2.4
+      uglify-js: 3.13.9
+    dev: false
+    name: '@rush-temp/arm-templatespecs'
+    resolution:
+      integrity: sha512-xJ4r+nZre0Bli2nfn7U0n/MX7cbpw0zyG40XetY8XvGX5C07tKzeRa+1ptGSuaw8U3o4BOSWsDVCA6Z/YEZt2g==
+      tarball: file:projects/arm-templatespecs.tgz
     version: 0.0.0
   file:projects/arm-webpubsub.tgz:
     dependencies:
@@ -9020,7 +9057,7 @@ packages:
     dev: false
     name: '@rush-temp/attestation'
     resolution:
-      integrity: sha512-DlX4f2f9BKT2l3aH351UEM3jokEvUpQnR89QNqdQKN2Pbp8QP+asZbsBQpBHWMaThLSUajxggf3zgrc2YcWqEA==
+      integrity: sha512-zx8djgQJHlI94UIzMfF4EF1t9RJN2IHkeaIu9abXStBBetsdfQgLVqPhpQ3IAqDMD2tTznSkvWbMnlIiwL24zA==
       tarball: file:projects/attestation.tgz
     version: 0.0.0
   file:projects/communication-chat.tgz:
@@ -9038,6 +9075,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.15
       '@types/sinon': 9.0.11
+      '@types/uuid': 8.3.0
       assert: 1.5.0
       chai: 4.3.4
       cross-env: 7.0.3
@@ -9073,10 +9111,11 @@ packages:
       typedoc: 0.15.2
       typescript: 4.2.4
       util: 0.12.4
+      uuid: 8.3.2
     dev: false
     name: '@rush-temp/communication-chat'
     resolution:
-      integrity: sha512-J9pI+zoofrbGE5JN7f+ylcCtejg5cfDEU6YCkj+vA8SlDhmatprWeHy33GDEArTjc+09EK8ZUQVmXXz1DUcm/Q==
+      integrity: sha512-iK/tanehdcoDEh8n3iLnc33ancPWTq92R7tTT6KpXhhj/j/cw77w0GXJEjPo0NOAIxFn8lGLZYq0Grkrr8lg2g==
       tarball: file:projects/communication-chat.tgz
     version: 0.0.0
   file:projects/communication-common.tgz:
@@ -10149,7 +10188,7 @@ packages:
     dev: false
     name: '@rush-temp/cosmos'
     resolution:
-      integrity: sha512-BsRi7P/t0dCE+meCvDsGmLSVADUF4kFlR0Gt8JJu3FoBvRnG2eyUG4oDnYg71frICUhgptWpHWoLC7pOqlZdZg==
+      integrity: sha512-ccjG0WDeeY6YNl3ls3WPXeotL6A77FlJRlru9NBbNfJCTQnmyfHpEc/8V08uaNiePCL78AG8z8SaXM/5hvUD1g==
       tarball: file:projects/cosmos.tgz
     version: 0.0.0
   file:projects/data-tables.tgz:
@@ -10223,7 +10262,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.15
       '@types/prettier': 2.0.2
-      builtin-modules: 3.1.0
+      builtin-modules: 3.2.0
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
       chalk: 4.1.1
@@ -10245,7 +10284,7 @@ packages:
     dev: false
     name: '@rush-temp/dev-tool'
     resolution:
-      integrity: sha512-+7q1hRI4jTQ2Y1LjHYGsePZlA5jxrNzojz67B2cweYHQRSQdEaN1qR8L/b1HZUDXVVOyBgx/SmfXsadhIaem9g==
+      integrity: sha512-ZE8yx0myuy6CAIoZwrf9ngW6NEGhDPAusK9eCmpGjZBdRtaB8k9DVrf/WahKYK6jfsbP7v5ysAIXCGXJQ/hjJQ==
       tarball: file:projects/dev-tool.tgz
     version: 0.0.0
   file:projects/digital-twins-core.tgz:
@@ -10781,7 +10820,7 @@ packages:
     dev: false
     name: '@rush-temp/iot-device-update'
     resolution:
-      integrity: sha512-tAwrKW8JsvOujf5Gan0s8I7q1ZjeZgcYvqww7VX0t528P0qEozwWKzgVRwBB5Zkz4jzNM0b+Vh+lL+EUB7VMgg==
+      integrity: sha512-kL3fFp9QhcyAryY2/YEo5eH90SDFUv0GXYrd54cWb6pr6l7xqh6Jel4YLbVQ7mlJW7Ts3lYODVqBTFFjEX3mKw==
       tarball: file:projects/iot-device-update.tgz
     version: 0.0.0
   file:projects/iot-modelsrepository.tgz:
@@ -11572,6 +11611,50 @@ packages:
     resolution:
       integrity: sha512-puMNDli8g8FHzU3hcpWibrKOoXVSBbeZz2/mq+Eoan4HwJzUqyaTOllfsc0NXbFn2aNV9ETSLtcldPLsWckq9w==
       tarball: file:projects/perf-storage-file-share.tgz
+    version: 0.0.0
+  file:projects/purview-account.tgz:
+    dependencies:
+      '@azure-rest/core-client': 1.0.0-beta.6
+      '@azure-rest/core-client-paging': 1.0.0-beta.1
+      '@azure/identity': 1.3.0
+      '@microsoft/api-extractor': 7.13.2
+      '@types/chai': 4.2.19
+      '@types/mocha': 7.0.2
+      '@types/node': 12.20.15
+      chai: 4.3.4
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      eslint: 7.29.0
+      karma: 6.3.4
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.0.3
+      karma-edge-launcher: 0.4.2_karma@6.3.4
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.3.4
+      karma-json-preprocessor: 0.3.3_karma@6.3.4
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1_karma@6.3.4
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.3.4
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 2.2.1
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      source-map-support: 0.5.19
+      tslib: 2.3.0
+      typedoc: 0.15.2
+      typescript: 4.2.4
+    dev: false
+    name: '@rush-temp/purview-account'
+    resolution:
+      integrity: sha512-sZE8jjJ7JTiJ8dLNBN/RC1ATd15e/n7bXPWSUnmLmKdw1DRmJ7ga2R1CBZb8HVbHBRHuJCf1A04LXuYeyndlYQ==
+      tarball: file:projects/purview-account.tgz
     version: 0.0.0
   file:projects/purview-catalog.tgz:
     dependencies:
@@ -12611,12 +12694,13 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
+      tslib: 2.3.0
       typescript: 4.2.4
       xhr-mock: 2.5.1
     dev: false
     name: '@rush-temp/test-utils-recorder-new'
     resolution:
-      integrity: sha512-bDhXydv7CtZ1xt40h6PvZDRoUNzPLNN3y+yNcg1q72An0LCpq9iNL9RfKbcWKjbLb8sMBSM30YHtHekcBCmQTw==
+      integrity: sha512-KEhQz0S+x6PDliL1K4kj5Edhkx/Ciual1AXaa0MkCdIsTIGuM/w3Uxc4g8QJUt8laUQaFSaKKVsOH0cgIzRL/g==
       tarball: file:projects/test-utils-recorder-new.tgz
     version: 0.0.0
   file:projects/test-utils-recorder.tgz:
@@ -12941,8 +13025,10 @@ specifiers:
   '@rush-temp/arm-network': file:./projects/arm-network.tgz
   '@rush-temp/arm-policy': file:./projects/arm-policy.tgz
   '@rush-temp/arm-resources': file:./projects/arm-resources.tgz
+  '@rush-temp/arm-resources-subscriptions': file:./projects/arm-resources-subscriptions.tgz
   '@rush-temp/arm-sql': file:./projects/arm-sql.tgz
   '@rush-temp/arm-storage': file:./projects/arm-storage.tgz
+  '@rush-temp/arm-templatespecs': file:./projects/arm-templatespecs.tgz
   '@rush-temp/arm-webpubsub': file:./projects/arm-webpubsub.tgz
   '@rush-temp/attestation': file:./projects/attestation.tgz
   '@rush-temp/communication-chat': file:./projects/communication-chat.tgz
@@ -13009,6 +13095,7 @@ specifiers:
   '@rush-temp/perf-storage-blob': file:./projects/perf-storage-blob.tgz
   '@rush-temp/perf-storage-file-datalake': file:./projects/perf-storage-file-datalake.tgz
   '@rush-temp/perf-storage-file-share': file:./projects/perf-storage-file-share.tgz
+  '@rush-temp/purview-account': file:./projects/purview-account.tgz
   '@rush-temp/purview-catalog': file:./projects/purview-catalog.tgz
   '@rush-temp/purview-scanning': file:./projects/purview-scanning.tgz
   '@rush-temp/quantum-jobs': file:./projects/quantum-jobs.tgz
