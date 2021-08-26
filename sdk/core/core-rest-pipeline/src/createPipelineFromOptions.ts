@@ -1,4 +1,4 @@
-import { InternalPipelineOptions, Pipeline, HttpPipeline } from "./pipeline";
+import { InternalPipelineOptions, Pipeline, createEmptyPipeline } from "./pipeline";
 import { decompressResponsePolicy } from "./policies/decompressResponsePolicy";
 import { exponentialRetryPolicy } from "./policies/exponentialRetryPolicy";
 import { formDataPolicy } from "./policies/formDataPolicy";
@@ -17,7 +17,7 @@ import { isNode } from "./util/helpers";
  * @param options - Options to configure a custom pipeline.
  */
 export function createPipelineFromOptions(options: InternalPipelineOptions): Pipeline {
-  const pipeline = HttpPipeline.create();
+  const pipeline = createEmptyPipeline();
 
   if (isNode) {
     pipeline.addPolicy(proxyPolicy(options.proxyOptions));

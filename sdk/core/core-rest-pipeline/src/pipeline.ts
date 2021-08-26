@@ -118,7 +118,7 @@ interface PolicyGraphNode {
  * Do not export this class from the package.
  * @internal
  */
-export class HttpPipeline implements Pipeline {
+class HttpPipeline implements Pipeline {
   private _policies: PipelineDescriptor[] = [];
   private _orderedPolicies?: PipelinePolicy[];
 
