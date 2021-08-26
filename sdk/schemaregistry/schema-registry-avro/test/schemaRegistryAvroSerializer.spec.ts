@@ -245,10 +245,7 @@ function createTestRegistry(neverLive = false): SchemaRegistry {
     return mapByContent.get(schema.content);
   }
 
-  async function getSchema(
-    id: string,
-    _options?: GetSchemaOptions
-  ): Promise<Schema | undefined> {
+  async function getSchema(id: string, _options?: GetSchemaOptions): Promise<Schema | undefined> {
     return mapById.get(id);
   }
 }
