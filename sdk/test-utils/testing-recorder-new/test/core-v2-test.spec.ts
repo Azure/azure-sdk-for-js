@@ -1,4 +1,4 @@
-import { isLiveMode, isPlaybackMode, env } from "@azure/test-utils-recorder";
+import { isLiveMode, env } from "@azure/test-utils-recorder";
 import { TableEntity, TableClient } from "@azure/data-tables";
 import { TestProxyHttpClient, recorderHttpPolicy } from "@azure/test-utils-recorder-new";
 import { config } from "dotenv";
@@ -9,7 +9,7 @@ config();
 describe("Tests", () => {
   it("tables test", async function() {
     const file = (isNode ? "node_" : "browser_") + `core_v2_file_path.json`;
-    const recorder = new TestProxyHttpClient(file, isPlaybackMode());
+    const recorder = new TestProxyHttpClient(file);
     const client = TableClient.fromConnectionString(env.TABLES_SAS_CONNECTION_STRING, "newtable");
     if (!isLiveMode()) {
       client.pipeline.addPolicy(recorderHttpPolicy(recorder));

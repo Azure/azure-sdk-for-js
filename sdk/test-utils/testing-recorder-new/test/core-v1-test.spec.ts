@@ -1,4 +1,4 @@
-import { isLiveMode, isPlaybackMode, env } from "@azure/test-utils-recorder";
+import { isLiveMode, env } from "@azure/test-utils-recorder";
 import { QueueServiceClient, StoragePipelineOptions } from "@azure/storage-queue";
 import { TestProxyHttpClientCoreV1 } from "@azure/test-utils-recorder-new";
 import { config } from "dotenv";
@@ -8,7 +8,7 @@ config();
 describe("Tests", () => {
   it("storage test", async function() {
     const file = (isNode ? "node_" : "browser_") + `core_v1_file_path.json`;
-    const recorder = new TestProxyHttpClientCoreV1(file, isPlaybackMode());
+    const recorder = new TestProxyHttpClientCoreV1(file);
     const options: StoragePipelineOptions = {};
     if (!isLiveMode()) {
       options.httpClient = recorder;
