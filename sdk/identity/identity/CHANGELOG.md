@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added the `OnBehalfOfCredential`, which allows users to authenticate through the [On-Behalf-Of authentication flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow).
+
 ### Breaking Changes
 
 ### Bugs Fixed
