@@ -38,13 +38,6 @@
     },
     {
       "commandKind": "bulk",
-      "name": "build:test",
-      "summary": "Build the test targets only in projects",
-      "enableParallelism": true,
-      "allowWarningsInSuccessfulBuild": true
-    },
-    {
-      "commandKind": "bulk",
       "name": "check-format",
       "summary": "Show formatting issues within projects",
       "enableParallelism": true

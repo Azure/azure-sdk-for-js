@@ -11,7 +11,6 @@
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "tsc",
-    "build:test": "echo Skipped.",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* *.tgz *.log",
     "extract-api": "echo skipped",

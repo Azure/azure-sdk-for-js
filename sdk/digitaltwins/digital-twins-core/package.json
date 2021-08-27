@@ -16,7 +16,6 @@
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1 && npm run extract-api",
     "build": "npm run clean && tsc -p . && rollup -c 2>&1 && api-extractor run --local",
-    "build:test": "echo skipped",
     "build:samples": "echo Obsolete.",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm dist-browser test-dist test-browser types *.tgz *.log",

@@ -77,7 +77,6 @@
     "clean": "echo skipped",
     "build:node": "echo skipped",
     "build:browser": "echo skipped",
-    "build:test": "echo skipped",
     "build:samples": "echo skipped.",
     "check-format": "echo skipped",
     "execute:samples": "echo skipped",

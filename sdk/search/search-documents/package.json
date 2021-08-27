@@ -12,7 +12,6 @@
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:samples": "echo Obsolete.",
     "execute:samples": "dev-tool samples run samples-dev",
-    "build:test": "echo skipped",
     "build": "npm run clean && tsc -p . && rollup -c 2>&1 && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp types *.tgz *.log",

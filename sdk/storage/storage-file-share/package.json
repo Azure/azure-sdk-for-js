@@ -34,7 +34,6 @@
     "build:nodebrowser": "rollup -c 2>&1",
     "build:samples": "cross-env ONLY_NODE=true npm run build && npm run build:prep-samples",
     "build:prep-samples": "dev-tool samples prep && cd dist-samples && tsc",
-    "build:test": "echo skipped",
     "build:types": "downlevel-dts typings/latest typings/3.1",
     "build": "npm run clean && tsc -p . && npm run build:nodebrowser && api-extractor run --local && npm run build:types",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",

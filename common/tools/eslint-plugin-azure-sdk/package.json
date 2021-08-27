@@ -36,9 +36,8 @@
     "dist/"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.build.json && prettier --write dist/**/*.{js,json,md}",
+    "build": "tsc -p tsconfig.json && prettier --write dist/**/*.{js,json,md}",
     "build:samples": "echo Skipped.",
-    "build:test": "npm run clean && tsc -p tsconfig.json",
     "clean": "rimraf dist/",
     "format": "prettier --write \"./**/*.{ts,json,md}\"",
     "check-format": "prettier --check \"./**/*.{ts,json,md}\"",

@@ -16,7 +16,6 @@
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build": "npm run clean && npm run build:node && npm run build:browser",
-    "build:test": "echo skipped",
     "build:samples": "echo Skipped.",
     "check-format": "echo skip format check as this package has only auto generated code",
     "clean": "rimraf dist dist-esm dist-browser dist-test dist-test types *.tgz *.log",
