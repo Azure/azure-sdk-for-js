@@ -3570,7 +3570,7 @@ packages:
       integrity: sha512-fjquC59cD7CyW6urNXK0FBufkZcoiGG80wTuPujX590cB5Ttln20E2UB4S/WARVqhXffZl2LNgS+gQdPIIim/g==
   /extract-zip/2.0.1:
     dependencies:
-      debug: 4.3.1
+      debug: 4.3.2
       get-stream: 5.2.0
       yauzl: 2.10.0
     dev: false
@@ -12387,7 +12387,7 @@ packages:
       '@types/mock-fs': 4.10.0
       '@types/mock-require': 2.0.0
       '@types/nise': 1.4.0
-      '@types/node': 12.20.20
+      '@types/node': 12.20.21
       chai: 4.3.4
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -12547,7 +12547,7 @@ packages:
       '@types/mock-fs': 4.10.0
       '@types/mock-require': 2.0.0
       '@types/nise': 1.4.0
-      '@types/node': 12.20.20
+      '@types/node': 12.20.21
       '@types/uuid': 8.3.1
       chai: 4.3.4
       dotenv: 8.6.0
