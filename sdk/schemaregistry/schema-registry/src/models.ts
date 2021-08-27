@@ -6,7 +6,7 @@ import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 /**
  * Identifies a Schema by its unique ID, version, and location.
  */
-export interface SchemaId {
+export interface SchemaProperties {
   /** ID that uniquely identifies a schema in the registry namespace. */
   id: string;
 
@@ -31,7 +31,7 @@ export interface SchemaId {
  */
 export interface SchemaDescription {
   /** Schema group under which schema is or should be registered. */
-  group: string;
+  groupName: string;
 
   /** Name of schema.*/
   name: string;
@@ -49,7 +49,7 @@ export interface SchemaDescription {
 /**
  * Schema definition with its unique ID, version, and location.
  */
-export interface Schema extends SchemaId {
+export interface Schema extends SchemaProperties {
   /** String representation of schema. */
   content: string;
 }
@@ -70,9 +70,9 @@ export interface RegisterSchemaOptions extends OperationOptions {}
 export interface GetSchemaIdOptions extends OperationOptions {}
 
 /**
- * Options to configure SchemaRegistryClient.getSchemaById.
+ * Options to configure SchemaRegistryClient.getSchema.
  */
-export interface GetSchemaByIdOptions extends OperationOptions {}
+export interface GetSchemaOptions extends OperationOptions {}
 
 /**
  * Represents a store of registered schemas.
@@ -91,7 +91,10 @@ export interface SchemaRegistry {
    * @param schema - Schema to register.
    * @returns Registered schema's ID.
    */
-  registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaId>;
+  registerSchema(
+    schema: SchemaDescription,
+    options?: RegisterSchemaOptions
+  ): Promise<SchemaProperties>;
 
   /**
    * Gets the ID of an existing schema with matching name, group, type, and
@@ -103,7 +106,7 @@ export interface SchemaRegistry {
   getSchemaId(
     schema: SchemaDescription,
     options?: GetSchemaIdOptions
-  ): Promise<SchemaId | undefined>;
+  ): Promise<SchemaProperties | undefined>;
 
   /**
    * Gets an existing schema by ID.
@@ -111,5 +114,5 @@ export interface SchemaRegistry {
    * @param id - Unique schema ID.
    * @returns Schema with given ID or undefined if no schema was found with the given ID.
    */
-  getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema | undefined>;
+  getSchema(id: string, options?: GetSchemaOptions): Promise<Schema | undefined>;
 }
