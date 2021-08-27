@@ -1,5 +1,5 @@
 import { MonitoringClient } from "../../src/monitoringClient";
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
 

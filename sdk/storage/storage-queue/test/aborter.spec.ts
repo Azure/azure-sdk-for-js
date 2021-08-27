@@ -8,7 +8,7 @@ import { QueueClient } from "../src/QueueClient";
 import { getQSU } from "./utils";
 import * as dotenv from "dotenv";
 import { recorderEnvSetup } from "./utils/testutils.common";
-import { Recorder, record } from "@azure/test-utils-recorder";
+import { Recorder, record } from "@azure-tools/test-recorder";
 dotenv.config();
 
 // tslint:disable:no-empty

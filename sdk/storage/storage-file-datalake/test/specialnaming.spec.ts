@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 // import { DataLakeFileClient } from "../src";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 

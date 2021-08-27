@@ -6,8 +6,8 @@ import {
   createPipelineRequest,
   HttpMethods,
   Pipeline,
-  RawHttpHeaders,
 } from "@azure/core-rest-pipeline";
+import { RawHttpHeaders } from "./common";
 import { getCachedDefaultHttpsClient } from "./clientHelpers";
 import { RequestParameters } from "./pathClientTypes";
 import { HttpResponse } from "./common";

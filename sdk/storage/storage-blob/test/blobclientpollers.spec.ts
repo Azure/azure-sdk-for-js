@@ -5,7 +5,7 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 
 import { getBSU } from "./utils";
-import { record, Recorder, isRecordMode, isPlaybackMode } from "@azure/test-utils-recorder";
+import { record, Recorder, isRecordMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { recorderEnvSetup, testPollerProperties } from "./utils/testutils.common";
 import {
   BlobClient,

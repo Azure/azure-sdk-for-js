@@ -5,7 +5,7 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { QueueServiceClient } from "../src/QueueServiceClient";
 import { getAlternateQSU, getQSU, getSASConnectionStringFromEnvironment } from "./utils";
-import { record, delay, Recorder } from "@azure/test-utils-recorder";
+import { record, delay, Recorder } from "@azure-tools/test-recorder";
 import { recorderEnvSetup } from "./utils/index.browser";
 dotenv.config();
 

@@ -5,7 +5,7 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { getBSU, getSASConnectionStringFromEnvironment, recorderEnvSetup } from "./utils";
 import { ShareClient, ShareServiceClient } from "../src";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 dotenv.config();
 
 describe("ShareClient", () => {

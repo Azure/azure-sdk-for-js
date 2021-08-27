@@ -7,7 +7,7 @@ import Sinon from "sinon";
 import assert from "assert";
 
 import { PublicClientApplication } from "@azure/msal-node";
-import { isLiveMode } from "@azure/test-utils-recorder";
+import { isLiveMode } from "@azure-tools/test-recorder";
 
 import { DeviceCodeCredential, TokenCachePersistenceOptions } from "../../../../identity/src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity/test/msalTestUtils";

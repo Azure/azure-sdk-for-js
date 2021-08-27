@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import * as dotenv from "dotenv";
 import { ContainerRegistryClient, ContainerRepository } from "../../src";
-import { env, record, Recorder } from "@azure/test-utils-recorder";
+import { env, record, Recorder } from "@azure-tools/test-recorder";
 import { RestError } from "@azure/core-rest-pipeline";
 import { isNode } from "../utils/isNode";
 import { createRegistryClient, recorderEnvSetup } from "../utils/utils";

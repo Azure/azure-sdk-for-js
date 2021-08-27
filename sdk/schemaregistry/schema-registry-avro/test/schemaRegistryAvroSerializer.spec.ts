@@ -5,7 +5,7 @@ import { SchemaRegistryAvroSerializer } from "../src";
 import { assert, use as chaiUse } from "chai";
 import * as avro from "avsc/";
 import chaiPromises from "chai-as-promised";
-import { env, isLiveMode } from "@azure/test-utils-recorder";
+import { env, isLiveMode } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 
 import {

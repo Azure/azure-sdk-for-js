@@ -6,7 +6,7 @@ import {
   env,
   RecorderEnvironmentSetup,
   pluginForClientSecretCredentialTests
-} from "@azure/test-utils-recorder";
+} from "@azure-tools/test-recorder";
 import { ContainerRegistryClient } from "../../src";
 
 // When the recorder observes the values of these environment variables in any

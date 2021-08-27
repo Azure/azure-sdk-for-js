@@ -10,7 +10,7 @@ import {
   StorageSharedKeyCredential,
   ShareClient
 } from "../../src";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 dotenv.config();
 
 describe("DirectoryClient Node.js only", () => {
