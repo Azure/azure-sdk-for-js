@@ -118,8 +118,8 @@ describe("Model unit tests", () => {
       };
 
       const actualMetricsRequest: GeneratedMetricsListOptionalParams = convertRequestForMetrics(
-        track2Model,
-        ["name1", "name2"]
+        ["name1", "name2"],
+        track2Model
       );
 
       const expectedMetricsRequest: GeneratedMetricsListOptionalParams = {
@@ -143,7 +143,7 @@ describe("Model unit tests", () => {
     });
 
     it("convertRequestForMetrics (only required fields)", () => {
-      assert.deepEqual(convertRequestForMetrics({}, ["SuccessfulCalls", "TotalCalls"]), {
+      assert.deepEqual(convertRequestForMetrics(["SuccessfulCalls", "TotalCalls"], {}), {
         metricnames: "SuccessfulCalls,TotalCalls"
       });
     });

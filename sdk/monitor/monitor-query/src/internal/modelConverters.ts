@@ -173,8 +173,8 @@ export function fixInvalidBatchQueryResponse(
  * @internal
  */
 export function convertRequestForMetrics(
-  queryMetricsOptions: MetricsQueryOptions | undefined,
-  metricNames: string[]
+  metricNames: string[],
+  queryMetricsOptions: MetricsQueryOptions | undefined
 ): GeneratedMetricsListOptionalParams {
   if (!queryMetricsOptions) {
     return {};

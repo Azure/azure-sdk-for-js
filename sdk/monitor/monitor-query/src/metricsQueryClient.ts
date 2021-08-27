@@ -96,7 +96,7 @@ export class MetricsQueryClient {
   ): Promise<MetricsQueryResult> {
     const response = await this._metricsClient.metrics.list(
       resourceUri,
-      convertRequestForMetrics(options, metricNames)
+      convertRequestForMetrics(metricNames, options)
     );
 
     return convertResponseForMetrics(response);
