@@ -312,4 +312,10 @@ export interface TokenCredentialOptions extends CommonClientOptions {
    * If set to true, allows authentication flows to change the tenantId of the request if a different tenantId is received from a challenge or through a direct getToken call.
    */
   allowMultiTenantAuthentication?: boolean;
+
+  /**
+   * If set to true, Personal Identifiable Information (PII) will be displayed in trace logs.
+   * By default, this is disabled.
+   */
+  allowPiiLogging?: boolean;
 }

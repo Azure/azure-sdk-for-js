@@ -135,7 +135,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
       system: {
         networkClient: this.identityClient,
         loggerOptions: {
-          loggerCallback: defaultLoggerCallback(options.logger)
+          loggerCallback: defaultLoggerCallback(options.logger, options.allowPiiLogging)
         }
       }
     };
