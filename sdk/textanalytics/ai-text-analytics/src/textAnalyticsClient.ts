@@ -429,8 +429,20 @@ export class TextAnalyticsClient {
 
     this.client = new GeneratedClient(this.endpointUrl, internalPipelineOptions);
 
+    let scopes;
+    switch (process.env["AZURE_AUTHORITY_HOST"]) {
+      case "https://login.microsoftonline.us":
+        scopes = "https://cognitiveservices.azure.us/.default";
+        break;
+      case "https://login.chinacloudapi.cn":
+        scopes = "https://cognitiveservices.azure.cn/.default";
+        break;
+      default:
+        scopes = DEFAULT_COGNITIVE_SCOPE;
+    }
+
     const authPolicy = isTokenCredential(credential)
-      ? bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_COGNITIVE_SCOPE })
+      ? bearerTokenAuthenticationPolicy({ credential, scopes: scopes })
       : textAnalyticsAzureKeyCredentialPolicy(credential);
 
     this.client.pipeline.addPolicy(authPolicy);
