@@ -12,7 +12,7 @@
     "@azure/core-rest-pipeline": "^1.2.0",
     "tslib": "^2.2.0"
   },
-  "keywords": [ "node", "azure", "typescript", "browser", "isomorphic"],
+  "keywords": ["node", "azure", "typescript", "browser", "isomorphic"],
   "license": "MIT",
   "main": "./dist/index.js",
   "module": "./dist-esm/index.js",
