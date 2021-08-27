@@ -55,9 +55,9 @@ export interface LogsQueryResult {
   /** The list of tables, columns and rows. */
   tables: LogsTable[];
   /** Statistics represented in JSON format. */
-  statistics?: any;
+  statistics?: Record<string, unknown>;
   /** Visualization data in JSON format. */
-  visualization?: any;
+  visualization?: Record<string, unknown>;
   /** The code and message for an error. */
   error?: ErrorInfo;
 }
@@ -114,9 +114,9 @@ export interface LogsQueryBatchResult {
     tables?: LogsTable[];
     error?: ErrorInfo;
     /** Statistics represented in JSON format. */
-    statistics?: any;
+    statistics?: Record<string, unknown>;
     /** Visualization data in JSON format. */
-    visualization?: any;
+    visualization?: Record<string, unknown>;
   }[];
 
   // TODO: this is omitted from the Java models.

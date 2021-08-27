@@ -8,9 +8,9 @@ export { LogsQueryClientOptions, LogsQueryClient } from "./logsQueryClient";
 export {
   QueryBatch,
   LogsQueryBatchOptions,
-  LogsQueryBatchResult as QueryLogsBatchResult,
+  LogsQueryBatchResult,
   LogsQueryOptions,
-  LogsQueryResult as QueryLogsResult,
+  LogsQueryResult,
   // TODO: design issues around this still pending.
   // QueryStatistics,
   LogsTable
@@ -20,8 +20,7 @@ export {
   MetricsQueryClientOptions as MetricsClientOptions
 } from "./metricsQueryClient";
 export {
-  GetMetricDefinitionsOptions,
-  GetMetricDefinitionsResult,
+  ListMetricDefinitionsOptions,
   ListMetricNamespacesOptions,
   MetadataValue,
   Metric,

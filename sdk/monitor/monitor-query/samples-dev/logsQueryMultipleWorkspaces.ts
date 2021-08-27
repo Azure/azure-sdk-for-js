@@ -53,7 +53,7 @@ export async function main() {
   }
 
   const executionTime =
-    result.statistics && result.statistics.query && result.statistics.query.executionTime;
+    result.statistics && result.statistics.query && (result.statistics.query as any).executionTime;
 
   console.log(
     `Results for query '${kustoQuery}', execution time: ${

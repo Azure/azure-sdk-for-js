@@ -5,11 +5,11 @@ import { PipelineOptions, bearerTokenAuthenticationPolicy } from "@azure/core-re
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 import {
-  GetMetricDefinitionsOptions,
-  GetMetricDefinitionsResult,
+  ListMetricDefinitionsOptions,
   ListMetricNamespacesOptions,
   MetricsQueryOptions,
-  MetricsQueryResult
+  MetricsQueryResult,
+  MetricDefinition
 } from "./models/publicMetricsModels";
 
 import {
@@ -103,36 +103,92 @@ export class MetricsQueryClient {
   }
 
   /**
+   * List alert segments for Metric Definitions
+   */
+  private async *listSegmentOfMetricDefinitions(
+    resourceUri: string,
+    options: ListMetricDefinitionsOptions = {}
+  ): AsyncIterableIterator<Array<MetricDefinition>> {
+    const segmentResponse = await this._definitionsClient.metricDefinitions.list(
+      resourceUri,
+      convertRequestOptionsForMetricsDefinitions(options)
+    );
+    yield convertResponseForMetricsDefinitions(segmentResponse.value);
+  }
+
+  /**
+   * List items for Metric Definitions
+   */
+  private async *listItemsOfMetricDefinitions(
+    resourceUri: string,
+    options?: ListMetricDefinitionsOptions
+  ): AsyncIterableIterator<MetricDefinition> {
+    for await (const segment of this.listSegmentOfMetricDefinitions(resourceUri, options)) {
+      if (segment) {
+        yield* segment;
+      }
+    }
+  }
+
+  /**
+   *   /**
+   *
+   * Returns an async iterable iterator to list metric definitions.
+   *
+   * Example using `for await` syntax:
+   *
+   * ```js
+   * const metricsQueryClient = new MetricsQueryClient(tokenCredential);
+   * const metricDefinitions = client.listMetricDefinitions(resourceUri, options);
+   * let i = 1;
+   * for await (const metricDefinition of metricDefinitions) {
+   *   console.log(`metricDefinition ${i++}:`);
+   *   console.log(metricDefinition);
+   * }
+   * ```
+   *
+   * Example using `iter.next()`:
+   *
+   * ```js
+   * let iter = client.listMetricDefinitions(resourceUri, options);
+   * let result = await iter.next();
+   * while (!result.done) {
+   *   console.log(` metricDefinitions - ${result.value.id}, ${result.value.name}`);
+   *   result = await iter.next();
+   * }
+   * ```
+   *
    * Get a list of metric definitions, given a resource URI.
    * @param resourceUri - The resource URI to get metric definitions for.
    * @param options - Options for getting metric definitions.
    * @returns Metric definitions for a given resource URI.
    */
-  async getMetricDefinitions(
+  listMetricDefinitions(
     resourceUri: string,
-    options?: GetMetricDefinitionsOptions
-  ): Promise<GetMetricDefinitionsResult> {
-    const response = await this._definitionsClient.metricDefinitions.list(
-      resourceUri,
-      convertRequestOptionsForMetricsDefinitions(options)
-    );
-
-    return convertResponseForMetricsDefinitions(response);
+    options?: ListMetricDefinitionsOptions
+  ): PagedAsyncIterableIterator<MetricDefinition> {
+    const iter = this.listItemsOfMetricDefinitions(resourceUri, options);
+    return {
+      /**
+       * The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * @returns an AsyncIterableIterator that works a page at a time
+       */
+      byPage: () => {
+        return this.listSegmentOfMetricDefinitions(resourceUri, options);
+      }
+    };
   }
-
-  // /**
-  //  * Get a list of metric namespaces, given a resource URI.
-  //  * @param resourceUri - The resource URI to get metric namespaces for.
-  //  * @param options - Options for getting metric namespaces.
-  //  * @returns Metric namespaces for a given resource URI.
-  //  */
-  // async getMetricNamespaces(
-  //   resourceUri: string,
-  //   options?: ListMetricNamespacesOptions
-  // ): Promise<GetMetricNamespacesResult> {
-  //   const response = await this._namespacesClient.metricNamespaces.list(resourceUri, options);
-  //   return convertResponseForMetricNamespaces(response);
-  // }
 
   /**
    * List alert segments for Metric Namespaces
@@ -161,6 +217,31 @@ export class MetricsQueryClient {
     }
   }
   /**
+   *
+   * Returns an async iterable iterator to list metric namespaces.
+   *
+   * Example using `for await` syntax:
+   *
+   * ```js
+   * const metricsQueryClient = new MetricsQueryClient(tokenCredential);
+   * const metricNamespaces = client.listMetricNamespaces(resourceUri, options);
+   * let i = 1;
+   * for await (const metricNamespace of metricNamespaces) {
+   *   console.log(`metricNamespace ${i++}:`);
+   *   console.log(metricNamespace);
+   * }
+   * ```
+   *
+   * Example using `iter.next()`:
+   *
+   * ```js
+   * let iter = client.listMetricNamespaces(resourceUri, options);
+   * let result = await iter.next();
+   * while (!result.done) {
+   *   console.log(` metricNamespace - ${result.value.id}, ${result.value.name}`);
+   *   result = await iter.next();
+   * }
+   * ```
    * Get a list of metric namespaces, given a resource URI.
    * @param resourceUri - The resource URI to get metric namespaces for.
    * @param options - Options for getting metric namespaces.

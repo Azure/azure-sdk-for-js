@@ -113,19 +113,11 @@ export interface MetricsQueryResult {
 /**
  * Options used when getting metric definitions.
  */
-export interface GetMetricDefinitionsOptions extends OperationOptions {
+export interface ListMetricDefinitionsOptions extends OperationOptions {
   // track 2 version of `MetricDefinitionsListOptionalParams`
 
   /** Metric namespace to query metric definitions for. */
   metricNamespace?: string;
-}
-
-/**
- * Metric definitions.
- */
-export interface GetMetricDefinitionsResult {
-  /** the values for the metric definitions. */
-  definitions: MetricDefinition[];
 }
 
 /**

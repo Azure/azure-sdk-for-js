@@ -26,8 +26,7 @@ import {
 import { OperationTracingOptions } from "@azure/core-tracing";
 import {
   Durations,
-  GetMetricDefinitionsResult,
-  GetMetricDefinitionsOptions,
+  ListMetricDefinitionsOptions,
   MetricsQueryOptions,
   MetricsQueryResult
 } from "../../../src";
@@ -249,7 +248,7 @@ describe("Model unit tests", () => {
       const serializerOptions = {} as SerializerOptions;
       const onResponse = {} as RawResponseCallback;
 
-      const track2: Required<GetMetricDefinitionsOptions> = {
+      const track2: Required<ListMetricDefinitionsOptions> = {
         abortSignal,
         requestOptions,
         tracingOptions,
@@ -278,56 +277,48 @@ describe("Model unit tests", () => {
     });
 
     it("convertResponseForMetricsDefinitions", () => {
-      const actualResponse = convertResponseForMetricsDefinitions({
-        value: [
-          {
-            dimensions: [
-              {
-                value: "the value",
-                localizedValue: "optional localized value but it's ignored"
-              }
-            ],
-            name: {
-              value: "the name"
-            },
-            id: "anything"
-          }
-        ]
-      });
+      const actualResponse = convertResponseForMetricsDefinitions([
+        {
+          dimensions: [
+            {
+              value: "the value",
+              localizedValue: "optional localized value but it's ignored"
+            }
+          ],
+          name: {
+            value: "the name"
+          },
+          id: "anything"
+        }
+      ]);
 
       assert.deepEqual(
-        <GetMetricDefinitionsResult>{
-          definitions: [
-            {
-              id: "anything",
-              name: "the name",
-              dimensions: ["the value"]
-            }
-          ]
-        },
+        [
+          {
+            id: "anything",
+            name: "the name",
+            dimensions: ["the value"]
+          }
+        ],
         actualResponse
       );
     });
 
     it("convertResponseForMetricsDefinitions (optional fields removed)", () => {
-      const actualResponse = convertResponseForMetricsDefinitions({
-        value: [
+      const actualResponse = convertResponseForMetricsDefinitions([
+        {
+          id: "anything"
+        }
+      ]);
+
+      assert.deepEqual(
+        [
+          // we don't add fields if they weren't in the original response (for instance, we don't add in an
+          // undefined 'name', or 'dimensions')
           {
             id: "anything"
           }
-        ]
-      });
-
-      assert.deepEqual(
-        <GetMetricDefinitionsResult>{
-          definitions: [
-            // we don't add fields if they weren't in the original response (for instance, we don't add in an
-            // undefined 'name', or 'dimensions')
-            {
-              id: "anything"
-            }
-          ]
-        },
+        ],
         actualResponse
       );
     });

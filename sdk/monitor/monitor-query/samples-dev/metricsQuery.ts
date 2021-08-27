@@ -6,7 +6,7 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { Durations, Metric, MetricsQueryClient } from "@azure/monitor-query";
+import { Durations, Metric, MetricsQueryClient, MetricDefinition } from "@azure/monitor-query";
 import * as dotenv from "dotenv";
 
 dotenv.config();
@@ -21,27 +21,34 @@ export async function main() {
     throw new Error("METRICS_RESOURCE_ID must be set in the environment for this sample");
   }
 
-  const result = await metricsQueryClient.getMetricDefinitions(metricsResourceId);
-
-  for (const definition of result.definitions) {
+  const result = metricsQueryClient.listMetricDefinitions(metricsResourceId);
+  const metricDefinitionResult = result;
+  let firstMetric: MetricDefinition;
+  let i = 0;
+  for await (const definition of metricDefinitionResult) {
     console.log(`Definition = ${definition.name}`);
+    if (i == 0) {
+      firstMetric = definition;
+      console.log(`Picking an example metric to query: ${firstMetric.name!}`);
+
+      const metricsResponse = await metricsQueryClient.query(
+        metricsResourceId,
+        [firstMetric.name!],
+        {
+          granularity: "PT1M",
+          timespan: { duration: Durations.last5Minutes }
+        }
+      );
+
+      console.log(
+        `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.granularity}, time span: ${metricsResponse.timespan}`
+      );
+
+      const metrics: Metric[] = metricsResponse.metrics;
+      console.log(`Metrics:`, JSON.stringify(metrics, undefined, 2));
+      i++;
+    }
   }
-
-  const firstMetric = result.definitions[0];
-
-  console.log(`Picking an example metric to query: ${firstMetric.name}`);
-
-  const metricsResponse = await metricsQueryClient.query(metricsResourceId, [firstMetric.name!], {
-    granularity: "PT1M",
-    timespan: { duration: Durations.last5Minutes }
-  });
-
-  console.log(
-    `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.granularity}, time span: ${metricsResponse.timespan}`
-  );
-
-  const metrics: Metric[] = metricsResponse.metrics;
-  console.log(`Metrics:`, JSON.stringify(metrics, undefined, 2));
 }
 
 main().catch((err) => {

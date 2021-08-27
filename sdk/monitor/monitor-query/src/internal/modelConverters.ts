@@ -19,17 +19,16 @@ import {
 
 import {
   MetricDefinitionsListOptionalParams as GeneratedMetricDefinitionsListOptionalParams,
-  MetricDefinitionsListResponse as GeneratedMetricDefinitionsListResponse
+  MetricDefinition as GeneratedMetricDefinition
 } from "../generated/metricsdefinitions/src";
 
 import { formatPreferHeader } from "./util";
 
 import {
   QueryBatch,
-  GetMetricDefinitionsOptions,
-  GetMetricDefinitionsResult,
+  ListMetricDefinitionsOptions,
   LogsTable,
-  QueryLogsBatchResult,
+  LogsQueryBatchResult,
   MetricsQueryOptions,
   MetricsQueryResult
 } from "../../src";
@@ -94,14 +93,14 @@ export function convertRequestForQueryBatch(batch: QueryBatch[]): GeneratedBatch
 export function convertResponseForQueryBatch(
   generatedResponse: GeneratedQueryBatchResponse,
   rawResponse: FullOperationResponse
-): QueryLogsBatchResult {
+): LogsQueryBatchResult {
   const fixApplied = fixInvalidBatchQueryResponse(generatedResponse, rawResponse);
 
   /* Sort the ids that are passed in with the queries, as numbers instead of strings
    * It is not guaranteed that service will return the responses for queries in the same order
    * as the queries are passed in
    */
-  const newResponse: QueryLogsBatchResult = {
+  const newResponse: LogsQueryBatchResult = {
     results: generatedResponse.responses
       ?.sort((a, b) => {
         let left = 0;
@@ -262,7 +261,7 @@ export function convertResponseForMetrics(
  * @internal
  */
 export function convertRequestOptionsForMetricsDefinitions(
-  options: GetMetricDefinitionsOptions | undefined
+  options: ListMetricDefinitionsOptions | undefined
 ): GeneratedMetricDefinitionsListOptionalParams {
   if (!options) {
     return {};
@@ -285,30 +284,28 @@ export function convertRequestOptionsForMetricsDefinitions(
  * @internal
  */
 export function convertResponseForMetricsDefinitions(
-  generatedResponse: GeneratedMetricDefinitionsListResponse
-): GetMetricDefinitionsResult {
-  return {
-    definitions: generatedResponse.value?.map((genDef) => {
-      const { name, dimensions, ...rest } = genDef;
+  generatedResponse: Array<GeneratedMetricDefinition>
+): Array<MetricDefinition> {
+  const definitions: Array<MetricDefinition> = generatedResponse?.map((genDef) => {
+    const { name, dimensions, ...rest } = genDef;
 
-      const response: MetricDefinition = {
-        ...rest,
-        description: rest.displayDescription
-      };
+    const response: MetricDefinition = {
+      ...rest,
+      description: rest.displayDescription
+    };
 
-      if (name?.value) {
-        response.name = name.value;
-      }
+    if (name?.value) {
+      response.name = name.value;
+    }
 
-      const mappedDimensions = dimensions?.map((dim) => dim.value);
+    const mappedDimensions = dimensions?.map((dim) => dim.value);
 
-      if (mappedDimensions) {
-        response.dimensions = mappedDimensions;
-      }
-
-      return response;
-    })
-  };
+    if (mappedDimensions) {
+      response.dimensions = mappedDimensions;
+    }
+    return response;
+  });
+  return definitions;
 }
 
 /**

@@ -137,7 +137,7 @@ describe("LogsQueryClient live tests", function() {
     // TODO: statistics are not currently modeled in the generated code but
     // the executionTime field is pretty useful.
     assert.isOk(results.statistics);
-    assert.isNumber(results.statistics?.query?.executionTime);
+    assert.isNumber((results.statistics?.query as any)?.executionTime);
   });
 
   it("includeRender/includeVisualization", async () => {

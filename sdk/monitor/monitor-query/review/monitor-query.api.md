@@ -47,13 +47,8 @@ export interface ErrorInfo {
 }
 
 // @public
-export interface GetMetricDefinitionsOptions extends OperationOptions {
+export interface ListMetricDefinitionsOptions extends OperationOptions {
     metricNamespace?: string;
-}
-
-// @public
-export interface GetMetricDefinitionsResult {
-    definitions: MetricDefinition[];
 }
 
 // @public
@@ -74,10 +69,22 @@ export type LogsColumnType = string;
 export type LogsQueryBatchOptions = OperationOptions;
 
 // @public
+export interface LogsQueryBatchResult {
+    results?: {
+        id?: string;
+        status?: number;
+        tables?: LogsTable[];
+        error?: ErrorInfo;
+        statistics?: Record<string, unknown>;
+        visualization?: Record<string, unknown>;
+    }[];
+}
+
+// @public
 export class LogsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions);
-    query(workspaceId: string, query: string, timespan: TimeInterval, options?: LogsQueryOptions): Promise<QueryLogsResult>;
-    queryBatch(batch: QueryBatch[], options?: LogsQueryBatchOptions): Promise<QueryLogsBatchResult>;
+    query(workspaceId: string, query: string, timespan: TimeInterval, options?: LogsQueryOptions): Promise<LogsQueryResult>;
+    queryBatch(batch: QueryBatch[], options?: LogsQueryBatchOptions): Promise<LogsQueryBatchResult>;
 }
 
 // @public
@@ -94,6 +101,14 @@ export interface LogsQueryOptions extends OperationOptions {
     includeQueryStatistics?: boolean;
     includeVisualization?: boolean;
     serverTimeoutInSeconds?: number;
+}
+
+// @public
+export interface LogsQueryResult {
+    error?: ErrorInfo;
+    statistics?: Record<string, unknown>;
+    tables: LogsTable[];
+    visualization?: Record<string, unknown>;
 }
 
 // @public
@@ -168,7 +183,7 @@ export interface MetricsClientOptions extends PipelineOptions {
 // @public
 export class MetricsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: MetricsClientOptions);
-    getMetricDefinitions(resourceUri: string, options?: GetMetricDefinitionsOptions): Promise<GetMetricDefinitionsResult>;
+    listMetricDefinitions(resourceUri: string, options?: ListMetricDefinitionsOptions): PagedAsyncIterableIterator<MetricDefinition>;
     listMetricNamespaces(resourceUri: string, options?: ListMetricNamespacesOptions): PagedAsyncIterableIterator<MetricNamespace>;
     query(resourceUri: string, metricNames: string[], options?: MetricsQueryOptions): Promise<MetricsQueryResult>;
 }
@@ -220,26 +235,6 @@ export interface QueryBatch {
     serverTimeoutInSeconds?: number;
     timespan?: TimeInterval;
     workspaceId: string;
-}
-
-// @public
-export interface QueryLogsBatchResult {
-    results?: {
-        id?: string;
-        status?: number;
-        tables?: LogsTable[];
-        error?: ErrorInfo;
-        statistics?: any;
-        visualization?: any;
-    }[];
-}
-
-// @public
-export interface QueryLogsResult {
-    error?: ErrorInfo;
-    statistics?: any;
-    tables: LogsTable[];
-    visualization?: any;
 }
 
 // @public
