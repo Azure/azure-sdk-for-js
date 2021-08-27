@@ -110,7 +110,6 @@
     "@types/priorityqueuejs": "^1.0.1",
     "@types/semaphore": "^1.1.0",
     "@types/sinon": "^9.0.4",
-    "@types/tunnel": "^0.0.1",
     "@types/underscore": "^1.8.8",
     "@types/uuid": "^8.0.0",
     "cross-env": "^7.0.2",
