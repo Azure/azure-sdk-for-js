@@ -3570,7 +3570,7 @@ packages:
       integrity: sha512-fjquC59cD7CyW6urNXK0FBufkZcoiGG80wTuPujX590cB5Ttln20E2UB4S/WARVqhXffZl2LNgS+gQdPIIim/g==
   /extract-zip/2.0.1:
     dependencies:
-      debug: 4.3.1
+      debug: 4.3.2
       get-stream: 5.2.0
       yauzl: 2.10.0
     dev: false
@@ -3835,6 +3835,16 @@ packages:
       node: '>= 6'
     resolution:
       integrity: sha512-RHkBKtLWUVwd7SqRIvCZMEvAMoGUp0XU+seQiZejj0COz3RI3hWP4sCv3gZWWLjJTd7rGwcsF5eKZGii0r/hbg==
+  /form-data/4.0.0:
+    dependencies:
+      asynckit: 0.4.0
+      combined-stream: 1.0.8
+      mime-types: 2.1.32
+    dev: false
+    engines:
+      node: '>= 6'
+    resolution:
+      integrity: sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==
   /forwarded/0.2.0:
     dev: false
     engines:
@@ -9658,7 +9668,7 @@ packages:
       eslint: 7.32.0
       express: 4.17.1
       fetch-mock: 9.11.0_node-fetch@2.6.1
-      form-data: 3.0.1
+      form-data: 4.0.0
       glob: 7.1.7
       karma: 6.3.4
       karma-chai: 0.1.0_chai@4.3.4+karma@6.3.4
@@ -9694,7 +9704,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-Ujq75kK/8PfJufRYz170HH4KuCmfnEWz2x/GoCf17Cya5XL9p5Vh/10h4bkm1JKEm3skqXzNoBw8jlZ6uZyysw==
+      integrity: sha512-AxQMTHOLtn1V/4yTA3xJKLVHUDmQjzo0loz5FqdN7X8r1GM2B9YCY56Mo/khZj0PG4nO7ejx4+XXi4hECJ7hiw==
       tarball: file:projects/core-http.tgz
     version: 0.0.0
   file:projects/core-lro.tgz:
@@ -9784,7 +9794,7 @@ packages:
       cross-env: 7.0.3
       downlevel-dts: 0.4.0
       eslint: 7.32.0
-      form-data: 3.0.1
+      form-data: 4.0.0
       http-proxy-agent: 4.0.1
       https-proxy-agent: 5.0.0
       inherits: 2.0.4
@@ -9814,7 +9824,7 @@ packages:
     dev: false
     name: '@rush-temp/core-rest-pipeline'
     resolution:
-      integrity: sha512-CxDUyMFbD3nyXoeLjiKWHE7k88ZPwuuId8NF0g5bLwn5I+TR2c6FHdYWmoo2g3Fv85Vdi+hhiyvob2z/EZVjkg==
+      integrity: sha512-yU0cVnVZqgRpjXEoM7jEqcw6GkcPpv8nNk1dXrmEssR1sql4JIDVpC/PHvt2mK7QHCMwMtKooQS7drskRFB0Eg==
       tarball: file:projects/core-rest-pipeline.tgz
     version: 0.0.0
   file:projects/core-tracing.tgz:
@@ -12387,7 +12397,7 @@ packages:
       '@types/mock-fs': 4.10.0
       '@types/mock-require': 2.0.0
       '@types/nise': 1.4.0
-      '@types/node': 12.20.20
+      '@types/node': 12.20.21
       chai: 4.3.4
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -12547,7 +12557,7 @@ packages:
       '@types/mock-fs': 4.10.0
       '@types/mock-require': 2.0.0
       '@types/nise': 1.4.0
-      '@types/node': 12.20.20
+      '@types/node': 12.20.21
       '@types/uuid': 8.3.1
       chai: 4.3.4
       dotenv: 8.6.0
