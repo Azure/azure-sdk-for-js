@@ -62,7 +62,7 @@
     "tslib": "^2.2.0"
   },
   "devDependencies": {
-    "@azure/core-rest-pipeline": "^1.1.0",
+    "@azure/core-rest-pipeline": "^1.2.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@microsoft/api-extractor": "7.13.2",
