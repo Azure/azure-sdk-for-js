@@ -221,8 +221,8 @@ export function convertRequestForMetrics(
 export function convertResponseForMetrics(
   generatedResponse: GeneratedMetricsListResponse
 ): MetricsQueryResult {
-  const metrics: Metric[] = generatedResponse.value.map((metric: GeneratedMetric) => {
-    return {
+  let metrics: Metric[] = generatedResponse.value.map((metric: GeneratedMetric) => {
+    let metricObject = {
       ...metric,
       name: metric.name.value,
       description: metric.displayDescription,
@@ -237,6 +237,8 @@ export function convertResponseForMetrics(
           }
       )
     };
+    delete metricObject.displayDescription;
+    return metricObject;
   });
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars -- eslint doesn't recognize that the extracted variables are prefixed with '_' and are purposefully unused.
@@ -290,10 +292,12 @@ export function convertResponseForMetricsDefinitions(
     const { name, dimensions, ...rest } = genDef;
 
     const response: MetricDefinition = {
-      ...rest,
-      description: rest.displayDescription
+      ...rest
     };
 
+    if (rest.displayDescription) {
+      response.description = rest.displayDescription;
+    }
     if (name?.value) {
       response.name = name.value;
     }
