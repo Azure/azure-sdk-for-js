@@ -36,6 +36,7 @@ describe("ManagedIdentityCredential", function() {
     delete process.env.IDENTITY_SERVER_THUMBPRINT;
     delete process.env.IMDS_ENDPOINT;
     delete process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST;
+    delete process.env.AZURE_MANAGED_IDENTITY_CLIENT_ID;
     testContext = await prepareIdentityTests({});
     sendCredentialRequests = testContext.sendCredentialRequests;
   });
@@ -49,6 +50,7 @@ describe("ManagedIdentityCredential", function() {
     process.env.IDENTITY_SERVER_THUMBPRINT = env.IDENTITY_SERVER_THUMBPRINT;
     process.env.IMDS_ENDPOINT = env.IMDS_ENDPOINT;
     process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST = env.AZURE_POD_IDENTITY_AUTHORITY_HOST;
+    process.env.AZURE_MANAGED_IDENTITY_CLIENT_ID = env.AZURE_MANAGED_IDENTITY_CLIENT_ID;
     await testContext.restore();
   });
 
@@ -73,6 +75,37 @@ describe("ManagedIdentityCredential", function() {
 
     assert.equal(authRequest.method, "GET");
     assert.equal(query.get("client_id"), "client");
+    assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
+    assert.ok(authRequest.url.startsWith(imdsHost), "URL does not start with expected host");
+    assert.ok(
+      authRequest.url.indexOf(`api-version=${imdsApiVersion}`) > -1,
+      "URL does not have expected version"
+    );
+  });
+
+  it("supports the AZURE_MANAGED_IDENTITY_CLIENT_ID environment variable", async function() {
+    process.env.AZURE_MANAGED_IDENTITY_CLIENT_ID = "environment_client";
+
+    const authDetails = await sendCredentialRequests({
+      scopes: ["https://service/.default"],
+      credential: new ManagedIdentityCredential(),
+      insecureResponses: [
+        createResponse(200), // IMDS Endpoint ping
+        createResponse(200, {
+          access_token: "token",
+          expires_on: "06/20/2019 02:57:58 +00:00"
+        })
+      ]
+    });
+
+    // The first request is the IMDS ping.
+    // The second one tries to authenticate against IMDS once we know the endpoint is available.
+    const authRequest = authDetails.requests[1];
+
+    const query = new URLSearchParams(authRequest.url.split("?")[1]);
+
+    assert.equal(authRequest.method, "GET");
+    assert.equal(query.get("client_id"), process.env.AZURE_MANAGED_IDENTITY_CLIENT_ID);
     assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
     assert.ok(authRequest.url.startsWith(imdsHost), "URL does not start with expected host");
     assert.ok(

@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- The `ManagedIdentityCredential` now suppports specifying the Client ID through the `AZURE_MANAGED_IDENTITY_CLIENT_ID` environment variable.
+
 ### Breaking Changes
 
 ### Bugs Fixed

@@ -35,12 +35,16 @@ export class ManagedIdentityCredential implements TokenCredential {
    * Creates an instance of ManagedIdentityCredential with the client ID of a
    * user-assigned identity, or app registration (when working with AKS pod-identity).
    *
+   * If the `clientId` is not specified, the `AZURE_MANAGED_IDENTITY_CLIENT_ID` environment variable will be used.
+   *
    * @param clientId - The client ID of the user-assigned identity, or app registration (when working with AKS pod-identity).
    * @param options - Options for configuring the client which makes the access token request.
    */
   constructor(clientId: string, options?: TokenCredentialOptions);
   /**
-   * Creates an instance of ManagedIdentityCredential
+   * Creates an instance of ManagedIdentityCredential.
+   *
+   * If the `clientId` is not specified, the `AZURE_MANAGED_IDENTITY_CLIENT_ID` environment variable will be used.
    *
    * @param options - Options for configuring the client which makes the access token request.
    */
@@ -58,6 +62,9 @@ export class ManagedIdentityCredential implements TokenCredential {
       this.clientId = clientIdOrOptions;
       this.identityClient = new IdentityClient(options);
     } else {
+      if (process.env.AZURE_MANAGED_IDENTITY_CLIENT_ID) {
+        this.clientId = process.env.AZURE_MANAGED_IDENTITY_CLIENT_ID;
+      }
       // options only constructor
       this.identityClient = new IdentityClient(clientIdOrOptions);
     }
