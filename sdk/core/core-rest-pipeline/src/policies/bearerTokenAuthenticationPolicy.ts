@@ -90,8 +90,9 @@ export interface BearerTokenAuthenticationPolicyOptions {
 
 /**
  * Default authorize request handler
+ * @internal
  */
-async function defaultAuthorizeRequest(options: AuthorizeRequestOptions): Promise<void> {
+export async function defaultAuthorizeRequest(options: AuthorizeRequestOptions): Promise<void> {
   const { scopes, getAccessToken, request } = options;
   const getTokenOptions: GetTokenOptions = {
     abortSignal: request.abortSignal,

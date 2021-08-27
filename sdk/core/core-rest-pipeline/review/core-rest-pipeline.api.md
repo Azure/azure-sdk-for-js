@@ -29,6 +29,16 @@ export interface Agent {
 }
 
 // @public
+export function armChallengeAuthenticationPolicy(options: ARMChallengeAuthenticationPolicyOptions): PipelinePolicy;
+
+// @public
+export const ARMChallengeAuthenticationPolicyName = "armChallengeAuthenticationPolicy";
+
+// @public
+export interface ARMChallengeAuthenticationPolicyOptions extends BearerTokenAuthenticationPolicyOptions {
+}
+
+// @public
 export interface AuthorizeRequestOnChallengeOptions {
     getAccessToken: (scopes: string[], options: GetTokenOptions) => Promise<AccessToken | null>;
     request: PipelineRequest;

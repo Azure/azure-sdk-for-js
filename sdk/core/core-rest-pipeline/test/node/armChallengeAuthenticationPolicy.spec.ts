@@ -5,100 +5,14 @@ import { assert } from "chai";
 import * as sinon from "sinon";
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
-  bearerTokenAuthenticationPolicy,
-  AuthorizeRequestOnChallengeOptions,
+  armChallengeAuthenticationPolicy,
   createEmptyPipeline,
   createHttpHeaders,
   createPipelineRequest,
   HttpClient,
   PipelineResponse
 } from "../../src";
-import { TextDecoder } from "util";
-
-export interface TestChallenge {
-  scope: string;
-  claims: string;
-}
-
-let cachedChallenge: string | undefined;
-
-/**
- * Converts a uint8Array to a string.
- */
-export function uint8ArrayToString(ab: Uint8Array): string {
-  const decoder = new TextDecoder("utf-8");
-  return decoder.decode(ab);
-}
-
-/**
- * Encodes a string in base64 format.
- * @param value - The string to encode
- */
-export function encodeString(value: string): string {
-  return Buffer.from(value).toString("base64");
-}
-
-/**
- * Decodes a base64 string into a byte array.
- * @param value - The base64 string to decode
- */
-export function decodeString(value: string): Uint8Array {
-  return Buffer.from(value, "base64");
-}
-
-// Converts:
-//     Bearer a="b", c="d", Bearer d="e", f="g"
-// Into:
-//     [ { a: 'b', c: 'd' }, { d: 'e', f: 'g"' } ]
-// Important:
-//     Do not use this in production, as values might contain the strings we use to split things up.
-function parseCAEChallenge(challenges: string): any[] {
-  return challenges
-    .split("Bearer ")
-    .filter((x) => x)
-    .map((challenge) =>
-      `${challenge.trim()}, `
-        .split('", ')
-        .filter((x) => x)
-        .map((keyValue) => (([key, value]) => ({ [key]: value }))(keyValue.trim().split('="')))
-        .reduce((a, b) => ({ ...a, ...b }), {})
-    );
-}
-
-async function authorizeRequestOnChallenge(
-  options: AuthorizeRequestOnChallengeOptions
-): Promise<boolean> {
-  const { scopes } = options;
-
-  const challenge = options.response.headers.get("WWW-Authenticate");
-  if (!challenge) {
-    throw new Error("Missing challenge");
-  }
-  const challenges: TestChallenge[] = parseCAEChallenge(challenge) || [];
-
-  const parsedChallenge = challenges.find((x) => x.claims);
-  if (!parsedChallenge) {
-    throw new Error("Missing claims");
-  }
-  if (cachedChallenge !== challenge) {
-    cachedChallenge = challenge;
-  }
-
-  const accessToken = await options.getAccessToken(
-    parsedChallenge.scope ? [parsedChallenge.scope] : scopes,
-    {
-      ...options,
-      claims: uint8ArrayToString(Buffer.from(parsedChallenge.claims, "base64"))
-    } as GetTokenOptions
-  );
-
-  if (!accessToken) {
-    return false;
-  }
-
-  options.request.headers.set("Authorization", `Bearer ${accessToken.token}`);
-  return true;
-}
+import { encodeString } from "../../src/policies/armChallengeAuthenticationPolicy";
 
 class MockRefreshAzureCredential implements TokenCredential {
   public authCount = 0;
@@ -119,7 +33,7 @@ class MockRefreshAzureCredential implements TokenCredential {
   }
 }
 
-describe("bearerTokenAuthenticationPolicy with challenge", function() {
+describe("armChallengeAuthenticationPolicy with challenge", function() {
   let clock: sinon.SinonFakeTimers;
 
   beforeEach(() => {
@@ -161,7 +75,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
 
     const pipeline = createEmptyPipeline();
     let firstRequest: boolean = true;
-    const bearerPolicy = bearerTokenAuthenticationPolicy({
+    const bearerPolicy = armChallengeAuthenticationPolicy({
       // Intentionally left empty, as it should be replaced by the challenge.
       scopes: [],
       credential,
@@ -174,8 +88,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
             const token = await getAccessToken([], {});
             request.headers.set("Authorization", `Bearer ${token}`);
           }
-        },
-        authorizeRequestOnChallenge
+        }
       }
     });
     pipeline.addPolicy(bearerPolicy);
@@ -270,7 +183,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
     const pipeline = createEmptyPipeline();
     let firstRequest: boolean = true;
     let previousToken: AccessToken | null;
-    const bearerPolicy = bearerTokenAuthenticationPolicy({
+    const bearerPolicy = armChallengeAuthenticationPolicy({
       // Intentionally left empty, as it should be replaced by the challenge.
       scopes: [],
       credential,
@@ -288,8 +201,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
             }
             request.headers.set("Authorization", `Bearer ${previousToken.token}`);
           }
-        },
-        authorizeRequestOnChallenge
+        }
       }
     });
     pipeline.addPolicy(bearerPolicy);
@@ -344,7 +256,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
 
     const pipeline = createEmptyPipeline();
     let firstRequest: boolean = true;
-    const bearerPolicy = bearerTokenAuthenticationPolicy({
+    const bearerPolicy = armChallengeAuthenticationPolicy({
       // Intentionally left empty, as it should be replaced by the challenge.
       scopes: [],
       credential,
@@ -357,8 +269,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
             const token = await getAccessToken([], {});
             request.headers.set("Authorization", `Bearer ${token}`);
           }
-        },
-        authorizeRequestOnChallenge
+        }
       }
     });
     pipeline.addPolicy(bearerPolicy);

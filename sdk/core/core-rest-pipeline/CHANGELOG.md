@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added a new policy to parse [Continuous Access Evaluation](https://docs.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) challenges from the ARM SDK clients: `armChallengeAuthenticationPolicy`.
+
 ### Breaking Changes
 
 ### Bugs Fixed
