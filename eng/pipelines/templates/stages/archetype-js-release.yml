@@ -221,6 +221,9 @@ stages:
                           CloseAfterOpenForTesting: '${{ parameters.TestPipeline }}'
 
           - ${{if and(eq(variables['Build.Reason'], 'Manual'), eq(variables['System.TeamProject'], 'internal'))}}:
+            - pwsh: |
+                $result = eng/scripts/get-npm-tags.ps1 -packageArtifact $(Package.Archive) -workingDirectory $(System.DefaultWorkingDirectory)/temp
+                echo "##vso[task.setvariable variable=Tag]$($result.Tag)"
             - template: /eng/pipelines/templates/jobs/smoke.tests.yml
               parameters:
                 Daily: false
