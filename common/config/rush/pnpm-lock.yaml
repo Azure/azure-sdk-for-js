@@ -1655,10 +1655,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-FGa1F62FT09qcrueBA6qYTrJPVDzah9a+493+o2PCXsesWHIn27G98TsSMs3WPNbZIEj4+VJf6saSFpvD+3Zsw==
-  /@types/query-string/6.2.0:
-    dev: false
-    resolution:
-      integrity: sha512-dnYqKg7eZ+t7ZhCuBtwLxjqON8yXr27hiu3zXfPqxfJSbWUZNwwISE0BJUxghlcKsk4lZSp7bdFSJBJVNWBfmA==
   /@types/range-parser/1.2.4:
     dev: false
     resolution:
@@ -3841,6 +3837,16 @@ packages:
       node: '>= 6'
     resolution:
       integrity: sha512-RHkBKtLWUVwd7SqRIvCZMEvAMoGUp0XU+seQiZejj0COz3RI3hWP4sCv3gZWWLjJTd7rGwcsF5eKZGii0r/hbg==
+  /form-data/4.0.0:
+    dependencies:
+      asynckit: 0.4.0
+      combined-stream: 1.0.8
+      mime-types: 2.1.32
+    dev: false
+    engines:
+      node: '>= 6'
+    resolution:
+      integrity: sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==
   /forwarded/0.2.0:
     dev: false
     engines:
@@ -6409,16 +6415,6 @@ packages:
       node: '>=0.6'
     resolution:
       integrity: sha512-VCdBRNFTX1fyE7Nb6FYoURo/SPe62QCaAyzJvUjwRaIsc+NePBEniHlvxFmmX56+HZphIGtV0XeCirBtpDrTyQ==
-  /query-string/5.1.1:
-    dependencies:
-      decode-uri-component: 0.2.0
-      object-assign: 4.1.1
-      strict-uri-encode: 1.1.0
-    dev: false
-    engines:
-      node: '>=0.10.0'
-    resolution:
-      integrity: sha512-gjWOsm2SoGlgLEdAGt7a6slVOk9mGiXmPFMqrEhLQ68rhQuBnpfs3+EmlvqKyxnCo9/PPlF+9MtY02S1aFg+Jw==
   /querystring/0.2.0:
     deprecated: The querystring API is considered Legacy. new code should use the URLSearchParams API instead.
     dev: false
@@ -7290,12 +7286,6 @@ packages:
       node: '>=8.0'
     resolution:
       integrity: sha512-OG79qm3AujAM9ImoqgWEY1xG4HX+Lw+yY6qZj9R1K2mhF5bEmQ849wvrb+4vt4jLMLzwXttJlQbOdPOQVRv7DQ==
-  /strict-uri-encode/1.1.0:
-    dev: false
-    engines:
-      node: '>=0.10.0'
-    resolution:
-      integrity: sha1-J5siXfHVgrH1TmWt3UNS4Y+qBxM=
   /string-argv/0.3.1:
     dev: false
     engines:
@@ -9664,7 +9654,7 @@ packages:
       eslint: 7.32.0
       express: 4.17.1
       fetch-mock: 9.11.0_node-fetch@2.6.1
-      form-data: 3.0.1
+      form-data: 4.0.0
       glob: 7.1.7
       karma: 6.3.4
       karma-chai: 0.1.0_chai@4.3.4+karma@6.3.4
@@ -9700,7 +9690,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-g0XdKxRB/MdeDKtbcvPMRuAZQz8gSvv0LmimPVBiqie6cjRk//IlRQ6jdCT8WR5m9kBV3k9iuGi3BuGjifaEbw==
+      integrity: sha512-6dEqRpboot9581TA/dGSTJ48SL1aYtSUjN8iAYca3fwnxbxx+RgRgAUQkfNa8G+AnRbP3AKTGLY1pQV1rv4aDQ==
       tarball: file:projects/core-http.tgz
     version: 0.0.0
   file:projects/core-lro.tgz:
@@ -9790,7 +9780,7 @@ packages:
       cross-env: 7.0.3
       downlevel-dts: 0.4.0
       eslint: 7.32.0
-      form-data: 3.0.1
+      form-data: 4.0.0
       http-proxy-agent: 4.0.1
       https-proxy-agent: 5.0.0
       inherits: 2.0.4
@@ -9820,7 +9810,7 @@ packages:
     dev: false
     name: '@rush-temp/core-rest-pipeline'
     resolution:
-      integrity: sha512-CxDUyMFbD3nyXoeLjiKWHE7k88ZPwuuId8NF0g5bLwn5I+TR2c6FHdYWmoo2g3Fv85Vdi+hhiyvob2z/EZVjkg==
+      integrity: sha512-yU0cVnVZqgRpjXEoM7jEqcw6GkcPpv8nNk1dXrmEssR1sql4JIDVpC/PHvt2mK7QHCMwMtKooQS7drskRFB0Eg==
       tarball: file:projects/core-rest-pipeline.tgz
     version: 0.0.0
   file:projects/core-tracing.tgz:
@@ -10491,7 +10481,6 @@ packages:
       keytar: 7.7.0
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      mock-fs: 4.14.0
       prettier: 1.19.1
       puppeteer: 10.2.0
       rimraf: 3.0.2
@@ -10504,7 +10493,7 @@ packages:
     dev: false
     name: '@rush-temp/identity-cache-persistence'
     resolution:
-      integrity: sha512-ejZjjvuA7bn2vnNbweUddzpo2gxK+MmZ8Ik2OadVCohfxZDMj6yars0IVIEdWyy/didQgxXJfrpwSbKPR0J79g==
+      integrity: sha512-abBg9C5Io0qJ3oB8xlWRY9vbdoC37neh10lKrPF3BO/ImBPW5wvjXvhVWvlP2KanKDgdlb8i8o+66sF9wCV4Sw==
       tarball: file:projects/identity-cache-persistence.tgz
     version: 0.0.0
   file:projects/identity-vscode.tgz:
@@ -10524,7 +10513,6 @@ packages:
       keytar: 7.7.0
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      mock-fs: 4.14.0
       prettier: 1.19.1
       puppeteer: 10.2.0
       rimraf: 3.0.2
@@ -10537,7 +10525,7 @@ packages:
     dev: false
     name: '@rush-temp/identity-vscode'
     resolution:
-      integrity: sha512-KZjlsTLU+xul5HxhXQXUBM5F53dRyafrD7a0lrBrhBnByqGIj5Touu+T44AwHhGy98aWHqIB84Ol2rVf9aZRRg==
+      integrity: sha512-Hd72kbCQ7ii3aMTf/hvNszHSqtlPXQb/zfPrHYHlkbBAx0487zEG08yYsOvZwOAWQZeySQkJa+Sr8vaLyJ0U2A==
       tarball: file:projects/identity-vscode.tgz
     version: 0.0.0
   file:projects/identity.tgz:
@@ -10725,7 +10713,6 @@ packages:
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
       '@types/node': 12.20.21
-      '@types/query-string': 6.2.0
       '@types/sinon': 9.0.11
       assert: 1.5.0
       chai: 4.3.4
@@ -10751,7 +10738,6 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       puppeteer: 10.2.0
-      query-string: 5.1.1
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -10767,7 +10753,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-certificates'
     resolution:
-      integrity: sha512-Q5YE/tawIsoW1FqD+IocA3e/wOvzOX+e7vVxMmcDzOCTCEIkeF3bSlR+wLCqYlcSVqIxcwmbkVQVciGdR4muXw==
+      integrity: sha512-RwdfeP0b8V6tk60hcseS9MmjKE7X6SmpvdPbPX7SIR2/RyN5B+usxZZ2NqNJeeevFck6V6BxYIBOWA/egnzMWQ==
       tarball: file:projects/keyvault-certificates.tgz
     version: 0.0.0
   file:projects/keyvault-common.tgz:
@@ -10797,7 +10783,6 @@ packages:
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
       '@types/node': 12.20.21
-      '@types/query-string': 6.2.0
       '@types/sinon': 9.0.11
       assert: 1.5.0
       chai: 4.3.4
@@ -10825,7 +10810,6 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       puppeteer: 10.2.0
-      query-string: 5.1.1
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -10841,7 +10825,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-keys'
     resolution:
-      integrity: sha512-Yy/GVj1lRXeYb+42CeWl74Wt6F7SzAkHCfcvamkhff/og7vqq2dhvP70zLipVADCF8qhdaPE/LK6tkApWP4Hww==
+      integrity: sha512-mbAG8Hc1TeiW9TO/0PmJEQR+lt1Ij2F6S4q1PBJWe1aVGpvV0gQxm7RPVlFxoo7m1aIOQ6ZAjsXo1HwUcvKMjg==
       tarball: file:projects/keyvault-keys.tgz
     version: 0.0.0
   file:projects/keyvault-secrets.tgz:
@@ -10856,7 +10840,6 @@ packages:
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
       '@types/node': 12.20.21
-      '@types/query-string': 6.2.0
       '@types/sinon': 9.0.11
       assert: 1.5.0
       chai: 4.3.4
@@ -10882,7 +10865,6 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       puppeteer: 10.2.0
-      query-string: 5.1.1
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -10898,7 +10880,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-secrets'
     resolution:
-      integrity: sha512-GNupPruMoN/gCYnSpvvcbBHb5B526EcgqdAFQIaenRisDeqUUcfD4qTfImV+Yzd1Sabm1o7rlVHlaQV/fIEVVA==
+      integrity: sha512-Qeo8N9T/5tWS1rR7//fwnxUdVpT0tiyUEbnS3byJxxklysXjdqrzZhlGiIhdvRwgFIY3biLiYLDEIrIcFS9pOw==
       tarball: file:projects/keyvault-secrets.tgz
     version: 0.0.0
   file:projects/logger.tgz:
@@ -11928,7 +11910,6 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.21
-      '@types/query-string': 6.2.0
       assert: 1.5.0
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -11957,7 +11938,6 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       puppeteer: 10.2.0
-      query-string: 5.1.1
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -11973,7 +11953,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-file-datalake'
     resolution:
-      integrity: sha512-WCeWtnILO3Ajpdxx50PomsapVDwM54SkB+S/ynC/+njFJZ3Pj48r3kPTzY8ePaKWh7sc5fPMRIc/zhGGVNTjpg==
+      integrity: sha512-pgO1w/G2wKN+qS7zZ1C6Eu5GE5mr8tnLHPnNh6iqDKb+QeefwL0/i5vfPN3b0dXPW//s24K7QzJzPO3S/X3y2w==
       tarball: file:projects/storage-file-datalake.tgz
     version: 0.0.0
   file:projects/storage-file-share.tgz:
@@ -12650,7 +12630,6 @@ packages:
       '@types/jsonwebtoken': 8.5.5
       '@types/mocha': 7.0.2
       '@types/node': 12.20.21
-      '@types/query-string': 6.2.0
       '@types/sinon': 9.0.11
       assert: 1.5.0
       chai: 4.3.4
@@ -12677,7 +12656,6 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       puppeteer: 10.2.0
-      query-string: 5.1.1
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -12692,7 +12670,7 @@ packages:
     dev: false
     name: '@rush-temp/web-pubsub-express'
     resolution:
-      integrity: sha512-DWN+tvHBvOlkLvyk+79T7i+4xq3iVPaPT85kIscy3ekYgFB5BHtnUKRrAMnKER8OgZCpiwaykIXL/Py7VZ/zBQ==
+      integrity: sha512-TPhljtupasgCaq4ORSBcoBeEBxj9xq51XZsd0sMD416cqmyf3+p3pk+Zh/9jwiFKbPRUJ/ng77bKmaWzFyIplg==
       tarball: file:projects/web-pubsub-express.tgz
     version: 0.0.0
   file:projects/web-pubsub.tgz:
@@ -12709,7 +12687,6 @@ packages:
       '@types/jsonwebtoken': 8.5.5
       '@types/mocha': 7.0.2
       '@types/node': 12.20.21
-      '@types/query-string': 6.2.0
       '@types/sinon': 9.0.11
       chai: 4.3.4
       cross-env: 7.0.3
@@ -12735,7 +12712,6 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       puppeteer: 10.2.0
-      query-string: 5.1.1
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -12750,7 +12726,7 @@ packages:
     dev: false
     name: '@rush-temp/web-pubsub'
     resolution:
-      integrity: sha512-VL4BhP6Jp6xNgbpo4OZ4SFYdCBiTdoMCGzsoy4S0aJLqAxtSzh8qsVA1KJ+HvdeHVcjLdJw13Jdjb/gbCzlCKQ==
+      integrity: sha512-eBs+8SrQtA8RFex4gaAX5AOUb/EAfnr9xXrRJapyn2DkguDc4KkkcFyHna29FTAJ/+em4SekK8n8BPA4TIIxgg==
       tarball: file:projects/web-pubsub.tgz
     version: 0.0.0
 specifiers:

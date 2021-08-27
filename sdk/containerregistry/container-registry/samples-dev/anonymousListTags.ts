@@ -11,7 +11,7 @@
 // in a public registry that belongs to someone else. In this case, the user would need to access
 // the registry anonymously. Anonymous access allows a user to list all the collections there, but
 // they wouldn't have permissions to modify or delete any of the images in the registry.
-import { ContainerRegistryClient } from "@azure/container-registry";
+import { ContainerRegistryClient, KnownContainerRegistryAudience } from "@azure/container-registry";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -20,7 +20,9 @@ async function main() {
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
 
   // Create a new ContainerRegistryClient for anonymous access
-  const client = new ContainerRegistryClient(endpoint);
+  const client = new ContainerRegistryClient(endpoint, {
+    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud
+  });
 
   // Obtain a RegistryArtifact object to get access to image operations
   const image = client.getArtifact("library/hello-world", "latest");
