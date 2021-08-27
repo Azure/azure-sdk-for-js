@@ -26,8 +26,8 @@
     "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "test:browser": "npm run clean && npm run build && npm run integration-test:browser",
-    "test:node": "npm run clean && npm run build:test && npm run integration-test:node",
-    "test": "npm run clean && npm run build:test && npm run integration-test",
+    "test:node": "npm run clean && npm run build && npm run integration-test:node",
+    "test": "npm run clean && npm run build && npm run integration-test",
     "docs": "echo Skipped."
   },
   "files": [

@@ -45,7 +45,7 @@
     "lint": "eslint package.json src --ext .ts",
     "lint:fix": "eslint package.json src --ext .ts --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
-    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
+    "test:browser": "npm run clean && npm run build && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build && npm run unit-test:node && rollup -c 2>&1 && npm run unit-test:browser && npm run integration-test",
     "unit-test:browser": "echo skipped",

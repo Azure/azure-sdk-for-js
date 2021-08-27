@@ -30,9 +30,9 @@
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 --full-trace --exclude \"dist-esm/**/browser/**/*.spec.js\" \"dist-esm/**/*.spec.js\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
-    "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
-    "test": "npm run clean && npm run build:test && npm run unit-test",
+    "test:browser": "npm run clean && npm run build && npm run unit-test:browser",
+    "test:node": "npm run clean && npm run build && npm run unit-test:node",
+    "test": "npm run clean && npm run build && npm run unit-test",
     "docs": "echo Skipped."
   },
   "files": [
