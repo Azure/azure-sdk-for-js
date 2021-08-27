@@ -4,8 +4,7 @@ import AbortController from "node-abort-controller";
 import {
   createPipelineRequest,
   createHttpHeaders,
-  PipelineResponse,
-  bearerTokenAuthenticationPolicy
+  PipelineResponse
 } from "@azure/core-rest-pipeline";
 import { trimSlashes } from "../common";
 import { Constants } from "../common/constants";
