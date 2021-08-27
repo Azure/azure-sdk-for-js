@@ -119,7 +119,7 @@
     "@azure/core-tracing": "1.0.0-preview.13",
     "@azure/logger": "^1.0.0",
     "@types/node-fetch": "^2.5.0",
-    "@types/tunnel": "^0.0.1",
+    "@types/tunnel": "^0.0.3",
     "form-data": "^3.0.0",
     "node-fetch": "^2.6.0",
     "process": "^0.11.10",

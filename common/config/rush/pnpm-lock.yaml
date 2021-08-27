@@ -1706,6 +1706,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-AOqu6bQu5MSWwYvehMXLukFHnupHrpZ8nvgae5Ggie9UwzDR1CCwoXgSSWNZJuyOlCdfdsWMA5F2LlmvyoTv8A==
+  /@types/tunnel/0.0.3:
+    dependencies:
+      '@types/node': 12.20.21
+    dev: false
+    resolution:
+      integrity: sha512-sOUTGn6h1SfQ+gbgqC364jLFBw2lnFqkgF3q0WovEHRLMrVD1sd5aufqi/aJObLekJO+Aq5z646U4Oxy6shXMA==
   /@types/underscore/1.11.3:
     dev: false
     resolution:
@@ -3570,7 +3576,7 @@ packages:
       integrity: sha512-fjquC59cD7CyW6urNXK0FBufkZcoiGG80wTuPujX590cB5Ttln20E2UB4S/WARVqhXffZl2LNgS+gQdPIIim/g==
   /extract-zip/2.0.1:
     dependencies:
-      debug: 4.3.1
+      debug: 4.3.2
       get-stream: 5.2.0
       yauzl: 2.10.0
     dev: false
@@ -9648,7 +9654,7 @@ packages:
       '@types/node-fetch': 2.5.12
       '@types/sinon': 9.0.11
       '@types/tough-cookie': 4.0.1
-      '@types/tunnel': 0.0.1
+      '@types/tunnel': 0.0.3
       '@types/uuid': 8.3.1
       '@types/xml2js': 0.4.9
       babel-runtime: 6.26.0
@@ -9694,7 +9700,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-Ujq75kK/8PfJufRYz170HH4KuCmfnEWz2x/GoCf17Cya5XL9p5Vh/10h4bkm1JKEm3skqXzNoBw8jlZ6uZyysw==
+      integrity: sha512-g0XdKxRB/MdeDKtbcvPMRuAZQz8gSvv0LmimPVBiqie6cjRk//IlRQ6jdCT8WR5m9kBV3k9iuGi3BuGjifaEbw==
       tarball: file:projects/core-http.tgz
     version: 0.0.0
   file:projects/core-lro.tgz:
@@ -9984,7 +9990,7 @@ packages:
     dev: false
     name: '@rush-temp/cosmos'
     resolution:
-      integrity: sha512-ccjG0WDeeY6YNl3ls3WPXeotL6A77FlJRlru9NBbNfJCTQnmyfHpEc/8V08uaNiePCL78AG8z8SaXM/5hvUD1g==
+      integrity: sha512-fjiy+XlD5zGyFazUprV/GZUHVPhgXj4aXcKF0Z9D1hTt1U408IUA6WKHMIEEMOGtL4dFdlontX2luFoxMWxtNA==
       tarball: file:projects/cosmos.tgz
     version: 0.0.0
   file:projects/data-tables.tgz:
@@ -12387,7 +12393,7 @@ packages:
       '@types/mock-fs': 4.10.0
       '@types/mock-require': 2.0.0
       '@types/nise': 1.4.0
-      '@types/node': 12.20.20
+      '@types/node': 12.20.21
       chai: 4.3.4
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -12547,7 +12553,7 @@ packages:
       '@types/mock-fs': 4.10.0
       '@types/mock-require': 2.0.0
       '@types/nise': 1.4.0
-      '@types/node': 12.20.20
+      '@types/node': 12.20.21
       '@types/uuid': 8.3.1
       chai: 4.3.4
       dotenv: 8.6.0
