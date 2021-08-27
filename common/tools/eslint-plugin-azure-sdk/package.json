@@ -36,7 +36,7 @@
     "dist/"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.json && prettier --write dist/**/*.{js,json,md}",
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig.build.json && prettier --write dist/**/*.{js,json,md}",
     "build:samples": "echo Skipped.",
     "clean": "rimraf dist/",
     "format": "prettier --write \"./**/*.{ts,json,md}\"",
@@ -50,7 +50,7 @@
     "unit-test:node": "mocha --require source-map-support/register --timeout 10000 --full-trace --recursive dist/tests",
     "unit-test:browser": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "test": "npm run clean && npm run build:test && npm run unit-test",
+    "test": "npm run clean && npm run build && npm run unit-test",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "engines": {
