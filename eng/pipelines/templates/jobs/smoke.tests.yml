@@ -168,7 +168,7 @@ jobs:
         env:
           # Pipelines yaml does not handle transferring non-string parameter types
           # into script blocks very well, so this is the best available workaround.
-          SMOKE_PACKAGE_${{ parameters.Artifact }}: "@azure/${{ replace(parameters.Artifact.name, 'azure-', '') }}"
+          SMOKE_PACKAGE_${{ parameters.Artifact.safeName }}: "@azure/${{ replace(parameters.Artifact.name, 'azure-', '') }}"
 
       - pwsh: Get-Content ./run-manifest.json
         workingDirectory: $(Build.SourcesDirectory)/common/smoke-test
