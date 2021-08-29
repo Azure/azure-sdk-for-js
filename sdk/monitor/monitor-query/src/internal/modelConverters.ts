@@ -289,14 +289,14 @@ export function convertResponseForMetricsDefinitions(
   generatedResponse: Array<GeneratedMetricDefinition>
 ): Array<MetricDefinition> {
   const definitions: Array<MetricDefinition> = generatedResponse?.map((genDef) => {
-    const { name, dimensions, ...rest } = genDef;
+    const { name, dimensions, displayDescription, ...rest } = genDef;
 
     const response: MetricDefinition = {
       ...rest
     };
 
-    if (rest.displayDescription) {
-      response.description = rest.displayDescription;
+    if (displayDescription) {
+      response.description = displayDescription;
     }
     if (name?.value) {
       response.name = name.value;
