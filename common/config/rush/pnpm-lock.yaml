@@ -134,7 +134,7 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-/Q66I3hoR/7UjxRfv4eIfPv0z7GAblycAE9G1z9JDOghbDiZJk3JPW0YSuVyujU0QNDqG1l9q2RSOlcQkTjR1g==
-  /@azure/communication-signaling/1.0.0-beta.3:
+  /@azure/communication-signaling/1.0.0-beta.8:
     dependencies:
       '@azure/core-http': 1.2.3
       '@azure/core-tracing': 1.0.0-preview.9
@@ -146,7 +146,7 @@ packages:
     engines:
       node: '>=8.0.0'
     resolution:
-      integrity: sha512-WargzA8PMc9SEvQpjhM0vVq/HB0wGUScplW8Us9nEFLHy/ZvgVjbRHlCALCa/tlU/Pv3RgZhk7XuPfwip17MCQ==
+      integrity: sha512-MGWfGAimafIxeK7bsUMAKNKlSTgOvE6TheN6rMjekIQyoPJ7/Tcdu8QY5YJVW1u8F4ODyh6sFIJWVKjHLGcbOA==
   /@azure/core-asynciterator-polyfill/1.0.0:
     dev: false
     resolution:
@@ -2153,7 +2153,7 @@ packages:
     resolution:
       integrity: sha512-ZwrFkGJxUR3EIoXtO+yVE69Eb7KlixbaeAWfBQB9vVsNn/o+Yw69gBWSSDK825hQNdN+wF8zELf3dFNl/kxkUA==
   /core-js/2.6.12:
-    deprecated: core-js@<3 is no longer maintained and not recommended for usage due to the number of issues. Please, upgrade your dependencies to the actual version of core-js@3.
+    deprecated: core-js@<3.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Please, upgrade your dependencies to the actual version of core-js.
     dev: false
     requiresBuild: true
     resolution:
@@ -5833,12 +5833,14 @@ packages:
     resolution:
       integrity: sha512-gjWOsm2SoGlgLEdAGt7a6slVOk9mGiXmPFMqrEhLQ68rhQuBnpfs3+EmlvqKyxnCo9/PPlF+9MtY02S1aFg+Jw==
   /querystring/0.2.0:
+    deprecated: The querystring API is considered Legacy. new code should use the URLSearchParams API instead.
     dev: false
     engines:
       node: '>=0.4.x'
     resolution:
       integrity: sha1-sgmEkgO7Jd+CDadW50cAWHhSFiA=
   /querystring/0.2.1:
+    deprecated: The querystring API is considered Legacy. new code should use the URLSearchParams API instead.
     dev: false
     engines:
       node: '>=0.4.x'
@@ -7250,6 +7252,7 @@ packages:
     resolution:
       integrity: sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=
   /uuid/3.4.0:
+    deprecated: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
     dev: false
     hasBin: true
     resolution:
@@ -7969,7 +7972,7 @@ packages:
   file:projects/communication-chat.tgz:
     dependencies:
       '@azure/communication-identity': 1.0.0-beta.5
-      '@azure/communication-signaling': 1.0.0-beta.3
+      '@azure/communication-signaling': 1.0.0-beta.8
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
@@ -8019,7 +8022,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-chat'
     resolution:
-      integrity: sha512-XM4moakFViGkpzzSOnMIkPfhELpfGp0yH6OnB8iG8KKw+8/a7IHr1E38fClhltnZ9++8saCVPWa6iCVShIYTkw==
+      integrity: sha512-24br7b/WwuFxMeutS2B16zW0f+T9Zm3Ucx3xULrARaDhZxhWQ1Htb16I/5ac1aLi9DxGjt9dWWyUiy9hvFeKBw==
       tarball: file:projects/communication-chat.tgz
     version: 0.0.0
   file:projects/communication-common.tgz:
@@ -8339,7 +8342,7 @@ packages:
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-eyOHHzpbpfkmQV1Y+yeJc/7AfA5CzcmKixGgq3Pl9b085yuNwmapn0vwt3xunyMfnUspXYJ4dBBUS1bG1g4LQg==
+      integrity: sha512-F0U7I1jwl6bFoqqzG2tGZgZ1SKEk2PKoKd+AYtV8cJQY7ixiIawVyqVRwOp7OfrqoiV11FsoctoFGM9xlinmbQ==
       tarball: file:projects/core-amqp.tgz
     version: 0.0.0
   file:projects/core-asynciterator-polyfill.tgz:
@@ -8944,7 +8947,7 @@ packages:
     dev: false
     name: '@rush-temp/dev-tool'
     resolution:
-      integrity: sha512-MFQZmnuf8q7ZvEXEXDpNFFn2ZUBhNn7MPgAUg0etnL6Hu2RxL5eM1p74Qama+EfHkYJrwDvS8ZQGsWmRifK2pQ==
+      integrity: sha512-rGtMfFPo8M7iE/unoqu6pixlEPyvRqJvFT7CE8yAnJR0MzVLOv+joUAkAuzH+iAP86N20cqLtR0Cax0fqjzFhw==
       tarball: file:projects/dev-tool.tgz
     version: 0.0.0
   file:projects/digital-twins-core.tgz:

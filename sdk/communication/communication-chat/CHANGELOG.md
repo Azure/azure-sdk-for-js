@@ -1,5 +1,8 @@
 # Release History
 
+## 1.0.1 (2021-08-30)
+- Updated to @azure/communication-signaling@1.0.0-beta.8.
+
 ## 1.0.0 (2021-03-29)
 
 ### Breaking Changes
