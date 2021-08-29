@@ -221,8 +221,8 @@ export function convertRequestForMetrics(
 export function convertResponseForMetrics(
   generatedResponse: GeneratedMetricsListResponse
 ): MetricsQueryResult {
-  let metrics: Metric[] = generatedResponse.value.map((metric: GeneratedMetric) => {
-    let metricObject = {
+  const metrics: Metric[] = generatedResponse.value.map((metric: GeneratedMetric) => {
+    const metricObject = {
       ...metric,
       name: metric.name.value,
       description: metric.displayDescription,
