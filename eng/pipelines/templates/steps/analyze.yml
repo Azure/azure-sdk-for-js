@@ -27,7 +27,7 @@ steps:
     parameters:
       SourceDirectory: $(Build.SourcesDirectory)
 
-  - ${{if ne(Skip.LinkCheck, 'true')}}:
+  - ${{if ne(variables['Skip.LinkCheck'], 'true')}}:
     - template: /eng/common/pipelines/templates/steps/verify-links.yml
       parameters:
         ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
