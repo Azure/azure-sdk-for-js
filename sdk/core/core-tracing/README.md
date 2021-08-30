@@ -20,9 +20,9 @@ By default, all libraries log with a `NoOpTracer` that takes no action. To enabl
 
 ### Span Propagation
 
-Core Tracing supports both automatic and manual span propagation. Automatic propagation is handled using OpenTelemetry's API and will work well in most scenarios.
+Core Tracing supports both automatic and manual span propagation. Automatic propagation is handled using OpenTelemetry's API and will work well in most scenarios when run in `Node.js`.
 
-For customers who require manual propagation, all client library operations accept a `tracingContext` option under `tracingOptions` which allows you to manually pass the current context to the Azure SDK client library.
+For customers who require manual propagation, or to provide context propagation in the browser, all client library operations accept a `tracingContext` option under `tracingOptions` which allows you to manually pass the current context to the Azure SDK client library.
 
 ### OpenTelemetry Compatibility
 
