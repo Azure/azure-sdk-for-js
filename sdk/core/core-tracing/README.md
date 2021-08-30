@@ -16,17 +16,17 @@ npm install @azure/core-tracing
 
 The `@azure/core-tracing` package supports enabling tracing for Azure SDK packages, using an [OpenTelemetry](https://opentelemetry.io/) `Tracer`.
 
-By default, all libraries log with a `NoOpTracer` that takes no action.
-To change this, you have to set a global tracer provider following the instructions in the [OpenTelemetry getting started guide](https://opentelemetry.io/docs/js/getting_started/nodejs).
+By default, all libraries log with a `NoOpTracer` that takes no action. To change this, you have to set a global tracer provider following the instructions in the [OpenTelemetry getting started guide](https://opentelemetry.io/docs/js/getting_started/nodejs).
 
 ### Span Propagation
 
 Core Tracing supports both automatic and manual span propagation. Automatic propagation is handled using OpenTelemetry's API and will work well in most scenarios.
+
 For customers who require manual propagation, all client library operations accept a `tracingContext` option under `tracingOptions` which allows you to manually pass the current context to the Azure SDK client library.
 
 ### OpenTelemetry Compatibility
 
-Both the `@azure/core-tracing` and Microsoft's [Application Insights](https://www.npmjs.com/package/applicationinsights) use OpenTelemetry to provide tracing. As OpenTelemetry iterated on their API towards their 1.0 GA release, both libraries were updated to match.
+Both the Azure SDK and Microsoft's [Application Insights](https://www.npmjs.com/package/applicationinsights) use OpenTelemetry to provide tracing. As OpenTelemetry iterated on their API towards their 1.0 GA release, both libraries were updated to match.
 
 Some incompatibility between the two libraries is due to mismatches between the versions used in the two libraries when the two are used side-by-side. For folks who are using both libraries in the same application, we recommend using the same version of OpenTelemetry for both libraries.
 
@@ -86,8 +86,8 @@ To resolve this, please ensure that all Azure client libraries are using a compa
 
 > Ideally you'd want to use OpenTelemetry 1.0.0 or higher.
 
-If you are using `npm` you may run `npm ls @opentelemetry/api` to see the version of OpenTelemetry you are using and which client libraries are using it.
-For `yarn` users, `yarn why @opentelemetry/api` will show you the version of OpenTelemetry you are using and which client libraries are using it.
+- If you are using `npm` you may run `npm ls @opentelemetry/api` to see the version of OpenTelemetry you are using and which client libraries are using it.
+- For `yarn` users, `yarn why @opentelemetry/api` will show you the version of OpenTelemetry you are using and which client libraries are using it.
 
 You may then upgrade client libraries as needed to ensure compatibility. Things should work as expected when the above command returns a version of OpenTelemetry that is >= 1.0.0.
 
