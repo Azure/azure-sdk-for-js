@@ -247,6 +247,42 @@ export class IntegrationRuntimes {
   }
 
   /**
+   * Gets the list of outbound network dependencies for a given Azure-SSIS integration runtime.
+   * @param resourceGroupName The resource group name.
+   * @param factoryName The factory name.
+   * @param integrationRuntimeName The integration runtime name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.IntegrationRuntimesListOutboundNetworkDependenciesEndpointsResponse>
+   */
+  listOutboundNetworkDependenciesEndpoints(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationRuntimesListOutboundNetworkDependenciesEndpointsResponse>;
+  /**
+   * @param resourceGroupName The resource group name.
+   * @param factoryName The factory name.
+   * @param integrationRuntimeName The integration runtime name.
+   * @param callback The callback
+   */
+  listOutboundNetworkDependenciesEndpoints(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, callback: msRest.ServiceCallback<Models.IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse>): void;
+  /**
+   * @param resourceGroupName The resource group name.
+   * @param factoryName The factory name.
+   * @param integrationRuntimeName The integration runtime name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listOutboundNetworkDependenciesEndpoints(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse>): void;
+  listOutboundNetworkDependenciesEndpoints(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse>, callback?: msRest.ServiceCallback<Models.IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse>): Promise<Models.IntegrationRuntimesListOutboundNetworkDependenciesEndpointsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        factoryName,
+        integrationRuntimeName,
+        options
+      },
+      listOutboundNetworkDependenciesEndpointsOperationSpec,
+      callback) as Promise<Models.IntegrationRuntimesListOutboundNetworkDependenciesEndpointsResponse>;
+  }
+
+  /**
    * Gets the on-premises integration runtime connection information for encrypting the on-premises
    * data source credentials.
    * @param resourceGroupName The resource group name.
@@ -815,6 +851,32 @@ const getStatusOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.IntegrationRuntimeStatusResponse
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listOutboundNetworkDependenciesEndpointsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/outboundNetworkDependenciesEndpoints",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.factoryName,
+    Parameters.integrationRuntimeName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse
     },
     default: {
       bodyMapper: Mappers.CloudError

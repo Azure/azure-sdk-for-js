@@ -13,7 +13,7 @@ import * as msRestAzure from "@azure/ms-rest-azure-js";
 import { TokenCredential } from "@azure/core-auth";
 
 const packageName = "@azure/arm-datafactory";
-const packageVersion = "7.9.0";
+const packageVersion = "8.0.0";
 
 export class DataFactoryManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials | TokenCredential;
