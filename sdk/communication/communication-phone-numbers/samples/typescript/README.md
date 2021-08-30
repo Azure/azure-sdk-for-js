@@ -61,11 +61,11 @@ npx cross-env COMMUNICATION_CONNECTION_STRING="<connection string>" node dist/pu
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[purchasephonenumber]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-phone-numbers/samples/typescript/src/purchasePhoneNumber.ts
-[releasephonenumber]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-phone-numbers/samples/typescript/src/releasePhoneNumber.ts
-[updatephonenumbercapabilities]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-phone-numbers/samples/typescript/src/updatePhoneNumberCapabilities.ts
-[getpurchasedphonenumber]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-phone-numbers/samples/typescript/src/getPurchasedPhoneNumber.ts
-[getpurchasedphonenumbers]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-phone-numbers/samples/typescript/src/getPurchasedPhoneNumbers.ts
+[purchasephonenumber]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-phone-numbers/samples/v1/typescript/src/purchasePhoneNumber.ts
+[releasephonenumber]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-phone-numbers/samples/v1/typescript/src/releasePhoneNumber.ts
+[updatephonenumbercapabilities]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-phone-numbers/samples/v1/typescript/src/updatePhoneNumberCapabilities.ts
+[getpurchasedphonenumber]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-phone-numbers/samples/v1/typescript/src/getPurchasedPhoneNumber.ts
+[getpurchasedphonenumbers]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-phone-numbers/samples/v1/typescript/src/getPurchasedPhoneNumbers.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-phone-numbers
 [azcomsvc]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource?tabs=windows&pivots=platform-azp
 [freesub]: https://azure.microsoft.com/free/

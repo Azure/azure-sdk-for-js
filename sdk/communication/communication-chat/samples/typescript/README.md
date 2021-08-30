@@ -59,9 +59,9 @@ npx cross-env COMMUNICATION_CONNECTION_STRING="<connection string>" node dist/th
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[thread-operations]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-chat/samples/typescript/src/threadOperations.ts
-[participants-operations]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-chat/samples/typescript/src/participantsOperations.ts
-[message-operations]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-chat/samples/typescript/src/messageOperations.ts
+[thread-operations]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-chat/samples/v1/typescript/src/threadOperations.ts
+[participants-operations]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-chat/samples/v1/typescript/src/participantsOperations.ts
+[message-operations]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-chat/samples/v1/typescript/src/messageOperations.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-chat
 [azcomsvc]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource?tabs=windows&pivots=platform-azp
 [freesub]: https://azure.microsoft.com/free/

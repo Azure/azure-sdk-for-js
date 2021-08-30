@@ -59,9 +59,9 @@ npx cross-env COMMUNICATION_CONNECTION_STRING="<connection string>" node dist/se
 - Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 - For a basic guide on how to configure Delivery Reporting for your SMS messages please refer to the [Handle SMS Events quickstart][handlesmsevents].
 
-[sendsms]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-sms/samples/typescript/src/sendSms.ts
-[sendsmswithoptions]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-sms/samples/typescript/src/sendSmsWithOptions.ts
-[usingaadauth]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-sms/samples/typescript/src/usingAadAuth.ts
+[sendsms]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-sms/samples/v1/typescript/src/sendSms.ts
+[sendsmswithoptions]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-sms/samples/v1/typescript/src/sendSmsWithOptions.ts
+[usingaadauth]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-sms/samples/v1/typescript/src/usingAadAuth.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-sms
 [azcomsvc]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource?tabs=windows&pivots=platform-azp
 [freesub]: https://azure.microsoft.com/free/
