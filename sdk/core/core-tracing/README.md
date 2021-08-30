@@ -16,7 +16,7 @@ npm install @azure/core-tracing
 
 The `@azure/core-tracing` package supports enabling tracing for Azure SDK packages, using an [OpenTelemetry](https://opentelemetry.io/) `Tracer`.
 
-By default, all libraries log with a `NoOpTracer` that takes no action. To change this, you have to set a global tracer provider following the instructions in the [OpenTelemetry getting started guide](https://opentelemetry.io/docs/js/getting_started/nodejs).
+By default, all libraries log with a `NoOpTracer` that takes no action. To enable tracing, you will need to set a global tracer provider following the instructions in the [OpenTelemetry getting started guide](https://opentelemetry.io/docs/js/getting_started/nodejs).
 
 ### Span Propagation
 
