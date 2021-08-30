@@ -71,8 +71,8 @@ export class LogsQueryClient {
    * Queries logs in a Log Analytics Workspace.
    *
    * @param workspaceId - The 'Workspace Id' for the Log Analytics Workspace
-   * @param query - A Log Analytics Query
-   * @param timespan - The timespan over which to query data. This is an ISO8601 time period value.  This timespan is applied in addition to any that are specified in the query expression.
+   * @param query - A Kusto query.
+   * @param timespan - The timespan over which to query data. This is an ISO8601 time period value. This timespan is applied in addition to any that are specified in the query expression.
    *  Some common durations can be found in the `Durations` object.
    * @param options - Options to adjust various aspects of the request.
    * @returns The result of the query.
@@ -114,10 +114,10 @@ export class LogsQueryClient {
   }
 
   /**
-   * Query logs with multiple queries, in a batch.
-   * @param batch - A batch of queries to run. Each query can be configured to run against separate workspaces.
+   * Query Logs with multiple queries, in a batch.
+   * @param batch - A batch of Kusto queries to execute. Each query can be configured to run against separate workspaces.
    * @param options - Options for querying logs in a batch.
-   * @returns The log query results for all the queries.
+   * @returns The Logs query results for all the queries.
    */
   async queryLogsBatch(
     batch: QueryLogsBatch,
