@@ -13,12 +13,18 @@ import {
 } from "@azure/core-rest-pipeline";
 import { env, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import { RecorderError, RecordingStateManager } from "./utils";
+import { getRealFakePairs } from "./utils/connectionStringHelpers";
 
 const paths = {
   playback: "/playback",
   record: "/record",
   start: "/start",
-  stop: "/stop"
+  stop: "/stop",
+  admin: "/admin",
+  addSanitizer: "/addSanitizer",
+  info: "/info",
+  available: "/available",
+  active: "/active"
 };
 
 /**
@@ -90,6 +96,63 @@ export class TestProxyHttpClient {
     return request;
   }
 
+  async transformsInfo(): Promise<string | null | undefined> {
+    if (this.recordingId !== undefined) {
+      const infoUri = `${this.url}${paths.info}${paths.available}`;
+      const req = this._createRecordingRequest(infoUri, "GET");
+
+      const rsp = await this.httpClient.sendRequest({
+        ...req,
+        allowInsecureConnection: true
+      });
+      if (rsp.status !== 200) {
+        throw new RecorderError("Info request failed.");
+      }
+      return rsp.bodyAsText;
+    } else {
+      throw new RecorderError(
+        "Bad state, recordingId is not defined when called transformsInfo()."
+      );
+    }
+  }
+
+  async addSanitizer(replacer: { value: string; regex: string }): Promise<void> {
+    if (this.recordingId !== undefined) {
+      const infoUri = `${this.url}${paths.admin}${paths.addSanitizer}`;
+      const req = this._createRecordingRequest(infoUri);
+      req.headers.set("x-abstraction-identifier", "GeneralRegexSanitizer");
+      req.body = JSON.stringify(replacer);
+      const rsp = await this.httpClient.sendRequest({
+        ...req,
+        allowInsecureConnection: true
+      });
+      if (rsp.status !== 200) {
+        throw new RecorderError("Info request failed.");
+      }
+    } else {
+      throw new RecorderError(
+        "Bad state, recordingId is not defined when called transformsInfo()."
+      );
+    }
+  }
+
+  async addConnectionStringSanitizer(replacer: {
+    actualConnString: string;
+    fakeConnString: string;
+  }): Promise<void> {
+    if (this.recordingId !== undefined) {
+      // extract connection string parts and match call
+      const pairsMatched = getRealFakePairs(replacer.actualConnString, replacer.fakeConnString);
+      for (const [key, value] of Object.entries(pairsMatched)) {
+        await this.addSanitizer({ value: value, regex: key });
+      }
+    } else {
+      throw new RecorderError(
+        "Bad state, recordingId is not defined when called transformsInfo()."
+      );
+    }
+  }
+
   /**
    * Call this method to ping the proxy-tool with a start request
    * signalling to start recording in the record mode
@@ -150,8 +213,8 @@ export class TestProxyHttpClient {
    * @private
    * @param {string} url
    */
-  private _createRecordingRequest(url: string) {
-    const req = createPipelineRequest({ url: url, method: "POST" });
+  private _createRecordingRequest(url: string, method: "GET" | "POST" = "POST") {
+    const req = createPipelineRequest({ url: url, method });
     req.headers.set("x-recording-file", this.sessionFile);
     if (this.recordingId !== undefined) {
       req.headers.set("x-recording-id", this.recordingId);

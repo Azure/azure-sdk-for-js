@@ -16,6 +16,12 @@ describe("Tests", () => {
     const client = TableClient.fromConnectionString(env.TABLES_SAS_CONNECTION_STRING, "newtable");
     client.pipeline.addPolicy(recorderHttpPolicy(recorder));
     await recorder.start();
+    // await recorder.addSanitizer({ regex: "harshanstoragetest", value: "fakeaccount" });
+    await recorder.addConnectionStringSanitizer({
+      fakeConnString:
+        "TableEndpoint=https://fakeaccountname.table.core.windows.net/;SharedAccessSignature=st=2021-08-03T08:52:15Z&spr=https&sig=fakesigval",
+      actualConnString: env.TABLES_SAS_CONNECTION_STRING
+    });
     await client.createTable();
     const simpleEntity: TableEntity = createSimpleEntity();
     await client.createEntity(simpleEntity);
