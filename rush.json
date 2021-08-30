@@ -900,6 +900,11 @@
       "packageName": "@azure/arm-templatespecs",
       "projectFolder": "sdk/templatespecs/arm-templatespecs",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-authorization",
+      "projectFolder": "sdk/authorization/arm-authorization",
+      "versionPolicyName": "management"
     }
   ]
 }
