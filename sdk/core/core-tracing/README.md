@@ -28,7 +28,7 @@ For customers who require manual propagation, all client library operations acce
 
 Both the Azure SDK and Microsoft's [Application Insights](https://www.npmjs.com/package/applicationinsights) use OpenTelemetry to provide tracing. As OpenTelemetry iterated on their API towards their 1.0 GA release, both libraries were updated to match.
 
-Some incompatibility between the two libraries is due to mismatches between the versions used in the two libraries when the two are used side-by-side. For folks who are using both libraries in the same application, we recommend using the same version of OpenTelemetry for both libraries.
+Some incompatibility between the two libraries is due to mismatches between the OpenTelemetry versions used in either `@azure/core-tracing` or `applicationinsights` when the two are used side-by-side. For folks who are using both libraries in the same application, we recommend using the same version of OpenTelemetry for both libraries.
 
 > Please note that we do not foresee any future compatibility concerns now that OpenTelemetry 1.0.0 has been released and the API considered stable.
 
