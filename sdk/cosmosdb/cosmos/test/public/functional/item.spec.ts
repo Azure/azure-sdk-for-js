@@ -615,7 +615,7 @@ describe("bulk/batch item operations", function() {
     });
   });
 
-  describe.only("v2 single partition container", async function() {
+  describe("v2 single partition container", async function() {
     let container: Container;
     let createItemId: string;
     let otherItemId: string;
