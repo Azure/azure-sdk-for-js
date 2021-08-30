@@ -26,20 +26,25 @@ For customers who require manual propagation, all client library operations acce
 
 ### OpenTelemetry Compatibility
 
-Both the Azure SDK and Microsoft's [Application Insights](https://www.npmjs.com/package/applicationinsights) use OpenTelemetry to provide tracing. As OpenTelemetry iterated on their API towards their 1.0 GA release, both libraries were updated to match.
+Both the Azure SDK and Microsoft's [Application Insights](https://www.npmjs.com/package/applicationinsights) use [OpenTelemetry](https://opentelemetry.io/) to support tracing. Specifically, we depend on the [@opentelemetry/api](https://www.npmjs.com/package/@opentelemetry/api) npm package.
 
-Some incompatibility between the two libraries is due to mismatches between the OpenTelemetry versions used in either `@azure/core-tracing` or `applicationinsights` when the two are used side-by-side. For folks who are using both libraries in the same application, we recommend using the same version of OpenTelemetry for both libraries.
+As OpenTelemetry iterated on their API towards their 1.0 GA release, both libraries were updated to match.
+
+Some incompatibility between the two libraries is due to mismatches between the OpenTelemetry versions used in either `@azure/core-tracing` or `applicationinsights` when the two are used side-by-side. For folks who are using both libraries in the same application, we recommend using the same version of OpenTelemetry for both libraries by upgrading to their latest versions.
 
 > Please note that we do not foresee any future compatibility concerns now that OpenTelemetry 1.0.0 has been released and the API considered stable.
 
 #### Compatibility Matrix
 
-| Core Tracing     | Application Insights | OpenTelemetry |
-| ---------------- | -------------------- | ------------- |
-| 1.0.0-preview.10 |                      | 0.10.2        |
-| 1.0.0-preview.11 |                      | 1.0.0-rc.0    |
-| 1.0.0-preview.12 | ^2.1.4               | ^1.0.0        |
-| 1.0.0-preview.13 | ^2.1.4               | ^1.0.0        |
+| Core Tracing     | Application Insights | @opentelemetry/api |
+| ---------------- | -------------------- | ------------------ |
+| 1.0.0-preview.10 |                      | 0.10.2             |
+| 1.0.0-preview.11 | 2.1.0                | 1.0.0-rc.0         |
+| 1.0.0-preview.11 | 2.1.1                | 1.0.0-rc.0         |
+| 1.0.0-preview.11 | 2.1.2                | 1.0.0-rc.0         |
+| 1.0.0-preview.11 | 2.1.3                | 1.0.0-rc.0         |
+| 1.0.0-preview.12 | ^2.1.4               | ^1.0.0             |
+| 1.0.0-preview.13 | ^2.1.4               | ^1.0.0             |
 
 Please see the [troubleshooting](#troubleshooting) section for additional information about handling compatibility errors.
 
