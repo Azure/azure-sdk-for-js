@@ -144,8 +144,6 @@ jobs:
           $packageArtifact = Get-ChildItem $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{parameters.Artifact.name}}/*.tgz
           Write-Host $packageArtifact
           Write-Host "xxxxxxx"
-          dir $(System.DefaultWorkingDirectory)
-          dir $(System.DefaultWorkingDirectory)/temp
           $result = $(System.DefaultWorkingDirectory)/eng/scripts/get-npm-tags.ps1 -packageArtifact $packageArtifact -workingDirectory $(System.DefaultWorkingDirectory)/temp
           Write-Host "$($result)"
           echo "##vso[task.setvariable variable=Tag]$($result.Tag)"
