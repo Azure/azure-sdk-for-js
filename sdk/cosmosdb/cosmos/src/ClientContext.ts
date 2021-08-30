@@ -656,12 +656,12 @@ export class ClientContext {
         resourceId,
         plugins: this.cosmosClientOptions.plugins,
         options,
-        pipeline: this.pipeline
+        pipeline: this.pipeline,
+        partitionKey
       };
 
       request.headers = await this.buildHeaders(request);
       request.headers[Constants.HttpHeaders.IsBatchRequest] = true;
-      request.headers[Constants.HttpHeaders.PartitionKey] = partitionKey;
       request.headers[Constants.HttpHeaders.IsBatchAtomic] = true;
 
       this.applySessionToken(request);

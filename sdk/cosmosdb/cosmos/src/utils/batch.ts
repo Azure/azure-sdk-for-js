@@ -5,7 +5,7 @@ import { JSONObject } from "../queryExecutionContext";
 import { extractPartitionKey } from "../extractPartitionKey";
 import { PartitionKeyDefinition } from "../documents";
 import { RequestOptions } from "..";
-import { PatchOperation } from "./patch";
+import { PatchRequestBody } from "./patch";
 import { v4 } from "uuid";
 const uuid = v4;
 
@@ -58,7 +58,7 @@ export const BulkOperationType = {
   Read: "Read",
   Delete: "Delete",
   Replace: "Replace",
-  Patch: "Patch",
+  Patch: "Patch"
 } as const;
 
 export type OperationInput =
@@ -111,7 +111,7 @@ export interface PatchOperationInput {
   ifMatch?: string;
   ifNoneMatch?: string;
   operationType: typeof BulkOperationType.Patch;
-  patchOperations: PatchOperation[];
+  resourceBody: PatchRequestBody;
   id: string;
 }
 
@@ -145,19 +145,22 @@ export type ReplaceOperation = OperationWithItem & {
 export type BulkPatchOperation = OperationBase & {
   operationType: typeof BulkOperationType.Patch;
   id: string;
-}
+};
 
 export function hasResource(
   operation: Operation
 ): operation is CreateOperation | UpsertOperation | ReplaceOperation {
-  return operation.operationType !== "Patch" && (operation as OperationWithItem).resourceBody !== undefined;
+  return (
+    operation.operationType !== "Patch" &&
+    (operation as OperationWithItem).resourceBody !== undefined
+  );
 }
 
 export function getPartitionKeyToHash(operation: Operation, partitionProperty: string): any {
   const toHashKey = hasResource(operation)
     ? deepFind(operation.resourceBody, partitionProperty)
     : (operation.partitionKey && operation.partitionKey.replace(/[[\]"']/g, "")) ||
-    operation.partitionKey;
+      operation.partitionKey;
   // We check for empty object since replace will stringify the value
   // The second check avoids cases where the partitionKey value is actually the string '{}'
   if (toHashKey === "{}" && operation.partitionKey === "[{}]") {

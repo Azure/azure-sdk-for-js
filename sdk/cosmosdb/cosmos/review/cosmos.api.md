@@ -32,6 +32,7 @@ export const BulkOperationType: {
     readonly Read: "Read";
     readonly Delete: "Delete";
     readonly Replace: "Replace";
+    readonly Patch: "Patch";
 };
 
 // @public
@@ -988,8 +989,10 @@ export class Offers {
     readAll(options?: FeedOptions): QueryIterator<OfferDefinition & Resource>;
 }
 
+// Warning: (ae-forgotten-export) The symbol "BulkPatchOperation" needs to be exported by the entry point index.d.ts
+//
 // @public (undocumented)
-export type Operation = CreateOperation | UpsertOperation | ReadOperation | DeleteOperation | ReplaceOperation;
+export type Operation = CreateOperation | UpsertOperation | ReadOperation | DeleteOperation | ReplaceOperation | BulkPatchOperation;
 
 // @public (undocumented)
 export interface OperationBase {
@@ -1001,8 +1004,10 @@ export interface OperationBase {
     partitionKey?: string;
 }
 
+// Warning: (ae-forgotten-export) The symbol "PatchOperationInput" needs to be exported by the entry point index.d.ts
+//
 // @public (undocumented)
-export type OperationInput = CreateOperationInput | UpsertOperationInput | ReadOperationInput | DeleteOperationInput | ReplaceOperationInput;
+export type OperationInput = CreateOperationInput | UpsertOperationInput | ReadOperationInput | DeleteOperationInput | ReplaceOperationInput | PatchOperationInput;
 
 // @public (undocumented)
 export interface OperationResponse {
@@ -1107,7 +1112,7 @@ export const PatchOperationType: {
 // @public (undocumented)
 export type PatchRequestBody = {
     operations: PatchOperation[];
-    condition: string;
+    condition?: string;
 } | PatchOperation[];
 
 // @public

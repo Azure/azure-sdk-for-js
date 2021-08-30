@@ -25,6 +25,6 @@ export type RemoveOperation = {
 export type PatchRequestBody =
   | {
       operations: PatchOperation[];
-      condition: string;
+      condition?: string;
     }
   | PatchOperation[];

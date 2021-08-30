@@ -114,12 +114,12 @@ async function httpRequest(
 
     log.warn(
       response.status +
-      " " +
-      requestContext.endpoint +
-      " " +
-      requestContext.path +
-      " " +
-      result.message
+        " " +
+        requestContext.endpoint +
+        " " +
+        requestContext.path +
+        " " +
+        result.message
     );
 
     errorResponse.code = response.status;
