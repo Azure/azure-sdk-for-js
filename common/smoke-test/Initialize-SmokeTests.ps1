@@ -120,7 +120,7 @@ function Update-SamplesForService {
 
   # Resolve full path for samples location. This has to be set after sample
   # prep because the directory will not resolve until the folder exists.
-  $entry.SamplesDirectory = "$repoRoot/sdk/$ServiceDirectory/*/samples/*/javascript/"
+  $entry.SamplesDirectory = "$($repoRoot)sdk/$ServiceDirectory/*/samples/*/javascript/"
 }
 
 function Update-SampleDependencies {
