@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
-import { ServiceBusMessage, ServiceBusSender } from "../../../src";
+import { ServiceBusMessage, ServiceBusSender } from "@azure/service-bus";
 import { ServiceBusTest } from "./sbBase.spec";
 
 interface SendTestOptions {

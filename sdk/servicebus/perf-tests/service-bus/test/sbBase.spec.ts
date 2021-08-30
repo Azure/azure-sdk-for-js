@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { PerfStressTest, getEnvVar } from "@azure/test-utils-perfstress";
-import { ServiceBusAdministrationClient, ServiceBusClient } from "../../../src";
+import { ServiceBusAdministrationClient, ServiceBusClient } from "@azure/service-bus";
 
 // Expects the .env file at the same level as the "test" folder
 import * as dotenv from "dotenv";
