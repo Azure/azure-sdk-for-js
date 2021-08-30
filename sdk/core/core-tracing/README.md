@@ -41,18 +41,7 @@ Some incompatibility between the two libraries is due to mismatches between the 
 | 1.0.0-preview.12 | ^2.1.4               | ^1.0.0        |
 | 1.0.0-preview.13 | ^2.1.4               | ^1.0.0        |
 
-#### Troubleshooting guide
-
-Errors such as `span.spanContext is not a function` or `span.context is not a function` are likely due to a mismatch of OpenTelemetry versions between two libraries.
-
-Please ensure that all Azure client libraries are using a compatible version of OpenTelemetry. If you are using `applicationinsights` please ensure that you are using the same version of OpenTelemetry as the Azure client libraries.
-
-> Ideally you'd want to use OpenTelemetry 1.0.0 or higher.
-
-If you are using `npm` you may run `npm ls @opentelemetry/api` to see the version of OpenTelemetry you are using and which client libraries are using it.
-For `yarn` users, `yarn why @opentelemetry/api` will show you the version of OpenTelemetry you are using and which client libraries are using it.
-
-You may then upgrade client libraries as needed to ensure compatibility. Things should work as expected when the above command returns a version of OpenTelemetry that is >= 1.0.0.
+Please see the [troubleshooting](#troubleshooting) section for additional information about handling compatibility errors.
 
 ## Examples
 
@@ -88,6 +77,19 @@ You can build and run the tests locally by executing `rushx test`. Explore the `
 ## Troubleshooting
 
 If you run into issues while using this library, please feel free to [file an issue](https://github.com/Azure/azure-sdk-for-js/issues/new).
+
+### OpenTelemetry Compatibility Errors
+
+Errors such as `span.spanContext is not a function` or `span.context is not a function` are likely due to a mismatch of OpenTelemetry versions between two libraries.
+
+To resolve this, please ensure that all Azure client libraries are using a compatible version of OpenTelemetry as per the [compatibility matrix](#compatibility-matrix). If you are using `applicationinsights` please ensure that you are using the same version of OpenTelemetry as the Azure client libraries.
+
+> Ideally you'd want to use OpenTelemetry 1.0.0 or higher.
+
+If you are using `npm` you may run `npm ls @opentelemetry/api` to see the version of OpenTelemetry you are using and which client libraries are using it.
+For `yarn` users, `yarn why @opentelemetry/api` will show you the version of OpenTelemetry you are using and which client libraries are using it.
+
+You may then upgrade client libraries as needed to ensure compatibility. Things should work as expected when the above command returns a version of OpenTelemetry that is >= 1.0.0.
 
 ## Contributing
 
