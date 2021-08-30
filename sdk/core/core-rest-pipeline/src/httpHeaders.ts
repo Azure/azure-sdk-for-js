@@ -25,7 +25,7 @@ class HttpHeadersImpl implements HttpHeaders {
    * @param name - The name of the header to set. This value is case-insensitive.
    * @param value - The value of the header to set.
    */
-  public set(name: string, value: string | number): void {
+  public set(name: string, value: string | number | boolean): void {
     this._headersMap.set(normalizeName(name), String(value));
   }
 
