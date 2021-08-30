@@ -58,8 +58,8 @@ npx cross-env COMMUNICATION_CONNECTION_STRING="<connection string>" node dist/is
 
 Take a look at our API Documentation<!--Todo uncomment when API ref published [API Documentation][apiref]--> for more information about the APIs that are available in the clients.
 
-[issuetoken]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-identity/samples/typescript/src/issueToken.ts
-[revoketokens]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-identity/samples/typescript/src/revokeTokens.ts
+[issuetoken]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-identity/samples/v1/typescript/src/issueToken.ts
+[revoketokens]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-identity/samples/v1/typescript/src/revokeTokens.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-identity
 [azcomsvc]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource?tabs=windows&pivots=platform-azp
 [freesub]: https://azure.microsoft.com/free/

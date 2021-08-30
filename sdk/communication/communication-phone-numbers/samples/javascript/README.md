@@ -55,11 +55,11 @@ npx cross-env COMMUNICATION_CONNECTION_STRING="<connection string>" node purchas
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[purchasephonenumber]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-phone-numbers/samples/javascript/purchasePhoneNumber.js
-[releasephonenumber]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-phone-numbers/samples/javascript/releasePhoneNumber.js
-[updatephonenumbercapabilities]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-phone-numbers/samples/javascript/updatePhoneNumberCapabilities.js
-[getpurchasedphonenumber]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-phone-numbers/samples/javascript/getPurchasedPhoneNumber.js
-[getpurchasedphonenumbers]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-phone-numbers/samples/javascript/getPurchasedPhoneNumbers.js
+[purchasephonenumber]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-phone-numbers/samples/v1/javascript/purchasePhoneNumber.js
+[releasephonenumber]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-phone-numbers/samples/v1/javascript/releasePhoneNumber.js
+[updatephonenumbercapabilities]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-phone-numbers/samples/v1/javascript/updatePhoneNumberCapabilities.js
+[getpurchasedphonenumber]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-phone-numbers/samples/v1/javascript/getPurchasedPhoneNumber.js
+[getpurchasedphonenumbers]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-phone-numbers/samples/v1/javascript/getPurchasedPhoneNumbers.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-phone-numbers
 [azcomsvc]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource?tabs=windows&pivots=platform-azp
 [freesub]: https://azure.microsoft.com/free/
