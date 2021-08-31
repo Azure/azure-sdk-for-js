@@ -135,7 +135,7 @@ The `LogsQueryClient` can be used to query a Monitor workspace using the Kusto Q
 You can use the `Durations` constants provided for some commonly used ISO8601 durations.
 
 ```ts
-const { LogsQueryClient } = require("@azure/monitor-query");
+const { LogsQueryClient,Durations } = require("@azure/monitor-query");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 const azureLogAnalyticsWorkspaceId = "<the Workspace Id for your Azure Log Analytics resource>";
