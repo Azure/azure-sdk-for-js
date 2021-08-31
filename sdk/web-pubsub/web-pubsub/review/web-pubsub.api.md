@@ -18,6 +18,13 @@ export interface CloseConnectionOptions extends OperationOptions {
 }
 
 // @public
+export interface GenerateClientTokenOptions extends OperationOptions {
+    minutesToExpire?: number;
+    roles?: string[];
+    userId?: string;
+}
+
+// @public
 export interface GetAuthenticationTokenOptions {
     roles?: string[];
     ttl?: number;
@@ -162,8 +169,6 @@ export class WebPubSubServiceClient {
     readonly apiVersion: string;
     closeConnection(connectionId: string, options?: CloseConnectionOptions): Promise<void>;
     endpoint: string;
-    // Warning: (ae-forgotten-export) The symbol "GenerateClientTokenOptions" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     generateClientToken(options?: GenerateClientTokenOptions): Promise<import("./generated").ClientTokenResponse>;
     getAuthenticationToken(options?: GetAuthenticationTokenOptions): Promise<GetAuthenticationTokenResponse>;
