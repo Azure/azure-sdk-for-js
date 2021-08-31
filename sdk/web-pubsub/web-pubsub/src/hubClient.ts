@@ -295,6 +295,7 @@ export class WebPubSubServiceClient {
     const internalPipelineOptions: AzureWebPubSubServiceRestAPIOptionalParams = {
       ...this.clientOptions,
       ...{
+        apiVersion: this.apiVersion,
         loggingOptions: {
           logger: logger.info
         }

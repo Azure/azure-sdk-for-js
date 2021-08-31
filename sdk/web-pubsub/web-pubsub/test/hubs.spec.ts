@@ -10,7 +10,6 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 describe("HubClient", function() {
   let recorder: Recorder;
-  this.timeout(30000);
   beforeEach(function() {
     recorder = record(this, environmentSetup);
   });

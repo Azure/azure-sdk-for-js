@@ -9,7 +9,6 @@ import { FullOperationResponse } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 
 describe("Group client working with a group", function() {
-  this.timeout(30000);
   let recorder: Recorder;
   let client: WebPubSubGroup;
   let lastResponse: FullOperationResponse | undefined;
