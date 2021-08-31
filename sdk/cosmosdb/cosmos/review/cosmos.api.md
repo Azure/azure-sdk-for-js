@@ -41,6 +41,12 @@ export interface BulkOptions {
     continueOnError?: boolean;
 }
 
+// @public (undocumented)
+export type BulkPatchOperation = OperationBase & {
+    operationType: typeof BulkOperationType.Patch;
+    id: string;
+};
+
 // @public
 export class ChangeFeedIterator<T> {
     fetchNext(): Promise<ChangeFeedResponse<Array<T & Resource>>>;
@@ -989,8 +995,6 @@ export class Offers {
     readAll(options?: FeedOptions): QueryIterator<OfferDefinition & Resource>;
 }
 
-// Warning: (ae-forgotten-export) The symbol "BulkPatchOperation" needs to be exported by the entry point index.d.ts
-//
 // @public (undocumented)
 export type Operation = CreateOperation | UpsertOperation | ReadOperation | DeleteOperation | ReplaceOperation | BulkPatchOperation;
 
@@ -1004,8 +1008,6 @@ export interface OperationBase {
     partitionKey?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "PatchOperationInput" needs to be exported by the entry point index.d.ts
-//
 // @public (undocumented)
 export type OperationInput = CreateOperationInput | UpsertOperationInput | ReadOperationInput | DeleteOperationInput | ReplaceOperationInput | PatchOperationInput;
 
@@ -1099,6 +1101,22 @@ export interface PartitionKeyRangePropertiesNames {
 
 // @public (undocumented)
 export type PatchOperation = ExistingKeyOperation | RemoveOperation;
+
+// @public (undocumented)
+export interface PatchOperationInput {
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    ifMatch?: string;
+    // (undocumented)
+    ifNoneMatch?: string;
+    // (undocumented)
+    operationType: typeof BulkOperationType.Patch;
+    // (undocumented)
+    partitionKey?: string | number | null | Record<string, unknown> | undefined;
+    // (undocumented)
+    resourceBody: PatchRequestBody;
+}
 
 // @public (undocumented)
 export const PatchOperationType: {

@@ -21,7 +21,9 @@ export {
   UpsertOperationInput,
   ReplaceOperationInput,
   ReadOperationInput,
-  DeleteOperationInput
+  DeleteOperationInput,
+  PatchOperationInput,
+  BulkPatchOperation
 } from "./utils/batch";
 export {
   PatchOperation,
