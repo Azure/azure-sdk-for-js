@@ -535,7 +535,5 @@ export function getShareNameAndPathFromUrl(
 export function httpAuthorizationToString(
   httpAuthorization?: HttpAuthorization
 ): string | undefined {
-  return httpAuthorization
-    ? httpAuthorization.scheme + " " + httpAuthorization.parameter
-    : undefined;
+  return httpAuthorization ? httpAuthorization.scheme + " " + httpAuthorization.value : undefined;
 }
