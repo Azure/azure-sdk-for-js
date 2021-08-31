@@ -2,7 +2,7 @@
 
 [Azure TextAnalytics](https://azure.microsoft.com/services/cognitive-services/text-analytics/) is a cloud-based service that provides advanced natural language processing over raw text, and includes the following main features:
 
-**Note:** This SDK targets Azure Text Analytics service API version 3.2.0-preview.1.
+**Note:** This SDK targets Azure Text Analytics service API version 3.2.0-preview.2.
 
 - Language Detection
 - Sentiment Analysis
@@ -12,6 +12,8 @@
 - Linked Entity Recognition
 - Extractive Summarization
 - Healthcare Analysis
+- Custom Entities Recognition
+- Custom Document Classification
 - Support Multiple Actions Per Document
 
 Use the client library to:

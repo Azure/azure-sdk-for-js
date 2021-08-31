@@ -34,7 +34,10 @@ export {
   RecognizeLinkedEntitiesAction,
   AnalyzeSentimentAction,
   ExtractSummaryAction,
-  KnownSummarySentencesSortBy as KnownSummarySentencesOrderBy
+  KnownSummarySentencesSortBy as KnownSummarySentencesOrderBy,
+  CustomRecognizeEntitiesAction,
+  CustomClassifyDocumentSingleCategoryAction,
+  CustomClassifyDocumentMultiCategoriesAction
 } from "./textAnalyticsClient";
 export { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
 export {
@@ -81,6 +84,25 @@ export {
 } from "./extractSummaryResult";
 export { ExtractSummaryResultArray } from "./extractSummaryResultArray";
 export {
+  CustomRecognizeEntitiesErrorResult,
+  CustomRecognizeEntitiesResult,
+  CustomRecognizeEntitiesSuccessResult
+} from "./customRecognizeEntitiesResult";
+export { CustomRecognizeEntitiesResultArray } from "./customRecognizeEntitiesResultArray";
+export {
+  CustomClassifyDocumentSingleCategoryErrorResult,
+  CustomClassifyDocumentSingleCategoryResult,
+  CustomClassifyDocumentSingleCategorySuccessResult,
+  DocumentClassification
+} from "./customClassifyDocumentSingleCategoryResult";
+export { CustomClassifyDocumentSingleCategoryResultArray } from "./customClassifyDocumentSingleCategoryResultArray";
+export {
+  CustomClassifyDocumentMultiCategoriesErrorResult,
+  CustomClassifyDocumentMultiCategoriesResult,
+  CustomClassifyDocumentMultiCategoriesSuccessResult
+} from "./customClassifyDocumentMultiCategoriesResult";
+export { CustomClassifyDocumentMultiCategoriesResultArray } from "./customClassifyDocumentMultiCategoriesResultArray";
+export {
   RecognizeLinkedEntitiesResult,
   RecognizeLinkedEntitiesErrorResult,
   RecognizeLinkedEntitiesSuccessResult
@@ -122,7 +144,16 @@ export {
   AnalyzeSentimentActionSuccessResult,
   ExtractSummaryActionResult,
   ExtractSummaryActionSuccessResult,
-  ExtractSummaryActionErrorResult
+  ExtractSummaryActionErrorResult,
+  CustomRecognizeEntitiesActionResult,
+  CustomRecongizeEntitiesActionErrorResult,
+  CustomRecongizeEntitiesActionSuccessResult,
+  CustomClassifyDocumentMultiCategoriesActionErrorResult,
+  CustomClassifyDocumentMultiCategoriesActionResult,
+  CustomClassifyDocumentMultiCategoriesActionSuccessResult,
+  CustomClassifyDocumentSingleCategoryActionErrorResult,
+  CustomClassifyDocumentSingleCategoryActionResult,
+  CustomClassifyDocumentSingleCategoryActionSuccessResult
 } from "./analyzeActionsResult";
 export {
   ErrorCode,
@@ -131,7 +162,7 @@ export {
   TextAnalyticsSuccessResult
 } from "./textAnalyticsResult";
 
-export { TextAnalyticsAction } from "./textAnalyticsAction";
+export { TextAnalyticsAction, CustomTextAnalyticsAction } from "./textAnalyticsAction";
 
 // Models
 export {
@@ -163,5 +194,6 @@ export {
   Conditionality as EntityConditionality,
   RelationType as HealthcareEntityRelationType,
   KnownHealthcareEntityCategory,
-  HealthcareEntityCategory
+  HealthcareEntityCategory,
+  ClassificationResult
 } from "./generated/models";
