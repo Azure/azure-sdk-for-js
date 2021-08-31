@@ -8,26 +8,27 @@
 
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { AvailableDelegations } from "../operationsInterfaces";
+import { ServiceTagInformationOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClientContext } from "../networkManagementClientContext";
 import {
-  AvailableDelegation,
-  AvailableDelegationsListNextOptionalParams,
-  AvailableDelegationsListOptionalParams,
-  AvailableDelegationsListResponse,
-  AvailableDelegationsListNextResponse
+  ServiceTagInformation,
+  ServiceTagInformationOperationsListNextOptionalParams,
+  ServiceTagInformationOperationsListOptionalParams,
+  ServiceTagInformationOperationsListResponse,
+  ServiceTagInformationOperationsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing AvailableDelegations operations. */
-export class AvailableDelegationsImpl implements AvailableDelegations {
+/** Class containing ServiceTagInformationOperations operations. */
+export class ServiceTagInformationOperationsImpl
+  implements ServiceTagInformationOperations {
   private readonly client: NetworkManagementClientContext;
 
   /**
-   * Initialize a new instance of the class AvailableDelegations class.
+   * Initialize a new instance of the class ServiceTagInformationOperations class.
    * @param client Reference to the service client
    */
   constructor(client: NetworkManagementClientContext) {
@@ -35,14 +36,16 @@ export class AvailableDelegationsImpl implements AvailableDelegations {
   }
 
   /**
-   * Gets all of the available subnet delegations for this subscription in this region.
-   * @param location The location of the subnet.
+   * Gets a list of service tag information resources with pagination.
+   * @param location The location that will be used as a reference for cloud (not as a filter based on
+   *                 location, you will get the list of service tags with prefix details across all regions but limited
+   *                 to the cloud that your subscription belongs to).
    * @param options The options parameters.
    */
   public list(
     location: string,
-    options?: AvailableDelegationsListOptionalParams
-  ): PagedAsyncIterableIterator<AvailableDelegation> {
+    options?: ServiceTagInformationOperationsListOptionalParams
+  ): PagedAsyncIterableIterator<ServiceTagInformation> {
     const iter = this.listPagingAll(location, options);
     return {
       next() {
@@ -59,8 +62,8 @@ export class AvailableDelegationsImpl implements AvailableDelegations {
 
   private async *listPagingPage(
     location: string,
-    options?: AvailableDelegationsListOptionalParams
-  ): AsyncIterableIterator<AvailableDelegation[]> {
+    options?: ServiceTagInformationOperationsListOptionalParams
+  ): AsyncIterableIterator<ServiceTagInformation[]> {
     let result = await this._list(location, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -73,22 +76,24 @@ export class AvailableDelegationsImpl implements AvailableDelegations {
 
   private async *listPagingAll(
     location: string,
-    options?: AvailableDelegationsListOptionalParams
-  ): AsyncIterableIterator<AvailableDelegation> {
+    options?: ServiceTagInformationOperationsListOptionalParams
+  ): AsyncIterableIterator<ServiceTagInformation> {
     for await (const page of this.listPagingPage(location, options)) {
       yield* page;
     }
   }
 
   /**
-   * Gets all of the available subnet delegations for this subscription in this region.
-   * @param location The location of the subnet.
+   * Gets a list of service tag information resources with pagination.
+   * @param location The location that will be used as a reference for cloud (not as a filter based on
+   *                 location, you will get the list of service tags with prefix details across all regions but limited
+   *                 to the cloud that your subscription belongs to).
    * @param options The options parameters.
    */
   private _list(
     location: string,
-    options?: AvailableDelegationsListOptionalParams
-  ): Promise<AvailableDelegationsListResponse> {
+    options?: ServiceTagInformationOperationsListOptionalParams
+  ): Promise<ServiceTagInformationOperationsListResponse> {
     return this.client.sendOperationRequest(
       { location, options },
       listOperationSpec
@@ -97,15 +102,17 @@ export class AvailableDelegationsImpl implements AvailableDelegations {
 
   /**
    * ListNext
-   * @param location The location of the subnet.
+   * @param location The location that will be used as a reference for cloud (not as a filter based on
+   *                 location, you will get the list of service tags with prefix details across all regions but limited
+   *                 to the cloud that your subscription belongs to).
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     location: string,
     nextLink: string,
-    options?: AvailableDelegationsListNextOptionalParams
-  ): Promise<AvailableDelegationsListNextResponse> {
+    options?: ServiceTagInformationOperationsListNextOptionalParams
+  ): Promise<ServiceTagInformationOperationsListNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
       listNextOperationSpec
@@ -117,17 +124,21 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/availableDelegations",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/serviceTagDetails",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailableDelegationsResult
+      bodyMapper: Mappers.ServiceTagInformationListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.noAddressPrefixes,
+    Parameters.tagName
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -141,13 +152,17 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailableDelegationsResult
+      bodyMapper: Mappers.ServiceTagInformationListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.noAddressPrefixes,
+    Parameters.tagName
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

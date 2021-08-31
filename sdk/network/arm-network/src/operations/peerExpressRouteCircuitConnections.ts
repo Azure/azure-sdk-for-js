@@ -24,7 +24,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a PeerExpressRouteCircuitConnections. */
+/** Class containing PeerExpressRouteCircuitConnections operations. */
 export class PeerExpressRouteCircuitConnectionsImpl
   implements PeerExpressRouteCircuitConnections {
   private readonly client: NetworkManagementClientContext;
