@@ -7,7 +7,7 @@ import * as path from "path";
 import { diag } from "@opentelemetry/api";
 import { SDK_INFO } from "@opentelemetry/core";
 
-import { ContextTagKeys } from "../../../generated";
+import { KnownContextTagKeys } from "../../../generated";
 import { Tags } from "../../../types";
 
 type PackageJson = { version: string };
@@ -92,17 +92,13 @@ export class Context {
         Context.appVersion[packageJsonPath] = packageJson.version;
       }
 
-      this.tags["ai.application.ver"] = Context.appVersion[packageJsonPath];
+      this.tags[KnownContextTagKeys.AiApplicationVer] = Context.appVersion[packageJsonPath];
     }
   }
 
   private _loadDeviceContext(): void {
-    this.tags["ai.device.id"] = "";
-    this.tags["ai.device.osVersion"] = os && `${os.type()} ${os.release()}`;
-
-    // not yet supported tags
-    this.tags["ai.device.osArchitecture" as ContextTagKeys] = os && os.arch();
-    this.tags["ai.device.osPlatform" as ContextTagKeys] = os && os.platform();
+    this.tags[KnownContextTagKeys.AiDeviceId] = "";
+    this.tags[KnownContextTagKeys.AiDeviceOsVersion] = os && `${os.type()} ${os.release()}`;
   }
 
   private _loadInternalContext(): void {
@@ -144,7 +140,7 @@ export class Context {
     }
 
     this.tags[
-      "ai.internal.sdkVersion"
+      KnownContextTagKeys.AiInternalSdkVersion
     ] = `node${Context.nodeVersion}:ot${SDK_INFO.VERSION}:ext${Context.sdkVersion}`;
   }
 }

@@ -2,12 +2,8 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import {
-  AI_OPERATION_ID,
-  AI_OPERATION_PARENT_ID
-} from "../../src/utils/constants/applicationinsights";
 import { Expectation } from "./types";
-import { MonitorBase, RequestData, TelemetryItem as Envelope } from "../../src/generated";
+import { MonitorBase, RequestData, TelemetryItem as Envelope, KnownContextTagKeys } from "../../src/generated";
 import { TelemetryItem as EnvelopeMapper } from "../../src/generated/models/mappers";
 
 export const assertData = (actual: MonitorBase, expected: MonitorBase): void => {
@@ -35,7 +31,7 @@ export const assertTrace = (actual: Envelope[], expectation: Expectation): void 
   if (envelope.length !== 1) {
     assert.ok(false, `assertTrace: could not find exported envelope: ${expectation.name}`);
   }
-  const operationId = envelope[0].tags![AI_OPERATION_ID];
+  const operationId = envelope[0].tags![KnownContextTagKeys.AiOperationId];
 
   const parseId = (id: string): { traceId: string; spanId: string } => {
     const parts = id.replace("|", "").split(".");
@@ -50,8 +46,8 @@ export const assertTrace = (actual: Envelope[], expectation: Expectation): void 
       const { spanId } = parseId((envelope[0].data!.baseData as RequestData).id);
 
       return (
-        e.tags![AI_OPERATION_ID] === operationId &&
-        e.tags![AI_OPERATION_PARENT_ID] === spanId &&
+        e.tags![KnownContextTagKeys.AiOperationId] === operationId &&
+        e.tags![KnownContextTagKeys.AiOperationParentId] === spanId &&
         (e.data!.baseData as RequestData).name === (child.data!.baseData as RequestData).name
       );
     });
@@ -83,8 +79,7 @@ export const assertExpectation = (actual: Envelope[], expectations: Expectation[
     if (envelope.length !== 1) {
       assert.ok(
         false,
-        `assertExpectation: could not find exported envelope: ${
-          (expectation.data?.baseData as RequestData).name
+        `assertExpectation: could not find exported envelope: ${(expectation.data?.baseData as RequestData).name
         }`
       );
     }

@@ -1258,6 +1258,12 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-t4fKikazahwNKmwD+CE/icHyuZldWvNMupJhjxdk9T/KxHFx3zCGjHT3MKavwYP6abzgAAm5WwzD1oHlmj7dyg==
+  /@opentelemetry/semantic-conventions/0.24.0:
+    dev: false
+    engines:
+      node: '>=8.0.0'
+    resolution:
+      integrity: sha512-a/szuMQV0Quy0/M7kKdglcbRSoorleyyOwbTNNJ32O+RBN766wbQlMTvdimImTmwYWGr+NJOni1EcC242WlRcA==
   /@opentelemetry/tracing/0.22.0_@opentelemetry+api@1.0.2:
     dependencies:
       '@opentelemetry/api': 1.0.2
@@ -11009,7 +11015,7 @@ packages:
       '@opentelemetry/instrumentation-http': 0.22.0_@opentelemetry+api@1.0.2
       '@opentelemetry/node': 0.22.0_@opentelemetry+api@1.0.2
       '@opentelemetry/resources': 0.22.0_@opentelemetry+api@1.0.2
-      '@opentelemetry/semantic-conventions': 0.22.0
+      '@opentelemetry/semantic-conventions': 0.24.0
       '@opentelemetry/tracing': 0.22.0_@opentelemetry+api@1.0.2
       '@types/mocha': 7.0.2
       '@types/node': 12.20.19
@@ -11031,7 +11037,7 @@ packages:
     dev: false
     name: '@rush-temp/monitor-opentelemetry-exporter'
     resolution:
-      integrity: sha512-WYH8CaZOliclSLRlTl5xrJfy5dZtOvEc1ypw2W6qwQABZOeeF8geFXO6glkcxMCrEKIIeAjN14yyDXDQMsF3fg==
+      integrity: sha512-6x73k57tzSG7uXsMYo/N19DtEBt+PgxbV54C8le9hNOFRxpi6okX3gvZS+9QF7JmxKrXa7ohxH9331gOVmcnEQ==
       tarball: file:projects/monitor-opentelemetry-exporter.tgz
     version: 0.0.0
   file:projects/monitor-query.tgz:
