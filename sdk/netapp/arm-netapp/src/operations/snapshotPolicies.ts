@@ -62,7 +62,7 @@ export class SnapshotPolicies {
    * Get a snapshot Policy
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
-   * @param snapshotPolicyName The name of the snapshot policy target
+   * @param snapshotPolicyName The name of the snapshot policy
    * @param [options] The optional parameters
    * @returns Promise<Models.SnapshotPoliciesGetResponse>
    */
@@ -70,14 +70,14 @@ export class SnapshotPolicies {
   /**
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
-   * @param snapshotPolicyName The name of the snapshot policy target
+   * @param snapshotPolicyName The name of the snapshot policy
    * @param callback The callback
    */
   get(resourceGroupName: string, accountName: string, snapshotPolicyName: string, callback: msRest.ServiceCallback<Models.SnapshotPolicy>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
-   * @param snapshotPolicyName The name of the snapshot policy target
+   * @param snapshotPolicyName The name of the snapshot policy
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -99,7 +99,7 @@ export class SnapshotPolicies {
    * @param body Snapshot policy object supplied in the body of the operation.
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
-   * @param snapshotPolicyName The name of the snapshot policy target
+   * @param snapshotPolicyName The name of the snapshot policy
    * @param [options] The optional parameters
    * @returns Promise<Models.SnapshotPoliciesCreateResponse>
    */
@@ -108,7 +108,7 @@ export class SnapshotPolicies {
    * @param body Snapshot policy object supplied in the body of the operation.
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
-   * @param snapshotPolicyName The name of the snapshot policy target
+   * @param snapshotPolicyName The name of the snapshot policy
    * @param callback The callback
    */
   create(body: Models.SnapshotPolicy, resourceGroupName: string, accountName: string, snapshotPolicyName: string, callback: msRest.ServiceCallback<Models.SnapshotPolicy>): void;
@@ -116,7 +116,7 @@ export class SnapshotPolicies {
    * @param body Snapshot policy object supplied in the body of the operation.
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
-   * @param snapshotPolicyName The name of the snapshot policy target
+   * @param snapshotPolicyName The name of the snapshot policy
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -139,7 +139,7 @@ export class SnapshotPolicies {
    * @param body Snapshot policy object supplied in the body of the operation.
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
-   * @param snapshotPolicyName The name of the snapshot policy target
+   * @param snapshotPolicyName The name of the snapshot policy
    * @param [options] The optional parameters
    * @returns Promise<Models.SnapshotPoliciesUpdateResponse>
    */
@@ -152,7 +152,7 @@ export class SnapshotPolicies {
    * Delete snapshot policy
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
-   * @param snapshotPolicyName The name of the snapshot policy target
+   * @param snapshotPolicyName The name of the snapshot policy
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -166,7 +166,7 @@ export class SnapshotPolicies {
    * @summary Get volumes for snapshot policy
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
-   * @param snapshotPolicyName The name of the snapshot policy target
+   * @param snapshotPolicyName The name of the snapshot policy
    * @param [options] The optional parameters
    * @returns Promise<Models.SnapshotPoliciesListVolumesResponse>
    */
@@ -174,14 +174,14 @@ export class SnapshotPolicies {
   /**
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
-   * @param snapshotPolicyName The name of the snapshot policy target
+   * @param snapshotPolicyName The name of the snapshot policy
    * @param callback The callback
    */
   listVolumes(resourceGroupName: string, accountName: string, snapshotPolicyName: string, callback: msRest.ServiceCallback<Models.SnapshotPolicyVolumeList>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
-   * @param snapshotPolicyName The name of the snapshot policy target
+   * @param snapshotPolicyName The name of the snapshot policy
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -203,7 +203,7 @@ export class SnapshotPolicies {
    * @param body Snapshot policy object supplied in the body of the operation.
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
-   * @param snapshotPolicyName The name of the snapshot policy target
+   * @param snapshotPolicyName The name of the snapshot policy
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -224,7 +224,7 @@ export class SnapshotPolicies {
    * Delete snapshot policy
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
-   * @param snapshotPolicyName The name of the snapshot policy target
+   * @param snapshotPolicyName The name of the snapshot policy
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */

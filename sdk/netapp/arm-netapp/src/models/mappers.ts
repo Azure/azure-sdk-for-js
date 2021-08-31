@@ -98,6 +98,46 @@ export const MetricSpecification: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      supportedAggregationTypes: {
+        serializedName: "supportedAggregationTypes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      supportedTimeGrainTypes: {
+        serializedName: "supportedTimeGrainTypes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      internalMetricName: {
+        serializedName: "internalMetricName",
+        type: {
+          name: "String"
+        }
+      },
+      sourceMdmAccount: {
+        serializedName: "sourceMdmAccount",
+        type: {
+          name: "String"
+        }
+      },
+      sourceMdmNamespace: {
+        serializedName: "sourceMdmNamespace",
+        type: {
+          name: "String"
+        }
+      },
       dimensions: {
         serializedName: "dimensions",
         type: {
@@ -562,6 +602,13 @@ export const NetAppAccount: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      etag: {
+        readOnly: true,
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
       type: {
         readOnly: true,
         serializedName: "type",
@@ -719,6 +766,13 @@ export const CapacityPool: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      etag: {
+        readOnly: true,
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
       type: {
         readOnly: true,
         serializedName: "type",
@@ -801,6 +855,14 @@ export const CapacityPool: msRest.CompositeMapper = {
         defaultValue: false,
         type: {
           name: "Boolean"
+        }
+      },
+      encryptionType: {
+        nullable: true,
+        serializedName: "properties.encryptionType",
+        defaultValue: 'Single',
+        type: {
+          name: "String"
         }
       }
     }
@@ -1200,6 +1262,13 @@ export const Volume: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      etag: {
+        readOnly: true,
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
       type: {
         readOnly: true,
         serializedName: "type",
@@ -1299,6 +1368,7 @@ export const Volume: msRest.CompositeMapper = {
         }
       },
       backupId: {
+        nullable: true,
         serializedName: "properties.backupId",
         constraints: {
           MaxLength: 36,
@@ -1434,12 +1504,49 @@ export const Volume: msRest.CompositeMapper = {
       unixPermissions: {
         nullable: true,
         serializedName: "properties.unixPermissions",
+        defaultValue: '0770',
         constraints: {
           MaxLength: 4,
           MinLength: 4
         },
         type: {
           name: "String"
+        }
+      },
+      cloneProgress: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "properties.cloneProgress",
+        type: {
+          name: "Number"
+        }
+      },
+      avsDataStore: {
+        serializedName: "properties.avsDataStore",
+        defaultValue: 'Disabled',
+        type: {
+          name: "String"
+        }
+      },
+      isDefaultQuotaEnabled: {
+        serializedName: "properties.isDefaultQuotaEnabled",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
+        }
+      },
+      defaultUserQuotaInKiBs: {
+        serializedName: "properties.defaultUserQuotaInKiBs",
+        defaultValue: 0,
+        type: {
+          name: "Number"
+        }
+      },
+      defaultGroupQuotaInKiBs: {
+        serializedName: "properties.defaultGroupQuotaInKiBs",
+        defaultValue: 0,
+        type: {
+          name: "Number"
         }
       }
     }
@@ -1646,6 +1753,27 @@ export const VolumePatch: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "VolumePatchPropertiesDataProtection"
+        }
+      },
+      isDefaultQuotaEnabled: {
+        serializedName: "properties.isDefaultQuotaEnabled",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
+        }
+      },
+      defaultUserQuotaInKiBs: {
+        serializedName: "properties.defaultUserQuotaInKiBs",
+        defaultValue: 0,
+        type: {
+          name: "Number"
+        }
+      },
+      defaultGroupQuotaInKiBs: {
+        serializedName: "properties.defaultGroupQuotaInKiBs",
+        defaultValue: 0,
+        type: {
+          name: "Number"
         }
       }
     }
@@ -1967,6 +2095,13 @@ export const SnapshotPolicy: msRest.CompositeMapper = {
       name: {
         readOnly: true,
         serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      etag: {
+        readOnly: true,
+        serializedName: "etag",
         type: {
           name: "String"
         }
@@ -2546,6 +2681,13 @@ export const BackupPolicy: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      etag: {
+        readOnly: true,
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
       type: {
         readOnly: true,
         serializedName: "type",
@@ -2567,6 +2709,13 @@ export const BackupPolicy: msRest.CompositeMapper = {
       name1: {
         readOnly: true,
         serializedName: "properties.name",
+        type: {
+          name: "String"
+        }
+      },
+      backupPolicyId: {
+        readOnly: true,
+        serializedName: "properties.backupPolicyId",
         type: {
           name: "String"
         }
@@ -2596,13 +2745,8 @@ export const BackupPolicy: msRest.CompositeMapper = {
           name: "Number"
         }
       },
-      yearlyBackupsToKeep: {
-        serializedName: "properties.yearlyBackupsToKeep",
-        type: {
-          name: "Number"
-        }
-      },
       volumesAssigned: {
+        readOnly: true,
         serializedName: "properties.volumesAssigned",
         type: {
           name: "Number"
@@ -2615,6 +2759,7 @@ export const BackupPolicy: msRest.CompositeMapper = {
         }
       },
       volumeBackups: {
+        readOnly: true,
         serializedName: "properties.volumeBackups",
         type: {
           name: "Sequence",
@@ -2681,6 +2826,13 @@ export const BackupPolicyDetails: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      backupPolicyId: {
+        readOnly: true,
+        serializedName: "properties.backupPolicyId",
+        type: {
+          name: "String"
+        }
+      },
       provisioningState: {
         readOnly: true,
         serializedName: "properties.provisioningState",
@@ -2706,13 +2858,8 @@ export const BackupPolicyDetails: msRest.CompositeMapper = {
           name: "Number"
         }
       },
-      yearlyBackupsToKeep: {
-        serializedName: "properties.yearlyBackupsToKeep",
-        type: {
-          name: "Number"
-        }
-      },
       volumesAssigned: {
+        readOnly: true,
         serializedName: "properties.volumesAssigned",
         type: {
           name: "Number"
@@ -2725,6 +2872,7 @@ export const BackupPolicyDetails: msRest.CompositeMapper = {
         }
       },
       volumeBackups: {
+        readOnly: true,
         serializedName: "properties.volumeBackups",
         type: {
           name: "Sequence",
@@ -2791,6 +2939,13 @@ export const BackupPolicyPatch: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      backupPolicyId: {
+        readOnly: true,
+        serializedName: "properties.backupPolicyId",
+        type: {
+          name: "String"
+        }
+      },
       provisioningState: {
         readOnly: true,
         serializedName: "properties.provisioningState",
@@ -2816,13 +2971,8 @@ export const BackupPolicyPatch: msRest.CompositeMapper = {
           name: "Number"
         }
       },
-      yearlyBackupsToKeep: {
-        serializedName: "properties.yearlyBackupsToKeep",
-        type: {
-          name: "Number"
-        }
-      },
       volumesAssigned: {
+        readOnly: true,
         serializedName: "properties.volumesAssigned",
         type: {
           name: "Number"
@@ -2835,6 +2985,7 @@ export const BackupPolicyPatch: msRest.CompositeMapper = {
         }
       },
       volumeBackups: {
+        readOnly: true,
         serializedName: "properties.volumeBackups",
         type: {
           name: "Sequence",
