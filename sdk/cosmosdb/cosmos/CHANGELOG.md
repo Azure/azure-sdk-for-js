@@ -1,11 +1,15 @@
 # Release History
 
-## 3.14.0 (2021-08-26)
+## 3.14.0 (2021-08-31)
 
 ### Features Added
 
-- Adds `container.item(itemId).patch()`. `patch()` is an alternative to `replace()` for item updates. https://github.com/Azure/azure-sdk-for-js/pull/16264/files#diff-7caca690c469e2025576523c0377ac71815f001024fde7c48b20cd24adaa6977R561
-- Adds support for Bulk operation PATCH.
+- *PREVIEW* Adds `container.item(itemId).patch()`. `patch()` is an alternative to `replace()` for item updates. https://github.com/Azure/azure-sdk-for-js/pull/16264/files#diff-7caca690c469e2025576523c0377ac71815f001024fde7c48b20cd24adaa6977R561
+- *PREVIEW* Adds support for Bulk operation PATCH.
+
+### Bugs Fixed
+
+- Fixes bug where Batch was passing the wrong header for batch requests with partition keys
 
 ## 3.13.1 (2021-08-23)
 
