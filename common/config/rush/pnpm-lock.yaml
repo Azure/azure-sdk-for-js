@@ -683,7 +683,7 @@ packages:
       node: '>=0.8.0'
     resolution:
       integrity: sha512-/i5dXM+QAtO+6atYd5oHGBAx48EGSISkXNXViheliOQe+SIFMDo3gSq3lL54W0suOSAsVPws3XnTaIHlla0PIQ==
-  /@azure/msal-node-extensions/1.0.0-alpha.8:
+  /@azure/msal-node-extensions/1.0.0-alpha.9:
     dependencies:
       '@azure/msal-common': 4.5.1
       bindings: 1.5.0
@@ -694,7 +694,7 @@ packages:
       node: '>=10'
     requiresBuild: true
     resolution:
-      integrity: sha512-wNZgJ5GShgjBufJFmgec/y0d1zRjn9VZlDP4W5ptXORum6HDK9VJzZfYEleItXW58DvaeEMX5zWI8yrdV8vivA==
+      integrity: sha512-p6ulfziYQDbPmFH0LZ7ekvC6WJu4coHTHPtH4iA6wEeMMy6aD8afv4KgXZDm7bX0rXlTIb+1O8hQYOATz4j5vA==
   /@azure/msal-node/1.0.0-beta.6:
     dependencies:
       '@azure/msal-common': 4.5.1
@@ -8639,7 +8639,7 @@ packages:
     dev: false
     name: '@rush-temp/arm-compute'
     resolution:
-      integrity: sha512-nNi+A6v+cMajxKH+Wgt1DRjWbbvly9agLxYqGPpR9Fx0FzeI1iTlf5kVY/JNdF43EScO4TnYzXR84cyLaNPMzA==
+      integrity: sha512-T3UFCbTMY/dds1j8CFcJLUkkyV3oR9pnPcpbK3DvLauxAZGylmQbuZv36iTLpGpMO0cxKIdgGm1G6EdgfgMOPw==
       tarball: file:projects/arm-compute.tgz
     version: 0.0.0
   file:projects/arm-features.tgz:
@@ -10484,7 +10484,7 @@ packages:
   file:projects/identity-cache-persistence.tgz:
     dependencies:
       '@azure/msal-node': 1.3.0
-      '@azure/msal-node-extensions': 1.0.0-alpha.8
+      '@azure/msal-node-extensions': 1.0.0-alpha.9
       '@microsoft/api-extractor': 7.7.11
       '@types/jws': 3.2.4
       '@types/mocha': 7.0.2
@@ -10511,7 +10511,7 @@ packages:
     dev: false
     name: '@rush-temp/identity-cache-persistence'
     resolution:
-      integrity: sha512-abBg9C5Io0qJ3oB8xlWRY9vbdoC37neh10lKrPF3BO/ImBPW5wvjXvhVWvlP2KanKDgdlb8i8o+66sF9wCV4Sw==
+      integrity: sha512-MjEb8jVg9Mqsb0Wd5itSPOQjq7oEblXtK3Hoa3DCdP+L/a615xCViTBujZTtHyA3o77bHhGerOwDxZ7Dj6tyFA==
       tarball: file:projects/identity-cache-persistence.tgz
     version: 0.0.0
   file:projects/identity-vscode.tgz:
@@ -10595,7 +10595,7 @@ packages:
     dev: false
     name: '@rush-temp/identity'
     resolution:
-      integrity: sha512-9XsYSX8wnrRc4ys0Ain9eSP6i8S48KzfAWUb6CJWp/jGf5pnNIbrPiAwsf1PRTizO4B3ViBS97vsKSl85arLpA==
+      integrity: sha512-R/d1+WdL7aoUb0bgnSJacnMBjc5y5bzfo0PVX0TPbjiJwDK88Mua4KsvF8ler/Sr7X5bm1CsuAwsX4Nt27FSIg==
       tarball: file:projects/identity.tgz
     version: 0.0.0
   file:projects/iot-device-update.tgz:
