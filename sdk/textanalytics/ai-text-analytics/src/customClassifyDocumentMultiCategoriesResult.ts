@@ -8,7 +8,7 @@ import {
   makeTextAnalyticsErrorResult
 } from "./textAnalyticsResult";
 import { TextAnalyticsError, MultiClassificationDocument } from "./generated/models";
-import { DocumentClassification } from "./classifyCustomSingleClassResult";
+import { DocumentClassification } from "./customClassifyDocumentSingleCategoryResult";
 
 /**
  * The result of the custom classify document multi categories operation on a multi document.

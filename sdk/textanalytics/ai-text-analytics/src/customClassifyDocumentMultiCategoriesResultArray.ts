@@ -10,7 +10,7 @@ import {
   CustomClassifyDocumentMultiCategoriesResult,
   makeCustomClassifyDocumentMultiCategoriesResult,
   makeCustomClassifyDocumentMultiCategoriesErrorResult
-} from "./classifyCustomMultiClassResult";
+} from "./customClassifyDocumentMultiCategoriesResult";
 import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndCustomProjectInfo } from "./textAnalyticsResult";
 
 /**

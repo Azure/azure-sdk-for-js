@@ -10,7 +10,7 @@ import {
   CustomClassifyDocumentSingleCategoryResult,
   makeCustomClassifyDocumentSingleCategoryResult,
   makeCustomClassifyDocumentSingleCategoryErrorResult
-} from "./classifyCustomSingleClassResult";
+} from "./customClassifyDocumentSingleCategoryResult";
 import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndCustomProjectInfo } from "./textAnalyticsResult";
 
 /**

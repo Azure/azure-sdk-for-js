@@ -94,14 +94,14 @@ export {
   CustomClassifyDocumentSingleCategoryResult,
   CustomClassifyDocumentSingleCategorySuccessResult,
   DocumentClassification
-} from "./classifyCustomSingleClassResult";
-export { CustomClassifyDocumentSingleCategoryResultArray } from "./classifyCustomSingleClassResultArray";
+} from "./customClassifyDocumentSingleCategoryResult";
+export { CustomClassifyDocumentSingleCategoryResultArray } from "./customClassifyDocumentSingleCategoryResultArray";
 export {
   CustomClassifyDocumentMultiCategoriesErrorResult,
   CustomClassifyDocumentMultiCategoriesResult,
   CustomClassifyDocumentMultiCategoriesSuccessResult
-} from "./classifyCustomMultiClassResult";
-export { CustomClassifyDocumentMultiCategoriesResultArray } from "./classifyCustomMultiClassResultArray";
+} from "./customClassifyDocumentMultiCategoriesResult";
+export { CustomClassifyDocumentMultiCategoriesResultArray } from "./customClassifyDocumentMultiCategoriesResultArray";
 export {
   RecognizeLinkedEntitiesResult,
   RecognizeLinkedEntitiesErrorResult,
