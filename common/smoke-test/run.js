@@ -25,9 +25,14 @@ async function main() {
     const jsFiles = fs.readdirSync(entry.SamplesDirectory)
       .filter((name) => name.endsWith(".js"))
       .filter((name) => !skipFiles.includes(name));
+    console.log(jsFiles);
 
     for (let targetSample of jsFiles) {
       const sampleModule = require(`${entry.SamplesDirectory}/${targetSample}`);
+      console.log("sampleModule path");
+      console.log(`${entry.SamplesDirectory}/${targetSample}`);
+      console.log(sampleModule)
+      console.log(sampleModule.main)
       samplesToExecute.push({
         entrypoint: sampleModule.main,
         name: entry.Name,
