@@ -8,10 +8,34 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** JSON Object received from the registry containing schema identifiers. */
+/** Object received from the registry containing schema identifiers. */
 export interface SchemaId {
   /** Schema ID that uniquely identifies a schema in the registry namespace. */
   id?: string;
+}
+
+/** Error response returned from Azure Schema Registry service. */
+export interface ServiceErrorResponse {
+  /** Type of error. */
+  type: string;
+  /** HTTP status code. */
+  status: number;
+  /** Error message details to help user understand/debug failure. */
+  message: string;
+  /** More error information. */
+  innererror?: InnerErrorInfo;
+}
+
+/** More error information. */
+export interface InnerErrorInfo {
+  /** More detailed information about the error. */
+  details?: string;
+}
+
+/** Schema object returned from requested schema registry */
+export interface SchemaObject {
+  /** Schema object returned as plain text. */
+  schema?: string;
 }
 
 /** Defines headers for Schema_getById operation. */
@@ -24,20 +48,10 @@ export interface SchemaGetByIdHeaders {
   schemaId?: string;
   /** URL location of schema, identified by schema ID. */
   schemaIdLocation?: string;
-  /** Version of the returned schema. */
-  schemaVersion?: number;
-}
-
-/** Defines headers for Schema_queryIdByContent operation. */
-export interface SchemaQueryIdByContentHeaders {
-  /** URL location of schema, identified by schema group, schema name, and version. */
-  location?: string;
-  /** Serialization type for the schema being stored. */
-  serializationType?: string;
-  /** References specific schema in registry namespace. */
-  schemaId?: string;
-  /** URL location of schema, identified by schema ID. */
-  schemaIdLocation?: string;
+  /** References schema group. */
+  schemaGroupName?: string;
+  /** References schema name. */
+  schemaName?: string;
   /** Version of the returned schema. */
   schemaVersion?: number;
 }
@@ -52,12 +66,34 @@ export interface SchemaRegisterHeaders {
   schemaId?: string;
   /** URL location of schema, identified by schema ID. */
   schemaIdLocation?: string;
+  /** References schema group. */
+  schemaGroupName?: string;
+  /** References schema name. */
+  schemaName?: string;
+  /** Version of the returned schema. */
+  schemaVersion?: number;
+}
+
+/** Defines headers for Schema_queryIdByContent operation. */
+export interface SchemaQueryIdByContentHeaders {
+  /** URL location of schema, identified by schema group, schema name, and version. */
+  location?: string;
+  /** Serialization type for the schema being stored. */
+  serializationType?: string;
+  /** References specific schema in registry namespace. */
+  schemaId?: string;
+  /** URL location of schema, identified by schema ID. */
+  schemaIdLocation?: string;
+  /** References schema group. */
+  schemaGroupName?: string;
+  /** References schema name. */
+  schemaName?: string;
   /** Version of the returned schema. */
   schemaVersion?: number;
 }
 
 /** Known values of {@link SerializationType} that the service accepts. */
-export const enum KnownSerializationType {
+export enum KnownSerializationType {
   /** Avro Serialization schema type */
   Avro = "avro"
 }
@@ -76,10 +112,14 @@ export interface SchemaGetByIdOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getById operation. */
-export type SchemaGetByIdResponse = SchemaGetByIdHeaders & {
-  /** The parsed response body. */
-  body: string;
-};
+export type SchemaGetByIdResponse = SchemaGetByIdHeaders;
+
+/** Optional parameters. */
+export interface SchemaRegisterOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the register operation. */
+export type SchemaRegisterResponse = SchemaRegisterHeaders;
 
 /** Optional parameters. */
 export interface SchemaQueryIdByContentOptionalParams
@@ -88,13 +128,6 @@ export interface SchemaQueryIdByContentOptionalParams
 /** Contains response data for the queryIdByContent operation. */
 export type SchemaQueryIdByContentResponse = SchemaQueryIdByContentHeaders &
   SchemaId;
-
-/** Optional parameters. */
-export interface SchemaRegisterOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the register operation. */
-export type SchemaRegisterResponse = SchemaRegisterHeaders & SchemaId;
 
 /** Optional parameters. */
 export interface GeneratedSchemaRegistryClientOptionalParams

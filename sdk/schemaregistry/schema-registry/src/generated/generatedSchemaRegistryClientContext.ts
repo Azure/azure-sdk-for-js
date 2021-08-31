@@ -54,6 +54,6 @@ export class GeneratedSchemaRegistryClientContext extends coreClient.ServiceClie
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2020-09-01-preview";
+    this.apiVersion = options.apiVersion || "2021-11-01";
   }
 }

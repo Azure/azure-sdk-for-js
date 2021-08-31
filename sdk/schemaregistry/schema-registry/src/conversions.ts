@@ -46,9 +46,7 @@ export function convertSchemaResponse(
  * @internal
  */
 export function convertSchemaIdResponse(response: GeneratedSchemaIdResponse): SchemaProperties {
-  // `!` here because server is required to return this on success, but that
-  // is not modeled by the generated client.
-  return convertResponse(response, { id: response.id! });
+  return convertResponse(response, {});
 }
 
 function convertResponse<T>(

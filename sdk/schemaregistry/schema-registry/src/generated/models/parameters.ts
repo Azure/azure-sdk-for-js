@@ -7,22 +7,10 @@
  */
 
 import {
-  OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
+  OperationParameter
 } from "@azure/core-client";
-
-export const accept: OperationParameter = {
-  parameterPath: "accept",
-  mapper: {
-    defaultValue: "text/plain; charset=utf-8",
-    isConstant: true,
-    serializedName: "Accept",
-    type: {
-      name: "String"
-    }
-  }
-};
 
 export const endpoint: OperationURLParameter = {
   parameterPath: "endpoint",
@@ -50,7 +38,7 @@ export const schemaId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2020-09-01-preview",
+    defaultValue: "2021-11-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -62,7 +50,7 @@ export const apiVersion: OperationQueryParameter = {
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
-    defaultValue: "text/plain; charset=utf-8",
+    defaultValue: "application/json",
     isConstant: true,
     serializedName: "Content-Type",
     type: {
@@ -76,18 +64,6 @@ export const schemaContent: OperationParameter = {
   mapper: {
     serializedName: "schemaContent",
     required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const accept1: OperationParameter = {
-  parameterPath: "accept",
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Accept",
     type: {
       name: "String"
     }
@@ -121,6 +97,18 @@ export const serializationType: OperationParameter = {
   mapper: {
     serializedName: "Serialization-Type",
     required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const accept: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
     type: {
       name: "String"
     }

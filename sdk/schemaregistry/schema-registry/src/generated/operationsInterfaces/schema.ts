@@ -10,10 +10,10 @@ import {
   SchemaGetByIdOptionalParams,
   SchemaGetByIdResponse,
   SerializationType,
-  SchemaQueryIdByContentOptionalParams,
-  SchemaQueryIdByContentResponse,
   SchemaRegisterOptionalParams,
-  SchemaRegisterResponse
+  SchemaRegisterResponse,
+  SchemaQueryIdByContentOptionalParams,
+  SchemaQueryIdByContentResponse
 } from "../models";
 
 /** Interface representing a Schema. */
@@ -28,23 +28,6 @@ export interface Schema {
     schemaId: string,
     options?: SchemaGetByIdOptionalParams
   ): Promise<SchemaGetByIdResponse>;
-  /**
-   * Gets the ID referencing an existing schema within the specified schema group, as matched by schema
-   * content comparison.
-   * @param groupName Schema group under which schema is registered.  Group's serialization type should
-   *                  match the serialization type specified in the request.
-   * @param schemaName Name of the registered schema.
-   * @param serializationType Serialization type for the schema being registered.
-   * @param schemaContent String representation (UTF-8) of the registered schema.
-   * @param options The options parameters.
-   */
-  queryIdByContent(
-    groupName: string,
-    schemaName: string,
-    serializationType: SerializationType,
-    schemaContent: string,
-    options?: SchemaQueryIdByContentOptionalParams
-  ): Promise<SchemaQueryIdByContentResponse>;
   /**
    * Register new schema. If schema of specified name does not exist in specified group, schema is
    * created at version 1. If schema of specified name exists already in specified group, schema is
@@ -64,4 +47,21 @@ export interface Schema {
     schemaContent: string,
     options?: SchemaRegisterOptionalParams
   ): Promise<SchemaRegisterResponse>;
+  /**
+   * Gets the ID referencing an existing schema within the specified schema group, as matched by schema
+   * content comparison.
+   * @param groupName Schema group under which schema is registered.  Group's serialization type should
+   *                  match the serialization type specified in the request.
+   * @param schemaName Name of the registered schema.
+   * @param serializationType Serialization type for the schema being registered.
+   * @param schemaContent String representation (UTF-8) of the registered schema.
+   * @param options The options parameters.
+   */
+  queryIdByContent(
+    groupName: string,
+    schemaName: string,
+    serializationType: SerializationType,
+    schemaContent: string,
+    options?: SchemaQueryIdByContentOptionalParams
+  ): Promise<SchemaQueryIdByContentResponse>;
 }

@@ -23,6 +23,73 @@ export const SchemaId: coreClient.CompositeMapper = {
   }
 };
 
+export const ServiceErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ServiceErrorResponse",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      message: {
+        serializedName: "message",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      innererror: {
+        serializedName: "innererror",
+        type: {
+          name: "Composite",
+          className: "InnerErrorInfo"
+        }
+      }
+    }
+  }
+};
+
+export const InnerErrorInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "InnerErrorInfo",
+    modelProperties: {
+      details: {
+        serializedName: "details",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SchemaObject: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SchemaObject",
+    modelProperties: {
+      schema: {
+        serializedName: "schema",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const SchemaGetByIdHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -48,6 +115,69 @@ export const SchemaGetByIdHeaders: coreClient.CompositeMapper = {
       },
       schemaIdLocation: {
         serializedName: "schema-id-location",
+        type: {
+          name: "String"
+        }
+      },
+      schemaGroupName: {
+        serializedName: "schema-group-name",
+        type: {
+          name: "String"
+        }
+      },
+      schemaName: {
+        serializedName: "schema-name",
+        type: {
+          name: "String"
+        }
+      },
+      schemaVersion: {
+        serializedName: "schema-version",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const SchemaRegisterHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SchemaRegisterHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      serializationType: {
+        serializedName: "serialization-type",
+        type: {
+          name: "String"
+        }
+      },
+      schemaId: {
+        serializedName: "schema-id",
+        type: {
+          name: "String"
+        }
+      },
+      schemaIdLocation: {
+        serializedName: "schema-id-location",
+        type: {
+          name: "String"
+        }
+      },
+      schemaGroupName: {
+        serializedName: "schema-group-name",
+        type: {
+          name: "String"
+        }
+      },
+      schemaName: {
+        serializedName: "schema-name",
         type: {
           name: "String"
         }
@@ -91,41 +221,14 @@ export const SchemaQueryIdByContentHeaders: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      schemaVersion: {
-        serializedName: "schema-version",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const SchemaRegisterHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SchemaRegisterHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
+      schemaGroupName: {
+        serializedName: "schema-group-name",
         type: {
           name: "String"
         }
       },
-      serializationType: {
-        serializedName: "serialization-type",
-        type: {
-          name: "String"
-        }
-      },
-      schemaId: {
-        serializedName: "schema-id",
-        type: {
-          name: "String"
-        }
-      },
-      schemaIdLocation: {
-        serializedName: "schema-id-location",
+      schemaName: {
+        serializedName: "schema-name",
         type: {
           name: "String"
         }

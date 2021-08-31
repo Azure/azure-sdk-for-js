@@ -15,13 +15,13 @@ import {
   SchemaGetByIdOptionalParams,
   SchemaGetByIdResponse,
   SerializationType,
-  SchemaQueryIdByContentOptionalParams,
-  SchemaQueryIdByContentResponse,
   SchemaRegisterOptionalParams,
-  SchemaRegisterResponse
+  SchemaRegisterResponse,
+  SchemaQueryIdByContentOptionalParams,
+  SchemaQueryIdByContentResponse
 } from "../models";
 
-/** Class representing a Schema. */
+/** Class containing Schema operations. */
 export class SchemaImpl implements Schema {
   private readonly client: GeneratedSchemaRegistryClientContext;
 
@@ -50,29 +50,6 @@ export class SchemaImpl implements Schema {
   }
 
   /**
-   * Gets the ID referencing an existing schema within the specified schema group, as matched by schema
-   * content comparison.
-   * @param groupName Schema group under which schema is registered.  Group's serialization type should
-   *                  match the serialization type specified in the request.
-   * @param schemaName Name of the registered schema.
-   * @param serializationType Serialization type for the schema being registered.
-   * @param schemaContent String representation (UTF-8) of the registered schema.
-   * @param options The options parameters.
-   */
-  queryIdByContent(
-    groupName: string,
-    schemaName: string,
-    serializationType: SerializationType,
-    schemaContent: string,
-    options?: SchemaQueryIdByContentOptionalParams
-  ): Promise<SchemaQueryIdByContentResponse> {
-    return this.client.sendOperationRequest(
-      { groupName, schemaName, serializationType, schemaContent, options },
-      queryIdByContentOperationSpec
-    );
-  }
-
-  /**
    * Register new schema. If schema of specified name does not exist in specified group, schema is
    * created at version 1. If schema of specified name exists already in specified group, schema is
    * created at latest version + 1.
@@ -96,6 +73,29 @@ export class SchemaImpl implements Schema {
       registerOperationSpec
     );
   }
+
+  /**
+   * Gets the ID referencing an existing schema within the specified schema group, as matched by schema
+   * content comparison.
+   * @param groupName Schema group under which schema is registered.  Group's serialization type should
+   *                  match the serialization type specified in the request.
+   * @param schemaName Name of the registered schema.
+   * @param serializationType Serialization type for the schema being registered.
+   * @param schemaContent String representation (UTF-8) of the registered schema.
+   * @param options The options parameters.
+   */
+  queryIdByContent(
+    groupName: string,
+    schemaName: string,
+    serializationType: SerializationType,
+    schemaContent: string,
+    options?: SchemaQueryIdByContentOptionalParams
+  ): Promise<SchemaQueryIdByContentResponse> {
+    return this.client.sendOperationRequest(
+      { groupName, schemaName, serializationType, schemaContent, options },
+      queryIdByContentOperationSpec
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -105,28 +105,44 @@ const getByIdOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: { type: { name: "String" } },
       headersMapper: Mappers.SchemaGetByIdHeaders
     },
-    default: {
-      bodyMapper: { type: { name: "String" } }
-    }
+    default: {}
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.schemaId],
-  headerParameters: [Parameters.accept],
+  serializer
+};
+const registerOperationSpec: coreClient.OperationSpec = {
+  path: "/$schemagroups/{group-name}/schemas/{schema-name}",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.SchemaRegisterHeaders
+    },
+    default: {}
+  },
+  requestBody: Parameters.schemaContent,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.groupName,
+    Parameters.schemaName
+  ],
+  headerParameters: [Parameters.contentType, Parameters.serializationType],
+  mediaType: "json",
   serializer
 };
 const queryIdByContentOperationSpec: coreClient.OperationSpec = {
   path: "/$schemagroups/{group-name}/schemas/{schema-name}",
-  httpMethod: "POST",
+  httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.SchemaId,
       headersMapper: Mappers.SchemaQueryIdByContentHeaders
     },
     default: {
-      bodyMapper: { type: { name: "String" } }
+      bodyMapper: Mappers.ServiceErrorResponse
     }
   },
   requestBody: Parameters.schemaContent,
@@ -138,36 +154,9 @@ const queryIdByContentOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [
     Parameters.contentType,
-    Parameters.accept1,
-    Parameters.serializationType
+    Parameters.serializationType,
+    Parameters.accept
   ],
-  mediaType: "text",
-  serializer
-};
-const registerOperationSpec: coreClient.OperationSpec = {
-  path: "/$schemagroups/{group-name}/schemas/{schema-name}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SchemaId,
-      headersMapper: Mappers.SchemaRegisterHeaders
-    },
-    default: {
-      bodyMapper: { type: { name: "String" } }
-    }
-  },
-  requestBody: Parameters.schemaContent,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.groupName,
-    Parameters.schemaName
-  ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept1,
-    Parameters.serializationType
-  ],
-  mediaType: "text",
+  mediaType: "json",
   serializer
 };
