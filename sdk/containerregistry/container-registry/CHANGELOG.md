@@ -1,5 +1,17 @@
 # Release History
 
+## 1.0.0-beta.5 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+- Replace `authenticationScope` with `audience` in `ContainerRegistryClientOptions`. An extensible enum `KnownContainerRegistryAudience` is introduced which has known audience values.
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.0.0-beta.4 (2021-08-17)
 
 ### Breaking Changes

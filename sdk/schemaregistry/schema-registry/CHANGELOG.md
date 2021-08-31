@@ -1,6 +1,21 @@
 # Release History
 
-## 1.0.0-beta.2 (Unreleased)
+## 1.0.0-beta.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+- renames `SchemaDescription`'s `group` to `groupName`
+- renames `SchemaId` to `SchemaProperties`
+- renames `getSchemaById` to `getSchema`
+- renames `GetSchemaByIdOptions` to `GetSchemaOptions`
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.0.0-beta.2 (2021-08-17)
 
 ### Features Added
 

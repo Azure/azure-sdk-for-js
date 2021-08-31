@@ -18,7 +18,7 @@ import {
 } from "../../src";
 import { SASProtocol } from "../../src/SASQueryParameters";
 import { getQSU } from "../utils/index";
-import { record, delay, Recorder } from "@azure/test-utils-recorder";
+import { record, delay, Recorder } from "@azure-tools/test-recorder";
 import { recorderEnvSetup } from "../utils/index.browser";
 import { Context } from "mocha";
 

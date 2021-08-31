@@ -19,7 +19,7 @@ import { generateFileSASQueryParameters } from "../../src/FileSASSignatureValues
 import { newPipeline } from "../../src/Pipeline";
 import { ShareSASPermissions } from "../../src/ShareSASPermissions";
 import { getBSU, recorderEnvSetup } from "../utils";
-import { delay, record, Recorder } from "@azure/test-utils-recorder";
+import { delay, record, Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {

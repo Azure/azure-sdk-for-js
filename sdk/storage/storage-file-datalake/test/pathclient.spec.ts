@@ -4,7 +4,7 @@
 import { AbortController } from "@azure/abort-controller";
 import { isNode, URLBuilder, delay } from "@azure/core-http";
 import { SpanGraph, setTracer } from "@azure/test-utils";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 import { setSpan, context } from "@azure/core-tracing";
 import * as assert from "assert";
 import * as dotenv from "dotenv";

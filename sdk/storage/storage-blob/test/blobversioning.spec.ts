@@ -6,7 +6,7 @@ import * as dotenv from "dotenv";
 import * as fs from "fs";
 import { isNode, delay } from "@azure/core-http";
 import { getBSU, recorderEnvSetup, bodyToString, getGenericCredential } from "./utils";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 import {
   ContainerClient,
   BlobServiceClient,

@@ -15,7 +15,7 @@ import {
   getGenericBSU,
   getImmutableContainerName
 } from "./utils";
-import { record, delay, isLiveMode, Recorder } from "@azure/test-utils-recorder";
+import { record, delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import {
   BlobClient,
   BlockBlobClient,

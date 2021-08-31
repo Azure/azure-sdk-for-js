@@ -2,6 +2,11 @@
 // Licensed under the MIT license.
 import { v4 } from "uuid";
 const uuid = v4;
+import {
+  bearerTokenAuthenticationPolicy,
+  createEmptyPipeline,
+  Pipeline
+} from "@azure/core-rest-pipeline";
 import { PartitionKeyRange } from "./client/Container/PartitionKeyRange";
 import { Resource } from "./client/Resource";
 import { Constants, HTTPMethod, OperationType, ResourceType } from "./common/constants";
@@ -24,6 +29,7 @@ import { request as executeRequest } from "./request/RequestHandler";
 import { SessionContainer } from "./session/sessionContainer";
 import { SessionContext } from "./session/SessionContext";
 import { BulkOptions } from "./utils/batch";
+import { sanitizeEndpoint } from "./utils/checkURL";
 
 /** @hidden */
 const log = logger("ClientContext");
@@ -37,7 +43,7 @@ const QueryJsonContentType = "application/query+json";
 export class ClientContext {
   private readonly sessionContainer: SessionContainer;
   private connectionPolicy: ConnectionPolicy;
-
+  private pipeline: Pipeline;
   public partitionKeyDefinitionCache: { [containerUrl: string]: any }; // TODO: PartitionKeyDefinitionCache
   public constructor(
     private cosmosClientOptions: CosmosClientOptions,
@@ -46,6 +52,18 @@ export class ClientContext {
     this.connectionPolicy = cosmosClientOptions.connectionPolicy;
     this.sessionContainer = new SessionContainer();
     this.partitionKeyDefinitionCache = {};
+    this.pipeline = null;
+    if (cosmosClientOptions.aadCredentials) {
+      this.pipeline = createEmptyPipeline();
+      const hrefEndpoint = sanitizeEndpoint(cosmosClientOptions.endpoint);
+      const scope = `${hrefEndpoint}/.default`;
+      this.pipeline.addPolicy(
+        bearerTokenAuthenticationPolicy({
+          credential: cosmosClientOptions.aadCredentials,
+          scopes: scope
+        })
+      );
+    }
   }
   /** @hidden */
   public async read<T>({
@@ -74,7 +92,8 @@ export class ClientContext {
         options,
         resourceType,
         plugins: this.cosmosClientOptions.plugins,
-        partitionKey
+        partitionKey,
+        pipeline: this.pipeline
       };
 
       request.headers = await this.buildHeaders(request);
@@ -130,7 +149,8 @@ export class ClientContext {
       options,
       body: query,
       plugins: this.cosmosClientOptions.plugins,
-      partitionKey
+      partitionKey,
+      pipeline: this.pipeline
     };
     const requestId = uuid();
     if (query !== undefined) {
@@ -182,7 +202,8 @@ export class ClientContext {
       resourceType,
       options,
       body: query,
-      plugins: this.cosmosClientOptions.plugins
+      plugins: this.cosmosClientOptions.plugins,
+      pipeline: this.pipeline
     };
 
     request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
@@ -251,7 +272,8 @@ export class ClientContext {
         options,
         resourceId,
         plugins: this.cosmosClientOptions.plugins,
-        partitionKey
+        partitionKey,
+        pipeline: this.pipeline
       };
 
       request.headers = await this.buildHeaders(request);
@@ -303,7 +325,8 @@ export class ClientContext {
         body,
         options,
         plugins: this.cosmosClientOptions.plugins,
-        partitionKey
+        partitionKey,
+        pipeline: this.pipeline
       };
 
       request.headers = await this.buildHeaders(request);
@@ -391,7 +414,8 @@ export class ClientContext {
         resourceId,
         options,
         plugins: this.cosmosClientOptions.plugins,
-        partitionKey
+        partitionKey,
+        pipeline: this.pipeline
       };
 
       request.headers = await this.buildHeaders(request);
@@ -440,7 +464,8 @@ export class ClientContext {
         resourceId,
         options,
         plugins: this.cosmosClientOptions.plugins,
-        partitionKey
+        partitionKey,
+        pipeline: this.pipeline
       };
 
       request.headers = await this.buildHeaders(request);
@@ -493,7 +518,8 @@ export class ClientContext {
       resourceId: id,
       body: params,
       plugins: this.cosmosClientOptions.plugins,
-      partitionKey
+      partitionKey,
+      pipeline: this.pipeline
     };
 
     request.headers = await this.buildHeaders(request);
@@ -525,7 +551,8 @@ export class ClientContext {
       path: "",
       resourceType: ResourceType.none,
       options,
-      plugins: this.cosmosClientOptions.plugins
+      plugins: this.cosmosClientOptions.plugins,
+      pipeline: this.pipeline
     };
 
     request.headers = await this.buildHeaders(request);
@@ -579,7 +606,8 @@ export class ClientContext {
         resourceType: ResourceType.item,
         resourceId,
         plugins: this.cosmosClientOptions.plugins,
-        options
+        options,
+        pipeline: this.pipeline
       };
 
       request.headers = await this.buildHeaders(request);
@@ -630,7 +658,8 @@ export class ClientContext {
         resourceType: ResourceType.item,
         resourceId,
         plugins: this.cosmosClientOptions.plugins,
-        options
+        options,
+        pipeline: this.pipeline
       };
 
       request.headers = await this.buildHeaders(request);

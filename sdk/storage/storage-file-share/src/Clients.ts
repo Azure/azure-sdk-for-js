@@ -113,7 +113,7 @@ import { ShareSASPermissions } from "./ShareSASPermissions";
 import { SASProtocol } from "./SASQueryParameters";
 import { SasIPRange } from "./SasIPRange";
 import { FileSASPermissions } from "./FileSASPermissions";
-import { ListFilesIncludeType } from "./generatedModels";
+import { ListFilesIncludeType } from "./generated/src";
 
 /**
  * Options to configure the {@link ShareClient.create} operation.

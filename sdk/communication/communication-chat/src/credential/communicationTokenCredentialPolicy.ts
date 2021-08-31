@@ -2,7 +2,11 @@
 // Licensed under the MIT license.
 
 import { CommunicationTokenCredential } from "@azure/communication-common";
-import { RequestPolicyFactory, bearerTokenAuthenticationPolicy } from "@azure/core-http";
+import {
+  bearerTokenAuthenticationPolicy,
+  BearerTokenAuthenticationPolicyOptions,
+  PipelinePolicy
+} from "@azure/core-rest-pipeline";
 
 /**
  * Creates a new CommunicationTokenCredentialPolicy factory.
@@ -11,11 +15,13 @@ import { RequestPolicyFactory, bearerTokenAuthenticationPolicy } from "@azure/co
  */
 export const createCommunicationTokenCredentialPolicy = (
   credential: CommunicationTokenCredential
-): RequestPolicyFactory => {
-  return bearerTokenAuthenticationPolicy(
-    {
+): PipelinePolicy => {
+  const policyOptions: BearerTokenAuthenticationPolicyOptions = {
+    credential: {
       getToken: (_scopes, options) => credential.getToken({ abortSignal: options?.abortSignal })
     },
-    []
-  );
+    scopes: []
+  };
+
+  return bearerTokenAuthenticationPolicy(policyOptions);
 };

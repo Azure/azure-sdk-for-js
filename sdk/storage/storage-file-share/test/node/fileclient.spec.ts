@@ -8,7 +8,7 @@ import * as path from "path";
 import * as zlib from "zlib";
 import { Duplex } from "stream";
 
-import { isPlaybackMode, record, Recorder } from "@azure/test-utils-recorder";
+import { isPlaybackMode, record, Recorder } from "@azure-tools/test-recorder";
 
 import {
   FileSASPermissions,
@@ -259,14 +259,14 @@ describe("FileClient Node.js only", () => {
     await fileURL2.uploadRangeFromURL(blockBlob.url, 0, 0, 512, {
       sourceAuthorization: {
         scheme: "Bearer",
-        parameter: accessToken!.token
+        value: accessToken!.token
       }
     });
 
     await fileURL2.uploadRangeFromURL(blockBlob.url, 512, 512, 512, {
       sourceAuthorization: {
         scheme: "Bearer",
-        parameter: accessToken!.token
+        value: accessToken!.token
       }
     });
 

@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import { newPipeline } from "../../src";
 import { getQSU, getConnectionStringFromEnvironment } from "../utils";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 import { QueueClient } from "../../src/QueueClient";
 import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
 import { recorderEnvSetup } from "../utils/index.browser";

@@ -3,7 +3,7 @@
 
 import { getBSU, recorderEnvSetup } from "../utils";
 import { ShareClient } from "../../src";
-import { Recorder, record } from "@azure/test-utils-recorder";
+import { Recorder, record } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
 describe("StorageSharedKeyCredentialPolicy Node.js only", () => {

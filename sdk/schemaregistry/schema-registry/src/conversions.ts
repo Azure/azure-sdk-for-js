@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SchemaId, Schema } from "./models";
+import { SchemaProperties, Schema } from "./models";
 
 import {
   SchemaGetByIdResponse,
@@ -45,13 +45,16 @@ export function convertSchemaResponse(
  *
  * @internal
  */
-export function convertSchemaIdResponse(response: GeneratedSchemaIdResponse): SchemaId {
+export function convertSchemaIdResponse(response: GeneratedSchemaIdResponse): SchemaProperties {
   // `!` here because server is required to return this on success, but that
   // is not modeled by the generated client.
   return convertResponse(response, { id: response.id! });
 }
 
-function convertResponse<T>(response: GeneratedResponse, additionalProperties: T): SchemaId & T {
+function convertResponse<T>(
+  response: GeneratedResponse,
+  additionalProperties: T
+): SchemaProperties & T {
   return {
     // `!`s here because server is required to return these on success, but that
     // is not modeled by the generated client.

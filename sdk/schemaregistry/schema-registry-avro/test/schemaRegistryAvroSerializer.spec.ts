@@ -5,16 +5,16 @@ import { SchemaRegistryAvroSerializer } from "../src";
 import { assert, use as chaiUse } from "chai";
 import * as avro from "avsc/";
 import chaiPromises from "chai-as-promised";
-import { env, isLiveMode } from "@azure/test-utils-recorder";
+import { env, isLiveMode } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 
 import {
-  GetSchemaByIdOptions,
+  GetSchemaOptions,
   GetSchemaIdOptions,
   RegisterSchemaOptions,
   Schema,
   SchemaDescription,
-  SchemaId,
+  SchemaProperties,
   SchemaRegistry,
   SchemaRegistryClient
 } from "@azure/schema-registry";
@@ -77,7 +77,7 @@ describe("SchemaRegistryAvroSerializer", function() {
       name: "_",
       content: "_",
       serializationType: "NotAvro",
-      group: testGroup
+      groupName: testGroup
     });
 
     const buffer = Buffer.alloc(36);
@@ -186,7 +186,7 @@ async function createTestSerializer(
 async function registerTestSchema(registry: SchemaRegistry): Promise<string> {
   const schema = await registry.registerSchema({
     name: `${testSchemaObject.namespace}.${testSchemaObject.name}`,
-    group: testGroup,
+    groupName: testGroup,
     content: testSchema,
     serializationType: "avro"
   });
@@ -207,12 +207,12 @@ function createTestRegistry(neverLive = false): SchemaRegistry {
   const mapByContent = new Map<string, Schema>();
   let idCounter = 0;
 
-  return { registerSchema, getSchemaId, getSchemaById };
+  return { registerSchema, getSchemaId, getSchema };
 
   async function registerSchema(
     schema: SchemaDescription,
     _options?: RegisterSchemaOptions
-  ): Promise<SchemaId> {
+  ): Promise<SchemaProperties> {
     let result = mapByContent.get(schema.content);
     if (!result) {
       result = {
@@ -241,14 +241,11 @@ function createTestRegistry(neverLive = false): SchemaRegistry {
   async function getSchemaId(
     schema: SchemaDescription,
     _options?: GetSchemaIdOptions
-  ): Promise<SchemaId | undefined> {
+  ): Promise<SchemaProperties | undefined> {
     return mapByContent.get(schema.content);
   }
 
-  async function getSchemaById(
-    id: string,
-    _options?: GetSchemaByIdOptions
-  ): Promise<Schema | undefined> {
+  async function getSchema(id: string, _options?: GetSchemaOptions): Promise<Schema | undefined> {
     return mapById.get(id);
   }
 }

@@ -754,7 +754,5 @@ export function attachCredential<T>(thing: T, credential: TokenCredential): T {
 export function httpAuthorizationToString(
   httpAuthorization?: HttpAuthorization
 ): string | undefined {
-  return httpAuthorization
-    ? httpAuthorization.scheme + " " + httpAuthorization.parameter
-    : undefined;
+  return httpAuthorization ? httpAuthorization.scheme + " " + httpAuthorization.value : undefined;
 }

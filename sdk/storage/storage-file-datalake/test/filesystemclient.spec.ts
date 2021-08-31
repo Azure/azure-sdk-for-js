@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { SpanGraph, setTracer } from "@azure/test-utils";
-import { isLiveMode, record, Recorder } from "@azure/test-utils-recorder";
+import { isLiveMode, record, Recorder } from "@azure-tools/test-recorder";
 import { setSpan, context } from "@azure/core-tracing";
 import * as assert from "assert";
 import * as dotenv from "dotenv";

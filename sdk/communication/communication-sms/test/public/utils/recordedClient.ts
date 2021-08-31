@@ -10,7 +10,7 @@ import {
   WebResourceLike
 } from "@azure/core-http";
 import { ClientSecretCredential, DefaultAzureCredential, TokenCredential } from "@azure/identity";
-import { env, isPlaybackMode, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import { env, isPlaybackMode, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 import { SmsClient, SmsClientOptions } from "../../../src";
 
 export const recorderConfiguration: RecorderEnvironmentSetup = {
