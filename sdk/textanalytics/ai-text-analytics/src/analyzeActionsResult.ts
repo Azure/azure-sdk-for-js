@@ -30,7 +30,7 @@ import {
 import {
   makeCustomRecognizeEntitiesResultArray,
   CustomRecognizeEntitiesResultArray
-} from "./recognizeCustomEntitiesResultArray";
+} from "./customRecognizeEntitiesResultArray";
 import {
   makeRecognizeLinkedEntitiesResultArray,
   RecognizeLinkedEntitiesResultArray
@@ -347,7 +347,7 @@ type TextAnalyticsActionType =
   | "RecognizeLinkedEntities"
   | "AnalyzeSentiment"
   | "ExtractSummary"
-  | "RecognizeCustomEntities"
+  | "CustomRecognizeEntities"
   | "CustomClassifyDocumentSingleCategory"
   | "CustomClassifyDocumentMultiCategories";
 
@@ -402,7 +402,7 @@ function convertTaskTypeToActionType(taskType: string): TextAnalyticsActionType 
       return "ExtractSummary";
     }
     case "customEntityRecognitionTasks": {
-      return "RecognizeCustomEntities";
+      return "CustomRecognizeEntities";
     }
     case "customSingleClassificationTasks": {
       return "CustomClassifyDocumentSingleCategory";
@@ -461,7 +461,7 @@ function categorizeActionErrors(
   recognizeLinkedEntitiesActionErrors: TextAnalyticsActionError[],
   analyzeSentimentActionErrors: TextAnalyticsActionError[],
   extractSummarySentencesActionErrors: TextAnalyticsActionError[],
-  recognizeCustomEntitiesActionErrors: TextAnalyticsActionError[],
+  customRecognizeEntitiesActionErrors: TextAnalyticsActionError[],
   customClassifyDocumentSingleCategoryActionErrors: TextAnalyticsActionError[],
   customClassifyDocumentMultiCategoriesActionErrors: TextAnalyticsActionError[]
 ): void {
@@ -492,8 +492,8 @@ function categorizeActionErrors(
         extractSummarySentencesActionErrors.push(actionError);
         break;
       }
-      case "RecognizeCustomEntities": {
-        recognizeCustomEntitiesActionErrors.push(actionError);
+      case "CustomRecognizeEntities": {
+        customRecognizeEntitiesActionErrors.push(actionError);
         break;
       }
       case "CustomClassifyDocumentSingleCategory": {
@@ -585,7 +585,7 @@ export function createAnalyzeActionsResult(
   const recognizeLinkedEntitiesActionErrors: TextAnalyticsActionError[] = [];
   const analyzeSentimentActionErrors: TextAnalyticsActionError[] = [];
   const extractSummarySentencesActionErrors: TextAnalyticsActionError[] = [];
-  const recognizeCustomEntitiesActionErrors: TextAnalyticsActionError[] = [];
+  const customRecognizeEntitiesActionErrors: TextAnalyticsActionError[] = [];
   const customClassifyDocumentSingleCategoryActionErrors: TextAnalyticsActionError[] = [];
   const customClassifyDocumentMultiCategoriesActionErrors: TextAnalyticsActionError[] = [];
   categorizeActionErrors(
@@ -596,7 +596,7 @@ export function createAnalyzeActionsResult(
     recognizeLinkedEntitiesActionErrors,
     analyzeSentimentActionErrors,
     extractSummarySentencesActionErrors,
-    recognizeCustomEntitiesActionErrors,
+    customRecognizeEntitiesActionErrors,
     customClassifyDocumentSingleCategoryActionErrors,
     customClassifyDocumentMultiCategoriesActionErrors
   );
@@ -641,7 +641,7 @@ export function createAnalyzeActionsResult(
       documents,
       makeCustomRecognizeEntitiesResultArray,
       response.tasks.customEntityRecognitionTasks ?? [],
-      recognizeCustomEntitiesActionErrors
+      customRecognizeEntitiesActionErrors
     ),
     customClassifyDocumentSingleCategory: makeActionResult(
       documents,

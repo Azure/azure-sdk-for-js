@@ -10,7 +10,7 @@ import {
   CustomRecognizeEntitiesResult,
   makeCustomRecognizeEntitiesResult,
   makeCustomRecognizeEntitiesErrorResult
-} from "./recognizeCustomEntitiesResult";
+} from "./customRecognizeEntitiesResult";
 import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndCustomProjectInfo } from "./textAnalyticsResult";
 
 /**

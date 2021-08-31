@@ -408,7 +408,7 @@ export interface TextAnalyticsActions {
    */
   extractSummaryActions?: ExtractSummaryAction[];
   /**
-   * A collection of descriptions of custom entity recognition actions. However, currently, the service can accept up to one action only for `recognizeCustomEntities`.
+   * A collection of descriptions of custom entity recognition actions. However, currently, the service can accept up to one action only for `customRecognizeEntities`.
    */
   customRecognizeEntities?: CustomRecognizeEntitiesAction[];
   /**

@@ -87,8 +87,8 @@ export {
   CustomRecognizeEntitiesErrorResult,
   CustomRecognizeEntitiesResult,
   CustomRecognizeEntitiesSuccessResult
-} from "./recognizeCustomEntitiesResult";
-export { CustomRecognizeEntitiesResultArray } from "./recognizeCustomEntitiesResultArray";
+} from "./customRecognizeEntitiesResult";
+export { CustomRecognizeEntitiesResultArray } from "./customRecognizeEntitiesResultArray";
 export {
   CustomClassifyDocumentSingleCategoryErrorResult,
   CustomClassifyDocumentSingleCategoryResult,
