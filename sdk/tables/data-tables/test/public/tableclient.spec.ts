@@ -401,7 +401,10 @@ authModes.forEach((authMode) => {
       });
 
       it("should createEntity with primitive int and float without automatic type conversion", async () => {
-        type TestType = { integerNumber: number; floatingPointNumber: number };
+        type TestType = {
+          integerNumber: number;
+          floatingPointNumber: number;
+        };
         const testEntity: TableEntity<TestType> = {
           partitionKey: `P8_${suffix}`,
           rowKey: "R8",
@@ -410,7 +413,9 @@ authModes.forEach((authMode) => {
         };
         let createResult: FullOperationResponse | undefined;
         let deleteResult: FullOperationResponse | undefined;
-        await client.createEntity(testEntity, { onResponse: (res) => (createResult = res) });
+        await client.createEntity(testEntity, {
+          onResponse: (res) => (createResult = res)
+        });
         const result = await client.getEntity(testEntity.partitionKey, testEntity.rowKey, {
           disableTypeConversion: true
         });
@@ -422,8 +427,14 @@ authModes.forEach((authMode) => {
         assert.equal(createResult?.status, 204);
         assert.equal(result.partitionKey, testEntity.partitionKey);
         assert.equal(result.rowKey, testEntity.rowKey);
-        assert.deepEqual(result.integerNumber, { value: 3, type: "Int32" });
-        assert.deepEqual(result.floatingPointNumber, { value: 3.14, type: "Double" });
+        assert.deepEqual(result.integerNumber, {
+          value: "3",
+          type: "Int32"
+        });
+        assert.deepEqual(result.floatingPointNumber, {
+          value: "3.14",
+          type: "Double"
+        });
       });
     });
   });

@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fix `disableTypeConversion` to also apply for booleans and convert value to string when there is no type metadata. [#](https://github.com/Azure/azure-sdk-for-js/pull/)
+
 ### Other Changes
 
 ## 12.1.1 (2021-08-10)
