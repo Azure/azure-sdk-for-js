@@ -182,7 +182,7 @@ run().catch((err) => console.log("ERROR:", err));
 
 #### Handling the response for Logs Query
 
-The `query` API for LogsQueryClient returns the `LogsQueryResult`.
+The `query` API for `LogsQueryClient` returns the `LogsQueryResult`.
 
 Here is a heirarchy of the response:
 
