@@ -223,7 +223,7 @@ export class WebPubSubServiceClient {
   /**
    * The Web PubSub API version being used by this client
    */
-  public readonly apiVersion: string = "2021-05-01-preview";
+  public readonly apiVersion: string = "2021-08-01-preview";
 
   /**
    * The Web PubSub endpoint this client is connected to
