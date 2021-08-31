@@ -87,10 +87,10 @@ export class BasicScenario implements Scenario {
       data: {
         baseType: "RequestData",
         baseData: {
-          version: 1,
+          version: 2,
           name: "BasicScenario.Root",
           duration: msToTimeSpan(600),
-          responseCode: SpanStatusCode.OK.toString(),
+          responseCode: "0",
           success: true,
           properties: {
             foo: "bar"
@@ -103,11 +103,11 @@ export class BasicScenario implements Scenario {
           data: {
             baseType: "RemoteDependencyData",
             baseData: {
-              version: 1,
+              version: 2,
               name: "BasicScenario.Child.1",
               duration: msToTimeSpan(100),
               success: true,
-              resultCode: SpanStatusCode.OK.toString(),
+              resultCode: "0",
               properties: {
                 numbers: "123"
               }
@@ -120,11 +120,11 @@ export class BasicScenario implements Scenario {
           data: {
             baseType: "RemoteDependencyData",
             baseData: {
-              version: 1,
+              version: 2,
               name: "BasicScenario.Child.2",
               duration: msToTimeSpan(100),
               success: true,
-              resultCode: SpanStatusCode.OK.toString(),
+              resultCode: "0",
               properties: {
                 numbers: "1234"
               }

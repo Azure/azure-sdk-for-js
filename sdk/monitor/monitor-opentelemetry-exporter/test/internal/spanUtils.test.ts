@@ -6,29 +6,23 @@ import { SpanKind, SpanStatusCode, ROOT_CONTEXT } from "@opentelemetry/api";
 import * as assert from "assert";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { Resource } from "@opentelemetry/resources";
-import { ResourceAttributes } from "@opentelemetry/semantic-conventions";
+import { SemanticAttributes, SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
 
 import { Tags, Properties, Measurements } from "../../src/types";
-import {
-  AI_CLOUD_ROLE,
-  AI_CLOUD_ROLE_INSTACE
-} from "../../src/utils/constants/applicationinsights";
-import * as http from "../../src/utils/constants/span/httpAttributes";
-import * as grpc from "../../src/utils/constants/span/grpcAttributes";
 import * as ai from "../../src/utils/constants/applicationinsights";
 import { Context, getInstance } from "../../src/platform";
 import { msToTimeSpan } from "../../src/utils/breezeUtils";
 import { readableSpanToEnvelope } from "../../src/utils/spanUtils";
-import { RemoteDependencyData, RequestData } from "../../src/generated";
+import { RemoteDependencyData, RequestData, KnownContextTagKeys } from "../../src/generated";
 import { TelemetryItem as Envelope } from "../../src/generated";
 
 const context = getInstance(undefined, "./");
 
 const tracerProviderConfig: TracerConfig = {
   resource: new Resource({
-    [ResourceAttributes.SERVICE_INSTANCE_ID]: "testServiceInstanceID",
-    [ResourceAttributes.SERVICE_NAME]: "testServiceName",
-    [ResourceAttributes.SERVICE_NAMESPACE]: "testServiceNamespace"
+    [SemanticResourceAttributes.SERVICE_INSTANCE_ID]: "testServiceInstanceID",
+    [SemanticResourceAttributes.SERVICE_NAME]: "testServiceName",
+    [SemanticResourceAttributes.SERVICE_NAMESPACE]: "testServiceNamespace"
   })
 };
 
@@ -62,8 +56,8 @@ function assertEnvelope(
   }
 
   const expectedServiceTags: Tags = {
-    [AI_CLOUD_ROLE]: "testServiceNamespace.testServiceName",
-    [AI_CLOUD_ROLE_INSTACE]: "testServiceInstanceID"
+    [KnownContextTagKeys.AiCloudRole]: "testServiceNamespace.testServiceName",
+    [KnownContextTagKeys.AiCloudRoleInstance]: "testServiceInstanceID"
   };
   assert.deepStrictEqual(envelope.tags, {
     ...context.tags,
@@ -94,17 +88,16 @@ describe("spanUtils.ts", () => {
         );
         span.setAttributes({
           "extra.attribute": "foo",
-          [grpc.GRPC_STATUS_CODE]: SpanStatusCode.OK,
-          [grpc.GRPC_METHOD]: "/foo.Example/Foo"
+          [SemanticAttributes.RPC_GRPC_STATUS_CODE]: 123,
+          [SemanticAttributes.RPC_METHOD]: "/foo.Example/Foo"
         });
         span.setStatus({
           code: SpanStatusCode.OK
         });
         span.end();
         const expectedTags: Tags = {
-          [ai.AI_OPERATION_ID]: "traceid",
-          [ai.AI_OPERATION_PARENT_ID]: "parentSpanId",
-          [ai.AI_OPERATION_NAME]: "/foo.Example/Foo"
+          [KnownContextTagKeys.AiOperationId]: "traceid",
+          [KnownContextTagKeys.AiOperationParentId]: "parentSpanId",
         };
         const expectedProperties = {
           "extra.attribute": "foo"
@@ -115,10 +108,9 @@ describe("spanUtils.ts", () => {
           duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
           id: `|${span.spanContext().traceId}.${span.spanContext().spanId}.`,
           success: true,
-          responseCode: "1",
-          url: "/foo.Example/Foo",
+          responseCode: "123",
           name: `parent span`,
-          version: 1,
+          version: 2,
           properties: expectedProperties,
           measurements: {}
         };
@@ -145,16 +137,17 @@ describe("spanUtils.ts", () => {
         );
         span.setAttributes({
           "extra.attribute": "foo",
-          [grpc.GRPC_STATUS_CODE]: SpanStatusCode.OK,
-          [grpc.GRPC_METHOD]: "/foo.Example/Foo"
+          [SemanticAttributes.RPC_GRPC_STATUS_CODE]: 123,
+          [SemanticAttributes.RPC_METHOD]: "/foo.Example/Foo",
+          [SemanticAttributes.RPC_SYSTEM]: "test rpc system"
         });
         span.setStatus({
           code: SpanStatusCode.OK
         });
         span.end();
         const expectedTags: Tags = {
-          [ai.AI_OPERATION_ID]: "traceid",
-          [ai.AI_OPERATION_PARENT_ID]: "parentSpanId"
+          [KnownContextTagKeys.AiOperationId]: "traceid",
+          [KnownContextTagKeys.AiOperationParentId]: "parentSpanId"
         };
         const expectedProperties = {
           "extra.attribute": "foo"
@@ -164,12 +157,11 @@ describe("spanUtils.ts", () => {
           duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
           id: `|${span.spanContext().traceId}.${span.spanContext().spanId}.`,
           success: true,
-          resultCode: "1",
-          target: "/foo.Example/Foo",
-          data: "/foo.Example/Foo",
-          type: "GRPC",
+          resultCode: "123",
+          target: "test rpc system",
+          type: "Dependency",
           name: `parent span`,
-          version: 1,
+          version: 2,
           properties: expectedProperties,
           measurements: {}
         };
@@ -205,8 +197,8 @@ describe("spanUtils.ts", () => {
         span.end();
         const expectedTime = new Date(hrTimeToMilliseconds(span.startTime));
         const expectedTags: Tags = {
-          [ai.AI_OPERATION_ID]: "traceid",
-          [ai.AI_OPERATION_PARENT_ID]: "parentSpanId"
+          [KnownContextTagKeys.AiOperationId]: "traceid",
+          [KnownContextTagKeys.AiOperationParentId]: "parentSpanId"
         };
         const expectedProperties = {
           "extra.attribute": "foo"
@@ -216,9 +208,9 @@ describe("spanUtils.ts", () => {
           duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
           id: `|${span.spanContext().traceId}.${span.spanContext().spanId}.`,
           success: true,
-          responseCode: "1",
+          responseCode: "0",
           name: `parent span`,
-          version: 1,
+          version: 2,
           source: undefined,
           properties: expectedProperties,
           measurements: {}
@@ -254,8 +246,8 @@ describe("spanUtils.ts", () => {
         });
         span.end();
         const expectedTags: Tags = {
-          [ai.AI_OPERATION_ID]: "traceid",
-          [ai.AI_OPERATION_PARENT_ID]: "parentSpanId"
+          [KnownContextTagKeys.AiOperationId]: "traceid",
+          [KnownContextTagKeys.AiOperationParentId]: "parentSpanId"
         };
         const expectedProperties = {
           "extra.attribute": "foo"
@@ -265,11 +257,10 @@ describe("spanUtils.ts", () => {
           duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
           id: `|${span.spanContext().traceId}.${span.spanContext().spanId}.`,
           success: true,
-          resultCode: "1",
-          target: undefined,
+          resultCode: "0",
           type: "Dependency",
           name: `parent span`,
-          version: 1,
+          version: 2,
           properties: expectedProperties,
           measurements: {}
         };
@@ -298,23 +289,21 @@ describe("spanUtils.ts", () => {
           "parentSpanId"
         );
         span.setAttributes({
-          [http.HTTP_METHOD]: "GET",
-          [http.HTTP_ROUTE]: "/api/example",
-          [http.HTTP_URL]: "https://example.com/api/example",
-          [http.HTTP_STATUS_CODE]: 200,
+          [SemanticAttributes.HTTP_METHOD]: "GET",
+          [SemanticAttributes.HTTP_ROUTE]: "/api/example",
+          [SemanticAttributes.HTTP_URL]: "https://example.com/api/example",
+          [SemanticAttributes.HTTP_STATUS_CODE]: 200,
           "extra.attribute": "foo"
         });
         span.setStatus({
           code: SpanStatusCode.OK
         });
         span.end();
-        const expectedTags: Tags = {
-          [ai.AI_OPERATION_ID]: "traceid",
-          [ai.AI_OPERATION_PARENT_ID]: "parentSpanId",
-          [ai.AI_OPERATION_NAME]: `${span.attributes[http.HTTP_METHOD] as string} ${span.attributes[
-            http.HTTP_ROUTE
-          ] as string}`
-        };
+        const expectedTags: Tags = {};
+        expectedTags[KnownContextTagKeys.AiOperationId] = "traceid";
+        expectedTags[KnownContextTagKeys.AiOperationParentId] = "parentSpanId";
+        expectedTags[KnownContextTagKeys.AiOperationName] = "GET parent span";
+
         const expectedProperties = {
           "extra.attribute": "foo"
         };
@@ -325,8 +314,8 @@ describe("spanUtils.ts", () => {
           success: true,
           responseCode: "200",
           url: "https://example.com/api/example",
-          name: `GET /api/example`,
-          version: 1,
+          name: `parent span`,
+          version: 2,
           source: undefined,
           properties: expectedProperties,
           measurements: {}
@@ -353,19 +342,20 @@ describe("spanUtils.ts", () => {
           "parentSpanId"
         );
         span.setAttributes({
-          [http.HTTP_METHOD]: "GET",
-          [http.HTTP_URL]: "https://example.com/api/example",
-          [http.HTTP_STATUS_CODE]: 200,
+          [SemanticAttributes.HTTP_METHOD]: "GET",
+          [SemanticAttributes.HTTP_URL]: "https://example.com/api/example",
+          [SemanticAttributes.PEER_SERVICE]: "https://someotherexample.com/api/example",
+          [SemanticAttributes.HTTP_STATUS_CODE]: 200,
           "extra.attribute": "foo"
         });
         span.setStatus({
           code: SpanStatusCode.OK
         });
         span.end();
-        const expectedTags: Tags = {
-          [ai.AI_OPERATION_ID]: span.spanContext().traceId,
-          [ai.AI_OPERATION_PARENT_ID]: "parentSpanId"
-        };
+        const expectedTags: Tags = {};
+        expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
+        expectedTags[KnownContextTagKeys.AiOperationParentId] = "parentSpanId";
+        expectedTags[KnownContextTagKeys.AiOperationName] = "parent span";
         const expectedProperties = {
           "extra.attribute": "foo"
         };
@@ -375,11 +365,11 @@ describe("spanUtils.ts", () => {
           id: `|traceid.spanId.`,
           success: true,
           resultCode: "200",
-          type: "HTTP",
-          target: "example.com",
+          type: "Http",
+          target: "https://someotherexample.com/api/example",
           data: "https://example.com/api/example",
-          name: `GET /api/example`,
-          version: 1,
+          name: `parent span`,
+          version: 2,
           properties: expectedProperties,
           measurements: {}
         };
