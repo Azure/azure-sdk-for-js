@@ -450,7 +450,7 @@ export function generateBlockID(blockIDPrefix: string, blockIndex: number): stri
   }
   const res =
     blockIDPrefix +
-    padStart(blockIndex.toString(), maxSourceStringLength - blockIDPrefix.length, "0");
+    blockIndex.toString().padStart(maxSourceStringLength - blockIDPrefix.length, "0");
   return base64encode(res);
 }
 
@@ -489,35 +489,6 @@ export async function delay(
       aborter.addEventListener("abort", abortHandler);
     }
   });
-}
-
-/**
- * String.prototype.padStart()
- *
- * @param currentString -
- * @param targetLength -
- * @param padString -
- */
-export function padStart(
-  currentString: string,
-  targetLength: number,
-  padString: string = " "
-): string {
-  // @ts-expect-error TS doesn't know this code needs to run downlevel sometimes.
-  if (String.prototype.padStart) {
-    return currentString.padStart(targetLength, padString);
-  }
-
-  padString = padString || " ";
-  if (currentString.length > targetLength) {
-    return currentString;
-  } else {
-    targetLength = targetLength - currentString.length;
-    if (targetLength > padString.length) {
-      padString += padString.repeat(targetLength / padString.length);
-    }
-    return padString.slice(0, targetLength) + currentString;
-  }
 }
 
 export function sanitizeURL(url: string): string {
