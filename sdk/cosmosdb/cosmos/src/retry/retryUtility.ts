@@ -36,7 +36,7 @@ interface RetryPolicies {
  * @hidden
  */
 export async function execute({
-  retryContext = { retryCount: 0 },
+  retryContext = {},
   retryPolicies,
   requestContext,
   executeRequest
@@ -64,7 +64,6 @@ export async function execute({
   }
   if (retryContext && retryContext.clearSessionTokenNotAvailable) {
     requestContext.client.clearSessionToken(requestContext.path);
-    delete requestContext.headers["x-ms-session-token"];
   }
   requestContext.endpoint = await requestContext.globalEndpointManager.resolveServiceEndpoint(
     requestContext.resourceType,
