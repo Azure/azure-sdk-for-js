@@ -9,6 +9,7 @@ import { newPipeline, Pipeline } from "../src/Pipeline";
 import { getBSU, recorderEnvSetup } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
 import { record, Recorder } from "@azure-tools/test-recorder";
+import { Context } from "mocha";
 
 dotenv.config();
 
@@ -18,7 +19,7 @@ describe("RetryPolicy", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");

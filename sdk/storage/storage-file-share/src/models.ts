@@ -217,7 +217,10 @@ export function toShareProtocolsString(protocols: ShareProtocols = {}): string |
   return protocolStr;
 }
 
-export function validateFilePermissionOptions(filePermission?: string, filePermissionKey?: string) {
+export function validateFilePermissionOptions(
+  filePermission?: string,
+  filePermissionKey?: string
+): void {
   if (filePermission && filePermissionKey) {
     throw new RangeError("Only one of filePermission or filePermissionKey can be specified.");
   }
