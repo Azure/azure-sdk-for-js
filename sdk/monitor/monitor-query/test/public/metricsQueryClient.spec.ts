@@ -50,7 +50,7 @@ describe("MetricsClient live tests", function() {
       if (i % 20 === 0 || i === metricDefinitionsLength) {
         const newResults = await metricsQueryClient.query(resourceId, definitionNames, {
           timespan: {
-            duration: Durations.last24Hours
+            duration: Durations.TwentyFourHours
           }
         });
         assert.ok(newResults);
@@ -68,7 +68,7 @@ describe("MetricsClient live tests", function() {
       resourceId,
       [firstMetricDefinition.name!],
       {
-        timespan: { duration: Durations.last24Hours },
+        timespan: { duration: Durations.TwentyFourHours },
         metricNamespace: firstMetricDefinition.namespace
       }
     );

@@ -15,16 +15,16 @@ export type AggregationType = "None" | "Average" | "Count" | "Minimum" | "Maximu
 
 // @public
 export const Durations: {
-    readonly last7Days: "P7D";
-    readonly last3Days: "P3D";
-    readonly last2Days: "P2D";
-    readonly lastDay: "P1D";
-    readonly lastHour: "PT1H";
-    readonly last4Hours: "PT4H";
-    readonly last24Hours: "P1D";
-    readonly last48Hours: "P2D";
-    readonly last30Minutes: "PT30M";
-    readonly last5Minutes: "PT5M";
+    readonly sevenDays: "P7D";
+    readonly threeDays: "P3D";
+    readonly twoDays: "P2D";
+    readonly OneDay: "P1D";
+    readonly OneHour: "PT1H";
+    readonly FourHours: "PT4H";
+    readonly TwentyFourHours: "P1D";
+    readonly FourtyEightHours: "P2D";
+    readonly ThirtyMinutes: "PT30M";
+    readonly FiveMinutes: "PT5M";
 };
 
 // @public

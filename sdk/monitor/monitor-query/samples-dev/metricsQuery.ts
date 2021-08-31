@@ -36,7 +36,7 @@ export async function main() {
         [firstMetric.name!],
         {
           granularity: "PT1M",
-          timespan: { duration: Durations.last5Minutes }
+          timespan: { duration: Durations.FiveMinutes }
         }
       );
 

@@ -13,7 +13,8 @@ export {
   LogsQueryResult,
   // TODO: design issues around this still pending.
   // QueryStatistics,
-  LogsTable
+  LogsTable,
+  LogsColumn
 } from "./models/publicLogsModels";
 export {
   MetricsQueryClient,
@@ -40,7 +41,6 @@ export { TimeInterval } from "./models/timeInterval";
 export {
   // TODO: these are the generated model names. We probably want to run them
   // through a manual review to make them consistent with style.
-  Column as LogsColumn,
   LogsColumnType,
   ErrorDetail,
   ErrorInfo

@@ -39,9 +39,9 @@ export async function main() {
     monitorWorkspaceId,
     kustoQuery,
     // The timespan is an ISO8601 formatted time (or interval). Some common aliases
-    // are available (like lastDay, lastHour, last48Hours, etc..) but any properly formatted ISO8601
+    // are available (like durationOf1Day, durationOf1Hour, durationOf48Hours, etc..) but any properly formatted ISO8601
     // value is valid.
-    { duration: Durations.lastHour },
+    { duration: Durations.OneHour },
     queryLogsOptions
   );
 

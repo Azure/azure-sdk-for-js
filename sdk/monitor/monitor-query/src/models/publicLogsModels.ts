@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-client";
-import { Column as LogsColumn, ErrorInfo } from "../generated/logquery/src";
+import { ErrorInfo, LogsColumnType } from "../generated/logquery/src";
 import { TimeInterval } from "./timeInterval";
 
 // https://dev.loganalytics.io/documentation/Using-the-API/RequestOptions
@@ -62,7 +62,7 @@ export interface LogsQueryResult {
   error?: ErrorInfo;
 }
 
-/** Options when query logs with a batch. */
+/** Configurable HTTP request settings for the Logs query batch operation. */
 export type LogsQueryBatchOptions = OperationOptions;
 
 /** The Analytics query. Learn more about the [Analytics query syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/) */
@@ -132,4 +132,27 @@ export interface LogsTable {
   columns: LogsColumn[];
   /** The resulting rows from this query. */
   rows: (Date | string | number | Record<string, unknown> | boolean)[][];
+}
+
+/** A column in a table. */
+export interface LogsColumn {
+  /** The name of this column. */
+  name?: string;
+  /** The data type of this column.
+   * Defines values for LogsColumnType.
+   * {@link KnownLogsColumnType} can be used interchangeably with LogsColumnType,
+   *  this enum contains the known values that the service supports.
+   * ### Known values supported by the service
+   * **bool**
+   * **datetime**
+   * **dynamic**
+   * **int**
+   * **long**
+   * **real**
+   * **string**
+   * **guid**
+   * **decimal**
+   * **timespan**
+   */
+  type?: LogsColumnType;
 }

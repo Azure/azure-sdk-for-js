@@ -23,7 +23,7 @@ export async function main() {
   const kustoQuery =
     "AppEvents | project TimeGenerated, Name, AppRoleInstance | order by TimeGenerated asc | limit 10";
 
-  console.log(`Running '${kustoQuery}' over the last 5 minutes`);
+  console.log(`Running '${kustoQuery}' over the last One Hour`);
   const queryLogsOptions: LogsQueryOptions = {
     // explicitly control the amount of time the server can spend processing the query.
     serverTimeoutInSeconds: 60,
@@ -36,9 +36,9 @@ export async function main() {
     monitorWorkspaceId,
     kustoQuery,
     // The timespan is an ISO8601 formatted time (or interval). Some common aliases
-    // are available (like lastDay, lastHour, last48Hours, etc..) but any properly formatted ISO8601
+    // are available (like OneDay, OneHour, FoutyEightHours, etc..) but any properly formatted ISO8601
     // value is valid.
-    { duration: Durations.lastHour },
+    { duration: Durations.OneHour },
     queryLogsOptions
   );
 
