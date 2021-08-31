@@ -2,11 +2,6 @@
 # specifying a different Azure region to use when manually triggering the live
 # tests pipeline. This is useful for when we want to test in different
 # environments: Prod, Canary, etc.
-parameters:
-- name: Location
-  displayName: Location
-  type: string
-  default: canadacentral
 
 trigger: none
 
@@ -15,7 +10,6 @@ stages:
     parameters:
       PackageName: "@azure/ai-form-recognizer"
       ServiceDirectory: formrecognizer
-      Location: "${{ parameters.Location }}"
       TimeoutInMinutes: 120
       SupportedClouds: 'Public,UsGov,China'
       EnvVars:
