@@ -73,6 +73,7 @@ export interface HasConnectionOptions extends OperationOptions {
 
 // @public
 export interface HubAdminClientOptions extends CommonClientOptions {
+    reverseProxyEndpoint?: string;
 }
 
 // @public

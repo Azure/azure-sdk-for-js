@@ -10,7 +10,7 @@ export {
   HasConnectionOptions,
   HubHasGroupOptions,
   HubHasUserOptions,
-  HubAdminClientOptions,
+  WebPubSubServiceClientOptions as HubAdminClientOptions,
   HubRemoveUserFromAllGroupsOptions,
   HubSendToConnectionOptions,
   HubSendToUserOptions,

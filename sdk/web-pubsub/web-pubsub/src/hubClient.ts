@@ -14,6 +14,7 @@ import { parseConnectionString } from "./parseConnectionString";
 import jwt from "jsonwebtoken";
 import { getPayloadForMessage } from "./utils";
 import { AzureWebPubSubServiceRestAPIOptionalParams } from "./generated";
+import { webPubSubReverseProxyPolicy } from "./reverseProxyPolicy";
 
 /**
  * Options for closing a connection to a hub.
@@ -50,7 +51,12 @@ export type JSONTypes = string | number | boolean | object;
 /**
  * Options for constructing a HubAdmin client.
  */
-export interface HubAdminClientOptions extends CommonClientOptions {}
+export interface WebPubSubServiceClientOptions extends CommonClientOptions {
+  /**
+   * Reverse proxy endpoint (for example, your Azure API management endpoint)
+   */
+  reverseProxyEndpoint?: string;
+}
 
 /**
  * Options for checking if a connection exists.
@@ -208,7 +214,7 @@ export interface GenerateClientTokenOptions extends OperationOptions {
 export class WebPubSubServiceClient {
   private readonly client: AzureWebPubSubServiceRestAPI;
   private credential!: AzureKeyCredential | TokenCredential;
-  private readonly clientOptions?: HubAdminClientOptions;
+  private readonly clientOptions?: WebPubSubServiceClientOptions;
 
   /**
    * The name of the hub this client is connected to
@@ -238,7 +244,7 @@ export class WebPubSubServiceClient {
    * @param hubName - The name of the hub to connect to. If omitted, '_default' is used.
    * @param options - Options to configure the http pipeline
    */
-  constructor(connectionString: string, hubName: string, options?: HubAdminClientOptions);
+  constructor(connectionString: string, hubName: string, options?: WebPubSubServiceClientOptions);
 
   /**
    * Creates an instance of a WebPubSubServiceClient for sending messages and managing groups, connections, and users.
@@ -260,13 +266,13 @@ export class WebPubSubServiceClient {
     endpoint: string,
     credential: AzureKeyCredential | TokenCredential,
     hubName: string,
-    options?: HubAdminClientOptions
+    options?: WebPubSubServiceClientOptions
   );
   constructor(
     endpointOrConnectionString: string,
     credsOrHubName?: AzureKeyCredential | TokenCredential | string,
-    hubNameOrOpts?: string | HubAdminClientOptions,
-    opts?: HubAdminClientOptions
+    hubNameOrOpts?: string | WebPubSubServiceClientOptions,
+    opts?: WebPubSubServiceClientOptions
   ) {
     // unpack constructor arguments
     if (typeof credsOrHubName === "object") {
@@ -283,8 +289,10 @@ export class WebPubSubServiceClient {
       this.endpoint = parsedCs.endpoint;
       this.credential = parsedCs.credential;
       this.hubName = credsOrHubName as string;
-      this.clientOptions = hubNameOrOpts as HubAdminClientOptions;
+      this.clientOptions = hubNameOrOpts as WebPubSubServiceClientOptions;
     }
+
+
 
     const internalPipelineOptions: AzureWebPubSubServiceRestAPIOptionalParams = {
       ...this.clientOptions,
@@ -305,6 +313,10 @@ export class WebPubSubServiceClient {
 
     if (!isTokenCredential(this.credential)) {
       this.client.pipeline.addPolicy(webPubSubKeyCredentialPolicy(this.credential));
+    }
+
+    if (this.clientOptions?.reverseProxyEndpoint) {
+      this.client.pipeline.addPolicy(webPubSubReverseProxyPolicy(this.clientOptions?.reverseProxyEndpoint));
     }
   }
 
