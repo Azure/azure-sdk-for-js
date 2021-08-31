@@ -219,8 +219,6 @@ function createTestRegistry(neverLive = false): SchemaRegistry {
         id: newId(),
         content: schema.content,
         version: 1,
-        location: "",
-        locationById: "",
         serializationType: schema.serializationType
       };
       mapByContent.set(result.content, result);
