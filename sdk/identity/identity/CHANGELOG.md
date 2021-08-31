@@ -1,7 +1,8 @@
 # Release History
 
-## 1.5.2 (Unreleased)
+## 1.5.2 (2021-09-01)
 
+- Fixed a bug introduced on 1.5.1 that caused the `ManagedIdentityCredential` to fail authenticating in Arc environments.
 
 ## 1.5.1 (2021-08-12)
 

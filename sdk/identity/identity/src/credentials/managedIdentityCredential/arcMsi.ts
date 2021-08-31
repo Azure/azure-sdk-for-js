@@ -96,6 +96,7 @@ export const arcMsi: MSI = {
     }
 
     const requestOptions = {
+      allowInsecureConnection: true,
       disableJsonStringifyOnBody: true,
       deserializationMapper: undefined,
       abortSignal: getTokenOptions.abortSignal,
