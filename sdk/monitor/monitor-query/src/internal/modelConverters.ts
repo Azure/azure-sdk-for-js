@@ -22,6 +22,7 @@ import {
   MetricDefinition as GeneratedMetricDefinition
 } from "../generated/metricsdefinitions/src";
 
+import { MetricNamespace as GeneratedMetricNamespace } from "../generated/metricsnamespaces/src";
 import { formatPreferHeader } from "./util";
 
 import {
@@ -32,7 +33,12 @@ import {
   MetricsQueryOptions,
   MetricsQueryResult
 } from "../../src";
-import { Metric, MetricDefinition, TimeSeriesElement } from "../models/publicMetricsModels";
+import {
+  MetricNamespace,
+  Metric,
+  MetricDefinition,
+  TimeSeriesElement
+} from "../models/publicMetricsModels";
 import { FullOperationResponse } from "../../../../core/core-client/types/latest/core-client";
 import { convertTimespanToInterval } from "../timespanConversion";
 
@@ -310,6 +316,28 @@ export function convertResponseForMetricsDefinitions(
     return response;
   });
   return definitions;
+}
+
+/**
+ * @internal
+ */
+export function convertResponseForMetricNamespaces(
+  generatedResponse: Array<GeneratedMetricNamespace>
+): Array<MetricNamespace> {
+  const namespaces: Array<MetricNamespace> = generatedResponse?.map((genDef) => {
+    const { properties, ...rest } = genDef;
+
+    const response: MetricNamespace = {
+      ...rest
+    };
+
+    if (properties) {
+      response.metricNamespaceName = properties.metricNamespaceName;
+    }
+
+    return response;
+  });
+  return namespaces;
 }
 
 /**

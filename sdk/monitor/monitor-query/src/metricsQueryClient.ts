@@ -28,6 +28,7 @@ import {
 import {
   convertRequestForMetrics,
   convertRequestOptionsForMetricsDefinitions,
+  convertResponseForMetricNamespaces,
   convertResponseForMetrics,
   convertResponseForMetricsDefinitions
 } from "./internal/modelConverters";
@@ -201,7 +202,7 @@ export class MetricsQueryClient {
       resourceUri,
       options
     );
-    yield segmentResponse.value;
+    yield convertResponseForMetricNamespaces(segmentResponse.value);
   }
   /**
    * List items for Metric Namespaces

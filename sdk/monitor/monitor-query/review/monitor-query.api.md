@@ -165,14 +165,9 @@ export interface MetricDefinition {
 export interface MetricNamespace {
     classification?: NamespaceClassification;
     id?: string;
-    name?: string;
-    properties?: MetricNamespaceName;
-    type?: string;
-}
-
-// @public
-export interface MetricNamespaceName {
     metricNamespaceName?: string;
+    name?: string;
+    type?: string;
 }
 
 // @public
@@ -184,7 +179,8 @@ export interface MetricsClientOptions extends PipelineOptions {
 export class MetricsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: MetricsClientOptions);
     listMetricDefinitions(resourceUri: string, options?: ListMetricDefinitionsOptions): PagedAsyncIterableIterator<MetricDefinition>;
-    listMetricNamespaces(resourceUri: string, options?: ListMetricNamespacesOptions): PagedAsyncIterableIterator<MetricNamespace>;
+    // Warning: (ae-forgotten-export) The symbol "MetricNamespace" needs to be exported by the entry point index.d.ts
+    listMetricNamespaces(resourceUri: string, options?: ListMetricNamespacesOptions): PagedAsyncIterableIterator<MetricNamespace_2>;
     query(resourceUri: string, metricNames: string[], options?: MetricsQueryOptions): Promise<MetricsQueryResult>;
 }
 

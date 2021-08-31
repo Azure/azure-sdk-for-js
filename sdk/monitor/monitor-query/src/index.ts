@@ -27,7 +27,8 @@ export {
   MetricDefinition,
   MetricsQueryOptions,
   MetricsQueryResult,
-  TimeSeriesElement
+  TimeSeriesElement,
+  MetricNamespace
 } from "./models/publicMetricsModels";
 
 export { Durations } from "./models/constants";
@@ -61,8 +62,4 @@ export {
   MetricAvailability,
   MetricClass
 } from "./generated/metricsdefinitions/src";
-export {
-  MetricNamespace,
-  MetricNamespaceName,
-  NamespaceClassification
-} from "./generated/metricsnamespaces/src";
+export { NamespaceClassification } from "./generated/metricsnamespaces/src";

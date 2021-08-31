@@ -8,7 +8,8 @@ import {
   MetricUnit,
   MetricClass,
   AggregationType,
-  MetricAvailability
+  MetricAvailability,
+  NamespaceClassification
 } from "..";
 import { TimeInterval } from "./timeInterval";
 
@@ -128,6 +129,20 @@ export interface ListMetricNamespacesOptions {
 
   /** The ISO 8601 conform Date start time from which to query for metric namespaces. */
   startTime?: string;
+}
+
+/** Metric namespace class specifies the metadata for a metric namespace. */
+export interface MetricNamespace {
+  /** The ID of the metric namespace. */
+  id?: string;
+  /** The type of the namespace. */
+  type?: string;
+  /** The escaped name of the namespace. */
+  name?: string;
+  /** Kind of namespace */
+  classification?: NamespaceClassification;
+  /** The metric namespace name. */
+  metricNamespaceName?: string;
 }
 
 /** Metric definition class specifies the metadata for a metric. */
