@@ -368,6 +368,14 @@ A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob
 
 The following example gets metrics for an [Azure Metrics Advisor](https://docs.microsoft.com/azure/applied-ai-services/metrics-advisor/overview) subscription. The resource URI is that of a Metrics Advisor resource.
 
+The *resource URI* must be that of the resource for which metrics are being queried. It's normally of the format `/subscriptions/<id>/resourceGroups/<rg-name>/providers/<source>/topics/<resource-name>`.
+
+*To find the resource URI:*
+
+1. Navigate to your resource's page in the Azure portal.
+2. From the **Overview** blade, select the **JSON View** link.
+3. In the resulting JSON, copy the value of the `id` property.
+
 ```ts
 import { DefaultAzureCredential } from "@azure/identity";
 import { Durations, Metric, MetricsQueryClient } from "@azure/monitor-query";
