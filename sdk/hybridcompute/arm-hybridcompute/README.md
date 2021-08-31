@@ -1,11 +1,11 @@
 ## Azure HybridComputeManagementClient SDK for JavaScript
 
-This package contains an isomorphic SDK (runs both in Node.js and in browsers) for HybridComputeManagementClient.
+This package contains an isomorphic SDK (runs both in node.js and in browsers) for HybridComputeManagementClient.
 
 ### Currently supported environments
 
 - [LTS versions of Node.js](https://nodejs.org/about/releases/)
-- Latest versions of Safari, Chrome, Edge, and Firefox.
+- Latest versions of Safari, Chrome, Edge and Firefox.
 
 ### Prerequisites
 
@@ -21,7 +21,6 @@ Install both packages using the below command:
 ```bash
 npm install --save @azure/arm-hybridcompute @azure/identity
 ```
-
 > **Note**: You may have used either `@azure/ms-rest-nodeauth` or `@azure/ms-rest-browserauth` in the past. These packages are in maintenance mode receiving critical bug fixes, but no new features.
 If you are on a [Node.js that has LTS status](https://nodejs.org/about/releases/), or are writing a client side browser application, we strongly encourage you to upgrade to `@azure/identity` which uses the latest versions of Azure Active Directory and MSAL APIs and provides more authentication options.
 
@@ -37,7 +36,6 @@ If you are on a [Node.js that has LTS status](https://nodejs.org/about/releases/
 
 In the below samples, we pass the credential and the Azure subscription id to instantiate the client.
 Once the client is created, explore the operations on it either in your favorite editor or in our [API reference documentation](https://docs.microsoft.com/javascript/api) to get started.
-
 #### nodejs - Authentication, client creation, and get machines as an example written in JavaScript.
 
 ##### Sample code
@@ -52,9 +50,9 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 const creds = new DefaultAzureCredential();
 const client = new HybridComputeManagementClient(creds, subscriptionId);
 const resourceGroupName = "testresourceGroupName";
-const name = "testname";
+const machineName = "testmachineName";
 const expand = "instanceView";
-client.machines.get(resourceGroupName, name, expand).then((result) => {
+client.machines.get(resourceGroupName, machineName, expand).then((result) => {
   console.log("The result is:");
   console.log(result);
 }).catch((err) => {
@@ -88,13 +86,13 @@ In browser applications, we recommend using the `InteractiveBrowserCredential` t
       const credential = new InteractiveBrowserCredential(
       {
         clientId: "<client id for your Azure AD app>",
-        tenantId: "<optional tenant for your organization>"
+        tenant: "<optional tenant for your organization>"
       });
       const client = new Azure.ArmHybridcompute.HybridComputeManagementClient(creds, subscriptionId);
       const resourceGroupName = "testresourceGroupName";
-      const name = "testname";
+      const machineName = "testmachineName";
       const expand = "instanceView";
-      client.machines.get(resourceGroupName, name, expand).then((result) => {
+      client.machines.get(resourceGroupName, machineName, expand).then((result) => {
         console.log("The result is:");
         console.log(result);
       }).catch((err) => {
