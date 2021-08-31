@@ -145,7 +145,7 @@ The `LogsQueryClient` can be used to query a Monitor workspace using the [Kusto 
 You can use the `Durations` constants provided for some commonly used ISO8601 durations.
 
 ```ts
-const { LogsQueryClient,Durations } = require("@azure/monitor-query");
+const { LogsQueryClient, Durations } = require("@azure/monitor-query");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 const azureLogAnalyticsWorkspaceId = "<the Workspace Id for your Azure Log Analytics resource>";
@@ -154,7 +154,7 @@ const logsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
 async function run() {
   const kustoQuery = "AppEvents | limit 1";
   const result = await logsQueryClient.query(azureLogAnalyticsWorkspaceId, kustoQuery, {
-    duration: Durations.last24Hours
+    duration: Durations.TwentFourHours
   });
   const tablesFromResult = result.tables;
 
@@ -230,7 +230,7 @@ const queryLogsOptions: LogsQueryOptions = {
 const result = await logsQueryClient.query(
   azureLogAnalyticsWorkspaceId,
   kustoQuery,
-  { duration: Durations.last24Hours },
+  { duration: Durations.TwentyFourHours },
   queryLogsOptions
 );
 
@@ -397,7 +397,7 @@ export async function main() {
 
   const metricsResponse = await metricsQueryClient.queryMetrics(
     metricsResourceId,
-    { duration: Durations.last5Minutes },
+    { duration: Durations.FiveMinutes },
     {
       metricNames: [firstMetric.name!],
       interval: "PT1M"
@@ -462,7 +462,7 @@ export async function main() {
 
   const metricsResponse = await metricsQueryClient.queryMetrics(
     metricsResourceId,
-    { duration: Durations.last5Minutes },
+    { duration: Durations.FiveMinutes },
     {
       metricNames: ["MatchedEventCount"],
       interval: "PT1M",
@@ -518,7 +518,7 @@ const kustoQuery = "AppEvents | limit 1";
 const result = await logsQueryClient.queryLogs(
   azureLogAnalyticsWorkspaceId,
   kustoQuery,
-  { duration: Durations.last24Hours },
+  { duration: Durations.TwentyFourHours },
   queryLogsOptions
 );
 ```
