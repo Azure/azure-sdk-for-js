@@ -93,13 +93,9 @@ describe("HubClient", function() {
     });
 
     it("can broadcast using APIM", async () => {
-      const client = new WebPubSubServiceClient(
-        env.WPS_CONNECTION_STRING,
-        "simplechat",
-        {
-          reverseProxyEndpoint: env.REVERSE_PROXY_ENDPOINT
-        }
-      );
+      const client = new WebPubSubServiceClient(env.WPS_CONNECTION_STRING, "simplechat", {
+        reverseProxyEndpoint: env.REVERSE_PROXY_ENDPOINT
+      });
 
       await client.sendToAll("hello", { contentType: "text/plain", onResponse });
       assert.equal(lastResponse?.status, 202);
@@ -110,7 +106,7 @@ describe("HubClient", function() {
       const binaryMessage = new Uint8Array(10);
       await client.sendToAll(binaryMessage.buffer, { onResponse });
       assert.equal(lastResponse?.status, 202);
-    })
+    });
 
     it("can send messages to a user", async () => {
       await client.sendToUser("brian", "hello", {
@@ -174,7 +170,6 @@ describe("HubClient", function() {
       // grantPermission validates connection ids, so we expect an error here.
       assert.equal(error.statusCode, 404);
     });
-
 
     // service API doesn't work yet.
     it.skip("can generate client tokens", async () => {

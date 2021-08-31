@@ -292,8 +292,6 @@ export class WebPubSubServiceClient {
       this.clientOptions = hubNameOrOpts as WebPubSubServiceClientOptions;
     }
 
-
-
     const internalPipelineOptions: AzureWebPubSubServiceRestAPIOptionalParams = {
       ...this.clientOptions,
       ...{
@@ -316,7 +314,9 @@ export class WebPubSubServiceClient {
     }
 
     if (this.clientOptions?.reverseProxyEndpoint) {
-      this.client.pipeline.addPolicy(webPubSubReverseProxyPolicy(this.clientOptions?.reverseProxyEndpoint));
+      this.client.pipeline.addPolicy(
+        webPubSubReverseProxyPolicy(this.clientOptions?.reverseProxyEndpoint)
+      );
     }
   }
 
