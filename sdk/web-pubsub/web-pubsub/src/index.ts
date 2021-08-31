@@ -7,6 +7,7 @@ export {
   GetAuthenticationTokenResponse,
   HubSendToAllOptions,
   CloseConnectionOptions,
+  GenerateClientTokenOptions,
   HasConnectionOptions,
   HubHasGroupOptions,
   HubHasUserOptions,
