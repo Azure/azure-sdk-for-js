@@ -385,27 +385,25 @@ export async function main() {
     throw new Error("METRICS_RESOURCE_ID must be set in the environment for this sample");
   }
 
-  const result = await metricsQueryClient.getMetricDefinitions(metricsResourceId);
+  const iterator = metricsQueryClient.listMetricDefinitions(metricsResourceId);
+  let result = await iterator.next();
+  const firstMetric: MetricDefinition = result.value;
 
-  for (const definition of result.definitions) {
-    console.log(`Definition = ${definition.name}`);
+  while (!result.done) {
+    console.log(` metricDefinitions - ${result.value.id}, ${result.value.name}`);
+    result = await iterator.next();
   }
+  console.log(`First Metric Definition = ${firstMetric.name}`);
 
-  const firstMetric = result.definitions[0];
+  console.log(`Picking an example metric to query: ${firstMetric.name!}`);
 
-  console.log(`Picking an example metric to query: ${firstMetric.name}`);
-
-  const metricsResponse = await metricsQueryClient.queryMetrics(
-    metricsResourceId,
-    { duration: Durations.FiveMinutes },
-    {
-      metricNames: [firstMetric.name!],
-      interval: "PT1M"
-    }
-  );
+  const metricsResponse = await metricsQueryClient.query(metricsResourceId, [firstMetric.name!], {
+    granularity: "PT1M",
+    timespan: { duration: Durations.FiveMinutes }
+  });
 
   console.log(
-    `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.interval}, time span: ${metricsResponse.timespan}`
+    `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.granularity}, time span: ${metricsResponse.timespan}`
   );
 
   const metrics: Metric[] = metricsResponse.metrics;
