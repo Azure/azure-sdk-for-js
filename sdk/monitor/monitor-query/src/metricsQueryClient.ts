@@ -86,7 +86,7 @@ export class MetricsQueryClient {
   /**
    * Query metrics, given a resource URI
    * @param resourceUri - The resource URI to query.
-   * @param metricNames - The names of the metrics to retrieve
+   * @param metricNames - The names of the metrics to retrieve.
    * @param options - Options for querying metrics.
    * @returns A response containing metrics.
    */
