@@ -71,7 +71,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.galleryName
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
