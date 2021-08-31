@@ -8,10 +8,9 @@ import { config } from "dotenv";
 import { isNode } from "@azure/core-util";
 config();
 
-describe("Tests", () => {
-  it("storage test", async function() {
-    const file = (isNode ? "node_" : "browser_") + `core_v1_file_path.json`;
-    const recorder = new TestProxyHttpClientCoreV1(file);
+describe("Core V1 tests", () => {
+  it("storage-queue create queue", async function() {
+    const recorder = new TestProxyHttpClientCoreV1(this.test);
     const options: StoragePipelineOptions = {};
     options.httpClient = recorder;
     const client = new QueueServiceClient(env.STORAGE_SAS_URL, undefined, options);
