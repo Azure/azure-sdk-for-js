@@ -39,7 +39,7 @@ export class MSALAuthCode extends MsalBrowser {
     };
     this.msalConfig.system = {
       loggerOptions: {
-        loggerCallback: defaultLoggerCallback(this.logger, options.allowPiiLogging, "Browser")
+        loggerCallback: defaultLoggerCallback(this.logger, options.allowPiiLogging)
       }
     };
 
