@@ -14,7 +14,7 @@ async function main() {
     console.log(`Importing samples for ${entry.Name}...`);
 
     // Read configuration from package.json's //sampleConfiguration field
-    const packageJson = require(`${entry.SamplesDirectory}/package.json`);
+    const packageJson = require(`${entry.PackageDirectory}/package.json`);
     const smokeTestConfig = packageJson["//sampleConfiguration"] || {};
 
     if (smokeTestConfig.skipFolder) {
