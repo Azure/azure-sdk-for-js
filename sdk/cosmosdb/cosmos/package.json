@@ -1,6 +1,6 @@
 {
   "name": "@azure/cosmos",
-  "version": "3.13.1",
+  "version": "3.14.0",
   "description": "Microsoft Azure Cosmos DB Service Node.js SDK for SQL API",
   "sdk-type": "client",
   "keywords": [
