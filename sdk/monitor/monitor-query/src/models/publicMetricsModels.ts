@@ -17,9 +17,9 @@ import { TimeInterval } from "./timeInterval";
  * Options used when querying metrics.
  */
 export interface MetricsQueryOptions extends OperationOptions {
-  /** The interval (i.e. timegrain) of the query.{@link Durations} helper contains aliases for some common ISO8601 durations.
+  /** The interval (i.e. timegrain) of the query. {@link Durations} helper contains aliases for some common ISO8601 durations.
    * This is an ISO8601 duration value in the format P[n]Y[n]M[n]DT[n]H[n]M[n]S
-   *  where  P is the duration designator (for period) placed at the start of the duration representation.
+   *  where P is the duration designator (for period) placed at the start of the duration representation.
    *   Y is the year designator that follows the value for the number of years.
    *   M is the month designator that follows the value for the number of months.
    *   W is the week designator that follows the value for the number of weeks.
