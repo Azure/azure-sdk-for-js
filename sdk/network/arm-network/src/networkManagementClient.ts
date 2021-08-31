@@ -91,6 +91,7 @@ class NetworkManagementClient extends NetworkManagementClientContext {
   serviceEndpointPolicies: operations.ServiceEndpointPolicies;
   serviceEndpointPolicyDefinitions: operations.ServiceEndpointPolicyDefinitions;
   serviceTags: operations.ServiceTags;
+  serviceTagInformation: operations.ServiceTagInformationOperations;
   usages: operations.Usages;
   virtualNetworks: operations.VirtualNetworks;
   subnets: operations.Subnets;
@@ -213,6 +214,7 @@ class NetworkManagementClient extends NetworkManagementClientContext {
     this.serviceEndpointPolicies = new operations.ServiceEndpointPolicies(this);
     this.serviceEndpointPolicyDefinitions = new operations.ServiceEndpointPolicyDefinitions(this);
     this.serviceTags = new operations.ServiceTags(this);
+    this.serviceTagInformation = new operations.ServiceTagInformationOperations(this);
     this.usages = new operations.Usages(this);
     this.virtualNetworks = new operations.VirtualNetworks(this);
     this.subnets = new operations.Subnets(this);

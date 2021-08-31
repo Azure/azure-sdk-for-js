@@ -84,6 +84,19 @@ export class BastionHosts {
   }
 
   /**
+   * Updates Tags for BastionHost resource
+   * @param resourceGroupName The name of the resource group.
+   * @param bastionHostName The name of the Bastion Host.
+   * @param parameters Parameters supplied to update BastionHost tags.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BastionHostsUpdateTagsResponse>
+   */
+  updateTags(resourceGroupName: string, bastionHostName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.BastionHostsUpdateTagsResponse> {
+    return this.beginUpdateTags(resourceGroupName,bastionHostName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.BastionHostsUpdateTagsResponse>;
+  }
+
+  /**
    * Lists all Bastion Hosts in a subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.BastionHostsListResponse>
@@ -170,6 +183,26 @@ export class BastionHosts {
         options
       },
       beginCreateOrUpdateOperationSpec,
+      options);
+  }
+
+  /**
+   * Updates Tags for BastionHost resource
+   * @param resourceGroupName The name of the resource group.
+   * @param bastionHostName The name of the Bastion Host.
+   * @param parameters Parameters supplied to update BastionHost tags.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdateTags(resourceGroupName: string, bastionHostName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        bastionHostName,
+        parameters,
+        options
+      },
+      beginUpdateTagsOperationSpec,
       options);
   }
 
@@ -357,6 +390,39 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     201: {
       bodyMapper: Mappers.BastionHost
     },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.bastionHostName
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.TagsObject,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.BastionHost
+    },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

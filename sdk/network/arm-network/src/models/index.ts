@@ -350,6 +350,40 @@ export interface CustomDnsConfigPropertiesFormat {
 }
 
 /**
+ * An IP Configuration of the private endpoint.
+ */
+export interface PrivateEndpointIPConfiguration {
+  /**
+   * The ID of a group obtained from the remote resource that this private endpoint should connect
+   * to.
+   */
+  groupId?: string;
+  /**
+   * The member name of a group obtained from the remote resource that this private endpoint should
+   * connect to.
+   */
+  memberName?: string;
+  /**
+   * A private ip address obtained from the private endpoint's subnet.
+   */
+  privateIPAddress?: string;
+  /**
+   * The name of the resource that is unique within a resource group.
+   */
+  name?: string;
+  /**
+   * The resource type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+}
+
+/**
  * Private endpoint resource.
  */
 export interface PrivateEndpoint extends Resource {
@@ -385,6 +419,19 @@ export interface PrivateEndpoint extends Resource {
    * An array of custom dns configurations.
    */
   customDnsConfigs?: CustomDnsConfigPropertiesFormat[];
+  /**
+   * Application security groups in which the private endpoint IP configuration is included.
+   */
+  applicationSecurityGroups?: ApplicationSecurityGroup[];
+  /**
+   * A list of IP configurations of the private endpoint. This will be used to map to the First
+   * Party Service's endpoints.
+   */
+  ipConfigurations?: PrivateEndpointIPConfiguration[];
+  /**
+   * The custom name of the network interface attached to the private endpoint.
+   */
+  customNetworkInterfaceName?: string;
   /**
    * A unique read-only string that changes whenever the resource is updated.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -985,6 +1032,10 @@ export interface ServiceEndpointPolicyDefinition extends SubResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly etag?: string;
+  /**
+   * The type of the resource.
+   */
+  type?: string;
 }
 
 /**
@@ -1011,6 +1062,14 @@ export interface ServiceEndpointPolicy extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * The alias indicating if the policy belongs to a service
+   */
+  serviceAlias?: string;
+  /**
+   * A collection of contextual service endpoint policy.
+   */
+  contextualServiceEndpointPolicies?: string[];
   /**
    * A unique read-only string that changes whenever the resource is updated.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1845,6 +1904,24 @@ export interface InboundNatRule extends SubResource {
    */
   enableTcpReset?: boolean;
   /**
+   * The port range start for the external endpoint. This property is used together with
+   * BackendAddressPool and FrontendPortRangeEnd. Individual inbound NAT rule port mappings will be
+   * created for each backend address from BackendAddressPool. Acceptable values range from 1 to
+   * 65534.
+   */
+  frontendPortRangeStart?: number;
+  /**
+   * The port range end for the external endpoint. This property is used together with
+   * BackendAddressPool and FrontendPortRangeStart. Individual inbound NAT rule port mappings will
+   * be created for each backend address from BackendAddressPool. Acceptable values range from 1 to
+   * 65534.
+   */
+  frontendPortRangeEnd?: number;
+  /**
+   * A reference to backendAddressPool resource.
+   */
+  backendAddressPool?: SubResource;
+  /**
    * The provisioning state of the inbound NAT rule resource. Possible values include: 'Succeeded',
    * 'Updating', 'Deleting', 'Failed'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -2617,6 +2694,10 @@ export interface ApplicationGatewayPathRule extends SubResource {
    */
   rewriteRuleSet?: SubResource;
   /**
+   * Load Distribution Policy resource of URL path map path rule.
+   */
+  loadDistributionPolicy?: SubResource;
+  /**
    * The provisioning state of the path rule resource. Possible values include: 'Succeeded',
    * 'Updating', 'Deleting', 'Failed'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -2751,6 +2832,10 @@ export interface ApplicationGatewayRequestRoutingRule extends SubResource {
    * Redirect configuration resource of the application gateway.
    */
   redirectConfiguration?: SubResource;
+  /**
+   * Load Distribution Policy resource of the application gateway.
+   */
+  loadDistributionPolicy?: SubResource;
   /**
    * The provisioning state of the request routing rule resource. Possible values include:
    * 'Succeeded', 'Updating', 'Deleting', 'Failed'
@@ -3119,6 +3204,10 @@ export interface ApplicationGatewayUrlPathMap extends SubResource {
    */
   defaultRedirectConfiguration?: SubResource;
   /**
+   * Default Load Distribution Policy resource of URL path map.
+   */
+  defaultLoadDistributionPolicy?: SubResource;
+  /**
    * Path rule of URL path map resource.
    */
   pathRules?: ApplicationGatewayPathRule[];
@@ -3237,6 +3326,83 @@ export interface ApplicationGatewayAutoscaleConfiguration {
    * Upper bound on number of Application Gateway capacity.
    */
   maxCapacity?: number;
+}
+
+/**
+ * Load Distribution Target of an application gateway.
+ */
+export interface ApplicationGatewayLoadDistributionTarget extends SubResource {
+  /**
+   * Weight per server. Range between 1 and 100.
+   */
+  weightPerServer?: number;
+  /**
+   * Backend address pool resource of the application gateway.
+   */
+  backendAddressPool?: SubResource;
+  /**
+   * Name of the load distribution policy that is unique within an Application Gateway.
+   */
+  name?: string;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+  /**
+   * Type of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * Load Distribution Policy of an application gateway.
+ */
+export interface ApplicationGatewayLoadDistributionPolicy extends SubResource {
+  /**
+   * Load Distribution Targets resource of an application gateway.
+   */
+  loadDistributionTargets?: ApplicationGatewayLoadDistributionTarget[];
+  /**
+   * Load Distribution Targets resource of an application gateway. Possible values include:
+   * 'RoundRobin', 'LeastConnections', 'IpHash'
+   */
+  loadDistributionAlgorithm?: ApplicationGatewayLoadDistributionAlgorithm;
+  /**
+   * The provisioning state of the Load Distribution Policy resource. Possible values include:
+   * 'Succeeded', 'Updating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Name of the load distribution policy that is unique within an Application Gateway.
+   */
+  name?: string;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+  /**
+   * Type of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * Application Gateway global configuration.
+ */
+export interface ApplicationGatewayGlobalConfiguration {
+  /**
+   * Enable request buffering.
+   */
+  enableRequestBuffering?: boolean;
+  /**
+   * Enable response buffering.
+   */
+  enableResponseBuffering?: boolean;
 }
 
 /**
@@ -3440,6 +3606,14 @@ export interface ApplicationGateway extends Resource {
    * policy differs from the WAF Config.
    */
   forceFirewallPolicyAssociation?: boolean;
+  /**
+   * Load distribution policies of the application gateway resource.
+   */
+  loadDistributionPolicies?: ApplicationGatewayLoadDistributionPolicy[];
+  /**
+   * Global Configuration.
+   */
+  globalConfiguration?: ApplicationGatewayGlobalConfiguration;
   /**
    * A unique read-only string that changes whenever the resource is updated.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -4224,6 +4398,30 @@ export interface BastionHost extends Resource {
    */
   readonly provisioningState?: ProvisioningState;
   /**
+   * The scale units for the Bastion Host resource.
+   */
+  scaleUnits?: number;
+  /**
+   * Enable/Disable Copy/Paste feature of the Bastion Host resource. Default value: false.
+   */
+  disableCopyPaste?: boolean;
+  /**
+   * Enable/Disable File Copy feature of the Bastion Host resource. Default value: false.
+   */
+  enableFileCopy?: boolean;
+  /**
+   * Enable/Disable IP Connect feature of the Bastion Host resource. Default value: false.
+   */
+  enableIpConnect?: boolean;
+  /**
+   * Enable/Disable Shareable Link of the Bastion Host resource. Default value: false.
+   */
+  enableShareableLink?: boolean;
+  /**
+   * Enable/Disable Tunneling feature of the Bastion Host resource. Default value: false.
+   */
+  enableTunneling?: boolean;
+  /**
    * A unique read-only string that changes whenever the resource is updated.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -4587,7 +4785,39 @@ export interface QosPortRange {
 }
 
 /**
- * DSCP Configuration in a resource group.
+ * Quality of Service defines the traffic configuration between endpoints. Mandatory to have one
+ * marking.
+ */
+export interface QosDefinition {
+  /**
+   * List of markings to be used in the configuration.
+   */
+  markings?: number[];
+  /**
+   * Source IP ranges.
+   */
+  sourceIpRanges?: QosIpRange[];
+  /**
+   * Destination IP ranges.
+   */
+  destinationIpRanges?: QosIpRange[];
+  /**
+   * Sources port ranges.
+   */
+  sourcePortRanges?: QosPortRange[];
+  /**
+   * Destination port ranges.
+   */
+  destinationPortRanges?: QosPortRange[];
+  /**
+   * RNM supported protocol types. Possible values include: 'DoNotUse', 'Icmp', 'Tcp', 'Udp',
+   * 'Gre', 'Esp', 'Ah', 'Vxlan', 'All'
+   */
+  protocol?: ProtocolType;
+}
+
+/**
+ * Differentiated Services Code Point configuration for any given network interface
  */
 export interface DscpConfiguration extends Resource {
   /**
@@ -4615,6 +4845,10 @@ export interface DscpConfiguration extends Resource {
    * 'Gre', 'Esp', 'Ah', 'Vxlan', 'All'
    */
   protocol?: ProtocolType;
+  /**
+   * QoS object definitions
+   */
+  qosDefinitionCollection?: QosDefinition[];
   /**
    * Qos Collection ID generated by RNM.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -5749,6 +5983,17 @@ export interface FirewallPolicySNAT {
 }
 
 /**
+ * SQL Settings in Firewall Policy.
+ */
+export interface FirewallPolicySQL {
+  /**
+   * A flag to indicate if SQL Redirect traffic filtering is enabled. Turning on the flag requires
+   * no rule using port 11000-11999.
+   */
+  allowSqlRedirect?: boolean;
+}
+
+/**
  * DNS Proxy Settings in Firewall Policy.
  */
 export interface DnsSettings {
@@ -5764,6 +6009,32 @@ export interface DnsSettings {
    * FQDNs in Network Rules are supported when set to true.
    */
   requireProxyForNetworkRules?: boolean;
+}
+
+/**
+ * Explicit Proxy Settings in Firewall Policy.
+ */
+export interface ExplicitProxySettings {
+  /**
+   * When set to true, explicit proxy mode is enabled.
+   */
+  enableExplicitProxy?: boolean;
+  /**
+   * Port number for explicit proxy http protocol, cannot be greater than 64000.
+   */
+  httpPort?: number;
+  /**
+   * Port number for explicit proxy https protocol, cannot be greater than 64000.
+   */
+  httpsPort?: number;
+  /**
+   * Port number for firewall to serve PAC file.
+   */
+  pacFilePort?: number;
+  /**
+   * SAS URL for PAC file.
+   */
+  pacFile?: string;
 }
 
 /**
@@ -5927,9 +6198,17 @@ export interface FirewallPolicy extends Resource {
    */
   snat?: FirewallPolicySNAT;
   /**
+   * SQL Settings definition.
+   */
+  sql?: FirewallPolicySQL;
+  /**
    * DNS Proxy Settings definition.
    */
   dnsSettings?: DnsSettings;
+  /**
+   * Explicit Proxy Settings definition.
+   */
+  explicitProxySettings?: ExplicitProxySettings;
   /**
    * The configuration for Intrusion detection.
    */
@@ -7127,6 +7406,10 @@ export interface NetworkVirtualAppliance extends Resource {
    * VirtualAppliance ASN.
    */
   virtualApplianceAsn?: number;
+  /**
+   * Public key for SSH login.
+   */
+  sshPublicKey?: string;
   /**
    * List of Virtual Appliance Network Interfaces.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -9748,6 +10031,11 @@ export interface ServiceTagInformation {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly id?: string;
+  /**
+   * The iteration number of service tag object for region.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly serviceTagChangeNumber?: string;
 }
 
 /**
@@ -11640,6 +11928,10 @@ export interface BgpConnection extends SubResource {
    */
   peerIp?: string;
   /**
+   * The reference to the HubVirtualNetworkConnection resource.
+   */
+  hubVirtualNetworkConnection?: SubResource;
+  /**
    * The provisioning state of the resource. Possible values include: 'Succeeded', 'Updating',
    * 'Deleting', 'Failed'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -11850,6 +12142,12 @@ export interface VirtualHub extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly etag?: string;
+  /**
+   * Kind of service virtual hub. This is metadata used for the Azure portal experience for Route
+   * Server.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly kind?: string;
 }
 
 /**
@@ -11986,6 +12284,11 @@ export interface VnetRoute {
    * List of all Static Routes.
    */
   staticRoutes?: StaticRoute[];
+  /**
+   * The list of references to HubBgpConnection objects.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly bgpConnections?: SubResource[];
 }
 
 /**
@@ -12210,6 +12513,10 @@ export interface VpnGateway extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly ipConfigurations?: VpnGatewayIpConfiguration[];
+  /**
+   * Enable BGP routes translation for NAT on this VpnGateway.
+   */
+  enableBgpRouteTranslationForNat?: boolean;
   /**
    * Enable Routing Preference property for the Public IP Interface of the VpnGateway.
    */
@@ -13510,6 +13817,34 @@ export interface ServiceEndpointPoliciesGetOptionalParams extends msRest.Request
 /**
  * Optional Parameters.
  */
+export interface ServiceTagInformationListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Do not return address prefixes for the tag(s).
+   */
+  noAddressPrefixes?: boolean;
+  /**
+   * Return tag information for a particular tag.
+   */
+  tagName?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ServiceTagInformationListNextOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Do not return address prefixes for the tag(s).
+   */
+  noAddressPrefixes?: boolean;
+  /**
+   * Return tag information for a particular tag.
+   */
+  tagName?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface VirtualNetworksGetOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Expands referenced resources.
@@ -14648,6 +14983,20 @@ export interface ServiceEndpointPolicyDefinitionListResult extends Array<Service
 
 /**
  * @interface
+ * Response for Get ServiceTagInformation API service call. Retrieves the list of service tag
+ * information resources.
+ * @extends Array<ServiceTagInformation>
+ */
+export interface ServiceTagInformationListResult extends Array<ServiceTagInformation> {
+  /**
+   * The URL to get the next set of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
  * The list usages operation response.
  * @extends Array<Usage>
  */
@@ -15316,6 +15665,14 @@ export type ApplicationGatewayOperationalState = 'Stopped' | 'Starting' | 'Runni
  * @enum {string}
  */
 export type ApplicationGatewayFirewallMode = 'Detection' | 'Prevention';
+
+/**
+ * Defines values for ApplicationGatewayLoadDistributionAlgorithm.
+ * Possible values include: 'RoundRobin', 'LeastConnections', 'IpHash'
+ * @readonly
+ * @enum {string}
+ */
+export type ApplicationGatewayLoadDistributionAlgorithm = 'RoundRobin' | 'LeastConnections' | 'IpHash';
 
 /**
  * Defines values for ResourceIdentityType.
@@ -17507,6 +17864,26 @@ export type BastionHostsCreateOrUpdateResponse = BastionHost & {
 };
 
 /**
+ * Contains response data for the updateTags operation.
+ */
+export type BastionHostsUpdateTagsResponse = BastionHost & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BastionHost;
+    };
+};
+
+/**
  * Contains response data for the list operation.
  */
 export type BastionHostsListResponse = BastionHostListResult & {
@@ -17550,6 +17927,26 @@ export type BastionHostsListByResourceGroupResponse = BastionHostListResult & {
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type BastionHostsBeginCreateOrUpdateResponse = BastionHost & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BastionHost;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateTags operation.
+ */
+export type BastionHostsBeginUpdateTagsResponse = BastionHost & {
   /**
    * The underlying HTTP response.
    */
@@ -25984,6 +26381,46 @@ export type ServiceTagsListResponse = ServiceTagsListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ServiceTagsListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ServiceTagInformationListResponse = ServiceTagInformationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServiceTagInformationListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ServiceTagInformationListNextResponse = ServiceTagInformationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServiceTagInformationListResult;
     };
 };
 
