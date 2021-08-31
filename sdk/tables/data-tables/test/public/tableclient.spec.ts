@@ -404,12 +404,14 @@ authModes.forEach((authMode) => {
         type TestType = {
           integerNumber: number;
           floatingPointNumber: number;
+          booleanValue: boolean;
         };
         const testEntity: TableEntity<TestType> = {
           partitionKey: `P8_${suffix}`,
           rowKey: "R8",
           integerNumber: 3,
-          floatingPointNumber: 3.14
+          floatingPointNumber: 3.14,
+          booleanValue: true
         };
         let createResult: FullOperationResponse | undefined;
         let deleteResult: FullOperationResponse | undefined;
@@ -434,6 +436,10 @@ authModes.forEach((authMode) => {
         assert.deepEqual(result.floatingPointNumber, {
           value: "3.14",
           type: "Double"
+        });
+        assert.deepEqual(result.booleanValue, {
+          value: "true",
+          type: "Boolean"
         });
       });
     });
