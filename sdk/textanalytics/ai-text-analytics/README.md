@@ -12,7 +12,7 @@
 - Linked Entity Recognition
 - Extractive Summarization
 - Healthcare Analysis
-- Recognition of Custom Entities
+- Custom Entities Recognition
 - Custom Document Classification
 - Support Multiple Actions Per Document
 

@@ -7,17 +7,18 @@ import {
   CustomMultiClassificationResult
 } from "./generated/models";
 import {
-  ClassifyCustomMultiClassResult,
-  makeClassifyCustomMultiClassResult,
-  makeClassifyCustomMultiClassErrorResult
+  CustomClassifyDocumentMultiCategoriesResult,
+  makeCustomClassifyDocumentMultiCategoriesResult,
+  makeCustomClassifyDocumentMultiCategoriesErrorResult
 } from "./classifyCustomMultiClassResult";
 import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndCustomProjectInfo } from "./textAnalyticsResult";
 
 /**
- * Array of `ClassifyCustomMultiClassResult` objects corresponding to a batch of input documents, and
+ * Array of `CustomClassifyDocumentMultiCategoriesResult` objects corresponding to a batch of input documents, and
  * annotated with information about the batch operation.
  */
-export interface ClassifyCustomMultiClassResultArray extends Array<ClassifyCustomMultiClassResult> {
+export interface CustomClassifyDocumentMultiCategoriesResultArray
+  extends Array<CustomClassifyDocumentMultiCategoriesResult> {
   /**
    * Statistics about the input document batch and how it was processed
    * by the service. This property will have a value when includeStatistics is set to true
@@ -39,14 +40,14 @@ export interface ClassifyCustomMultiClassResultArray extends Array<ClassifyCusto
 /**
  * @internal
  */
-export function makeClassifyCustomMultiClassResultArray(
+export function makeCustomClassifyDocumentMultiCategoriesResultArray(
   input: TextDocumentInput[],
   response: CustomMultiClassificationResult
-): ClassifyCustomMultiClassResultArray {
+): CustomClassifyDocumentMultiCategoriesResultArray {
   return combineSuccessfulAndErroneousDocumentsWithStatisticsAndCustomProjectInfo(
     input,
     response,
-    makeClassifyCustomMultiClassResult,
-    makeClassifyCustomMultiClassErrorResult
+    makeCustomClassifyDocumentMultiCategoriesResult,
+    makeCustomClassifyDocumentMultiCategoriesErrorResult
   );
 }

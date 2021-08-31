@@ -7,17 +7,17 @@ import {
   CustomEntitiesResult
 } from "./generated/models";
 import {
-  RecognizeCustomEntitiesResult,
-  makeRecognizeCustomEntitiesResult,
-  makeRecognizeCustomEntitiesErrorResult
+  CustomRecognizeEntitiesResult,
+  makeCustomRecognizeEntitiesResult,
+  makeCustomRecognizeEntitiesErrorResult
 } from "./recognizeCustomEntitiesResult";
 import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndCustomProjectInfo } from "./textAnalyticsResult";
 
 /**
- * Array of `RecognizeCustomEntitiesResult` objects corresponding to a batch of input documents, and
+ * Array of `CustomRecognizeEntitiesResult` objects corresponding to a batch of input documents, and
  * annotated with information about the batch operation.
  */
-export interface RecognizeCustomEntitiesResultArray extends Array<RecognizeCustomEntitiesResult> {
+export interface CustomRecognizeEntitiesResultArray extends Array<CustomRecognizeEntitiesResult> {
   /**
    * Statistics about the input document batch and how it was processed
    * by the service. This property will have a value when includeStatistics is set to true
@@ -39,14 +39,14 @@ export interface RecognizeCustomEntitiesResultArray extends Array<RecognizeCusto
 /**
  * @internal
  */
-export function makeRecognizeCustomEntitiesResultArray(
+export function makeCustomRecognizeEntitiesResultArray(
   input: TextDocumentInput[],
   response: CustomEntitiesResult
-): RecognizeCustomEntitiesResultArray {
+): CustomRecognizeEntitiesResultArray {
   return combineSuccessfulAndErroneousDocumentsWithStatisticsAndCustomProjectInfo(
     input,
     response,
-    makeRecognizeCustomEntitiesResult,
-    makeRecognizeCustomEntitiesErrorResult
+    makeCustomRecognizeEntitiesResult,
+    makeCustomRecognizeEntitiesErrorResult
   );
 }

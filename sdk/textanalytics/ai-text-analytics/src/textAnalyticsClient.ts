@@ -332,15 +332,15 @@ export interface ExtractSummaryAction extends TextAnalyticsAction {
    */
   maxSentenceCount?: number;
   /**
-   * Specifies how to sort the returned sentences. Please refer to {@link KnownSummarySentencesSortBy} for possible values.
+   * Specifies how to sort the returned sentences. Please refer to {@link KnownSummarySentencesOrderBy} for possible values.
    */
   orderBy?: string;
 }
 
 /**
- * Options for an recognize custom entities action.
+ * Options for a custom recognize entities action.
  */
-export interface RecognizeCustomEntitiesAction extends CustomTextAnalyticsAction {
+export interface CustomRecognizeEntitiesAction extends CustomTextAnalyticsAction {
   /**
    * Specifies the measurement unit used to calculate the offset and length properties.
    * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
@@ -356,15 +356,9 @@ export interface RecognizeCustomEntitiesAction extends CustomTextAnalyticsAction
 }
 
 /**
- * Options for an classify custom single class action.
+ * Options for an custom classify document single category action.
  */
-export interface ClassifyCustomSingleClassAction extends CustomTextAnalyticsAction {
-  /**
-   * Specifies the measurement unit used to calculate the offset and length properties.
-   * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
-   * The default is the JavaScript's default which is "Utf16CodeUnit".
-   */
-  stringIndexType?: StringIndexType;
+export interface CustomClassifyDocumentSingleCategoryAction extends CustomTextAnalyticsAction {
   /**
    * If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics
    * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
@@ -374,15 +368,9 @@ export interface ClassifyCustomSingleClassAction extends CustomTextAnalyticsActi
 }
 
 /**
- * Options for a classify custom multi class action.
+ * Options for a custom classify document multi categories action.
  */
-export interface ClassifyCustomMultiClassAction extends CustomTextAnalyticsAction {
-  /**
-   * Specifies the measurement unit used to calculate the offset and length properties.
-   * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
-   * The default is the JavaScript's default which is "Utf16CodeUnit".
-   */
-  stringIndexType?: StringIndexType;
+export interface CustomClassifyDocumentMultiCategoriesAction extends CustomTextAnalyticsAction {
   /**
    * If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics
    * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
@@ -422,15 +410,15 @@ export interface TextAnalyticsActions {
   /**
    * A collection of descriptions of custom entity recognition actions. However, currently, the service can accept up to one action only for `recognizeCustomEntities`.
    */
-  recognizeCustomEntities?: RecognizeCustomEntitiesAction[];
+  customRecognizeEntities?: CustomRecognizeEntitiesAction[];
   /**
-   * A collection of descriptions of custom single classification actions. However, currently, the service can accept up to one action only for `classifyCustomSingleClass`.
+   * A collection of descriptions of custom single classification actions. However, currently, the service can accept up to one action only for `customClassifyDocumentSingleCategory`.
    */
-  classifyCustomSingleClass?: ClassifyCustomSingleClassAction[];
+  customClassifyDocumentSingleCategory?: CustomClassifyDocumentSingleCategoryAction[];
   /**
-   * A collection of descriptions of custom multi classification actions. However, currently, the service can accept up to one action only for `classifyCustomMultiClass`.
+   * A collection of descriptions of custom multi classification actions. However, currently, the service can accept up to one action only for `customClassifyDocumentMultiCategories`.
    */
-  classifyCustomMultiClass?: ClassifyCustomMultiClassAction[];
+  customClassifyDocumentMultiCategories?: CustomClassifyDocumentMultiCategoriesAction[];
 }
 /**
  * Client class for interacting with Azure Text Analytics.
@@ -1216,14 +1204,14 @@ function compileAnalyzeInput(actions: TextAnalyticsActions): GeneratedActions {
     extractiveSummarizationTasks: actions.extractSummaryActions?.map(
       compose(setStrEncodingParam, compose(setSentenceCount, compose(setOrderBy, addParamsToTask)))
     ),
-    customEntityRecognitionTasks: actions.recognizeCustomEntities?.map(
+    customEntityRecognitionTasks: actions.customRecognizeEntities?.map(
       compose(setStrEncodingParam, addParamsToTask)
     ),
-    customSingleClassificationTasks: actions.classifyCustomSingleClass?.map(
-      compose(setStrEncodingParam, addParamsToTask)
+    customSingleClassificationTasks: actions.customClassifyDocumentSingleCategory?.map(
+      addParamsToTask
     ),
-    customMultiClassificationTasks: actions.classifyCustomMultiClass?.map(
-      compose(setStrEncodingParam, addParamsToTask)
+    customMultiClassificationTasks: actions.customClassifyDocumentMultiCategories?.map(
+      addParamsToTask
     )
   };
 }

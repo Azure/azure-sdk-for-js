@@ -7,12 +7,12 @@ import {
   makeAnalyzeSentimentResultArray
 } from "./analyzeSentimentResultArray";
 import {
-  ClassifyCustomMultiClassResultArray,
-  makeClassifyCustomMultiClassResultArray
+  CustomClassifyDocumentMultiCategoriesResultArray,
+  makeCustomClassifyDocumentMultiCategoriesResultArray
 } from "./classifyCustomMultiClassResultArray";
 import {
-  ClassifyCustomSingleClassResultArray,
-  makeClassifyCustomSingleClassResultArray
+  CustomClassifyDocumentSingleCategoryResultArray,
+  makeCustomClassifyDocumentSingleCategoryResultArray
 } from "./classifyCustomSingleClassResultArray";
 import {
   ExtractKeyPhrasesResultArray,
@@ -28,8 +28,8 @@ import {
   RecognizeCategorizedEntitiesResultArray
 } from "./recognizeCategorizedEntitiesResultArray";
 import {
-  makeRecognizeCustomEntitiesResultArray,
-  RecognizeCustomEntitiesResultArray
+  makeCustomRecognizeEntitiesResultArray,
+  CustomRecognizeEntitiesResultArray
 } from "./recognizeCustomEntitiesResultArray";
 import {
   makeRecognizeLinkedEntitiesResultArray,
@@ -72,15 +72,15 @@ export interface AnalyzeActionsResult {
   /**
    * Array of the results for each recognize custom entities action.
    */
-  recognizeCustomEntities?: RecognizeCustomEntitiesActionResult[];
+  customRecognizeEntities?: CustomRecognizeEntitiesActionResult[];
   /**
-   * Array of the results for each classify custom single class action.
+   * Array of the results for each custom classify document single category action.
    */
-  classifyCustomSingleClass?: ClassifyCustomSingleClassActionResult[];
+  customClassifyDocumentSingleCategory?: CustomClassifyDocumentSingleCategoryActionResult[];
   /**
-   * Array of the results for each classify custom multi class action.
+   * Array of the results for each custom classify document multi categories action.
    */
-  classifyCustomMultiClass?: ClassifyCustomMultiClassActionResult[];
+  customClassifyDocumentMultiCategories?: CustomClassifyDocumentMultiCategoriesActionResult[];
 }
 
 /**
@@ -246,73 +246,73 @@ export type ExtractSummaryActionResult =
   | ExtractSummaryActionErrorResult;
 
 /**
- * The error of a recognize custom entities action.
+ * The error of a custom recognize entities action.
  */
-export type RecongizeCustomEntitiesActionErrorResult = TextAnalyticsActionErrorResult;
+export type CustomRecongizeEntitiesActionErrorResult = TextAnalyticsActionErrorResult;
 
 /**
- * The results of a succeeded recognize custom entities action.
+ * The results of a succeeded custom recognize entities action.
  */
-export interface RecongizeCustomEntitiesActionSuccessResult
+export interface CustomRecongizeEntitiesActionSuccessResult
   extends TextAnalyticsActionSuccessState {
   /**
-   * Array of the results for each recognize custom entities action.
+   * Array of the results for each custom recognize entities action.
    */
-  results: RecognizeCustomEntitiesResultArray;
+  results: CustomRecognizeEntitiesResultArray;
 }
 
 /**
- * The result of a recognize custom entities action.
+ * The result of a custom recognize entities action.
  */
-export type RecognizeCustomEntitiesActionResult =
-  | RecongizeCustomEntitiesActionSuccessResult
-  | RecongizeCustomEntitiesActionErrorResult;
+export type CustomRecognizeEntitiesActionResult =
+  | CustomRecongizeEntitiesActionSuccessResult
+  | CustomRecongizeEntitiesActionErrorResult;
 
 /**
- * The error of a classify custom single class action.
+ * The error of a custom classify document single category action.
  */
-export type ClassifyCustomSingleClassActionErrorResult = TextAnalyticsActionErrorResult;
+export type CustomClassifyDocumentSingleCategoryActionErrorResult = TextAnalyticsActionErrorResult;
 
 /**
- * The results of a succeeded classify custom single class action.
+ * The results of a succeeded custom classify document single category action.
  */
-export interface ClassifyCustomSingleClassActionSuccessResult
+export interface CustomClassifyDocumentSingleCategoryActionSuccessResult
   extends TextAnalyticsActionSuccessState {
   /**
-   * Array of the results for each classify custom single class action.
+   * Array of the results for each custom classify document single category action.
    */
-  results: ClassifyCustomSingleClassResultArray;
+  results: CustomClassifyDocumentSingleCategoryResultArray;
 }
 
 /**
- * The result of a classify custom single class action.
+ * The result of a custom classify document single category action.
  */
-export type ClassifyCustomSingleClassActionResult =
-  | ClassifyCustomSingleClassActionSuccessResult
-  | ClassifyCustomSingleClassActionErrorResult;
+export type CustomClassifyDocumentSingleCategoryActionResult =
+  | CustomClassifyDocumentSingleCategoryActionSuccessResult
+  | CustomClassifyDocumentSingleCategoryActionErrorResult;
 
 /**
- * The error of a classify custom multi class action.
+ * The error of a custom classify document multi categories action.
  */
-export type ClassifyCustomMultiClassActionErrorResult = TextAnalyticsActionErrorResult;
+export type CustomClassifyDocumentMultiCategoriesActionErrorResult = TextAnalyticsActionErrorResult;
 
 /**
- * The results of a succeeded classify custom multi class action.
+ * The results of a succeeded custom classify document multi categories action.
  */
-export interface ClassifyCustomMultiClassActionSuccessResult
+export interface CustomClassifyDocumentMultiCategoriesActionSuccessResult
   extends TextAnalyticsActionSuccessState {
   /**
-   * Array of the results for each classify custom multi class action.
+   * Array of the results for each custom classify document multi categories action.
    */
-  results: ClassifyCustomMultiClassResultArray;
+  results: CustomClassifyDocumentMultiCategoriesResultArray;
 }
 
 /**
- * The result of a classify custom multi class action.
+ * The result of a custom classify document multi categories action.
  */
-export type ClassifyCustomMultiClassActionResult =
-  | ClassifyCustomMultiClassActionSuccessResult
-  | ClassifyCustomMultiClassActionErrorResult;
+export type CustomClassifyDocumentMultiCategoriesActionResult =
+  | CustomClassifyDocumentMultiCategoriesActionSuccessResult
+  | CustomClassifyDocumentMultiCategoriesActionErrorResult;
 
 /**
  * The results of an analyze Actions operation represented as a paged iterator that
@@ -637,21 +637,21 @@ export function createAnalyzeActionsResult(
       response.tasks.extractiveSummarizationTasks ?? [],
       extractSummarySentencesActionErrors
     ),
-    recognizeCustomEntities: makeActionResult(
+    customRecognizeEntities: makeActionResult(
       documents,
-      makeRecognizeCustomEntitiesResultArray,
+      makeCustomRecognizeEntitiesResultArray,
       response.tasks.customEntityRecognitionTasks ?? [],
       recognizeCustomEntitiesActionErrors
     ),
-    classifyCustomSingleClass: makeActionResult(
+    customClassifyDocumentSingleCategory: makeActionResult(
       documents,
-      makeClassifyCustomSingleClassResultArray,
+      makeCustomClassifyDocumentSingleCategoryResultArray,
       response.tasks.customSingleClassificationTasks ?? [],
       classifyCustomSingleClassActionErrors
     ),
-    classifyCustomMultiClass: makeActionResult(
+    customClassifyDocumentMultiCategories: makeActionResult(
       documents,
-      makeClassifyCustomMultiClassResultArray,
+      makeCustomClassifyDocumentMultiCategoriesResultArray,
       response.tasks.customMultiClassificationTasks ?? [],
       classifyCustomMultiClassActionErrors
     )

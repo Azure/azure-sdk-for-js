@@ -7,18 +7,18 @@ import {
   CustomSingleClassificationResult
 } from "./generated/models";
 import {
-  ClassifyCustomSingleClassResult,
-  makeClassifyCustomSingleClassResult,
-  makeClassifyCustomSingleClassErrorResult
+  CustomClassifyDocumentSingleCategoryResult,
+  makeCustomClassifyDocumentSingleCategoryResult,
+  makeCustomClassifyDocumentSingleCategoryErrorResult
 } from "./classifyCustomSingleClassResult";
 import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndCustomProjectInfo } from "./textAnalyticsResult";
 
 /**
- * Array of `ClassifyCustomSingleClassResult` objects corresponding to a batch of input documents, and
+ * Array of `CustomClassifyDocumentSingleCategoryResultArray` objects corresponding to a batch of input documents, and
  * annotated with information about the batch operation.
  */
-export interface ClassifyCustomSingleClassResultArray
-  extends Array<ClassifyCustomSingleClassResult> {
+export interface CustomClassifyDocumentSingleCategoryResultArray
+  extends Array<CustomClassifyDocumentSingleCategoryResult> {
   /**
    * Statistics about the input document batch and how it was processed
    * by the service. This property will have a value when includeStatistics is set to true
@@ -40,14 +40,14 @@ export interface ClassifyCustomSingleClassResultArray
 /**
  * @internal
  */
-export function makeClassifyCustomSingleClassResultArray(
+export function makeCustomClassifyDocumentSingleCategoryResultArray(
   input: TextDocumentInput[],
   response: CustomSingleClassificationResult
-): ClassifyCustomSingleClassResultArray {
+): CustomClassifyDocumentSingleCategoryResultArray {
   return combineSuccessfulAndErroneousDocumentsWithStatisticsAndCustomProjectInfo(
     input,
     response,
-    makeClassifyCustomSingleClassResult,
-    makeClassifyCustomSingleClassErrorResult
+    makeCustomClassifyDocumentSingleCategoryResult,
+    makeCustomClassifyDocumentSingleCategoryErrorResult
   );
 }

@@ -11,17 +11,17 @@ import { TextAnalyticsError, DocumentEntities } from "./generated/models";
 import { CategorizedEntity } from "./recognizeCategorizedEntitiesResult";
 
 /**
- * The result of the recognize custom entities operation on a single document.
+ * The result of the custom recognize entities operation on a single document.
  */
-export type RecognizeCustomEntitiesResult =
-  | RecognizeCustomEntitiesSuccessResult
-  | RecognizeCustomEntitiesErrorResult;
+export type CustomRecognizeEntitiesResult =
+  | CustomRecognizeEntitiesSuccessResult
+  | CustomRecognizeEntitiesErrorResult;
 
 /**
  * The result of the recognize custom entities operation on a single document,
  * containing a collection of the entities identified in that document.
  */
-export interface RecognizeCustomEntitiesSuccessResult extends TextAnalyticsSuccessResult {
+export interface CustomRecognizeEntitiesSuccessResult extends TextAnalyticsSuccessResult {
   /**
    * The collection of entities identified in the input document.
    */
@@ -31,14 +31,14 @@ export interface RecognizeCustomEntitiesSuccessResult extends TextAnalyticsSucce
 /**
  * An error result from the recognize custom entities operation on a single document.
  */
-export type RecognizeCustomEntitiesErrorResult = TextAnalyticsErrorResult;
+export type CustomRecognizeEntitiesErrorResult = TextAnalyticsErrorResult;
 
 /**
  * @internal
  */
-export function makeRecognizeCustomEntitiesResult(
+export function makeCustomRecognizeEntitiesResult(
   result: DocumentEntities
-): RecognizeCustomEntitiesSuccessResult {
+): CustomRecognizeEntitiesSuccessResult {
   const { id, warnings, statistics, entities } = result;
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
@@ -49,9 +49,9 @@ export function makeRecognizeCustomEntitiesResult(
 /**
  * @internal
  */
-export function makeRecognizeCustomEntitiesErrorResult(
+export function makeCustomRecognizeEntitiesErrorResult(
   id: string,
   error: TextAnalyticsError
-): RecognizeCustomEntitiesErrorResult {
+): CustomRecognizeEntitiesErrorResult {
   return makeTextAnalyticsErrorResult(id, error);
 }

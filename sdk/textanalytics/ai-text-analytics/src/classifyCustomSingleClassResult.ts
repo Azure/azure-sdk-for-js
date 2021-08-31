@@ -14,39 +14,40 @@ import {
 } from "./generated/models";
 
 /**
- * The result of the classify custom single class operation on a single document.
+ * The result of the custom classify document single category operation on a single document.
  */
-export type ClassifyCustomSingleClassResult =
-  | ClassifyCustomSingleClassSuccessResult
-  | ClassifyCustomSingleClassErrorResult;
+export type CustomClassifyDocumentSingleCategoryResult =
+  | CustomClassifyDocumentSingleCategorySuccessResult
+  | CustomClassifyDocumentSingleCategoryErrorResult;
 
 /**
- * The result of the classify custom single class operation on a single document,
+ * The result of the custom classify document single category operation on a single document,
  * containing the result of the classification.
  */
-export interface ClassifyCustomSingleClassSuccessResult extends TextAnalyticsSuccessResult {
+export interface CustomClassifyDocumentSingleCategorySuccessResult
+  extends TextAnalyticsSuccessResult {
   /**
    * The classification result of the input document.
    */
-  classification: CustomClassification;
+  classification: DocumentClassification;
 }
 
 /**
- * A classification result from a classify custom single class action
+ * A classification result from a custom classify document single category action
  */
-export interface CustomClassification extends ClassificationResult {}
+export interface DocumentClassification extends ClassificationResult {}
 
 /**
- * An error result from the classify custom single class operation on a single document.
+ * An error result from the custom classify document single category operation on a single document.
  */
-export type ClassifyCustomSingleClassErrorResult = TextAnalyticsErrorResult;
+export type CustomClassifyDocumentSingleCategoryErrorResult = TextAnalyticsErrorResult;
 
 /**
  * @internal
  */
-export function makeClassifyCustomSingleClassResult(
+export function makeCustomClassifyDocumentSingleCategoryResult(
   result: SingleClassificationDocument
-): ClassifyCustomSingleClassSuccessResult {
+): CustomClassifyDocumentSingleCategorySuccessResult {
   const { id, warnings, statistics, classification } = result;
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
@@ -57,9 +58,9 @@ export function makeClassifyCustomSingleClassResult(
 /**
  * @internal
  */
-export function makeClassifyCustomSingleClassErrorResult(
+export function makeCustomClassifyDocumentSingleCategoryErrorResult(
   id: string,
   error: TextAnalyticsError
-): ClassifyCustomSingleClassErrorResult {
+): CustomClassifyDocumentSingleCategoryErrorResult {
   return makeTextAnalyticsErrorResult(id, error);
 }
