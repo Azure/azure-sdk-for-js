@@ -1971,7 +1971,7 @@ export interface ContainerListBlobsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     includeCopy?: boolean;
     includeDeleted?: boolean;
-    includeDeletedwithVersions?: boolean;
+    includeDeletedWithVersions?: boolean;
     includeImmutabilityPolicy?: boolean;
     includeLegalHold?: boolean;
     includeMetadata?: boolean;
@@ -2248,8 +2248,8 @@ export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
 
 // @public
 export interface HttpAuthorization {
-    parameter: string;
     scheme: string;
+    value: string;
 }
 
 export { HttpHeaders }

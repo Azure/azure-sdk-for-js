@@ -36,7 +36,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a Images. */
+/** Class containing Images operations. */
 export class ImagesImpl implements Images {
   private readonly client: ComputeManagementClientContext;
 
