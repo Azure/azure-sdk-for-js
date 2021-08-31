@@ -45,11 +45,11 @@ You will also need to **register a new AAD application and grant access to Azure
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
 For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
-
 ```javascript
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-const client = new ComputeManagementClient("<endpoint>", new DefaultAzureCredential());
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
+const client = new ComputeManagementClient(new DefaultAzureCredential(), subscriptionId);
 ```
 
 ## Key concepts
@@ -65,7 +65,7 @@ const client = new ComputeManagementClient("<endpoint>", new DefaultAzureCredent
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
 ```javascript
-import { setLogLevel } from "@azure/logger";
+const { setLogLevel } = require("@azure/logger");
 setLogLevel("info");
 ```
 
