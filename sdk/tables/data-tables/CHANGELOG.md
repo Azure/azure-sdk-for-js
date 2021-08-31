@@ -8,7 +8,7 @@
 
 ### Bugs Fixed
 
-- Fix `disableTypeConversion` to also apply for booleans and convert value to string when there is no type metadata. [#](https://github.com/Azure/azure-sdk-for-js/pull/)
+- Fix `disableTypeConversion` to also apply for booleans and convert value to string when there is no type metadata. [#17385](https://github.com/Azure/azure-sdk-for-js/pull/17385)
 
 ### Other Changes
 
