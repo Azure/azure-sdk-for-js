@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- All of the credentials now include `allowPiiLogging` on their constructor options. If set to true, Personal Identifiable Information (PII) will be displayed in trace logs.
+- All of the credentials now include `enableUnsafeLogging` on their constructor options. If set to true, Personal Identifiable Information (PII) will be displayed in trace logs.
 
 ### Breaking Changes
 

@@ -13,7 +13,7 @@ import { CredentialFlowGetTokenOptions } from "./credentials";
  */
 export interface MsalFlowOptions {
   logger: CredentialLogger;
-  allowPiiLogging?: boolean;
+  enableUnsafeLogging?: boolean;
   clientId?: string;
   tenantId?: string;
   authorityHost?: string;

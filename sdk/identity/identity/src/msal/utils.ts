@@ -85,15 +85,14 @@ export function getKnownAuthorities(tenantId: string, authorityHost: string): st
  */
 export const defaultLoggerCallback: (
   logger: CredentialLogger,
-  allowPiiLogging?: boolean
-) => msalCommon.ILoggerCallback = (logger: CredentialLogger, allowPiiLogging: boolean = false) => (
-  level,
-  message,
-  containsPii
-): void => {
+  enableUnsafeLogging?: boolean
+) => msalCommon.ILoggerCallback = (
+  logger: CredentialLogger,
+  enableUnsafeLogging: boolean = false
+) => (level, message, containsPii): void => {
   const platform = isNode ? "Node" : "Browser";
 
-  if (containsPii && !allowPiiLogging) {
+  if (containsPii && !enableUnsafeLogging) {
     return;
   }
   switch (level) {

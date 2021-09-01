@@ -314,8 +314,8 @@ export interface TokenCredentialOptions extends CommonClientOptions {
   allowMultiTenantAuthentication?: boolean;
 
   /**
-   * If set to true, Personal Identifiable Information (PII) will be displayed in trace logs.
+   * If set to true, personal data may be displayed in the trace logs depending on the authentication method.
    * By default, this is disabled.
    */
-  allowPiiLogging?: boolean;
+  enableUnsafeLogging?: boolean;
 }
