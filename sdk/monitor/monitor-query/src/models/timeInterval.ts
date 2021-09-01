@@ -64,7 +64,8 @@ export type TimeInterval =
     }
   | {
       /**
-       * The duration until the current time. {@link Durations} helper contains aliases for some common ISO8601 durations.
+       * The duration of a time span that ends at the time the operation is processed, e.g. events from the last 5 hours.
+       * {@link Durations} helper contains aliases for some common ISO8601 durations.
        * The duration is an ISO8601 time period value in the format P[n]Y[n]M[n]DT[n]H[n]M[n]S
        * where  P is the duration designator (for period) placed at the start of the duration representation.
        *   Y is the year designator that follows the value for the number of years.
