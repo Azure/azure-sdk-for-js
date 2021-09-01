@@ -10,6 +10,7 @@ Use the client library for Azure Container Registry to:
 - Delete images and artifacts, repositories and tags
 
 Key links:
+
 - [Source code][source]
 - [Package (NPM)][package]
 - [API reference documentation][api_docs]
@@ -58,12 +59,17 @@ To use this client library in the browser, first you need to use a bundler. For 
 The [Azure Identity library][identity] provides easy Azure Active Directory support for authentication.
 
 ```javascript
-const { ContainerRegistryClient } = require("@azure/container-registry");
+const {
+  ContainerRegistryClient,
+  KnownContainerRegistryAudience
+} = require("@azure/container-registry");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT;
 // Create a ContainerRegistryClient that will authenticate through Active Directory
-const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
+const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential(), {
+  audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud
+});
 ```
 
 Note that these samples assume you have a `CONTAINER_REGISTRY_ENDPOINT` environment variable set, which is the URL including the name of the login server and the `https://` prefix.
@@ -73,10 +79,13 @@ Note that these samples assume you have a `CONTAINER_REGISTRY_ENDPOINT` environm
 To authenticate with a registry in a [National Cloud](https://docs.microsoft.com/azure/active-directory/develop/authentication-national-cloud), you will need to make the following additions to your configuration:
 
 - Set the `authorityHost` in the credential options or via the `AZURE_AUTHORITY_HOST` environment variable
-- Set the `authenticationScope` in `ContainerRegistryClientOptions`
+- Set the `audience` in `ContainerRegistryClientOptions`
 
 ```javascript
-const { ContainerRegistryClient } = require("@azure/container-registry");
+const {
+  ContainerRegistryClient,
+  KnownContainerRegistryAudience
+} = require("@azure/container-registry");
 const { DefaultAzureCredential, AzureAuthorityHosts } = require("@azure/identity");
 
 const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT;
@@ -85,7 +94,7 @@ const client = new ContainerRegistryClient(
   endpoint,
   new DefaultAzureCredential({ authorityHost: AzureAuthorityHosts.AzureChina }),
   {
-    authenticationScope: "https://management.chinacloudapi.cn/.default"
+    audience: KnownContainerRegistryAudience.AzureResourceManagerChina
   }
 );
 ```
@@ -105,14 +114,19 @@ For more information please see [Container Registry Concepts](https://docs.micro
 Iterate through the collection of repositories in the registry.
 
 ```javascript
-const { ContainerRegistryClient } = require("@azure/container-registry");
+const {
+  ContainerRegistryClient,
+  KnownContainerRegistryAudience
+} = require("@azure/container-registry");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 async function main() {
   // endpoint should be in the form of "https://myregistryname.azurecr.io"
   // where "myregistryname" is the actual name of your registry
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
-  const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
+  const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential(), {
+    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud
+  });
 
   console.log("Listing repositories");
   const iterator = client.listRepositoryNames();
@@ -129,14 +143,19 @@ main().catch((err) => {
 ### List tags with anonymous access
 
 ```javascript
-const { ContainerRegistryClient } = require("@azure/container-registry");
+const {
+  ContainerRegistryClient,
+  KnownContainerRegistryAudience
+} = require("@azure/container-registry");
 
 async function main() {
   // Get the service endpoint from the environment
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
 
   // Create a new ContainerRegistryClient for anonymous access
-  const client = new ContainerRegistryClient(endpoint);
+  const client = new ContainerRegistryClient(endpoint, {
+    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud
+  });
 
   // Obtain a RegistryArtifact object to get access to image operations
   const image = client.getArtifact("library/hello-world", "latest");
@@ -159,7 +178,10 @@ main().catch((err) => {
 ### Set artifact properties
 
 ```javascript
-const { ContainerRegistryClient } = require("@azure/container-registry");
+const {
+  ContainerRegistryClient,
+  KnownContainerRegistryAudience
+} = require("@azure/container-registry");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 async function main() {
@@ -167,11 +189,13 @@ async function main() {
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
 
   // Create a new ContainerRegistryClient and RegistryArtifact to access image operations
-  const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
+  const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential(), {
+    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud
+  });
   const image = client.getArtifact("library/hello-world", "v1");
 
   // Set permissions on the image's "latest" tag
-  await image.setTagProperties("latest", { canWrite: false, canDelete: false });
+  await image.updateTagProperties("latest", { canWrite: false, canDelete: false });
 }
 
 main().catch((err) => {
@@ -182,20 +206,25 @@ main().catch((err) => {
 ### Delete images
 
 ```javascript
-const { ContainerRegistryClient } = require("@azure/container-registry");
+const {
+  ContainerRegistryClient,
+  KnownContainerRegistryAudience
+} = require("@azure/container-registry");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 async function main() {
   // Get the service endpoint from the environment
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
   // Create a new ContainerRegistryClient
-  const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
+  const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential(), {
+    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud
+  });
 
   // Iterate through repositories
   const repositoryNames = client.listRepositoryNames();
   for await (const repositoryName of repositoryNames) {
     const repository = client.getRepository(repositoryName);
-    // Obtain the images ordered from newest to oldest
+    // Obtain the images ordered from newest to oldest by passing the `orderBy` option
     const imageManifests = repository.listManifestProperties({
       orderBy: "LastUpdatedOnDescending"
     });
@@ -203,7 +232,8 @@ async function main() {
     let imageCount = 0;
     // Delete images older than the first three.
     for await (const manifest of imageManifests) {
-      if (imageCount++ > imagesToKeep) {
+      imageCount++;
+      if (imageCount > imagesToKeep) {
         const image = repository.getArtifact(manifest.digest);
         console.log(`Deleting image with digest ${manifest.digest}`);
         console.log(`  Deleting the following tags from the image:`);

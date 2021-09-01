@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreAuth from "@azure/core-auth";
 import {
   PolicyImpl,
   PolicyCertificatesImpl,
@@ -27,16 +26,11 @@ import { GeneratedClientOptionalParams } from "./models";
 export class GeneratedClient extends GeneratedClientContext {
   /**
    * Initializes a new instance of the GeneratedClient class.
-   * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param instanceUrl The attestation instance base URI, for example https://mytenant.attest.azure.net.
    * @param options The parameter options
    */
-  constructor(
-    credentials: coreAuth.TokenCredential,
-    instanceUrl: string,
-    options?: GeneratedClientOptionalParams
-  ) {
-    super(credentials, instanceUrl, options);
+  constructor(instanceUrl: string, options?: GeneratedClientOptionalParams) {
+    super(instanceUrl, options);
     this.policy = new PolicyImpl(this);
     this.policyCertificates = new PolicyCertificatesImpl(this);
     this.attestation = new AttestationImpl(this);

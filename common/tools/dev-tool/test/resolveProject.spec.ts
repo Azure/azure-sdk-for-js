@@ -27,7 +27,9 @@ describe("Project Resolution", async () => {
       // Replacement below is required because of escaping. A single backslash is
       // interpreted as an escape character in the RegExp compiler, but we need
       // it to be interpreted _literally_ in windows file paths, so we double-escape them.
-      new RegExp(`.*${(path.sep + path.join("common", "tools", "dev-tool")).replace(/\\/g, "\\\\")}`)
+      new RegExp(
+        `.*${(path.sep + path.join("common", "tools", "dev-tool")).replace(/\\/g, "\\\\")}`
+      )
     );
   });
 });

@@ -10,7 +10,8 @@ import { ContainerClient, RestError, BlobServiceClient } from "../src";
 import { newPipeline, Pipeline } from "../src";
 import { getBSU, recorderEnvSetup } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
+import { Context } from "mocha";
 
 dotenv.config();
 
@@ -21,7 +22,7 @@ describe("RetryPolicy", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");

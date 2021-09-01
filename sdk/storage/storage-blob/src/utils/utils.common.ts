@@ -118,7 +118,7 @@ export function getValueInConnString(
     | "DefaultEndpointsProtocol"
     | "EndpointSuffix"
     | "SharedAccessSignature"
-) {
+): string {
   const elements = connectionString.split(";");
   for (const element of elements) {
     if (element.trim().startsWith(argument)) {
@@ -315,7 +315,7 @@ export function getURLPathAndQuery(url: string): string | undefined {
 
   let queryString = urlParsed.getQuery() || "";
   queryString = queryString.trim();
-  if (queryString != "") {
+  if (queryString !== "") {
     queryString = queryString.startsWith("?") ? queryString : `?${queryString}`; // Ensure query string start with '?'
   }
 
@@ -442,8 +442,13 @@ export function generateBlockID(blockIDPrefix: string, blockIndex: number): stri
  * @param aborter -
  * @param abortError -
  */
-export async function delay(timeInMs: number, aborter?: AbortSignalLike, abortError?: Error) {
+export async function delay(
+  timeInMs: number,
+  aborter?: AbortSignalLike,
+  abortError?: Error
+): Promise<void> {
   return new Promise<void>((resolve, reject) => {
+    /* eslint-disable-next-line prefer-const */
     let timeout: any;
 
     const abortHandler = () => {
@@ -461,6 +466,7 @@ export async function delay(timeInMs: number, aborter?: AbortSignalLike, abortEr
     };
 
     timeout = setTimeout(resolveHandler, timeInMs);
+
     if (aborter !== undefined) {
       aborter.addEventListener("abort", abortHandler);
     }
@@ -479,8 +485,7 @@ export function padStart(
   targetLength: number,
   padString: string = " "
 ): string {
-  // TS doesn't know this code needs to run downlevel sometimes.
-  // @ts-expect-error
+  // @ts-expect-error: TS doesn't know this code needs to run downlevel sometimes
   if (String.prototype.padStart) {
     return currentString.padStart(targetLength, padString);
   }
@@ -558,12 +563,12 @@ export function getAccountNameFromUrl(url: string): string {
 }
 
 export function isIpEndpointStyle(parsedUrl: URLBuilder): boolean {
-  if (parsedUrl.getHost() == undefined) {
+  if (parsedUrl.getHost() === undefined) {
     return false;
   }
 
   const host =
-    parsedUrl.getHost()! + (parsedUrl.getPort() == undefined ? "" : ":" + parsedUrl.getPort());
+    parsedUrl.getHost()! + (parsedUrl.getPort() === undefined ? "" : ":" + parsedUrl.getPort());
 
   // Case 1: Ipv6, use a broad regex to find out candidates whose host contains two ':'.
   // Case 2: localhost(:port), use broad regex to match port part.
@@ -586,7 +591,7 @@ export function toBlobTagsString(tags?: Tags): string | undefined {
 
   const tagPairs = [];
   for (const key in tags) {
-    if (tags.hasOwnProperty(key)) {
+    if (Object.prototype.hasOwnProperty.call(tags, key)) {
       const value = tags[key];
       tagPairs.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
     }
@@ -610,7 +615,7 @@ export function toBlobTags(tags?: Tags): BlobTags | undefined {
   };
 
   for (const key in tags) {
-    if (tags.hasOwnProperty(key)) {
+    if (Object.prototype.hasOwnProperty.call(tags, key)) {
       const value = tags[key];
       res.blobTagSet.push({
         key,
@@ -749,7 +754,5 @@ export function attachCredential<T>(thing: T, credential: TokenCredential): T {
 export function httpAuthorizationToString(
   httpAuthorization?: HttpAuthorization
 ): string | undefined {
-  return httpAuthorization
-    ? httpAuthorization.scheme + " " + httpAuthorization.parameter
-    : undefined;
+  return httpAuthorization ? httpAuthorization.scheme + " " + httpAuthorization.value : undefined;
 }

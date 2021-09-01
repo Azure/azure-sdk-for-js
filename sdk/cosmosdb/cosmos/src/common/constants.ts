@@ -255,6 +255,7 @@ export enum ResourceType {
  */
 export enum HTTPMethod {
   get = "GET",
+  patch = "PATCH",
   post = "POST",
   put = "PUT",
   delete = "DELETE"
@@ -271,7 +272,8 @@ export enum OperationType {
   Read = "read",
   Query = "query",
   Execute = "execute",
-  Batch = "batch"
+  Batch = "batch",
+  Patch = "patch"
 }
 
 /**

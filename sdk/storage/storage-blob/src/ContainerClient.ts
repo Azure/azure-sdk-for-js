@@ -43,7 +43,7 @@ import {
   ContainerRequestConditions,
   ModifiedAccessConditions
 } from "./models";
-import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
+import { newPipeline, PipelineLike, isPipelineLike, StoragePipelineOptions } from "./Pipeline";
 import { CommonOptions, StorageClient } from "./StorageClient";
 import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
 import {
@@ -520,7 +520,7 @@ export interface ContainerListBlobsOptions extends CommonOptions {
   /**
    * Specifies whether deleted blob with versions be returned in the response.
    */
-  includeDeletedwithVersions?: boolean;
+  includeDeletedWithVersions?: boolean;
   /**
    * Specifies whether blob immutability policy be returned in the response.
    */
@@ -591,6 +591,8 @@ export class ContainerClient extends StorageClient {
    * @param containerName - Container name.
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
+  // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
   constructor(connectionString: string, containerName: string, options?: StoragePipelineOptions);
   /**
    * Creates an instance of ContainerClient.
@@ -608,6 +610,8 @@ export class ContainerClient extends StorageClient {
   constructor(
     url: string,
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   );
   /**
@@ -623,7 +627,7 @@ export class ContainerClient extends StorageClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  constructor(url: string, pipeline: Pipeline);
+  constructor(url: string, pipeline: PipelineLike);
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName?:
@@ -631,13 +635,15 @@ export class ContainerClient extends StorageClient {
       | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
-      | Pipeline,
+      | PipelineLike,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   ) {
-    let pipeline: Pipeline;
+    let pipeline: PipelineLike;
     let url: string;
     options = options || {};
-    if (credentialOrPipelineOrContainerName instanceof Pipeline) {
+    if (isPipelineLike(credentialOrPipelineOrContainerName)) {
       // (url: string, pipeline: Pipeline)
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
@@ -1487,7 +1493,7 @@ export class ContainerClient extends StorageClient {
     if (options.includeTags) {
       include.push("tags");
     }
-    if (options.includeDeletedwithVersions) {
+    if (options.includeDeletedWithVersions) {
       include.push("deletedwithversions");
     }
     if (options.includeImmutabilityPolicy) {
@@ -1704,7 +1710,7 @@ export class ContainerClient extends StorageClient {
     if (options.includeTags) {
       include.push("tags");
     }
-    if (options.includeDeletedwithVersions) {
+    if (options.includeDeletedWithVersions) {
       include.push("deletedwithversions");
     }
     if (options.includeImmutabilityPolicy) {

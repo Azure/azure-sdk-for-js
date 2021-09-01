@@ -1,5 +1,5 @@
 import { ArtifactsClient } from "../../src/artifactsClient";
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
 
@@ -18,9 +18,9 @@ describe("Library", () => {
 
   const testLibraryName = "testLibraryName.jar";
   it("should create library", async () => {
-    const poller = await client.library.create(testLibraryName);
-    const result = await poller.pollUntilDone();
-    assert.equal(result._response.status, 200);
+    const poller = await client.library.beginCreate(testLibraryName);
+    await poller.pollUntilDone();
+    assert.isTrue(poller.isDone());
   }).timeout(30000);
 
   it("should list library", async () => {
@@ -40,8 +40,8 @@ describe("Library", () => {
   });
 
   it("should delete library", async () => {
-    const poller = await client.library.delete(testLibraryName);
-    const result = await poller.pollUntilDone();
-    assert.equal(result._response.status, 200);
+    const poller = await client.library.beginDelete(testLibraryName);
+    await poller.pollUntilDone();
+    assert.isTrue(poller.isDone());
   }).timeout(30000);
 });

@@ -28,11 +28,12 @@ const banner = [
 ].join("\n");
 
 const depNames = Object.keys(pkg.dependencies);
+const devDepNames = Object.keys(pkg.devDependencies);
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
   const externalNodeBuiltins = ["crypto", "fs", "os", "url", "assert"];
-  const additionalExternals = ["keytar"];
+  const additionalExternals = ["keytar", "@azure/identity"];
   const baseConfig = {
     input: "dist-esm/keyvault-secrets/src/index.js",
     external: depNames.concat(externalNodeBuiltins, additionalExternals),
@@ -69,7 +70,7 @@ export function nodeConfig(test = false) {
     // different output file
     baseConfig.output.file = "dist-test/index.node.js";
 
-    baseConfig.external.push("assert", "fs", "path", "chai");
+    baseConfig.external.push(...devDepNames);
 
     baseConfig.context = "null";
 

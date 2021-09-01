@@ -4,7 +4,7 @@
 import { TableClient, TableEntity, Edm, odata } from "../../src";
 import { Context } from "mocha";
 import { assert } from "chai";
-import { record, Recorder, isPlaybackMode, isLiveMode } from "@azure/test-utils-recorder";
+import { record, Recorder, isPlaybackMode, isLiveMode } from "@azure-tools/test-recorder";
 import {
   recordedEnvironmentSetup,
   createTableClient,
@@ -398,6 +398,32 @@ authModes.forEach((authMode) => {
         assert.equal(result.rowKey, testEntity.rowKey);
         assert.equal(result.integerNumber, 3);
         assert.equal(result.floatingPointNumber, 3.14);
+      });
+
+      it("should createEntity with primitive int and float without automatic type conversion", async () => {
+        type TestType = { integerNumber: number; floatingPointNumber: number };
+        const testEntity: TableEntity<TestType> = {
+          partitionKey: `P8_${suffix}`,
+          rowKey: "R8",
+          integerNumber: 3,
+          floatingPointNumber: 3.14
+        };
+        let createResult: FullOperationResponse | undefined;
+        let deleteResult: FullOperationResponse | undefined;
+        await client.createEntity(testEntity, { onResponse: (res) => (createResult = res) });
+        const result = await client.getEntity(testEntity.partitionKey, testEntity.rowKey, {
+          disableTypeConversion: true
+        });
+        await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey, {
+          onResponse: (res) => (deleteResult = res)
+        });
+
+        assert.equal(deleteResult?.status, 204);
+        assert.equal(createResult?.status, 204);
+        assert.equal(result.partitionKey, testEntity.partitionKey);
+        assert.equal(result.rowKey, testEntity.rowKey);
+        assert.deepEqual(result.integerNumber, { value: 3, type: "Int32" });
+        assert.deepEqual(result.floatingPointNumber, { value: 3.14, type: "Double" });
       });
     });
   });

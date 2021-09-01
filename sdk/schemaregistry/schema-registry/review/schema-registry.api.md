@@ -4,16 +4,21 @@
 
 ```ts
 
-import { OperationOptions } from '@azure/core-http';
-import { PipelineOptions } from '@azure/core-http';
-import { TokenCredential } from '@azure/core-http';
-
-// @public
-export interface GetSchemaByIdOptions extends OperationOptions {
-}
+import { CommonClientOptions } from '@azure/core-client';
+import { OperationOptions } from '@azure/core-client';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface GetSchemaIdOptions extends OperationOptions {
+}
+
+// @public
+export interface GetSchemaOptions extends OperationOptions {
+}
+
+// @public
+export const enum KnownSerializationType {
+    Avro = "avro"
 }
 
 // @public
@@ -21,45 +26,43 @@ export interface RegisterSchemaOptions extends OperationOptions {
 }
 
 // @public
-export interface Schema extends SchemaId {
+export interface Schema extends SchemaProperties {
     content: string;
 }
 
 // @public
 export interface SchemaDescription {
     content: string;
-    group: string;
+    groupName: string;
     name: string;
     serializationType: string;
 }
 
 // @public
-export interface SchemaId {
+export interface SchemaProperties {
     id: string;
-    location: string;
-    locationById: string;
     serializationType: string;
     version: number;
 }
 
 // @public
 export interface SchemaRegistry {
-    getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema | undefined>;
-    getSchemaId(schema: SchemaDescription, options?: GetSchemaIdOptions): Promise<SchemaId | undefined>;
-    registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaId>;
+    getSchema(id: string, options?: GetSchemaOptions): Promise<Schema | undefined>;
+    getSchemaId(schema: SchemaDescription, options?: GetSchemaIdOptions): Promise<SchemaProperties | undefined>;
+    registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaProperties>;
 }
 
 // @public
 export class SchemaRegistryClient implements SchemaRegistry {
     constructor(endpoint: string, credential: TokenCredential, options?: SchemaRegistryClientOptions);
     readonly endpoint: string;
-    getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema | undefined>;
-    getSchemaId(schema: SchemaDescription, options?: GetSchemaIdOptions): Promise<SchemaId | undefined>;
-    registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaId>;
-}
+    getSchema(id: string, options?: GetSchemaOptions): Promise<Schema | undefined>;
+    getSchemaId(schema: SchemaDescription, options?: GetSchemaIdOptions): Promise<SchemaProperties | undefined>;
+    registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaProperties>;
+    }
 
 // @public
-export interface SchemaRegistryClientOptions extends PipelineOptions {
+export interface SchemaRegistryClientOptions extends CommonClientOptions {
 }
 
 

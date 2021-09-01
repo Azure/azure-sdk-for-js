@@ -30,7 +30,6 @@ import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 import { writeBanner } from "./utils/helpers";
 import { decodeString } from "./utils/base64url";
-import { bytesToString } from "./utils/utf8";
 
 dotenv.config();
 
@@ -155,7 +154,36 @@ async function attestOpenEnclave() {
   }
 
   console.log("Attest an OpenEnclave enclave from: ", endpoint);
-  const client = new AttestationClient(new DefaultAzureCredential(), endpoint);
+  const client = new AttestationClient(endpoint);
+
+  const openEnclaveReport = decodeString(_openEnclaveReport);
+
+  // Simplest case for attestation. Attest evidence from an enclave.
+
+  // This can be used to determine the identity of the enclave, however it cannot
+  // be used for a secure key release scenario.
+  {
+    const attestResponse = await client.attestOpenEnclave(openEnclaveReport);
+
+    console.log("Received attestation token: ", attestResponse.token.serialize());
+    console.log("Enclave Hash: ", attestResponse.body.mrEnclave);
+    console.log("Enclave Signer: ", attestResponse.body.mrSigner);
+    console.log("Enclave security version: ", attestResponse.body.svn);
+    console.log("Enclave product ID:", attestResponse.body.productId);
+  }
+}
+
+async function attestOpenEnclaveSharedAnonymously() {
+  writeBanner("Attest Open Enclave - Anonymously");
+
+  let location = process.env.ATTESTATION_LOCATION_SHORT_NAME;
+  if (location === undefined) {
+    location = "wus";
+  }
+  const endpoint = "https://shared" + location + "." + location + ".attest.azure.net";
+
+  console.log("Attest an OpenEnclave enclave from: ", endpoint);
+  const client = new AttestationClient(endpoint);
 
   const openEnclaveReport = decodeString(_openEnclaveReport);
 
@@ -182,7 +210,7 @@ async function attestOpenEnclaveWithRuntimeData() {
   }
 
   console.log("Attest an OpenEnclave enclave from: ", endpoint);
-  const client = new AttestationClient(new DefaultAzureCredential(), endpoint);
+  const client = new AttestationClient(endpoint);
 
   const openEnclaveReport = decodeString(_openEnclaveReport);
 
@@ -225,7 +253,10 @@ async function attestOpenEnclaveWithRuntimeJson() {
   }
 
   console.log("Attest an OpenEnclave enclave from: ", endpoint);
-  const client = new AttestationClient(new DefaultAzureCredential(), endpoint);
+
+  // While authentication is optional for the AttestationClient, you CAN provide
+  // client credentials if desired.
+  const client = new AttestationClient(endpoint, new DefaultAzureCredential());
 
   const openEnclaveReport = decodeString(_openEnclaveReport);
 
@@ -273,7 +304,7 @@ async function attestOpenEnclaveWithExperimentalPolicy() {
   }
 
   console.log("Attest an OpenEnclave enclave from: ", endpoint);
-  const client = new AttestationClient(new DefaultAzureCredential(), endpoint);
+  const client = new AttestationClient(endpoint);
 
   const openEnclaveReport = decodeString(_openEnclaveReport);
 
@@ -324,7 +355,7 @@ async function attestOpenEnclaveWithExperimentalPolicyFailure() {
   }
 
   console.log("Attest an OpenEnclave enclave from: ", endpoint);
-  const client = new AttestationClient(new DefaultAzureCredential(), endpoint);
+  const client = new AttestationClient(endpoint);
 
   const openEnclaveReport = decodeString(_openEnclaveReport);
 
@@ -355,8 +386,36 @@ issuancerules
   }
 }
 
+declare let TextDecoder:
+  | undefined
+  | (new () => { decode(buffer: ArrayBuffer | ArrayBufferView): string });
+
+// TextDecoder and TextEncoder are in the global namespace for Node version 11 and
+// higher, but before that, they were in the "util" namespace. If we're running
+// under node ("Buffer" is defined), then check to see if the global namespace version
+// of the decoders are present, if not, import them from the util namespace.
+const decoder =
+  typeof Buffer === "undefined"
+    ? // eslint-disable-next-line @typescript-eslint/no-require-imports
+      new (TextDecoder ?? require("util").TextDecoder)("ascii")
+    : undefined;
+
+const decode: (buffer: ArrayBuffer) => string = decoder
+  ? (buffer) => decoder.decode(buffer)
+  : (buffer) => (buffer as Buffer).toString("ascii");
+
+/**
+ * Converts a utf8 string into a byte array.
+ * @param content - The utf8 string to convert.
+ * @internal
+ */
+function bytesToString(content: Uint8Array): string {
+  return decode(content);
+}
+
 export async function main() {
   await attestOpenEnclave();
+  await attestOpenEnclaveSharedAnonymously();
   await attestOpenEnclaveWithRuntimeData();
   await attestOpenEnclaveWithRuntimeJson();
   await attestOpenEnclaveWithExperimentalPolicy();

@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
 /** Represents collection of metric definitions. */
 export interface MetricDefinitionCollection {
@@ -69,7 +69,7 @@ export interface ErrorResponse {
 }
 
 /** Known values of {@link ApiVersion201801} that the service accepts. */
-export const enum KnownApiVersion201801 {
+export enum KnownApiVersion201801 {
   /** Api Version '2018-01-01' */
   TwoThousandEighteen0101 = "2018-01-01"
 }
@@ -78,13 +78,13 @@ export const enum KnownApiVersion201801 {
  * Defines values for ApiVersion201801. \
  * {@link KnownApiVersion201801} can be used interchangeably with ApiVersion201801,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **2018-01-01**: Api Version '2018-01-01'
  */
 export type ApiVersion201801 = string;
 
 /** Known values of {@link MetricClass} that the service accepts. */
-export const enum KnownMetricClass {
+export enum KnownMetricClass {
   Availability = "Availability",
   Transactions = "Transactions",
   Errors = "Errors",
@@ -96,7 +96,7 @@ export const enum KnownMetricClass {
  * Defines values for MetricClass. \
  * {@link KnownMetricClass} can be used interchangeably with MetricClass,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **Availability** \
  * **Transactions** \
  * **Errors** \
@@ -106,7 +106,7 @@ export const enum KnownMetricClass {
 export type MetricClass = string;
 
 /** Known values of {@link MetricUnit} that the service accepts. */
-export const enum KnownMetricUnit {
+export enum KnownMetricUnit {
   Count = "Count",
   Bytes = "Bytes",
   Seconds = "Seconds",
@@ -126,7 +126,7 @@ export const enum KnownMetricUnit {
  * Defines values for MetricUnit. \
  * {@link KnownMetricUnit} can be used interchangeably with MetricUnit,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **Count** \
  * **Bytes** \
  * **Seconds** \
@@ -153,26 +153,17 @@ export type AggregationType =
 
 /** Optional parameters. */
 export interface MetricDefinitionsListOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Metric namespace to query metric definitions for. */
   metricnamespace?: string;
 }
 
 /** Contains response data for the list operation. */
-export type MetricDefinitionsListResponse = MetricDefinitionCollection & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: MetricDefinitionCollection;
-  };
-};
+export type MetricDefinitionsListResponse = MetricDefinitionCollection;
 
 /** Optional parameters. */
 export interface MonitorManagementClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+  extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Overrides client endpoint. */

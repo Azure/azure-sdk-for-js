@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
 import { Context } from "mocha";
 import { createHash } from "crypto";
-import { Recorder, env, isLiveMode } from "@azure/test-utils-recorder";
+import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 
 import { CryptographyClient, KeyVaultKey, KeyClient } from "../../src";
@@ -248,7 +248,6 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       const unwrappedResult = await cryptoClient.unwrapKey("RSA1_5", wrapped.result);
       const unwrappedText = uint8ArrayToString(unwrappedResult.result);
       assert.equal(text, unwrappedText);
-      await testClient.flushKey(keyName);
     });
 
     it("sign and verify with RS256 through an RSA-HSM key", async function(this: Context): Promise<

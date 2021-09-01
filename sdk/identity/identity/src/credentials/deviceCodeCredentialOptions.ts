@@ -36,7 +36,7 @@ export interface DeviceCodeInfo {
 export type DeviceCodePromptCallback = (deviceCodeInfo: DeviceCodeInfo) => void;
 
 /**
- * Defines options for the InteractiveBrowserCredential class for NodeJS.
+ * Defines options for the InteractiveBrowserCredential class for Node.js.
  */
 export interface DeviceCodeCredentialOptions
   extends InteractiveCredentialOptions,

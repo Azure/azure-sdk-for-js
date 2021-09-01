@@ -149,7 +149,8 @@ export class TestTracer implements Tracer {
       spanContext,
       options?.kind || SpanKind.INTERNAL,
       parentContext ? parentContext.spanId : undefined,
-      options?.startTime
+      options?.startTime,
+      options?.attributes
     );
     this.knownSpans.push(span);
     if (isRootSpan) {

@@ -1,6 +1,6 @@
 # Release History
 
-## 1.2.3 (Unreleased)
+## 1.3.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,16 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.3.0 (2021-08-04)
+
+### Features Added
+
+- Updated to use version 1.0.0-preview.13 of `@azure/core-tracing`.
+
+### Key Bugs Fixed
+
+- Fixed an issue where APIs that accepted a Blob didn't work with File objects. See [#16754](https://github.com/Azure/azure-sdk-for-js/issues/16754) for more details.
 
 ## 1.2.2 (2021-07-13)
 

@@ -14,7 +14,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.40.7",
+  "rushVersion": "5.51.1",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -23,7 +23,7 @@
    * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
    * for details about these alternatives.
    */
-  "pnpmVersion": "5.15.0",
+  "pnpmVersion": "5.18.10",
   // "npmVersion": "4.5.0",
   // "yarnVersion": "1.9.4",
   /**
@@ -337,6 +337,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/purview-account",
+      "projectFolder": "sdk/purview/purview-account-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/purview-catalog",
       "projectFolder": "sdk/purview/purview-catalog-rest",
       "versionPolicyName": "client"
@@ -429,6 +434,11 @@
     {
       "packageName": "@azure/core-amqp",
       "projectFolder": "sdk/core/core-amqp",
+      "versionPolicyName": "core"
+    },
+    {
+      "packageName": "@azure-rest/core-client-lro",
+      "projectFolder": "sdk/core/core-client-lro-rest",
       "versionPolicyName": "core"
     },
     {
@@ -529,6 +539,11 @@
     {
       "packageName": "@azure/eventhubs-checkpointstore-blob",
       "projectFolder": "sdk/eventhub/eventhubs-checkpointstore-blob",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/eventhubs-checkpointstore-table",
+      "projectFolder": "sdk/eventhub/eventhubs-checkpointstore-table",
       "versionPolicyName": "client"
     },
     {
@@ -662,9 +677,19 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-tests/perf-data-tables",
+      "projectFolder": "sdk/tables/perf-tests/data-tables",
+      "versionPolicyName": "test"
+    },
+    {
       "packageName": "@azure/template",
       "projectFolder": "sdk/template/template",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-tools/testing-recorder-new",
+      "projectFolder": "sdk/test-utils/testing-recorder-new",
+      "versionPolicyName": "test"
     },
     {
       "packageName": "@azure/eslint-plugin-azure-sdk",
@@ -672,8 +697,13 @@
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure/test-utils-recorder",
+      "packageName": "@azure-tools/test-recorder",
       "projectFolder": "sdk/test-utils/recorder",
+      "versionPolicyName": "utility"
+    },
+    {
+      "packageName": "@azure-tools/test-recorder-new",
+      "projectFolder": "sdk/test-utils/recorder-new",
       "versionPolicyName": "utility"
     },
     {
@@ -698,7 +728,8 @@
     },
     {
       "packageName": "@azure/iot-modelsrepository",
-      "projectFolder": "sdk/iot/iot-modelsrepository"
+      "projectFolder": "sdk/iot/iot-modelsrepository",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure-tests/perf-ai-form-recognizer",
@@ -838,6 +869,41 @@
     {
       "packageName": "@azure/arm-managedapplications",
       "projectFolder": "sdk/managedapplications/arm-managedapplications",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-webpubsub",
+      "projectFolder": "sdk/web-pubsub/arm-webpubsub",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-keyvault",
+      "projectFolder": "sdk/keyvault/arm-keyvault",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-sql",
+      "projectFolder": "sdk/sql/arm-sql",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-appservice",
+      "projectFolder": "sdk/appservice/arm-appservice",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-resources-subscriptions",
+      "projectFolder": "sdk/resources-subscriptions/arm-resources-subscriptions",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-templatespecs",
+      "projectFolder": "sdk/templatespecs/arm-templatespecs",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-authorization",
+      "projectFolder": "sdk/authorization/arm-authorization",
       "versionPolicyName": "management"
     }
   ]

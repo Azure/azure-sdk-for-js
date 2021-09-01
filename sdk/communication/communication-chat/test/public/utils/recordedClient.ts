@@ -4,14 +4,8 @@
 import { Context } from "mocha";
 import * as dotenv from "dotenv";
 
-import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
-import {
-  DefaultHttpClient,
-  HttpClient,
-  HttpOperationResponse,
-  isNode,
-  WebResourceLike
-} from "@azure/core-http";
+import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import { isNode } from "@azure/core-util";
 import { ChatClient } from "../../../src";
 import {
   CommunicationUserIdentifier,
@@ -71,28 +65,5 @@ export function createChatClient(userToken: string): ChatClient {
   }
   const { url } = parseClientArguments(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING);
 
-  return new ChatClient(url, new AzureCommunicationTokenCredential(userToken), {
-    httpClient: createTestHttpClient()
-  });
-}
-
-function createTestHttpClient(): HttpClient {
-  const customHttpClient = new DefaultHttpClient();
-
-  const originalSendRequest = customHttpClient.sendRequest;
-  customHttpClient.sendRequest = async function(
-    httpRequest: WebResourceLike
-  ): Promise<HttpOperationResponse> {
-    const requestResponse = await originalSendRequest.apply(this, [httpRequest]);
-
-    console.log(
-      `MS-CV header for request: ${httpRequest.url} (${
-        requestResponse.status
-      } - ${requestResponse.headers.get("ms-cv")})`
-    );
-
-    return requestResponse;
-  };
-
-  return customHttpClient;
+  return new ChatClient(url, new AzureCommunicationTokenCredential(userToken));
 }

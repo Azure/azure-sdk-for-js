@@ -69,10 +69,12 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
     curve?: KeyCurveName;
     enabled?: boolean;
     readonly expiresOn?: Date;
+    exportable?: boolean;
     hsm?: boolean;
     keyOps?: KeyOperation[];
     keySize?: number;
     notBefore?: Date;
+    releasePolicy?: KeyReleasePolicy;
     tags?: {
         [propertyName: string]: string;
     };
@@ -183,8 +185,10 @@ export interface GetRandomBytesOptions extends coreHttp.OperationOptions {
 export interface ImportKeyOptions extends coreHttp.OperationOptions {
     enabled?: boolean;
     expiresOn?: Date;
+    exportable?: boolean;
     hardwareProtected?: boolean;
     notBefore?: Date;
+    releasePolicy?: KeyReleasePolicy;
     tags?: {
         [propertyName: string]: string;
     };
@@ -222,14 +226,16 @@ export class KeyClient {
     createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<KeyVaultKey>;
     getDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<DeletedKey>;
     getKey(name: string, options?: GetKeyOptions): Promise<KeyVaultKey>;
-    getRandomBytes(count: number, options?: GetRandomBytesOptions): Promise<Uint8Array>;
+    getRandomBytes(count: number, options?: GetRandomBytesOptions): Promise<RandomBytes>;
     importKey(name: string, key: JsonWebKey, options?: ImportKeyOptions): Promise<KeyVaultKey>;
     listDeletedKeys(options?: ListDeletedKeysOptions): PagedAsyncIterableIterator<DeletedKey>;
     listPropertiesOfKeys(options?: ListPropertiesOfKeysOptions): PagedAsyncIterableIterator<KeyProperties>;
     listPropertiesOfKeyVersions(name: string, options?: ListPropertiesOfKeyVersionsOptions): PagedAsyncIterableIterator<KeyProperties>;
     purgeDeletedKey(name: string, options?: PurgeDeletedKeyOptions): Promise<void>;
+    releaseKey(name: string, target: string, options?: ReleaseKeyOptions): Promise<ReleaseKeyResult>;
     restoreKeyBackup(backup: Uint8Array, options?: RestoreKeyBackupOptions): Promise<KeyVaultKey>;
     updateKeyProperties(name: string, keyVersion: string, options?: UpdateKeyPropertiesOptions): Promise<KeyVaultKey>;
+    updateKeyProperties(name: string, options?: UpdateKeyPropertiesOptions): Promise<KeyVaultKey>;
     readonly vaultUrl: string;
 }
 
@@ -240,6 +246,9 @@ export interface KeyClientOptions extends coreHttp.PipelineOptions {
 
 // @public
 export type KeyCurveName = string;
+
+// @public
+export type KeyExportEncryptionAlgorithm = string;
 
 // @public
 export type KeyOperation = string;
@@ -255,18 +264,26 @@ export interface KeyProperties {
     readonly createdOn?: Date;
     enabled?: boolean;
     expiresOn?: Date;
+    exportable?: boolean;
     id?: string;
     readonly managed?: boolean;
     name: string;
     notBefore?: Date;
     recoverableDays?: number;
     readonly recoveryLevel?: DeletionRecoveryLevel;
+    releasePolicy?: KeyReleasePolicy;
     tags?: {
         [propertyName: string]: string;
     };
     readonly updatedOn?: Date;
     vaultUrl: string;
     version?: string;
+}
+
+// @public
+export interface KeyReleasePolicy {
+    contentType?: string;
+    data?: Uint8Array;
 }
 
 // @public
@@ -294,7 +311,7 @@ export interface KeyVaultKeyIdentifier {
 export type KeyWrapAlgorithm = "A128KW" | "A192KW" | "A256KW" | "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
 
 // @public
-export const enum KnownDeletionRecoveryLevel {
+export enum KnownDeletionRecoveryLevel {
     CustomizedRecoverable = "CustomizedRecoverable",
     CustomizedRecoverableProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription",
     CustomizedRecoverablePurgeable = "CustomizedRecoverable+Purgeable",
@@ -305,7 +322,7 @@ export const enum KnownDeletionRecoveryLevel {
 }
 
 // @public
-export const enum KnownEncryptionAlgorithms {
+export enum KnownEncryptionAlgorithms {
     A128CBC = "A128CBC",
     A128Cbcpad = "A128CBCPAD",
     A128GCM = "A128GCM",
@@ -324,7 +341,7 @@ export const enum KnownEncryptionAlgorithms {
 }
 
 // @public
-export const enum KnownKeyCurveNames {
+export enum KnownKeyCurveNames {
     P256 = "P-256",
     P256K = "P-256K",
     P384 = "P-384",
@@ -343,7 +360,7 @@ export enum KnownKeyOperations {
 }
 
 // @public
-export const enum KnownKeyTypes {
+export enum KnownKeyTypes {
     EC = "EC",
     ECHSM = "EC-HSM",
     Oct = "oct",
@@ -353,7 +370,7 @@ export const enum KnownKeyTypes {
 }
 
 // @public
-export const enum KnownSignatureAlgorithms {
+export enum KnownSignatureAlgorithms {
     ES256 = "ES256",
     ES256K = "ES256K",
     ES384 = "ES384",
@@ -397,6 +414,23 @@ export { PollOperationState }
 
 // @public
 export interface PurgeDeletedKeyOptions extends coreHttp.OperationOptions {
+}
+
+// @public
+export interface RandomBytes {
+    bytes: Uint8Array;
+}
+
+// @public
+export interface ReleaseKeyOptions extends coreHttp.OperationOptions {
+    algorithm?: KeyExportEncryptionAlgorithm;
+    nonce?: string;
+    version?: string;
+}
+
+// @public
+export interface ReleaseKeyResult {
+    value: string;
 }
 
 // @public
@@ -449,6 +483,7 @@ export interface UpdateKeyPropertiesOptions extends coreHttp.OperationOptions {
     expiresOn?: Date;
     keyOps?: KeyOperation[];
     notBefore?: Date;
+    releasePolicy?: KeyReleasePolicy;
     tags?: {
         [propertyName: string]: string;
     };

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineOptions, RawHttpHeaders, PipelineRequest } from "@azure/core-rest-pipeline";
+import { PipelineOptions, PipelineRequest } from "@azure/core-rest-pipeline";
 
 /**
  * General options that a Rest Level Client can take
@@ -33,6 +33,8 @@ export type ClientOptions = PipelineOptions & {
    */
   allowInsecureConnection?: boolean;
 };
+
+export type RawHttpHeaders = Record<string, string | number | boolean>;
 
 /**
  * Represents the shape of an HttpResponse

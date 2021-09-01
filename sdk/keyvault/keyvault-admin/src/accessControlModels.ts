@@ -5,10 +5,12 @@ import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { SUPPORTED_API_VERSIONS } from "./constants";
 import {
   DataAction as KeyVaultDataAction,
-  RoleScope as KeyVaultRoleScope
+  RoleScope as KeyVaultRoleScope,
+  KnownDataAction as KnownKeyVaultDataAction,
+  KnownRoleScope as KnownKeyVaultRoleScope
 } from "./generated/index";
 
-export { KeyVaultDataAction, KeyVaultRoleScope };
+export { KeyVaultDataAction, KeyVaultRoleScope, KnownKeyVaultDataAction, KnownKeyVaultRoleScope };
 
 /**
  * The optional parameters accepted by the Key Vault's AccessControlClient
@@ -18,76 +20,6 @@ export interface AccessControlClientOptions extends CommonClientOptions {
    * The accepted versions of the Key Vault's service API.
    */
   serviceVersion?: SUPPORTED_API_VERSIONS;
-}
-
-/** Known values of {@link DataAction} that the service accepts. */
-export enum KnownKeyVaultDataAction {
-  /** Read HSM key metadata. */
-  ReadHsmKey = "Microsoft.KeyVault/managedHsm/keys/read/action",
-  /** Update an HSM key. */
-  WriteHsmKey = "Microsoft.KeyVault/managedHsm/keys/write/action",
-  /** Read deleted HSM key. */
-  ReadDeletedHsmKey = "Microsoft.KeyVault/managedHsm/keys/deletedKeys/read/action",
-  /** Recover deleted HSM key. */
-  RecoverDeletedHsmKey = "Microsoft.KeyVault/managedHsm/keys/deletedKeys/recover/action",
-  /** Backup HSM keys. */
-  BackupHsmKeys = "Microsoft.KeyVault/managedHsm/keys/backup/action",
-  /** Restore HSM keys. */
-  RestoreHsmKeys = "Microsoft.KeyVault/managedHsm/keys/restore/action",
-  /** Delete role assignment. */
-  DeleteRoleAssignment = "Microsoft.KeyVault/managedHsm/roleAssignments/delete/action",
-  /** Get role assignment. */
-  GetRoleAssignment = "Microsoft.KeyVault/managedHsm/roleAssignments/read/action",
-  /** Create or update role assignment. */
-  WriteRoleAssignment = "Microsoft.KeyVault/managedHsm/roleAssignments/write/action",
-  /** Get role definition. */
-  ReadRoleDefinition = "Microsoft.KeyVault/managedHsm/roleDefinitions/read/action",
-  /** Encrypt using an HSM key. */
-  EncryptHsmKey = "Microsoft.KeyVault/managedHsm/keys/encrypt/action",
-  /** Decrypt using an HSM key. */
-  DecryptHsmKey = "Microsoft.KeyVault/managedHsm/keys/decrypt/action",
-  /** Wrap using an HSM key. */
-  WrapHsmKey = "Microsoft.KeyVault/managedHsm/keys/wrap/action",
-  /** Unwrap using an HSM key. */
-  UnwrapHsmKey = "Microsoft.KeyVault/managedHsm/keys/unwrap/action",
-  /** Sign using an HSM key. */
-  SignHsmKey = "Microsoft.KeyVault/managedHsm/keys/sign/action",
-  /** Verify using an HSM key. */
-  VerifyHsmKey = "Microsoft.KeyVault/managedHsm/keys/verify/action",
-  /** Create an HSM key. */
-  CreateHsmKey = "Microsoft.KeyVault/managedHsm/keys/create",
-  /** Delete an HSM key. */
-  DeleteHsmKey = "Microsoft.KeyVault/managedHsm/keys/delete",
-  /** Export an HSM key. */
-  ExportHsmKey = "Microsoft.KeyVault/managedHsm/keys/export/action",
-  /** Import an HSM key. */
-  ImportHsmKey = "Microsoft.KeyVault/managedHsm/keys/import/action",
-  /** Purge a deleted HSM key. */
-  PurgeDeletedHsmKey = "Microsoft.KeyVault/managedHsm/keys/deletedKeys/delete",
-  /** Download an HSM security domain. */
-  DownloadHsmSecurityDomain = "Microsoft.KeyVault/managedHsm/securitydomain/download/action",
-  /** Upload an HSM security domain. */
-  UploadHsmSecurityDomain = "Microsoft.KeyVault/managedHsm/securitydomain/upload/action",
-  /** Check the status of the HSM security domain exchange file. */
-  ReadHsmSecurityDomainStatus = "Microsoft.KeyVault/managedHsm/securitydomain/upload/read",
-  /** Download an HSM security domain transfer key. */
-  ReadHsmSecurityDomainTransferKey = "Microsoft.KeyVault/managedHsm/securitydomain/transferkey/read",
-  /** Start an HSM backup. */
-  StartHsmBackup = "Microsoft.KeyVault/managedHsm/backup/start/action",
-  /** Start an HSM restore. */
-  StartHsmRestore = "Microsoft.KeyVault/managedHsm/restore/start/action",
-  /** Read an HSM backup status. */
-  ReadHsmBackupStatus = "Microsoft.KeyVault/managedHsm/backup/status/action",
-  /** Read an HSM restore status. */
-  ReadHsmRestoreStatus = "Microsoft.KeyVault/managedHsm/restore/status/action"
-}
-
-/** Known values of {@link RoleScope} that the service accepts. */
-export enum KnownKeyVaultRoleScope {
-  /** Global scope */
-  Global = "/",
-  /** Keys scope */
-  Keys = "/keys"
 }
 
 /**
