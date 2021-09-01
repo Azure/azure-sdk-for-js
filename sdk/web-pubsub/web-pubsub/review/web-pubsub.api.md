@@ -19,7 +19,7 @@ export interface CloseConnectionOptions extends OperationOptions {
 
 // @public
 export interface GenerateClientTokenOptions extends OperationOptions {
-    minutesToExpire?: number;
+    expirationTimeInMinutes?: number;
     roles?: string[];
     userId?: string;
 }
@@ -169,8 +169,8 @@ export class WebPubSubServiceClient {
     readonly apiVersion: string;
     closeConnection(connectionId: string, options?: CloseConnectionOptions): Promise<void>;
     endpoint: string;
-    // (undocumented)
-    generateClientToken(options?: GenerateClientTokenOptions): Promise<import("./generated").ClientTokenResponse>;
+    // Warning: (ae-forgotten-export) The symbol "ClientTokenResponse" needs to be exported by the entry point index.d.ts
+    generateClientToken(options?: GenerateClientTokenOptions): Promise<ClientTokenResponse>;
     getAuthenticationToken(options?: GetAuthenticationTokenOptions): Promise<GetAuthenticationTokenResponse>;
     grantPermission(connectionId: string, permission: Permission, options?: HubGrantPermissionOptions): Promise<void>;
     group(groupName: string): WebPubSubGroup;

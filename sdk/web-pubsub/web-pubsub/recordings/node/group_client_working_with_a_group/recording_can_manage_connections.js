@@ -9,7 +9,7 @@ nock('endpoint:443', {"encodedQueryParams":true})
   .query(true)
   .reply(404, ["1f8b080000000000000372cecfcb4b4d2ec9cccf5348a800820485cc6285bcfc1285b4fcd2bc143d00000000ffff","0300a3fa1ff91f000000"], [
   'Date',
-  'Tue, 31 Aug 2021 18:15:54 GMT',
+  'Wed, 01 Sep 2021 19:52:32 GMT',
   'Content-Type',
   'text/plain; charset=utf-8',
   'Transfer-Encoding',
@@ -29,7 +29,7 @@ nock('endpoint:443', {"encodedQueryParams":true})
   .query(true)
   .reply(200, ["1f8b0800000000000003f2cf06000000ffff","0300e5f958ec02000000"], [
   'Date',
-  'Tue, 31 Aug 2021 18:15:54 GMT',
+  'Wed, 01 Sep 2021 19:52:32 GMT',
   'Content-Type',
   'text/plain; charset=utf-8',
   'Transfer-Encoding',

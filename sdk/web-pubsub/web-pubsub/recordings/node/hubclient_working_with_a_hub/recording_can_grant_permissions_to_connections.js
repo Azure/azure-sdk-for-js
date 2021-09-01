@@ -9,7 +9,7 @@ nock('endpoint:443', {"encodedQueryParams":true})
   .query(true)
   .reply(404, ["1f8b080000000000000372cecfcb4b4d2ec9cccf53c84c51c8cb2f5148cb2fcd4b01000000ffff","03002a887b5e17000000"], [
   'Date',
-  'Tue, 31 Aug 2021 18:15:56 GMT',
+  'Wed, 01 Sep 2021 19:52:36 GMT',
   'Content-Type',
   'text/plain; charset=utf-8',
   'Transfer-Encoding',

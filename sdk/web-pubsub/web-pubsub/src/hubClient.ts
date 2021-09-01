@@ -3,9 +3,8 @@
 
 import { CommonClientOptions, FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { RestError, RequestBodyType } from "@azure/core-rest-pipeline";
-import { AzureWebPubSubServiceRestAPI } from "./generated/azureWebPubSubServiceRestAPI";
+import { GeneratedClient } from "./generated/generatedClient";
 import { WebPubSubGroup, WebPubSubGroupImpl } from "./groupClient";
-import { normalizeSendToAllOptions, normalizeGenerateClientTokenOptions } from "./normalizeOptions";
 import { AzureKeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { webPubSubKeyCredentialPolicy } from "./webPubSubCredentialPolicy";
 import { createSpan } from "./tracing";
@@ -13,7 +12,7 @@ import { logger } from "./logger";
 import { parseConnectionString } from "./parseConnectionString";
 import jwt from "jsonwebtoken";
 import { getPayloadForMessage } from "./utils";
-import { AzureWebPubSubServiceRestAPIOptionalParams } from "./generated";
+import { GeneratedClientOptionalParams } from "./generated";
 import { webPubSubReverseProxyPolicy } from "./reverseProxyPolicy";
 
 /**
@@ -206,13 +205,24 @@ export interface GenerateClientTokenOptions extends OperationOptions {
   /**
    * Minutes until the token expires.
    */
-  minutesToExpire?: number;
+  expirationTimeInMinutes?: number;
 }
+
+/**
+ * A response containing the client token.
+ */
+export interface ClientTokenResponse {
+  /**
+   * The client token.
+   */
+  token?: string;
+}
+
 /**
  * Client for connecting to a Web PubSub hub
  */
 export class WebPubSubServiceClient {
-  private readonly client: AzureWebPubSubServiceRestAPI;
+  private readonly client: GeneratedClient;
   private credential!: AzureKeyCredential | TokenCredential;
   private readonly clientOptions?: WebPubSubServiceClientOptions;
 
@@ -279,11 +289,7 @@ export class WebPubSubServiceClient {
       this.endpoint = endpointOrConnectionString;
       this.hubName = hubNameOrOpts as string;
       this.clientOptions = opts;
-      if ("key" in credsOrHubName) {
-        this.credential = credsOrHubName;
-      } else {
-        this.credential = credsOrHubName;
-      }
+      this.credential = credsOrHubName;
     } else {
       const parsedCs = parseConnectionString(endpointOrConnectionString);
       this.endpoint = parsedCs.endpoint;
@@ -292,7 +298,7 @@ export class WebPubSubServiceClient {
       this.clientOptions = hubNameOrOpts as WebPubSubServiceClientOptions;
     }
 
-    const internalPipelineOptions: AzureWebPubSubServiceRestAPIOptionalParams = {
+    const internalPipelineOptions: GeneratedClientOptionalParams = {
       ...this.clientOptions,
       ...{
         apiVersion: this.apiVersion,
@@ -308,7 +314,7 @@ export class WebPubSubServiceClient {
         : {})
     };
 
-    this.client = new AzureWebPubSubServiceRestAPI(this.endpoint, internalPipelineOptions);
+    this.client = new GeneratedClient(this.endpoint, internalPipelineOptions);
 
     if (!isTokenCredential(this.credential)) {
       this.client.pipeline.addPolicy(webPubSubKeyCredentialPolicy(this.credential));
@@ -389,10 +395,9 @@ export class WebPubSubServiceClient {
     message: RequestBodyType | JSONTypes,
     options: HubSendToAllOptions | HubSendTextToAllOptions = {}
   ): Promise<void> {
-    const normalizedOptions = normalizeSendToAllOptions(options);
     const { span, updatedOptions } = createSpan(
       "WebPubSubServiceClient-hub-sendToAll",
-      normalizedOptions
+      options
     );
 
     const { contentType, payload } = getPayloadForMessage(message, updatedOptions);
@@ -805,11 +810,17 @@ export class WebPubSubServiceClient {
     }
   }
 
-  public async generateClientToken(options: GenerateClientTokenOptions = {}) {
-    const normalizedOptions = normalizeGenerateClientTokenOptions(options);
+  /**
+   * Generate a token for a client to connect to the Azure Web PubSub service.
+   *
+   * @param options - Additional options
+   */
+  public async generateClientToken(
+    options: GenerateClientTokenOptions = {}
+  ): Promise<ClientTokenResponse> {
     const { span, updatedOptions } = createSpan(
       "WebPubSubServiceClient-hub-generateClientToken",
-      normalizedOptions
+      options
     );
 
     try {

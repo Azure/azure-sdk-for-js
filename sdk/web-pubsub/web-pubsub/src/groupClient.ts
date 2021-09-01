@@ -3,9 +3,8 @@
 
 import { CommonClientOptions, FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { RestError, RequestBodyType } from "@azure/core-rest-pipeline";
-import { AzureWebPubSubServiceRestAPI } from "./generated/azureWebPubSubServiceRestAPI";
+import { GeneratedClient } from "./generated/generatedClient";
 import { createSpan } from "./tracing";
-import { normalizeSendToAllOptions } from "./normalizeOptions";
 import { getPayloadForMessage } from "./utils";
 import { JSONTypes } from "./hubClient";
 
@@ -140,7 +139,7 @@ export interface WebPubSubGroup {
  * @hidden
  */
 export class WebPubSubGroupImpl implements WebPubSubGroup {
-  private client!: AzureWebPubSubServiceRestAPI;
+  private client!: GeneratedClient;
 
   /**
    * The name of this group
@@ -166,7 +165,7 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
    * @private
    * @internal
    */
-  constructor(client: AzureWebPubSubServiceRestAPI, hubName: string, groupName: string) {
+  constructor(client: GeneratedClient, hubName: string, groupName: string) {
     this.client = client;
     this.groupName = groupName;
     this.hubName = hubName;
@@ -306,10 +305,9 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
     message: JSONTypes | RequestBodyType,
     options: GroupSendToAllOptions | GroupSendTextToAllOptions = {}
   ): Promise<void> {
-    const normalizedOptions = normalizeSendToAllOptions(options);
     const { span, updatedOptions } = createSpan(
       "WebPubSubServiceClient-group-sendToAll",
-      normalizedOptions
+      options
     );
 
     const { contentType, payload } = getPayloadForMessage(message, updatedOptions);

@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "55186e4a4927fb9a9a0bd986ebc7d394";
+module.exports.hash = "f7850aac912e5d5b9b462e0473176b38";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -23,19 +23,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '714a1e4d-7f77-4ae4-939c-f9198f8b0101',
+  '7c62a97d-9617-486f-bae3-ef92fe284a00',
   'x-ms-ests-server',
-  '2.1.11984.12 - EUS ProdSlices',
+  '2.1.11984.12 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AlIw7nXlDR1Hh6-LXL3DcVo; expires=Thu, 30-Sep-2021 18:15:54 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AviVrFObUTdKmZIDyEGd6tU; expires=Fri, 01-Oct-2021 19:52:32 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrJEdq0HwezSiBuz22j56IexasIO_ay_XWjwMax4dEw97sVM2nUIjFTd_Wc7NJxWVSitrLmRc8FfDZaG6bmIoMpdp6pp0rqJP45PkmRpBzn-VRuJ0jiwnAfwr1Kw5S5IZA7snSIiWBs5722HYpvd5qzcSJpT0WJit1k0sTEQjayfggAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrGhSIYQwBxAGy-K91o6_tY2oC8Xwf2vguX2KB2ayzY3Rvasu_lcTW-VHfDKcP_nVHrFwLDlJ0pTpoSZZdaX-gagk-0Tkq97KeNbnCrsU_eHf_UmD-GKbavUyaRA60IS0-oBZNSJKcoM7b5AHDceG4bDPhii0WNbvNqzVWAsyyn-ogAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 31 Aug 2021 18:15:54 GMT',
+  'Wed, 01 Sep 2021 19:52:31 GMT',
   'Content-Length',
   '980'
 ]);
@@ -58,25 +58,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '7db62553-5206-4e8a-a7b1-f50985f83100',
+  '2192fe06-2014-4696-8ec0-99720d508400',
   'x-ms-ests-server',
-  '2.1.12011.8 - EUS ProdSlices',
+  '2.1.12011.8 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=Ai7n4nAHENNEv1DMdMXiPoQ; expires=Thu, 30-Sep-2021 18:15:54 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AgwcO_YDbTtEtderWsdcL2Y; expires=Fri, 01-Oct-2021 19:52:32 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrNTo0doYdUU2yH5jjwr2cQL7dzd-GtAQ0sbvYw4BdJYmGM1hQ_cStx573MuD1TWZvVqgTwFHYY5oh_d_da8qon_aSlF--CEipNOtfLpoYOVoE1_XSjOFLZL0K1zpVvHmzjejxk8BOr05QVQjClrOi9MPRWoQBLsNO_Tbagcm6fvsgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrXW2ARW_a9vd8XoUMn8kGai6m32T8ZKIOioKBQHOJTKC_CS93ayg0Qe3lsmbwrItnN57a14Z1ZwJqJSXs-Qx0aR4y4Udk5uwIChz4nEim-VPuZbGl2Zk177kwBgMdW3Z8E0awog7TapIQzz0ajzn_6ozD9_V21HFljdhbSgQevgUgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 31 Aug 2021 18:15:54 GMT',
+  'Wed, 01 Sep 2021 19:52:31 GMT',
   'Content-Length',
   '1753'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azuretenantid/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.3.0&x-client-OS=win32&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=0341795b-2ca3-45b3-80ac-905c42de9e83&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22CP1%22%5D%7D%7D%7D")
+  .post('/azuretenantid/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.3.0&x-client-OS=win32&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=6c10ac13-c55b-4990-b5dd-aad3897bdd08&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22CP1%22%5D%7D%7D%7D")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -93,19 +93,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '3f7f7e99-205e-4f9d-866a-135e662e3600',
+  '2a343fa5-3a94-4f66-b8cc-0a5a64148100',
   'x-ms-ests-server',
-  '2.1.12011.8 - SCUS ProdSlices',
+  '2.1.12011.8 - EUS ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=AuRyhZlpNddFlHSclhruGex7J-2yAQAAANpowNgOAAAA; expires=Thu, 30-Sep-2021 18:15:55 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AoO6hu3Wt2NCpfD_kISjDet7J-2yAQAAAADRwdgOAAAA; expires=Fri, 01-Oct-2021 19:52:32 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 31 Aug 2021 18:15:54 GMT',
+  'Wed, 01 Sep 2021 19:52:31 GMT',
   'Content-Length',
   '1321'
 ]);
@@ -115,7 +115,7 @@ nock('endpoint:443', {"encodedQueryParams":true})
   .query(true)
   .reply(202, "", [
   'Date',
-  'Tue, 31 Aug 2021 18:15:55 GMT',
+  'Wed, 01 Sep 2021 19:52:33 GMT',
   'Content-Length',
   '0',
   'Connection',
@@ -129,7 +129,7 @@ nock('endpoint:443', {"encodedQueryParams":true})
   .query(true)
   .reply(202, "", [
   'Date',
-  'Tue, 31 Aug 2021 18:15:55 GMT',
+  'Wed, 01 Sep 2021 19:52:33 GMT',
   'Content-Length',
   '0',
   'Connection',
@@ -143,7 +143,7 @@ nock('endpoint:443', {"encodedQueryParams":true})
   .query(true)
   .reply(202, "", [
   'Date',
-  'Tue, 31 Aug 2021 18:15:55 GMT',
+  'Wed, 01 Sep 2021 19:52:34 GMT',
   'Content-Length',
   '0',
   'Connection',
