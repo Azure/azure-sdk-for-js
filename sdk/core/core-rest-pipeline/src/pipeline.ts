@@ -1,17 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  PipelineRequest,
-  PipelineResponse,
-  HttpClient,
-  SendRequest,
-  ProxySettings
-} from "./interfaces";
-import { LogPolicyOptions } from "./policies/logPolicy";
-import { UserAgentPolicyOptions } from "./policies/userAgentPolicy";
-import { RedirectPolicyOptions } from "./policies/redirectPolicy";
-import { ExponentialRetryPolicyOptions } from "./policies/exponentialRetryPolicy";
+import { PipelineRequest, PipelineResponse, HttpClient, SendRequest } from "./interfaces";
 
 /**
  * Policies are executed in phases.
@@ -376,41 +366,4 @@ class HttpPipeline implements Pipeline {
  */
 export function createEmptyPipeline(): Pipeline {
   return HttpPipeline.create();
-}
-
-/**
- * Defines options that are used to configure the HTTP pipeline for
- * an SDK client.
- */
-export interface PipelineOptions {
-  /**
-   * Options that control how to retry failed requests.
-   */
-  retryOptions?: ExponentialRetryPolicyOptions;
-
-  /**
-   * Options to configure a proxy for outgoing requests.
-   */
-  proxyOptions?: ProxySettings;
-
-  /**
-   * Options for how redirect responses are handled.
-   */
-  redirectOptions?: RedirectPolicyOptions;
-
-  /**
-   * Options for adding user agent details to outgoing requests.
-   */
-  userAgentOptions?: UserAgentPolicyOptions;
-}
-
-/**
- * Defines options that are used to configure internal options of
- * the HTTP pipeline for an SDK client.
- */
-export interface InternalPipelineOptions extends PipelineOptions {
-  /**
-   * Options to configure request/response logging.
-   */
-  loggingOptions?: LogPolicyOptions;
 }

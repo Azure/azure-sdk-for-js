@@ -22,11 +22,13 @@ export {
   PipelinePhase,
   PipelinePolicy,
   Pipeline,
-  createEmptyPipeline,
+  createEmptyPipeline
+} from "./pipeline";
+export {
+  createPipelineFromOptions,
   InternalPipelineOptions,
   PipelineOptions
-} from "./pipeline";
-export { createPipelineFromOptions } from "./createPipelineFromOptions";
+} from "./createPipelineFromOptions";
 export { createDefaultHttpClient } from "./defaultHttpClient";
 export { createHttpHeaders } from "./httpHeaders";
 export { createPipelineRequest, PipelineRequestOptions } from "./pipelineRequest";

@@ -1,18 +1,15 @@
 # Release History
 
-## 1.0.0-beta.7 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.0.0-beta.7 (2021-09-02)
 
 ### Other Changes
+
+- Allow number and boolean as input headers. [#17358](https://github.com/Azure/azure-sdk-for-js/pull/17358)
 
 ## 1.0.0-beta.6 (2021-08-05)
 
 ### Fixes
+
 - Fixed exported types [#15898](https://github.com/Azure/azure-sdk-for-js/pull/15898)
 
 ## 1.0.0-beta.5 (2021-06-24)
