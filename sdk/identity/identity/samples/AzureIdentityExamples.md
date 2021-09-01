@@ -11,7 +11,7 @@
 - [Authenticating With Azure Stack using Azure Identity](#authenticating-with-azure-stack-using-azure-identity)
 - [Advanced Examples](#advanced-examples)
   - [Custom Credentials](#custom-credentials)
-  - [The simplest possible credential](#the-simplest-possible-credential).
+  - [Implementing the TokenCredential Interface](#implementing-the-tokencredential-interface).
   - [Authenticating with a pre-fetched access token](#authenticating-with-a-pre-fetched-access-token).
   - [Authenticating with MSAL directly](#authenticating-with-msal-directly).
     - [Authenticating with the @azure/msal-node Confidential Client](#authenticating-with-the-@azure/msal-node-confidential-client).
