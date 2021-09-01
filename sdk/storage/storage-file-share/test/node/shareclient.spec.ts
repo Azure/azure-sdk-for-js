@@ -5,6 +5,7 @@ import * as assert from "assert";
 import { newPipeline, ShareClient, StorageSharedKeyCredential, SignedIdentifier } from "../../src";
 import { getBSU, getConnectionStringFromEnvironment, recorderEnvSetup } from "./../utils";
 import { record, Recorder } from "@azure-tools/test-recorder";
+import { Context } from "mocha";
 
 describe("ShareClient Node.js only", () => {
   let shareName: string;
@@ -12,7 +13,7 @@ describe("ShareClient Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");

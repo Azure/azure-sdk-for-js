@@ -8,6 +8,10 @@
 
 ### Breaking Changes
 
+#### Breaking Changes from 2.0.0-beta.5
+
+- The property named `selectedCredential` that was added to `ChainedTokenCredential` and `DefaultAzureCredential` has been removed, since customers reported that logging was enough.
+
 ### Bugs Fixed
 
 - `ClientSecretCredential`, `ClientCertificateCredential` and `UsernamePasswordCredential` now throw if the required parameters are not provided (even in JavaScript).

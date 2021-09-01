@@ -34,7 +34,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a DedicatedHostGroups. */
+/** Class containing DedicatedHostGroups operations. */
 export class DedicatedHostGroupsImpl implements DedicatedHostGroups {
   private readonly client: ComputeManagementClientContext;
 

@@ -7,7 +7,7 @@ import {
   RecorderEnvironmentSetup,
   pluginForClientSecretCredentialTests
 } from "@azure-tools/test-recorder";
-import { ContainerRegistryClient } from "../../src";
+import { ContainerRegistryClient, KnownContainerRegistryAudience } from "../../src";
 
 // When the recorder observes the values of these environment variables in any
 // recorded HTTP request or response, it will replace them with the values they
@@ -70,30 +70,16 @@ function getAuthority(endpoint: string): AzureAuthorityHosts | undefined {
   return undefined;
 }
 
-/**
- * Defines known authentication scopes that the service supports for national clouds.
- */
-export enum KnownAuthScope {
-  /** Audience for Azure Public Cloud. */
-  AzurePublicCloud = "https://management.azure.com/",
-  /** Audience for Azure China Cloud. */
-  AzureChina = "https://management.chinacloudapi.cn/",
-  /** Audience for US Government Cloud. */
-  AzureGovernment = "https://management.usgovcloudapi.net/",
-  /** Audience for Azure Germany Cloud. */
-  AzureGermany = "https://management.microsoftazure.de/"
-}
-
-function getAuthScope(authority?: AzureAuthorityHosts): KnownAuthScope {
+function getAudience(authority?: AzureAuthorityHosts): KnownContainerRegistryAudience {
   switch (authority) {
     case AzureAuthorityHosts.AzureChina:
-      return KnownAuthScope.AzureChina;
+      return KnownContainerRegistryAudience.AzureResourceManagerChina;
     case AzureAuthorityHosts.AzureGermany:
-      return KnownAuthScope.AzureGermany;
+      return KnownContainerRegistryAudience.AzureResourceManagerGermany;
     case AzureAuthorityHosts.AzureGovernment:
-      return KnownAuthScope.AzureGovernment;
+      return KnownContainerRegistryAudience.AzureResourceManagerGovernment;
     default:
-      return KnownAuthScope.AzurePublicCloud;
+      return KnownContainerRegistryAudience.AzureResourceManagerPublicCloud;
   }
 }
 
@@ -102,9 +88,9 @@ export function createRegistryClient(
   options: { anonymous: boolean } = { anonymous: false }
 ): ContainerRegistryClient {
   const authorityHost = getAuthority(endpoint);
-  const authenticationScope = getAuthScope(authorityHost);
+  const audience = getAudience(authorityHost);
   const tokenCredentialOptions = authorityHost ? { authorityHost } : undefined;
-  const clientOptions = { authenticationScope: `${authenticationScope}.default` };
+  const clientOptions = { audience };
 
   if (options.anonymous) {
     return new ContainerRegistryClient(endpoint, clientOptions);

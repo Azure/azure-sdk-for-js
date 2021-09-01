@@ -63,19 +63,19 @@ export class SchemaRegistryAvroSerializer {
   /**
    * Creates a new serializer.
    *
-   * @param registry - Schema Registry where schemas are registered and obtained.
+   * @param client - Schema Registry where schemas are registered and obtained.
    *                 Usually this is a SchemaRegistryClient instance.
    *
-   * @param schemaGroup - The schema group to use when making requests to the
+   * @param groupName - The schema group to use when making requests to the
    *                    registry.
    */
   constructor(
-    registry: SchemaRegistry,
-    schemaGroup: string,
+    client: SchemaRegistry,
+    groupName: string,
     options?: SchemaRegistryAvroSerializerOptions
   ) {
-    this.registry = registry;
-    this.schemaGroup = schemaGroup;
+    this.registry = client;
+    this.schemaGroup = groupName;
     this.autoRegisterSchemas = options?.autoRegisterSchemas ?? false;
   }
 
@@ -130,7 +130,7 @@ export class SchemaRegistryAvroSerializer {
    * @param buffer - The buffer with the serialized value.
    * @returns The deserialized value.
    */
-  async deserialize<T>(buffer: Buffer): Promise<T> {
+  async deserialize(buffer: Buffer): Promise<unknown> {
     if (buffer.length < PAYLOAD_OFFSET) {
       throw new RangeError("Buffer is too small to have the correct format.");
     }
