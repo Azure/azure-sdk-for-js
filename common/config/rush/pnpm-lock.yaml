@@ -627,6 +627,20 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-YZNjNV0vL3nN2nedmcjQBcpCTo3oqceXmgiQtEm6fLpucjRZyQKAQruhCmCpRlB1iykqKJJ/Y8CDmT5rIE6IJw==
+  /@azure/monitor-opentelemetry-exporter/1.0.0-beta.4:
+    dependencies:
+      '@azure/core-http': 2.1.0
+      '@opentelemetry/api': 1.0.2
+      '@opentelemetry/core': 0.22.0_@opentelemetry+api@1.0.2
+      '@opentelemetry/resources': 0.22.0_@opentelemetry+api@1.0.2
+      '@opentelemetry/semantic-conventions': 0.22.0
+      '@opentelemetry/tracing': 0.22.0_@opentelemetry+api@1.0.2
+      tslib: 2.3.1
+    dev: false
+    engines:
+      node: '>=12.0.0'
+    resolution:
+      integrity: sha512-Y3HGIhepNpk83XzxbOFBhXNVHI+ntXaPKJmqpqcVhAkN3x3LMKzDRg9B8CUDLkaeYAMV60lievKz052EFHkgbw==
   /@azure/ms-rest-azure-env/1.1.2:
     dev: false
     resolution:
@@ -11114,6 +11128,7 @@ packages:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 1.5.1
+      '@azure/monitor-opentelemetry-exporter': 1.0.0-beta.4
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 1.0.2
       '@opentelemetry/node': 0.22.0_@opentelemetry+api@1.0.2
@@ -11156,7 +11171,7 @@ packages:
     dev: false
     name: '@rush-temp/monitor-query'
     resolution:
-      integrity: sha512-k5TOVtcLQ517iXlrSvW8lMIvzv55ozYTI/bDqMFfyn9WhlLuWo7A+Kyx2XwN45hAZu2dgicsN5Z7pl+YdQWgRw==
+      integrity: sha512-8l2Vg6YWtfMUMyjBH28Djy6Jb2lp7guFk0bHo4sC6Q1+baB5QE4TE8AylUW8ns16V/12BxE3MP4CBSwwsIPvVA==
       tarball: file:projects/monitor-query.tgz
     version: 0.0.0
   file:projects/perf-ai-form-recognizer.tgz:
