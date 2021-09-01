@@ -143,7 +143,7 @@ describe("HubClient", function() {
       assert.equal(lastResponse?.status, 200);
     });
 
-    it("can check if a connection exists", async function () {
+    it("can check if a connection exists", async function() {
       // likely bug in recorder for this test - recording not generating properly
       if (!isLiveMode()) this.skip();
       const res = await client.hasConnection("xxx");
@@ -161,7 +161,7 @@ describe("HubClient", function() {
       assert.equal(error.statusCode, 404);
     });
 
-    it("can revoke permissions from connections", async function () {
+    it("can revoke permissions from connections", async function() {
       // likely bug in recorder for this test - recording not generating properly
       if (!isLiveMode()) this.skip();
       let error;
