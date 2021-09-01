@@ -556,7 +556,7 @@ export interface AccessToken {
 }
 ```
 
-As long as a valid `AccessToken` is required, the parameters are not required to be used by a method implementing the `TokenCredential` interface. So, the simplest possible object compatible with the `TokenCredential` interface is one that has a `getToken` method that may return either null, or an object with two properties, a numeric property called `expiresOnTimestamp`, and a string property caled `token`. Example:
+As long as a valid `AccessToken` is returned, the parameters are not required to be used by a method implementing the `TokenCredential` interface. So, the simplest possible object compatible with the `TokenCredential` interface is one that has a `getToken` method that may return either null, or an object with two properties, a numeric property called `expiresOnTimestamp`, and a string property called `token`. Example:
 
 
 ```ts
