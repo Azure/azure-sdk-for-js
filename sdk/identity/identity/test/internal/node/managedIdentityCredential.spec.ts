@@ -21,6 +21,7 @@ import {
   SendCredentialRequests
 } from "../../httpRequestsCommon";
 import { prepareIdentityTests } from "../../httpRequests";
+import { DefaultTenantId } from "../../../src/constants";
 
 describe("ManagedIdentityCredential", function() {
   let envCopy: string = "";
@@ -369,7 +370,7 @@ describe("ManagedIdentityCredential", function() {
     assert.equal(authDetails.result!.token, "token");
   });
 
-  it("sends an authorization request correctly in an Azure Arc environment", async function() {
+  it("sends an authorization request correctly in an Azure Arc environment", async function(this: Mocha.Context) {
     // Trigger Azure Arc behavior by setting environment variables
 
     process.env.IMDS_ENDPOINT = "https://endpoint";
@@ -481,5 +482,42 @@ describe("ManagedIdentityCredential", function() {
     } else {
       assert.fail("No token was returned!");
     }
+  });
+
+  it("sends an authorization request correctly if token file path is available", async function(this: Mocha.Context) {
+    const testTitle = this.test?.title || Date.now().toString();
+    const tempDir = mkdtempSync(join(tmpdir(), testTitle));
+    const tempFile = join(tempDir, testTitle);
+    const expectedAssertion = "{}";
+    writeFileSync(tempFile, expectedAssertion, { encoding: "utf8" });
+
+    // Trigger token file path by setting environment variables
+    process.env.AZURE_CLIENT_ID = "client-id";
+    process.env.AZURE_TENANT_ID = DefaultTenantId;
+    process.env.TOKEN_FILE_PATH = tempFile;
+
+    const authDetails = await sendCredentialRequests({
+      scopes: ["https://service/.default"],
+      credential: new ManagedIdentityCredential("client"),
+      insecureResponses: [
+        createResponse(200, {
+          access_token: "token",
+          expires_on: 1
+        })
+      ]
+    });
+
+    const authRequest = authDetails.requests[0];
+
+    const query = new URLSearchParams(authRequest.url.split("?")[1]);
+
+    assert.strictEqual(authRequest.method, "GET");
+    assert.strictEqual(decodeURIComponent(query.get("client_assertion")!), expectedAssertion);
+    assert.strictEqual(
+      decodeURIComponent(query.get("client_assertion_type")!),
+      "urn:ietf:params:oauth:client-assertion-type:jwt-bearer"
+    );
+    assert.strictEqual(decodeURIComponent(query.get("resource")!), "https://service");
+    assert.strictEqual(authDetails.result!.token, "token");
   });
 });

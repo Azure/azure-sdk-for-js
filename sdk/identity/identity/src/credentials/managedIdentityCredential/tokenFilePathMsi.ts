@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import fs from "fs";
+import { createHttpHeaders, PipelineRequestOptions } from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { RequestPrepareOptions } from "@azure/core-http";
 import { promisify } from "util";
 import { IdentityClient } from "../../client/identityClient";
 import { credentialLogger } from "../../util/logging";
-import { imdsEndpoint } from "./constants";
 import { MSI } from "./models";
 import { msiGenericGetToken } from "./utils";
+import { imdsEndpointPath, imdsHost } from "./constants";
 
 const logger = credentialLogger("ManagedIdentityCredential - AppServiceMSI 2017");
 
@@ -20,21 +20,24 @@ function expiresInParser(requestBody: any): number {
   return Number(requestBody.expires_on);
 }
 
-function prepareRequestOptions(resource: string, clientAssertion: string): RequestPrepareOptions {
+function prepareRequestOptions(resource: string, clientAssertion: string): PipelineRequestOptions {
   const queryParameters: any = {
     resource,
     client_assertion: clientAssertion,
     client_assertion_type: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer"
   };
 
+  const params = new URLSearchParams(queryParameters);
+  const query = params.toString();
+  const url = new URL(imdsEndpointPath, imdsHost);
+
   return {
-    url: imdsEndpoint,
+    url: `${url}?${query}`,
     method: "GET",
-    queryParameters,
-    headers: {
+    headers: createHttpHeaders({
       Accept: "application/json",
-      Metadata: true
-    }
+      Metadata: "true"
+    })
   };
 }
 
