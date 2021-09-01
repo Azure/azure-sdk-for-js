@@ -58,7 +58,7 @@ stages:
           - ${{if ne(artifact.skipPublishPackage, 'true')}}:
             - deployment: PublishPackage
               displayName: "Publish to npmjs"
-              condition: and(succeeded(), ne(variables['Skip.PublishPackage'], 'true'))
+              condition: ne(variables['Skip.PublishPackage'], 'true')
               environment: npm
               dependsOn: TagRepository
 
@@ -110,7 +110,7 @@ stages:
           - ${{if ne(artifact.skipPublishDocMs, 'true')}}:
             - deployment: PublishDocs
               displayName: Docs.MS Release
-              condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
+              condition: ne(variables['Skip.PublishDocs'], 'true')
               environment: githubio
               dependsOn: PublishPackage
 
@@ -144,7 +144,7 @@ stages:
           - ${{if ne(artifact.skipPublishDocGithubIo, 'true')}}:
             - deployment: PublishDocsGitHubIO
               displayName: Publish Docs to GitHubIO Blob Storage
-              condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
+              condition: ne(variables['Skip.PublishDocs'], 'true')
               environment: githubio
               dependsOn: PublishPackage
 
@@ -174,7 +174,7 @@ stages:
           - ${{if ne(artifact.skipUpdatePackageVersion, 'true')}}:
             - deployment: UpdatePackageVersion
               displayName: "Update Package Version"
-              condition: and(succeeded(), ne(variables['Skip.UpdatePackageVersion'], 'true'))
+              condition: ne(variables['Skip.UpdatePackageVersion'], 'true')
               environment: github
               dependsOn: PublishPackage
 
