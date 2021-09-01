@@ -6,7 +6,10 @@ import { SpanKind, SpanStatusCode, ROOT_CONTEXT } from "@opentelemetry/api";
 import * as assert from "assert";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { Resource } from "@opentelemetry/resources";
-import { SemanticAttributes, SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
+import {
+  SemanticAttributes,
+  SemanticResourceAttributes
+} from "@opentelemetry/semantic-conventions";
 
 import { Tags, Properties, Measurements } from "../../src/types";
 import * as ai from "../../src/utils/constants/applicationinsights";
@@ -97,7 +100,7 @@ describe("spanUtils.ts", () => {
         span.end();
         const expectedTags: Tags = {
           [KnownContextTagKeys.AiOperationId]: "traceid",
-          [KnownContextTagKeys.AiOperationParentId]: "parentSpanId",
+          [KnownContextTagKeys.AiOperationParentId]: "parentSpanId"
         };
         const expectedProperties = {
           "extra.attribute": "foo"

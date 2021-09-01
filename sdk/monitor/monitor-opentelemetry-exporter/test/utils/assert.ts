@@ -3,7 +3,12 @@
 
 import * as assert from "assert";
 import { Expectation } from "./types";
-import { MonitorBase, RequestData, TelemetryItem as Envelope, KnownContextTagKeys } from "../../src/generated";
+import {
+  MonitorBase,
+  RequestData,
+  TelemetryItem as Envelope,
+  KnownContextTagKeys
+} from "../../src/generated";
 import { TelemetryItem as EnvelopeMapper } from "../../src/generated/models/mappers";
 
 export const assertData = (actual: MonitorBase, expected: MonitorBase): void => {
@@ -79,7 +84,8 @@ export const assertExpectation = (actual: Envelope[], expectations: Expectation[
     if (envelope.length !== 1) {
       assert.ok(
         false,
-        `assertExpectation: could not find exported envelope: ${(expectation.data?.baseData as RequestData).name
+        `assertExpectation: could not find exported envelope: ${
+          (expectation.data?.baseData as RequestData).name
         }`
       );
     }

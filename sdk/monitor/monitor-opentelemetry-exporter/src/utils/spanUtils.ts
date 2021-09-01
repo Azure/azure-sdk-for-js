@@ -6,14 +6,21 @@ import { URL } from "url";
 import { ReadableSpan } from "@opentelemetry/tracing";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { diag, SpanKind, SpanStatusCode, Link } from "@opentelemetry/api";
-import { SemanticResourceAttributes, SemanticAttributes } from "@opentelemetry/semantic-conventions";
+import {
+  SemanticResourceAttributes,
+  SemanticAttributes
+} from "@opentelemetry/semantic-conventions";
 
 import { Tags, Properties, MSLink, Measurements } from "../types";
 import { msToTimeSpan } from "./breezeUtils";
 import { getInstance } from "../platform";
 import { DependencyTypes, MS_LINKS } from "./constants/applicationinsights";
-import { RemoteDependencyData, RequestData, TelemetryItem as Envelope, KnownContextTagKeys } from "../generated";
-
+import {
+  RemoteDependencyData,
+  RequestData,
+  TelemetryItem as Envelope,
+  KnownContextTagKeys
+} from "../generated";
 
 function createTagsFromSpan(span: ReadableSpan): Tags {
   const context = getInstance();
@@ -33,7 +40,8 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
         tags[KnownContextTagKeys.AiCloudRole] = String(serviceName);
       }
     }
-    const serviceInstanceId = span.resource.attributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID];
+    const serviceInstanceId =
+      span.resource.attributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID];
     if (serviceInstanceId) {
       tags[KnownContextTagKeys.AiCloudRoleInstance] = String(serviceInstanceId);
     } else {
@@ -57,12 +65,10 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
       tags[KnownContextTagKeys.AiOperationName] = `${httpMethod as string} ${span.name as string}`;
       if (httpClientIp) {
         tags[KnownContextTagKeys.AiLocationIp] = String(httpClientIp);
-      }
-      else if (netPeerIp) {
+      } else if (netPeerIp) {
         tags[KnownContextTagKeys.AiLocationIp] = String(netPeerIp);
       }
-    }
-    else {
+    } else {
       tags[KnownContextTagKeys.AiOperationName] = span.name;
       if (netPeerIp) {
         tags[KnownContextTagKeys.AiLocationIp] = String(netPeerIp);
@@ -84,8 +90,15 @@ function createPropertiesFromSpan(span: ReadableSpan): [Properties, Measurements
   const measurements: Measurements = {};
 
   for (const key of Object.keys(span.attributes)) {
-    if (!(key.startsWith("http.") || key.startsWith("rpc.") || key.startsWith("db.")
-      || key.startsWith("peer.") || key.startsWith("net."))) {
+    if (
+      !(
+        key.startsWith("http.") ||
+        key.startsWith("rpc.") ||
+        key.startsWith("db.") ||
+        key.startsWith("peer.") ||
+        key.startsWith("net.")
+      )
+    ) {
       properties[key] = span.attributes[key] as string;
     }
   }
@@ -108,8 +121,7 @@ function getUrl(span: ReadableSpan): string {
     const httpUrl = span.attributes[SemanticAttributes.HTTP_URL];
     if (httpUrl) {
       return String(httpUrl);
-    }
-    else {
+    } else {
       const httpScheme = span.attributes[SemanticAttributes.HTTP_SCHEME];
       if (httpScheme) {
         const httpTarget = span.attributes[SemanticAttributes.HTTP_TARGET];
@@ -117,15 +129,13 @@ function getUrl(span: ReadableSpan): string {
           const httpHost = span.attributes[SemanticAttributes.HTTP_HOST];
           if (httpHost) {
             return `${httpScheme}://${httpHost}${httpTarget}`;
-          }
-          else {
+          } else {
             const netPeerPort = span.attributes[SemanticAttributes.NET_PEER_PORT];
             if (netPeerPort) {
               const netPeerName = span.attributes[SemanticAttributes.NET_PEER_NAME];
               if (netPeerName) {
                 return `${httpScheme}://${netPeerName}:${netPeerPort}`;
-              }
-              else {
+              } else {
                 const netPeerIp = span.attributes[SemanticAttributes.NET_PEER_IP];
                 if (netPeerIp) {
                   return `${httpScheme}://${netPeerIp}:${netPeerPort}`;
@@ -148,17 +158,13 @@ function getTarget(span: ReadableSpan): string {
   const netPeerIp = span.attributes[SemanticAttributes.NET_PEER_IP];
   if (peerService) {
     return String(peerService);
-  }
-  else if (httpHost) {
+  } else if (httpHost) {
     return String(httpHost);
-  }
-  else if (httpUrl) {
+  } else if (httpUrl) {
     return String(httpUrl);
-  }
-  else if (netPeerName) {
+  } else if (netPeerName) {
     return String(netPeerName);
-  }
-  else if (netPeerIp) {
+  } else if (netPeerIp) {
     return String(netPeerIp);
   }
   return "";
@@ -206,8 +212,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
     const dbName = span.attributes[SemanticAttributes.DB_NAME];
     if (target) {
       remoteDependencyData.target = dbName ? `${target}/${dbName}` : `${target}`;
-    }
-    else {
+    } else {
       remoteDependencyData.target = dbName ? `${dbName}` : `${dbSystem}`;
     }
   }
@@ -220,8 +225,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
     let target = getTarget(span);
     if (target) {
       remoteDependencyData.target = `${target}`;
-    }
-    else {
+    } else {
       const rpcSystem = span.attributes[SemanticAttributes.RPC_SYSTEM];
       if (rpcSystem) {
         remoteDependencyData.target = String(rpcSystem);
