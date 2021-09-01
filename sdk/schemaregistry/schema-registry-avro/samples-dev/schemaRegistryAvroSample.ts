@@ -69,7 +69,7 @@ export async function main() {
   console.log(buffer);
 
   // deserialize the result back to an object
-  const deserializedValue = await serializer.deserialize<User>(buffer);
+  const deserializedValue = (await serializer.deserialize(buffer)) as User;
   console.log("Deserialized:");
   console.log(`${deserializedValue.firstName} ${deserializedValue.lastName}`);
 }

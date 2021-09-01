@@ -58,8 +58,6 @@ function convertResponse<T>(
   return {
     // `!`s here because server is required to return these on success, but that
     // is not modeled by the generated client.
-    location: response.location!,
-    locationById: response.schemaIdLocation!,
     id: response.schemaId!,
     version: response.schemaVersion!,
     serializationType: response.serializationType!,

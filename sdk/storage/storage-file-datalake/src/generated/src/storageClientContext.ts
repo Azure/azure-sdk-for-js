@@ -10,7 +10,7 @@ import * as coreHttp from "@azure/core-http";
 import { StorageClientOptionalParams } from "./models";
 
 const packageName = "azure-storage-datalake";
-const packageVersion = "12.7.0-beta.1";
+const packageVersion = "12.7.0-beta.2";
 
 export class StorageClientContext extends coreHttp.ServiceClient {
   url: string;

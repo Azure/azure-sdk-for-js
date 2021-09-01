@@ -18,12 +18,6 @@ export interface SchemaProperties {
 
   /** Automatically incremented version number of the schema. */
   version: number;
-
-  /** URL of schema by group and name. */
-  location: string;
-
-  /** URL of schema by ID. */
-  locationById: string;
 }
 
 /**

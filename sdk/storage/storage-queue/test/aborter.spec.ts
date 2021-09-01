@@ -9,16 +9,16 @@ import { getQSU } from "./utils";
 import * as dotenv from "dotenv";
 import { recorderEnvSetup } from "./utils/testutils.common";
 import { Recorder, record } from "@azure-tools/test-recorder";
+import { Context } from "mocha";
 dotenv.config();
 
-// tslint:disable:no-empty
 describe("Aborter", () => {
   let queueName: string;
   let queueClient: QueueClient;
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     const queueServiceClient = getQSU();
     queueName = recorder.getUniqueName("queue");

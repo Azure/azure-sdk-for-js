@@ -1,3 +1,37 @@
+## 30.0.0-beta.3 (2021-08-31)
+    
+**Features**
+
+  - Added Interface ApplicationProfile
+  - Added Interface SoftDeletePolicy
+  - Added Interface VMGalleryApplication
+  - Added Interface VMSizeProperties
+  - Added Type Alias ExtendedLocationType
+  - Added Type Alias ReplicationMode
+  - Interface AdditionalCapabilities has a new optional parameter hibernationEnabled
+  - Interface GalleryArtifactPublishingProfileBase has a new optional parameter replicationMode
+  - Interface HardwareProfile has a new optional parameter vmSizeProperties
+  - Interface ResourceSkuLocationInfo has a new optional parameter extendedLocations
+  - Interface ResourceSkuLocationInfo has a new optional parameter type
+  - Interface ResourceSkusListNextOptionalParams has a new optional parameter includeExtendedLocations
+  - Interface ResourceSkusListOptionalParams has a new optional parameter includeExtendedLocations
+  - Interface ScaleInPolicy has a new optional parameter forceDeletion
+  - Interface VirtualMachineScaleSetVMProfile has a new optional parameter applicationProfile
+  - Interface VirtualMachinesDeallocateOptionalParams has a new optional parameter hibernate
+  - Type Alias Gallery has a new parameter softDeletePolicy
+  - Type Alias GalleryUpdate has a new parameter softDeletePolicy
+  - Type Alias ImageReference has a new parameter sharedGalleryImageId
+  - Type Alias VirtualMachine has a new parameter applicationProfile
+  - Type Alias VirtualMachineExtension has a new parameter suppressFailures
+  - Type Alias VirtualMachineExtensionUpdate has a new parameter suppressFailures
+  - Type Alias VirtualMachineScaleSetExtension has a new parameter suppressFailures
+  - Type Alias VirtualMachineScaleSetExtensionUpdate has a new parameter suppressFailures
+  - Type Alias VirtualMachineScaleSetVMExtension has a new parameter suppressFailures
+  - Type Alias VirtualMachineScaleSetVMExtensionUpdate has a new parameter suppressFailures
+  - Type Alias VirtualMachineUpdate has a new parameter applicationProfile
+  - Added Enum KnownExtendedLocationType
+  - Added Enum KnownReplicationMode
+    
 ## 30.0.0-beta.2 (2021-07-27)
     
 **Features**

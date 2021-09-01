@@ -110,7 +110,7 @@ export class LazyLoadingBlobStream extends Readable {
    *
    * @param size - Optional. The size of data to be read
    */
-  public async _read(size?: number) {
+  public async _read(size?: number): Promise<void> {
     const { span, updatedOptions } = createSpan("LazyLoadingBlobStream-read", this.options);
 
     try {
