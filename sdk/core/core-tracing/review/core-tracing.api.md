@@ -12,7 +12,9 @@ export interface Context {
 }
 
 // @public
-export const context: ContextAPI;
+const context_2: ContextAPI;
+
+export { context_2 as context }
 
 // @public
 export interface ContextAPI {
