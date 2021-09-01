@@ -353,26 +353,6 @@ export interface MaintenanceWindow {
 }
 
 /**
- * Identity for the resource.
- */
-export interface Identity {
-  /**
-   * The principal ID of resource identity.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly principalId?: string;
-  /**
-   * The tenant ID of resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly tenantId?: string;
-  /**
-   * The identity type. Possible values include: 'SystemAssigned'
-   */
-  type?: ResourceIdentityType;
-}
-
-/**
  * Sku information related properties of a server.
  */
 export interface Sku {
@@ -463,10 +443,6 @@ export interface TrackedResource extends Resource {
  * Represents a server.
  */
 export interface Server extends TrackedResource {
-  /**
-   * The Azure Active Directory identity of the server.
-   */
-  identity?: Identity;
   /**
    * The SKU (pricing tier) of the server.
    */
@@ -776,9 +752,10 @@ export interface RestartParameter {
    */
   restartWithFailover?: boolean;
   /**
-   * Failover mode.
+   * Failover mode. Possible values include: 'PlannedFailover', 'ForcedFailover',
+   * 'PlannedSwitchover', 'ForcedSwitchover'
    */
-  failoverMode?: string;
+  failoverMode?: FailoverMode;
 }
 
 /**
@@ -840,109 +817,6 @@ export interface AzureEntityResource extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly etag?: string;
-}
-
-/**
- * An interface representing ResourceModelWithAllowedPropertySetIdentity.
- */
-export interface ResourceModelWithAllowedPropertySetIdentity extends Identity {
-}
-
-/**
- * An interface representing ResourceModelWithAllowedPropertySetSku.
- */
-export interface ResourceModelWithAllowedPropertySetSku extends Sku {
-}
-
-/**
- * Plan for the resource.
- */
-export interface Plan {
-  /**
-   * A user defined name of the 3rd Party Artifact that is being procured.
-   */
-  name: string;
-  /**
-   * The publisher of the 3rd Party Artifact that is being bought. E.g. NewRelic
-   */
-  publisher: string;
-  /**
-   * The 3rd Party artifact that is being procured. E.g. NewRelic. Product maps to the OfferID
-   * specified for the artifact at the time of Data Market onboarding.
-   */
-  product: string;
-  /**
-   * A publisher provided promotion code as provisioned in Data Market for the said
-   * product/artifact.
-   */
-  promotionCode?: string;
-  /**
-   * The version of the desired product/artifact.
-   */
-  version?: string;
-}
-
-/**
- * An interface representing ResourceModelWithAllowedPropertySetPlan.
- */
-export interface ResourceModelWithAllowedPropertySetPlan extends Plan {
-}
-
-/**
- * The resource model definition containing the full set of allowed properties for a resource.
- * Except properties bag, there cannot be a top level property outside of this set.
- */
-export interface ResourceModelWithAllowedPropertySet extends BaseResource {
-  /**
-   * Fully qualified resource ID for the resource. Ex -
-   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-   * "Microsoft.Storage/storageAccounts"
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * The geo-location where the resource lives
-   */
-  location?: string;
-  /**
-   * The fully qualified resource ID of the resource that manages this resource. Indicates if this
-   * resource is managed by another Azure resource. If this is present, complete mode deployment
-   * will not delete the resource if it is removed from the template since it is managed by another
-   * resource.
-   */
-  managedBy?: string;
-  /**
-   * Metadata used by portal/tooling/etc to render different UX experiences for resources of the
-   * same type; e.g. ApiApps are a kind of Microsoft.Web/sites type.  If supported, the resource
-   * provider must validate and persist this value.
-   */
-  kind?: string;
-  /**
-   * The etag field is *not* required. If it is provided in the response body, it must also be
-   * provided as a header per the normal etag convention.  Entity tags are used for comparing two
-   * or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag
-   * (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range
-   * (section 14.27) header fields.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly etag?: string;
-  /**
-   * Resource tags.
-   */
-  tags?: { [propertyName: string]: string };
-  identity?: ResourceModelWithAllowedPropertySetIdentity;
-  sku?: ResourceModelWithAllowedPropertySetSku;
-  plan?: ResourceModelWithAllowedPropertySetPlan;
 }
 
 /**
@@ -1111,14 +985,6 @@ export type ServerHAState = 'NotEnabled' | 'CreatingStandby' | 'ReplicatingData'
 export type CreateMode = 'Default' | 'Create' | 'Update' | 'PointInTimeRestore';
 
 /**
- * Defines values for ResourceIdentityType.
- * Possible values include: 'SystemAssigned'
- * @readonly
- * @enum {string}
- */
-export type ResourceIdentityType = 'SystemAssigned';
-
-/**
  * Defines values for SkuTier.
  * Possible values include: 'Burstable', 'GeneralPurpose', 'MemoryOptimized'
  * @readonly
@@ -1157,6 +1023,15 @@ export type ConfigurationDataType = 'Boolean' | 'Numeric' | 'Integer' | 'Enumera
  * @enum {string}
  */
 export type OperationOrigin = 'NotSpecified' | 'user' | 'system';
+
+/**
+ * Defines values for FailoverMode.
+ * Possible values include: 'PlannedFailover', 'ForcedFailover', 'PlannedSwitchover',
+ * 'ForcedSwitchover'
+ * @readonly
+ * @enum {string}
+ */
+export type FailoverMode = 'PlannedFailover' | 'ForcedFailover' | 'PlannedSwitchover' | 'ForcedSwitchover';
 
 /**
  * Contains response data for the create operation.
