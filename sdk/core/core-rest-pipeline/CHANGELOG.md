@@ -1,6 +1,6 @@
 # Release History
 
-## 1.3.0 (2021-09-07)
+## 1.3.0 (2021-09-02)
 
 ### Bugs Fixed
 
@@ -9,6 +9,7 @@
 ### Other Changes
 
 - Allow `number`, `boolean` and `string` for input raw http headers. [PR #17358](https://github.com/Azure/azure-sdk-for-js/pull/17358)
+- Refactor `createPipelineFromOptions` to its own file to help tree shaking. [PR #17015](https://github.com/Azure/azure-sdk-for-js/pull/17015)
 
 ## 1.2.0 (2021-08-04)
 
