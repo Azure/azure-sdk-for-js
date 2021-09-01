@@ -66,7 +66,7 @@ export interface LogsQueryResult {
 export type LogsQueryBatchOptions = OperationOptions;
 
 /** The Analytics query. Learn more about the [Analytics query syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/) */
-// NOTE: 'id' is added automatically by our LogsClient.
+// NOTE: 'id' is added automatically by our LogsQueryClient.
 export interface QueryBatch {
   /** The workspace for this query. */
   workspaceId: string;

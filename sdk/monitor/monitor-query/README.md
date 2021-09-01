@@ -147,6 +147,7 @@ You can use the `Durations` constants provided for some commonly used ISO8601 du
 ```ts
 const { LogsQueryClient, Durations } = require("@azure/monitor-query");
 const { DefaultAzureCredential } = require("@azure/identity");
+g;
 
 const azureLogAnalyticsWorkspaceId = "<the Workspace Id for your Azure Log Analytics resource>";
 const logsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
@@ -184,7 +185,7 @@ run().catch((err) => console.log("ERROR:", err));
 
 The `query` API for `LogsQueryClient` returns the `LogsQueryResult`.
 
-Here is a heirarchy of the response:
+Here is a hierarchy of the response:
 
 ```
 LogsQueryResult
@@ -316,7 +317,7 @@ export async function main() {
 
 The `queryLogsBatch` API returns the `LogsQueryBatchResult`.
 
-Here is a heirarchy of the response:
+Here is a hierarchy of the response:
 
 ```
 LogsQueryBatchResult
@@ -368,14 +369,6 @@ A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob
 
 The following example gets metrics for an [Azure Metrics Advisor](https://docs.microsoft.com/azure/applied-ai-services/metrics-advisor/overview) subscription. The resource URI is that of a Metrics Advisor resource.
 
-The *resource URI* must be that of the resource for which metrics are being queried. It's normally of the format `/subscriptions/<id>/resourceGroups/<rg-name>/providers/<source>/topics/<resource-name>`.
-
-*To find the resource URI:*
-
-1. Navigate to your resource's page in the Azure portal.
-2. From the **Overview** blade, select the **JSON View** link.
-3. In the resulting JSON, copy the value of the `id` property.
-
 ```ts
 import { DefaultAzureCredential } from "@azure/identity";
 import { Durations, Metric, MetricsQueryClient } from "@azure/monitor-query";
@@ -393,25 +386,27 @@ export async function main() {
     throw new Error("METRICS_RESOURCE_ID must be set in the environment for this sample");
   }
 
-  const iterator = metricsQueryClient.listMetricDefinitions(metricsResourceId);
-  let result = await iterator.next();
-  const firstMetric: MetricDefinition = result.value;
+  const result = await metricsQueryClient.getMetricDefinitions(metricsResourceId);
 
-  while (!result.done) {
-    console.log(` metricDefinitions - ${result.value.id}, ${result.value.name}`);
-    result = await iterator.next();
+  for (const definition of result.definitions) {
+    console.log(`Definition = ${definition.name}`);
   }
-  console.log(`First Metric Definition = ${firstMetric.name}`);
 
-  console.log(`Picking an example metric to query: ${firstMetric.name!}`);
+  const firstMetric = result.definitions[0];
 
-  const metricsResponse = await metricsQueryClient.query(metricsResourceId, [firstMetric.name!], {
-    granularity: "PT1M",
-    timespan: { duration: Durations.FiveMinutes }
-  });
+  console.log(`Picking an example metric to query: ${firstMetric.name}`);
+
+  const metricsResponse = await metricsQueryClient.queryMetrics(
+    metricsResourceId,
+    { duration: Durations.FiveMinutes },
+    {
+      metricNames: [firstMetric.name!],
+      interval: "PT1M"
+    }
+  );
 
   console.log(
-    `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.granularity}, time span: ${metricsResponse.timespan}`
+    `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.interval}, time span: ${metricsResponse.timespan}`
   );
 
   const metrics: Metric[] = metricsResponse.metrics;
