@@ -269,7 +269,9 @@ describe("LogsQueryClient live tests", function() {
     }
 
     const table = result.results?.[0].tables?.[0];
-    console.log(JSON.stringify(result.results?.[0].tables));
+    console.log(`results: ${JSON.stringify(result.results)}`);
+    console.log(`error if present: ${JSON.stringify(result.results?.[0].error)}`);
+    console.log(`results: ${JSON.stringify(result.results?.[0])}`);
     if (table == null) {
       throw new Error("No table returned for query");
     }
@@ -340,34 +342,38 @@ describe("LogsQueryClient live tests", function() {
 
   describe("Ingested data tests (can be slow due to loading times)", () => {
     before(async function(this: Context) {
-      if (env.TEST_RUN_ID) {
-        loggerForTest.warning(`Using cached test run ID ${env.TEST_RUN_ID}`);
-        testRunId = env.TEST_RUN_ID;
-      } else {
-        testRunId = `ingestedDataTest-${Date.now()}`;
+      try {
+        if (env.TEST_RUN_ID) {
+          loggerForTest.warning(`Using cached test run ID ${env.TEST_RUN_ID}`);
+          testRunId = env.TEST_RUN_ID;
+        } else {
+          testRunId = `ingestedDataTest-${Date.now()}`;
 
-        // send some events
-        await runWithTelemetry(this, (provider) => {
-          const tracer = provider.getTracer("logsClientTests");
+          // send some events
+          await runWithTelemetry(this, (provider) => {
+            const tracer = provider.getTracer("logsClientTests");
 
-          tracer
-            .startSpan("testSpan", {
-              attributes: {
-                testRunId,
-                kind: "now"
-              }
-            })
-            .end();
+            tracer
+              .startSpan("testSpan", {
+                attributes: {
+                  testRunId,
+                  kind: "now"
+                }
+              })
+              .end();
+          });
+        }
+
+        loggerForTest.info(`testRunId = ${testRunId}`);
+
+        // (we'll wait until the data is there before running all the tests)
+        await checkLogsHaveBeenIngested({
+          maxTries: 240,
+          secondsBetweenQueries: 5
         });
+      } catch (e) {
+        console.error(e);
       }
-
-      loggerForTest.info(`testRunId = ${testRunId}`);
-
-      // (we'll wait until the data is there before running all the tests)
-      await checkLogsHaveBeenIngested({
-        maxTries: 240,
-        secondsBetweenQueries: 5
-      });
     });
 
     it("queryLogs (last day)", async () => {
