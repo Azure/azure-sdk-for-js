@@ -2,34 +2,34 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.1/analyze",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze",
    "query": {},
    "requestBody": "{\"analysisInput\":{\"documents\":[{\"id\":\"1\",\"text\":\"My SSN is 859-98-0987 and your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check.\"},{\"id\":\"2\",\"text\":\"Your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check.\"}]},\"tasks\":{\"entityRecognitionPiiTasks\":[{\"parameters\":{\"model-version\":\"latest\",\"piiCategories\":[\"USSocialSecurityNumber\"],\"stringIndexType\":\"Utf16CodeUnit\"}}]}}",
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "f880f8a2-8144-4815-989c-c3a4b73ad493",
-    "date": "Thu, 01 Jul 2021 17:58:07 GMT",
-    "operation-location": "https://endpoint/text/analytics/v3.1/analyze/jobs/7467a4d4-7cd3-4b63-97fd-465dc2004a3c",
+    "apim-request-id": "d4dc74aa-7f35-4f47-8c13-7dfefc596d0d",
+    "date": "Tue, 03 Aug 2021 22:54:39 GMT",
+    "operation-location": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/704c8967-9bb3-4a5e-ad21-81da9ac95400",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "190"
+    "x-envoy-upstream-service-time": "150"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/7467a4d4-7cd3-4b63-97fd-465dc2004a3c",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/704c8967-9bb3-4a5e-ad21-81da9ac95400",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"7467a4d4-7cd3-4b63-97fd-465dc2004a3c\",\"lastUpdateDateTime\":\"2021-07-01T17:58:07Z\",\"createdDateTime\":\"2021-07-01T17:58:07Z\",\"expirationDateTime\":\"2021-07-02T17:58:07Z\",\"status\":\"notStarted\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"704c8967-9bb3-4a5e-ad21-81da9ac95400\",\"lastUpdateDateTime\":\"2021-08-03T22:54:39Z\",\"createdDateTime\":\"2021-08-03T22:54:39Z\",\"expirationDateTime\":\"2021-08-04T22:54:39Z\",\"status\":\"notStarted\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "481ea343-7c89-4805-b6a7-6312cb9b4589",
+    "apim-request-id": "c6847cc4-5b3a-4e2c-81e5-89dc55c8eb67",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 01 Jul 2021 17:58:07 GMT",
+    "date": "Tue, 03 Aug 2021 22:54:39 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
@@ -38,17 +38,17 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/7467a4d4-7cd3-4b63-97fd-465dc2004a3c",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/704c8967-9bb3-4a5e-ad21-81da9ac95400",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"7467a4d4-7cd3-4b63-97fd-465dc2004a3c\",\"lastUpdateDateTime\":\"2021-07-01T17:58:07Z\",\"createdDateTime\":\"2021-07-01T17:58:07Z\",\"expirationDateTime\":\"2021-07-02T17:58:07Z\",\"status\":\"notStarted\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"704c8967-9bb3-4a5e-ad21-81da9ac95400\",\"lastUpdateDateTime\":\"2021-08-03T22:54:39Z\",\"createdDateTime\":\"2021-08-03T22:54:39Z\",\"expirationDateTime\":\"2021-08-04T22:54:39Z\",\"status\":\"notStarted\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "bd27e39e-ce29-4f68-9b53-15b4ab8c40d5",
+    "apim-request-id": "8747ca1e-14ad-4358-9d8c-eed5a9cfe785",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 01 Jul 2021 17:58:07 GMT",
+    "date": "Tue, 03 Aug 2021 22:54:39 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
@@ -57,55 +57,17 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/7467a4d4-7cd3-4b63-97fd-465dc2004a3c",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/704c8967-9bb3-4a5e-ad21-81da9ac95400",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"7467a4d4-7cd3-4b63-97fd-465dc2004a3c\",\"lastUpdateDateTime\":\"2021-07-01T17:58:08Z\",\"createdDateTime\":\"2021-07-01T17:58:07Z\",\"expirationDateTime\":\"2021-07-02T17:58:07Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"704c8967-9bb3-4a5e-ad21-81da9ac95400\",\"lastUpdateDateTime\":\"2021-08-03T22:54:39Z\",\"createdDateTime\":\"2021-08-03T22:54:39Z\",\"expirationDateTime\":\"2021-08-04T22:54:39Z\",\"status\":\"notStarted\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "1dcb460c-abe9-4a74-8ccb-315ad93c89e5",
+    "apim-request-id": "4c745cc8-3a48-4589-a0db-3ce4aad3eea9",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 01 Jul 2021 17:58:09 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "6"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/7467a4d4-7cd3-4b63-97fd-465dc2004a3c",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"7467a4d4-7cd3-4b63-97fd-465dc2004a3c\",\"lastUpdateDateTime\":\"2021-07-01T17:58:08Z\",\"createdDateTime\":\"2021-07-01T17:58:07Z\",\"expirationDateTime\":\"2021-07-02T17:58:07Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
-   "responseHeaders": {
-    "apim-request-id": "ee0f6fe4-b63b-41b4-b28b-a9888f917d0b",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 01 Jul 2021 17:58:12 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "6"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/7467a4d4-7cd3-4b63-97fd-465dc2004a3c",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"7467a4d4-7cd3-4b63-97fd-465dc2004a3c\",\"lastUpdateDateTime\":\"2021-07-01T17:58:08Z\",\"createdDateTime\":\"2021-07-01T17:58:07Z\",\"expirationDateTime\":\"2021-07-02T17:58:07Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
-   "responseHeaders": {
-    "apim-request-id": "cbb285dc-60ed-44ef-896e-fe38570bfbf4",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 01 Jul 2021 17:58:14 GMT",
+    "date": "Tue, 03 Aug 2021 22:54:42 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
@@ -114,40 +76,97 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/7467a4d4-7cd3-4b63-97fd-465dc2004a3c",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/704c8967-9bb3-4a5e-ad21-81da9ac95400",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"7467a4d4-7cd3-4b63-97fd-465dc2004a3c\",\"lastUpdateDateTime\":\"2021-07-01T17:58:15Z\",\"createdDateTime\":\"2021-07-01T17:58:07Z\",\"expirationDateTime\":\"2021-07-02T17:58:07Z\",\"status\":\"succeeded\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-07-01T17:58:15.3759001Z\",\"taskName\":\"PersonallyIdentifiableInformation_latest\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"redactedText\":\"My SSN is *********** and your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check.\",\"id\":\"1\",\"entities\":[{\"text\":\"859-98-0987\",\"category\":\"USSocialSecurityNumber\",\"offset\":10,\"length\":11,\"confidenceScore\":0.65}],\"warnings\":[]},{\"redactedText\":\"Your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}]}}",
+   "response": "{\"jobId\":\"704c8967-9bb3-4a5e-ad21-81da9ac95400\",\"lastUpdateDateTime\":\"2021-08-03T22:54:42Z\",\"createdDateTime\":\"2021-08-03T22:54:39Z\",\"expirationDateTime\":\"2021-08-04T22:54:39Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "8b9beddc-8648-46b4-9175-c53989de7c51",
+    "apim-request-id": "13719a3a-b066-446f-82de-090c685449d3",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 01 Jul 2021 17:58:16 GMT",
+    "date": "Tue, 03 Aug 2021 22:54:44 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "128"
+    "x-envoy-upstream-service-time": "6"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint//text/analytics/v3.1/analyze/jobs/7467a4d4-7cd3-4b63-97fd-465dc2004a3c",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/704c8967-9bb3-4a5e-ad21-81da9ac95400",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"7467a4d4-7cd3-4b63-97fd-465dc2004a3c\",\"lastUpdateDateTime\":\"2021-07-01T17:58:15Z\",\"createdDateTime\":\"2021-07-01T17:58:07Z\",\"expirationDateTime\":\"2021-07-02T17:58:07Z\",\"status\":\"succeeded\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-07-01T17:58:15.3759001Z\",\"taskName\":\"PersonallyIdentifiableInformation_latest\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"redactedText\":\"My SSN is *********** and your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check.\",\"id\":\"1\",\"entities\":[{\"text\":\"859-98-0987\",\"category\":\"USSocialSecurityNumber\",\"offset\":10,\"length\":11,\"confidenceScore\":0.65}],\"warnings\":[]},{\"redactedText\":\"Your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}]}}",
+   "response": "{\"jobId\":\"704c8967-9bb3-4a5e-ad21-81da9ac95400\",\"lastUpdateDateTime\":\"2021-08-03T22:54:42Z\",\"createdDateTime\":\"2021-08-03T22:54:39Z\",\"expirationDateTime\":\"2021-08-04T22:54:39Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "f41deb57-6205-4f9a-a86f-9013211f019a",
+    "apim-request-id": "5f76c643-7307-48bc-9795-de328a19c2ac",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 01 Jul 2021 17:58:16 GMT",
+    "date": "Tue, 03 Aug 2021 22:54:46 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "56"
+    "x-envoy-upstream-service-time": "7"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/704c8967-9bb3-4a5e-ad21-81da9ac95400",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"704c8967-9bb3-4a5e-ad21-81da9ac95400\",\"lastUpdateDateTime\":\"2021-08-03T22:54:42Z\",\"createdDateTime\":\"2021-08-03T22:54:39Z\",\"expirationDateTime\":\"2021-08-04T22:54:39Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "responseHeaders": {
+    "apim-request-id": "66cebd3e-f3ab-4176-ae97-c004e10b0c86",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 22:54:48 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "6"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/704c8967-9bb3-4a5e-ad21-81da9ac95400",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"704c8967-9bb3-4a5e-ad21-81da9ac95400\",\"lastUpdateDateTime\":\"2021-08-03T22:54:48Z\",\"createdDateTime\":\"2021-08-03T22:54:39Z\",\"expirationDateTime\":\"2021-08-04T22:54:39Z\",\"status\":\"succeeded\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-08-03T22:54:48.4035953Z\",\"taskName\":\"PersonallyIdentifiableInformation_latest\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"redactedText\":\"My SSN is *********** and your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check.\",\"id\":\"1\",\"entities\":[{\"text\":\"859-98-0987\",\"category\":\"USSocialSecurityNumber\",\"offset\":10,\"length\":11,\"confidenceScore\":0.65}],\"warnings\":[]},{\"redactedText\":\"Your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "5d5f6ba7-0741-440c-8a55-9db15d1031dc",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 22:54:50 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "55"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/704c8967-9bb3-4a5e-ad21-81da9ac95400",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"704c8967-9bb3-4a5e-ad21-81da9ac95400\",\"lastUpdateDateTime\":\"2021-08-03T22:54:48Z\",\"createdDateTime\":\"2021-08-03T22:54:39Z\",\"expirationDateTime\":\"2021-08-04T22:54:39Z\",\"status\":\"succeeded\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-08-03T22:54:48.4035953Z\",\"taskName\":\"PersonallyIdentifiableInformation_latest\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"redactedText\":\"My SSN is *********** and your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check.\",\"id\":\"1\",\"entities\":[{\"text\":\"859-98-0987\",\"category\":\"USSocialSecurityNumber\",\"offset\":10,\"length\":11,\"confidenceScore\":0.65}],\"warnings\":[]},{\"redactedText\":\"Your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check.\",\"id\":\"2\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "51930d79-3a64-49aa-9972-5762b2ea6ff4",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 03 Aug 2021 22:54:50 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "57"
    }
   }
  ],
@@ -155,5 +174,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "0a1ceb5bcb50b857358da84697bf84fa"
+ "hash": "7c9edd3d73646ffc62d1663b87bc20ea"
 }

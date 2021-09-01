@@ -6,7 +6,7 @@
 import Sinon from "sinon";
 import assert from "assert";
 
-import { env } from "@azure/test-utils-recorder";
+import { env } from "@azure-tools/test-recorder";
 import { PublicClientApplication } from "@azure/msal-node";
 
 import { UsernamePasswordCredential, TokenCachePersistenceOptions } from "../../../../identity/src";

@@ -10,7 +10,7 @@ import { Context } from "mocha";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 
 import { createRecorder } from "../utils/recordedClient";
 
@@ -126,7 +126,7 @@ describe("AttestationTokenTests", function() {
     }
 
     // The token of course should validate.
-    token.validateToken();
+    assert.deepEqual([], token.getTokenProblems());
   });
 
   /**
@@ -173,26 +173,28 @@ describe("AttestationTokenTests", function() {
 
     const token = AttestationTokenImpl.create({ body: sourceObject });
 
-    expect(() =>
-      token.validateToken(undefined, {
+    assert.deepEqual(
+      [],
+      token.getTokenProblems(undefined, {
         validateToken: true,
-        validationCallback: (tokenToCheck) => {
+        validateAttestationToken: (tokenToCheck) => {
           console.log("In callback, token algorithm: " + tokenToCheck.algorithm);
+          return undefined;
         }
       })
-    ).to.not.throw();
+    );
 
-    // Note that contrary to the documentation, the "msg" parameter of throws() is
-    // text expected to be included in the exception being thrown.
-    expect(() =>
-      token.validateToken(undefined, {
-        validateToken: true,
-        validationCallback: (tokenToCheck) => {
-          console.log("In callback, token algorithm: " + tokenToCheck.algorithm);
-          throw new Error("Client validation failure");
-        }
-      })
-    ).to.throw("validation failure");
+    assert.isTrue(
+      token
+        .getTokenProblems(undefined, {
+          validateToken: true,
+          validateAttestationToken: (tokenToCheck) => {
+            console.log("In callback, token algorithm: " + tokenToCheck.algorithm);
+            return ["There was a validation failure"];
+          }
+        })
+        .find((s) => s.search("validation")) !== undefined
+    );
   });
 
   it("#verifyAttestationTokenIssuer", async () => {
@@ -210,24 +212,26 @@ describe("AttestationTokenTests", function() {
 
       const token = AttestationTokenImpl.create({ body: sourceObject });
 
-      expect(() =>
-        token.validateToken(undefined, {
+      assert.deepEqual(
+        [],
+        token.getTokenProblems(undefined, {
           validateToken: true,
           validateIssuer: true,
           expectedIssuer: "this is an issuer"
         })
-      ).to.not.throw();
+      );
 
-      expect(() =>
-        token.validateToken(undefined, {
-          validateToken: true,
-          validateIssuer: true,
-          expectedIssuer: "this is a different issuer"
-        })
-      ).to.throw("issuer");
+      assert.isTrue(
+        token
+          .getTokenProblems(undefined, {
+            validateToken: true,
+            validateIssuer: true,
+            expectedIssuer: "this is a different issuer"
+          })
+          .find((s) => s.search("different issuer")) !== undefined
+      );
     }
   });
-
   it("#verifyAttestationTimeouts", async () => {
     const currentTime = Math.floor(new Date().getTime() / 1000);
 
@@ -243,13 +247,14 @@ describe("AttestationTokenTests", function() {
 
       const token = AttestationTokenImpl.create({ body: sourceObject });
 
-      expect(() =>
-        token.validateToken(undefined, {
+      assert.deepEqual(
+        [],
+        token.getTokenProblems(undefined, {
           validateToken: true,
           validateExpirationTime: true,
           validateNotBeforeTime: true
         })
-      ).to.not.throw();
+      );
     }
 
     {
@@ -264,26 +269,28 @@ describe("AttestationTokenTests", function() {
 
       const token = AttestationTokenImpl.create({ body: sourceObject });
 
-      expect(() =>
-        token.validateToken(undefined, {
-          validateToken: true,
-          validateExpirationTime: true,
-          validateNotBeforeTime: true
-        })
-      ).to.throw("expired");
+      assert.isTrue(
+        token
+          .getTokenProblems(undefined, {
+            validateToken: true,
+            validateExpirationTime: true,
+            validateNotBeforeTime: true
+          })
+          .find((s) => s.search("expired")) !== undefined
+      );
 
       // Validate the token again, this time specifying a validation slack of
       // 10 seconds. The token should be fine with that slack.
-      expect(() =>
-        token.validateToken(undefined, {
+      assert.deepEqual(
+        [],
+        token.getTokenProblems(undefined, {
           validateToken: true,
           validateExpirationTime: true,
           validateNotBeforeTime: true,
           timeValidationSlack: 10
         })
-      ).to.not.throw();
+      );
     }
-
     {
       // Source is only valid 5 seconds from now.
       const sourceObject = JSON.stringify({
@@ -295,23 +302,27 @@ describe("AttestationTokenTests", function() {
       });
 
       const token = AttestationTokenImpl.create({ body: sourceObject });
-      expect(() =>
-        token.validateToken(undefined, {
-          validateToken: true,
-          validateExpirationTime: true,
-          validateNotBeforeTime: true
-        })
-      ).to.throw("not yet");
+      assert.isTrue(
+        token
+          .getTokenProblems(undefined, {
+            validateToken: true,
+            validateExpirationTime: true,
+            validateNotBeforeTime: true
+          })
+          .find((s) => s.search("not yet")) !== undefined
+      );
+
       // Validate the token again, this time specifying a validation slack of
       // 10 seconds. The token should be fine with that slack.
-      expect(() =>
-        token.validateToken(undefined, {
+      assert.deepEqual(
+        [],
+        token.getTokenProblems(undefined, {
           validateToken: true,
           validateExpirationTime: true,
           validateNotBeforeTime: true,
           timeValidationSlack: 10
         })
-      ).to.not.throw();
+      );
     }
   });
 });

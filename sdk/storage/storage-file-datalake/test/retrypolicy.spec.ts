@@ -10,7 +10,8 @@ import { DataLakeFileSystemClient, RestError, DataLakeServiceClient } from "../s
 import { newPipeline, Pipeline } from "../src/Pipeline";
 import { getDataLakeServiceClient, recorderEnvSetup } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
+import { Context } from "mocha";
 
 dotenv.config();
 
@@ -20,7 +21,7 @@ describe("RetryPolicy", () => {
 
   let recorder: Recorder;
   let serviceClient: DataLakeServiceClient;
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("container");

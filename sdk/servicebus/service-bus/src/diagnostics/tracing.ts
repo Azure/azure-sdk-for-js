@@ -55,7 +55,8 @@ export function createServiceBusSpan(
     tracingOptions: {
       ...operationOptions?.tracingOptions,
       spanOptions: {
-        ...operationOptions?.tracingOptions?.spanOptions,
+        // By passing spanOptions if they exist at runtime, we're backwards compatible with @azure/core-tracing@preview.13 and earlier.
+        ...(operationOptions?.tracingOptions as any)?.spanOptions,
         ...additionalSpanOptions
       }
     }

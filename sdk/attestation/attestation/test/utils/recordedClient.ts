@@ -10,7 +10,7 @@ import {
   record,
   RecorderEnvironmentSetup,
   isPlaybackMode
-} from "@azure/test-utils-recorder";
+} from "@azure-tools/test-recorder";
 
 import {
   AttestationClient,
@@ -34,7 +34,7 @@ const replaceableVariables: { [k: string]: string } = {
   ATTESTATION_ISOLATED_SIGNING_KEY: "isolated_signing_key"
 };
 
-export const environmentSetup: RecorderEnvironmentSetup = {
+const environmentSetup: RecorderEnvironmentSetup = {
   replaceableVariables,
   customizationsOnRecordings: [
     (recording: string): string =>
@@ -93,16 +93,12 @@ export function getIsolatedSigningKey(): { privateKey: string; certificate: stri
   return { privateKey: pemKey, certificate: pemCert };
 }
 
+// Note that the AttestationClient does not require authentication.
 export function createRecordedClient(
   endpointType: EndpointType,
+  authenticatedClient?: boolean,
   options?: AttestationClientOptions
 ): AttestationClient {
-  const credential = new ClientSecretCredential(
-    env.AZURE_TENANT_ID,
-    env.AZURE_CLIENT_ID,
-    env.AZURE_CLIENT_SECRET
-  );
-
   // If we're talking to a live server, we should validate the time results,
   // otherwise we want to skip them.
   if (options === undefined) {
@@ -117,8 +113,15 @@ export function createRecordedClient(
       }
     };
   }
-
-  return new AttestationClient(credential, getAttestationUri(endpointType), options);
+  if (authenticatedClient !== undefined && authenticatedClient) {
+    const credentials = new ClientSecretCredential(
+      env.AZURE_TENANT_ID,
+      env.AZURE_CLIENT_ID,
+      env.AZURE_CLIENT_SECRET
+    );
+    return new AttestationClient(getAttestationUri(endpointType), credentials, options);
+  }
+  return new AttestationClient(getAttestationUri(endpointType), options);
 }
 
 export function createRecordedAdminClient(
@@ -145,5 +148,5 @@ export function createRecordedAdminClient(
       }
     };
   }
-  return new AttestationAdministrationClient(credential, getAttestationUri(endpointType), options);
+  return new AttestationAdministrationClient(getAttestationUri(endpointType), credential, options);
 }

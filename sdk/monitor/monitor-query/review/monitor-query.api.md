@@ -4,8 +4,8 @@
 
 ```ts
 
-import { OperationOptions } from '@azure/core-http';
-import { PipelineOptions } from '@azure/core-http';
+import { OperationOptions } from '@azure/core-client';
+import { PipelineOptions } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -13,19 +13,14 @@ export type AggregationType = "None" | "Average" | "Count" | "Minimum" | "Maximu
 
 // @public
 export interface BatchQuery {
-    azureResourceIds?: string[];
+    additionalWorkspaces?: string[];
     includeQueryStatistics?: boolean;
-    qualifiedNames?: string[];
+    includeVisualization?: boolean;
     query: string;
     serverTimeoutInSeconds?: number;
     timespan: string;
-    workspace: string;
-    workspaceIds?: string[];
-    workspaces?: string[];
+    workspaceId: string;
 }
-
-// @public
-export type ColumnDataType = string;
 
 // @public
 export const Durations: {
@@ -43,7 +38,7 @@ export const Durations: {
 
 // @public
 export interface ErrorDetail {
-    additionalProperties?: any;
+    additionalProperties?: Record<string, unknown>;
     code: string;
     message: string;
     resources?: string[];
@@ -53,7 +48,7 @@ export interface ErrorDetail {
 
 // @public
 export interface ErrorInfo {
-    additionalProperties?: any;
+    additionalProperties?: Record<string, unknown>;
     code: string;
     details?: ErrorDetail[];
     innererror?: ErrorInfo;
@@ -79,6 +74,9 @@ export interface GetMetricNamespacesOptions {
 export interface GetMetricNamespacesResult {
     namespaces: MetricNamespace[];
 }
+
+// @public
+export type LogsColumnType = string;
 
 // @public
 export class LogsQueryClient {
@@ -129,7 +127,7 @@ export type MetricClass = string;
 // @public
 export interface MetricColumn {
     name?: string;
-    type?: ColumnDataType;
+    type?: LogsColumnType;
 }
 
 // @public
@@ -221,11 +219,14 @@ export interface QueryLogsBatchResult {
         status?: number;
         tables?: LogsTable[];
         error?: ErrorInfo;
+        statistics?: any;
+        visualization?: any;
     }[];
 }
 
 // @public
 export interface QueryLogsOptions extends OperationOptions {
+    additionalWorkspaces?: string[];
     includeQueryStatistics?: boolean;
     includeVisualization?: boolean;
     serverTimeoutInSeconds?: number;
@@ -233,6 +234,7 @@ export interface QueryLogsOptions extends OperationOptions {
 
 // @public
 export interface QueryLogsResult {
+    error?: ErrorInfo;
     statistics?: any;
     tables: LogsTable[];
     visualization?: any;

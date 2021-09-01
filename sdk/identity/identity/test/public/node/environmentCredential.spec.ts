@@ -4,17 +4,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import sinon from "sinon";
-import assert from "assert";
-import { isPlaybackMode } from "@azure/test-utils-recorder";
-import {
-  AuthenticationError,
-  CredentialUnavailableError,
-  EnvironmentCredential,
-  UsernamePasswordCredential
-} from "../../../src";
+import { assert } from "chai";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
+import { EnvironmentCredential, UsernamePasswordCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
-import { assertRejects } from "../../authTestUtils";
 import { Context } from "mocha";
+import { getError } from "../../authTestUtils";
 
 describe("EnvironmentCredential", function() {
   let cleanup: MsalTestCleanup;
@@ -208,12 +203,12 @@ describe("EnvironmentCredential", function() {
 
   it("throws an CredentialUnavailable when getToken is called and no credential was configured", async () => {
     const credential = new EnvironmentCredential();
-    await assertRejects(
-      credential.getToken(scope),
-      (error: CredentialUnavailableError) =>
-        error.message.indexOf(
-          "EnvironmentCredential is unavailable. No underlying credential could be used."
-        ) > -1
+    const error = await getError(credential.getToken(scope));
+    assert.equal(error.name, "CredentialUnavailableError");
+    assert.ok(
+      error.message.indexOf(
+        "EnvironmentCredential is unavailable. No underlying credential could be used."
+      ) > -1
     );
   });
 
@@ -223,10 +218,8 @@ describe("EnvironmentCredential", function() {
     process.env.AZURE_CLIENT_SECRET = "secret";
 
     const credential = new EnvironmentCredential();
-    await assertRejects(
-      credential.getToken(scope),
-      (error: AuthenticationError) =>
-        error.errorResponse.error.indexOf("EnvironmentCredential authentication failed.") > -1
-    );
+    const error = await getError(credential.getToken(scope));
+    assert.equal(error.name, "AuthenticationError");
+    assert.ok(error.message.indexOf("EnvironmentCredential authentication failed.") > -1);
   });
 });

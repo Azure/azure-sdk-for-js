@@ -11,31 +11,21 @@ import { ParsedBatchResponse } from "./BatchResponse";
 import { BatchResponseParser } from "./BatchResponseParser";
 import { utf8ByteLength } from "./BatchUtils";
 import { BlobBatch } from "./BlobBatch";
-import { AbortSignalLike } from "@azure/abort-controller";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
 import { HttpResponse, TokenCredential } from "@azure/core-http";
 import { Service, Container } from "./generated/src/operations";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { CommonOptions } from "./StorageClient";
 import { BlobDeleteOptions, BlobClient, BlobSetTierOptions } from "./Clients";
 import { StorageClientContext } from "./generated/src/storageClientContext";
-import { Pipeline, StoragePipelineOptions, newPipeline } from "./Pipeline";
+import { PipelineLike, StoragePipelineOptions, newPipeline, isPipelineLike } from "./Pipeline";
 import { getURLPath } from "./utils/utils.common";
 
 /**
  * Options to configure the Service - Submit Batch Optional Params.
  */
-export interface BlobBatchSubmitBatchOptionalParams
-  extends ServiceSubmitBatchOptionalParamsModel,
-    CommonOptions {
-  /**
-   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
-   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   */
-  abortSignal?: AbortSignalLike;
-}
+export interface BlobBatchSubmitBatchOptionalParams extends ServiceSubmitBatchOptionalParamsModel {}
 
 /**
  * Contains response data for blob batch operations.
@@ -83,8 +73,11 @@ export class BlobBatchClient {
   constructor(
     url: string,
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   );
+
   /**
    * Creates an instance of BlobBatchClient.
    *
@@ -94,18 +87,20 @@ export class BlobBatchClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  constructor(url: string, pipeline: Pipeline);
+  constructor(url: string, pipeline: PipelineLike);
   constructor(
     url: string,
     credentialOrPipeline?:
       | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
-      | Pipeline,
+      | PipelineLike,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   ) {
-    let pipeline: Pipeline;
-    if (credentialOrPipeline instanceof Pipeline) {
+    let pipeline: PipelineLike;
+    if (isPipelineLike(credentialOrPipeline)) {
       pipeline = credentialOrPipeline;
     } else if (!credentialOrPipeline) {
       // no credential provided
@@ -147,6 +142,8 @@ export class BlobBatchClient {
   public async deleteBlobs(
     urls: string[],
     credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: BlobDeleteOptions
   ): Promise<BlobBatchDeleteBlobsResponse>;
 
@@ -162,6 +159,8 @@ export class BlobBatchClient {
    */
   public async deleteBlobs(
     blobClients: BlobClient[],
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: BlobDeleteOptions
   ): Promise<BlobBatchDeleteBlobsResponse>;
 
@@ -173,6 +172,8 @@ export class BlobBatchClient {
       | TokenCredential
       | BlobDeleteOptions
       | undefined,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: BlobDeleteOptions
   ): Promise<BlobBatchDeleteBlobsResponse> {
     const batch = new BlobBatch();
@@ -206,6 +207,8 @@ export class BlobBatchClient {
     urls: string[],
     credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     tier: AccessTier,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: BlobSetTierOptions
   ): Promise<BlobBatchSetBlobsAccessTierResponse>;
 
@@ -227,6 +230,8 @@ export class BlobBatchClient {
   public async setBlobsAccessTier(
     blobClients: BlobClient[],
     tier: AccessTier,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: BlobSetTierOptions
   ): Promise<BlobBatchSetBlobsAccessTierResponse>;
 
@@ -238,6 +243,8 @@ export class BlobBatchClient {
       | TokenCredential
       | AccessTier,
     tierOrOptions?: AccessTier | BlobSetTierOptions,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: BlobSetTierOptions
   ): Promise<BlobBatchSetBlobsAccessTierResponse> {
     const batch = new BlobBatch();
@@ -299,7 +306,7 @@ export class BlobBatchClient {
     batchRequest: BlobBatch,
     options: BlobBatchSubmitBatchOptionalParams = {}
   ): Promise<BlobBatchSubmitBatchResponse> {
-    if (!batchRequest || batchRequest.getSubRequests().size == 0) {
+    if (!batchRequest || batchRequest.getSubRequests().size === 0) {
       throw new RangeError("Batch request should contain one or more sub requests.");
     }
 

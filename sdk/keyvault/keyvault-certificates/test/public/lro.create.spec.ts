@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import { Context } from "mocha";
 import { PollerStoppedError } from "@azure/core-lro";
-import { env, Recorder } from "@azure/test-utils-recorder";
+import { env, Recorder } from "@azure-tools/test-recorder";
 
 import { CertificateClient, KeyVaultCertificate, DefaultCertificatePolicy } from "../../src";
 import { testPollerProperties } from "../utils/recorderUtils";
@@ -52,8 +52,6 @@ describe("Certificates client - LRO - create", () => {
 
     // The final certificate can also be obtained this way:
     assert.equal(poller.getOperationState().result!.name, certificateName);
-
-    await testClient.flushCertificate(certificateName);
   });
 
   it("can resume from a stopped poller", async function(this: Context) {
@@ -92,7 +90,5 @@ describe("Certificates client - LRO - create", () => {
     const createdCertificate: KeyVaultCertificate = await resumePoller.pollUntilDone();
     assert.equal(createdCertificate.name, certificateName);
     assert.ok(resumePoller.getOperationState().isCompleted);
-
-    await testClient.flushCertificate(certificateName);
   });
 });

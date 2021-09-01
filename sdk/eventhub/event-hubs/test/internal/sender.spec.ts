@@ -354,6 +354,23 @@ describe("EventHub Sender", function(): void {
       resetTracer();
     });
 
+    it("doesn't create empty spans when tracing is disabled", async () => {
+      const events: EventData[] = [{ body: "foo" }, { body: "bar" }];
+
+      const eventDataBatch = await producerClient.createBatch();
+
+      for (const event of events) {
+        eventDataBatch.tryAdd(event);
+      }
+
+      should.equal(eventDataBatch.count, 2, "Unexpected number of events in batch.");
+      should.equal(
+        eventDataBatch["_messageSpanContexts"].length,
+        0,
+        "Unexpected number of span contexts in batch."
+      );
+    });
+
     function legacyOptionsUsingSpanContext(rootSpan: TestSpan): Pick<TryAddOptions, "parentSpan"> {
       return {
         parentSpan: rootSpan.spanContext()

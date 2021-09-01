@@ -41,9 +41,9 @@ export class WebPubSubEventHandler {
    * });
    * ```
    *
-   * @param hub The name of the hub to listen to
-   * @param allowedEndpoints The allowed endpoints for the incoming CloudEvents request
-   * @param options Options to configure the event handler
+   * @param hub - The name of the hub to listen to
+   * @param allowedEndpoints - The allowed endpoints for the incoming CloudEvents request
+   * @param options - Options to configure the event handler
    */
   constructor(
     private hub: string,
@@ -69,7 +69,7 @@ export class WebPubSubEventHandler {
 
       // normalize the Url
       requestUrl = requestUrl.endsWith("/") ? requestUrl : requestUrl + "/";
-      if (requestUrl === this.path) {
+      if (requestUrl.startsWith(this.path)) {
         if (req.method === "OPTIONS") {
           if (this._cloudEventsHandler.processValidateRequest(req, res)) {
             return;

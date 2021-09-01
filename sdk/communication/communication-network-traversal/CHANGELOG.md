@@ -10,7 +10,7 @@
 
 ### Other Changes
 
-## 1.0.0-beta.2 (2021-07-20)
+## 1.0.0-beta.2 (2021-07-22)
 
 ### Features Added
 - With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
@@ -31,5 +31,3 @@ The first preview of the Azure Communication Relay Client has the following feat
 
 - Added `CommunicationRelayClient` in preview.
 - Added `CommunicationRelayClient.getRelayConfiguration` in preview.
-
-### Breaking Changes

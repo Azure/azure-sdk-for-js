@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { ChatClient, ChatThreadClient } from "../../src";
 import { createTestUser, createRecorder, createChatClient } from "./utils/recordedClient";

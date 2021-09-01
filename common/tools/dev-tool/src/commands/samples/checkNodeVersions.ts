@@ -269,7 +269,12 @@ export const commandInfo = makeCommandInfo(
 
 export default leafCommand(commandInfo, async (options) => {
   const nodeVersions = [
-    ...new Set(options["node-versions"]?.split(",").concat(options["node-version"]))
+    ...new Set(
+      options["node-versions"]
+        ?.split(",")
+        .concat(options["node-version"])
+        .filter((ver) => ver !== "" && parseInt(ver) !== NaN)
+    )
   ];
   const dockerContextDirectory: string =
     options["context-directory-path"] === ""

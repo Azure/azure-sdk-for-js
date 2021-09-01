@@ -63,19 +63,19 @@ export class SchemaRegistryAvroSerializer {
   /**
    * Creates a new serializer.
    *
-   * @param registry - Schema Registry where schemas are registered and obtained.
+   * @param client - Schema Registry where schemas are registered and obtained.
    *                 Usually this is a SchemaRegistryClient instance.
    *
-   * @param schemaGroup - The schema group to use when making requests to the
+   * @param groupName - The schema group to use when making requests to the
    *                    registry.
    */
   constructor(
-    registry: SchemaRegistry,
-    schemaGroup: string,
+    client: SchemaRegistry,
+    groupName: string,
     options?: SchemaRegistryAvroSerializerOptions
   ) {
-    this.registry = registry;
-    this.schemaGroup = schemaGroup;
+    this.registry = client;
+    this.schemaGroup = groupName;
     this.autoRegisterSchemas = options?.autoRegisterSchemas ?? false;
   }
 
@@ -130,7 +130,7 @@ export class SchemaRegistryAvroSerializer {
    * @param buffer - The buffer with the serialized value.
    * @returns The deserialized value.
    */
-  async deserialize<T>(buffer: Buffer): Promise<T> {
+  async deserialize(buffer: Buffer): Promise<unknown> {
     if (buffer.length < PAYLOAD_OFFSET) {
       throw new RangeError("Buffer is too small to have the correct format.");
     }
@@ -142,31 +142,22 @@ export class SchemaRegistryAvroSerializer {
 
     const schemaIdBuffer = buffer.slice(SCHEMA_ID_OFFSET, PAYLOAD_OFFSET);
     const schemaId = schemaIdBuffer.toString("utf-8");
-    const schema = await this.getSchemaById(schemaId);
+    const schema = await this.getSchema(schemaId);
     const payloadBuffer = buffer.slice(PAYLOAD_OFFSET);
 
     return schema.type.fromBuffer(payloadBuffer);
   }
 
-  //
-  // Avoid hitting the schema registry on every call by caching schemas.
-  //
-  // Currently the cache can only be discarded by throwing away the serializer
-  // and creating a new one, but this will be revisited after the initial
-  // preview:
-  //
-  // https://github.com/Azure/azure-sdk-for-js/issues/10438
-  //
   private readonly cacheByContent = new Map<string, CacheEntry>();
   private readonly cacheById = new Map<string, CacheEntry>();
 
-  private async getSchemaById(schemaId: string): Promise<CacheEntry> {
+  private async getSchema(schemaId: string): Promise<CacheEntry> {
     const cached = this.cacheById.get(schemaId);
     if (cached) {
       return cached;
     }
 
-    const schemaResponse = await this.registry.getSchemaById(schemaId);
+    const schemaResponse = await this.registry.getSchema(schemaId);
     if (!schemaResponse) {
       throw new Error(`Schema with ID '${schemaId}' not found.`);
     }
@@ -193,7 +184,7 @@ export class SchemaRegistryAvroSerializer {
     }
 
     const description = {
-      group: this.schemaGroup,
+      groupName: this.schemaGroup,
       name: avroType.name,
       serializationType: "avro",
       content: schema
@@ -206,7 +197,7 @@ export class SchemaRegistryAvroSerializer {
       const response = await this.registry.getSchemaId(description);
       if (!response) {
         throw new Error(
-          `Schema '${description.name}' not found in registry group '${description.group}', or not found to have matching content.`
+          `Schema '${description.name}' not found in registry group '${description.groupName}', or not found to have matching content.`
         );
       }
       id = response.id;

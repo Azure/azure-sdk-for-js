@@ -12,7 +12,7 @@ import {
   secretReferenceContentType,
   SecretReferenceValue
 } from "../../src";
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
 describe("AppConfigurationClient - SecretReference", () => {
@@ -44,7 +44,7 @@ describe("AppConfigurationClient - SecretReference", () => {
     function assertSecretReferenceProps(
       actual: Omit<AddConfigurationSettingResponse, "_response">,
       expected: ConfigurationSetting<SecretReferenceValue>
-    ) {
+    ): void {
       assert.equal(isSecretReference(actual), true, "Expected to get the SecretReference");
       const actualSecretReference = parseSecretReference(actual);
       if (isSecretReference(actual)) {

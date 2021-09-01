@@ -195,7 +195,7 @@ export type AppendBlobAppendBlockResponse = AppendBlobAppendBlockHeaders & {
 export class AppendBlobClient extends BlobClient {
     constructor(connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions);
     constructor(url: string, credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
+    constructor(url: string, pipeline: PipelineLike);
     appendBlock(body: HttpRequestBody, contentLength: number, options?: AppendBlobAppendBlockOptions): Promise<AppendBlobAppendBlockResponse>;
     appendBlockFromURL(sourceURL: string, sourceOffset: number, count: number, options?: AppendBlobAppendBlockFromURLOptions): Promise<AppendBlobAppendBlockFromUrlResponse>;
     create(options?: AppendBlobCreateOptions): Promise<AppendBlobCreateResponse>;
@@ -336,7 +336,7 @@ export class BlobBatch {
 // @public
 export class BlobBatchClient {
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
+    constructor(url: string, pipeline: PipelineLike);
     createBatch(): BlobBatch;
     deleteBlobs(urls: string[], credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: BlobDeleteOptions): Promise<BlobBatchDeleteBlobsResponse>;
     deleteBlobs(blobClients: BlobClient[], options?: BlobDeleteOptions): Promise<BlobBatchDeleteBlobsResponse>;
@@ -352,8 +352,7 @@ export type BlobBatchDeleteBlobsResponse = BlobBatchSubmitBatchResponse;
 export type BlobBatchSetBlobsAccessTierResponse = BlobBatchSubmitBatchResponse;
 
 // @public
-export interface BlobBatchSubmitBatchOptionalParams extends ServiceSubmitBatchOptionalParamsModel, CommonOptions {
-    abortSignal?: AbortSignalLike;
+export interface BlobBatchSubmitBatchOptionalParams extends ServiceSubmitBatchOptionalParamsModel {
 }
 
 // @public
@@ -401,7 +400,7 @@ export interface BlobChangeLeaseOptions extends CommonOptions {
 export class BlobClient extends StorageClient {
     constructor(connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions);
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
+    constructor(url: string, pipeline: PipelineLike);
     abortCopyFromURL(copyId: string, options?: BlobAbortCopyFromURLOptions): Promise<BlobAbortCopyFromURLResponse>;
     beginCopyFromURL(copySource: string, options?: BlobBeginCopyFromURLOptions): Promise<PollerLike<PollOperationState<BlobBeginCopyFromURLResponse>, BlobBeginCopyFromURLResponse>>;
     get containerName(): string;
@@ -1118,7 +1117,7 @@ export interface BlobSASSignatureValues {
 // @public
 export class BlobServiceClient extends StorageClient {
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
+    constructor(url: string, pipeline: PipelineLike);
     createContainer(containerName: string, options?: ContainerCreateOptions): Promise<{
         containerClient: ContainerClient;
         containerCreateResponse: ContainerCreateResponse;
@@ -1404,7 +1403,7 @@ export interface Block {
 export class BlockBlobClient extends BlobClient {
     constructor(connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions);
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
+    constructor(url: string, pipeline: PipelineLike);
     commitBlockList(blocks: string[], options?: BlockBlobCommitBlockListOptions): Promise<BlockBlobCommitBlockListResponse>;
     getBlockList(listType: BlockListType, options?: BlockBlobGetBlockListOptions): Promise<BlockBlobGetBlockListResponse>;
     query(query: string, options?: BlockBlobQueryOptions): Promise<BlobDownloadResponseModel>;
@@ -1739,7 +1738,7 @@ export interface ContainerChangeLeaseOptions extends CommonOptions {
 export class ContainerClient extends StorageClient {
     constructor(connectionString: string, containerName: string, options?: StoragePipelineOptions);
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
+    constructor(url: string, pipeline: PipelineLike);
     get containerName(): string;
     create(options?: ContainerCreateOptions): Promise<ContainerCreateResponse>;
     createIfNotExists(options?: ContainerCreateOptions): Promise<ContainerCreateIfNotExistsResponse>;
@@ -1972,7 +1971,7 @@ export interface ContainerListBlobsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     includeCopy?: boolean;
     includeDeleted?: boolean;
-    includeDeletedwithVersions?: boolean;
+    includeDeletedWithVersions?: boolean;
     includeImmutabilityPolicy?: boolean;
     includeLegalHold?: boolean;
     includeMetadata?: boolean;
@@ -2249,8 +2248,8 @@ export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
 
 // @public
 export interface HttpAuthorization {
-    parameter: string;
     scheme: string;
+    value: string;
 }
 
 export { HttpHeaders }
@@ -2260,6 +2259,9 @@ export { HttpOperationResponse }
 export { HttpRequestBody }
 
 export { IHttpClient }
+
+// @public
+export function isPipelineLike(pipeline: unknown): pipeline is PipelineLike;
 
 // @public
 export interface Lease {
@@ -2499,7 +2501,7 @@ export type PageBlobClearPagesResponse = PageBlobClearPagesHeaders & {
 export class PageBlobClient extends BlobClient {
     constructor(connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions);
     constructor(url: string, credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
+    constructor(url: string, pipeline: PipelineLike);
     clearPages(offset?: number, count?: number, options?: PageBlobClearPagesOptions): Promise<PageBlobClearPagesResponse>;
     create(size: number, options?: PageBlobCreateOptions): Promise<PageBlobCreateResponse>;
     createIfNotExists(size: number, options?: PageBlobCreateIfNotExistsOptions): Promise<PageBlobCreateIfNotExistsResponse>;
@@ -2790,8 +2792,15 @@ export interface ParsedBatchResponse {
 }
 
 // @public
-export class Pipeline {
+export class Pipeline implements PipelineLike {
     constructor(factories: RequestPolicyFactory[], options?: PipelineOptions);
+    readonly factories: RequestPolicyFactory[];
+    readonly options: PipelineOptions;
+    toServiceClientOptions(): ServiceClientOptions;
+}
+
+// @public
+export interface PipelineLike {
     readonly factories: RequestPolicyFactory[];
     readonly options: PipelineOptions;
     toServiceClientOptions(): ServiceClientOptions;

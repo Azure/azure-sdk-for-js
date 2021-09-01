@@ -15,7 +15,7 @@ import { isNode } from "@azure/core-http";
 import { AesCryptographyProvider } from "../../src/cryptography/aesCryptographyProvider";
 import TestClient from "../utils/testClient";
 import { authenticate } from "../utils/testAuthentication";
-import { env, Recorder } from "@azure/test-utils-recorder";
+import { env, Recorder } from "@azure-tools/test-recorder";
 import { RemoteCryptographyProvider } from "../../src/cryptography/remoteCryptographyProvider";
 import { ClientSecretCredential } from "@azure/identity";
 import { getServiceVersion } from "../utils/utils.common";

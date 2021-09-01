@@ -350,6 +350,14 @@ export type ContainerRegistryImageDeletedEventData = ContainerRegistryEventData 
 export type ContainerRegistryImagePushedEventData = ContainerRegistryEventData & {};
 
 // @public
+export interface ContainerServiceNewKubernetesVersionAvailableEventData {
+    latestPreviewKubernetesVersion: string;
+    latestStableKubernetesVersion: string;
+    latestSupportedKubernetesVersion: string;
+    lowestMinorKubernetesVersion: string;
+}
+
+// @public
 export interface DeviceConnectionStateEvent {
     deviceConnectionStateEventInfo: DeviceConnectionStateEventInfo;
     deviceId: string;
@@ -1324,6 +1332,7 @@ export interface SystemEventNameToEventData {
     "Microsoft.ContainerRegistry.ChartPushed": ContainerRegistryChartPushedEventData;
     "Microsoft.ContainerRegistry.ImageDeleted": ContainerRegistryImageDeletedEventData;
     "Microsoft.ContainerRegistry.ImagePushed": ContainerRegistryImagePushedEventData;
+    "Microsoft.ContainerService.NewKubernetesVersionAvailable": ContainerServiceNewKubernetesVersionAvailableEventData;
     "Microsoft.Devices.DeviceConnected": IotHubDeviceConnectedEventData;
     "Microsoft.Devices.DeviceCreated": IotHubDeviceCreatedEventData;
     "Microsoft.Devices.DeviceDeleted": IotHubDeviceDeletedEventData;

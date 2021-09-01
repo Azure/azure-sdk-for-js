@@ -41,13 +41,13 @@ export interface GetTagPropertiesOptions extends OperationOptions {}
  * Options for the `updateTagProperties` method of `RegistryArtifact`.
  */
 export interface UpdateTagPropertiesOptions extends OperationOptions {
-  /** Delete enabled */
+  /** Whether or not this tag can be deleted */
   canDelete?: boolean;
-  /** Write enabled */
+  /** Whether or not this tag can be written to */
   canWrite?: boolean;
-  /** List enabled */
+  /** Whether or not to include this tag when listing tags */
   canList?: boolean;
-  /** Read enabled */
+  /** Whether or not this tag can be read */
   canRead?: boolean;
 }
 
@@ -55,13 +55,13 @@ export interface UpdateTagPropertiesOptions extends OperationOptions {
  * Options for the `updateManifestProperties` method of `RegistryArtifact`.
  */
 export interface UpdateManifestPropertiesOptions extends OperationOptions {
-  /** Delete enabled */
+  /** Whether or not this manifest can be deleted */
   canDelete?: boolean;
-  /** Write enabled */
+  /** Whether or not this manifest can be written to */
   canWrite?: boolean;
-  /** List enabled */
+  /** Whether or not to include this manifest when listing manifest properties */
   canList?: boolean;
-  /** Read enabled */
+  /** Whether or not this manifest can be read */
   canRead?: boolean;
 }
 
@@ -74,7 +74,12 @@ export interface ListTagPropertiesOptions extends OperationOptions {
 }
 
 /**
- * The helper used to interact with the Container Registry artifact.
+ * `Artifact` is the general term for items stored in a container registry,
+ * and can include Docker images or other Open Container Initiative (OCI) artifact types.
+ *
+ * The {@link RegistryArtifact} interface is a helper that groups information and operations about an image
+ * or artifact in a container registry.
+ *
  */
 export interface RegistryArtifact {
   /**
@@ -90,39 +95,65 @@ export interface RegistryArtifact {
    */
   readonly fullyQualifiedReference: string;
   /**
-   * Deletes this artifact.
+   * Deletes this registry artifact by deleting its manifest.
    * @param options -
    */
   delete(options?: DeleteArtifactOptions): Promise<void>;
   /**
-   * Deletes a tag.
-   * @param tag - the name of the tag to be deleted.
+   * Deletes a tag. This removes the tag from the artifact and its manifest.
+   * @param tag - the name of the tag to delete.
    * @param options -
    */
   deleteTag(tag: string, options?: DeleteTagOptions): Promise<void>;
   /**
-   * Retrieves properties of this registry artifact.
+   * Retrieves the properties of the manifest that uniquely identifies this artifact.
    * @param options -
    */
   getManifestProperties(
     options?: GetManifestPropertiesOptions
   ): Promise<ArtifactManifestProperties>;
   /**
-   * Updates manifest artifact attributes.
+   * Updates the properties of the artifact's manifest.
+   *
+   * Example usage:
+   *
+   * ```javascript
+   * const client = new ContainerRegistryClient(url, credential);
+   * const artifact = client.getArtifact(repositoryName, artifactTagOrDigest)
+   * const updated = await artifact.updateManifestProperties({
+   *   canDelete: false,
+   *   canList: false,
+   *   canRead: false,
+   *   canWrite: false
+   * });
+   * ```
    * @param options -
    */
   updateManifestProperties(
     options: UpdateManifestPropertiesOptions
   ): Promise<ArtifactManifestProperties>;
   /**
-   * Retrieves properties of a tag.
+   * Retrieves the properties of the specified tag.
    * @param tag - the tag to retrieve properties.
    * @param options -
    */
   getTagProperties(tag: string, options?: GetTagPropertiesOptions): Promise<ArtifactTagProperties>;
   /**
-   * Updates tag properties.
-   * @param tag - name of the tag
+   * Updates the properties of a given tag.
+   *
+   * Example usage:
+   *
+   * ```javascript
+   * const client = new ContainerRegistryClient(url, credential);
+   * const artifact = client.getArtifact(repositoryName, artifactTagOrDigest)
+   * const updated = await artifact.updateTagProperties(tag, {
+   *   canDelete: false,
+   *   canList: false,
+   *   canRead: false,
+   *   canWrite: false
+   * });
+   * ```
+   * @param tag - name of the tag to update properties on
    * @param options -
    */
   updateTagProperties(
@@ -130,7 +161,7 @@ export interface RegistryArtifact {
     options: UpdateTagPropertiesOptions
   ): Promise<ArtifactTagProperties>;
   /**
-   * Returns an async iterable iterator to list tag properties.
+   * Returns an async iterable iterator to list the tags that uniquely identify this artifact and the properties of each.
    *
    * Example using `for-await-of` syntax:
    *
@@ -244,7 +275,7 @@ export class RegistryArtifactImpl {
   }
 
   /**
-   * Deletes this artifact.
+   * Deletes this registry artifact by deleting its manifest.
    * @param options -
    */
   public async delete(options: DeleteArtifactOptions = {}): Promise<void> {
@@ -265,8 +296,8 @@ export class RegistryArtifactImpl {
   }
 
   /**
-   * Deletes a tag.
-   * @param tag - the name of the tag to be deleted.
+   * Deletes a tag. This removes the tag from the artifact and its manifest.
+   * @param tag - the name of the tag to delete.
    * @param options -
    */
   public async deleteTag(tag: string, options: DeleteTagOptions = {}): Promise<void> {
@@ -287,7 +318,7 @@ export class RegistryArtifactImpl {
   }
 
   /**
-   * Retrieves properties of this registry artifact.
+   * Retrieves the properties of the manifest that uniquely identifies this artifact.
    * @param options -
    */
   public async getManifestProperties(
@@ -311,7 +342,20 @@ export class RegistryArtifactImpl {
   }
 
   /**
-   * Updates manifest artifact attributes.
+   * Updates the properties of the artifact's manifest.
+   *
+   * Example usage:
+   *
+   * ```javascript
+   * const client = new ContainerRegistryClient(url, credential);
+   * const artifact = client.getArtifact(repositoryName, artifactTagOrDigest)
+   * const updated = await artifact.updateManifestProperties({
+   *   canDelete: false,
+   *   canList: false,
+   *   canRead: false,
+   *   canWrite: false
+   * });
+   * ```
    * @param options -
    */
   public async updateManifestProperties(
@@ -343,7 +387,7 @@ export class RegistryArtifactImpl {
   }
 
   /**
-   * Retrieves properties of a tag.
+   * Retrieves the properties of the specified tag.
    * @param tag - the tag to retrieve properties.
    * @param options -
    */
@@ -371,8 +415,21 @@ export class RegistryArtifactImpl {
   }
 
   /**
-   * Updates tag properties.
-   * @param tag - name of the tag
+   * Updates the properties of a given tag.
+   *
+   * Example usage:
+   *
+   * ```javascript
+   * const client = new ContainerRegistryClient(url, credential);
+   * const artifact = client.getArtifact(repositoryName, artifactTagOrDigest)
+   * const updated = await artifact.updateTagProperties(tag, {
+   *   canDelete: false,
+   *   canList: false,
+   *   canRead: false,
+   *   canWrite: false
+   * });
+   * ```
+   * @param tag - name of the tag to update properties on
    * @param options -
    */
   public async updateTagProperties(
@@ -408,7 +465,7 @@ export class RegistryArtifactImpl {
   }
 
   /**
-   * Returns an async iterable iterator to list tag properties.
+   * Returns an async iterable iterator to list the tags that uniquely identify this artifact and the properties of each.
    *
    * Example using `for-await-of` syntax:
    *

@@ -8,7 +8,7 @@ import { join } from "path";
 
 import { AbortController } from "@azure/abort-controller";
 import { isNode, TokenCredential } from "@azure/core-http";
-import { delay, isPlaybackMode, record, Recorder } from "@azure/test-utils-recorder";
+import { delay, isPlaybackMode, record, Recorder } from "@azure-tools/test-recorder";
 
 import {
   BlobClient,
@@ -33,6 +33,7 @@ import {
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node";
 import { streamToBuffer3 } from "../../src/utils/utils.node";
+import { Context } from "mocha";
 
 dotenv.config();
 
@@ -48,7 +49,7 @@ describe("BlobClient Node.js only", () => {
   let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -191,13 +192,9 @@ describe("BlobClient Node.js only", () => {
 
     // As a snapshot doesn't have leaseStatus and leaseState properties but origin blob has,
     // let assign them to undefined both for other properties' easy comparison
-    // tslint:disable-next-line:max-line-length
     result3.segment.blobItems![0].properties.leaseState = result3.segment.blobItems![1].properties.leaseState = undefined;
-    // tslint:disable-next-line:max-line-length
     result3.segment.blobItems![0].properties.leaseStatus = result3.segment.blobItems![1].properties.leaseStatus = undefined;
-    // tslint:disable-next-line:max-line-length
     result3.segment.blobItems![0].properties.accessTier = result3.segment.blobItems![1].properties.accessTier = undefined;
-    // tslint:disable-next-line:max-line-length
     result3.segment.blobItems![0].properties.accessTierInferred = result3.segment.blobItems![1].properties.accessTierInferred = undefined;
 
     assert.deepStrictEqual(
@@ -207,7 +204,7 @@ describe("BlobClient Node.js only", () => {
     assert.ok(result3.segment.blobItems![0].snapshot || result3.segment.blobItems![1].snapshot);
   });
 
-  it("syncCopyFromURL - source SAS and destination bearer token", async function() {
+  it("syncCopyFromURL - source SAS and destination bearer token", async function(this: Context) {
     if (!isPlaybackMode()) {
       // Enable this when STG78 - version 2020-10-02 is enabled on production.
       this.skip();
@@ -246,7 +243,7 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(properties2.copyId, result.copyId);
   });
 
-  it("syncCopyFromURL - destination bearer token", async function() {
+  it("syncCopyFromURL - destination bearer token", async function(this: Context) {
     if (!isPlaybackMode()) {
       // Enable this when STG78 - version 2020-10-02 is enabled on production.
       this.skip();
@@ -267,7 +264,7 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(properties2.copyId, result.copyId);
   });
 
-  it("syncCopyFromURL - source bearer token and destination account key", async function() {
+  it("syncCopyFromURL - source bearer token and destination account key", async function(this: Context) {
     if (!isPlaybackMode()) {
       // Enable this when STG78 - version 2020-10-02 is enabled on production.
       this.skip();
@@ -281,7 +278,7 @@ describe("BlobClient Node.js only", () => {
     const result = await newBlobClient.syncCopyFromURL(blobClient.url, {
       sourceAuthorization: {
         scheme: "Bearer",
-        parameter: accessToken!.token
+        value: accessToken!.token
       }
     });
     assert.ok(result.copyId);
@@ -642,7 +639,9 @@ describe("BlobClient Node.js only", () => {
         .then((response) => {
           return bodyToString(response);
         })
-        .then((_data) => {})
+        .then((_data) => {
+          return;
+        })
         .catch(reject);
     });
   });
@@ -774,8 +773,8 @@ describe("BlobClient Node.js only", () => {
     });
   });
 
-  it("query should work with Parquet input configuration", async function() {
-    //Enable the case when STG78 - version 2020-10-02 features is enabled in production.
+  it("query should work with Parquet input configuration", async function(this: Context) {
+    // Enable the case when STG78 - version 2020-10-02 features is enabled in production.
     this.skip();
     const parquetFilePath = join("test", "resources", "parquet.parquet");
     await blockBlobClient.uploadFile(parquetFilePath);
@@ -800,7 +799,7 @@ describe("BlobClient Node.js Only - ImmutabilityPolicy", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     try {
@@ -813,7 +812,7 @@ describe("BlobClient Node.js Only - ImmutabilityPolicy", () => {
     blobClient = containerClient.getBlobClient(blobName);
   });
 
-  afterEach(async function() {
+  afterEach(async function(this: Context) {
     if (!this.currentTest?.isPending()) {
       const listResult = (
         await containerClient
@@ -825,8 +824,9 @@ describe("BlobClient Node.js Only - ImmutabilityPolicy", () => {
       ).value;
 
       for (let i = 0; i < listResult.segment.blobItems!.length; ++i) {
-        let deleteBlobClient: BlobClient;
-        deleteBlobClient = containerClient.getBlobClient(listResult.segment.blobItems[i].name);
+        const deleteBlobClient = containerClient.getBlobClient(
+          listResult.segment.blobItems[i].name
+        );
         await deleteBlobClient.setLegalHold(false);
         await deleteBlobClient.deleteImmutabilityPolicy();
         await deleteBlobClient.delete();

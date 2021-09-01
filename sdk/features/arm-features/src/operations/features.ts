@@ -19,8 +19,6 @@ import {
   FeaturesListAllOptionalParams,
   FeaturesListNextOptionalParams,
   FeaturesListOptionalParams,
-  FeaturesListAllNextNextOptionalParams,
-  FeaturesListNextNextOptionalParams,
   FeaturesListAllResponse,
   FeaturesListResponse,
   FeaturesGetOptionalParams,
@@ -30,9 +28,7 @@ import {
   FeaturesUnregisterOptionalParams,
   FeaturesUnregisterResponse,
   FeaturesListAllNextResponse,
-  FeaturesListNextResponse,
-  FeaturesListAllNextNextResponse,
-  FeaturesListNextNextResponse
+  FeaturesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -138,122 +134,6 @@ export class FeaturesImpl implements Features {
   ): AsyncIterableIterator<FeatureResult> {
     for await (const page of this.listPagingPage(
       resourceProviderNamespace,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * ListAllNext
-   * @param nextLink The nextLink from the previous successful call to the ListAll method.
-   * @param options The options parameters.
-   */
-  public listAllNext(
-    nextLink: string,
-    options?: FeaturesListAllNextOptionalParams
-  ): PagedAsyncIterableIterator<FeatureResult> {
-    const iter = this.listAllNextPagingAll(nextLink, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listAllNextPagingPage(nextLink, options);
-      }
-    };
-  }
-
-  private async *listAllNextPagingPage(
-    nextLink: string,
-    options?: FeaturesListAllNextOptionalParams
-  ): AsyncIterableIterator<FeatureResult[]> {
-    let result = await this._listAllNext(nextLink, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listAllNextNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listAllNextPagingAll(
-    nextLink: string,
-    options?: FeaturesListAllNextOptionalParams
-  ): AsyncIterableIterator<FeatureResult> {
-    for await (const page of this.listAllNextPagingPage(nextLink, options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * ListNext
-   * @param resourceProviderNamespace The namespace of the resource provider for getting features.
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  public listNext(
-    resourceProviderNamespace: string,
-    nextLink: string,
-    options?: FeaturesListNextOptionalParams
-  ): PagedAsyncIterableIterator<FeatureResult> {
-    const iter = this.listNextPagingAll(
-      resourceProviderNamespace,
-      nextLink,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listNextPagingPage(
-          resourceProviderNamespace,
-          nextLink,
-          options
-        );
-      }
-    };
-  }
-
-  private async *listNextPagingPage(
-    resourceProviderNamespace: string,
-    nextLink: string,
-    options?: FeaturesListNextOptionalParams
-  ): AsyncIterableIterator<FeatureResult[]> {
-    let result = await this._listNext(
-      resourceProviderNamespace,
-      nextLink,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listNextNext(
-        resourceProviderNamespace,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listNextPagingAll(
-    resourceProviderNamespace: string,
-    nextLink: string,
-    options?: FeaturesListNextOptionalParams
-  ): AsyncIterableIterator<FeatureResult> {
-    for await (const page of this.listNextPagingPage(
-      resourceProviderNamespace,
-      nextLink,
       options
     )) {
       yield* page;
@@ -368,38 +248,6 @@ export class FeaturesImpl implements Features {
       listNextOperationSpec
     );
   }
-
-  /**
-   * ListAllNextNext
-   * @param nextLink The nextLink from the previous successful call to the ListAllNext method.
-   * @param options The options parameters.
-   */
-  private _listAllNextNext(
-    nextLink: string,
-    options?: FeaturesListAllNextNextOptionalParams
-  ): Promise<FeaturesListAllNextNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listAllNextNextOperationSpec
-    );
-  }
-
-  /**
-   * ListNextNext
-   * @param resourceProviderNamespace The namespace of the resource provider for getting features.
-   * @param nextLink The nextLink from the previous successful call to the ListNext method.
-   * @param options The options parameters.
-   */
-  private _listNextNext(
-    resourceProviderNamespace: string,
-    nextLink: string,
-    options?: FeaturesListNextNextOptionalParams
-  ): Promise<FeaturesListNextNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceProviderNamespace, nextLink, options },
-      listNextNextOperationSpec
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -410,6 +258,9 @@ const listAllOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.FeatureOperationsListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -424,6 +275,9 @@ const listOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.FeatureOperationsListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -442,6 +296,9 @@ const getOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.FeatureResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -461,6 +318,9 @@ const registerOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.FeatureResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -480,6 +340,9 @@ const unregisterOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.FeatureResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -498,6 +361,9 @@ const listAllNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.FeatureOperationsListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -515,41 +381,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.FeatureOperationsListResult
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-    Parameters.resourceProviderNamespace
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listAllNextNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.FeatureOperationsListResult
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listNextNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.FeatureOperationsListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
