@@ -13,7 +13,7 @@
 ### Bugs Fixed
 
 - `ClientSecretCredential`, `ClientCertificateCredential` and `UsernamePasswordCredential` now throw if the required parameters are not provided (even in JavaScript).
-- **Included fix from v1.5.2:** Fixed a bug introduced on 1.5.0 that caused the `ManagedIdentityCredential` to fail authenticating in Arc environments. Since our new core disables unsafe requests by default, we had to change the security settings for the first request of the Arc MSI, which retrieves the file path where the authentication value is stored since this request generally happens through an HTTP endpoint.
+- Fixed a bug introduced on 2.0.0-beta.5 that caused the `ManagedIdentityCredential` to fail authenticating in Arc environments. Since our new core disables unsafe requests by default, we had to change the security settings for the first request of the Arc MSI, which retrieves the file path where the authentication value is stored since this request generally happens through an HTTP endpoint.
 
 ### Other Changes
 
