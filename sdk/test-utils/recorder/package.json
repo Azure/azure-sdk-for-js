@@ -39,7 +39,7 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "typings/src",
+    "types/src",
     "README.md",
     "LICENSE"
   ],
