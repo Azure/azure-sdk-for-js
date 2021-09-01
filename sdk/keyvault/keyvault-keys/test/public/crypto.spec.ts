@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
 import { Context } from "mocha";
 import { createHash } from "crypto";
-import { Recorder, env, isLiveMode } from "@azure/test-utils-recorder";
+import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 
 import { CryptographyClient, KeyVaultKey, KeyClient } from "../../src";

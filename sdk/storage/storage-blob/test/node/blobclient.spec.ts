@@ -8,7 +8,7 @@ import { join } from "path";
 
 import { AbortController } from "@azure/abort-controller";
 import { isNode, TokenCredential } from "@azure/core-http";
-import { delay, isPlaybackMode, record, Recorder } from "@azure/test-utils-recorder";
+import { delay, isPlaybackMode, record, Recorder } from "@azure-tools/test-recorder";
 
 import {
   BlobClient,
@@ -278,7 +278,7 @@ describe("BlobClient Node.js only", () => {
     const result = await newBlobClient.syncCopyFromURL(blobClient.url, {
       sourceAuthorization: {
         scheme: "Bearer",
-        parameter: accessToken!.token
+        value: accessToken!.token
       }
     });
     assert.ok(result.copyId);

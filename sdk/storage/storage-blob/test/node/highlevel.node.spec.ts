@@ -16,7 +16,7 @@ import {
   createRandomLocalFileWithTotalSize
 } from "../utils";
 import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node";
 import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../../src/utils/constants";

@@ -23,7 +23,7 @@
   "scripts": {
     "perf-test:node": "ts-node test/index.spec.ts",
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build": "tsc -p .",
+    "build": "npm run clean && tsc -p .",
     "build:samples": "echo skipped",
     "build:test": "echo skipped",
     "check-format": "prettier --list-different --config ../../../../.prettierrc.json --ignore-path ../../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
@@ -35,7 +35,6 @@
     "lint:fix": "eslint package.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json src test --ext .ts -f html -o storage-file-share-perf-test-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
-    "prebuild": "npm run clean",
     "setup": "node ../../../../common/tools/perf-tests-track-1-setup.js",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",

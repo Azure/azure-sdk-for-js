@@ -30,7 +30,7 @@ import {
   recorderEnvSetup,
   sleep
 } from "../utils";
-import { delay, record, Recorder } from "@azure/test-utils-recorder";
+import { delay, record, Recorder } from "@azure-tools/test-recorder";
 import { SERVICE_VERSION } from "../../src/utils/constants";
 import { Context } from "mocha";
 

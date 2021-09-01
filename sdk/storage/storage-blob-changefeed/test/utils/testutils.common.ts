@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { isPlaybackMode, env, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import { isPlaybackMode, env, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 
 export const testPollerProperties = {
   intervalInMs: isPlaybackMode() ? 0 : undefined
@@ -100,11 +100,9 @@ export function isBrowser(): boolean {
 }
 
 export function getUniqueName(prefix: string): string {
-  return `${prefix}${new Date().getTime()}${padStart(
-    Math.floor(Math.random() * 10000).toString(),
-    5,
-    "00000"
-  )}`;
+  return `${prefix}${new Date().getTime()}${Math.floor(Math.random() * 10000)
+    .toString()
+    .padStart(5, "00000")}`;
 }
 
 export function base64encode(content: string): string {
@@ -146,34 +144,4 @@ export function sleep(seconds: number): Promise<void> {
   return new Promise((resolve) => {
     setTimeout(resolve, seconds * 1000);
   });
-}
-
-/**
- * String.prototype.padStart()
- *
- * @param currentString -
- * @param targetLength -
- * @param padString -
- */
-export function padStart(
-  currentString: string,
-  targetLength: number,
-  padString: string = " "
-): string {
-  // TS doesn't know this code needs to run downlevel sometimes.
-  // @ts-expect-error
-  if (String.prototype.padStart) {
-    return currentString.padStart(targetLength, padString);
-  }
-
-  padString = padString || " ";
-  if (currentString.length > targetLength) {
-    return currentString;
-  } else {
-    targetLength = targetLength - currentString.length;
-    if (targetLength > padString.length) {
-      padString += padString.repeat(targetLength / padString.length);
-    }
-    return padString.slice(0, targetLength) + currentString;
-  }
 }

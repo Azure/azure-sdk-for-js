@@ -13,7 +13,7 @@ import {
   getBSU,
   recorderEnvSetup
 } from "../utils/index.browser";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
 import { Context } from "mocha";
 

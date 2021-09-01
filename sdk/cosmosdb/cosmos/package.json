@@ -1,6 +1,6 @@
 {
   "name": "@azure/cosmos",
-  "version": "3.13.1",
+  "version": "3.14.0",
   "description": "Microsoft Azure Cosmos DB Service Node.js SDK for SQL API",
   "sdk-type": "client",
   "keywords": [
@@ -67,7 +67,6 @@
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json api-extractor.json src test --ext .ts",
     "pack": "npm pack 2>&1",
-    "prebuild": "npm run clean",
     "test:browser": "npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test-consumer": "rimraf consumer-test/node_modules consumer-test/package-lock.json && node consumer-test.js 2>&1",
@@ -111,7 +110,6 @@
     "@types/priorityqueuejs": "^1.0.1",
     "@types/semaphore": "^1.1.0",
     "@types/sinon": "^9.0.4",
-    "@types/tunnel": "^0.0.1",
     "@types/underscore": "^1.8.8",
     "@types/uuid": "^8.0.0",
     "cross-env": "^7.0.2",
@@ -119,7 +117,7 @@
     "downlevel-dts": "~0.4.0",
     "eslint": "^7.15.0",
     "esm": "^3.2.18",
-    "execa": "^3.3.0",
+    "execa": "^5.0.0",
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^1.18.0",
     "prettier": "^1.16.4",

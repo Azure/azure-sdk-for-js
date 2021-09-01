@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { TokenCredential } from "@azure/core-http";
-import { env } from "@azure/test-utils-recorder";
+import { env } from "@azure-tools/test-recorder";
 import { randomBytes } from "crypto";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
@@ -32,11 +32,8 @@ export function getGenericCredential(accountType: string): StorageSharedKeyCrede
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountKeyEnvVar = `${accountType}ACCOUNT_KEY`;
 
-  let accountName: string | undefined;
-  let accountKey: string | undefined;
-
-  accountName = process.env[accountNameEnvVar];
-  accountKey = process.env[accountKeyEnvVar];
+  const accountName = process.env[accountNameEnvVar];
+  const accountKey = process.env[accountKeyEnvVar];
 
   if (!accountName || !accountKey || accountName === "" || accountKey === "") {
     throw new Error(
@@ -49,9 +46,7 @@ export function getGenericCredential(accountType: string): StorageSharedKeyCrede
 
 export function getTokenCredential(): TokenCredential {
   const accountTokenEnvVar = `DFS_ACCOUNT_TOKEN`;
-  let accountToken: string | undefined;
-
-  accountToken = process.env[accountTokenEnvVar];
+  const accountToken = process.env[accountTokenEnvVar];
 
   if (!accountToken || accountToken === "") {
     throw new Error(`${accountTokenEnvVar} environment variables not specified.`);
@@ -66,12 +61,8 @@ export function getTokenCredential(): TokenCredential {
 export function getSASToken(accountType: string, sasValues: DataLakeSASSignatureValues): string {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountKeyEnvVar = `${accountType}ACCOUNT_KEY`;
-
-  let accountName: string | undefined;
-  let accountKey: string | undefined;
-
-  accountName = process.env[accountNameEnvVar];
-  accountKey = process.env[accountKeyEnvVar];
+  const accountName = process.env[accountNameEnvVar];
+  const accountKey = process.env[accountKeyEnvVar];
 
   if (!accountName || !accountKey || accountName === "" || accountKey === "") {
     throw new Error(
@@ -130,8 +121,7 @@ export function getGenericDataLakeServiceClient(
 export function getTokenDataLakeServiceClient(): DataLakeServiceClient {
   const accountNameEnvVar = `DFS_ACCOUNT_NAME`;
 
-  let accountName: string | undefined;
-  accountName = process.env[accountNameEnvVar];
+  const accountName = process.env[accountNameEnvVar];
   if (!accountName || accountName === "") {
     throw new Error(`${accountNameEnvVar} environment variables not specified.`);
   }
@@ -199,8 +189,7 @@ export async function bodyToString(
 ): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     response.readableStreamBody!.on("readable", () => {
-      let chunk;
-      chunk = response.readableStreamBody!.read(length);
+      const chunk = response.readableStreamBody!.read(length);
       if (chunk) {
         resolve(chunk.toString());
       }
@@ -230,16 +219,18 @@ export async function createRandomLocalFile(
     }
 
     ws.on("open", () => {
-      // tslint:disable-next-line:no-empty
-      while (offsetInMB++ < blockNumber && ws.write(randomValueHex())) {}
+      while (offsetInMB++ < blockNumber && ws.write(randomValueHex())) {
+        /* empty */
+      }
       if (offsetInMB >= blockNumber) {
         ws.end();
       }
     });
 
     ws.on("drain", () => {
-      // tslint:disable-next-line:no-empty
-      while (offsetInMB++ < blockNumber && ws.write(randomValueHex())) {}
+      while (offsetInMB++ < blockNumber && ws.write(randomValueHex())) {
+        /* empty */
+      }
       if (offsetInMB >= blockNumber) {
         ws.end();
       }

@@ -6,7 +6,7 @@
 import * as path from "path";
 import { assert } from "chai";
 import { AbortController } from "@azure/abort-controller";
-import { env, isPlaybackMode, delay } from "@azure/test-utils-recorder";
+import { env, isPlaybackMode, delay } from "@azure-tools/test-recorder";
 import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
 import { ClientCertificateCredential } from "../../../src";
 import { Context } from "mocha";

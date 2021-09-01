@@ -6,6 +6,8 @@
 
 ### Breaking Changes
 
+- Replace `authenticationScope` with `audience` in `ContainerRegistryClientOptions`. An extensible enum `KnownContainerRegistryAudience` is introduced which has known audience values.
+
 ### Bugs Fixed
 
 ### Other Changes
