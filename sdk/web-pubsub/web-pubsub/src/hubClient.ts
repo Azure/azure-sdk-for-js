@@ -395,10 +395,7 @@ export class WebPubSubServiceClient {
     message: RequestBodyType | JSONTypes,
     options: HubSendToAllOptions | HubSendTextToAllOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan(
-      "WebPubSubServiceClient-hub-sendToAll",
-      options
-    );
+    const { span, updatedOptions } = createSpan("WebPubSubServiceClient-hub-sendToAll", options);
 
     const { contentType, payload } = getPayloadForMessage(message, updatedOptions);
 

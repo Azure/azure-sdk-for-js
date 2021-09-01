@@ -305,10 +305,7 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
     message: JSONTypes | RequestBodyType,
     options: GroupSendToAllOptions | GroupSendTextToAllOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan(
-      "WebPubSubServiceClient-group-sendToAll",
-      options
-    );
+    const { span, updatedOptions } = createSpan("WebPubSubServiceClient-group-sendToAll", options);
 
     const { contentType, payload } = getPayloadForMessage(message, updatedOptions);
 
