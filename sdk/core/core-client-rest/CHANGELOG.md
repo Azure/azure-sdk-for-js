@@ -4,6 +4,7 @@
 
 ### Other Changes
 
+- Create pipeline from scratch excluding tracingPolicy to decrease bundle size. [#17015](https://github.com/Azure/azure-sdk-for-js/pull/17015)
 - Allow number and boolean as input headers. [#17358](https://github.com/Azure/azure-sdk-for-js/pull/17358)
 
 ## 1.0.0-beta.6 (2021-08-05)
