@@ -469,7 +469,7 @@ packages:
       integrity: sha512-CxaMaEjwtsmIhWtjHyGimKO7RmES0YxPqGQ9+jKqGygNlhG5NYHktDaiQu6w7k3g+I51VaLXtVSt+BVFd6VWfQ==
   /@azure/identity/1.2.5_debug@4.3.2:
     dependencies:
-      '@azure/core-http': 1.2.3
+      '@azure/core-http': 1.2.6
       '@azure/core-tracing': 1.0.0-preview.9
       '@azure/logger': 1.0.2
       '@azure/msal-node': 1.0.0-beta.6_debug@4.3.2
@@ -598,6 +598,20 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-YZNjNV0vL3nN2nedmcjQBcpCTo3oqceXmgiQtEm6fLpucjRZyQKAQruhCmCpRlB1iykqKJJ/Y8CDmT5rIE6IJw==
+  /@azure/monitor-opentelemetry-exporter/1.0.0-beta.4:
+    dependencies:
+      '@azure/core-http': 2.1.0
+      '@opentelemetry/api': 1.0.2
+      '@opentelemetry/core': 0.22.0_@opentelemetry+api@1.0.2
+      '@opentelemetry/resources': 0.22.0_@opentelemetry+api@1.0.2
+      '@opentelemetry/semantic-conventions': 0.22.0
+      '@opentelemetry/tracing': 0.22.0_@opentelemetry+api@1.0.2
+      tslib: 2.3.1
+    dev: false
+    engines:
+      node: '>=12.0.0'
+    resolution:
+      integrity: sha512-Y3HGIhepNpk83XzxbOFBhXNVHI+ntXaPKJmqpqcVhAkN3x3LMKzDRg9B8CUDLkaeYAMV60lievKz052EFHkgbw==
   /@azure/ms-rest-azure-env/1.1.2:
     dev: false
     resolution:
@@ -2836,7 +2850,7 @@ packages:
       integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==
   /debug/3.2.6:
     dependencies:
-      ms: 2.1.1
+      ms: 2.1.3
     deprecated: Debug versions >=3.2.0 <3.2.7 || >=4 <4.3.1 have a low-severity ReDos regression when used in a Node.js environment. It is recommended you upgrade to 3.2.7 or 4.3.1. (https://github.com/visionmedia/debug/issues/797)
     dev: false
     resolution:
@@ -11065,6 +11079,7 @@ packages:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 1.5.1
+      '@azure/monitor-opentelemetry-exporter': 1.0.0-beta.4
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 1.0.2
       '@opentelemetry/node': 0.22.0_@opentelemetry+api@1.0.2
@@ -11107,7 +11122,7 @@ packages:
     dev: false
     name: '@rush-temp/monitor-query'
     resolution:
-      integrity: sha512-k5TOVtcLQ517iXlrSvW8lMIvzv55ozYTI/bDqMFfyn9WhlLuWo7A+Kyx2XwN45hAZu2dgicsN5Z7pl+YdQWgRw==
+      integrity: sha512-8l2Vg6YWtfMUMyjBH28Djy6Jb2lp7guFk0bHo4sC6Q1+baB5QE4TE8AylUW8ns16V/12BxE3MP4CBSwwsIPvVA==
       tarball: file:projects/monitor-query.tgz
     version: 0.0.0
   file:projects/perf-ai-form-recognizer.tgz:
