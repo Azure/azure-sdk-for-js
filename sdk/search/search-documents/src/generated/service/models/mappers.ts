@@ -2044,6 +2044,12 @@ export const AnalyzeRequest: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      normalizer: {
+        serializedName: "normalizer",
+        type: {
+          name: "String"
+        }
+      },
       tokenFilters: {
         serializedName: "tokenFilters",
         type: {
