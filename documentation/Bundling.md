@@ -223,7 +223,6 @@ export default {
     cjs({
       namedExports: {
         events: ["EventEmitter"],
-        "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
       }
     }),
     json()
