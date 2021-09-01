@@ -905,6 +905,11 @@
       "packageName": "@azure/arm-authorization",
       "projectFolder": "sdk/authorization/arm-authorization",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-servicebus",
+      "projectFolder": "sdk/servicebus/arm-servicebus",
+      "versionPolicyName": "management"
     }
   ]
 }
