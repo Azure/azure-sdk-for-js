@@ -77,7 +77,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
   public authorityHost: string;
 
   constructor(options?: TokenCredentialOptions) {
-    const packageDetails = `azsdk-js-identity/1.5.0`;
+    const packageDetails = `azsdk-js-identity/1.5.2`;
     const userAgentPrefix = options?.userAgentOptions?.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
       : `${packageDetails}`;
