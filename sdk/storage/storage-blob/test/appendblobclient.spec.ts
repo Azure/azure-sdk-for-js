@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
+import { Context } from "mocha";
 
 import { AppendBlobClient, ContainerClient } from "../src";
 import {
@@ -23,7 +24,7 @@ describe("AppendBlobClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     const blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -94,7 +95,9 @@ describe("AppendBlobClient", () => {
 
     const content = "Hello World!";
     await appendBlobClient.appendBlock(content, content.length, {
-      onProgress: () => {}
+      onProgress: () => {
+        /* empty */
+      }
     });
 
     const downloadResponse = await appendBlobClient.download(0);
@@ -115,7 +118,6 @@ describe("AppendBlobClient", () => {
 
   it("throws error if constructor containerName parameter is empty", async () => {
     try {
-      // tslint:disable-next-line: no-unused-expression
       new AppendBlobClient(getSASConnectionStringFromEnvironment(), "", "blobName");
       assert.fail("Expecting an thrown error but didn't get one.");
     } catch (error) {

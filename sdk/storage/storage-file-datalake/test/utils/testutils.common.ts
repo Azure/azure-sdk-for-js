@@ -2,9 +2,7 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http";
-import { env, isPlaybackMode, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
-
-import { padStart } from "../../src/utils/utils.common";
+import { env, isPlaybackMode, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 
 export const testPollerProperties = {
   intervalInMs: isPlaybackMode() ? 0 : undefined
@@ -108,11 +106,9 @@ export function isBrowser(): boolean {
 }
 
 export function getUniqueName(prefix: string): string {
-  return `${prefix}${new Date().getTime()}${padStart(
-    Math.floor(Math.random() * 10000).toString(),
-    5,
-    "00000"
-  )}`;
+  return `${prefix}${new Date().getTime()}${Math.floor(Math.random() * 10000)
+    .toString()
+    .padStart(5, "00000")}`;
 }
 
 export function base64encode(content: string): string {

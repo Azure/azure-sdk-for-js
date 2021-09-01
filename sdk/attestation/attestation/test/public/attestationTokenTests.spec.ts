@@ -10,7 +10,7 @@ import { Context } from "mocha";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 
 import { createRecorder } from "../utils/recordedClient";
 
@@ -177,7 +177,7 @@ describe("AttestationTokenTests", function() {
       [],
       token.getTokenProblems(undefined, {
         validateToken: true,
-        getProblemsCallback: (tokenToCheck) => {
+        validateAttestationToken: (tokenToCheck) => {
           console.log("In callback, token algorithm: " + tokenToCheck.algorithm);
           return undefined;
         }
@@ -188,7 +188,7 @@ describe("AttestationTokenTests", function() {
       token
         .getTokenProblems(undefined, {
           validateToken: true,
-          getProblemsCallback: (tokenToCheck) => {
+          validateAttestationToken: (tokenToCheck) => {
             console.log("In callback, token algorithm: " + tokenToCheck.algorithm);
             return ["There was a validation failure"];
           }

@@ -38,6 +38,7 @@
         "pwd1",
         "azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
         "azure_client_secret&scope=https%3A%2F%2Fdigitaltwins.azure.net%2F.default",
+        "azure_client_secret",
         "p@55wOrd",
         "nodesdk",
         "liilef#$DdRGSa_ewkjh",
@@ -48,12 +49,14 @@
       "_justification": "Secret used by test code, it is fake."
     },
     {
-        "file":[
-            "sdk/identity/identity/test/azure-identity-chain-test.crt",
-            "sdk/identity/identity/test/azure-identity-test.crt",
-            "sdk/keyvault/keyvault-certificates/ca.key"
-        ],
-        "_justification": "File contains private key used by test code."
-    }  
+      "file": [
+        "eng/common/testproxy/dotnet-devcert.pfx",
+        "sdk/identity/identity/test/azure-identity-chain-test.crt",
+        "sdk/identity/identity/test/azure-identity-test.crt",
+        "sdk/keyvault/keyvault-certificates/ca.key",
+        "sdk/identity/identity/assets/fake-cert.pem"
+      ],
+      "_justification": "File contains private key used by test code."
+    }
   ]
 }

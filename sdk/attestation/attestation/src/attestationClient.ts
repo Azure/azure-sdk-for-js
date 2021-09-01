@@ -21,7 +21,7 @@ import { SpanStatusCode } from "@azure/core-tracing";
 import { AttestationResponse, createAttestationResponse } from "./models/attestationResponse";
 
 import { TypeDeserializer } from "./utils/typeDeserializer";
-import { TokenCredential } from "@azure/core-auth";
+import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { bytesToString, stringToBytes } from "./utils/utf8";
 import { _attestationResultFromGenerated } from "./models/attestationResult";
@@ -37,12 +37,6 @@ export interface AttestationClientOptions extends CommonClientOptions {
    * from the attestation service.
    */
   validationOptions?: AttestationTokenValidationOptions;
-
-  /**
-   * Optional credential to be used to authenticate the `AttestationClient` to the
-   * service. Required for TPM attestation, optional for other APIs.
-   */
-  credentials?: TokenCredential;
 }
 
 /**
@@ -151,27 +145,67 @@ export class AttestationClient {
    * import { AttestationClient } from "@azure/attestation";
    *
    * const client = new AttestationClient(
-   *    "<service endpoint>",
-   *    {credentials: new TokenCredential("<>")}
+   *    "<service endpoint>"
    * );
    * ```
    *
    * @param endpoint - The attestation instance base URI, for example https://mytenant.attest.azure.net.
-   * @param options - Used to configure the Attestation Client.
+   * @param options - Options used to configure the Attestation Client.
    *
    */
+  public constructor(endpoint: string, options?: AttestationClientOptions);
 
-  constructor(endpoint: string, options: AttestationClientOptions = {}) {
+  /**
+   * Creates an instance of AttestationClient with options and credentials.
+   *
+   * Example usage:
+   * ```ts
+   * import { AttestationClient } from "@azure/attestation";
+   *
+   * const client = new AttestationClient(
+   *    "<service endpoint>",
+   *    new TokenCredential("<>"),
+   *    { tokenValidationOptions: { validateToken: false } }
+   * );
+   * ```
+   *
+   * Note that credentials are required to call the `attestTpm` API.
+   *
+   * @param endpoint - The attestation instance base URI, for example https://mytenant.attest.azure.net.
+   * @param credentials - Credentials used to configure the attestation client.
+   *
+   */
+  public constructor(
+    endpoint: string,
+    credentials: TokenCredential,
+    options?: AttestationClientOptions
+  );
+  public constructor(
+    endpoint: string,
+    credentialsOrOptions?: TokenCredential | AttestationClientOptions,
+    clientOptions: AttestationClientOptions = {}
+  ) {
     let credentialScopes: string[] | undefined = undefined;
-    if (options.credentials) {
-      credentialScopes = ["https://attest.azure.net/.default"];
+    let credential: TokenCredential | undefined = undefined;
+    let options: AttestationClientOptions = {};
+
+    // If arg2 is defined, it's either a tokenCredential or it's a client options.
+    if (credentialsOrOptions !== undefined) {
+      if (isTokenCredential(credentialsOrOptions)) {
+        credential = credentialsOrOptions;
+        credentialScopes = ["https://attest.azure.net/.default"];
+      } else {
+        options = credentialsOrOptions;
+      }
+    } else if (clientOptions !== undefined) {
+      options = clientOptions;
     }
 
     const internalPipelineOptions: GeneratedClientOptionalParams = {
       ...options,
       ...{
         credentialScopes: credentialScopes,
-        credential: options.credentials,
+        credential: credential,
         loggingOptions: {
           logger: logger.info,
           allowedHeaderNames: ["x-ms-request-id", "x-ms-maa-service-version"]

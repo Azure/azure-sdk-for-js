@@ -6,14 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "../tracing";
 import { BigDataPools } from "../operationsInterfaces";
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
+import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClientContext } from "../artifactsClientContext";
-import { BigDataPoolsListResponse, BigDataPoolsGetResponse } from "../models";
+import {
+  BigDataPoolsListOptionalParams,
+  BigDataPoolsListResponse,
+  BigDataPoolsGetOptionalParams,
+  BigDataPoolsGetResponse
+} from "../models";
 
 /** Class representing a BigDataPools. */
 export class BigDataPoolsImpl implements BigDataPools {
@@ -31,17 +36,19 @@ export class BigDataPoolsImpl implements BigDataPools {
    * List Big Data Pools
    * @param options The options parameters.
    */
-  async list(options?: coreHttp.OperationOptions): Promise<BigDataPoolsListResponse> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-list", options || {});
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
-    };
+  async list(
+    options?: BigDataPoolsListOptionalParams
+  ): Promise<BigDataPoolsListResponse> {
+    const { span } = createSpan("ArtifactsClient-list", options || {});
     try {
-      const result = await this.client.sendOperationRequest(operationArguments, listOperationSpec);
+      const result = await this.client.sendOperationRequest(
+        { options },
+        listOperationSpec
+      );
       return result as BigDataPoolsListResponse;
     } catch (error) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
+        code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
       });
       throw error;
@@ -57,19 +64,18 @@ export class BigDataPoolsImpl implements BigDataPools {
    */
   async get(
     bigDataPoolName: string,
-    options?: coreHttp.OperationOptions
+    options?: BigDataPoolsGetOptionalParams
   ): Promise<BigDataPoolsGetResponse> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-get", options || {});
-    const operationArguments: coreHttp.OperationArguments = {
-      bigDataPoolName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
-    };
+    const { span } = createSpan("ArtifactsClient-get", options || {});
     try {
-      const result = await this.client.sendOperationRequest(operationArguments, getOperationSpec);
+      const result = await this.client.sendOperationRequest(
+        { bigDataPoolName, options },
+        getOperationSpec
+      );
       return result as BigDataPoolsGetResponse;
     } catch (error) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
+        code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
       });
       throw error;
@@ -79,9 +85,9 @@ export class BigDataPoolsImpl implements BigDataPools {
   }
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreHttp.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
   path: "/bigDataPools",
   httpMethod: "GET",
   responses: {
@@ -97,7 +103,7 @@ const listOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getOperationSpec: coreHttp.OperationSpec = {
+const getOperationSpec: coreClient.OperationSpec = {
   path: "/bigDataPools/{bigDataPoolName}",
   httpMethod: "GET",
   responses: {

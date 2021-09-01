@@ -82,7 +82,8 @@ import {
   IndexingSchedule,
   LexicalNormalizerName,
   CustomNormalizer,
-  SearchIndexerKnowledgeStore
+  SearchIndexerKnowledgeStore,
+  SearchIndexerCache
 } from "./generated/service/models";
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -244,6 +245,14 @@ export interface CreateOrUpdateSkillsetOptions extends OperationOptions {
    * If set to true, Resource will be deleted only if the etag matches.
    */
   onlyIfUnchanged?: boolean;
+  /**
+   * Ignores cache reset requirements.
+   */
+  ignoreResetRequirements?: boolean;
+  /**
+   * Disables cache reprocessing change detection.
+   */
+  disableCacheReprocessingChangeDetection?: boolean;
 }
 
 /**
@@ -264,6 +273,10 @@ export interface CreateorUpdateIndexerOptions extends OperationOptions {
    * If set to true, Resource will be deleted only if the etag matches.
    */
   onlyIfUnchanged?: boolean;
+  /** Ignores cache reset requirements. */
+  ignoreResetRequirements?: boolean;
+  /** Disables cache reprocessing change detection. */
+  disableCacheReprocessingChangeDetection?: boolean;
 }
 
 /**
@@ -274,6 +287,10 @@ export interface CreateorUpdateDataSourceConnectionOptions extends OperationOpti
    * If set to true, Resource will be deleted only if the etag matches.
    */
   onlyIfUnchanged?: boolean;
+  /**
+   * Ignores cache reset requirements.
+   */
+  ignoreResetRequirements?: boolean;
 }
 
 /**
@@ -876,7 +893,7 @@ export interface SynonymMap {
    * keys is not available for free search services, and is only available for paid services
    * created on or after January 1, 2019.
    */
-  encryptionKey?: SearchResourceEncryptionKey | null;
+  encryptionKey?: SearchResourceEncryptionKey;
   /**
    * The ETag of the synonym map.
    */
@@ -925,7 +942,7 @@ export interface SearchIndex {
   /**
    * Options to control Cross-Origin Resource Sharing (CORS) for the index.
    */
-  corsOptions?: CorsOptions | null;
+  corsOptions?: CorsOptions;
   /**
    * The suggesters for the index.
    */
@@ -960,7 +977,7 @@ export interface SearchIndex {
    * keys is not available for free search services, and is only available for paid services
    * created on or after January 1, 2019.
    */
-  encryptionKey?: SearchResourceEncryptionKey | null;
+  encryptionKey?: SearchResourceEncryptionKey;
   /**
    * The type of similarity algorithm to be used when scoring and ranking the documents matching a
    * search query. The similarity algorithm can only be defined at index creation time and cannot
@@ -1000,11 +1017,11 @@ export interface SearchIndexer {
   /**
    * The schedule for this indexer.
    */
-  schedule?: IndexingSchedule | null;
+  schedule?: IndexingSchedule;
   /**
    * Parameters for indexer execution.
    */
-  parameters?: IndexingParameters | null;
+  parameters?: IndexingParameters;
   /**
    * Defines mappings between fields in the data source and corresponding target fields in the
    * index.
@@ -1017,7 +1034,7 @@ export interface SearchIndexer {
   /**
    * A value indicating whether the indexer is disabled. Default is false. Default value: false.
    */
-  isDisabled?: boolean | null;
+  isDisabled?: boolean;
   /**
    * The ETag of the indexer.
    */
@@ -1033,7 +1050,12 @@ export interface SearchIndexer {
    * customer-managed keys is not available for free search services, and is only available for
    * paid services created on or after January 1, 2019.
    */
-  encryptionKey?: SearchResourceEncryptionKey | null;
+  encryptionKey?: SearchResourceEncryptionKey;
+  /**
+   * Adds caching to an enrichment pipeline to allow for incremental modification steps without
+   * having to rebuild the index every time.
+   */
+  cache?: SearchIndexerCache;
 }
 
 /**
@@ -1072,7 +1094,7 @@ export interface SearchResourceEncryptionKey {
    * resource, if the explicit identity is unspecified, it remains unchanged. If "none" is specified,
    * the value of this property is cleared.
    */
-  identity?: SearchIndexerDataIdentity | null;
+  identity?: SearchIndexerDataIdentity;
 }
 
 /**
@@ -1113,7 +1135,7 @@ export interface SearchIndexerSkillset {
    * definition will be unaffected. Encryption with customer-managed keys is not available for free
    * search services, and is only available for paid services created on or after January 1, 2019.
    */
-  encryptionKey?: SearchResourceEncryptionKey | null;
+  encryptionKey?: SearchResourceEncryptionKey;
 }
 
 /**
@@ -1836,15 +1858,15 @@ export interface SearchIndexerDataSourceConnection {
    * string is a managed identity, the system-assigned managed identity is used. If not specified,
    * the value remains unchanged. If "none" is specified, the value of this property is cleared.
    */
-  identity?: SearchIndexerDataIdentity | null;
+  identity?: SearchIndexerDataIdentity;
   /**
    * The data change detection policy for the datasource.
    */
-  dataChangeDetectionPolicy?: DataChangeDetectionPolicy | null;
+  dataChangeDetectionPolicy?: DataChangeDetectionPolicy;
   /**
    * The data deletion detection policy for the datasource.
    */
-  dataDeletionDetectionPolicy?: DataDeletionDetectionPolicy | null;
+  dataDeletionDetectionPolicy?: DataDeletionDetectionPolicy;
   /**
    * The ETag of the DataSource.
    */
@@ -1860,6 +1882,6 @@ export interface SearchIndexerDataSourceConnection {
    * available for free search services, and is only available for paid services created on or
    * after January 1, 2019.
    */
-  encryptionKey?: SearchResourceEncryptionKey | null;
+  encryptionKey?: SearchResourceEncryptionKey;
 }
 // END manually modified generated interfaces

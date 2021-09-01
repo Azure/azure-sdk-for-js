@@ -48,6 +48,7 @@ export = {
       "@azure/azure-sdk/ts-no-const-enums": "warn",
       "@azure/azure-sdk/ts-no-namespaces": "error",
       "@azure/azure-sdk/ts-no-window": "error",
+      "@azure/azure-sdk/ts-package-json-sdktype": "error",
       "@azure/azure-sdk/ts-package-json-author": "error",
       "@azure/azure-sdk/ts-package-json-bugs": "error",
       "@azure/azure-sdk/ts-package-json-engine-is-present": "error",

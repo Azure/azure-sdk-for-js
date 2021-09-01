@@ -4,7 +4,6 @@
 import { TestSpan } from "./testSpan";
 import {
   SpanContext,
-  SpanKind,
   SpanOptions,
   TraceFlags,
   Context as OTContext,
@@ -143,14 +142,7 @@ export class TestTracer implements Tracer {
       spanId: this.getNextSpanId(),
       traceFlags: TraceFlags.NONE
     };
-    const span = new TestSpan(
-      this,
-      name,
-      spanContext,
-      options?.kind || SpanKind.INTERNAL,
-      parentContext ? parentContext.spanId : undefined,
-      options?.startTime
-    );
+    const span = new TestSpan(this, name, spanContext, parentContext?.spanId, options);
     this.knownSpans.push(span);
     if (isRootSpan) {
       this.rootSpans.push(span);

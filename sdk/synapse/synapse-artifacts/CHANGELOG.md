@@ -1,7 +1,21 @@
 # Release History
 
-## 1.0.0-beta.5 (Unreleased)
+## 1.0.0-beta.6 (Unreleased)
 
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.0.0-beta.5 (2021-08-10)
+
+### Other Changes
+
+- Migrate to CoreV2
+- Re-generate with swagger `2021-06-01-preview`
 
 ## 1.0.0-beta.4 (2021-04-06)
 

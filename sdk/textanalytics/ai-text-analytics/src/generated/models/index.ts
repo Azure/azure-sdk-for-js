@@ -46,6 +46,7 @@ export interface JobManifestTasks {
   keyPhraseExtractionTasks?: KeyPhrasesTask[];
   entityLinkingTasks?: EntityLinkingTask[];
   sentimentAnalysisTasks?: SentimentAnalysisTask[];
+  extractiveSummarizationTasks?: ExtractiveSummarizationTask[];
 }
 
 export interface EntitiesTask {
@@ -99,6 +100,18 @@ export interface SentimentAnalysisTaskParameters {
   loggingOptOut?: boolean;
   opinionMining?: boolean;
   stringIndexType?: StringIndexType;
+}
+
+export interface ExtractiveSummarizationTask {
+  parameters?: ExtractiveSummarizationTaskParameters;
+}
+
+export interface ExtractiveSummarizationTaskParameters {
+  modelVersion?: string;
+  loggingOptOut?: boolean;
+  stringIndexType?: StringIndexType;
+  sentenceCount?: number;
+  sortBy?: ExtractiveSummarizationTaskParametersSortBy;
 }
 
 export interface ErrorResponse {
@@ -158,6 +171,7 @@ export interface TasksStateTasks {
   keyPhraseExtractionTasks?: TasksStateTasksKeyPhraseExtractionTasksItem[];
   entityLinkingTasks?: TasksStateTasksEntityLinkingTasksItem[];
   sentimentAnalysisTasks?: TasksStateTasksSentimentAnalysisTasksItem[];
+  extractiveSummarizationTasks?: TasksStateTasksExtractiveSummarizationTasksItem[];
 }
 
 export interface TaskState {
@@ -450,6 +464,43 @@ export interface SentenceAssessment {
   isNegated: boolean;
 }
 
+export interface ExtractiveSummarizationTaskResult {
+  results?: ExtractiveSummarizationResult;
+}
+
+export interface ExtractiveSummarizationResult {
+  /** Response by document */
+  documents: ExtractedDocumentSummary[];
+  /** Errors by document id. */
+  errors: DocumentError[];
+  /** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
+  statistics?: TextDocumentBatchStatistics;
+  /** This field indicates which model is used for scoring. */
+  modelVersion: string;
+}
+
+export interface ExtractedDocumentSummary {
+  /** Unique, non-empty document identifier. */
+  id: string;
+  /** A ranked list of sentences representing the extracted summary. */
+  sentences: ExtractedSummarySentence[];
+  /** Warnings encountered while processing document. */
+  warnings: TextAnalyticsWarning[];
+  /** if showStats=true was specified in the request this field will contain information about the document payload. */
+  statistics?: TextDocumentStatistics;
+}
+
+export interface ExtractedSummarySentence {
+  /** The extracted sentence text. */
+  text: string;
+  /** A double value representing the relevance of the sentence within the summary. Higher values indicate higher importance. */
+  rankScore: number;
+  /** The sentence offset from the start of the document, based on the value of the parameter StringIndexType. */
+  offset: number;
+  /** The length of the sentence. */
+  length: number;
+}
+
 export interface AnalyzeJobErrorsAndStatistics {
   errors?: TextAnalyticsError[];
   /** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
@@ -617,6 +668,9 @@ export type TasksStateTasksEntityLinkingTasksItem = TaskState &
 export type TasksStateTasksSentimentAnalysisTasksItem = TaskState &
   SentimentTaskResult & {};
 
+export type TasksStateTasksExtractiveSummarizationTasksItem = TaskState &
+  ExtractiveSummarizationTaskResult & {};
+
 export type HealthcareEntity = HealthcareEntityProperties &
   HealthcareLinkingProperties & {};
 
@@ -636,7 +690,7 @@ export interface GeneratedClientHealthHeaders {
 }
 
 /** Known values of {@link StringIndexType} that the service accepts. */
-export const enum KnownStringIndexType {
+export enum KnownStringIndexType {
   /** Returned offset and length values will correspond to TextElements (Graphemes and Grapheme clusters) confirming to the Unicode 8.0.0 standard. Use this option if your application is written in .Net Framework or .Net Core and you will be using StringInfo. */
   TextElementV8 = "TextElement_v8",
   /** Returned offset and length values will correspond to Unicode code points. Use this option if your application is written in a language that support Unicode, for example Python. */
@@ -657,7 +711,7 @@ export const enum KnownStringIndexType {
 export type StringIndexType = string;
 
 /** Known values of {@link PiiTaskParametersDomain} that the service accepts. */
-export const enum KnownPiiTaskParametersDomain {
+export enum KnownPiiTaskParametersDomain {
   Phi = "phi",
   None = "none"
 }
@@ -673,7 +727,7 @@ export const enum KnownPiiTaskParametersDomain {
 export type PiiTaskParametersDomain = string;
 
 /** Known values of {@link PiiCategory} that the service accepts. */
-export const enum KnownPiiCategory {
+export enum KnownPiiCategory {
   ABARoutingNumber = "ABARoutingNumber",
   ARNationalIdentityNumber = "ARNationalIdentityNumber",
   AUBankAccountNumber = "AUBankAccountNumber",
@@ -1030,8 +1084,24 @@ export const enum KnownPiiCategory {
  */
 export type PiiCategory = string;
 
+/** Known values of {@link ExtractiveSummarizationTaskParametersSortBy} that the service accepts. */
+export enum KnownExtractiveSummarizationTaskParametersSortBy {
+  Offset = "Offset",
+  Rank = "Rank"
+}
+
+/**
+ * Defines values for ExtractiveSummarizationTaskParametersSortBy. \
+ * {@link KnownExtractiveSummarizationTaskParametersSortBy} can be used interchangeably with ExtractiveSummarizationTaskParametersSortBy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Offset** \
+ * **Rank**
+ */
+export type ExtractiveSummarizationTaskParametersSortBy = string;
+
 /** Known values of {@link ErrorCodeValue} that the service accepts. */
-export const enum KnownErrorCodeValue {
+export enum KnownErrorCodeValue {
   InvalidRequest = "InvalidRequest",
   InvalidArgument = "InvalidArgument",
   InternalServerError = "InternalServerError",
@@ -1053,7 +1123,7 @@ export const enum KnownErrorCodeValue {
 export type ErrorCodeValue = string;
 
 /** Known values of {@link InnerErrorCodeValue} that the service accepts. */
-export const enum KnownInnerErrorCodeValue {
+export enum KnownInnerErrorCodeValue {
   InvalidParameterValue = "InvalidParameterValue",
   InvalidRequestBodyFormat = "InvalidRequestBodyFormat",
   EmptyRequest = "EmptyRequest",
@@ -1083,7 +1153,7 @@ export const enum KnownInnerErrorCodeValue {
 export type InnerErrorCodeValue = string;
 
 /** Known values of {@link WarningCode} that the service accepts. */
-export const enum KnownWarningCode {
+export enum KnownWarningCode {
   LongWordsInDocument = "LongWordsInDocument",
   DocumentTruncated = "DocumentTruncated"
 }
@@ -1099,7 +1169,7 @@ export const enum KnownWarningCode {
 export type WarningCode = string;
 
 /** Known values of {@link HealthcareEntityCategory} that the service accepts. */
-export const enum KnownHealthcareEntityCategory {
+export enum KnownHealthcareEntityCategory {
   BodyStructure = "BODY_STRUCTURE",
   AGE = "AGE",
   Gender = "GENDER",
@@ -1163,7 +1233,7 @@ export const enum KnownHealthcareEntityCategory {
 export type HealthcareEntityCategory = string;
 
 /** Known values of {@link RelationType} that the service accepts. */
-export const enum KnownRelationType {
+export enum KnownRelationType {
   Abbreviation = "Abbreviation",
   DirectionOfBodyStructure = "DirectionOfBodyStructure",
   DirectionOfCondition = "DirectionOfCondition",

@@ -23,19 +23,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '58f6765b-386b-4101-b208-81cc8e420600',
+  'eef866a1-2981-4b67-849a-189474393a01',
   'x-ms-ests-server',
-  '2.1.11829.8 - SCUS ProdSlices',
+  '2.1.11898.12 - WUS2 ProdSlices',
   'Set-Cookie',
-  'fpc=AgwXPIJQJyxOqlZf_m27S8lz_bg1EgAAAKEmaNgOAAAA; expires=Sun, 25-Jul-2021 19:42:49 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AlWKmlww77xOo6Ig5BuHWzBz_bg1EwAAAKy9m9gOAAAA; expires=Thu, 02-Sep-2021 22:50:50 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr7hByEXTtvFUMZfzmJnVjePGVQnDNSMLjVoWSQIVlCcE-4LGKm4eujjlBkoFkfT4nbJkAOLnn3Rw5qE1tt5UKB6A8DuC_FoSOVRM1sf5P3ghq_6-7zNKU-lr4hS3fnTD0orMi-XBWGAocky42T8wwd7rXIhC4fkda6cScccSIRp4gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr44E4gu23rPe2Fz7mfLmwZw65WM1Z2z2aBnEENmBtTQ5_raK9pC67Yu9Rck5JZaOKUUwih-xuOn4OGV1ruOr_vdYUITq4owj9_QiMh5BUDVexlSgTqapxLQH6q2hqzTyeCw5Z3rmxaR7-TncVvaH-bCnfBDRNlXHq_1B4u9L7QEMgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 25 Jun 2021 19:42:48 GMT',
+  'Tue, 03 Aug 2021 22:50:49 GMT',
   'Content-Length',
   '980'
 ]);
@@ -58,25 +58,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '703b39c0-f313-4374-a6f6-9fd050495d00',
+  '94e44e71-277a-4d25-b653-892c95204001',
   'x-ms-ests-server',
-  '2.1.11829.9 - NCUS ProdSlices',
+  '2.1.11898.12 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=AgwXPIJQJyxOqlZf_m27S8lz_bg1EgAAAKEmaNgOAAAA; expires=Sun, 25-Jul-2021 19:42:49 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AlWKmlww77xOo6Ig5BuHWzBz_bg1EwAAAKy9m9gOAAAA; expires=Thu, 02-Sep-2021 22:50:50 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrLXI0XVxjp4EcIDpf0848xeZj4_IxvZiDHnwWudBwgGtRbflBi7vILIkuPENklLr4LO6wNvfg99maY7aVDpKdwXj1S3MmBb74g97EJ75IRI5IEHDQ32NYxlZn2v2LtE1tfQW_5IJaaOaQQSr3Ie0bTZB7P03fOLSQY9Qxa2HSciYgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrgpE9Tx6pqtVLsxH8wgv4OWiA84_fEJttJwTwgYuGu6Bhlm-4NY8X0dK1NHpRU0kgr0QKKiDYyl9k6wpjEJiD5jYhfWF1l0mG4p7AxxQVupaaJ0FSPrYrdv-VlpFF0B_JJfdfhpBZSRE3tar8eCdwGyHDVo6G3AJHzYnOWEHxgzAgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 25 Jun 2021 19:42:49 GMT',
+  'Tue, 03 Aug 2021 22:50:49 GMT',
   'Content-Length',
   '1753'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.1.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=2|771,0|,&x-client-last-telemetry=2|0|||0,0&client-request-id=4185a731-b8ff-4584-8125-9687a40d8d9c&client_secret=azure_client_secret")
+  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.2.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=2|771,0|,&x-client-last-telemetry=2|0|||0,0&client-request-id=3a34c21b-67be-49a6-8715-3081bf10d7e6&client_secret=azure_client_secret")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -93,46 +93,46 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'c2c46a2d-caf1-495a-b60f-6d2051d27100',
+  'a0333c2b-f57d-4cdf-b4b2-3964248bf800',
   'x-ms-ests-server',
-  '2.1.11829.9 - EUS ProdSlices',
+  '2.1.11898.12 - WUS2 ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=AgwXPIJQJyxOqlZf_m27S8lz_bg1EgAAAKEmaNgOAAAA; expires=Sun, 25-Jul-2021 19:42:49 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AlWKmlww77xOo6Ig5BuHWzBz_bg1EwAAAKy9m9gOAAAA; expires=Thu, 02-Sep-2021 22:50:50 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 25 Jun 2021 19:42:49 GMT',
+  'Tue, 03 Aug 2021 22:50:49 GMT',
   'Content-Length',
   '1331'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('//text/analytics/v3.1/analyze', {"displayName":"testJob","analysisInput":{"documents":[{"id":"1","text":"I will go to the park."},{"id":"2","text":"Este es un document escrito en Español."},{"id":"3","text":"猫は幸せ"}]},"tasks":{"entityRecognitionPiiTasks":[{"parameters":{"model-version":"latest","stringIndexType":"Utf16CodeUnit"}}]}})
+  .post('/text/analytics/v3.2-preview.1/analyze', {"displayName":"testJob","analysisInput":{"documents":[{"id":"1","text":"I will go to the park."},{"id":"2","text":"Este es un document escrito en Español."},{"id":"3","text":"猫は幸せ"}]},"tasks":{"entityRecognitionPiiTasks":[{"parameters":{"model-version":"latest","stringIndexType":"Utf16CodeUnit"}}]}})
   .reply(202, "", [
   'Transfer-Encoding',
   'chunked',
   'operation-location',
-  'https://endpoint/text/analytics/v3.1/analyze/jobs/94709fa1-1ba9-4718-adc2-953577650a89',
+  'https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/f3059c9b-67f8-4387-89cb-a02a0e08adf0',
   'x-envoy-upstream-service-time',
-  '182',
+  '151',
   'apim-request-id',
-  'e26038c1-a625-487f-8bcf-3c5c9819383e',
+  'c2a1cfeb-43b6-4323-a7ed-54274dd37df7',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 25 Jun 2021 19:42:48 GMT'
+  'Tue, 03 Aug 2021 22:50:49 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/94709fa1-1ba9-4718-adc2-953577650a89')
+  .get('/text/analytics/v3.2-preview.1/analyze/jobs/f3059c9b-67f8-4387-89cb-a02a0e08adf0')
   .query(true)
-  .reply(200, {"jobId":"94709fa1-1ba9-4718-adc2-953577650a89","lastUpdateDateTime":"2021-06-25T19:42:49Z","createdDateTime":"2021-06-25T19:42:49Z","expirationDateTime":"2021-06-26T19:42:49Z","status":"notStarted","errors":[],"displayName":"testJob","tasks":{"completed":0,"failed":0,"inProgress":1,"total":1}}, [
+  .reply(200, {"jobId":"f3059c9b-67f8-4387-89cb-a02a0e08adf0","lastUpdateDateTime":"2021-08-03T22:50:50Z","createdDateTime":"2021-08-03T22:50:50Z","expirationDateTime":"2021-08-04T22:50:50Z","status":"notStarted","errors":[],"displayName":"testJob","tasks":{"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -140,19 +140,19 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'x-envoy-upstream-service-time',
   '7',
   'apim-request-id',
-  'fdb1ae9f-6a93-4f60-8687-8b7713a3ced5',
+  '2943210e-6273-4ea3-80bd-aaeca3c15422',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 25 Jun 2021 19:42:48 GMT'
+  'Tue, 03 Aug 2021 22:50:49 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/94709fa1-1ba9-4718-adc2-953577650a89')
+  .get('/text/analytics/v3.2-preview.1/analyze/jobs/f3059c9b-67f8-4387-89cb-a02a0e08adf0')
   .query(true)
-  .reply(200, {"jobId":"94709fa1-1ba9-4718-adc2-953577650a89","lastUpdateDateTime":"2021-06-25T19:42:49Z","createdDateTime":"2021-06-25T19:42:49Z","expirationDateTime":"2021-06-26T19:42:49Z","status":"notStarted","errors":[],"displayName":"testJob","tasks":{"completed":0,"failed":0,"inProgress":1,"total":1}}, [
+  .reply(200, {"jobId":"f3059c9b-67f8-4387-89cb-a02a0e08adf0","lastUpdateDateTime":"2021-08-03T22:50:50Z","createdDateTime":"2021-08-03T22:50:50Z","expirationDateTime":"2021-08-04T22:50:50Z","status":"notStarted","errors":[],"displayName":"testJob","tasks":{"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -160,91 +160,91 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'x-envoy-upstream-service-time',
   '7',
   'apim-request-id',
-  'f43019c2-741e-4e66-93b3-6b096fcce6d1',
+  '33920d7d-7219-4247-bad0-85e80cdeadea',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 25 Jun 2021 19:42:48 GMT'
+  'Tue, 03 Aug 2021 22:50:49 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/94709fa1-1ba9-4718-adc2-953577650a89')
+  .get('/text/analytics/v3.2-preview.1/analyze/jobs/f3059c9b-67f8-4387-89cb-a02a0e08adf0')
   .query(true)
-  .reply(200, {"jobId":"94709fa1-1ba9-4718-adc2-953577650a89","lastUpdateDateTime":"2021-06-25T19:42:50Z","createdDateTime":"2021-06-25T19:42:49Z","expirationDateTime":"2021-06-26T19:42:49Z","status":"running","errors":[],"displayName":"testJob","tasks":{"completed":0,"failed":0,"inProgress":1,"total":1}}, [
+  .reply(200, {"jobId":"f3059c9b-67f8-4387-89cb-a02a0e08adf0","lastUpdateDateTime":"2021-08-03T22:50:52Z","createdDateTime":"2021-08-03T22:50:50Z","expirationDateTime":"2021-08-04T22:50:50Z","status":"running","errors":[],"displayName":"testJob","tasks":{"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '11',
+  '6',
   'apim-request-id',
-  '2675d276-cf6f-4b2e-82f4-44a2beea7c88',
+  '62cfdc23-08cc-4096-8755-e92bf6b1024b',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 25 Jun 2021 19:42:50 GMT'
+  'Tue, 03 Aug 2021 22:50:52 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/94709fa1-1ba9-4718-adc2-953577650a89')
+  .get('/text/analytics/v3.2-preview.1/analyze/jobs/f3059c9b-67f8-4387-89cb-a02a0e08adf0')
   .query(true)
-  .reply(200, {"jobId":"94709fa1-1ba9-4718-adc2-953577650a89","lastUpdateDateTime":"2021-06-25T19:42:50Z","createdDateTime":"2021-06-25T19:42:49Z","expirationDateTime":"2021-06-26T19:42:49Z","status":"running","errors":[],"displayName":"testJob","tasks":{"completed":0,"failed":0,"inProgress":1,"total":1}}, [
+  .reply(200, {"jobId":"f3059c9b-67f8-4387-89cb-a02a0e08adf0","lastUpdateDateTime":"2021-08-03T22:50:52Z","createdDateTime":"2021-08-03T22:50:50Z","expirationDateTime":"2021-08-04T22:50:50Z","status":"running","errors":[],"displayName":"testJob","tasks":{"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '5',
+  '7',
   'apim-request-id',
-  'da5aceae-6e8d-4d91-8c08-beacff2a8f00',
+  '0183b259-b97f-4c2c-994a-71d18bee9be9',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 25 Jun 2021 19:42:52 GMT'
+  'Tue, 03 Aug 2021 22:50:54 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/94709fa1-1ba9-4718-adc2-953577650a89')
+  .get('/text/analytics/v3.2-preview.1/analyze/jobs/f3059c9b-67f8-4387-89cb-a02a0e08adf0')
   .query(true)
-  .reply(200, {"jobId":"94709fa1-1ba9-4718-adc2-953577650a89","lastUpdateDateTime":"2021-06-25T19:42:50Z","createdDateTime":"2021-06-25T19:42:49Z","expirationDateTime":"2021-06-26T19:42:49Z","status":"running","errors":[],"displayName":"testJob","tasks":{"completed":0,"failed":0,"inProgress":1,"total":1}}, [
+  .reply(200, {"jobId":"f3059c9b-67f8-4387-89cb-a02a0e08adf0","lastUpdateDateTime":"2021-08-03T22:50:52Z","createdDateTime":"2021-08-03T22:50:50Z","expirationDateTime":"2021-08-04T22:50:50Z","status":"running","errors":[],"displayName":"testJob","tasks":{"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '8',
+  '7',
   'apim-request-id',
-  'ffa3e312-6d4b-4cab-9692-8921c149576e',
+  '68edbbc5-dd7b-4e1b-91db-358d528f3aaf',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 25 Jun 2021 19:42:55 GMT'
+  'Tue, 03 Aug 2021 22:50:56 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1/analyze/jobs/94709fa1-1ba9-4718-adc2-953577650a89')
+  .get('/text/analytics/v3.2-preview.1/analyze/jobs/f3059c9b-67f8-4387-89cb-a02a0e08adf0')
   .query(true)
-  .reply(200, {"jobId":"94709fa1-1ba9-4718-adc2-953577650a89","lastUpdateDateTime":"2021-06-25T19:42:56Z","createdDateTime":"2021-06-25T19:42:49Z","expirationDateTime":"2021-06-26T19:42:49Z","status":"succeeded","errors":[],"displayName":"testJob","tasks":{"completed":1,"failed":0,"inProgress":0,"total":1,"entityRecognitionPiiTasks":[{"lastUpdateDateTime":"2021-06-25T19:42:56.0831466Z","taskName":"PersonallyIdentifiableInformation_latest","state":"succeeded","results":{"documents":[{"redactedText":"I will go to the park.","id":"1","entities":[],"warnings":[]},{"redactedText":"Este es un document escrito en Español.","id":"2","entities":[],"warnings":[]},{"redactedText":"猫は幸せ","id":"3","entities":[],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}}]}}, [
+  .reply(200, {"jobId":"f3059c9b-67f8-4387-89cb-a02a0e08adf0","lastUpdateDateTime":"2021-08-03T22:50:58Z","createdDateTime":"2021-08-03T22:50:50Z","expirationDateTime":"2021-08-04T22:50:50Z","status":"succeeded","errors":[],"displayName":"testJob","tasks":{"completed":1,"failed":0,"inProgress":0,"total":1,"entityRecognitionPiiTasks":[{"lastUpdateDateTime":"2021-08-03T22:50:58.2466432Z","taskName":"PersonallyIdentifiableInformation_latest","state":"succeeded","results":{"documents":[{"redactedText":"I will go to the park.","id":"1","entities":[],"warnings":[]},{"redactedText":"Este es un document escrito en Español.","id":"2","entities":[],"warnings":[]},{"redactedText":"猫は幸せ","id":"3","entities":[],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}}]}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '65',
+  '56',
   'apim-request-id',
-  'ed2c4b21-a67b-4570-a548-9151533530ee',
+  '95ef6d82-9796-4876-89da-a72d90f47963',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 25 Jun 2021 19:42:57 GMT'
+  'Tue, 03 Aug 2021 22:50:59 GMT'
 ]);

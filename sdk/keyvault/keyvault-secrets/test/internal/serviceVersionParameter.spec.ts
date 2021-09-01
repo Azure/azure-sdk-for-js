@@ -7,7 +7,7 @@ import { SecretClient } from "../../src";
 import { LATEST_API_VERSION } from "../../src/secretsModels";
 import { HttpClient, WebResourceLike, HttpOperationResponse, HttpHeaders } from "@azure/core-http";
 import { ClientSecretCredential } from "@azure/identity";
-import { env } from "@azure/test-utils-recorder";
+import { env } from "@azure-tools/test-recorder";
 
 describe("The Secrets client should set the serviceVersion", () => {
   const keyVaultUrl = `https://keyVaultName.vault.azure.net`;
@@ -58,13 +58,13 @@ describe("The Secrets client should set the serviceVersion", () => {
   });
 
   // Adding this to the source would change the public API.
-  type ApIVersions = "7.0" | "7.1" | "7.2";
+  type ApiVersions = "7.0" | "7.1" | "7.2";
 
   it("it should allow us to specify an API version from a specific set of versions", async function() {
-    const versions: ApIVersions[] = ["7.0", "7.1", "7.2"];
+    const versions: ApiVersions[] = ["7.0", "7.1", "7.2"];
     for (const serviceVersion in versions) {
       const client = new SecretClient(keyVaultUrl, credential, {
-        serviceVersion: serviceVersion as ApIVersions,
+        serviceVersion: serviceVersion as ApiVersions,
         httpClient: mockHttpClient
       });
       await client.setSecret("secretName", "value");

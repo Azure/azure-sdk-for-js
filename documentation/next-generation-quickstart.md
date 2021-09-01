@@ -18,7 +18,7 @@ authentication. This document illustrates the most common scenario.
 
 Migrating from an older generation of Azure management libraries for JavaScript/TypeScript
 ------------------------------------------------------------------------------------------
-If you are current user of an older generation of the JavaScript SDK, and are interested in upgrading to the latest version, please refer to this [migration guide](./MIGRATION-guide-for-next-generation-management-libraries.md) for more information.
+If you are current user of an older generation of the JavaScript SDK, and are interested in upgrading to the latest version, please refer to this [migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/MIGRATION-guide-for-next-generation-management-libraries.md) for more information.
 
 Prerequisites
 -------------
@@ -67,10 +67,10 @@ Windows (Note: Administrator access is required)
 
 Linux-based OS :
 
-    export AZURE_CLIENT_ID="__CLIENT_ID__"
-    export AZURE_CLIENT_SECRET="__CLIENT_SECRET__"
-    export AZURE_TENANT_ID="__TENANT_ID__"
-    export AZURE_SUBSCRIPTION_ID="__SUBSCRIPTION_ID__"
+    export AZURE_CLIENT_ID="azure_client_id"
+    export AZURE_CLIENT_SECRET="azure_client_secret"
+    export AZURE_TENANT_ID="azure_tenant_id"
+    export AZURE_SUBSCRIPTION_ID="azure_subscription_id"
 
 Install the package
 -------------------
@@ -133,7 +133,7 @@ Example: Creating a Resource Group
 ***Import the packages***  
 TypeScript
 ```typescript
-import * as resources from "@azure/arm-resources";
+import { ResourceManagementClient, ResourceGroup } from "@azure/arm-resources";
 import { DefaultAzureCredential } from "@azure/identity";
 ```
 JavaScript
@@ -147,7 +147,7 @@ TypeScript
 ```typescript
 const subscriptionId = process.env.AZURE_SUBSCRIPTION_ID;
 const credential = new DefaultAzureCredential();
-const resourcesClient = new resources.ResourceManagementClient(credential, subscriptionId);
+const resourcesClient = new ResourceManagementClient(credential, subscriptionId);
 ```
 JavaScript
 ```javascript
@@ -160,13 +160,13 @@ const resourcesClient = new resources.ResourceManagementClient(credential, subsc
 TypeScript
 ```typescript
 async function updateResourceGroup(resourceGroupName: string) {
-    const parameter:resources.ResourceGroupPatchable = {
+    const parameter: ResourceGroup  = {
+        location: "eastus",
         tags: {
-            tag1: "value1",
-            tag2: "value2"
+            tag1: "value1"
         }
     };
-    await resourcesClient.resourceGroups.update(resourceGroupName, parameter).then(
+    await resourcesClient.resourceGroups.createOrUpdate(resourceGroupName, parameter).then(
         result => {
             console.log(result);
         }
@@ -197,7 +197,7 @@ Example: Managing Resource Groups with JS/TS SDK
 ***Import the packages***  
 TypeScript
 ```typescript
-import * as resources from "@azure/arm-resources";
+import { ResourceManagementClient, ResourceGroup, ResourceGroupPatchable } from "@azure/arm-resources";
 import { DefaultAzureCredential } from "@azure/identity";
 ```
 JavaScript
@@ -211,7 +211,7 @@ TypeScript
 ```typescript
 const subscriptionId = process.env.AZURE_SUBSCRIPTION_ID;
 const credential = new DefaultAzureCredential();
-const resourcesClient = new resources.ResourceManagementClient(credential, subscriptionId);
+const resourcesClient = new ResourceManagementClient(credential, subscriptionId);
 ```
 JavaScript
 ```javascript
@@ -224,7 +224,7 @@ const resourcesClient = new resources.ResourceManagementClient(credential, subsc
 TypeScript
 ```typescript
 async function updateResourceGroup(resourceGroupName: string) {
-    const parameter:resources.ResourceGroupPatchable = {
+    const parameter: ResourceGroupPatchable = {
         tags: {
             tag1: "value1",
             tag2: "value2"
@@ -241,12 +241,11 @@ JavaScript
 ```javascript
 async function updateResourceGroup(resourceGroupName) {
     const parameter = {
-        location: "eastus",
         tags: {
-            tag1: "value1"
+            tag1: "value1",
+            tag2: "value2"
         }
     };
-    const resourcesClient = new resources.ResourceManagementClient(credential, subscriptionId);
     await resourcesClient.resourceGroups.update(resourceGroupName, parameter).then(
         result => {
             console.log(result);
@@ -328,9 +327,9 @@ In addition to resource groups, we will also use Virtual Machine as an example a
 ***Import the packages***  
 TypeScript
 ```typescript
-import * as compute from "@azure/arm-compute";
-import * as network from "@azure/arm-network";
-import * as resources from "@azure/arm-resources";
+import { ComputeManagementClient, VirtualMachine } from "@azure/arm-compute";
+import { NetworkManagementClient, VirtualNetwork, Subnet, NetworkInterface } from "@azure/arm-network";
+import { ResourceManagementClient, ResourceGroup } from "@azure/arm-resources";
 import { DefaultAzureCredential } from "@azure/identity";
 ```
 JavaScript
@@ -373,7 +372,7 @@ const resourcesClient = new resources.ResourceManagementClient(credential, subsc
 TypeScript
 ```typescript
 async function createResourceGroup() {
-    const parameter: resources.ResourceGroup = {
+    const parameter: ResourceGroup = {
         location: "eastus",
         tags: {
             tag1: "value1"
@@ -407,13 +406,15 @@ async function createResourceGroup() {
 TypeScript
 ```typescript
 async function createVirtualNetwork() {
-    const parameter: network.VirtualNetwork = {
+    const parameter: VirtualNetwork = {
         location: location,
         addressSpace: {
             addressPrefixes: ['10.0.0.0/16']
         }
     };
-    const virtualNetworks_create_info = await networkClient.virtualNetworks.beginCreateOrUpdateAndWait(resourceGroupName, networkName, parameter);
+    const poller_result = await networkClient.virtualNetworks.beginCreateOrUpdateAndWait(resourceGroupName, networkName, parameter);
+    console.log(poller_result);
+    const virtualNetworks_create_info = await networkClient.virtualNetworks.get(resourceGroupName, networkName);
     console.log(virtualNetworks_create_info);
 }
 ```
@@ -426,7 +427,9 @@ async function createVirtualNetwork() {
             addressPrefixes: ['10.0.0.0/16']
         }
     };
-    const virtualNetworks_create_info = await networkClient.virtualNetworks.beginCreateOrUpdateAndWait(resourceGroupName, networkName, parameter);
+    const poller_result = await networkClient.virtualNetworks.beginCreateOrUpdateAndWait(resourceGroupName, networkName, parameter);
+    console.log(poller_result);
+    const virtualNetworks_create_info =  await networkClient.virtualNetworks.get(resourceGroupName, networkName);
     console.log(virtualNetworks_create_info);
 }
 ```
@@ -435,10 +438,12 @@ async function createVirtualNetwork() {
 TypeScript
 ```typescript
 async function createSubnet() {
-    const subnet_parameter: network.Subnet = {
+    const subnet_parameter: Subnet = {
         addressPrefix: "10.0.0.0/24"
     };
-    const subnet_create_info = await networkClient.subnets.beginCreateOrUpdateAndWait(resourceGroupName, networkName, subnetName, subnet_parameter);
+    const poller_result = await networkClient.subnets.beginCreateOrUpdateAndWait(resourceGroupName, networkName, subnetName, subnet_parameter);
+    console.log(poller_result);
+    const subnet_create_info = await networkClient.subnets.get(resourceGroupName, networkName, subnetName);
     console.log(subnet_create_info)
 }
 ```
@@ -448,7 +453,9 @@ async function createSubnet() {
     const subnet_parameter = {
         addressPrefix: "10.0.0.0/24"
     };
-    const subnet_create_info = await networkClient.subnets.beginCreateOrUpdateAndWait(resourceGroupName, networkName, subnetName, subnet_parameter);
+    const poller_result = await networkClient.subnets.beginCreateOrUpdateAndWait(resourceGroupName, networkName, subnetName, subnet_parameter);
+    console.log(poller_result);
+    const subnet_create_info = await networkClient.subnets.get(resourceGroupName, networkName, subnetName);
     console.log(subnet_create_info)
 }
 ```
@@ -457,7 +464,7 @@ async function createSubnet() {
 TypeScript
 ```typescript
 async function createNetworkInterface(group_name: any, location: any, nic_name: any) {
-    const parameter: network.NetworkInterface = {
+    const parameter: NetworkInterface = {
         location: location,
         ipConfigurations: [
             {
@@ -469,7 +476,9 @@ async function createNetworkInterface(group_name: any, location: any, nic_name: 
             }
         ]
     };
-    const nic_info = await networkClient.networkInterfaces.beginCreateOrUpdateAndWait(group_name, nic_name, parameter);
+    const poller_result = await networkClient.networkInterfaces.beginCreateOrUpdateAndWait(group_name, nic_name, parameter);
+    console.log(poller_result);
+    const nic_info = await networkClient.networkInterfaces.get(group_name, nic_name);
     console.log(nic_info);
 }
 ```
@@ -488,7 +497,9 @@ async function createNetworkInterface(group_name, location, nic_name) {
             }
         ]
     };
-    const nic_info = await networkClient.networkInterfaces.beginCreateOrUpdateAndWait(group_name, nic_name, parameter);
+    const poller_result = await networkClient.networkInterfaces.beginCreateOrUpdateAndWait(group_name, nic_name, parameter);
+    console.log(poller_result);
+    const nic_info = await networkClient.networkInterfaces.get(group_name, nic_name);
     console.log(nic_info);
 }
 ```
@@ -501,7 +512,7 @@ async function createVirtualMachines() {
     createVirtualNetwork();
     createSubnet();
     createNetworkInterface(resourceGroupName, location, interfaceName);
-    const parameter: compute.VirtualMachine = {
+    const parameter: VirtualMachine = {
         location: location,
         hardwareProfile: {
             vmSize: "Standard_D2_v2",
@@ -537,7 +548,7 @@ async function createVirtualMachines() {
         osProfile: {
             adminUsername: "testuser",
             computerName: "myVM",
-            adminPassword: "0000000000",
+            adminPassword: "p@55wOrd",
             windowsConfiguration: {
                 enableAutomaticUpdates: true // need automatic update for reimage
             }
@@ -551,7 +562,9 @@ async function createVirtualMachines() {
             ]
         }
     };
-    const res = await computeClient.virtualMachines.beginCreateOrUpdateAndWait(resourceGroupName, virtualMachineName, parameter);
+    const poller_result = await computeClient.virtualMachines.beginCreateOrUpdateAndWait(resourceGroupName, virtualMachineName, parameter);
+    console.log(poller_result);
+    const res = await computeClient.virtualMachines.get(resourceGroupName, virtualMachineName);
     console.log(res);
 }
 ```
@@ -598,7 +611,7 @@ async function createVirtualMachines() {
         osProfile: {
             adminUsername: "testuser",
             computerName: "myVM",
-            adminPassword: "0000000000",
+            adminPassword: "p@55wOrd",
             windowsConfiguration: {
                 enableAutomaticUpdates: true // need automatic update for reimage
             }
@@ -612,7 +625,9 @@ async function createVirtualMachines() {
             ]
         }
     };
-    const res = await computeClient.virtualMachines.beginCreateOrUpdateAndWait(resourceGroupName, virtualMachineName, parameter);
+    const poller_result = await computeClient.virtualMachines.beginCreateOrUpdateAndWait(resourceGroupName, virtualMachineName, parameter);
+    console.log(poller_result);
+    const res = await computeClient.virtualMachines.get(resourceGroupName, virtualMachineName);
     console.log(res);
 }
 ```

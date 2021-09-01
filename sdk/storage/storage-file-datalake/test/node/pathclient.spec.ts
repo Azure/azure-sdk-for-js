@@ -2,9 +2,10 @@
 // Licensed under the MIT license.
 
 import { AbortController } from "@azure/abort-controller";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
+import { Context } from "mocha";
 import { join } from "path";
 
 import {
@@ -37,7 +38,7 @@ describe("DataLakePathClient Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
@@ -429,8 +430,8 @@ describe("DataLakePathClient Node.js only", () => {
     });
   });
 
-  it("query should work with Parquet input configuration", async function() {
-    //Enable the case when STG78 - version 2020-10-02 features is enabled in production.
+  it("query should work with Parquet input configuration", async function(this: Context) {
+    // Enable the case when STG78 - version 2020-10-02 features is enabled in production.
     this.skip();
     const parquetFilePath = join("test", "resources", "parquet.parquet");
 
@@ -457,7 +458,7 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");

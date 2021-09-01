@@ -174,14 +174,14 @@ export enum PremiumPageBlobTier {
 export function toAccessTier(
   tier: BlockBlobTier | PremiumPageBlobTier | string | undefined
 ): AccessTier | undefined {
-  if (tier == undefined) {
+  if (tier === undefined) {
     return undefined;
   }
 
   return tier as AccessTier; // No more check if string is a valid AccessTier, and left this to underlay logic to decide(service).
 }
 
-export function ensureCpkIfSpecified(cpk: CpkInfo | undefined, isHttps: boolean) {
+export function ensureCpkIfSpecified(cpk: CpkInfo | undefined, isHttps: boolean): void {
   if (cpk && !isHttps) {
     throw new RangeError("Customer-provided encryption key must be used over HTTPS.");
   }
@@ -309,5 +309,5 @@ export interface HttpAuthorization {
   /**
    * the credentials containing the authentication information of the user agent for the resource being requested.
    */
-  parameter: string;
+  value: string;
 }

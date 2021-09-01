@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { createHttpHeaders, PipelineRequestOptions } from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { RequestPrepareOptions } from "@azure/core-http";
-
 import { MSI } from "./models";
 import { credentialLogger } from "../../util/logging";
 import { IdentityClient } from "../../client/identityClient";
@@ -17,7 +16,7 @@ function expiresInParser(requestBody: any): number {
   return Number(requestBody.expires_on);
 }
 
-function prepareRequestOptions(resource: string, clientId?: string): RequestPrepareOptions {
+function prepareRequestOptions(resource: string, clientId?: string): PipelineRequestOptions {
   const queryParameters: any = {
     resource,
     "api-version": azureFabricVersion
@@ -27,14 +26,23 @@ function prepareRequestOptions(resource: string, clientId?: string): RequestPrep
     queryParameters.client_id = clientId;
   }
 
+  const query = new URLSearchParams(queryParameters);
+
+  // This error should not bubble up, since we verify that this environment variable is defined in the isAvailable() method defined below.
+  if (!process.env.IDENTITY_ENDPOINT) {
+    throw new Error("Missing environment variable: IDENTITY_ENDPOINT");
+  }
+  if (!process.env.IDENTITY_HEADER) {
+    throw new Error("Missing environment variable: IDENTITY_HEADER");
+  }
+
   return {
-    url: process.env.IDENTITY_ENDPOINT,
+    url: `${process.env.IDENTITY_ENDPOINT}?${query.toString()}`,
     method: "GET",
-    queryParameters,
-    headers: {
+    headers: createHttpHeaders({
       Accept: "application/json",
       Secret: process.env.IDENTITY_HEADER
-    }
+    })
   };
 }
 

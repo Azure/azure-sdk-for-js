@@ -81,7 +81,7 @@ export class RetriableReadableStream extends Readable {
     this.setSourceEventHandlers();
   }
 
-  public _read() {
+  public _read(): void {
     this.source.resume();
   }
 
@@ -142,6 +142,7 @@ export class RetriableReadableStream extends Readable {
           .then((newSource) => {
             this.source = newSource;
             this.setSourceEventHandlers();
+            return;
           })
           .catch((error) => {
             this.destroy(error);
@@ -149,7 +150,6 @@ export class RetriableReadableStream extends Readable {
       } else {
         this.destroy(
           new Error(
-            // tslint:disable-next-line:max-line-length
             `Data corruption failure: received less data than required and reached maxRetires limitation. Received data offset: ${this
               .offset - 1}, data needed offset: ${this.end}, retries: ${
               this.retries

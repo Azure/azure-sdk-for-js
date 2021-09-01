@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import { Context } from "mocha";
-import { env, Recorder } from "@azure/test-utils-recorder";
+import { env, Recorder } from "@azure-tools/test-recorder";
 import { KeyClient } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
@@ -139,6 +139,42 @@ onVersions({ minVer: "7.2" }).describe(
         });
 
         assert.exists(releaseResult.value);
+      });
+
+      it("can update a key's release policy", async () => {
+        const keyName = recorder.getUniqueName("exportkey");
+        const createdKey = await hsmClient.createKey(keyName, "RSA", {
+          exportable: true,
+          releasePolicy: { data: encodedReleasePolicy },
+          keyOps: ["encrypt", "decrypt"]
+        });
+
+        const newReleasePolicy = {
+          anyOf: [
+            {
+              anyOf: [
+                {
+                  claim: "sdk-test",
+                  condition: "equals",
+                  value: "false"
+                }
+              ],
+              authority: env.AZURE_KEYVAULT_ATTESTATION_URI
+            }
+          ],
+          version: "1.0"
+        };
+        const updatedKey = await hsmClient.updateKeyProperties(createdKey.name, {
+          releasePolicy: { data: stringToUint8Array(JSON.stringify(newReleasePolicy)) }
+        });
+
+        assert.exists(updatedKey.properties.releasePolicy?.data);
+        const decodedReleasePolicy = JSON.parse(
+          uint8ArrayToString(updatedKey.properties.releasePolicy!.data!)
+        );
+
+        // Note: the service will parse the policy and return a different shape, for example: { "claim": "sdk-test", "equals": "false" } in this test.
+        assert.equal(decodedReleasePolicy.anyOf[0].anyOf[0].equals, "false");
       });
 
       it("errors when key is exportable without a release policy", async () => {

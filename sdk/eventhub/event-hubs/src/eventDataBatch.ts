@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EventData, isAmqpAnnotatedMessage, toRheaMessage } from "./eventData";
+import { EventData, toRheaMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { MessageAnnotations, message, Message as RheaMessage } from "rhea-promise";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { Span, SpanContext } from "@azure/core-tracing";
-import { TRACEPARENT_PROPERTY, instrumentEventData } from "./diagnostics/instrumentEventData";
-import { convertTryAddOptionsForCompatibility, createMessageSpan } from "./diagnostics/tracing";
+import { instrumentEventData } from "./diagnostics/instrumentEventData";
+import { convertTryAddOptionsForCompatibility } from "./diagnostics/tracing";
 import { isDefined, isObjectWithProperties } from "./util/typeGuards";
 import { OperationTracingOptions } from "@azure/core-tracing";
 
@@ -288,22 +288,16 @@ export class EventDataBatchImpl implements EventDataBatch {
     throwTypeErrorIfParameterMissing(this._context.connectionId, "tryAdd", "eventData", eventData);
     options = convertTryAddOptionsForCompatibility(options);
 
-    // check if the event has already been instrumented
-    const previouslyInstrumented = Boolean(
-      (isAmqpAnnotatedMessage(eventData)
-        ? eventData.applicationProperties
-        : eventData.properties)?.[TRACEPARENT_PROPERTY] // Event Data maps properties to applicationProperties.
+    const { entityPath, host } = this._context.config;
+    const { event: instrumentedEvent, spanContext } = instrumentEventData(
+      eventData,
+      options,
+      entityPath,
+      host
     );
-    let spanContext: SpanContext | undefined;
-    if (!previouslyInstrumented) {
-      const { span: messageSpan } = createMessageSpan(options, this._context.config);
-      eventData = instrumentEventData(eventData, messageSpan);
-      spanContext = messageSpan.spanContext();
-      messageSpan.end();
-    }
 
     // Convert EventData to RheaMessage.
-    const amqpMessage = toRheaMessage(eventData, this._partitionKey);
+    const amqpMessage = toRheaMessage(instrumentedEvent, this._partitionKey);
     const encodedMessage = message.encode(amqpMessage);
 
     let currentSize = this._sizeInBytes;

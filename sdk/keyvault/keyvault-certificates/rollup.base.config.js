@@ -32,7 +32,7 @@ const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
   const externalNodeBuiltins = ["crypto", "fs", "os", "url", "assert"];
-  const additionalExternals = ["keytar"];
+  const additionalExternals = ["keytar", "@azure/identity"];
   const baseConfig = {
     input: "dist-esm/keyvault-certificates/src/index.js",
     external: depNames.concat(externalNodeBuiltins, additionalExternals),

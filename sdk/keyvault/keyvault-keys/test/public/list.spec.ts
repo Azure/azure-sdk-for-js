@@ -3,7 +3,7 @@
 
 import * as assert from "assert";
 import { Context } from "mocha";
-import { env, Recorder, isRecordMode } from "@azure/test-utils-recorder";
+import { env, Recorder, isRecordMode } from "@azure-tools/test-recorder";
 
 import { KeyClient } from "../../src";
 import { assertThrowsAbortError, getServiceVersion } from "../utils/utils.common";

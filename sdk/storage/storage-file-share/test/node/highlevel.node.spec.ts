@@ -11,10 +11,10 @@ import { createRandomLocalFile, getBSU, recorderEnvSetup } from "../utils";
 import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
 import { ShareClient, ShareDirectoryClient, ShareFileClient } from "../../src";
 import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
+import { Context } from "mocha";
 dotenv.config();
 
-// tslint:disable:no-empty
 describe("Highlevel Node.js only", () => {
   let shareName: string;
   let shareClient: ShareClient;
@@ -31,7 +31,7 @@ describe("Highlevel Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
@@ -44,7 +44,7 @@ describe("Highlevel Node.js only", () => {
     fileClient = dirClient.getFileClient(fileName);
   });
 
-  afterEach(async function() {
+  afterEach(async function(this: Context) {
     if (!this.currentTest?.isPending()) {
       await shareClient.delete();
       await recorder.stop();
@@ -386,6 +386,7 @@ describe("Highlevel Node.js only", () => {
       concurrency: 20
     });
 
+    /* eslint-disable-next-line prefer-const*/
     let retriableReadableStreamOptions: RetriableReadableStreamOptions;
     const downloadResponse = await fileClient.download(0, undefined, {
       maxRetryRequests: 1,
@@ -415,6 +416,7 @@ describe("Highlevel Node.js only", () => {
       concurrency: 20
     });
 
+    /* eslint-disable-next-line prefer-const*/
     let retriableReadableStreamOptions: RetriableReadableStreamOptions;
     let injectedErrors = 0;
     const downloadResponse = await fileClient.download(0, undefined, {
@@ -447,6 +449,7 @@ describe("Highlevel Node.js only", () => {
 
     const partialSize = 10 * 1024;
 
+    /* eslint-disable-next-line prefer-const*/
     let retriableReadableStreamOptions: RetriableReadableStreamOptions;
     let injectedErrors = 0;
     const downloadResponse = await fileClient.download(1, partialSize, {

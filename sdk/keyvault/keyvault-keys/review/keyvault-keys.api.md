@@ -235,6 +235,7 @@ export class KeyClient {
     releaseKey(name: string, target: string, options?: ReleaseKeyOptions): Promise<ReleaseKeyResult>;
     restoreKeyBackup(backup: Uint8Array, options?: RestoreKeyBackupOptions): Promise<KeyVaultKey>;
     updateKeyProperties(name: string, keyVersion: string, options?: UpdateKeyPropertiesOptions): Promise<KeyVaultKey>;
+    updateKeyProperties(name: string, options?: UpdateKeyPropertiesOptions): Promise<KeyVaultKey>;
     readonly vaultUrl: string;
 }
 
@@ -310,7 +311,7 @@ export interface KeyVaultKeyIdentifier {
 export type KeyWrapAlgorithm = "A128KW" | "A192KW" | "A256KW" | "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
 
 // @public
-export const enum KnownDeletionRecoveryLevel {
+export enum KnownDeletionRecoveryLevel {
     CustomizedRecoverable = "CustomizedRecoverable",
     CustomizedRecoverableProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription",
     CustomizedRecoverablePurgeable = "CustomizedRecoverable+Purgeable",
@@ -321,7 +322,7 @@ export const enum KnownDeletionRecoveryLevel {
 }
 
 // @public
-export const enum KnownEncryptionAlgorithms {
+export enum KnownEncryptionAlgorithms {
     A128CBC = "A128CBC",
     A128Cbcpad = "A128CBCPAD",
     A128GCM = "A128GCM",
@@ -340,7 +341,7 @@ export const enum KnownEncryptionAlgorithms {
 }
 
 // @public
-export const enum KnownKeyCurveNames {
+export enum KnownKeyCurveNames {
     P256 = "P-256",
     P256K = "P-256K",
     P384 = "P-384",
@@ -359,7 +360,7 @@ export enum KnownKeyOperations {
 }
 
 // @public
-export const enum KnownKeyTypes {
+export enum KnownKeyTypes {
     EC = "EC",
     ECHSM = "EC-HSM",
     Oct = "oct",
@@ -369,7 +370,7 @@ export const enum KnownKeyTypes {
 }
 
 // @public
-export const enum KnownSignatureAlgorithms {
+export enum KnownSignatureAlgorithms {
     ES256 = "ES256",
     ES256K = "ES256K",
     ES384 = "ES384",
@@ -482,6 +483,7 @@ export interface UpdateKeyPropertiesOptions extends coreHttp.OperationOptions {
     expiresOn?: Date;
     keyOps?: KeyOperation[];
     notBefore?: Date;
+    releasePolicy?: KeyReleasePolicy;
     tags?: {
         [propertyName: string]: string;
     };
