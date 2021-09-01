@@ -244,9 +244,8 @@ describe("LogsQueryClient live tests", function() {
     });
   });
 
-  it.only("queryLogsBatch with types", async () => {
-    const date = Date.now().toString();
-    const constantsQuery = `print "hello", true, make_datetime("${date}"), toint(100), long(101), 102.1, dynamic({ "hello": "world" })
+  it("queryLogsBatch with types", async () => {
+    const constantsQuery = `print "hello", true, make_datetime("2000-01-02 03:04:05Z"), toint(100), long(101), 102.1, dynamic({ "hello": "world" })
       | project 
           stringcolumn=print_0, 
           boolcolumn=print_1,
@@ -270,8 +269,7 @@ describe("LogsQueryClient live tests", function() {
     }
 
     const table = result.results?.[0].tables?.[0];
-    console.dir(result.results?.[0]);
-    console.dir(result.results?.[0].tables);
+    console.log(JSON.stringify(result.results?.[0].tables));
     if (table == null) {
       throw new Error("No table returned for query");
     }
@@ -324,7 +322,7 @@ describe("LogsQueryClient live tests", function() {
       ] = rowValues;
 
       assert.strictEqual(stringColumn, "hello");
-      assert.equal((dateColumn as Date).valueOf(), new Date(date).valueOf());
+      assert.equal((dateColumn as Date).valueOf(), new Date("2000-01-02 03:04:05Z").valueOf());
       assert.strictEqual(boolColumn, true);
 
       // all the number types (real, int, long) are all represented using `number`
