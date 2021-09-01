@@ -60,7 +60,15 @@ export class ClientContext {
       this.pipeline.addPolicy(
         bearerTokenAuthenticationPolicy({
           credential: cosmosClientOptions.aadCredentials,
-          scopes: scope
+          scopes: scope,
+          challengeCallbacks: {
+            async authorizeRequest({ request, getAccessToken }) {
+              const tokenResponse = await getAccessToken([scope], {});
+              const AUTH_PREFIX = `type=aad&ver=1.0&sig=`;
+              const authorizationToken = `${AUTH_PREFIX}${tokenResponse.token}`;
+              request.headers.set("Authorization", authorizationToken);
+            }
+          }
         })
       );
     }
