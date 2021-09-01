@@ -1,0 +1,64 @@
+parameters:
+- name: BuildId
+  type: string
+  default: <buildid>
+- name: ServiceDirectory
+  type: string
+  default: <servicedirectory>
+- name: Artifacts
+  type: object
+  default:
+  - name: <packagename>
+    groupId: com.azure
+    safeName: safename
+    skipTagRepository: true
+    skipPublishPackage: true
+    skipPublishDocMs: true
+    skipPublishDocGithubIo: true
+    skipUpdatePackageVersion: true
+- name: TargetDocRepoOwner
+  type: string
+  default: MicrosoftDocs
+- name: TargetDocRepoName
+  type: string
+  default: azure-docs-sdk-node
+
+stages:
+  - stage: SetupArtifacts
+    jobs:
+    - job: SetupArtifacts
+      displayName: Setup Artifacts from broken build
+      variables:
+        - template: templates/variables/globals.yml
+      pool:
+        vmImage: 'ubuntu-20.04'
+      steps:
+        - checkout: none
+        - task: DownloadPipelineArtifact@2
+          displayName: Download artifacts from build ${{ parameters.BuildId }}
+          inputs:
+            source: 'specific'
+            artifact: 'packages'
+            path: $(Build.ArtifactStagingDirectory)
+            project: 'internal'
+            buildVersionToDownload: 'specific'
+            buildId: ${{ parameters.BuildId }}
+        - task: PublishPipelineArtifact@1
+          displayName: Upload artifacts
+          inputs:
+            artifactName: packages
+            path: $(Build.ArtifactStagingDirectory)
+
+  # The Prerelease and Release stages are conditioned on whether we are building a pull request and the branch.
+  - ${{if and(ne(variables['Build.Reason'], 'PullRequest'), eq(variables['System.TeamProject'], 'internal1'))}}:
+    - template: /eng/pipelines/templates/stages/archetype-js-release.yml
+      parameters:
+        DependsOn:
+          - SetupArtifacts
+        ServiceDirectory: ${{ parameters.ServiceDirectory }}
+        Artifacts: ${{ parameters.Artifacts }}
+        ${{ if eq(parameters.ServiceDirectory, 'template') }}:
+          TestPipeline: true
+        ArtifactName: packages
+        TargetDocRepoOwner: ${{ parameters.TargetDocRepoOwner }}
+        TargetDocRepoName: ${{ parameters.TargetDocRepoName }}
