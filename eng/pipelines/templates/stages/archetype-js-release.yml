@@ -17,43 +17,42 @@ stages:
         dependsOn: ${{parameters.DependsOn}}
         condition: and(succeeded(), ne(variables['SetDevVersion'], 'true'), ne(variables['Skip.Release'], 'true'), ne(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js-pr'))
         jobs:
-          - ${{if ne(artifact.skipTagRepository, 'true')}}:
-            - deployment: TagRepository
-              displayName: "Create release tag"
-              condition: ne(variables['Skip.TagRepository'], 'true')
-              environment: github
+          - deployment: TagRepository
+            displayName: "Create release tag"
+            condition: ne(variables['Skip.TagRepository'], 'true')
+            environment: github
 
-              pool:
-                name: azsdk-pool-mms-ubuntu-2004-general
-                vmImage: MMSUbuntu20.04
+            pool:
+              name: azsdk-pool-mms-ubuntu-2004-general
+              vmImage: MMSUbuntu20.04
 
-              strategy:
-                runOnce:
-                  deploy:
-                    steps:
-                      - checkout: self
-                      - template: /eng/common/pipelines/templates/steps/retain-run.yml
-                      - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
-                        parameters:
-                          PackageName: "@azure/template"
-                          ServiceDirectory: "template"
-                          TestPipeline: ${{ parameters.TestPipeline }}
-                      - template: /eng/common/pipelines/templates/steps/verify-changelog.yml
-                        parameters:
-                          PackageName: ${{artifact.name}}
-                          ServiceName: ${{parameters.ServiceDirectory}}
-                          ForRelease: true
-                      - pwsh: |
-                          Get-ChildItem -Recurse ${{parameters.ArtifactName}}/${{artifact.name}}
-                        workingDirectory: $(Pipeline.Workspace)
-                        displayName: Output Visible Artifacts
-                      - template: /eng/common/pipelines/templates/steps/create-tags-and-git-release.yml
-                        parameters:
-                          ArtifactLocation: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
-                          PackageRepository: Npm
-                          ReleaseSha: $(Build.SourceVersion)
-                          RepoId: Azure/azure-sdk-for-js
-                          WorkingDirectory: $(System.DefaultWorkingDirectory)
+            strategy:
+              runOnce:
+                deploy:
+                  steps:
+                    - checkout: self
+                    - template: /eng/common/pipelines/templates/steps/retain-run.yml
+                    - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
+                      parameters:
+                        PackageName: "@azure/template"
+                        ServiceDirectory: "template"
+                        TestPipeline: ${{ parameters.TestPipeline }}
+                    - template: /eng/common/pipelines/templates/steps/verify-changelog.yml
+                      parameters:
+                        PackageName: ${{artifact.name}}
+                        ServiceName: ${{parameters.ServiceDirectory}}
+                        ForRelease: true
+                    - pwsh: |
+                        Get-ChildItem -Recurse ${{parameters.ArtifactName}}/${{artifact.name}}
+                      workingDirectory: $(Pipeline.Workspace)
+                      displayName: Output Visible Artifacts
+                    - template: /eng/common/pipelines/templates/steps/create-tags-and-git-release.yml
+                      parameters:
+                        ArtifactLocation: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
+                        PackageRepository: Npm
+                        ReleaseSha: $(Build.SourceVersion)
+                        RepoId: Azure/azure-sdk-for-js
+                        WorkingDirectory: $(System.DefaultWorkingDirectory)
                     
           - ${{if ne(artifact.skipPublishPackage, 'true')}}:
             - deployment: PublishPackage
