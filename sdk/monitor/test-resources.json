@@ -39,7 +39,7 @@
       "kind": "web",
       "properties": {
         "Application_Type": "web",
-        "WorkspaceResourceId": "[reference(resourceId('Microsoft.OperationalInsights/workspaces', variables('workspaceName')), '2020-10-01').customerId]",
+        "WorkspaceResourceId": "[resourceId('Microsoft.OperationalInsights/workspaces', variables('workspaceName'))]",
         "IngestionMode": "LogAnalytics",
         "publicNetworkAccessForIngestion": "Enabled",
         "publicNetworkAccessForQuery": "Enabled"
