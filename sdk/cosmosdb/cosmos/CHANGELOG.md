@@ -6,6 +6,7 @@
 
 - _PREVIEW_ Adds `container.item(itemId).patch()`. `patch()` is an alternative to `replace()` for item updates. https://github.com/Azure/azure-sdk-for-js/pull/16264/files#diff-7caca690c469e2025576523c0377ac71815f001024fde7c48b20cd24adaa6977R561
 - _PREVIEW_ Adds support for Bulk operation PATCH.
+- _PREVIEW_ Adds support for Batch operation PATCH.
 
 ### Bugs Fixed
 
