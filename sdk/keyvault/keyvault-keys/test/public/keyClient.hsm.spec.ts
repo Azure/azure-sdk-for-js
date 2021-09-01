@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import { Context } from "mocha";
-import { env, Recorder } from "@azure/test-utils-recorder";
+import { env, Recorder } from "@azure-tools/test-recorder";
 import { KeyClient } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
@@ -159,7 +159,7 @@ onVersions({ minVer: "7.2" }).describe(
                   value: "false"
                 }
               ],
-              authority: "https://sharedeus.eus.attest.azure.net/"
+              authority: env.AZURE_KEYVAULT_ATTESTATION_URI
             }
           ],
           version: "1.0"
@@ -174,10 +174,6 @@ onVersions({ minVer: "7.2" }).describe(
         );
 
         // Note: the service will parse the policy and return a different shape, for example: { "claim": "sdk-test", "equals": "false" } in this test.
-        assert.equal(
-          decodedReleasePolicy.anyOf[0].authority,
-          "https://sharedeus.eus.attest.azure.net/"
-        );
         assert.equal(decodedReleasePolicy.anyOf[0].anyOf[0].equals, "false");
       });
 

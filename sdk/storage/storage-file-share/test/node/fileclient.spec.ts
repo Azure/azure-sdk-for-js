@@ -8,7 +8,7 @@ import * as path from "path";
 import * as zlib from "zlib";
 import { Duplex } from "stream";
 
-import { isPlaybackMode, record, Recorder } from "@azure/test-utils-recorder";
+import { isPlaybackMode, record, Recorder } from "@azure-tools/test-recorder";
 
 import {
   FileSASPermissions,

@@ -3,7 +3,7 @@
 
 import * as assert from "assert";
 import { Context } from "mocha";
-import { env, Recorder } from "@azure/test-utils-recorder";
+import { env, Recorder } from "@azure-tools/test-recorder";
 import { createSandbox } from "sinon";
 
 import {
@@ -94,9 +94,6 @@ describe("Challenge based authentication tests", () => {
     const secretNames = [`${secretName}-0`, `${secretName}-1`];
     for (const name of secretNames) {
       await client.setSecret(name, "value");
-    }
-    for (const name of secretNames) {
-      await testClient.flushSecret(name);
     }
 
     // The challenge should have been written to the cache exactly ONCE.

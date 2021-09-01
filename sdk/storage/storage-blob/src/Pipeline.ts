@@ -69,6 +69,51 @@ export interface PipelineOptions {
 }
 
 /**
+ * An interface for the {@link Pipeline} class containing HTTP request policies.
+ * You can create a default Pipeline by calling {@link newPipeline}.
+ * Or you can create a Pipeline with your own policies by the constructor of Pipeline.
+ *
+ * Refer to {@link newPipeline} and provided policies before implementing your
+ * customized Pipeline.
+ */
+export interface PipelineLike {
+  /**
+   * A list of chained request policy factories.
+   */
+  readonly factories: RequestPolicyFactory[];
+  /**
+   * Configures pipeline logger and HTTP client.
+   */
+  readonly options: PipelineOptions;
+  /**
+   * Transfer Pipeline object to ServiceClientOptions object which is required by
+   * ServiceClient constructor.
+   *
+   * @returns The ServiceClientOptions object from this Pipeline.
+   */
+  toServiceClientOptions(): ServiceClientOptions;
+}
+
+/**
+ * A helper to decide if a given argument satisfies the Pipeline contract
+ * @param pipeline - An argument that may be a Pipeline
+ * @returns true when the argument satisfies the Pipeline contract
+ */
+export function isPipelineLike(pipeline: unknown): pipeline is PipelineLike {
+  if (!pipeline || typeof pipeline !== "object") {
+    return false;
+  }
+
+  const castPipeline = pipeline as PipelineLike;
+
+  return (
+    Array.isArray(castPipeline.factories) &&
+    typeof castPipeline.options === "object" &&
+    typeof castPipeline.toServiceClientOptions === "function"
+  );
+}
+
+/**
  * A Pipeline class containing HTTP request policies.
  * You can create a default Pipeline by calling {@link newPipeline}.
  * Or you can create a Pipeline with your own policies by the constructor of Pipeline.
@@ -76,7 +121,7 @@ export interface PipelineOptions {
  * Refer to {@link newPipeline} and provided policies before implementing your
  * customized Pipeline.
  */
-export class Pipeline {
+export class Pipeline implements PipelineLike {
   /**
    * A list of chained request policy factories.
    */

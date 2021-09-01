@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import { Suite } from "mocha";
 
-import { Recorder, record, isPlaybackMode, isLiveMode } from "@azure/test-utils-recorder";
+import { Recorder, record, isPlaybackMode, isLiveMode } from "@azure-tools/test-recorder";
 
 import { createClients, environmentSetup } from "../utils/recordedClient";
 import {

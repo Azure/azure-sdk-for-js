@@ -3,8 +3,8 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import assert from "assert";
-import { env, delay, isRecordMode } from "@azure/test-utils-recorder";
+import { assert } from "chai";
+import { env, delay, isRecordMode } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
 import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
 import { ClientSecretCredential, RegionalAuthority } from "../../../src";
@@ -54,7 +54,6 @@ describe("ClientSecretCredential", function() {
     } catch (e) {
       error = e;
     }
-    console.log(error);
     assert.equal(error?.name, "CredentialUnavailableError");
     assert.ok(error?.message.includes("could not resolve endpoints"));
   });

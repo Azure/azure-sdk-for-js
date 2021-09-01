@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientSecretCredential } from "@azure/identity";
-import { env, record, Recorder, isPlaybackMode } from "@azure/test-utils-recorder";
+import { env, record, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import { Context } from "mocha";
 import { createClientLogger } from "@azure/logger";

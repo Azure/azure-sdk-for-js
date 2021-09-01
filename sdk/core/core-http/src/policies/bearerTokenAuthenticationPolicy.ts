@@ -249,7 +249,6 @@ export function bearerTokenAuthenticationPolicy(
       const { token } = await getToken({
         abortSignal: webResource.abortSignal,
         tracingOptions: {
-          spanOptions: webResource.spanOptions,
           tracingContext: webResource.tracingContext
         }
       });

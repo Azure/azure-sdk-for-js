@@ -30,14 +30,15 @@ import {
   recorderEnvSetup,
   sleep
 } from "../utils";
-import { delay, record, Recorder } from "@azure/test-utils-recorder";
+import { delay, record, Recorder } from "@azure-tools/test-recorder";
 import { SERVICE_VERSION } from "../../src/utils/constants";
+import { Context } from "mocha";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
   });
@@ -216,12 +217,14 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       newPipeline(new AnonymousCredential())
     );
 
-    (
+    const result = (
       await containerClientWithSAS
         .listBlobsFlat()
         .byPage()
         .next()
     ).value;
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.deepStrictEqual(result.continuationToken, "");
     await containerClient.delete();
   });
 
@@ -677,10 +680,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("GenerateUserDelegationSAS should work for container with all configurations", async function() {
+  it("GenerateUserDelegationSAS should work for container with all configurations", async function(this: Context) {
     // Try to get BlobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
     let blobServiceClientWithToken: BlobServiceClient | undefined;
+    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
     try {
       blobServiceClientWithToken = getTokenBSUWithDefaultCredential();
     } catch {}
@@ -726,19 +730,22 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       newPipeline(new AnonymousCredential())
     );
 
-    (
+    const result = (
       await containerClientWithSAS
         .listBlobsFlat()
         .byPage()
         .next()
     ).value;
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.deepStrictEqual(result.continuationToken, "");
     await containerClient.delete();
   });
 
-  it("GenerateUserDelegationSAS should work for container with minimum parameters", async function() {
+  it("GenerateUserDelegationSAS should work for container with minimum parameters", async function(this: Context) {
     // Try to get BlobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
     let blobServiceClientWithToken: BlobServiceClient | undefined;
+    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
     try {
       blobServiceClientWithToken = getTokenBSUWithDefaultCredential();
     } catch {}
@@ -780,19 +787,22 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       newPipeline(new AnonymousCredential())
     );
 
-    (
+    const result = (
       await containerClientWithSAS
         .listBlobsFlat()
         .byPage()
         .next()
     ).value;
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.deepStrictEqual(result.continuationToken, "");
     await containerClient.delete();
   });
 
-  it("GenerateUserDelegationSAS should work for blob", async function() {
+  it("GenerateUserDelegationSAS should work for blob", async function(this: Context) {
     // Try to get blobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
     let blobServiceClientWithToken: BlobServiceClient | undefined;
+    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
     try {
       blobServiceClientWithToken = getTokenBSUWithDefaultCredential();
     } catch {}
@@ -858,10 +868,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("GenerateUserDelegationSAS should work for blob snapshot", async function() {
+  it("GenerateUserDelegationSAS should work for blob snapshot", async function(this: Context) {
     // Try to get blobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
     let blobServiceClientWithToken: BlobServiceClient | undefined;
+    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
     try {
       blobServiceClientWithToken = getTokenBSUWithDefaultCredential();
     } catch {}
@@ -1016,10 +1027,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("GenerateUserDelegationSAS should work for blob version delete", async function() {
+  it("GenerateUserDelegationSAS should work for blob version delete", async function(this: Context) {
     // Try to get blobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
     let blobServiceClientWithToken: BlobServiceClient | undefined;
+    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
     try {
       blobServiceClientWithToken = getTokenBSUWithDefaultCredential();
     } catch {}
@@ -1351,12 +1363,14 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     });
 
     const containerClientWithSAS = new ContainerClient(sasURL);
-    (
+    const result = (
       await containerClientWithSAS
         .listBlobsFlat()
         .byPage()
         .next()
     ).value;
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.deepStrictEqual(result.continuationToken, "");
 
     try {
       await containerClientWithSAS.generateSasUrl({});
@@ -1608,7 +1622,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     for (let i = 0; i < blockBlobCount; i++) {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 202);
-      assert.ok(resp.subResponses[i].statusMessage != "");
+      assert.ok(resp.subResponses[i].statusMessage !== "");
       assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
       assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
     }
@@ -1636,7 +1650,7 @@ describe("Generation for user delegation SAS Node.js only", () => {
   let containerClient: ContainerClient;
   let blobClient: BlobClient;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     try {
       blobServiceClient = getTokenBSUWithDefaultCredential();
@@ -1736,7 +1750,7 @@ describe("Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPo
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     try {
@@ -1749,7 +1763,7 @@ describe("Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPo
     blobClient = containerClient.getBlobClient(blobName);
   });
 
-  afterEach(async function() {
+  afterEach(async function(this: Context) {
     if (!this.currentTest?.isPending()) {
       const listResult = (
         await containerClient
@@ -1761,8 +1775,9 @@ describe("Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPo
       ).value;
 
       for (let i = 0; i < listResult.segment.blobItems!.length; ++i) {
-        let deleteBlobClient: BlobClient;
-        deleteBlobClient = containerClient.getBlobClient(listResult.segment.blobItems[i].name);
+        const deleteBlobClient = containerClient.getBlobClient(
+          listResult.segment.blobItems[i].name
+        );
         await deleteBlobClient.setLegalHold(false);
         await deleteBlobClient.deleteImmutabilityPolicy();
         await deleteBlobClient.delete();

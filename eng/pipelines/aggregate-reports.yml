@@ -65,7 +65,8 @@ jobs:
       GdnBreakAllTools: false
       GdnBreakGdnToolCredScan: true
       GdnBreakGdnToolCredScanSeverity: Error
-      GdnBreakBaselineFiles: $(Build.SourcesDirectory)\eng\js.gdnbaselines
+      # Specify baseline file input to scan tool
+      # GdnBreakBaselineFiles: $(Build.SourcesDirectory)\eng\js.gdnbaselines
       GdnBreakBaselines: baseline  
       # Used for generating baseline file.
       # GdnBreakOutputBaselineFile: js
@@ -99,7 +100,7 @@ jobs:
         RepoName: azure-sdk-for-js
         BaseBranchName: $(DefaultBranch)
         PRBranchName: automated-rush-update
-        CommitMsg: "Automatic rush update recheck"
-        PRTitle: "Automatic rush update"
-        PRBody: "Automatic rush update PR"
+        CommitMsg: "Automatic rush update --recheck"
+        PRTitle: "Automatic rush update --recheck"
+        PRBody: "This is an automatic PR generated daily with changes from running the command rush update --recheck"
         PushArgs: "-f"

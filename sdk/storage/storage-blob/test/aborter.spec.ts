@@ -6,18 +6,18 @@ import * as assert from "assert";
 import { AbortController, AbortSignal } from "@azure/abort-controller";
 import { ContainerClient } from "../src";
 import { getBSU, recorderEnvSetup } from "./utils";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 import * as dotenv from "dotenv";
+import { Context } from "mocha";
 dotenv.config();
 
-// tslint:disable:no-empty
 describe("Aborter", () => {
   let containerName: string;
   let containerClient: ContainerClient;
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     const blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");

@@ -158,19 +158,19 @@ export interface DisconnectedRequest {
 export interface ConnectResponseHandler {
   /**
    * Set the state of the connection
-   * @param name The name of the state
-   * @param value The value of the state
+   * @param name - The name of the state
+   * @param value - The value of the state
    */
   setState(name: string, value: unknown): void;
   /**
    * Return success response to the service.
-   * @param response The response for the connect event.
+   * @param response - The response for the connect event.
    */
   success(response?: ConnectResponse): void;
   /**
    * Return failed response and the service will reject the client WebSocket connection.
-   * @param code Code can be 400 user error, 401 unauthorized and 500 server error.
-   * @param detail The detail of the error.
+   * @param code - Code can be 400 user error, 401 unauthorized and 500 server error.
+   * @param detail - The detail of the error.
    */
   fail(code: 400 | 401 | 500, detail?: string): void;
 }
@@ -181,20 +181,20 @@ export interface ConnectResponseHandler {
 export interface UserEventResponseHandler {
   /**
    * Set the state of the connection
-   * @param name The name of the state
-   * @param value The value of the state
+   * @param name - The name of the state
+   * @param value - The value of the state
    */
   setState(name: string, value: unknown): void;
   /**
    * Return success response with data to be delivered to the client WebSocket connection.
-   * @param data The payload data to be returned to the client.
-   * @param dataType The type of the payload data.
+   * @param data - The payload data to be returned to the client.
+   * @param dataType - The type of the payload data.
    */
   success(data?: string | ArrayBuffer, dataType?: "binary" | "text" | "json"): void;
   /**
    * Return failed response and the service will close the client WebSocket connection.
-   * @param code Code can be 400 user error, 401 unauthorized and 500 server error.
-   * @param detail The detail of the error.
+   * @param code - Code can be 400 user error, 401 unauthorized and 500 server error.
+   * @param detail - The detail of the error.
    */
   fail(code: 400 | 401 | 500, detail?: string): void;
 }

@@ -208,6 +208,212 @@ export interface BootDiagnosticsInstanceView {
 export type CachingTypes = "None" | "ReadOnly" | "ReadWrite";
 
 // @public
+export type CapacityReservation = Resource & {
+    sku: Sku;
+    zones?: string[];
+    readonly reservationId?: string;
+    readonly virtualMachinesAssociated?: SubResourceReadOnly[];
+    readonly provisioningTime?: Date;
+    readonly provisioningState?: string;
+    readonly instanceView?: CapacityReservationInstanceView;
+};
+
+// @public
+export type CapacityReservationGroup = Resource & {
+    zones?: string[];
+    readonly capacityReservations?: SubResourceReadOnly[];
+    readonly virtualMachinesAssociated?: SubResourceReadOnly[];
+    readonly instanceView?: CapacityReservationGroupInstanceView;
+};
+
+// @public (undocumented)
+export interface CapacityReservationGroupInstanceView {
+    readonly capacityReservations?: CapacityReservationInstanceViewWithName[];
+}
+
+// @public
+export type CapacityReservationGroupInstanceViewTypes = string;
+
+// @public
+export interface CapacityReservationGroupListResult {
+    nextLink?: string;
+    value: CapacityReservationGroup[];
+}
+
+// @public
+export interface CapacityReservationGroups {
+    createOrUpdate(resourceGroupName: string, capacityReservationGroupName: string, parameters: CapacityReservationGroup, options?: CapacityReservationGroupsCreateOrUpdateOptionalParams): Promise<CapacityReservationGroupsCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, capacityReservationGroupName: string, options?: CapacityReservationGroupsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, capacityReservationGroupName: string, options?: CapacityReservationGroupsGetOptionalParams): Promise<CapacityReservationGroupsGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: CapacityReservationGroupsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<CapacityReservationGroup>;
+    listBySubscription(options?: CapacityReservationGroupsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<CapacityReservationGroup>;
+    update(resourceGroupName: string, capacityReservationGroupName: string, parameters: CapacityReservationGroupUpdate, options?: CapacityReservationGroupsUpdateOptionalParams): Promise<CapacityReservationGroupsUpdateResponse>;
+}
+
+// @public
+export interface CapacityReservationGroupsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CapacityReservationGroupsCreateOrUpdateResponse = CapacityReservationGroup;
+
+// @public
+export interface CapacityReservationGroupsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface CapacityReservationGroupsGetOptionalParams extends coreClient.OperationOptions {
+    expand?: CapacityReservationGroupInstanceViewTypes;
+}
+
+// @public
+export type CapacityReservationGroupsGetResponse = CapacityReservationGroup;
+
+// @public
+export interface CapacityReservationGroupsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+    expand?: ExpandTypesForGetCapacityReservationGroups;
+}
+
+// @public
+export type CapacityReservationGroupsListByResourceGroupNextResponse = CapacityReservationGroupListResult;
+
+// @public
+export interface CapacityReservationGroupsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+    expand?: ExpandTypesForGetCapacityReservationGroups;
+}
+
+// @public
+export type CapacityReservationGroupsListByResourceGroupResponse = CapacityReservationGroupListResult;
+
+// @public
+export interface CapacityReservationGroupsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+    expand?: ExpandTypesForGetCapacityReservationGroups;
+}
+
+// @public
+export type CapacityReservationGroupsListBySubscriptionNextResponse = CapacityReservationGroupListResult;
+
+// @public
+export interface CapacityReservationGroupsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+    expand?: ExpandTypesForGetCapacityReservationGroups;
+}
+
+// @public
+export type CapacityReservationGroupsListBySubscriptionResponse = CapacityReservationGroupListResult;
+
+// @public
+export interface CapacityReservationGroupsUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CapacityReservationGroupsUpdateResponse = CapacityReservationGroup;
+
+// @public
+export type CapacityReservationGroupUpdate = UpdateResource & {
+    readonly capacityReservations?: SubResourceReadOnly[];
+    readonly virtualMachinesAssociated?: SubResourceReadOnly[];
+    readonly instanceView?: CapacityReservationGroupInstanceView;
+};
+
+// @public
+export interface CapacityReservationInstanceView {
+    statuses?: InstanceViewStatus[];
+    utilizationInfo?: CapacityReservationUtilization;
+}
+
+// @public
+export type CapacityReservationInstanceViewTypes = string;
+
+// @public
+export type CapacityReservationInstanceViewWithName = CapacityReservationInstanceView & {
+    readonly name?: string;
+};
+
+// @public
+export interface CapacityReservationListResult {
+    nextLink?: string;
+    value: CapacityReservation[];
+}
+
+// @public
+export interface CapacityReservationProfile {
+    capacityReservationGroup?: SubResource;
+}
+
+// @public
+export interface CapacityReservations {
+    beginCreateOrUpdate(resourceGroupName: string, capacityReservationGroupName: string, capacityReservationName: string, parameters: CapacityReservation, options?: CapacityReservationsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<CapacityReservationsCreateOrUpdateResponse>, CapacityReservationsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, capacityReservationGroupName: string, capacityReservationName: string, parameters: CapacityReservation, options?: CapacityReservationsCreateOrUpdateOptionalParams): Promise<CapacityReservationsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, capacityReservationGroupName: string, capacityReservationName: string, options?: CapacityReservationsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, capacityReservationGroupName: string, capacityReservationName: string, options?: CapacityReservationsDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, capacityReservationGroupName: string, capacityReservationName: string, parameters: CapacityReservationUpdate, options?: CapacityReservationsUpdateOptionalParams): Promise<PollerLike<PollOperationState<CapacityReservationsUpdateResponse>, CapacityReservationsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, capacityReservationGroupName: string, capacityReservationName: string, parameters: CapacityReservationUpdate, options?: CapacityReservationsUpdateOptionalParams): Promise<CapacityReservationsUpdateResponse>;
+    get(resourceGroupName: string, capacityReservationGroupName: string, capacityReservationName: string, options?: CapacityReservationsGetOptionalParams): Promise<CapacityReservationsGetResponse>;
+    listByCapacityReservationGroup(resourceGroupName: string, capacityReservationGroupName: string, options?: CapacityReservationsListByCapacityReservationGroupOptionalParams): PagedAsyncIterableIterator<CapacityReservation>;
+}
+
+// @public
+export interface CapacityReservationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type CapacityReservationsCreateOrUpdateResponse = CapacityReservation;
+
+// @public
+export interface CapacityReservationsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface CapacityReservationsGetOptionalParams extends coreClient.OperationOptions {
+    expand?: CapacityReservationInstanceViewTypes;
+}
+
+// @public
+export type CapacityReservationsGetResponse = CapacityReservation;
+
+// @public
+export interface CapacityReservationsListByCapacityReservationGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CapacityReservationsListByCapacityReservationGroupNextResponse = CapacityReservationListResult;
+
+// @public
+export interface CapacityReservationsListByCapacityReservationGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CapacityReservationsListByCapacityReservationGroupResponse = CapacityReservationListResult;
+
+// @public
+export interface CapacityReservationsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type CapacityReservationsUpdateResponse = CapacityReservation;
+
+// @public
+export type CapacityReservationUpdate = UpdateResource & {
+    sku?: Sku;
+    readonly reservationId?: string;
+    readonly virtualMachinesAssociated?: SubResourceReadOnly[];
+    readonly provisioningTime?: Date;
+    readonly provisioningState?: string;
+    readonly instanceView?: CapacityReservationInstanceView;
+};
+
+// @public
+export interface CapacityReservationUtilization {
+    readonly virtualMachinesAllocated?: SubResourceReadOnly[];
+}
+
+// @public
 export interface CloudError {
     error?: ApiError;
 }
@@ -691,6 +897,10 @@ export class ComputeManagementClient extends ComputeManagementClientContext {
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ComputeManagementClientOptionalParams);
     // (undocumented)
     availabilitySets: AvailabilitySets;
+    // (undocumented)
+    capacityReservationGroups: CapacityReservationGroups;
+    // (undocumented)
+    capacityReservations: CapacityReservations;
     // (undocumented)
     cloudServiceOperatingSystems: CloudServiceOperatingSystems;
     // (undocumented)
@@ -1667,6 +1877,9 @@ export type EncryptionType = string;
 export type ExecutionState = string;
 
 // @public
+export type ExpandTypesForGetCapacityReservationGroups = string;
+
+// @public
 export type ExpandTypesForGetVMScaleSets = string;
 
 // @public
@@ -2490,6 +2703,18 @@ export enum KnownAvailabilitySetSkuTypes {
 }
 
 // @public
+export enum KnownCapacityReservationGroupInstanceViewTypes {
+    // (undocumented)
+    InstanceView = "instanceView"
+}
+
+// @public
+export enum KnownCapacityReservationInstanceViewTypes {
+    // (undocumented)
+    InstanceView = "instanceView"
+}
+
+// @public
 export enum KnownCloudServiceUpgradeMode {
     // (undocumented)
     Auto = "Auto",
@@ -2628,6 +2853,14 @@ export enum KnownExecutionState {
     TimedOut = "TimedOut",
     // (undocumented)
     Unknown = "Unknown"
+}
+
+// @public
+export enum KnownExpandTypesForGetCapacityReservationGroups {
+    // (undocumented)
+    VirtualMachineScaleSetVMsRef = "virtualMachineScaleSetVMs/$ref",
+    // (undocumented)
+    VirtualMachinesRef = "virtualMachines/$ref"
 }
 
 // @public
@@ -4853,6 +5086,12 @@ export interface SourceVault {
 }
 
 // @public
+export interface SpotRestorePolicy {
+    enabled?: boolean;
+    restoreTimeout?: string;
+}
+
+// @public
 export interface SshConfiguration {
     publicKeys?: SshPublicKey[];
 }
@@ -5187,6 +5426,7 @@ export type VirtualMachine = Resource & {
     platformFaultDomain?: number;
     scheduledEventsProfile?: ScheduledEventsProfile;
     userData?: string;
+    capacityReservation?: CapacityReservationProfile;
 };
 
 // @public
@@ -5840,6 +6080,7 @@ export type VirtualMachineScaleSet = Resource & {
     additionalCapabilities?: AdditionalCapabilities;
     scaleInPolicy?: ScaleInPolicy;
     orchestrationMode?: OrchestrationMode;
+    spotRestorePolicy?: SpotRestorePolicy;
 };
 
 // @public
@@ -6664,6 +6905,7 @@ export interface VirtualMachineScaleSetVMNetworkProfileConfiguration {
 // @public
 export interface VirtualMachineScaleSetVMProfile {
     billingProfile?: BillingProfile;
+    capacityReservation?: CapacityReservationProfile;
     diagnosticsProfile?: DiagnosticsProfile;
     evictionPolicy?: VirtualMachineEvictionPolicyTypes;
     extensionProfile?: VirtualMachineScaleSetExtensionProfile;
@@ -7167,6 +7409,7 @@ export type VirtualMachineUpdate = UpdateResource & {
     platformFaultDomain?: number;
     scheduledEventsProfile?: ScheduledEventsProfile;
     userData?: string;
+    capacityReservation?: CapacityReservationProfile;
 };
 
 // @public

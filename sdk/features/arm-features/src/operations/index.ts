@@ -7,3 +7,4 @@
  */
 
 export * from "./features";
+export * from "./subscriptionFeatureRegistrations";

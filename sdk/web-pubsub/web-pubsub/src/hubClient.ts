@@ -207,9 +207,9 @@ export class WebPubSubServiceClient {
    * const client = new WebPubSubServiceClient(connectionString, 'chat');
    * ```
    *
-   * @param connectionString The connection string
-   * @param hubName The name of the hub to connect to. If omitted, '_default' is used.
-   * @param options Options to configure the http pipeline
+   * @param connectionString - The connection string
+   * @param hubName - The name of the hub to connect to. If omitted, '_default' is used.
+   * @param options - Options to configure the http pipeline
    */
   constructor(connectionString: string, hubName: string, options?: HubAdminClientOptions);
 
@@ -224,10 +224,10 @@ export class WebPubSubServiceClient {
    * const client = new WebPubSubServiceClient(endpoint, cred, 'chat');
    * ```
    *
-   * @param endpoint The endpoint to connect to
-   * @param credential An AzureKeyCredential holding your service key
-   * @param hubName The name of the hub to connect to.
-   * @param options Options to configure the http pipeline
+   * @param endpoint - The endpoint to connect to
+   * @param credential - An AzureKeyCredential holding your service key
+   * @param hubName - The name of the hub to connect to.
+   * @param options - Options to configure the http pipeline
    */
   constructor(
     endpoint: string,
@@ -270,7 +270,7 @@ export class WebPubSubServiceClient {
 
   /**
    * Auth the client connection with userId and custom claims if any
-   * @param options The options that the client has
+   * @param options - The options that the client has
    */
   public async getAuthenticationToken(
     options?: GetAuthenticationTokenOptions
@@ -301,7 +301,7 @@ export class WebPubSubServiceClient {
 
   /**
    * Get a client for a group
-   * @param groupName The name of the group to connect to.
+   * @param groupName - The name of the group to connect to.
    */
   public group(groupName: string): WebPubSubGroup {
     return new WebPubSubGroupImpl(this.client, this.hubName, groupName);
@@ -310,22 +310,22 @@ export class WebPubSubServiceClient {
   /**
    * Broadcast a text message to all connections on this hub.
    *
-   * @param message The text message to send
-   * @param options Additional options
+   * @param message - The text message to send
+   * @param options - Additional options
    */
   public async sendToAll(message: string, options: HubSendTextToAllOptions): Promise<void>;
   /**
    * Broadcast a JSON message to all connections on this hub.
    *
-   * @param message The JSON message to send
-   * @param options Additional options
+   * @param message - The JSON message to send
+   * @param options - Additional options
    */
   public async sendToAll(message: JSONTypes, options?: HubSendToAllOptions): Promise<void>;
   /**
    * Broadcast a binary message to all connections on this hub.
    *
-   * @param message The message to send
-   * @param options Additional options
+   * @param message - The message to send
+   * @param options - Additional options
    */
   public async sendToAll(message: RequestBodyType, options?: HubSendToAllOptions): Promise<void>;
 
@@ -356,9 +356,9 @@ export class WebPubSubServiceClient {
   /**
    * Send a text message to a specific user
    *
-   * @param username User name to send to
-   * @param message The text message to send
-   * @param options Additional options
+   * @param username - User name to send to
+   * @param message - The text message to send
+   * @param options - Additional options
    */
   public async sendToUser(
     username: string,
@@ -369,9 +369,9 @@ export class WebPubSubServiceClient {
   /**
    * Send a JSON message to a specific user
    *
-   * @param username User name to send to
-   * @param message The josn message to send
-   * @param options Additional options
+   * @param username - User name to send to
+   * @param message - The josn message to send
+   * @param options - Additional options
    */
   public async sendToUser(
     username: string,
@@ -382,9 +382,9 @@ export class WebPubSubServiceClient {
   /**
    * Send a binary message to a specific user
    *
-   * @param username The user name to send to
-   * @param message The binary message to send
-   * @param options Additional options
+   * @param username - The user name to send to
+   * @param message - The binary message to send
+   * @param options - Additional options
    */
   public async sendToUser(
     username: string,
@@ -415,9 +415,9 @@ export class WebPubSubServiceClient {
   /**
    * Send a text message to a specific connection
    *
-   * @param connectionId Connection id to send to
-   * @param message The text message
-   * @param options Additional options
+   * @param connectionId - Connection id to send to
+   * @param message - The text message
+   * @param options - Additional options
    */
   public async sendToConnection(
     connectionId: string,
@@ -428,9 +428,9 @@ export class WebPubSubServiceClient {
   /**
    * Send a binary message to a specific connection
    *
-   * @param connectionId Connection id to send to
-   * @param message The JSON message
-   * @param options Additional options
+   * @param connectionId - Connection id to send to
+   * @param message - The JSON message
+   * @param options - Additional options
    */
   public async sendToConnection(
     connectionId: string,
@@ -441,9 +441,9 @@ export class WebPubSubServiceClient {
   /**
    * Send a binary message to a specific connection
    *
-   * @param connectionId Connection id to send to
-   * @param message The binary message
-   * @param options Additional options
+   * @param connectionId - Connection id to send to
+   * @param message - The binary message
+   * @param options - Additional options
    */
   public async sendToConnection(
     connectionId: string,
@@ -477,8 +477,8 @@ export class WebPubSubServiceClient {
   /**
    * Check if a specific connection is connected to this hub
    *
-   * @param connectionId Connection id to check
-   * @param options Additional options
+   * @param connectionId - Connection id to check
+   * @param options - Additional options
    */
   public async hasConnection(
     connectionId: string,
@@ -523,8 +523,8 @@ export class WebPubSubServiceClient {
   /**
    * Close a specific connection to this hub
    *
-   * @param connectionId Connection id to close
-   * @param options Additional options
+   * @param connectionId - Connection id to close
+   * @param options - Additional options
    */
   public async closeConnection(
     connectionId: string,
@@ -548,8 +548,8 @@ export class WebPubSubServiceClient {
 
   /**
    * Remove a specific user from all groups they are joined to
-   * @param userId The user id to remove from all groups
-   * @param options Additional options
+   * @param userId - The user id to remove from all groups
+   * @param options - Additional options
    */
   public async removeUserFromAllGroups(
     userId: string,
@@ -570,8 +570,8 @@ export class WebPubSubServiceClient {
   /**
    * Check if a particular group exists (i.e. has active connections).
    *
-   * @param groupName The group name to check for
-   * @param options Additional options
+   * @param groupName - The group name to check for
+   * @param options - Additional options
    */
   public async hasGroup(groupName: string, options: HubHasGroupOptions = {}): Promise<boolean> {
     const { span, updatedOptions } = createSpan("WebPubSubServiceClient-hub-hasGroup", options);
@@ -608,8 +608,8 @@ export class WebPubSubServiceClient {
   /**
    * Check if a particular user is connected to this hub.
    *
-   * @param username The user name to check for
-   * @param options Additional options
+   * @param username - The user name to check for
+   * @param options - Additional options
    */
   public async hasUser(username: string, options: HubHasUserOptions = {}): Promise<boolean> {
     const { span, updatedOptions } = createSpan("WebPubSubServiceClient-hub-hasUser", options);
@@ -647,9 +647,9 @@ export class WebPubSubServiceClient {
   /**
    * Grant permissions to a connection
    *
-   * @param connectionId The connection id to grant permissions to
-   * @param Permission The permission to grant
-   * @param options Additional options
+   * @param connectionId - The connection id to grant permissions to
+   * @param Permission - The permission to grant
+   * @param options - Additional options
    */
   public async grantPermission(
     connectionId: string,
@@ -676,9 +676,9 @@ export class WebPubSubServiceClient {
   /**
    * Revoke permissions from a connection
    *
-   * @param connectionId The connection id to revoke permissions from
-   * @param Permission The permission to revoke
-   * @param options Additional options
+   * @param connectionId - The connection id to revoke permissions from
+   * @param Permission - The permission to revoke
+   * @param options - Additional options
    */
   public async revokePermission(
     connectionId: string,
@@ -705,9 +705,9 @@ export class WebPubSubServiceClient {
   /**
    * Check if the connection has the specified permission
    *
-   * @param connectionId The connection id to check permission
-   * @param Permission The permission to check
-   * @param options Additional options
+   * @param connectionId - The connection id to check permission
+   * @param Permission - The permission to check
+   * @param options - Additional options
    */
   public async hasPermission(
     connectionId: string,

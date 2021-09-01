@@ -9,7 +9,7 @@ import {
   sanitizeURL,
   extractConnectionStringParts
 } from "../src/utils/utils.common";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 import { recorderEnvSetup } from "./utils";
 dotenv.config();
 

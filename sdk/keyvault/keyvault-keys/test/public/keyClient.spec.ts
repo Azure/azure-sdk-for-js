@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import { RestError } from "@azure/core-http";
 import { AbortController } from "@azure/abort-controller";
-import { env, Recorder } from "@azure/test-utils-recorder";
+import { env, Recorder } from "@azure-tools/test-recorder";
 
 import {
   KeyClient,

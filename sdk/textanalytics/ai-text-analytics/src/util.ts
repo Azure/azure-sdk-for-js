@@ -147,6 +147,16 @@ export function setCategoriesFilter<X extends { categoriesFilter?: string[] }>(
   return { ...x, piiCategories: x.categoriesFilter };
 }
 
+export function setSentenceCount<X extends { maxSentenceCount?: number }>(
+  x: X
+): X & { sentenceCount?: number } {
+  return { ...x, sentenceCount: x.maxSentenceCount };
+}
+
+export function setOrderBy<X extends { orderBy?: string }>(x: X): X & { sortBy?: string } {
+  return { ...x, sortBy: x.orderBy };
+}
+
 /**
  * @internal
  */

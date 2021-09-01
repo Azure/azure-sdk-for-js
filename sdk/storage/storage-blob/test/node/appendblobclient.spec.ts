@@ -23,8 +23,9 @@ import {
 } from "../utils";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { isPlaybackMode, record, Recorder } from "@azure/test-utils-recorder";
+import { isPlaybackMode, record, Recorder } from "@azure-tools/test-recorder";
 import { Test_CPK_INFO } from "../utils/constants";
+import { Context } from "mocha";
 dotenv.config();
 
 describe("AppendBlobClient Node.js only", () => {
@@ -36,7 +37,7 @@ describe("AppendBlobClient Node.js only", () => {
   let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -153,7 +154,7 @@ describe("AppendBlobClient Node.js only", () => {
     assert.equal(downloadResponse.contentLength!, content.length * 2);
   });
 
-  it("appendBlockFromURL - source SAS and destination bearer token", async function() {
+  it("appendBlockFromURL - source SAS and destination bearer token", async function(this: Context) {
     if (!isPlaybackMode()) {
       // Enable this when STG78 - version 2020-10-02 is enabled on production.
       this.skip();
@@ -197,7 +198,7 @@ describe("AppendBlobClient Node.js only", () => {
     assert.equal(downloadResponse.contentLength!, content.length);
   });
 
-  it("appendBlockFromURL - source bear token and destination account key", async function() {
+  it("appendBlockFromURL - source bear token and destination account key", async function(this: Context) {
     if (!isPlaybackMode()) {
       // Enable this when STG78 - version 2020-10-02 is enabled on production.
       this.skip();
@@ -226,7 +227,7 @@ describe("AppendBlobClient Node.js only", () => {
     assert.equal(downloadResponse.contentLength!, content.length);
   });
 
-  it("appendBlockFromURL - destination bearer token", async function() {
+  it("appendBlockFromURL - destination bearer token", async function(this: Context) {
     if (!isPlaybackMode()) {
       // Enable this when STG78 - version 2020-10-02 is enabled on production.
       this.skip();

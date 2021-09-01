@@ -3,7 +3,7 @@
 
 import { TableItem, TableServiceClient } from "../../src";
 import { Context } from "mocha";
-import { record, Recorder, isPlaybackMode, isLiveMode } from "@azure/test-utils-recorder";
+import { record, Recorder, isPlaybackMode, isLiveMode } from "@azure-tools/test-recorder";
 import {
   recordedEnvironmentSetup,
   createTableServiceClient,

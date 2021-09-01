@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { TokenCredential } from "@azure/core-http";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 
 import {
