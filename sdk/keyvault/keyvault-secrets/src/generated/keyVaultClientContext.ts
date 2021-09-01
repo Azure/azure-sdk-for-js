@@ -7,21 +7,24 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-import { ApiVersion72Preview, KeyVaultClientOptionalParams } from "./models";
+import { ApiVersion73Preview, KeyVaultClientOptionalParams } from "./models";
 
 const packageName = "@azure/keyvault-secrets";
-export const packageVersion = "4.3.1";
+export const packageVersion = "4.4.0-beta.1";
 
 /** @hidden */
 export class KeyVaultClientContext extends coreHttp.ServiceClient {
-  apiVersion: ApiVersion72Preview;
+  apiVersion: ApiVersion73Preview;
 
   /**
    * Initializes a new instance of the KeyVaultClientContext class.
    * @param apiVersion Api Version
    * @param options The parameter options
    */
-  constructor(apiVersion: ApiVersion72Preview, options?: KeyVaultClientOptionalParams) {
+  constructor(
+    apiVersion: ApiVersion73Preview,
+    options?: KeyVaultClientOptionalParams
+  ) {
     if (apiVersion === undefined) {
       throw new Error("'apiVersion' cannot be null");
     }

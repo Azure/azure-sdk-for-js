@@ -1,6 +1,6 @@
 # Release History
 
-## 4.3.1 (Unreleased)
+## 4.4.0-beta.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,8 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+- Updated the latest service version to 7.3.
 
 ## 4.3.0 (2021-07-29)
 
