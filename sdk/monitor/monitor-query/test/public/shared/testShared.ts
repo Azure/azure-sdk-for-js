@@ -100,7 +100,7 @@ export function getMetricsArmResourceId(
 export function getAppInsightsConnectionString(mochaContext: Pick<Context, "skip">): string {
   let appInsightsConnectionString = getRequiredEnvVar(
     mochaContext,
-    "APPLICATIONINSIGHTS_CONNECTION_STRING"
+    "MQ_APPLICATIONINSIGHTS_CONNECTION_STRING"
   );
 
   // TODO: this is a workaround for now - adding in an endpoint causes the Monitor endpoint to return a 308 (ie: permanent redirect)
