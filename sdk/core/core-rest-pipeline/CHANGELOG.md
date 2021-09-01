@@ -1,16 +1,10 @@
 # Release History
 
-## 1.2.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.3.0 (2021-09-07)
 
 ### Bugs Fixed
 
 - `tracingPolicy` will no longer propagate tracing errors to the caller, and such errors will be logged instead and the operation does not get interrupted. [PR #16916](https://github.com/Azure/azure-sdk-for-js/pull/16916)
-
-### Other Changes
 
 ## 1.2.0 (2021-08-04)
 
