@@ -41,8 +41,6 @@ export interface SchemaDescription {
 // @public
 export interface SchemaProperties {
     id: string;
-    location: string;
-    locationById: string;
     serializationType: string;
     version: number;
 }

@@ -238,14 +238,14 @@ describe("PageBlobClient Node.js only", () => {
     await pageBlobClient.uploadPagesFromURL(blockBlobClient.url, 0, 0, 512, {
       sourceAuthorization: {
         scheme: "Bearer",
-        parameter: accessToken!.token
+        value: accessToken!.token
       }
     });
 
     await pageBlobClient.uploadPagesFromURL(blockBlobClient.url, 512, 512, 512, {
       sourceAuthorization: {
         scheme: "Bearer",
-        parameter: accessToken!.token
+        value: accessToken!.token
       }
     });
 

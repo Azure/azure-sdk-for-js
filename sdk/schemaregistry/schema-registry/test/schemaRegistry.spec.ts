@@ -54,8 +54,6 @@ function assertIsValidSchemaId(
 ): asserts schemaId {
   assertIsNotNullUndefinedOrEmpty(schemaId);
   assertIsNotNullUndefinedOrEmpty(schemaId.id);
-  assertIsNotNullUndefinedOrEmpty(schemaId.location);
-  assertIsNotNullUndefinedOrEmpty(schemaId.locationById);
   assertIsNotNullUndefinedOrEmpty(schemaId.serializationType);
   assert.isNotNull(schemaId.version);
   assert.equal(schemaId.serializationType.toLowerCase(), expectedSerializationType.toLowerCase());

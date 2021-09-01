@@ -83,6 +83,8 @@ export class DataLakeFileSystemClient extends StorageClient {
   constructor(
     url: string,
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+    // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: StoragePipelineOptions
   );
 
@@ -104,6 +106,8 @@ export class DataLakeFileSystemClient extends StorageClient {
       | AnonymousCredential
       | TokenCredential
       | Pipeline,
+    // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: StoragePipelineOptions
   ) {
     if (credentialOrPipeline instanceof Pipeline) {
@@ -139,6 +143,8 @@ export class DataLakeFileSystemClient extends StorageClient {
    *
    * @param directoryName -
    */
+  // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-subclients */
   public getDirectoryClient(directoryName: string): DataLakeDirectoryClient {
     return new DataLakeDirectoryClient(
       appendToURLPath(this.url, encodeURIComponent(directoryName)),
@@ -151,6 +157,8 @@ export class DataLakeFileSystemClient extends StorageClient {
    *
    * @param fileName -
    */
+  // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-subclients */
   public getFileClient(fileName: string): DataLakeFileClient {
     return new DataLakeFileClient(
       appendToURLPath(this.url, encodeURIComponent(fileName)),
@@ -754,7 +762,7 @@ export class DataLakeFileSystemClient extends StorageClient {
         });
       }
 
-      if (!(response.nextMarker == undefined || response.nextMarker === "")) {
+      if (!(response.nextMarker === undefined || response.nextMarker === "")) {
         response.continuation = response.nextMarker;
       }
 

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import assert from "assert";
 import { Suite } from "mocha";
-import { Container, CosmosClient } from "../../../src";
+import { Container, CosmosClient, PatchOperation, PatchOperationType } from "../../../src";
 import { ItemDefinition } from "../../../src";
 import {
   bulkDeleteItems,
@@ -306,15 +306,21 @@ describe("bulk/batch item operations", function() {
     let v2Container: Container;
     let readItemId: string;
     let replaceItemId: string;
+    let patchItemId: string;
     let deleteItemId: string;
     before(async function() {
-      v2Container = await getTestContainer("bulk container v2", undefined, {
+      const client = new CosmosClient({ key: masterKey, endpoint });
+      const db = await client.databases.createIfNotExists({ id: "patchDb" });
+      const database = db.database;
+      const response = await database.containers.createIfNotExists({
+        id: "patchContainer",
         partitionKey: {
           paths: ["/key"],
           version: 2
         },
         throughput: 25100
       });
+      v2Container = response.container;
       readItemId = addEntropy("item1");
       await v2Container.items.create({
         id: readItemId,
@@ -333,11 +339,14 @@ describe("bulk/batch item operations", function() {
         key: 5,
         class: "2012"
       });
+      patchItemId = addEntropy("item4");
+      await v2Container.items.create({
+        id: patchItemId,
+        key: 5,
+        class: "2019"
+      });
     });
-    after(async () => {
-      await v2Container.database.delete();
-    });
-    it("handles create, upsert, replace, delete", async function() {
+    it("handles create, upsert, patch, replace, delete", async function() {
       const operations = [
         {
           operationType: BulkOperationType.Create,
@@ -363,23 +372,43 @@ describe("bulk/batch item operations", function() {
           operationType: BulkOperationType.Replace,
           id: replaceItemId,
           resourceBody: { id: replaceItemId, name: "nice", key: 5 }
+        },
+        {
+          operationType: BulkOperationType.Patch,
+          partitionKey: 5,
+          id: patchItemId,
+          resourceBody: {
+            operations: [{ op: PatchOperationType.add, path: "/great", value: "goodValue" }]
+          }
+        },
+        {
+          operationType: BulkOperationType.Patch,
+          partitionKey: 5,
+          id: patchItemId,
+          resourceBody: {
+            operations: [{ op: PatchOperationType.add, path: "/good", value: "greatValue" }],
+            condition: "from c where NOT IS_DEFINED(c.newImproved)"
+          }
         }
       ];
       const response = await v2Container.items.bulk(operations);
       // Create
-      assert.equal(response[0].resourceBody.name, "sample");
-      assert.equal(response[0].statusCode, 201);
+      assert.strictEqual(response[0].resourceBody.name, "sample");
+      assert.strictEqual(response[0].statusCode, 201);
       // Upsert
-      assert.equal(response[1].resourceBody.name, "other");
-      assert.equal(response[1].statusCode, 201);
+      assert.strictEqual(response[1].resourceBody.name, "other");
+      assert.strictEqual(response[1].statusCode, 201);
       // Read
-      assert.equal(response[2].resourceBody.class, "2010");
-      assert.equal(response[2].statusCode, 200);
+      assert.strictEqual(response[2].resourceBody.class, "2010");
+      assert.strictEqual(response[2].statusCode, 200);
       // Delete
-      assert.equal(response[3].statusCode, 204);
+      assert.strictEqual(response[3].statusCode, 204);
       // Replace
-      assert.equal(response[4].resourceBody.name, "nice");
-      assert.equal(response[4].statusCode, 200);
+      assert.strictEqual(response[4].resourceBody.name, "nice");
+      assert.strictEqual(response[4].statusCode, 200);
+      // Patch
+      assert.strictEqual(response[5].resourceBody.great, "goodValue");
+      assert.strictEqual(response[5].statusCode, 200);
     });
     it("respects order", async function() {
       readItemId = addEntropy("item1");
@@ -440,12 +469,12 @@ describe("bulk/batch item operations", function() {
           resourceBody: {
             key: "A",
             licenseType: "B",
-            id: "o239uroihndsf"
+            id: addEntropy("sifjsiof")
           }
         }
       ];
       const response = await v2Container.items.bulk(operations, { continueOnError: true });
-      assert.equal(response[1].statusCode, 201);
+      assert.strictEqual(response[1].statusCode, 201);
     });
     it("autogenerates IDs for Create operations", async function() {
       const operations = [
@@ -593,13 +622,25 @@ describe("bulk/batch item operations", function() {
     let upsertItemId: string;
     let replaceItemId: string;
     let deleteItemId: string;
+    let patchItemId: string;
     before(async function() {
-      container = await getTestContainer("batch container");
+      const client = new CosmosClient({ key: masterKey, endpoint });
+      const db = await client.databases.createIfNotExists({ id: "patchDb" });
+      const contResponse = await db.database.containers.createIfNotExists({
+        id: "patchContainer",
+        partitionKey: {
+          paths: ["/key"],
+          version: 2
+        },
+        throughput: 25100
+      });
+      container = contResponse.container;
       deleteItemId = addEntropy("item1");
       createItemId = addEntropy("item2");
       otherItemId = addEntropy("item2");
       upsertItemId = addEntropy("item4");
       replaceItemId = addEntropy("item3");
+      patchItemId = addEntropy("item5");
       await container.items.create({
         id: deleteItemId,
         key: "A",
@@ -607,6 +648,11 @@ describe("bulk/batch item operations", function() {
       });
       await container.items.create({
         id: replaceItemId,
+        key: "A",
+        class: "2010"
+      });
+      await container.items.create({
+        id: patchItemId,
         key: "A",
         class: "2010"
       });
@@ -619,30 +665,39 @@ describe("bulk/batch item operations", function() {
         },
         {
           operationType: BulkOperationType.Upsert,
-          resourceBody: { id: upsertItemId, key: "B", school: "elementary" }
+          resourceBody: { id: upsertItemId, key: "A", school: "elementary" }
         },
         {
           operationType: BulkOperationType.Replace,
           id: replaceItemId,
-          resourceBody: { id: replaceItemId, key: "Z", school: "junior high" }
+          resourceBody: { id: replaceItemId, key: "A", school: "junior high" }
         },
         {
           operationType: BulkOperationType.Delete,
           id: deleteItemId
+        },
+        {
+          operationType: BulkOperationType.Patch,
+          id: patchItemId,
+          resourceBody: {
+            operations: [{ op: PatchOperationType.add, path: "/good", value: "greatValue" }],
+            condition: "from c where NOT IS_DEFINED(c.newImproved)"
+          }
         }
       ];
 
-      const response = await container.items.batch(operations);
-      assert.equal(response.result[0].statusCode, 201);
-      assert.equal(response.result[1].statusCode, 201);
-      assert.equal(response.result[2].statusCode, 200);
-      assert.equal(response.result[3].statusCode, 204);
+      const response = await container.items.batch(operations, "A");
+      assert.strictEqual(response.result[0].statusCode, 201);
+      assert.strictEqual(response.result[1].statusCode, 201);
+      assert.strictEqual(response.result[2].statusCode, 200);
+      assert.strictEqual(response.result[3].statusCode, 204);
+      assert.strictEqual(response.result[4].statusCode, 200);
     });
     it("rolls back prior operations when one fails", async function() {
       const operations: OperationInput[] = [
         {
           operationType: BulkOperationType.Upsert,
-          resourceBody: { id: otherItemId, key: "B", school: "elementary" }
+          resourceBody: { id: otherItemId, key: "A", school: "elementary" }
         },
         {
           operationType: BulkOperationType.Delete,
@@ -650,11 +705,101 @@ describe("bulk/batch item operations", function() {
         }
       ];
 
-      const deleteResponse = await container.items.batch(operations, "[{}]");
-      assert.equal(deleteResponse.result[0].statusCode, 424);
-      assert.equal(deleteResponse.result[1].statusCode, 404);
+      const deleteResponse = await container.items.batch(operations, "A");
+      assert.strictEqual(deleteResponse.result[0].statusCode, 424);
+      assert.strictEqual(deleteResponse.result[1].statusCode, 404);
       const { resource: readItem } = await container.item(otherItemId).read();
-      assert.equal(readItem, undefined);
+      assert.strictEqual(readItem, undefined);
+    });
+  });
+});
+describe("patch operations", function() {
+  describe("various mixed operations", function() {
+    let container: Container;
+    let addItemId: string;
+    let conditionItemId: string;
+    before(async function() {
+      addItemId = addEntropy("addItemId");
+      conditionItemId = addEntropy("conditionItemId");
+      const client = new CosmosClient({ key: masterKey, endpoint });
+      const db = await client.databases.createIfNotExists({ id: "patchDb" });
+      const contResponse = await db.database.containers.createIfNotExists({
+        id: "patchContainer",
+        partitionKey: {
+          paths: ["/key"],
+          version: 2
+        },
+        throughput: 25100
+      });
+      container = contResponse.container;
+      await container.items.upsert({
+        id: addItemId,
+        first: 1,
+        last: "a",
+        removable: "yes",
+        existingObj: {
+          key: "val"
+        },
+        num: 0
+      });
+      await container.items.upsert({
+        id: conditionItemId,
+        first: 1,
+        last: "a",
+        removable: "no",
+        existingObj: {
+          key: "val"
+        },
+        num: 0
+      });
+    });
+    it("handles add, remove, replace, set, incr", async function() {
+      const operations: PatchOperation[] = [
+        {
+          op: "add",
+          path: "/laster",
+          value: "c"
+        },
+        {
+          op: "replace",
+          path: "/last",
+          value: "b"
+        },
+        {
+          op: "remove",
+          path: "/removable"
+        },
+        {
+          op: "set",
+          path: "/existingObj/newKey",
+          value: "newVal"
+        },
+        {
+          op: "incr",
+          path: "/num",
+          value: 5
+        }
+      ];
+      const { resource: addItem } = await container.item(addItemId).patch(operations);
+      assert.strictEqual(addItem.num, 5);
+      assert.strictEqual(addItem.existingObj.newKey, "newVal");
+      assert.strictEqual(addItem.laster, "c");
+      assert.strictEqual(addItem.last, "b");
+      assert.strictEqual(addItem.removable, undefined);
+    });
+    it("conditionally patches", async function() {
+      const operations: PatchOperation[] = [
+        {
+          op: "add",
+          path: "/newImproved",
+          value: "it works"
+        }
+      ];
+      const condition = "from c where NOT IS_DEFINED(c.newImproved)";
+      const { resource: conditionItem } = await container
+        .item(conditionItemId)
+        .patch({ condition, operations });
+      assert.strictEqual(conditionItem.newImproved, "it works");
     });
   });
 });

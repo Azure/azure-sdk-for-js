@@ -218,7 +218,7 @@ describe("AppendBlobClient Node.js only", () => {
     await appendBlobClient.appendBlockFromURL(blockBlobClient.url, 0, content.length, {
       sourceAuthorization: {
         scheme: "Bearer",
-        parameter: accessToken!.token
+        value: accessToken!.token
       }
     });
 

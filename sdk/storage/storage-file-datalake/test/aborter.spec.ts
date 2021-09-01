@@ -8,16 +8,16 @@ import { DataLakeFileSystemClient } from "../src";
 import { getDataLakeServiceClient, recorderEnvSetup } from "./utils";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import * as dotenv from "dotenv";
+import { Context } from "mocha";
 dotenv.config();
 
-// tslint:disable:no-empty
 describe("Aborter", () => {
   let fileSystemName: string;
   let fileSystemClient: DataLakeFileSystemClient;
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("container");

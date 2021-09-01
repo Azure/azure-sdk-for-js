@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import qs from "qs";
-
 import { createHttpHeaders, PipelineRequestOptions } from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { MSI } from "./models";
@@ -28,11 +26,11 @@ function prepareRequestOptions(resource: string, clientId?: string): PipelineReq
   if (!process.env.MSI_ENDPOINT) {
     throw new Error("Missing environment variable: MSI_ENDPOINT");
   }
-
+  const params = new URLSearchParams(body);
   return {
     url: process.env.MSI_ENDPOINT,
     method: "POST",
-    body: qs.stringify(body),
+    body: params.toString(),
     headers: createHttpHeaders({
       Accept: "application/json",
       Metadata: "true",

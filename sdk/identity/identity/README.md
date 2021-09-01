@@ -109,6 +109,7 @@ If used from Node.js, the `DefaultAzureCredential` will attempt to authenticate 
 
 - Environment - The `DefaultAzureCredential` will read account information specified via [environment variables](#environment-variables) and use it to authenticate.
 - Managed Identity - If the application is deployed to an Azure host with Managed Identity enabled, the `DefaultAzureCredential` will authenticate with that account.
+- Visual Studio Code - If the developer has authenticated with the [Visual Studio Code Azure Account extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.azure-account), the `DefaultAzureCredential` will authenticate using that account.
 - Azure CLI - If the developer has authenticated an account via the Azure CLI `az login` command, the `DefaultAzureCredential` will authenticate with that account.
 - Azure PowerShell - If the developer has authenticated using the Azure PowerShell module `Connect-AzAccount` command, the `DefaultAzureCredential` will authenticate with that account.
 

@@ -15,7 +15,7 @@ export class FileSystemSASPermissions {
    *
    * @param permissions -
    */
-  public static parse(permissions: string) {
+  public static parse(permissions: string): FileSystemSASPermissions {
     const containerSASPermissions = new FileSystemSASPermissions();
 
     for (const char of permissions) {
