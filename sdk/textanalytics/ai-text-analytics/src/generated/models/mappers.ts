@@ -552,12 +552,14 @@ export const CustomEntitiesTaskParameters: coreClient.CompositeMapper = {
     modelProperties: {
       projectName: {
         serializedName: "projectName",
+        required: true,
         type: {
           name: "String"
         }
       },
       deploymentName: {
         serializedName: "deploymentName",
+        required: true,
         type: {
           name: "String"
         }
@@ -602,12 +604,14 @@ export const CustomSingleClassificationTaskParameters: coreClient.CompositeMappe
     modelProperties: {
       projectName: {
         serializedName: "projectName",
+        required: true,
         type: {
           name: "String"
         }
       },
       deploymentName: {
         serializedName: "deploymentName",
+        required: true,
         type: {
           name: "String"
         }
@@ -646,12 +650,14 @@ export const CustomMultiClassificationTaskParameters: coreClient.CompositeMapper
     modelProperties: {
       projectName: {
         serializedName: "projectName",
+        required: true,
         type: {
           name: "String"
         }
       },
       deploymentName: {
         serializedName: "deploymentName",
+        required: true,
         type: {
           name: "String"
         }

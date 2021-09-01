@@ -248,8 +248,8 @@ export interface CustomRecongizeEntitiesActionSuccessResult extends TextAnalytic
 // @public
 export interface CustomTextAnalyticsAction {
     actionName?: string;
-    deploymentName?: string;
-    projectName?: string;
+    deploymentName: string;
+    projectName: string;
 }
 
 // @public

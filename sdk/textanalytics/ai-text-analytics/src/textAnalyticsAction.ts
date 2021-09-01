@@ -24,12 +24,12 @@ export interface CustomTextAnalyticsAction {
    * The project name for the text analytics model used by this operation on this
    * batch of input documents.
    */
-  projectName?: string;
+  projectName: string;
   /**
    * The deployment name for the text analytics model used by this operation on this
    * batch of input documents.
    */
-  deploymentName?: string;
+  deploymentName: string;
   /**
    * The preferred name for this action.
    */
