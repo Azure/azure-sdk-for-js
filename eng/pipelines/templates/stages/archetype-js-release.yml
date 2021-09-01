@@ -59,7 +59,7 @@ stages:
               displayName: "Publish to npmjs"
               condition: ne(variables['Skip.PublishPackage'], 'true')
               environment: npm
-              dependsOn: ${{parameters.DependsOn}}
+              dependsOn: TagRepository
 
               pool:
                 name: azsdk-pool-mms-ubuntu-2004-general
@@ -111,7 +111,6 @@ stages:
               displayName: Docs.MS Release
               condition: ne(variables['Skip.PublishDocs'], 'true')
               environment: githubio
-              dependsOn: ${{parameters.DependsOn}}
 
               pool:
                 name: azsdk-pool-mms-ubuntu-2004-general
@@ -145,7 +144,6 @@ stages:
               displayName: Publish Docs to GitHubIO Blob Storage
               condition: ne(variables['Skip.PublishDocs'], 'true')
               environment: githubio
-              dependsOn: ${{parameters.DependsOn}}
 
               pool:
                 name: azsdk-pool-mms-win-2019-general
@@ -175,7 +173,7 @@ stages:
               displayName: "Update Package Version"
               condition: ne(variables['Skip.UpdatePackageVersion'], 'true')
               environment: github
-              dependsOn: ${{parameters.DependsOn}}
+              dependsOn: PublishPackage
 
               pool:
                 name: azsdk-pool-mms-ubuntu-2004-general
