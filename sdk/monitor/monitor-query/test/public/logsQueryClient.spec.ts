@@ -382,10 +382,12 @@ describe("LogsQueryClient live tests", function() {
       const singleQueryLogsResult = await createClient().query(monitorWorkspaceId, kustoQuery, {
         duration: Durations.OneDay
       });
-
+      console.log(monitorWorkspaceId);
       // TODO: the actual types aren't being deserialized (everything is coming back as 'string')
       // this is incorrect, it'll be updated.
-
+      console.log("single query logs result");
+      console.dir(singleQueryLogsResult.tables?.[0]);
+      console.log(singleQueryLogsResult.error);
       assertQueryTable(
         singleQueryLogsResult.tables?.[0],
         {
