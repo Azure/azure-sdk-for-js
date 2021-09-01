@@ -537,7 +537,7 @@ The `@azure/identity` library covers a broad range of Azure Active Directory aut
 
 In this section, we'll examine some such scenarios.
 
-### The simplest possible credential
+### Implementing the TokenCredential Interface
 
 The [@azure/core-auth][core_auth] package exports a `TokenCredential` interface. The interface is used by the `@azure/identity` package to define a standard public API for all of the Identity credentials we offer. Here's how this type looks in `@azure/core-auth`:
 
