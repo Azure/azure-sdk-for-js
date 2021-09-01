@@ -2,7 +2,8 @@
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
     "outDir": "./dist-esm",
-    "declarationDir": "./types"
+    "declarationDir": "./types",
+    "target": "ES2017"
   },
   "exclude": ["node_modules", "types", "temp", "browser", "dist", "dist-esm", "./samples/**/*.ts"]
 }
