@@ -26,7 +26,7 @@ describe("OnBehalfOfCredential", function() {
     await testContext.restore();
   });
 
-  it("generates a new msalOnBehalfOf client on each getToken call", async () => {
+  it("authenticates", async () => {
     const credential = new OnBehalfOfCredential("adfs", "client", "secret", "user-assertion");
 
     const newMSALClientLogs = () =>
@@ -47,34 +47,9 @@ describe("OnBehalfOfCredential", function() {
     });
 
     assert.isNumber(authDetails.result?.expiresOnTimestamp);
-    assert.equal(newMSALClientLogs(), 1);
 
-    await sendCredentialRequests({
-      scopes: ["https://test/.default"],
-      credential,
-      secureResponses: [
-        ...prepareMSALResponses(),
-        createResponse(200, {
-          access_token: "token",
-          expires_on: "06/20/2019 02:57:58 +00:00"
-        })
-      ]
-    });
-    // Same userAssertion means re-used MSAL client
+    // Just checking that a new MSAL client was created.
+    // This kind of testing will be important as we improve the On-Behalf-Of Credential.
     assert.equal(newMSALClientLogs(), 1);
-
-    await sendCredentialRequests({
-      scopes: ["https://test/.default"],
-      credential,
-      secureResponses: [
-        ...prepareMSALResponses(),
-        createResponse(200, {
-          access_token: "token",
-          expires_on: "06/20/2019 02:57:58 +00:00"
-        })
-      ]
-    });
-    // The MsalOnBehalfOf constructor should have been called twice.
-    assert.equal(newMSALClientLogs(), 2);
   });
 });
