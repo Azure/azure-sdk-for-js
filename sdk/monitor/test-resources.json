@@ -35,7 +35,7 @@
       "name": "[parameters('baseName')]",
       "type": "Microsoft.Insights/components",
       "location": "[parameters('location')]",
-      "apiVersion": "2015-05-01",
+      "apiVersion": "2020-02-02",
       "kind": "web",
       "properties": {
         "Application_Type": "web",
