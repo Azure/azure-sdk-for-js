@@ -1,7 +1,8 @@
 # Release History
 
-## 1.5.2 (Unreleased)
+## 1.5.2 (2021-09-01)
 
+- Fixed a bug introduced on 1.5.0 that caused the `ManagedIdentityCredential` to fail authenticating in Arc environments. Since our new core disables unsafe requests by default, we had to change the security settings for the first request of the Arc MSI, which retrieves the file path where the authentication value is stored since this request generally happens through an HTTP endpoint.
 
 ## 1.5.1 (2021-08-12)
 

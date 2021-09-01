@@ -312,8 +312,8 @@ describe("ManagedIdentityCredential", function() {
   it("sends an authorization request correctly in an Azure Arc environment", async () => {
     // Trigger Azure Arc behavior by setting environment variables
 
-    process.env.IMDS_ENDPOINT = "https://endpoint";
-    process.env.IDENTITY_ENDPOINT = "https://endpoint";
+    process.env.IMDS_ENDPOINT = "http://endpoint";
+    process.env.IDENTITY_ENDPOINT = "http://endpoint";
 
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     const mockFs = require("mock-fs");
@@ -327,7 +327,7 @@ describe("ManagedIdentityCredential", function() {
     const authDetails = await sendCredentialRequests({
       scopes: ["https://service/.default"],
       credential: new ManagedIdentityCredential(),
-      secureResponses: [
+      insecureResponses: [
         {
           response: createResponse(401, "", {
             "www-authenticate": `we don't pay much attention about this format=${filePath}`
@@ -346,26 +346,26 @@ describe("ManagedIdentityCredential", function() {
     });
 
     // File request
-    const validationRequest = authDetails.secureRequestOptions[0];
+    const validationRequest = authDetails.insecureRequestOptions[0];
     let query = qs.parse(validationRequest.path!.split("?")[1]);
 
     assert.equal(validationRequest.method, "GET");
     assert.equal(decodeURIComponent(query.resource as string), "https://service");
 
     assert.ok(
-      `https://${validationRequest.hostname}`.startsWith(process.env.IDENTITY_ENDPOINT),
+      `http://${validationRequest.hostname}`.startsWith(process.env.IDENTITY_ENDPOINT),
       "URL does not start with expected host and path"
     );
 
     // Authorization request, which comes after getting the file path, for now at least.
-    const authRequest = authDetails.secureRequestOptions[1];
+    const authRequest = authDetails.insecureRequestOptions[1];
     query = qs.parse(validationRequest.path!.split("?")[1]);
 
     assert.equal(authRequest.method, "GET");
     assert.equal(decodeURIComponent(query.resource as string), "https://service");
 
     assert.ok(
-      `https://${validationRequest.hostname}`.startsWith(process.env.IDENTITY_ENDPOINT),
+      `http://${validationRequest.hostname}`.startsWith(process.env.IDENTITY_ENDPOINT),
       "URL does not start with expected host and path"
     );
 
