@@ -133,7 +133,7 @@ export class SchemaRegistryAvroSerializer {
    */
   async deserialize(input: Buffer | Blob | Uint8Array): Promise<unknown> {
     const arr8 = await toUint8Array(input);
-    const buffer = Buffer.from(arr8);
+    const buffer = Buffer.isBuffer(arr8) ? arr8 : Buffer.from(arr8);
     if (buffer.length < PAYLOAD_OFFSET) {
       throw new RangeError("Buffer is too small to have the correct format.");
     }
