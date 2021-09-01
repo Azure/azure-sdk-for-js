@@ -13,6 +13,7 @@ export {
   HttpMethods,
   ProxySettings,
   RawHttpHeaders,
+  RawHttpHeadersInput,
   TransferProgressEvent,
   RequestBodyType
 } from "./interfaces";
