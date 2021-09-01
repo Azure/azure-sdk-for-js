@@ -15,7 +15,7 @@ export class DirectorySASPermissions {
    *
    * @param permissions -
    */
-  public static parse(permissions: string) {
+  public static parse(permissions: string): DirectorySASPermissions {
     const directorySASPermissions = new DirectorySASPermissions();
 
     for (const char of permissions) {

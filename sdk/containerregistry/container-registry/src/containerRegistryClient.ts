@@ -34,15 +34,11 @@ import { ContainerRegistryRefreshTokenCredential } from "./containerRegistryToke
  */
 export interface ContainerRegistryClientOptions extends PipelineOptions {
   /**
-   * Gets or sets the authentication scope to use for authentication with AAD.
-   * This defaults to the Azure Resource Manager "Azure Global" scope.  To
-   * connect to a different cloud, set this value to "&lt;resource-id&gt;/.default",
-   * where &lt;resource-id&gt; is one of the Resource IDs listed at
-   * https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/services-support-managed-identities#azure-resource-manager.
-   * For example, to connect to the Azure Germany cloud, create a client with
-   * this set to "https://management.microsoftazure.de/.default".
+   * Gets or sets the audience to use for authentication with Azure Active Directory.
+   * The authentication scope will be set from this audience.
+   * See {@link KnownContainerRegistryAudience} for known audience values.
    */
-  authenticationScope?: string;
+  audience?: string;
 }
 
 /**
@@ -132,15 +128,21 @@ export class ContainerRegistryClient {
         additionalAllowedQueryParameters: ["last", "n", "orderby", "digest"]
       }
     };
-    const authScope = options.authenticationScope ?? "https://management.azure.com/.default";
+    // Require audience now until we have a default ACR audience from the service.
+    if (!options.audience) {
+      throw new Error(
+        "ContainerRegistryClientOptions.audience must be set to initialize ContainerRegistryClient."
+      );
+    }
+    const defaultScope = `${options.audience}/.default`;
     const authClient = new GeneratedClient(endpoint, internalPipelineOptions);
     this.client = new GeneratedClient(endpoint, internalPipelineOptions);
     this.client.pipeline.addPolicy(
       bearerTokenAuthenticationPolicy({
         credential,
-        scopes: [authScope],
+        scopes: [defaultScope],
         challengeCallbacks: new ChallengeHandler(
-          new ContainerRegistryRefreshTokenCredential(authClient, authScope, credential)
+          new ContainerRegistryRefreshTokenCredential(authClient, defaultScope, credential)
         )
       })
     );

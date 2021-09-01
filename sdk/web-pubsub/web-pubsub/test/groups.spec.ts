@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 /* eslint-disable no-invalid-this */
-import { env, Recorder, record } from "@azure/test-utils-recorder";
+import { env, Recorder, record } from "@azure-tools/test-recorder";
 import { WebPubSubServiceClient, WebPubSubGroup } from "../src";
 import { assert } from "chai";
 import environmentSetup from "./testEnv";

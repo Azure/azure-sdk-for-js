@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RawHttpHeaders } from "@azure/core-rest-pipeline";
+import { RawHttpHeaders } from "./common";
 
 /**
  * Shape of the default request parameters, this may be overriden by the specific

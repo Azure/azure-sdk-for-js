@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import qs from "qs";
 import { delay } from "@azure/core-util";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import {
@@ -45,7 +44,8 @@ function prepareRequestOptions(resource?: string, clientId?: string): PipelineRe
     queryParameters.client_id = clientId;
   }
 
-  const query = qs.stringify(queryParameters);
+  const params = new URLSearchParams(queryParameters);
+  const query = params.toString();
   const url = new URL(imdsEndpointPath, process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST ?? imdsHost);
 
   return {

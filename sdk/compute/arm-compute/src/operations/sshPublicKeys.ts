@@ -36,7 +36,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a SshPublicKeys. */
+/** Class containing SshPublicKeys operations. */
 export class SshPublicKeysImpl implements SshPublicKeys {
   private readonly client: ComputeManagementClientContext;
 

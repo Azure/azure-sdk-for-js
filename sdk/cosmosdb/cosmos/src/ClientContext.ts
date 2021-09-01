@@ -304,6 +304,55 @@ export class ClientContext {
     }
   }
 
+  public async patch<T>({
+    body,
+    path,
+    resourceType,
+    resourceId,
+    options = {},
+    partitionKey
+  }: {
+    body: any;
+    path: string;
+    resourceType: ResourceType;
+    resourceId: string;
+    options?: RequestOptions;
+    partitionKey?: PartitionKey;
+  }): Promise<Response<T & Resource>> {
+    try {
+      const request: RequestContext = {
+        globalEndpointManager: this.globalEndpointManager,
+        requestAgent: this.cosmosClientOptions.agent,
+        connectionPolicy: this.connectionPolicy,
+        method: HTTPMethod.patch,
+        client: this,
+        operationType: OperationType.Patch,
+        path,
+        resourceType,
+        body,
+        resourceId,
+        options,
+        plugins: this.cosmosClientOptions.plugins,
+        partitionKey
+      };
+
+      request.headers = await this.buildHeaders(request);
+      this.applySessionToken(request);
+
+      // patch will use WriteEndpoint
+      request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
+        request.resourceType,
+        request.operationType
+      );
+      const response = await executePlugins(request, executeRequest, PluginOn.operation);
+      this.captureSessionToken(undefined, path, OperationType.Patch, response.headers);
+      return response;
+    } catch (err) {
+      this.captureSessionToken(err, path, OperationType.Upsert, (err as ErrorResponse).headers);
+      throw err;
+    }
+  }
+
   public async create<T, U = T>({
     body,
     path,
@@ -615,12 +664,12 @@ export class ClientContext {
         resourceId,
         plugins: this.cosmosClientOptions.plugins,
         options,
-        pipeline: this.pipeline
+        pipeline: this.pipeline,
+        partitionKey
       };
 
       request.headers = await this.buildHeaders(request);
       request.headers[Constants.HttpHeaders.IsBatchRequest] = true;
-      request.headers[Constants.HttpHeaders.PartitionKey] = partitionKey;
       request.headers[Constants.HttpHeaders.IsBatchAtomic] = true;
 
       this.applySessionToken(request);

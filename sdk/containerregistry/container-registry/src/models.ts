@@ -6,6 +6,20 @@ export { ContainerRepositoryProperties, ArtifactTagProperties } from "./generate
 import { ArtifactTagProperties } from "./generated";
 
 /**
+ * Defines known cloud audiences for Azure Container Registry.
+ */
+export enum KnownContainerRegistryAudience {
+  /** Azure China */
+  AzureResourceManagerChina = "https://management.chinacloudapi.cn",
+  /** Azure Gemany */
+  AzureResourceManagerGermany = "https://management.microsoftazure.de",
+  /** Azure Government */
+  AzureResourceManagerGovernment = "https://management.usgovcloudapi.net",
+  /** Azure Public Cloud */
+  AzureResourceManagerPublicCloud = "https://management.azure.com"
+}
+
+/**
  * Defines known artifact architectures that the service supports.
  */
 export enum KnownArtifactArchitecture {

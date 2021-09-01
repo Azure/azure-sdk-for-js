@@ -22,8 +22,8 @@ omitted_paths:
   - sdk/servicefabric/servicefabric/README.md
   - sdk/storage/storage-datalake/README.md
   - sdk/storage/storage-internal-avro/*
-  - sdk/test-utils/perfstress/README.md
-  - sdk/test-utils/multi-version/README.md
+  - sdk/test-utils/*/README.md
+
 language: js
 root_check_enabled: True
 required_readme_sections:

@@ -3,7 +3,7 @@
 
 import { CommunicationUserIdentifier } from "@azure/communication-common";
 import { assert } from "chai";
-import { Recorder, env } from "@azure/test-utils-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { CommunicationRelayClient } from "../../src";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 import {

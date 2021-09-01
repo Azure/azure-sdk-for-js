@@ -5,7 +5,7 @@
 
 import sinon from "sinon";
 import { assert } from "chai";
-import { isPlaybackMode } from "@azure/test-utils-recorder";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { EnvironmentCredential, UsernamePasswordCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
 import { Context } from "mocha";

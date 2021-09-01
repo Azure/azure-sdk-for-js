@@ -14,7 +14,7 @@ import {
   KnownFormLocale
 } from "../../../src";
 import { testPollingOptions, makeCredential, createRecorder } from "../../utils/recordedClients";
-import { env, Recorder } from "@azure/test-utils-recorder";
+import { env, Recorder } from "@azure-tools/test-recorder";
 import { matrix } from "@azure/test-utils";
 
 const endpoint = (): string => env.FORM_RECOGNIZER_ENDPOINT;

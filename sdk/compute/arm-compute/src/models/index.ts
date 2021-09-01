@@ -384,6 +384,16 @@ export interface Plan {
 export interface HardwareProfile {
   /** Specifies the size of the virtual machine. <br><br> The enum data type is currently deprecated and will be removed by December 23rd 2023. <br><br> Recommended way to get the list of available sizes is using these APIs: <br><br> [List all available virtual machine sizes in an availability set](https://docs.microsoft.com/rest/api/compute/availabilitysets/listavailablesizes) <br><br> [List all available virtual machine sizes in a region]( https://docs.microsoft.com/rest/api/compute/resourceskus/list) <br><br> [List all available virtual machine sizes for resizing](https://docs.microsoft.com/rest/api/compute/virtualmachines/listavailablesizes). For more information about virtual machine sizes, see [Sizes for virtual machines](https://docs.microsoft.com/azure/virtual-machines/sizes). <br><br> The available VM sizes depend on region and availability set. */
   vmSize?: VirtualMachineSizeTypes;
+  /** Specifies the properties for customizing the size of the virtual machine. Minimum api-version: 2021-07-01. <br><br> This feature is still in preview mode and is not supported for VirtualMachineScaleSet. <br><br> Please follow the instructions in [VM Customization](https://aka.ms/vmcustomization) for more details. */
+  vmSizeProperties?: VMSizeProperties;
+}
+
+/** Specifies VM Size Property settings on the virtual machine. */
+export interface VMSizeProperties {
+  /** Specifies the number of vCPUs available for the VM. <br><br> When this property is not specified in the request body the default behavior is to set it to the value of vCPUs available for that VM size exposed in api response of [List all available virtual machine sizes in a region](https://docs.microsoft.com/en-us/rest/api/compute/resource-skus/list) . */
+  vCPUsAvailable?: number;
+  /** Specifies the vCPU to physical core ratio. <br><br> When this property is not specified in the request body the default behavior is set to the value of vCPUsPerCore for the VM Size exposed in api response of [List all available virtual machine sizes in a region](https://docs.microsoft.com/en-us/rest/api/compute/resource-skus/list) <br><br> Setting this property to 1 also means that hyper-threading is disabled. */
+  vCPUsPerCore?: number;
 }
 
 /** Specifies the storage settings for the virtual machine disks. */
@@ -506,6 +516,8 @@ export interface DataDisk {
 export interface AdditionalCapabilities {
   /** The flag that enables or disables a capability to have one or more managed data disks with UltraSSD_LRS storage account type on the VM or VMSS. Managed disks with storage account type UltraSSD_LRS can be added to a virtual machine or virtual machine scale set only if this property is enabled. */
   ultraSSDEnabled?: boolean;
+  /** The flag that enables or disables hibernation capability on the VM. */
+  hibernationEnabled?: boolean;
 }
 
 /** Specifies the operating system settings for the virtual machine. Some of the settings cannot be changed once VM is provisioned. */
@@ -522,7 +534,7 @@ export interface OSProfile {
   windowsConfiguration?: WindowsConfiguration;
   /** Specifies the Linux operating system settings on the virtual machine. <br><br>For a list of supported Linux distributions, see [Linux on Azure-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/linux/endorsed-distros). */
   linuxConfiguration?: LinuxConfiguration;
-  /** Specifies set of certificates that should be installed onto the virtual machine. */
+  /** Specifies set of certificates that should be installed onto the virtual machine. To install certificates on a virtual machine it is recommended to use the [Azure Key Vault virtual machine extension for Linux](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-linux) or the [Azure Key Vault virtual machine extension for Windows](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-windows). */
   secrets?: VaultSecretGroup[];
   /** Specifies whether extension operations should be allowed on the virtual machine. <br><br>This may only be set to False when no extensions are present on the virtual machine. */
   allowExtensionOperations?: boolean;
@@ -578,7 +590,7 @@ export interface WinRMConfiguration {
 export interface WinRMListener {
   /** Specifies the protocol of WinRM listener. <br><br> Possible values are: <br>**http** <br><br> **https** */
   protocol?: ProtocolTypes;
-  /** This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a secret to the Key Vault, see [Add a key or secret to the key vault](https://docs.microsoft.com/azure/key-vault/key-vault-get-started/#add). In this case, your certificate needs to be It is the Base64 encoding of the following JSON Object which is encoded in UTF-8: <br><br> {<br>  "data":"<Base64-encoded-certificate>",<br>  "dataType":"pfx",<br>  "password":"<pfx-file-password>"<br>} */
+  /** This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a secret to the Key Vault, see [Add a key or secret to the key vault](https://docs.microsoft.com/azure/key-vault/key-vault-get-started/#add). In this case, your certificate needs to be It is the Base64 encoding of the following JSON Object which is encoded in UTF-8: <br><br> {<br>  "data":"<Base64-encoded-certificate>",<br>  "dataType":"pfx",<br>  "password":"<pfx-file-password>"<br>} <br> To install certificates on a virtual machine it is recommended to use the [Azure Key Vault virtual machine extension for Linux](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-linux) or the [Azure Key Vault virtual machine extension for Windows](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-windows). */
   certificateUrl?: string;
 }
 
@@ -626,7 +638,7 @@ export interface VaultSecretGroup {
 
 /** Describes a single certificate reference in a Key Vault, and where the certificate should reside on the VM. */
 export interface VaultCertificate {
-  /** This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a secret to the Key Vault, see [Add a key or secret to the key vault](https://docs.microsoft.com/azure/key-vault/key-vault-get-started/#add). In this case, your certificate needs to be It is the Base64 encoding of the following JSON Object which is encoded in UTF-8: <br><br> {<br>  "data":"<Base64-encoded-certificate>",<br>  "dataType":"pfx",<br>  "password":"<pfx-file-password>"<br>} */
+  /** This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a secret to the Key Vault, see [Add a key or secret to the key vault](https://docs.microsoft.com/azure/key-vault/key-vault-get-started/#add). In this case, your certificate needs to be It is the Base64 encoding of the following JSON Object which is encoded in UTF-8: <br><br> {<br>  "data":"<Base64-encoded-certificate>",<br>  "dataType":"pfx",<br>  "password":"<pfx-file-password>"<br>} <br> To install certificates on a virtual machine it is recommended to use the [Azure Key Vault virtual machine extension for Linux](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-linux) or the [Azure Key Vault virtual machine extension for Windows](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-windows). */
   certificateUrl?: string;
   /** For Windows VMs, specifies the certificate store on the Virtual Machine to which the certificate should be added. The specified certificate store is implicitly in the LocalMachine account. <br><br>For Linux VMs, the certificate file is placed under the /var/lib/waagent directory, with the file name &lt;UppercaseThumbprint&gt;.crt for the X509 certificate file and &lt;UppercaseThumbprint&gt;.prv for private key. Both of these files are .pem formatted. */
   certificateStore?: string;
@@ -1025,6 +1037,24 @@ export interface CapacityReservationProfile {
   capacityReservationGroup?: SubResource;
 }
 
+/** Contains the list of gallery applications that should be made available to the VM/VMSS */
+export interface ApplicationProfile {
+  /** Specifies the gallery applications that should be made available to the VM/VMSS */
+  galleryApplications?: VMGalleryApplication[];
+}
+
+/** Specifies the required information to reference a compute gallery application version */
+export interface VMGalleryApplication {
+  /** Optional, Specifies a passthrough value for more generic context. */
+  tags?: string;
+  /** Optional, Specifies the order in which the packages have to be installed */
+  order?: number;
+  /** Specifies the GalleryApplicationVersion resource id on the form of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{application}/versions/{version} */
+  packageReferenceId: string;
+  /** Optional, Specifies the uri to an azure blob that will replace the default configuration for the package if provided */
+  configurationReference?: string;
+}
+
 /** Identity for the virtual machine. */
 export interface VirtualMachineIdentity {
   /**
@@ -1136,6 +1166,8 @@ export interface VirtualMachineScaleSetVMProfile {
   userData?: string;
   /** Specifies the capacity reservation related details of a scale set. <br><br>Minimum api-version: 2021-04-01. */
   capacityReservation?: CapacityReservationProfile;
+  /** Specifies the gallery applications that should be made available to the VM/VMSS */
+  applicationProfile?: ApplicationProfile;
 }
 
 /** Describes a virtual machine scale set OS profile. */
@@ -1152,7 +1184,7 @@ export interface VirtualMachineScaleSetOSProfile {
   windowsConfiguration?: WindowsConfiguration;
   /** Specifies the Linux operating system settings on the virtual machine. <br><br>For a list of supported Linux distributions, see [Linux on Azure-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/linux/endorsed-distros). */
   linuxConfiguration?: LinuxConfiguration;
-  /** Specifies set of certificates that should be installed onto the virtual machines in the scale set. */
+  /** Specifies set of certificates that should be installed onto the virtual machines in the scale set. To install certificates on a virtual machine it is recommended to use the [Azure Key Vault virtual machine extension for Linux](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-linux) or the [Azure Key Vault virtual machine extension for Windows](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-windows). */
   secrets?: VaultSecretGroup[];
 }
 
@@ -1288,6 +1320,8 @@ export interface VirtualMachineScaleSetExtensionProfile {
 export interface ScaleInPolicy {
   /** The rules to be followed when scaling-in a virtual machine scale set. <br><br> Possible values are: <br><br> **Default** When a virtual machine scale set is scaled in, the scale set will first be balanced across zones if it is a zonal scale set. Then, it will be balanced across Fault Domains as far as possible. Within each Fault Domain, the virtual machines chosen for removal will be the newest ones that are not protected from scale-in. <br><br> **OldestVM** When a virtual machine scale set is being scaled-in, the oldest virtual machines that are not protected from scale-in will be chosen for removal. For zonal virtual machine scale sets, the scale set will first be balanced across zones. Within each zone, the oldest virtual machines that are not protected will be chosen for removal. <br><br> **NewestVM** When a virtual machine scale set is being scaled-in, the newest virtual machines that are not protected from scale-in will be chosen for removal. For zonal virtual machine scale sets, the scale set will first be balanced across zones. Within each zone, the newest virtual machines that are not protected will be chosen for removal. <br><br> */
   rules?: VirtualMachineScaleSetScaleInRules[];
+  /** This property allows you to specify if virtual machines chosen for removal have to be force deleted when a virtual machine scale set is being scaled-in.(Feature in Preview) */
+  forceDeletion?: boolean;
 }
 
 /** Specifies the Spot-Try-Restore properties for the virtual machine scale set. <br><br> With this property customer can enable or disable automatic restore of the evicted Spot VMSS VM instances opportunistically based on capacity availability and pricing constraint. */
@@ -1651,7 +1685,7 @@ export interface VirtualMachineSoftwarePatchProperties {
 /** Input for InstallPatches as directly received by the API */
 export interface VirtualMachineInstallPatchesParameters {
   /** Specifies the maximum amount of time that the operation will run. It must be an ISO 8601-compliant duration string such as PT4H (4 hours) */
-  maximumDuration: string;
+  maximumDuration?: string;
   /** Defines when it is acceptable to reboot a VM during a software update operation. */
   rebootSetting: VMGuestPatchRebootSetting;
   /** Input for InstallPatches on a Windows VM, as directly received by the API */
@@ -2489,6 +2523,7 @@ export interface ResourceSkuCapacity {
   readonly scaleType?: ResourceSkuCapacityScaleType;
 }
 
+/** Describes an available Compute SKU Location Information. */
 export interface ResourceSkuLocationInfo {
   /**
    * Location of the SKU
@@ -2505,6 +2540,16 @@ export interface ResourceSkuLocationInfo {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly zoneDetails?: ResourceSkuZoneDetails[];
+  /**
+   * The names of extended locations.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly extendedLocations?: string[];
+  /**
+   * The type of the extended location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: ExtendedLocationType;
 }
 
 /** Describes The zonal capabilities of a SKU. */
@@ -2578,6 +2623,7 @@ export interface ResourceSkuRestrictions {
   readonly reasonCode?: ResourceSkuRestrictionsReasonCode;
 }
 
+/** Describes an available Compute SKU Restriction Information. */
 export interface ResourceSkuRestrictionInfo {
   /**
    * Locations where the SKU is restricted
@@ -3041,6 +3087,12 @@ export interface SharingProfileGroup {
   ids?: string[];
 }
 
+/** Contains information about the soft deletion policy of the gallery. */
+export interface SoftDeletePolicy {
+  /** Enables soft-deletion for resources in this gallery, allowing them to be recovered within retention time. */
+  isSoftDeleteEnabled?: boolean;
+}
+
 /** The Update Resource model definition. */
 export interface UpdateResourceDefinition {
   /**
@@ -3129,6 +3181,8 @@ export interface GalleryArtifactPublishingProfileBase {
   endOfLifeDate?: Date;
   /** Specifies the storage account type to be used to store the image. This property is not updatable. */
   storageAccountType?: StorageAccountType;
+  /** Optional parameter which specifies the mode to be used for replication. This property is not updatable. */
+  replicationMode?: ReplicationMode;
 }
 
 /** Describes the target region information. */
@@ -4057,6 +4111,8 @@ export type VirtualMachineExtension = Resource & {
   readonly provisioningState?: string;
   /** The virtual machine extension instance view. */
   instanceView?: VirtualMachineExtensionInstanceView;
+  /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
+  suppressFailures?: boolean;
 };
 
 /** Describes a Virtual Machine. */
@@ -4131,6 +4187,8 @@ export type VirtualMachine = Resource & {
   userData?: string;
   /** Specifies information about the capacity reservation that is used to allocate virtual machine. <br><br>Minimum api-version: 2021-04-01. */
   capacityReservation?: CapacityReservationProfile;
+  /** Specifies the gallery applications that should be made available to the VM/VMSS */
+  applicationProfile?: ApplicationProfile;
 };
 
 /** Describes a Virtual Machine Scale Set. */
@@ -4177,7 +4235,7 @@ export type VirtualMachineScaleSet = Resource & {
   hostGroup?: SubResource;
   /** Specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual Machine Scale Set. For instance: whether the Virtual Machines have the capability to support attaching managed data disks with UltraSSD_LRS storage account type. */
   additionalCapabilities?: AdditionalCapabilities;
-  /** Specifies the scale-in policy that decides which virtual machines are chosen for removal when a Virtual Machine Scale Set is scaled-in. */
+  /** Specifies the policies applied when scaling in Virtual Machines in the Virtual Machine Scale Set. */
   scaleInPolicy?: ScaleInPolicy;
   /** Specifies the orchestration mode for the virtual machine scale set. */
   orchestrationMode?: OrchestrationMode;
@@ -4618,6 +4676,8 @@ export type Gallery = Resource & {
   readonly provisioningState?: GalleryPropertiesProvisioningState;
   /** Profile for gallery sharing to subscription or tenant */
   sharingProfile?: SharingProfile;
+  /** Contains information about the soft deletion policy of the gallery. */
+  softDeletePolicy?: SoftDeletePolicy;
 };
 
 /** Specifies information about the gallery image definition that you want to create or update. */
@@ -4737,6 +4797,8 @@ export type ImageReference = SubResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly exactVersion?: string;
+  /** Specified the shared gallery image unique id for vm deployment. This can be fetched from shared gallery image GET call. */
+  sharedGalleryImageId?: string;
 };
 
 /** Describes the parameter of customer managed disk encryption set resource id that can be specified for disk. <br><br> NOTE: The disk encryption set resource id can only be specified for managed disk. Please refer https://aka.ms/mdssewithcmkoverview for more details. */
@@ -4971,6 +5033,8 @@ export type VirtualMachineExtensionUpdate = UpdateResource & {
   settings?: Record<string, unknown>;
   /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
   protectedSettings?: Record<string, unknown>;
+  /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
+  suppressFailures?: boolean;
 };
 
 /** The source user image virtual hard disk. Only tags may be updated. */
@@ -5053,6 +5117,8 @@ export type VirtualMachineUpdate = UpdateResource & {
   userData?: string;
   /** Specifies information about the capacity reservation that is used to allocate virtual machine. <br><br>Minimum api-version: 2021-04-01. */
   capacityReservation?: CapacityReservationProfile;
+  /** Specifies the gallery applications that should be made available to the VM/VMSS */
+  applicationProfile?: ApplicationProfile;
 };
 
 /** Update Restore Point collection parameters. */
@@ -5148,7 +5214,7 @@ export type VirtualMachineScaleSetUpdate = UpdateResource & {
   singlePlacementGroup?: boolean;
   /** Specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual Machine Scale Set. For instance: whether the Virtual Machines have the capability to support attaching managed data disks with UltraSSD_LRS storage account type. */
   additionalCapabilities?: AdditionalCapabilities;
-  /** Specifies the scale-in policy that decides which virtual machines are chosen for removal when a Virtual Machine Scale Set is scaled-in. */
+  /** Specifies the policies applied when scaling in Virtual Machines in the Virtual Machine Scale Set. */
   scaleInPolicy?: ScaleInPolicy;
   /** Specifies information about the proximity placement group that the virtual machine scale set should be assigned to. <br><br>Minimum api-version: 2018-04-01. */
   proximityPlacementGroup?: SubResource;
@@ -5218,6 +5284,8 @@ export type VirtualMachineScaleSetExtension = SubResourceReadOnly & {
   readonly provisioningState?: string;
   /** Collection of extension names after which this extension needs to be provisioned. */
   provisionAfterExtensions?: string[];
+  /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
+  suppressFailures?: boolean;
 };
 
 /** Describes a Virtual Machine Scale Set Extension. */
@@ -5255,6 +5323,8 @@ export type VirtualMachineScaleSetExtensionUpdate = SubResourceReadOnly & {
   readonly provisioningState?: string;
   /** Collection of extension names after which this extension needs to be provisioned. */
   provisionAfterExtensions?: string[];
+  /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
+  suppressFailures?: boolean;
 };
 
 /** Describes a VMSS VM Extension. */
@@ -5292,6 +5362,8 @@ export type VirtualMachineScaleSetVMExtension = SubResourceReadOnly & {
   readonly provisioningState?: string;
   /** The virtual machine extension instance view. */
   instanceView?: VirtualMachineExtensionInstanceView;
+  /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
+  suppressFailures?: boolean;
 };
 
 /** Describes a VMSS VM Extension. */
@@ -5322,6 +5394,8 @@ export type VirtualMachineScaleSetVMExtensionUpdate = SubResourceReadOnly & {
   settings?: Record<string, unknown>;
   /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
   protectedSettings?: Record<string, unknown>;
+  /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
+  suppressFailures?: boolean;
 };
 
 /** The instance view of a dedicated host that includes the name of the dedicated host. It is used for the response to the instance view of a dedicated host group. */
@@ -5455,6 +5529,8 @@ export type GalleryUpdate = UpdateResourceDefinition & {
   readonly provisioningState?: GalleryPropertiesProvisioningState;
   /** Profile for gallery sharing to subscription or tenant */
   sharingProfile?: SharingProfile;
+  /** Contains information about the soft deletion policy of the gallery. */
+  softDeletePolicy?: SoftDeletePolicy;
 };
 
 /** Specifies information about the gallery image definition that you want to update. */
@@ -6767,6 +6843,20 @@ export enum KnownExecutionState {
  */
 export type ExecutionState = string;
 
+/** Known values of {@link ExtendedLocationType} that the service accepts. */
+export enum KnownExtendedLocationType {
+  EdgeZone = "EdgeZone"
+}
+
+/**
+ * Defines values for ExtendedLocationType. \
+ * {@link KnownExtendedLocationType} can be used interchangeably with ExtendedLocationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **EdgeZone**
+ */
+export type ExtendedLocationType = string;
+
 /** Known values of {@link DiskStorageAccountTypes} that the service accepts. */
 export enum KnownDiskStorageAccountTypes {
   /** Standard HDD locally redundant storage. Best for backup, non-critical, and infrequent access. */
@@ -7155,6 +7245,22 @@ export enum KnownStorageAccountType {
  * **Premium_LRS**
  */
 export type StorageAccountType = string;
+
+/** Known values of {@link ReplicationMode} that the service accepts. */
+export enum KnownReplicationMode {
+  Full = "Full",
+  Shallow = "Shallow"
+}
+
+/**
+ * Defines values for ReplicationMode. \
+ * {@link KnownReplicationMode} can be used interchangeably with ReplicationMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Full** \
+ * **Shallow**
+ */
+export type ReplicationMode = string;
 
 /** Known values of {@link GalleryImageVersionPropertiesProvisioningState} that the service accepts. */
 export enum KnownGalleryImageVersionPropertiesProvisioningState {
@@ -7951,6 +8057,8 @@ export interface VirtualMachinesConvertToManagedDisksOptionalParams
 /** Optional parameters. */
 export interface VirtualMachinesDeallocateOptionalParams
   extends coreClient.OperationOptions {
+  /** Optional parameter to hibernate a virtual machine. (Feature in Preview) */
+  hibernate?: boolean;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -9158,6 +9266,8 @@ export interface ResourceSkusListOptionalParams
   extends coreClient.OperationOptions {
   /** The filter to apply on the operation. Only **location** filter is supported currently. */
   filter?: string;
+  /** To Include Extended Locations information or not in the response. */
+  includeExtendedLocations?: string;
 }
 
 /** Contains response data for the list operation. */
@@ -9168,6 +9278,8 @@ export interface ResourceSkusListNextOptionalParams
   extends coreClient.OperationOptions {
   /** The filter to apply on the operation. Only **location** filter is supported currently. */
   filter?: string;
+  /** To Include Extended Locations information or not in the response. */
+  includeExtendedLocations?: string;
 }
 
 /** Contains response data for the listNext operation. */
