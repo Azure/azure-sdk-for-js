@@ -106,6 +106,10 @@ export function convertResponseForQueryBatch(
    * It is not guaranteed that service will return the responses for queries in the same order
    * as the queries are passed in
    */
+  console.log("Inside convertResponseForQueryBatch");
+  console.dir(generatedResponse.responses?.[0].body?.tables?.[0]);
+  console.dir(generatedResponse.responses?.[0].body?.tables?.[0].rows);
+  console.log(" doing conversion");
   const newResponse: LogsQueryBatchResult = {
     results: generatedResponse.responses
       ?.sort((a, b) => {
@@ -126,7 +130,7 @@ export function convertResponseForQueryBatch(
         status: response.status,
         // hoist fields from the sub-object 'body' to this level
         error: response.body?.error,
-        tables: response.body?.tables?.map(convertGeneratedTable)
+        tables: response.body?.tables?.map((table) => convertGeneratedTable(table))
       }))
   };
 
