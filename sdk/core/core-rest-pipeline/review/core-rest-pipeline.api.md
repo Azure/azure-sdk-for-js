@@ -69,7 +69,7 @@ export function createDefaultHttpClient(): HttpClient;
 export function createEmptyPipeline(): Pipeline;
 
 // @public
-export function createHttpHeaders(rawHeaders?: RawHttpHeaders | RawHttpHeadersInput): HttpHeaders;
+export function createHttpHeaders(rawHeaders?: RawHttpHeadersInput): HttpHeaders;
 
 // @public
 export function createPipelineFromOptions(options: InternalPipelineOptions): Pipeline;

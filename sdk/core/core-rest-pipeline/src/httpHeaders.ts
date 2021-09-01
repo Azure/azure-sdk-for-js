@@ -84,6 +84,6 @@ class HttpHeadersImpl implements HttpHeaders {
  * Creates an object that satisfies the `HttpHeaders` interface.
  * @param rawHeaders - A simple object representing initial headers
  */
-export function createHttpHeaders(rawHeaders?: RawHttpHeaders | RawHttpHeadersInput): HttpHeaders {
+export function createHttpHeaders(rawHeaders?: RawHttpHeadersInput): HttpHeaders {
   return new HttpHeadersImpl(rawHeaders);
 }
