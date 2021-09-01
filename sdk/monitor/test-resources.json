@@ -129,10 +129,6 @@
     "APPLICATIONINSIGHTS_CONNECTION_STRING": {
       "value": "[reference(resourceId('Microsoft.Insights/components', variables('appInsightsName')), '2015-05-01').ConnectionString]",
       "type": "string"
-    },
-    "MQ_APPLICATIONINSIGHTS_CONNECTION_STRING": {
-      "value": "[reference(resourceId('Microsoft.Insights/components', parameters('baseName')), '2015-05-01').ConnectionString]",
-      "type": "string"
     }
   }
 }
