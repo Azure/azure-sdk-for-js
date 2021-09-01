@@ -63,9 +63,9 @@ export class ClientContext {
           scopes: scope,
           challengeCallbacks: {
             async authorizeRequest({ request, getAccessToken }) {
-              const token = await getAccessToken([scope], {});
+              const tokenResponse = await getAccessToken([scope], {});
               const AUTH_PREFIX = `type=aad&ver=1.0&sig=`;
-              const authorizationToken = `${AUTH_PREFIX}${token.token}`;
+              const authorizationToken = `${AUTH_PREFIX}${tokenResponse.token}`;
               request.headers.set("Authorization", authorizationToken);
             }
           }
