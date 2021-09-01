@@ -122,8 +122,8 @@ export interface CustomEntitiesTask {
 }
 
 export interface CustomEntitiesTaskParameters {
-  projectName?: string;
-  deploymentName?: string;
+  projectName: string;
+  deploymentName: string;
   loggingOptOut?: boolean;
   stringIndexType?: StringIndexType;
 }
@@ -133,8 +133,8 @@ export interface CustomSingleClassificationTask {
 }
 
 export interface CustomSingleClassificationTaskParameters {
-  projectName?: string;
-  deploymentName?: string;
+  projectName: string;
+  deploymentName: string;
   loggingOptOut?: boolean;
 }
 
@@ -143,8 +143,8 @@ export interface CustomMultiClassificationTask {
 }
 
 export interface CustomMultiClassificationTaskParameters {
-  projectName?: string;
-  deploymentName?: string;
+  projectName: string;
+  deploymentName: string;
   loggingOptOut?: boolean;
 }
 
