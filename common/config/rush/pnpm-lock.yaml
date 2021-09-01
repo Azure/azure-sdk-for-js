@@ -2415,6 +2415,13 @@ packages:
     dev: false
     resolution:
       integrity: sha512-EHcyIPBQ4BSGlvjB16k5KgAJ27CIsHY/2JBmCRReo48y9rQ3MaUzWX3KVlBa4U7MyX02HdVj0K7C3WaB3ju7FQ==
+  /buffer/6.0.3:
+    dependencies:
+      base64-js: 1.5.1
+      ieee754: 1.2.1
+    dev: false
+    resolution:
+      integrity: sha512-FTiCpNxtwiZZHEZbcbTIcZjERVICn9yq/pDFkTl95/AxzD1naBctN7YO68riM/gLSDY7sdrMby8hofADYuuqOA==
   /builtin-modules/2.0.0:
     dev: false
     engines:
@@ -8953,7 +8960,7 @@ packages:
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
       '@types/node': 12.20.21
-      buffer: 5.7.1
+      buffer: 6.0.3
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
@@ -8993,7 +9000,7 @@ packages:
     dev: false
     name: '@rush-temp/attestation'
     resolution:
-      integrity: sha512-hwq2gatjuRwwGiomTmGewT2YRMPVoWon2uUoZDZt+waWlYZv82gi6479oDGNumoLF6TBOi+GkrWydbaXQ2E+nw==
+      integrity: sha512-4AaflJcDOLrs/HUIpu7YNjHpCNeuuSTTAKPbA8ckbO78c4v1icVjuYAeLOlvq6DyNRxnJzrHaNNZa9HfKAktVQ==
       tarball: file:projects/attestation.tgz
     version: 0.0.0
   file:projects/communication-chat.tgz:
@@ -9420,7 +9427,7 @@ packages:
       '@types/node': 12.20.21
       '@types/sinon': 9.0.11
       '@types/ws': 7.4.7
-      buffer: 5.7.1
+      buffer: 6.0.3
       chai: 4.3.4
       cross-env: 7.0.3
       debug: 4.3.2
@@ -9456,7 +9463,7 @@ packages:
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-yfQLB9OGJC8Sz7AzXe76gGqcBByxsPmzZhEFkimWNVsfJWv2J+flLOsObeTtD5xv9NsB6zTrZJGGv4T9GEQd0A==
+      integrity: sha512-bVLkGbbgyzPAg60EVgT/U307L10emkRAuwG5H/U2XJZsrYwnm2wondpbxF5gasIHHKQUkFcGGH8I0UcHJo1nIQ==
       tarball: file:projects/core-amqp.tgz
     version: 0.0.0
   file:projects/core-asynciterator-polyfill.tgz:
@@ -10249,7 +10256,7 @@ packages:
       '@types/uuid': 8.3.1
       '@types/ws': 7.4.7
       assert: 1.5.0
-      buffer: 5.7.1
+      buffer: 6.0.3
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
       chai-exclude: 2.0.3_chai@4.3.4
@@ -10297,7 +10304,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-xuqq+iie3jgTet8h7aIAqAKOF/fOBYG0zBnAEuH0Dwhj8d6zEwT6KAvawPzhwwy+XDvvj7kdtJqCy+N+PR9kBg==
+      integrity: sha512-volaAWwVVNlEe64e4BR3fwuCFcSpZu419shiGlQKibDEihFzuRIVbGAwj/jiW2/rb0wuxTlWCl5zcZLFAoyqFA==
       tarball: file:projects/event-hubs.tgz
     version: 0.0.0
   file:projects/event-processor-host.tgz:
@@ -11638,7 +11645,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.21
       avsc: 5.7.3
-      buffer: 5.7.1
+      buffer: 6.0.3
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
@@ -11675,7 +11682,7 @@ packages:
     dev: false
     name: '@rush-temp/schema-registry-avro'
     resolution:
-      integrity: sha512-b/4qmNi7UubdfLQaKucMttTKHZbfggm1CTjDo2PLNotEvnOGZqYvC9553kyjxLJ/mnMeUoE4SXhtRCikP/386A==
+      integrity: sha512-MDe5usam/CD907fdEN+tpwdoyKTNr+t1Sv/6T/NTTpXFHU50NkzQcud4bA4m8N2et6muH6jr71qT/KV5B6oItw==
       tarball: file:projects/schema-registry-avro.tgz
     version: 0.0.0
   file:projects/schema-registry.tgz:
@@ -11795,7 +11802,7 @@ packages:
       '@types/sinon': 9.0.11
       '@types/ws': 7.4.7
       assert: 1.5.0
-      buffer: 5.7.1
+      buffer: 6.0.3
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
       chai-exclude: 2.0.3_chai@4.3.4
@@ -11846,7 +11853,7 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-P1Z6R/jpmdcQ7sFHv+TjYwLNqJpHE1hDwQSdR9RHCwUKa7sRTXn9uuN37kRp6Lh0xcEPxr4kQyPM9cvax3Hz2g==
+      integrity: sha512-Rb/TXPhQdXj5r7qaoeW4cgF9/1xiTBgzExBE0f8VZzn9APG+aGs0a54djPmFECMsH6HNCgFZgILyE0Vj4MVLyQ==
       tarball: file:projects/service-bus.tgz
     version: 0.0.0
   file:projects/storage-blob-changefeed.tgz:
