@@ -21,12 +21,12 @@ function expiresInParser(requestBody: any): number {
 }
 
 function prepareRequestOptions(
-  scope: string,
+  scopes: string | string[],
   clientAssertion: string,
   clientId?: string
 ): PipelineRequestOptions {
   const queryParameters: any = {
-    scope,
+    scope: Array.isArray(scopes) ? scopes.join(" ") : scopes,
     client_assertion: clientAssertion,
     client_assertion_type: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
     client_id: clientId,
@@ -85,11 +85,14 @@ export function tokenExchangeMsi(): MSI {
       return result;
     },
     async getToken(
-      identityClient: IdentityClient,
-      resource: string,
-      clientId?: string,
+      configuration: {
+        identityClient: IdentityClient;
+        scopes: string | string[];
+        clientId?: string;
+      },
       getTokenOptions: GetTokenOptions = {}
     ): Promise<AccessToken | null> {
+      const { identityClient, scopes, clientId } = configuration;
       logger.info(`Using the client assertion coming from environment variables.`);
 
       let assertion: string;
@@ -104,7 +107,7 @@ export function tokenExchangeMsi(): MSI {
 
       return msiGenericGetToken(
         identityClient,
-        prepareRequestOptions(resource, assertion, clientId),
+        prepareRequestOptions(scopes, assertion, clientId),
         expiresInParser,
         getTokenOptions
       );

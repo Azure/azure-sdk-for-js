@@ -14,9 +14,12 @@ export interface MSI {
     getTokenOptions?: GetTokenOptions
   ): Promise<boolean>;
   getToken(
-    identityClient: IdentityClient,
-    resource: string,
-    clientId?: string,
+    configuration: {
+      identityClient: IdentityClient;
+      resource: string;
+      scopes: string | string[];
+      clientId?: string;
+    },
     getTokenOptions?: GetTokenOptions
   ): Promise<AccessToken | null>;
 }

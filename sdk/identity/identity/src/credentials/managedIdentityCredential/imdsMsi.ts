@@ -144,11 +144,15 @@ export const imdsMsi: MSI = {
     }
   },
   async getToken(
-    identityClient: IdentityClient,
-    resource: string,
-    clientId?: string,
+    configuration: {
+      identityClient: IdentityClient;
+      resource: string;
+      clientId?: string;
+    },
     getTokenOptions: GetTokenOptions = {}
   ): Promise<AccessToken | null> {
+    const { identityClient, resource, clientId } = configuration;
+
     logger.info(
       `Using the Azure IMDS endpoint coming from the environment variable MSI_ENDPOINT=${process.env.MSI_ENDPOINT}, and using the cloud shell to proceed with the authentication.`
     );

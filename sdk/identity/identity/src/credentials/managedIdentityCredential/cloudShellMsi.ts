@@ -48,11 +48,15 @@ export const cloudShellMsi: MSI = {
     return result;
   },
   async getToken(
-    identityClient: IdentityClient,
-    resource: string,
-    clientId?: string,
+    configuration: {
+      identityClient: IdentityClient;
+      resource: string;
+      clientId?: string;
+    },
     getTokenOptions: GetTokenOptions = {}
   ): Promise<AccessToken | null> {
+    const { identityClient, resource, clientId } = configuration;
+
     logger.info(
       `Using the endpoint coming form the environment variable MSI_ENDPOINT=${process.env.MSI_ENDPOINT}, and using the Cloud Shell to proceed with the authentication.`
     );

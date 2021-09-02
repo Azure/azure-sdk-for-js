@@ -56,11 +56,15 @@ export const appServiceMsi2017: MSI = {
     return result;
   },
   async getToken(
-    identityClient: IdentityClient,
-    resource: string,
-    clientId?: string,
+    configuration: {
+      identityClient: IdentityClient;
+      resource: string;
+      clientId?: string;
+    },
     getTokenOptions: GetTokenOptions = {}
   ): Promise<AccessToken | null> {
+    const { identityClient, resource, clientId } = configuration;
+
     logger.info(
       `Using the endpoint and the secret coming form the environment variables: MSI_ENDPOINT=${process.env.MSI_ENDPOINT} and MSI_SECRET=[REDACTED].`
     );

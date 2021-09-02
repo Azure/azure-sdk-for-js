@@ -107,7 +107,15 @@ export class ManagedIdentityCredential implements TokenCredential {
       // Determining the available MSI, and avoiding checking for other MSIs while the program is running.
       const availableMSI = await this.cachedAvailableMSI(resource, clientId, updatedOptions);
 
-      return availableMSI.getToken(this.identityClient, resource, clientId, updatedOptions);
+      return availableMSI.getToken(
+        {
+          identityClient: this.identityClient,
+          resource,
+          scopes,
+          clientId
+        },
+        updatedOptions
+      );
     } catch (err) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -196,7 +204,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       // we can safely assume the credential is unavailable.
       if (err.code === "ENETUNREACH") {
         const error = new CredentialUnavailableError(
-          "ManagedIdentityCredential is unavailable. Network unreachable."
+          `ManagedIdentityCredential is unavailable. Network unreachable. Message: ${err.message}`
         );
 
         logger.getToken.info(formatError(scopes, error));
@@ -207,7 +215,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       // we can safely assume the credential is unavailable.
       if (err.code === "EHOSTUNREACH") {
         const error = new CredentialUnavailableError(
-          "ManagedIdentityCredential is unavailable. No managed identity endpoint found."
+          `ManagedIdentityCredential is unavailable. No managed identity endpoint found. Message: ${err.message}`
         );
 
         logger.getToken.info(formatError(scopes, error));
@@ -218,7 +226,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       // and it means that the endpoint is working, but that no identity is available.
       if (err.statusCode === 400) {
         throw new CredentialUnavailableError(
-          "The managed identity endpoint is indicating there's no available identity"
+          `The managed identity endpoint is indicating there's no available identity. Message: ${err.message}`
         );
       }
 

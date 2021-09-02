@@ -23,11 +23,15 @@ import {
 import { prepareIdentityTests } from "../../httpRequests";
 import { AzureAuthorityHosts, DefaultAuthorityHost, DefaultTenantId } from "../../../src/constants";
 
-describe("ManagedIdentityCredential", function() {
+describe("ManagedIdentityCredential", function () {
   let testContext: IdentityTestContext;
   let sendCredentialRequests: SendCredentialRequests;
+  let envCopy: string = "";
 
-  beforeEach(async function() {
+  beforeEach(async function () {
+    envCopy = JSON.stringify(process.env);
+    delete process.env.AZURE_CLIENT_ID;
+    delete process.env.AZURE_TENANT_ID;
     delete process.env.IDENTITY_ENDPOINT;
     delete process.env.IDENTITY_HEADER;
     delete process.env.MSI_ENDPOINT;
@@ -41,11 +45,15 @@ describe("ManagedIdentityCredential", function() {
     sendCredentialRequests = testContext.sendCredentialRequests;
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
+    const env = JSON.parse(envCopy);
+    // Useful for record mode.
+    process.env.AZURE_CLIENT_ID = env.AZURE_CLIENT_ID;
+    process.env.AZURE_TENANT_ID = env.AZURE_TENANT_ID;
     await testContext.restore();
   });
 
-  it("sends an authorization request with a modified resource name", async function() {
+  it("sends an authorization request with a modified resource name", async function () {
     const authDetails = await sendCredentialRequests({
       scopes: ["https://service/.default"],
       credential: new ManagedIdentityCredential("client"),
@@ -97,7 +105,7 @@ describe("ManagedIdentityCredential", function() {
     assert.equal(decodeURIComponent(query.get("resource")!), "someResource");
   });
 
-  it("returns error when no MSI is available", async function() {
+  it("returns error when no MSI is available", async function () {
     process.env.AZURE_CLIENT_ID = "errclient";
 
     const { error } = await sendCredentialRequests({
@@ -115,7 +123,7 @@ describe("ManagedIdentityCredential", function() {
     );
   });
 
-  it("an unexpected error bubbles all the way up", async function() {
+  it("an unexpected error bubbles all the way up", async function () {
     process.env.AZURE_CLIENT_ID = "errclient";
     const errorMessage = "ManagedIdentityCredential authentication failed.";
 
@@ -130,7 +138,7 @@ describe("ManagedIdentityCredential", function() {
     assert.ok(error?.message.startsWith(errorMessage));
   });
 
-  it("returns expected error when the network was unreachable", async function() {
+  it("returns expected error when the network was unreachable", async function () {
     process.env.AZURE_CLIENT_ID = "errclient";
 
     const netError: RestError = new RestError("Request Timeout", {
@@ -149,7 +157,7 @@ describe("ManagedIdentityCredential", function() {
     assert.ok(error!.message!.indexOf("Network unreachable.") > -1);
   });
 
-  it("returns expected error when the host was unreachable", async function() {
+  it("returns expected error when the host was unreachable", async function () {
     process.env.AZURE_CLIENT_ID = "errclient";
 
     const hostError: RestError = new RestError("Request Timeout", {
@@ -168,7 +176,7 @@ describe("ManagedIdentityCredential", function() {
     assert.ok(error!.message!.indexOf("No managed identity endpoint found.") > -1);
   });
 
-  it("IMDS MSI retries and succeeds on 404", async function() {
+  it("IMDS MSI retries and succeeds on 404", async function () {
     const { result } = await sendCredentialRequests({
       scopes: ["scopes"],
       credential: new ManagedIdentityCredential("errclient"),
@@ -185,7 +193,7 @@ describe("ManagedIdentityCredential", function() {
     assert.equal(result?.token, "token");
   });
 
-  it("IMDS MSI retries up to a limit on 404", async function() {
+  it("IMDS MSI retries up to a limit on 404", async function () {
     const { error } = await sendCredentialRequests({
       scopes: ["scopes"],
       credential: new ManagedIdentityCredential("errclient"),
@@ -205,7 +213,7 @@ describe("ManagedIdentityCredential", function() {
     );
   });
 
-  it("IMDS MSI retries also retries on 503s", async function() {
+  it("IMDS MSI retries also retries on 503s", async function () {
     const { result } = await sendCredentialRequests({
       scopes: ["scopes"],
       credential: new ManagedIdentityCredential("errclient"),
@@ -226,13 +234,13 @@ describe("ManagedIdentityCredential", function() {
     assert.equal(result?.token, "token");
   });
 
-  it("IMDS MSI skips verification if the AZURE_POD_IDENTITY_AUTHORITY_HOST environment variable is available", async function() {
+  it("IMDS MSI skips verification if the AZURE_POD_IDENTITY_AUTHORITY_HOST environment variable is available", async function () {
     process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST = "token URL";
 
     assert.ok(await imdsMsi.isAvailable());
   });
 
-  it("IMDS MSI works even if the AZURE_POD_IDENTITY_AUTHORITY_HOST ends with a slash", async function() {
+  it("IMDS MSI works even if the AZURE_POD_IDENTITY_AUTHORITY_HOST ends with a slash", async function () {
     process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST = "http://10.0.0.1/";
 
     const authDetails = await sendCredentialRequests({
@@ -254,7 +262,7 @@ describe("ManagedIdentityCredential", function() {
     );
   });
 
-  it("IMDS MSI works even if the AZURE_POD_IDENTITY_AUTHORITY_HOST doesn't end with a slash", async function() {
+  it("IMDS MSI works even if the AZURE_POD_IDENTITY_AUTHORITY_HOST doesn't end with a slash", async function () {
     process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST = "http://10.0.0.1";
 
     const authDetails = await sendCredentialRequests({
@@ -277,7 +285,7 @@ describe("ManagedIdentityCredential", function() {
     );
   });
 
-  it("doesn't try IMDS endpoint again once it can't be detected", async function() {
+  it("doesn't try IMDS endpoint again once it can't be detected", async function () {
     const credential = new ManagedIdentityCredential("errclient");
     const authDetails = await sendCredentialRequests({
       scopes: ["scopes"],
@@ -362,7 +370,7 @@ describe("ManagedIdentityCredential", function() {
     assert.equal(authDetails.result!.token, "token");
   });
 
-  it("sends an authorization request correctly in an Azure Arc environment", async function(this: Mocha.Context) {
+  it("sends an authorization request correctly in an Azure Arc environment", async function (this: Mocha.Context) {
     // Trigger Azure Arc behavior by setting environment variables
 
     process.env.IMDS_ENDPOINT = "http://endpoint";
@@ -476,7 +484,7 @@ describe("ManagedIdentityCredential", function() {
     }
   });
 
-  it("sends an authorization request correctly if token file path is available", async function(this: Mocha.Context) {
+  it("sends an authorization request correctly if token file path is available", async function (this: Mocha.Context) {
     // Keep in mind that in this test we're also testing:
     // - Parametrized client ID.
     // - Non-default AZURE_TENANT_ID.
@@ -519,11 +527,11 @@ describe("ManagedIdentityCredential", function() {
       decodeURIComponent(body.get("client_assertion_type")!),
       "urn:ietf:params:oauth:client-assertion-type:jwt-bearer"
     );
-    assert.strictEqual(decodeURIComponent(body.get("scope")!), "https://service");
+    assert.strictEqual(decodeURIComponent(body.get("scope")!), "https://service/.default");
     assert.strictEqual(authDetails.result!.token, "token");
   });
 
-  it("reads from the token file again only after 5 minutes have passed", async function(this: Mocha.Context) {
+  it("reads from the token file again only after 5 minutes have passed", async function (this: Mocha.Context) {
     // Keep in mind that in this test we're also testing:
     // - Client ID on environment variable.
     // - Default AZURE_TENANT_ID.
@@ -567,7 +575,7 @@ describe("ManagedIdentityCredential", function() {
       decodeURIComponent(body.get("client_assertion_type")!),
       "urn:ietf:params:oauth:client-assertion-type:jwt-bearer"
     );
-    assert.strictEqual(decodeURIComponent(body.get("scope")!), "https://service https://service2");
+    assert.strictEqual(decodeURIComponent(body.get("scope")!), "https://service/.default https://service2/.default");
     assert.strictEqual(authDetails.result!.token, "token");
 
     const newExpectedAssertion = '{ "different": true }';

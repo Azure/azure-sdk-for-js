@@ -90,11 +90,15 @@ export const arcMsi: MSI = {
     return result;
   },
   async getToken(
-    identityClient: IdentityClient,
-    resource?: string,
-    clientId?: string,
+    configuration: {
+      identityClient: IdentityClient;
+      resource?: string;
+      clientId?: string;
+    },
     getTokenOptions: GetTokenOptions = {}
   ): Promise<AccessToken | null> {
+    const { identityClient, resource, clientId } = configuration;
+
     logger.info(`Using the Azure Arc MSI to authenticate.`);
 
     if (clientId) {
