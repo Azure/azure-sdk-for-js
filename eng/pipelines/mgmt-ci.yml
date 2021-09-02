@@ -198,6 +198,8 @@ trigger:
     - sdk/servicefabric/servicefabric
     - sdk/storage/storage-datalake
     - sdk/storage/storage-internal-avro
+    - sdk/resources-subscriptions/arm-resources-subscriptions
+    - sdk/templatespecs/arm-templatespecs
 
 pr: none
 
