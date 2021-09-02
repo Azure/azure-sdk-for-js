@@ -114,9 +114,11 @@ export class LogsQueryClient {
     );
 
     const parsedBody = JSON.parse(rawResponse.bodyAsText!);
+    console.log("inside query method");
+    console.log(JSON.stringify(parsedBody));
     flatResponse.tables = parsedBody.tables;
     return {
-      tables: flatResponse.tables.map(convertGeneratedTable),
+      tables: flatResponse.tables.map((table) => convertGeneratedTable(table)),
       statistics: flatResponse.statistics,
       visualization: flatResponse.render
     };

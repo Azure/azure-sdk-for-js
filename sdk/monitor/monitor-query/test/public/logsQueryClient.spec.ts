@@ -387,7 +387,7 @@ describe("LogsQueryClient live tests", function() {
       // this is incorrect, it'll be updated.
       console.log("single query logs result");
       console.dir(singleQueryLogsResult.tables?.[0]);
-      console.log(singleQueryLogsResult.error);
+      console.log(singleQueryLogsResult.error); //undefined
       assertQueryTable(
         singleQueryLogsResult.tables?.[0],
         {

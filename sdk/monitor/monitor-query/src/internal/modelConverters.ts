@@ -107,7 +107,7 @@ export function convertResponseForQueryBatch(
    * as the queries are passed in
    */
   console.log("Inside convertResponseForQueryBatch");
-  console.dir(generatedResponse.responses?.[0].body?.tables?.[0]);
+  console.log(JSON.stringify(generatedResponse.responses?.[0].body));
   console.dir(generatedResponse.responses?.[0].body?.tables?.[0].rows);
   console.log(" doing conversion");
   const newResponse: LogsQueryBatchResult = {
