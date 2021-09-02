@@ -92,7 +92,8 @@
     ],
     // Issue #14771 tracks updating to these versions
     "@microsoft/api-extractor": [
-      "7.13.2"
+      "7.13.2",
+      "^7.18.7"
     ],
     "prettier": [
       "2.2.1"
