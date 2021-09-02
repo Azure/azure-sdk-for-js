@@ -1,5 +1,15 @@
 # Release History
 
+## 3.14.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 3.14.1 (2021-09-02)
 
 ### Bugs Fixed
