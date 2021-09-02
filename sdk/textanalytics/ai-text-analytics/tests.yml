@@ -5,6 +5,7 @@ stages:
     parameters:
       PackageName: "@azure/ai-text-analytics"
       ServiceDirectory: textanalytics
+      SupportedClouds: 'Public,UsGov,China'
       EnvVars:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
         AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
