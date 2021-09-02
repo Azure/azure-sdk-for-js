@@ -21,21 +21,20 @@ import {
   SendCredentialRequests
 } from "../../httpRequestsCommon";
 import { prepareIdentityTests } from "../../httpRequests";
-import { DefaultAuthorityHost, DefaultTenantId } from "../../../src/constants";
+import { AzureAuthorityHosts, DefaultAuthorityHost, DefaultTenantId } from "../../../src/constants";
 
 describe("ManagedIdentityCredential", function() {
-  let envCopy: string = "";
   let testContext: IdentityTestContext;
   let sendCredentialRequests: SendCredentialRequests;
 
   beforeEach(async function() {
-    envCopy = JSON.stringify(process.env);
     delete process.env.IDENTITY_ENDPOINT;
     delete process.env.IDENTITY_HEADER;
     delete process.env.MSI_ENDPOINT;
     delete process.env.MSI_SECRET;
     delete process.env.IDENTITY_SERVER_THUMBPRINT;
     delete process.env.IMDS_ENDPOINT;
+    delete process.env.AZURE_AUTHORITY_HOST;
     delete process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST;
     delete process.env.AZURE_FEDERATED_TOKEN_FILE;
     testContext = await prepareIdentityTests({});
@@ -43,15 +42,6 @@ describe("ManagedIdentityCredential", function() {
   });
 
   afterEach(async function() {
-    const env = JSON.parse(envCopy);
-    process.env.IDENTITY_ENDPOINT = env.IDENTITY_ENDPOINT;
-    process.env.IDENTITY_HEADER = env.IDENTITY_HEADER;
-    process.env.MSI_ENDPOINT = env.MSI_ENDPOINT;
-    process.env.MSI_SECRET = env.MSI_SECRET;
-    process.env.IDENTITY_SERVER_THUMBPRINT = env.IDENTITY_SERVER_THUMBPRINT;
-    process.env.IMDS_ENDPOINT = env.IMDS_ENDPOINT;
-    process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST = env.AZURE_POD_IDENTITY_AUTHORITY_HOST;
-    process.env.AZURE_FEDERATED_TOKEN_FILE = env.AZURE_FEDERATED_TOKEN_FILE;
     await testContext.restore();
   });
 
@@ -495,11 +485,17 @@ describe("ManagedIdentityCredential", function() {
 
     // Trigger token file path by setting environment variables
     process.env.AZURE_CLIENT_ID = "client-id";
-    process.env.AZURE_TENANT_ID = DefaultTenantId;
+    process.env.AZURE_TENANT_ID = "my-tenant-id";
     process.env.AZURE_FEDERATED_TOKEN_FILE = tempFile;
+    process.env.AZURE_AUTHORITY_HOST = AzureAuthorityHosts.AzureGovernment;
+
+    // Keep in mind that in this test we're also testing:
+    // - Non-default AZURE_TENANT_ID.
+    // - Non-default AZURE_AUTHORITY_HOST.
+    // - Support for single scopes.
 
     const authDetails = await sendCredentialRequests({
-      scopes: ["https://service/.default", "https://service2/.default"],
+      scopes: ["https://service/.default"],
       credential: new ManagedIdentityCredential("client"),
       secureResponses: [
         createResponse(200, {
@@ -515,7 +511,7 @@ describe("ManagedIdentityCredential", function() {
 
     assert.strictEqual(
       authRequest.url,
-      `${DefaultAuthorityHost}/${DefaultTenantId}/oauth2/v2.0/token`
+      `${AzureAuthorityHosts.AzureGovernment}/${"my-tenant-id"}/oauth2/v2.0/token`
     );
     assert.strictEqual(authRequest.method, "POST");
     assert.strictEqual(decodeURIComponent(body.get("client_assertion")!), expectedAssertion);
@@ -523,7 +519,7 @@ describe("ManagedIdentityCredential", function() {
       decodeURIComponent(body.get("client_assertion_type")!),
       "urn:ietf:params:oauth:client-assertion-type:jwt-bearer"
     );
-    assert.strictEqual(decodeURIComponent(body.get("scope")!), "https://service https://service2");
+    assert.strictEqual(decodeURIComponent(body.get("scope")!), "https://service");
     assert.strictEqual(authDetails.result!.token, "token");
   });
 
@@ -540,6 +536,11 @@ describe("ManagedIdentityCredential", function() {
     process.env.AZURE_FEDERATED_TOKEN_FILE = tempFile;
 
     const credential = new ManagedIdentityCredential("client");
+
+    // Keep in mind that in this test we're also testing:
+    // - Default AZURE_TENANT_ID.
+    // - Default AZURE_AUTHORITY_HOST.
+    // - Support for multiple scopes.
 
     let authDetails = await sendCredentialRequests({
       scopes: ["https://service/.default", "https://service2/.default"],

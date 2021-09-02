@@ -50,36 +50,36 @@ function prepareRequestOptions(
 }
 
 export function tokenExchangeMsi(): MSI {
-  const assertionCache: {
-    [key: string]: { value: string; date: number };
-  } = {};
+  const azureFederatedTokenFilePath = process.env.AZURE_FEDERATED_TOKEN_FILE;
+  let azureFederatedTokenFileContent: string | undefined = undefined;
+  let cacheDate: number | undefined = undefined;
 
   // Only reads from the assertion file once every 5 minutes
-  async function readAssertion(path: string): Promise<string> {
-    for (const key in assertionCache) {
-      const cachedAssertion = assertionCache[key];
-      // Cached assertions expire after 5 minutes
-      if (Date.now() - cachedAssertion.date >= 1000 * 60 * 5) {
-        delete assertionCache[key];
-      }
+  async function readAssertion(): Promise<string> {
+    // Cached assertions expire after 5 minutes
+    if (cacheDate !== undefined && Date.now() - cacheDate >= 1000 * 60 * 5) {
+      azureFederatedTokenFileContent = undefined;
     }
-    if (!assertionCache[path]) {
-      const file = await readFileAsync(path, "utf8");
+    if (!azureFederatedTokenFileContent) {
+      const file = await readFileAsync(azureFederatedTokenFilePath!, "utf8");
       const value = file.trim();
-      if (value) {
-        assertionCache[path] = { value, date: Date.now() };
+      if (!value) {
+        throw new Error(
+          `No content on the file ${azureFederatedTokenFilePath}, indicated by the environment variable AZURE_FEDERATED_TOKEN_FILE`
+        );
       } else {
-        return value;
+        azureFederatedTokenFileContent = value;
+        cacheDate = Date.now();
       }
     }
-    return assertionCache[path].value;
+    return azureFederatedTokenFileContent;
   }
 
   return {
     async isAvailable(): Promise<boolean> {
       const env = process.env;
       const result = Boolean(
-        env.AZURE_CLIENT_ID && env.AZURE_TENANT_ID && env.AZURE_FEDERATED_TOKEN_FILE
+        env.AZURE_CLIENT_ID && env.AZURE_TENANT_ID && azureFederatedTokenFilePath
       );
       if (!result) {
         logger.info("The Token File Path MSI is unavailable.");
@@ -97,9 +97,11 @@ export function tokenExchangeMsi(): MSI {
       let assertion: string;
 
       try {
-        assertion = await readAssertion(process.env.AZURE_FEDERATED_TOKEN_FILE!);
+        assertion = await readAssertion();
       } catch (err) {
-        throw new Error(`Failed to read ${process.env.AZURE_FEDERATED_TOKEN_FILE}`);
+        throw new Error(
+          `Failed to read ${azureFederatedTokenFilePath}, indicated by the environment variable AZURE_FEDERATED_TOKEN_FILE`
+        );
       }
 
       return msiGenericGetToken(
