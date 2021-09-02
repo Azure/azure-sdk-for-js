@@ -197,7 +197,7 @@ export class SchemaRegistryAvroSerializer {
     if (this.autoRegisterSchemas) {
       id = (await this.registry.registerSchema(description)).id;
     } else {
-      const response = await this.registry.getSchemaId(description);
+      const response = await this.registry.getSchemaProperties(description);
       if (!response) {
         throw new Error(
           `Schema '${description.name}' not found in registry group '${description.groupName}', or not found to have matching content.`
