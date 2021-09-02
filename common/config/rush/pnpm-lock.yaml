@@ -38,7 +38,6 @@ dependencies:
   '@rush-temp/event-processor-host': file:projects/event-processor-host.tgz
   '@rush-temp/eventgrid': file:projects/eventgrid.tgz
   '@rush-temp/eventhubs-checkpointstore-blob': file:projects/eventhubs-checkpointstore-blob.tgz
-  '@rush-temp/identity': file:projects/identity.tgz
   '@rush-temp/iot-device-update': file:projects/iot-device-update.tgz
   '@rush-temp/iot-modelsrepository': file:projects/iot-modelsrepository.tgz
   '@rush-temp/keyvault-admin': file:projects/keyvault-admin.tgz
@@ -1474,12 +1473,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-FLXKbwbB+4fsJECYOpIiYX2GSqSHYnkO/UnrFqlZn6crpyyOtk4LRab+G1HC7dTbT1NB7spkHecZRQGXoCWiJQ==
-  /@types/jws/3.2.3:
-    dependencies:
-      '@types/node': 14.14.37
-    dev: false
-    resolution:
-      integrity: sha512-g54CHxwvaHvyJyeuZqe7VQujV9SfCXwEkboJp355INPL+kjlS3Aq153EHptaeO/Cch/NPJ1i2sHz0sDDizn7LQ==
   /@types/jwt-decode/2.2.1:
     dev: false
     resolution:
@@ -9996,67 +9989,6 @@ packages:
       integrity: sha512-+IkU2ATSSMXaGRwCmLYsC6zjHzXJdbyPHp2Hj9r90C/odBUHvsffC0Pr0Z6VKqb9V1DZfFDoLlQTUdjwkS2NHg==
       tarball: file:projects/eventhubs-checkpointstore-blob.tgz
     version: 0.0.0
-  file:projects/identity.tgz:
-    dependencies:
-      '@azure/core-tracing': 1.0.0-preview.11
-      '@azure/msal-browser': 2.9.0
-      '@azure/msal-common': 4.2.0
-      '@azure/msal-node': 1.0.2
-      '@microsoft/api-extractor': 7.7.11
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
-      '@types/jws': 3.2.3
-      '@types/mocha': 7.0.2
-      '@types/node': 8.10.66
-      '@types/qs': 6.9.6
-      '@types/sinon': 9.0.11
-      '@types/stoppable': 1.1.0
-      '@types/uuid': 8.3.0
-      assert: 1.5.0
-      cross-env: 7.0.3
-      dotenv: 8.2.0
-      eslint: 7.23.0
-      events: 3.3.0
-      inherits: 2.0.4
-      jws: 4.0.0
-      karma: 6.3.2
-      karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
-      karma-env-preprocessor: 0.1.1
-      karma-junit-reporter: 2.0.1_karma@6.3.2
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.2
-      karma-sourcemap-loader: 0.3.8
-      mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      mock-fs: 4.13.0
-      open: 7.4.2
-      prettier: 1.19.1
-      puppeteer: 3.3.0
-      qs: 6.10.1
-      rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
-      sinon: 9.2.4
-      stoppable: 1.1.0
-      tslib: 2.2.0
-      typedoc: 0.15.2
-      typescript: 4.2.4
-      util: 0.12.3
-      uuid: 8.3.2
-    dev: false
-    name: '@rush-temp/identity'
-    optionalDependencies:
-      keytar: 7.6.0
-    resolution:
-      integrity: sha512-WBDiw99pS183MgGmJf7Ety38qx9pB8H8lJ+bcOhgLCD0EQsG+yPKjUIuQjicVG8XIpEWCcb6NjftPkfjLCkVkw==
-      tarball: file:projects/identity.tgz
-    version: 0.0.0
   file:projects/iot-device-update.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.11
@@ -11999,7 +11931,6 @@ specifiers:
   '@rush-temp/event-processor-host': file:./projects/event-processor-host.tgz
   '@rush-temp/eventgrid': file:./projects/eventgrid.tgz
   '@rush-temp/eventhubs-checkpointstore-blob': file:./projects/eventhubs-checkpointstore-blob.tgz
-  '@rush-temp/identity': file:./projects/identity.tgz
   '@rush-temp/iot-device-update': file:./projects/iot-device-update.tgz
   '@rush-temp/iot-modelsrepository': file:./projects/iot-modelsrepository.tgz
   '@rush-temp/keyvault-admin': file:./projects/keyvault-admin.tgz
