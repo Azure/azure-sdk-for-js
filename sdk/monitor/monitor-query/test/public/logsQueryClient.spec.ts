@@ -348,19 +348,18 @@ describe("LogsQueryClient live tests", function() {
           testRunId = env.TEST_RUN_ID;
         } else {
           testRunId = `ingestedDataTest-${Date.now()}`;
-
+          loggerForTest.info(`testRunId = ${testRunId}`);
           // send some events
-          await runWithTelemetry(this, (provider) => {
+          runWithTelemetry(this, async (provider) => {
             const tracer = provider.getTracer("logsClientTests");
 
-            tracer
-              .startSpan("testSpan", {
-                attributes: {
-                  testRunId,
-                  kind: "now"
-                }
-              })
-              .end();
+            const span = tracer.startSpan("testSpan", {
+              attributes: {
+                testRunId,
+                kind: "now"
+              }
+            });
+            span.end();
           });
         }
 
@@ -370,7 +369,7 @@ describe("LogsQueryClient live tests", function() {
         await checkLogsHaveBeenIngested({
           maxTries: 240,
           secondsBetweenQueries: 5
-        });
+        }).catch((err) => console.log(`caught it ${err}`));
       } catch (e) {
         console.error(e);
       }
@@ -460,13 +459,15 @@ describe("LogsQueryClient live tests", function() {
         const result = await client.query(monitorWorkspaceId, query, {
           duration: Durations.TwentyFourHours
         });
+        if (result) {
+          const numRows = result.tables?.[0].rows?.length;
 
-        const numRows = result.tables?.[0].rows?.length;
+          if (numRows != null && numRows > 0) {
+            loggerForTest.verbose(
+              `[Attempt: ${i}/${args.maxTries}] Results came back, done waiting.`
+            );
+          }
 
-        if (numRows != null && numRows > 0) {
-          loggerForTest.verbose(
-            `[Attempt: ${i}/${args.maxTries}] Results came back, done waiting.`
-          );
           return;
         }
 

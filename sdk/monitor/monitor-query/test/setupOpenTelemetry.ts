@@ -14,7 +14,7 @@ dotenv.config();
 export function runWithTelemetry(
   mochaContext: Pick<Context, "skip">,
   fn: (provider: TracerProvider) => void
-): Promise<void> {
+): void {
   const appInsightsConnectionString = getAppInsightsConnectionString(mochaContext);
 
   const provider = new NodeTracerProvider({
@@ -36,9 +36,9 @@ export function runWithTelemetry(
 
   // Add the exporter to the provider
   // TODO: there is an API incompatiblity here.
-  provider.addSpanProcessor(batchSpanProcessor as any);
+  provider.addSpanProcessor(batchSpanProcessor);
 
   fn(provider);
-
-  return provider.shutdown();
+  return;
+  //return provider.shutdown();
 }
