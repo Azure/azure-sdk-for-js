@@ -477,6 +477,12 @@ describe("ManagedIdentityCredential", function() {
   });
 
   it("sends an authorization request correctly if token file path is available", async function(this: Mocha.Context) {
+    // Keep in mind that in this test we're also testing:
+    // - Parametrized client ID.
+    // - Non-default AZURE_TENANT_ID.
+    // - Non-default AZURE_AUTHORITY_HOST.
+    // - Support for single scopes.
+
     const testTitle = this.test?.title || Date.now().toString();
     const tempDir = mkdtempSync(join(tmpdir(), testTitle));
     const tempFile = join(tempDir, testTitle);
@@ -484,15 +490,9 @@ describe("ManagedIdentityCredential", function() {
     writeFileSync(tempFile, expectedAssertion, { encoding: "utf8" });
 
     // Trigger token file path by setting environment variables
-    process.env.AZURE_CLIENT_ID = "client-id";
     process.env.AZURE_TENANT_ID = "my-tenant-id";
     process.env.AZURE_FEDERATED_TOKEN_FILE = tempFile;
     process.env.AZURE_AUTHORITY_HOST = AzureAuthorityHosts.AzureGovernment;
-
-    // Keep in mind that in this test we're also testing:
-    // - Non-default AZURE_TENANT_ID.
-    // - Non-default AZURE_AUTHORITY_HOST.
-    // - Support for single scopes.
 
     const authDetails = await sendCredentialRequests({
       scopes: ["https://service/.default"],
@@ -524,6 +524,12 @@ describe("ManagedIdentityCredential", function() {
   });
 
   it("reads from the token file again only after 5 minutes have passed", async function(this: Mocha.Context) {
+    // Keep in mind that in this test we're also testing:
+    // - Client ID on environment variable.
+    // - Default AZURE_TENANT_ID.
+    // - Default AZURE_AUTHORITY_HOST.
+    // - Support for multiple scopes.
+
     const testTitle = this.test?.title || Date.now().toString();
     const tempDir = mkdtempSync(join(tmpdir(), testTitle));
     const tempFile = join(tempDir, testTitle);
@@ -535,12 +541,7 @@ describe("ManagedIdentityCredential", function() {
     process.env.AZURE_TENANT_ID = DefaultTenantId;
     process.env.AZURE_FEDERATED_TOKEN_FILE = tempFile;
 
-    const credential = new ManagedIdentityCredential("client");
-
-    // Keep in mind that in this test we're also testing:
-    // - Default AZURE_TENANT_ID.
-    // - Default AZURE_AUTHORITY_HOST.
-    // - Support for multiple scopes.
+    const credential = new ManagedIdentityCredential();
 
     let authDetails = await sendCredentialRequests({
       scopes: ["https://service/.default", "https://service2/.default"],

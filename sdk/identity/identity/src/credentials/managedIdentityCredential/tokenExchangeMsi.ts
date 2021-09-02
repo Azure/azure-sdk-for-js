@@ -78,9 +78,7 @@ export function tokenExchangeMsi(): MSI {
   return {
     async isAvailable(): Promise<boolean> {
       const env = process.env;
-      const result = Boolean(
-        env.AZURE_CLIENT_ID && env.AZURE_TENANT_ID && azureFederatedTokenFilePath
-      );
+      const result = Boolean(env.AZURE_TENANT_ID && azureFederatedTokenFilePath);
       if (!result) {
         logger.info("The Token File Path MSI is unavailable.");
       }
