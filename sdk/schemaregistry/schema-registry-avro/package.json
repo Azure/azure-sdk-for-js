@@ -5,8 +5,10 @@
   "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
-  "browser": {},
-  "types": "types/schema-registry-avro.d.ts",
+  "browser": {
+    "./dist-esm/src/utils/buffer.js": "./dist-esm/src/utils/buffer.browser.js"
+  },
+  "types": "schema-registry-avro.shims.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
@@ -37,6 +39,7 @@
     "dist/",
     "dist-esm/src/",
     "types/schema-registry-avro.d.ts",
+    "schema-registry-avro.shims.d.ts",
     "README.md",
     "LICENSE"
   ],
