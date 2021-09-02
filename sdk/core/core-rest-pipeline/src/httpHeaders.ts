@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpHeaders, RawHttpHeaders } from "./interfaces";
+import { HttpHeaders, RawHttpHeaders, RawHttpHeadersInput } from "./interfaces";
 
 function normalizeName(name: string): string {
   return name.toLowerCase();
@@ -10,7 +10,7 @@ function normalizeName(name: string): string {
 class HttpHeadersImpl implements HttpHeaders {
   private readonly _headersMap: Map<string, string>;
 
-  constructor(rawHeaders?: RawHttpHeaders) {
+  constructor(rawHeaders?: RawHttpHeaders | RawHttpHeadersInput) {
     this._headersMap = new Map<string, string>();
     if (rawHeaders) {
       for (const headerName of Object.keys(rawHeaders)) {
@@ -25,7 +25,7 @@ class HttpHeadersImpl implements HttpHeaders {
    * @param name - The name of the header to set. This value is case-insensitive.
    * @param value - The value of the header to set.
    */
-  public set(name: string, value: string | number): void {
+  public set(name: string, value: string | number | boolean): void {
     this._headersMap.set(normalizeName(name), String(value));
   }
 
@@ -84,6 +84,6 @@ class HttpHeadersImpl implements HttpHeaders {
  * Creates an object that satisfies the `HttpHeaders` interface.
  * @param rawHeaders - A simple object representing initial headers
  */
-export function createHttpHeaders(rawHeaders?: RawHttpHeaders): HttpHeaders {
+export function createHttpHeaders(rawHeaders?: RawHttpHeadersInput): HttpHeaders {
   return new HttpHeadersImpl(rawHeaders);
 }

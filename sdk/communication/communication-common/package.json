@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-common",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Common package for Azure Communication services.",
   "sdk-type": "client",
   "main": "dist/index.js",
