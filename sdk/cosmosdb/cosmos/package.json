@@ -121,7 +121,6 @@
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^1.18.0",
     "prettier": "^1.16.4",
-    "proxy-agent": "^4.0.1",
     "requirejs": "^2.3.5",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
