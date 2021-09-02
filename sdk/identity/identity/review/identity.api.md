@@ -251,11 +251,13 @@ export class ManagedIdentityCredential implements TokenCredential {
 // @public
 export class OnBehalfOfCredential implements TokenCredential {
     constructor(tenantId: string, clientId: string, clientSecret: string, userAssertionToken: string, options?: OnBehalfOfCredentialOptions);
+    constructor(tenantId: string, clientId: string, certificatePath: string, userAssertionToken: string, options?: OnBehalfOfCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
     }
 
 // @public
 export interface OnBehalfOfCredentialOptions extends TokenCredentialOptions, CredentialPersistenceOptions {
+    sendCertificateChain?: boolean;
 }
 
 // @public

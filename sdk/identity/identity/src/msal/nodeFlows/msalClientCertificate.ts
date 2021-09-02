@@ -46,59 +46,70 @@ interface CertificateParts {
 }
 
 /**
+ * Tries to load a certificate from the given path.
+ *
+ * @param certificatePath - Path to the certificate.
+ * @param sendCertificateChain - Option to include x5c header for SubjectName and Issuer name authorization.
+ * @returns - The certificate parts, or `undefined` if the certificate could not be loaded.
+ * @internal
+ */
+export function parseCertificate(
+  certificatePath: string,
+  sendCertificateChain?: boolean
+): CertificateParts {
+  const certificateParts: Partial<CertificateParts> = {};
+
+  certificateParts.certificateContents = readFileSync(certificatePath, "utf8");
+  if (sendCertificateChain) {
+    certificateParts.x5c = certificateParts.certificateContents;
+  }
+
+  const certificatePattern = /(-+BEGIN CERTIFICATE-+)(\n\r?|\r\n?)([A-Za-z0-9+/\n\r]+=*)(\n\r?|\r\n?)(-+END CERTIFICATE-+)/g;
+  const publicKeys: string[] = [];
+
+  // Match all possible certificates, in the order they are in the file. These will form the chain that is used for x5c
+  let match;
+  do {
+    match = certificatePattern.exec(certificateParts.certificateContents);
+    if (match) {
+      publicKeys.push(match[3]);
+    }
+  } while (match);
+
+  if (publicKeys.length === 0) {
+    const error = new Error(
+      "The file at the specified path does not contain a PEM-encoded certificate."
+    );
+    throw error;
+  }
+
+  certificateParts.thumbprint = createHash("sha1")
+    .update(Buffer.from(publicKeys[0], "base64"))
+    .digest("hex")
+    .toUpperCase();
+
+  return certificateParts as CertificateParts;
+}
+
+/**
  * MSAL client certificate client. Calls to MSAL's confidential application's `acquireTokenByClientCredential` during `doGetToken`.
  * @internal
  */
 export class MsalClientCertificate extends MsalNode {
-  private sendCertificateChain?: boolean;
-
   constructor(options: MSALClientCertificateOptions) {
     super(options);
     this.requiresConfidential = true;
-    this.sendCertificateChain = options.sendCertificateChain;
-
-    const parts = this.parseCertificate(options.certificatePath);
-    this.msalConfig.auth.clientCertificate = {
-      thumbprint: parts.thumbprint,
-      privateKey: parts.certificateContents,
-      x5c: parts.x5c
-    };
-  }
-
-  private parseCertificate(certificatePath: string): CertificateParts {
-    const certificateParts: Partial<CertificateParts> = {};
-
-    certificateParts.certificateContents = readFileSync(certificatePath, "utf8");
-    if (this.sendCertificateChain) {
-      certificateParts.x5c = certificateParts.certificateContents;
-    }
-
-    const certificatePattern = /(-+BEGIN CERTIFICATE-+)(\n\r?|\r\n?)([A-Za-z0-9+/\n\r]+=*)(\n\r?|\r\n?)(-+END CERTIFICATE-+)/g;
-    const publicKeys: string[] = [];
-
-    // Match all possible certificates, in the order they are in the file. These will form the chain that is used for x5c
-    let match;
-    do {
-      match = certificatePattern.exec(certificateParts.certificateContents);
-      if (match) {
-        publicKeys.push(match[3]);
-      }
-    } while (match);
-
-    if (publicKeys.length === 0) {
-      const error = new Error(
-        "The file at the specified path does not contain a PEM-encoded certificate."
-      );
+    try {
+      const parts = parseCertificate(options.certificatePath, options.sendCertificateChain);
+      this.msalConfig.auth.clientCertificate = {
+        thumbprint: parts.thumbprint,
+        privateKey: parts.certificateContents,
+        x5c: parts.x5c
+      };
+    } catch (error) {
       this.logger.info(formatError("", error));
       throw error;
     }
-
-    certificateParts.thumbprint = createHash("sha1")
-      .update(Buffer.from(publicKeys[0], "base64"))
-      .digest("hex")
-      .toUpperCase();
-
-    return certificateParts as CertificateParts;
   }
 
   protected async doGetToken(

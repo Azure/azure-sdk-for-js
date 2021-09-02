@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 
 import { AccessToken } from "@azure/core-auth";
-
+import { formatError } from "../../util/logging";
 import { CredentialFlowGetTokenOptions } from "../credentials";
+import { parseCertificate } from "./msalClientCertificate";
 import { MsalNodeOptions, MsalNode } from "./nodeCommon";
 
 /**
@@ -11,7 +12,9 @@ import { MsalNodeOptions, MsalNode } from "./nodeCommon";
  * @internal
  */
 export interface MSALOnBehalfOfOptions extends MsalNodeOptions {
-  clientSecret: string;
+  clientSecret?: string;
+  certificatePath?: string;
+  sendCertificateChain?: boolean;
   userAssertionToken: string;
 }
 
@@ -26,8 +29,23 @@ export class MsalOnBehalfOf extends MsalNode {
     super(options);
     this.logger.info("Initialized MSAL's On-Behalf-Of flow");
     this.requiresConfidential = true;
-    this.msalConfig.auth.clientSecret = options.clientSecret;
     this.userAssertionToken = options.userAssertionToken;
+
+    if (options.certificatePath) {
+      try {
+        const parts = parseCertificate(options.certificatePath, options.sendCertificateChain);
+        this.msalConfig.auth.clientCertificate = {
+          thumbprint: parts.thumbprint,
+          privateKey: parts.certificateContents,
+          x5c: parts.x5c
+        };
+      } catch (error) {
+        this.logger.info(formatError("", error));
+        throw error;
+      }
+    } else {
+      this.msalConfig.auth.clientSecret = options.clientSecret;
+    }
   }
 
   protected async doGetToken(
