@@ -122,7 +122,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.0.0-beta.6
       '@azure/core-paging': 1.2.0
-      '@azure/core-rest-pipeline': 1.2.0
+      '@azure/core-rest-pipeline': 1.3.0
       tslib: 2.3.1
     dev: false
     engines:
@@ -132,7 +132,7 @@ packages:
   /@azure-rest/core-client/1.0.0-beta.6:
     dependencies:
       '@azure/core-auth': 1.3.2
-      '@azure/core-rest-pipeline': 1.2.0
+      '@azure/core-rest-pipeline': 1.3.0
       tslib: 2.3.1
     dev: false
     engines:
@@ -184,7 +184,7 @@ packages:
       '@azure/core-client': 1.3.0
       '@azure/core-lro': 2.2.0
       '@azure/core-paging': 1.2.0
-      '@azure/core-rest-pipeline': 1.2.0
+      '@azure/core-rest-pipeline': 1.3.0
       '@azure/core-tracing': 1.0.0-preview.12
       '@azure/logger': 1.0.2
       tslib: 2.3.1
@@ -218,7 +218,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.0.4
       '@azure/core-auth': 1.3.2
-      '@azure/core-http': 2.1.0
+      '@azure/core-http': 2.2.0
       '@azure/core-tracing': 1.0.0-preview.13
       events: 3.3.0
       jwt-decode: 2.2.0
@@ -277,7 +277,7 @@ packages:
       '@azure/abort-controller': 1.0.4
       '@azure/core-asynciterator-polyfill': 1.0.0
       '@azure/core-auth': 1.3.2
-      '@azure/core-rest-pipeline': 1.2.0
+      '@azure/core-rest-pipeline': 1.3.0
       '@azure/core-tracing': 1.0.0-preview.13
       tslib: 2.3.1
     dev: false
@@ -329,7 +329,7 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-odtH7UMKtekc5YQ86xg9GlVHNXR6pq2JgJ5FBo7/jbOjNGdBqcrIVrZx2bevXVJz/uUTSx6vUf62gzTXTfqYSQ==
-  /@azure/core-http/2.1.0:
+  /@azure/core-http/2.2.0:
     dependencies:
       '@azure/abort-controller': 1.0.4
       '@azure/core-asynciterator-polyfill': 1.0.0
@@ -337,8 +337,8 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/logger': 1.0.2
       '@types/node-fetch': 2.5.12
-      '@types/tunnel': 0.0.1
-      form-data: 3.0.1
+      '@types/tunnel': 0.0.3
+      form-data: 4.0.0
       node-fetch: 2.6.1
       process: 0.11.10
       tough-cookie: 4.0.0
@@ -350,7 +350,7 @@ packages:
     engines:
       node: '>=12.0.0'
     resolution:
-      integrity: sha512-Pzj87F4b1RH4PFDUpxkZqCdDZ35c5AjDCt3lsTn3i7yCtrXasEm6PVJYhjwsvYYmtgM7aDZIXexcu/qLLf7kyA==
+      integrity: sha512-DCXm8OTNhPxErNvwuNgd9r/W+LjMrHHNc9/q4QgIOpCaoBvpJd1O5Nl2gbAhrwfiwmEBNWHMeGoe5+g3Lx2H/A==
   /@azure/core-lro/1.0.5:
     dependencies:
       '@azure/abort-controller': 1.0.4
@@ -383,13 +383,13 @@ packages:
       node: '>=12.0.0'
     resolution:
       integrity: sha512-ZX1bCjm/MjKPCN6kQD/9GJErYSoKA8YWp6YWoo5EIzcTWlSBLXu3gNaBTUl8usGl+UShiKo7b4Gdy1NSTIlpZg==
-  /@azure/core-rest-pipeline/1.2.0:
+  /@azure/core-rest-pipeline/1.3.0:
     dependencies:
       '@azure/abort-controller': 1.0.4
       '@azure/core-auth': 1.3.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/logger': 1.0.2
-      form-data: 3.0.1
+      form-data: 4.0.0
       http-proxy-agent: 4.0.1
       https-proxy-agent: 5.0.0
       tslib: 2.3.1
@@ -398,7 +398,7 @@ packages:
     engines:
       node: '>=12.0.0'
     resolution:
-      integrity: sha512-oOd8feRcuoSUwflPNLPO8x6v+m4TcJ9DmazlouuG9d64zJJEwaU757ovpRss9zaL8cggUAdm84C4EbtZ/ltMAw==
+      integrity: sha512-XdGCm4sVfLvFbd3x17Aw6XNA8SK+sWFvVlOnNSSL2OJGJ4g10LspCpGnIqB+V6OZAaVwOx/eQQN2rOfZzf4Q5w==
   /@azure/core-tracing/1.0.0-preview.10:
     dependencies:
       '@opencensus/web-types': 0.0.7
@@ -499,7 +499,7 @@ packages:
     dependencies:
       '@azure/core-auth': 1.3.2
       '@azure/core-client': 1.3.0
-      '@azure/core-rest-pipeline': 1.2.0
+      '@azure/core-rest-pipeline': 1.3.0
       '@azure/core-tracing': 1.0.0-preview.12
       '@azure/logger': 1.0.2
       '@azure/msal-node': 1.0.0-beta.6
@@ -524,7 +524,7 @@ packages:
     dependencies:
       '@azure/core-auth': 1.3.2
       '@azure/core-client': 1.3.0
-      '@azure/core-rest-pipeline': 1.2.0
+      '@azure/core-rest-pipeline': 1.3.0
       '@azure/core-tracing': 1.0.0-preview.12
       '@azure/logger': 1.0.2
       '@azure/msal-node': 1.0.0-beta.6_debug@4.3.2
@@ -552,7 +552,7 @@ packages:
       '@azure/abort-controller': 1.0.4
       '@azure/core-auth': 1.3.2
       '@azure/core-client': 1.3.0
-      '@azure/core-rest-pipeline': 1.2.0
+      '@azure/core-rest-pipeline': 1.3.0
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/core-util': 1.0.0-beta.1
       '@azure/logger': 1.0.2
@@ -575,7 +575,7 @@ packages:
   /@azure/keyvault-certificates/4.3.0:
     dependencies:
       '@azure/abort-controller': 1.0.4
-      '@azure/core-http': 2.1.0
+      '@azure/core-http': 2.2.0
       '@azure/core-lro': 2.2.0
       '@azure/core-paging': 1.2.0
       '@azure/core-tracing': 1.0.0-preview.13
@@ -589,7 +589,7 @@ packages:
   /@azure/keyvault-keys/4.3.0:
     dependencies:
       '@azure/abort-controller': 1.0.4
-      '@azure/core-http': 2.1.0
+      '@azure/core-http': 2.2.0
       '@azure/core-lro': 2.2.0
       '@azure/core-paging': 1.2.0
       '@azure/core-tracing': 1.0.0-preview.13
@@ -603,7 +603,7 @@ packages:
   /@azure/keyvault-secrets/4.3.0:
     dependencies:
       '@azure/abort-controller': 1.0.4
-      '@azure/core-http': 2.1.0
+      '@azure/core-http': 2.2.0
       '@azure/core-lro': 2.2.0
       '@azure/core-paging': 1.2.0
       '@azure/core-tracing': 1.0.0-preview.13
@@ -630,7 +630,7 @@ packages:
       integrity: sha512-YZNjNV0vL3nN2nedmcjQBcpCTo3oqceXmgiQtEm6fLpucjRZyQKAQruhCmCpRlB1iykqKJJ/Y8CDmT5rIE6IJw==
   /@azure/monitor-opentelemetry-exporter/1.0.0-beta.4:
     dependencies:
-      '@azure/core-http': 2.1.0
+      '@azure/core-http': 2.2.0
       '@opentelemetry/api': 1.0.3
       '@opentelemetry/core': 0.22.0_@opentelemetry+api@1.0.3
       '@opentelemetry/resources': 0.22.0_@opentelemetry+api@1.0.3
@@ -772,7 +772,7 @@ packages:
   /@azure/storage-blob/12.7.0:
     dependencies:
       '@azure/abort-controller': 1.0.4
-      '@azure/core-http': 2.1.0
+      '@azure/core-http': 2.2.0
       '@azure/core-lro': 2.2.0
       '@azure/core-paging': 1.2.0
       '@azure/core-tracing': 1.0.0-preview.13
@@ -1076,6 +1076,14 @@ packages:
     dev: false
     resolution:
       integrity: sha512-EU+U09Mj65zUH0qwPF4PFJiL6Y+PQQE/RRGEHEDGJJzab/mRQDpKOyrzSdb00xvcd/URehIHJqC55cY2Y4jGOA==
+  /@microsoft/api-extractor-model/7.13.5:
+    dependencies:
+      '@microsoft/tsdoc': 0.13.2
+      '@microsoft/tsdoc-config': 0.15.2
+      '@rushstack/node-core-library': 3.40.0
+    dev: false
+    resolution:
+      integrity: sha512-il6AebNltYo5hEtqXZw4DMvrwBPn6+F58TxwqmsLY+U+sSJNxaYn2jYksArrjErXVPR3gUgRMqD6zsdIkg+WEQ==
   /@microsoft/api-extractor-model/7.7.10:
     dependencies:
       '@microsoft/tsdoc': 0.12.19
@@ -1100,6 +1108,24 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-2fD0c8OxZW+e6NTaxbtrdNxXVuX7aqil3+cqig3pKsHymvUuRJVCEAcAJmZrJ/ENqYXNiB265EyqOT6VxbMysw==
+  /@microsoft/api-extractor/7.18.7:
+    dependencies:
+      '@microsoft/api-extractor-model': 7.13.5
+      '@microsoft/tsdoc': 0.13.2
+      '@microsoft/tsdoc-config': 0.15.2
+      '@rushstack/node-core-library': 3.40.0
+      '@rushstack/rig-package': 0.3.0
+      '@rushstack/ts-command-line': 4.9.0
+      colors: 1.2.5
+      lodash: 4.17.21
+      resolve: 1.17.0
+      semver: 7.3.5
+      source-map: 0.6.1
+      typescript: 4.3.5
+    dev: false
+    hasBin: true
+    resolution:
+      integrity: sha512-JhtV8LoyLuIecbgCPyZQg08G1kngIRWpai2UzwNil9mGVGYiDZVeeKx8c2phmlPcogmMDm4oQROxyuiYt5sJiw==
   /@microsoft/api-extractor/7.7.11:
     dependencies:
       '@microsoft/api-extractor-model': 7.7.10
@@ -1430,6 +1456,20 @@ packages:
     dev: false
     resolution:
       integrity: sha512-bID2vzXpg8zweXdXgQkKToEdZwVrVCN9vE9viTRk58gqzYaTlz4fMId6V3ZfpXN6H0d319uGi2KDlm+lUEeqCg==
+  /@rushstack/node-core-library/3.40.0:
+    dependencies:
+      '@types/node': 10.17.13
+      colors: 1.2.5
+      fs-extra: 7.0.1
+      import-lazy: 4.0.0
+      jju: 1.4.0
+      resolve: 1.17.0
+      semver: 7.3.5
+      timsort: 0.3.0
+      z-schema: 3.18.4
+    dev: false
+    resolution:
+      integrity: sha512-P6uMPI7cqTdawLSPAG5BQrBu1MHlGRPqecp7ruIRgyukIEzkmh0QAnje4jAL/l1r3hw0qe4e+Dz5ZSnukT/Egg==
   /@rushstack/rig-package/0.2.10:
     dependencies:
       resolve: 1.17.0
@@ -1437,6 +1477,13 @@ packages:
     dev: false
     resolution:
       integrity: sha512-WXYerEJEPf8bS3ruqfM57NnwXtA7ehn8VJjLjrjls6eSduE5CRydcob/oBTzlHKsQ7N196XKlqQl9P6qIyYG2A==
+  /@rushstack/rig-package/0.3.0:
+    dependencies:
+      resolve: 1.17.0
+      strip-json-comments: 3.1.1
+    dev: false
+    resolution:
+      integrity: sha512-Lj6noF7Q4BBm1hKiBDw94e6uZvq1xlBwM/d2cBFaPqXeGdV+G6r3qaCWfRiSXK0pcHpGGpV5Tb2MdfhVcO6G/g==
   /@rushstack/ts-command-line/4.3.13:
     dependencies:
       '@types/argparse': 1.0.33
@@ -1454,6 +1501,15 @@ packages:
     dev: false
     resolution:
       integrity: sha512-8ghIWhkph7NnLCMDJtthpsb7TMOsVGXVDvmxjE/CeklTqjbbUFBjGXizJfpbEkRQTELuZQ2+vGn7sGwIWKN2uA==
+  /@rushstack/ts-command-line/4.9.0:
+    dependencies:
+      '@types/argparse': 1.0.38
+      argparse: 1.0.10
+      colors: 1.2.5
+      string-argv: 0.3.1
+    dev: false
+    resolution:
+      integrity: sha512-kmT8t+JfnvphISF1C5WwY56RefjwgajhSjs9J4ckvAFXZDXR6F5cvF5/RTh7fGCzIomg8esy2PHO/b52zFoZvA==
   /@sinonjs/commons/1.8.3:
     dependencies:
       type-detect: 4.0.8
@@ -2041,15 +2097,13 @@ packages:
     dev: false
     resolution:
       integrity: sha1-+cjBN1fMHde8N5rHeyxipcKGjEA=
-  /are-we-there-yet/1.1.6:
+  /are-we-there-yet/1.1.7:
     dependencies:
       delegates: 1.0.0
-      readable-stream: 3.6.0
+      readable-stream: 2.3.7
     dev: false
-    engines:
-      node: '>=10'
     resolution:
-      integrity: sha512-+1byPnimWdGcKFRS48zG73nxM08kamPFReUYvEmRXI3E8E4YhF4voMRDaGlfGD1UeRHEgs4NhQCE28KI8JVj1A==
+      integrity: sha512-nxwy40TuMiUGqMyRHgCSWZ9FM4VAoRP4xUYSTv5ImRog+h9yISPbVH7H8fASCIzYn9wlEv4zvFL7uKDMCFQm3g==
   /arg/4.1.3:
     dev: false
     resolution:
@@ -2188,13 +2242,13 @@ packages:
       integrity: sha512-xh1Rl34h6Fi1DC2WWKfxUTVqRsNnr6LsKz2+hfwDxQJWmrx8+c7ylaqBMcHfl1U1r2dsifOvKX3LQuLNZ+XSvA==
   /axios/0.21.1:
     dependencies:
-      follow-redirects: 1.14.2
+      follow-redirects: 1.14.3
     dev: false
     resolution:
       integrity: sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==
   /axios/0.21.1_debug@3.2.7:
     dependencies:
-      follow-redirects: 1.14.2_debug@3.2.7
+      follow-redirects: 1.14.3_debug@3.2.7
     dev: false
     peerDependencies:
       debug: '*'
@@ -2202,7 +2256,7 @@ packages:
       integrity: sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==
   /axios/0.21.1_debug@4.3.2:
     dependencies:
-      follow-redirects: 1.14.2_debug@4.3.2
+      follow-redirects: 1.14.3_debug@4.3.2
     dev: false
     peerDependencies:
       debug: '*'
@@ -2751,11 +2805,11 @@ packages:
     requiresBuild: true
     resolution:
       integrity: sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==
-  /core-js/3.17.1:
+  /core-js/3.17.2:
     dev: false
     requiresBuild: true
     resolution:
-      integrity: sha512-C8i/FNpVN2Ti89QIJcFn9ZQmnM+HaAQr2OpE+ja3TRM9Q34FigsGlAVuwPGkIgydSVClo/1l1D1grP8LVt9IYA==
+      integrity: sha512-XkbXqhcXeMHPRk2ItS+zQYliAMilea2euoMsnpRRdDad6b2VY6CQQcwz1K8AnWesfw4p165RzY0bTnr3UrbYiA==
   /core-util-is/1.0.2:
     dev: false
     resolution:
@@ -3651,7 +3705,7 @@ packages:
     dependencies:
       '@babel/core': 7.15.0
       '@babel/runtime': 7.15.3
-      core-js: 3.17.1
+      core-js: 3.17.2
       debug: 4.3.2
       glob-to-regexp: 0.4.1
       is-subset: 0.1.1
@@ -3767,7 +3821,7 @@ packages:
     dev: false
     resolution:
       integrity: sha512-+8GbtQBwEqutP0v3uajDDoN64K2ehmHd0cjlghhxh0WpcfPzAIjPA03e1VvHlxL02FVGR0A6lwXsNQKn3H1RNQ==
-  /follow-redirects/1.14.2:
+  /follow-redirects/1.14.3:
     dev: false
     engines:
       node: '>=4.0'
@@ -3777,8 +3831,8 @@ packages:
       debug:
         optional: true
     resolution:
-      integrity: sha512-yLR6WaE2lbF0x4K2qE2p9PEXKLDjUjnR/xmjS3wHAYxtlsI9MLLBJUZirAHKzUZDGLxje7w/cXR49WOUo4rbsA==
-  /follow-redirects/1.14.2_debug@3.2.7:
+      integrity: sha512-3MkHxknWMUtb23apkgz/83fDoe+y+qr0TdgacGIA7bew+QLBo3vdgEN2xEsuXNivpFy4CyDhBBZnNZOtalmenw==
+  /follow-redirects/1.14.3_debug@3.2.7:
     dependencies:
       debug: 3.2.7
     dev: false
@@ -3790,8 +3844,8 @@ packages:
       debug:
         optional: true
     resolution:
-      integrity: sha512-yLR6WaE2lbF0x4K2qE2p9PEXKLDjUjnR/xmjS3wHAYxtlsI9MLLBJUZirAHKzUZDGLxje7w/cXR49WOUo4rbsA==
-  /follow-redirects/1.14.2_debug@4.3.2:
+      integrity: sha512-3MkHxknWMUtb23apkgz/83fDoe+y+qr0TdgacGIA7bew+QLBo3vdgEN2xEsuXNivpFy4CyDhBBZnNZOtalmenw==
+  /follow-redirects/1.14.3_debug@4.3.2:
     dependencies:
       debug: 4.3.2
     dev: false
@@ -3803,7 +3857,7 @@ packages:
       debug:
         optional: true
     resolution:
-      integrity: sha512-yLR6WaE2lbF0x4K2qE2p9PEXKLDjUjnR/xmjS3wHAYxtlsI9MLLBJUZirAHKzUZDGLxje7w/cXR49WOUo4rbsA==
+      integrity: sha512-3MkHxknWMUtb23apkgz/83fDoe+y+qr0TdgacGIA7bew+QLBo3vdgEN2xEsuXNivpFy4CyDhBBZnNZOtalmenw==
   /foreach/2.0.5:
     dev: false
     resolution:
@@ -4277,7 +4331,7 @@ packages:
   /http-proxy/1.18.1:
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.14.2
+      follow-redirects: 1.14.3
       requires-port: 1.0.0
     dev: false
     engines:
@@ -4287,7 +4341,7 @@ packages:
   /http-proxy/1.18.1_debug@4.3.2:
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.14.2_debug@4.3.2
+      follow-redirects: 1.14.3_debug@4.3.2
       requires-port: 1.0.0
     dev: false
     engines:
@@ -5762,7 +5816,7 @@ packages:
       integrity: sha512-S48WzZW777zhNIrn7gxOlISNAqi9ZC/uQFnRdbeIHhZhCA6UqpkOT8T1G7BvfdgP4Er8gF4sUbaS0i7QvIfCWw==
   /npmlog/4.1.2:
     dependencies:
-      are-we-there-yet: 1.1.6
+      are-we-there-yet: 1.1.7
       console-control-strings: 1.1.0
       gauge: 2.7.4
       set-blocking: 2.0.0
@@ -7611,6 +7665,13 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-V+evlYHZnQkaz8TRBuxTA92yZBPotr5H+WhQ7bD3hZUndx5tGOa1fuCgeSjxAzM1RiN5IzvadIXTVefuuwZCRg==
+  /typescript/4.3.5:
+    dev: false
+    engines:
+      node: '>=4.2.0'
+    hasBin: true
+    resolution:
+      integrity: sha512-DqQgihaQ9cUrskJo9kIyW/+g0Vxsk8cDtZ52a3NGh0YNTfpUSArXSohyUGnvbPazEPLu398C0UxmKSOrPumUzA==
   /ua-parser-js/0.7.28:
     dev: false
     resolution:
@@ -8327,7 +8388,7 @@ packages:
   file:projects/ai-text-analytics.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
-      '@microsoft/api-extractor': 7.7.11
+      '@microsoft/api-extractor': 7.18.7
       '@types/chai': 4.2.21
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
@@ -8367,7 +8428,7 @@ packages:
     dev: false
     name: '@rush-temp/ai-text-analytics'
     resolution:
-      integrity: sha512-W4JVfxmJk3JLpEPpTznb+LQSNckSvz40muA5H7egoMY7gLubinQri5m5jVOYFkO2tBV98gI/8t/Rw8QVC3ip2Q==
+      integrity: sha512-WdRP5jqx0OKR6I9C5Q3EWkg+lExWNvjRM99PAldPL0XiF8KwKg1weHFRVAoJ11bt5q2M00yNNpxnETdaZeKUUQ==
       tarball: file:projects/ai-text-analytics.tgz
     version: 0.0.0
   file:projects/app-configuration.tgz:
@@ -9834,7 +9895,7 @@ packages:
     dev: false
     name: '@rush-temp/cosmos'
     resolution:
-      integrity: sha512-ajLbG/BUFLdxciEBH0Gm8oSxWJvIqJHRVrTJdxRKFbb6cC9MJBDJGfxcu0GheMWwdE2qOJqX7EHdK7hRW2qdqA==
+      integrity: sha512-oKrAd9gDxuz3oVa7STvsN0LPnMpfj3rnS48A/Bax8io2vLyabufw/rIDF3+vc+TjDcN1tqA766S7wgbfzHlXrg==
       tarball: file:projects/cosmos.tgz
     version: 0.0.0
   file:projects/data-tables.tgz:
@@ -10962,7 +11023,7 @@ packages:
     dev: false
     name: '@rush-temp/monitor-query'
     resolution:
-      integrity: sha512-8l2Vg6YWtfMUMyjBH28Djy6Jb2lp7guFk0bHo4sC6Q1+baB5QE4TE8AylUW8ns16V/12BxE3MP4CBSwwsIPvVA==
+      integrity: sha512-wTWUYsAt7ut9FCaEDjKBqgcZnXvS7jRCafdZOHQCw7BY3cUTrNyRmmWmu/OYyJ7lB91pPYXhVeUzbN0fQq8AZQ==
       tarball: file:projects/monitor-query.tgz
     version: 0.0.0
   file:projects/perf-ai-form-recognizer.tgz:
