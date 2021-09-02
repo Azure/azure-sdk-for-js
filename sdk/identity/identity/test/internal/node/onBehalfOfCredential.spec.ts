@@ -28,7 +28,12 @@ describe("OnBehalfOfCredential", function() {
   });
 
   it("authenticates with a secret", async () => {
-    const credential = new OnBehalfOfCredential("adfs", "client", "secret", "user-assertion");
+    const credential = new OnBehalfOfCredential({
+      tenantId: "adfs",
+      clientId: "client",
+      clientSecret: "secret",
+      userAssertionToken: "user-assertion"
+    });
 
     const newMSALClientLogs = () =>
       testContext.logMessages.filter((message) =>
@@ -56,12 +61,12 @@ describe("OnBehalfOfCredential", function() {
 
   it("authenticates with a certificate path", async () => {
     const certificatePath = path.join("assets", "fake-cert.pem");
-    const credential = new OnBehalfOfCredential(
-      "adfs",
-      "client",
+    const credential = new OnBehalfOfCredential({
+      tenantId: "adfs",
+      clientId: "client",
       certificatePath,
-      "user-assertion"
-    );
+      userAssertionToken: "user-assertion"
+    });
 
     const newMSALClientLogs = () =>
       testContext.logMessages.filter((message) =>

@@ -24,28 +24,34 @@ export interface MSALOnBehalfOfOptions extends MsalNodeOptions {
  */
 export class MsalOnBehalfOf extends MsalNode {
   private userAssertionToken: string;
+  private certificatePath?: string;
+  private sendCertificateChain?: boolean;
 
   constructor(options: MSALOnBehalfOfOptions) {
     super(options);
     this.logger.info("Initialized MSAL's On-Behalf-Of flow");
     this.requiresConfidential = true;
     this.userAssertionToken = options.userAssertionToken;
+    this.certificatePath = options.certificatePath;
+    this.sendCertificateChain = options.sendCertificateChain;
 
-    if (options.certificatePath) {
-      try {
-        const parts = parseCertificate(options.certificatePath, options.sendCertificateChain);
-        this.msalConfig.auth.clientCertificate = {
-          thumbprint: parts.thumbprint,
-          privateKey: parts.certificateContents,
-          x5c: parts.x5c
-        };
-      } catch (error) {
-        this.logger.info(formatError("", error));
-        throw error;
+    this.prepareConfiguration = async (): Promise<void> => {
+      if (this.certificatePath) {
+        try {
+          const parts = await parseCertificate(this.certificatePath, this.sendCertificateChain);
+          this.msalConfig.auth.clientCertificate = {
+            thumbprint: parts.thumbprint,
+            privateKey: parts.certificateContents,
+            x5c: parts.x5c
+          };
+        } catch (error) {
+          this.logger.info(formatError("", error));
+          throw error;
+        }
+      } else {
+        this.msalConfig.auth.clientSecret = options.clientSecret;
       }
-    } else {
-      this.msalConfig.auth.clientSecret = options.clientSecret;
-    }
+    };
   }
 
   protected async doGetToken(

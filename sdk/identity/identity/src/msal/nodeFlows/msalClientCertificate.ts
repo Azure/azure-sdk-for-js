@@ -1,14 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { readFileSync } from "fs";
+import { readFile } from "fs";
 import { createHash } from "crypto";
-
+import { promisify } from "util";
 import { AccessToken } from "@azure/core-auth";
 
 import { MsalNodeOptions, MsalNode } from "./nodeCommon";
 import { formatError } from "../../util/logging";
 import { CredentialFlowGetTokenOptions } from "../credentials";
+
+const readFileAsync = promisify(readFile);
 
 /**
  * Options that can be passed to configure MSAL to handle client certificates.
@@ -53,13 +55,13 @@ interface CertificateParts {
  * @returns - The certificate parts, or `undefined` if the certificate could not be loaded.
  * @internal
  */
-export function parseCertificate(
+export async function parseCertificate(
   certificatePath: string,
   sendCertificateChain?: boolean
-): CertificateParts {
+): Promise<CertificateParts> {
   const certificateParts: Partial<CertificateParts> = {};
 
-  certificateParts.certificateContents = readFileSync(certificatePath, "utf8");
+  certificateParts.certificateContents = await readFileAsync(certificatePath, "utf8");
   if (sendCertificateChain) {
     certificateParts.x5c = certificateParts.certificateContents;
   }
@@ -77,10 +79,7 @@ export function parseCertificate(
   } while (match);
 
   if (publicKeys.length === 0) {
-    const error = new Error(
-      "The file at the specified path does not contain a PEM-encoded certificate."
-    );
-    throw error;
+    throw new Error("The file at the specified path does not contain a PEM-encoded certificate.");
   }
 
   certificateParts.thumbprint = createHash("sha1")
@@ -99,17 +98,20 @@ export class MsalClientCertificate extends MsalNode {
   constructor(options: MSALClientCertificateOptions) {
     super(options);
     this.requiresConfidential = true;
-    try {
-      const parts = parseCertificate(options.certificatePath, options.sendCertificateChain);
-      this.msalConfig.auth.clientCertificate = {
-        thumbprint: parts.thumbprint,
-        privateKey: parts.certificateContents,
-        x5c: parts.x5c
-      };
-    } catch (error) {
-      this.logger.info(formatError("", error));
-      throw error;
-    }
+
+    this.prepareConfiguration = async (): Promise<void> => {
+      try {
+        const parts = await parseCertificate(options.certificatePath, options.sendCertificateChain);
+        this.msalConfig.auth.clientCertificate = {
+          thumbprint: parts.thumbprint,
+          privateKey: parts.certificateContents,
+          x5c: parts.x5c
+        };
+      } catch (error) {
+        this.logger.info(formatError("", error));
+        throw error;
+      }
+    };
   }
 
   protected async doGetToken(

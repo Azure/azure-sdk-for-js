@@ -8,6 +8,8 @@
 
 ### Breaking Changes
 
+- `ClientCertificateCredential` now evaluates the validity of the PEM certificate path on `getToken` and not on the constructor.
+
 #### Breaking Changes from 2.0.0-beta.5
 
 - The property named `selectedCredential` that was added to `ChainedTokenCredential` and `DefaultAzureCredential` has been removed, since customers reported that logging was enough.
