@@ -16,13 +16,13 @@ npm install @azure/core-tracing
 
 The `@azure/core-tracing` package supports enabling tracing for Azure SDK packages, using an [OpenTelemetry](https://opentelemetry.io/) `Tracer`.
 
-By default, all libraries log with a `NoOpTracer` that takes no action. To enable tracing, you will need to set a global tracer provider following the instructions in the [OpenTelemetry getting started guide](https://opentelemetry.io/docs/js/getting_started/nodejs) or [the Enabling Tracing using OpenTelemetry example](#enabling-tracing-using-opentelemetry) below.
+By default, all libraries log with a `NoOpTracer` that takes no action. To enable tracing, you will need to set a global tracer provider following the instructions in the [OpenTelemetry getting started guide](https://opentelemetry.io/docs/js/getting_started/nodejs) or the [Enabling Tracing using OpenTelemetry example](#enabling-tracing-using-opentelemetry) below.
 
 ### Span Propagation
 
 Core Tracing supports both automatic and manual span propagation. Automatic propagation is handled using OpenTelemetry's API and will work well in most scenarios when run in `Node.js`.
 
-For customers who require manual propagation, or to provide context propagation in the browser, all client library operations accept an optional options collection where a tracingContext can be passed in and used as the currently active context. Please see [the manual propagation example below](#manual-span-propagation-using-opentelemetry) for more details.
+For customers who require manual propagation, or to provide context propagation in the browser, all client library operations accept an optional options collection where a tracingContext can be passed in and used as the currently active context. Please see the [Manual Span Propagation example](#manual-span-propagation-using-opentelemetry) below for more details.
 
 ### OpenTelemetry Compatibility
 
