@@ -1,11 +1,11 @@
-## Azure AzureMigrate SDK for JavaScript
+## Azure AzureMigrateV2 SDK for JavaScript
 
-This package contains an isomorphic SDK (runs both in Node.js and in browsers) for AzureMigrate.
+This package contains an isomorphic SDK (runs both in node.js and in browsers) for AzureMigrateV2.
 
 ### Currently supported environments
 
 - [LTS versions of Node.js](https://nodejs.org/about/releases/)
-- Latest versions of Safari, Chrome, Edge, and Firefox.
+- Latest versions of Safari, Chrome, Edge and Firefox.
 
 ### Prerequisites
 
@@ -21,7 +21,6 @@ Install both packages using the below command:
 ```bash
 npm install --save @azure/arm-migrate @azure/identity
 ```
-
 > **Note**: You may have used either `@azure/ms-rest-nodeauth` or `@azure/ms-rest-browserauth` in the past. These packages are in maintenance mode receiving critical bug fixes, but no new features.
 If you are on a [Node.js that has LTS status](https://nodejs.org/about/releases/), or are writing a client side browser application, we strongly encourage you to upgrade to `@azure/identity` which uses the latest versions of Azure Active Directory and MSAL APIs and provides more authentication options.
 
@@ -37,22 +36,20 @@ If you are on a [Node.js that has LTS status](https://nodejs.org/about/releases/
 
 In the below samples, we pass the credential and the Azure subscription id to instantiate the client.
 Once the client is created, explore the operations on it either in your favorite editor or in our [API reference documentation](https://docs.microsoft.com/javascript/api) to get started.
-
-#### nodejs - Authentication, client creation, and get assessmentOptions as an example written in JavaScript.
+#### nodejs - Authentication, client creation, and listBySubscription projects as an example written in JavaScript.
 
 ##### Sample code
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { AzureMigrate } = require("@azure/arm-migrate");
+const { AzureMigrateV2 } = require("@azure/arm-migrate");
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 // Use `DefaultAzureCredential` or any other credential of your choice based on https://aka.ms/azsdk/js/identity/examples
 // Please note that you can also use credentials from the `@azure/ms-rest-nodeauth` package instead.
 const creds = new DefaultAzureCredential();
-const client = new AzureMigrate(creds, subscriptionId);
-const locationName = "testlocationName";
-client.assessmentOptions.get(locationName).then((result) => {
+const client = new AzureMigrateV2(creds, subscriptionId);
+client.projects.listBySubscription().then((result) => {
   console.log("The result is:");
   console.log(result);
 }).catch((err) => {
@@ -61,7 +58,7 @@ client.assessmentOptions.get(locationName).then((result) => {
 });
 ```
 
-#### browser - Authentication, client creation, and get assessmentOptions as an example written in JavaScript.
+#### browser - Authentication, client creation, and listBySubscription projects as an example written in JavaScript.
 
 In browser applications, we recommend using the `InteractiveBrowserCredential` that interactively authenticates using the default system browser.
   - See [Single-page application: App registration guide](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) to configure your app registration for the browser.
@@ -86,11 +83,10 @@ In browser applications, we recommend using the `InteractiveBrowserCredential` t
       const credential = new InteractiveBrowserCredential(
       {
         clientId: "<client id for your Azure AD app>",
-        tenantId: "<optional tenant for your organization>"
+        tenant: "<optional tenant for your organization>"
       });
-      const client = new Azure.ArmMigrate.AzureMigrate(creds, subscriptionId);
-      const locationName = "testlocationName";
-      client.assessmentOptions.get(locationName).then((result) => {
+      const client = new Azure.ArmMigrate.AzureMigrateV2(creds, subscriptionId);
+      client.projects.listBySubscription().then((result) => {
         console.log("The result is:");
         console.log(result);
       }).catch((err) => {
