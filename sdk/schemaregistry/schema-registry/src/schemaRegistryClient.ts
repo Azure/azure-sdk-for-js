@@ -11,7 +11,7 @@ import { convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
 
 import {
   GetSchemaOptions,
-  GetSchemaIdOptions,
+  GetSchemaPropertiesOptions,
   SchemaDescription,
   SchemaRegistryClientOptions,
   SchemaRegistry,
@@ -104,9 +104,9 @@ export class SchemaRegistryClient implements SchemaRegistry {
    * @param schema - Schema to match.
    * @returns Matched schema's ID or undefined if no matching schema was found.
    */
-  async getSchemaId(
+  async getSchemaProperties(
     schema: SchemaDescription,
-    options?: GetSchemaIdOptions
+    options?: GetSchemaPropertiesOptions
   ): Promise<SchemaProperties | undefined> {
     const cached = this.schemaToIdMap.get(schema);
     if (cached !== undefined) {
