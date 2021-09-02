@@ -7,7 +7,7 @@ import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { promisify } from "util";
 import { IdentityClient } from "../../client/identityClient";
 import { credentialLogger } from "../../util/logging";
-import { MSI, MSICache } from "./models";
+import { MSI } from "./models";
 import { msiGenericGetToken } from "./utils";
 import { DefaultAuthorityHost } from "../../constants";
 
@@ -50,7 +50,9 @@ function prepareRequestOptions(
 }
 
 export function tokenExchangeMsi(): MSI {
-  const assertionCache: MSICache = {};
+  const assertionCache: {
+    [key: string]: { value: string; date: number };
+  } = {};
 
   // Only reads from the assertion file once every 5 minutes
   async function readAssertion(path: string): Promise<string> {
