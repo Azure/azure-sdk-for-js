@@ -1,0 +1,6 @@
+{
+  "extends": ["../../.eslintrc.json"],
+  "rules": {
+    "@azure/azure-sdk/ts-package-json-engine-is-present": "warn"
+  }
+}
