@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- `ManagedIdentityCredential` now supports file-based authentication when the environment variables `AZURE_CLIENT_ID`, `AZURE_TENANT_ID` and `AZURE_FEDERATED_TOKEN_FILE` are present.
+- `ManagedIdentityCredential` now supports token exchange authentication.
 
 ### Breaking Changes
 
