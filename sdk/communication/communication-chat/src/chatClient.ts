@@ -4,7 +4,6 @@
 
 import { logger } from "./models/logger";
 import { EventEmitter } from "events";
-import { SDK_VERSION } from "./constants";
 import { CommunicationTokenCredential } from "@azure/communication-common";
 import {
   SignalingClient,
@@ -21,13 +20,6 @@ import {
   ParticipantsRemovedEvent
 } from "@azure/communication-signaling";
 import { getSignalingClient } from "./signaling/signalingClient";
-import {
-  InternalPipelineOptions,
-  createPipelineFromOptions,
-  operationOptionsToRequestOptionsBase,
-  generateUuid
-} from "@azure/core-http";
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "./tracing";
@@ -44,9 +36,11 @@ import {
   mapToCreateChatThreadResultSdkModel
 } from "./models/mappers";
 import { ChatThreadItem, CreateChatThreadResult, ListPageSettings } from "./models/models";
-import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
+import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { ChatApiClient } from "./generated/src";
 import { CreateChatThreadRequest } from "./models/requests";
+import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
+import { generateUuid } from "./models/uuid";
 
 /**
  * The client to do chat operations
@@ -54,7 +48,6 @@ import { CreateChatThreadRequest } from "./models/requests";
 export class ChatClient {
   private readonly tokenCredential: CommunicationTokenCredential;
   private readonly clientOptions: ChatClientOptions;
-  // private readonly api: Chat;
   private readonly client: ChatApiClient;
   private readonly signalingClient: SignalingClient | undefined = undefined;
   private readonly emitter = new EventEmitter();
@@ -75,21 +68,8 @@ export class ChatClient {
     this.tokenCredential = credential;
     this.clientOptions = { ...options };
 
-    const libInfo = `azsdk-js-communication-chat/${SDK_VERSION}`;
-
-    if (!options.userAgentOptions) {
-      options.userAgentOptions = {};
-    }
-
-    const userAgentOptions = { ...options.userAgentOptions };
-    if (options.userAgentOptions.userAgentPrefix) {
-      userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
-    } else {
-      userAgentOptions.userAgentPrefix = libInfo;
-    }
-
     const internalPipelineOptions: InternalPipelineOptions = {
-      ...{ ...options, userAgentOptions },
+      ...options,
       ...{
         loggingOptions: {
           logger: logger.info
@@ -97,10 +77,13 @@ export class ChatClient {
       }
     };
 
-    const authPolicy = createCommunicationTokenCredentialPolicy(this.tokenCredential);
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
+    this.client = new ChatApiClient(this.endpoint, {
+      endpoint: this.endpoint,
+      ...internalPipelineOptions
+    });
 
-    this.client = new ChatApiClient(this.endpoint, pipeline);
+    const authPolicy = createCommunicationTokenCredentialPolicy(this.tokenCredential);
+    this.client.pipeline.addPolicy(authPolicy);
 
     this.signalingClient = getSignalingClient(credential, logger);
   }
@@ -130,14 +113,14 @@ export class ChatClient {
       updatedOptions.idempotencyToken = updatedOptions.idempotencyToken ?? generateUuid();
       const updatedRestModelOptions = mapToCreateChatThreadOptionsRestModel(updatedOptions);
 
-      const { _response, ...result } = await this.client.chat.createChatThread(
+      const result = await this.client.chat.createChatThread(
         {
           topic: request.topic,
           participants: options.participants?.map((participant) =>
             mapToChatParticipantRestModel(participant)
           )
         },
-        operationOptionsToRequestOptionsBase(updatedRestModelOptions)
+        updatedRestModelOptions
       );
       return mapToCreateChatThreadResultSdkModel(result);
     } catch (e) {
@@ -155,9 +138,8 @@ export class ChatClient {
     continuationState: ListPageSettings,
     options: ListChatThreadsOptions = {}
   ): AsyncIterableIterator<ChatThreadItem[]> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
     if (!continuationState.continuationToken) {
-      const currentSetResponse = await this.client.chat.listChatThreads(requestOptions);
+      const currentSetResponse = await this.client.chat.listChatThreads(options);
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value;
@@ -167,7 +149,7 @@ export class ChatClient {
     while (continuationState.continuationToken) {
       const currentSetResponse = await this.client.chat.listChatThreadsNext(
         continuationState.continuationToken,
-        requestOptions
+        options
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -230,10 +212,7 @@ export class ChatClient {
     const { span, updatedOptions } = createSpan("ChatClient-DeleteChatThread", options);
 
     try {
-      await this.client.chat.deleteChatThread(
-        threadId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      await this.client.chat.deleteChatThread(threadId, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

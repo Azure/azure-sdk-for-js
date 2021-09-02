@@ -107,8 +107,8 @@ export const arcMsi: MSI = {
       disableJsonStringifyOnBody: true,
       deserializationMapper: undefined,
       abortSignal: getTokenOptions.abortSignal,
-      spanOptions: getTokenOptions.tracingOptions && getTokenOptions.tracingOptions.spanOptions,
-      ...prepareRequestOptions(resource)
+      ...prepareRequestOptions(resource),
+      allowInsecureConnection: true
     };
 
     const filePath = await filePathRequest(identityClient, requestOptions);

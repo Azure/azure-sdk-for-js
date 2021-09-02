@@ -17,7 +17,7 @@ import {
   PremiumPageBlobTier,
   BlobServiceClient
 } from "../src";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 dotenv.config();
 

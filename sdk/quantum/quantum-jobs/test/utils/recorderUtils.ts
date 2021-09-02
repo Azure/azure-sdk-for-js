@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isPlaybackMode, isRecordMode } from "@azure/test-utils-recorder";
+import { isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
 

@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import qs from "qs";
 import { delay } from "@azure/core-util";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import {
@@ -45,7 +44,8 @@ function prepareRequestOptions(resource?: string, clientId?: string): PipelineRe
     queryParameters.client_id = clientId;
   }
 
-  const query = qs.stringify(queryParameters);
+  const params = new URLSearchParams(queryParameters);
+  const query = params.toString();
   const url = new URL(imdsEndpointPath, process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST ?? imdsHost);
 
   return {
@@ -91,10 +91,7 @@ export const imdsMsi: MSI = {
       requestOptions.headers.delete("Metadata");
     }
 
-    requestOptions.tracingOptions = {
-      spanOptions: options.tracingOptions && options.tracingOptions.spanOptions,
-      tracingContext: options.tracingOptions && options.tracingOptions.tracingContext
-    };
+    requestOptions.tracingOptions = options.tracingOptions;
 
     try {
       // Create a request with a timeout since we expect that

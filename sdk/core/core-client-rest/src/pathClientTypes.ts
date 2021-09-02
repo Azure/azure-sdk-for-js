@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RawHttpHeaders } from "@azure/core-rest-pipeline";
+import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 
 /**
  * Shape of the default request parameters, this may be overriden by the specific
@@ -11,7 +11,7 @@ export type RequestParameters = {
   /**
    * Headers to send along with the request
    */
-  headers?: RawHttpHeaders;
+  headers?: RawHttpHeadersInput;
   /**
    * Sets the accept header to send to the service
    * defaults to 'application/json'

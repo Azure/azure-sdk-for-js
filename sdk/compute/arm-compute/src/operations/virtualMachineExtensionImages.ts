@@ -20,7 +20,7 @@ import {
   VirtualMachineExtensionImagesListVersionsResponse
 } from "../models";
 
-/** Class representing a VirtualMachineExtensionImages. */
+/** Class containing VirtualMachineExtensionImages operations. */
 export class VirtualMachineExtensionImagesImpl
   implements VirtualMachineExtensionImages {
   private readonly client: ComputeManagementClientContext;

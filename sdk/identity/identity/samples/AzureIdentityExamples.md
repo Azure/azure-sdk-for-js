@@ -11,6 +11,7 @@
 - [Authenticating With Azure Stack using Azure Identity](#authenticating-with-azure-stack-using-azure-identity)
 - [Advanced Examples](#advanced-examples)
   - [Custom Credentials](#custom-credentials)
+  - [Implementing the TokenCredential Interface](#implementing-the-tokencredential-interface).
   - [Authenticating with a pre-fetched access token](#authenticating-with-a-pre-fetched-access-token).
   - [Authenticating with MSAL directly](#authenticating-with-msal-directly).
     - [Authenticating with the @azure/msal-node Confidential Client](#authenticating-with-the-@azure/msal-node-confidential-client).
@@ -536,9 +537,42 @@ The `@azure/identity` library covers a broad range of Azure Active Directory aut
 
 In this section, we'll examine some such scenarios.
 
+### Implementing the TokenCredential Interface
+
+The [@azure/core-auth][core_auth] package exports a `TokenCredential` interface. The interface is used by the `@azure/identity` package to define a standard public API for all of the Identity credentials we offer. Here's how this type looks in `@azure/core-auth`:
+
+```ts
+export interface TokenCredential {
+  getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+}
+```
+
+To satisfy this interface, one has to provide an object with a `getToken` function. This function will always receive a `scope` parameter, and should generally receive a second parameter, an options object. This `getToken` function is expected to return an object compatible with `@azure/core-auth`'s `AccessToken` interface, which is defined as follows:
+
+```ts
+export interface AccessToken {
+  expiresOnTimestamp: number;
+  token: string;
+}
+```
+
+As long as a valid `AccessToken` is returned, the parameters are not required to be used by a method implementing the `TokenCredential` interface. So, the simplest possible object compatible with the `TokenCredential` interface is one that has a `getToken` method that may return either null, or an object with two properties, a numeric property called `expiresOnTimestamp`, and a string property called `token`. Example:
+
+
+```ts
+const mySimpleCredential = {
+  getToken() {
+    return {
+      expiresOnTimestamp: Date.now() + 1000, // Expires in a second
+      token: "my access token"
+    }
+  }
+}
+```
+
 ### Authenticating with a pre-fetched access token
 
-The [@azure/core-auth][core_auth] package exports a `TokenCredential` interface. The interface is used by the `@azure/identity` package to define a standard public API for all of the Identity credentials we offer. There are cases in which it's convenient to create custom credentials. For example, when a token is pre-fetched, a custom `TokenCredential` can return that token as an `AccessToken` to the Azure SDK clients.
+There are cases in which it's convenient to create custom credentials. For example, when a token is pre-fetched, a custom `TokenCredential` can return that token as an `AccessToken` to the Azure SDK clients.
 
 In this example, `StaticTokenCredential` implements the `TokenCredential` abstraction. It takes a pre-fetched access token in its constructor as an [AccessToken](https://docs.microsoft.com/javascript/api/@azure/core-auth/accesstoken) and returns that from its implementation of `getToken()`.
 

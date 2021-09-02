@@ -12,7 +12,7 @@ import {
   MetricsAdvisorClient
 } from "../../src";
 import { createRecordedAdvisorClient, makeCredential, testEnv } from "./util/recordedClients";
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { matrix } from "./util/matrix";
 
 matrix([[true, false]] as const, async (useAad) => {

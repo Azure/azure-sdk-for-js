@@ -13,6 +13,7 @@ export {
   HttpMethods,
   ProxySettings,
   RawHttpHeaders,
+  RawHttpHeadersInput,
   TransferProgressEvent,
   RequestBodyType
 } from "./interfaces";
@@ -21,11 +22,13 @@ export {
   PipelinePhase,
   PipelinePolicy,
   Pipeline,
-  createEmptyPipeline,
-  InternalPipelineOptions,
-  PipelineOptions,
-  createPipelineFromOptions
+  createEmptyPipeline
 } from "./pipeline";
+export {
+  createPipelineFromOptions,
+  InternalPipelineOptions,
+  PipelineOptions
+} from "./createPipelineFromOptions";
 export { createDefaultHttpClient } from "./defaultHttpClient";
 export { createHttpHeaders } from "./httpHeaders";
 export { createPipelineRequest, PipelineRequestOptions } from "./pipelineRequest";

@@ -1,6 +1,14 @@
 # Release History
 
-## 1.0.0 (Unreleased)
+## 1.0.1 (2021-09-01)
+
+Fix types in the published package.
+
+## 1.0.0 (2021-08-30)
+
+Marks the first release of the @azure-tools/test-recorder package.
+This is not for the public consumption, releasing for the convenience of certain public pipelines.
+Read more at [#17127](https://github.com/Azure/azure-sdk-for-js/pull/17127).
 
 ## 2021-07-13
 

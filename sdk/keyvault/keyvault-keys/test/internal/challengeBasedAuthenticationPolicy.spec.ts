@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import { Context } from "mocha";
 import { createSandbox } from "sinon";
-import { env, Recorder } from "@azure/test-utils-recorder";
+import { env, Recorder } from "@azure-tools/test-recorder";
 
 import {
   AuthenticationChallengeCache,

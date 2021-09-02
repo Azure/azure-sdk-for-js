@@ -5,8 +5,9 @@ import { ShareClient, ShareFileClient, ShareDirectoryClient } from "../src";
 import { getBSU, recorderEnvSetup } from "./utils/index";
 import * as assert from "assert";
 import { appendToURLPath } from "../src/utils/utils.common";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 import * as dotenv from "dotenv";
+import { Context } from "mocha";
 dotenv.config();
 
 describe("Special Naming Tests", () => {
@@ -17,7 +18,7 @@ describe("Special Naming Tests", () => {
 
   let recorder: Recorder;
 
-  before(async function() {
+  before(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getBSU();
 
@@ -33,13 +34,13 @@ describe("Special Naming Tests", () => {
     await recorder.stop();
   });
 
-  after(async function() {
+  after(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     await shareClient.delete();
     await recorder.stop();
   });
 
-  beforeEach(function() {
+  beforeEach(function(this: Context) {
     recorder = record(this, recorderEnvSetup);
   });
 
@@ -207,10 +208,10 @@ describe("Special Naming Tests", () => {
   });
 
   it("Should work with special directory name characters", async () => {
-    const directoryName: string = recorder.getUniqueName(
+    const directoryNameSpecialChar: string = recorder.getUniqueName(
       "汉字. special ~!@#$%^&()_+`1234567890-={}[];','"
     );
-    const specialDirectoryClient = shareClient.getDirectoryClient(directoryName);
+    const specialDirectoryClient = shareClient.getDirectoryClient(directoryNameSpecialChar);
     const rootDirectoryClient = shareClient.getDirectoryClient("");
 
     await specialDirectoryClient.create();
@@ -220,7 +221,7 @@ describe("Special Naming Tests", () => {
       await rootDirectoryClient
         .listFilesAndDirectories({
           // NOTICE: Azure Storage Server will replace "\" with "/" in the file names
-          prefix: directoryName.replace(/\\/g, "/")
+          prefix: directoryNameSpecialChar.replace(/\\/g, "/")
         })
         .byPage()
         .next()
@@ -230,14 +231,17 @@ describe("Special Naming Tests", () => {
   });
 
   it("Should work with special directory name characters in URL string", async () => {
-    const directoryName: string = recorder.getUniqueName(
+    const directoryNameSpecialChar: string = recorder.getUniqueName(
       "汉字. special ~!@#$%^&()_+`1234567890-={}[];','"
     );
     const specialDirectoryClient = new ShareDirectoryClient(
       // There are 2 special cases for a URL string:
       // Escape "%" when creating XXXClient object with URL strings
       // Escape "?" otherwise string after "?" will be treated as URL parameters
-      appendToURLPath(shareClient.url, directoryName.replace(/%/g, "%25").replace(/\?/g, "%3F")),
+      appendToURLPath(
+        shareClient.url,
+        directoryNameSpecialChar.replace(/%/g, "%25").replace(/\?/g, "%3F")
+      ),
       (shareClient as any).pipeline
     );
 
@@ -250,7 +254,7 @@ describe("Special Naming Tests", () => {
       await rootDirectoryClient
         .listFilesAndDirectories({
           // NOTICE: Azure Storage Server will replace "\" with "/" in the file names
-          prefix: directoryName.replace(/\\/g, "/")
+          prefix: directoryNameSpecialChar.replace(/\\/g, "/")
         })
         .byPage()
         .next()

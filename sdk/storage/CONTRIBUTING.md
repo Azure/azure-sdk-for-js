@@ -156,7 +156,7 @@ npm run test
 
 `npm run test` would run the the tests in both node and the browser.
 
-**Link** - [Guidelines for record and playback - `@azure/test-utils-recorder`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/GUIDELINES.md)
+**Link** - [Guidelines for record and playback - `@azure-tools/test-recorder`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/GUIDELINES.md)
 
 ## Pull Requests
 
