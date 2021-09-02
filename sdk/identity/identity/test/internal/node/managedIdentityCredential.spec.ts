@@ -32,6 +32,7 @@ describe("ManagedIdentityCredential", function() {
     envCopy = JSON.stringify(process.env);
     delete process.env.AZURE_CLIENT_ID;
     delete process.env.AZURE_TENANT_ID;
+    delete process.env.AZURE_CLIENT_SECRET;
     delete process.env.IDENTITY_ENDPOINT;
     delete process.env.IDENTITY_HEADER;
     delete process.env.MSI_ENDPOINT;
@@ -50,6 +51,7 @@ describe("ManagedIdentityCredential", function() {
     // Useful for record mode.
     process.env.AZURE_CLIENT_ID = env.AZURE_CLIENT_ID;
     process.env.AZURE_TENANT_ID = env.AZURE_TENANT_ID;
+    process.env.AZURE_CLIENT_SECRET = env.AZURE_CLIENT_SECRET;
     await testContext.restore();
   });
 
