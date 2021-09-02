@@ -1,6 +1,6 @@
 ## Azure FeatureClient SDK for JavaScript
 
-This package contains an isomorphic SDK (runs both in Node.js and in browsers) for FeatureClient.
+This package contains an isomorphic SDK (runs both in node.js and in browsers) for FeatureClient.
 
 ### Currently supported environments
 
@@ -49,8 +49,7 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 // Please note that you can also use credentials from the `@azure/ms-rest-nodeauth` package instead.
 const creds = new DefaultAzureCredential();
 const client = new FeatureClient(creds, subscriptionId);
-const apiVersion = "testapiVersion";
-client.listOperations(apiVersion).then((result) => {
+client.listOperations().then((result) => {
   console.log("The result is:");
   console.log(result);
 }).catch((err) => {
@@ -87,8 +86,7 @@ In browser applications, we recommend using the `InteractiveBrowserCredential` t
         tenant: "<optional tenant for your organization>"
       });
       const client = new Azure.ArmFeatures.FeatureClient(creds, subscriptionId);
-      const apiVersion = "testapiVersion";
-      client.listOperations(apiVersion).then((result) => {
+      client.listOperations().then((result) => {
         console.log("The result is:");
         console.log(result);
       }).catch((err) => {

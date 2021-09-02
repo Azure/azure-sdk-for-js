@@ -30,37 +30,32 @@ class FeatureClient extends FeatureClientContext {
    * ServiceClientCredentials interface from the older packages @azure/ms-rest-nodeauth and
    * @azure/ms-rest-browserauth are also supported.
    * @param subscriptionId The Azure subscription ID.
-   * @param providerNamespace The provider namespace.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, providerNamespace: string, options?: Models.FeatureClientOptions) {
-    super(credentials, subscriptionId, providerNamespace, options);
+  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.FeatureClientOptions) {
+    super(credentials, subscriptionId, options);
     this.features = new operations.Features(this);
     this.subscriptionFeatureRegistrations = new operations.SubscriptionFeatureRegistrations(this);
   }
 
   /**
    * Lists all of the available Microsoft.Features REST API operations.
-   * @param apiVersion The API version to use for this operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.ListOperationsResponse>
    */
-  listOperations(apiVersion: string, options?: msRest.RequestOptionsBase): Promise<Models.ListOperationsResponse>;
+  listOperations(options?: msRest.RequestOptionsBase): Promise<Models.ListOperationsResponse>;
   /**
-   * @param apiVersion The API version to use for this operation.
    * @param callback The callback
    */
-  listOperations(apiVersion: string, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
+  listOperations(callback: msRest.ServiceCallback<Models.OperationListResult>): void;
   /**
-   * @param apiVersion The API version to use for this operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listOperations(apiVersion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
-  listOperations(apiVersion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationListResult>, callback?: msRest.ServiceCallback<Models.OperationListResult>): Promise<Models.ListOperationsResponse> {
+  listOperations(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
+  listOperations(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationListResult>, callback?: msRest.ServiceCallback<Models.OperationListResult>): Promise<Models.ListOperationsResponse> {
     return this.sendOperationRequest(
       {
-        apiVersion,
         options
       },
       listOperationsOperationSpec,
@@ -70,29 +65,25 @@ class FeatureClient extends FeatureClientContext {
   /**
    * Lists all of the available Microsoft.Features REST API operations.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param apiVersion The API version to use for this operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.ListOperationsNextResponse>
    */
-  listOperationsNext(nextPageLink: string, apiVersion: string, options?: msRest.RequestOptionsBase): Promise<Models.ListOperationsNextResponse>;
+  listOperationsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ListOperationsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param apiVersion The API version to use for this operation.
    * @param callback The callback
    */
-  listOperationsNext(nextPageLink: string, apiVersion: string, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
+  listOperationsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param apiVersion The API version to use for this operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listOperationsNext(nextPageLink: string, apiVersion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
-  listOperationsNext(nextPageLink: string, apiVersion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationListResult>, callback?: msRest.ServiceCallback<Models.OperationListResult>): Promise<Models.ListOperationsNextResponse> {
+  listOperationsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
+  listOperationsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationListResult>, callback?: msRest.ServiceCallback<Models.OperationListResult>): Promise<Models.ListOperationsNextResponse> {
     return this.sendOperationRequest(
       {
         nextPageLink,
-        apiVersion,
         options
       },
       listOperationsNextOperationSpec,

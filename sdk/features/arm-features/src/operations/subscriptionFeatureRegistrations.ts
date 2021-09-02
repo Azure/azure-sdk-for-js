@@ -27,29 +27,29 @@ export class SubscriptionFeatureRegistrations {
 
   /**
    * Returns a feature registration
-   * @param apiVersion The API version to use for this operation.
+   * @param providerNamespace The provider namespace.
    * @param featureName The feature name.
    * @param [options] The optional parameters
    * @returns Promise<Models.SubscriptionFeatureRegistrationsGetResponse>
    */
-  get(apiVersion: string, featureName: string, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionFeatureRegistrationsGetResponse>;
+  get(providerNamespace: string, featureName: string, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionFeatureRegistrationsGetResponse>;
   /**
-   * @param apiVersion The API version to use for this operation.
+   * @param providerNamespace The provider namespace.
    * @param featureName The feature name.
    * @param callback The callback
    */
-  get(apiVersion: string, featureName: string, callback: msRest.ServiceCallback<Models.SubscriptionFeatureRegistration>): void;
+  get(providerNamespace: string, featureName: string, callback: msRest.ServiceCallback<Models.SubscriptionFeatureRegistration>): void;
   /**
-   * @param apiVersion The API version to use for this operation.
+   * @param providerNamespace The provider namespace.
    * @param featureName The feature name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(apiVersion: string, featureName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionFeatureRegistration>): void;
-  get(apiVersion: string, featureName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionFeatureRegistration>, callback?: msRest.ServiceCallback<Models.SubscriptionFeatureRegistration>): Promise<Models.SubscriptionFeatureRegistrationsGetResponse> {
+  get(providerNamespace: string, featureName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionFeatureRegistration>): void;
+  get(providerNamespace: string, featureName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionFeatureRegistration>, callback?: msRest.ServiceCallback<Models.SubscriptionFeatureRegistration>): Promise<Models.SubscriptionFeatureRegistrationsGetResponse> {
     return this.client.sendOperationRequest(
       {
-        apiVersion,
+        providerNamespace,
         featureName,
         options
       },
@@ -59,29 +59,29 @@ export class SubscriptionFeatureRegistrations {
 
   /**
    * Create or update a feature registration.
-   * @param apiVersion The API version to use for this operation.
+   * @param providerNamespace The provider namespace.
    * @param featureName The feature name.
    * @param [options] The optional parameters
    * @returns Promise<Models.SubscriptionFeatureRegistrationsCreateOrUpdateResponse>
    */
-  createOrUpdate(apiVersion: string, featureName: string, options?: Models.SubscriptionFeatureRegistrationsCreateOrUpdateOptionalParams): Promise<Models.SubscriptionFeatureRegistrationsCreateOrUpdateResponse>;
+  createOrUpdate(providerNamespace: string, featureName: string, options?: Models.SubscriptionFeatureRegistrationsCreateOrUpdateOptionalParams): Promise<Models.SubscriptionFeatureRegistrationsCreateOrUpdateResponse>;
   /**
-   * @param apiVersion The API version to use for this operation.
+   * @param providerNamespace The provider namespace.
    * @param featureName The feature name.
    * @param callback The callback
    */
-  createOrUpdate(apiVersion: string, featureName: string, callback: msRest.ServiceCallback<Models.SubscriptionFeatureRegistration>): void;
+  createOrUpdate(providerNamespace: string, featureName: string, callback: msRest.ServiceCallback<Models.SubscriptionFeatureRegistration>): void;
   /**
-   * @param apiVersion The API version to use for this operation.
+   * @param providerNamespace The provider namespace.
    * @param featureName The feature name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(apiVersion: string, featureName: string, options: Models.SubscriptionFeatureRegistrationsCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.SubscriptionFeatureRegistration>): void;
-  createOrUpdate(apiVersion: string, featureName: string, options?: Models.SubscriptionFeatureRegistrationsCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.SubscriptionFeatureRegistration>, callback?: msRest.ServiceCallback<Models.SubscriptionFeatureRegistration>): Promise<Models.SubscriptionFeatureRegistrationsCreateOrUpdateResponse> {
+  createOrUpdate(providerNamespace: string, featureName: string, options: Models.SubscriptionFeatureRegistrationsCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.SubscriptionFeatureRegistration>): void;
+  createOrUpdate(providerNamespace: string, featureName: string, options?: Models.SubscriptionFeatureRegistrationsCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.SubscriptionFeatureRegistration>, callback?: msRest.ServiceCallback<Models.SubscriptionFeatureRegistration>): Promise<Models.SubscriptionFeatureRegistrationsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
-        apiVersion,
+        providerNamespace,
         featureName,
         options
       },
@@ -91,29 +91,29 @@ export class SubscriptionFeatureRegistrations {
 
   /**
    * Deletes a feature registration
-   * @param apiVersion The API version to use for this operation.
+   * @param providerNamespace The provider namespace.
    * @param featureName The feature name.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(apiVersion: string, featureName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(providerNamespace: string, featureName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
-   * @param apiVersion The API version to use for this operation.
+   * @param providerNamespace The provider namespace.
    * @param featureName The feature name.
    * @param callback The callback
    */
-  deleteMethod(apiVersion: string, featureName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(providerNamespace: string, featureName: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param apiVersion The API version to use for this operation.
+   * @param providerNamespace The provider namespace.
    * @param featureName The feature name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(apiVersion: string, featureName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(apiVersion: string, featureName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(providerNamespace: string, featureName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(providerNamespace: string, featureName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
-        apiVersion,
+        providerNamespace,
         featureName,
         options
       },
@@ -123,26 +123,26 @@ export class SubscriptionFeatureRegistrations {
 
   /**
    * Returns subscription feature registrations for given subscription and provider namespace.
-   * @param apiVersion The API version to use for this operation.
+   * @param providerNamespace The provider namespace.
    * @param [options] The optional parameters
    * @returns Promise<Models.SubscriptionFeatureRegistrationsListBySubscriptionResponse>
    */
-  listBySubscription(apiVersion: string, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionFeatureRegistrationsListBySubscriptionResponse>;
+  listBySubscription(providerNamespace: string, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionFeatureRegistrationsListBySubscriptionResponse>;
   /**
-   * @param apiVersion The API version to use for this operation.
+   * @param providerNamespace The provider namespace.
    * @param callback The callback
    */
-  listBySubscription(apiVersion: string, callback: msRest.ServiceCallback<Models.SubscriptionFeatureRegistrationList>): void;
+  listBySubscription(providerNamespace: string, callback: msRest.ServiceCallback<Models.SubscriptionFeatureRegistrationList>): void;
   /**
-   * @param apiVersion The API version to use for this operation.
+   * @param providerNamespace The provider namespace.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(apiVersion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionFeatureRegistrationList>): void;
-  listBySubscription(apiVersion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionFeatureRegistrationList>, callback?: msRest.ServiceCallback<Models.SubscriptionFeatureRegistrationList>): Promise<Models.SubscriptionFeatureRegistrationsListBySubscriptionResponse> {
+  listBySubscription(providerNamespace: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionFeatureRegistrationList>): void;
+  listBySubscription(providerNamespace: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionFeatureRegistrationList>, callback?: msRest.ServiceCallback<Models.SubscriptionFeatureRegistrationList>): Promise<Models.SubscriptionFeatureRegistrationsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
-        apiVersion,
+        providerNamespace,
         options
       },
       listBySubscriptionOperationSpec,
@@ -151,26 +151,22 @@ export class SubscriptionFeatureRegistrations {
 
   /**
    * Returns subscription feature registrations for given subscription.
-   * @param apiVersion The API version to use for this operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.SubscriptionFeatureRegistrationsListAllBySubscriptionResponse>
    */
-  listAllBySubscription(apiVersion: string, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionFeatureRegistrationsListAllBySubscriptionResponse>;
+  listAllBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionFeatureRegistrationsListAllBySubscriptionResponse>;
   /**
-   * @param apiVersion The API version to use for this operation.
    * @param callback The callback
    */
-  listAllBySubscription(apiVersion: string, callback: msRest.ServiceCallback<Models.SubscriptionFeatureRegistrationList>): void;
+  listAllBySubscription(callback: msRest.ServiceCallback<Models.SubscriptionFeatureRegistrationList>): void;
   /**
-   * @param apiVersion The API version to use for this operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAllBySubscription(apiVersion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionFeatureRegistrationList>): void;
-  listAllBySubscription(apiVersion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionFeatureRegistrationList>, callback?: msRest.ServiceCallback<Models.SubscriptionFeatureRegistrationList>): Promise<Models.SubscriptionFeatureRegistrationsListAllBySubscriptionResponse> {
+  listAllBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionFeatureRegistrationList>): void;
+  listAllBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionFeatureRegistrationList>, callback?: msRest.ServiceCallback<Models.SubscriptionFeatureRegistrationList>): Promise<Models.SubscriptionFeatureRegistrationsListAllBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
-        apiVersion,
         options
       },
       listAllBySubscriptionOperationSpec,
@@ -180,29 +176,25 @@ export class SubscriptionFeatureRegistrations {
   /**
    * Returns subscription feature registrations for given subscription and provider namespace.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param apiVersion The API version to use for this operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.SubscriptionFeatureRegistrationsListBySubscriptionNextResponse>
    */
-  listBySubscriptionNext(nextPageLink: string, apiVersion: string, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionFeatureRegistrationsListBySubscriptionNextResponse>;
+  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionFeatureRegistrationsListBySubscriptionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param apiVersion The API version to use for this operation.
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, apiVersion: string, callback: msRest.ServiceCallback<Models.SubscriptionFeatureRegistrationList>): void;
+  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SubscriptionFeatureRegistrationList>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param apiVersion The API version to use for this operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, apiVersion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionFeatureRegistrationList>): void;
-  listBySubscriptionNext(nextPageLink: string, apiVersion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionFeatureRegistrationList>, callback?: msRest.ServiceCallback<Models.SubscriptionFeatureRegistrationList>): Promise<Models.SubscriptionFeatureRegistrationsListBySubscriptionNextResponse> {
+  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionFeatureRegistrationList>): void;
+  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionFeatureRegistrationList>, callback?: msRest.ServiceCallback<Models.SubscriptionFeatureRegistrationList>): Promise<Models.SubscriptionFeatureRegistrationsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        apiVersion,
         options
       },
       listBySubscriptionNextOperationSpec,
@@ -212,29 +204,25 @@ export class SubscriptionFeatureRegistrations {
   /**
    * Returns subscription feature registrations for given subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param apiVersion The API version to use for this operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.SubscriptionFeatureRegistrationsListAllBySubscriptionNextResponse>
    */
-  listAllBySubscriptionNext(nextPageLink: string, apiVersion: string, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionFeatureRegistrationsListAllBySubscriptionNextResponse>;
+  listAllBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionFeatureRegistrationsListAllBySubscriptionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param apiVersion The API version to use for this operation.
    * @param callback The callback
    */
-  listAllBySubscriptionNext(nextPageLink: string, apiVersion: string, callback: msRest.ServiceCallback<Models.SubscriptionFeatureRegistrationList>): void;
+  listAllBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SubscriptionFeatureRegistrationList>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param apiVersion The API version to use for this operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAllBySubscriptionNext(nextPageLink: string, apiVersion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionFeatureRegistrationList>): void;
-  listAllBySubscriptionNext(nextPageLink: string, apiVersion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionFeatureRegistrationList>, callback?: msRest.ServiceCallback<Models.SubscriptionFeatureRegistrationList>): Promise<Models.SubscriptionFeatureRegistrationsListAllBySubscriptionNextResponse> {
+  listAllBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionFeatureRegistrationList>): void;
+  listAllBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionFeatureRegistrationList>, callback?: msRest.ServiceCallback<Models.SubscriptionFeatureRegistrationList>): Promise<Models.SubscriptionFeatureRegistrationsListAllBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        apiVersion,
         options
       },
       listAllBySubscriptionNextOperationSpec,

@@ -27,26 +27,22 @@ export class Features {
 
   /**
    * Gets all the preview features that are available through AFEC for the subscription.
-   * @param apiVersion The API version to use for this operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.FeaturesListAllResponse>
    */
-  listAll(apiVersion: string, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesListAllResponse>;
+  listAll(options?: msRest.RequestOptionsBase): Promise<Models.FeaturesListAllResponse>;
   /**
-   * @param apiVersion The API version to use for this operation.
    * @param callback The callback
    */
-  listAll(apiVersion: string, callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>): void;
+  listAll(callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>): void;
   /**
-   * @param apiVersion The API version to use for this operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAll(apiVersion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>): void;
-  listAll(apiVersion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FeatureOperationsListResult>, callback?: msRest.ServiceCallback<Models.FeatureOperationsListResult>): Promise<Models.FeaturesListAllResponse> {
+  listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>): void;
+  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FeatureOperationsListResult>, callback?: msRest.ServiceCallback<Models.FeatureOperationsListResult>): Promise<Models.FeaturesListAllResponse> {
     return this.client.sendOperationRequest(
       {
-        apiVersion,
         options
       },
       listAllOperationSpec,
@@ -57,29 +53,25 @@ export class Features {
    * Gets all the preview features in a provider namespace that are available through AFEC for the
    * subscription.
    * @param resourceProviderNamespace The namespace of the resource provider for getting features.
-   * @param apiVersion The API version to use for this operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.FeaturesListResponse>
    */
-  list(resourceProviderNamespace: string, apiVersion: string, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesListResponse>;
+  list(resourceProviderNamespace: string, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesListResponse>;
   /**
    * @param resourceProviderNamespace The namespace of the resource provider for getting features.
-   * @param apiVersion The API version to use for this operation.
    * @param callback The callback
    */
-  list(resourceProviderNamespace: string, apiVersion: string, callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>): void;
+  list(resourceProviderNamespace: string, callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>): void;
   /**
    * @param resourceProviderNamespace The namespace of the resource provider for getting features.
-   * @param apiVersion The API version to use for this operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceProviderNamespace: string, apiVersion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>): void;
-  list(resourceProviderNamespace: string, apiVersion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FeatureOperationsListResult>, callback?: msRest.ServiceCallback<Models.FeatureOperationsListResult>): Promise<Models.FeaturesListResponse> {
+  list(resourceProviderNamespace: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>): void;
+  list(resourceProviderNamespace: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FeatureOperationsListResult>, callback?: msRest.ServiceCallback<Models.FeatureOperationsListResult>): Promise<Models.FeaturesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceProviderNamespace,
-        apiVersion,
         options
       },
       listOperationSpec,
@@ -90,32 +82,28 @@ export class Features {
    * Gets the preview feature with the specified name.
    * @param resourceProviderNamespace The resource provider namespace for the feature.
    * @param featureName The name of the feature to get.
-   * @param apiVersion The API version to use for this operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.FeaturesGetResponse>
    */
-  get(resourceProviderNamespace: string, featureName: string, apiVersion: string, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesGetResponse>;
+  get(resourceProviderNamespace: string, featureName: string, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesGetResponse>;
   /**
    * @param resourceProviderNamespace The resource provider namespace for the feature.
    * @param featureName The name of the feature to get.
-   * @param apiVersion The API version to use for this operation.
    * @param callback The callback
    */
-  get(resourceProviderNamespace: string, featureName: string, apiVersion: string, callback: msRest.ServiceCallback<Models.FeatureResult>): void;
+  get(resourceProviderNamespace: string, featureName: string, callback: msRest.ServiceCallback<Models.FeatureResult>): void;
   /**
    * @param resourceProviderNamespace The resource provider namespace for the feature.
    * @param featureName The name of the feature to get.
-   * @param apiVersion The API version to use for this operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceProviderNamespace: string, featureName: string, apiVersion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FeatureResult>): void;
-  get(resourceProviderNamespace: string, featureName: string, apiVersion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FeatureResult>, callback?: msRest.ServiceCallback<Models.FeatureResult>): Promise<Models.FeaturesGetResponse> {
+  get(resourceProviderNamespace: string, featureName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FeatureResult>): void;
+  get(resourceProviderNamespace: string, featureName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FeatureResult>, callback?: msRest.ServiceCallback<Models.FeatureResult>): Promise<Models.FeaturesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceProviderNamespace,
         featureName,
-        apiVersion,
         options
       },
       getOperationSpec,
@@ -126,32 +114,28 @@ export class Features {
    * Registers the preview feature for the subscription.
    * @param resourceProviderNamespace The namespace of the resource provider.
    * @param featureName The name of the feature to register.
-   * @param apiVersion The API version to use for this operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.FeaturesRegisterResponse>
    */
-  register(resourceProviderNamespace: string, featureName: string, apiVersion: string, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesRegisterResponse>;
+  register(resourceProviderNamespace: string, featureName: string, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesRegisterResponse>;
   /**
    * @param resourceProviderNamespace The namespace of the resource provider.
    * @param featureName The name of the feature to register.
-   * @param apiVersion The API version to use for this operation.
    * @param callback The callback
    */
-  register(resourceProviderNamespace: string, featureName: string, apiVersion: string, callback: msRest.ServiceCallback<Models.FeatureResult>): void;
+  register(resourceProviderNamespace: string, featureName: string, callback: msRest.ServiceCallback<Models.FeatureResult>): void;
   /**
    * @param resourceProviderNamespace The namespace of the resource provider.
    * @param featureName The name of the feature to register.
-   * @param apiVersion The API version to use for this operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  register(resourceProviderNamespace: string, featureName: string, apiVersion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FeatureResult>): void;
-  register(resourceProviderNamespace: string, featureName: string, apiVersion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FeatureResult>, callback?: msRest.ServiceCallback<Models.FeatureResult>): Promise<Models.FeaturesRegisterResponse> {
+  register(resourceProviderNamespace: string, featureName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FeatureResult>): void;
+  register(resourceProviderNamespace: string, featureName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FeatureResult>, callback?: msRest.ServiceCallback<Models.FeatureResult>): Promise<Models.FeaturesRegisterResponse> {
     return this.client.sendOperationRequest(
       {
         resourceProviderNamespace,
         featureName,
-        apiVersion,
         options
       },
       registerOperationSpec,
@@ -162,32 +146,28 @@ export class Features {
    * Unregisters the preview feature for the subscription.
    * @param resourceProviderNamespace The namespace of the resource provider.
    * @param featureName The name of the feature to unregister.
-   * @param apiVersion The API version to use for this operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.FeaturesUnregisterResponse>
    */
-  unregister(resourceProviderNamespace: string, featureName: string, apiVersion: string, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesUnregisterResponse>;
+  unregister(resourceProviderNamespace: string, featureName: string, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesUnregisterResponse>;
   /**
    * @param resourceProviderNamespace The namespace of the resource provider.
    * @param featureName The name of the feature to unregister.
-   * @param apiVersion The API version to use for this operation.
    * @param callback The callback
    */
-  unregister(resourceProviderNamespace: string, featureName: string, apiVersion: string, callback: msRest.ServiceCallback<Models.FeatureResult>): void;
+  unregister(resourceProviderNamespace: string, featureName: string, callback: msRest.ServiceCallback<Models.FeatureResult>): void;
   /**
    * @param resourceProviderNamespace The namespace of the resource provider.
    * @param featureName The name of the feature to unregister.
-   * @param apiVersion The API version to use for this operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  unregister(resourceProviderNamespace: string, featureName: string, apiVersion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FeatureResult>): void;
-  unregister(resourceProviderNamespace: string, featureName: string, apiVersion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FeatureResult>, callback?: msRest.ServiceCallback<Models.FeatureResult>): Promise<Models.FeaturesUnregisterResponse> {
+  unregister(resourceProviderNamespace: string, featureName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FeatureResult>): void;
+  unregister(resourceProviderNamespace: string, featureName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FeatureResult>, callback?: msRest.ServiceCallback<Models.FeatureResult>): Promise<Models.FeaturesUnregisterResponse> {
     return this.client.sendOperationRequest(
       {
         resourceProviderNamespace,
         featureName,
-        apiVersion,
         options
       },
       unregisterOperationSpec,
@@ -197,29 +177,25 @@ export class Features {
   /**
    * Gets all the preview features that are available through AFEC for the subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param apiVersion The API version to use for this operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.FeaturesListAllNextResponse>
    */
-  listAllNext(nextPageLink: string, apiVersion: string, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesListAllNextResponse>;
+  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesListAllNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param apiVersion The API version to use for this operation.
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, apiVersion: string, callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>): void;
+  listAllNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param apiVersion The API version to use for this operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, apiVersion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>): void;
-  listAllNext(nextPageLink: string, apiVersion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FeatureOperationsListResult>, callback?: msRest.ServiceCallback<Models.FeatureOperationsListResult>): Promise<Models.FeaturesListAllNextResponse> {
+  listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>): void;
+  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FeatureOperationsListResult>, callback?: msRest.ServiceCallback<Models.FeatureOperationsListResult>): Promise<Models.FeaturesListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        apiVersion,
         options
       },
       listAllNextOperationSpec,
@@ -230,29 +206,25 @@ export class Features {
    * Gets all the preview features in a provider namespace that are available through AFEC for the
    * subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param apiVersion The API version to use for this operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.FeaturesListNextResponse>
    */
-  listNext(nextPageLink: string, apiVersion: string, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesListNextResponse>;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param apiVersion The API version to use for this operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, apiVersion: string, callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param apiVersion The API version to use for this operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, apiVersion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>): void;
-  listNext(nextPageLink: string, apiVersion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FeatureOperationsListResult>, callback?: msRest.ServiceCallback<Models.FeatureOperationsListResult>): Promise<Models.FeaturesListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FeatureOperationsListResult>, callback?: msRest.ServiceCallback<Models.FeatureOperationsListResult>): Promise<Models.FeaturesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
-        apiVersion,
         options
       },
       listNextOperationSpec,
