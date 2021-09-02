@@ -8351,7 +8351,7 @@ packages:
     dev: false
     name: '@rush-temp/agrifood-farming'
     resolution:
-      integrity: sha512-fI0ZnOU97ijUuuYLyfEmoblNdvsESeIFjLoqXElcFHbHpt3oY29P9TeOXZGkYPZWn0rqdS6ThSrwtm4whLGXhw==
+      integrity: sha512-cqKpvpFUi1vmXReL/3Kr/NFHD4h94JoyZFOQ1m+wfBVnwVOuv/43PvlE7u3zvnOf4dPqk+EvhWUWYNBrTPx/tw==
       tarball: file:projects/agrifood-farming.tgz
     version: 0.0.0
   file:projects/ai-anomaly-detector.tgz:
@@ -8442,7 +8442,7 @@ packages:
     dev: false
     name: '@rush-temp/ai-document-translator'
     resolution:
-      integrity: sha512-IzEwMBXTUYe48UJSbAhbemKiVE6/y54KMHUucFE2JkGuqIBa2Ci4J6W4mrFMICX5yhweisFxOxWUF7X4P1wjHw==
+      integrity: sha512-RTnU8NxdkRVFfwo3U+Xeiq7/nhTYqqiMPhh61x4ff25/2pI9x3II0hGAJsMA1hTYKoItr8EDGrZWrVTFx7FRTA==
       tarball: file:projects/ai-document-translator.tgz
     version: 0.0.0
   file:projects/ai-form-recognizer.tgz:
@@ -8536,7 +8536,7 @@ packages:
   file:projects/ai-text-analytics.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
-      '@microsoft/api-extractor': 7.7.11
+      '@microsoft/api-extractor': 7.13.2
       '@types/chai': 4.2.21
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
@@ -8576,7 +8576,7 @@ packages:
     dev: false
     name: '@rush-temp/ai-text-analytics'
     resolution:
-      integrity: sha512-W4JVfxmJk3JLpEPpTznb+LQSNckSvz40muA5H7egoMY7gLubinQri5m5jVOYFkO2tBV98gI/8t/Rw8QVC3ip2Q==
+      integrity: sha512-2LGHezXg32ls4BYREfEseyZ6L9xYnPAhrZQYQmdUoQIcEgcOAkrbztmanvg3GEDNZhQ54/TLqfSbviyYpd2/fQ==
       tarball: file:projects/ai-text-analytics.tgz
     version: 0.0.0
   file:projects/app-configuration.tgz:
@@ -9366,7 +9366,7 @@ packages:
     dev: false
     name: '@rush-temp/confidential-ledger'
     resolution:
-      integrity: sha512-45GvfLJPR9/2EHGurNlqEjXLpJPSA0TWViAhKkAG3e3jlZxFRIBVhJgmjZ4ges76gQfWjBh0hK7H4F6jnNcEWw==
+      integrity: sha512-lQYlLhA8jsiSwPsCRn0A+03cVkbIds7xTk4dqHv3dUeXmFoKYxUvPd6hBQfnVSMjrLZj6QMiViKnUS8/b5SUkA==
       tarball: file:projects/confidential-ledger.tgz
     version: 0.0.0
   file:projects/container-registry.tgz:
@@ -9580,7 +9580,7 @@ packages:
     dev: false
     name: '@rush-temp/core-client-lro'
     resolution:
-      integrity: sha512-n7OJnwa3mZ4WMtwlX0t8UY0ZAPc877e+UfhsTLa5V+3Re0wkEvKUo1IvMedAgKPLag3MoTrRcxl3c3KXGXxGRA==
+      integrity: sha512-M4evzMVsUDQjqh47XEQtziCB+jT5OhhmOrmpzyI1yE/2vYMM3Bz0kZPBWGq9KZDcBmkFCNNHhjk4uY8oG/BWMA==
       tarball: file:projects/core-client-lro.tgz
     version: 0.0.0
   file:projects/core-client-paging.tgz:
@@ -9618,7 +9618,7 @@ packages:
     dev: false
     name: '@rush-temp/core-client-paging'
     resolution:
-      integrity: sha512-bsDMFvEcIAb5YzNyy2nbN/9r6iqMizurHzWN6bT+C4son4pDW7+ij6qMx/FKi9l+HiMhx8Ns6prqJypy8g30IQ==
+      integrity: sha512-jR9MSynY/6hjmMjyWjs+hFAAwk0VN2zJV0yBg0vH/9dv5ANOkjoAYfk54Vu3V0CHHQ7njmLScWqrFdqcRkqypw==
       tarball: file:projects/core-client-paging.tgz
     version: 0.0.0
   file:projects/core-client.tgz:
@@ -9655,7 +9655,7 @@ packages:
     dev: false
     name: '@rush-temp/core-client'
     resolution:
-      integrity: sha512-A+GvNgdlwTt5h3ZbVfNlhfUSKtdo96ruE9aQ7Vvf83wsasti6gtLOQFPXPiLMvhvQoKg4eQ3iZU9TtNxW2RY+g==
+      integrity: sha512-VGDp4uzLU6NL5A31+vMbrE2BUlAtWssXoUiG5q21WDHo/5bdVv5Ksl+r9UzYxzgaEWDeNVr5KxfoBvZo7+xJAw==
       tarball: file:projects/core-client.tgz
     version: 0.0.0
   file:projects/core-crypto.tgz:
@@ -10048,7 +10048,7 @@ packages:
     dev: false
     name: '@rush-temp/cosmos'
     resolution:
-      integrity: sha512-Nfj3USkLkf7QCn7UuB/PrIEELRhpS9jJ7QWwpo0j6H6/eBa8KCf9368JVYh6I1k7VwFMedUIhEkQPosdjdL0pQ==
+      integrity: sha512-v+bNkU4WpQD8Hlx6a9goD+tBbte985pnXR63GxJo68zLe4o2zYdOOMtmmZ1TylBLSkXSWuu2s/1sGvUUATj3NA==
       tarball: file:projects/cosmos.tgz
     version: 0.0.0
   file:projects/data-tables.tgz:
@@ -11178,7 +11178,7 @@ packages:
     dev: false
     name: '@rush-temp/monitor-query'
     resolution:
-      integrity: sha512-8l2Vg6YWtfMUMyjBH28Djy6Jb2lp7guFk0bHo4sC6Q1+baB5QE4TE8AylUW8ns16V/12BxE3MP4CBSwwsIPvVA==
+      integrity: sha512-wTWUYsAt7ut9FCaEDjKBqgcZnXvS7jRCafdZOHQCw7BY3cUTrNyRmmWmu/OYyJ7lB91pPYXhVeUzbN0fQq8AZQ==
       tarball: file:projects/monitor-query.tgz
     version: 0.0.0
   file:projects/perf-ai-form-recognizer.tgz:
@@ -11487,7 +11487,7 @@ packages:
     dev: false
     name: '@rush-temp/purview-account'
     resolution:
-      integrity: sha512-if5JygVMi5EaFVhbOVYimljQS6RFD/AbV1lQe4zIJ2W/gMAzTTkb4zUwX3wUbTDuUE4Mzn6fnasa139O1luSsA==
+      integrity: sha512-tc6KFxfVCGUIwZjdgRZ80vPbwro2EwMEy4B3MQahsza/FZ4i3AHouoborKtNJg30pkTh1n2l7xOeaQJr/hQ7wg==
       tarball: file:projects/purview-account.tgz
     version: 0.0.0
   file:projects/purview-catalog.tgz:
@@ -11530,7 +11530,7 @@ packages:
     dev: false
     name: '@rush-temp/purview-catalog'
     resolution:
-      integrity: sha512-A6d6LOn/IF/XQhtWl/O/PrdkXsIDLWDLypn2hTE5tZCIqgRXFXdnvL1JYnxMc4Ov+z5Tj0I6OCwBjRCw50uZ0g==
+      integrity: sha512-BpZ4lOcV2MTB83zU2HMD+uUDLS9RjPLFiZXEL0RfjELRDVYHW7Mzc8iHm4hh0z0KJ8LgJU6IicmaNvMP/X8LBA==
       tarball: file:projects/purview-catalog.tgz
     version: 0.0.0
   file:projects/purview-scanning.tgz:
@@ -11573,7 +11573,7 @@ packages:
     dev: false
     name: '@rush-temp/purview-scanning'
     resolution:
-      integrity: sha512-U0BqvzNxYHfqTIpxFfs48K55AOgH9utGrS73zZVPI9dPSc4WywkLsuxQrzOou86FJ5B44Khjp8ae9pZPj672qw==
+      integrity: sha512-HX4JV2mB44SB0PkGp9I4CQ/Bu0yYtFOkwu5WHNn9sathdM9wxEbX+GXP/1e9Xh4EpGweOSDprabMN+IGzK+4Tw==
       tarball: file:projects/purview-scanning.tgz
     version: 0.0.0
   file:projects/quantum-jobs.tgz:
