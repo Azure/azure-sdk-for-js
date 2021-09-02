@@ -42,7 +42,7 @@
 /sdk/containerregistry/ @jeremymeng
 
 # PRLabel: %Cosmos
-/sdk/cosmosdb/ @southpolesteve @zfoster
+/sdk/cosmosdb/ @kushagraThapar
 
 # PRLabel: %Digital Twins
 /sdk/digitaltwins/ @vishnureddy17
