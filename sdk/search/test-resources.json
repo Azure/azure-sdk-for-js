@@ -11,9 +11,9 @@
     },
     "searchSku": {
       "type": "string",
-      "defaultValue": "standard",
+      "defaultValue": "free",
       "metadata": {
-        "description": "SKU for search resource. The default is 'standard'"
+        "description": "SKU for search resource. The default is 'free'"
       }
     }
   },
