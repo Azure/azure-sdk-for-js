@@ -6,6 +6,9 @@ import { IdentityClient } from "../../client/identityClient";
 
 export type MSIExpiresInParser = (requestBody: any) => number;
 
+export interface MSICache {
+  [key: string]: { value: string; date: number };
+}
 export interface MSI {
   isAvailable(
     identityClient?: IdentityClient,

@@ -21,7 +21,7 @@ import {
   SendCredentialRequests
 } from "../../httpRequestsCommon";
 import { prepareIdentityTests } from "../../httpRequests";
-import { DefaultTenantId } from "../../../src/constants";
+import { DefaultAuthorityHost, DefaultTenantId } from "../../../src/constants";
 
 describe("ManagedIdentityCredential", function() {
   let envCopy: string = "";
@@ -37,6 +37,7 @@ describe("ManagedIdentityCredential", function() {
     delete process.env.IDENTITY_SERVER_THUMBPRINT;
     delete process.env.IMDS_ENDPOINT;
     delete process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST;
+    delete process.env.AZURE_FEDERATED_TOKEN_FILE;
     testContext = await prepareIdentityTests({});
     sendCredentialRequests = testContext.sendCredentialRequests;
   });
@@ -50,6 +51,7 @@ describe("ManagedIdentityCredential", function() {
     process.env.IDENTITY_SERVER_THUMBPRINT = env.IDENTITY_SERVER_THUMBPRINT;
     process.env.IMDS_ENDPOINT = env.IMDS_ENDPOINT;
     process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST = env.AZURE_POD_IDENTITY_AUTHORITY_HOST;
+    process.env.AZURE_FEDERATED_TOKEN_FILE = env.AZURE_FEDERATED_TOKEN_FILE;
     await testContext.restore();
   });
 
@@ -494,12 +496,12 @@ describe("ManagedIdentityCredential", function() {
     // Trigger token file path by setting environment variables
     process.env.AZURE_CLIENT_ID = "client-id";
     process.env.AZURE_TENANT_ID = DefaultTenantId;
-    process.env.TOKEN_FILE_PATH = tempFile;
+    process.env.AZURE_FEDERATED_TOKEN_FILE = tempFile;
 
     const authDetails = await sendCredentialRequests({
-      scopes: ["https://service/.default"],
+      scopes: ["https://service/.default", "https://service2/.default"],
       credential: new ManagedIdentityCredential("client"),
-      insecureResponses: [
+      secureResponses: [
         createResponse(200, {
           access_token: "token",
           expires_on: 1
@@ -509,15 +511,117 @@ describe("ManagedIdentityCredential", function() {
 
     const authRequest = authDetails.requests[0];
 
-    const query = new URLSearchParams(authRequest.url.split("?")[1]);
+    const body = new URLSearchParams(authRequest.body);
 
-    assert.strictEqual(authRequest.method, "GET");
-    assert.strictEqual(decodeURIComponent(query.get("client_assertion")!), expectedAssertion);
     assert.strictEqual(
-      decodeURIComponent(query.get("client_assertion_type")!),
+      authRequest.url,
+      `${DefaultAuthorityHost}/${DefaultTenantId}/oauth2/v2.0/token`
+    );
+    assert.strictEqual(authRequest.method, "POST");
+    assert.strictEqual(decodeURIComponent(body.get("client_assertion")!), expectedAssertion);
+    assert.strictEqual(
+      decodeURIComponent(body.get("client_assertion_type")!),
       "urn:ietf:params:oauth:client-assertion-type:jwt-bearer"
     );
-    assert.strictEqual(decodeURIComponent(query.get("resource")!), "https://service");
+    assert.strictEqual(decodeURIComponent(body.get("scope")!), "https://service https://service2");
     assert.strictEqual(authDetails.result!.token, "token");
+  });
+
+  it("reads from the token file again only after 5 minutes have passed", async function(this: Mocha.Context) {
+    const testTitle = this.test?.title || Date.now().toString();
+    const tempDir = mkdtempSync(join(tmpdir(), testTitle));
+    const tempFile = join(tempDir, testTitle);
+    const expectedAssertion = "{}";
+    writeFileSync(tempFile, expectedAssertion, { encoding: "utf8" });
+
+    // Trigger token file path by setting environment variables
+    process.env.AZURE_CLIENT_ID = "client-id";
+    process.env.AZURE_TENANT_ID = DefaultTenantId;
+    process.env.AZURE_FEDERATED_TOKEN_FILE = tempFile;
+
+    const credential = new ManagedIdentityCredential("client");
+
+    let authDetails = await sendCredentialRequests({
+      scopes: ["https://service/.default", "https://service2/.default"],
+      credential,
+      secureResponses: [
+        createResponse(200, {
+          access_token: "token",
+          expires_on: 1
+        })
+      ]
+    });
+
+    let authRequest = authDetails.requests[0];
+    let body = new URLSearchParams(authRequest.body);
+
+    assert.strictEqual(
+      authRequest.url,
+      `${DefaultAuthorityHost}/${DefaultTenantId}/oauth2/v2.0/token`
+    );
+    assert.strictEqual(authRequest.method, "POST");
+    assert.strictEqual(decodeURIComponent(body.get("client_assertion")!), expectedAssertion);
+    assert.strictEqual(
+      decodeURIComponent(body.get("client_assertion_type")!),
+      "urn:ietf:params:oauth:client-assertion-type:jwt-bearer"
+    );
+    assert.strictEqual(decodeURIComponent(body.get("scope")!), "https://service https://service2");
+    assert.strictEqual(authDetails.result!.token, "token");
+
+    const newExpectedAssertion = '{ "different": true }';
+    writeFileSync(tempFile, newExpectedAssertion, { encoding: "utf8" });
+
+    // A new credential means we read the file again
+    testContext.sandbox.restore();
+    authDetails = await sendCredentialRequests({
+      scopes: ["https://service/.default", "https://service2/.default"],
+      credential: new ManagedIdentityCredential("client"),
+      secureResponses: [
+        createResponse(200, {
+          access_token: "token",
+          expires_on: 1
+        })
+      ]
+    });
+    authRequest = authDetails.requests[0];
+    body = new URLSearchParams(authRequest.body);
+    assert.strictEqual(decodeURIComponent(body.get("client_assertion")!), newExpectedAssertion);
+
+    // If we stick to the original credential...
+
+    // Less than 5 minutes means we don't read the file again.
+    testContext.sandbox.restore();
+    testContext.sandbox.useFakeTimers();
+    authDetails = await sendCredentialRequests({
+      scopes: ["https://service/.default", "https://service2/.default"],
+      credential,
+      secureResponses: [
+        createResponse(200, {
+          access_token: "token",
+          expires_on: 1
+        })
+      ]
+    });
+    authRequest = authDetails.requests[0];
+    body = new URLSearchParams(authRequest.body);
+    assert.strictEqual(decodeURIComponent(body.get("client_assertion")!), expectedAssertion);
+
+    // More than 5 minutes means we read the file again.
+    testContext.sandbox.restore();
+    testContext.sandbox.useFakeTimers();
+    testContext.sandbox.clock.tick(1000 * 60 * 5);
+    authDetails = await sendCredentialRequests({
+      scopes: ["https://service/.default", "https://service2/.default"],
+      credential,
+      secureResponses: [
+        createResponse(200, {
+          access_token: "token",
+          expires_on: 1
+        })
+      ]
+    });
+    authRequest = authDetails.requests[0];
+    body = new URLSearchParams(authRequest.body);
+    assert.strictEqual(decodeURIComponent(body.get("client_assertion")!), newExpectedAssertion);
   });
 });

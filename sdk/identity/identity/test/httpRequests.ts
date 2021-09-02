@@ -126,9 +126,6 @@ export async function prepareIdentityTests({
     sendPromise: () => Promise<T | null>,
     { response }: { response: TestResponse }
   ): Promise<T | null> {
-    if ((https.request as any).restore) {
-      (https.request as any).restore.restore();
-    }
     const request = createRequest();
     sandbox.replace(
       https,
