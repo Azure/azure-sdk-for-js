@@ -16,21 +16,21 @@ npm install @azure/core-tracing
 
 The `@azure/core-tracing` package supports enabling tracing for Azure SDK packages, using an [OpenTelemetry](https://opentelemetry.io/) `Tracer`.
 
-By default, all libraries log with a `NoOpTracer` that takes no action. To enable tracing, you will need to set a global tracer provider following the instructions in the [OpenTelemetry getting started guide](https://opentelemetry.io/docs/js/getting_started/nodejs).
+By default, all libraries log with a `NoOpTracer` that takes no action. To enable tracing, you will need to set a global tracer provider following the instructions in the [OpenTelemetry getting started guide](https://opentelemetry.io/docs/js/getting_started/nodejs) or [the Enabling Tracing using OpenTelemetry example](#enabling-tracing-using-opentelemetry) below.
 
 ### Span Propagation
 
 Core Tracing supports both automatic and manual span propagation. Automatic propagation is handled using OpenTelemetry's API and will work well in most scenarios when run in `Node.js`.
 
-For customers who require manual propagation, or to provide context propagation in the browser, all client library operations accept a `tracingContext` option under `tracingOptions` which allows you to manually pass the current context to the Azure SDK client library.
+For customers who require manual propagation, or to provide context propagation in the browser, all client library operations accept an optional options collection where a tracingContext can be passed in and used as the currently active context. Please see [the manual propagation example below](#manual-span-propagation-using-opentelemetry) for more details.
 
 ### OpenTelemetry Compatibility
 
-Both the Azure SDK and Microsoft's [Application Insights](https://www.npmjs.com/package/applicationinsights) use [OpenTelemetry](https://opentelemetry.io/) to support tracing. Specifically, we depend on the [@opentelemetry/api](https://www.npmjs.com/package/@opentelemetry/api) npm package.
+Most Azure SDKs and Microsoft's [Application Insights](https://www.npmjs.com/package/applicationinsights) use [OpenTelemetry](https://opentelemetry.io/) to support tracing. Specifically, we depend on the [@opentelemetry/api](https://www.npmjs.com/package/@opentelemetry/api) npm package.
 
-As OpenTelemetry iterated on their API towards their 1.0 GA release, both libraries were updated to match.
+As OpenTelemetry iterated on their API towards their 1.0 GA release, our libraries were updated to match.
 
-Some incompatibility between the two libraries is due to mismatches between the OpenTelemetry versions used in either `@azure/core-tracing` or `applicationinsights` when the two are used side-by-side. For folks who are using both libraries in the same application, we recommend using the same version of OpenTelemetry for both libraries by upgrading to their latest versions.
+Some incompatibility between the libraries is due to mismatches between the OpenTelemetry versions used in either `@azure/core-tracing` or `applicationinsights` when the two are used side-by-side. For folks who are using both an Azure Client Library and Application Insights in the same application, we recommend using the same version of OpenTelemetry for both libraries by upgrading to their latest versions.
 
 > Please note that we do not foresee any future compatibility concerns now that OpenTelemetry 1.0.0 has been released and the API considered stable.
 
@@ -39,10 +39,7 @@ Some incompatibility between the two libraries is due to mismatches between the 
 | Core Tracing     | Application Insights | @opentelemetry/api |
 | ---------------- | -------------------- | ------------------ |
 | 1.0.0-preview.10 |                      | 0.10.2             |
-| 1.0.0-preview.11 | 2.1.0                | 1.0.0-rc.0         |
-| 1.0.0-preview.11 | 2.1.1                | 1.0.0-rc.0         |
-| 1.0.0-preview.11 | 2.1.2                | 1.0.0-rc.0         |
-| 1.0.0-preview.11 | 2.1.3                | 1.0.0-rc.0         |
+| 1.0.0-preview.11 | 2.1.0-2.1.3          | 1.0.0-rc.0         |
 | 1.0.0-preview.12 | ^2.1.4               | ^1.0.0             |
 | 1.0.0-preview.13 | ^2.1.4               | ^1.0.0             |
 
@@ -50,7 +47,7 @@ Please see the [troubleshooting](#troubleshooting) section for additional inform
 
 ## Examples
 
-### Example 1 - Enabling tracing using OpenTelemetry
+### Enabling tracing using OpenTelemetry
 
 ```ts
 const opentelemetry = require("@opentelemetry/api");
@@ -63,14 +60,20 @@ provider.register();
 // Call some client library methods using automatic span propagation.
 ```
 
-### Example 2 - Manual Span Propagation using OpenTelemetry
+### Manual Span Propagation using OpenTelemetry
 
 ```ts
-// Given a BlobClient from @azure/storage-blob, a given context, and a global tracer provider as per the previous example.
-// The context is passed to the client library as a tracingContext option.
-const result = await blobClient.download(undefined, undefined, {
+const opentelemetry = require("@opentelemetry/api");
+// Get a tracer from a registered provider, create a span, and get the current context
+const tracer = opentelemetry.trace.getTracer("my-tracer");
+const span = tracer.startSpan("main");
+const ctx = opentelemetry.trace.setSpan(opentelemetry.context.active(), span);
+
+// Assuming we have an existing BlobClient, let's see if the blob exists.
+// The context is passed to the client library as a tracingContext option and will be propagated downstream to any child spans.
+const result = await blobClient.exists({
   tracingOptions: {
-    tracingContext: context
+    tracingContext: ctx
   }
 });
 ```
