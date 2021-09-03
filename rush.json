@@ -537,11 +537,6 @@
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure/identity",
-      "projectFolder": "sdk/identity/identity",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure/keyvault-common",
       "projectFolder": "sdk/keyvault/keyvault-common",
       "versionPolicyName": "utility"

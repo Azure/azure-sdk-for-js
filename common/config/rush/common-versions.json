@@ -63,7 +63,6 @@
     "@types/node": ["^10.0.0", "^10.12.0"],
     // @azure/test-utils-perfstress should depend on lowest version of @azure/core-http for maximum compatibility, allowing test
     // projects to choose a higher version if desired.
-    "@azure/core-http": ["^1.0.0"],
     // @azure/container-registry is using the beta version for CAE support
     "@azure/core-rest-pipeline": ["1.1.0-beta.3"],
     // @azure/event-processor-host is on a much lower major version
@@ -74,6 +73,9 @@
     "@azure/keyvault-secrets": ["^4.1.0", "^4.2.0-beta.4"],
     // Issue #14771 tracks updating to these versions
     "@microsoft/api-extractor": ["7.13.2"],
-    "prettier": ["2.2.1"]
+    "prettier": ["2.2.1"],
+    // For this hotfix branch we will only update search-documents to latest core-http and core-tracing
+    "@azure/core-tracing": ["1.0.0-preview.13"],
+    "@azure/core-http": ["^1.0.0", "^2.1.0"]
   }
 }
