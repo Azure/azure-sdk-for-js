@@ -13,6 +13,11 @@ import { TokenCredential } from '@azure/core-auth';
 export { AzureKeyCredential }
 
 // @public
+export interface ClientTokenResponse {
+    token?: string;
+}
+
+// @public
 export interface CloseConnectionOptions extends OperationOptions {
     reason?: string;
 }
@@ -76,11 +81,6 @@ export interface GroupSendToAllOptions extends OperationOptions {
 
 // @public
 export interface HasConnectionOptions extends OperationOptions {
-}
-
-// @public
-export interface HubAdminClientOptions extends CommonClientOptions {
-    reverseProxyEndpoint?: string;
 }
 
 // @public
@@ -164,12 +164,11 @@ export interface WebPubSubGroup {
 
 // @public
 export class WebPubSubServiceClient {
-    constructor(connectionString: string, hubName: string, options?: HubAdminClientOptions);
-    constructor(endpoint: string, credential: AzureKeyCredential | TokenCredential, hubName: string, options?: HubAdminClientOptions);
+    constructor(connectionString: string, hubName: string, options?: WebPubSubServiceClientOptions);
+    constructor(endpoint: string, credential: AzureKeyCredential | TokenCredential, hubName: string, options?: WebPubSubServiceClientOptions);
     readonly apiVersion: string;
     closeConnection(connectionId: string, options?: CloseConnectionOptions): Promise<void>;
     endpoint: string;
-    // Warning: (ae-forgotten-export) The symbol "ClientTokenResponse" needs to be exported by the entry point index.d.ts
     generateClientToken(options?: GenerateClientTokenOptions): Promise<ClientTokenResponse>;
     getAuthenticationToken(options?: GetAuthenticationTokenOptions): Promise<GetAuthenticationTokenResponse>;
     grantPermission(connectionId: string, permission: Permission, options?: HubGrantPermissionOptions): Promise<void>;
@@ -190,6 +189,11 @@ export class WebPubSubServiceClient {
     sendToUser(username: string, message: string, options: HubSendTextToUserOptions): Promise<void>;
     sendToUser(username: string, message: JSONTypes, options?: HubSendToUserOptions): Promise<void>;
     sendToUser(username: string, message: RequestBodyType, options?: HubSendToUserOptions | HubSendTextToUserOptions): Promise<void>;
+}
+
+// @public
+export interface WebPubSubServiceClientOptions extends CommonClientOptions {
+    reverseProxyEndpoint?: string;
 }
 
 
