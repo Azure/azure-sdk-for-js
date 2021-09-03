@@ -127,44 +127,38 @@ export class SchemaRegistryAvroSerializer {
   /**
    * Deserializes a value from a buffer.
    *
-   * @param buffer - The buffer with the serialized value.
+   * @param input - The buffer with the serialized value.
    * @returns The deserialized value.
    */
   async deserialize(input: Buffer): Promise<unknown>;
   /**
    * Deserializes a value from a Blob.
    *
-   * @param buffer - The Blob with the serialized value.
+   * @param input - The Blob with the serialized value.
    * @returns The deserialized value.
    */
   async deserialize(input: Blob): Promise<unknown>;
   /**
    * Deserializes a value from a Uint8Array.
    *
-   * @param buffer - The Uint8Array with the serialized value.
+   * @param input - The Uint8Array with the serialized value.
    * @returns The deserialized value.
    */
   async deserialize(input: Uint8Array): Promise<unknown>;
   /**
    * Deserializes a value from a ReadableStream.
    *
-   * @param buffer - The ReadableStream with the serialized value.
+   * @param input - The ReadableStream with the serialized value.
    * @returns The deserialized value.
    */
   async deserialize(input: ReadableStream): Promise<unknown>;
   /**
    * Deserializes a value from a NodeJS's ReadableStream.
    *
-   * @param buffer - The NodeJS's ReadableStream with the serialized value.
+   * @param input - The NodeJS's ReadableStream with the serialized value.
    * @returns The deserialized value.
    */
   async deserialize(input: NodeJS.ReadableStream): Promise<unknown>;
-  /**
-   * Deserializes a value from a buffer.
-   *
-   * @param buffer - The buffer with the serialized value.
-   * @returns The deserialized value.
-   */
   async deserialize(
     input: Buffer | Blob | Uint8Array | ReadableStream | NodeJS.ReadableStream
   ): Promise<unknown> {
