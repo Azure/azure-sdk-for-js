@@ -24,19 +24,24 @@ export async function main() {
   const iterator = metricsQueryClient.listMetricDefinitions(metricsResourceId);
   let result = await iterator.next();
   const firstMetric: MetricDefinition = result.value;
-
+  let secondMetricName: string;
   while (!result.done) {
     console.log(` metricDefinitions - ${result.value.id}, ${result.value.name}`);
+    secondMetricName = result.value.name!;
     result = await iterator.next();
   }
   console.log(`First Metric Definition = ${firstMetric.name}`);
 
   console.log(`Picking an example metric to query: ${firstMetric.name!}`);
 
-  const metricsResponse = await metricsQueryClient.query(metricsResourceId, [firstMetric.name!], {
-    granularity: "PT1M",
-    timespan: { duration: Durations.FiveMinutes }
-  });
+  const metricsResponse = await metricsQueryClient.query(
+    metricsResourceId,
+    [firstMetric.name!, secondMetricName],
+    {
+      granularity: "PT1M",
+      timespan: { duration: Durations.FiveMinutes }
+    }
+  );
 
   console.log(
     `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.granularity}, time span: ${metricsResponse.timespan}`
