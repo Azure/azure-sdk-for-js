@@ -115,11 +115,20 @@ export class LogsQueryClient {
 
     const parsedBody = JSON.parse(rawResponse.bodyAsText!);
     flatResponse.tables = parsedBody.tables;
-    return {
+    let result: LogsQueryResult = {
       tables: flatResponse.tables.map(convertGeneratedTable),
       statistics: flatResponse.statistics,
-      visualization: flatResponse.render
+      visualization: flatResponse.render,
+      error: flatResponse.error
     };
+    if (result.tables && result.error) {
+      result.logsQueryResultStatus = "Partial";
+    } else if (result.error && !result.tables) {
+      result.logsQueryResultStatus = "Failed";
+    } else {
+      result.logsQueryResultStatus = "Success";
+    }
+    return result;
   }
 
   /**

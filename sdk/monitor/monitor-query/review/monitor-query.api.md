@@ -75,7 +75,7 @@ export interface LogsQueryBatchResult {
         status?: number;
         tables?: LogsTable[];
         error?: ErrorInfo;
-        logsQueryResultStatus?: "Partial" | "Success" | "Failed";
+        logsQueryResultStatus?: LogsQueryResultStatus;
         statistics?: Record<string, unknown>;
         visualization?: Record<string, unknown>;
     }[];
@@ -107,6 +107,7 @@ export interface LogsQueryOptions extends OperationOptions {
 // @public
 export interface LogsQueryResult {
     error?: ErrorInfo;
+    logsQueryResultStatus?: LogsQueryResultStatus;
     statistics?: Record<string, unknown>;
     tables: LogsTable[];
     visualization?: Record<string, unknown>;
@@ -257,6 +258,10 @@ export interface TimeSeriesElement {
     metadataValues?: MetadataValue[];
 }
 
+
+// Warnings were encountered during analysis:
+//
+// src/models/publicLogsModels.ts:125:5 - (ae-forgotten-export) The symbol "LogsQueryResultStatus" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
