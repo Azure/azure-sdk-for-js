@@ -36,7 +36,7 @@ export async function main() {
 
   const metricsResponse = await metricsQueryClient.query(
     metricsResourceId,
-    [firstMetric.name!, secondMetricName],
+    [firstMetric.name!, secondMetricName!],
     {
       granularity: "PT1M",
       timespan: { duration: Durations.FiveMinutes }

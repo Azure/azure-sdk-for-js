@@ -7,7 +7,6 @@
 import { CommonClientOptions } from '@azure/core-client';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PipelineOptions } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -173,7 +172,7 @@ export interface MetricNamespace {
 }
 
 // @public
-export interface MetricsClientOptions extends PipelineOptions {
+export interface MetricsClientOptions extends CommonClientOptions {
     endpoint?: string;
 }
 
