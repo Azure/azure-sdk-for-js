@@ -130,6 +130,7 @@ export class Context {
           packageJson = JSON.parse(fs.readFileSync(packageJsonPathTsNode, "utf8")) as PackageJson;
         } catch (exception) {
           diag.warn("Failed to load Exporter version", exception);
+          throw exception;
         }
       }
 

@@ -100,7 +100,8 @@ describe("spanUtils.ts", () => {
         span.end();
         const expectedTags: Tags = {
           [KnownContextTagKeys.AiOperationId]: "traceid",
-          [KnownContextTagKeys.AiOperationParentId]: "parentSpanId"
+          [KnownContextTagKeys.AiOperationParentId]: "parentSpanId",
+          [KnownContextTagKeys.AiOperationName]: "parent span"
         };
         const expectedProperties = {
           "extra.attribute": "foo"
