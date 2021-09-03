@@ -101,11 +101,15 @@ export function convertResponseForQueryBatch(
   rawResponse: FullOperationResponse
 ): LogsQueryBatchResult {
   const fixApplied = fixInvalidBatchQueryResponse(generatedResponse, rawResponse);
-
   /* Sort the ids that are passed in with the queries, as numbers instead of strings
    * It is not guaranteed that service will return the responses for queries in the same order
    * as the queries are passed in
    */
+  console.log("Inside convertResponseForQueryBatch");
+  console.log(JSON.stringify(generatedResponse.responses?.[0].body));
+  // {\"tables\":[{\"name\":\"PrimaryResult\",\"columns\":[{\"name\":\"stringcolumn\",\"type\":\"string\"},{\"name\":\"boolcolumn\",\"type\":\"bool\"},{\"name\":\"datecolumn\",\"type\":\"datetime\"},{\"name\":\"intcolumn\",\"type\":\"int\"},{\"name\":\"longcolumn\",\"type\":\"long\"},{\"name\":\"realcolumn\",\"type\":\"real\"},{\"name\":\"dynamiccolumn\",\"type\":\"dynamic\"}],\"rows\":[[\"hello\",true,\"2000-01-02T03:04:05Z\",100,101,102.1,\"{\\\"hello\\\":\\\"world\\\"}\"]]}]}
+  console.dir(generatedResponse.responses?.[0].body?.tables?.[0].rows);
+  console.log(" doing conversion");
   const newResponse: LogsQueryBatchResult = {
     results: generatedResponse.responses
       ?.sort((a, b) => {
@@ -122,14 +126,45 @@ export function convertResponseForQueryBatch(
         return left - right;
       })
       ?.map((response: GeneratedBatchQueryResponse) => ({
-        id: response.id,
         status: response.status,
+        visualization: response.body?.render,
+        statistics: response.body?.statistics,
         // hoist fields from the sub-object 'body' to this level
         error: response.body?.error,
-        tables: response.body?.tables?.map(convertGeneratedTable)
-      }))
+        tables: response.body?.tables?.map((table) => convertGeneratedTable(table)),
+        logsQueryResultStatus: "Success"
+      })),
+    batchResultStatus: "AllSucceeded"
   };
-
+  // compute status for failed or succeed or partial results
+  if (newResponse.results) {
+    let hasError = "Success";
+    let numError: number = 0;
+    for (let i = 0; i < newResponse.results?.length; i++) {
+      if (newResponse.results[i].error && newResponse.results[i].tables) {
+        newResponse.results[i].logsQueryResultStatus = "Partial";
+        hasError = "Partial";
+      } else if (newResponse.results[i].tables) {
+        newResponse.results[i].logsQueryResultStatus = "Success";
+      } else {
+        newResponse.results[i].logsQueryResultStatus = "Failed";
+        numError++;
+      }
+    }
+    if (numError === newResponse.results?.length - 1) {
+      newResponse.batchResultStatus = "AllFailed";
+    } else if (hasError === "Partial") {
+      newResponse.batchResultStatus = "PartiallySucceeded";
+    } else if (numError > 0 && numError < newResponse.results?.length - 1) {
+      newResponse.batchResultStatus = "PartiallySucceeded";
+    } else {
+      if (numError === 0) {
+        newResponse.batchResultStatus = "AllSucceeded";
+      }
+    }
+  } else {
+    newResponse.batchResultStatus = "AllFailed";
+  }
   (newResponse as any)["__fixApplied"] = fixApplied;
   return newResponse;
 }
@@ -373,6 +408,7 @@ export function convertGeneratedTable(table: GeneratedTable): LogsTable {
       }
 
       return row;
-    })
+    }),
+    columnDescriptors: table.columns
   };
 }

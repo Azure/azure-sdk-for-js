@@ -107,21 +107,22 @@ export interface QueryBatch {
 export interface LogsQueryBatchResult {
   /** An array of responses corresponding to each individual request in a batch. */
   results?: {
-    id?: string;
+    /** Http Status Code */
     status?: number;
-    /** The list of tables, columns and rows. */
-    // (hoisted up from `LogQueryResult`)
+    /** Populated results from the query */
     tables?: LogsTable[];
+    /** error information for partial errors or failed queries */
     error?: ErrorInfo;
+    /** Indicates if a query succeeded or failed or partially failed.
+     * For partially failed queries, users can find data in "tables" attribute
+     * and error information in "error" attribute */
+    logsQueryResultStatus?: "Partial" | "Success" | "Failed";
     /** Statistics represented in JSON format. */
     statistics?: Record<string, unknown>;
     /** Visualization data in JSON format. */
     visualization?: Record<string, unknown>;
   }[];
-
-  // TODO: this is omitted from the Java models.
-  /** Error response for a batch request */
-  // error?: BatchResponseError;
+  batchResultStatus: "AllSucceeded" | "AllFailed" | "PartiallySucceeded";
 }
 
 /** Contains the columns and rows for one table in a query response. */
@@ -129,7 +130,7 @@ export interface LogsTable {
   /** The name of the table. */
   name: string;
   /** The list of columns in this table. */
-  columns: LogsColumn[];
+  columnDescriptors: LogsColumn[];
   /** The resulting rows from this query. */
   rows: (Date | string | number | Record<string, unknown> | boolean)[][];
 }

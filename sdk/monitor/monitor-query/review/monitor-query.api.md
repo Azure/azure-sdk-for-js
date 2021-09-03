@@ -70,11 +70,13 @@ export type LogsQueryBatchOptions = OperationOptions;
 
 // @public
 export interface LogsQueryBatchResult {
+    // (undocumented)
+    batchResultStatus: "AllSucceeded" | "AllFailed" | "PartiallySucceeded";
     results?: {
-        id?: string;
         status?: number;
         tables?: LogsTable[];
         error?: ErrorInfo;
+        logsQueryResultStatus?: "Partial" | "Success" | "Failed";
         statistics?: Record<string, unknown>;
         visualization?: Record<string, unknown>;
     }[];
@@ -113,7 +115,7 @@ export interface LogsQueryResult {
 
 // @public
 export interface LogsTable {
-    columns: LogsColumn[];
+    columnDescriptors: LogsColumn[];
     name: string;
     rows: (Date | string | number | Record<string, unknown> | boolean)[][];
 }

@@ -212,7 +212,7 @@ describe("LogsQueryClient live tests", function() {
           type: "dynamic"
         }
       ],
-      table.columns
+      table.columnDescriptors
     );
 
     table.rows.map((rowValues) => {
@@ -306,7 +306,7 @@ describe("LogsQueryClient live tests", function() {
           type: "dynamic"
         }
       ],
-      table.columns
+      table.columnDescriptors
     );
 
     table.rows.map((rowValues) => {
