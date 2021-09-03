@@ -79,9 +79,6 @@ describe("ApplicationCredential", function() {
   );
 
   it("throws an AggregateAuthenticationError when getToken is called and no credential was configured", async () => {
-    // Just ensuring there are no environment variables that can affect this test.
-    process.env = {};
-
     const credential = new ApplicationCredential();
     const error = await getError(credential.getToken(scope));
     assert.equal(error.name, "AggregateAuthenticationError");

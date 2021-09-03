@@ -111,6 +111,7 @@ export const imdsMsi: MSI = {
         if (
           (err.name === "RestError" && err.code === RestError.REQUEST_SEND_ERROR) ||
           err.name === "AbortError" ||
+          err.code === "ENETUNREACH" || // Network unreachable
           err.code === "ECONNREFUSED" || // connection refused
           err.code === "EHOSTDOWN" // host is down
         ) {
