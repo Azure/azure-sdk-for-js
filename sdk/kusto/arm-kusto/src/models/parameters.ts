@@ -13,7 +13,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: "en-US",
+    defaultValue: 'en-US',
     type: {
       name: "String"
     }
@@ -70,7 +70,10 @@ export const dataConnectionName: msRest.OperationURLParameter = {
   }
 };
 export const ifMatch: msRest.OperationParameter = {
-  parameterPath: ["options", "ifMatch"],
+  parameterPath: [
+    "options",
+    "ifMatch"
+  ],
   mapper: {
     serializedName: "If-Match",
     type: {
@@ -79,7 +82,10 @@ export const ifMatch: msRest.OperationParameter = {
   }
 };
 export const ifNoneMatch: msRest.OperationParameter = {
-  parameterPath: ["options", "ifNoneMatch"],
+  parameterPath: [
+    "options",
+    "ifNoneMatch"
+  ],
   mapper: {
     serializedName: "If-None-Match",
     type: {
@@ -92,6 +98,16 @@ export const location: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "location",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const managedPrivateEndpointName: msRest.OperationURLParameter = {
+  parameterPath: "managedPrivateEndpointName",
+  mapper: {
+    required: true,
+    serializedName: "managedPrivateEndpointName",
     type: {
       name: "String"
     }
@@ -123,6 +139,26 @@ export const principalAssignmentName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "principalAssignmentName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const privateEndpointConnectionName: msRest.OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    required: true,
+    serializedName: "privateEndpointConnectionName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const privateLinkResourceName: msRest.OperationURLParameter = {
+  parameterPath: "privateLinkResourceName",
+  mapper: {
+    required: true,
+    serializedName: "privateLinkResourceName",
     type: {
       name: "String"
     }

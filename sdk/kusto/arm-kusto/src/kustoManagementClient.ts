@@ -14,14 +14,18 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { KustoManagementClientContext } from "./kustoManagementClientContext";
 
+
 class KustoManagementClient extends KustoManagementClientContext {
   // Operation groups
   clusters: operations.Clusters;
   clusterPrincipalAssignments: operations.ClusterPrincipalAssignments;
   databases: operations.Databases;
+  attachedDatabaseConfigurations: operations.AttachedDatabaseConfigurations;
+  managedPrivateEndpoints: operations.ManagedPrivateEndpoints;
   databasePrincipalAssignments: operations.DatabasePrincipalAssignments;
   scripts: operations.Scripts;
-  attachedDatabaseConfigurations: operations.AttachedDatabaseConfigurations;
+  privateEndpointConnections: operations.PrivateEndpointConnections;
+  privateLinkResources: operations.PrivateLinkResources;
   dataConnections: operations.DataConnections;
   operations: operations.Operations;
   operationsResults: operations.OperationsResults;
@@ -38,18 +42,17 @@ class KustoManagementClient extends KustoManagementClientContext {
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(
-    credentials: msRest.ServiceClientCredentials | TokenCredential,
-    subscriptionId: string,
-    options?: Models.KustoManagementClientOptions
-  ) {
+  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.KustoManagementClientOptions) {
     super(credentials, subscriptionId, options);
     this.clusters = new operations.Clusters(this);
     this.clusterPrincipalAssignments = new operations.ClusterPrincipalAssignments(this);
     this.databases = new operations.Databases(this);
+    this.attachedDatabaseConfigurations = new operations.AttachedDatabaseConfigurations(this);
+    this.managedPrivateEndpoints = new operations.ManagedPrivateEndpoints(this);
     this.databasePrincipalAssignments = new operations.DatabasePrincipalAssignments(this);
     this.scripts = new operations.Scripts(this);
-    this.attachedDatabaseConfigurations = new operations.AttachedDatabaseConfigurations(this);
+    this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);
+    this.privateLinkResources = new operations.PrivateLinkResources(this);
     this.dataConnections = new operations.DataConnections(this);
     this.operations = new operations.Operations(this);
     this.operationsResults = new operations.OperationsResults(this);

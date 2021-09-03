@@ -34,24 +34,14 @@ export class ClusterPrincipalAssignments {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClusterPrincipalAssignmentsCheckNameAvailabilityResponse>
    */
-  checkNameAvailability(
-    resourceGroupName: string,
-    clusterName: string,
-    principalAssignmentName: Models.ClusterPrincipalAssignmentCheckNameRequest,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.ClusterPrincipalAssignmentsCheckNameAvailabilityResponse>;
+  checkNameAvailability(resourceGroupName: string, clusterName: string, principalAssignmentName: Models.ClusterPrincipalAssignmentCheckNameRequest, options?: msRest.RequestOptionsBase): Promise<Models.ClusterPrincipalAssignmentsCheckNameAvailabilityResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param principalAssignmentName The name of the principal assignment.
    * @param callback The callback
    */
-  checkNameAvailability(
-    resourceGroupName: string,
-    clusterName: string,
-    principalAssignmentName: Models.ClusterPrincipalAssignmentCheckNameRequest,
-    callback: msRest.ServiceCallback<Models.CheckNameResult>
-  ): void;
+  checkNameAvailability(resourceGroupName: string, clusterName: string, principalAssignmentName: Models.ClusterPrincipalAssignmentCheckNameRequest, callback: msRest.ServiceCallback<Models.CheckNameResult>): void;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
@@ -59,20 +49,8 @@ export class ClusterPrincipalAssignments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailability(
-    resourceGroupName: string,
-    clusterName: string,
-    principalAssignmentName: Models.ClusterPrincipalAssignmentCheckNameRequest,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.CheckNameResult>
-  ): void;
-  checkNameAvailability(
-    resourceGroupName: string,
-    clusterName: string,
-    principalAssignmentName: Models.ClusterPrincipalAssignmentCheckNameRequest,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameResult>,
-    callback?: msRest.ServiceCallback<Models.CheckNameResult>
-  ): Promise<Models.ClusterPrincipalAssignmentsCheckNameAvailabilityResponse> {
+  checkNameAvailability(resourceGroupName: string, clusterName: string, principalAssignmentName: Models.ClusterPrincipalAssignmentCheckNameRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameResult>): void;
+  checkNameAvailability(resourceGroupName: string, clusterName: string, principalAssignmentName: Models.ClusterPrincipalAssignmentCheckNameRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameResult>, callback?: msRest.ServiceCallback<Models.CheckNameResult>): Promise<Models.ClusterPrincipalAssignmentsCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -81,8 +59,7 @@ export class ClusterPrincipalAssignments {
         options
       },
       checkNameAvailabilityOperationSpec,
-      callback
-    ) as Promise<Models.ClusterPrincipalAssignmentsCheckNameAvailabilityResponse>;
+      callback) as Promise<Models.ClusterPrincipalAssignmentsCheckNameAvailabilityResponse>;
   }
 
   /**
@@ -93,24 +70,14 @@ export class ClusterPrincipalAssignments {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClusterPrincipalAssignmentsGetResponse>
    */
-  get(
-    resourceGroupName: string,
-    clusterName: string,
-    principalAssignmentName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.ClusterPrincipalAssignmentsGetResponse>;
+  get(resourceGroupName: string, clusterName: string, principalAssignmentName: string, options?: msRest.RequestOptionsBase): Promise<Models.ClusterPrincipalAssignmentsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param principalAssignmentName The name of the Kusto principalAssignment.
    * @param callback The callback
    */
-  get(
-    resourceGroupName: string,
-    clusterName: string,
-    principalAssignmentName: string,
-    callback: msRest.ServiceCallback<Models.ClusterPrincipalAssignment>
-  ): void;
+  get(resourceGroupName: string, clusterName: string, principalAssignmentName: string, callback: msRest.ServiceCallback<Models.ClusterPrincipalAssignment>): void;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
@@ -118,20 +85,8 @@ export class ClusterPrincipalAssignments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(
-    resourceGroupName: string,
-    clusterName: string,
-    principalAssignmentName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.ClusterPrincipalAssignment>
-  ): void;
-  get(
-    resourceGroupName: string,
-    clusterName: string,
-    principalAssignmentName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterPrincipalAssignment>,
-    callback?: msRest.ServiceCallback<Models.ClusterPrincipalAssignment>
-  ): Promise<Models.ClusterPrincipalAssignmentsGetResponse> {
+  get(resourceGroupName: string, clusterName: string, principalAssignmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClusterPrincipalAssignment>): void;
+  get(resourceGroupName: string, clusterName: string, principalAssignmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterPrincipalAssignment>, callback?: msRest.ServiceCallback<Models.ClusterPrincipalAssignment>): Promise<Models.ClusterPrincipalAssignmentsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -140,8 +95,7 @@ export class ClusterPrincipalAssignments {
         options
       },
       getOperationSpec,
-      callback
-    ) as Promise<Models.ClusterPrincipalAssignmentsGetResponse>;
+      callback) as Promise<Models.ClusterPrincipalAssignmentsGetResponse>;
   }
 
   /**
@@ -153,22 +107,9 @@ export class ClusterPrincipalAssignments {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClusterPrincipalAssignmentsCreateOrUpdateResponse>
    */
-  createOrUpdate(
-    resourceGroupName: string,
-    clusterName: string,
-    principalAssignmentName: string,
-    parameters: Models.ClusterPrincipalAssignment,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.ClusterPrincipalAssignmentsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(
-      resourceGroupName,
-      clusterName,
-      principalAssignmentName,
-      parameters,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.ClusterPrincipalAssignmentsCreateOrUpdateResponse
-    >;
+  createOrUpdate(resourceGroupName: string, clusterName: string, principalAssignmentName: string, parameters: Models.ClusterPrincipalAssignment, options?: msRest.RequestOptionsBase): Promise<Models.ClusterPrincipalAssignmentsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(resourceGroupName,clusterName,principalAssignmentName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ClusterPrincipalAssignmentsCreateOrUpdateResponse>;
   }
 
   /**
@@ -179,18 +120,9 @@ export class ClusterPrincipalAssignments {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(
-    resourceGroupName: string,
-    clusterName: string,
-    principalAssignmentName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(
-      resourceGroupName,
-      clusterName,
-      principalAssignmentName,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished());
+  deleteMethod(resourceGroupName: string, clusterName: string, principalAssignmentName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName,clusterName,principalAssignmentName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -200,41 +132,21 @@ export class ClusterPrincipalAssignments {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClusterPrincipalAssignmentsListResponse>
    */
-  list(
-    resourceGroupName: string,
-    clusterName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.ClusterPrincipalAssignmentsListResponse>;
+  list(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.ClusterPrincipalAssignmentsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param callback The callback
    */
-  list(
-    resourceGroupName: string,
-    clusterName: string,
-    callback: msRest.ServiceCallback<Models.ClusterPrincipalAssignmentListResult>
-  ): void;
+  list(resourceGroupName: string, clusterName: string, callback: msRest.ServiceCallback<Models.ClusterPrincipalAssignmentListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(
-    resourceGroupName: string,
-    clusterName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.ClusterPrincipalAssignmentListResult>
-  ): void;
-  list(
-    resourceGroupName: string,
-    clusterName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.ClusterPrincipalAssignmentListResult>,
-    callback?: msRest.ServiceCallback<Models.ClusterPrincipalAssignmentListResult>
-  ): Promise<Models.ClusterPrincipalAssignmentsListResponse> {
+  list(resourceGroupName: string, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClusterPrincipalAssignmentListResult>): void;
+  list(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterPrincipalAssignmentListResult>, callback?: msRest.ServiceCallback<Models.ClusterPrincipalAssignmentListResult>): Promise<Models.ClusterPrincipalAssignmentsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -242,8 +154,7 @@ export class ClusterPrincipalAssignments {
         options
       },
       listOperationSpec,
-      callback
-    ) as Promise<Models.ClusterPrincipalAssignmentsListResponse>;
+      callback) as Promise<Models.ClusterPrincipalAssignmentsListResponse>;
   }
 
   /**
@@ -255,13 +166,7 @@ export class ClusterPrincipalAssignments {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(
-    resourceGroupName: string,
-    clusterName: string,
-    principalAssignmentName: string,
-    parameters: Models.ClusterPrincipalAssignment,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, clusterName: string, principalAssignmentName: string, parameters: Models.ClusterPrincipalAssignment, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -271,8 +176,7 @@ export class ClusterPrincipalAssignments {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -283,12 +187,7 @@ export class ClusterPrincipalAssignments {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(
-    resourceGroupName: string,
-    clusterName: string,
-    principalAssignmentName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, clusterName: string, principalAssignmentName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -297,8 +196,7 @@ export class ClusterPrincipalAssignments {
         options
       },
       beginDeleteMethodOperationSpec,
-      options
-    );
+      options);
   }
 }
 
@@ -306,11 +204,18 @@ export class ClusterPrincipalAssignments {
 const serializer = new msRest.Serializer(Mappers);
 const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/checkPrincipalAssignmentNameAvailability",
-  urlParameters: [Parameters.resourceGroupName, Parameters.clusterName, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/checkPrincipalAssignmentNameAvailability",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "principalAssignmentName",
     mapper: {
@@ -331,16 +236,19 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/principalAssignments/{principalAssignmentName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/principalAssignments/{principalAssignmentName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.principalAssignmentName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.ClusterPrincipalAssignment
@@ -354,11 +262,18 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/principalAssignments",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.clusterName],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/principalAssignments",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.ClusterPrincipalAssignmentListResult
@@ -372,16 +287,19 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/principalAssignments/{principalAssignmentName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/principalAssignments/{principalAssignmentName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.principalAssignmentName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -405,16 +323,19 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/principalAssignments/{principalAssignmentName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/principalAssignments/{principalAssignmentName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.principalAssignmentName
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {},
     202: {},
