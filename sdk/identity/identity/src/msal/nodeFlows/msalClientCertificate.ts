@@ -95,24 +95,30 @@ export async function parseCertificate(
  * @internal
  */
 export class MsalClientCertificate extends MsalNode {
+  private certificatePath: string;
+  private sendCertificateChain?: boolean;
+
   constructor(options: MSALClientCertificateOptions) {
     super(options);
     this.requiresConfidential = true;
+    this.certificatePath = options.certificatePath;
+    this.sendCertificateChain = options.sendCertificateChain;
+  }
 
-    // Changing the MSAL configuration asynchronously
-    this.prepareMsalConfiguration = async (): Promise<void> => {
-      try {
-        const parts = await parseCertificate(options.certificatePath, options.sendCertificateChain);
-        this.msalConfig.auth.clientCertificate = {
-          thumbprint: parts.thumbprint,
-          privateKey: parts.certificateContents,
-          x5c: parts.x5c
-        };
-      } catch (error) {
-        this.logger.info(formatError("", error));
-        throw error;
-      }
-    };
+  // Changing the MSAL configuration asynchronously
+  async init(options?: CredentialFlowGetTokenOptions): Promise<void> {
+    try {
+      const parts = await parseCertificate(this.certificatePath, this.sendCertificateChain);
+      this.msalConfig.auth.clientCertificate = {
+        thumbprint: parts.thumbprint,
+        privateKey: parts.certificateContents,
+        x5c: parts.x5c
+      };
+    } catch (error) {
+      this.logger.info(formatError("", error));
+      throw error;
+    }
+    return super.init(options);
   }
 
   protected async doGetToken(

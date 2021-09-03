@@ -26,6 +26,7 @@ export class MsalOnBehalfOf extends MsalNode {
   private userAssertionToken: string;
   private certificatePath?: string;
   private sendCertificateChain?: boolean;
+  private clientSecret?: string;
 
   constructor(options: MSALOnBehalfOfOptions) {
     super(options);
@@ -34,25 +35,27 @@ export class MsalOnBehalfOf extends MsalNode {
     this.userAssertionToken = options.userAssertionToken;
     this.certificatePath = options.certificatePath;
     this.sendCertificateChain = options.sendCertificateChain;
+    this.clientSecret = options.clientSecret;
+  }
 
-    // Changing the MSAL configuration asynchronously
-    this.prepareMsalConfiguration = async (): Promise<void> => {
-      if (this.certificatePath) {
-        try {
-          const parts = await parseCertificate(this.certificatePath, this.sendCertificateChain);
-          this.msalConfig.auth.clientCertificate = {
-            thumbprint: parts.thumbprint,
-            privateKey: parts.certificateContents,
-            x5c: parts.x5c
-          };
-        } catch (error) {
-          this.logger.info(formatError("", error));
-          throw error;
-        }
-      } else {
-        this.msalConfig.auth.clientSecret = options.clientSecret;
+  // Changing the MSAL configuration asynchronously
+  async init(options?: CredentialFlowGetTokenOptions): Promise<void> {
+    if (this.certificatePath) {
+      try {
+        const parts = await parseCertificate(this.certificatePath, this.sendCertificateChain);
+        this.msalConfig.auth.clientCertificate = {
+          thumbprint: parts.thumbprint,
+          privateKey: parts.certificateContents,
+          x5c: parts.x5c
+        };
+      } catch (error) {
+        this.logger.info(formatError("", error));
+        throw error;
       }
-    };
+    } else {
+      this.msalConfig.auth.clientSecret = this.clientSecret;
+    }
+    return super.init(options);
   }
 
   protected async doGetToken(
