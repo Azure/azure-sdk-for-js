@@ -76,11 +76,15 @@ export function tokenExchangeMsi(): MSI {
   }
 
   return {
-    async isAvailable(): Promise<boolean> {
+    async isAvailable(_identityClient, _resource, clientId): Promise<boolean> {
       const env = process.env;
-      const result = Boolean(env.AZURE_TENANT_ID && azureFederatedTokenFilePath);
+      const result = Boolean(
+        (clientId || env.AZURE_CLIENT_ID) && env.AZURE_TENANT_ID && azureFederatedTokenFilePath
+      );
       if (!result) {
-        logger.info("The Token File Path MSI is unavailable.");
+        logger.info(
+          "The Token File Path MSI is unavailable. The environment variables needed are: AZURE_CLIENT_ID (or the client ID sent through the parameters), AZURE_TENANT_ID and AZURE_FEDERATED_TOKEN_FILE"
+        );
       }
       return result;
     },
@@ -107,7 +111,7 @@ export function tokenExchangeMsi(): MSI {
 
       return msiGenericGetToken(
         identityClient,
-        prepareRequestOptions(scopes, assertion, clientId),
+        prepareRequestOptions(scopes, assertion, clientId || process.env.AZURE_CLIENT_ID),
         expiresInParser,
         getTokenOptions
       );

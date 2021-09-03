@@ -43,7 +43,9 @@ export const cloudShellMsi: MSI = {
   async isAvailable(): Promise<boolean> {
     const result = Boolean(process.env.MSI_ENDPOINT);
     if (!result) {
-      logger.info("The Azure Cloud Shell MSI is unavailable.");
+      logger.info(
+        "The Azure Cloud Shell MSI is unavailable. The environment variable MSI_ENDPOINT is needed."
+      );
     }
     return result;
   },

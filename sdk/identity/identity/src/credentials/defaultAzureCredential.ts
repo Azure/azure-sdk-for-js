@@ -48,8 +48,9 @@ interface DefaultCredentialConstructor {
  */
 export class DefaultManagedIdentityCredential extends ManagedIdentityCredential {
   constructor(options?: DefaultAzureCredentialOptions) {
-    if (options?.managedIdentityClientId !== undefined) {
-      super(options.managedIdentityClientId, options);
+    const managedIdentityClientId = options?.managedIdentityClientId ?? process.env.AZURE_CLIENT_ID;
+    if (managedIdentityClientId !== undefined) {
+      super(managedIdentityClientId, options);
     } else {
       super(options);
     }

@@ -51,7 +51,9 @@ export const appServiceMsi2017: MSI = {
     const env = process.env;
     const result = Boolean(env.MSI_ENDPOINT && env.MSI_SECRET);
     if (!result) {
-      logger.info("The Azure App Service MSI 2017 is unavailable.");
+      logger.info(
+        "The Azure App Service MSI 2017 is unavailable. The environment variables needed are: MSI_ENDPOINT and MSI_SECRET"
+      );
     }
     return result;
   },

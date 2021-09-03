@@ -5,7 +5,6 @@
 ### Features Added
 
 - `ManagedIdentityCredential` now supports token exchange authentication.
-- `ManagedIdentityCredential` now supports the `AZURE_CLIENT_ID` environment variable by default.
 
 ### Breaking Changes
 

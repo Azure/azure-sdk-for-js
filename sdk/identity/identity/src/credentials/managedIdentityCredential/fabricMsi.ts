@@ -64,7 +64,9 @@ export const fabricMsi: MSI = {
       env.IDENTITY_ENDPOINT && env.IDENTITY_HEADER && env.IDENTITY_SERVER_THUMBPRINT
     );
     if (!result) {
-      logger.info("The Azure App Service Fabric MSI is unavailable.");
+      logger.info(
+        "The Azure App Service Fabric MSI is unavailable. The environment variables needed are: IDENTITY_ENDPOINT, IDENTITY_HEADER and IDENTITY_SERVER_THUMBPRINT"
+      );
     }
     return result;
   },
