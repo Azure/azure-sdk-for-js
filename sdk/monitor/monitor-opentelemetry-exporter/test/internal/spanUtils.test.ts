@@ -92,7 +92,7 @@ describe("spanUtils.ts", () => {
         span.setAttributes({
           "extra.attribute": "foo",
           [SemanticAttributes.RPC_GRPC_STATUS_CODE]: 123,
-          [SemanticAttributes.RPC_METHOD]: "/foo.Example/Foo"
+          [SemanticAttributes.RPC_SYSTEM]: "test rpc system"
         });
         span.setStatus({
           code: SpanStatusCode.OK
@@ -141,7 +141,6 @@ describe("spanUtils.ts", () => {
         span.setAttributes({
           "extra.attribute": "foo",
           [SemanticAttributes.RPC_GRPC_STATUS_CODE]: 123,
-          [SemanticAttributes.RPC_METHOD]: "/foo.Example/Foo",
           [SemanticAttributes.RPC_SYSTEM]: "test rpc system"
         });
         span.setStatus({
@@ -162,7 +161,7 @@ describe("spanUtils.ts", () => {
           success: true,
           resultCode: "123",
           target: "test rpc system",
-          type: "Dependency",
+          type: "GRPC",
           name: `parent span`,
           version: 2,
           properties: expectedProperties,

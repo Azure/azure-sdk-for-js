@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import os from "os";
-import { URL } from "url";
 import { ReadableSpan } from "@opentelemetry/tracing";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { diag, SpanKind, SpanStatusCode, Link } from "@opentelemetry/api";
@@ -14,7 +13,9 @@ import {
 import { Tags, Properties, MSLink, Measurements } from "../types";
 import { msToTimeSpan } from "./breezeUtils";
 import { getInstance } from "../platform";
+import { parseEventHubSpan } from "./eventhub";
 import { DependencyTypes, MS_LINKS } from "./constants/applicationinsights";
+import { AzNamespace, MicrosoftEventHub } from "./constants/span/azAttributes";
 import {
   RemoteDependencyData,
   RequestData,
@@ -57,9 +58,9 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
   if (httpMethod) {
     let httpClientIp = null;
     let netPeerIp = null;
-    if (span.resource && span.resource.attributes) {
-      httpClientIp = span.resource.attributes[SemanticAttributes.HTTP_CLIENT_IP];
-      netPeerIp = span.resource.attributes[SemanticAttributes.NET_PEER_IP];
+    if (span.attributes) {
+      httpClientIp = span.attributes[SemanticAttributes.HTTP_CLIENT_IP];
+      netPeerIp = span.attributes[SemanticAttributes.NET_PEER_IP];
     }
     if (span.kind === SpanKind.SERVER) {
       tags[KnownContextTagKeys.AiOperationName] = `${httpMethod as string} ${span.name as string}`;
@@ -74,14 +75,13 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
         tags[KnownContextTagKeys.AiLocationIp] = String(netPeerIp);
       }
     }
-    const httpUserAgent = span.resource.attributes[SemanticAttributes.HTTP_USER_AGENT];
+    // TODO: Operation Name TBD for non HTTP
+    const httpUserAgent = span.attributes[SemanticAttributes.HTTP_USER_AGENT];
     if (httpUserAgent) {
       // TODO: Not exposed in Swagger, need to update def
       tags["ai.user.userAgent"] = String(httpUserAgent);
     }
   }
-  // TODO: Operation Name TBD for non HTTP
-
   return tags;
 }
 
@@ -123,23 +123,21 @@ function getUrl(span: ReadableSpan): string {
       return String(httpUrl);
     } else {
       const httpScheme = span.attributes[SemanticAttributes.HTTP_SCHEME];
-      if (httpScheme) {
-        const httpTarget = span.attributes[SemanticAttributes.HTTP_TARGET];
-        if (httpTarget) {
-          const httpHost = span.attributes[SemanticAttributes.HTTP_HOST];
-          if (httpHost) {
-            return `${httpScheme}://${httpHost}${httpTarget}`;
-          } else {
-            const netPeerPort = span.attributes[SemanticAttributes.NET_PEER_PORT];
-            if (netPeerPort) {
-              const netPeerName = span.attributes[SemanticAttributes.NET_PEER_NAME];
-              if (netPeerName) {
-                return `${httpScheme}://${netPeerName}:${netPeerPort}`;
-              } else {
-                const netPeerIp = span.attributes[SemanticAttributes.NET_PEER_IP];
-                if (netPeerIp) {
-                  return `${httpScheme}://${netPeerIp}:${netPeerPort}`;
-                }
+      const httpTarget = span.attributes[SemanticAttributes.HTTP_TARGET];
+      if (httpScheme && httpTarget) {
+        const httpHost = span.attributes[SemanticAttributes.HTTP_HOST];
+        if (httpHost) {
+          return `${httpScheme}://${httpHost}${httpTarget}`;
+        } else {
+          const netPeerPort = span.attributes[SemanticAttributes.NET_PEER_PORT];
+          if (netPeerPort) {
+            const netPeerName = span.attributes[SemanticAttributes.NET_PEER_NAME];
+            if (netPeerName) {
+              return `${httpScheme}://${netPeerName}:${netPeerPort}${httpTarget}`;
+            } else {
+              const netPeerIp = span.attributes[SemanticAttributes.NET_PEER_IP];
+              if (netPeerIp) {
+                return `${httpScheme}://${netPeerIp}:${netPeerPort}${httpTarget}`;
               }
             }
           }
@@ -150,7 +148,7 @@ function getUrl(span: ReadableSpan): string {
   return "";
 }
 
-function getTarget(span: ReadableSpan): string {
+function getDependencyTarget(span: ReadableSpan): string {
   const peerService = span.attributes[SemanticAttributes.PEER_SERVICE];
   const httpHost = span.attributes[SemanticAttributes.HTTP_HOST];
   const httpUrl = span.attributes[SemanticAttributes.HTTP_URL];
@@ -180,9 +178,16 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
     duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
     version: 2
   };
+  if (span.kind === SpanKind.PRODUCER) {
+    remoteDependencyData.type = DependencyTypes.QueueMessage;
+  }
+  if (span.kind === SpanKind.INTERNAL && span.parentSpanId) {
+    remoteDependencyData.type = DependencyTypes.InProc;
+  }
+
   const httpMethod = span.attributes[SemanticAttributes.HTTP_METHOD];
   const dbSystem = span.attributes[SemanticAttributes.DB_SYSTEM];
-  const rpcMethod = span.attributes[SemanticAttributes.RPC_METHOD];
+  const rpcSystem = span.attributes[SemanticAttributes.RPC_SYSTEM];
   // HTTP Dependency
   if (httpMethod) {
     remoteDependencyData.type = DependencyTypes.Http;
@@ -191,14 +196,25 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
     if (httpStatusCode) {
       remoteDependencyData.resultCode = String(httpStatusCode);
     }
-    let target = getTarget(span);
+    let target = getDependencyTarget(span);
     if (target) {
-      let url = new URL(target);
-      // Ignore port if it is a default port
-      if (url.port === "80" || url.port === "443") {
-        url.port = "";
+      try {
+        // Remove default port
+        let portRegex = new RegExp(/(https?)(:\/\/.*)(:\d+)(\S*)/);
+        let res = portRegex.exec(target);
+        if (res != null) {
+          let protocol = res[1];
+          let port = res[3];
+          if ((protocol == "https" && port == ":443") ||
+            (protocol == "http" && port == ":80")) {
+            // Drop port
+            target = res[1] + res[2] + res[4];
+          }
+        }
+
       }
-      remoteDependencyData.target = `${url}`;
+      catch (error) { }
+      remoteDependencyData.target = `${target}`;
     }
   }
   // DB Dependency
@@ -208,7 +224,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
     if (dbStatement) {
       remoteDependencyData.data = String(dbStatement);
     }
-    let target = getTarget(span);
+    let target = getDependencyTarget(span);
     const dbName = span.attributes[SemanticAttributes.DB_NAME];
     if (target) {
       remoteDependencyData.target = dbName ? `${target}/${dbName}` : `${target}`;
@@ -217,19 +233,17 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
     }
   }
   // grpc Dependency
-  else if (rpcMethod) {
+  else if (rpcSystem) {
+    remoteDependencyData.type = DependencyTypes.Grpc;
     const grpcStatusCode = span.attributes[SemanticAttributes.RPC_GRPC_STATUS_CODE];
     if (grpcStatusCode) {
       remoteDependencyData.resultCode = String(grpcStatusCode);
     }
-    let target = getTarget(span);
+    let target = getDependencyTarget(span);
     if (target) {
       remoteDependencyData.target = `${target}`;
-    } else {
-      const rpcSystem = span.attributes[SemanticAttributes.RPC_SYSTEM];
-      if (rpcSystem) {
-        remoteDependencyData.target = String(rpcSystem);
-      }
+    } else if (rpcSystem) {
+      remoteDependencyData.target = String(rpcSystem);
     }
   }
   return remoteDependencyData;
@@ -245,14 +259,14 @@ function createRequestData(span: ReadableSpan): RequestData {
     version: 2,
     source: undefined
   };
-  const httpUrl = span.attributes[SemanticAttributes.HTTP_URL];
-  if (httpUrl) {
-    requestData.url = String(httpUrl);
-  }
-  const httpStatusCode = span.attributes[SemanticAttributes.HTTP_STATUS_CODE];
+  const httpMethod = span.attributes[SemanticAttributes.HTTP_METHOD];
   const grpcStatusCode = span.attributes[SemanticAttributes.RPC_GRPC_STATUS_CODE];
-  if (httpStatusCode) {
-    requestData.responseCode = String(httpStatusCode);
+  if (httpMethod) {
+    requestData.url = getUrl(span);
+    const httpStatusCode = span.attributes[SemanticAttributes.HTTP_STATUS_CODE];
+    if (httpStatusCode) {
+      requestData.responseCode = String(httpStatusCode);
+    }
   } else if (grpcStatusCode) {
     requestData.responseCode = String(grpcStatusCode);
   }
@@ -293,12 +307,13 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
       throw new Error(`Unsupported span kind ${span.kind}`);
   }
 
-  if (span.kind === SpanKind.PRODUCER) {
-    baseData.type = DependencyTypes.QueueMessage;
+  // Azure SDK
+  if (span.attributes[AzNamespace] === MicrosoftEventHub) {
+    parseEventHubSpan(span, baseData);
+  } else if (span.attributes[AzNamespace] && span.kind === SpanKind.INTERNAL) {
+    baseData.type = `${DependencyTypes.InProc} | ${span.attributes[AzNamespace]}`
   }
-  if (span.kind === SpanKind.INTERNAL && span.parentSpanId) {
-    baseData.type = DependencyTypes.InProc;
-  }
+
   return {
     name,
     sampleRate,

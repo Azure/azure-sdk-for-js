@@ -26,5 +26,6 @@ export enum DependencyTypes {
   InProc = "InProc",
   QueueMessage = "Queue Message",
   Sql = "SQL",
-  Http = "Http"
+  Http = "Http",
+  Grpc = "GRPC",
 }
