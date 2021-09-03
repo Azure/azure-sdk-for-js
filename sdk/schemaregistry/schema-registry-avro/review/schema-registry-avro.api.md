@@ -4,6 +4,8 @@
 
 ```ts
 
+/// <reference types="node" />
+
 import { SchemaRegistry } from '@azure/schema-registry';
 
 // @public
@@ -17,7 +19,6 @@ export class SchemaRegistryAvroSerializer {
 export interface SchemaRegistryAvroSerializerOptions {
     autoRegisterSchemas?: boolean;
 }
-
 
 // (No @packageDocumentation comment for this package)
 
