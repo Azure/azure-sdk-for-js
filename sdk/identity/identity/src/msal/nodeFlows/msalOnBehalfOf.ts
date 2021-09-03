@@ -35,7 +35,8 @@ export class MsalOnBehalfOf extends MsalNode {
     this.certificatePath = options.certificatePath;
     this.sendCertificateChain = options.sendCertificateChain;
 
-    this.prepareConfiguration = async (): Promise<void> => {
+    // Changing the MSAL configuration asynchronously
+    this.prepareMsalConfiguration = async (): Promise<void> => {
       if (this.certificatePath) {
         try {
           const parts = await parseCertificate(this.certificatePath, this.sendCertificateChain);

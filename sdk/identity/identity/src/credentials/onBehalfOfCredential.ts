@@ -59,7 +59,7 @@ export interface OnBehalfOfCredentialCertificateConfiguration {
  * Enables authentication to Azure Active Directory using the [On Behalf Of flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow).
  */
 export class OnBehalfOfCredential implements TokenCredential {
-  private msalFlow?: MsalFlow;
+  private msalFlow: MsalFlow;
 
   /**
    * Creates an instance of the {@link OnBehalfOfCredential} with the details
@@ -73,11 +73,11 @@ export class OnBehalfOfCredential implements TokenCredential {
    *   tenantId,
    *   clientId,
    *   clientSecret, // or `certificatePath: "/path/to/certificate.pem"
-   *   userAssertion: "access-token"
+   *   userAssertionToken: "access-token"
    * });
    * const client = new KeyClient("vault-url", tokenCredential);
    *
-   * await client.getKey("key-name", { authenticationOptions: { userAssertion } });
+   * await client.getKey("key-name");
    * ```
    *
    * @param configuration - Configuration specific to this credential.
@@ -102,20 +102,12 @@ export class OnBehalfOfCredential implements TokenCredential {
         "ClientCertificateCredential: tenantId, clientId, clientSecret (or certificatePath) and userAssertionToken are required parameters."
       );
     }
-  }
-
-  /**
-   * Loads the MSAL flow if it hasn't been loaded yet.
-   */
-  private async loadMsalFlow(): Promise<void> {
-    if (!this.msalFlow) {
-      this.msalFlow = new MsalOnBehalfOf({
-        ...this.options,
-        ...this.configuration,
-        logger,
-        tokenCredentialOptions: this.options
-      });
-    }
+    this.msalFlow = new MsalOnBehalfOf({
+      ...this.options,
+      ...this.configuration,
+      logger,
+      tokenCredentialOptions: this.options
+    });
   }
 
   /**
@@ -127,7 +119,6 @@ export class OnBehalfOfCredential implements TokenCredential {
    *                TokenCredential implementation might make.
    */
   async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
-    await this.loadMsalFlow();
     return trace(`${this.constructor.name}.getToken`, options, async (newOptions) => {
       const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
       return this.msalFlow!.getToken(arrayScopes, newOptions);

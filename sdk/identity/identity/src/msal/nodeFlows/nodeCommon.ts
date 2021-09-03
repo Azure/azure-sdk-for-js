@@ -144,7 +144,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   /**
    * This can be replaced by individual MSAL flows to alter the configuration object before the MSAL client is created.
    */
-  protected prepareConfiguration?: () => Promise<void>;
+  protected prepareMsalConfiguration?: () => Promise<void>;
 
   /**
    * Prepares the MSAL applications.
@@ -168,8 +168,8 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
       };
     }
 
-    if (this.prepareConfiguration) {
-      await this.prepareConfiguration();
+    if (this.prepareMsalConfiguration) {
+      await this.prepareMsalConfiguration();
     }
 
     this.publicApp = new msalNode.PublicClientApplication(this.msalConfig);

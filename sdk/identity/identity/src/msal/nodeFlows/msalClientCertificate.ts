@@ -99,7 +99,8 @@ export class MsalClientCertificate extends MsalNode {
     super(options);
     this.requiresConfidential = true;
 
-    this.prepareConfiguration = async (): Promise<void> => {
+    // Changing the MSAL configuration asynchronously
+    this.prepareMsalConfiguration = async (): Promise<void> => {
       try {
         const parts = await parseCertificate(options.certificatePath, options.sendCertificateChain);
         this.msalConfig.auth.clientCertificate = {
