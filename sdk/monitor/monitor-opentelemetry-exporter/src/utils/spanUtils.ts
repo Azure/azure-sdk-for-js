@@ -54,16 +54,11 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
       tags[KnownContextTagKeys.AiUserId] = String(endUserId);
     }
   }
-  // HTTP Spans
-  const httpMethod = span.attributes[SemanticAttributes.HTTP_METHOD];
-  if (httpMethod) {
-    let httpClientIp = null;
-    let netPeerIp = null;
-    if (span.attributes) {
-      httpClientIp = span.attributes[SemanticAttributes.HTTP_CLIENT_IP];
-      netPeerIp = span.attributes[SemanticAttributes.NET_PEER_IP];
-    }
-    if (span.kind === SpanKind.SERVER) {
+  if (span.kind === SpanKind.SERVER) {
+    const httpMethod = span.attributes[SemanticAttributes.HTTP_METHOD];
+    let httpClientIp = span.attributes[SemanticAttributes.HTTP_CLIENT_IP];
+    let netPeerIp = span.attributes[SemanticAttributes.NET_PEER_IP];
+    if (httpMethod) {
       tags[KnownContextTagKeys.AiOperationName] = `${httpMethod as string} ${span.name as string}`;
       if (httpClientIp) {
         tags[KnownContextTagKeys.AiLocationIp] = String(httpClientIp);
@@ -76,13 +71,15 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
         tags[KnownContextTagKeys.AiLocationIp] = String(netPeerIp);
       }
     }
-    // TODO: Operation Name TBD for non HTTP
-    const httpUserAgent = span.attributes[SemanticAttributes.HTTP_USER_AGENT];
-    if (httpUserAgent) {
-      // TODO: Not exposed in Swagger, need to update def
-      tags["ai.user.userAgent"] = String(httpUserAgent);
-    }
   }
+  // TODO: Operation Name and Location IP TBD for non server spans
+
+  const httpUserAgent = span.attributes[SemanticAttributes.HTTP_USER_AGENT];
+  if (httpUserAgent) {
+    // TODO: Not exposed in Swagger, need to update def
+    tags["ai.user.userAgent"] = String(httpUserAgent);
+  }
+
   return tags;
 }
 

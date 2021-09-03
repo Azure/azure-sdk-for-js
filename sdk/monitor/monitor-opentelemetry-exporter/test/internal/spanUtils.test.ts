@@ -200,7 +200,8 @@ describe("spanUtils.ts", () => {
         const expectedTime = new Date(hrTimeToMilliseconds(span.startTime));
         const expectedTags: Tags = {
           [KnownContextTagKeys.AiOperationId]: "traceid",
-          [KnownContextTagKeys.AiOperationParentId]: "parentSpanId"
+          [KnownContextTagKeys.AiOperationParentId]: "parentSpanId",
+          [KnownContextTagKeys.AiOperationName]: "parent span"
         };
         const expectedProperties = {
           "extra.attribute": "foo"
@@ -357,7 +358,6 @@ describe("spanUtils.ts", () => {
         const expectedTags: Tags = {};
         expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
         expectedTags[KnownContextTagKeys.AiOperationParentId] = "parentSpanId";
-        expectedTags[KnownContextTagKeys.AiOperationName] = "parent span";
         const expectedProperties = {
           "extra.attribute": "foo"
         };

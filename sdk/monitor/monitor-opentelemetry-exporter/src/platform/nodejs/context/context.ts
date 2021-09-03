@@ -141,7 +141,7 @@ export class Context {
 
     this.tags[
       KnownContextTagKeys.AiInternalSdkVersion
-    ] = `node${Context.nodeVersion}:ot${SDK_INFO.VERSION}:ext${Context.sdkVersion}`;
+    ] = `node${Context.nodeVersion}:otel${SDK_INFO.VERSION}:ext${Context.sdkVersion}`;
   }
 }
 
