@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "./dist-esm/src/utils/blob.js": "./dist-esm/src/utils/blob.browser.js"
+    "./dist-esm/src/utils/blobToUint8Array.js": "./dist-esm/src/utils/blobToUint8Array.browser.js"
   },
   "types": "schema-registry-avro.shims.d.ts",
   "scripts": {
