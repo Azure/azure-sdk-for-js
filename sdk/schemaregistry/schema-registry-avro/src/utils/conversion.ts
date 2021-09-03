@@ -6,6 +6,7 @@ import { blobToUint8Array } from "./blob";
 // TypeScript is still behind on making their ReadableStream type iterable, so we need to use this hack
 // see https://github.com/microsoft/TypeScript/issues/29867
 // and https://streams.spec.whatwg.org/#rs-asynciterator
+// eslint-disable-next-line @azure/azure-sdk/ts-no-namespaces
 declare global {
   interface ReadableStream<R = any> {
     [Symbol.asyncIterator](options?: { preventCancel?: boolean }): AsyncIterableIterator<R>;
@@ -37,7 +38,7 @@ export async function toUint8Array(
     return Buffer.isBuffer(buffer[0]) ? Buffer.concat(buffer) : new Uint8Array(buffer);
     // If this is not a Uint8Array or a buffer, assume it's a blob and retrieve an ArrayBuffer from the blob.
   } else if ((input as any).byteLength === undefined) {
-    return await blobToUint8Array(input as Blob);
+    return blobToUint8Array(input as Blob);
   } else return input as Uint8Array;
 }
 
