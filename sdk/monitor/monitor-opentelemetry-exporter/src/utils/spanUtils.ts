@@ -205,15 +205,12 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
         if (res != null) {
           let protocol = res[1];
           let port = res[3];
-          if ((protocol == "https" && port == ":443") ||
-            (protocol == "http" && port == ":80")) {
+          if ((protocol == "https" && port == ":443") || (protocol == "http" && port == ":80")) {
             // Drop port
             target = res[1] + res[2] + res[4];
           }
         }
-
-      }
-      catch (error) { }
+      } catch (error) {}
       remoteDependencyData.target = `${target}`;
     }
   }
@@ -311,7 +308,7 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
   if (span.attributes[AzNamespace] === MicrosoftEventHub) {
     parseEventHubSpan(span, baseData);
   } else if (span.attributes[AzNamespace] && span.kind === SpanKind.INTERNAL) {
-    baseData.type = `${DependencyTypes.InProc} | ${span.attributes[AzNamespace]}`
+    baseData.type = `${DependencyTypes.InProc} | ${span.attributes[AzNamespace]}`;
   }
 
   return {
