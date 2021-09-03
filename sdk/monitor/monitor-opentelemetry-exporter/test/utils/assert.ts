@@ -38,17 +38,9 @@ export const assertTrace = (actual: Envelope[], expectation: Expectation): void 
   }
   const operationId = envelope[0].tags![KnownContextTagKeys.AiOperationId];
 
-  const parseId = (id: string): { traceId: string; spanId: string } => {
-    const parts = id.replace("|", "").split(".");
-    return {
-      traceId: parts[0],
-      spanId: parts[1]
-    };
-  };
-
   for (const child of expectation.children) {
     const childEnvelopes = actual.filter((e) => {
-      const { spanId } = parseId((envelope[0].data!.baseData as RequestData).id);
+      const spanId = (envelope[0].data!.baseData as RequestData).id;
 
       return (
         e.tags![KnownContextTagKeys.AiOperationId] === operationId &&

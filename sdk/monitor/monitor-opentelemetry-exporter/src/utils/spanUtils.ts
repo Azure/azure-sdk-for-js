@@ -7,7 +7,8 @@ import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { diag, SpanKind, SpanStatusCode, Link } from "@opentelemetry/api";
 import {
   SemanticResourceAttributes,
-  SemanticAttributes
+  SemanticAttributes,
+  DbSystemValues
 } from "@opentelemetry/semantic-conventions";
 
 import { Tags, Properties, MSLink, Measurements } from "../types";
@@ -115,6 +116,22 @@ function createPropertiesFromSpan(span: ReadableSpan): [Properties, Measurements
   return [properties, measurements];
 }
 
+function isSqlDB(dbSystem: string) {
+  return (
+    dbSystem === DbSystemValues.DB2 ||
+    dbSystem === DbSystemValues.DERBY ||
+    dbSystem === DbSystemValues.MARIADB ||
+    dbSystem === DbSystemValues.MYSQL ||
+    dbSystem === DbSystemValues.MSSQL ||
+    dbSystem === DbSystemValues.ORACLE ||
+    dbSystem === DbSystemValues.POSTGRESQL ||
+    dbSystem === DbSystemValues.SQLITE ||
+    dbSystem === DbSystemValues.OTHER_SQL ||
+    dbSystem === DbSystemValues.HSQLDB ||
+    dbSystem === DbSystemValues.H2
+  );
+}
+
 function getUrl(span: ReadableSpan): string {
   const httpMethod = span.attributes[SemanticAttributes.HTTP_METHOD];
   if (httpMethod) {
@@ -171,7 +188,7 @@ function getDependencyTarget(span: ReadableSpan): string {
 function createDependencyData(span: ReadableSpan): RemoteDependencyData {
   const remoteDependencyData: RemoteDependencyData = {
     name: span.name,
-    id: `|${span.spanContext().traceId}.${span.spanContext().spanId}.`,
+    id: `${span.spanContext().spanId}`,
     success: span.status.code != SpanStatusCode.ERROR,
     resultCode: "0",
     type: "Dependency",
@@ -216,7 +233,11 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
   }
   // DB Dependency
   else if (dbSystem) {
-    remoteDependencyData.type = String(dbSystem);
+    if (isSqlDB(String(dbSystem))) {
+      remoteDependencyData.dependencyTypeName = "SQL";
+    } else {
+      remoteDependencyData.dependencyTypeName = String(dbSystem);
+    }
     const dbStatement = span.attributes[SemanticAttributes.DB_STATEMENT];
     if (dbStatement) {
       remoteDependencyData.data = String(dbStatement);
@@ -249,7 +270,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
 function createRequestData(span: ReadableSpan): RequestData {
   const requestData: RequestData = {
     name: span.name,
-    id: `|${span.spanContext().traceId}.${span.spanContext().spanId}.`,
+    id: `${span.spanContext().spanId}`,
     success: span.status.code != SpanStatusCode.ERROR,
     responseCode: "0",
     duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),

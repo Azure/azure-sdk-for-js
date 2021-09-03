@@ -109,7 +109,7 @@ describe("spanUtils.ts", () => {
         const expectedBaseData: Partial<RequestData> = {
           source: undefined,
           duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
-          id: `|${span.spanContext().traceId}.${span.spanContext().spanId}.`,
+          id: `${span.spanContext().spanId}`,
           success: true,
           responseCode: "123",
           name: `parent span`,
@@ -157,7 +157,7 @@ describe("spanUtils.ts", () => {
 
         const expectedBaseData: Partial<RemoteDependencyData> = {
           duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
-          id: `|${span.spanContext().traceId}.${span.spanContext().spanId}.`,
+          id: `${span.spanContext().spanId}`,
           success: true,
           resultCode: "123",
           target: "test rpc system",
@@ -208,7 +208,7 @@ describe("spanUtils.ts", () => {
 
         const expectedBaseData: Partial<RequestData> = {
           duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
-          id: `|${span.spanContext().traceId}.${span.spanContext().spanId}.`,
+          id: `${span.spanContext().spanId}`,
           success: true,
           responseCode: "0",
           name: `parent span`,
@@ -257,7 +257,7 @@ describe("spanUtils.ts", () => {
 
         const expectedBaseData: Partial<RemoteDependencyData> = {
           duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
-          id: `|${span.spanContext().traceId}.${span.spanContext().spanId}.`,
+          id: `${span.spanContext().spanId}`,
           success: true,
           resultCode: "0",
           type: "Dependency",
@@ -312,7 +312,7 @@ describe("spanUtils.ts", () => {
 
         const expectedBaseData: RequestData = {
           duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
-          id: `|${span.spanContext().traceId}.${span.spanContext().spanId}.`,
+          id: `${span.spanContext().spanId}`,
           success: true,
           responseCode: "200",
           url: "https://example.com/api/example",
@@ -364,7 +364,7 @@ describe("spanUtils.ts", () => {
 
         const expectedBaseData: RemoteDependencyData = {
           duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
-          id: `|traceid.spanId.`,
+          id: `spanId`,
           success: true,
           resultCode: "200",
           type: "Http",
