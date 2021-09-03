@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { blobToUint8Array } from "./blob";
+import { blobToUint8Array } from "./blobToUint8Array";
 
 // TypeScript is still behind on making their ReadableStream type iterable, so we need to use this hack
 // see https://github.com/microsoft/TypeScript/issues/29867
