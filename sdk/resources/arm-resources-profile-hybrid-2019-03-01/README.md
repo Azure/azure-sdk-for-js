@@ -34,7 +34,7 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new ResourceManagementClient(creds, subscriptionId);
-  client.operations.list().then((result) => {
+  client.resourceGroups.list().then((result) => {
     console.log("The result is:");
     console.log(result);
   });
