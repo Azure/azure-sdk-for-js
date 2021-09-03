@@ -21,24 +21,11 @@ export async function toUint8Array(
   input: Uint8Array | Buffer | Blob | ReadableStream | NodeJS.ReadableStream
 ): Promise<Uint8Array> {
   if (isWHATWGReadableStream(input)) {
-    const buffer: any[] = [];
-    for await (const chunk of input) {
-      if (Array.isArray(chunk)) {
-        buffer.push(...chunk);
-      } else {
-        buffer.push(chunk);
-      }
-    }
-    return Buffer.isBuffer(buffer[0]) ? Buffer.concat(buffer) : new Uint8Array(buffer);
+    return streamToBuffer(input);
   } else if (isNodeJSReadableStream(input)) {
-    const buffer: any[] = [];
-    for await (const chunk of input) {
-      buffer.push(chunk);
-    }
-    return Buffer.isBuffer(buffer[0]) ? Buffer.concat(buffer) : new Uint8Array(buffer);
-    // If this is not a Uint8Array or a buffer, assume it's a blob and retrieve an ArrayBuffer from the blob.
-  } else if ((input as any).byteLength === undefined) {
-    return blobToUint8Array(input as Blob);
+    return streamToBuffer(input);
+  } else if ((typeof Blob === "function" || typeof Blob === "object") && input instanceof Blob) {
+    return blobToUint8Array(input);
   } else return input as Uint8Array;
 }
 
@@ -48,4 +35,18 @@ function isWHATWGReadableStream(input: any): input is ReadableStream {
 
 function isNodeJSReadableStream(input: any): input is NodeJS.ReadableStream {
   return input && typeof input.pipe === "function";
+}
+
+async function streamToBuffer(input: {
+  [Symbol.asyncIterator](): AsyncIterableIterator<any>;
+}): Promise<Buffer> {
+  const buffer: Buffer[] = [];
+  for await (const chunk of input) {
+    if (Buffer.isBuffer(chunk)) {
+      buffer.push(chunk);
+    } else {
+      buffer.push(Buffer.from(chunk));
+    }
+  }
+  return Buffer.concat(buffer);
 }
