@@ -17,10 +17,6 @@ async function blobToArrayBuffer(blob: Blob): Promise<ArrayBuffer> {
  * @param input - Input to `deserialize`.
  * @returns Promise which completes with the input data as a Uint8Array.
  */
-export async function toUint8Array(input: Uint8Array | Buffer | Blob): Promise<Uint8Array> {
-  // If this is not a Uint8Array, assume it's a blob and retrieve an ArrayBuffer from the blob.
-  if ((input as any).byteLength === undefined) {
-    return new Uint8Array(await blobToArrayBuffer(input as Blob));
-  }
-  return input as Uint8Array;
+export async function blobToUint8Array(input: Blob): Promise<Uint8Array> {
+  return new Uint8Array(await blobToArrayBuffer(input));
 }

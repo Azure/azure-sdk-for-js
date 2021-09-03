@@ -11,7 +11,11 @@ import { SchemaRegistry } from '@azure/schema-registry';
 // @public
 export class SchemaRegistryAvroSerializer {
     constructor(client: SchemaRegistry, groupName: string, options?: SchemaRegistryAvroSerializerOptions);
-    deserialize(input: Buffer | Blob | Uint8Array): Promise<unknown>;
+    deserialize(input: Buffer): Promise<unknown>;
+    deserialize(input: Blob): Promise<unknown>;
+    deserialize(input: Uint8Array): Promise<unknown>;
+    deserialize(input: ReadableStream): Promise<unknown>;
+    deserialize(input: NodeJS.ReadableStream): Promise<unknown>;
     serialize(value: unknown, schema: string): Promise<Buffer>;
 }
 

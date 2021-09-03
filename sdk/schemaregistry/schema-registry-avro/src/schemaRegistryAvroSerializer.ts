@@ -3,7 +3,7 @@
 
 import { SchemaRegistry } from "@azure/schema-registry";
 import * as avro from "avsc";
-import { toUint8Array } from "./utils/buffer";
+import { toUint8Array } from "./utils/conversion";
 
 // REVIEW: This should go in to a shared doc somewhere that all of the different
 //         language serializer's docs can reference.
@@ -124,14 +124,50 @@ export class SchemaRegistryAvroSerializer {
     return buffer;
   }
 
-  // REVIEW: signature. See serialize and s/serialize into/deserialize from/.
   /**
    * Deserializes a value from a buffer.
    *
    * @param buffer - The buffer with the serialized value.
    * @returns The deserialized value.
    */
-  async deserialize(input: Buffer | Blob | Uint8Array): Promise<unknown> {
+  async deserialize(input: Buffer): Promise<unknown>;
+  /**
+   * Deserializes a value from a Blob.
+   *
+   * @param buffer - The Blob with the serialized value.
+   * @returns The deserialized value.
+   */
+  async deserialize(input: Blob): Promise<unknown>;
+  /**
+   * Deserializes a value from a Uint8Array.
+   *
+   * @param buffer - The Uint8Array with the serialized value.
+   * @returns The deserialized value.
+   */
+  async deserialize(input: Uint8Array): Promise<unknown>;
+  /**
+   * Deserializes a value from a ReadableStream.
+   *
+   * @param buffer - The ReadableStream with the serialized value.
+   * @returns The deserialized value.
+   */
+  async deserialize(input: ReadableStream): Promise<unknown>;
+  /**
+   * Deserializes a value from a NodeJS's ReadableStream.
+   *
+   * @param buffer - The NodeJS's ReadableStream with the serialized value.
+   * @returns The deserialized value.
+   */
+  async deserialize(input: NodeJS.ReadableStream): Promise<unknown>;
+  /**
+   * Deserializes a value from a buffer.
+   *
+   * @param buffer - The buffer with the serialized value.
+   * @returns The deserialized value.
+   */
+  async deserialize(
+    input: Buffer | Blob | Uint8Array | ReadableStream | NodeJS.ReadableStream
+  ): Promise<unknown> {
     const arr8 = await toUint8Array(input);
     const buffer = Buffer.isBuffer(arr8) ? arr8 : Buffer.from(arr8);
     if (buffer.length < PAYLOAD_OFFSET) {
