@@ -50,6 +50,11 @@ export interface OnBehalfOfCredentialCertificateConfiguration {
    */
   certificatePath: string;
   /**
+   * Option to include x5c header for SubjectName and Issuer name authorization.
+   * Set this option to send base64 encoded public certificate in the client assertion header as an x5c claim
+   */
+  sendCertificateChain?: boolean;
+  /**
    * The user assertion for the On-Behalf-Of flow.
    */
   userAssertionToken: string;

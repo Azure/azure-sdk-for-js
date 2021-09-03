@@ -258,13 +258,13 @@ export class OnBehalfOfCredential implements TokenCredential {
 export interface OnBehalfOfCredentialCertificateConfiguration {
     certificatePath: string;
     clientId: string;
+    sendCertificateChain?: boolean;
     tenantId: string;
     userAssertionToken: string;
 }
 
 // @public
 export interface OnBehalfOfCredentialOptions extends TokenCredentialOptions, CredentialPersistenceOptions {
-    sendCertificateChain?: boolean;
 }
 
 // @public
