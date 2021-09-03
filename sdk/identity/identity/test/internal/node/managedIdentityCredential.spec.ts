@@ -372,8 +372,8 @@ describe("ManagedIdentityCredential", function() {
   it("sends an authorization request correctly in an Azure Arc environment", async function() {
     // Trigger Azure Arc behavior by setting environment variables
 
-    process.env.IMDS_ENDPOINT = "https://endpoint";
-    process.env.IDENTITY_ENDPOINT = "https://endpoint";
+    process.env.IMDS_ENDPOINT = "http://endpoint";
+    process.env.IDENTITY_ENDPOINT = "http://endpoint";
 
     // eslint-disable-next-line @typescript-eslint/no-invalid-this
     const testTitle = this.test?.title || `test-Date.time()`;
@@ -386,7 +386,7 @@ describe("ManagedIdentityCredential", function() {
       const authDetails = await sendCredentialRequests({
         scopes: ["https://service/.default"],
         credential: new ManagedIdentityCredential(),
-        secureResponses: [
+        insecureResponses: [
           createResponse(
             401,
             {},

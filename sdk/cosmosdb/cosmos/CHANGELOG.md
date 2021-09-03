@@ -1,6 +1,6 @@
 # Release History
 
-## 3.14.1 (Unreleased)
+## 3.14.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 3.14.1 (2021-09-02)
+
+### Bugs Fixed
+
+- Fix @azure/core-rest-pipeline version for AAD auth.
 
 ## 3.14.0 (2021-09-01)
 

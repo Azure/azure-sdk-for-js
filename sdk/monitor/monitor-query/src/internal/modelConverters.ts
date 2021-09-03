@@ -19,40 +19,41 @@ import {
 
 import {
   MetricDefinitionsListOptionalParams as GeneratedMetricDefinitionsListOptionalParams,
-  MetricDefinitionsListResponse as GeneratedMetricDefinitionsListResponse
+  MetricDefinition as GeneratedMetricDefinition
 } from "../generated/metricsdefinitions/src";
 
-import { MetricNamespacesListResponse as GeneratedMetricNamespacesListResponse } from "../generated/metricsnamespaces/src";
-
+import { MetricNamespace as GeneratedMetricNamespace } from "../generated/metricsnamespaces/src";
 import { formatPreferHeader } from "./util";
 
 import {
-  BatchQuery,
-  GetMetricDefinitionsOptions,
-  GetMetricDefinitionsResult,
-  GetMetricNamespacesResult,
+  QueryBatch,
+  ListMetricDefinitionsOptions,
   LogsTable,
-  QueryLogsBatch,
-  QueryLogsBatchResult,
-  QueryMetricsOptions,
-  QueryMetricsResult
+  LogsQueryBatchResult,
+  MetricsQueryOptions,
+  MetricsQueryResult
 } from "../../src";
-import { Metric, MetricDefinition, TimeSeriesElement } from "../models/publicMetricsModels";
+import {
+  MetricNamespace,
+  Metric,
+  MetricDefinition,
+  TimeSeriesElement
+} from "../models/publicMetricsModels";
 import { FullOperationResponse } from "../../../../core/core-client/types/latest/core-client";
+import { convertTimespanToInterval } from "../timespanConversion";
 
 /**
  * @internal
  */
-export function convertRequestForQueryBatch(batch: QueryLogsBatch): GeneratedBatchRequest {
+export function convertRequestForQueryBatch(batch: QueryBatch[]): GeneratedBatchRequest {
   let id = 0;
 
-  const requests: GeneratedBatchQueryRequest[] = batch.queries.map((query: BatchQuery) => {
-    const body: QueryBody &
+  const requests: GeneratedBatchQueryRequest[] = batch.map((query: QueryBatch) => {
+    const body: Exclude<QueryBody, "timespan"> &
       Partial<
         Pick<
-          BatchQuery,
+          QueryBatch,
           | "query"
-          | "timespan"
           | "workspaceId"
           | "includeQueryStatistics"
           | "additionalWorkspaces"
@@ -60,10 +61,14 @@ export function convertRequestForQueryBatch(batch: QueryLogsBatch): GeneratedBat
           | "serverTimeoutInSeconds"
         >
       > = {
-      ...query
+      workspaceId: query.workspaceId,
+      query: query.query
     };
     if (query["additionalWorkspaces"]) {
       body["workspaces"] = query["additionalWorkspaces"].map((x) => x);
+    }
+    if (query["timespan"]) {
+      body["timespan"] = convertTimespanToInterval(query["timespan"]);
     }
     delete body["workspaceId"];
     delete body["includeQueryStatistics"];
@@ -94,14 +99,14 @@ export function convertRequestForQueryBatch(batch: QueryLogsBatch): GeneratedBat
 export function convertResponseForQueryBatch(
   generatedResponse: GeneratedQueryBatchResponse,
   rawResponse: FullOperationResponse
-): QueryLogsBatchResult {
+): LogsQueryBatchResult {
   const fixApplied = fixInvalidBatchQueryResponse(generatedResponse, rawResponse);
 
   /* Sort the ids that are passed in with the queries, as numbers instead of strings
    * It is not guaranteed that service will return the responses for queries in the same order
    * as the queries are passed in
    */
-  const newResponse: QueryLogsBatchResult = {
+  const newResponse: LogsQueryBatchResult = {
     results: generatedResponse.responses
       ?.sort((a, b) => {
         let left = 0;
@@ -174,21 +179,29 @@ export function fixInvalidBatchQueryResponse(
  * @internal
  */
 export function convertRequestForMetrics(
-  timespan: string,
-  queryMetricsOptions: QueryMetricsOptions | undefined
+  metricNames: string[],
+  queryMetricsOptions: MetricsQueryOptions | undefined
 ): GeneratedMetricsListOptionalParams {
   if (!queryMetricsOptions) {
-    return {
-      timespan
-    };
+    return {};
   }
 
-  const { orderBy, metricNames, aggregations, metricNamespace, ...rest } = queryMetricsOptions;
+  const {
+    orderBy,
+    aggregations,
+    metricNamespace,
+    timespan,
+    granularity,
+    ...rest
+  } = queryMetricsOptions;
 
   const obj: GeneratedMetricsListOptionalParams = {
-    ...rest,
-    timespan
+    ...rest
   };
+
+  if (timespan) {
+    obj.timespan = convertTimespanToInterval(timespan);
+  }
 
   if (orderBy) {
     obj.orderby = orderBy;
@@ -202,6 +215,9 @@ export function convertRequestForMetrics(
   if (metricNamespace) {
     obj.metricnamespace = metricNamespace;
   }
+  if (granularity) {
+    obj.interval = granularity;
+  }
   return obj;
 }
 
@@ -210,11 +226,12 @@ export function convertRequestForMetrics(
  */
 export function convertResponseForMetrics(
   generatedResponse: GeneratedMetricsListResponse
-): QueryMetricsResult {
+): MetricsQueryResult {
   const metrics: Metric[] = generatedResponse.value.map((metric: GeneratedMetric) => {
-    return {
+    const metricObject = {
       ...metric,
       name: metric.name.value,
+      description: metric.displayDescription,
       timeseries: metric.timeseries.map(
         (ts: GeneratedTimeSeriesElement) =>
           <TimeSeriesElement>{
@@ -226,18 +243,23 @@ export function convertResponseForMetrics(
           }
       )
     };
+    delete metricObject.displayDescription;
+    return metricObject;
   });
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars -- eslint doesn't recognize that the extracted variables are prefixed with '_' and are purposefully unused.
-  const { resourceregion, value: _ignoredValue, ...rest } = generatedResponse;
+  const { resourceregion, value: _ignoredValue, interval, ...rest } = generatedResponse;
 
-  const obj: QueryMetricsResult = {
+  const obj: MetricsQueryResult = {
     ...rest,
     metrics
   };
 
   if (resourceregion) {
     obj.resourceRegion = resourceregion;
+  }
+  if (interval) {
+    obj.granularity = interval;
   }
 
   return obj;
@@ -247,7 +269,7 @@ export function convertResponseForMetrics(
  * @internal
  */
 export function convertRequestOptionsForMetricsDefinitions(
-  options: GetMetricDefinitionsOptions | undefined
+  options: ListMetricDefinitionsOptions | undefined
 ): GeneratedMetricDefinitionsListOptionalParams {
   if (!options) {
     return {};
@@ -270,40 +292,52 @@ export function convertRequestOptionsForMetricsDefinitions(
  * @internal
  */
 export function convertResponseForMetricsDefinitions(
-  generatedResponse: GeneratedMetricDefinitionsListResponse
-): GetMetricDefinitionsResult {
-  return {
-    definitions: generatedResponse.value?.map((genDef) => {
-      const { name, dimensions, ...rest } = genDef;
+  generatedResponse: Array<GeneratedMetricDefinition>
+): Array<MetricDefinition> {
+  const definitions: Array<MetricDefinition> = generatedResponse?.map((genDef) => {
+    const { name, dimensions, displayDescription, ...rest } = genDef;
 
-      const response: MetricDefinition = {
-        ...rest
-      };
+    const response: MetricDefinition = {
+      ...rest
+    };
 
-      if (name?.value) {
-        response.name = name.value;
-      }
+    if (displayDescription) {
+      response.description = displayDescription;
+    }
+    if (name?.value) {
+      response.name = name.value;
+    }
 
-      const mappedDimensions = dimensions?.map((dim) => dim.value);
+    const mappedDimensions = dimensions?.map((dim) => dim.value);
 
-      if (mappedDimensions) {
-        response.dimensions = mappedDimensions;
-      }
-
-      return response;
-    })
-  };
+    if (mappedDimensions) {
+      response.dimensions = mappedDimensions;
+    }
+    return response;
+  });
+  return definitions;
 }
 
 /**
  * @internal
  */
 export function convertResponseForMetricNamespaces(
-  generatedResponse: GeneratedMetricNamespacesListResponse
-): GetMetricNamespacesResult {
-  return {
-    namespaces: generatedResponse.value
-  };
+  generatedResponse: Array<GeneratedMetricNamespace>
+): Array<MetricNamespace> {
+  const namespaces: Array<MetricNamespace> = generatedResponse?.map((genDef) => {
+    const { properties, ...rest } = genDef;
+
+    const response: MetricNamespace = {
+      ...rest
+    };
+
+    if (properties) {
+      response.metricNamespaceName = properties.metricNamespaceName;
+    }
+
+    return response;
+  });
+  return namespaces;
 }
 
 /**
