@@ -49,6 +49,8 @@ export async function main() {
 
   const metrics: Metric[] = metricsResponse.metrics;
   console.log(`Metrics:`, JSON.stringify(metrics, undefined, 2));
+  const metric = metricsResponse.getMetricByName(firstMetric.name!);
+  console.log(`Selected Metric: ${firstMetric.name}`, JSON.stringify(metric, undefined, 2));
 }
 
 main().catch((err) => {

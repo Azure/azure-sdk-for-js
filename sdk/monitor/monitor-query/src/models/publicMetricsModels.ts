@@ -109,6 +109,7 @@ export interface MetricsQueryResult {
   resourceRegion?: string;
   /** the value of the collection. */
   metrics: Metric[];
+  /** convenience method to get metric by metric name */
   getMetricByName(metricName: string): Metric;
 }
 
