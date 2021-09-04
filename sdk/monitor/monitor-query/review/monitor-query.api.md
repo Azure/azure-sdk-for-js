@@ -41,7 +41,7 @@ export interface ErrorInfo {
     additionalProperties?: Record<string, unknown>;
     code: string;
     details?: ErrorDetail[];
-    innererror?: ErrorInfo;
+    innerError?: ErrorInfo;
     message: string;
 }
 
@@ -204,7 +204,6 @@ export interface MetricsQueryOptions extends OperationOptions {
 // @public
 export interface MetricsQueryResult {
     cost?: number;
-    // (undocumented)
     getMetricByName(metricName: string): Metric;
     granularity?: string;
     metrics: Metric[];

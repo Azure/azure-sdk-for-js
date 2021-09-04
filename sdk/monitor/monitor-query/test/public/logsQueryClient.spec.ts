@@ -494,8 +494,8 @@ function getInnermostErrorDetails(thrownError: any): undefined | ErrorInfo {
 
   let errorInfo: ErrorInfo = thrownError.details.error;
 
-  while (errorInfo.innererror) {
-    errorInfo = errorInfo.innererror;
+  while (errorInfo.innerError) {
+    errorInfo = errorInfo.innerError;
   }
 
   return errorInfo;
