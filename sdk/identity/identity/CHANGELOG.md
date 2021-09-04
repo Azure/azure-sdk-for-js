@@ -20,6 +20,8 @@
 
 ### Other Changes
 
+- The errors thrown by the `ManagedIdentityCredential` have been improved.
+
 ## 2.0.0-beta.5 (2021-08-10)
 
 ### Features Added

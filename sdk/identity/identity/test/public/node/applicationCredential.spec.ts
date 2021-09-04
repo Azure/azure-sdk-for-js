@@ -79,12 +79,8 @@ describe("ApplicationCredential", function() {
   );
 
   it("throws an AggregateAuthenticationError when getToken is called and no credential was configured", async () => {
-    delete process.env.AZURE_CLIENT_ID;
-    delete process.env.AZURE_TENANT_ID;
-
     const credential = new ApplicationCredential();
     const error = await getError(credential.getToken(scope));
-    console.log({ error });
     assert.equal(error.name, "AggregateAuthenticationError");
     assert.ok(error.message.indexOf(`CredentialUnavailableError: EnvironmentCredential`) > -1);
     assert.ok(error.message.indexOf(`CredentialUnavailableError: ManagedIdentityCredential`) > -1);

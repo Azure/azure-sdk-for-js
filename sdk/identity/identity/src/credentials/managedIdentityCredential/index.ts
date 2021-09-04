@@ -223,7 +223,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       // and it means that the endpoint is working, but that no identity is available.
       if (err.statusCode === 400) {
         throw new CredentialUnavailableError(
-          `The managed identity endpoint is indicating there's no available identity. Message: ${err.message}`
+          `ManagedIdentityCredential: The managed identity endpoint is indicating there's no available identity. Message: ${err.message}`
         );
       }
 
