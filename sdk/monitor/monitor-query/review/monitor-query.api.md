@@ -117,6 +117,9 @@ export interface LogsQueryResult {
 }
 
 // @public
+export type LogsQueryResultStatus = "Partial" | "Success" | "Failed";
+
+// @public
 export interface LogsTable {
     columnDescriptors: LogsColumn[];
     name: string;
@@ -262,10 +265,6 @@ export interface TimeSeriesElement {
     metadataValues?: MetadataValue[];
 }
 
-
-// Warnings were encountered during analysis:
-//
-// src/models/publicLogsModels.ts:135:5 - (ae-forgotten-export) The symbol "LogsQueryResultStatus" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

@@ -14,7 +14,8 @@ export {
   // TODO: design issues around this still pending.
   // QueryStatistics,
   LogsTable,
-  LogsColumn
+  LogsColumn,
+  LogsQueryResultStatus
 } from "./models/publicLogsModels";
 export {
   MetricsQueryClient,
