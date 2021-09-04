@@ -65,7 +65,9 @@ export interface LogsColumn {
 export type LogsColumnType = string;
 
 // @public
-export type LogsQueryBatchOptions = OperationOptions;
+export interface LogsQueryBatchOptions extends OperationOptions {
+    throwOnAnyFailure?: boolean;
+}
 
 // @public
 export interface LogsQueryBatchResult {
@@ -102,6 +104,7 @@ export interface LogsQueryOptions extends OperationOptions {
     includeQueryStatistics?: boolean;
     includeVisualization?: boolean;
     serverTimeoutInSeconds?: number;
+    throwOnAnyFailure?: boolean;
 }
 
 // @public
@@ -201,6 +204,8 @@ export interface MetricsQueryOptions extends OperationOptions {
 // @public
 export interface MetricsQueryResult {
     cost?: number;
+    // (undocumented)
+    getMetricByName(metricName: string): Metric;
     granularity?: string;
     metrics: Metric[];
     namespace?: string;
@@ -261,7 +266,7 @@ export interface TimeSeriesElement {
 
 // Warnings were encountered during analysis:
 //
-// src/models/publicLogsModels.ts:125:5 - (ae-forgotten-export) The symbol "LogsQueryResultStatus" needs to be exported by the entry point index.d.ts
+// src/models/publicLogsModels.ts:135:5 - (ae-forgotten-export) The symbol "LogsQueryResultStatus" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

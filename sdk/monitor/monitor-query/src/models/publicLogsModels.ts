@@ -35,6 +35,10 @@ export interface LogsQueryOptions extends OperationOptions {
    * Results will also include visualization information, in JSON format.
    */
   includeVisualization?: boolean;
+  /**
+   * If true, will cause this operation to throw if query operation did not succeed.
+   */
+  throwOnAnyFailure?: boolean;
 }
 
 /**
@@ -51,6 +55,7 @@ export interface QueryStatistics {
 /**
  * Tables and statistic results from a logs query.
  */
+
 export interface LogsQueryResult {
   /** The list of tables, columns and rows. */
   tables: LogsTable[];
@@ -67,8 +72,13 @@ export interface LogsQueryResult {
   logsQueryResultStatus?: LogsQueryResultStatus;
 }
 
-/** Configurable HTTP request settings for the Logs query batch operation. */
-export type LogsQueryBatchOptions = OperationOptions;
+/** Configurable HTTP request settings and `throwOnAnyFailure` setting for the Logs query batch operation. */
+export interface LogsQueryBatchOptions extends OperationOptions {
+  /**
+   * If true, will cause the batch operation to throw if any query operations in the batch did not succeed.
+   */
+  throwOnAnyFailure?: boolean;
+}
 
 /** The Analytics query. Learn more about the [Analytics query syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/) */
 // NOTE: 'id' is added automatically by our LogsQueryClient.
@@ -143,7 +153,7 @@ export interface LogsTable {
   name: string;
   /** The list of columns in this table. */
   columnDescriptors: LogsColumn[];
-  /** The resulting rows from this query. */
+  /** The 2D array of results from this query indexed by row and column. */
   rows: (Date | string | number | Record<string, unknown> | boolean)[][];
 }
 

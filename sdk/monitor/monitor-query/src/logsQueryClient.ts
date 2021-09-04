@@ -128,6 +128,9 @@ export class LogsQueryClient {
     } else {
       result.logsQueryResultStatus = "Success";
     }
+    if (options?.throwOnAnyFailure && result.logsQueryResultStatus !== "Success") {
+      throw result;
+    }
     return result;
   }
 
@@ -146,7 +149,11 @@ export class LogsQueryClient {
       (paramOptions) => this._logAnalytics.query.batch(generatedRequest, paramOptions),
       options || {}
     );
-    return convertResponseForQueryBatch(flatResponse, rawResponse);
+    const result: LogsQueryBatchResult = convertResponseForQueryBatch(flatResponse, rawResponse);
+    if (options?.throwOnAnyFailure && result.batchResultStatus !== "AllSucceeded") {
+      throw result;
+    }
+    return result;
   }
 }
 

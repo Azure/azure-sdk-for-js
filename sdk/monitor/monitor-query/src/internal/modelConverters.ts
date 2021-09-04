@@ -287,7 +287,13 @@ export function convertResponseForMetrics(
 
   const obj: MetricsQueryResult = {
     ...rest,
-    metrics
+    metrics,
+    getMetricByName(metricName) {
+      return this.metrics.filter((obj) => {
+        if (obj.name === metricName) return obj;
+        else return null;
+      })[0];
+    }
   };
 
   if (resourceregion) {

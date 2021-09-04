@@ -24,12 +24,7 @@ import {
   SerializerOptions
 } from "@azure/core-client";
 import { OperationTracingOptions } from "@azure/core-tracing";
-import {
-  Durations,
-  ListMetricDefinitionsOptions,
-  MetricsQueryOptions,
-  MetricsQueryResult
-} from "../../../src";
+import { Durations, ListMetricDefinitionsOptions, MetricsQueryOptions } from "../../../src";
 import { AbortSignalLike } from "@azure/abort-controller";
 
 describe("Model unit tests", () => {
@@ -198,7 +193,7 @@ describe("Model unit tests", () => {
       };
 
       const actualConvertedResponse = convertResponseForMetrics(generatedResponse);
-      const expectedResponse: MetricsQueryResult = {
+      const expectedResponse = {
         timespan: "aTimespan",
         metrics: [
           {
@@ -238,7 +233,8 @@ describe("Model unit tests", () => {
         // NOTE: _response is not returned as part of our track 2 response.
       };
 
-      assert.deepEqual(actualConvertedResponse, expectedResponse);
+      const { getMetricByName, ...rest } = actualConvertedResponse;
+      assert.deepEqual({ ...rest }, expectedResponse);
     });
 
     it("convertRequestOptionsForMetricsDefinitions (all fields)", () => {
