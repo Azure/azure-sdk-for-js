@@ -206,7 +206,7 @@ export function getDefaultAzureCredential(): TokenCredential;
 export { GetTokenOptions }
 
 // @public
-export type IdentityExtension = (context: unknown) => void;
+export type IdentityPlugin = (context: unknown) => void;
 
 // @public
 export class InteractiveBrowserCredential implements TokenCredential {
@@ -310,9 +310,9 @@ export function serializeAuthenticationRecord(record: AuthenticationRecord): str
 
 // @public
 export interface TokenCachePersistenceOptions {
-    allowUnencryptedStorage?: boolean;
     enabled: boolean;
     name?: string;
+    unsafeAllowUnencryptedStorage?: boolean;
 }
 
 export { TokenCredential }
@@ -324,7 +324,7 @@ export interface TokenCredentialOptions extends CommonClientOptions {
 }
 
 // @public
-export function useIdentityExtension(extension: IdentityExtension): void;
+export function useIdentityPlugin(plugin: IdentityPlugin): void;
 
 // @public
 export class UsernamePasswordCredential implements TokenCredential {

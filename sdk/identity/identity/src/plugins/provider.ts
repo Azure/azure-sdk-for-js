@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { VSCodeCredentialFinder } from "../credentials/visualStudioCodeCredentialExtension";
+import { VSCodeCredentialFinder } from "../credentials/visualStudioCodeCredentialPlugin";
 import { TokenCachePersistenceOptions } from "../msal/nodeFlows/tokenCachePersistenceOptions";
 
 /**
- * The type of an Azure Identity Extension, a function accepting an extension
+ * The type of an Azure Identity Plugin, a function accepting a plugin
  * context.
  */
-export type IdentityExtension = (context: unknown) => void;
+export type IdentityPlugin = (context: unknown) => void;
 
 /**
- * Extension context entries for controlling cache plugins.
+ * Plugin context entries for controlling cache plugins.
  */
 export interface CachePluginControl {
   setPersistence(
@@ -22,21 +22,21 @@ export interface CachePluginControl {
 }
 
 /**
- * Extension context entries for controlling VisualStudioCodeCredential.
+ * Plugin context entries for controlling VisualStudioCodeCredential.
  */
 export interface VisualStudioCodeCredentialControl {
   setVsCodeCredentialFinder(finder: VSCodeCredentialFinder): void;
 }
 
 /**
- * Context options passed to an extension during initialization.
+ * Context options passed to a plugin during initialization.
  *
- * Extension authors are responsible for casting their extension context values
+ * Plugin authors are responsible for casting their plugin context values
  * to this type.
  *
  * @internal
  */
-export interface AzureExtensionContext {
+export interface AzurePluginContext {
   cachePluginControl: CachePluginControl;
   vsCodeCredentialControl: VisualStudioCodeCredentialControl;
 }
