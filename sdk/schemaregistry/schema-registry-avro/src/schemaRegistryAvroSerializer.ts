@@ -125,40 +125,11 @@ export class SchemaRegistryAvroSerializer {
   }
 
   /**
-   * Deserializes a value from a buffer.
+   * Deserializes a value from a wide range of supported input types.
    *
-   * @param input - The buffer with the serialized value.
+   * @param input - The serialized value.
    * @returns The deserialized value.
    */
-  async deserialize(input: Buffer): Promise<unknown>;
-  /**
-   * Deserializes a value from a Blob.
-   *
-   * @param input - The Blob with the serialized value.
-   * @returns The deserialized value.
-   */
-  async deserialize(input: Blob): Promise<unknown>;
-  /**
-   * Deserializes a value from a Uint8Array.
-   *
-   * @param input - The Uint8Array with the serialized value.
-   * @returns The deserialized value.
-   */
-  async deserialize(input: Uint8Array): Promise<unknown>;
-  /**
-   * Deserializes a value from a ReadableStream.
-   *
-   * @param input - The ReadableStream with the serialized value.
-   * @returns The deserialized value.
-   */
-  async deserialize(input: ReadableStream): Promise<unknown>;
-  /**
-   * Deserializes a value from a NodeJS's ReadableStream.
-   *
-   * @param input - The NodeJS's ReadableStream with the serialized value.
-   * @returns The deserialized value.
-   */
-  async deserialize(input: NodeJS.ReadableStream): Promise<unknown>;
   async deserialize(
     input: Buffer | Blob | Uint8Array | ReadableStream | NodeJS.ReadableStream
   ): Promise<unknown> {

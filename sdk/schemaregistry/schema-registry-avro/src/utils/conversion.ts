@@ -20,9 +20,7 @@ declare global {
 export async function toUint8Array(
   input: Uint8Array | Buffer | Blob | ReadableStream | NodeJS.ReadableStream
 ): Promise<Uint8Array> {
-  if (isWHATWGReadableStream(input)) {
-    return streamToBuffer(input);
-  } else if (isNodeJSReadableStream(input)) {
+  if (isWHATWGReadableStream(input) || isNodeJSReadableStream(input)) {
     return streamToBuffer(input);
   } else if ((typeof Blob === "function" || typeof Blob === "object") && input instanceof Blob) {
     return blobToUint8Array(input);
@@ -40,13 +38,13 @@ function isNodeJSReadableStream(input: any): input is NodeJS.ReadableStream {
 async function streamToBuffer(input: {
   [Symbol.asyncIterator](): AsyncIterableIterator<any>;
 }): Promise<Buffer> {
-  const buffer: Buffer[] = [];
+  const buffers: Buffer[] = [];
   for await (const chunk of input) {
     if (Buffer.isBuffer(chunk)) {
-      buffer.push(chunk);
+      buffers.push(chunk);
     } else {
-      buffer.push(Buffer.from(chunk));
+      buffers.push(Buffer.from(chunk));
     }
   }
-  return Buffer.concat(buffer);
+  return Buffer.concat(buffers);
 }
