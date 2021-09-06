@@ -3,16 +3,6 @@
 
 import { blobToUint8Array } from "./blobToUint8Array";
 
-// TypeScript is still behind on making their ReadableStream type iterable, so we need to use this hack
-// see https://github.com/microsoft/TypeScript/issues/29867
-// and https://streams.spec.whatwg.org/#rs-asynciterator
-// eslint-disable-next-line @azure/azure-sdk/ts-no-namespaces
-declare global {
-  interface ReadableStream<R = any> {
-    [Symbol.asyncIterator](options?: { preventCancel?: boolean }): AsyncIterableIterator<R>;
-  }
-}
-
 /**
  * @param input - Input to `deserialize`.
  * @returns Promise which completes with the input data as a Uint8Array.
@@ -20,8 +10,10 @@ declare global {
 export async function toUint8Array(
   input: Uint8Array | Buffer | Blob | ReadableStream | NodeJS.ReadableStream
 ): Promise<Uint8Array> {
-  if (isWHATWGReadableStream(input) || isNodeJSReadableStream(input)) {
+  if (isNodeJSReadableStream(input)) {
     return streamToBuffer(input);
+  } else if (isWHATWGReadableStream(input)) {
+    return readWHATWGStream(input);
   } else if ((typeof Blob === "function" || typeof Blob === "object") && input instanceof Blob) {
     return blobToUint8Array(input);
   } else return input as Uint8Array;
@@ -47,4 +39,27 @@ async function streamToBuffer(input: {
     }
   }
   return Buffer.concat(buffers);
+}
+
+// WHATWG's ReadableStream spec supports async iteration: https://streams.spec.whatwg.org/#rs-asynciterator
+// However, Chromium and TypeScript did not implement the support yet
+// see https://bugs.chromium.org/p/chromium/issues/detail?id=929585&q=readablestream%20async&can=2
+// and https://github.com/microsoft/TypeScript/issues/29867
+async function readWHATWGStream(stream: ReadableStream): Promise<Buffer> {
+  const reader = stream.getReader();
+  const buffers: Buffer[] = [];
+  async function pump(): Promise<Buffer> {
+    return reader.read().then(({ value, done }) => {
+      if (done) {
+        return Buffer.concat(buffers);
+      }
+      if (Buffer.isBuffer(value)) {
+        buffers.push(value);
+      } else {
+        buffers.push(Buffer.from(value));
+      }
+      return pump();
+    });
+  }
+  return pump();
 }
