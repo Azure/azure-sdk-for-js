@@ -78,7 +78,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.sqlPoolName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

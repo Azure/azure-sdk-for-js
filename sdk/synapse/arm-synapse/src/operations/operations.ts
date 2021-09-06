@@ -163,7 +163,7 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -224,7 +224,7 @@ const getLocationHeaderResultOperationSpec: msRest.OperationSpec = {
     Parameters.operationId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -251,7 +251,7 @@ const getAzureAsyncHeaderResultOperationSpec: msRest.OperationSpec = {
     Parameters.operationId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

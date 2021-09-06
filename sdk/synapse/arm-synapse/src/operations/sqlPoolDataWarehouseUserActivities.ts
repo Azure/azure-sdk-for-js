@@ -76,7 +76,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.dataWarehouseUserActivityName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

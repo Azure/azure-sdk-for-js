@@ -144,7 +144,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.sqlPoolName
   ],
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion0,
     Parameters.filter
   ],
   headerParameters: [
@@ -172,7 +172,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.schemaName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -196,7 +196,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion0,
     Parameters.filter
   ],
   headerParameters: [

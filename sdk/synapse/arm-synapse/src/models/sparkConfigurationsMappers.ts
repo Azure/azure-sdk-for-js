@@ -87,6 +87,7 @@ export {
   ServerVulnerabilityAssessment,
   Sku,
   SparkConfigProperties,
+  SparkConfigurationListResponse,
   SparkConfigurationResource,
   SqlPool,
   SqlPoolBlobAuditingPolicy,
@@ -112,8 +113,6 @@ export {
   WorkloadGroup,
   Workspace,
   WorkspaceAadAdminInfo,
-  WorkspaceInfoListResult,
   WorkspaceKeyDetails,
-  WorkspacePatchInfo,
   WorkspaceRepositoryConfiguration
 } from "../models/mappers";

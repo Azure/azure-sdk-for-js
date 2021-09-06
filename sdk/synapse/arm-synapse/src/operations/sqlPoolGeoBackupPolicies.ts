@@ -152,7 +152,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.sqlPoolName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -179,7 +179,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.geoBackupPolicyName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -216,7 +216,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.geoBackupPolicyName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

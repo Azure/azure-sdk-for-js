@@ -80,7 +80,7 @@ const getLocationHeaderResultOperationSpec: msRest.OperationSpec = {
     Parameters.operationId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

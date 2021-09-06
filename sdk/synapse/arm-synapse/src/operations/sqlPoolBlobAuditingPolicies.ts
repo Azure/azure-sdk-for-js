@@ -181,7 +181,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.blobAuditingPolicyName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -208,7 +208,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.blobAuditingPolicyName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -244,7 +244,7 @@ const listBySqlPoolOperationSpec: msRest.OperationSpec = {
     Parameters.sqlPoolName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -268,7 +268,7 @@ const listBySqlPoolNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

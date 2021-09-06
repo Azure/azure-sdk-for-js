@@ -182,7 +182,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.sqlPoolName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -209,7 +209,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.securityAlertPolicyName0
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -236,7 +236,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.securityAlertPolicyName0
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -270,7 +270,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

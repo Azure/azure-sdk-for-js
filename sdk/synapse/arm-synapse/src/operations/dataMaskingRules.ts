@@ -160,7 +160,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.dataMaskingRuleName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -198,7 +198,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.dataMaskingRuleName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -225,7 +225,7 @@ const listBySqlPoolOperationSpec: msRest.OperationSpec = {
     Parameters.dataMaskingPolicyName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

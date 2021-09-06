@@ -169,7 +169,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.nodeName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -196,7 +196,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.nodeName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -230,7 +230,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.nodeName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage

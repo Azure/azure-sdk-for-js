@@ -209,7 +209,7 @@ const listByWorkspaceOperationSpec: msRest.OperationSpec = {
     Parameters.workspaceName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -235,7 +235,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.keyName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -261,7 +261,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.keyName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -294,7 +294,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.keyName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -319,7 +319,7 @@ const listByWorkspaceNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

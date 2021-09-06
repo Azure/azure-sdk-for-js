@@ -19,14 +19,43 @@ export const acceptLanguage: msRest.OperationParameter = {
     }
   }
 };
-export const apiVersion: msRest.OperationQueryParameter = {
+export const apiVersion0: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
+    isConstant: true,
     serializedName: "api-version",
+    defaultValue: '2021-06-01',
     constraints: {
       MinLength: 1
     },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion1: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2021-06-01-preview',
+    constraints: {
+      MinLength: 1
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const azureADOnlyAuthenticationName: msRest.OperationURLParameter = {
+  parameterPath: "azureADOnlyAuthenticationName",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "azureADOnlyAuthenticationName",
+    defaultValue: 'default',
     type: {
       name: "String"
     }
@@ -337,8 +366,7 @@ export const resourceGroupName: msRest.OperationURLParameter = {
     serializedName: "resourceGroupName",
     constraints: {
       MaxLength: 90,
-      MinLength: 1,
-      Pattern: /^[-\w\._\(\)]+$/
+      MinLength: 1
     },
     type: {
       name: "String"
@@ -474,6 +502,16 @@ export const skipToken: msRest.OperationQueryParameter = {
   ],
   mapper: {
     serializedName: "$skipToken",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const sparkConfigurationName: msRest.OperationURLParameter = {
+  parameterPath: "sparkConfigurationName",
+  mapper: {
+    required: true,
+    serializedName: "sparkConfigurationName",
     type: {
       name: "String"
     }

@@ -124,7 +124,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.sqlPoolName
   ],
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion0,
     Parameters.maintenanceWindowName
   ],
   headerParameters: [
@@ -151,7 +151,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.sqlPoolName
   ],
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion0,
     Parameters.maintenanceWindowName
   ],
   headerParameters: [
