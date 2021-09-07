@@ -190,7 +190,7 @@ Here is a hierarchy of the response:
 ```
 LogsQueryResult
 |---statistics
-|---visalization
+|---visualization
 |---error
 |---logsQueryResultStatus ("Partial" | "Success" | "Failed")
 |---tables (list of `LogsTable` objects)
