@@ -47,7 +47,8 @@ Set the values of the client ID, tenant ID, and client secret of the AAD applica
 ```javascript
 const { FeatureClient } = require("@azure/arm-features");
 const { DefaultAzureCredential } = require("@azure/identity");
-const client = new FeatureClient("<endpoint>", new DefaultAzureCredential());
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
+const client = new FeatureClient(new DefaultAzureCredential(), subscriptionId);
 ```
 
 ## Key concepts
