@@ -50,7 +50,16 @@ wrapper("public/node/client.spec.ts", (serviceVersion) => {
       );
       // This is of the form <your-namespace>.servicebus.windows.net
       endpoint = (env.EVENTHUB_CONNECTION_STRING.match("Endpoint=sb://(.*)/;") || "")[1];
-      credential = new EnvironmentCredential();
+      if (serviceVersion === "mock") {
+        // Create a mock credential that implements the TokenCredential interface.
+        credential = {
+          getToken([]) {
+            return Promise.resolve({ token: "token", expiresOnTimestamp: Date.now() + 360000 });
+          }
+        };
+      } else {
+        credential = new EnvironmentCredential();
+      }
     });
 
     it("creates an EventHubProducerClient from an Azure.Identity credential", async function(): Promise<
