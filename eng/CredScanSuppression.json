@@ -42,9 +42,13 @@
       "_justification": "Secret used by test code sdk/containerregistry/container-registry/test/utils/utils.ts"
     },
     {
+      "hash": "/BZ/xBh93a5O2c/lIPHrrLu7nMa9LETWpduQoKWadNE=",
+      "_justification": "fake account key used by test code sdk/tables/data-tables/test/internal/sharedKeyCredential.spec.ts"
+    },
+    {
       "hash": "3nKDROrSKkl5iI/gPR5hjr+LkRZBnyq/u/cRuypVhHk=",
       "_justification": "False positive in api.md review file `export type Secret = Resource & {`"
-    }
+    },
     {
       "placeholder": [
         "`$`{NPM_TOKEN`}",
