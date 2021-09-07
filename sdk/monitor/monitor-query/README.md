@@ -322,17 +322,18 @@ Here is a hierarchy of the response:
 ```
 LogsQueryBatchResult
 |---results (list of following objects)
-    |---id
     |---status
     |---statistics
     |---visalization
     |---error
+    |---logsQueryResultStatus ("Partial" | "Success" | "Failed")
     |---tables (list of `LogsTable` objects)
         |---name
         |---rows
         |---columns (list of `LogsColumn` objects)
             |---name
             |---type
+|---batchResultStatus ("AllSucceeded" | "AllFailed" | "PartiallySucceeded")
 ```
 
 To handle a batch response,
@@ -423,6 +424,9 @@ main().catch((err) => {
   process.exit(1);
 });
 ```
+
+In the above sample, the ordering of results for the metrics in the `metricResponse` will be in the order in which the user specifies the metric names in the`metricNames` array argument for the query method. If user specifies - `[firstMetric.name,secondMetricName]`
+The result for `firstMetric.name` will appear before the result for `secondMetricName` in the `metricResponse`
 
 ### Handle metrics response
 
