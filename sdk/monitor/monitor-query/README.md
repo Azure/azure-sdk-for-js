@@ -544,7 +544,7 @@ const result = await logsQueryClient.queryLogs(
 );
 ```
 
-In order to view the results for each workspace, you can use the `TenantId` column to either order the results or filter them in the Kusto query.
+To view the results for each workspace, use the `TenantId` column to either order the results or filter them in the Kusto query.
 Order results by TenantId -
 
 ```
