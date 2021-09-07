@@ -95,6 +95,7 @@ function New-DeployManifest {
   Write-Host "Package Directories: "
   Write-Host $packageDir
   $javascriptSamples = $packageDir | ForEach-Object {
+    Write-Host $_
     Write-Host "version num: "
     $versions = (Get-Item "$_/samples/*").Name
     Write-Host $version
