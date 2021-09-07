@@ -163,15 +163,13 @@ function inferTypedObject(propertyName: string, value: number | string | boolean
     return value;
   }
 
-  const valuStr = String(value);
-
   switch (typeof value) {
     case "boolean":
-      return { value: valuStr, type: "Boolean" };
+      return { value: String(value), type: "Boolean" };
     case "number":
       return getTypedNumber(value);
     case "string":
-      return { value: valuStr, type: "String" };
+      return { value, type: "String" };
     default:
       return value;
   }
