@@ -1,16 +1,10 @@
 # Release History
 
-## 12.1.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 12.1.2 (2021-09-07)
 
 ### Bugs Fixed
 
 - Fix `disableTypeConversion` to also apply for booleans and convert value to string when there is no type metadata. [#17385](https://github.com/Azure/azure-sdk-for-js/pull/17385)
-
-### Other Changes
 
 ## 12.1.1 (2021-08-10)
 

@@ -107,22 +107,28 @@ authModes.forEach((authMode) => {
       }).timeout(10000);
 
       it("should list by page", async function() {
-        const totalItems = 21;
+        const barItems = 20;
         const maxPageSize = 5;
         const entities = client.listEntities<TestEntity>({
           queryOptions: { filter: odata`PartitionKey eq ${listPartitionKey}` }
         });
         let all: TestEntity[] = [];
-        let i = 0;
         for await (const entity of entities.byPage({
           maxPageSize
         })) {
-          i++;
           all = [...all, ...entity];
         }
+        for (let i = 0; i < barItems; i++) {
+          assert.isTrue(
+            all.some((e) => e.rowKey === `${i}`),
+            `Couldn't find entity with row key ${i}`
+          );
+        }
 
-        assert.lengthOf(all, totalItems);
-        assert.equal(i, Math.ceil(totalItems / maxPageSize));
+        assert.isTrue(
+          all.some((e) => e.rowKey === `binary1`),
+          `Couldn't find entity with row key binary1`
+        );
       });
 
       it("should list with filter", async function() {
@@ -136,7 +142,12 @@ authModes.forEach((authMode) => {
           all = [...all, entity];
         }
 
-        assert.lengthOf(all, barItems);
+        for (let i = 0; i < barItems; i++) {
+          assert.isTrue(
+            all.some((e) => e.rowKey === `${i}`),
+            `Couldn't find entity with row key ${i}`
+          );
+        }
       });
 
       it("should list binary with filter", async function() {
@@ -150,8 +161,6 @@ authModes.forEach((authMode) => {
           assert.isDefined(entity.etag, "Expected etag");
           all = [...all, entity];
         }
-
-        assert.lengthOf(all, 1);
 
         if (isNode) {
           assert.deepEqual(all[0].foo, Buffer.from("Bar"));
