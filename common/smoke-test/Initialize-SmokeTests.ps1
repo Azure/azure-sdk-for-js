@@ -63,6 +63,7 @@ param (
 
 $repoRoot = Resolve-Path -Path "$PSScriptRoot../../../"
 . "$repoRoot/eng/common/scripts/logging.ps1"
+. "$PSScriptRoot/../../eng/common/scripts/SemVer.ps1"
 
 function Set-EnvironmentVariable {
   param([string] $Name, [string] $Value)
