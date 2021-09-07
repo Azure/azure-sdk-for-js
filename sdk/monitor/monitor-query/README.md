@@ -436,8 +436,7 @@ main().catch((err) => {
 });
 ```
 
-In the above sample, the ordering of results for the metrics in the `metricResponse` will be in the order in which the user specifies the metric names in the`metricNames` array argument for the query method. If user specifies - `[firstMetric.name,secondMetricName]`
-The result for `firstMetric.name` will appear before the result for `secondMetricName` in the `metricResponse`
+In the preceding sample, the ordering of results for the metrics in the `metricResponse` will be in the order in which the user specifies the metric names in the `metricNames` array argument for the query method. If user specifies `[firstMetric.name,secondMetricName]`, the result for `firstMetric.name` will appear before the result for `secondMetricName` in the `metricResponse`.
 
 ### Handle metrics response
 
