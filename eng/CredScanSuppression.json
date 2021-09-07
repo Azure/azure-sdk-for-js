@@ -39,7 +39,7 @@
     },
     {
       "hash": "HP2aUcA9w7HO2JGBh6BZ0cBvFfV6j9jjt9jmAtWtPbw=",
-      "_justification": "Secret used by test code sdk/containerregistry/container-registry/test/utils/utils.ts"
+      "_justification": "false positive for `sanitized.${expiryReplacement}.sanitized` sdk/containerregistry/container-registry/test/utils/utils.ts"
     },
     {
       "hash": "/BZ/xBh93a5O2c/lIPHrrLu7nMa9LETWpduQoKWadNE=",
@@ -48,6 +48,18 @@
     {
       "hash": "3nKDROrSKkl5iI/gPR5hjr+LkRZBnyq/u/cRuypVhHk=",
       "_justification": "False positive in api.md review file `export type Secret = Resource & {`"
+    },
+    {
+      "hash": "zM2nL1E+g7qVttsewMruwfEwdadLWmdCONc5vHXQihc=",
+      "_justification": "fake SAS token used by test code sdk/cosmosdb/cosmos/test/internal/unit/sasToken.spec.ts"
+    },
+    {
+      "hash": "pY4K31y+du7sEtJCYNdVw/I+SQT32CplhMBcmFdwrnw=",
+      "_justification": "fake secret used in test code sdk/storage/storage-blob/recordings/node/blobbatch/recording_deleteblobs_should_work_for_batch_delete.js"
+    },
+    {
+      "hash": "3TUVGuKBbSc1i87Mhvy6ERZA0oVXFOoBkfziS/xT2o4=",
+      "_justification": "fake secret used in test code sdk/storage/storage-blob/recordings/node/blobbatch/recording_setblobsaccesstier_should_work_for_batch_set_tier.js"
     },
     {
       "placeholder": [
