@@ -7,10 +7,14 @@ import { IdentityClient } from "../../client/identityClient";
 import { DefaultScopeSuffix } from "./constants";
 import { MSIExpiresInParser } from "./models";
 
+/**
+ * Transforms the received scope or array of scopes from getToken to a resource string.
+ * We only keep the first scope we receive, and we remove the permissions or the /.default path after the domain.
+ */
 export function mapScopesToResource(scopes: string | string[]): string {
   let scope = "";
   if (Array.isArray(scopes)) {
-    return scopes.map(mapScopesToResource).join(" ");
+    scope = scopes[0];
   } else if (typeof scopes === "string") {
     scope = scopes;
   }
