@@ -106,6 +106,9 @@ function New-DeployManifest {
 
       # Service Directory for example "appconfiguration"
       ResourcesDirectory = ((Join-Path $_ ../../../../../) | Get-Item).Name;
+
+      # Path to "javascript"
+      SamplesDirectory   = ((Join-Path $_ ../) | Get-Item).FullName;
     }
   }
 
@@ -117,10 +120,15 @@ function Update-SamplesForService {
 
   # Write-Verbose "Preparing samples for $($entry.Name)"
   # dev-tool samples prep --directory $entry.PackageDirectory --use-packages
-
+  $sampleFiles = Get-ChildItem "$($entry.SamplesDirectory)/*.js"
+  foreach ($sampleFile in $sampleFiles) {
+    (Get-Content -Raw $sampleFile) -replace "(?s)main\(\)\.catch.*", "module.exports = { main };`n"
+    Write-Host "xxxxx"
+    Get-Content $sampleFile
+  }
   # Resolve full path for samples location. This has to be set after sample
   # prep because the directory will not resolve until the folder exists.
-  $entry.SamplesDirectory = Join-Path -Path $entry.PackageDirectory -ChildPath 'samples/v1/javascript' -Resolve
+  # $entry.SamplesDirectory = Join-Path -Path $entry.PackageDirectory -ChildPath 'samples/v1/javascript' -Resolve
 }
 
 function Update-SampleDependencies {
