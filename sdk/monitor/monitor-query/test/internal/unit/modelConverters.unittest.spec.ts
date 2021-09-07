@@ -69,7 +69,6 @@ describe("Model unit tests", () => {
           additionalWorkspaces: ["additionalWorkspace", "resourceId1"]
         }
       ]);
-      console.log(JSON.stringify(generatedRequest.requests?.[1]));
       assert.deepEqual(generatedRequest.requests?.[1], <BatchQueryRequest>{
         body: {
           workspaces: ["additionalWorkspace", "resourceId1"],

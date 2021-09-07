@@ -105,11 +105,6 @@ export function convertResponseForQueryBatch(
    * It is not guaranteed that service will return the responses for queries in the same order
    * as the queries are passed in
    */
-  console.log("Inside convertResponseForQueryBatch");
-  console.log(JSON.stringify(generatedResponse.responses?.[0].body));
-  // {\"tables\":[{\"name\":\"PrimaryResult\",\"columns\":[{\"name\":\"stringcolumn\",\"type\":\"string\"},{\"name\":\"boolcolumn\",\"type\":\"bool\"},{\"name\":\"datecolumn\",\"type\":\"datetime\"},{\"name\":\"intcolumn\",\"type\":\"int\"},{\"name\":\"longcolumn\",\"type\":\"long\"},{\"name\":\"realcolumn\",\"type\":\"real\"},{\"name\":\"dynamiccolumn\",\"type\":\"dynamic\"}],\"rows\":[[\"hello\",true,\"2000-01-02T03:04:05Z\",100,101,102.1,\"{\\\"hello\\\":\\\"world\\\"}\"]]}]}
-  console.dir(generatedResponse.responses?.[0].body?.tables?.[0].rows);
-  console.log(" doing conversion");
   const newResponse: LogsQueryBatchResult = {
     results: generatedResponse.responses
       ?.sort((a, b) => {
