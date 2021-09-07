@@ -133,27 +133,27 @@ export function convertResponseForQueryBatch(
   };
   // compute status for failed or succeed or partial results
   if (newResponse.results) {
-    let hasError = "Success";
-    let numError: number = 0;
+    let resultStatus = "Success";
+    let errorCount: number = 0;
     for (let i = 0; i < newResponse.results?.length; i++) {
       if (newResponse.results[i].error && newResponse.results[i].tables) {
         newResponse.results[i].logsQueryResultStatus = "Partial";
-        hasError = "Partial";
+        resultStatus = "Partial";
       } else if (newResponse.results[i].tables) {
         newResponse.results[i].logsQueryResultStatus = "Success";
       } else {
         newResponse.results[i].logsQueryResultStatus = "Failed";
-        numError++;
+        errorCount++;
       }
     }
-    if (numError === newResponse.results?.length - 1) {
+    if (errorCount === newResponse.results?.length - 1) {
       newResponse.batchResultStatus = "AllFailed";
-    } else if (hasError === "Partial") {
+    } else if (resultStatus === "Partial") {
       newResponse.batchResultStatus = "PartiallySucceeded";
-    } else if (numError > 0 && numError < newResponse.results?.length - 1) {
+    } else if (errorCount > 0 && errorCount < newResponse.results?.length - 1) {
       newResponse.batchResultStatus = "PartiallySucceeded";
     } else {
-      if (numError === 0) {
+      if (errorCount === 0) {
         newResponse.batchResultStatus = "AllSucceeded";
       }
     }
