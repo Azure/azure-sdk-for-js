@@ -115,7 +115,7 @@ export class LogsQueryClient {
 
     const parsedBody = JSON.parse(rawResponse.bodyAsText!);
     flatResponse.tables = parsedBody.tables;
-    let result: LogsQueryResult = {
+    const result: LogsQueryResult = {
       tables: flatResponse.tables.map(convertGeneratedTable),
       statistics: flatResponse.statistics,
       visualization: flatResponse.render,

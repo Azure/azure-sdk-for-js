@@ -289,8 +289,8 @@ export function convertResponseForMetrics(
     ...rest,
     metrics,
     getMetricByName(metricName) {
-      return this.metrics.filter((obj) => {
-        if (obj.name === metricName) return obj;
+      return this.metrics.filter((object) => {
+        if (object.name === metricName) return object;
         else return null;
       })[0];
     }

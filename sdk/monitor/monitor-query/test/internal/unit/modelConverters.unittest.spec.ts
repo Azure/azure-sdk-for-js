@@ -233,6 +233,7 @@ describe("Model unit tests", () => {
         // NOTE: _response is not returned as part of our track 2 response.
       };
 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { getMetricByName, ...rest } = actualConvertedResponse;
       assert.deepEqual({ ...rest }, expectedResponse);
     });
