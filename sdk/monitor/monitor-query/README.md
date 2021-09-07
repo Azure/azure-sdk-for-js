@@ -250,10 +250,12 @@ export async function main() {
 
   const tokenCredential = new DefaultAzureCredential();
   const logsQueryClient = new LogsQueryClient(tokenCredential);
-  const queriesBatch: QueryBatch[] = [
+
+  const kqlQuery = "AppEvents | project TimeGenerated, Name, AppRoleInstance | limit 1";
+  const queriesBatch = [
     {
       workspaceId: monitorWorkspaceId,
-      query: "AppEvents | project TimeGenerated, Name, AppRoleInstance | limit 1",
+      query: kqlQuery,
       timespan: { duration: "P1D" }
     },
     {
@@ -276,16 +278,17 @@ export async function main() {
   ];
 
   const result = await logsQueryClient.queryBatch(queriesBatch);
+
   if (result.results == null) {
     throw new Error("No response for query");
   }
 
   let i = 0;
   for (const response of result.results) {
-    console.log(`Results for query with id: ${response.id}`);
+    console.log(`Results for query with query: ${queriesBatch[i]}`);
 
     if (response.error) {
-      console.log(`Query had errors:`, response.error);
+      console.log(` Query had errors:`, response.error);
     } else {
       if (response.tables == null) {
         console.log(`No results for query`);
@@ -295,7 +298,7 @@ export async function main() {
         );
 
         for (const table of response.tables) {
-          const columnHeaderString = table.columns
+          const columnHeaderString = table.columnDescriptors
             .map((column) => `${column.name}(${column.type}) `)
             .join("| ");
           console.log(columnHeaderString);
@@ -339,17 +342,22 @@ LogsQueryBatchResult
 To handle a batch response,
 
 ```ts
+let i = 0;
 for (const response of result.results) {
-  console.log(`Results for query with id: ${response.id}`);
+  console.log(`Results for query with query: ${queriesBatch[i]}`);
 
   if (response.error) {
-    console.log(`Query had errors:`, response.error);
+    console.log(` Query had errors:`, response.error);
   } else {
     if (response.tables == null) {
       console.log(`No results for query`);
     } else {
+      console.log(
+        `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
+      );
+
       for (const table of response.tables) {
-        const columnHeaderString = table.columns
+        const columnHeaderString = table.columnDescriptors
           .map((column) => `${column.name}(${column.type}) `)
           .join("| ");
         console.log(columnHeaderString);
@@ -361,6 +369,8 @@ for (const response of result.results) {
       }
     }
   }
+  // next query
+  i++;
 }
 ```
 
