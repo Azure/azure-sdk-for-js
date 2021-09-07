@@ -5,7 +5,7 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import chaiExclude from "chai-exclude";
 import { v4 } from "uuid";
-import { EnvVarKeys, getConfiguration, getStartingPositionsForTests } from "./utils/testUtils";
+import { EnvVarKeys, getEnvVars, getStartingPositionsForTests } from "./utils/testUtils";
 import {
   EventData,
   EventHubConsumerClient,
@@ -22,7 +22,7 @@ chai.use(chaiAsPromised);
 chai.use(chaiExclude);
 
 wrapper("public/eventData.spec.ts", (serviceVersion) => {
-  const env = getConfiguration(serviceVersion);
+  const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;
     before("Starting mock service", () => {

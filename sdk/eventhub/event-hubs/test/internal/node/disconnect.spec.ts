@@ -5,7 +5,7 @@ import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { EnvVarKeys, getConfiguration } from "../../public/utils/testUtils";
+import { EnvVarKeys, getEnvVars } from "../../public/utils/testUtils";
 import { EventHubSender } from "../../../src/eventHubSender";
 import { createConnectionContext } from "../../../src/connectionContext";
 import { stub } from "sinon";
@@ -16,7 +16,7 @@ import { createMockServer } from "../../public/utils/mockService";
 import { wrapper } from "../../public/utils/wrapper";
 
 wrapper("internal/node/disconnect.spec.ts", (serviceVersion) => {
-  const env = getConfiguration(serviceVersion);
+  const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;
     before("Starting mock service", () => {

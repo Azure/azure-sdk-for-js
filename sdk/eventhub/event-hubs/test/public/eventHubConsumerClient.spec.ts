@@ -16,12 +16,7 @@ import {
 } from "../../src";
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:receiver-spec");
-import {
-  EnvVarKeys,
-  loopUntil,
-  getStartingPositionsForTests,
-  getConfiguration
-} from "./utils/testUtils";
+import { EnvVarKeys, loopUntil, getStartingPositionsForTests, getEnvVars } from "./utils/testUtils";
 import chai from "chai";
 import { ReceivedMessagesTester } from "./utils/receivedMessagesTester";
 import { LogTester } from "./utils/logHelpers";
@@ -32,7 +27,7 @@ import { createMockServer } from "./utils/mockService";
 const should = chai.should();
 
 wrapper("public/eventHubConsumerClient.spec.ts", (serviceVersion) => {
-  const env = getConfiguration(serviceVersion);
+  const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;
     before("Starting mock service", () => {

@@ -9,14 +9,14 @@ import { ConnectionContext } from "../../src/connectionContext";
 import { BalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/balancedStrategy";
 import { GreedyLoadBalancingStrategy } from "../../src/loadBalancerStrategies/greedyStrategy";
 import chai from "chai";
-import { EnvVarKeys, getConfiguration } from "../public/utils/testUtils";
+import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import { wrapper } from "../public/utils/wrapper";
 import { createMockServer } from "../public/utils/mockService";
 
 const should = chai.should();
 
 wrapper("internal/eventHubConsumerClientUnitTests.spec.ts", (serviceVersion) => {
-  const env = getConfiguration(serviceVersion);
+  const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;
     before("Starting mock service", () => {

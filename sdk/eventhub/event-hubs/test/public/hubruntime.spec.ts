@@ -7,7 +7,7 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:hubruntime-spec");
-import { EnvVarKeys, getConfiguration, setTracerForTest } from "./utils/testUtils";
+import { EnvVarKeys, getEnvVars, setTracerForTest } from "./utils/testUtils";
 import { setSpan, context } from "@azure/core-tracing";
 
 import { SpanGraph } from "@azure/test-utils";
@@ -16,7 +16,7 @@ import { wrapper } from "./utils/wrapper";
 import { createMockServer } from "./utils/mockService";
 
 wrapper("public/hubruntime.spec.ts", (serviceVersion) => {
-  const env = getConfiguration(serviceVersion);
+  const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;
     before("Starting mock service", () => {

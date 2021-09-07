@@ -16,7 +16,7 @@ import {
   Subscription
 } from "../../src";
 import { packageJsonInfo } from "../../src/util/constants";
-import { EnvVarKeys, getConfiguration, isNode } from "../public/utils/testUtils";
+import { EnvVarKeys, getEnvVars, isNode } from "../public/utils/testUtils";
 import { MessagingError } from "@azure/core-amqp";
 import { ConnectionContext } from "../../src/connectionContext";
 import { getRuntimeInfo } from "../../src/util/runtimeInfo";
@@ -33,7 +33,7 @@ function validateConnectionError<E extends Error & { code?: string }>(err: E): v
 }
 
 wrapper("internal/client.spec.ts", (serviceVersion) => {
-  const env = getConfiguration(serviceVersion);
+  const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;
     before("Starting mock service", () => {

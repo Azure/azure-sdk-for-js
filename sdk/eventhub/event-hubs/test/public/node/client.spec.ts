@@ -7,7 +7,7 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import chaiString from "chai-string";
 chai.use(chaiString);
-import { EnvVarKeys, getConfiguration } from "../utils/testUtils";
+import { EnvVarKeys, getEnvVars } from "../utils/testUtils";
 import { EnvironmentCredential, TokenCredential } from "@azure/identity";
 import { EventHubProducerClient, EventHubConsumerClient } from "../../../src";
 import { TestTracer, setTracer, resetTracer } from "@azure/test-utils";
@@ -15,7 +15,7 @@ import { wrapper } from "../utils/wrapper";
 import { createMockServer } from "../utils/mockService";
 
 wrapper("public/node/client.spec.ts", (serviceVersion) => {
-  const env = getConfiguration(serviceVersion);
+  const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;
     before("Starting mock service", () => {

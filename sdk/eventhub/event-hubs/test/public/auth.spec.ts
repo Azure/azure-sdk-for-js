@@ -6,7 +6,7 @@ import {
   EventHubProducerClient,
   parseEventHubConnectionString
 } from "../../src/index";
-import { EnvVarKeys, getConfiguration } from "./utils/testUtils";
+import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import chai from "chai";
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
 import { createSasTokenProvider } from "@azure/core-amqp";
@@ -19,7 +19,7 @@ const should = chai.should();
 const TEST_FAILURE = "test failure";
 
 wrapper("public/auth.spec.ts", (serviceVersion, onVersions) => {
-  const env = getConfiguration(serviceVersion);
+  const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;
     before("Starting mock service", () => {

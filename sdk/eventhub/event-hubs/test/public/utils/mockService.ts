@@ -4,10 +4,10 @@
 import { readFileSync } from "fs";
 import { resolve as resolvePath } from "path";
 import { MockEventHub, MockServerOptions } from "@azure/mock-hub";
-import { getConfiguration } from "./testUtils";
+import { getEnvVars } from "./testUtils";
 
 export function createMockServer(options: MockServerOptions = {}): MockEventHub {
-  const { EVENTHUB_NAME } = getConfiguration("mock");
+  const { EVENTHUB_NAME } = getEnvVars();
   return new MockEventHub({
     name: EVENTHUB_NAME,
     partitionCount: 4,

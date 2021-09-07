@@ -19,7 +19,7 @@ import {
 } from "../../src";
 import {
   EnvVarKeys,
-  getConfiguration,
+  getEnvVars,
   getStartingPositionsForTests,
   setTracerForTest
 } from "../public/utils/testUtils";
@@ -31,7 +31,7 @@ import { wrapper } from "../public/utils/wrapper";
 import { createMockServer } from "../public/utils/mockService";
 
 wrapper("internal/sender.spec.ts", (serviceVersion) => {
-  const env = getConfiguration(serviceVersion);
+  const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;
     before("Starting mock service", () => {

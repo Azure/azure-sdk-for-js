@@ -19,7 +19,8 @@ export enum EnvVarKeys {
   EVENTHUB_NAME = "EVENTHUB_NAME",
   AZURE_TENANT_ID = "AZURE_TENANT_ID",
   AZURE_CLIENT_ID = "AZURE_CLIENT_ID",
-  AZURE_CLIENT_SECRET = "AZURE_CLIENT_SECRET"
+  AZURE_CLIENT_SECRET = "AZURE_CLIENT_SECRET",
+  TEST_TARGET = "TEST_TARGET"
 }
 
 export function getEnvVarValue(name: string): string | undefined {
@@ -30,7 +31,29 @@ export function getEnvVarValue(name: string): string | undefined {
   }
 }
 
-export function getEnvVars(): { [key in EnvVarKeys]: any } {
+function injectEnvironmentVariables(
+  envVars: Omit<{ [key in EnvVarKeys]: string }, EnvVarKeys.TEST_TARGET>
+): void {
+  for (const key of Object.keys(envVars) as Exclude<EnvVarKeys, EnvVarKeys.TEST_TARGET>[]) {
+    if (isNode) {
+      process.env[key] = envVars[key];
+    } else {
+      self.__env__[key] = envVars[key];
+    }
+  }
+}
+
+export function getEnvVars(): Omit<{ [key in EnvVarKeys]: any }, EnvVarKeys.TEST_TARGET> {
+  if (getEnvVarValue(EnvVarKeys.TEST_TARGET) === "mock") {
+    injectEnvironmentVariables({
+      [EnvVarKeys.EVENTHUB_CONNECTION_STRING]: `Endpoint=sb://localhost/;SharedAccessKeyName=Foo;SharedAccessKey=Bar`,
+      [EnvVarKeys.EVENTHUB_NAME]: "mock-hub",
+      [EnvVarKeys.AZURE_TENANT_ID]: "AzureTenantId",
+      [EnvVarKeys.AZURE_CLIENT_ID]: "AzureClientId",
+      [EnvVarKeys.AZURE_CLIENT_SECRET]: "AzureClientSecret"
+    });
+  }
+
   return {
     [EnvVarKeys.EVENTHUB_CONNECTION_STRING]: getEnvVarValue(EnvVarKeys.EVENTHUB_CONNECTION_STRING),
     [EnvVarKeys.EVENTHUB_NAME]: getEnvVarValue(EnvVarKeys.EVENTHUB_NAME),
@@ -38,20 +61,6 @@ export function getEnvVars(): { [key in EnvVarKeys]: any } {
     [EnvVarKeys.AZURE_CLIENT_ID]: getEnvVarValue(EnvVarKeys.AZURE_CLIENT_ID),
     [EnvVarKeys.AZURE_CLIENT_SECRET]: getEnvVarValue(EnvVarKeys.AZURE_CLIENT_SECRET)
   };
-}
-
-export function getConfiguration(type: "mock" | "live"): { [key in EnvVarKeys]: any } {
-  if (type === "mock") {
-    return {
-      [EnvVarKeys.EVENTHUB_CONNECTION_STRING]: `Endpoint=sb://localhost/;SharedAccessKeyName=Foo;SharedAccessKey=Bar`,
-      [EnvVarKeys.EVENTHUB_NAME]: "mock-hub",
-      [EnvVarKeys.AZURE_TENANT_ID]: "AzureTenantId",
-      [EnvVarKeys.AZURE_CLIENT_ID]: "AzureClientId",
-      [EnvVarKeys.AZURE_CLIENT_SECRET]: "AzureClientSecret"
-    };
-  }
-
-  return getEnvVars();
 }
 
 export async function loopUntil(args: {

@@ -17,7 +17,7 @@ import {
   ReceivedEventData,
   Subscription
 } from "../../src";
-import { EnvVarKeys, getConfiguration } from "../public/utils/testUtils";
+import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import {
   TRACEPARENT_PROPERTY,
   extractSpanContextFromEventData
@@ -28,7 +28,7 @@ import { wrapper } from "../public/utils/wrapper";
 import { createMockServer } from "../public/utils/mockService";
 
 wrapper("internal/misc.spec.ts", (serviceVersion) => {
-  const env = getConfiguration(serviceVersion);
+  const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;
     before("Starting mock service", () => {

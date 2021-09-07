@@ -9,11 +9,11 @@ import { EventHubConsumerClient, EventHubProducerClient } from "../../src";
 import { createMockServer } from "./utils/mockService";
 chai.use(chaiAsPromised);
 
-import { EnvVarKeys, getConfiguration } from "./utils/testUtils";
+import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { wrapper } from "./utils/wrapper";
 
 wrapper("public/cancellation.spec.ts", (serviceVersion) => {
-  const env = getConfiguration(serviceVersion);
+  const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;
     before("Starting mock service", () => {

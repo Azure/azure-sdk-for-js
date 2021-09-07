@@ -19,7 +19,7 @@ import {
   EventHubConsumerClient,
   EventHubProducerClient
 } from "../../src";
-import { EnvVarKeys, getConfiguration, loopUntil } from "../public/utils/testUtils";
+import { EnvVarKeys, getEnvVars, loopUntil } from "../public/utils/testUtils";
 import { Dictionary, generate_uuid } from "rhea-promise";
 import { EventProcessor, FullEventProcessorOptions } from "../../src/eventProcessor";
 import { Checkpoint } from "../../src/partitionProcessor";
@@ -42,7 +42,7 @@ import { wrapper } from "../public/utils/wrapper";
 import { createMockServer } from "../public/utils/mockService";
 
 wrapper("internal/eventProcessor.spec.ts", (serviceVersion) => {
-  const env = getConfiguration(serviceVersion);
+  const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;
     before("Starting mock service", () => {

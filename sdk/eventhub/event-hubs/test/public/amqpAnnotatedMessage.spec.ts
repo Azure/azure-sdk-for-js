@@ -7,7 +7,7 @@ import chaiExclude from "chai-exclude";
 import { Buffer } from "buffer";
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { v4 } from "uuid";
-import { EnvVarKeys, getConfiguration, getStartingPositionsForTests } from "./utils/testUtils";
+import { EnvVarKeys, getEnvVars, getStartingPositionsForTests } from "./utils/testUtils";
 import {
   EventHubConsumerClient,
   EventHubProducerClient,
@@ -25,7 +25,7 @@ chai.use(chaiExclude);
 const assert = chai.assert;
 
 wrapper("public/amqpAnnotatedMessage.spec.ts", (serviceVersion) => {
-  const env = getConfiguration(serviceVersion);
+  const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;
     before("Starting mock service", () => {
