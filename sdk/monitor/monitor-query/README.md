@@ -192,7 +192,7 @@ LogsQueryResult
 |---statistics
 |---visalization
 |---error
-|--- logsQueryResultStatus ("Partial" | "Success" | "Failed")
+|---logsQueryResultStatus ("Partial" | "Success" | "Failed")
 |---tables (list of `LogsTable` objects)
     |---name
     |---rows
