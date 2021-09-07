@@ -90,8 +90,16 @@ function Set-EnvironmentVariables {
 
 function New-DeployManifest {
   Write-Verbose "Detecting samples..."
-  # *(latest one, sort) with samples/v{x}/javascript
-  $javascriptSamples = Get-ChildItem -Path "$repoRoot/sdk/$ServiceDirectory/*/samples/*/javascript/" -Recurse -Include package.json
+  $packageDir = Get-ChildItem -Directory -Path "$repoRoot/sdk/$ServiceDirectory/*"
+
+  $javascriptSamples = $packageDir | ForEach-Object {
+    $versions = (Get-Item "$_/samples/*").Name
+    Write-Host $version
+    $newestVer = [AzureEngSemanticVersion]::SortVersionStrings($versions) | Select-Object -First 1
+    Write-Host $newestVer
+    return Get-ChildItem -Path "$_/samples/$newestVer/javascript/" -Recurse -Include package.json
+  }
+  Write-Host $javascriptSamples
 
   $manifest = $javascriptSamples | ForEach-Object {
     # Example: azure-sdk-for-js/sdk/appconfiguration/app-configuration/samples/v1/javascript
