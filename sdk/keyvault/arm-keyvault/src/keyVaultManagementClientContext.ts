@@ -14,7 +14,7 @@ import { TokenCredential } from "@azure/core-auth";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-keyvault";
-const packageVersion = "1.3.1";
+const packageVersion = "1.3.2";
 
 export class KeyVaultManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials | TokenCredential;
