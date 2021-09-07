@@ -328,7 +328,7 @@ LogsQueryBatchResult
 |---results (list of following objects)
     |---status
     |---statistics
-    |---visalization
+    |---visualization
     |---error
     |---logsQueryResultStatus ("Partial" | "Success" | "Failed")
     |---tables (list of `LogsTable` objects)
