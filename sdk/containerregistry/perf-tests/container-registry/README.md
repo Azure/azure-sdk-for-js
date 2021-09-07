@@ -2,7 +2,7 @@
 
 1. Build the container-registry perf tests package `rush build -t perf-container-registry`.
 2. Copy the `sample.env` file and name it as `.env`.
-3. Create an Azure Container Registry and populate the `.env` file with the values of variables specified from the `sample.env`
+3. Create an Azure Container Registry and populate the `.env` file.
 4. Import docker images into the newly created registry
 
 ```
