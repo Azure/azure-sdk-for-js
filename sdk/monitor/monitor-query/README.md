@@ -192,6 +192,7 @@ LogsQueryResult
 |---statistics
 |---visalization
 |---error
+|--- logsQueryResultStatus ("Partial" | "Success" | "Failed")
 |---tables (list of `LogsTable` objects)
     |---name
     |---rows
@@ -446,7 +447,7 @@ The metrics query API returns a `QueryMetricsResult` object. The `QueryMetricsRe
 QueryMetricsResult
 |---cost
 |---timespan
-|---interval
+|---granularity
 |---namespace
 |---resourceRegion
 |---metrics (list of `Metric` objects)
@@ -459,6 +460,7 @@ QueryMetricsResult
     |---timeseries (list of `TimeSeriesElement` objects)
         |---metadataValues
         |---data (list of data points represented by `MetricValue` objects)
+|---getMetricByName(metricName): Metric (convenience method)
 ```
 
 #### Example of handling response
