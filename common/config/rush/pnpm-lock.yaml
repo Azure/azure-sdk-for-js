@@ -11525,6 +11525,7 @@ packages:
       karma-junit-reporter: 2.0.1_karma@6.3.4
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5_karma@6.3.4
+      karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -11544,7 +11545,7 @@ packages:
     dev: false
     name: '@rush-temp/schema-registry-avro'
     resolution:
-      integrity: sha512-2kk4+GZuXE74COL6SC0UFTKcKNsRm27+D1bCgI2PYwpXAblWQaws9fClYJVVI+3k4vH0AniKnOqtNB10CngUmQ==
+      integrity: sha512-KHHpFCOOwve5rTm9DOsslci6XlwyMvgwRl3VmUPrQ1Dx+RcMI/GuWmnPvrcRNC68rT5OVBvbhsUxTpalJR0Hyw==
       tarball: file:projects/schema-registry-avro.tgz
     version: 0.0.0
   file:projects/schema-registry.tgz:
