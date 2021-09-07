@@ -167,7 +167,7 @@ async function run() {
   console.log(`Results for query '${kustoQuery}'`);
 
   for (const table of tablesFromResult) {
-    const columnHeaderString = table.columns
+    const columnHeaderString = table.columnDescriptors
       .map((column) => `${column.name}(${column.type}) `)
       .join("| ");
     console.log("| " + columnHeaderString);
@@ -196,7 +196,7 @@ LogsQueryResult
 |---tables (list of `LogsTable` objects)
     |---name
     |---rows
-    |---columns (list of `LogsColumn` objects)
+    |---columnDescriptors (list of `LogsColumn` objects)
         |---name
         |---type
 ```
@@ -206,7 +206,7 @@ So, to handle a response with tables,
 ```ts
 const tablesFromResult = result.tables;
 for (const table of tablesFromResult) {
-  const columnHeaderString = table.columns
+  const columnHeaderString = table.columnDescriptors
     .map((column) => `${column.name}(${column.type}) `)
     .join("| ");
   console.log("| " + columnHeaderString);
@@ -334,7 +334,7 @@ LogsQueryBatchResult
     |---tables (list of `LogsTable` objects)
         |---name
         |---rows
-        |---columns (list of `LogsColumn` objects)
+        |---columnDescriptors (list of `LogsColumn` objects)
             |---name
             |---type
 |---batchResultStatus ("AllSucceeded" | "AllFailed" | "PartiallySucceeded")
