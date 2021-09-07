@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { isNode, TestFunctionWrapper, versionsToTest } from "@azure/test-utils";
 import { getEnvVarValue } from "./testUtils";
 
@@ -11,7 +14,7 @@ export function wrapper(
     serviceVersion: SupportedTargets,
     onVersions: (supported: SupportedTargets[]) => TestFunctionWrapper
   ) => void
-) {
+): void {
   describe(filePath, function() {
     versionsToTest(serviceVersions, { versionForRecording: testTarget }, function(
       serviceVersion,
