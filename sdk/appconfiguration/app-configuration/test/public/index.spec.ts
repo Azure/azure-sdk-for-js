@@ -12,7 +12,7 @@ import {
   startRecorder
 } from "./utils/testHelpers";
 import { AppConfigurationClient, ConfigurationSetting, ConfigurationSettingParam } from "../../src";
-import { Recorder, delay, isLiveMode } from "@azure/test-utils-recorder";
+import { Recorder, delay, isLiveMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
 describe("AppConfigurationClient", () => {

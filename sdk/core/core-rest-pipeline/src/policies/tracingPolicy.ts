@@ -3,11 +3,11 @@
 
 import {
   getTraceParentHeader,
-  OperationTracingOptions,
   createSpanFunction,
   SpanStatusCode,
   isSpanContextValid,
-  Span
+  Span,
+  SpanOptions
 } from "@azure/core-tracing";
 import { SpanKind } from "@azure/core-tracing";
 import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
@@ -74,19 +74,33 @@ export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolic
 
 function tryCreateSpan(request: PipelineRequest, userAgent?: string): Span | undefined {
   try {
-    // create a new span
-    const tracingOptions: OperationTracingOptions = {
-      ...request.tracingOptions,
-      spanOptions: {
-        ...request.tracingOptions?.spanOptions,
-        kind: SpanKind.CLIENT
-      }
+    const createSpanOptions: SpanOptions = {
+      ...(request.tracingOptions as any)?.spanOptions,
+      kind: SpanKind.CLIENT
     };
 
     const url = new URL(request.url);
     const path = url.pathname || "/";
 
-    const { span } = createSpan(path, { tracingOptions });
+    // Passing spanOptions as part of tracingOptions to maintain compatibility @azure/core-tracing@preview.13 and earlier.
+    // We can pass this as a separate parameter once we upgrade to the latest core-tracing.
+    const { span } = createSpan(path, {
+      tracingOptions: { ...request.tracingOptions, spanOptions: createSpanOptions }
+    });
+
+    // If the span is not recording, don't do any more work.
+    if (!span.isRecording()) {
+      span.end();
+      return undefined;
+    }
+
+    const namespaceFromContext = request.tracingOptions?.tracingContext?.getValue(
+      Symbol.for("az.namespace")
+    );
+
+    if (typeof namespaceFromContext === "string") {
+      span.setAttribute("az.namespace", namespaceFromContext);
+    }
 
     span.setAttributes({
       "http.method": request.method,
@@ -97,6 +111,7 @@ function tryCreateSpan(request: PipelineRequest, userAgent?: string): Span | und
     if (userAgent) {
       span.setAttribute("http.user_agent", userAgent);
     }
+
     // set headers
     const spanContext = span.spanContext();
     const traceParentHeader = getTraceParentHeader(spanContext);

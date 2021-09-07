@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import { Context } from "mocha";
 import chai from "chai";
-import { env, Recorder, isRecordMode } from "@azure/test-utils-recorder";
+import { env, Recorder, isRecordMode } from "@azure-tools/test-recorder";
 
 import { SecretClient } from "../../src";
 import { assertThrowsAbortError } from "../utils/utils.common";

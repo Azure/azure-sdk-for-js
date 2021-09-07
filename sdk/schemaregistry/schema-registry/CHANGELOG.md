@@ -6,6 +6,11 @@
 
 ### Breaking Changes
 
+- renames `SchemaDescription`'s `group` to `groupName`
+- renames `SchemaId` to `SchemaProperties`
+- renames `getSchemaById` to `getSchema`
+- renames `GetSchemaByIdOptions` to `GetSchemaOptions`
+
 ### Bugs Fixed
 
 ### Other Changes

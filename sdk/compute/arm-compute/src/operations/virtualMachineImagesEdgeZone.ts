@@ -24,7 +24,7 @@ import {
   VirtualMachineImagesEdgeZoneListSkusResponse
 } from "../models";
 
-/** Class representing a VirtualMachineImagesEdgeZone. */
+/** Class containing VirtualMachineImagesEdgeZone operations. */
 export class VirtualMachineImagesEdgeZoneImpl
   implements VirtualMachineImagesEdgeZone {
   private readonly client: ComputeManagementClientContext;

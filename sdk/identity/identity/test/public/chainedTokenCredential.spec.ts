@@ -39,25 +39,6 @@ describe("ChainedTokenCredential", function() {
     assert.strictEqual(accessToken && accessToken.token, "firstToken");
   });
 
-  it("sets the successful credential on the selectedCredential property", async () => {
-    class ExpectedCredential implements TokenCredential {
-      async getToken() {
-        return { token: "firstToken", expiresOnTimestamp: 0 };
-      }
-    }
-    const chainedTokenCredential = new ChainedTokenCredential(
-      mockCredential(Promise.reject(new CredentialUnavailableError("unavailable."))),
-      new ExpectedCredential(),
-      mockCredential(Promise.resolve({ token: "secondToken", expiresOnTimestamp: 0 }))
-    );
-    const accessToken = await chainedTokenCredential.getToken("scope");
-    assert.strictEqual(accessToken && accessToken.token, "firstToken");
-    assert.strictEqual(
-      chainedTokenCredential.selectedCredential!.constructor.name,
-      "ExpectedCredential"
-    );
-  });
-
   it("returns an AggregateAuthenticationError when no token is returned and one credential returned an error", async () => {
     const chainedTokenCredential = new ChainedTokenCredential(
       mockCredential(Promise.reject(new CredentialUnavailableError("unavailable."))),

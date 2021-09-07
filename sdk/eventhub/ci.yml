@@ -1,5 +1,4 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
 trigger:
   branches:
     include:
@@ -9,7 +8,6 @@ trigger:
   paths:
     include:
       - sdk/eventhub/
-
 pr:
   branches:
     include:
@@ -17,10 +15,11 @@ pr:
       - feature/*
       - release/*
       - hotfix/*
+    exclude:
+      - feature/v4
   paths:
     include:
       - sdk/eventhub/
-
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -35,4 +34,5 @@ extends:
         safename: azureeventprocessorhost
       - name: azure-eventhubs-checkpointstore-table
         safeName: azureeventhubscheckpointstoretable
- 
+      - name: azure-arm-eventhub
+        safeName: azurearmeventhub

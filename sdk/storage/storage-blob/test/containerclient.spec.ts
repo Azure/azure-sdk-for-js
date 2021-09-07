@@ -11,7 +11,7 @@ import {
   isSuperSet,
   recorderEnvSetup
 } from "./utils";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 import { URLBuilder } from "@azure/core-http";
 import {
   ContainerClient,
@@ -245,7 +245,7 @@ describe("ContainerClient", () => {
     const result = (
       await containerClient
         .listBlobsFlat({
-          includeDeletedwithVersions: true
+          includeDeletedWithVersions: true
         })
         .byPage()
         .next()

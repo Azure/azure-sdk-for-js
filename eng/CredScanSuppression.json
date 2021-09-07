@@ -50,6 +50,7 @@
     },
     {
       "file": [
+        "eng/common/testproxy/dotnet-devcert.pfx",
         "sdk/identity/identity/test/azure-identity-chain-test.crt",
         "sdk/identity/identity/test/azure-identity-test.crt",
         "sdk/keyvault/keyvault-certificates/ca.key",

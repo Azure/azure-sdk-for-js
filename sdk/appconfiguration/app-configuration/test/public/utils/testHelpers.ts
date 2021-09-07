@@ -14,7 +14,7 @@ import {
   RecorderEnvironmentSetup,
   record,
   Recorder
-} from "@azure/test-utils-recorder";
+} from "@azure-tools/test-recorder";
 import * as assert from "assert";
 
 // allow loading from a .env file as an alternative to defining the variable

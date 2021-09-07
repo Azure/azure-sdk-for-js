@@ -26,7 +26,7 @@ import {
 } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { isPlaybackMode, record, Recorder } from "@azure/test-utils-recorder";
+import { isPlaybackMode, record, Recorder } from "@azure-tools/test-recorder";
 import { streamToBuffer3 } from "../../src/utils/utils.node";
 import * as crypto from "crypto";
 import { BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES } from "../../src/utils/constants";
@@ -299,7 +299,7 @@ describe("syncUploadFromURL", () => {
       {
         sourceAuthorization: {
           scheme: "Bearer",
-          parameter: accessToken!.token
+          value: accessToken!.token
         }
       }
     );
@@ -312,7 +312,7 @@ describe("syncUploadFromURL", () => {
       {
         sourceAuthorization: {
           scheme: "Bearer",
-          parameter: accessToken!.token
+          value: accessToken!.token
         }
       }
     );
@@ -352,7 +352,7 @@ describe("syncUploadFromURL", () => {
       {
         sourceAuthorization: {
           scheme: "Bearer",
-          parameter: accessToken!.token
+          value: accessToken!.token
         }
       }
     );
@@ -365,7 +365,7 @@ describe("syncUploadFromURL", () => {
       {
         sourceAuthorization: {
           scheme: "Bearer",
-          parameter: accessToken!.token
+          value: accessToken!.token
         }
       }
     );
@@ -415,7 +415,7 @@ describe("syncUploadFromURL", () => {
     await newBlockBlobClient.syncUploadFromURL(blockBlobClient.url, {
       sourceAuthorization: {
         scheme: "Bearer",
-        parameter: accessToken!.token
+        value: accessToken!.token
       }
     });
 
@@ -446,7 +446,7 @@ describe("syncUploadFromURL", () => {
     await tokenNewBlockBlobClient.syncUploadFromURL(blockBlobClient.url, {
       sourceAuthorization: {
         scheme: "Bearer",
-        parameter: accessToken!.token
+        value: accessToken!.token
       }
     });
 

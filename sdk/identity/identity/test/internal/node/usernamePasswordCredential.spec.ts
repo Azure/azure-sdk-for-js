@@ -6,7 +6,7 @@
 import Sinon from "sinon";
 import { assert } from "chai";
 import { Context } from "mocha";
-import { env, isLiveMode } from "@azure/test-utils-recorder";
+import { env, isLiveMode } from "@azure-tools/test-recorder";
 import { PublicClientApplication } from "@azure/msal-node";
 import { UsernamePasswordCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";

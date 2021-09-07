@@ -4,11 +4,11 @@
 import { ContainerClient, BlockBlobClient } from "@azure/storage-blob";
 import { QuantumJobClient } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import chai from "chai";
 import * as fs from "fs";
 import { TokenCredential } from "@azure/identity";
-import { isPlaybackMode } from "@azure/test-utils-recorder";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { replaceStorageAccountInfo } from "../utils/recorderUtils";
 
 const assert = chai.assert;

@@ -4,7 +4,7 @@
 import { Context } from "mocha";
 import * as dotenv from "dotenv";
 
-import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 import { isNode } from "@azure/core-util";
 

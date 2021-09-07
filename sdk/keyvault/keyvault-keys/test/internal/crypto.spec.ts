@@ -6,6 +6,8 @@ import { Context } from "mocha";
 import chai, { assert } from "chai";
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
+import chaiExclude from "chai-exclude";
+chai.use(chaiExclude);
 import sinon from "sinon";
 import { CryptographyClient, DecryptParameters, EncryptParameters, KeyVaultKey } from "../../src";
 import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider";
@@ -145,7 +147,7 @@ describe("internal crypto tests", () => {
           { algorithm: "RSA1_5", plaintext: text },
           operationOptionsSinonMatcher({
             requestOptions: { timeout: 5 },
-            tracingOptions: { spanOptions: {} }
+            tracingOptions: {}
           })
         );
       });
@@ -163,7 +165,7 @@ describe("internal crypto tests", () => {
           { algorithm: "RSA1_5", plaintext: text },
           operationOptionsSinonMatcher({
             requestOptions: { timeout: 5 },
-            tracingOptions: { spanOptions: {} }
+            tracingOptions: {}
           })
         );
       });
@@ -179,7 +181,7 @@ describe("internal crypto tests", () => {
           { algorithm: "RSA1_5", ciphertext: text },
           operationOptionsSinonMatcher({
             requestOptions: { timeout: 5 },
-            tracingOptions: { spanOptions: {} }
+            tracingOptions: {}
           })
         );
       });
@@ -197,7 +199,7 @@ describe("internal crypto tests", () => {
           { algorithm: "RSA1_5", ciphertext: text },
           operationOptionsSinonMatcher({
             requestOptions: { timeout: 5 },
-            tracingOptions: { spanOptions: {} }
+            tracingOptions: {}
           })
         );
       });
@@ -427,7 +429,9 @@ function operationOptionsSinonMatcher<T extends OperationOptions>(
     assert.ok(actualOptions.tracingOptions?.tracingContext);
     delete actualOptions.tracingOptions?.tracingContext;
 
-    assert.deepEqual(expectedPropagatedOptions, actualOptions);
+    assert.deepEqualExcludingEvery(actualOptions, expectedPropagatedOptions, [
+      "spanOptions"
+    ] as any);
     return true;
   });
 }

@@ -51,7 +51,7 @@
     "build:test:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c rollup.test.config.js 2>&1",
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
     "build:types": "downlevel-dts types/latest types/3.1",
-    "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local && npm run build:types",
+    "build": "npm run clean && tsc -p . && rollup -c 2>&1 && api-extractor run --local && npm run build:types",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
@@ -64,7 +64,6 @@
     "lint": "eslint package.json api-extractor.json src test --ext .ts",
     "pack": "npm pack 2>&1",
     "perf-test:node": "tsc -p . --module \"commonjs\" && node dist-esm/test/perf/track-2/index.spec.js",
-    "prebuild": "npm run clean",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
@@ -82,6 +81,9 @@
     ]
   },
   "//sampleConfiguration": {
+    "dependencyOverrides": {
+      "@azure/identity": "^1.5.1"
+    },
     "extraFiles": {
       "./samples-browser": [
         "browser"
@@ -92,6 +94,7 @@
     },
     "skip": [
       "iothubConnectionString.js",
+      "iothubConnectionStringWebsockets.js",
       "useWithIotHub.js",
       "usingAadAuth.js"
     ],
@@ -111,7 +114,7 @@
     "@azure/core-auth": "^1.3.0",
     "@azure/core-tracing": "1.0.0-preview.13",
     "@azure/logger": "^1.0.0",
-    "buffer": "^5.2.1",
+    "buffer": "^6.0.0",
     "is-buffer": "^2.0.3",
     "jssha": "^3.1.0",
     "process": "^0.11.10",
@@ -125,7 +128,7 @@
     "@azure/identity": "2.0.0-beta.6",
     "@azure/test-utils": "^1.0.0",
     "@azure/test-utils-perfstress": "^1.0.0",
-    "@microsoft/api-extractor": "7.7.11",
+    "@microsoft/api-extractor": "^7.18.7",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-inject": "^4.0.0",
     "@rollup/plugin-json": "^4.0.0",

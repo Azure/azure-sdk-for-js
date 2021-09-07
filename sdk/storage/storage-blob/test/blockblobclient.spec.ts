@@ -3,7 +3,7 @@
 
 import * as assert from "assert";
 
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 import * as dotenv from "dotenv";
 import {
   base64encode,

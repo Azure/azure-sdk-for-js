@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import { env } from "process";
 
-import { QueryLogsBatch, Durations, LogsQueryClient } from "../../src";
+import { Durations, LogsQueryClient, QueryBatch } from "../../src";
 import { runWithTelemetry } from "../setupOpenTelemetry";
 
 import {
@@ -38,7 +38,9 @@ describe("LogsQueryClient live tests", function() {
     try {
       // TODO: there is an error details in the query, but when I run an invalid query it
       // throws (and ErrorDetails are just present in the exception.)
-      await createClient().queryLogs(monitorWorkspaceId, kustoQuery, Durations.lastDay);
+      await createClient().query(monitorWorkspaceId, kustoQuery, {
+        duration: Durations.OneDay
+      });
       assert.fail("Should have thrown an exception");
     } catch (err) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars -- eslint doesn't recognize that the extracted variables are prefixed with '_' and are purposefully unused.
@@ -78,11 +80,13 @@ describe("LogsQueryClient live tests", function() {
   // query has timed out on purpose.
   it("serverTimeoutInSeconds", async () => {
     try {
-      await createClient({ maxRetries: 0, retryDelayInMs: 0, maxRetryDelayInMs: 0 }).queryLogs(
+      await createClient({ maxRetries: 0, retryDelayInMs: 0, maxRetryDelayInMs: 0 }).query(
         monitorWorkspaceId,
         // slow query suggested by Pavel.
         "range x from 1 to 10000000000 step 1 | count",
-        Durations.last24Hours,
+        {
+          duration: Durations.TwentyFourHours
+        },
         {
           // the query above easily takes longer than 1 second.
           serverTimeoutInSeconds: 1
@@ -119,10 +123,12 @@ describe("LogsQueryClient live tests", function() {
   });
 
   it("includeQueryStatistics", async () => {
-    const results = await createClient().queryLogs(
+    const results = await createClient().query(
       monitorWorkspaceId,
       "AppEvents | limit 1",
-      Durations.last24Hours,
+      {
+        duration: Durations.TwentyFourHours
+      },
       {
         includeQueryStatistics: true
       }
@@ -131,14 +137,16 @@ describe("LogsQueryClient live tests", function() {
     // TODO: statistics are not currently modeled in the generated code but
     // the executionTime field is pretty useful.
     assert.isOk(results.statistics);
-    assert.isNumber(results.statistics?.query?.executionTime);
+    assert.isNumber((results.statistics?.query as any)?.executionTime);
   });
 
   it("includeRender/includeVisualization", async () => {
-    const results = await createClient().queryLogs(
+    const results = await createClient().query(
       monitorWorkspaceId,
       `datatable (s: string, i: long) [ "a", 1, "b", 2, "c", 3 ] | render columnchart with (title="the chart title", xtitle="the x axis title")`,
-      Durations.last24Hours,
+      {
+        duration: Durations.TwentyFourHours
+      },
       {
         includeVisualization: true
       }
@@ -166,11 +174,9 @@ describe("LogsQueryClient live tests", function() {
           dynamiccolumn=print_6
       `;
 
-    const results = await createClient().queryLogs(
-      monitorWorkspaceId,
-      constantsQuery,
-      Durations.last5Minutes
-    );
+    const results = await createClient().query(monitorWorkspaceId, constantsQuery, {
+      duration: Durations.FiveMinutes
+    });
 
     const table = results.tables[0];
 
@@ -250,22 +256,20 @@ describe("LogsQueryClient live tests", function() {
           dynamiccolumn=print_6
       `;
 
-    const result = await createClient().queryLogsBatch({
-      queries: [
-        {
-          workspaceId: monitorWorkspaceId,
-          query: constantsQuery,
-          timespan: Durations.last5Minutes
-        }
-      ]
-    });
+    const result = await createClient().queryBatch([
+      {
+        workspaceId: monitorWorkspaceId,
+        query: constantsQuery,
+        timespan: { duration: Durations.FiveMinutes }
+      }
+    ]);
 
     if ((result as any)["__fixApplied"]) {
       console.log(`TODO: Fix was required to pass`);
     }
 
     const table = result.results?.[0].tables?.[0];
-
+    console.log(JSON.stringify(result.results?.[0].tables));
     if (table == null) {
       throw new Error("No table returned for query");
     }
@@ -369,11 +373,9 @@ describe("LogsQueryClient live tests", function() {
     it("queryLogs (last day)", async () => {
       const kustoQuery = `AppDependencies | where Properties['testRunId'] == '${testRunId}'| project Kind=Properties["kind"], Name, Target, TestRunId=Properties['testRunId']`;
 
-      const singleQueryLogsResult = await createClient().queryLogs(
-        monitorWorkspaceId,
-        kustoQuery,
-        Durations.lastDay
-      );
+      const singleQueryLogsResult = await createClient().query(monitorWorkspaceId, kustoQuery, {
+        duration: Durations.OneDay
+      });
 
       // TODO: the actual types aren't being deserialized (everything is coming back as 'string')
       // this is incorrect, it'll be updated.
@@ -390,24 +392,22 @@ describe("LogsQueryClient live tests", function() {
     });
 
     it("queryLogsBatch", async () => {
-      const batchRequest: QueryLogsBatch = {
-        queries: [
-          {
-            workspaceId: monitorWorkspaceId,
-            query: `AppDependencies | where Properties['testRunId'] == '${testRunId}'| project Kind=Properties["kind"], Name, Target, TestRunId=Properties['testRunId']`,
-            timespan: Durations.last24Hours
-          },
-          {
-            workspaceId: monitorWorkspaceId,
-            query: `AppDependencies | where Properties['testRunId'] == '${testRunId}' | count`,
-            timespan: Durations.last24Hours,
-            includeQueryStatistics: true,
-            serverTimeoutInSeconds: 60 * 10
-          }
-        ]
-      };
+      const batchRequest: QueryBatch[] = [
+        {
+          workspaceId: monitorWorkspaceId,
+          query: `AppDependencies | where Properties['testRunId'] == '${testRunId}'| project Kind=Properties["kind"], Name, Target, TestRunId=Properties['testRunId']`,
+          timespan: { duration: Durations.TwentyFourHours }
+        },
+        {
+          workspaceId: monitorWorkspaceId,
+          query: `AppDependencies | where Properties['testRunId'] == '${testRunId}' | count`,
+          timespan: { duration: Durations.TwentyFourHours },
+          includeQueryStatistics: true,
+          serverTimeoutInSeconds: 60 * 10
+        }
+      ];
 
-      const result = await createClient().queryLogsBatch(batchRequest);
+      const result = await createClient().queryBatch(batchRequest);
 
       if ((result as any)["__fixApplied"]) {
         console.log(`TODO: Fix was required to pass`);
@@ -449,7 +449,9 @@ describe("LogsQueryClient live tests", function() {
       const client = createClient();
 
       for (let i = 0; i < args.maxTries; ++i) {
-        const result = await client.queryLogs(monitorWorkspaceId, query, Durations.last24Hours);
+        const result = await client.query(monitorWorkspaceId, query, {
+          duration: Durations.TwentyFourHours
+        });
 
         const numRows = result.tables?.[0].rows?.length;
 

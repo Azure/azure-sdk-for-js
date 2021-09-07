@@ -1,13 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai, { assert } from "chai";
-import chaiExclude from "chai-exclude";
-chai.use(chaiExclude);
+import { assert } from "chai";
 import { Context } from "mocha";
 import { RestError } from "@azure/core-http";
 import { AbortController } from "@azure/abort-controller";
-import { env, Recorder } from "@azure/test-utils-recorder";
+import { env, Recorder } from "@azure-tools/test-recorder";
 
 import {
   KeyClient,
@@ -15,7 +13,7 @@ import {
   UpdateKeyPropertiesOptions,
   GetKeyOptions
 } from "../../src";
-import { assertThrowsAbortError, getServiceVersion, onVersions } from "../utils/utils.common";
+import { assertThrowsAbortError, getServiceVersion } from "../utils/utils.common";
 import { testPollerProperties } from "../utils/recorderUtils";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
@@ -398,134 +396,5 @@ describe("Keys client - create, read, update and delete operations", () => {
       (tracingOptions) => client.createKey(keyName, "RSA", { tracingOptions }),
       ["Azure.KeyVault.Keys.KeyClient.createKey"]
     );
-  });
-
-  onVersions({ minVer: "7.3-preview" }).describe("key rotation", () => {
-    it("rotateKey supports rotating a key", async () => {
-      const keyName = recorder.getUniqueName("keyrotate");
-      const key = await client.createKey(keyName, "RSA");
-      const rotatedKey = await client.rotateKey(keyName);
-
-      // The rotated key should have mostly the same data, excluding properties that are rotated.
-      assert.deepEqualExcludingEvery(rotatedKey, key, ["id", "kid", "version", "n", "e"] as any);
-
-      // A new version is created, and the key material is rotated (RSA key, check n and e).
-      assert.notEqual(rotatedKey.id, key.id);
-      assert.notEqual(rotatedKey.properties.version, key.properties.version);
-      assert.notDeepEqual(rotatedKey.key?.n, key.key?.n);
-    });
-
-    it("rotateKey supports tracing", async () => {
-      const keyName = recorder.getUniqueName("keyrotatetracing");
-      const key = await client.createKey(keyName, "RSA");
-
-      await supportsTracing((tracingOptions) => client.rotateKey(key.name, { tracingOptions }), [
-        "Azure.KeyVault.Keys.KeyClient.rotateKey"
-      ]);
-    });
-
-    it("updateKeyRotationPolicy supports creating a new rotation policy and fetching it", async () => {
-      const keyName = recorder.getUniqueName("keyrotationpolicy");
-      const key = await client.createKey(keyName, "RSA");
-
-      const rotationPolicy = await client.updateKeyRotationPolicy(key.name, {
-        expiresIn: "P90D",
-        lifetimeActions: [
-          {
-            action: "Rotate",
-            timeBeforeExpiry: "P30D"
-          }
-        ]
-      });
-
-      const fetchedPolicy = await client.getKeyRotationPolicy(keyName);
-
-      assert.deepEqual(fetchedPolicy, rotationPolicy);
-    });
-
-    it("updateKeyRotationPolicy supports updating an existing policy", async () => {
-      const keyName = recorder.getUniqueName("keyrotationpolicy");
-      const key = await client.createKey(keyName, "RSA");
-
-      // Create a policy which we will override later.
-      await client.updateKeyRotationPolicy(key.name, {
-        lifetimeActions: [
-          {
-            action: "Rotate",
-            timeAfterCreate: "P2M"
-          }
-        ]
-      });
-
-      const updatedPolicy = await client.updateKeyRotationPolicy(key.name, {
-        expiresIn: "P90D",
-        lifetimeActions: [
-          {
-            action: "Notify",
-            timeBeforeExpiry: "P30D"
-          }
-        ]
-      });
-
-      assert.deepEqual(updatedPolicy, {
-        id: updatedPolicy.id,
-        createdOn: updatedPolicy.createdOn,
-        updatedOn: updatedPolicy.updatedOn,
-        expiresIn: "P90D",
-        lifetimeActions: [
-          {
-            timeAfterCreate: undefined,
-            action: "Notify",
-            timeBeforeExpiry: "P30D"
-          }
-        ]
-      });
-    });
-
-    it("updateKeyRotationPolicy supports tracing", async () => {
-      const keyName = recorder.getUniqueName("updaterotationpolicy");
-      const key = await client.createKey(keyName, "EC");
-
-      await supportsTracing(
-        (tracingOptions) =>
-          client.updateKeyRotationPolicy(
-            key.name,
-            {
-              lifetimeActions: [
-                {
-                  action: "Notify",
-                  timeBeforeExpiry: "P30D"
-                }
-              ],
-              expiresIn: "P90D"
-            },
-            { tracingOptions }
-          ),
-        ["Azure.KeyVault.Keys.KeyClient.updateKeyRotationPolicy"]
-      );
-    });
-
-    it("getKeyRotationPolicy returns undefined if there is no rotation policy", async () => {
-      const keyName = recorder.getUniqueName("getrotationpolicy");
-      await client.createKey(keyName, "RSA");
-
-      const fetchedPolicy = await client.getKeyRotationPolicy(keyName);
-      assert.notExists(fetchedPolicy);
-    });
-
-    it("throws when attempting to fetch a policy of a non-existent key", async () => {
-      const keyName = recorder.getUniqueName("nonexistentkey");
-      await assert.isRejected(client.getKeyRotationPolicy(keyName));
-    });
-
-    it("getKeyRotationPolicy supports tracing", async () => {
-      const keyName = recorder.getUniqueName("rotationpolicytracing");
-      const key = await client.createKey(keyName, "RSA");
-
-      await supportsTracing(
-        (tracingOptions) => client.getKeyRotationPolicy(key.name, { tracingOptions }),
-        ["Azure.KeyVault.Keys.KeyClient.getKeyRotationPolicy"]
-      );
-    });
   });
 });

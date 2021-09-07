@@ -10,7 +10,7 @@ import { ContainerClient, RestError, BlobServiceClient } from "../src";
 import { newPipeline, Pipeline } from "../src";
 import { getBSU, recorderEnvSetup } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
 dotenv.config();
