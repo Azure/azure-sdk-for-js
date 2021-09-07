@@ -3,3 +3,9 @@
 FROM mcr.microsoft.com/vscode/devcontainers/universal:1-linux
 
 RUN npm install -g "@microsoft/rush"
+
+COPY library-scripts/*.sh /tmp/library-scripts/
+RUN apt-get update && /bin/bash /tmp/library-scripts/docker-in-docker-debian.sh
+ENTRYPOINT ["/usr/local/share/docker-init.sh"]
+VOLUME [ "/var/lib/docker" ]
+CMD ["sleep", "infinity"]
