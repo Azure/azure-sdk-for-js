@@ -2,7 +2,7 @@
 
 ## 1.0.10-beta.1 (2020-11-16)
 
-- Test Release Pipeline
+- Test Release Pipeline test
 
 ## 1.0.9-beta.13 (2020-10-13)
 
