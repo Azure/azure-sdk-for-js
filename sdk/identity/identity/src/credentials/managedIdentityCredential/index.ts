@@ -9,7 +9,6 @@ import { AuthenticationError, CredentialUnavailableError } from "../../client/er
 import { credentialLogger, formatSuccess, formatError } from "../../util/logging";
 import { appServiceMsi2017 } from "./appServiceMsi2017";
 import { createSpan } from "../../util/tracing";
-import { mapScopesToResource } from "./utils";
 import { cloudShellMsi } from "./cloudShellMsi";
 import { imdsMsi } from "./imdsMsi";
 import { MSI } from "./models";
@@ -67,7 +66,7 @@ export class ManagedIdentityCredential implements TokenCredential {
   private cachedMSI: MSI | undefined;
 
   private async cachedAvailableMSI(
-    resource: string,
+    scopes: string | string[],
     clientId?: string,
     getTokenOptions?: GetTokenOptions
   ): Promise<MSI> {
@@ -80,7 +79,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     const MSIs = [appServiceMsi2017, cloudShellMsi, arcMsi, tokenExchangeMsi(), imdsMsi];
 
     for (const msi of MSIs) {
-      if (await msi.isAvailable(this.identityClient, resource, clientId, getTokenOptions)) {
+      if (await msi.isAvailable(scopes, this.identityClient, clientId, getTokenOptions)) {
         this.cachedMSI = msi;
         return msi;
       }
@@ -94,7 +93,6 @@ export class ManagedIdentityCredential implements TokenCredential {
     clientId?: string,
     getTokenOptions?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    const resource = mapScopesToResource(scopes);
     const { span, updatedOptions } = createSpan(
       "ManagedIdentityCredential-authenticateManagedIdentity",
       getTokenOptions
@@ -102,12 +100,11 @@ export class ManagedIdentityCredential implements TokenCredential {
 
     try {
       // Determining the available MSI, and avoiding checking for other MSIs while the program is running.
-      const availableMSI = await this.cachedAvailableMSI(resource, clientId, updatedOptions);
+      const availableMSI = await this.cachedAvailableMSI(scopes, clientId, updatedOptions);
 
       return availableMSI.getToken(
         {
           identityClient: this.identityClient,
-          resource,
           scopes,
           clientId
         },

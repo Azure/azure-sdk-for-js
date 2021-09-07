@@ -5,13 +5,13 @@ import fs from "fs";
 import { createHttpHeaders, PipelineRequestOptions } from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { promisify } from "util";
-import { IdentityClient } from "../../client/identityClient";
 import { credentialLogger } from "../../util/logging";
-import { MSI } from "./models";
+import { MSI, MSIConfiguration } from "./models";
 import { msiGenericGetToken } from "./utils";
 import { DefaultAuthorityHost } from "../../constants";
 
-const logger = credentialLogger("ManagedIdentityCredential - Token Exchange");
+const msiName = "ManagedIdentityCredential - Token Exchange";
+const logger = credentialLogger(msiName);
 
 const readFileAsync = promisify(fs.readFile);
 
@@ -76,28 +76,24 @@ export function tokenExchangeMsi(): MSI {
   }
 
   return {
-    async isAvailable(_identityClient, _resource, clientId): Promise<boolean> {
+    async isAvailable(_scopes, _identityClient, clientId): Promise<boolean> {
       const env = process.env;
       const result = Boolean(
         (clientId || env.AZURE_CLIENT_ID) && env.AZURE_TENANT_ID && azureFederatedTokenFilePath
       );
       if (!result) {
         logger.info(
-          "The Token File Path MSI is unavailable. The environment variables needed are: AZURE_CLIENT_ID (or the client ID sent through the parameters), AZURE_TENANT_ID and AZURE_FEDERATED_TOKEN_FILE"
+          `${msiName}: navailable. The environment variables needed are: AZURE_CLIENT_ID (or the client ID sent through the parameters), AZURE_TENANT_ID and AZURE_FEDERATED_TOKEN_FILE`
         );
       }
       return result;
     },
     async getToken(
-      configuration: {
-        identityClient: IdentityClient;
-        scopes: string | string[];
-        clientId?: string;
-      },
+      configuration: MSIConfiguration,
       getTokenOptions: GetTokenOptions = {}
     ): Promise<AccessToken | null> {
       const { identityClient, scopes, clientId } = configuration;
-      logger.info(`Using the client assertion coming from environment variables.`);
+      logger.info(`${msiName}: Using the client assertion coming from environment variables.`);
 
       let assertion: string;
 
@@ -105,7 +101,7 @@ export function tokenExchangeMsi(): MSI {
         assertion = await readAssertion();
       } catch (err) {
         throw new Error(
-          `Failed to read ${azureFederatedTokenFilePath}, indicated by the environment variable AZURE_FEDERATED_TOKEN_FILE`
+          `${msiName}: Failed to read ${azureFederatedTokenFilePath}, indicated by the environment variable AZURE_FEDERATED_TOKEN_FILE`
         );
       }
 
