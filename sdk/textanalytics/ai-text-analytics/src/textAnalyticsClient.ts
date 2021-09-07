@@ -391,6 +391,14 @@ export class TextAnalyticsClient {
    */
   private readonly client: GeneratedClient;
 
+  isBrowser(): boolean {
+    try {
+      return typeof self !== "undefined";
+    } catch (e) {
+      return false;
+    }
+  }
+
   /**
    * Creates an instance of TextAnalyticsClient.
    *
@@ -430,7 +438,9 @@ export class TextAnalyticsClient {
     this.client = new GeneratedClient(this.endpointUrl, internalPipelineOptions);
 
     let scopes;
-    switch (process.env["AZURE_AUTHORITY_HOST"]) {
+    const env = this.isBrowser() ? (self as any).__env__ : process.env;
+
+    switch (env["AZURE_AUTHORITY_HOST"]) {
       case "https://login.microsoftonline.us":
         scopes = "https://cognitiveservices.azure.us/.default";
         break;
