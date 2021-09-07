@@ -545,7 +545,7 @@ const result = await logsQueryClient.queryLogs(
 ```
 
 To view the results for each workspace, use the `TenantId` column to either order the results or filter them in the Kusto query.
-Order results by TenantId -
+**Order results by TenantId**
 
 ```
 AppEvents | order by TenantId
