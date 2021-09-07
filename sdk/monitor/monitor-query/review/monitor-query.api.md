@@ -238,7 +238,7 @@ export interface QueryBatch {
     includeVisualization?: boolean;
     query: string;
     serverTimeoutInSeconds?: number;
-    timespan?: TimeInterval;
+    timespan: TimeInterval;
     workspaceId: string;
 }
 
