@@ -14,9 +14,9 @@ export function getGenericBSU(
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
 
-  let accountName: string | undefined;
+  const accountName = (self as any).__env__[accountNameEnvVar];
+
   let accountSAS: string | undefined;
-  accountName = (self as any).__env__[accountNameEnvVar];
   accountSAS = (self as any).__env__[accountSASEnvVar];
 
   if (!accountName || !accountSAS || accountName === "" || accountSAS === "") {
@@ -62,7 +62,6 @@ export async function bodyToString(
     readableStreamBody?: NodeJS.ReadableStream;
     blobBody?: Promise<Blob>;
   },
-  // tslint:disable-next-line:variable-name
   _length?: number
 ): Promise<string> {
   const blob = await response.blobBody!;
@@ -131,7 +130,7 @@ export function getSASConnectionStringFromEnvironment(): string {
 export function arraysEqual(a: Uint8Array, b: Uint8Array): boolean {
   if (a === b) return true;
   if (a == null || b == null) return false;
-  if (a.length != b.length) return false;
+  if (a.length !== b.length) return false;
 
   for (let i = 0; i < a.length; ++i) {
     if (a[i] !== b[i]) return false;

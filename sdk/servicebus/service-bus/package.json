@@ -119,7 +119,7 @@
     "@azure/logger": "^1.0.0",
     "@types/is-buffer": "^2.0.0",
     "@types/long": "^4.0.0",
-    "buffer": "^5.2.1",
+    "buffer": "^6.0.0",
     "is-buffer": "^2.0.3",
     "jssha": "^3.1.0",
     "long": "^4.0.0",

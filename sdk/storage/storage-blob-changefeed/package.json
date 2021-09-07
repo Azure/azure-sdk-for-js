@@ -42,7 +42,7 @@
     "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace -t 300000  \"dist-esm/storage-blob-changefeed/test/*.spec.js\" \"dist-esm/storage-blob-changefeed/test/node/*.spec.js\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix",
-    "lint": "eslint package.json api-extractor.json src test --ext .ts -f html -o storage-blob-changefeed-lintReport.html || exit 0",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts",
     "pack": "npm pack 2>&1",
     "test:browser": "echo 'browser not supported yet.'",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",

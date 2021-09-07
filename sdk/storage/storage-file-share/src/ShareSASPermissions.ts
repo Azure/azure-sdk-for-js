@@ -15,7 +15,7 @@ export class ShareSASPermissions {
    *
    * @param permissions -
    */
-  public static parse(permissions: string) {
+  public static parse(permissions: string): ShareSASPermissions {
     const shareSASPermissions = new ShareSASPermissions();
 
     for (const char of permissions) {

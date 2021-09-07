@@ -8,6 +8,7 @@ import { record, delay, Recorder } from "@azure-tools/test-recorder";
 import * as dotenv from "dotenv";
 import { extractConnectionStringParts } from "../src/utils/utils.common";
 import { recorderEnvSetup } from "./utils/index.browser";
+import { Context } from "mocha";
 dotenv.config();
 
 describe("QueueClient messageId methods", () => {
@@ -17,7 +18,7 @@ describe("QueueClient messageId methods", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     const queueServiceClient = getQSU();
     queueName = recorder.getUniqueName("queue");

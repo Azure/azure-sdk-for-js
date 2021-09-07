@@ -10,7 +10,7 @@ import { ClientSecretCredential } from "@azure/identity";
 
 import {
   GetSchemaOptions,
-  GetSchemaIdOptions,
+  GetSchemaPropertiesOptions,
   RegisterSchemaOptions,
   Schema,
   SchemaDescription,
@@ -144,7 +144,7 @@ describe("SchemaRegistryAvroSerializer", function() {
     serializer = await createTestSerializer(false);
     assert.deepStrictEqual(await serializer.deserialize(buffer), testValue);
 
-    // throw away serializer again and cover getSchemaId instead of registerSchema
+    // throw away serializer again and cover getSchemaProperties instead of registerSchema
     serializer = await createTestSerializer(false);
     assert.deepStrictEqual(await serializer.serialize(testValue, testSchema), buffer);
   });
@@ -207,7 +207,7 @@ function createTestRegistry(neverLive = false): SchemaRegistry {
   const mapByContent = new Map<string, Schema>();
   let idCounter = 0;
 
-  return { registerSchema, getSchemaId, getSchema };
+  return { registerSchema, getSchemaProperties, getSchema };
 
   async function registerSchema(
     schema: SchemaDescription,
@@ -219,8 +219,6 @@ function createTestRegistry(neverLive = false): SchemaRegistry {
         id: newId(),
         content: schema.content,
         version: 1,
-        location: "",
-        locationById: "",
         serializationType: schema.serializationType
       };
       mapByContent.set(result.content, result);
@@ -238,9 +236,9 @@ function createTestRegistry(neverLive = false): SchemaRegistry {
     }
   }
 
-  async function getSchemaId(
+  async function getSchemaProperties(
     schema: SchemaDescription,
-    _options?: GetSchemaIdOptions
+    _options?: GetSchemaPropertiesOptions
   ): Promise<SchemaProperties | undefined> {
     return mapByContent.get(schema.content);
   }

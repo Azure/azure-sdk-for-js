@@ -13,6 +13,7 @@ import {
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { recorderEnvSetup } from "./utils/testutils.common";
 import { URLBuilder } from "@azure/core-http";
+import { Context } from "mocha";
 dotenv.config();
 
 describe("Utility Helpers", () => {
@@ -43,7 +44,7 @@ describe("Utility Helpers", () => {
     );
   }
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
   });
 

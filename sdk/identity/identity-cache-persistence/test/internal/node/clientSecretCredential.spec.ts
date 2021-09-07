@@ -96,10 +96,6 @@ describe("ClientSecretCredential (internal)", function(this: Mocha.Suite) {
 
     await credential.getToken(scope);
     assert.equal(getTokenSilentSpy.callCount, 2);
-
-    // Even though we're providing the same default in memory persistence cache that we use for DeviceCodeCredential,
-    // The Client Secret flow does not return the account information from the authentication service,
-    // so each time getToken gets called, we will have to acquire a new token through the service.
-    assert.equal(doGetTokenSpy.callCount, 2);
+    assert.equal(doGetTokenSpy.callCount, 1);
   });
 });

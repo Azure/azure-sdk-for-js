@@ -3,25 +3,37 @@
 
 import { OperationOptions } from "@azure/core-client";
 import {
-  MetricNamespace,
   MetricValue,
   ResultType,
   MetricUnit,
   MetricClass,
   AggregationType,
-  MetricAvailability
+  MetricAvailability,
+  NamespaceClassification
 } from "..";
+import { TimeInterval } from "./timeInterval";
 
 /**
  * Options used when querying metrics.
  */
-export interface QueryMetricsOptions extends OperationOptions {
-  /** The interval (i.e. timegrain) of the query. */
-  interval?: string;
-  /** The names of the metrics to retrieve **/
-  metricNames?: string[];
+export interface MetricsQueryOptions extends OperationOptions {
+  /** The interval (i.e. timegrain) of the query. {@link Durations} helper contains aliases for some common ISO8601 durations.
+   * This is an ISO8601 duration value in the format P[n]Y[n]M[n]DT[n]H[n]M[n]S
+   *  where P is the duration designator (for period) placed at the start of the duration representation.
+   *   Y is the year designator that follows the value for the number of years.
+   *   M is the month designator that follows the value for the number of months.
+   *   W is the week designator that follows the value for the number of weeks.
+   *   D is the day designator that follows the value for the number of days.
+   *   T is the time designator that precedes the time components of the representation.
+   *   H is the hour designator that follows the value for the number of hours.
+   *   M is the minute designator that follows the value for the number of minutes.
+   *   S is the second designator that follows the value for the number of seconds.
+   */
+  granularity?: string;
+  /** The enclosing timespan for metrics. */
+  timespan?: TimeInterval;
   /** The list of aggregation types (comma separated) to retrieve. */
-  aggregations?: string[];
+  aggregations?: AggregationType[];
   /**
    * The maximum number of records to retrieve.
    * Valid only if $filter is specified.
@@ -51,7 +63,7 @@ export interface Metric {
   /** the name of the metric */
   name: string;
   /** Detailed description of this metric. */
-  displayDescription?: string;
+  description?: string;
   /** 'Success' or the error details on query failures for this metric. */
   errorCode?: string;
   /** the unit of the metric. */
@@ -82,7 +94,7 @@ export interface TimeSeriesElement {
 /**
  * Metrics, including additional information like cost, the resourceRegion, etc...
  */
-export interface QueryMetricsResult {
+export interface MetricsQueryResult {
   // track 2 version of `MetricsListResponse`
 
   /** The integer value representing the cost of the query, for data case. */
@@ -90,7 +102,7 @@ export interface QueryMetricsResult {
   /** The timespan for which the data was retrieved. Its value consists of two datetimes concatenated, separated by '/'.  This may be adjusted in the future and returned back from what was originally requested. */
   timespan: string;
   /** The interval (window size) for which the metric data was returned in.  This may be adjusted in the future and returned back from what was originally requested.  This is not present if a metadata request was made. */
-  interval?: string;
+  granularity?: string;
   /** The namespace of the metrics been queried */
   namespace?: string;
   /** The region of the resource been queried for metrics. */
@@ -102,68 +114,38 @@ export interface QueryMetricsResult {
 /**
  * Options used when getting metric definitions.
  */
-export interface GetMetricDefinitionsOptions extends OperationOptions {
+export interface ListMetricDefinitionsOptions extends OperationOptions {
   // track 2 version of `MetricDefinitionsListOptionalParams`
 
   /** Metric namespace to query metric definitions for. */
   metricNamespace?: string;
 }
 
-/** Metric definition class specifies the metadata for a metric. */
-export interface MetricDefinition {
-  /** Flag to indicate whether the dimension is required. */
-  isDimensionRequired?: boolean;
-  /** the resource identifier of the resource that emitted the metric. */
-  resourceId?: string;
-  /** the name of the metric */
-  name?: string;
-  /** Detailed description of this metric. */
-  displayDescription?: string;
-  /** Custom category name for this metric. */
-  category?: string;
-  /** the unit of the metric. */
-  unit?: MetricUnit;
-  /** the primary aggregation type value defining how to use the values for display. */
-  primaryAggregationType?: AggregationType;
-  /** the collection of what aggregation intervals are available to be queried. */
-  metricAvailabilities?: MetricAvailability[];
-  /** the resource identifier of the metric definition. */
-  id?: string;
-  /** the name of the dimension */
-  dimensions?: string[];
-}
-
-/**
- * Metric definitions.
- */
-export interface GetMetricDefinitionsResult {
-  /** the values for the metric definitions. */
-  definitions: MetricDefinition[];
-}
-
 /**
  * Options used when getting metric namespaces.
  */
-export interface GetMetricNamespacesOptions {
+export interface ListMetricNamespacesOptions {
   // track 2 copy of `MetricNamespacesListOptionalParams`
 
   /** The ISO 8601 conform Date start time from which to query for metric namespaces. */
   startTime?: string;
 }
 
-/**
- * Metric namespaces.
- */
-export interface GetMetricNamespacesResult {
-  // track 2 version of MetricNamespacesListResponse
-
-  /** The metric namespaces. */
-  namespaces: MetricNamespace[];
+/** Metric namespace class specifies the metadata for a metric namespace. */
+export interface MetricNamespace {
+  /** The ID of the metric namespace. */
+  id?: string;
+  /** The type of the namespace. */
+  type?: string;
+  /** The escaped name of the namespace. */
+  name?: string;
+  /** Kind of namespace */
+  classification?: NamespaceClassification;
+  /** The metric namespace name. */
+  metricNamespaceName?: string;
 }
 
-/**
- * Metric definition.
- */
+/** Metric definition class specifies the metadata for a metric. */
 export interface MetricDefinition {
   /** Flag to indicate whether the dimension is required. */
   isDimensionRequired?: boolean;
@@ -174,7 +156,7 @@ export interface MetricDefinition {
   /** the name and the display name of the metric, i.e. it is a localizable string. */
   name?: string;
   /** Detailed description of this metric. */
-  displayDescription?: string;
+  description?: string;
   /** Custom category name for this metric. */
   category?: string;
   /** The class of the metric. */

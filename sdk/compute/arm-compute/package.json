@@ -3,10 +3,8 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for ComputeManagementClient.",
-  "version": "30.0.0-beta.2",
-  "engines": {
-    "node": ">=12.0.0"
-  },
+  "version": "30.0.0-beta.3",
+  "engines": { "node": ">=12.0.0" },
   "dependencies": {
     "@azure/core-lro": "^2.2.0",
     "@azure/abort-controller": "^1.0.0",
@@ -16,17 +14,11 @@
     "@azure/core-rest-pipeline": "^1.1.0",
     "tslib": "^2.2.0"
   },
-  "keywords": [
-    "node",
-    "azure",
-    "typescript",
-    "browser",
-    "isomorphic"
-  ],
+  "keywords": ["node", "azure", "typescript", "browser", "isomorphic"],
   "license": "MIT",
   "main": "./dist/index.js",
-  "module": "./esm/index.js",
-  "types": "./esm/index.d.ts",
+  "module": "./dist-esm/index.js",
+  "types": "./types/arm-compute.d.ts",
   "devDependencies": {
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "11.0.2",
@@ -36,7 +28,6 @@
     "mkdirp": "^1.0.4",
     "rollup": "^1.16.3",
     "rollup-plugin-sourcemaps": "^0.4.2",
-    "rollup-plugin-node-resolve": "^3.4.0",
     "typescript": "~4.2.0",
     "uglify-js": "^3.4.9"
   },
@@ -45,28 +36,27 @@
     "type": "git",
     "url": "https://github.com/Azure/azure-sdk-for-js.git"
   },
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
+  "bugs": { "url": "https://github.com/Azure/azure-sdk-for-js/issues" },
   "files": [
     "dist/**/*.js",
     "dist/**/*.js.map",
     "dist/**/*.d.ts",
     "dist/**/*.d.ts.map",
-    "esm/**/*.js",
-    "esm/**/*.js.map",
-    "esm/**/*.d.ts",
-    "esm/**/*.d.ts.map",
+    "dist-esm/**/*.js",
+    "dist-esm/**/*.js.map",
+    "dist-esm/**/*.d.ts",
+    "dist-esm/**/*.d.ts.map",
     "src/**/*.ts",
     "README.md",
     "LICENSE",
     "rollup.config.js",
     "tsconfig.json",
     "review/*",
-    "CHANGELOG.md"
+    "CHANGELOG.md",
+    "types/*"
   ],
   "scripts": {
-    "build": "tsc && rollup -c rollup.config.js && npm run minify && mkdirp ./review &&  npm run extract-api",
+    "build": "tsc && rollup -c 2>&1 && npm run minify && mkdirp ./review && npm run extract-api",
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "prepack": "npm run build",
     "pack": "npm pack 2>&1",

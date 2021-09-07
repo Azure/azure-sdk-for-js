@@ -2,6 +2,7 @@ const path = require("path");
 const process = require("process");
 const { spawnSync } = require("child_process");
 const { getRushSpec } = require("./index");
+const fs = require("fs");
 
 
 const parseArgs = () => {
@@ -34,12 +35,18 @@ async function main(repoRoot, artifactName) {
   );
 
   if (!targetPackage) {
-    console.error(`Package is not found in rush.json for artifact ${artifactName}`);
+    console.log(`Package is not found in rush.json for artifact ${artifactName}`);
     return;
   }
 
   if (targetPackage.versionPolicyName == "management") {
-    console.error(`Skipping update samples for management package ${artifactName}`);
+    console.log(`Skipping update samples for management package ${artifactName}`);
+    return;
+  }
+
+  const samplesDevPath = path.join(targetPackage.projectFolder, "samples-dev");
+  if (!fs.existsSync(samplesDevPath)) {
+    console.log(`Samples-dev directory is not present in ${targetPackage.projectFolder}. Skipping udpate samples.`);
     return;
   }
 

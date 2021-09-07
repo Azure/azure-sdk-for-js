@@ -25,30 +25,28 @@ export async function main() {
     {
       workspaceId: monitorWorkspaceId,
       query: kqlQuery,
-      timespan: "P1D"
+      timespan: { duration: "P1D" }
     },
     {
       workspaceId: monitorWorkspaceId,
       query: "AzureActivity | summarize count()",
-      timespan: "PT1H"
+      timespan: { duration: "PT1H" }
     },
     {
       workspaceId: monitorWorkspaceId,
       query:
         "AppRequests | take 10 | summarize avgRequestDuration=avg(DurationMs) by bin(TimeGenerated, 10m), _ResourceId",
-      timespan: "PT1H"
+      timespan: { duration: "PT1H" }
     },
     {
       workspaceId: monitorWorkspaceId,
       query: "AppRequests | take 2",
-      timespan: "PT1H",
+      timespan: { duration: "PT1H" },
       includeQueryStatistics: true
     }
   ];
 
-  const result = await logsQueryClient.queryLogsBatch({
-    queries: queriesBatch
-  });
+  const result = await logsQueryClient.queryBatch(queriesBatch);
 
   if (result.results == null) {
     throw new Error("No response for query");
