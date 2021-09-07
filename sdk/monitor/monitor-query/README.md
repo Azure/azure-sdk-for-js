@@ -190,9 +190,9 @@ Here is a hierarchy of the response:
 ```
 LogsQueryResult
 |---statistics
-|---visalization
+|---visualization
 |---error
-|--- logsQueryResultStatus ("Partial" | "Success" | "Failed")
+|---logsQueryResultStatus ("Partial" | "Success" | "Failed")
 |---tables (list of `LogsTable` objects)
     |---name
     |---rows
@@ -328,7 +328,7 @@ LogsQueryBatchResult
 |---results (list of following objects)
     |---status
     |---statistics
-    |---visalization
+    |---visualization
     |---error
     |---logsQueryResultStatus ("Partial" | "Success" | "Failed")
     |---tables (list of `LogsTable` objects)
@@ -436,8 +436,7 @@ main().catch((err) => {
 });
 ```
 
-In the above sample, the ordering of results for the metrics in the `metricResponse` will be in the order in which the user specifies the metric names in the`metricNames` array argument for the query method. If user specifies - `[firstMetric.name,secondMetricName]`
-The result for `firstMetric.name` will appear before the result for `secondMetricName` in the `metricResponse`
+In the preceding sample, the ordering of results for the metrics in the `metricResponse` will be in the order in which the user specifies the metric names in the `metricNames` array argument for the query method. If user specifies `[firstMetric.name,secondMetricName]`, the result for `firstMetric.name` will appear before the result for `secondMetricName` in the `metricResponse`.
 
 ### Handle metrics response
 
@@ -545,14 +544,14 @@ const result = await logsQueryClient.queryLogs(
 );
 ```
 
-In order to view the results for each workspace, you can use the `TenantId` column to either order the results or filter them in the Kusto query.
-Order results by TenantId -
+To view the results for each workspace, use the `TenantId` column to either order the results or filter them in the Kusto query.
+**Order results by TenantId**
 
 ```
 AppEvents | order by TenantId
 ```
 
-Filter results by TenantId
+**Filter results by TenantId**
 
 ```
 AppEvents | filter TenantId == "<workspace2>"
