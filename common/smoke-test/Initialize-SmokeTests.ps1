@@ -120,11 +120,11 @@ function Update-SamplesForService {
 
   # Write-Verbose "Preparing samples for $($entry.Name)"
   # dev-tool samples prep --directory $entry.PackageDirectory --use-packages
-  Write-Host $entry.SamplesDirectory
   $sampleFiles = Get-ChildItem "$($entry.SamplesDirectory)/*.js"
   Write-Host $sampleFiles
   foreach ($sampleFile in $sampleFiles) {
-    (Get-Content -Raw $sampleFile) -replace "(?s)main\(\)\.catch.*", "module.exports = { main };`n"
+    Write-Host $sampleFile
+    (Get-Content -Raw $sampleFile) -replace "(?s)main\(\)\.catch.*", "module.exports = { main };`n" | Set-Content -Path $sampleFile
     Write-Host "xxxxx"
     Get-Content $sampleFile
   }
