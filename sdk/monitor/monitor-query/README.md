@@ -551,7 +551,7 @@ To view the results for each workspace, use the `TenantId` column to either orde
 AppEvents | order by TenantId
 ```
 
-Filter results by TenantId
+**Filter results by TenantId**
 
 ```
 AppEvents | filter TenantId == "<workspace2>"
