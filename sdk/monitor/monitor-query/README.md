@@ -520,13 +520,26 @@ const queryLogsOptions: LogsQueryOptions = {
   additionalWorkspaces: ["<workspace2>", "<workspace3>"]
 };
 
-const kustoQuery = "AppEvents | limit 1";
+const kustoQuery = "AppEvents | limit 10";
 const result = await logsQueryClient.queryLogs(
   azureLogAnalyticsWorkspaceId,
   kustoQuery,
   { duration: Durations.TwentyFourHours },
   queryLogsOptions
 );
+```
+
+In order to view the results for each workspace, you can use the `TenantId` column to either order the results or filter them in the Kusto query.
+Order results by TenantId -
+
+```
+AppEvents | order by TenantId
+```
+
+Filter results by TenantId
+
+```
+AppEvents | filter TenantId == "<workspace2>"
 ```
 
 A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQueryMultipleWorkspaces.ts)
