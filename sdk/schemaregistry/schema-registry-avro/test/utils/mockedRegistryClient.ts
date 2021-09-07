@@ -8,11 +8,23 @@ import {
   Schema,
   SchemaDescription,
   SchemaProperties,
-  SchemaRegistry
+  SchemaRegistry,
+  SchemaRegistryClient
 } from "@azure/schema-registry";
+import { ClientSecretCredential } from "@azure/identity";
+import { env, isLiveMode } from "@azure-tools/test-recorder";
 import { testSchemaIds } from "./dummies";
 
-export function createTestRegistry(): SchemaRegistry {
+export function createTestRegistry(neverLive = false): SchemaRegistry {
+  if (!neverLive && isLiveMode()) {
+    // NOTE: These tests don't record, they use a mocked schema registry
+    // implemented below, but if we're running live, then use the real
+    // service for end-to-end integration testing.
+    return new SchemaRegistryClient(
+      env.SCHEMA_REGISTRY_ENDPOINT,
+      new ClientSecretCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, env.AZURE_CLIENT_SECRET)
+    );
+  }
   const mapById = new Map<string, Schema>();
   const mapByContent = new Map<string, Schema>();
   let idCounter = 0;
