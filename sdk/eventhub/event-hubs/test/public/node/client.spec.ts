@@ -53,7 +53,7 @@ wrapper("public/node/client.spec.ts", (serviceVersion) => {
       if (serviceVersion === "mock") {
         // Create a mock credential that implements the TokenCredential interface.
         credential = {
-          getToken([]) {
+          getToken(_args) {
             return Promise.resolve({ token: "token", expiresOnTimestamp: Date.now() + 360000 });
           }
         };
