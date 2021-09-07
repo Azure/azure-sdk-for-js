@@ -26,6 +26,22 @@
       "_justification": "Secret used by test code"
     },
     {
+      "hash": "UyIHw8OdxjE4j2ChZgotLVNB7fRelDvB2QGJC4Ywhgg=",
+      "_justification": "Secret used by test code sdk/servicebus/service-bus/test/public/testConstants.ts"
+    },
+    {
+      "hash": "YAxfEQdwUdxTNTXg4jsXQcFv6TBmft6LmbYBUhwoKz8",
+      "_justification": "Secret used by test code sdk/servicebus/service-bus/test/public/testConstants.ts"
+    },
+    {
+      "hash": "UxqI3C8JIqx6mlrrKxpryze4IelPEaXYDYSHpB15oc4",
+      "_justification": "Secret used by test code sdk/storage/storage-blob/test/utils/constants.ts"
+    },
+    {
+      "hash": "HP2aUcA9w7HO2JGBh6BZ0cBvFfV6j9jjt9jmAtWtPbw=",
+      "_justification": "Secret used by test code sdk/containerregistry/container-registry/test/utils/utils.ts"
+    },
+    {
       "placeholder": [
         "`$`{NPM_TOKEN`}",
         "azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
