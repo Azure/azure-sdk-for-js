@@ -74,7 +74,7 @@ export class Snapshots {
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
-   * @param snapshotName The name of the mount target
+   * @param snapshotName The name of the snapshot
    * @param [options] The optional parameters
    * @returns Promise<Models.SnapshotsGetResponse>
    */
@@ -84,7 +84,7 @@ export class Snapshots {
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
-   * @param snapshotName The name of the mount target
+   * @param snapshotName The name of the snapshot
    * @param callback The callback
    */
   get(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, snapshotName: string, callback: msRest.ServiceCallback<Models.Snapshot>): void;
@@ -93,7 +93,7 @@ export class Snapshots {
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
-   * @param snapshotName The name of the mount target
+   * @param snapshotName The name of the snapshot
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -119,7 +119,7 @@ export class Snapshots {
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
-   * @param snapshotName The name of the mount target
+   * @param snapshotName The name of the snapshot
    * @param location Resource location
    * @param [options] The optional parameters
    * @returns Promise<Models.SnapshotsCreateResponse>
@@ -137,7 +137,7 @@ export class Snapshots {
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
-   * @param snapshotName The name of the mount target
+   * @param snapshotName The name of the snapshot
    * @param [options] The optional parameters
    * @returns Promise<Models.SnapshotsUpdateResponse>
    */
@@ -153,7 +153,7 @@ export class Snapshots {
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
-   * @param snapshotName The name of the mount target
+   * @param snapshotName The name of the snapshot
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -169,7 +169,7 @@ export class Snapshots {
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
-   * @param snapshotName The name of the mount target
+   * @param snapshotName The name of the snapshot
    * @param location Resource location
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -197,7 +197,7 @@ export class Snapshots {
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
-   * @param snapshotName The name of the mount target
+   * @param snapshotName The name of the snapshot
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -223,7 +223,7 @@ export class Snapshots {
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
-   * @param snapshotName The name of the mount target
+   * @param snapshotName The name of the snapshot
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */

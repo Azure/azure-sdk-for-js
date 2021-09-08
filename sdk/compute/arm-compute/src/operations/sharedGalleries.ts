@@ -124,7 +124,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.location0
   ],
   queryParameters: [
-    Parameters.apiVersion3,
+    Parameters.apiVersion0,
     Parameters.sharedTo
   ],
   headerParameters: [
@@ -150,7 +150,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.galleryUniqueName
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -174,7 +174,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion3,
+    Parameters.apiVersion0,
     Parameters.sharedTo
   ],
   headerParameters: [

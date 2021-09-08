@@ -68,6 +68,26 @@ export interface MetricSpecification {
    */
   unit?: string;
   /**
+   * Support metric aggregation type.
+   */
+  supportedAggregationTypes?: MetricAggregationType[];
+  /**
+   * The supported time grain types for the metrics.
+   */
+  supportedTimeGrainTypes?: string[];
+  /**
+   * The internal metric name.
+   */
+  internalMetricName?: string;
+  /**
+   * The source MDM account.
+   */
+  sourceMdmAccount?: string;
+  /**
+   * The source MDM namespace.
+   */
+  sourceMdmNamespace?: string;
+  /**
    * Dimensions of blobs, including blob type and access tier.
    */
   dimensions?: Dimension[];
@@ -362,6 +382,11 @@ export interface NetAppAccount extends BaseResource {
    */
   readonly name?: string;
   /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+  /**
    * Resource type
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -451,6 +476,11 @@ export interface CapacityPool extends BaseResource {
    */
   readonly name?: string;
   /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+  /**
    * Resource type
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -470,8 +500,8 @@ export interface CapacityPool extends BaseResource {
    */
   size: number;
   /**
-   * serviceLevel. The service level of the file system. Possible values include: 'Standard',
-   * 'Premium', 'Ultra'. Default value: 'Premium'.
+   * serviceLevel. Possible values include: 'Standard', 'Premium', 'Ultra', 'StandardZRS'. Default
+   * value: 'Premium'.
    */
   serviceLevel: ServiceLevel;
   /**
@@ -498,6 +528,12 @@ export interface CapacityPool extends BaseResource {
    * If enabled (true) the pool can contain cool Access enabled volumes. Default value: false.
    */
   coolAccess?: boolean;
+  /**
+   * encryptionType. Encryption type of the capacity pool, set encryption type for data at rest for
+   * this pool and all volumes in it. This value can only be set when creating new pool. Possible
+   * values include: 'Single', 'Double'. Default value: 'Single'.
+   */
+  encryptionType?: EncryptionType;
 }
 
 /**
@@ -747,6 +783,11 @@ export interface Volume extends BaseResource {
    */
   readonly name?: string;
   /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+  /**
    * Resource type
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -766,8 +807,8 @@ export interface Volume extends BaseResource {
    */
   creationToken: string;
   /**
-   * serviceLevel. The service level of the file system. Possible values include: 'Standard',
-   * 'Premium', 'Ultra'. Default value: 'Premium'.
+   * serviceLevel. Possible values include: 'Standard', 'Premium', 'Ultra', 'StandardZRS'. Default
+   * value: 'Premium'.
    */
   serviceLevel?: ServiceLevel;
   /**
@@ -875,9 +916,36 @@ export interface Volume extends BaseResource {
    * user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for
    * the owner of the file: read (4), write (2) and execute (1). Third selects permissions for
    * other users in the same group. the fourth for other users not in the group. 0755 - gives
-   * read/write/execute permissions to owner and read/execute to group and other users.
+   * read/write/execute permissions to owner and read/execute to group and other users. Default
+   * value: '0770'.
    */
   unixPermissions?: string;
+  /**
+   * When a volume is being restored from another volume's snapshot, will show the percentage
+   * completion of this cloning process. When this value is empty/null there is no cloning process
+   * currently happening on this volume. This value will update every 5 minutes during cloning.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly cloneProgress?: number;
+  /**
+   * avsDataStore. Specifies whether the volume is enabled for Azure VMware Solution (AVS)
+   * datastore purpose. Possible values include: 'Enabled', 'Disabled'. Default value: 'Disabled'.
+   */
+  avsDataStore?: AvsDataStore;
+  /**
+   * Specifies if default quota is enabled for the volume. Default value: false.
+   */
+  isDefaultQuotaEnabled?: boolean;
+  /**
+   * Default user quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4
+   * KiBs applies . Default value: 0.
+   */
+  defaultUserQuotaInKiBs?: number;
+  /**
+   * Default group quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of
+   * 4 KiBs applies. Default value: 0.
+   */
+  defaultGroupQuotaInKiBs?: number;
 }
 
 /**
@@ -980,8 +1048,8 @@ export interface VolumePatch extends BaseResource {
    */
   tags?: { [propertyName: string]: string };
   /**
-   * serviceLevel. The service level of the file system. Possible values include: 'Standard',
-   * 'Premium', 'Ultra'. Default value: 'Premium'.
+   * serviceLevel. Possible values include: 'Standard', 'Premium', 'Ultra', 'StandardZRS'. Default
+   * value: 'Premium'.
    */
   serviceLevel?: ServiceLevel;
   /**
@@ -1003,6 +1071,20 @@ export interface VolumePatch extends BaseResource {
    * replication
    */
   dataProtection?: VolumePatchPropertiesDataProtection;
+  /**
+   * Specifies if default quota is enabled for the volume. Default value: false.
+   */
+  isDefaultQuotaEnabled?: boolean;
+  /**
+   * Default user quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4
+   * KiBs applies . Default value: 0.
+   */
+  defaultUserQuotaInKiBs?: number;
+  /**
+   * Default group quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of
+   * 4 KiBs applies. Default value: 0.
+   */
+  defaultGroupQuotaInKiBs?: number;
 }
 
 /**
@@ -1203,6 +1285,11 @@ export interface SnapshotPolicy extends BaseResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly name?: string;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
   /**
    * Resource type
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1558,6 +1645,11 @@ export interface BackupPolicy extends BaseResource {
    */
   readonly name?: string;
   /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+  /**
    * Resource type
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -1571,6 +1663,11 @@ export interface BackupPolicy extends BaseResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly name1?: string;
+  /**
+   * Backup Policy Resource ID
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly backupPolicyId?: string;
   /**
    * Azure lifecycle management
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1589,21 +1686,19 @@ export interface BackupPolicy extends BaseResource {
    */
   monthlyBackupsToKeep?: number;
   /**
-   * Yearly backups count to keep
-   */
-  yearlyBackupsToKeep?: number;
-  /**
    * Volumes using current backup policy
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  volumesAssigned?: number;
+  readonly volumesAssigned?: number;
   /**
    * The property to decide policy is enabled or not
    */
   enabled?: boolean;
   /**
    * A list of volumes assigned to this policy
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  volumeBackups?: VolumeBackups[];
+  readonly volumeBackups?: VolumeBackups[];
 }
 
 /**
@@ -1639,6 +1734,11 @@ export interface BackupPolicyDetails extends BaseResource {
    */
   readonly name1?: string;
   /**
+   * Backup Policy Resource ID
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly backupPolicyId?: string;
+  /**
    * Azure lifecycle management
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -1656,21 +1756,19 @@ export interface BackupPolicyDetails extends BaseResource {
    */
   monthlyBackupsToKeep?: number;
   /**
-   * Yearly backups count to keep
-   */
-  yearlyBackupsToKeep?: number;
-  /**
    * Volumes using current backup policy
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  volumesAssigned?: number;
+  readonly volumesAssigned?: number;
   /**
    * The property to decide policy is enabled or not
    */
   enabled?: boolean;
   /**
    * A list of volumes assigned to this policy
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  volumeBackups?: VolumeBackups[];
+  readonly volumeBackups?: VolumeBackups[];
 }
 
 /**
@@ -1706,6 +1804,11 @@ export interface BackupPolicyPatch extends BaseResource {
    */
   readonly name1?: string;
   /**
+   * Backup Policy Resource ID
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly backupPolicyId?: string;
+  /**
    * Azure lifecycle management
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -1723,21 +1826,19 @@ export interface BackupPolicyPatch extends BaseResource {
    */
   monthlyBackupsToKeep?: number;
   /**
-   * Yearly backups count to keep
-   */
-  yearlyBackupsToKeep?: number;
-  /**
    * Volumes using current backup policy
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  volumesAssigned?: number;
+  readonly volumesAssigned?: number;
   /**
    * The property to decide policy is enabled or not
    */
   enabled?: boolean;
   /**
    * A list of volumes assigned to this policy
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  volumeBackups?: VolumeBackups[];
+  readonly volumeBackups?: VolumeBackups[];
 }
 
 /**
@@ -2026,6 +2127,14 @@ export interface VaultList extends Array<Vault> {
 }
 
 /**
+ * Defines values for MetricAggregationType.
+ * Possible values include: 'Average'
+ * @readonly
+ * @enum {string}
+ */
+export type MetricAggregationType = 'Average';
+
+/**
  * Defines values for InAvailabilityReasonType.
  * Possible values include: 'Invalid', 'AlreadyExists'
  * @readonly
@@ -2073,11 +2182,11 @@ export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
 
 /**
  * Defines values for ServiceLevel.
- * Possible values include: 'Standard', 'Premium', 'Ultra'
+ * Possible values include: 'Standard', 'Premium', 'Ultra', 'StandardZRS'
  * @readonly
  * @enum {string}
  */
-export type ServiceLevel = 'Standard' | 'Premium' | 'Ultra';
+export type ServiceLevel = 'Standard' | 'Premium' | 'Ultra' | 'StandardZRS';
 
 /**
  * Defines values for QosType.
@@ -2086,6 +2195,14 @@ export type ServiceLevel = 'Standard' | 'Premium' | 'Ultra';
  * @enum {string}
  */
 export type QosType = 'Auto' | 'Manual';
+
+/**
+ * Defines values for EncryptionType.
+ * Possible values include: 'Single', 'Double'
+ * @readonly
+ * @enum {string}
+ */
+export type EncryptionType = 'Single' | 'Double';
 
 /**
  * Defines values for ChownMode.
@@ -2118,6 +2235,14 @@ export type ReplicationSchedule = '_10minutely' | 'hourly' | 'daily';
  * @enum {string}
  */
 export type SecurityStyle = 'ntfs' | 'unix';
+
+/**
+ * Defines values for AvsDataStore.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type AvsDataStore = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for RelationshipStatus.
@@ -2220,6 +2345,26 @@ export type NetAppResourceCheckQuotaAvailabilityResponse = CheckAvailabilityResp
        * The response body as parsed JSON or XML
        */
       parsedBody: CheckAvailabilityResponse;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscription operation.
+ */
+export type AccountsListBySubscriptionResponse = NetAppAccountList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetAppAccountList;
     };
 };
 
@@ -2340,6 +2485,26 @@ export type AccountsBeginUpdateResponse = NetAppAccount & {
        * The response body as parsed JSON or XML
        */
       parsedBody: NetAppAccount;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscriptionNext operation.
+ */
+export type AccountsListBySubscriptionNextResponse = NetAppAccountList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetAppAccountList;
     };
 };
 

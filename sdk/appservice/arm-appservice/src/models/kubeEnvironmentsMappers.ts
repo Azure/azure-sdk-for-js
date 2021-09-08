@@ -153,6 +153,7 @@ export {
   JwtClaimChecks,
   KeyValuePairStringObject,
   KubeEnvironment,
+  KubeEnvironmentCollection,
   KubeEnvironmentPatchResource,
   KubeEnvironmentProfile,
   LegacyMicrosoftAccount,

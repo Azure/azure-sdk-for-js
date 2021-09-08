@@ -25,7 +25,7 @@ export const apiVersion0: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2021-04-01',
+    defaultValue: '2021-07-01',
     type: {
       name: "String"
     }
@@ -37,37 +37,13 @@ export const apiVersion1: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2019-04-01',
-    type: {
-      name: "String"
-    }
-  }
-};
-export const apiVersion2: msRest.OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    required: true,
-    isConstant: true,
-    serializedName: "api-version",
     defaultValue: '2020-12-01',
     type: {
       name: "String"
     }
   }
 };
-export const apiVersion3: msRest.OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    required: true,
-    isConstant: true,
-    serializedName: "api-version",
-    defaultValue: '2020-09-30',
-    type: {
-      name: "String"
-    }
-  }
-};
-export const apiVersion4: msRest.OperationQueryParameter = {
+export const apiVersion2: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
@@ -291,6 +267,18 @@ export const galleryUniqueName: msRest.OperationURLParameter = {
     }
   }
 };
+export const hibernate: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "hibernate"
+  ],
+  mapper: {
+    serializedName: "hibernate",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
 export const hostGroupName: msRest.OperationURLParameter = {
   parameterPath: "hostGroupName",
   mapper: {
@@ -328,6 +316,18 @@ export const includeColocationStatus: msRest.OperationQueryParameter = {
   ],
   mapper: {
     serializedName: "includeColocationStatus",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const includeExtendedLocations: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "includeExtendedLocations"
+  ],
+  mapper: {
+    serializedName: "includeExtendedLocations",
     type: {
       name: "String"
     }

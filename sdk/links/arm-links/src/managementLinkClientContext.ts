@@ -14,7 +14,7 @@ import { TokenCredential } from "@azure/core-auth";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-links";
-const packageVersion = "1.1.1";
+const packageVersion = "1.1.2";
 
 export class ManagementLinkClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials | TokenCredential;

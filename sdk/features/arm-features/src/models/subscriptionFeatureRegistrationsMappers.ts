@@ -7,24 +7,12 @@
  */
 
 export {
-  AzureEntityResource,
-  Backup,
+  AuthorizationProfile,
   BaseResource,
-  CloudError,
-  Configuration,
-  Database,
-  DatabaseListResult,
-  ErrorAdditionalInfo,
+  ErrorDefinition,
   ErrorResponse,
-  FirewallRule,
-  HighAvailability,
-  MaintenanceWindow,
-  Network,
   ProxyResource,
-  Resource,
-  Server,
-  Sku,
-  Storage,
-  SystemData,
-  TrackedResource
+  SubscriptionFeatureRegistration,
+  SubscriptionFeatureRegistrationList,
+  SubscriptionFeatureRegistrationProperties
 } from "../models/mappers";
