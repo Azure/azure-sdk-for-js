@@ -64,6 +64,6 @@ export class ManagedPrivateEndpointsClientContext extends coreClient.ServiceClie
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2019-06-01-preview";
+    this.apiVersion = options.apiVersion || "2020-12-01";
   }
 }

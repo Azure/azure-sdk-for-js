@@ -10,6 +10,11 @@ import { OperationTracingOptions } from "@azure/core-tracing";
 export type RawHttpHeaders = { [headerName: string]: string };
 
 /**
+ * A HttpHeaders collection for input, represented as a simple JSON object.
+ */
+export type RawHttpHeadersInput = Record<string, string | number | boolean>;
+
+/**
  * Represents a set of HTTP headers on a request/response.
  * Header names are treated as case insensitive.
  */
@@ -29,7 +34,7 @@ export interface HttpHeaders extends Iterable<[string, string]> {
    * @param name - The name of the header to set.
    * @param value - The value to use for the header.
    */
-  set(name: string, value: string | number): void;
+  set(name: string, value: string | number | boolean): void;
   /**
    * Removes a specific header from the collection.
    * @param name - The name of the header to delete.

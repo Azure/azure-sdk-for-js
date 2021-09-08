@@ -48,6 +48,12 @@ describe("ChainedTokenCredential", function() {
     const error = await getError<AggregateAuthenticationError>(
       chainedTokenCredential.getToken("scope")
     );
-    assert.equal(error.errors.length, 2);
+    assert.deepEqual(error.errors.length, 2);
+    assert.deepEqual(
+      error.message,
+      `ChainedTokenCredential authentication failed.
+CredentialUnavailableError: unavailable.
+CredentialUnavailableError: unavailable.`
+    );
   });
 });

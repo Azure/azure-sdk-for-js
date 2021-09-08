@@ -24,7 +24,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a WebCategories. */
+/** Class containing WebCategories operations. */
 export class WebCategoriesImpl implements WebCategories {
   private readonly client: NetworkManagementClientContext;
 

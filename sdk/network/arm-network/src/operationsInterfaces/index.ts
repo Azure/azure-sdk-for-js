@@ -78,6 +78,7 @@ export * from "./bgpServiceCommunities";
 export * from "./serviceEndpointPolicies";
 export * from "./serviceEndpointPolicyDefinitions";
 export * from "./serviceTags";
+export * from "./serviceTagInformationOperations";
 export * from "./usages";
 export * from "./virtualNetworks";
 export * from "./subnets";

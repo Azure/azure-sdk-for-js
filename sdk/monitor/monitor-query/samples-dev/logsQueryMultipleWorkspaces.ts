@@ -6,7 +6,7 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { Durations, LogsQueryClient, LogsTable, QueryLogsOptions } from "@azure/monitor-query";
+import { Durations, LogsQueryClient, LogsTable, LogsQueryOptions } from "@azure/monitor-query";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -26,7 +26,7 @@ export async function main() {
     "AppEvents | project TimeGenerated, Name, AppRoleInstance | order by TimeGenerated asc | limit 10";
 
   console.log(`Running '${kustoQuery}' over the last 5 minutes`);
-  const queryLogsOptions: QueryLogsOptions = {
+  const queryLogsOptions: LogsQueryOptions = {
     // explicitly control the amount of time the server can spend processing the query.
     serverTimeoutInSeconds: 60,
     // optionally enable returning additional statistics about the query's execution.
@@ -35,13 +35,13 @@ export async function main() {
     additionalWorkspaces: [additionalWorkspaces1, additionalWorkspaces2]
   };
 
-  const result = await logsQueryClient.queryLogs(
+  const result = await logsQueryClient.query(
     monitorWorkspaceId,
     kustoQuery,
     // The timespan is an ISO8601 formatted time (or interval). Some common aliases
-    // are available (like lastDay, lastHour, last48Hours, etc..) but any properly formatted ISO8601
+    // are available (like durationOf1Day, durationOf1Hour, durationOf48Hours, etc..) but any properly formatted ISO8601
     // value is valid.
-    Durations.lastHour,
+    { duration: Durations.OneHour },
     queryLogsOptions
   );
 
@@ -53,7 +53,7 @@ export async function main() {
   }
 
   const executionTime =
-    result.statistics && result.statistics.query && result.statistics.query.executionTime;
+    result.statistics && result.statistics.query && (result.statistics.query as any).executionTime;
 
   console.log(
     `Results for query '${kustoQuery}', execution time: ${

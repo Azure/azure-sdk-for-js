@@ -22,7 +22,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a ExpressRouteServiceProviders. */
+/** Class containing ExpressRouteServiceProviders operations. */
 export class ExpressRouteServiceProvidersImpl
   implements ExpressRouteServiceProviders {
   private readonly client: NetworkManagementClientContext;

@@ -50,6 +50,12 @@ export const ManagedPrivateEndpointProperties: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ManagedPrivateEndpointProperties",
     modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
       privateLinkResourceId: {
         serializedName: "privateLinkResourceId",
         type: {
@@ -79,6 +85,23 @@ export const ManagedPrivateEndpointProperties: coreClient.CompositeMapper = {
       isReserved: {
         serializedName: "isReserved",
         readOnly: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      fqdns: {
+        serializedName: "fqdns",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      isCompliant: {
+        serializedName: "isCompliant",
         type: {
           name: "Boolean"
         }

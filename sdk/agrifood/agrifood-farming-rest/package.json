@@ -85,8 +85,7 @@
   "dependencies": {
     "@azure/core-auth": "^1.3.0",
     "@azure-rest/core-client-paging": "1.0.0-beta.1",
-    "@azure-rest/core-client": "1.0.0-beta.6",
-    "@azure/core-rest-pipeline": "^1.1.0",
+    "@azure-rest/core-client": "1.0.0-beta.7",
     "@azure-rest/core-client-lro": "1.0.0-beta.1",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0"

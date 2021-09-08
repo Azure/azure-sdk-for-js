@@ -3,20 +3,28 @@
 
 import { createHttpHeaders, PipelineRequestOptions } from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { MSI } from "./models";
+import { MSI, MSIConfiguration } from "./models";
 import { credentialLogger } from "../../util/logging";
-import { IdentityClient } from "../../client/identityClient";
-import { msiGenericGetToken } from "./utils";
+import { mapScopesToResource, msiGenericGetToken } from "./utils";
 import { azureFabricVersion } from "./constants";
 
-const logger = credentialLogger("ManagedIdentityCredential - Fabric MSI");
+const msiName = "ManagedIdentityCredential - Fabric MSI";
+const logger = credentialLogger(msiName);
 
 function expiresInParser(requestBody: any): number {
   // Parses a string representation of the seconds since epoch into a number value
   return Number(requestBody.expires_on);
 }
 
-function prepareRequestOptions(resource: string, clientId?: string): PipelineRequestOptions {
+function prepareRequestOptions(
+  scopes: string | string[],
+  clientId?: string
+): PipelineRequestOptions {
+  const resource = mapScopesToResource(scopes);
+  if (!resource) {
+    throw new Error(`${msiName}: Multiple scopes are not supported.`);
+  }
+
   const queryParameters: any = {
     resource,
     "api-version": azureFabricVersion
@@ -58,24 +66,32 @@ function prepareRequestOptions(resource: string, clientId?: string): PipelineReq
 //
 
 export const fabricMsi: MSI = {
-  async isAvailable(): Promise<boolean> {
+  async isAvailable(scopes): Promise<boolean> {
+    const resource = mapScopesToResource(scopes);
+    if (!resource) {
+      logger.info(`${msiName}: Unavailable. Multiple scopes are not supported.`);
+      return false;
+    }
     const env = process.env;
     const result = Boolean(
       env.IDENTITY_ENDPOINT && env.IDENTITY_HEADER && env.IDENTITY_SERVER_THUMBPRINT
     );
     if (!result) {
-      logger.info("The Azure App Service Fabric MSI is unavailable.");
+      logger.info(
+        `${msiName}: Unavailable. The environment variables needed are: IDENTITY_ENDPOINT, IDENTITY_HEADER and IDENTITY_SERVER_THUMBPRINT`
+      );
     }
     return result;
   },
   async getToken(
-    identityClient: IdentityClient,
-    resource: string,
-    clientId?: string,
+    configuration: MSIConfiguration,
     getTokenOptions: GetTokenOptions = {}
   ): Promise<AccessToken | null> {
+    const { identityClient, scopes, clientId } = configuration;
+
     logger.info(
       [
+        `${msiName}:`,
         "Using the endpoint and the secret coming from the environment variables:",
         `IDENTITY_ENDPOINT=${process.env.IDENTITY_ENDPOINT},`,
         "IDENTITY_HEADER=[REDACTED] and",
@@ -85,7 +101,7 @@ export const fabricMsi: MSI = {
 
     return msiGenericGetToken(
       identityClient,
-      prepareRequestOptions(resource, clientId),
+      prepareRequestOptions(scopes, clientId),
       expiresInParser,
       getTokenOptions
     );
