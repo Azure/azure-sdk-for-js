@@ -8,4 +8,5 @@
    - batch send
      - `npm run perf-test:node -- SendTest --warmup 2 --duration 7 --parallel 2`
    - receive(Standalone test - doesn't use the framework)
-     - `ts-node receive.spec.ts`
+     - `ts-node test/receive.spec.ts [eventBodySize] [numberOfEvents]`
+     - `ts-node test/receive.spec.ts 1024 10000`

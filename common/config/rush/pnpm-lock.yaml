@@ -11405,6 +11405,7 @@ packages:
       '@types/uuid': 8.3.1
       dotenv: 8.6.0
       eslint: 7.32.0
+      moment: 2.29.1
       prettier: 1.19.1
       rimraf: 3.0.2
       ts-node: 9.1.1_typescript@4.2.4
@@ -11414,7 +11415,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-event-hubs'
     resolution:
-      integrity: sha512-tDJuEJAb05Nqa8IszWN/ptLJS2pOQ11sPUEnMD+BSpuH2H/CKESmJ6F7rDneBJ6DyKmW3FgTg4C/PwwID/iiJA==
+      integrity: sha512-OnOQvfhIlrf2b8w1yQnDQbEiNrUtEUxbLN0CuiGJ3usTNaO6fG9TGKyuW1UKGtSSguDNJFE2mOkQzbIHCmoUgg==
       tarball: file:projects/perf-event-hubs.tgz
     version: 0.0.0
   file:projects/perf-eventgrid.tgz:

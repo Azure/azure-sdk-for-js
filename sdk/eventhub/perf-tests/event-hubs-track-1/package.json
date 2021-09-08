@@ -8,6 +8,9 @@
   "license": "ISC",
   "devDependencies": {
     "@azure/event-hubs": "^2.1.4",
+        "@azure/core-amqp": "^3.0.0",
+    "moment": "^2.24.0",
+
     "@azure/test-utils-perfstress": "file:../../../test-utils/perfstress/azure-test-utils-perfstress-1.0.0.tgz",
     "@types/node": "^8.0.0",
     "@types/uuid": "^8.0.0",

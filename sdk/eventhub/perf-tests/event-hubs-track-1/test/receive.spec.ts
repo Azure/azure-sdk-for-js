@@ -5,7 +5,7 @@ Measures the maximum throughput of `receiver.receive()` in package `@azure/event
 # Instructions
 1. Create an Event Hubs namespace with `Tier=Standard` and `Throughput Units=20`.
 2. Create an Event Hub inside the namespace.
-3. Set env vars `EVENTHUB_CONNECTION_STRING`, `EVENTHUB_NAME` and `CONSUMER_GROUP_NAME` at the .env file at `eventhub\event-hubs` folder.
+3. Set env vars `EVENTHUB_CONNECTION_STRING`, `EVENTHUB_NAME` and `CONSUMER_GROUP_NAME` in the .env file.
 4. This test presumes that there are no messages in the event hub.
 5. `ts-node receive.ts [eventBodySize] [numberOfEvents]`
 6. Example: `ts-node receive.ts 1024 1000000`
@@ -16,9 +16,8 @@ import { getEnvVar } from "@azure/test-utils-perfstress";
 import moment from "moment";
 import { delay } from "@azure/core-amqp";
 
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config({ path: "../../../.env" });
+import { config } from "dotenv";
+config();
 
 const _start = moment();
 
@@ -131,11 +130,11 @@ function WriteResult(
   const memoryUsage = process.memoryUsage();
   log(
     `\tTot Msg\t${totalMessages}` +
-      `\tCur MPS\t${Math.round((currentMessages * 1000) / currentElapsed)}` +
-      `\tAvg MPS\t${Math.round((totalMessages * 1000) / totalElapsed)}` +
-      `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}` +
-      `\tRSS\t${memoryUsage.rss}` +
-      `\tHeapUsed\t${memoryUsage.heapUsed}`
+    `\tCur MPS\t${Math.round((currentMessages * 1000) / currentElapsed)}` +
+    `\tAvg MPS\t${Math.round((totalMessages * 1000) / totalElapsed)}` +
+    `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}` +
+    `\tRSS\t${memoryUsage.rss}` +
+    `\tHeapUsed\t${memoryUsage.heapUsed}`
   );
 }
 
