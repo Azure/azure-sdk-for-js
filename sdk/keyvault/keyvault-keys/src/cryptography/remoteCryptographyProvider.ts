@@ -329,7 +329,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
    * @internal
    * A reference to the auto-generated KeyVault HTTP client.
    */
-  private readonly client: KeyVaultClient;
+  private client: KeyVaultClient;
 
   /**
    * A reference to the key used for the cryptographic operations.

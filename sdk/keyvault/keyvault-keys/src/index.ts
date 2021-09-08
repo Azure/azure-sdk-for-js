@@ -111,6 +111,7 @@ import {
   getKeyPropertiesFromKeyItem
 } from "./transformations";
 import { createTraceFunction } from "../../keyvault-common/src";
+import { URL } from "./url";
 
 export {
   CryptographyClientOptions,
@@ -417,6 +418,31 @@ export class KeyClient {
       const response = await this.client.importKey(this.vaultUrl, name, key, updatedOptions);
       return getKeyFromKeyBundle(response);
     });
+  }
+
+  /**
+   * Gets a {@link CryptographyClient} for the given key.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new KeyClient(url, credentials);
+   * // get a cryptography client for a given key
+   * let cryptographyClient = client.getCryptographyClient("MyKey");
+   * ```
+   * @param name - The name of the key used to perform cryptographic operations.
+   * @param version - Optional version of the key used to perform cryptographic operations.
+   * @returns - A {@link CryptographyClient} using the same options, credentials, and http client as this {@link KeyClient}
+   */
+  public getCryptographyClient(name: string, version?: string): CryptographyClient {
+    // The goals of this method are discoverability and performance (by sharing a client and pipeline).
+    // The existing cryptography client does not accept a pipeline as an argument, nor does it expose it
+    // so we _fake_ it by constructing it with the keyUrl, a fake token (which will be thrown away), and then
+    // set the remote provider's generated client to our current client.
+    const keyUrl = new URL(["keys", name, version].filter(Boolean).join("/"), this.vaultUrl);
+    const cryptoClient = new CryptographyClient(keyUrl.toString(), {} as TokenCredential);
+    // We know it has a remote provider, since this is a remoteable crypto client
+    cryptoClient["remoteProvider"]!["client"] = this.client;
+    return cryptoClient;
   }
 
   /**
