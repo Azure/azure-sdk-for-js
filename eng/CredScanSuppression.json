@@ -30,11 +30,11 @@
       "_justification": "Secret used by test code sdk/servicebus/service-bus/test/public/testConstants.ts"
     },
     {
-      "hash": "YAxfEQdwUdxTNTXg4jsXQcFv6TBmft6LmbYBUhwoKz8",
+      "hash": "YAxfEQdwUdxTNTXg4jsXQcFv6TBmft6LmbYBUhwoKz8=",
       "_justification": "Secret used by test code sdk/servicebus/service-bus/test/public/testConstants.ts"
     },
     {
-      "hash": "UxqI3C8JIqx6mlrrKxpryze4IelPEaXYDYSHpB15oc4",
+      "hash": "UxqI3C8JIqx6mlrrKxpryze4IelPEaXYDYSHpB15oc4=",
       "_justification": "Secret used by test code sdk/storage/storage-blob/test/utils/constants.ts"
     },
     {
