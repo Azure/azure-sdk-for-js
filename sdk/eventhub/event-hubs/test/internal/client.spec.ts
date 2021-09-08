@@ -20,7 +20,7 @@ import { EnvVarKeys, getEnvVars, isNode } from "../public/utils/testUtils";
 import { MessagingError } from "@azure/core-amqp";
 import { ConnectionContext } from "../../src/connectionContext";
 import { getRuntimeInfo } from "../../src/util/runtimeInfo";
-import { wrapper } from "../public/utils/wrapper";
+import { testWithServiceTypes } from "../public/utils/wrapper";
 import { createMockServer } from "../public/utils/mockService";
 
 const testFailureMessage = "Test failure";
@@ -32,7 +32,7 @@ function validateConnectionError<E extends Error & { code?: string }>(err: E): v
   should.not.equal(err.message, testFailureMessage);
 }
 
-wrapper("internal/client.spec.ts", (serviceVersion) => {
+testWithServiceTypes("internal/client.spec.ts", (serviceVersion) => {
   const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;

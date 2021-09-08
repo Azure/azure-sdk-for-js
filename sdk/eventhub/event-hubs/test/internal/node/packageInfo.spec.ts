@@ -6,12 +6,12 @@ const should = chai.should();
 import fs from "fs";
 import path from "path";
 import { packageJsonInfo } from "../../../src/util/constants";
-import { wrapper } from "../../public/utils/wrapper";
+import { testWithServiceTypes } from "../../public/utils/wrapper";
 
 // Since we currently hardcode package name and version in `constants.ts` file,
 // following test is in place to ensure the values in package.json and in this file are consistent
 
-wrapper("internal/node/packageInfo.spec.ts", () => {
+testWithServiceTypes("internal/node/packageInfo.spec.ts", () => {
   describe("Ensure package name and version are consistent in SDK and package.json", function(): void {
     it("Ensure constants.ts file is consistent with package.json", () => {
       const packageJsonFilePath = path.join(__dirname, "..", "..", "..", "..", "package.json");

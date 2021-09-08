@@ -14,14 +14,14 @@ import {
   ReceivedEventData,
   Subscription
 } from "../../src";
-import { wrapper } from "./utils/wrapper";
+import { testWithServiceTypes } from "./utils/wrapper";
 import { createMockServer } from "./utils/mockService";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);
 
-wrapper("public/eventData.spec.ts", (serviceVersion) => {
+testWithServiceTypes("public/eventData.spec.ts", (serviceVersion) => {
   const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;

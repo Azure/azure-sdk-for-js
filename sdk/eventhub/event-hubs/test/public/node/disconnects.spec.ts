@@ -7,10 +7,10 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import { EnvVarKeys, getEnvVars } from "../utils/testUtils";
 import { EventHubConsumerClient, EventHubProducerClient, Subscription } from "../../../src";
-import { wrapper } from "../utils/wrapper";
+import { testWithServiceTypes } from "../utils/wrapper";
 import { createMockServer } from "../utils/mockService";
 
-wrapper("public/node/disconnects.spec.ts", (serviceVersion, onVersions) => {
+testWithServiceTypes("public/node/disconnects.spec.ts", (serviceVersion, onVersions) => {
   const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;

@@ -27,10 +27,10 @@ import { SpanGraph, TestSpan } from "@azure/test-utils";
 import { TRACEPARENT_PROPERTY } from "../../src/diagnostics/instrumentEventData";
 import { SubscriptionHandlerForTests } from "../public/utils/subscriptionHandlerForTests";
 import { setSpan, context } from "@azure/core-tracing";
-import { wrapper } from "../public/utils/wrapper";
+import { testWithServiceTypes } from "../public/utils/wrapper";
 import { createMockServer } from "../public/utils/mockService";
 
-wrapper("internal/sender.spec.ts", (serviceVersion) => {
+testWithServiceTypes("internal/sender.spec.ts", (serviceVersion) => {
   const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;

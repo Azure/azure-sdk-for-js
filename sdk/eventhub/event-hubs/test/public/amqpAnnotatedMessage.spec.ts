@@ -16,7 +16,7 @@ import {
   Subscription
 } from "../../src";
 import { BodyTypes } from "../../src/dataTransformer";
-import { wrapper } from "./utils/wrapper";
+import { testWithServiceTypes } from "./utils/wrapper";
 import { createMockServer } from "./utils/mockService";
 
 const should = chai.should();
@@ -24,7 +24,7 @@ chai.use(chaiAsPromised);
 chai.use(chaiExclude);
 const assert = chai.assert;
 
-wrapper("public/amqpAnnotatedMessage.spec.ts", (serviceVersion) => {
+testWithServiceTypes("public/amqpAnnotatedMessage.spec.ts", (serviceVersion) => {
   const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;

@@ -3,10 +3,10 @@
 
 import { EventHubConnectionConfig } from "../../src/eventhubConnectionConfig";
 import chai from "chai";
-import { wrapper } from "../public/utils/wrapper";
+import { testWithServiceTypes } from "../public/utils/wrapper";
 const should = chai.should();
 
-wrapper("internal/config.spec.ts", () => {
+testWithServiceTypes("internal/config.spec.ts", () => {
   describe("ConnectionConfig", function() {
     describe("EventHub", function() {
       it("should fail if connection config does not contain path and the connectionstring also does not contain EntityPath", function(done) {

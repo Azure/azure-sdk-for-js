@@ -10,12 +10,12 @@ import { BalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/
 import { GreedyLoadBalancingStrategy } from "../../src/loadBalancerStrategies/greedyStrategy";
 import chai from "chai";
 import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
-import { wrapper } from "../public/utils/wrapper";
+import { testWithServiceTypes } from "../public/utils/wrapper";
 import { createMockServer } from "../public/utils/mockService";
 
 const should = chai.should();
 
-wrapper("internal/eventHubConsumerClientUnitTests.spec.ts", (serviceVersion) => {
+testWithServiceTypes("internal/eventHubConsumerClientUnitTests.spec.ts", (serviceVersion) => {
   const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;

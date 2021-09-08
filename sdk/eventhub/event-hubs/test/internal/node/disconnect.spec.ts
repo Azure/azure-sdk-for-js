@@ -13,9 +13,9 @@ import { MessagingError } from "@azure/core-amqp";
 import { EventHubReceiver } from "../../../src/eventHubReceiver";
 import { EventHubConsumerClient, latestEventPosition } from "../../../src";
 import { createMockServer } from "../../public/utils/mockService";
-import { wrapper } from "../../public/utils/wrapper";
+import { testWithServiceTypes } from "../../public/utils/wrapper";
 
-wrapper("internal/node/disconnect.spec.ts", (serviceVersion) => {
+testWithServiceTypes("internal/node/disconnect.spec.ts", (serviceVersion) => {
   const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;

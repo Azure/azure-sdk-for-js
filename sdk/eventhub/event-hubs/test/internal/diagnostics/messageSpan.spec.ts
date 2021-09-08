@@ -4,12 +4,12 @@
 import chai from "chai";
 import { createMessageSpan } from "../../../src/diagnostics/tracing";
 import { setTracer, resetTracer } from "@azure/test-utils";
-import { wrapper } from "../../public/utils/wrapper";
+import { testWithServiceTypes } from "../../public/utils/wrapper";
 
 const should = chai.should();
 const assert = chai.assert;
 
-wrapper("internal/diagnostics/messageSpan.spec.ts", () => {
+testWithServiceTypes("internal/diagnostics/messageSpan.spec.ts", () => {
   describe("#createMessageSpan()", () => {
     before(() => {
       setTracer();

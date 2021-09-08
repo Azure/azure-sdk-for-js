@@ -10,9 +10,9 @@ import { createMockServer } from "./utils/mockService";
 chai.use(chaiAsPromised);
 
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
-import { wrapper } from "./utils/wrapper";
+import { testWithServiceTypes } from "./utils/wrapper";
 
-wrapper("public/cancellation.spec.ts", (serviceVersion) => {
+testWithServiceTypes("public/cancellation.spec.ts", (serviceVersion) => {
   const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;

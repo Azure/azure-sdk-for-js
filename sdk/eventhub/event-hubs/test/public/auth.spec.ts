@@ -11,14 +11,14 @@ import chai from "chai";
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
 import { createSasTokenProvider } from "@azure/core-amqp";
 import { SinonFakeTimers, useFakeTimers } from "sinon";
-import { wrapper } from "./utils/wrapper";
+import { testWithServiceTypes } from "./utils/wrapper";
 import { createMockServer } from "./utils/mockService";
 
 const should = chai.should();
 
 const TEST_FAILURE = "test failure";
 
-wrapper("public/auth.spec.ts", (serviceVersion, onVersions) => {
+testWithServiceTypes("public/auth.spec.ts", (serviceVersion, onVersions) => {
   const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;

@@ -4,10 +4,10 @@
 import chai from "chai";
 import { Constants } from "@azure/core-amqp";
 import { fromRheaMessage, isAmqpAnnotatedMessage } from "../../src/eventData";
-import { wrapper } from "../public/utils/wrapper";
+import { testWithServiceTypes } from "../public/utils/wrapper";
 const assert = chai.assert;
 
-wrapper("internal/amqp.spec.ts", () => {
+testWithServiceTypes("internal/amqp.spec.ts", () => {
   describe("AMQP message encoding", () => {
     it("isAmqpAnnotatedMessage", () => {
       assert.isFalse(isAmqpAnnotatedMessage({}));

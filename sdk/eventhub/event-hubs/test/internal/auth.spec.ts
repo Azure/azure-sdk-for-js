@@ -11,12 +11,12 @@ import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import chai from "chai";
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
 import { createSasTokenProvider } from "@azure/core-amqp";
-import { wrapper } from "../public/utils/wrapper";
+import { testWithServiceTypes } from "../public/utils/wrapper";
 import { createMockServer } from "../public/utils/mockService";
 
 const should = chai.should();
 
-wrapper("internal/auth.spec.ts", (serviceVersion) => {
+testWithServiceTypes("internal/auth.spec.ts", (serviceVersion) => {
   const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;

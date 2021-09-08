@@ -6,9 +6,9 @@ chai.should();
 
 import { earliestEventPosition, latestEventPosition } from "../../src";
 import { getEventPositionFilter, validateEventPositions } from "../../src/eventPosition";
-import { wrapper } from "../public/utils/wrapper";
+import { testWithServiceTypes } from "../public/utils/wrapper";
 
-wrapper("internal/eventPosition.spec.ts", () => {
+testWithServiceTypes("internal/eventPosition.spec.ts", () => {
   describe("EventPosition", function(): void {
     describe("happy", function(): void {
       it("should create from an offset with inclusive false", function(done: Mocha.Done): void {

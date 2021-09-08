@@ -16,10 +16,10 @@ import {
 import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import { EventHubReceiver } from "../../src/eventHubReceiver";
 import { translate } from "@azure/core-amqp";
-import { wrapper } from "../public/utils/wrapper";
+import { testWithServiceTypes } from "../public/utils/wrapper";
 import { createMockServer } from "../public/utils/mockService";
 
-wrapper("internal/receiveBatch.spec.ts", (serviceVersion) => {
+testWithServiceTypes("internal/receiveBatch.spec.ts", (serviceVersion) => {
   const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;

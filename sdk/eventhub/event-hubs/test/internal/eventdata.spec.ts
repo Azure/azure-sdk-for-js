@@ -12,7 +12,7 @@ import {
   valueSectionTypeCode
 } from "../../src/dataTransformer";
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
-import { wrapper } from "../public/utils/wrapper";
+import { testWithServiceTypes } from "../public/utils/wrapper";
 
 const testAnnotations = {
   "x-opt-enqueued-time": Date.now(),
@@ -44,7 +44,7 @@ const testSourceEventData: EventData = {
 
 const messageFromED = toRheaMessage(testSourceEventData);
 
-wrapper("internal/eventdata.spec.ts", () => {
+testWithServiceTypes("internal/eventdata.spec.ts", () => {
   describe("EventData", function(): void {
     describe("fromRheaMessage", function(): void {
       it("populates body with the message body", function(): void {

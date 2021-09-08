@@ -12,10 +12,10 @@ import { setSpan, context } from "@azure/core-tracing";
 
 import { SpanGraph } from "@azure/test-utils";
 import { EventHubProducerClient, EventHubConsumerClient, MessagingError } from "../../src";
-import { wrapper } from "./utils/wrapper";
+import { testWithServiceTypes } from "./utils/wrapper";
 import { createMockServer } from "./utils/mockService";
 
-wrapper("public/hubruntime.spec.ts", (serviceVersion) => {
+testWithServiceTypes("public/hubruntime.spec.ts", (serviceVersion) => {
   const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;

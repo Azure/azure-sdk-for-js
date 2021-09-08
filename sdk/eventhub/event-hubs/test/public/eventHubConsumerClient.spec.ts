@@ -21,12 +21,12 @@ import chai from "chai";
 import { ReceivedMessagesTester } from "./utils/receivedMessagesTester";
 import { LogTester } from "./utils/logHelpers";
 import { TestInMemoryCheckpointStore } from "./utils/testInMemoryCheckpointStore";
-import { wrapper } from "./utils/wrapper";
+import { testWithServiceTypes } from "./utils/wrapper";
 import { createMockServer } from "./utils/mockService";
 
 const should = chai.should();
 
-wrapper("public/eventHubConsumerClient.spec.ts", (serviceVersion) => {
+testWithServiceTypes("public/eventHubConsumerClient.spec.ts", (serviceVersion) => {
   const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;

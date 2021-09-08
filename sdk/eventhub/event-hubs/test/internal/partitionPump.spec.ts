@@ -15,11 +15,11 @@ import chai from "chai";
 import { ReceivedEventData } from "../../src/eventData";
 import { instrumentEventData } from "../../src/diagnostics/instrumentEventData";
 import { setTracerForTest } from "../public/utils/testUtils";
-import { wrapper } from "../public/utils/wrapper";
+import { testWithServiceTypes } from "../public/utils/wrapper";
 
 const should = chai.should();
 
-wrapper("internal/partitionPump.spec.ts", () => {
+testWithServiceTypes("internal/partitionPump.spec.ts", () => {
   describe("PartitionPump", () => {
     describe("telemetry", () => {
       const eventHubProperties = {

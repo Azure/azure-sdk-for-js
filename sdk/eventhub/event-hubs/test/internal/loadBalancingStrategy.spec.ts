@@ -6,10 +6,10 @@ import { PartitionOwnership } from "../../src";
 import { BalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/balancedStrategy";
 import { GreedyLoadBalancingStrategy } from "../../src/loadBalancerStrategies/greedyStrategy";
 import { UnbalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/unbalancedStrategy";
-import { wrapper } from "../public/utils/wrapper";
+import { testWithServiceTypes } from "../public/utils/wrapper";
 const should = chai.should();
 
-wrapper("internal/loadBalancingStrategy.spec.ts", () => {
+testWithServiceTypes("internal/loadBalancingStrategy.spec.ts", () => {
   describe("LoadBalancingStrategy", () => {
     function createOwnershipMap(
       partitionToOwner: Record<string, string>

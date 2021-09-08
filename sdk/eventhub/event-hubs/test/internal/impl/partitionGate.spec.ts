@@ -3,10 +3,10 @@
 
 import { PartitionGate } from "../../../src/impl/partitionGate";
 import chai from "chai";
-import { wrapper } from "../../public/utils/wrapper";
+import { testWithServiceTypes } from "../../public/utils/wrapper";
 const should = chai.should();
 
-wrapper("internal/impl/partitionGate.spec.ts", () => {
+testWithServiceTypes("internal/impl/partitionGate.spec.ts", () => {
   describe("PartitionGate", () => {
     it("add", () => {
       const gate = new PartitionGate();
