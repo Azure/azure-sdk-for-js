@@ -1,8 +1,8 @@
 ### Guide
 
-1. Build the service-bus package `rush build -t service-bus`.
-2. Navigate to `service-bus` folder `cd sdk\servicebus\service-bus\`.
-3. Create a service-bus namespace and populate the .env file at `servicebus\service-bus` folder with `SERVICEBUS_CONNECTION_STRING` variables.
+1. Build the service-bus perf test project `rush build -t perf-service-bus`.
+2. Navigate to `cd sdk\servicebus\perf-tests\service-bus`.
+3. Create a service-bus namespace and populate the .env file with `SERVICEBUS_CONNECTION_STRING` variable.
 4. Run the tests as follows
 
    - batch send
