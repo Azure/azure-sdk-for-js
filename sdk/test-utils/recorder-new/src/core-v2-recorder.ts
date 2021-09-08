@@ -153,6 +153,26 @@ export class TestProxyHttpClient {
     }
   }
 
+  async removeHeaderSanitizer(headers: string[]): Promise<void> {
+    if (this.recordingId !== undefined) {
+      const infoUri = `${this.url}${paths.admin}${paths.addSanitizer}`;
+      const req = this._createRecordingRequest(infoUri);
+      req.headers.set("x-abstraction-identifier", "RemoveHeaderSanitizer");
+      req.body = JSON.stringify({ headersForRemoval: headers.toString() });
+      const rsp = await this.httpClient.sendRequest({
+        ...req,
+        allowInsecureConnection: true
+      });
+      if (rsp.status !== 200) {
+        throw new RecorderError("Info request failed.");
+      }
+    } else {
+      throw new RecorderError(
+        "Bad state, recordingId is not defined when called transformsInfo()."
+      );
+    }
+  }
+
   /**
    * Call this method to ping the proxy-tool with a start request
    * signalling to start recording in the record mode
