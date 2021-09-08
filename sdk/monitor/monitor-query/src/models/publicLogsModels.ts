@@ -69,7 +69,7 @@ export interface LogsQueryResult {
    *  Represented by "Partial" | "Success" | "Failed".
    * For partially failed queries, users can find data in "tables" attribute
    * and error information in "error" attribute */
-  logsQueryResultStatus?: LogsQueryResultStatus;
+  status?: LogsQueryResultStatus;
 }
 
 /** Configurable HTTP request settings and `throwOnAnyFailure` setting for the Logs query batch operation. */
@@ -121,9 +121,7 @@ export interface QueryBatch {
 /** Results for a batch query. */
 export interface LogsQueryBatchResult {
   /** An array of responses corresponding to each individual request in a batch. */
-  results?: {
-    /** Http Status Code */
-    status?: number;
+  results: {
     /** Populated results from the query */
     tables?: LogsTable[];
     /** error information for partial errors or failed queries */
@@ -132,13 +130,12 @@ export interface LogsQueryBatchResult {
      * Represented by "Partial" | "Success" | "Failed".
      * For partially failed queries, users can find data in "tables" attribute
      * and error information in "error" attribute */
-    logsQueryResultStatus?: LogsQueryResultStatus;
+    status?: LogsQueryResultStatus;
     /** Statistics represented in JSON format. */
     statistics?: Record<string, unknown>;
     /** Visualization data in JSON format. */
     visualization?: Record<string, unknown>;
   }[];
-  batchResultStatus: "AllSucceeded" | "AllFailed" | "PartiallySucceeded";
 }
 
 /** Indicates if a query succeeded or failed or partially failed.

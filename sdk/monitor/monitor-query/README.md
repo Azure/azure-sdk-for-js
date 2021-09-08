@@ -192,7 +192,7 @@ LogsQueryResult
 |---statistics
 |---visualization
 |---error
-|---logsQueryResultStatus ("Partial" | "Success" | "Failed")
+|---status ("Partial" | "Success" | "Failed")
 |---tables (list of `LogsTable` objects)
     |---name
     |---rows
@@ -326,18 +326,16 @@ Here is a hierarchy of the response:
 ```
 LogsQueryBatchResult
 |---results (list of following objects)
-    |---status
     |---statistics
     |---visualization
     |---error
-    |---logsQueryResultStatus ("Partial" | "Success" | "Failed")
+    |---status ("Partial" | "Success" | "Failed")
     |---tables (list of `LogsTable` objects)
         |---name
         |---rows
         |---columnDescriptors (list of `LogsColumn` objects)
             |---name
             |---type
-|---batchResultStatus ("AllSucceeded" | "AllFailed" | "PartiallySucceeded")
 ```
 
 To handle a batch response,
@@ -401,33 +399,36 @@ export async function main() {
   const iterator = metricsQueryClient.listMetricDefinitions(metricsResourceId);
   let result = await iterator.next();
   const firstMetric: MetricDefinition = result.value;
-  let secondMetricName: string;
-  while (!result.done) {
-    console.log(` metricDefinitions - ${result.value.id}, ${result.value.name}`);
-    secondMetricName = result.value.name!;
-    result = await iterator.next();
-  }
-  console.log(`First Metric Definition = ${firstMetric.name}`);
-
-  console.log(`Picking an example metric to query: ${firstMetric.name!}`);
-
-  const metricsResponse = await metricsQueryClient.query(
-    metricsResourceId,
-    [firstMetric.name!, secondMetricName!],
-    {
-      granularity: "PT1M",
-      timespan: { duration: Durations.FiveMinutes }
+  let secondMetricName: string = "TotalCalls";
+  for await (const result of iterator) {
+    console.log(` metricDefinitions - ${result.id}, ${result.name}`);
+    if (result.name) {
+      secondMetricName = result.name; // will assign the last value in the loop
     }
-  );
+  }
 
-  console.log(
-    `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.granularity}, time span: ${metricsResponse.timespan}`
-  );
+  if (firstMetric.name && secondMetricName) {
+    console.log(`Picking an example metric to query: ${firstMetric.name} and ${secondMetricName}`);
+    const metricsResponse = await metricsQueryClient.query(
+      metricsResourceId,
+      [firstMetric.name, secondMetricName],
+      {
+        granularity: "PT1M",
+        timespan: { duration: Durations.FiveMinutes }
+      }
+    );
 
-  const metrics: Metric[] = metricsResponse.metrics;
-  console.log(`Metrics:`, JSON.stringify(metrics, undefined, 2));
-  const metric = metricsResponse.getMetricByName(firstMetric.name!);
-  console.log(`Selected Metric: ${firstMetric.name}`, JSON.stringify(metric, undefined, 2));
+    console.log(
+      `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.granularity}, time span: ${metricsResponse.timespan}`
+    );
+
+    const metrics: Metric[] = metricsResponse.metrics;
+    console.log(`Metrics:`, JSON.stringify(metrics, undefined, 2));
+    const metric = metricsResponse.getMetricByName(firstMetric.name!);
+    console.log(`Selected Metric: ${firstMetric.name}`, JSON.stringify(metric, undefined, 2));
+  } else {
+    console.error(`Metric names are not defined - ${firstMetric.name} and ${secondMetricName}`);
+  }
 }
 
 main().catch((err) => {

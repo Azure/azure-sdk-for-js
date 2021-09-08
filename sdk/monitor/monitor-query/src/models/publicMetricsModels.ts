@@ -66,6 +66,8 @@ export interface Metric {
   description?: string;
   /** 'Success' or the error details on query failures for this metric. */
   errorCode?: string;
+  /** Error message encountered querying this specific metric. */
+  errorMessage?: string;
   /** the unit of the metric. */
   unit: MetricUnit;
   /** the time series returned when a data query is performed. */
@@ -110,7 +112,7 @@ export interface MetricsQueryResult {
   /** the value of the collection. */
   metrics: Metric[];
   /** convenience method to get metric by metric name */
-  getMetricByName(metricName: string): Metric;
+  getMetricByName(metricName: string): Metric | undefined;
 }
 
 /**

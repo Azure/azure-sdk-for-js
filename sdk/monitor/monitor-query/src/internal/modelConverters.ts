@@ -4,7 +4,6 @@
 import {
   BatchRequest as GeneratedBatchRequest,
   BatchQueryRequest as GeneratedBatchQueryRequest,
-  BatchQueryResponse as GeneratedBatchQueryResponse,
   QueryBatchResponse as GeneratedQueryBatchResponse,
   QueryBody,
   Table as GeneratedTable
@@ -105,8 +104,10 @@ export function convertResponseForQueryBatch(
    * It is not guaranteed that service will return the responses for queries in the same order
    * as the queries are passed in
    */
+  let responseList = generatedResponse.responses || [];
+
   const newResponse: LogsQueryBatchResult = {
-    results: generatedResponse.responses
+    results: responseList
       ?.sort((a, b) => {
         let left = 0;
         if (a.id != null) {
@@ -120,50 +121,29 @@ export function convertResponseForQueryBatch(
 
         return left - right;
       })
-      ?.map((response: GeneratedBatchQueryResponse) => ({
-        status: response.status,
+      ?.map((response) => ({
         visualization: response.body?.render,
         statistics: response.body?.statistics,
         // hoist fields from the sub-object 'body' to this level
         error: response.body?.error,
         tables: response.body?.tables?.map((table) => convertGeneratedTable(table)),
-        logsQueryResultStatus: "Success"
-      })),
-    batchResultStatus: "AllSucceeded"
+        status: "Success"
+      }))
   };
   // compute status for failed or succeed or partial results
-  if (newResponse.results) {
-    let resultStatus = "Success";
-    let errorCount: number = 0;
-    for (let i = 0; i < newResponse.results?.length; i++) {
-      if (newResponse.results[i].error && newResponse.results[i].tables) {
-        newResponse.results[i].logsQueryResultStatus = "Partial";
-        resultStatus = "Partial";
-      } else if (newResponse.results[i].tables) {
-        newResponse.results[i].logsQueryResultStatus = "Success";
-      } else {
-        newResponse.results[i].logsQueryResultStatus = "Failed";
-        errorCount++;
-      }
-    }
-    if (errorCount === newResponse.results?.length - 1) {
-      newResponse.batchResultStatus = "AllFailed";
-    } else if (resultStatus === "Partial") {
-      newResponse.batchResultStatus = "PartiallySucceeded";
-    } else if (errorCount > 0 && errorCount < newResponse.results?.length - 1) {
-      newResponse.batchResultStatus = "PartiallySucceeded";
+
+  for (let i = 0; i < newResponse.results?.length; i++) {
+    if (newResponse.results[i].error && newResponse.results[i].tables) {
+      newResponse.results[i].status = "Partial";
+    } else if (newResponse.results[i].tables) {
+      newResponse.results[i].status = "Success";
     } else {
-      if (errorCount === 0) {
-        newResponse.batchResultStatus = "AllSucceeded";
-      }
+      newResponse.results[i].status = "Failed";
     }
-  } else {
-    newResponse.batchResultStatus = "AllFailed";
   }
   (newResponse as any)["__fixApplied"] = fixApplied;
   return newResponse;
 }
-
 /**
  * This is a workaround for a service bug that we're investigating. The 'body' column will occasionally come
  * back as a JSON string, instead of being a JSON object.
@@ -284,10 +264,7 @@ export function convertResponseForMetrics(
     ...rest,
     metrics,
     getMetricByName(metricName) {
-      return this.metrics.filter((object) => {
-        if (object.name === metricName) return object;
-        else return null;
-      })[0];
+      return this.metrics.find((it) => it.name === metricName);
     }
   };
 

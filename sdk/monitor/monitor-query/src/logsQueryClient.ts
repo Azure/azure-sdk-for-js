@@ -122,13 +122,13 @@ export class LogsQueryClient {
       error: flatResponse.error
     };
     if (result.tables && result.error) {
-      result.logsQueryResultStatus = "Partial";
+      result.status = "Partial";
     } else if (result.error && !result.tables) {
-      result.logsQueryResultStatus = "Failed";
+      result.status = "Failed";
     } else {
-      result.logsQueryResultStatus = "Success";
+      result.status = "Success";
     }
-    if (options?.throwOnAnyFailure && result.logsQueryResultStatus !== "Success") {
+    if (options?.throwOnAnyFailure && result.status !== "Success") {
       throw result;
     }
     return result;
@@ -150,7 +150,8 @@ export class LogsQueryClient {
       options || {}
     );
     const result: LogsQueryBatchResult = convertResponseForQueryBatch(flatResponse, rawResponse);
-    if (options?.throwOnAnyFailure && result.batchResultStatus !== "AllSucceeded") {
+
+    if (options?.throwOnAnyFailure && result.results.some((it) => it.status !== "Success")) {
       throw result;
     }
     return result;

@@ -275,7 +275,7 @@ describe("LogsQueryClient live tests", function() {
       throw new Error(JSON.stringify(result.results?.[0].error));
     }
 
-    if (result.results?.[0].logsQueryResultStatus === "Partial") {
+    if (result.results?.[0].status === "Partial") {
       throw new Error(
         JSON.stringify({ ...result.results?.[0].error, ...result.results?.[0].tables })
       );

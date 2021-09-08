@@ -71,13 +71,10 @@ export interface LogsQueryBatchOptions extends OperationOptions {
 
 // @public
 export interface LogsQueryBatchResult {
-    // (undocumented)
-    batchResultStatus: "AllSucceeded" | "AllFailed" | "PartiallySucceeded";
-    results?: {
-        status?: number;
+    results: {
         tables?: LogsTable[];
         error?: ErrorInfo;
-        logsQueryResultStatus?: LogsQueryResultStatus;
+        status?: LogsQueryResultStatus;
         statistics?: Record<string, unknown>;
         visualization?: Record<string, unknown>;
     }[];
@@ -110,8 +107,8 @@ export interface LogsQueryOptions extends OperationOptions {
 // @public
 export interface LogsQueryResult {
     error?: ErrorInfo;
-    logsQueryResultStatus?: LogsQueryResultStatus;
     statistics?: Record<string, unknown>;
+    status?: LogsQueryResultStatus;
     tables: LogsTable[];
     visualization?: Record<string, unknown>;
 }
@@ -136,6 +133,7 @@ export interface MetadataValue {
 export interface Metric {
     description?: string;
     errorCode?: string;
+    errorMessage?: string;
     id: string;
     name: string;
     timeseries: TimeSeriesElement[];
@@ -207,7 +205,7 @@ export interface MetricsQueryOptions extends OperationOptions {
 // @public
 export interface MetricsQueryResult {
     cost?: number;
-    getMetricByName(metricName: string): Metric;
+    getMetricByName(metricName: string): Metric | undefined;
     granularity?: string;
     metrics: Metric[];
     namespace?: string;
