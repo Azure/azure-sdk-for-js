@@ -4,11 +4,11 @@
 import {
   getEnvVar,
   PerfStressOptionDictionary,
-  PerfStressTest
+  PerfStressTest,
 } from "@azure/test-utils-perfstress";
 import { EventHubClient, EventData } from "@azure/event-hubs";
 
-import {config}from "dotenv";
+import { config } from "dotenv";
 config();
 
 const connectionString = getEnvVar("EVENTHUB_CONNECTION_STRING");
@@ -29,22 +29,22 @@ export class SendTest extends PerfStressTest<SendTestOptions> {
       description: "Size in bytes",
       shortName: "sz",
       longName: "size",
-      defaultValue: 1024
+      defaultValue: 1024,
     },
     numberOfEvents: {
       required: true,
       description: "Number of events per send",
       shortName: "num",
       longName: "numberOfEvents",
-      defaultValue: 10
-    }
+      defaultValue: 10,
+    },
   };
 
   constructor() {
     super();
     this.producer = client;
     const event = {
-      body: Buffer.alloc(this.parsedOptions.eventBodySize.value!)
+      body: Buffer.alloc(this.parsedOptions.eventBodySize.value!),
     };
     this.eventBatch = new Array(this.parsedOptions.numberOfEvents.value!).fill(event);
   }

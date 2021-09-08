@@ -81,7 +81,7 @@ async function RunTest(
   for (let partitionId of partitionIds) {
     consumerClient.receive(partitionId, onMessageHandler, onErrorHandler, {
       eventPosition: EventPosition.fromStart(),
-      consumerGroup
+      consumerGroup,
     });
   }
 }
@@ -130,11 +130,11 @@ function WriteResult(
   const memoryUsage = process.memoryUsage();
   log(
     `\tTot Msg\t${totalMessages}` +
-    `\tCur MPS\t${Math.round((currentMessages * 1000) / currentElapsed)}` +
-    `\tAvg MPS\t${Math.round((totalMessages * 1000) / totalElapsed)}` +
-    `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}` +
-    `\tRSS\t${memoryUsage.rss}` +
-    `\tHeapUsed\t${memoryUsage.heapUsed}`
+      `\tCur MPS\t${Math.round((currentMessages * 1000) / currentElapsed)}` +
+      `\tAvg MPS\t${Math.round((totalMessages * 1000) / totalElapsed)}` +
+      `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}` +
+      `\tRSS\t${memoryUsage.rss}` +
+      `\tHeapUsed\t${memoryUsage.heapUsed}`
   );
 }
 
