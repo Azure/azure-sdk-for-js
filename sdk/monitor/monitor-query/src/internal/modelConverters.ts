@@ -5,8 +5,10 @@ import {
   BatchRequest as GeneratedBatchRequest,
   BatchQueryRequest as GeneratedBatchQueryRequest,
   QueryBatchResponse as GeneratedQueryBatchResponse,
+  BatchQueryResponse as GeneratedBatchQueryResponse,
   QueryBody,
-  Table as GeneratedTable
+  Table as GeneratedTable,
+  BatchQueryResults
 } from "../generated/logquery/src";
 
 import {
@@ -124,12 +126,17 @@ export function convertResponseForQueryBatch(
 
         return left - right;
       })
-      ?.map((response) => ({
-        visualization: response.body?.render,
-        statistics: response.body?.statistics,
+      ?.map((response: GeneratedBatchQueryResponse) => ({
+        id: response.id,
+        visualization: (JSON.parse(response.body as any) as BatchQueryResults).render,
+        statistics: (JSON.parse(response.body as any) as BatchQueryResults).statistics,
         // hoist fields from the sub-object 'body' to this level
-        error: response.body?.error,
-        tables: response.body?.tables?.map((table) => convertGeneratedTable(table)),
+        error: (JSON.parse(response.body as any) as BatchQueryResults).error,
+        tables: (JSON.parse(
+          response.body as any
+        ) as BatchQueryResults).tables?.map((table: GeneratedTable) =>
+          convertGeneratedTable(table)
+        ),
         status: "Success"
       }))
   };
