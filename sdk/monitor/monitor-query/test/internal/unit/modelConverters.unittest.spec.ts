@@ -105,7 +105,7 @@ describe("Model unit tests", () => {
         requestOptions,
         resultType: "Data",
         top: 10,
-        timespan: { duration: "arbitraryTimespan" },
+        timespan: { duration: "P20H" },
         tracingOptions,
         serializerOptions,
         onResponse
@@ -126,7 +126,7 @@ describe("Model unit tests", () => {
         orderby: "orderByClause",
         requestOptions,
         resultType: "Data",
-        timespan: "arbitraryTimespan",
+        timespan: "P20H",
         top: 10,
         tracingOptions,
         serializerOptions,
@@ -147,7 +147,7 @@ describe("Model unit tests", () => {
 
       const generatedResponse: Required<GeneratedMetricsListResponse> = {
         // all of these fields are just copied over verbatim...
-        timespan: "aTimespan",
+        timespan: "P10H",
         value: [
           {
             id: "fakeMetric",
@@ -193,7 +193,7 @@ describe("Model unit tests", () => {
 
       const actualConvertedResponse = convertResponseForMetrics(generatedResponse);
       const expectedResponse = {
-        timespan: "aTimespan",
+        timespan: { duration: "P10H" },
         metrics: [
           {
             id: "fakeMetric",
