@@ -39,7 +39,10 @@ import {
   TimeSeriesElement
 } from "../models/publicMetricsModels";
 import { FullOperationResponse } from "../../../../core/core-client/types/latest/core-client";
-import { convertTimespanToInterval } from "../timespanConversion";
+import {
+  convertIntervalToTimeIntervalObject,
+  convertTimespanToInterval
+} from "../timespanConversion";
 
 /**
  * @internal
@@ -104,7 +107,7 @@ export function convertResponseForQueryBatch(
    * It is not guaranteed that service will return the responses for queries in the same order
    * as the queries are passed in
    */
-  let responseList = generatedResponse.responses || [];
+  const responseList = generatedResponse.responses || [];
 
   const newResponse: LogsQueryBatchResult = {
     results: responseList
@@ -258,11 +261,12 @@ export function convertResponseForMetrics(
   });
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars -- eslint doesn't recognize that the extracted variables are prefixed with '_' and are purposefully unused.
-  const { resourceregion, value: _ignoredValue, interval, ...rest } = generatedResponse;
+  const { resourceregion, value: _ignoredValue, interval, timespan, ...rest } = generatedResponse;
 
   const obj: MetricsQueryResult = {
     ...rest,
     metrics,
+    timespan: convertIntervalToTimeIntervalObject(timespan),
     getMetricByName(metricName) {
       return this.metrics.find((it) => it.name === metricName);
     }

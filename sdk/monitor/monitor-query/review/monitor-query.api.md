@@ -210,7 +210,7 @@ export interface MetricsQueryResult {
     metrics: Metric[];
     namespace?: string;
     resourceRegion?: string;
-    timespan: string;
+    timespan: TimeInterval;
 }
 
 // @public
