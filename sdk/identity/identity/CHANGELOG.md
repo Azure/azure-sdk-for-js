@@ -4,9 +4,12 @@
 
 ### Features Added
 
+- Added the `OnBehalfOfCredential`, which allows users to authenticate through the [On-Behalf-Of authentication flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow).
 - `ManagedIdentityCredential` now supports token exchange authentication.
 
 ### Breaking Changes
+
+- `ClientCertificateCredential` now evaluates the validity of the PEM certificate path on `getToken` and not on the constructor.
 
 #### Breaking Changes from 2.0.0-beta.5
 
