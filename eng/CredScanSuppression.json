@@ -26,42 +26,6 @@
       "_justification": "Secret used by test code"
     },
     {
-      "hash": "UyIHw8OdxjE4j2ChZgotLVNB7fRelDvB2QGJC4Ywhgg=",
-      "_justification": "Secret used by test code sdk/servicebus/service-bus/test/public/testConstants.ts"
-    },
-    {
-      "hash": "YAxfEQdwUdxTNTXg4jsXQcFv6TBmft6LmbYBUhwoKz8=",
-      "_justification": "Secret used by test code sdk/servicebus/service-bus/test/public/testConstants.ts"
-    },
-    {
-      "hash": "UxqI3C8JIqx6mlrrKxpryze4IelPEaXYDYSHpB15oc4=",
-      "_justification": "Secret used by test code sdk/storage/storage-blob/test/utils/constants.ts"
-    },
-    {
-      "hash": "HP2aUcA9w7HO2JGBh6BZ0cBvFfV6j9jjt9jmAtWtPbw=",
-      "_justification": "false positive for `sanitized.${expiryReplacement}.sanitized` sdk/containerregistry/container-registry/test/utils/utils.ts"
-    },
-    {
-      "hash": "/BZ/xBh93a5O2c/lIPHrrLu7nMa9LETWpduQoKWadNE=",
-      "_justification": "fake account key used by test code sdk/tables/data-tables/test/internal/sharedKeyCredential.spec.ts"
-    },
-    {
-      "hash": "3nKDROrSKkl5iI/gPR5hjr+LkRZBnyq/u/cRuypVhHk=",
-      "_justification": "False positive in api.md review file `export type Secret = Resource & {`"
-    },
-    {
-      "hash": "zM2nL1E+g7qVttsewMruwfEwdadLWmdCONc5vHXQihc=",
-      "_justification": "fake SAS token used by test code sdk/cosmosdb/cosmos/test/internal/unit/sasToken.spec.ts"
-    },
-    {
-      "hash": "pY4K31y+du7sEtJCYNdVw/I+SQT32CplhMBcmFdwrnw=",
-      "_justification": "fake secret used in test code sdk/storage/storage-blob/recordings/node/blobbatch/recording_deleteblobs_should_work_for_batch_delete.js"
-    },
-    {
-      "hash": "3TUVGuKBbSc1i87Mhvy6ERZA0oVXFOoBkfziS/xT2o4=",
-      "_justification": "fake secret used in test code sdk/storage/storage-blob/recordings/node/blobbatch/recording_setblobsaccesstier_should_work_for_batch_set_tier.js"
-    },
-    {
       "placeholder": [
         "`$`{NPM_TOKEN`}",
         "azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
@@ -90,7 +54,11 @@
         "sdk/identity/identity/test/azure-identity-chain-test.crt",
         "sdk/identity/identity/test/azure-identity-test.crt",
         "sdk/keyvault/keyvault-certificates/ca.key",
-        "sdk/identity/identity/assets/fake-cert.pem"
+        "sdk/identity/identity/assets/fake-cert.pem",
+        "sdk/storage/storage-blob/test/utils/constants.ts",
+        "sdk/servicebus/service-bus/test/public/testConstants.ts",
+        "sdk/cosmosdb/cosmos/test/public/common/_testConfig.ts",
+        "sdk/tables/data-tables/test/internal/testConstants.ts"
       ],
       "_justification": "File contains private key used by test code."
     }

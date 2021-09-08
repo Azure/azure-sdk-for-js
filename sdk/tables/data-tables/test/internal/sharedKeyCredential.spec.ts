@@ -14,6 +14,7 @@ import { assert } from "chai";
 
 import { tablesNamedKeyCredentialPolicy } from "../../src/tablesNamedCredentialPolicy";
 import { AzureNamedKeyCredential } from "@azure/core-auth";
+import { expectedSharedKeyLiteHeader } from "./testConstants";
 
 describe("TablesSharedKeyCredential", () => {
   let originalToUTCString: () => string;
@@ -47,7 +48,7 @@ describe("TablesSharedKeyCredential", () => {
     assert.strictEqual(response.status, 200);
     assert.deepEqual(
       response.request.headers.get("authorization"),
-      "SharedKeyLite accountName:mzKy4ZjXbTEueNQp2cxou+kKrfCnWpdau5I6kJIO58g="
+      expectedSharedKeyLiteHeader
     );
   });
 });
