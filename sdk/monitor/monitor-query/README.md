@@ -460,7 +460,7 @@ QueryMetricsResult
     |---timeseries (list of `TimeSeriesElement` objects)
         |---metadataValues
         |---data (list of data points represented by `MetricValue` objects)
-|---getMetricByName(metricName): Metric (convenience method)
+|---getMetricByName(metricName): Metric | undefined (convenience method)
 ```
 
 #### Example of handling response
