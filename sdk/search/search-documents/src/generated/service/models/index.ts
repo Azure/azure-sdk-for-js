@@ -870,13 +870,15 @@ export interface GetIndexStatisticsResult {
 export interface AnalyzeRequest {
   /** The text to break into tokens. */
   text: string;
-  /** The name of the analyzer to use to break the given text. If this parameter is not specified, you must specify a tokenizer instead. The tokenizer and analyzer parameters are mutually exclusive. KnownAnalyzerNames is an enum containing known values. */
+  /** The name of the analyzer to use to break the given text. KnownAnalyzerNames is an enum containing known values. */
   analyzer?: string;
-  /** The name of the tokenizer to use to break the given text. If this parameter is not specified, you must specify an analyzer instead. The tokenizer and analyzer parameters are mutually exclusive. KnownTokenizerNames is an enum containing known values. */
+  /** The name of the tokenizer to use to break the given text. KnownTokenizerNames is an enum containing known values. */
   tokenizer?: string;
-  /** An optional list of token filters to use when breaking the given text. This parameter can only be set when using the tokenizer parameter. */
+  /** The name of the normalizer to use to normalize the given text. */
+  normalizer?: LexicalNormalizerName;
+  /** An optional list of token filters to use when breaking the given text. */
   tokenFilters?: string[];
-  /** An optional list of character filters to use when breaking the given text. This parameter can only be set when using the tokenizer parameter. */
+  /** An optional list of character filters to use when breaking the given text. */
   charFilters?: string[];
 }
 

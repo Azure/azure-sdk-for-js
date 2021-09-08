@@ -3,14 +3,13 @@
 
 import { AzureLogAnalytics } from "./generated/logquery/src/azureLogAnalytics";
 import { TokenCredential } from "@azure/core-auth";
-import { PipelineOptions, bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 
 import {
-  QueryLogsBatch,
-  QueryLogsBatchOptions,
-  QueryLogsBatchResult,
-  QueryLogsOptions,
-  QueryLogsResult
+  QueryBatch,
+  LogsQueryBatchOptions,
+  LogsQueryBatchResult,
+  LogsQueryOptions,
+  LogsQueryResult
 } from "./models/publicLogsModels";
 
 import {
@@ -19,14 +18,16 @@ import {
   convertResponseForQueryBatch
 } from "./internal/modelConverters";
 import { formatPreferHeader } from "./internal/util";
-import { FullOperationResponse, OperationOptions } from "@azure/core-client";
+import { CommonClientOptions, FullOperationResponse, OperationOptions } from "@azure/core-client";
+import { TimeInterval } from "./models/timeInterval";
+import { convertTimespanToInterval } from "./timespanConversion";
 
 const defaultMonitorScope = "https://api.loganalytics.io/.default";
 
 /**
  * Options for the LogsQueryClient.
  */
-export interface LogsQueryClientOptions extends PipelineOptions {
+export interface LogsQueryClientOptions extends CommonClientOptions {
   /**
    * The host to connect to.
    */
@@ -37,7 +38,9 @@ export interface LogsQueryClientOptions extends PipelineOptions {
    *
    * Defaults to 'https://api.loganalytics.io/.default'
    */
-  scopes?: string | string[];
+  credentialOptions?: {
+    credentialScopes?: string | string[];
+  };
 }
 
 /**
@@ -59,37 +62,43 @@ export class LogsQueryClient {
     this._logAnalytics = new AzureLogAnalytics({
       ...options,
       $host: options?.endpoint,
-      endpoint: options?.endpoint
+      endpoint: options?.endpoint,
+      credentialScopes: options?.credentialOptions?.credentialScopes ?? defaultMonitorScope,
+      credential: tokenCredential
     });
-    const scope = options?.scopes ?? defaultMonitorScope;
-    this._logAnalytics.pipeline.addPolicy(
-      bearerTokenAuthenticationPolicy({ scopes: scope, credential: tokenCredential })
-    );
+    // const scope = options?.scopes ?? defaultMonitorScope;
+    // this._logAnalytics.pipeline.addPolicy(
+    //   bearerTokenAuthenticationPolicy({ scopes: scope, credential: tokenCredential })
+    // );
   }
 
   /**
    * Queries logs in a Log Analytics Workspace.
    *
    * @param workspaceId - The 'Workspace Id' for the Log Analytics Workspace
-   * @param query - A Log Analytics Query
-   * @param timespan - The timespan over which to query data. This is an ISO8601 time period value.  This timespan is applied in addition to any that are specified in the query expression.
+   * @param query - A Kusto query.
+   * @param timespan - The timespan over which to query data. This is an ISO8601 time period value. This timespan is applied in addition to any that are specified in the query expression.
    *  Some common durations can be found in the `Durations` object.
    * @param options - Options to adjust various aspects of the request.
    * @returns The result of the query.
    */
-  async queryLogs(
+  async query(
     workspaceId: string,
     query: string,
-    timespan: string,
-    options?: QueryLogsOptions
-  ): Promise<QueryLogsResult> {
+    timespan: TimeInterval,
+    options?: LogsQueryOptions
+  ): Promise<LogsQueryResult> {
+    let timeInterval: string = "";
+    if (timespan) {
+      timeInterval = convertTimespanToInterval(timespan);
+    }
     const { flatResponse, rawResponse } = await getRawResponse(
       (paramOptions) =>
         this._logAnalytics.query.execute(
           workspaceId,
           {
             query,
-            timespan,
+            timespan: timeInterval,
             workspaces: options?.additionalWorkspaces
           },
           paramOptions
@@ -114,15 +123,15 @@ export class LogsQueryClient {
   }
 
   /**
-   * Query logs with multiple queries, in a batch.
-   * @param batch - A batch of queries to run. Each query can be configured to run against separate workspaces.
+   * Query Logs with multiple queries, in a batch.
+   * @param batch - A batch of Kusto queries to execute. Each query can be configured to run against separate workspaces.
    * @param options - Options for querying logs in a batch.
-   * @returns The log query results for all the queries.
+   * @returns The Logs query results for all the queries.
    */
-  async queryLogsBatch(
-    batch: QueryLogsBatch,
-    options?: QueryLogsBatchOptions
-  ): Promise<QueryLogsBatchResult> {
+  async queryBatch(
+    batch: QueryBatch[],
+    options?: LogsQueryBatchOptions
+  ): Promise<LogsQueryBatchResult> {
     const generatedRequest = convertRequestForQueryBatch(batch);
     const { flatResponse, rawResponse } = await getRawResponse(
       (paramOptions) => this._logAnalytics.query.batch(generatedRequest, paramOptions),

@@ -6,35 +6,34 @@
 //
 export { LogsQueryClientOptions, LogsQueryClient } from "./logsQueryClient";
 export {
-  BatchQuery,
-  QueryLogsBatch,
-  QueryLogsBatchOptions,
-  QueryLogsBatchResult,
-  QueryLogsOptions,
-  QueryLogsResult,
+  QueryBatch,
+  LogsQueryBatchOptions,
+  LogsQueryBatchResult,
+  LogsQueryOptions,
+  LogsQueryResult,
   // TODO: design issues around this still pending.
   // QueryStatistics,
-  LogsTable
+  LogsTable,
+  LogsColumn
 } from "./models/publicLogsModels";
 export {
   MetricsQueryClient,
   MetricsQueryClientOptions as MetricsClientOptions
 } from "./metricsQueryClient";
 export {
-  GetMetricDefinitionsOptions,
-  GetMetricDefinitionsResult,
-  GetMetricNamespacesOptions,
-  GetMetricNamespacesResult,
+  ListMetricDefinitionsOptions,
+  ListMetricNamespacesOptions,
   MetadataValue,
   Metric,
   MetricDefinition,
-  QueryMetricsOptions,
-  QueryMetricsResult,
-  TimeSeriesElement
+  MetricsQueryOptions,
+  MetricsQueryResult,
+  TimeSeriesElement,
+  MetricNamespace
 } from "./models/publicMetricsModels";
 
 export { Durations } from "./models/constants";
-
+export { TimeInterval } from "./models/timeInterval";
 //
 // LogsClient: generated exports
 //
@@ -42,7 +41,6 @@ export { Durations } from "./models/constants";
 export {
   // TODO: these are the generated model names. We probably want to run them
   // through a manual review to make them consistent with style.
-  Column as MetricColumn,
   LogsColumnType,
   ErrorDetail,
   ErrorInfo
@@ -64,8 +62,4 @@ export {
   MetricAvailability,
   MetricClass
 } from "./generated/metricsdefinitions/src";
-export {
-  MetricNamespace,
-  MetricNamespaceName,
-  NamespaceClassification
-} from "./generated/metricsnamespaces/src";
+export { NamespaceClassification } from "./generated/metricsnamespaces/src";

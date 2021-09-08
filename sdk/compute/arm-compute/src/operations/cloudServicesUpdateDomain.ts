@@ -27,7 +27,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a CloudServicesUpdateDomain. */
+/** Class containing CloudServicesUpdateDomain operations. */
 export class CloudServicesUpdateDomainImpl
   implements CloudServicesUpdateDomain {
   private readonly client: ComputeManagementClientContext;
@@ -275,7 +275,7 @@ const walkUpdateDomainOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters34,
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -299,7 +299,7 @@ const getUpdateDomainOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -322,7 +322,7 @@ const listUpdateDomainsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -343,7 +343,7 @@ const listUpdateDomainsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

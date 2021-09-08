@@ -6,12 +6,13 @@ import { getBSU, getConnectionStringFromEnvironment, recorderEnvSetup } from "..
 import * as dotenv from "dotenv";
 import { ShareServiceClient, newPipeline, StorageSharedKeyCredential } from "../../src";
 import { record, Recorder } from "@azure-tools/test-recorder";
+import { Context } from "mocha";
 dotenv.config();
 
 describe("FileServiceClient Node.js only", () => {
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
   });
 

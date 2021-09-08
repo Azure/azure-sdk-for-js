@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Updated `@azure/msal-node` and `@azure/msal-node-extensions`, which fixed an issue that caused silent authentication to fail on requests with previously cached (and valid) tokens.
+
 ### Other Changes
 
 ## 1.0.0-beta.1 (2021-07-07)

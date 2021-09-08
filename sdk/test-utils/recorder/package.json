@@ -1,6 +1,6 @@
 {
   "name": "@azure-tools/test-recorder",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "sdk-type": "client",
   "description": "This library provides interfaces and helper methods to provide recording and playback capabilities for the tests in Azure JS/TS SDKs",
   "main": "dist/index.js",
@@ -39,7 +39,7 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "typings/src",
+    "types/src",
     "README.md",
     "LICENSE"
   ],
@@ -60,7 +60,6 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/test-utils/recorder/",
   "sideEffects": false,
-  "private": true,
   "dependencies": {
     "@azure/core-http": "^2.0.0",
     "@azure/core-tracing": "1.0.0-preview.13",

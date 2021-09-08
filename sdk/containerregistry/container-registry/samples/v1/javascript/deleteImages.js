@@ -8,7 +8,10 @@
 // A common use case for Azure Container Registries is to scan the repositories
 // in a registry and delete all but the most recent n images, or all images
 // older than a certain date.
-const { ContainerRegistryClient } = require("@azure/container-registry");
+const {
+  ContainerRegistryClient,
+  KnownContainerRegistryAudience
+} = require("@azure/container-registry");
 const { DefaultAzureCredential } = require("@azure/identity");
 const dotenv = require("dotenv");
 dotenv.config();
@@ -17,7 +20,9 @@ async function main() {
   // Get the service endpoint from the environment
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
   // Create a new ContainerRegistryClient
-  const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
+  const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential(), {
+    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud
+  });
 
   // Iterate through repositories
   const repositoryNames = client.listRepositoryNames();

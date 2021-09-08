@@ -245,7 +245,7 @@ describe("ContainerClient", () => {
     const result = (
       await containerClient
         .listBlobsFlat({
-          includeDeletedwithVersions: true
+          includeDeletedWithVersions: true
         })
         .byPage()
         .next()

@@ -4,6 +4,7 @@
 import { delay, isLiveMode, record, Recorder } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
+import { Context } from "mocha";
 
 import {
   DataLakeServiceClient,
@@ -24,7 +25,7 @@ dotenv.config();
 describe("DataLakeServiceClient", () => {
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
   });
 
@@ -38,6 +39,8 @@ describe("DataLakeServiceClient", () => {
 
     let serviceProperties: DataLakeServiceProperties;
 
+    // Need to determine serviceProperties's type before assigning.
+    /* eslint-disable-next-line prefer-const */
     serviceProperties = {
       blobAnalyticsLogging: {
         deleteProperty: true,
@@ -427,13 +430,15 @@ describe("DataLakeServiceClient", () => {
   //   }
   // });
 
-  it("getUserDelegationKey should work", async function() {
+  it("getUserDelegationKey should work", async function(this: Context) {
     // Try to get serviceURL object with TokenCredential
     // when DFS_ACCOUNT_TOKEN environment variable is set
     let serviceURLWithToken: DataLakeServiceClient | undefined;
     try {
       serviceURLWithToken = getTokenDataLakeServiceClient();
-    } catch {}
+    } catch {
+      this.skip();
+    }
 
     // Requires bearer token for this case which cannot be generated in the runtime
     // Make sure this case passed in sanity test
@@ -470,7 +475,7 @@ describe("DataLakeServiceClient", () => {
     assert.ok(newClient.url.includes("dfs"));
   });
 
-  it("renameFileSystem should work", async function() {
+  it("renameFileSystem should work", async function(this: Context) {
     if (isLiveMode()) {
       // Turn on this case when the Container Rename feature is ready in the service side.
       this.skip();
@@ -492,7 +497,7 @@ describe("DataLakeServiceClient", () => {
     await newFileSystemClient.delete();
   });
 
-  it("renameFileSystem should work with source lease", async function() {
+  it("renameFileSystem should work with source lease", async function(this: Context) {
     if (isLiveMode()) {
       // Turn on this case when the Container Rename feature is ready in the service side.
       this.skip();
@@ -519,7 +524,7 @@ describe("DataLakeServiceClient", () => {
     await newFileSystemClient.delete();
   });
 
-  it("undelete and list deleted file system should work", async function() {
+  it("undelete and list deleted file system should work", async function(this: Context) {
     let serviceClient: DataLakeServiceClient;
     try {
       serviceClient = getGenericDataLakeServiceClient("DFS_SOFT_DELETE_");

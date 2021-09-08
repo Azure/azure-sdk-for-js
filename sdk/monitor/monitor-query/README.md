@@ -127,27 +127,36 @@ Each set of metric values is a time series with the following characteristics:
 
 The [`MetricsQueryClient`][msdocs_metrics_client] allows you to query metrics.
 
+#### Resource URI of a resource
+
+The resource URI must be that of the resource for which metrics are being queried. It's normally of the format `/subscriptions/<id>/resourceGroups/<rg-name>/providers/<source>/topics/<resource-name>`.
+
+To find the resource URI:
+
+1. Navigate to your resource's page in the Azure portal.
+2. From the **Overview** blade, select the **JSON View** link.
+3. In the resulting JSON, copy the value of the `id` property.
+
 ## Examples
 
 ### Querying logs
 
-The `LogsQueryClient` can be used to query a Monitor workspace using the Kusto Query language. The timespan can be specified as a string in an ISO8601 duration format.
+The `LogsQueryClient` can be used to query a Monitor workspace using the [Kusto Query Language](https://docs.microsoft.com/azure/data-explorer/kusto/query). The `timespan.duration` can be specified as a string in an ISO8601 duration format.
 You can use the `Durations` constants provided for some commonly used ISO8601 durations.
 
 ```ts
-const { LogsQueryClient } = require("@azure/monitor-query");
+const { LogsQueryClient, Durations } = require("@azure/monitor-query");
 const { DefaultAzureCredential } = require("@azure/identity");
+g;
 
 const azureLogAnalyticsWorkspaceId = "<the Workspace Id for your Azure Log Analytics resource>";
 const logsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
 
 async function run() {
   const kustoQuery = "AppEvents | limit 1";
-  const result = await logsQueryClient.queryLogs(
-    azureLogAnalyticsWorkspaceId,
-    kustoQuery,
-    Durations.last24Hours
-  );
+  const result = await logsQueryClient.query(azureLogAnalyticsWorkspaceId, kustoQuery, {
+    duration: Durations.TwentFourHours
+  });
   const tablesFromResult = result.tables;
 
   if (tablesFromResult == null) {
@@ -174,12 +183,12 @@ run().catch((err) => console.log("ERROR:", err));
 
 #### Handling the response for Logs Query
 
-The `queryLogs` API returns the `QueryLogsResult`.
+The `query` API for `LogsQueryClient` returns the `LogsQueryResult`.
 
-Here is a heirarchy of the response:
+Here is a hierarchy of the response:
 
 ```
-QueryLogsResult
+LogsQueryResult
 |---statistics
 |---visalization
 |---error
@@ -213,41 +222,20 @@ A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob
 #### Set logs query timeout
 
 ```ts
-  // setting optional parameters
-   const queryLogsOptions: QueryLogsOptions = {
-    // explicitly control the amount of time the server can spend processing the query.
-    serverTimeoutInSeconds: 60
-  };
+// setting optional parameters
+const queryLogsOptions: LogsQueryOptions = {
+  // explicitly control the amount of time the server can spend processing the query.
+  serverTimeoutInSeconds: 60
+};
 
-  const result = await logsQueryClient.queryLogs(
-    azureLogAnalyticsWorkspaceId,
-    kustoQuery,
-    Durations.last24Hours,
-    queryLogsOptions
-  );
+const result = await logsQueryClient.query(
+  azureLogAnalyticsWorkspaceId,
+  kustoQuery,
+  { duration: Durations.TwentyFourHours },
+  queryLogsOptions
+);
 
-  const tablesFromResult = result.tables;
-
-  if (tablesFromResult == null) {
-    console.log(`No results for query '${kustoQuery}'`);
-    return;
-  }
-
-  console.log(`Results for query '${kustoQuery}'`);
-
-// Formatting the table from results
-  for (const table of tablesFromResult) {
-    const columnHeaderString = table.columns
-      .map((column) => `${column.name}(${column.type}) `)
-      .join("| ");
-    console.log("| " + columnHeaderString);
-
-    for (const row of table.rows) {
-      const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
-      console.log("| " + columnValuesString);
-    }
-  }
-}
+const tablesFromResult = result.tables;
 ```
 
 ### Batch logs query
@@ -262,35 +250,32 @@ export async function main() {
 
   const tokenCredential = new DefaultAzureCredential();
   const logsQueryClient = new LogsQueryClient(tokenCredential);
-
-  const queriesBatch: BatchQuery[] = [
+  const queriesBatch: QueryBatch[] = [
     {
       workspaceId: monitorWorkspaceId,
       query: "AppEvents | project TimeGenerated, Name, AppRoleInstance | limit 1",
-      timespan: "P1D"
+      timespan: { duration: "P1D" }
     },
     {
       workspaceId: monitorWorkspaceId,
       query: "AzureActivity | summarize count()",
-      timespan: "PT1H"
+      timespan: { duration: "PT1H" }
     },
     {
       workspaceId: monitorWorkspaceId,
       query:
         "AppRequests | take 10 | summarize avgRequestDuration=avg(DurationMs) by bin(TimeGenerated, 10m), _ResourceId",
-      timespan: "PT1H"
+      timespan: { duration: "PT1H" }
     },
     {
       workspaceId: monitorWorkspaceId,
       query: "AppRequests | take 2",
-      timespan: "PT1H"
+      timespan: { duration: "PT1H" },
+      includeQueryStatistics: true
     }
   ];
 
-  const result = await logsQueryClient.queryLogsBatch({
-    queries: queriesBatch
-  });
-
+  const result = await logsQueryClient.queryBatch(queriesBatch);
   if (result.results == null) {
     throw new Error("No response for query");
   }
@@ -330,12 +315,12 @@ export async function main() {
 
 #### Handling the response for Query Logs Batch
 
-The `queryLogsBatch` API returns the `QueryLogsBatchResult`.
+The `queryLogsBatch` API returns the `LogsQueryBatchResult`.
 
-Here is a heirarchy of the response:
+Here is a hierarchy of the response:
 
 ```
-QueryLogsBatchResult
+LogsQueryBatchResult
 |---results (list of following objects)
     |---id
     |---status
@@ -384,14 +369,6 @@ A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob
 
 The following example gets metrics for an [Azure Metrics Advisor](https://docs.microsoft.com/azure/applied-ai-services/metrics-advisor/overview) subscription. The resource URI is that of a Metrics Advisor resource.
 
-The resource URI must be that of the resource for which metrics are being queried. It's normally of the format `/subscriptions/<id>/resourceGroups/<rg-name>/providers/<source>/topics/<resource-name>`.
-
-To find the resource URI:
-
-1. Navigate to your resource's page in the Azure portal.
-2. From the **Overview** blade, select the **JSON View** link.
-3. In the resulting JSON, copy the value of the `id` property.
-
 ```ts
 import { DefaultAzureCredential } from "@azure/identity";
 import { Durations, Metric, MetricsQueryClient } from "@azure/monitor-query";
@@ -421,7 +398,7 @@ export async function main() {
 
   const metricsResponse = await metricsQueryClient.queryMetrics(
     metricsResourceId,
-    Durations.last5Minutes,
+    { duration: Durations.FiveMinutes },
     {
       metricNames: [firstMetric.name!],
       interval: "PT1M"
@@ -486,7 +463,7 @@ export async function main() {
 
   const metricsResponse = await metricsQueryClient.queryMetrics(
     metricsResourceId,
-    Durations.last5Minutes,
+    { duration: Durations.FiveMinutes },
     {
       metricNames: ["MatchedEventCount"],
       interval: "PT1M",
@@ -534,7 +511,7 @@ The same log query can be executed across multiple Log Analytics workspaces. In 
 For example, the following query executes in three workspaces:
 
 ```ts
-const queryLogsOptions: QueryLogsOptions = {
+const queryLogsOptions: LogsQueryOptions = {
   additionalWorkspaces: ["<workspace2>", "<workspace3>"]
 };
 
@@ -542,7 +519,7 @@ const kustoQuery = "AppEvents | limit 1";
 const result = await logsQueryClient.queryLogs(
   azureLogAnalyticsWorkspaceId,
   kustoQuery,
-  Durations.last24Hours,
+  { duration: Durations.TwentyFourHours },
   queryLogsOptions
 );
 ```

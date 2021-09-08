@@ -687,6 +687,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-tools/testing-recorder-new",
+      "projectFolder": "sdk/test-utils/testing-recorder-new",
+      "versionPolicyName": "test"
+    },
+    {
       "packageName": "@azure/eslint-plugin-azure-sdk",
       "projectFolder": "common/tools/eslint-plugin-azure-sdk",
       "versionPolicyName": "utility"
@@ -694,6 +699,11 @@
     {
       "packageName": "@azure-tools/test-recorder",
       "projectFolder": "sdk/test-utils/recorder",
+      "versionPolicyName": "utility"
+    },
+    {
+      "packageName": "@azure-tools/test-recorder-new",
+      "projectFolder": "sdk/test-utils/recorder-new",
       "versionPolicyName": "utility"
     },
     {
@@ -899,6 +909,16 @@
     {
       "packageName": "@azure/arm-templatespecs",
       "projectFolder": "sdk/templatespecs/arm-templatespecs",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-authorization",
+      "projectFolder": "sdk/authorization/arm-authorization",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-eventhub",
+      "projectFolder": "sdk/eventhub/arm-eventhub",
       "versionPolicyName": "management"
     }
   ]

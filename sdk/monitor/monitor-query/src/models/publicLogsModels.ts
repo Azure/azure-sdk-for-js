@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-client";
-import { Column as LogsColumn, ErrorInfo } from "../generated/logquery/src";
+import { ErrorInfo, LogsColumnType } from "../generated/logquery/src";
+import { TimeInterval } from "./timeInterval";
 
 // https://dev.loganalytics.io/documentation/Using-the-API/RequestOptions
 // https://dev.loganalytics.io/documentation/Using-the-API/Timeouts
@@ -10,7 +11,7 @@ import { Column as LogsColumn, ErrorInfo } from "../generated/logquery/src";
 /**
  * Options for querying logs.
  */
-export interface QueryLogsOptions extends OperationOptions {
+export interface LogsQueryOptions extends OperationOptions {
   /**
    * A list of workspaces that are included in the query, except for the one set as the `workspaceId` parameter
    * These may consist of the following identifier formats:
@@ -50,31 +51,23 @@ export interface QueryStatistics {
 /**
  * Tables and statistic results from a logs query.
  */
-export interface QueryLogsResult {
+export interface LogsQueryResult {
   /** The list of tables, columns and rows. */
   tables: LogsTable[];
   /** Statistics represented in JSON format. */
-  statistics?: any;
+  statistics?: Record<string, unknown>;
   /** Visualization data in JSON format. */
-  visualization?: any;
+  visualization?: Record<string, unknown>;
   /** The code and message for an error. */
   error?: ErrorInfo;
 }
 
-/** Options when query logs with a batch. */
-export type QueryLogsBatchOptions = OperationOptions;
-
-/** An array of queries to run as a batch. */
-export interface QueryLogsBatch {
-  /**
-   * Queries that will be run for the batch.
-   */
-  queries: BatchQuery[];
-}
+/** Configurable HTTP request settings for the Logs query batch operation. */
+export type LogsQueryBatchOptions = OperationOptions;
 
 /** The Analytics query. Learn more about the [Analytics query syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/) */
-// NOTE: 'id' is added automatically by our LogsClient.
-export interface BatchQuery {
+// NOTE: 'id' is added automatically by our LogsQueryClient.
+export interface QueryBatch {
   /** The workspace for this query. */
   workspaceId: string;
 
@@ -83,8 +76,8 @@ export interface BatchQuery {
 
   /** The query to execute. */
   query: string;
-  /** The timespan over which to query data. This is an ISO8601 time period value.  This timespan is applied in addition to any that are specified in the query expression. */
-  timespan: string;
+  /** The timespan over which to query data. This timespan is applied in addition to any that are specified in the query expression. */
+  timespan?: TimeInterval;
   /**
    * A list of workspaces that are included in the query, except for the one set as the `workspaceId` parameter
    * These may consist of the following identifier formats:
@@ -111,7 +104,7 @@ export interface BatchQuery {
 }
 
 /** Results for a batch query. */
-export interface QueryLogsBatchResult {
+export interface LogsQueryBatchResult {
   /** An array of responses corresponding to each individual request in a batch. */
   results?: {
     id?: string;
@@ -121,9 +114,9 @@ export interface QueryLogsBatchResult {
     tables?: LogsTable[];
     error?: ErrorInfo;
     /** Statistics represented in JSON format. */
-    statistics?: any;
+    statistics?: Record<string, unknown>;
     /** Visualization data in JSON format. */
-    visualization?: any;
+    visualization?: Record<string, unknown>;
   }[];
 
   // TODO: this is omitted from the Java models.
@@ -139,4 +132,27 @@ export interface LogsTable {
   columns: LogsColumn[];
   /** The resulting rows from this query. */
   rows: (Date | string | number | Record<string, unknown> | boolean)[][];
+}
+
+/** A column in a table. */
+export interface LogsColumn {
+  /** The name of this column. */
+  name?: string;
+  /** The data type of this column.
+   * Defines values for LogsColumnType.
+   * {@link KnownLogsColumnType} can be used interchangeably with LogsColumnType,
+   *  this enum contains the known values that the service supports.
+   * ### Known values supported by the service
+   * **bool**
+   * **datetime**
+   * **dynamic**
+   * **int**
+   * **long**
+   * **real**
+   * **string**
+   * **guid**
+   * **decimal**
+   * **timespan**
+   */
+  type?: LogsColumnType;
 }

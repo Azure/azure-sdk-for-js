@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { AzureKeyCredential } from "@azure/core-auth";
 import { URL } from "./util/url";
 
@@ -7,7 +10,7 @@ interface ParsedConnectionString {
 }
 
 export function parseConnectionString(conn: string): ParsedConnectionString {
-  let parsed: { [id: string]: string } = {};
+  const parsed: { [id: string]: string } = {};
 
   conn.split(";").forEach((i) => {
     const assignmentPos = i.indexOf("=");

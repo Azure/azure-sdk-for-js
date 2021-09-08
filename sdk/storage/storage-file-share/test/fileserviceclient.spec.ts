@@ -13,12 +13,13 @@ import {
 import { record, delay, Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import * as dotenv from "dotenv";
 import { ShareServiceClient, ShareItem, ShareRootSquash } from "../src";
+import { Context } from "mocha";
 dotenv.config();
 
 describe("FileServiceClient", () => {
   let recorder: Recorder;
 
-  beforeEach(function() {
+  beforeEach(function(this: Context) {
     recorder = record(this, recorderEnvSetup);
   });
 
@@ -402,7 +403,7 @@ describe("FileServiceClient", () => {
   let recorder: Recorder;
   let serviceClient: ShareServiceClient;
 
-  beforeEach(function() {
+  beforeEach(function(this: Context) {
     recorder = record(this, recorderEnvSetup);
 
     try {
@@ -423,7 +424,7 @@ describe("FileServiceClient", () => {
 
     let found = false;
     for await (const share of serviceClient.listShares({ includeDeleted: true })) {
-      if (share.name == shareClient.name) {
+      if (share.name === shareClient.name) {
         found = true;
         assert.ok(share.version);
         assert.ok(share.deleted);
@@ -440,7 +441,7 @@ describe("FileServiceClient", () => {
     let found = false;
     let shareDeleted: ShareItem | undefined;
     for await (const share of serviceClient.listShares({ includeDeleted: true })) {
-      if (share.name == shareClient.name) {
+      if (share.name === shareClient.name) {
         found = true;
         assert.ok(share.version);
         assert.ok(share.deleted);
@@ -482,7 +483,7 @@ describe("FileServiceClient Premium", () => {
   let recorder: Recorder;
   let serviceClient: ShareServiceClient;
 
-  beforeEach(function() {
+  beforeEach(function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     try {
       serviceClient = getGenericBSU("PREMIUM_FILE_");
@@ -496,7 +497,7 @@ describe("FileServiceClient Premium", () => {
     await recorder.stop();
   });
 
-  it("SMB Multichannel", async function() {
+  it("SMB Multichannel", async function(this: Context) {
     if (isLiveMode()) {
       // Skipped for now as it needs be enabled on the account.
       this.skip();
@@ -508,7 +509,7 @@ describe("FileServiceClient Premium", () => {
     assert.ok(propertiesSet.protocol?.smb?.multichannel);
   });
 
-  it("Share Enable Protocol & Share Squash Root", async function() {
+  it("Share Enable Protocol & Share Squash Root", async function(this: Context) {
     if (isLiveMode()) {
       // Skipped for now as this feature is not available in our test account's region yet.
       this.skip();
