@@ -66,7 +66,7 @@ export interface LogsQueryResult {
   /** The code and message for an error. */
   error?: ErrorInfo;
   /** Indicates if a query succeeded or failed or partially failed.
-   *  Represented by "Partial" | "Success" | "Failed".
+   * Represented by "Partial" | "Success" | "Failed".
    * For partially failed queries, users can find data in "tables" attribute
    * and error information in "error" attribute */
   status?: LogsQueryResultStatus;
