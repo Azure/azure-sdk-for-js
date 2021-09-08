@@ -95,9 +95,10 @@ function New-DeployManifest {
   Write-Host "Package Directories: "
   Write-Host $packageDir
   $javascriptSamples = $packageDir | ForEach-Object {
-    Write-Host $_
+    Write-Host "$_/samples/*"
     Write-Host "version num: "
     $versions = (Get-Item "$_/samples/*").Name
+    tree "$_ /f"
     Write-Host $version
     Write-Host "Newest Version"
     $newestVer = [AzureEngSemanticVersion]::SortVersionStrings($versions) | Select-Object -First 1
