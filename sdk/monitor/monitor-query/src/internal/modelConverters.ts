@@ -128,15 +128,11 @@ export function convertResponseForQueryBatch(
       })
       ?.map((response: GeneratedBatchQueryResponse) => ({
         id: response.id,
-        visualization: (JSON.parse(response.body as any) as BatchQueryResults).render,
-        statistics: (JSON.parse(response.body as any) as BatchQueryResults).statistics,
+        visualization: response.body?.render,
+        statistics: response.body?.statistics,
         // hoist fields from the sub-object 'body' to this level
-        error: (JSON.parse(response.body as any) as BatchQueryResults).error,
-        tables: (JSON.parse(
-          response.body as any
-        ) as BatchQueryResults).tables?.map((table: GeneratedTable) =>
-          convertGeneratedTable(table)
-        ),
+        error: response.body?.error,
+        tables: response.body?.tables?.map((table: GeneratedTable) => convertGeneratedTable(table)),
         status: "Success"
       }))
   };
