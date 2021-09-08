@@ -68,7 +68,7 @@ export interface KeyVaultProperties {
   /**
    * The name of the key vault key.
    */
-  keyName: string;
+  keyName?: string;
   /**
    * The version of the key vault key.
    */
@@ -76,7 +76,7 @@ export interface KeyVaultProperties {
   /**
    * The Uri of the key vault.
    */
-  keyVaultUri: string;
+  keyVaultUri?: string;
   /**
    * The user assigned identity (ARM resource id) that has access to the key.
    */
@@ -91,6 +91,16 @@ export interface LanguageExtension {
    * The language extension name. Possible values include: 'PYTHON', 'R'
    */
   languageExtensionName?: LanguageExtensionName;
+}
+
+/**
+ * Represents an accepted audience trusted by the cluster.
+ */
+export interface AcceptedAudiences {
+  /**
+   * GUID or valid URL representing an accepted audience.
+   */
+  value?: string;
 }
 
 /**
@@ -248,6 +258,38 @@ export interface TableLevelSharingProperties {
 }
 
 /**
+ * Metadata pertaining to creation and last modification of the resource.
+ */
+export interface SystemData {
+  /**
+   * The identity that created the resource.
+   */
+  createdBy?: string;
+  /**
+   * The type of identity that created the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  createdByType?: CreatedByType;
+  /**
+   * The timestamp of resource creation (UTC).
+   */
+  createdAt?: Date;
+  /**
+   * The identity that last modified the resource.
+   */
+  lastModifiedBy?: string;
+  /**
+   * The type of identity that last modified the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  lastModifiedByType?: CreatedByType;
+  /**
+   * The timestamp of resource last modification (UTC)
+   */
+  lastModifiedAt?: Date;
+}
+
+/**
  * An interface representing IdentityUserAssignedIdentitiesValue.
  */
 export interface IdentityUserAssignedIdentitiesValue {
@@ -341,6 +383,10 @@ export interface Cluster extends TrackedResource {
    */
   sku: AzureSku;
   /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
+  /**
    * The availability zones of the cluster.
    */
   zones?: string[];
@@ -357,8 +403,9 @@ export interface Cluster extends TrackedResource {
   /**
    * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
    * 'Deleting', 'Succeeded', 'Failed', 'Moving'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  provisioningState?: ProvisioningState;
+  readonly provisioningState?: ProvisioningState;
   /**
    * The cluster URI.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -412,9 +459,37 @@ export interface Cluster extends TrackedResource {
    */
   enableDoubleEncryption?: boolean;
   /**
+   * Public network access to the cluster is enabled by default. When disabled, only private
+   * endpoint connection to the cluster is allowed. Possible values include: 'Enabled', 'Disabled'.
+   * Default value: 'Enabled'.
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * The list of ips in the format of CIDR allowed to connect to the cluster.
+   */
+  allowedIpRangeList?: string[];
+  /**
    * The engine type. Possible values include: 'V2', 'V3'. Default value: 'V3'.
    */
   engineType?: EngineType;
+  /**
+   * The cluster's accepted audiences.
+   */
+  acceptedAudiences?: AcceptedAudiences[];
+  /**
+   * A boolean value that indicates if the cluster could be automatically stopped (due to lack of
+   * data or no activity for many days). Default value: true.
+   */
+  enableAutoStop?: boolean;
+  /**
+   * Whether or not to restrict outbound network access.  Value is optional but if passed in, must
+   * be 'Enabled' or 'Disabled'. Possible values include: 'Enabled', 'Disabled'
+   */
+  restrictOutboundNetworkAccess?: ClusterNetworkAccessFlag;
+  /**
+   * List of allowed FQDNs(Fully Qualified Domain Name) for egress from Cluster.
+   */
+  allowedFqdnList?: string[];
   /**
    * A unique read-only string that changes whenever the resource is updated.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -451,8 +526,9 @@ export interface ClusterUpdate extends Resource {
   /**
    * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
    * 'Deleting', 'Succeeded', 'Failed', 'Moving'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  provisioningState?: ProvisioningState;
+  readonly provisioningState?: ProvisioningState;
   /**
    * The cluster URI.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -506,9 +582,37 @@ export interface ClusterUpdate extends Resource {
    */
   enableDoubleEncryption?: boolean;
   /**
+   * Public network access to the cluster is enabled by default. When disabled, only private
+   * endpoint connection to the cluster is allowed. Possible values include: 'Enabled', 'Disabled'.
+   * Default value: 'Enabled'.
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * The list of ips in the format of CIDR allowed to connect to the cluster.
+   */
+  allowedIpRangeList?: string[];
+  /**
    * The engine type. Possible values include: 'V2', 'V3'. Default value: 'V3'.
    */
   engineType?: EngineType;
+  /**
+   * The cluster's accepted audiences.
+   */
+  acceptedAudiences?: AcceptedAudiences[];
+  /**
+   * A boolean value that indicates if the cluster could be automatically stopped (due to lack of
+   * data or no activity for many days). Default value: true.
+   */
+  enableAutoStop?: boolean;
+  /**
+   * Whether or not to restrict outbound network access.  Value is optional but if passed in, must
+   * be 'Enabled' or 'Disabled'. Possible values include: 'Enabled', 'Disabled'
+   */
+  restrictOutboundNetworkAccess?: ClusterNetworkAccessFlag;
+  /**
+   * List of allowed FQDNs(Fully Qualified Domain Name) for egress from Cluster.
+   */
+  allowedFqdnList?: string[];
 }
 
 /**
@@ -516,7 +620,8 @@ export interface ClusterUpdate extends Resource {
  * and a location
  * @summary Proxy Resource
  */
-export interface ProxyResource extends Resource {}
+export interface ProxyResource extends Resource {
+}
 
 /**
  * Class representing an attached database configuration.
@@ -529,8 +634,9 @@ export interface AttachedDatabaseConfiguration extends ProxyResource {
   /**
    * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
    * 'Deleting', 'Succeeded', 'Failed', 'Moving'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  provisioningState?: ProvisioningState;
+  readonly provisioningState?: ProvisioningState;
   /**
    * The name of the database which you would like to attach, use * if you want to follow all
    * current and future databases.
@@ -623,8 +729,9 @@ export interface ReadWriteDatabase {
   /**
    * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
    * 'Deleting', 'Succeeded', 'Failed', 'Moving'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  provisioningState?: ProvisioningState;
+  readonly provisioningState?: ProvisioningState;
   /**
    * The time the data should be kept before it stops being accessible to queries in TimeSpan.
    */
@@ -676,8 +783,9 @@ export interface ReadOnlyFollowingDatabase {
   /**
    * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
    * 'Deleting', 'Succeeded', 'Failed', 'Moving'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  provisioningState?: ProvisioningState;
+  readonly provisioningState?: ProvisioningState;
   /**
    * The time the data should be kept before it stops being accessible to queries in TimeSpan.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -780,8 +888,9 @@ export interface DatabasePrincipalAssignment extends ProxyResource {
   /**
    * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
    * 'Deleting', 'Succeeded', 'Failed', 'Moving'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  provisioningState?: ProvisioningState;
+  readonly provisioningState?: ProvisioningState;
 }
 
 /**
@@ -818,40 +927,9 @@ export interface ClusterPrincipalAssignment extends ProxyResource {
   /**
    * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
    * 'Deleting', 'Succeeded', 'Failed', 'Moving'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  provisioningState?: ProvisioningState;
-}
-
-/**
- * Metadata pertaining to creation and last modification of the resource.
- */
-export interface SystemData {
-  /**
-   * The identity that created the resource.
-   */
-  createdBy?: string;
-  /**
-   * The type of identity that created the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
-   */
-  createdByType?: CreatedByType;
-  /**
-   * The timestamp of resource creation (UTC).
-   */
-  createdAt?: Date;
-  /**
-   * The identity that last modified the resource.
-   */
-  lastModifiedBy?: string;
-  /**
-   * The type of identity that last modified the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
-   */
-  lastModifiedByType?: CreatedByType;
-  /**
-   * The timestamp of resource last modification (UTC)
-   */
-  lastModifiedAt?: Date;
+  readonly provisioningState?: ProvisioningState;
 }
 
 /**
@@ -877,12 +955,180 @@ export interface Script extends ProxyResource {
   /**
    * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
    * 'Deleting', 'Succeeded', 'Failed', 'Moving'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  provisioningState?: ProvisioningState;
+  readonly provisioningState?: ProvisioningState;
   /**
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly systemData?: SystemData;
+}
+
+/**
+ * Class representing a managed private endpoint.
+ */
+export interface ManagedPrivateEndpoint extends ProxyResource {
+  /**
+   * The ARM resource ID of the resource for which the managed private endpoint is created.
+   */
+  privateLinkResourceId: string;
+  /**
+   * The region of the resource to which the managed private endpoint is created.
+   */
+  privateLinkResourceRegion?: string;
+  /**
+   * The groupId in which the managed private endpoint is created.
+   */
+  groupId: string;
+  /**
+   * The user request message.
+   */
+  requestMessage?: string;
+  /**
+   * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
+   * 'Deleting', 'Succeeded', 'Failed', 'Moving'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
+}
+
+/**
+ * Private endpoint which the connection belongs to.
+ */
+export interface PrivateEndpointProperty {
+  /**
+   * Resource id of the private endpoint.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+}
+
+/**
+ * Connection State of the Private Endpoint Connection.
+ */
+export interface PrivateLinkServiceConnectionStateProperty {
+  /**
+   * The private link service connection status.
+   */
+  status?: string;
+  /**
+   * The private link service connection description.
+   */
+  description?: string;
+  /**
+   * Any action that is required beyond basic workflow (approve/ reject/ disconnect)
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly actionsRequired?: string;
+}
+
+/**
+ * A private endpoint connection
+ */
+export interface PrivateEndpointConnection extends ProxyResource {
+  /**
+   * Private endpoint which the connection belongs to.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly privateEndpoint?: PrivateEndpointProperty;
+  /**
+   * Connection State of the Private Endpoint Connection.
+   */
+  privateLinkServiceConnectionState: PrivateLinkServiceConnectionStateProperty;
+  /**
+   * Group id of the private endpoint.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly groupId?: string;
+  /**
+   * Provisioning state of the private endpoint.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
+}
+
+/**
+ * A private link resource
+ */
+export interface PrivateLinkResource extends Resource {
+  /**
+   * The private link resource group id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly groupId?: string;
+  /**
+   * The private link resource required member names.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly requiredMembers?: string[];
+  /**
+   * The private link resource required zone names.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly requiredZoneNames?: string[];
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
+}
+
+/**
+ * Current TCP connectivity information from the Kusto cluster to a single endpoint.
+ */
+export interface EndpointDetail {
+  /**
+   * The port an endpoint is connected to.
+   */
+  port?: number;
+}
+
+/**
+ * A domain name that a service is reached at, including details of the current connection status.
+ */
+export interface EndpointDependency {
+  /**
+   * The domain name of the dependency.
+   */
+  domainName?: string;
+  /**
+   * The ports used when connecting to DomainName.
+   */
+  endpointDetails?: EndpointDetail[];
+}
+
+/**
+ * Endpoints accessed for a common purpose that the Kusto Service Environment requires outbound
+ * network access to.
+ */
+export interface OutboundNetworkDependenciesEndpoint extends ProxyResource {
+  /**
+   * The type of service accessed by the Kusto Service Environment, e.g., Azure Storage, Azure SQL
+   * Database, and Azure Active Directory.
+   */
+  category?: string;
+  /**
+   * The endpoints that the Kusto Service Environment reaches the service at.
+   */
+  endpoints?: EndpointDependency[];
+  /**
+   * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
+   * 'Deleting', 'Succeeded', 'Failed', 'Moving'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
 }
 
 /**
@@ -907,11 +1153,7 @@ export interface FollowerDatabaseDefinition {
 /**
  * Contains the possible cases for DataConnection.
  */
-export type DataConnectionUnion =
-  | DataConnection
-  | EventHubDataConnection
-  | IotHubDataConnection
-  | EventGridDataConnection;
+export type DataConnectionUnion = DataConnection | EventHubDataConnection | IotHubDataConnection | EventGridDataConnection;
 
 /**
  * Class representing an data connection.
@@ -1053,8 +1295,9 @@ export interface EventHubDataConnection {
   /**
    * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
    * 'Deleting', 'Succeeded', 'Failed', 'Moving'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  provisioningState?: ProvisioningState;
+  readonly provisioningState?: ProvisioningState;
   /**
    * The resource ID of a managed identity (system or user assigned) to be used to authenticate
    * with event hub.
@@ -1126,8 +1369,9 @@ export interface IotHubDataConnection {
   /**
    * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
    * 'Deleting', 'Succeeded', 'Failed', 'Moving'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  provisioningState?: ProvisioningState;
+  readonly provisioningState?: ProvisioningState;
 }
 
 /**
@@ -1200,8 +1444,9 @@ export interface EventGridDataConnection {
   /**
    * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
    * 'Deleting', 'Succeeded', 'Failed', 'Moving'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  provisioningState?: ProvisioningState;
+  readonly provisioningState?: ProvisioningState;
 }
 
 /**
@@ -1238,6 +1483,26 @@ export interface CheckNameRequest {
    * 'Microsoft.Kusto/clusters/attachedDatabaseConfigurations'
    */
   type: Type;
+}
+
+/**
+ * The result returned from a AttachedDatabaseConfigurations check name availability request.
+ */
+export interface AttachedDatabaseConfigurationsCheckNameRequest {
+  /**
+   * Attached database resource name.
+   */
+  name: string;
+}
+
+/**
+ * The result returned from a managedPrivateEndpoints check name availability request.
+ */
+export interface ManagedPrivateEndpointsCheckNameRequest {
+  /**
+   * Managed private endpoint resource name.
+   */
+  name: string;
 }
 
 /**
@@ -1477,85 +1742,133 @@ export interface KustoManagementClientOptions extends AzureServiceClientOptions 
  * The list Kusto database principals operation response.
  * @extends Array<FollowerDatabaseDefinition>
  */
-export interface FollowerDatabaseListResult extends Array<FollowerDatabaseDefinition> {}
+export interface FollowerDatabaseListResult extends Array<FollowerDatabaseDefinition> {
+}
 
 /**
  * @interface
  * The list Kusto clusters operation response.
  * @extends Array<Cluster>
  */
-export interface ClusterListResult extends Array<Cluster> {}
+export interface ClusterListResult extends Array<Cluster> {
+}
 
 /**
  * @interface
  * The list of the EngagementFabric SKU descriptions
  * @extends Array<SkuDescription>
  */
-export interface SkuDescriptionList extends Array<SkuDescription> {}
+export interface SkuDescriptionList extends Array<SkuDescription> {
+}
 
 /**
  * @interface
  * List of available SKUs for a Kusto Cluster.
  * @extends Array<AzureResourceSku>
  */
-export interface ListResourceSkusResult extends Array<AzureResourceSku> {}
+export interface ListResourceSkusResult extends Array<AzureResourceSku> {
+}
+
+/**
+ * @interface
+ * Collection of Outbound Environment Endpoints
+ * @extends Array<OutboundNetworkDependenciesEndpoint>
+ */
+export interface OutboundNetworkDependenciesEndpointListResult extends Array<OutboundNetworkDependenciesEndpoint> {
+  /**
+   * Link to next page of resources.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
 
 /**
  * @interface
  * The list of language extension objects.
  * @extends Array<LanguageExtension>
  */
-export interface LanguageExtensionsList extends Array<LanguageExtension> {}
+export interface LanguageExtensionsList extends Array<LanguageExtension> {
+}
 
 /**
  * @interface
  * The list Kusto cluster principal assignments operation response.
  * @extends Array<ClusterPrincipalAssignment>
  */
-export interface ClusterPrincipalAssignmentListResult extends Array<ClusterPrincipalAssignment> {}
+export interface ClusterPrincipalAssignmentListResult extends Array<ClusterPrincipalAssignment> {
+}
 
 /**
  * @interface
  * The list Kusto databases operation response.
  * @extends Array<DatabaseUnion>
  */
-export interface DatabaseListResult extends Array<DatabaseUnion> {}
+export interface DatabaseListResult extends Array<DatabaseUnion> {
+}
 
 /**
  * @interface
  * The list Kusto database principals operation response.
  * @extends Array<DatabasePrincipal>
  */
-export interface DatabasePrincipalListResult extends Array<DatabasePrincipal> {}
-
-/**
- * @interface
- * The list Kusto database principal assignments operation response.
- * @extends Array<DatabasePrincipalAssignment>
- */
-export interface DatabasePrincipalAssignmentListResult extends Array<DatabasePrincipalAssignment> {}
-
-/**
- * @interface
- * The list Kusto database script operation response.
- * @extends Array<Script>
- */
-export interface ScriptListResult extends Array<Script> {}
+export interface DatabasePrincipalListResult extends Array<DatabasePrincipal> {
+}
 
 /**
  * @interface
  * The list attached database configurations operation response.
  * @extends Array<AttachedDatabaseConfiguration>
  */
-export interface AttachedDatabaseConfigurationListResult
-  extends Array<AttachedDatabaseConfiguration> {}
+export interface AttachedDatabaseConfigurationListResult extends Array<AttachedDatabaseConfiguration> {
+}
+
+/**
+ * @interface
+ * The list managed private endpoints operation response.
+ * @extends Array<ManagedPrivateEndpoint>
+ */
+export interface ManagedPrivateEndpointListResult extends Array<ManagedPrivateEndpoint> {
+}
+
+/**
+ * @interface
+ * The list Kusto database principal assignments operation response.
+ * @extends Array<DatabasePrincipalAssignment>
+ */
+export interface DatabasePrincipalAssignmentListResult extends Array<DatabasePrincipalAssignment> {
+}
+
+/**
+ * @interface
+ * The list Kusto database script operation response.
+ * @extends Array<Script>
+ */
+export interface ScriptListResult extends Array<Script> {
+}
+
+/**
+ * @interface
+ * A list of private endpoint connections
+ * @extends Array<PrivateEndpointConnection>
+ */
+export interface PrivateEndpointConnectionListResult extends Array<PrivateEndpointConnection> {
+}
+
+/**
+ * @interface
+ * A list of private link resources
+ * @extends Array<PrivateLinkResource>
+ */
+export interface PrivateLinkResourceListResult extends Array<PrivateLinkResource> {
+}
 
 /**
  * @interface
  * The list Kusto data connections operation response.
  * @extends Array<DataConnectionUnion>
  */
-export interface DataConnectionListResult extends Array<DataConnectionUnion> {}
+export interface DataConnectionListResult extends Array<DataConnectionUnion> {
+}
 
 /**
  * @interface
@@ -1575,16 +1888,7 @@ export interface OperationListResult extends Array<Operation> {
  * @readonly
  * @enum {string}
  */
-export type State =
-  | "Creating"
-  | "Unavailable"
-  | "Running"
-  | "Deleting"
-  | "Deleted"
-  | "Stopping"
-  | "Stopped"
-  | "Starting"
-  | "Updating";
+export type State = 'Creating' | 'Unavailable' | 'Running' | 'Deleting' | 'Deleted' | 'Stopping' | 'Stopped' | 'Starting' | 'Updating';
 
 /**
  * Defines values for ProvisioningState.
@@ -1592,13 +1896,7 @@ export type State =
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState =
-  | "Running"
-  | "Creating"
-  | "Deleting"
-  | "Succeeded"
-  | "Failed"
-  | "Moving";
+export type ProvisioningState = 'Running' | 'Creating' | 'Deleting' | 'Succeeded' | 'Failed' | 'Moving';
 
 /**
  * Defines values for LanguageExtensionName.
@@ -1606,7 +1904,15 @@ export type ProvisioningState =
  * @readonly
  * @enum {string}
  */
-export type LanguageExtensionName = "PYTHON" | "R";
+export type LanguageExtensionName = 'PYTHON' | 'R';
+
+/**
+ * Defines values for PublicNetworkAccess.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type PublicNetworkAccess = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for EngineType.
@@ -1614,7 +1920,15 @@ export type LanguageExtensionName = "PYTHON" | "R";
  * @readonly
  * @enum {string}
  */
-export type EngineType = "V2" | "V3";
+export type EngineType = 'V2' | 'V3';
+
+/**
+ * Defines values for ClusterNetworkAccessFlag.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterNetworkAccessFlag = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for AzureSkuName.
@@ -1628,32 +1942,7 @@ export type EngineType = "V2" | "V3";
  * @readonly
  * @enum {string}
  */
-export type AzureSkuName =
-  | "Standard_DS13_v2+1TB_PS"
-  | "Standard_DS13_v2+2TB_PS"
-  | "Standard_DS14_v2+3TB_PS"
-  | "Standard_DS14_v2+4TB_PS"
-  | "Standard_D13_v2"
-  | "Standard_D14_v2"
-  | "Standard_L8s"
-  | "Standard_L16s"
-  | "Standard_L8s_v2"
-  | "Standard_L16s_v2"
-  | "Standard_D11_v2"
-  | "Standard_D12_v2"
-  | "Standard_L4s"
-  | "Dev(No SLA)_Standard_D11_v2"
-  | "Standard_E64i_v3"
-  | "Standard_E80ids_v4"
-  | "Standard_E2a_v4"
-  | "Standard_E4a_v4"
-  | "Standard_E8a_v4"
-  | "Standard_E16a_v4"
-  | "Standard_E8as_v4+1TB_PS"
-  | "Standard_E8as_v4+2TB_PS"
-  | "Standard_E16as_v4+3TB_PS"
-  | "Standard_E16as_v4+4TB_PS"
-  | "Dev(No SLA)_Standard_E2a_v4";
+export type AzureSkuName = 'Standard_DS13_v2+1TB_PS' | 'Standard_DS13_v2+2TB_PS' | 'Standard_DS14_v2+3TB_PS' | 'Standard_DS14_v2+4TB_PS' | 'Standard_D13_v2' | 'Standard_D14_v2' | 'Standard_L8s' | 'Standard_L16s' | 'Standard_L8s_v2' | 'Standard_L16s_v2' | 'Standard_D11_v2' | 'Standard_D12_v2' | 'Standard_L4s' | 'Dev(No SLA)_Standard_D11_v2' | 'Standard_E64i_v3' | 'Standard_E80ids_v4' | 'Standard_E2a_v4' | 'Standard_E4a_v4' | 'Standard_E8a_v4' | 'Standard_E16a_v4' | 'Standard_E8as_v4+1TB_PS' | 'Standard_E8as_v4+2TB_PS' | 'Standard_E16as_v4+3TB_PS' | 'Standard_E16as_v4+4TB_PS' | 'Dev(No SLA)_Standard_E2a_v4';
 
 /**
  * Defines values for AzureSkuTier.
@@ -1661,7 +1950,7 @@ export type AzureSkuName =
  * @readonly
  * @enum {string}
  */
-export type AzureSkuTier = "Basic" | "Standard";
+export type AzureSkuTier = 'Basic' | 'Standard';
 
 /**
  * Defines values for AzureScaleType.
@@ -1669,7 +1958,7 @@ export type AzureSkuTier = "Basic" | "Standard";
  * @readonly
  * @enum {string}
  */
-export type AzureScaleType = "automatic" | "manual" | "none";
+export type AzureScaleType = 'automatic' | 'manual' | 'none';
 
 /**
  * Defines values for DefaultPrincipalsModificationKind.
@@ -1677,7 +1966,7 @@ export type AzureScaleType = "automatic" | "manual" | "none";
  * @readonly
  * @enum {string}
  */
-export type DefaultPrincipalsModificationKind = "Union" | "Replace" | "None";
+export type DefaultPrincipalsModificationKind = 'Union' | 'Replace' | 'None';
 
 /**
  * Defines values for PrincipalsModificationKind.
@@ -1685,7 +1974,7 @@ export type DefaultPrincipalsModificationKind = "Union" | "Replace" | "None";
  * @readonly
  * @enum {string}
  */
-export type PrincipalsModificationKind = "Union" | "Replace" | "None";
+export type PrincipalsModificationKind = 'Union' | 'Replace' | 'None';
 
 /**
  * Defines values for EventHubDataFormat.
@@ -1694,23 +1983,7 @@ export type PrincipalsModificationKind = "Union" | "Replace" | "None";
  * @readonly
  * @enum {string}
  */
-export type EventHubDataFormat =
-  | "MULTIJSON"
-  | "JSON"
-  | "CSV"
-  | "TSV"
-  | "SCSV"
-  | "SOHSV"
-  | "PSV"
-  | "TXT"
-  | "RAW"
-  | "SINGLEJSON"
-  | "AVRO"
-  | "TSVE"
-  | "PARQUET"
-  | "ORC"
-  | "APACHEAVRO"
-  | "W3CLOGFILE";
+export type EventHubDataFormat = 'MULTIJSON' | 'JSON' | 'CSV' | 'TSV' | 'SCSV' | 'SOHSV' | 'PSV' | 'TXT' | 'RAW' | 'SINGLEJSON' | 'AVRO' | 'TSVE' | 'PARQUET' | 'ORC' | 'APACHEAVRO' | 'W3CLOGFILE';
 
 /**
  * Defines values for Compression.
@@ -1718,7 +1991,7 @@ export type EventHubDataFormat =
  * @readonly
  * @enum {string}
  */
-export type Compression = "None" | "GZip";
+export type Compression = 'None' | 'GZip';
 
 /**
  * Defines values for IotHubDataFormat.
@@ -1727,23 +2000,7 @@ export type Compression = "None" | "GZip";
  * @readonly
  * @enum {string}
  */
-export type IotHubDataFormat =
-  | "MULTIJSON"
-  | "JSON"
-  | "CSV"
-  | "TSV"
-  | "SCSV"
-  | "SOHSV"
-  | "PSV"
-  | "TXT"
-  | "RAW"
-  | "SINGLEJSON"
-  | "AVRO"
-  | "TSVE"
-  | "PARQUET"
-  | "ORC"
-  | "APACHEAVRO"
-  | "W3CLOGFILE";
+export type IotHubDataFormat = 'MULTIJSON' | 'JSON' | 'CSV' | 'TSV' | 'SCSV' | 'SOHSV' | 'PSV' | 'TXT' | 'RAW' | 'SINGLEJSON' | 'AVRO' | 'TSVE' | 'PARQUET' | 'ORC' | 'APACHEAVRO' | 'W3CLOGFILE';
 
 /**
  * Defines values for EventGridDataFormat.
@@ -1752,23 +2009,7 @@ export type IotHubDataFormat =
  * @readonly
  * @enum {string}
  */
-export type EventGridDataFormat =
-  | "MULTIJSON"
-  | "JSON"
-  | "CSV"
-  | "TSV"
-  | "SCSV"
-  | "SOHSV"
-  | "PSV"
-  | "TXT"
-  | "RAW"
-  | "SINGLEJSON"
-  | "AVRO"
-  | "TSVE"
-  | "PARQUET"
-  | "ORC"
-  | "APACHEAVRO"
-  | "W3CLOGFILE";
+export type EventGridDataFormat = 'MULTIJSON' | 'JSON' | 'CSV' | 'TSV' | 'SCSV' | 'SOHSV' | 'PSV' | 'TXT' | 'RAW' | 'SINGLEJSON' | 'AVRO' | 'TSVE' | 'PARQUET' | 'ORC' | 'APACHEAVRO' | 'W3CLOGFILE';
 
 /**
  * Defines values for BlobStorageEventType.
@@ -1776,9 +2017,15 @@ export type EventGridDataFormat =
  * @readonly
  * @enum {string}
  */
-export type BlobStorageEventType =
-  | "Microsoft.Storage.BlobCreated"
-  | "Microsoft.Storage.BlobRenamed";
+export type BlobStorageEventType = 'Microsoft.Storage.BlobCreated' | 'Microsoft.Storage.BlobRenamed';
+
+/**
+ * Defines values for CreatedByType.
+ * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
+ * @readonly
+ * @enum {string}
+ */
+export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
 
 /**
  * Defines values for IdentityType.
@@ -1787,11 +2034,7 @@ export type BlobStorageEventType =
  * @readonly
  * @enum {string}
  */
-export type IdentityType =
-  | "None"
-  | "SystemAssigned"
-  | "UserAssigned"
-  | "SystemAssigned, UserAssigned";
+export type IdentityType = 'None' | 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned';
 
 /**
  * Defines values for DatabasePrincipalRole.
@@ -1799,13 +2042,7 @@ export type IdentityType =
  * @readonly
  * @enum {string}
  */
-export type DatabasePrincipalRole =
-  | "Admin"
-  | "Ingestor"
-  | "Monitor"
-  | "User"
-  | "UnrestrictedViewer"
-  | "Viewer";
+export type DatabasePrincipalRole = 'Admin' | 'Ingestor' | 'Monitor' | 'User' | 'UnrestrictedViewer' | 'Viewer';
 
 /**
  * Defines values for DatabasePrincipalType.
@@ -1813,7 +2050,7 @@ export type DatabasePrincipalRole =
  * @readonly
  * @enum {string}
  */
-export type DatabasePrincipalType = "App" | "Group" | "User";
+export type DatabasePrincipalType = 'App' | 'Group' | 'User';
 
 /**
  * Defines values for PrincipalType.
@@ -1821,7 +2058,7 @@ export type DatabasePrincipalType = "App" | "Group" | "User";
  * @readonly
  * @enum {string}
  */
-export type PrincipalType = "App" | "Group" | "User";
+export type PrincipalType = 'App' | 'Group' | 'User';
 
 /**
  * Defines values for ClusterPrincipalRole.
@@ -1829,15 +2066,7 @@ export type PrincipalType = "App" | "Group" | "User";
  * @readonly
  * @enum {string}
  */
-export type ClusterPrincipalRole = "AllDatabasesAdmin" | "AllDatabasesViewer";
-
-/**
- * Defines values for CreatedByType.
- * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
- * @readonly
- * @enum {string}
- */
-export type CreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
+export type ClusterPrincipalRole = 'AllDatabasesAdmin' | 'AllDatabasesViewer';
 
 /**
  * Defines values for Type.
@@ -1846,9 +2075,7 @@ export type CreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
  * @readonly
  * @enum {string}
  */
-export type Type =
-  | "Microsoft.Kusto/clusters/databases"
-  | "Microsoft.Kusto/clusters/attachedDatabaseConfigurations";
+export type Type = 'Microsoft.Kusto/clusters/databases' | 'Microsoft.Kusto/clusters/attachedDatabaseConfigurations';
 
 /**
  * Defines values for Reason.
@@ -1856,7 +2083,7 @@ export type Type =
  * @readonly
  * @enum {string}
  */
-export type Reason = "Invalid" | "AlreadyExists";
+export type Reason = 'Invalid' | 'AlreadyExists';
 
 /**
  * Defines values for Status.
@@ -1864,7 +2091,7 @@ export type Reason = "Invalid" | "AlreadyExists";
  * @readonly
  * @enum {string}
  */
-export type Status = "Succeeded" | "Canceled" | "Failed" | "Running";
+export type Status = 'Succeeded' | 'Canceled' | 'Failed' | 'Running';
 
 /**
  * Contains response data for the get operation.
@@ -1874,16 +2101,16 @@ export type ClustersGetResponse = Cluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Cluster;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Cluster;
+    };
 };
 
 /**
@@ -1894,16 +2121,16 @@ export type ClustersCreateOrUpdateResponse = Cluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Cluster;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Cluster;
+    };
 };
 
 /**
@@ -1914,16 +2141,16 @@ export type ClustersUpdateResponse = Cluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Cluster;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Cluster;
+    };
 };
 
 /**
@@ -1934,16 +2161,16 @@ export type ClustersListFollowerDatabasesResponse = FollowerDatabaseListResult &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: FollowerDatabaseListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FollowerDatabaseListResult;
+    };
 };
 
 /**
@@ -1954,16 +2181,16 @@ export type ClustersDiagnoseVirtualNetworkResponse = DiagnoseVirtualNetworkResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DiagnoseVirtualNetworkResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DiagnoseVirtualNetworkResult;
+    };
 };
 
 /**
@@ -1974,16 +2201,16 @@ export type ClustersListByResourceGroupResponse = ClusterListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClusterListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClusterListResult;
+    };
 };
 
 /**
@@ -1994,16 +2221,16 @@ export type ClustersListResponse = ClusterListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClusterListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClusterListResult;
+    };
 };
 
 /**
@@ -2014,16 +2241,16 @@ export type ClustersListSkusResponse = SkuDescriptionList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SkuDescriptionList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SkuDescriptionList;
+    };
 };
 
 /**
@@ -2034,16 +2261,16 @@ export type ClustersCheckNameAvailabilityResponse = CheckNameResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CheckNameResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CheckNameResult;
+    };
 };
 
 /**
@@ -2054,16 +2281,36 @@ export type ClustersListSkusByResourceResponse = ListResourceSkusResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ListResourceSkusResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListResourceSkusResult;
+    };
+};
+
+/**
+ * Contains response data for the listOutboundNetworkDependenciesEndpoints operation.
+ */
+export type ClustersListOutboundNetworkDependenciesEndpointsResponse = OutboundNetworkDependenciesEndpointListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OutboundNetworkDependenciesEndpointListResult;
+    };
 };
 
 /**
@@ -2074,16 +2321,16 @@ export type ClustersListLanguageExtensionsResponse = LanguageExtensionsList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: LanguageExtensionsList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LanguageExtensionsList;
+    };
 };
 
 /**
@@ -2094,16 +2341,16 @@ export type ClustersBeginCreateOrUpdateResponse = Cluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Cluster;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Cluster;
+    };
 };
 
 /**
@@ -2114,16 +2361,16 @@ export type ClustersBeginUpdateResponse = Cluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Cluster;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Cluster;
+    };
 };
 
 /**
@@ -2134,16 +2381,36 @@ export type ClustersBeginDiagnoseVirtualNetworkResponse = DiagnoseVirtualNetwork
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DiagnoseVirtualNetworkResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DiagnoseVirtualNetworkResult;
+    };
+};
+
+/**
+ * Contains response data for the listOutboundNetworkDependenciesEndpointsNext operation.
+ */
+export type ClustersListOutboundNetworkDependenciesEndpointsNextResponse = OutboundNetworkDependenciesEndpointListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OutboundNetworkDependenciesEndpointListResult;
+    };
 };
 
 /**
@@ -2154,16 +2421,16 @@ export type ClusterPrincipalAssignmentsCheckNameAvailabilityResponse = CheckName
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CheckNameResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CheckNameResult;
+    };
 };
 
 /**
@@ -2174,16 +2441,16 @@ export type ClusterPrincipalAssignmentsGetResponse = ClusterPrincipalAssignment 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClusterPrincipalAssignment;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClusterPrincipalAssignment;
+    };
 };
 
 /**
@@ -2194,16 +2461,16 @@ export type ClusterPrincipalAssignmentsCreateOrUpdateResponse = ClusterPrincipal
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClusterPrincipalAssignment;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClusterPrincipalAssignment;
+    };
 };
 
 /**
@@ -2214,16 +2481,16 @@ export type ClusterPrincipalAssignmentsListResponse = ClusterPrincipalAssignment
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClusterPrincipalAssignmentListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClusterPrincipalAssignmentListResult;
+    };
 };
 
 /**
@@ -2234,16 +2501,16 @@ export type ClusterPrincipalAssignmentsBeginCreateOrUpdateResponse = ClusterPrin
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClusterPrincipalAssignment;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClusterPrincipalAssignment;
+    };
 };
 
 /**
@@ -2254,16 +2521,16 @@ export type DatabasesCheckNameAvailabilityResponse = CheckNameResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CheckNameResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CheckNameResult;
+    };
 };
 
 /**
@@ -2274,16 +2541,16 @@ export type DatabasesListByClusterResponse = DatabaseListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabaseListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabaseListResult;
+    };
 };
 
 /**
@@ -2294,16 +2561,16 @@ export type DatabasesGetResponse = DatabaseUnion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabaseUnion;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabaseUnion;
+    };
 };
 
 /**
@@ -2314,16 +2581,16 @@ export type DatabasesCreateOrUpdateResponse = DatabaseUnion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabaseUnion;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabaseUnion;
+    };
 };
 
 /**
@@ -2334,16 +2601,16 @@ export type DatabasesUpdateResponse = DatabaseUnion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabaseUnion;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabaseUnion;
+    };
 };
 
 /**
@@ -2354,16 +2621,16 @@ export type DatabasesListPrincipalsResponse = DatabasePrincipalListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabasePrincipalListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabasePrincipalListResult;
+    };
 };
 
 /**
@@ -2374,16 +2641,16 @@ export type DatabasesAddPrincipalsResponse = DatabasePrincipalListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabasePrincipalListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabasePrincipalListResult;
+    };
 };
 
 /**
@@ -2394,16 +2661,16 @@ export type DatabasesRemovePrincipalsResponse = DatabasePrincipalListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabasePrincipalListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabasePrincipalListResult;
+    };
 };
 
 /**
@@ -2414,16 +2681,16 @@ export type DatabasesBeginCreateOrUpdateResponse = DatabaseUnion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabaseUnion;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabaseUnion;
+    };
 };
 
 /**
@@ -2434,256 +2701,36 @@ export type DatabasesBeginUpdateResponse = DatabaseUnion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabaseUnion;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabaseUnion;
+    };
 };
 
 /**
  * Contains response data for the checkNameAvailability operation.
  */
-export type DatabasePrincipalAssignmentsCheckNameAvailabilityResponse = CheckNameResult & {
+export type AttachedDatabaseConfigurationsCheckNameAvailabilityResponse = CheckNameResult & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CheckNameResult;
-  };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type DatabasePrincipalAssignmentsGetResponse = DatabasePrincipalAssignment & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabasePrincipalAssignment;
-  };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type DatabasePrincipalAssignmentsCreateOrUpdateResponse = DatabasePrincipalAssignment & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabasePrincipalAssignment;
-  };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type DatabasePrincipalAssignmentsListResponse = DatabasePrincipalAssignmentListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabasePrincipalAssignmentListResult;
-  };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type DatabasePrincipalAssignmentsBeginCreateOrUpdateResponse = DatabasePrincipalAssignment & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabasePrincipalAssignment;
-  };
-};
-
-/**
- * Contains response data for the listByDatabase operation.
- */
-export type ScriptsListByDatabaseResponse = ScriptListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ScriptListResult;
-  };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ScriptsGetResponse = Script & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Script;
-  };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type ScriptsCreateOrUpdateResponse = Script & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Script;
-  };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type ScriptsUpdateResponse = Script & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Script;
-  };
-};
-
-/**
- * Contains response data for the checkNameAvailability operation.
- */
-export type ScriptsCheckNameAvailabilityResponse = CheckNameResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CheckNameResult;
-  };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type ScriptsBeginCreateOrUpdateResponse = Script & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Script;
-  };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type ScriptsBeginUpdateResponse = Script & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Script;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CheckNameResult;
+    };
 };
 
 /**
@@ -2694,16 +2741,16 @@ export type AttachedDatabaseConfigurationsListByClusterResponse = AttachedDataba
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AttachedDatabaseConfigurationListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AttachedDatabaseConfigurationListResult;
+    };
 };
 
 /**
@@ -2714,16 +2761,16 @@ export type AttachedDatabaseConfigurationsGetResponse = AttachedDatabaseConfigur
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AttachedDatabaseConfiguration;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AttachedDatabaseConfiguration;
+    };
 };
 
 /**
@@ -2734,16 +2781,16 @@ export type AttachedDatabaseConfigurationsCreateOrUpdateResponse = AttachedDatab
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AttachedDatabaseConfiguration;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AttachedDatabaseConfiguration;
+    };
 };
 
 /**
@@ -2754,16 +2801,516 @@ export type AttachedDatabaseConfigurationsBeginCreateOrUpdateResponse = Attached
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AttachedDatabaseConfiguration;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AttachedDatabaseConfiguration;
+    };
+};
+
+/**
+ * Contains response data for the checkNameAvailability operation.
+ */
+export type ManagedPrivateEndpointsCheckNameAvailabilityResponse = CheckNameResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CheckNameResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ManagedPrivateEndpointsListResponse = ManagedPrivateEndpointListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedPrivateEndpointListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ManagedPrivateEndpointsGetResponse = ManagedPrivateEndpoint & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedPrivateEndpoint;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ManagedPrivateEndpointsCreateOrUpdateResponse = ManagedPrivateEndpoint & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedPrivateEndpoint;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type ManagedPrivateEndpointsUpdateResponse = ManagedPrivateEndpoint & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedPrivateEndpoint;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type ManagedPrivateEndpointsBeginCreateOrUpdateResponse = ManagedPrivateEndpoint & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedPrivateEndpoint;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type ManagedPrivateEndpointsBeginUpdateResponse = ManagedPrivateEndpoint & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedPrivateEndpoint;
+    };
+};
+
+/**
+ * Contains response data for the checkNameAvailability operation.
+ */
+export type DatabasePrincipalAssignmentsCheckNameAvailabilityResponse = CheckNameResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CheckNameResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type DatabasePrincipalAssignmentsGetResponse = DatabasePrincipalAssignment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabasePrincipalAssignment;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type DatabasePrincipalAssignmentsCreateOrUpdateResponse = DatabasePrincipalAssignment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabasePrincipalAssignment;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type DatabasePrincipalAssignmentsListResponse = DatabasePrincipalAssignmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabasePrincipalAssignmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type DatabasePrincipalAssignmentsBeginCreateOrUpdateResponse = DatabasePrincipalAssignment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabasePrincipalAssignment;
+    };
+};
+
+/**
+ * Contains response data for the listByDatabase operation.
+ */
+export type ScriptsListByDatabaseResponse = ScriptListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ScriptListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ScriptsGetResponse = Script & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Script;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ScriptsCreateOrUpdateResponse = Script & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Script;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type ScriptsUpdateResponse = Script & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Script;
+    };
+};
+
+/**
+ * Contains response data for the checkNameAvailability operation.
+ */
+export type ScriptsCheckNameAvailabilityResponse = CheckNameResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CheckNameResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type ScriptsBeginCreateOrUpdateResponse = Script & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Script;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type ScriptsBeginUpdateResponse = Script & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Script;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type PrivateEndpointConnectionsBeginCreateOrUpdateResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type PrivateLinkResourcesListResponse = PrivateLinkResourceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourceListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateLinkResourcesGetResponse = PrivateLinkResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResource;
+    };
 };
 
 /**
@@ -2774,16 +3321,16 @@ export type DataConnectionsListByDatabaseResponse = DataConnectionListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DataConnectionListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DataConnectionListResult;
+    };
 };
 
 /**
@@ -2794,16 +3341,16 @@ export type DataConnectionsDataConnectionValidationMethodResponse = DataConnecti
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DataConnectionValidationListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DataConnectionValidationListResult;
+    };
 };
 
 /**
@@ -2814,16 +3361,16 @@ export type DataConnectionsCheckNameAvailabilityResponse = CheckNameResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CheckNameResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CheckNameResult;
+    };
 };
 
 /**
@@ -2834,16 +3381,16 @@ export type DataConnectionsGetResponse = DataConnectionUnion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DataConnectionUnion;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DataConnectionUnion;
+    };
 };
 
 /**
@@ -2854,16 +3401,16 @@ export type DataConnectionsCreateOrUpdateResponse = DataConnectionUnion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DataConnectionUnion;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DataConnectionUnion;
+    };
 };
 
 /**
@@ -2874,16 +3421,16 @@ export type DataConnectionsUpdateResponse = DataConnectionUnion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DataConnectionUnion;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DataConnectionUnion;
+    };
 };
 
 /**
@@ -2894,16 +3441,16 @@ export type DataConnectionsBeginDataConnectionValidationMethodResponse = DataCon
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DataConnectionValidationListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DataConnectionValidationListResult;
+    };
 };
 
 /**
@@ -2914,16 +3461,16 @@ export type DataConnectionsBeginCreateOrUpdateResponse = DataConnectionUnion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DataConnectionUnion;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DataConnectionUnion;
+    };
 };
 
 /**
@@ -2934,16 +3481,16 @@ export type DataConnectionsBeginUpdateResponse = DataConnectionUnion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DataConnectionUnion;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DataConnectionUnion;
+    };
 };
 
 /**
@@ -2954,16 +3501,16 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationListResult;
+    };
 };
 
 /**
@@ -2974,16 +3521,16 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationListResult;
+    };
 };
 
 /**
@@ -2994,14 +3541,14 @@ export type OperationsResultsGetResponse = OperationResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationResult;
+    };
 };

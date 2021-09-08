@@ -34,24 +34,14 @@ export class DataConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.DataConnectionsListByDatabaseResponse>
    */
-  listByDatabase(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.DataConnectionsListByDatabaseResponse>;
+  listByDatabase(resourceGroupName: string, clusterName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.DataConnectionsListByDatabaseResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param callback The callback
    */
-  listByDatabase(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    callback: msRest.ServiceCallback<Models.DataConnectionListResult>
-  ): void;
+  listByDatabase(resourceGroupName: string, clusterName: string, databaseName: string, callback: msRest.ServiceCallback<Models.DataConnectionListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
@@ -59,20 +49,8 @@ export class DataConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDatabase(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.DataConnectionListResult>
-  ): void;
-  listByDatabase(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataConnectionListResult>,
-    callback?: msRest.ServiceCallback<Models.DataConnectionListResult>
-  ): Promise<Models.DataConnectionsListByDatabaseResponse> {
+  listByDatabase(resourceGroupName: string, clusterName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataConnectionListResult>): void;
+  listByDatabase(resourceGroupName: string, clusterName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataConnectionListResult>, callback?: msRest.ServiceCallback<Models.DataConnectionListResult>): Promise<Models.DataConnectionsListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -81,8 +59,7 @@ export class DataConnections {
         options
       },
       listByDatabaseOperationSpec,
-      callback
-    ) as Promise<Models.DataConnectionsListByDatabaseResponse>;
+      callback) as Promise<Models.DataConnectionsListByDatabaseResponse>;
   }
 
   /**
@@ -94,22 +71,9 @@ export class DataConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.DataConnectionsDataConnectionValidationMethodResponse>
    */
-  dataConnectionValidationMethod(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    parameters: Models.DataConnectionValidation,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.DataConnectionsDataConnectionValidationMethodResponse> {
-    return this.beginDataConnectionValidationMethod(
-      resourceGroupName,
-      clusterName,
-      databaseName,
-      parameters,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.DataConnectionsDataConnectionValidationMethodResponse
-    >;
+  dataConnectionValidationMethod(resourceGroupName: string, clusterName: string, databaseName: string, parameters: Models.DataConnectionValidation, options?: msRest.RequestOptionsBase): Promise<Models.DataConnectionsDataConnectionValidationMethodResponse> {
+    return this.beginDataConnectionValidationMethod(resourceGroupName,clusterName,databaseName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DataConnectionsDataConnectionValidationMethodResponse>;
   }
 
   /**
@@ -121,13 +85,7 @@ export class DataConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.DataConnectionsCheckNameAvailabilityResponse>
    */
-  checkNameAvailability(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    dataConnectionName: Models.DataConnectionCheckNameRequest,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.DataConnectionsCheckNameAvailabilityResponse>;
+  checkNameAvailability(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: Models.DataConnectionCheckNameRequest, options?: msRest.RequestOptionsBase): Promise<Models.DataConnectionsCheckNameAvailabilityResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
@@ -135,13 +93,7 @@ export class DataConnections {
    * @param dataConnectionName The name of the data connection.
    * @param callback The callback
    */
-  checkNameAvailability(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    dataConnectionName: Models.DataConnectionCheckNameRequest,
-    callback: msRest.ServiceCallback<Models.CheckNameResult>
-  ): void;
+  checkNameAvailability(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: Models.DataConnectionCheckNameRequest, callback: msRest.ServiceCallback<Models.CheckNameResult>): void;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
@@ -150,22 +102,8 @@ export class DataConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailability(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    dataConnectionName: Models.DataConnectionCheckNameRequest,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.CheckNameResult>
-  ): void;
-  checkNameAvailability(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    dataConnectionName: Models.DataConnectionCheckNameRequest,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameResult>,
-    callback?: msRest.ServiceCallback<Models.CheckNameResult>
-  ): Promise<Models.DataConnectionsCheckNameAvailabilityResponse> {
+  checkNameAvailability(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: Models.DataConnectionCheckNameRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameResult>): void;
+  checkNameAvailability(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: Models.DataConnectionCheckNameRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameResult>, callback?: msRest.ServiceCallback<Models.CheckNameResult>): Promise<Models.DataConnectionsCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -175,8 +113,7 @@ export class DataConnections {
         options
       },
       checkNameAvailabilityOperationSpec,
-      callback
-    ) as Promise<Models.DataConnectionsCheckNameAvailabilityResponse>;
+      callback) as Promise<Models.DataConnectionsCheckNameAvailabilityResponse>;
   }
 
   /**
@@ -188,13 +125,7 @@ export class DataConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.DataConnectionsGetResponse>
    */
-  get(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    dataConnectionName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.DataConnectionsGetResponse>;
+  get(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.DataConnectionsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
@@ -202,13 +133,7 @@ export class DataConnections {
    * @param dataConnectionName The name of the data connection.
    * @param callback The callback
    */
-  get(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    dataConnectionName: string,
-    callback: msRest.ServiceCallback<Models.DataConnectionUnion>
-  ): void;
+  get(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, callback: msRest.ServiceCallback<Models.DataConnectionUnion>): void;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
@@ -217,22 +142,8 @@ export class DataConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    dataConnectionName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.DataConnectionUnion>
-  ): void;
-  get(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    dataConnectionName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataConnectionUnion>,
-    callback?: msRest.ServiceCallback<Models.DataConnectionUnion>
-  ): Promise<Models.DataConnectionsGetResponse> {
+  get(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataConnectionUnion>): void;
+  get(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataConnectionUnion>, callback?: msRest.ServiceCallback<Models.DataConnectionUnion>): Promise<Models.DataConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -242,8 +153,7 @@ export class DataConnections {
         options
       },
       getOperationSpec,
-      callback
-    ) as Promise<Models.DataConnectionsGetResponse>;
+      callback) as Promise<Models.DataConnectionsGetResponse>;
   }
 
   /**
@@ -256,24 +166,9 @@ export class DataConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.DataConnectionsCreateOrUpdateResponse>
    */
-  createOrUpdate(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    dataConnectionName: string,
-    parameters: Models.DataConnectionUnion,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.DataConnectionsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(
-      resourceGroupName,
-      clusterName,
-      databaseName,
-      dataConnectionName,
-      parameters,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.DataConnectionsCreateOrUpdateResponse
-    >;
+  createOrUpdate(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, parameters: Models.DataConnectionUnion, options?: msRest.RequestOptionsBase): Promise<Models.DataConnectionsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(resourceGroupName,clusterName,databaseName,dataConnectionName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DataConnectionsCreateOrUpdateResponse>;
   }
 
   /**
@@ -286,24 +181,9 @@ export class DataConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.DataConnectionsUpdateResponse>
    */
-  update(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    dataConnectionName: string,
-    parameters: Models.DataConnectionUnion,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.DataConnectionsUpdateResponse> {
-    return this.beginUpdate(
-      resourceGroupName,
-      clusterName,
-      databaseName,
-      dataConnectionName,
-      parameters,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.DataConnectionsUpdateResponse
-    >;
+  update(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, parameters: Models.DataConnectionUnion, options?: msRest.RequestOptionsBase): Promise<Models.DataConnectionsUpdateResponse> {
+    return this.beginUpdate(resourceGroupName,clusterName,databaseName,dataConnectionName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DataConnectionsUpdateResponse>;
   }
 
   /**
@@ -315,20 +195,9 @@ export class DataConnections {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    dataConnectionName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(
-      resourceGroupName,
-      clusterName,
-      databaseName,
-      dataConnectionName,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished());
+  deleteMethod(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName,clusterName,databaseName,dataConnectionName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -340,13 +209,7 @@ export class DataConnections {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDataConnectionValidationMethod(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    parameters: Models.DataConnectionValidation,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginDataConnectionValidationMethod(resourceGroupName: string, clusterName: string, databaseName: string, parameters: Models.DataConnectionValidation, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -356,8 +219,7 @@ export class DataConnections {
         options
       },
       beginDataConnectionValidationMethodOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -370,14 +232,7 @@ export class DataConnections {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    dataConnectionName: string,
-    parameters: Models.DataConnectionUnion,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, parameters: Models.DataConnectionUnion, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -388,8 +243,7 @@ export class DataConnections {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -402,14 +256,7 @@ export class DataConnections {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    dataConnectionName: string,
-    parameters: Models.DataConnectionUnion,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginUpdate(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, parameters: Models.DataConnectionUnion, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -420,8 +267,7 @@ export class DataConnections {
         options
       },
       beginUpdateOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -433,13 +279,7 @@ export class DataConnections {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    dataConnectionName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -449,8 +289,7 @@ export class DataConnections {
         options
       },
       beginDeleteMethodOperationSpec,
-      options
-    );
+      options);
   }
 }
 
@@ -458,16 +297,19 @@ export class DataConnections {
 const serializer = new msRest.Serializer(Mappers);
 const listByDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.databaseName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DataConnectionListResult
@@ -481,16 +323,19 @@ const listByDatabaseOperationSpec: msRest.OperationSpec = {
 
 const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/checkNameAvailability",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/checkNameAvailability",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.databaseName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "dataConnectionName",
     mapper: {
@@ -511,8 +356,7 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.clusterName,
@@ -520,8 +364,12 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.dataConnectionName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DataConnection
@@ -535,16 +383,19 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginDataConnectionValidationMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnectionValidation",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnectionValidation",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.databaseName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -566,8 +417,7 @@ const beginDataConnectionValidationMethodOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.clusterName,
@@ -575,8 +425,12 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.dataConnectionName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -603,8 +457,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.clusterName,
@@ -612,8 +465,12 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.dataConnectionName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -640,8 +497,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.clusterName,
@@ -649,8 +505,12 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.dataConnectionName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {},
     202: {},
