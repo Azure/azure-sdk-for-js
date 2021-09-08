@@ -46,9 +46,6 @@ describe("TablesSharedKeyCredential", () => {
     const policy = tablesNamedKeyCredentialPolicy(cred);
     const response = await policy.sendRequest(requestToSign, next);
     assert.strictEqual(response.status, 200);
-    assert.deepEqual(
-      response.request.headers.get("authorization"),
-      expectedSharedKeyLiteHeader
-    );
+    assert.deepEqual(response.request.headers.get("authorization"), expectedSharedKeyLiteHeader);
   });
 });
