@@ -7,7 +7,8 @@ import {
   QueryBatchResponse as GeneratedQueryBatchResponse,
   BatchQueryResponse as GeneratedBatchQueryResponse,
   QueryBody,
-  Table as GeneratedTable
+  Table as GeneratedTable,
+  BatchQueryResults as GeneratedBatchQueryResults
 } from "../generated/logquery/src";
 
 import {
@@ -125,15 +126,7 @@ export function convertResponseForQueryBatch(
 
         return left - right;
       })
-      ?.map((response: GeneratedBatchQueryResponse) => ({
-        id: response.id,
-        visualization: response.body?.render,
-        statistics: response.body?.statistics,
-        // hoist fields from the sub-object 'body' to this level
-        error: response.body?.error,
-        tables: response.body?.tables?.map((table: GeneratedTable) => convertGeneratedTable(table)),
-        status: "Success"
-      }))
+      ?.map((response: GeneratedBatchQueryResponse) => convertBatchQueryResponseHelper(response))
   };
   // compute status for failed or succeed or partial results
 
@@ -395,4 +388,30 @@ export function convertGeneratedTable(table: GeneratedTable): LogsTable {
     }),
     columnDescriptors: table.columns
   };
+}
+
+/**
+ * @internal
+ */
+export function convertBatchQueryResponseHelper(response: GeneratedBatchQueryResponse): any {
+  try {
+    const foo: GeneratedBatchQueryResults = JSON.parse(
+      response.body as any
+    ) as GeneratedBatchQueryResults;
+    return {
+      visualization: foo.render,
+      status: "Success",
+      statistics: foo.statistics,
+      error: foo.error,
+      tables: foo.tables?.map((table: GeneratedTable) => convertGeneratedTable(table))
+    };
+  } catch (e) {
+    return {
+      visualization: response.body?.render,
+      status: "Success",
+      statistics: response.body?.statistics,
+      error: response.body?.error,
+      tables: response.body?.tables?.map((table: GeneratedTable) => convertGeneratedTable(table))
+    };
+  }
 }
