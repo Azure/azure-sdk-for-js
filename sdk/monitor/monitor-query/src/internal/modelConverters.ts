@@ -40,7 +40,7 @@ import {
   MetricDefinition,
   TimeSeriesElement
 } from "../models/publicMetricsModels";
-import { FullOperationResponse } from "../../../../core/core-client/types/latest/core-client";
+import { FullOperationResponse } from "@azure/core-client";
 import {
   convertIntervalToTimeIntervalObject,
   convertTimespanToInterval
