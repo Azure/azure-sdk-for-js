@@ -129,7 +129,7 @@ export class LogsQueryClient {
       result.status = "Success";
     }
     if (options?.throwOnAnyFailure && result.status !== "Success") {
-      throw result;
+      throw result.error;
     }
     return result;
   }
