@@ -7,8 +7,7 @@ import {
   QueryBatchResponse as GeneratedQueryBatchResponse,
   BatchQueryResponse as GeneratedBatchQueryResponse,
   QueryBody,
-  Table as GeneratedTable,
-  BatchQueryResults
+  Table as GeneratedTable
 } from "../generated/logquery/src";
 
 import {
