@@ -25,7 +25,7 @@ function prepareRequestOptions(
   clientAssertion: string,
   clientId?: string
 ): PipelineRequestOptions {
-  const queryParameters: any = {
+  const bodyParams: any = {
     scope: Array.isArray(scopes) ? scopes.join(" ") : scopes,
     client_assertion: clientAssertion,
     client_assertion_type: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
@@ -33,7 +33,7 @@ function prepareRequestOptions(
     grant_type: "client_credentials"
   };
 
-  const params = new URLSearchParams(queryParameters);
+  const urlParams = new URLSearchParams(bodyParams);
   const url = new URL(
     `${process.env.AZURE_TENANT_ID}/oauth2/v2.0/token`,
     process.env.AZURE_AUTHORITY_HOST ?? DefaultAuthorityHost
@@ -42,7 +42,7 @@ function prepareRequestOptions(
   return {
     url: url.toString(),
     method: "POST",
-    body: params.toString(),
+    body: urlParams.toString(),
     headers: createHttpHeaders({
       Accept: "application/json"
     })
