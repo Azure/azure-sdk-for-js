@@ -4,6 +4,7 @@
 2. Do `rush update`.
 3. Run `npm run setup`.
 4. Create a service-bus namespace and populate the .env file with `SERVICEBUS_CONNECTION_STRING` variable.
-6. Run the tests as follows
+5. Run the tests as follows
    - batch send
      - `npm run perf-test:node -- BatchSendTest --warmup 2 --duration 7 --parallel 2`
+     - `npm run perf-test:node -- BatchSendTest --warmup 1 --duration 25 --iterations 2 --parallel 32 --messageBodySize 10240 --numberOfMessages 10`
