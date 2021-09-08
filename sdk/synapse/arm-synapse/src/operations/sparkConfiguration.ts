@@ -9,16 +9,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/libraryMappers";
+import * as Mappers from "../models/sparkConfigurationMappers";
 import * as Parameters from "../models/parameters";
 import { SynapseManagementClientContext } from "../synapseManagementClientContext";
 
-/** Class representing a Library. */
-export class Library {
+/** Class representing a SparkConfiguration. */
+export class SparkConfiguration {
   private readonly client: SynapseManagementClientContext;
 
   /**
-   * Create a Library.
+   * Create a SparkConfiguration.
    * @param {SynapseManagementClientContext} client Reference to the service client.
    */
   constructor(client: SynapseManagementClientContext) {
@@ -26,40 +26,40 @@ export class Library {
   }
 
   /**
-   * Get library by name in a workspace.
-   * @summary Get library by name.
+   * Get SparkConfiguration by name in a workspace.
+   * @summary Get SparkConfiguration by name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param libraryName Library name
+   * @param sparkConfigurationName SparkConfiguration name
    * @param workspaceName The name of the workspace
    * @param [options] The optional parameters
-   * @returns Promise<Models.LibraryGetResponse>
+   * @returns Promise<Models.SparkConfigurationGetResponse>
    */
-  get(resourceGroupName: string, libraryName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.LibraryGetResponse>;
+  get(resourceGroupName: string, sparkConfigurationName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.SparkConfigurationGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param libraryName Library name
+   * @param sparkConfigurationName SparkConfiguration name
    * @param workspaceName The name of the workspace
    * @param callback The callback
    */
-  get(resourceGroupName: string, libraryName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.LibraryResource>): void;
+  get(resourceGroupName: string, sparkConfigurationName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.SparkConfigurationResource>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param libraryName Library name
+   * @param sparkConfigurationName SparkConfiguration name
    * @param workspaceName The name of the workspace
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, libraryName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LibraryResource>): void;
-  get(resourceGroupName: string, libraryName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LibraryResource>, callback?: msRest.ServiceCallback<Models.LibraryResource>): Promise<Models.LibraryGetResponse> {
+  get(resourceGroupName: string, sparkConfigurationName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SparkConfigurationResource>): void;
+  get(resourceGroupName: string, sparkConfigurationName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SparkConfigurationResource>, callback?: msRest.ServiceCallback<Models.SparkConfigurationResource>): Promise<Models.SparkConfigurationGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
-        libraryName,
+        sparkConfigurationName,
         workspaceName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.LibraryGetResponse>;
+      callback) as Promise<Models.SparkConfigurationGetResponse>;
   }
 }
 
@@ -67,11 +67,11 @@ export class Library {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/libraries/{libraryName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sparkconfigurations/{sparkConfigurationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.libraryName,
+    Parameters.sparkConfigurationName,
     Parameters.workspaceName
   ],
   queryParameters: [
@@ -82,7 +82,7 @@ const getOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.LibraryResource
+      bodyMapper: Mappers.SparkConfigurationResource
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

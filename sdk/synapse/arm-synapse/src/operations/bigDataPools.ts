@@ -252,7 +252,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.bigDataPoolName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -278,7 +278,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.bigDataPoolName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -310,7 +310,7 @@ const listByWorkspaceOperationSpec: msRest.OperationSpec = {
     Parameters.workspaceName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -336,7 +336,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.bigDataPoolName
   ],
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion1,
     Parameters.force
   ],
   headerParameters: [
@@ -373,7 +373,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.bigDataPoolName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -411,7 +411,7 @@ const listByWorkspaceNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage

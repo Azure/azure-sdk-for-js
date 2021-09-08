@@ -204,7 +204,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.privateEndpointConnectionName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -229,7 +229,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.workspaceName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -255,7 +255,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
     Parameters.privateEndpointConnectionName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -291,7 +291,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.privateEndpointConnectionName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -317,7 +317,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

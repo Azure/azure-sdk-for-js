@@ -17,21 +17,10 @@ import { SynapseManagementClientContext } from "./synapseManagementClientContext
 
 class SynapseManagementClient extends SynapseManagementClientContext {
   // Operation groups
-  bigDataPools: operations.BigDataPools;
+  azureADOnlyAuthentications: operations.AzureADOnlyAuthentications;
   operations: operations.Operations;
   ipFirewallRules: operations.IpFirewallRules;
-  integrationRuntimes: operations.IntegrationRuntimes;
-  integrationRuntimeNodeIpAddress: operations.IntegrationRuntimeNodeIpAddressOperations;
-  integrationRuntimeObjectMetadata: operations.IntegrationRuntimeObjectMetadata;
-  integrationRuntimeNodes: operations.IntegrationRuntimeNodes;
-  integrationRuntimeCredentials: operations.IntegrationRuntimeCredentials;
-  integrationRuntimeConnectionInfos: operations.IntegrationRuntimeConnectionInfos;
-  integrationRuntimeAuthKeys: operations.IntegrationRuntimeAuthKeysOperations;
-  integrationRuntimeMonitoringData: operations.IntegrationRuntimeMonitoringDataOperations;
-  integrationRuntimeStatus: operations.IntegrationRuntimeStatusOperations;
   keys: operations.Keys;
-  library: operations.Library;
-  libraries: operations.Libraries;
   privateEndpointConnections: operations.PrivateEndpointConnections;
   privateLinkResources: operations.PrivateLinkResources;
   privateLinkHubPrivateLinkResources: operations.PrivateLinkHubPrivateLinkResources;
@@ -78,6 +67,20 @@ class SynapseManagementClient extends SynapseManagementClientContext {
   workspaceSqlAadAdmins: operations.WorkspaceSqlAadAdmins;
   workspaceManagedIdentitySqlControlSettings: operations.WorkspaceManagedIdentitySqlControlSettings;
   restorableDroppedSqlPools: operations.RestorableDroppedSqlPools;
+  bigDataPools: operations.BigDataPools;
+  library: operations.Library;
+  libraries: operations.Libraries;
+  integrationRuntimes: operations.IntegrationRuntimes;
+  integrationRuntimeNodeIpAddress: operations.IntegrationRuntimeNodeIpAddressOperations;
+  integrationRuntimeObjectMetadata: operations.IntegrationRuntimeObjectMetadata;
+  integrationRuntimeNodes: operations.IntegrationRuntimeNodes;
+  integrationRuntimeCredentials: operations.IntegrationRuntimeCredentials;
+  integrationRuntimeConnectionInfos: operations.IntegrationRuntimeConnectionInfos;
+  integrationRuntimeAuthKeys: operations.IntegrationRuntimeAuthKeysOperations;
+  integrationRuntimeMonitoringData: operations.IntegrationRuntimeMonitoringDataOperations;
+  integrationRuntimeStatus: operations.IntegrationRuntimeStatusOperations;
+  sparkConfiguration: operations.SparkConfiguration;
+  sparkConfigurations: operations.SparkConfigurations;
 
   /**
    * Initializes a new instance of the SynapseManagementClient class.
@@ -92,21 +95,10 @@ class SynapseManagementClient extends SynapseManagementClientContext {
    */
   constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.SynapseManagementClientOptions) {
     super(credentials, subscriptionId, options);
-    this.bigDataPools = new operations.BigDataPools(this);
+    this.azureADOnlyAuthentications = new operations.AzureADOnlyAuthentications(this);
     this.operations = new operations.Operations(this);
     this.ipFirewallRules = new operations.IpFirewallRules(this);
-    this.integrationRuntimes = new operations.IntegrationRuntimes(this);
-    this.integrationRuntimeNodeIpAddress = new operations.IntegrationRuntimeNodeIpAddressOperations(this);
-    this.integrationRuntimeObjectMetadata = new operations.IntegrationRuntimeObjectMetadata(this);
-    this.integrationRuntimeNodes = new operations.IntegrationRuntimeNodes(this);
-    this.integrationRuntimeCredentials = new operations.IntegrationRuntimeCredentials(this);
-    this.integrationRuntimeConnectionInfos = new operations.IntegrationRuntimeConnectionInfos(this);
-    this.integrationRuntimeAuthKeys = new operations.IntegrationRuntimeAuthKeysOperations(this);
-    this.integrationRuntimeMonitoringData = new operations.IntegrationRuntimeMonitoringDataOperations(this);
-    this.integrationRuntimeStatus = new operations.IntegrationRuntimeStatusOperations(this);
     this.keys = new operations.Keys(this);
-    this.library = new operations.Library(this);
-    this.libraries = new operations.Libraries(this);
     this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);
     this.privateLinkResources = new operations.PrivateLinkResources(this);
     this.privateLinkHubPrivateLinkResources = new operations.PrivateLinkHubPrivateLinkResources(this);
@@ -153,6 +145,20 @@ class SynapseManagementClient extends SynapseManagementClientContext {
     this.workspaceSqlAadAdmins = new operations.WorkspaceSqlAadAdmins(this);
     this.workspaceManagedIdentitySqlControlSettings = new operations.WorkspaceManagedIdentitySqlControlSettings(this);
     this.restorableDroppedSqlPools = new operations.RestorableDroppedSqlPools(this);
+    this.bigDataPools = new operations.BigDataPools(this);
+    this.library = new operations.Library(this);
+    this.libraries = new operations.Libraries(this);
+    this.integrationRuntimes = new operations.IntegrationRuntimes(this);
+    this.integrationRuntimeNodeIpAddress = new operations.IntegrationRuntimeNodeIpAddressOperations(this);
+    this.integrationRuntimeObjectMetadata = new operations.IntegrationRuntimeObjectMetadata(this);
+    this.integrationRuntimeNodes = new operations.IntegrationRuntimeNodes(this);
+    this.integrationRuntimeCredentials = new operations.IntegrationRuntimeCredentials(this);
+    this.integrationRuntimeConnectionInfos = new operations.IntegrationRuntimeConnectionInfos(this);
+    this.integrationRuntimeAuthKeys = new operations.IntegrationRuntimeAuthKeysOperations(this);
+    this.integrationRuntimeMonitoringData = new operations.IntegrationRuntimeMonitoringDataOperations(this);
+    this.integrationRuntimeStatus = new operations.IntegrationRuntimeStatusOperations(this);
+    this.sparkConfiguration = new operations.SparkConfiguration(this);
+    this.sparkConfigurations = new operations.SparkConfigurations(this);
   }
 }
 

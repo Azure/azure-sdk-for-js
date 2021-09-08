@@ -11,6 +11,7 @@ export {
   AutoPauseProperties,
   AutoScaleProperties,
   AzureADOnlyAuthentication,
+  AzureADOnlyAuthenticationListResult,
   AzureEntityResource,
   BaseResource,
   BigDataPoolResourceInfo,
@@ -112,8 +113,6 @@ export {
   WorkloadGroup,
   Workspace,
   WorkspaceAadAdminInfo,
-  WorkspaceInfoListResult,
   WorkspaceKeyDetails,
-  WorkspacePatchInfo,
   WorkspaceRepositoryConfiguration
 } from "../models/mappers";

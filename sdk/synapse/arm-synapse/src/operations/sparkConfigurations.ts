@@ -9,16 +9,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/librariesMappers";
+import * as Mappers from "../models/sparkConfigurationsMappers";
 import * as Parameters from "../models/parameters";
 import { SynapseManagementClientContext } from "../synapseManagementClientContext";
 
-/** Class representing a Libraries. */
-export class Libraries {
+/** Class representing a SparkConfigurations. */
+export class SparkConfigurations {
   private readonly client: SynapseManagementClientContext;
 
   /**
-   * Create a Libraries.
+   * Create a SparkConfigurations.
    * @param {SynapseManagementClientContext} client Reference to the service client.
    */
   constructor(client: SynapseManagementClientContext) {
@@ -26,28 +26,28 @@ export class Libraries {
   }
 
   /**
-   * List libraries in a workspace.
-   * @summary List the libraries in a workspace.
+   * List sparkConfigurations in a workspace.
+   * @summary List the sparkConfigurations in a workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param [options] The optional parameters
-   * @returns Promise<Models.LibrariesListByWorkspaceResponse>
+   * @returns Promise<Models.SparkConfigurationsListByWorkspaceResponse>
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.LibrariesListByWorkspaceResponse>;
+  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.SparkConfigurationsListByWorkspaceResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param callback The callback
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.LibraryListResponse>): void;
+  listByWorkspace(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.SparkConfigurationListResponse>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LibraryListResponse>): void;
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LibraryListResponse>, callback?: msRest.ServiceCallback<Models.LibraryListResponse>): Promise<Models.LibrariesListByWorkspaceResponse> {
+  listByWorkspace(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SparkConfigurationListResponse>): void;
+  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SparkConfigurationListResponse>, callback?: msRest.ServiceCallback<Models.SparkConfigurationListResponse>): Promise<Models.SparkConfigurationsListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,36 +55,36 @@ export class Libraries {
         options
       },
       listByWorkspaceOperationSpec,
-      callback) as Promise<Models.LibrariesListByWorkspaceResponse>;
+      callback) as Promise<Models.SparkConfigurationsListByWorkspaceResponse>;
   }
 
   /**
-   * List libraries in a workspace.
-   * @summary List the libraries in a workspace.
+   * List sparkConfigurations in a workspace.
+   * @summary List the sparkConfigurations in a workspace.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.LibrariesListByWorkspaceNextResponse>
+   * @returns Promise<Models.SparkConfigurationsListByWorkspaceNextResponse>
    */
-  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.LibrariesListByWorkspaceNextResponse>;
+  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SparkConfigurationsListByWorkspaceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByWorkspaceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.LibraryListResponse>): void;
+  listByWorkspaceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SparkConfigurationListResponse>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByWorkspaceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LibraryListResponse>): void;
-  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LibraryListResponse>, callback?: msRest.ServiceCallback<Models.LibraryListResponse>): Promise<Models.LibrariesListByWorkspaceNextResponse> {
+  listByWorkspaceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SparkConfigurationListResponse>): void;
+  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SparkConfigurationListResponse>, callback?: msRest.ServiceCallback<Models.SparkConfigurationListResponse>): Promise<Models.SparkConfigurationsListByWorkspaceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByWorkspaceNextOperationSpec,
-      callback) as Promise<Models.LibrariesListByWorkspaceNextResponse>;
+      callback) as Promise<Models.SparkConfigurationsListByWorkspaceNextResponse>;
   }
 }
 
@@ -92,7 +92,7 @@ export class Libraries {
 const serializer = new msRest.Serializer(Mappers);
 const listByWorkspaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/libraries",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sparkconfigurations",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -106,7 +106,7 @@ const listByWorkspaceOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.LibraryListResponse
+      bodyMapper: Mappers.SparkConfigurationListResponse
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -130,7 +130,7 @@ const listByWorkspaceNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.LibraryListResponse
+      bodyMapper: Mappers.SparkConfigurationListResponse
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

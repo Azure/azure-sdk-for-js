@@ -462,7 +462,7 @@ const listCurrentOperationSpec: msRest.OperationSpec = {
     Parameters.sqlPoolName
   ],
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion0,
     Parameters.filter
   ],
   headerParameters: [
@@ -489,7 +489,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.sqlPoolName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -520,7 +520,7 @@ const listRecommendedOperationSpec: msRest.OperationSpec = {
     Parameters.sqlPoolName
   ],
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion0,
     Parameters.includeDisabledRecommendations,
     Parameters.skipToken,
     Parameters.filter
@@ -553,7 +553,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.sensitivityLabelSource0
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -593,7 +593,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.sensitivityLabelSource0
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -622,7 +622,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.sensitivityLabelSource1
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -652,7 +652,7 @@ const enableRecommendationOperationSpec: msRest.OperationSpec = {
     Parameters.sensitivityLabelSource2
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -680,7 +680,7 @@ const disableRecommendationOperationSpec: msRest.OperationSpec = {
     Parameters.sensitivityLabelSource2
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -702,7 +702,7 @@ const listCurrentNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion0,
     Parameters.filter
   ],
   headerParameters: [
@@ -727,7 +727,7 @@ const listRecommendedNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion0,
     Parameters.includeDisabledRecommendations,
     Parameters.skipToken,
     Parameters.filter

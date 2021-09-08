@@ -232,6 +232,43 @@ export class IntegrationRuntimes {
   }
 
   /**
+   * Gets the list of outbound network dependencies for a given Azure-SSIS integration runtime.
+   * @summary Gets list of outbound network dependencies for a given Azure-SSIS integration runtime.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param integrationRuntimeName Integration runtime name
+   * @param [options] The optional parameters
+   * @returns Promise<Models.IntegrationRuntimesListOutboundNetworkDependenciesEndpointsResponse>
+   */
+  listOutboundNetworkDependenciesEndpoints(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationRuntimesListOutboundNetworkDependenciesEndpointsResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param integrationRuntimeName Integration runtime name
+   * @param callback The callback
+   */
+  listOutboundNetworkDependenciesEndpoints(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, callback: msRest.ServiceCallback<Models.IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse>): void;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param integrationRuntimeName Integration runtime name
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listOutboundNetworkDependenciesEndpoints(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse>): void;
+  listOutboundNetworkDependenciesEndpoints(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse>, callback?: msRest.ServiceCallback<Models.IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse>): Promise<Models.IntegrationRuntimesListOutboundNetworkDependenciesEndpointsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        workspaceName,
+        integrationRuntimeName,
+        options
+      },
+      listOutboundNetworkDependenciesEndpointsOperationSpec,
+      callback) as Promise<Models.IntegrationRuntimesListOutboundNetworkDependenciesEndpointsResponse>;
+  }
+
+  /**
    * Enable interactive query in integration runtime
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -425,7 +462,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.integrationRuntimeName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -458,7 +495,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.integrationRuntimeName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.ifNoneMatch,
@@ -486,7 +523,7 @@ const upgradeOperationSpec: msRest.OperationSpec = {
     Parameters.integrationRuntimeName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -509,7 +546,7 @@ const listByWorkspaceOperationSpec: msRest.OperationSpec = {
     Parameters.workspaceName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -517,6 +554,32 @@ const listByWorkspaceOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.IntegrationRuntimeListResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const listOutboundNetworkDependenciesEndpointsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/outboundNetworkDependenciesEndpoints",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.integrationRuntimeName
+  ],
+  queryParameters: [
+    Parameters.apiVersion1
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -535,7 +598,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
     Parameters.integrationRuntimeName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.ifMatch,
@@ -570,7 +633,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.integrationRuntimeName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -596,7 +659,7 @@ const beginStartOperationSpec: msRest.OperationSpec = {
     Parameters.integrationRuntimeName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -623,7 +686,7 @@ const beginStopOperationSpec: msRest.OperationSpec = {
     Parameters.integrationRuntimeName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -648,7 +711,7 @@ const beginEnableInteractiveQueryOperationSpec: msRest.OperationSpec = {
     Parameters.integrationRuntimeName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -673,7 +736,7 @@ const beginDisableInteractiveQueryOperationSpec: msRest.OperationSpec = {
     Parameters.integrationRuntimeName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -696,7 +759,7 @@ const listByWorkspaceNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage

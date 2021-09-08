@@ -114,7 +114,7 @@ const listByTableNameOperationSpec: msRest.OperationSpec = {
     Parameters.tableName
   ],
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion0,
     Parameters.filter
   ],
   headerParameters: [
@@ -139,7 +139,7 @@ const listByTableNameNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion0,
     Parameters.filter
   ],
   headerParameters: [

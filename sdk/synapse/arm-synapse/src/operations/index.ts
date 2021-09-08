@@ -7,21 +7,10 @@
  * regenerated.
  */
 
-export * from "./bigDataPools";
+export * from "./azureADOnlyAuthentications";
 export * from "./operations";
 export * from "./ipFirewallRules";
-export * from "./integrationRuntimes";
-export * from "./integrationRuntimeNodeIpAddressOperations";
-export * from "./integrationRuntimeObjectMetadata";
-export * from "./integrationRuntimeNodes";
-export * from "./integrationRuntimeCredentials";
-export * from "./integrationRuntimeConnectionInfos";
-export * from "./integrationRuntimeAuthKeysOperations";
-export * from "./integrationRuntimeMonitoringDataOperations";
-export * from "./integrationRuntimeStatusOperations";
 export * from "./keys";
-export * from "./library";
-export * from "./libraries";
 export * from "./privateEndpointConnections";
 export * from "./privateLinkResources";
 export * from "./privateLinkHubPrivateLinkResources";
@@ -68,3 +57,17 @@ export * from "./workspaceAadAdmins";
 export * from "./workspaceSqlAadAdmins";
 export * from "./workspaceManagedIdentitySqlControlSettings";
 export * from "./restorableDroppedSqlPools";
+export * from "./bigDataPools";
+export * from "./library";
+export * from "./libraries";
+export * from "./integrationRuntimes";
+export * from "./integrationRuntimeNodeIpAddressOperations";
+export * from "./integrationRuntimeObjectMetadata";
+export * from "./integrationRuntimeNodes";
+export * from "./integrationRuntimeCredentials";
+export * from "./integrationRuntimeConnectionInfos";
+export * from "./integrationRuntimeAuthKeysOperations";
+export * from "./integrationRuntimeMonitoringDataOperations";
+export * from "./integrationRuntimeStatusOperations";
+export * from "./sparkConfiguration";
+export * from "./sparkConfigurations";

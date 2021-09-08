@@ -75,7 +75,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.integrationRuntimeName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
