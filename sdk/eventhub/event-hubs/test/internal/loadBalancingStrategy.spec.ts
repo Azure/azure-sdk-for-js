@@ -6,7 +6,7 @@ import { PartitionOwnership } from "../../src";
 import { BalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/balancedStrategy";
 import { GreedyLoadBalancingStrategy } from "../../src/loadBalancerStrategies/greedyStrategy";
 import { UnbalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/unbalancedStrategy";
-import { testWithServiceTypes } from "../public/utils/wrapper";
+import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 const should = chai.should();
 
 testWithServiceTypes("internal/loadBalancingStrategy.spec.ts", () => {

@@ -27,7 +27,7 @@ import { SpanGraph, TestSpan } from "@azure/test-utils";
 import { TRACEPARENT_PROPERTY } from "../../src/diagnostics/instrumentEventData";
 import { SubscriptionHandlerForTests } from "../public/utils/subscriptionHandlerForTests";
 import { setSpan, context } from "@azure/core-tracing";
-import { testWithServiceTypes } from "../public/utils/wrapper";
+import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 import { createMockServer } from "../public/utils/mockService";
 
 testWithServiceTypes("internal/sender.spec.ts", (serviceVersion) => {

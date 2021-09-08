@@ -12,7 +12,7 @@ import { setSpan, context } from "@azure/core-tracing";
 
 import { SpanGraph } from "@azure/test-utils";
 import { EventHubProducerClient, EventHubConsumerClient, MessagingError } from "../../src";
-import { testWithServiceTypes } from "./utils/wrapper";
+import { testWithServiceTypes } from "./utils/testWithServiceTypes";
 import { createMockServer } from "./utils/mockService";
 
 testWithServiceTypes("public/hubruntime.spec.ts", (serviceVersion) => {

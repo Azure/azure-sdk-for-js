@@ -10,7 +10,7 @@ import { BalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/
 import { GreedyLoadBalancingStrategy } from "../../src/loadBalancerStrategies/greedyStrategy";
 import chai from "chai";
 import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
-import { testWithServiceTypes } from "../public/utils/wrapper";
+import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 import { createMockServer } from "../public/utils/mockService";
 
 const should = chai.should();

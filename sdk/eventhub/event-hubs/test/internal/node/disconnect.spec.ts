@@ -13,7 +13,7 @@ import { MessagingError } from "@azure/core-amqp";
 import { EventHubReceiver } from "../../../src/eventHubReceiver";
 import { EventHubConsumerClient, latestEventPosition } from "../../../src";
 import { createMockServer } from "../../public/utils/mockService";
-import { testWithServiceTypes } from "../../public/utils/wrapper";
+import { testWithServiceTypes } from "../../public/utils/testWithServiceTypes";
 
 testWithServiceTypes("internal/node/disconnect.spec.ts", (serviceVersion) => {
   const env = getEnvVars();

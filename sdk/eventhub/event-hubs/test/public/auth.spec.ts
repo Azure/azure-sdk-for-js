@@ -11,7 +11,7 @@ import chai from "chai";
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
 import { createSasTokenProvider } from "@azure/core-amqp";
 import { SinonFakeTimers, useFakeTimers } from "sinon";
-import { testWithServiceTypes } from "./utils/wrapper";
+import { testWithServiceTypes } from "./utils/testWithServiceTypes";
 import { createMockServer } from "./utils/mockService";
 
 const should = chai.should();

@@ -20,7 +20,7 @@ import { EnvVarKeys, getEnvVars, isNode } from "../public/utils/testUtils";
 import { MessagingError } from "@azure/core-amqp";
 import { ConnectionContext } from "../../src/connectionContext";
 import { getRuntimeInfo } from "../../src/util/runtimeInfo";
-import { testWithServiceTypes } from "../public/utils/wrapper";
+import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 import { createMockServer } from "../public/utils/mockService";
 
 const testFailureMessage = "Test failure";

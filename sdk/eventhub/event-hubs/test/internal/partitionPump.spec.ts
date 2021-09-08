@@ -15,7 +15,7 @@ import chai from "chai";
 import { ReceivedEventData } from "../../src/eventData";
 import { instrumentEventData } from "../../src/diagnostics/instrumentEventData";
 import { setTracerForTest } from "../public/utils/testUtils";
-import { testWithServiceTypes } from "../public/utils/wrapper";
+import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 
 const should = chai.should();
 

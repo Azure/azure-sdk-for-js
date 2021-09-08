@@ -16,7 +16,7 @@ import {
   Subscription
 } from "../../src";
 import { BodyTypes } from "../../src/dataTransformer";
-import { testWithServiceTypes } from "./utils/wrapper";
+import { testWithServiceTypes } from "./utils/testWithServiceTypes";
 import { createMockServer } from "./utils/mockService";
 
 const should = chai.should();

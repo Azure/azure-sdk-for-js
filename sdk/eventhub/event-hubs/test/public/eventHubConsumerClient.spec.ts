@@ -21,7 +21,7 @@ import chai from "chai";
 import { ReceivedMessagesTester } from "./utils/receivedMessagesTester";
 import { LogTester } from "./utils/logHelpers";
 import { TestInMemoryCheckpointStore } from "./utils/testInMemoryCheckpointStore";
-import { testWithServiceTypes } from "./utils/wrapper";
+import { testWithServiceTypes } from "./utils/testWithServiceTypes";
 import { createMockServer } from "./utils/mockService";
 
 const should = chai.should();

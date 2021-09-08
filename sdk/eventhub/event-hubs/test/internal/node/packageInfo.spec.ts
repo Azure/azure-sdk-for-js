@@ -6,7 +6,7 @@ const should = chai.should();
 import fs from "fs";
 import path from "path";
 import { packageJsonInfo } from "../../../src/util/constants";
-import { testWithServiceTypes } from "../../public/utils/wrapper";
+import { testWithServiceTypes } from "../../public/utils/testWithServiceTypes";
 
 // Since we currently hardcode package name and version in `constants.ts` file,
 // following test is in place to ensure the values in package.json and in this file are consistent

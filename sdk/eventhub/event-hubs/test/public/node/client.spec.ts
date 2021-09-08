@@ -11,7 +11,7 @@ import { EnvVarKeys, getEnvVars } from "../utils/testUtils";
 import { EnvironmentCredential, TokenCredential } from "@azure/identity";
 import { EventHubProducerClient, EventHubConsumerClient } from "../../../src";
 import { TestTracer, setTracer, resetTracer } from "@azure/test-utils";
-import { testWithServiceTypes } from "../utils/wrapper";
+import { testWithServiceTypes } from "../utils/testWithServiceTypes";
 import { createMockServer } from "../utils/mockService";
 
 testWithServiceTypes("public/node/client.spec.ts", (serviceVersion) => {

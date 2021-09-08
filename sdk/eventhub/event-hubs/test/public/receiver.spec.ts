@@ -18,7 +18,7 @@ import {
 } from "../../src";
 import { createMockServer } from "./utils/mockService";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
-import { testWithServiceTypes } from "./utils/wrapper";
+import { testWithServiceTypes } from "./utils/testWithServiceTypes";
 
 testWithServiceTypes("public/receiver.spec.ts", (serviceVersion) => {
   const env = getEnvVars();

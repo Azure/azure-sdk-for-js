@@ -4,7 +4,7 @@
 import chai from "chai";
 import { Constants } from "@azure/core-amqp";
 import { fromRheaMessage, isAmqpAnnotatedMessage } from "../../src/eventData";
-import { testWithServiceTypes } from "../public/utils/wrapper";
+import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 const assert = chai.assert;
 
 testWithServiceTypes("internal/amqp.spec.ts", () => {

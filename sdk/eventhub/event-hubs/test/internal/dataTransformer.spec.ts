@@ -7,7 +7,7 @@ const should = chai.should();
 import * as assert from "assert";
 import isBuffer from "is-buffer";
 import { defaultDataTransformer } from "../../src/dataTransformer";
-import { testWithServiceTypes } from "../public/utils/wrapper";
+import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 
 testWithServiceTypes("internal/dataTransformer.spec.ts", () => {
   describe("DataTransformer", function() {

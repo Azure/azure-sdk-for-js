@@ -12,7 +12,7 @@ import {
   valueSectionTypeCode
 } from "../../src/dataTransformer";
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
-import { testWithServiceTypes } from "../public/utils/wrapper";
+import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 
 const testAnnotations = {
   "x-opt-enqueued-time": Date.now(),

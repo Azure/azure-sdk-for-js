@@ -3,7 +3,7 @@
 
 import { PartitionGate } from "../../../src/impl/partitionGate";
 import chai from "chai";
-import { testWithServiceTypes } from "../../public/utils/wrapper";
+import { testWithServiceTypes } from "../../public/utils/testWithServiceTypes";
 const should = chai.should();
 
 testWithServiceTypes("internal/impl/partitionGate.spec.ts", () => {

@@ -24,7 +24,7 @@ import {
 } from "../../src/diagnostics/instrumentEventData";
 import { TraceFlags } from "@azure/core-tracing";
 import { SubscriptionHandlerForTests } from "../public/utils/subscriptionHandlerForTests";
-import { testWithServiceTypes } from "../public/utils/wrapper";
+import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 import { createMockServer } from "../public/utils/mockService";
 
 testWithServiceTypes("internal/misc.spec.ts", (serviceVersion) => {

@@ -4,7 +4,7 @@
 import chai from "chai";
 import { createMessageSpan } from "../../../src/diagnostics/tracing";
 import { setTracer, resetTracer } from "@azure/test-utils";
-import { testWithServiceTypes } from "../../public/utils/wrapper";
+import { testWithServiceTypes } from "../../public/utils/testWithServiceTypes";
 
 const should = chai.should();
 const assert = chai.assert;

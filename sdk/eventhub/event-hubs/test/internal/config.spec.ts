@@ -3,7 +3,7 @@
 
 import { EventHubConnectionConfig } from "../../src/eventhubConnectionConfig";
 import chai from "chai";
-import { testWithServiceTypes } from "../public/utils/wrapper";
+import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 const should = chai.should();
 
 testWithServiceTypes("internal/config.spec.ts", () => {

@@ -6,7 +6,7 @@ chai.should();
 
 import { earliestEventPosition, latestEventPosition } from "../../src";
 import { getEventPositionFilter, validateEventPositions } from "../../src/eventPosition";
-import { testWithServiceTypes } from "../public/utils/wrapper";
+import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 
 testWithServiceTypes("internal/eventPosition.spec.ts", () => {
   describe("EventPosition", function(): void {

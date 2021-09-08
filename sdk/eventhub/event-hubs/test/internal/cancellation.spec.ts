@@ -12,7 +12,7 @@ import { createMockServer } from "../public/utils/mockService";
 chai.use(chaiAsPromised);
 
 import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
-import { testWithServiceTypes } from "../public/utils/wrapper";
+import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 
 testWithServiceTypes("internal/cancellation.spec.ts", (serviceVersion) => {
   const env = getEnvVars();

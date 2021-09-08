@@ -11,7 +11,7 @@ import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import chai from "chai";
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
 import { createSasTokenProvider } from "@azure/core-amqp";
-import { testWithServiceTypes } from "../public/utils/wrapper";
+import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 import { createMockServer } from "../public/utils/mockService";
 
 const should = chai.should();
