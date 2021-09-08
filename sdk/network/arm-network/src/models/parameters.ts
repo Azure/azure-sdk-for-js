@@ -25,7 +25,7 @@ export const apiVersion0: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2021-02-01',
+    defaultValue: '2021-03-01',
     type: {
       name: "String"
     }
@@ -580,6 +580,18 @@ export const nextPageLink: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
+export const noAddressPrefixes: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "noAddressPrefixes"
+  ],
+  mapper: {
+    serializedName: "noAddressPrefixes",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
 export const outboundRuleName: msRest.OperationURLParameter = {
   parameterPath: "outboundRuleName",
   mapper: {
@@ -902,6 +914,18 @@ export const syncRemoteAddressSpace: msRest.OperationQueryParameter = {
   ],
   mapper: {
     serializedName: "syncRemoteAddressSpace",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const tagName: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "tagName"
+  ],
+  mapper: {
+    serializedName: "tagName",
     type: {
       name: "String"
     }
