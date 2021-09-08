@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- `ManagedIdentityCredential` now supports token exchange authentication.
+
 ### Breaking Changes
 
 #### Breaking Changes from 2.0.0-beta.5
@@ -14,8 +16,11 @@
 
 - `ClientSecretCredential`, `ClientCertificateCredential` and `UsernamePasswordCredential` now throw if the required parameters are not provided (even in JavaScript).
 - Fixed a bug introduced on 2.0.0-beta.5 that caused the `ManagedIdentityCredential` to fail authenticating in Arc environments. Since our new core disables unsafe requests by default, we had to change the security settings for the first request of the Arc MSI, which retrieves the file path where the authentication value is stored since this request generally happens through an HTTP endpoint.
+- Fixed bug on the `AggregateAuthenticationError`, which caused an inconsistent error message on the `ChainedTokenCredential`, `DefaultAzureCredential` and `ApplicationCredential`.
 
 ### Other Changes
+
+- The errors thrown by the `ManagedIdentityCredential` have been improved.
 
 ## 2.0.0-beta.5 (2021-08-10)
 
