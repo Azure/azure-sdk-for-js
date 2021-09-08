@@ -22,6 +22,7 @@
   - Added Type Alias ServiceTagInformationOperationsListResponse
   - Interface ServiceTagInformation has a new optional parameter serviceTagChangeNumber
   - Interface VnetRoute has a new optional parameter bgpConnections
+  - Class NetworkManagementClient has a new parameter serviceTagInformationOperations
   - Type Alias ApplicationGateway has a new parameter loadDistributionPolicies
   - Type Alias ApplicationGateway has a new parameter globalConfiguration
   - Type Alias ApplicationGatewayPathRule has a new parameter loadDistributionPolicy
@@ -50,10 +51,6 @@
   - Type Alias VirtualHub has a new parameter kind
   - Type Alias VpnGateway has a new parameter enableBgpRouteTranslationForNat
   - Added Enum KnownApplicationGatewayLoadDistributionAlgorithm
-
-**Breaking Changes**
-
-  - Class NetworkManagementClient has a new required parameter serviceTagInformationOperations
     
 ## 30.0.0-beta.2 (2021-09-06)
 
