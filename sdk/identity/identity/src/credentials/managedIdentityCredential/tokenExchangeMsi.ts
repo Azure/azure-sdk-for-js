@@ -83,7 +83,7 @@ export function tokenExchangeMsi(): MSI {
       );
       if (!result) {
         logger.info(
-          `${msiName}: navailable. The environment variables needed are: AZURE_CLIENT_ID (or the client ID sent through the parameters), AZURE_TENANT_ID and AZURE_FEDERATED_TOKEN_FILE`
+          `${msiName}: Unavailable. The environment variables needed are: AZURE_CLIENT_ID (or the client ID sent through the parameters), AZURE_TENANT_ID and AZURE_FEDERATED_TOKEN_FILE`
         );
       }
       return result;
