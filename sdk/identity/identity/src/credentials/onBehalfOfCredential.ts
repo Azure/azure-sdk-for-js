@@ -9,10 +9,11 @@ import { trace } from "../util/tracing";
 import { MsalFlow } from "../msal/flows";
 import { OnBehalfOfCredentialOptions } from "./onBehalfOfCredentialOptions";
 
-const logger = credentialLogger("OnBehalfOfCredential");
+const credentialName = "OnBehalfOfCredential";
+const logger = credentialLogger(credentialName);
 
 /**
- * Defines the possible configuration parameters to send to the {@link OnBehalfOfCredential} when a client secret must be specified.
+ * Defines the configuration parameters to authenticate the {@link OnBehalfOfCredential} with a secret.
  */
 export interface OnBehalfOfCredentialSecretConfiguration {
   /**
@@ -34,7 +35,7 @@ export interface OnBehalfOfCredentialSecretConfiguration {
 }
 
 /**
- * Defines the possible configuration parameters to send to the {@link OnBehalfOfCredential} when a client certificate must be specified.
+ * Defines the configuration parameters to authenticate the {@link OnBehalfOfCredential} with a certificate.
  */
 export interface OnBehalfOfCredentialCertificateConfiguration {
   /**
@@ -86,7 +87,7 @@ export class OnBehalfOfCredential implements TokenCredential {
    * ```
    *
    * @param configuration - Configuration specific to this credential.
-   * @param options - Options for configuring the client which makes the authentication request.
+   * @param options - Optional parameters, generally common across credentials.
    */
   constructor(
     private configuration:
@@ -104,7 +105,7 @@ export class OnBehalfOfCredential implements TokenCredential {
       !userAssertionToken
     ) {
       throw new Error(
-        "ClientCertificateCredential: tenantId, clientId, clientSecret (or certificatePath) and userAssertionToken are required parameters."
+        `${credentialName}: tenantId, clientId, clientSecret (or certificatePath) and userAssertionToken are required parameters.`
       );
     }
     this.msalFlow = new MsalOnBehalfOf({
@@ -120,11 +121,10 @@ export class OnBehalfOfCredential implements TokenCredential {
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    *
    * @param scopes - The list of scopes for which the token will have access.
-   * @param options - The options used to configure any requests this
-   *                TokenCredential implementation might make.
+   * @param options - The options used to configure the underlying network requests.
    */
   async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
-    return trace(`${this.constructor.name}.getToken`, options, async (newOptions) => {
+    return trace(`${credentialName}.getToken`, options, async (newOptions) => {
       const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
       return this.msalFlow!.getToken(arrayScopes, newOptions);
     });

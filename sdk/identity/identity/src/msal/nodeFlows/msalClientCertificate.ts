@@ -18,7 +18,7 @@ const readFileAsync = promisify(readFile);
  */
 export interface MSALClientCertificateOptions extends MsalNodeOptions {
   /**
-   * Location of the certificate.
+   * Location of the PEM certificate.
    */
   certificatePath: string;
   /**
@@ -48,7 +48,7 @@ interface CertificateParts {
 }
 
 /**
- * Tries to load a certificate from the given path.
+ * Tries to asynchronously load a certificate from the given path.
  *
  * @param certificatePath - Path to the certificate.
  * @param sendCertificateChain - Option to include x5c header for SubjectName and Issuer name authorization.

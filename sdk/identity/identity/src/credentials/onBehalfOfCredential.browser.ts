@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import { TokenCredential, AccessToken } from "@azure/core-auth";
-
 import { credentialLogger, formatError } from "../util/logging";
 
-const BrowserNotSupportedError = new Error("OnBehalfOfCredential is not supported in the browser.");
-const logger = credentialLogger("OnBehalfOfCredential");
+const credentialName = "OnBehalfOfCredential";
+const BrowserNotSupportedError = new Error(`${credentialName}: Not supported in the browser.`);
+const logger = credentialLogger(credentialName);
 
 export class OnBehalfOfCredential implements TokenCredential {
   constructor() {
