@@ -13,9 +13,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClientContext } from "../networkManagementClientContext";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { LroEngine } from "../lro";
-import { CoreClientLro, shouldDeserializeLro } from "../coreClientLro";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   VirtualNetworkPeering,
   VirtualNetworkPeeringsListNextOptionalParams,
@@ -30,7 +29,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a VirtualNetworkPeerings. */
+/** Class containing VirtualNetworkPeerings operations. */
 export class VirtualNetworkPeeringsImpl implements VirtualNetworkPeerings {
   private readonly client: NetworkManagementClientContext;
 
@@ -165,7 +164,7 @@ export class VirtualNetworkPeeringsImpl implements VirtualNetworkPeerings {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       {
         resourceGroupName,
@@ -173,10 +172,13 @@ export class VirtualNetworkPeeringsImpl implements VirtualNetworkPeerings {
         virtualNetworkPeeringName,
         options
       },
-      deleteOperationSpec,
-      "location"
+      deleteOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
   }
 
   /**
@@ -285,7 +287,7 @@ export class VirtualNetworkPeeringsImpl implements VirtualNetworkPeerings {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       {
         resourceGroupName,
@@ -294,10 +296,13 @@ export class VirtualNetworkPeeringsImpl implements VirtualNetworkPeerings {
         virtualNetworkPeeringParameters,
         options
       },
-      createOrUpdateOperationSpec,
-      "azure-async-operation"
+      createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
+    });
   }
 
   /**
