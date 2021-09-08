@@ -63,7 +63,6 @@ param (
 
 $repoRoot = Resolve-Path -Path "$PSScriptRoot../../../"
 . "$repoRoot/eng/common/scripts/logging.ps1"
-. "$PSScriptRoot/../../eng/common/scripts/SemVer.ps1"
 
 function Set-EnvironmentVariable {
   param([string] $Name, [string] $Value)
@@ -153,7 +152,7 @@ function Update-SampleDependencies {
         # For non-daily smoke tests (i.e. release smoke tests), specifically
         # override the package.json tag for the newly released package under test.
         # Tag will be either 'latest' or 'next'
-        $dependencies[$dep] = $TagOverride #latest hardcode for now
+        $dependencies[$dep] = $TagOverride
       } else {
         # For non-daily smoke tests and/or non-azure dependencies,
         # use whatever is in the source package.json

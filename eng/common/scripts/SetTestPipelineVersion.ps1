@@ -31,3 +31,4 @@ LogDebug "Version to publish [ $($newVersion.ToString()) ]"
 SetPackageVersion -PackageName $PackageName `
   -Version $newVersion `
   -ServiceDirectory $ServiceDirectory
+  
