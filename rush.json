@@ -910,6 +910,11 @@
       "packageName": "@azure/arm-eventhub",
       "projectFolder": "sdk/eventhub/arm-eventhub",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-quota",
+      "projectFolder": "sdk/quota/arm-quota",
+      "versionPolicyName": "management"
     }
   ]
 }
