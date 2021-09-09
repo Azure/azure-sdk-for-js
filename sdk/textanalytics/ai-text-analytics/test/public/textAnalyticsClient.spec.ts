@@ -1024,7 +1024,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                     assert.equal(result.sentences.length, maxSentenceCount);
                     for (const sentence of result.sentences) {
                       assert.isDefined(sentence.text);
-                      assert.isDefined(sentence.rankScore);
+                      assert.isDefined(sentence.relevanceScore);
                       assert.isDefined(sentence.offset);
                       assert.isDefined(sentence.length);
                     }

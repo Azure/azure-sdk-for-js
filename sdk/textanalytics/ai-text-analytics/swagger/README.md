@@ -247,6 +247,16 @@ directive:
       }
 ```
 
+### Rename rank to relevance
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.ExtractedSummarySentence.properties.rankScore
+    transform: >
+      $["x-ms-client-name"] = "relevanceScore";
+```
+
 ### Enhance documentation strings for some exported swagger types
 
 ```yaml

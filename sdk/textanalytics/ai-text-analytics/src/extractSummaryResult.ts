@@ -36,7 +36,7 @@ export interface SummarySentence {
   /** The extracted sentence text. */
   text: string;
   /** A double value representing the relevance of the sentence within the summary. Higher values indicate higher importance. */
-  rankScore: number;
+  relevanceScore: number;
   /** The sentence offset from the start of the document, based on the value of the stringIndexType parameter. */
   offset: number;
   /** The length of the sentence. */

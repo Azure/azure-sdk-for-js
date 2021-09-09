@@ -216,6 +216,7 @@ export const EntitiesTaskParameters: coreClient.CompositeMapper = {
         }
       },
       loggingOptOut: {
+        defaultValue: false,
         serializedName: "loggingOptOut",
         type: {
           name: "Boolean"
@@ -326,6 +327,7 @@ export const KeyPhrasesTaskParameters: coreClient.CompositeMapper = {
         }
       },
       loggingOptOut: {
+        defaultValue: false,
         serializedName: "loggingOptOut",
         type: {
           name: "Boolean"
@@ -364,6 +366,7 @@ export const EntityLinkingTaskParameters: coreClient.CompositeMapper = {
         }
       },
       loggingOptOut: {
+        defaultValue: false,
         serializedName: "loggingOptOut",
         type: {
           name: "Boolean"
@@ -408,12 +411,14 @@ export const SentimentAnalysisTaskParameters: coreClient.CompositeMapper = {
         }
       },
       loggingOptOut: {
+        defaultValue: false,
         serializedName: "loggingOptOut",
         type: {
           name: "Boolean"
         }
       },
       opinionMining: {
+        defaultValue: false,
         serializedName: "opinionMining",
         type: {
           name: "Boolean"
@@ -2047,7 +2052,7 @@ export const ExtractedSummarySentence: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      rankScore: {
+      relevanceScore: {
         serializedName: "rankScore",
         required: true,
         type: {

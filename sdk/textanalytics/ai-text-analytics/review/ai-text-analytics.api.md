@@ -630,7 +630,7 @@ export type StringIndexType = "TextElement_v8" | "UnicodeCodePoint" | "Utf16Code
 export interface SummarySentence {
     length: number;
     offset: number;
-    rankScore: number;
+    relevanceScore: number;
     text: string;
 }
 
@@ -772,7 +772,6 @@ export type TokenSentimentValue = "positive" | "mixed" | "negative";
 
 // @public
 export type WarningCode = string;
-
 
 // (No @packageDocumentation comment for this package)
 
