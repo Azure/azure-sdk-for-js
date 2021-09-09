@@ -43,7 +43,7 @@ export class KeyVaultManagementClientContext extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-keyvault/30.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-keyvault/30.0.0-beta.3`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

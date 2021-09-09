@@ -1,3 +1,21 @@
+# Release History
+
+## 30.0.0-beta.4 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 30.0.0-beta.3 (2021-09-06)
+
+**Bug Fixes**
+
+	- fix homepage issues
+
 ## 30.0.0-beta.2 (2021-08-20)
 
 **Bug Fixes**

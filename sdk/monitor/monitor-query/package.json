@@ -1,7 +1,7 @@
 {
   "name": "@azure/monitor-query",
   "version": "1.0.0-beta.5",
-  "description": "An isomorphic client library to query Azure Monitor logs and metrics.",
+  "description": "An isomorphic client library for querying Azure Monitor's Logs and Metrics data sources.",
   "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -101,6 +101,7 @@
     "@azure/core-tracing": "1.0.0-preview.13",
     "@azure/core-client": "^1.0.0",
     "@azure/core-rest-pipeline": "^1.1.0",
+    "@azure/core-paging": "^1.1.1",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0"
   },

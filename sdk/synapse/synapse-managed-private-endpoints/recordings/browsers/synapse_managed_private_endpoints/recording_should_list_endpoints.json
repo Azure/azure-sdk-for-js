@@ -11,36 +11,35 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1322",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 10 Aug 2021 20:28:57 GMT",
+    "date": "Tue, 07 Sep 2021 19:30:46 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+bno\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11935.14 - WUS2 ProdSlices",
-    "x-ms-request-id": "78801b88-1af3-4a5b-afce-f0ec45ff0600"
+    "x-ms-ests-server": "2.1.12025.12 - SCUS ProdSlices",
+    "x-ms-request-id": "50acb96a-18bc-4cdc-8d8a-383d9003ee00"
    }
   },
   {
    "method": "GET",
    "url": "https://testaccount.dev.azuresynapse.net/managedVirtualNetworks/default/managedPrivateEndpoints",
    "query": {
-    "api-version": "2019-06-01-preview"
+    "api-version": "2020-12-01"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[{\"name\":\"synapse-ws-sqlOnDemand--synapse-test-vnet\",\"id\":\"/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/xiangyan/providers/Microsoft.Synapse/workspaces/synapse-test-vnet/managedVirtualNetworks/default/managedPrivateEndpoints/synapse-ws-sqlOnDemand--synapse-test-vnet\",\"type\":\"Microsoft.Synapse/workspaces/managedVirtualNetworks/managedPrivateEndpoints\",\"properties\":{\"privateLinkResourceId\":\"/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/xiangyan/providers/Microsoft.Synapse/workspaces/synapse-test-vnet\",\"groupId\":\"sqlOnDemand\",\"provisioningState\":\"Succeeded\",\"connectionState\":{\"status\":\"Approved\",\"description\":\"Approved by Microsoft.Synapse Resource Provider\",\"actionsRequired\":\"\"},\"isReserved\":true,\"fqdns\":[\"synapse-test-vnet-ondemand.31a8e776-91cd-482c-a26a-6f05d478d273.sql.azuresynapse.net\"],\"isCompliant\":false}},{\"name\":\"synapse-ws-sql--synapse-test-vnet\",\"id\":\"/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/xiangyan/providers/Microsoft.Synapse/workspaces/synapse-test-vnet/managedVirtualNetworks/default/managedPrivateEndpoints/synapse-ws-sql--synapse-test-vnet\",\"type\":\"Microsoft.Synapse/workspaces/managedVirtualNetworks/managedPrivateEndpoints\",\"properties\":{\"privateLinkResourceId\":\"/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/xiangyan/providers/Microsoft.Synapse/workspaces/synapse-test-vnet\",\"groupId\":\"sql\",\"provisioningState\":\"Succeeded\",\"connectionState\":{\"status\":\"Approved\",\"description\":\"Approved by Microsoft.Synapse Resource Provider\",\"actionsRequired\":\"\"},\"isReserved\":true,\"fqdns\":[\"synapse-test-vnet.31a8e776-91cd-482c-a26a-6f05d478d273.sql.azuresynapse.net\"],\"isCompliant\":false}}]}",
+   "response": "{\"value\":[{\"name\":\"synapse-ws-sql--synapse-test-vnet\",\"id\":\"/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/xiangyan/providers/Microsoft.Synapse/workspaces/synapse-test-vnet/managedVirtualNetworks/default/managedPrivateEndpoints/synapse-ws-sql--synapse-test-vnet\",\"type\":\"Microsoft.Synapse/workspaces/managedVirtualNetworks/managedPrivateEndpoints\",\"properties\":{\"privateLinkResourceId\":\"/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/xiangyan/providers/Microsoft.Synapse/workspaces/synapse-test-vnet\",\"groupId\":\"sql\",\"provisioningState\":\"Succeeded\",\"connectionState\":{\"status\":\"Approved\",\"description\":\"Approved by Microsoft.Synapse Resource Provider\",\"actionsRequired\":\"\"},\"isReserved\":true,\"fqdns\":[\"synapse-test-vnet.31a8e776-91cd-482c-a26a-6f05d478d273.sql.azuresynapse.net\"],\"isCompliant\":false}},{\"name\":\"synapse-ws-sqlOnDemand--synapse-test-vnet\",\"id\":\"/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/xiangyan/providers/Microsoft.Synapse/workspaces/synapse-test-vnet/managedVirtualNetworks/default/managedPrivateEndpoints/synapse-ws-sqlOnDemand--synapse-test-vnet\",\"type\":\"Microsoft.Synapse/workspaces/managedVirtualNetworks/managedPrivateEndpoints\",\"properties\":{\"privateLinkResourceId\":\"/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/xiangyan/providers/Microsoft.Synapse/workspaces/synapse-test-vnet\",\"groupId\":\"sqlOnDemand\",\"provisioningState\":\"Succeeded\",\"connectionState\":{\"status\":\"Approved\",\"description\":\"Approved by Microsoft.Synapse Resource Provider\",\"actionsRequired\":\"\"},\"isReserved\":true,\"fqdns\":[\"synapse-test-vnet-ondemand.31a8e776-91cd-482c-a26a-6f05d478d273.sql.azuresynapse.net\"],\"isCompliant\":false}}]}",
    "responseHeaders": {
     "content-length": "1708",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 10 Aug 2021 20:28:58 GMT",
+    "date": "Tue, 07 Sep 2021 19:30:46 GMT",
     "server": "Microsoft-HTTPAPI/2.0",
-    "status": "200",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-request-id": "824b2ec3-dec9-4edb-8f6d-f1f495f6a7f8"
+    "x-ms-request-id": "eb4d3d64-d9cc-4888-baa5-52ad0e39b50e"
    }
   }
  ],
@@ -48,5 +47,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "6f823c970d5402dfa7346c91f0ec3716"
+ "hash": "0126c817a63f3e2820509373698ac737"
 }

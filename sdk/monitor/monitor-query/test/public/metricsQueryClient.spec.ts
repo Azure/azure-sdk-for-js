@@ -17,56 +17,58 @@ describe("MetricsClient live tests", function() {
   });
 
   it("getMetricDefinitions -> queryMetrics", async () => {
-    const metricDefinitions = await metricsQueryClient.getMetricDefinitions(resourceId);
-    assert.isNotEmpty(metricDefinitions.definitions);
+    const iter = metricsQueryClient.listMetricDefinitions(resourceId);
 
-    // you can only query 20 metrics at a time.
-    for (const definition of metricDefinitions.definitions) {
-      const result = await metricsQueryClient.queryMetrics(resourceId, Durations.last24Hours, {
-        metricNames: [definition.name || ""]
-      });
-
-      assert.ok(result);
-      assert.ok(result.interval);
-      assert.isNotEmpty(result.metrics);
+    let result = await iter.next();
+    assert.isNotEmpty(result);
+    const firstMetricDefinition = result.value;
+    let metricDefinitionsLength = 0;
+    while (!result.done) {
+      // you can only query 20 metrics at a time.
+      const resultQuery = await metricsQueryClient.query(resourceId, [result.value.name || ""], {});
+      assert(resultQuery);
+      assert(resultQuery.granularity);
+      assert.isNotEmpty(resultQuery.metrics);
+      result = await iter.next();
+      metricDefinitionsLength++;
     }
 
-    // do a quick run through of all the individual metrics, in groups of 20
-    // which is the max.
-    for (let i = 0; i < metricDefinitions.definitions.length; i += 20) {
-      const definitionNames = metricDefinitions.definitions
-        .slice(i, i + 20)
-        // TODO: I think the 'name' being optional is incorrect in the swagger
-        // but just in case I'll check until we fix it.
-        .map((definition) => definition.name!);
+    const metricDefinitions = iter;
+    let i = 0;
+    let definitionNames: Array<string> = [];
 
-      for (const definitionName of definitionNames) {
-        if (definitionName == null) {
-          throw new Error("Definition name for a metric was undefined/null");
-        }
+    for await (const metricDefinition of metricDefinitions) {
+      if (i % 20 === 0) {
+        definitionNames = [];
       }
+      if (metricDefinition.name == null) {
+        throw new Error("Definition name for a metric was undefined/null");
+      }
+      definitionNames.push(metricDefinition.name);
 
-      const newResults = await metricsQueryClient.queryMetrics(resourceId, Durations.last24Hours, {
-        metricNames: definitionNames
-      });
-
-      assert.ok(newResults);
-      assert.isNotEmpty(newResults.metrics);
+      i++;
+      if (i % 20 === 0 || i === metricDefinitionsLength) {
+        const newResults = await metricsQueryClient.query(resourceId, definitionNames, {
+          timespan: {
+            duration: Durations.TwentyFourHours
+          }
+        });
+        assert.ok(newResults);
+        assert.isNotEmpty(newResults.metrics);
+      }
     }
 
     // pick the first query and use the namespace as well.
-
-    const firstMetricDefinition = metricDefinitions.definitions[0];
 
     assert.isNotNull(firstMetricDefinition);
     assert.isNotEmpty(firstMetricDefinition.name);
     assert.isNotEmpty(firstMetricDefinition.namespace);
 
-    const individualMetricWithNamespace = metricsQueryClient.queryMetrics(
+    const individualMetricWithNamespace = metricsQueryClient.query(
       resourceId,
-      Durations.last24Hours,
+      [firstMetricDefinition.name!],
       {
-        metricNames: [firstMetricDefinition.name!],
+        timespan: { duration: Durations.TwentyFourHours },
         metricNamespace: firstMetricDefinition.namespace
       }
     );
@@ -75,11 +77,11 @@ describe("MetricsClient live tests", function() {
   });
 
   it("listNamespaces", async () => {
-    const result = await metricsQueryClient.getMetricNamespaces(resourceId);
+    const result = metricsQueryClient.listMetricNamespaces(resourceId);
     assert.ok(result);
   });
   it("listDefinitions", async () => {
-    const result = await metricsQueryClient.getMetricDefinitions(resourceId);
+    const result = metricsQueryClient.listMetricDefinitions(resourceId);
     assert.ok(result);
   });
 });

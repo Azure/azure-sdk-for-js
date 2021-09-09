@@ -1,10 +1,15 @@
 # Release History
 
-## 2.0.0-beta.6 (Unreleased)
+## 2.0.0-beta.6 (2021-09-09)
 
 ### Features Added
 
+- Added the `OnBehalfOfCredential`, which allows users to authenticate through the [On-Behalf-Of authentication flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow).
+- `ManagedIdentityCredential` now supports token exchange authentication.
+
 ### Breaking Changes
+
+- `ClientCertificateCredential` now evaluates the validity of the PEM certificate path on `getToken` and not on the constructor.
 
 #### Breaking Changes from 2.0.0-beta.5
 
@@ -13,8 +18,12 @@
 ### Bugs Fixed
 
 - `ClientSecretCredential`, `ClientCertificateCredential` and `UsernamePasswordCredential` now throw if the required parameters are not provided (even in JavaScript).
+- Fixed a bug introduced on 2.0.0-beta.5 that caused the `ManagedIdentityCredential` to fail authenticating in Arc environments. Since our new core disables unsafe requests by default, we had to change the security settings for the first request of the Arc MSI, which retrieves the file path where the authentication value is stored since this request generally happens through an HTTP endpoint.
+- Fixed bug on the `AggregateAuthenticationError`, which caused an inconsistent error message on the `ChainedTokenCredential`, `DefaultAzureCredential` and `ApplicationCredential`.
 
 ### Other Changes
+
+- The errors thrown by the `ManagedIdentityCredential` have been improved.
 
 ## 2.0.0-beta.5 (2021-08-10)
 
@@ -34,6 +43,10 @@
 ### Bugs Fixed
 
 - With this release, we've migrated from using `@azure/core-http` to `@azure/core-rest-pipeline` for the handling of HTTP requests. See [Azure Core v1 vs v2](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-rest-pipeline/documentation/core2.md) for more on the difference and benefits of the move. This removes our dependency on `node-fetch` and along with it issues we have seen in using this dependency in specific environments like Kubernetes pods.
+
+## 1.5.2 (2021-09-01)
+
+- Fixed a bug introduced on 1.5.0 that caused the `ManagedIdentityCredential` to fail authenticating in Arc environments. Since our new core disables unsafe requests by default, we had to change the security settings for the first request of the Arc MSI, which retrieves the file path where the authentication value is stored since this request generally happens through an HTTP endpoint.
 
 ## 1.5.1 (2021-08-12)
 

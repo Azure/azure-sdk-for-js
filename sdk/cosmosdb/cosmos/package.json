@@ -1,6 +1,6 @@
 {
   "name": "@azure/cosmos",
-  "version": "3.14.0",
+  "version": "3.14.2",
   "description": "Microsoft Azure Cosmos DB Service Node.js SDK for SQL API",
   "sdk-type": "client",
   "keywords": [
@@ -86,7 +86,7 @@
   },
   "dependencies": {
     "@azure/core-auth": "^1.3.0",
-    "@azure/core-rest-pipeline": "^1.1.0",
+    "@azure/core-rest-pipeline": "^1.2.0",
     "debug": "^4.1.1",
     "fast-json-stable-stringify": "^2.1.0",
     "jsbi": "^3.1.3",
@@ -121,7 +121,6 @@
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^1.18.0",
     "prettier": "^1.16.4",
-    "proxy-agent": "^4.0.1",
     "requirejs": "^2.3.5",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
