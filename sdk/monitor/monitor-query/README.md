@@ -398,20 +398,20 @@ export async function main() {
 
   const iterator = metricsQueryClient.listMetricDefinitions(metricsResourceId);
   let result = await iterator.next();
-  const firstMetric: MetricDefinition = result.value;
-  let secondMetricName: string = "TotalCalls";
+  let metricNames: string[] = [];
   for await (const result of iterator) {
     console.log(` metricDefinitions - ${result.id}, ${result.name}`);
     if (result.name) {
-      secondMetricName = result.name; // will assign the last value in the loop
+      metricNames.push(result.name);
     }
   }
-
-  if (firstMetric.name && secondMetricName) {
-    console.log(`Picking an example metric to query: ${firstMetric.name} and ${secondMetricName}`);
+  const firstMetricName = metricNames[0];
+  const secondMetricName = metricNames[1];
+  if (firstMetricName && secondMetricName) {
+    console.log(`Picking an example metric to query: ${firstMetricName} and ${secondMetricName}`);
     const metricsResponse = await metricsQueryClient.query(
       metricsResourceId,
-      [firstMetric.name, secondMetricName],
+      [firstMetricName, secondMetricName],
       {
         granularity: "PT1M",
         timespan: { duration: Durations.FiveMinutes }
@@ -424,10 +424,10 @@ export async function main() {
 
     const metrics: Metric[] = metricsResponse.metrics;
     console.log(`Metrics:`, JSON.stringify(metrics, undefined, 2));
-    const metric = metricsResponse.getMetricByName(firstMetric.name);
-    console.log(`Selected Metric: ${firstMetric.name}`, JSON.stringify(metric, undefined, 2));
+    const metric = metricsResponse.getMetricByName(firstMetricName);
+    console.log(`Selected Metric: ${firstMetricName}`, JSON.stringify(metric, undefined, 2));
   } else {
-    console.error(`Metric names are not defined - ${firstMetric.name} and ${secondMetricName}`);
+    console.error(`Metric names are not defined - ${firstMetricName} and ${secondMetricName}`);
   }
 }
 
@@ -437,7 +437,7 @@ main().catch((err) => {
 });
 ```
 
-In the preceding sample, the ordering of results for the metrics in the `metricResponse` will be in the order in which the user specifies the metric names in the `metricNames` array argument for the query method. If user specifies `[firstMetric.name,secondMetricName]`, the result for `firstMetric.name` will appear before the result for `secondMetricName` in the `metricResponse`.
+In the preceding sample, the ordering of results for the metrics in the `metricResponse` will be in the order in which the user specifies the metric names in the `metricNames` array argument for the query method. If user specifies `[firstMetricName,secondMetricName]`, the result for `firstMetricName` will appear before the result for `secondMetricName` in the `metricResponse`.
 
 ### Handle metrics response
 
@@ -486,7 +486,7 @@ export async function main() {
     throw new Error("METRICS_RESOURCE_ID must be set in the environment for this sample");
   }
 
-  console.log(`Picking an example metric to query: ${firstMetric.name}`);
+  console.log(`Picking an example metric to query: ${firstMetricName}`);
 
   const metricsResponse = await metricsQueryClient.queryMetrics(
     metricsResourceId,
