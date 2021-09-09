@@ -395,15 +395,17 @@ export function convertGeneratedTable(table: GeneratedTable): LogsTable {
  */
 export function convertBatchQueryResponseHelper(response: GeneratedBatchQueryResponse): any {
   try {
-    const foo: GeneratedBatchQueryResults = JSON.parse(
+    const parsedResponseBody: GeneratedBatchQueryResults = JSON.parse(
       response.body as any
     ) as GeneratedBatchQueryResults;
     return {
-      visualization: foo.render,
+      visualization: parsedResponseBody.render,
       status: "Success",
-      statistics: foo.statistics,
-      error: foo.error,
-      tables: foo.tables?.map((table: GeneratedTable) => convertGeneratedTable(table))
+      statistics: parsedResponseBody.statistics,
+      error: parsedResponseBody.error,
+      tables: parsedResponseBody.tables?.map((table: GeneratedTable) =>
+        convertGeneratedTable(table)
+      )
     };
   } catch (e) {
     return {
