@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Added support for `KeyClient.getCryptographyClient(keyName, keyVersion)` which provides a simple way to create a `CryptographyClient` for a given key name.
+- Added support for `KeyClient.getCryptographyClient(keyName, keyVersion)` which provides a simple way to create a `CryptographyClient` for a given key name and version.
 
 ### Breaking Changes
 
