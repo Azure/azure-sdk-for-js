@@ -81,7 +81,7 @@ async function RunTest(
   for (let partitionId of partitionIds) {
     consumerClient.receive(partitionId, onMessageHandler, onErrorHandler, {
       eventPosition: EventPosition.fromStart(),
-      consumerGroup,
+      consumerGroup
     });
   }
 }
