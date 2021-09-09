@@ -126,12 +126,16 @@ export class LogsQueryClient {
       error: mapError(flatResponse.error),
       status: "Success" // Assume success until shown otherwise.
     };
-    if (result.tables && result.error) {
-      result.status = "Partial";
-    } else if (result.error && !result.tables) {
-      result.status = "Failed";
-    } else {
+    if (!result.error) {
+      // if there is no error field, it is success
       result.status = "Success";
+    } else {
+      // result.tables is always present in single query response, even is there is error
+      if (result.tables.length === 0) {
+        result.status = "Failed";
+      } else {
+        result.status = "Partial";
+      }
     }
     if (options?.throwOnAnyFailure && result.status !== "Success") {
       throw result.error;
