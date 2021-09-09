@@ -137,7 +137,6 @@ You can use the `Durations` constants provided for some commonly used ISO8601 du
 ```ts
 const { LogsQueryClient, Durations } = require("@azure/monitor-query");
 const { DefaultAzureCredential } = require("@azure/identity");
-g;
 
 const azureLogAnalyticsWorkspaceId = "<the Workspace Id for your Azure Log Analytics resource>";
 const logsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
