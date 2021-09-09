@@ -80,7 +80,10 @@ export class ChainedTokenCredential implements TokenCredential {
     }
 
     if (!token && errors.length > 0) {
-      const err = new AggregateAuthenticationError(errors);
+      const err = new AggregateAuthenticationError(
+        errors,
+        "ChainedTokenCredential authentication failed."
+      );
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: err.message

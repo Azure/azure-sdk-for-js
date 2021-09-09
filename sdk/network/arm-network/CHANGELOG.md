@@ -1,3 +1,75 @@
+# Release History
+
+## 30.0.0-beta.4 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 30.0.0-beta.3 (2021-09-08)
+    
+**Features**
+
+  - Added operation group ServiceTagInformationOperations
+  - Added operation BastionHosts.beginUpdateTags
+  - Added operation BastionHosts.beginUpdateTagsAndWait
+  - Added Interface ApplicationGatewayGlobalConfiguration
+  - Added Interface BastionHostsUpdateTagsOptionalParams
+  - Added Interface ExplicitProxySettings
+  - Added Interface FirewallPolicySQL
+  - Added Interface PrivateEndpointIPConfiguration
+  - Added Interface QosDefinition
+  - Added Interface ServiceTagInformationListResult
+  - Added Interface ServiceTagInformationOperationsListNextOptionalParams
+  - Added Interface ServiceTagInformationOperationsListOptionalParams
+  - Added Type Alias ApplicationGatewayLoadDistributionAlgorithm
+  - Added Type Alias ApplicationGatewayLoadDistributionPolicy
+  - Added Type Alias ApplicationGatewayLoadDistributionTarget
+  - Added Type Alias BastionHostsUpdateTagsResponse
+  - Added Type Alias ServiceTagInformationOperationsListNextResponse
+  - Added Type Alias ServiceTagInformationOperationsListResponse
+  - Interface ServiceTagInformation has a new optional parameter serviceTagChangeNumber
+  - Interface VnetRoute has a new optional parameter bgpConnections
+  - Class NetworkManagementClient has a new parameter serviceTagInformationOperations
+  - Type Alias ApplicationGateway has a new parameter loadDistributionPolicies
+  - Type Alias ApplicationGateway has a new parameter globalConfiguration
+  - Type Alias ApplicationGatewayPathRule has a new parameter loadDistributionPolicy
+  - Type Alias ApplicationGatewayRequestRoutingRule has a new parameter loadDistributionPolicy
+  - Type Alias ApplicationGatewayUrlPathMap has a new parameter defaultLoadDistributionPolicy
+  - Type Alias BastionHost has a new parameter scaleUnits
+  - Type Alias BastionHost has a new parameter disableCopyPaste
+  - Type Alias BastionHost has a new parameter enableFileCopy
+  - Type Alias BastionHost has a new parameter enableIpConnect
+  - Type Alias BastionHost has a new parameter enableShareableLink
+  - Type Alias BastionHost has a new parameter enableTunneling
+  - Type Alias BgpConnection has a new parameter hubVirtualNetworkConnection
+  - Type Alias DscpConfiguration has a new parameter qosDefinitionCollection
+  - Type Alias FirewallPolicy has a new parameter sql
+  - Type Alias FirewallPolicy has a new parameter explicitProxySettings
+  - Type Alias InboundNatRule has a new parameter frontendPortRangeStart
+  - Type Alias InboundNatRule has a new parameter frontendPortRangeEnd
+  - Type Alias InboundNatRule has a new parameter backendAddressPool
+  - Type Alias NetworkVirtualAppliance has a new parameter sshPublicKey
+  - Type Alias PrivateEndpoint has a new parameter applicationSecurityGroups
+  - Type Alias PrivateEndpoint has a new parameter ipConfigurations
+  - Type Alias PrivateEndpoint has a new parameter customNetworkInterfaceName
+  - Type Alias ServiceEndpointPolicy has a new parameter serviceAlias
+  - Type Alias ServiceEndpointPolicy has a new parameter contextualServiceEndpointPolicies
+  - Type Alias ServiceEndpointPolicyDefinition has a new parameter type
+  - Type Alias VirtualHub has a new parameter kind
+  - Type Alias VpnGateway has a new parameter enableBgpRouteTranslationForNat
+  - Added Enum KnownApplicationGatewayLoadDistributionAlgorithm
+    
+## 30.0.0-beta.2 (2021-09-06)
+
+**Bug Fixes**
+
+	- fix homepage issues
+
 ## 30.0.0-beta.1 (2021-07-15)
 
 This is the first preview for the new version of the `@azure/arm-network` package that follows the new [guidelines for TypeScript SDKs](https://azure.github.io/azure-sdk/typescript_introduction.html) for Azure services.

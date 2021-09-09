@@ -905,6 +905,21 @@
       "packageName": "@azure/arm-authorization",
       "projectFolder": "sdk/authorization/arm-authorization",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-eventhub",
+      "projectFolder": "sdk/eventhub/arm-eventhub",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-purview",
+      "projectFolder": "sdk/purview/arm-purview",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-servicebus",
+      "projectFolder": "sdk/servicebus/arm-servicebus",
+      "versionPolicyName": "management"
     }
   ]
 }

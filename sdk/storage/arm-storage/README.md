@@ -47,7 +47,8 @@ Set the values of the client ID, tenant ID, and client secret of the AAD applica
 ```javascript
 const { StorageManagementClient } = require("@azure/arm-storage");
 const { DefaultAzureCredential } = require("@azure/identity");
-const client = new StorageManagementClient("<endpoint>", new DefaultAzureCredential());
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
+const client = new StorageManagementClient(new DefaultAzureCredential(), subscriptionId);
 ```
 
 ## Key concepts

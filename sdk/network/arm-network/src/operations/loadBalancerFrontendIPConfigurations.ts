@@ -24,7 +24,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a LoadBalancerFrontendIPConfigurations. */
+/** Class containing LoadBalancerFrontendIPConfigurations operations. */
 export class LoadBalancerFrontendIPConfigurationsImpl
   implements LoadBalancerFrontendIPConfigurations {
   private readonly client: NetworkManagementClientContext;
