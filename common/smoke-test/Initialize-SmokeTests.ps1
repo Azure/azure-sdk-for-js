@@ -92,26 +92,34 @@ function New-DeployManifest {
   Write-Verbose "Detecting samples..."
   $packageDir = Get-ChildItem -Directory -Path "$repoRoot/sdk/$ServiceDirectory/*"
 
-  $javascriptSamples = $packageDir | ForEach-Object {
+  $javascriptSamples = @()
+  $packageDir.ForEach{
     $versions = (Get-Item "$_/samples/*").Name
-    $newestVer = $versions | Sort-Object {[int]($_ -replace '^v' -replace '(\d+).*', '$1')} -Descending | Select-Object -First 1
-    return Get-ChildItem -Path "$_/samples/$newestVer/javascript/" -Recurse -Include package.json
+    $newestVer = $versions | Sort-Object {[int]($_ -replace '[^0-9]' -replace '(\d+).*', '$1')} -Descending | Select-Object -First 1
+    Write-Host "new version"
+    Write-Host $newestVer
+    if($versions -contains $newestVer+"-beta") {
+      $newestVer += "-beta"
+    }
+    $javascriptSamples += Get-ChildItem -Path "$_/samples/$newestVer/javascript/" -Recurse -Include package.json
+    Write-Host $javascriptSamples
   }
 
   $manifest = $javascriptSamples | ForEach-Object {
     # Example: azure-sdk-for-js/sdk/appconfiguration/app-configuration/samples/v1/javascript
+    $PackagePath = (Join-Path $_ ../../../../) | Get-Item
     @{
       # Package name for example "app-configuration"
-      Name               = ((Join-Path $_ ../../../../) | Get-Item).Name;
+      Name               = $PackagePath.Name;
 
       # Path to "app-configuration" part from example
-      PackageDirectory   = ((Join-Path $_ ../../../../) | Get-Item).FullName;
+      PackageDirectory   = $PackagePath.FullName;
 
       # Service Directory for example "appconfiguration"
-      ResourcesDirectory = ((Join-Path $_ ../../../../../) | Get-Item).Name;
+      ResourcesDirectory = $PackagePath.Parent.Name;
 
       # Path to "javascript"
-      SamplesDirectory   = ((Join-Path $_ ../) | Get-Item).FullName;
+      SamplesDirectory   = $_.Directoryname;
     }
   }
 
@@ -123,7 +131,9 @@ function Update-SamplesForService {
 
   $sampleFiles = Get-ChildItem "$($entry.SamplesDirectory)/*.js"
   foreach ($sampleFile in $sampleFiles) {
-    (Get-Content -Raw $sampleFile) -replace "(?s)main\(\)\.catch.*", "module.exports = { main };`n" | Set-Content -Path $sampleFile
+    $fileContent = Get-Content -Raw $sampleFile
+    $fileContent = $fileContent -replace "(?s)main\(\)\.catch.*", "module.exports = { main };`n"
+    Set-Content -Path $sampleFile -Value $fileContent
   }
 }
 
