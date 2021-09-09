@@ -105,7 +105,7 @@ function New-DeployManifest {
     Write-Host "xxxx"
     Write-Host $PackagePath.Name
     Write-Host $PackagePath.FullName
-    Write-Host $PackagePath.Directory.Name
+    Write-Host $PackagePath.Parent.Name
     Write-Host $_.Directoryname
     @{
       # Package name for example "app-configuration"
