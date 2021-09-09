@@ -215,6 +215,13 @@ export class KeyClient {
   private readonly client: KeyVaultClient;
 
   /**
+   * @internal
+   * A reference to the credential that was used to construct this client.
+   * Later used to instantiate a {@link CryptographyClient} with the same credential.
+   */
+  private readonly credential: TokenCredential;
+
+  /**
    * Creates an instance of KeyClient.
    *
    * Example usage:
@@ -265,6 +272,7 @@ export class KeyClient {
       }
     };
 
+    this.credential = credential;
     this.client = new KeyVaultClient(
       pipelineOptions.serviceVersion || LATEST_API_VERSION,
       createPipelineFromOptions(internalPipelineOptions, authPolicy)
@@ -433,15 +441,16 @@ export class KeyClient {
    * @param version - Optional version of the key used to perform cryptographic operations.
    * @returns - A {@link CryptographyClient} using the same options, credentials, and http client as this {@link KeyClient}
    */
-  public getCryptographyClient(name: string, version?: string): CryptographyClient {
+  public getCryptographyClient(keyName: string, keyVersion?: string): CryptographyClient {
     // The goals of this method are discoverability and performance (by sharing a client and pipeline).
-    // The existing cryptography client does not accept a pipeline as an argument, nor does it expose it
-    // so we _fake_ it by constructing it with the keyUrl, a fake token (which will be thrown away), and then
-    // set the remote provider's generated client to our current client.
-    const keyUrl = new URL(["keys", name, version].filter(Boolean).join("/"), this.vaultUrl);
-    const cryptoClient = new CryptographyClient(keyUrl.toString(), {} as TokenCredential);
-    // We know it has a remote provider, since this is a remoteable crypto client
-    cryptoClient["remoteProvider"]!["client"] = this.client;
+    // The existing cryptography client does not accept a pipeline as an argument, nor does it expose it.
+    // In order to avoid publicly exposing the pipeline we will access the underlying client
+    // via private variables and set the client to shared client.
+    const keyUrl = new URL(["keys", keyName, keyVersion].filter(Boolean).join("/"), this.vaultUrl);
+    const cryptoClient = new CryptographyClient(keyUrl.toString(), this.credential);
+    if (cryptoClient["remoteProvider"]) {
+      cryptoClient["remoteProvider"]["client"] = this.client;
+    }
     return cryptoClient;
   }
 
