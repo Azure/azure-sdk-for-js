@@ -26,7 +26,7 @@ const VSCodeServiceName = "VS Code Azure";
  *
  * Example:
  *
- * ```typescript
+ * ```javascript
  * import { useIdentityPlugin, VisualStudioCodeCredential } from "@azure/identity";
  * import { vsCodePlugin } from "@azure/identity-vscode";
  *

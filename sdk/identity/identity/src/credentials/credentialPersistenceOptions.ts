@@ -17,7 +17,7 @@ export interface CredentialPersistenceOptions {
    *
    * Example:
    *
-   * ```typescript
+   * ```javascript
    * import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
    * import { useIdentityPlugin, DeviceCodeCredential } from "@azure/identity";
    *

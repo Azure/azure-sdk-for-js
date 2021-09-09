@@ -6,7 +6,7 @@ This package provides a plugin to the Azure Identity library for JavaScript ([`@
 
 ## Getting started
 
-```typescript
+```javascript
 import { useIdentityPlugin } from "@azure/identity";
 import { vsCodePlugin } from "@azure/identity-vscode";
 
@@ -39,7 +39,7 @@ If this is your first time using `@azure/identity` or the Microsoft identity pla
 
 As of `@azure/identity` version 2.0.0, the Identity client library for JavaScript includes a plugin API. This package (`@azure/identity-vscode`) exports a plugin object that you must pass as an argument to the top-level `useIdentityPlugin` function from the `@azure/identity` package. Enable authentication through the "Azure Account" extension for Visual Studio Code as follows:
 
-```typescript
+```javascript
 import { useIdentityPlugin } from "@azure/identity";
 import { vsCodePlugin } from "@azure/identity-vscode";
 
@@ -58,7 +58,7 @@ After signing in, you may need to select a subscription (for example, if you hav
 
 Once the plugin is registered, you can use `VisualStudioCodeCredential` in a similar fashion to the other credential classes in `@azure/identity`:
 
-```typescript
+```javascript
 import { useIdentityPlugin, VisualStudioCodeCredential } from "@azure/identity";
 import { vsCodePlugin } from "@azure/identity-vscode";
 
@@ -82,7 +82,7 @@ main().catch((error) => {
 
 You can also use `DefaultAzureCredential`, which will attempt to authenticate using the "Azure Account" extension for Visual Studio Code if it's available:
 
-```typescript
+```javascript
 import { useIdentityPlugin, DefaultAzureCredential } from "@azure/identity";
 import { vsCodePlugin } from "@azure/identity-vscode";
 

@@ -6,7 +6,7 @@ This package provides a plugin to the Azure Identity library for JavaScript ([`@
 
 ## Getting started
 
-```typescript
+```javascript
 import { useIdentityPlugin } from "@azure/identity";
 import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
 
@@ -38,7 +38,7 @@ If this is your first time using `@azure/identity` or the Microsoft identity pla
 
 As of `@azure/identity` version 2.0.0, the Identity client library for JavaScript includes a plugin API. This package (`@azure/identity-cache-persistence`) exports a plugin object that you must pass as an argument to the top-level `useIdentityPlugin` function from the `@azure/identity` package. Enable token cache persistence in your program as follows:
 
-```typescript
+```javascript
 import { useIdentityPlugin } from "@azure/identity";
 import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
 
@@ -51,7 +51,7 @@ After calling `useIdentityPlugin`, the persistent token cache plugin is register
 
 Once the plugin is registered, you can enable token cache persistence by passing `tokenCachePersistenceOptions` with an `enabled` property set to `true` to a credential constructor. In the following example, we use the `DeviceCodeCredential`, since persistent caching of its tokens allows you to skip the interactive device-code authentication flow if a cached token is available.
 
-```typescript
+```javascript
 import { useIdentityPlugin, DeviceCodeCredential } from "@azure/identity";
 import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
 

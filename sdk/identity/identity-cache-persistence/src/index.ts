@@ -18,7 +18,7 @@ import { createPersistenceCachePlugin } from "./provider";
  *
  * Example:
  *
- * ```typescript
+ * ```javascript
  * import { useIdentityPlugin, DeviceCodeCredential } from "@azure/identity";
  * import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
  *
