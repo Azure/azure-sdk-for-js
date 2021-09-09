@@ -6,7 +6,7 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { Durations, Metric, MetricsQueryClient, MetricDefinition } from "@azure/monitor-query";
+import { Durations, Metric, MetricsQueryClient } from "@azure/monitor-query";
 import * as dotenv from "dotenv";
 
 dotenv.config();
