@@ -135,7 +135,7 @@ describe("utils", () => {
       expect(appliedMap).to.equal("default.com/path/HIDDEN_SECRET");
     });
 
-    it("Should not apply replacements multiple times", () => {
+    it("Should not apply unnecessary repeated replacements", () => {
       const env: NodeJS.ProcessEnv = {
         AZURE_USERNAME: "username"
       };
