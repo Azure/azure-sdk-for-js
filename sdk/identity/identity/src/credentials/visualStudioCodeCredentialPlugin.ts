@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// Copyright (c) Microsoft Corporation
-// Licensed under the MIT license.
-
 /**
  * A function that searches for credentials in the Visual Studio Code credential store.
  *

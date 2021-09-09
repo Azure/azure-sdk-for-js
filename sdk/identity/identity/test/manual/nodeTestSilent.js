@@ -17,7 +17,7 @@ const credential1 = new identity.InteractiveBrowserCredential({
   clientId: process.env.AZURE_CLIENT_ID,
   tokenCachePersistenceOptions: {
     name: "nodeTestSilent",
-    allowUnencryptedStorage: true
+    unsafeAllowUnencryptedStorage: true
   }
 });
 
@@ -35,7 +35,7 @@ const credential1 = new identity.InteractiveBrowserCredential({
     // TODO: Perhaps make the account parameter part of the tokenCachePersistenceOptions?
     tokenCachePersistenceOptions: {
       name: "nodeTestSilent",
-      allowUnencryptedStorage: true
+      unsafeAllowUnencryptedStorage: true
     }
   });
 

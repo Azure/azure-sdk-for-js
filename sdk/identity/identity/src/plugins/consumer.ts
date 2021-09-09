@@ -1,23 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AzureExtensionContext, IdentityExtension } from "./provider";
+import { AzurePluginContext, IdentityPlugin } from "./provider";
 import { msalNodeFlowCacheControl } from "../msal/nodeFlows/nodeCommon";
 import { vsCodeCredentialControl } from "../credentials/visualStudioCodeCredential";
 
 /**
- * The context passed to an Identity Extension. This contains objects that
- * extensions can use to set backend implementations.
+ * The context passed to an Identity plugin. This contains objects that
+ * plugins can use to set backend implementations.
  * @internal
  */
-const extensionContext: AzureExtensionContext = {
+const pluginContext: AzurePluginContext = {
   cachePluginControl: msalNodeFlowCacheControl,
   vsCodeCredentialControl: vsCodeCredentialControl
 };
 
 /**
- * Extend Azure Identity with additional functionality. Pass an extension from
- * an extension package, such as:
+ * Extend Azure Identity with additional functionality. Pass a plugin from
+ * a plugin package, such as:
  *
  * - `@azure/identity-cache-persistence`: provides persistent token caching
  * - `@azure/identity-vscode`: provides the dependencies of
@@ -26,12 +26,12 @@ const extensionContext: AzureExtensionContext = {
  * Example:
  *
  * ```javascript
- * import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
+ * import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
  *
- * import { useIdentityExtension, DefaultAzureCredential } from "@azure/identity";
- * useIdentityExtension(persistence);
+ * import { useIdentityPlugin, DefaultAzureCredential } from "@azure/identity";
+ * useIdentityPlugin(cachePersistencePlugin);
  *
- * // The extension has the capability to extend `DefaultAzureCredential` and to
+ * // The plugin has the capability to extend `DefaultAzureCredential` and to
  * // add middleware to the underlying credentials, such as persistence.
  * const credential = new DefaultAzureCredential({
  *   tokenCachePersistenceOptions: {
@@ -40,8 +40,8 @@ const extensionContext: AzureExtensionContext = {
  * });
  * ```
  *
- * @param extension - the extension to register
+ * @param plugin - the plugin to register
  */
-export function useIdentityExtension(extension: IdentityExtension): void {
-  extension(extensionContext);
+export function useIdentityPlugin(plugin: IdentityPlugin): void {
+  plugin(pluginContext);
 }
