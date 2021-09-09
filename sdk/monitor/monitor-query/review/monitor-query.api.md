@@ -37,7 +37,7 @@ export interface ErrorDetail {
 }
 
 // @public
-export interface ErrorInfo {
+export interface ErrorInfo extends Error {
     additionalProperties?: Record<string, unknown>;
     code: string;
     details?: ErrorDetail[];
@@ -108,7 +108,7 @@ export interface LogsQueryOptions extends OperationOptions {
 export interface LogsQueryResult {
     error?: ErrorInfo;
     statistics?: Record<string, unknown>;
-    status?: LogsQueryResultStatus;
+    status: LogsQueryResultStatus;
     tables: LogsTable[];
     visualization?: Record<string, unknown>;
 }
