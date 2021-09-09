@@ -157,8 +157,10 @@ export class LogsQueryClient {
     const result: LogsQueryBatchResult = convertResponseForQueryBatch(flatResponse, rawResponse);
 
     if (options?.throwOnAnyFailure && result.results.some((it) => it.status !== "Success")) {
-      let errorResults = result.results.filter((it) => it.status !== "Success").map((x) => x.error);
-      let batchErrorList = errorResults.map((x) => new BatchError(x as ErrorInfo));
+      const errorResults = result.results
+        .filter((it) => it.status !== "Success")
+        .map((x) => x.error);
+      const batchErrorList = errorResults.map((x) => new BatchError(x as ErrorInfo));
       throw new AggregateBatchError(batchErrorList);
     }
     return result;

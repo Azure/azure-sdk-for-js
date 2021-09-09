@@ -138,7 +138,7 @@ export function convertResponseForQueryBatch(
     if (result.error && result.tables) {
       result.status = "Partial";
     } else if (result.tables) {
-       result.status = "Success";
+      result.status = "Success";
     } else {
       result.status = "Failed";
     }
@@ -411,7 +411,7 @@ export function convertBatchQueryResponseHelper(
       error: mapError(parsedResponseBody.error), // ? { ...parsedResponseBody.error, name: "Error" } : undefined,
       tables: parsedResponseBody.tables?.map((table: GeneratedTable) =>
         convertGeneratedTable(table)
-      )!
+      )
     };
   } catch (e) {
     return {
@@ -419,7 +419,7 @@ export function convertBatchQueryResponseHelper(
       status: "Success", // Assume success until shown otherwise.
       statistics: response.body?.statistics,
       error: mapError(response.body?.error),
-      tables: response.body?.tables?.map((table: GeneratedTable) => convertGeneratedTable(table))!
+      tables: response.body?.tables?.map((table: GeneratedTable) => convertGeneratedTable(table))
     };
   }
 }

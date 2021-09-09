@@ -82,17 +82,17 @@ export class BatchError extends Error implements ErrorInfo {
     super();
     this.name = "Error";
     this.code = errorInfo.code;
-    (this.message = errorInfo.message),
-      (this.details = errorInfo.details),
-      (this.innerError = errorInfo.innerError),
-      (this.additionalProperties = errorInfo.additionalProperties);
+    this.message = errorInfo.message;
+    this.details = errorInfo.details;
+    this.innerError = errorInfo.innerError;
+    this.additionalProperties = errorInfo.additionalProperties;
   }
 }
 export class AggregateBatchError extends Error {
   errors: BatchError[];
-  constructor(errors: BatchError[]) {
+  constructor(errors: ErrorInfo[]) {
     super();
-    this.errors = errors;
+    this.errors = errors.map((x) => new BatchError(x));
   }
 }
 /**
