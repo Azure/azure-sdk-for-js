@@ -9,13 +9,17 @@ import {
   LogsQueryBatchOptions,
   LogsQueryBatchResult,
   LogsQueryOptions,
-  LogsQueryResult
+  LogsQueryResult,
+  AggregateBatchError,
+  BatchError,
+  ErrorInfo
 } from "./models/publicLogsModels";
 
 import {
   convertGeneratedTable,
   convertRequestForQueryBatch,
-  convertResponseForQueryBatch
+  convertResponseForQueryBatch,
+  mapError
 } from "./internal/modelConverters";
 import { formatPreferHeader } from "./internal/util";
 import { CommonClientOptions, FullOperationResponse, OperationOptions } from "@azure/core-client";
@@ -115,11 +119,28 @@ export class LogsQueryClient {
 
     const parsedBody = JSON.parse(rawResponse.bodyAsText!);
     flatResponse.tables = parsedBody.tables;
-    return {
+    const result: LogsQueryResult = {
       tables: flatResponse.tables.map(convertGeneratedTable),
       statistics: flatResponse.statistics,
-      visualization: flatResponse.render
+      visualization: flatResponse.render,
+      error: mapError(flatResponse.error),
+      status: "Success" // Assume success until shown otherwise.
     };
+    if (!result.error) {
+      // if there is no error field, it is success
+      result.status = "Success";
+    } else {
+      // result.tables is always present in single query response, even is there is error
+      if (result.tables.length === 0) {
+        result.status = "Failed";
+      } else {
+        result.status = "Partial";
+      }
+    }
+    if (options?.throwOnAnyFailure && result.status !== "Success") {
+      throw result.error;
+    }
+    return result;
   }
 
   /**
@@ -137,7 +158,16 @@ export class LogsQueryClient {
       (paramOptions) => this._logAnalytics.query.batch(generatedRequest, paramOptions),
       options || {}
     );
-    return convertResponseForQueryBatch(flatResponse, rawResponse);
+    const result: LogsQueryBatchResult = convertResponseForQueryBatch(flatResponse, rawResponse);
+
+    if (options?.throwOnAnyFailure && result.results.some((it) => it.status !== "Success")) {
+      const errorResults = result.results
+        .filter((it) => it.status !== "Success")
+        .map((x) => x.error);
+      const batchErrorList = errorResults.map((x) => new BatchError(x as ErrorInfo));
+      throw new AggregateBatchError(batchErrorList);
+    }
+    return result;
   }
 }
 

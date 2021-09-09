@@ -66,6 +66,8 @@ export interface Metric {
   description?: string;
   /** 'Success' or the error details on query failures for this metric. */
   errorCode?: string;
+  /** Error message encountered querying this specific metric. */
+  errorMessage?: string;
   /** the unit of the metric. */
   unit: MetricUnit;
   /** the time series returned when a data query is performed. */
@@ -100,7 +102,7 @@ export interface MetricsQueryResult {
   /** The integer value representing the cost of the query, for data case. */
   cost?: number;
   /** The timespan for which the data was retrieved. Its value consists of two datetimes concatenated, separated by '/'.  This may be adjusted in the future and returned back from what was originally requested. */
-  timespan: string;
+  timespan: TimeInterval;
   /** The interval (window size) for which the metric data was returned in.  This may be adjusted in the future and returned back from what was originally requested.  This is not present if a metadata request was made. */
   granularity?: string;
   /** The namespace of the metrics been queried */
@@ -109,6 +111,8 @@ export interface MetricsQueryResult {
   resourceRegion?: string;
   /** the value of the collection. */
   metrics: Metric[];
+  /** convenience method to get metric by metric name */
+  getMetricByName(metricName: string): Metric | undefined;
 }
 
 /**

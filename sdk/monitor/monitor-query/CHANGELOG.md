@@ -1,14 +1,29 @@
 # Release History
 
-## 1.0.0-beta.5 (Unreleased)
+## 1.0.0-beta.5 (2021-09-09)
 
 ### Features Added
 
+- Added convenience method `getMetricByName` in `MetricsQueryResult` to allow users to fetch results of a particular metric
+- Added a flag `throwOnAnyFailure` to be set by user for methods `queryLogs` and `queryLogsBatch` to enable error throwing
+- Defining `AggregateBatchError` class for throwing batch errors
+- Added status with potential values `("Partial" | "Success" | "Failed")` for responses of `query` and `queryBatch` APIs to indicate whether the status of results of each query.
+
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
+- Updated methods `getMetricDefinitions` and `getMetricNamespaces` to return paginated list of items and renamed to `listMetricDefinitions` and `listMetricNames` respectively
+- Renamed methods `queryLogs` and `queryLogsBatch` in `LogsQueryClient` to `query` and `queryBatch`
+- Updated the constant names inside `Durations` to drop the `last` prefix
+- Updated method `queryBatch` to take argument of `QueryBatch` model instead of `QueryLogsBatch` model
+- Renamed `QueryLogsOptions` to `LogsQueryOptions`
+- Renamed `QueryLogsBatchResult` to `LogsQueryBatchResult`
+- Renamed `QueryMetricsResult` to `MetricsQueryResult`
+- Renamed `QueryLogsResult` to `LogsQueryResult`, `QueryLogsBatchOptions` to `LogsQueryBatchOptions`
+- Updated type for `timespan` property from `string` to `TimeInterval` type in `query` and `queryBatch` methods of `LogsQueryClient` and in `MetricsQueryResult` interface
+- Renamed `MetricColumn` to `LogsColumn` and `column` to `columnDescriptors` in `LogsTable` model
+- Renamed `displayDescription` property to `description` in `Metric` and `MetricNames`
+- Flattened the `metricNamespaceName` property for `MetricNamespace`
+- Renamed `innererror` to `innerError` in `ErrorInfo`
 
 ## 1.0.0-beta.4 (2021-08-10)
 

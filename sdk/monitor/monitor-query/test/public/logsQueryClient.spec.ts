@@ -212,7 +212,7 @@ describe("LogsQueryClient live tests", function() {
           type: "dynamic"
         }
       ],
-      table.columns
+      table.columnDescriptors
     );
 
     table.rows.map((rowValues) => {
@@ -270,8 +270,15 @@ describe("LogsQueryClient live tests", function() {
 
     const table = result.results?.[0].tables?.[0];
     console.log(JSON.stringify(result.results?.[0].tables));
+
     if (table == null) {
-      throw new Error("No table returned for query");
+      throw new Error(JSON.stringify(result.results?.[0].error));
+    }
+
+    if (result.results?.[0].status === "Partial") {
+      throw new Error(
+        JSON.stringify({ ...result.results?.[0].error, ...result.results?.[0].tables })
+      );
     }
 
     // check the column types all match what we expect.
@@ -306,7 +313,7 @@ describe("LogsQueryClient live tests", function() {
           type: "dynamic"
         }
       ],
-      table.columns
+      table.columnDescriptors
     );
 
     table.rows.map((rowValues) => {
@@ -487,8 +494,8 @@ function getInnermostErrorDetails(thrownError: any): undefined | ErrorInfo {
 
   let errorInfo: ErrorInfo = thrownError.details.error;
 
-  while (errorInfo.innererror) {
-    errorInfo = errorInfo.innererror;
+  while (errorInfo.innerError) {
+    errorInfo = errorInfo.innerError;
   }
 
   return errorInfo;

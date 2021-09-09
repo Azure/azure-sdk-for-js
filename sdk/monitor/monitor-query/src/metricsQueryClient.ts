@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { TokenCredential } from "@azure/core-auth";
-import { PipelineOptions, bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { CommonClientOptions } from "@azure/core-client";
 
 import {
   ListMetricDefinitionsOptions,
@@ -36,7 +36,7 @@ import {
 /**
  * Options for the MetricsQueryClient.
  */
-export interface MetricsQueryClientOptions extends PipelineOptions {
+export interface MetricsQueryClientOptions extends CommonClientOptions {
   /** Overrides client endpoint. */
   endpoint?: string;
 }
@@ -58,29 +58,25 @@ export class MetricsQueryClient {
     const serviceClientOptions = {
       ...options,
       $host: options?.endpoint,
-      endpoint: options?.endpoint
+      endpoint: options?.endpoint,
+      credentialScopes: formatScope(options?.endpoint),
+      credential: tokenCredential
     };
-    const bearerTokenPolicy = bearerTokenAuthenticationPolicy({
-      credential: tokenCredential,
-      scopes: formatScope(options?.endpoint)
-    });
+
     this._metricsClient = new GeneratedMetricsClient(
       MetricsApiVersion.TwoThousandEighteen0101,
       serviceClientOptions
     );
-    this._metricsClient.pipeline.addPolicy(bearerTokenPolicy);
 
     this._definitionsClient = new GeneratedMetricsDefinitionsClient(
       MetricDefinitionsApiVersion.TwoThousandEighteen0101,
       serviceClientOptions
     );
-    this._definitionsClient.pipeline.addPolicy(bearerTokenPolicy);
 
     this._namespacesClient = new GeneratedMetricsNamespacesClient(
       MetricNamespacesApiVersion.TwoThousandSeventeen1201Preview,
       serviceClientOptions
     );
-    this._namespacesClient.pipeline.addPolicy(bearerTokenPolicy);
   }
 
   /**
