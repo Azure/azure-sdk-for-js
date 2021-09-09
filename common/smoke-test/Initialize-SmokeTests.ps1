@@ -95,8 +95,14 @@ function New-DeployManifest {
   $javascriptSamples = @()
   $packageDir.ForEach{
     $versions = (Get-Item "$_/samples/*").Name
-    $newestVer = $versions | Sort-Object {[int]($_ -replace '^v' -replace '(\d+).*', '$1')} -Descending | Select-Object -First 1
+    $newestVer = $versions | Sort-Object {[int]($_ -replace '[^0-9]' -replace '(\d+).*', '$1')} -Descending | Select-Object -First 1
+    Write-Host "new version"
+    Write-Host $newestVer
+    if($versions -contains $newestVer+"-beta") {
+      $newestVer += "-beta"
+    }
     $javascriptSamples += Get-ChildItem -Path "$_/samples/$newestVer/javascript/" -Recurse -Include package.json
+    Write-Host $javascriptSamples
   }
 
   $manifest = $javascriptSamples | ForEach-Object {
@@ -115,7 +121,7 @@ function New-DeployManifest {
       PackageDirectory   = $PackagePath.FullName;
 
       # Service Directory for example "appconfiguration"
-      ResourcesDirectory = $PackagePath.Directory.Name;
+      ResourcesDirectory = $PackagePath.Parent.Name;
 
       # Path to "javascript"
       SamplesDirectory   = $_.Directoryname;
