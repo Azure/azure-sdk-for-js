@@ -31,6 +31,17 @@ type MaybeTypedFormField<T extends FormField["valueType"]> =
 
 matrix([[true, false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}] FormRecognizerClient NodeJS only`, () => {
+    console.log("-----------------------------------");
+    const aa = env.FORM_RECOGNIZER_ENDPOINT.toString();
+    for (var i = 0; i < aa.length; i++) {
+      console.log(aa[i]);
+    }
+    console.log("-----------------------------------");
+    const bb = process.env["AZURE_TENANT_ID"]!.toString();
+    for (var i = 0; i < bb.length; i++) {
+      console.log(bb[i]);
+    }
+    console.log("-----------------------------------");
     const ASSET_PATH = path.resolve(path.join(process.cwd(), "assets"));
     let client: FormRecognizerClient;
     let recorder: Recorder;
