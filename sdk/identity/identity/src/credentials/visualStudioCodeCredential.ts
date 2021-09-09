@@ -189,7 +189,8 @@ export class VisualStudioCodeCredential implements TokenCredential {
         [
           "No implementation of VisualStudioCodeCredential is available.",
           "You must install the identity-vscode plugin package (`npm install --save-dev @azure/identity-vscode`)",
-          "and enable it by calling `useIdentityPlugin(vsCodePlugin)` before creating a VisualStudioCodeCredential."
+          "and enable it by importing `useIdentityPlugin` from `@azure/identity` and calling",
+          "`useIdentityPlugin(vsCodePlugin)` before creating a VisualStudioCodeCredential."
         ].join(" ")
       );
     }
