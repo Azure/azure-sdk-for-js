@@ -327,7 +327,7 @@ LogsQueryBatchResult
             |---type
 ```
 
-To handle a batch response,
+To handle a batch response:
 
 ```ts
 let i = 0;
@@ -364,9 +364,7 @@ for (const response of result.results) {
 
 A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQueryBatch.ts)
 
-**Throttling Guidance Log Queries**
-
-Please refer the [service guidance for throttling](https://dev.loganalytics.io/documentation/Using-the-API/Limits) for API calls.
+For information on request throttling at the Log Analytics service level, see [Rate limits](https://dev.loganalytics.io/documentation/Using-the-API/Limits).
 
 ### Query metrics
 
