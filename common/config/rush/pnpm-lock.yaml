@@ -18,6 +18,7 @@ dependencies:
   '@rush-temp/arm-managedapplications': file:projects/arm-managedapplications.tgz
   '@rush-temp/arm-network': file:projects/arm-network.tgz
   '@rush-temp/arm-policy': file:projects/arm-policy.tgz
+  '@rush-temp/arm-purview': file:projects/arm-purview.tgz
   '@rush-temp/arm-resources': file:projects/arm-resources.tgz
   '@rush-temp/arm-resources-subscriptions': file:projects/arm-resources-subscriptions.tgz
   '@rush-temp/arm-sql': file:projects/arm-sql.tgz
@@ -8680,7 +8681,7 @@ packages:
     dev: false
     name: '@rush-temp/arm-network'
     resolution:
-      integrity: sha512-o4oHKd4XnbxekuGYhx80kd7HT12Up5w76XVV7bmPPkPb2gFNy2WpSLCOdGNmFKqMZPTXTuMRWryoHpd1Y1V2GA==
+      integrity: sha512-Q7ixqI/vd+XixRZLhqDeyeSBGkpyEW+1n0wphunRHGVUrcwHddiEGB2rdiWFXJaCP47WG/EngiRCqMGGKTr+lg==
       tarball: file:projects/arm-network.tgz
     version: 0.0.0
   file:projects/arm-policy.tgz:
@@ -8702,6 +8703,25 @@ packages:
     resolution:
       integrity: sha512-1cDd7l+RfNr7rAJxGMqLHW/zYV/F5tRFsA1R6RplSOTGg8yo1foORk8QvIa+oumecW/uYGC/jePfHrx55atGMQ==
       tarball: file:projects/arm-policy.tgz
+    version: 0.0.0
+  file:projects/arm-purview.tgz:
+    dependencies:
+      '@microsoft/api-extractor': 7.7.11
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      mkdirp: 1.0.4
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.1
+    dev: false
+    name: '@rush-temp/arm-purview'
+    resolution:
+      integrity: sha512-oNNMNU6y5mHqW3Lg2ASVmmohPywUvskEN2oDdwQI+g/cBrpnxoiPRIgSAkPkOzRxWPRXxv7LgQIxl8AaisYCpg==
+      tarball: file:projects/arm-purview.tgz
     version: 0.0.0
   file:projects/arm-resources-subscriptions.tgz:
     dependencies:
@@ -12684,6 +12704,7 @@ specifiers:
   '@rush-temp/arm-managedapplications': file:./projects/arm-managedapplications.tgz
   '@rush-temp/arm-network': file:./projects/arm-network.tgz
   '@rush-temp/arm-policy': file:./projects/arm-policy.tgz
+  '@rush-temp/arm-purview': file:./projects/arm-purview.tgz
   '@rush-temp/arm-resources': file:./projects/arm-resources.tgz
   '@rush-temp/arm-resources-subscriptions': file:./projects/arm-resources-subscriptions.tgz
   '@rush-temp/arm-sql': file:./projects/arm-sql.tgz

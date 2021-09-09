@@ -910,6 +910,11 @@
       "packageName": "@azure/arm-eventhub",
       "projectFolder": "sdk/eventhub/arm-eventhub",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-purview",
+      "projectFolder": "sdk/purview/arm-purview",
+      "versionPolicyName": "management"
     }
   ]
 }
