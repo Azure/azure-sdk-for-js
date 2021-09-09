@@ -8,7 +8,7 @@
 
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { MigrationConfigs } from "../operationsInterfaces";
+import { PrivateEndpointConnections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -16,28 +16,26 @@ import { ServiceBusManagementClientContext } from "../serviceBusManagementClient
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  MigrationConfigProperties,
-  MigrationConfigsListNextOptionalParams,
-  MigrationConfigsListOptionalParams,
-  MigrationConfigsListResponse,
-  MigrationConfigurationName,
-  MigrationConfigsCreateAndStartMigrationOptionalParams,
-  MigrationConfigsCreateAndStartMigrationResponse,
-  MigrationConfigsDeleteOptionalParams,
-  MigrationConfigsGetOptionalParams,
-  MigrationConfigsGetResponse,
-  MigrationConfigsCompleteMigrationOptionalParams,
-  MigrationConfigsRevertOptionalParams,
-  MigrationConfigsListNextResponse
+  PrivateEndpointConnection,
+  PrivateEndpointConnectionsListNextOptionalParams,
+  PrivateEndpointConnectionsListOptionalParams,
+  PrivateEndpointConnectionsListResponse,
+  PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
+  PrivateEndpointConnectionsCreateOrUpdateResponse,
+  PrivateEndpointConnectionsDeleteOptionalParams,
+  PrivateEndpointConnectionsGetOptionalParams,
+  PrivateEndpointConnectionsGetResponse,
+  PrivateEndpointConnectionsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing MigrationConfigs operations. */
-export class MigrationConfigsImpl implements MigrationConfigs {
+/** Class containing PrivateEndpointConnections operations. */
+export class PrivateEndpointConnectionsImpl
+  implements PrivateEndpointConnections {
   private readonly client: ServiceBusManagementClientContext;
 
   /**
-   * Initialize a new instance of the class MigrationConfigs class.
+   * Initialize a new instance of the class PrivateEndpointConnections class.
    * @param client Reference to the service client
    */
   constructor(client: ServiceBusManagementClientContext) {
@@ -45,7 +43,7 @@ export class MigrationConfigsImpl implements MigrationConfigs {
   }
 
   /**
-   * Gets all migrationConfigurations
+   * Gets the available PrivateEndpointConnections within a namespace.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param options The options parameters.
@@ -53,8 +51,8 @@ export class MigrationConfigsImpl implements MigrationConfigs {
   public list(
     resourceGroupName: string,
     namespaceName: string,
-    options?: MigrationConfigsListOptionalParams
-  ): PagedAsyncIterableIterator<MigrationConfigProperties> {
+    options?: PrivateEndpointConnectionsListOptionalParams
+  ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
     const iter = this.listPagingAll(resourceGroupName, namespaceName, options);
     return {
       next() {
@@ -72,8 +70,8 @@ export class MigrationConfigsImpl implements MigrationConfigs {
   private async *listPagingPage(
     resourceGroupName: string,
     namespaceName: string,
-    options?: MigrationConfigsListOptionalParams
-  ): AsyncIterableIterator<MigrationConfigProperties[]> {
+    options?: PrivateEndpointConnectionsListOptionalParams
+  ): AsyncIterableIterator<PrivateEndpointConnection[]> {
     let result = await this._list(resourceGroupName, namespaceName, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -92,8 +90,8 @@ export class MigrationConfigsImpl implements MigrationConfigs {
   private async *listPagingAll(
     resourceGroupName: string,
     namespaceName: string,
-    options?: MigrationConfigsListOptionalParams
-  ): AsyncIterableIterator<MigrationConfigProperties> {
+    options?: PrivateEndpointConnectionsListOptionalParams
+  ): AsyncIterableIterator<PrivateEndpointConnection> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       namespaceName,
@@ -104,7 +102,7 @@ export class MigrationConfigsImpl implements MigrationConfigs {
   }
 
   /**
-   * Gets all migrationConfigurations
+   * Gets the available PrivateEndpointConnections within a namespace.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param options The options parameters.
@@ -112,8 +110,8 @@ export class MigrationConfigsImpl implements MigrationConfigs {
   private _list(
     resourceGroupName: string,
     namespaceName: string,
-    options?: MigrationConfigsListOptionalParams
-  ): Promise<MigrationConfigsListResponse> {
+    options?: PrivateEndpointConnectionsListOptionalParams
+  ): Promise<PrivateEndpointConnectionsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, options },
       listOperationSpec
@@ -121,29 +119,50 @@ export class MigrationConfigsImpl implements MigrationConfigs {
   }
 
   /**
-   * Creates Migration configuration and starts migration of entities from Standard to Premium namespace
+   * Creates or updates PrivateEndpointConnections of service namespace.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
-   * @param configName The configuration name. Should always be "$default".
-   * @param parameters Parameters required to create Migration Configuration
+   * @param privateEndpointConnectionName The PrivateEndpointConnection name
+   * @param parameters Parameters supplied to update Status of PrivateEndPoint Connection to namespace
+   *                   resource.
    * @param options The options parameters.
    */
-  async beginCreateAndStartMigration(
+  createOrUpdate(
     resourceGroupName: string,
     namespaceName: string,
-    configName: MigrationConfigurationName,
-    parameters: MigrationConfigProperties,
-    options?: MigrationConfigsCreateAndStartMigrationOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<MigrationConfigsCreateAndStartMigrationResponse>,
-      MigrationConfigsCreateAndStartMigrationResponse
-    >
-  > {
+    privateEndpointConnectionName: string,
+    parameters: PrivateEndpointConnection,
+    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
+  ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        namespaceName,
+        privateEndpointConnectionName,
+        parameters,
+        options
+      },
+      createOrUpdateOperationSpec
+    );
+  }
+
+  /**
+   * Deletes an existing Private Endpoint Connection.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
+   * @param privateEndpointConnectionName The PrivateEndpointConnection name
+   * @param options The options parameters.
+   */
+  async beginDelete(
+    resourceGroupName: string,
+    namespaceName: string,
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionsDeleteOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<MigrationConfigsCreateAndStartMigrationResponse> => {
+    ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -181,8 +200,13 @@ export class MigrationConfigsImpl implements MigrationConfigs {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, namespaceName, configName, parameters, options },
-      createAndStartMigrationOperationSpec
+      {
+        resourceGroupName,
+        namespaceName,
+        privateEndpointConnectionName,
+        options
+      },
+      deleteOperationSpec
     );
     return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
@@ -191,105 +215,48 @@ export class MigrationConfigsImpl implements MigrationConfigs {
   }
 
   /**
-   * Creates Migration configuration and starts migration of entities from Standard to Premium namespace
+   * Deletes an existing Private Endpoint Connection.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
-   * @param configName The configuration name. Should always be "$default".
-   * @param parameters Parameters required to create Migration Configuration
+   * @param privateEndpointConnectionName The PrivateEndpointConnection name
    * @param options The options parameters.
    */
-  async beginCreateAndStartMigrationAndWait(
+  async beginDeleteAndWait(
     resourceGroupName: string,
     namespaceName: string,
-    configName: MigrationConfigurationName,
-    parameters: MigrationConfigProperties,
-    options?: MigrationConfigsCreateAndStartMigrationOptionalParams
-  ): Promise<MigrationConfigsCreateAndStartMigrationResponse> {
-    const poller = await this.beginCreateAndStartMigration(
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionsDeleteOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginDelete(
       resourceGroupName,
       namespaceName,
-      configName,
-      parameters,
+      privateEndpointConnectionName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Deletes a MigrationConfiguration
+   * Gets a description for the specified Private Endpoint Connection.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
-   * @param configName The configuration name. Should always be "$default".
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    namespaceName: string,
-    configName: MigrationConfigurationName,
-    options?: MigrationConfigsDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, configName, options },
-      deleteOperationSpec
-    );
-  }
-
-  /**
-   * Retrieves Migration Config
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param configName The configuration name. Should always be "$default".
+   * @param privateEndpointConnectionName The PrivateEndpointConnection name
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     namespaceName: string,
-    configName: MigrationConfigurationName,
-    options?: MigrationConfigsGetOptionalParams
-  ): Promise<MigrationConfigsGetResponse> {
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionsGetOptionalParams
+  ): Promise<PrivateEndpointConnectionsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, configName, options },
+      {
+        resourceGroupName,
+        namespaceName,
+        privateEndpointConnectionName,
+        options
+      },
       getOperationSpec
-    );
-  }
-
-  /**
-   * This operation Completes Migration of entities by pointing the connection strings to Premium
-   * namespace and any entities created after the operation will be under Premium Namespace.
-   * CompleteMigration operation will fail when entity migration is in-progress.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param configName The configuration name. Should always be "$default".
-   * @param options The options parameters.
-   */
-  completeMigration(
-    resourceGroupName: string,
-    namespaceName: string,
-    configName: MigrationConfigurationName,
-    options?: MigrationConfigsCompleteMigrationOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, configName, options },
-      completeMigrationOperationSpec
-    );
-  }
-
-  /**
-   * This operation reverts Migration
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param configName The configuration name. Should always be "$default".
-   * @param options The options parameters.
-   */
-  revert(
-    resourceGroupName: string,
-    namespaceName: string,
-    configName: MigrationConfigurationName,
-    options?: MigrationConfigsRevertOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, configName, options },
-      revertOperationSpec
     );
   }
 
@@ -304,8 +271,8 @@ export class MigrationConfigsImpl implements MigrationConfigs {
     resourceGroupName: string,
     namespaceName: string,
     nextLink: string,
-    options?: MigrationConfigsListNextOptionalParams
-  ): Promise<MigrationConfigsListNextResponse> {
+    options?: PrivateEndpointConnectionsListNextOptionalParams
+  ): Promise<PrivateEndpointConnectionsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, nextLink, options },
       listNextOperationSpec
@@ -317,11 +284,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/privateEndpointConnections",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrationConfigListResult
+      bodyMapper: Mappers.PrivateEndpointConnectionListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -337,35 +304,29 @@ const listOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const createAndStartMigrationOperationSpec: coreClient.OperationSpec = {
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations/{configName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrationConfigProperties
+      bodyMapper: Mappers.PrivateEndpointConnection
     },
     201: {
-      bodyMapper: Mappers.MigrationConfigProperties
-    },
-    202: {
-      bodyMapper: Mappers.MigrationConfigProperties
-    },
-    204: {
-      bodyMapper: Mappers.MigrationConfigProperties
+      bodyMapper: Mappers.PrivateEndpointConnection
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters14,
+  requestBody: Parameters.parameters9,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.subscriptionId,
-    Parameters.configName
+    Parameters.privateEndpointConnectionName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -373,10 +334,12 @@ const createAndStartMigrationOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations/{configName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
+    201: {},
+    202: {},
     204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -388,18 +351,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.subscriptionId,
-    Parameters.configName
+    Parameters.privateEndpointConnectionName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations/{configName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrationConfigProperties
+      bodyMapper: Mappers.PrivateEndpointConnection
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -411,49 +374,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.subscriptionId,
-    Parameters.configName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const completeMigrationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations/{configName}/upgrade",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.subscriptionId,
-    Parameters.configName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const revertOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations/{configName}/revert",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.subscriptionId,
-    Parameters.configName
+    Parameters.privateEndpointConnectionName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -463,7 +384,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrationConfigListResult
+      bodyMapper: Mappers.PrivateEndpointConnectionListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
