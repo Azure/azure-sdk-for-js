@@ -1,7 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Constants, TokenType, defaultLock, RequestResponseLink } from "@azure/core-amqp";
+import {
+  Constants,
+  TokenType,
+  defaultCancellableLock,
+  RequestResponseLink,
+  StandardAbortMessage,
+  isSasTokenProvider
+} from "@azure/core-amqp";
 import { AccessToken } from "@azure/core-auth";
 import { ConnectionContext } from "../connectionContext";
 import {
@@ -12,10 +19,9 @@ import {
   ReceiverOptions,
   SenderOptions
 } from "rhea-promise";
-import { getUniqueName, StandardAbortMessage } from "../util/utils";
+import { getUniqueName } from "../util/utils";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusLogger } from "../log";
-import { SharedKeyCredential } from "../servicebusSharedKeyCredential";
 import { ServiceBusError } from "../serviceBusError";
 
 /**
@@ -48,10 +54,14 @@ export interface RequestResponseLinkOptions {
 /**
  * @internal
  */
-export type ReceiverType =
+export type NonSessionReceiverType =
   | "batching" // batching receiver
-  | "streaming" // streaming receiver;
-  | "session"; // message session
+  | "streaming"; // streaming receiver
+
+/**
+ * @internal
+ */
+export type ReceiverType = NonSessionReceiverType | "session"; // message session
 
 /**
  * @internal
@@ -207,12 +217,19 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     this._logger.verbose(
       `${this._logPrefix} Attempting to acquire lock token ${this._openLock} for initializing link`
     );
-    return defaultLock.acquire(this._openLock, () => {
-      this._logger.verbose(
-        `${this._logPrefix} Lock ${this._openLock} acquired for initializing link`
-      );
-      return this._initLinkImpl(options, abortSignal);
-    });
+    return defaultCancellableLock.acquire(
+      this._openLock,
+      () => {
+        this._logger.verbose(
+          `${this._logPrefix} Lock ${this._openLock} acquired for initializing link`
+        );
+        return this._initLinkImpl(options, abortSignal);
+      },
+      {
+        abortSignal: abortSignal,
+        timeoutInMs: Constants.defaultOperationTimeoutInMs
+      }
+    );
   }
 
   private async _initLinkImpl(
@@ -248,7 +265,11 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     );
 
     try {
-      await this._negotiateClaim();
+      await this._negotiateClaim({
+        abortSignal,
+        setTokenRenewal: false,
+        timeoutInMs: Constants.defaultOperationTimeoutInMs
+      });
 
       checkAborted();
       this.checkIfConnectionReady();
@@ -278,22 +299,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
 
     this._logger.verbose(`${this.logPrefix} permanently closing this link.`);
 
-    // Remove the underlying AMQP link from the cache
-    switch (this._linkType) {
-      case "s": {
-        delete this._context.senders[this.name];
-        break;
-      }
-      case "br":
-      case "sr": {
-        delete this._context.messageReceivers[this.name];
-        break;
-      }
-      case "ms": {
-        delete this._context.messageSessions[this.name];
-        break;
-      }
-    }
+    this.removeLinkFromContext();
 
     await this.closeLink();
     this._logger.verbose(`${this.logPrefix} permanently closed this link.`);
@@ -307,6 +313,11 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
   protected abstract createRheaLink(_options: LinkOptionsT<LinkT>): Promise<LinkT>;
 
   /**
+   * Clears this link from context's link cache.
+   */
+  protected abstract removeLinkFromContext(): void;
+
+  /**
    * Closes the internally held rhea link, stops the token renewal timer and sets
    * the this._link field to undefined.
    */
@@ -314,10 +325,14 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     this._logger.verbose(
       `${this._logPrefix} Attempting to acquire lock token ${this._openLock} for closing link`
     );
-    return defaultLock.acquire(this._openLock, () => {
-      this._logger.verbose(`${this._logPrefix} Lock ${this._openLock} acquired for closing link`);
-      return this.closeLinkImpl();
-    });
+    return defaultCancellableLock.acquire(
+      this._openLock,
+      () => {
+        this._logger.verbose(`${this._logPrefix} Lock ${this._openLock} acquired for closing link`);
+        return this.closeLinkImpl();
+      },
+      { abortSignal: undefined, timeoutInMs: undefined }
+    );
   }
 
   private async closeLinkImpl(): Promise<void> {
@@ -365,7 +380,15 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * Negotiates the cbs claim for the ClientEntity.
    * @param setTokenRenewal - Set the token renewal timer. Default false.
    */
-  private async _negotiateClaim(setTokenRenewal?: boolean): Promise<void> {
+  private async _negotiateClaim({
+    abortSignal,
+    setTokenRenewal,
+    timeoutInMs
+  }: {
+    setTokenRenewal: boolean;
+    abortSignal: AbortSignalLike | undefined;
+    timeoutInMs: number;
+  }): Promise<void> {
     this._logger.verbose(`${this._logPrefix} negotiateclaim() has been called`);
 
     // Wait for the connectionContext to be ready to open the link.
@@ -384,22 +407,30 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       this.name,
       this.address
     );
-    await defaultLock.acquire(this._context.cbsSession.cbsLock, async () => {
-      this.checkIfConnectionReady();
-      return this._context.cbsSession.init();
-    });
+
+    const startTime = Date.now();
+    if (!this._context.cbsSession.isOpen()) {
+      await defaultCancellableLock.acquire(
+        this._context.cbsSession.cbsLock,
+        () => {
+          this.checkIfConnectionReady();
+          return this._context.cbsSession.init({ abortSignal, timeoutInMs });
+        },
+        {
+          abortSignal,
+          timeoutInMs: timeoutInMs - (Date.now() - startTime)
+        }
+      );
+    }
+
     let tokenObject: AccessToken;
     let tokenType: TokenType;
-    if (this._context.tokenCredential instanceof SharedKeyCredential) {
+    if (isSasTokenProvider(this._context.tokenCredential)) {
       tokenObject = this._context.tokenCredential.getToken(this.audience);
       tokenType = TokenType.CbsTokenTypeSas;
 
-      // expiresOnTimestamp can be 0 if the token is not meant to be renewed
-      // (ie, SharedAccessSignatureCredential)
-      if (tokenObject.expiresOnTimestamp > 0) {
-        // renew sas token in every 45 minutes
-        this._tokenTimeout = (3600 - 900) * 1000;
-      }
+      // renew sas token in every 45 minutes
+      this._tokenTimeout = (3600 - 900) * 1000;
     } else {
       const aadToken = await this._context.tokenCredential.getToken(Constants.aadServiceBusScope);
       if (!aadToken) {
@@ -427,10 +458,25 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     if (!tokenObject) {
       throw new Error("Token cannot be null");
     }
-    await defaultLock.acquire(this._context.negotiateClaimLock, () => {
-      this.checkIfConnectionReady();
-      return this._context.cbsSession.negotiateClaim(this.audience, tokenObject.token, tokenType);
-    });
+    await defaultCancellableLock.acquire(
+      this._context.negotiateClaimLock,
+      () => {
+        this.checkIfConnectionReady();
+        return this._context.cbsSession.negotiateClaim(
+          this.audience,
+          tokenObject.token,
+          tokenType,
+          {
+            abortSignal,
+            timeoutInMs: timeoutInMs - (Date.now() - startTime)
+          }
+        );
+      },
+      {
+        abortSignal,
+        timeoutInMs: timeoutInMs - (Date.now() - startTime)
+      }
+    );
     this._logger.verbose(
       "%s Negotiated claim for %s '%s' with with address: %s",
       this.logPrefix,
@@ -479,7 +525,11 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     }
     this._tokenRenewalTimer = setTimeout(async () => {
       try {
-        await this._negotiateClaim(true);
+        await this._negotiateClaim({
+          setTokenRenewal: true,
+          abortSignal: undefined,
+          timeoutInMs: Constants.defaultOperationTimeoutInMs
+        });
       } catch (err) {
         this._logger.logError(
           err,

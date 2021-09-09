@@ -13,7 +13,7 @@
     "pretty": true,
     "removeComments": true,
     "strict": true,
-    "target": "es2016",
+    "target": "es2017",
     "types": ["node"],
     "sourceMap": true,
     "resolveJsonModule": true

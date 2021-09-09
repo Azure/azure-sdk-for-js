@@ -10,7 +10,8 @@ import {
 } from "./utils/testHelpers";
 import { AppConfigurationClient } from "../../src";
 import * as assert from "assert";
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
+import { Context } from "mocha";
 
 describe("AppConfigurationClient (set|clear)ReadOnly", () => {
   let client: AppConfigurationClient;
@@ -21,7 +22,7 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
     label: "some label"
   };
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = startRecorder(this);
     testConfigSetting.key = recorder.getUniqueName("readOnlyTests");
     client = createAppConfigurationClientForTests() || this.skip();

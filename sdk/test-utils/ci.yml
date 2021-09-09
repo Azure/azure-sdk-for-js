@@ -3,7 +3,6 @@
 trigger:
   branches:
     include:
-      - master
       - main
       - release/*
       - hotfix/*
@@ -14,7 +13,6 @@ trigger:
 pr:
   branches:
     include:
-      - master
       - main
       - feature/*
       - release/*
@@ -29,5 +27,5 @@ extends:
     ServiceDirectory: test-utils
     IncludeRelease: false
     Artifacts:
-      - name: azure-test-utils-recorder
-        safeName: azuretestutilsrecorder
+      - name: azure-tools-test-recorder
+        safeName: azuretoolstestrecorder

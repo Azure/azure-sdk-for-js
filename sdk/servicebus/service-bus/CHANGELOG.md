@@ -1,10 +1,98 @@
 # Release History
 
-## 7.0.4 (Unreleased)
+## 7.3.1 (Unreleased)
 
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 7.3.0 (2021-07-07)
+
+### Features Added
+
+- With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+- Updated our internal core package dependencies to their latest versions in order to add support for Opentelemetry 1.0.0 which is compatible with the latest versions of our other client libraries.
+- Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
+
+### Key Bugs Fixed
+
+- Fixed a bug that could lead to message loss in certain conditions when using `receiver.receiveMessages()`.
+  [PR#15989](https://github.com/Azure/azure-sdk-for-js/pull/15989)
+
+### Fixed
+
+- Fixing an issue where the internal link cache would not properly remove closed links.
+  [PR#15929](https://github.com/Azure/azure-sdk-for-js/pull/15929)
+
+## 7.2.0 (2021-06-10)
+
+### New Features
+
+- Enable encoding the body of a message to the 'value' or 'sequence' sections (via AmqpAnnotatedMessage.bodyType). Using this encoding is not required but does allow you to take advantage of native AMQP serialization for supported primitives or sequences.
+
+  More information about the AMQP message body type can be found in the AMQP specification: [link](https://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-messaging-v1.0-os.html#section-message-format)
+
+- Improves cancellation support when sending messages or initializing a connection to the service.
+  Resolves [#15311](https://github.com/Azure/azure-sdk-for-js/issues/15311) and [#13504](https://github.com/Azure/azure-sdk-for-js/issues/13504).
+
+### Bug fixes
+
+- ServiceBusSender could throw an error (`TypeError: Cannot read property 'maxMessageSize' of undefined`) if a link was being restarted while calling sendMessages().
+  [PR#15409](https://github.com/Azure/azure-sdk-for-js/pull/15409)
+- Fixes issue [#13500](https://github.com/Azure/azure-sdk-for-js/issues/13500) where a `TypeError: Cannot read property '_process' of undefined` could be thrown in rare cases.
+
+## 7.2.0-beta.1 (2021-05-18)
+
+### New Features
+
+- Enable encoding the body of a message to the 'value' or 'sequence' sections (via AmqpAnnotatedMessage.bodyType). Using this encoding is not required but does allow you to take advantage of native AMQP serialization for supported primitives or sequences.
+
+## 7.1.0 (2021-05-11)
+
+### New Features
+
+- Adds support for passing `NamedKeyCredential` as the credential type to `ServiceBusClient` and `ServiceBusAdminstrationClient`. Also adds support for passing `SASCredential` to `ServiceBusClient`.
+  These credential types support rotation via their `update` methods and are an alternative to using the `SharedAccessKeyName/SharedAccessKey` or `SharedAccessSignature` properties in a connection string.
+  Resolves [#11891](https://github.com/Azure/azure-sdk-for-js/issues/11891).
+
+### Bug fixes
+
+- [Bug Fix] `expiresAtUtc` is `Invalid Date` in the received message when the ttl is not defined. Has been fixed in [#13543](https://github.com/Azure/azure-sdk-for-js/pull/13543)
+- Some of the queue properties such as "forwardTo" and "autoDeleteOnIdle" were not being set as requested through the `ServiceBusAdministrationClient.createQueue` method because of a bug w.r.t the ordering of XML properties. The issue has been fixed in [#14692](https://github.com/Azure/azure-sdk-for-js/pull/14692).
+- Settling messages now use the `retryOptions` passed to `ServiceBusClient`, making it more resilient against network failures.
+  [PR#14867](https://github.com/Azure/azure-sdk-for-js/pull/14867)
+- Fixes an issue where receiver link recovery/creation could fail, resulting in a receiver that was no longer receiving messages.
+  [PR#15098](https://github.com/Azure/azure-sdk-for-js/pull/15098)
+
+## 7.0.5 (2021-04-06)
+
+### Bug fixes
+
+- Some of the queue properties such as "forwardTo" and "autoDeleteOnIdle" were not being set as requested through the `ServiceBusAdministrationClient.createQueue` method because of a bug with regards to the ordering of XML properties. The issue has been fixed in [#14692](https://github.com/Azure/azure-sdk-for-js/pull/14692).
+
+## 7.0.4 (2021-03-31)
+
+### Bug fixes
+
+- `ServiceBusSessionReceiver.receiveMessages` and `ServiceBusSessionReceiver.subscribe` methods are updated to handle errors on the AMQP connection like a network disconnect in [#13956](https://github.com/Azure/azure-sdk-for-js/pull/13956). Previously, these methods only handled errors on the AMQP link or session.
+
+  - This previously resulted in the promise returned by the `receiveMessages` method never getting fulfilled and the `subscribe` method not calling the user provided error handler.
+  - The `receiveMessages` method will now throw `SessionLockLostError` when used in `peekLock` mode and return messages collected so far when used in `receiveAndDelete` mode to avoid data loss if errors on the AMQP connection are encountered.
+  - When using the `subscribe`, the user provided `processError` callback will now be called with `SessionLockLostError` if errors on the AMQP connection are encountered.
+
+- Allow null as a value for the properties in `ServiceBusMessage.applicationProperties`.
+  Fixes [#14329](https://github.com/Azure/azure-sdk-for-js/issues/14329)
 - Re-exports `RetryMode` for use when setting the `RetryOptions.mode` field
   in `ServiceBusClientOptions`.
   Resolves [#13166](https://github.com/Azure/azure-sdk-for-js/issues/13166).
+
+### Tracing updates
+
+- Tracing options for `ServiceBusMessageBatch.tryAdd` now match the shape of `OperationOptions`.
 
 ## 7.0.3 (2021-01-26)
 
@@ -37,12 +125,12 @@
 
 - This release marks the general availability of the `@azure/service-bus` package.
 - If you are using version 1.1.10 or lower and want to migrate to the latest version
-  of this package please look at our [migration guide to move from Service Bus V1 to Service Bus V7](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/migrationguide.md)
+  of this package please look at our [migration guide to move from Service Bus V1 to Service Bus V7](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/migrationguide.md)
 
 ### Breaking changes
 
 **Note:** The following breaking changes are with respect to version `7.0.0-preview.8`.
-If migrating from version 1.1.10 or lower, look at our [migration guide to move from Service Bus V1 to Service Bus V7](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/migrationguide.md).
+If migrating from version 1.1.10 or lower, look at our [migration guide to move from Service Bus V1 to Service Bus V7](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/migrationguide.md).
 
 - The `ServiceBusError.reason` field has been renamed `ServiceBusError.code`.
   The `code` field can be used to differentiate what caused a `ServiceBusError` to be thrown.
@@ -64,7 +152,7 @@ If migrating from version 1.1.10 or lower, look at our [migration guide to move 
 - A helper method `parseServiceBusConnectionString` has been added which validates and parses a given connection string for Azure Service Bus. You can use this to extract the namespace and entityPath details from the connection string.
   [PR 11949](https://github.com/Azure/azure-sdk-for-js/pull/11949)
 - All methods that take an array as input are updated to ensure they gracefully do a no-op rather than throw errors. For example: `receiveDeferredMessages()`, `scheduleMessages()` and `cancelScheduledMessages()`.
-- Tracing, using [@azure/core-tracing](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-tracing/README.md), has been added for sending and receiving of messages.
+- Tracing, using [@azure/core-tracing](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-tracing/README.md), has been added for sending and receiving of messages.
   [PR 11651](https://github.com/Azure/azure-sdk-for-js/pull/11651)
   and
   [PR 11810](https://github.com/Azure/azure-sdk-for-js/pull/11810)
@@ -130,6 +218,11 @@ If migrating from version 1.1.10 or lower, look at our [migration guide to move 
   - as part of this `CreateSessionReceiverOptions` has been renamed to `AcceptSessionReceiverOptions` to conform to guidelines.
 - The `processError` handler passed to `Receiver.subscribe` now takes a `ProcessErrorArgs` instead of just an error.
 
+## 1.1.10 (2020-09-14)
+
+- Fixes [bug 10943](https://github.com/Azure/azure-sdk-for-js/issues/10943) where accessing the address
+  field when timing out could cause a fatal error.
+
 ## 7.0.0-preview.6 (2020-09-10)
 
 ### New features:
@@ -173,6 +266,15 @@ If migrating from version 1.1.10 or lower, look at our [migration guide to move 
   - `ServiceBusManagementClientOptions` for `ServiceBusManagementClient` is replaced by `PipelineOptions` from `@azure/core-http`
   - `AuthorizationRule.accessRights` type has been changed to be a string union with the available rights.
 
+## 1.1.9 (2020-08-19)
+
+- Fixes [bug 10641](https://github.com/Azure/azure-sdk-for-js/issues/10641) where parallel requests
+  on the management link would fail with a `ServiceUnavailableError`.
+- Fixes [bug 9287](https://github.com/Azure/azure-sdk-for-js/issues/9287)
+  where operations that used the `RequestResponseLink` and encountered an error
+  would fail to cleanup their internal timer.
+  This caused exiting the process to be delayed until the timer reached its timeout.
+
 ## 7.0.0-preview.5 (2020-08-10)
 
 - User agent details can now be added to the outgoing requests by passing the user-agent prefixes to the `ServiceBusClient` and the `ServiceBusManagementClient` through options.
@@ -203,7 +305,7 @@ If migrating from version 1.1.10 or lower, look at our [migration guide to move 
 - Added Async iterable iterators with pagination support for all the listing methods like `getQueues()`, `getTopics()`, `getQueuesRuntimeInfo()`, etc. and renamed them to use the `list` verb.
   [PR 9951](https://github.com/Azure/azure-sdk-for-js/pull/9951)
   [PR 10223](https://github.com/Azure/azure-sdk-for-js/pull/10223)
-  - Please refer to the examples in the `samples` folder - [listingEntities](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/typescript/src/advanced/listingEntities.ts)
+  - Please refer to the examples in the `samples` folder - [listingEntities](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/advanced/listingEntities.ts)
 - `receiveMessages()`'s optional `maxWaitTimeInMs` parameter now controls how long to wait for the _first_
   message, rather than how long to wait for an entire set of messages. This change allows for a faster return
   of messages to your application.
@@ -216,6 +318,12 @@ If migrating from version 1.1.10 or lower, look at our [migration guide to move 
   process of closing resulted in a `TypeError` in an uncaught exception.
 
 - The terms `RuntimeInfo` and `Description` are replaced with `RuntimeProperties` and `Properties` to better align with guidelines around the kind of suffixes we use for naming methods and interfaces.
+
+## 1.1.8 (2020-07-15)
+
+- Fixes [bug 9926](https://github.com/Azure/azure-sdk-for-js/issues/9926)
+  where attempting to create AMQP links when the AMQP connection was in the
+  process of closing resulted in a `TypeError` in an uncaught exception.
 
 ## 7.0.0-preview.4 (2020-07-07)
 
@@ -273,6 +381,19 @@ If migrating from version 1.1.10 or lower, look at our [migration guide to move 
 - `Receiver/SessionReceiver.browseMessages()` has been renamed to `Receiver/SessionReceiver.peekMessages()`.
   [PR 9280](https://github.com/Azure/azure-sdk-for-js/pull/9280)
 
+## 1.1.7 (2020-05-13)
+
+- Relaxes the scheme check for the endpoint while parsing the connection string.
+  This allows "\<anything\>://" as the scheme as opposed to the "sb://" scheme suggested by the connection string in the portal.
+  Fixes [bug 7907](https://github.com/Azure/azure-sdk-for-js/issues/7907).
+- Provides down-leveled type declaration files to support older TypeScript versions 3.1 to 3.6.
+  [PR 8515](https://github.com/Azure/azure-sdk-for-js/pull/8515)
+- Updates `@azure/amqp-common` to version 1.0.0-preview.15, fixing an issue with 'OperationTimeoutError's not being considered retryable.
+- Ensures the promise returned by `receiveMessages()` is rejected appropriately when the connection disconnects in the midst of
+  draining credits. This fixes [bug 7689](https://github.com/Azure/azure-sdk-for-js/issues/7689) with [PR 8552](https://github.com/Azure/azure-sdk-for-js/pull/8552)
+- Fixes [bug 8673](https://github.com/Azure/azure-sdk-for-js/issues/8673) where a user application would crash with ECONNRESET error due to the underlying AMQP library
+  `rhea` not cleaning up sockets on connection going idle. Details can be found in [PR amqp/rhea#300](https://github.com/amqp/rhea/pull/300)
+
 ## 7.0.0-preview.2 (2020-05-05)
 
 - Fixes reconnection issues by creating a new connection object rather than re-using the existing one.
@@ -292,6 +413,23 @@ If migrating from version 1.1.10 or lower, look at our [migration guide to move 
 - Remove rule operations from `ServiceBusClient` in favor of having similar operations via the management apis
   which would apply to queues, topics, subscriptions and rules in the upcoming previews.
   [PR 8660](https://github.com/Azure/azure-sdk-for-js/pull/8660)
+
+## 1.1.6 (2020-04-23)
+
+- Removes the `@azure/ms-rest-nodeauth` dependency.
+  This allows users to use any version of `@azure/ms-rest-nodeauth` directly with `@azure/service-bus` without TypeScript compilation errors.
+  Fixes [bug 8041](https://github.com/Azure/azure-sdk-for-js/issues/8041).
+- Fixes for the below bugs when settling a message with [PR 8406](https://github.com/Azure/azure-sdk-for-js/pull/8406)
+  - Not setting user provided deadletter error reason and description when deadlettering a deferred message.
+  - Not setting user provided custom properties when deadlettering a non deferred message.
+  - Not able to settle previously received messages when a receiver recovers from a broken link or connection. Please note that if using sessions, this behavior doesn't change with this release.
+- Fixes an issue where non-retryable errors caused by a connection disconnecting were not getting surfaced to the user's registered error handler
+  when using the `registerMessageHandler` method on a receiver.
+  [PR 8401](https://github.com/Azure/azure-sdk-for-js/pull/8401)
+- Fixes reconnection issues by creating a new connection object rather than re-using the existing one.
+  [PR 8447](https://github.com/Azure/azure-sdk-for-js/pull/8447)
+- Adds a new method `open()` on the sender to allow you to front load the work of setting up the underlying AMQP links. Use this if you want to avoid having your first `send()` operation pay the tax of link set up.
+  [PR 8329](https://github.com/Azure/azure-sdk-for-js/pull/8329). This PR also fixes a bug where a sender recovering from connection loss does not report the error back to the user from ongoing send operations in expected time.
 
 ## 7.0.0-preview.1 (2020-04-07)
 
@@ -395,7 +533,7 @@ If migrating from version 1.1.10 or lower, look at our [migration guide to move 
 
 ## 1.0.0-preview.3 (2019-04-24)
 
-- Proxy support added. Please refer to the [useProxy](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/javascript/useProxy.js)
+- Proxy support added. Please refer to the [useProxy](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/useProxy.js)
   sample to see how you can use Websockets to run this library with a proxy server
 - Standardized error messages on errors thrown on parameter validations
 - We now have API reference docs published for this library. Checkout our README which has been updated with the relevant API reference links.
@@ -444,7 +582,7 @@ meant to do.
 - Fixed [Bug 1098](https://github.com/Azure/azure-sdk-for-js/issues/1098) where precision was lost
   on the messageId when a number is passed.
 - A network connection lost error is now treated as retryable error. A new error with name `ConnectionLostError`
-  is introduced for this scenario which you can see if you enable the [logs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus#enable-logs).
+  is introduced for this scenario which you can see if you enable the [logs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus#enable-logs).
 - When recovering from an error that caused the underlying AMQP connection to get disconnected,
   [rhea](https://github.com/amqp/rhea/issues/205) reconnects all the older AMQP links on the connection
   resulting in the below 2 errors in the logs. We now clear rhea's internal map to avoid such reconnections.

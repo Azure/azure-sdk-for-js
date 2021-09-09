@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { HttpRequestBody, HttpResponse, isNode, TransferProgressEvent } from "@azure/core-http";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
   CopyFileSmbInfo,
@@ -67,7 +67,8 @@ import {
   truncatedISO8061Date,
   extractConnectionStringParts,
   getShareNameAndPathFromUrl,
-  appendToURLQuery
+  appendToURLQuery,
+  httpAuthorizationToString
 } from "./utils/utils.common";
 import { Credential } from "./credentials/Credential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
@@ -92,7 +93,8 @@ import {
   validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions,
   ShareProtocols,
   toShareProtocolsString,
-  toShareProtocols
+  toShareProtocols,
+  HttpAuthorization
 } from "./models";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "./utils/BufferScheduler";
@@ -111,6 +113,7 @@ import { ShareSASPermissions } from "./ShareSASPermissions";
 import { SASProtocol } from "./SASQueryParameters";
 import { SasIPRange } from "./SasIPRange";
 import { FileSASPermissions } from "./FileSASPermissions";
+import { ListFilesIncludeType } from "./generated/src";
 
 /**
  * Options to configure the {@link ShareClient.create} operation.
@@ -537,6 +540,8 @@ export class ShareClient extends StorageClient {
    * @param name - Share name.
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
+  // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
   constructor(connectionString: string, name: string, options?: StoragePipelineOptions);
   /**
    * Creates an instance of ShareClient.
@@ -549,6 +554,8 @@ export class ShareClient extends StorageClient {
    *                                  If not specified, AnonymousCredential is used.
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
+  // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
   constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
   /**
    * Creates an instance of ShareClient.
@@ -564,6 +571,8 @@ export class ShareClient extends StorageClient {
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrShareName?: Credential | Pipeline | string,
+    // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: StoragePipelineOptions
   ) {
     let pipeline: Pipeline;
@@ -654,7 +663,7 @@ export class ShareClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -683,7 +692,7 @@ export class ShareClient extends StorageClient {
     } catch (e) {
       if (e.details?.errorCode === "ShareAlreadyExists") {
         span.setStatus({
-          code: CanonicalCode.ALREADY_EXISTS,
+          code: SpanStatusCode.ERROR,
           message: "Expected exception when creating a share only if it doesn't already exist."
         });
         return {
@@ -693,7 +702,7 @@ export class ShareClient extends StorageClient {
         };
       }
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -708,6 +717,9 @@ export class ShareClient extends StorageClient {
    * @param directoryName - A directory name
    * @returns The ShareDirectoryClient object for the given directory name.
    */
+
+  // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-subclients */
   public getDirectoryClient(directoryName: string): ShareDirectoryClient {
     return new ShareDirectoryClient(
       appendToURLPath(this.url, encodeURIComponent(directoryName)),
@@ -721,6 +733,8 @@ export class ShareClient extends StorageClient {
    *
    * @readonly A new ShareDirectoryClient object for the root directory.
    */
+  // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-subclients */
   public get rootDirectoryClient(): ShareDirectoryClient {
     return this.getDirectoryClient("");
   }
@@ -750,7 +764,7 @@ export class ShareClient extends StorageClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -778,7 +792,7 @@ export class ShareClient extends StorageClient {
       return await directoryClient.delete(updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -813,7 +827,7 @@ export class ShareClient extends StorageClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -853,7 +867,7 @@ export class ShareClient extends StorageClient {
       return await fileClient.delete(updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -879,13 +893,13 @@ export class ShareClient extends StorageClient {
     } catch (e) {
       if (e.statusCode === 404) {
         span.setStatus({
-          code: CanonicalCode.NOT_FOUND,
+          code: SpanStatusCode.ERROR,
           message: "Expected exception when checking share existence"
         });
         return false;
       }
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -922,7 +936,7 @@ export class ShareClient extends StorageClient {
       return res;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -942,13 +956,13 @@ export class ShareClient extends StorageClient {
   public async delete(options: ShareDeleteMethodOptions = {}): Promise<ShareDeleteResponse> {
     const { span, updatedOptions } = createSpan("ShareClient-delete", options);
     try {
-      return await this.context.deleteMethod({
+      return await this.context.delete({
         ...options,
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -977,7 +991,7 @@ export class ShareClient extends StorageClient {
     } catch (e) {
       if (e.details?.errorCode === "ShareNotFound") {
         span.setStatus({
-          code: CanonicalCode.NOT_FOUND,
+          code: SpanStatusCode.ERROR,
           message: "Expected exception when deleting a share only if it exists."
         });
         return {
@@ -987,7 +1001,7 @@ export class ShareClient extends StorageClient {
         };
       }
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1020,7 +1034,7 @@ export class ShareClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1086,7 +1100,7 @@ export class ShareClient extends StorageClient {
       return res;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1141,7 +1155,7 @@ export class ShareClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1168,7 +1182,7 @@ export class ShareClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1199,7 +1213,7 @@ export class ShareClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1226,7 +1240,7 @@ export class ShareClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1255,7 +1269,7 @@ export class ShareClient extends StorageClient {
       return { ...response, shareUsage: Math.ceil(response.shareUsageBytes / GBBytes) };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1289,7 +1303,7 @@ export class ShareClient extends StorageClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1313,12 +1327,12 @@ export class ShareClient extends StorageClient {
     const { span, updatedOptions } = createSpan("ShareClient-getPermission", options);
     try {
       return await this.context.getPermission(filePermissionKey, {
-        aborterSignal: options.abortSignal,
+        abortSignal: options.abortSignal,
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1408,6 +1422,13 @@ interface DirectoryListFilesAndDirectoriesSegmentOptions extends CommonOptions {
    * greater than 5,000, the server will return up to 5,000 items.
    */
   maxResults?: number;
+  /** Include this parameter to specify one or more datasets to include in the response. */
+  include?: ListFilesIncludeType[];
+  /**
+   * Optional. Specified that extended info should be included in the returned {@link FileItem} or {@link DirectoryItem}.
+   * If true, the Content-Length property will be up-to-date, FileId will be returned in response.
+   */
+  includeExtendedInfo?: boolean;
 }
 
 /**
@@ -1424,6 +1445,27 @@ export interface DirectoryListFilesAndDirectoriesOptions extends CommonOptions {
    * name begins with the specified prefix.
    */
   prefix?: string;
+  /*
+   * Optional. Specified that time stamps should be included in the response.
+   */
+  includeTimestamps?: boolean;
+  /*
+   * Optional. Specified that ETag should be included in the response.
+   */
+  includeEtag?: boolean;
+  /*
+   * Optional. Specified that file attributes should be included in the response.
+   */
+  includeAttributes?: boolean;
+  /*
+   * Optional. Specified that permission key should be included in the response.
+   */
+  includePermissionKey?: boolean;
+  /**
+   * Optional. Specified that extended info should be included in the returned {@link FileItem} or {@link DirectoryItem}.
+   * If true, the Content-Length property will be up-to-date, FileId will be returned in response.
+   */
+  includeExtendedInfo?: boolean;
 }
 
 /**
@@ -1654,6 +1696,8 @@ export class ShareDirectoryClient extends StorageClient {
    *                                  If not specified, AnonymousCredential is used.
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
+  // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
   constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
   /**
    * Creates an instance of DirectoryClient.
@@ -1726,7 +1770,7 @@ export class ShareDirectoryClient extends StorageClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1755,7 +1799,7 @@ export class ShareDirectoryClient extends StorageClient {
     } catch (e) {
       if (e.details?.errorCode === "ResourceAlreadyExists") {
         span.setStatus({
-          code: CanonicalCode.ALREADY_EXISTS,
+          code: SpanStatusCode.ERROR,
           message: "Expected exception when creating a directory only if it does not already exist."
         });
         return {
@@ -1765,7 +1809,7 @@ export class ShareDirectoryClient extends StorageClient {
         };
       }
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1801,7 +1845,7 @@ export class ShareDirectoryClient extends StorageClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1856,7 +1900,7 @@ export class ShareDirectoryClient extends StorageClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1884,7 +1928,7 @@ export class ShareDirectoryClient extends StorageClient {
       return await directoryClient.delete(updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1917,7 +1961,7 @@ export class ShareDirectoryClient extends StorageClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1954,7 +1998,7 @@ export class ShareDirectoryClient extends StorageClient {
       return await fileClient.delete(updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1983,6 +2027,8 @@ export class ShareDirectoryClient extends StorageClient {
    * console.log("Updated file successfully!")
    * ```
    */
+  // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-subclients */
   public getFileClient(fileName: string): ShareFileClient {
     return new ShareFileClient(
       appendToURLPath(this.url, encodeURIComponent(fileName)),
@@ -2013,13 +2059,13 @@ export class ShareDirectoryClient extends StorageClient {
     } catch (e) {
       if (e.statusCode === 404) {
         span.setStatus({
-          code: CanonicalCode.NOT_FOUND,
+          code: SpanStatusCode.ERROR,
           message: "Expected exception when checking directory existence"
         });
         return false;
       }
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2048,7 +2094,7 @@ export class ShareDirectoryClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2068,13 +2114,13 @@ export class ShareDirectoryClient extends StorageClient {
   public async delete(options: DirectoryDeleteOptions = {}): Promise<DirectoryDeleteResponse> {
     const { span, updatedOptions } = createSpan("ShareDirectoryClient-delete", options);
     try {
-      return await this.context.deleteMethod({
+      return await this.context.delete({
         abortSignal: options.abortSignal,
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2106,7 +2152,7 @@ export class ShareDirectoryClient extends StorageClient {
         e.details?.errorCode === "ParentNotFound"
       ) {
         span.setStatus({
-          code: CanonicalCode.NOT_FOUND,
+          code: SpanStatusCode.ERROR,
           message: "Expected exception when deleting a directory only if it exists."
         });
         return {
@@ -2116,7 +2162,7 @@ export class ShareDirectoryClient extends StorageClient {
         };
       }
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2146,7 +2192,7 @@ export class ShareDirectoryClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2307,12 +2353,30 @@ export class ShareDirectoryClient extends StorageClient {
     ({ kind: "file" } & FileItem) | ({ kind: "directory" } & DirectoryItem),
     DirectoryListFilesAndDirectoriesSegmentResponse
   > {
+    const include: ListFilesIncludeType[] = [];
+    if (options.includeTimestamps) {
+      include.push("Timestamps");
+    }
+    if (options.includeEtag) {
+      include.push("Etag");
+    }
+    if (options.includeAttributes) {
+      include.push("Attributes");
+    }
+    if (options.includePermissionKey) {
+      include.push("PermissionKey");
+    }
     if (options.prefix === "") {
       options.prefix = undefined;
     }
 
+    const updatedOptions: DirectoryListFilesAndDirectoriesSegmentOptions = {
+      ...options,
+      ...(include.length > 0 ? { include: include } : {})
+    };
+
     // AsyncIterableIterator to iterate over files and directories
-    const iter = this.listFilesAndDirectoriesItems(options);
+    const iter = this.listFilesAndDirectoriesItems(updatedOptions);
     return {
       /**
        * The next method, part of the iteration protocol
@@ -2332,7 +2396,7 @@ export class ShareDirectoryClient extends StorageClient {
       byPage: (settings: PageSettings = {}) => {
         return this.iterateFilesAndDirectoriesSegments(settings.continuationToken, {
           maxResults: settings.maxPageSize,
-          ...options
+          ...updatedOptions
         });
       }
     };
@@ -2368,7 +2432,7 @@ export class ShareDirectoryClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2557,7 +2621,7 @@ export class ShareDirectoryClient extends StorageClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2598,7 +2662,7 @@ export class ShareDirectoryClient extends StorageClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2631,14 +2695,18 @@ export class ShareDirectoryClient extends StorageClient {
           updatedOptions
         );
         marker = response.marker;
-        response.closedHandlesCount && (handlesClosed += response.closedHandlesCount);
-        response.closeFailureCount && (numberOfHandlesFailedToClose += response.closeFailureCount);
+        if (response.closedHandlesCount) {
+          handlesClosed += response.closedHandlesCount;
+        }
+        if (response.closeFailureCount) {
+          numberOfHandlesFailedToClose += response.closeFailureCount;
+        }
       } while (marker);
 
       return { closedHandlesCount: handlesClosed, closeFailureCount: numberOfHandlesFailedToClose };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2679,7 +2747,7 @@ export class ShareDirectoryClient extends StorageClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2846,6 +2914,10 @@ export interface FileUploadRangeFromURLOptions extends CommonOptions {
    * Lease access conditions.
    */
   leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source.
+   */
+  sourceAuthorization?: HttpAuthorization;
 }
 
 /**
@@ -3336,6 +3408,8 @@ export class ShareFileClient extends StorageClient {
    *                                  If not specified, AnonymousCredential is used.
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
+  // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
   constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
   /**
    * Creates an instance of ShareFileClient.
@@ -3355,6 +3429,8 @@ export class ShareFileClient extends StorageClient {
   constructor(
     url: string,
     credentialOrPipeline?: Credential | Pipeline,
+    // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: StoragePipelineOptions
   ) {
     let pipeline: Pipeline;
@@ -3450,7 +3526,7 @@ export class ShareFileClient extends StorageClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -3534,7 +3610,9 @@ export class ShareFileClient extends StorageClient {
       const downloadFullFile = offset === 0 && !count;
       const res = await this.context.download({
         abortSignal: options.abortSignal,
-        onDownloadProgress: isNode ? undefined : options.onProgress, // for Node.js, progress is reported by RetriableReadableStream
+        requestOptions: {
+          onDownloadProgress: isNode ? undefined : options.onProgress // for Node.js, progress is reported by RetriableReadableStream
+        },
         range: downloadFullFile ? undefined : rangeToString({ offset, count }),
         rangeGetContentMD5: options.rangeGetContentMD5,
         leaseAccessConditions: options.leaseAccessConditions,
@@ -3563,7 +3641,7 @@ export class ShareFileClient extends StorageClient {
       return new FileDownloadResponse(
         res,
         async (start: number): Promise<NodeJS.ReadableStream> => {
-          const updatedOptions: FileDownloadOptionalParams = {
+          const updatedDownloadOptions: FileDownloadOptionalParams = {
             range: rangeToString({
               count: offset + res.contentLength! - start,
               offset: start
@@ -3573,18 +3651,21 @@ export class ShareFileClient extends StorageClient {
           // Debug purpose only
           // console.log(
           //   `Read from internal stream, range: ${
-          //     updatedOptions.range
-          //   }, options: ${JSON.stringify(updatedOptions)}`
+          //     chunkDownloadOptions.range
+          //   }, options: ${JSON.stringify(chunkDownloadOptions)}`
           // );
 
-          return (
-            await this.context.download({
-              abortSignal: options.abortSignal,
-              leaseAccessConditions: options.leaseAccessConditions,
-              ...updatedOptions,
-              ...convertTracingToRequestOptionsBase(updatedOptions)
-            })
-          ).readableStreamBody!;
+          const downloadRes = await this.context.download({
+            abortSignal: options.abortSignal,
+            leaseAccessConditions: options.leaseAccessConditions,
+            ...updatedDownloadOptions,
+            ...convertTracingToRequestOptionsBase(updatedDownloadOptions)
+          });
+
+          if (!(downloadRes.etag === res.etag)) {
+            throw new Error("File has been modified concurrently");
+          }
+          return downloadRes.readableStreamBody!;
         },
         offset,
         res.contentLength!,
@@ -3596,7 +3677,7 @@ export class ShareFileClient extends StorageClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -3628,13 +3709,13 @@ export class ShareFileClient extends StorageClient {
     } catch (e) {
       if (e.statusCode === 404) {
         span.setStatus({
-          code: CanonicalCode.NOT_FOUND,
+          code: SpanStatusCode.ERROR,
           message: "Expected exception when checking file existence"
         });
         return false;
       }
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -3663,7 +3744,7 @@ export class ShareFileClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -3688,7 +3769,7 @@ export class ShareFileClient extends StorageClient {
 
       properties.fileHttpHeaders = properties.fileHttpHeaders || {};
 
-      return await this.context.setHTTPHeaders(
+      return await this.context.setHttpHeaders(
         fileAttributesToString(properties.fileAttributes!),
         fileCreationTimeToString(properties.creationTime!),
         fileLastWriteTimeToString(properties.lastWriteTime!),
@@ -3703,7 +3784,7 @@ export class ShareFileClient extends StorageClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -3732,14 +3813,14 @@ export class ShareFileClient extends StorageClient {
   public async delete(options: FileDeleteOptions = {}): Promise<FileDeleteResponse> {
     const { span, updatedOptions } = createSpan("ShareFileClient-delete", options);
     try {
-      return await this.context.deleteMethod({
+      return await this.context.delete({
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.leaseAccessConditions,
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -3780,7 +3861,7 @@ export class ShareFileClient extends StorageClient {
         e.details?.errorCode === "ParentNotFound"
       ) {
         span.setStatus({
-          code: CanonicalCode.NOT_FOUND,
+          code: SpanStatusCode.ERROR,
           message: "Expected exception when deleting a file only if it exists."
         });
         return {
@@ -3790,7 +3871,7 @@ export class ShareFileClient extends StorageClient {
         };
       }
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -3819,7 +3900,7 @@ export class ShareFileClient extends StorageClient {
     try {
       // FileAttributes, filePermission, createTime, lastWriteTime will all be preserved
       options = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(options);
-      return await this.context.setHTTPHeaders(
+      return await this.context.setHttpHeaders(
         fileAttributesToString(options.fileAttributes!),
         fileCreationTimeToString(options.creationTime!),
         fileLastWriteTimeToString(options.lastWriteTime!),
@@ -3834,7 +3915,7 @@ export class ShareFileClient extends StorageClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -3866,7 +3947,7 @@ export class ShareFileClient extends StorageClient {
       // FileAttributes, filePermission, createTime, lastWriteTime will all be preserved.
       options = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(options);
 
-      return await this.context.setHTTPHeaders(
+      return await this.context.setHttpHeaders(
         fileAttributesToString(options.fileAttributes!),
         fileCreationTimeToString(options.creationTime!),
         fileLastWriteTimeToString(options.lastWriteTime!),
@@ -3881,7 +3962,7 @@ export class ShareFileClient extends StorageClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -3915,7 +3996,7 @@ export class ShareFileClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -3978,7 +4059,9 @@ export class ShareFileClient extends StorageClient {
         {
           abortSignal: options.abortSignal,
           contentMD5: options.contentMD5,
-          onUploadProgress: options.onProgress,
+          requestOptions: {
+            onUploadProgress: options.onProgress
+          },
           body: body,
           ...convertTracingToRequestOptionsBase(updatedOptions),
           leaseAccessConditions: options.leaseAccessConditions
@@ -3986,7 +4069,7 @@ export class ShareFileClient extends StorageClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4030,13 +4113,14 @@ export class ShareFileClient extends StorageClient {
           abortSignal: options.abortSignal,
           sourceRange: rangeToString({ offset: sourceOffset, count }),
           sourceModifiedAccessConditions: options.sourceConditions,
+          copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
           ...options,
           ...convertTracingToRequestOptionsBase(updatedOptions)
         }
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4075,7 +4159,7 @@ export class ShareFileClient extends StorageClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4112,7 +4196,7 @@ export class ShareFileClient extends StorageClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4141,7 +4225,7 @@ export class ShareFileClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4179,7 +4263,7 @@ export class ShareFileClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4209,7 +4293,7 @@ export class ShareFileClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4258,7 +4342,7 @@ export class ShareFileClient extends StorageClient {
       }
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4287,7 +4371,7 @@ export class ShareFileClient extends StorageClient {
       return this.uploadSeekableInternal(blobFactory, size, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4326,7 +4410,7 @@ export class ShareFileClient extends StorageClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4364,7 +4448,7 @@ export class ShareFileClient extends StorageClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4440,7 +4524,7 @@ export class ShareFileClient extends StorageClient {
       return await batch.do();
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4600,7 +4684,7 @@ export class ShareFileClient extends StorageClient {
       return buffer;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4694,7 +4778,7 @@ export class ShareFileClient extends StorageClient {
       return await scheduler.do();
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4737,7 +4821,7 @@ export class ShareFileClient extends StorageClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4779,7 +4863,7 @@ export class ShareFileClient extends StorageClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4902,7 +4986,7 @@ export class ShareFileClient extends StorageClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4932,8 +5016,12 @@ export class ShareFileClient extends StorageClient {
           { tracingOptions: updatedOptions.tracingOptions }
         );
         marker = response.marker;
-        response.closedHandlesCount && (handlesClosed += response.closedHandlesCount);
-        response.closeFailureCount && (numberOfHandlesFailedToClose += response.closeFailureCount);
+        if (response.closedHandlesCount) {
+          handlesClosed += response.closedHandlesCount;
+        }
+        if (response.closeFailureCount) {
+          numberOfHandlesFailedToClose += response.closeFailureCount;
+        }
       } while (marker);
 
       return {
@@ -4942,7 +5030,7 @@ export class ShareFileClient extends StorageClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4981,7 +5069,7 @@ export class ShareFileClient extends StorageClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4996,7 +5084,7 @@ export class ShareFileClient extends StorageClient {
    * @param proposeLeaseId - Initial proposed lease Id.
    * @returns A new ShareLeaseClient object for managing leases on the file.
    */
-  public getShareLeaseClient(proposeLeaseId?: string) {
+  public getShareLeaseClient(proposeLeaseId?: string): ShareLeaseClient {
     return new ShareLeaseClient(this, proposeLeaseId);
   }
 
@@ -5135,11 +5223,10 @@ export class ShareLeaseClient {
    * @param leaseId - Initial proposed lease id.
    */
   constructor(client: ShareFileClient, leaseId?: string) {
-    const clientContext = new StorageClientContext(
-      SERVICE_VERSION,
-      client.url,
-      (client as any).pipeline.toServiceClientOptions()
-    );
+    const clientContext = new StorageClientContext(client.url, {
+      version: SERVICE_VERSION,
+      ...(client as any).pipeline.toServiceClientOptions()
+    });
 
     if (client instanceof ShareClient) {
       this.isShare = true;
@@ -5177,7 +5264,7 @@ export class ShareLeaseClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -5208,7 +5295,7 @@ export class ShareLeaseClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -5233,7 +5320,7 @@ export class ShareLeaseClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -5257,7 +5344,7 @@ export class ShareLeaseClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -5288,7 +5375,7 @@ export class ShareLeaseClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

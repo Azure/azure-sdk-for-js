@@ -1,12 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
+import { Suite } from "mocha";
 import { CosmosClient } from "../../../src";
 import { Container } from "../../../src/";
 import { endpoint, masterKey } from "../common/_testConfig";
 import { getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
-const client = new CosmosClient({ endpoint, key: masterKey });
+const client = new CosmosClient({
+  endpoint,
+  key: masterKey,
+  connectionPolicy: { enableBackgroundEndpointRefreshing: false }
+});
 
 // TODO: This is required for Node 6 and above, so just putting it in here.
 // Might want to decide on only supporting async iterators once Node supports them officially.
@@ -14,7 +19,7 @@ if (!Symbol || !Symbol.asyncIterator) {
   (Symbol as any).asyncIterator = Symbol.for("Symbol.asyncIterator");
 }
 
-describe("Queries", function() {
+describe("Queries", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   before(async function() {
     await removeAllDatabases();
@@ -47,7 +52,7 @@ describe("Queries", function() {
     });
   });
 
-  describe("QueryIterator", function() {
+  describe("QueryIterator", function(this: Suite) {
     this.timeout(process.env.MOCHA_TIMEOUT || 30000);
     let resources: { container: Container; doc1: any; doc2: any; doc3: any };
 
@@ -143,7 +148,7 @@ describe("Queries", function() {
       }
     });
 
-    describe("SUM query iterator", function() {
+    describe("SUM query iterator", function(this: Suite) {
       this.timeout(process.env.MOCHA_TIMEOUT || 30000);
 
       it("returns undefined sum with null value in aggregator", async function() {

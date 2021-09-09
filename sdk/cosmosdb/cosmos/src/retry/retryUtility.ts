@@ -36,7 +36,7 @@ interface RetryPolicies {
  * @hidden
  */
 export async function execute({
-  retryContext = {},
+  retryContext = { retryCount: 0 },
   retryPolicies,
   requestContext,
   executeRequest
@@ -64,6 +64,7 @@ export async function execute({
   }
   if (retryContext && retryContext.clearSessionTokenNotAvailable) {
     requestContext.client.clearSessionToken(requestContext.path);
+    delete requestContext.headers["x-ms-session-token"];
   }
   requestContext.endpoint = await requestContext.globalEndpointManager.resolveServiceEndpoint(
     requestContext.resourceType,
@@ -81,9 +82,11 @@ export async function execute({
     let retryPolicy: RetryPolicy = null;
     const headers = err.headers || {};
     if (
-      err.code === StatusCodes.Forbidden &&
-      (err.substatus === SubStatusCodes.DatabaseAccountNotFound ||
-        err.substatus === SubStatusCodes.WriteForbidden)
+      err.code === StatusCodes.ENOTFOUND ||
+      err.code === "REQUEST_SEND_ERROR" ||
+      (err.code === StatusCodes.Forbidden &&
+        (err.substatus === SubStatusCodes.DatabaseAccountNotFound ||
+          err.substatus === SubStatusCodes.WriteForbidden))
     ) {
       retryPolicy = retryPolicies.endpointDiscoveryRetryPolicy;
     } else if (err.code === StatusCodes.TooManyRequests) {

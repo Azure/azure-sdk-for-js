@@ -4,10 +4,11 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { getBSU, recorderEnvSetup } from "./utils";
-import { record, isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
+import { record, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { BlobServiceClient, BlobClient, BlockBlobClient, ContainerClient } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
 import { isNode } from "@azure/core-http";
+import { Context } from "mocha";
 dotenv.config();
 
 describe("Encryption Scope", function() {
@@ -26,15 +27,15 @@ describe("Encryption Scope", function() {
   let encryptionScopeName2: string | undefined;
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
 
     if (isNode) {
       encryptionScopeName1 = process.env[encryptionScopeEnvVar1];
       encryptionScopeName2 = process.env[encryptionScopeEnvVar2];
     } else {
-      encryptionScopeName1 = (window as any).__env__[encryptionScopeEnvVar1];
-      encryptionScopeName2 = (window as any).__env__[encryptionScopeEnvVar2];
+      encryptionScopeName1 = (self as any).__env__[encryptionScopeEnvVar1];
+      encryptionScopeName2 = (self as any).__env__[encryptionScopeEnvVar2];
     }
 
     if ((!encryptionScopeName1 || !encryptionScopeName2) && !isPlaybackMode()) {

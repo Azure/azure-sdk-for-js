@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
+import { Context } from "mocha";
 import { isNode } from "@azure/core-http";
-import { env, isPlaybackMode, Recorder, isRecordMode } from "@azure/test-utils-recorder";
+import { env, isPlaybackMode, Recorder, isRecordMode } from "@azure-tools/test-recorder";
 
 import { SecretClient } from "../../src";
 import { assertThrowsAbortError } from "../utils/utils.common";
@@ -18,7 +19,7 @@ describe("Secret client - restore secrets and recover backups", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     const authentication = await authenticate(this);
     secretSuffix = authentication.secretSuffix;
     client = authentication.client;
@@ -32,7 +33,7 @@ describe("Secret client - restore secrets and recover backups", () => {
 
   // The tests follow
 
-  it("can recover a deleted secret", async function() {
+  it("can recover a deleted secret", async function(this: Context) {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -59,10 +60,9 @@ describe("Secret client - restore secrets and recover backups", () => {
       secretName,
       "Unexpected secret name in result from getSecret()."
     );
-    await testClient.flushSecret(secretName);
   });
 
-  it("can recover a deleted secret (non existing)", async function() {
+  it("can recover a deleted secret (non existing)", async function(this: Context) {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -83,7 +83,7 @@ describe("Secret client - restore secrets and recover backups", () => {
 
   if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
-    it("can recover a deleted a secret with requestOptions timeout", async function() {
+    it("can recover a deleted a secret with requestOptions timeout", async function(this: Context) {
       const secretName = testClient.formatName(
         `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
       );
@@ -101,7 +101,7 @@ describe("Secret client - restore secrets and recover backups", () => {
     });
   }
 
-  it("can backup a secret", async function() {
+  it("can backup a secret", async function(this: Context) {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -116,10 +116,9 @@ describe("Secret client - restore secrets and recover backups", () => {
       result!.length > 0,
       `Unexpected length (${result!.length}) of buffer from backupSecret()`
     );
-    await testClient.flushSecret(secretName);
   });
 
-  it("can backup a secret (non existing)", async function() {
+  it("can backup a secret (non existing)", async function(this: Context) {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -137,7 +136,7 @@ describe("Secret client - restore secrets and recover backups", () => {
   if (isRecordMode() || isPlaybackMode()) {
     // This test can't run live,
     // since the purge operation currently can't be expected to finish anytime soon.
-    it("can restore a secret", async function() {
+    it("can restore a secret", async function(this: Context) {
       const secretName = testClient.formatName(
         `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
       );
@@ -153,7 +152,10 @@ describe("Secret client - restore secrets and recover backups", () => {
       // This test implementation of a restore poller only applies for backups that have been recently deleted.
       // Backups might not be ready to be restored in an unknown amount of time.
       // If this is useful to you, please open an issue at: https://github.com/Azure/azure-sdk-for-js/issues
-      const restorePoller = await testClient.beginRestoreSecretBackup(backup as Uint8Array);
+      const restorePoller = await testClient.beginRestoreSecretBackup(
+        backup as Uint8Array,
+        testPollerProperties
+      );
       const restoredSecretProperties = await restorePoller.pollUntilDone();
 
       assert.equal(restoredSecretProperties.name, secretName);
@@ -179,7 +181,7 @@ describe("Secret client - restore secrets and recover backups", () => {
 
   if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
-    it("can timeout deleting a secret", async function() {
+    it("can timeout deleting a secret", async function(this: Context) {
       const secretName = testClient.formatName(
         `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
       );

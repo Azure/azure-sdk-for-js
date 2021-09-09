@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { SpanOptions } from "./tracing";
+import { Context } from "./tracing";
 
 /**
  * Represents a credential capable of providing an authentication token.
@@ -43,10 +43,15 @@ export interface GetTokenOptions {
    */
   tracingOptions?: {
     /**
-     * OpenTelemetry SpanOptions used to create a span when tracing is enabled.
+     * OpenTelemetry context
      */
-    spanOptions?: SpanOptions;
+    tracingContext?: Context;
   };
+
+  /**
+   * Allows specifying a tenantId. Useful to handle challenges that provide tenant Id hints.
+   */
+  tenantId?: string;
 }
 
 /**

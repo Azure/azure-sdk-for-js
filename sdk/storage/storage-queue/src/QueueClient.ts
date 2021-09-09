@@ -10,7 +10,7 @@ import {
   URLBuilder,
   RequestOptionsBase
 } from "@azure/core-http";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import {
   EnqueuedMessage,
   DequeuedMessageItem,
@@ -198,7 +198,7 @@ export interface QueueClearMessagesOptions extends CommonOptions {
 
 /** Optional parameters. */
 export interface MessagesEnqueueOptionalParams extends RequestOptionsBase {
-  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
+  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -215,7 +215,7 @@ export interface QueueSendMessageOptions extends MessagesEnqueueOptionalParams, 
 
 /** Optional parameters. */
 export interface MessagesDequeueOptionalParams extends RequestOptionsBase {
-  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
+  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -232,7 +232,7 @@ export interface QueueReceiveMessageOptions extends MessagesDequeueOptionalParam
 
 /** Optional parameters. */
 export interface MessagesPeekOptionalParams extends RequestOptionsBase {
-  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
+  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -486,6 +486,8 @@ export class QueueClient extends StorageClient {
    * @param queueName - Queue name.
    * @param options - Options to configure the HTTP pipeline.
    */
+  // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
   constructor(connectionString: string, queueName: string, options?: StoragePipelineOptions);
   /**
    * Creates an instance of QueueClient.
@@ -500,6 +502,8 @@ export class QueueClient extends StorageClient {
   constructor(
     url: string,
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+    // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: StoragePipelineOptions
   );
   /**
@@ -521,6 +525,8 @@ export class QueueClient extends StorageClient {
       | TokenCredential
       | Pipeline
       | string,
+    // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: StoragePipelineOptions
   ) {
     options = options || {};
@@ -624,7 +630,7 @@ export class QueueClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -650,7 +656,7 @@ export class QueueClient extends StorageClient {
       // When a queue with the specified name already exists, the Queue service checks the metadata associated with the existing queue.
       // If the existing metadata is identical to the metadata specified on the Create Queue request, status code 204 (No Content) is returned.
       // If the existing metadata does not match, the operation fails and status code 409 (Conflict) is returned.
-      if (response._response.status == 204) {
+      if (response._response.status === 204) {
         return {
           succeeded: false,
           ...response
@@ -663,7 +669,7 @@ export class QueueClient extends StorageClient {
     } catch (e) {
       if (e.details?.errorCode === "QueueAlreadyExists") {
         span.setStatus({
-          code: CanonicalCode.ALREADY_EXISTS,
+          code: SpanStatusCode.ERROR,
           message: "Expected exception when creating a queue only if it does not already exist."
         });
         return {
@@ -674,7 +680,7 @@ export class QueueClient extends StorageClient {
       }
 
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -702,7 +708,7 @@ export class QueueClient extends StorageClient {
     } catch (e) {
       if (e.details?.errorCode === "QueueNotFound") {
         span.setStatus({
-          code: CanonicalCode.NOT_FOUND,
+          code: SpanStatusCode.ERROR,
           message: "Expected exception when deleting a queue only if it exists."
         });
         return {
@@ -712,7 +718,7 @@ export class QueueClient extends StorageClient {
         };
       }
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -746,7 +752,7 @@ export class QueueClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -775,13 +781,13 @@ export class QueueClient extends StorageClient {
     } catch (e) {
       if (e.statusCode === 404) {
         span.setStatus({
-          code: CanonicalCode.NOT_FOUND,
+          code: SpanStatusCode.ERROR,
           message: "Expected exception when checking queue existence"
         });
         return false;
       }
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -814,7 +820,7 @@ export class QueueClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -847,7 +853,7 @@ export class QueueClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -912,7 +918,7 @@ export class QueueClient extends StorageClient {
       return res;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -958,7 +964,7 @@ export class QueueClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -985,7 +991,7 @@ export class QueueClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1043,7 +1049,7 @@ export class QueueClient extends StorageClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1101,7 +1107,7 @@ export class QueueClient extends StorageClient {
       return res;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1148,7 +1154,7 @@ export class QueueClient extends StorageClient {
       return res;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1179,7 +1185,7 @@ export class QueueClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1226,7 +1232,7 @@ export class QueueClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

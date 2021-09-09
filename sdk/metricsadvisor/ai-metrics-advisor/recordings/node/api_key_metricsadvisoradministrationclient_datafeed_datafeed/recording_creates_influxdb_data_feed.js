@@ -1,47 +1,47 @@
 let nock = require('nock');
 
-module.exports.hash = "ff3213575a271abc7028f5be88fd866a";
+module.exports.hash = "20c919dd47d830a2edcdf7d1337b0e28";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/metricsadvisor/v1.0/dataFeeds', {"dataSourceType":"InfluxDB","dataFeedName":"js-test-influxdbFeed-161070014038707395","dataFeedDescription":"Data feed description","granularityName":"Daily","metrics":[{"metricName":"cost","metricDisplayName":"cost","metricDescription":""},{"metricName":"revenue","metricDisplayName":"revenue","metricDescription":""}],"dimension":[{"dimensionName":"category","dimensionDisplayName":"category"},{"dimensionName":"city","dimensionDisplayName":"city"}],"dataStartFrom":"2020-08-21T00:00:00.000Z","startOffsetInSeconds":0,"maxConcurrency":-1,"minRetryIntervalInSeconds":-1,"stopRetryAfterInSeconds":-1,"needRollup":"NeedRollup","rollUpMethod":"Sum","allUpIdentification":"__CUSTOM_SUM__","fillMissingPointType":"CustomValue","fillMissingPointValue":555,"viewMode":"Private","dataSourceParameter":{"connectionString":"https://connect-to-influxdb","database":"data-feed-database","userName":"user","password":"pwd1","query":"partition-key eq @start-time"}})
+  .post('/metricsadvisor/v1.0/dataFeeds', {"dataSourceType":"InfluxDB","dataFeedName":"js-test-influxdbFeed-162267904090107471","dataFeedDescription":"Data feed description","granularityName":"Daily","metrics":[{"metricName":"cost","metricDisplayName":"cost","metricDescription":""},{"metricName":"revenue","metricDisplayName":"revenue","metricDescription":""}],"dimension":[{"dimensionName":"category","dimensionDisplayName":"category"},{"dimensionName":"city","dimensionDisplayName":"city"}],"dataStartFrom":"2020-08-21T00:00:00.000Z","startOffsetInSeconds":0,"maxConcurrency":-1,"minRetryIntervalInSeconds":-1,"stopRetryAfterInSeconds":-1,"needRollup":"NeedRollup","rollUpMethod":"Sum","allUpIdentification":"__CUSTOM_SUM__","fillMissingPointType":"CustomValue","fillMissingPointValue":555,"viewMode":"Private","authenticationType":"Basic","dataSourceParameter":{"connectionString":"https://connect-to-influxdb","database":"data-feed-database","userName":"user","password":"pwd1","query":"partition-key eq @start-time"}})
   .reply(201, "", [
   'Content-Length',
   '0',
   'Location',
-  'https://endpoint/metricsadvisor/v1.0/dataFeeds/78b9eb42-b845-4f17-9014-b8b044bbcad9',
+  'https://endpoint/metricsadvisor/v1.0/dataFeeds/be0c9796-4419-4f33-bbde-2050c07d3a0e',
   'x-request-id',
-  '0513e429-182e-4a1b-9a83-1bc1b5d6a3d4',
+  'e2c93fa0-a1de-4824-bc88-0f256c6b720b',
   'x-envoy-upstream-service-time',
-  '452',
+  '934',
   'apim-request-id',
-  '0513e429-182e-4a1b-9a83-1bc1b5d6a3d4',
+  'e2c93fa0-a1de-4824-bc88-0f256c6b720b',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 15 Jan 2021 08:42:41 GMT'
+  'Thu, 03 Jun 2021 00:11:03 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/dataFeeds/78b9eb42-b845-4f17-9014-b8b044bbcad9')
-  .reply(200, {"dataFeedId":"78b9eb42-b845-4f17-9014-b8b044bbcad9","dataFeedName":"js-test-influxdbFeed-161070014038707395","metrics":[{"metricId":"57bb7c60-a158-4cf1-b81d-9c0d4e821954","metricName":"cost","metricDisplayName":"cost","metricDescription":""},{"metricId":"48f86532-c901-4dfe-aff5-151e8322dd46","metricName":"revenue","metricDisplayName":"revenue","metricDescription":""}],"dimension":[{"dimensionName":"category","dimensionDisplayName":"category"},{"dimensionName":"city","dimensionDisplayName":"city"}],"dataStartFrom":"2020-08-21T00:00:00Z","dataSourceType":"InfluxDB","timestampColumn":"","startOffsetInSeconds":0,"maxQueryPerMinute":30,"granularityName":"Daily","granularityAmount":null,"allUpIdentification":"__CUSTOM_SUM__","needRollup":"NeedRollup","fillMissingPointType":"CustomValue","fillMissingPointValue":555,"rollUpMethod":"Sum","rollUpColumns":[],"dataFeedDescription":"Data feed description","stopRetryAfterInSeconds":-1,"minRetryIntervalInSeconds":-1,"maxConcurrency":-1,"viewMode":"Private","admins":["kaghiya@microsoft.com"],"viewers":[],"creator":"kaghiya@microsoft.com","status":"Active","createdTime":"2021-01-15T08:42:41Z","isAdmin":true,"actionLinkTemplate":"","dataSourceParameter":{"connectionString":"https://connect-to-influxdb","password":"pwd1","database":"data-feed-database","query":"partition-key eq @start-time","userName":"user"}}, [
+  .get('/metricsadvisor/v1.0/dataFeeds/be0c9796-4419-4f33-bbde-2050c07d3a0e')
+  .reply(200, {"dataFeedId":"be0c9796-4419-4f33-bbde-2050c07d3a0e","dataFeedName":"js-test-influxdbFeed-162267904090107471","metrics":[{"metricId":"992dc70d-3a62-48a5-afde-917f11a9b01a","metricName":"cost","metricDisplayName":"cost","metricDescription":""},{"metricId":"846eef7a-b671-4b56-9574-3c815cebcec5","metricName":"revenue","metricDisplayName":"revenue","metricDescription":""}],"dimension":[{"dimensionName":"category","dimensionDisplayName":"category"},{"dimensionName":"city","dimensionDisplayName":"city"}],"dataStartFrom":"2020-08-21T00:00:00Z","dataSourceType":"InfluxDB","timestampColumn":"","startOffsetInSeconds":0,"maxQueryPerMinute":30,"granularityName":"Daily","allUpIdentification":"__CUSTOM_SUM__","needRollup":"NeedRollup","fillMissingPointType":"CustomValue","fillMissingPointValue":555,"rollUpMethod":"Sum","dataFeedDescription":"Data feed description","stopRetryAfterInSeconds":-1,"minRetryIntervalInSeconds":-1,"maxConcurrency":-1,"viewMode":"Private","admins":["kaghiya@microsoft.com"],"viewers":[],"creator":"kaghiya@microsoft.com","status":"Active","createdTime":"2021-06-03T00:11:03Z","isAdmin":true,"actionLinkTemplate":"","dataSourceParameter":{"connectionString":"https://connect-to-influxdb","database":"data-feed-database","query":"partition-key eq @start-time","userName":"user"},"authenticationType":"Basic"}, [
   'Content-Length',
-  '1368',
+  '1335',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '105b7322-7699-42d3-ba06-8634ecca90c7',
+  '60f6f87d-7c21-4929-a8b1-ee69d34e25a6',
   'x-envoy-upstream-service-time',
-  '152',
+  '167',
   'apim-request-id',
-  '105b7322-7699-42d3-ba06-8634ecca90c7',
+  '60f6f87d-7c21-4929-a8b1-ee69d34e25a6',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 15 Jan 2021 08:42:41 GMT'
+  'Thu, 03 Jun 2021 00:11:04 GMT'
 ]);

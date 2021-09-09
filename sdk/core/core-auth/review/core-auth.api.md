@@ -20,10 +20,25 @@ export class AzureKeyCredential implements KeyCredential {
 }
 
 // @public
+export class AzureNamedKeyCredential implements NamedKeyCredential {
+    constructor(name: string, key: string);
+    get key(): string;
+    get name(): string;
+    update(newName: string, newKey: string): void;
+}
+
+// @public
 export class AzureSASCredential implements SASCredential {
     constructor(signature: string);
     get signature(): string;
     update(newSignature: string): void;
+}
+
+// @public
+export interface Context {
+    deleteValue(key: symbol): Context;
+    getValue(key: symbol): unknown;
+    setValue(key: symbol, value: unknown): Context;
 }
 
 // @public
@@ -32,10 +47,17 @@ export interface GetTokenOptions {
     requestOptions?: {
         timeout?: number;
     };
+    tenantId?: string;
     tracingOptions?: {
-        spanOptions?: SpanOptions;
+        tracingContext?: Context;
     };
 }
+
+// @public
+export function isNamedKeyCredential(credential: unknown): credential is NamedKeyCredential;
+
+// @public
+export function isSASCredential(credential: unknown): credential is SASCredential;
 
 // @public
 export function isTokenCredential(credential: unknown): credential is TokenCredential;
@@ -46,23 +68,14 @@ export interface KeyCredential {
 }
 
 // @public
+export interface NamedKeyCredential {
+    readonly key: string;
+    readonly name: string;
+}
+
+// @public
 export interface SASCredential {
     readonly signature: string;
-}
-
-// @public
-export interface SpanContext {
-    spanId: string;
-    traceFlags: number;
-    traceId: string;
-}
-
-// @public
-export interface SpanOptions {
-    attributes?: {
-        [key: string]: unknown;
-    };
-    parent?: SpanContext | null;
 }
 
 // @public

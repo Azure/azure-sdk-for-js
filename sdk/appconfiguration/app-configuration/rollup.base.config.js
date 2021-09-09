@@ -8,6 +8,7 @@ import shim from "rollup-plugin-shim";
 import json from "@rollup/plugin-json";
 import * as path from "path";
 import inject from "@rollup/plugin-inject";
+import { openTelemetryCommonJs } from "@azure/dev-tool/shared-config/rollup";
 
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
@@ -76,10 +77,10 @@ export function nodeConfig(test = false) {
     );
 
     // different output file
-    baseConfig.output.file = "test-dist/index.node.js";
+    baseConfig.output.file = "dist-test/index.node.js";
 
     // mark assert packages we use as external
-    baseConfig.external.push("assert");
+    baseConfig.external.push("assert", "path");
 
     baseConfig.external.push(...Object.keys(pkg.dependencies), ...Object.keys(pkg.devDependencies));
 
@@ -106,7 +107,7 @@ export function browserConfig(test = false) {
       },
       sourcemap: true
     },
-    external: ["nock", "fs-extra"],
+    external: ["nock", "fs-extra", "path"],
     preserveSymlinks: false,
     plugins: [
       sourcemaps(),
@@ -123,7 +124,7 @@ export function browserConfig(test = false) {
           chai: ["assert", "expect", "use"],
           assert: ["ok", "equal", "strictEqual", "deepEqual", "fail", "throws", "notEqual"],
           events: ["EventEmitter"],
-          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          ...openTelemetryCommonJs()
         }
       }),
 
@@ -141,7 +142,11 @@ export function browserConfig(test = false) {
   baseConfig.onwarn = ignoreKnownWarnings;
 
   if (test) {
-    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/internal/*.spec.js"];
+    baseConfig.input = [
+      "dist-esm/test/*.spec.js",
+      "dist-esm/test/internal/*.spec.js",
+      "dist-esm/test/public/*.spec.js"
+    ];
 
     baseConfig.external.unshift(...["process"]);
 
@@ -156,10 +161,15 @@ export function browserConfig(test = false) {
 
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.plugins.unshift(
-      ...[shim({ path: `export function join() {}`, dotenv: `export function config() { }` })]
+      ...[
+        shim({
+          path: `export function join() {}`,
+          dotenv: `export function config() { }`
+        })
+      ]
     );
 
-    baseConfig.output.file = "test-browser/index.js";
+    baseConfig.output.file = "dist-test/index.browser.js";
 
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also

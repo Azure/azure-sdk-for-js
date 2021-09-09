@@ -18,7 +18,7 @@ import {
   createHttpHeaders,
   SendRequest,
   RawHttpHeaders
-} from "@azure/core-https";
+} from "@azure/core-rest-pipeline";
 import { parseXML } from "@azure/core-xml";
 import { getOperationRequestInfo } from "../src/operationHelpers";
 

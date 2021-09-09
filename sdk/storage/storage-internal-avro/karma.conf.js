@@ -6,7 +6,7 @@ const {
   isPlaybackMode,
   isSoftRecordMode,
   isRecordMode
-} = require("@azure/test-utils-recorder");
+} = require("@azure-tools/test-recorder");
 
 module.exports = function(config) {
   config.set({
@@ -34,9 +34,6 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      // polyfill service supporting IE11 missing features
-      // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.assign,Object.keys,Symbol.iterator
-      "https://cdn.polyfill.io/v2/polyfill.js?features=Symbol,Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.assign,Object.keys|always,Symbol.iterator",
       "dist-test/index.browser.js",
       // { pattern: 'dist-/*.js', included: false }
       { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true }
@@ -51,7 +48,7 @@ module.exports = function(config) {
       "**/*.js": ["sourcemap", "env"],
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
-      "dist-test/index.browser.js": ["coverage"],
+      //"dist-test/index.browser.js": ["coverage"],
       "recordings/browsers/**/*.json": ["json"]
     },
 

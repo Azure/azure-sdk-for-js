@@ -60,7 +60,7 @@ export interface KeyVaultError {
    * The key vault server error.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly error?: ErrorModel;
+  readonly error?: ErrorModel | null;
 }
 
 /** The key vault server error. */
@@ -79,7 +79,7 @@ export interface ErrorModel {
    * The key vault server error.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly innerError?: ErrorModel;
+  readonly innerError?: ErrorModel | null;
 }
 
 /** A certificate bundle consists of a certificate (X509) plus its attributes. */
@@ -111,7 +111,7 @@ export interface CertificateBundle {
   readonly policy?: CertificatePolicy;
   /** CER contents of x509 certificate. */
   cer?: Uint8Array;
-  /** The content type of the secret. */
+  /** The content type of the secret. eg. 'application/x-pem-file' or 'application/x-pkcs12', */
   contentType?: string;
   /** The certificate attributes. */
   attributes?: CertificateAttributes;
@@ -372,7 +372,7 @@ export interface CertificateOperation {
   /** The status details of the certificate operation. */
   statusDetails?: string;
   /** Error encountered, if any, during the certificate operation. */
-  error?: ErrorModel;
+  error?: ErrorModel | null;
   /** Location which contains the result of the certificate operation. */
   target?: string;
   /** Identifier for the certificate operation. */
@@ -503,20 +503,20 @@ export type DeletedCertificateBundle = CertificateBundle & {
   readonly deletedDate?: Date;
 };
 
-/** Known values of {@link ApiVersion72Preview} that the service accepts. */
-export const enum KnownApiVersion72Preview {
-  /** Api Version '7.2-preview' */
-  Seven2Preview = "7.2-preview"
+/** Known values of {@link ApiVersion73Preview} that the service accepts. */
+export const enum KnownApiVersion73Preview {
+  /** Api Version '7.3-preview' */
+  Seven3Preview = "7.3-preview"
 }
 
 /**
- * Defines values for ApiVersion72Preview. \
- * {@link KnownApiVersion72Preview} can be used interchangeably with ApiVersion72Preview,
+ * Defines values for ApiVersion73Preview. \
+ * {@link KnownApiVersion73Preview} can be used interchangeably with ApiVersion73Preview,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **7.2-preview**: Api Version '7.2-preview'
+ * **7.3-preview**: Api Version '7.3-preview'
  */
-export type ApiVersion72Preview = string;
+export type ApiVersion73Preview = string;
 
 /** Known values of {@link DeletionRecoveryLevel} that the service accepts. */
 export const enum KnownDeletionRecoveryLevel {
@@ -553,29 +553,11 @@ export type DeletionRecoveryLevel = string;
 
 /** Known values of {@link JsonWebKeyType} that the service accepts. */
 export const enum KnownJsonWebKeyType {
-  /**
-   * EC Key Type.
-   */
   EC = "EC",
-  /**
-   * EC-HSM Key Type.
-   */
   ECHSM = "EC-HSM",
-  /**
-   * RSA Key Type.
-   */
   RSA = "RSA",
-  /**
-   * RSA-HSM Key Type.
-   */
   RSAHSM = "RSA-HSM",
-  /**
-   * oct Key Type
-   */
   Oct = "oct",
-  /**
-   * oct-HSM Key Type
-   */
   OctHSM = "oct-HSM"
 }
 
@@ -595,21 +577,9 @@ export type JsonWebKeyType = string;
 
 /** Known values of {@link JsonWebKeyCurveName} that the service accepts. */
 export const enum KnownJsonWebKeyCurveName {
-  /**
-   * P-256 Key Curve.
-   */
   P256 = "P-256",
-  /**
-   * P-384 Key Curve.
-   */
   P384 = "P-384",
-  /**
-   * P-521 Key Curve.
-   */
   P521 = "P-521",
-  /**
-   * P-256K Key Curve.
-   */
   P256K = "P-256K"
 }
 
@@ -627,41 +597,14 @@ export type JsonWebKeyCurveName = string;
 
 /** Known values of {@link KeyUsageType} that the service accepts. */
 export const enum KnownKeyUsageType {
-  /**
-   * DigitalSignature Usage Type.
-   */
   DigitalSignature = "digitalSignature",
-  /**
-   * NonRepudiation Usage Type.
-   */
   NonRepudiation = "nonRepudiation",
-  /**
-   * KeyEncipherment Usage Type.
-   */
   KeyEncipherment = "keyEncipherment",
-  /**
-   * DataEncipherment Usage Type.
-   */
   DataEncipherment = "dataEncipherment",
-  /**
-   * KeyAgreement Usage Type.
-   */
   KeyAgreement = "keyAgreement",
-  /**
-   * KeyCertSign Usage Type.
-   */
   KeyCertSign = "keyCertSign",
-  /**
-   * CRLSign Usage Type.
-   */
   CRLSign = "cRLSign",
-  /**
-   * EncipherOnly Usage Type.
-   */
   EncipherOnly = "encipherOnly",
-  /**
-   * DecipherOnly Usage Type.
-   */
   DecipherOnly = "decipherOnly"
 }
 

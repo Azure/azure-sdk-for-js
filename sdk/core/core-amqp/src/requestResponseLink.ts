@@ -16,7 +16,7 @@ import {
   Session,
   generate_uuid
 } from "rhea-promise";
-import { ConditionStatusMapper, translate } from "./errors";
+import { ConditionStatusMapper, StandardAbortMessage, translate } from "./errors";
 import { logErrorStackTrace, logger } from "./log";
 import { isDefined } from "./util/typeGuards";
 
@@ -126,9 +126,7 @@ export class RequestResponseLink implements ReqResLink {
           `to "${address}" has been cancelled by the user.`;
         // Cancellation is a user-intended action, so log to info instead of warning.
         logger.info(desc);
-        const error = new AbortError(
-          `The ${requestName ? requestName + " " : ""}operation has been cancelled by the user.`
-        );
+        const error = new AbortError(StandardAbortMessage);
 
         reject(error);
       };

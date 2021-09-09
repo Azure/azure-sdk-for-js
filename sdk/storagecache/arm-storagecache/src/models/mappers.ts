@@ -413,6 +413,30 @@ export const SystemData: msRest.CompositeMapper = {
   }
 };
 
+export const Condition: msRest.CompositeMapper = {
+  serializedName: "Condition",
+  type: {
+    name: "Composite",
+    className: "Condition",
+    modelProperties: {
+      timestamp: {
+        readOnly: true,
+        serializedName: "timestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      message: {
+        readOnly: true,
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const CacheHealth: msRest.CompositeMapper = {
   serializedName: "CacheHealth",
   type: {
@@ -429,6 +453,19 @@ export const CacheHealth: msRest.CompositeMapper = {
         serializedName: "statusDescription",
         type: {
           name: "String"
+        }
+      },
+      conditions: {
+        readOnly: true,
+        serializedName: "conditions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Condition"
+            }
+          }
         }
       }
     }
@@ -507,6 +544,29 @@ export const CacheNetworkSettings: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      },
+      dnsServers: {
+        serializedName: "dnsServers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      dnsSearchDomain: {
+        serializedName: "dnsSearchDomain",
+        type: {
+          name: "String"
+        }
+      },
+      ntpServer: {
+        serializedName: "ntpServer",
+        type: {
+          name: "String"
         }
       }
     }
@@ -617,14 +677,12 @@ export const NfsAccessRule: msRest.CompositeMapper = {
       },
       anonymousUID: {
         serializedName: "anonymousUID",
-        defaultValue: '-2',
         type: {
           name: "String"
         }
       },
       anonymousGID: {
         serializedName: "anonymousGID",
-        defaultValue: '-2',
         type: {
           name: "String"
         }
@@ -926,7 +984,12 @@ export const Cache: msRest.CompositeMapper = {
       tags: {
         serializedName: "tags",
         type: {
-          name: "Object"
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       id: {
@@ -1136,8 +1199,8 @@ export const UnknownTarget: msRest.CompositeMapper = {
     name: "Composite",
     className: "UnknownTarget",
     modelProperties: {
-      unknownMap: {
-        serializedName: "unknownMap",
+      attributes: {
+        serializedName: "attributes",
         type: {
           name: "Dictionary",
           value: {
@@ -1151,59 +1214,20 @@ export const UnknownTarget: msRest.CompositeMapper = {
   }
 };
 
-export const StorageTargetProperties: msRest.CompositeMapper = {
-  serializedName: "StorageTargetProperties",
+export const BlobNfsTarget: msRest.CompositeMapper = {
+  serializedName: "BlobNfsTarget",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: {
-      serializedName: "targetType",
-      clientName: "targetType"
-    },
-    uberParent: "StorageTargetProperties",
-    className: "StorageTargetProperties",
+    className: "BlobNfsTarget",
     modelProperties: {
-      junctions: {
-        serializedName: "junctions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "NamespaceJunction"
-            }
-          }
-        }
-      },
-      provisioningState: {
-        serializedName: "provisioningState",
+      target: {
+        serializedName: "target",
         type: {
           name: "String"
         }
       },
-      nfs3: {
-        serializedName: "nfs3",
-        type: {
-          name: "Composite",
-          className: "Nfs3Target"
-        }
-      },
-      clfs: {
-        serializedName: "clfs",
-        type: {
-          name: "Composite",
-          className: "ClfsTarget"
-        }
-      },
-      unknown: {
-        serializedName: "unknown",
-        type: {
-          name: "Composite",
-          className: "UnknownTarget"
-        }
-      },
-      targetType: {
-        required: true,
-        serializedName: "targetType",
+      usageModel: {
+        serializedName: "usageModel",
         type: {
           name: "String"
         }
@@ -1277,6 +1301,13 @@ export const StorageTarget: msRest.CompositeMapper = {
           }
         }
       },
+      targetType: {
+        required: true,
+        serializedName: "properties.targetType",
+        type: {
+          name: "String"
+        }
+      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         type: {
@@ -1304,52 +1335,13 @@ export const StorageTarget: msRest.CompositeMapper = {
           className: "UnknownTarget"
         }
       },
-      targetType: {
-        required: true,
-        serializedName: "properties.targetType",
+      blobNfs: {
+        serializedName: "properties.blobNfs",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "BlobNfsTarget"
         }
       }
-    }
-  }
-};
-
-export const Nfs3TargetProperties: msRest.CompositeMapper = {
-  serializedName: "nfs3",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: StorageTargetProperties.type.polymorphicDiscriminator,
-    uberParent: "StorageTargetProperties",
-    className: "Nfs3TargetProperties",
-    modelProperties: {
-      ...StorageTargetProperties.type.modelProperties
-    }
-  }
-};
-
-export const ClfsTargetProperties: msRest.CompositeMapper = {
-  serializedName: "clfs",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: StorageTargetProperties.type.polymorphicDiscriminator,
-    uberParent: "StorageTargetProperties",
-    className: "ClfsTargetProperties",
-    modelProperties: {
-      ...StorageTargetProperties.type.modelProperties
-    }
-  }
-};
-
-export const UnknownTargetProperties: msRest.CompositeMapper = {
-  serializedName: "unknown",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: StorageTargetProperties.type.polymorphicDiscriminator,
-    uberParent: "StorageTargetProperties",
-    className: "UnknownTargetProperties",
-    modelProperties: {
-      ...StorageTargetProperties.type.modelProperties
     }
   }
 };
@@ -1693,12 +1685,4 @@ export const StorageTargetsResult: msRest.CompositeMapper = {
       }
     }
   }
-};
-
-export const discriminators = {
-  'StorageTargetProperties' : StorageTargetProperties,
-  'StorageTargetProperties.nfs3' : Nfs3TargetProperties,
-  'StorageTargetProperties.clfs' : ClfsTargetProperties,
-  'StorageTargetProperties.unknown' : UnknownTargetProperties
-
 };

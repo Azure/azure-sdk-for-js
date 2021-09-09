@@ -4,6 +4,8 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 
+declare const self: any;
+
 export const isNode =
   !!process && !!process.version && !!process.versions && !!process.versions.node;
 
@@ -15,8 +17,7 @@ function getEnvVarValue(name: string): string | undefined {
   if (isNode) {
     return process.env[name];
   } else {
-    // @ts-ignore
-    return window.__env__[name];
+    return self.__env__[name];
   }
 }
 

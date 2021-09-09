@@ -7,7 +7,11 @@ import { ConnectionContext } from "../../../src/connectionContext";
 import { ServiceBusMessage } from "../../../src";
 import { isServiceBusMessageBatch, ServiceBusSenderImpl } from "../../../src/sender";
 import { createConnectionContextForTests } from "./unittestUtils";
-import { PartitionKeySessionIdMismatchError } from "../../../src/util/errors";
+import {
+  errorInvalidMessageTypeSingleOrArray,
+  errorInvalidMessageTypeSingle,
+  PartitionKeySessionIdMismatchError
+} from "../../../src/util/errors";
 
 const assert = chai.assert;
 
@@ -47,8 +51,7 @@ describe("sender unit tests", () => {
 
   badMessages.forEach((invalidValue) => {
     it(`don't allow Sender.sendMessages(${invalidValue})`, async () => {
-      let expectedErrorMsg =
-        "Provided value for 'messages' must be of type ServiceBusMessage, ServiceBusMessageBatch or an array of type ServiceBusMessage.";
+      let expectedErrorMsg = errorInvalidMessageTypeSingleOrArray;
       if (invalidValue === null || invalidValue === undefined) {
         expectedErrorMsg = `Missing parameter "messages"`;
       }
@@ -72,7 +75,7 @@ describe("sender unit tests", () => {
   badMessages.forEach((invalidValue) => {
     it(`don't allow tryAdd(${invalidValue})`, async () => {
       const batch = await sender.createMessageBatch();
-      let expectedErrorMsg = "Provided value for 'message' must be of type ServiceBusMessage.";
+      let expectedErrorMsg = errorInvalidMessageTypeSingle;
       if (invalidValue === null || invalidValue === undefined) {
         expectedErrorMsg = `Missing parameter "message"`;
       }
@@ -95,8 +98,7 @@ describe("sender unit tests", () => {
 
   badMessages.forEach((invalidValue) => {
     it(`don't allow Sender.scheduleMessages(${invalidValue})`, async () => {
-      let expectedErrorMsg =
-        "Provided value for 'messages' must be of type ServiceBusMessage or an array of type ServiceBusMessage.";
+      let expectedErrorMsg = errorInvalidMessageTypeSingleOrArray;
       if (invalidValue === null || invalidValue === undefined) {
         expectedErrorMsg = `Missing parameter "messages"`;
       }

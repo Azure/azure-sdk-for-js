@@ -5,6 +5,8 @@ import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-auth"
 
 /**
  * Helps the core-http token authentication policies with requesting a new token if we're not currently waiting for a new token.
+ *
+ * @deprecated No longer used in the bearer authorization policy.
  */
 export class AccessTokenRefresher {
   private promise: Promise<AccessToken | undefined> | undefined;

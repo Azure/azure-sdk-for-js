@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
+import { Suite } from "mocha";
 import * as util from "util";
 import { Container, ContainerDefinition } from "../../../src";
 import { DataType, IndexKind } from "../../../src";
@@ -26,7 +27,7 @@ function compare(key: string) {
   };
 }
 
-describe("Cross Partition", function() {
+describe("Cross Partition", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || "30000");
 
   describe("Validate Query", function() {
@@ -78,7 +79,7 @@ describe("Cross Partition", function() {
       actualResults: any[],
       expectedOrderIds: string[],
       expectedCount: number
-    ) {
+    ): void {
       assert.equal(
         actualResults.length,
         expectedCount ||
@@ -99,7 +100,7 @@ describe("Cross Partition", function() {
       options: any,
       expectedOrderIds: string[],
       expectedCount: number
-    ) {
+    ): Promise<FeedResponse<any>> {
       options.continuation = undefined;
       const response = await queryIterator.fetchAll();
       const { resources: results } = response;
@@ -127,7 +128,7 @@ describe("Cross Partition", function() {
       fetchAllResponse: FeedResponse<any>,
       expectedCount: number,
       expectedIteratorCalls: number
-    ) {
+    ): Promise<void> {
       const pageSize = options["maxItemCount"];
       let totalExecuteNextRequestCharge = 0;
       let totalIteratorCalls = 0;
@@ -191,7 +192,7 @@ describe("Cross Partition", function() {
       queryIterator: QueryIterator<any>,
       expectedOrderIds: any[],
       expecetedCount: number
-    ) {
+    ): Promise<void> {
       const expectedLength =
         expecetedCount ||
         (expectedOrderIds && expectedOrderIds.length) ||
@@ -223,7 +224,7 @@ describe("Cross Partition", function() {
       expectedCount?: number;
       expectedRus?: number;
       expectedIteratorCalls?: number;
-    }) {
+    }): Promise<void> {
       options.populateQueryMetrics = true;
       const queryIterator = container.items.query(query, options);
       const fetchAllResponse = await validateFetchAll(

@@ -3,7 +3,7 @@
 
 import { padStart } from "../../src/utils/utils.common";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { isPlaybackMode, env, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import { isPlaybackMode, env, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 
 export const testPollerProperties = {
   intervalInMs: isPlaybackMode() ? 0 : undefined
@@ -34,6 +34,7 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
     MD_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockMDAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
     ENCRYPTION_SCOPE_1: "antjoscope1",
     ENCRYPTION_SCOPE_2: "antjoscope2",
+    IMMUTABLE_CONTAINER_NAME: "fakecontainername",
     ORS_DEST_ACCOUNT_NAME: `${mockAccountName1}`,
     ORS_DEST_ACCOUNT_KEY: `${mockAccountKey}`,
     ORS_DEST_ACCOUNT_SAS: `${mockAccountKey}`,
@@ -113,7 +114,7 @@ export class SimpleTokenCredential implements TokenCredential {
 }
 
 export function isBrowser(): boolean {
-  return typeof window !== "undefined";
+  return typeof self !== "undefined";
 }
 
 export function getUniqueName(prefix: string): string {

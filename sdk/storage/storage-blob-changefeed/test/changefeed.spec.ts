@@ -105,18 +105,18 @@ describe("Change Feed", async () => {
   });
 
   it("no valid years in change feed container", async () => {
-    const yearPaths = [{ kind: "prefix", name: "idx/segments/1601/" }];
-    containerClientStub.listBlobsByHierarchy.withArgs("/").returns(fakeList(yearPaths) as any);
+    const newYearPaths = [{ kind: "prefix", name: "idx/segments/1601/" }];
+    containerClientStub.listBlobsByHierarchy.withArgs("/").returns(fakeList(newYearPaths) as any);
     const changeFeed = await changeFeedFactory.create(serviceClientStub as any);
     assert.ok(!changeFeed.hasNext());
   });
 
   it("no years after start time", async () => {
-    const yearPaths = [
+    const newYearPaths = [
       { kind: "prefix", name: "idx/segments/1601/" },
       { kind: "prefix", name: "idx/segments/2019/" }
     ];
-    containerClientStub.listBlobsByHierarchy.withArgs("/").returns(fakeList(yearPaths) as any);
+    containerClientStub.listBlobsByHierarchy.withArgs("/").returns(fakeList(newYearPaths) as any);
     const changeFeed = await changeFeedFactory.create(serviceClientStub as any, undefined, {
       start: new Date(Date.UTC(2020, 0))
     });
@@ -124,11 +124,11 @@ describe("Change Feed", async () => {
   });
 
   it("no segments remaining in start year", async () => {
-    const yearPaths = [
+    const newYearPaths = [
       { kind: "prefix", name: "idx/segments/1601/" },
       { kind: "prefix", name: "idx/segments/2019/" }
     ];
-    containerClientStub.listBlobsByHierarchy.withArgs("/").returns(fakeList(yearPaths) as any);
+    containerClientStub.listBlobsByHierarchy.withArgs("/").returns(fakeList(newYearPaths) as any);
 
     const segments = [
       { name: "idx/segments/2019/03/02/2000/meta.json" },

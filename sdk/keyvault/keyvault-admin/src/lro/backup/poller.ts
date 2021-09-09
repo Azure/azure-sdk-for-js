@@ -1,11 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { BackupPollOperation, BackupOperationState, BackupPollOperationState } from "./operation";
+import {
+  KeyVaultBackupPollOperation,
+  KeyVaultBackupOperationState,
+  KeyVaultBackupPollOperationState
+} from "./operation";
 import { KeyVaultAdminPollerOptions, KeyVaultAdminPoller } from "../keyVaultAdminPoller";
-import { BackupResult } from "../../backupClientModels";
+import { KeyVaultBackupResult } from "../../backupClientModels";
 
-export interface BackupPollerOptions extends KeyVaultAdminPollerOptions {
+export interface KeyVaultBackupPollerOptions extends KeyVaultAdminPollerOptions {
   blobStorageUri: string;
   sasToken: string;
 }
@@ -13,8 +17,11 @@ export interface BackupPollerOptions extends KeyVaultAdminPollerOptions {
 /**
  * Class that creates a poller that waits until the backup of a Key Vault ends up being generated.
  */
-export class BackupPoller extends KeyVaultAdminPoller<BackupOperationState, BackupResult> {
-  constructor(options: BackupPollerOptions) {
+export class KeyVaultBackupPoller extends KeyVaultAdminPoller<
+  KeyVaultBackupOperationState,
+  KeyVaultBackupResult
+> {
+  constructor(options: KeyVaultBackupPollerOptions) {
     const {
       client,
       vaultUrl,
@@ -25,13 +32,13 @@ export class BackupPoller extends KeyVaultAdminPoller<BackupOperationState, Back
       resumeFrom
     } = options;
 
-    let state: BackupPollOperationState | undefined;
+    let state: KeyVaultBackupPollOperationState | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;
     }
 
-    const operation = new BackupPollOperation(
+    const operation = new KeyVaultBackupPollOperation(
       {
         ...state,
         blobStorageUri,

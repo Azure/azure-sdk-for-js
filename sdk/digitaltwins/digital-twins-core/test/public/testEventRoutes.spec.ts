@@ -3,7 +3,7 @@
 
 import { DigitalTwinsClient } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import chai from "chai";
 
 const assert = chai.assert;
@@ -13,7 +13,7 @@ describe("DigitalTwins EventRoutes - create, read, list and delete operations", 
   let client: DigitalTwinsClient;
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Mocha.Context) {
     const authentication = await authenticate(this);
     client = authentication.client;
     recorder = authentication.recorder;

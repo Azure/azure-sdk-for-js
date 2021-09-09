@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-/* eslint-disable no-invalid-this */
 
 import { HttpOperationResponse, RequestOptionsBase } from "@azure/core-http";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -72,7 +71,7 @@ async function update(
 
 async function cancel(
   this: TestOperation,
-  options: { abortSignal?: AbortSignal } = {}
+  options: { abortSignal?: AbortSignalLike } = {}
 ): Promise<TestOperation> {
   const requestOptions = this.state.requestOptions;
   const abortSignal = options.abortSignal || (requestOptions && requestOptions.abortSignal);

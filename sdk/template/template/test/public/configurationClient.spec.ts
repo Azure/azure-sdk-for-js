@@ -7,7 +7,7 @@ import { Context } from "mocha";
 import { ConfigurationClient } from "../../src";
 
 import { ClientSecretCredential } from "@azure/identity";
-import { env, record, Recorder } from "@azure/test-utils-recorder";
+import { env, record, Recorder } from "@azure-tools/test-recorder";
 
 // When the recorder observes the values of these environment variables in any
 // recorded HTTP request or response, it will replace them with the values they
@@ -16,7 +16,7 @@ const replaceableVariables: Record<string, string> = {
   APPCONFIG_ENDPOINT: "https://myappconfig.azconfig.io",
   APPCONFIG_TEST_SETTING_KEY: "test-key",
   APPCONFIG_TEST_SETTING_EXPECTED_VALUE: "test-value",
-  AZURE_TENANT_ID: "azure_tenant_id",
+  AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret"
 };
@@ -56,7 +56,6 @@ describe("[AAD] ConfigurationClient functional tests", function() {
     // The recorder has some convenience methods, and we need to store a
     // reference to it so that we can `stop()` the recorder later in the
     // `afterEach` hook.
-    // eslint-disable-next-line no-invalid-this
     recorder = record(this, {
       // == Recorder Environment Setup == Add the replaceable variables from
       // above

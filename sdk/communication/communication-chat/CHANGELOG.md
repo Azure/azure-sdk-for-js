@@ -1,7 +1,43 @@
 # Release History
 
-## 1.0.0-beta.5 (Unreleased)
+## 1.1.0 (Unreleased)
 
+### Breaking Changes
+
+- Migrated from using `@azure/core-http` to `@azure/core-rest-pipeline` for the handling of HTTP requests. See [Azure Core v1 vs v2](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-rest-pipeline/documentation/core2.md) for more on the difference and benefits of the move.
+
+## 1.1.0-beta.1 (2021-08-10)
+
+### Features Added
+
+- With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+- Updated our internal core package dependencies to their latest versions in order to add support for Opentelemetry 1.0.0 which is compatible with the latest versions of our other client libraries.
+- Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
+- Added support to add `metadata` for `message`
+- Added `senderDisplayName` in `sendTypingNotification` operation.
+- Updated to @azure/communication-signaling@1.0.0-beta.5.
+- Enabled real-time notification for React Native.
+
+## 1.0.0 (2021-03-29)
+
+### Breaking Changes
+
+- Renamed `url` to `endpoint` in the constructors of `ChatClient` and `ChatThreadClient`.
+- Renamed `ChatThread` model to `ChatThreadProperties`. Renamed `GetChatThread` operation to `GetProperties` and move to `ChatThreadClient`.
+- Renamed `ChatThreadInfo` model to `ChatThreadItem`.
+- Renamed parameter `repeatabilityRequestId` to `idempotencyToken`.
+- Uses `ChatError` instead of `CommunicationError` in operation result.
+- Move `participants` from `CreateChatThreadRequest` to `CreateChatThreadOptions`
+- Updated to @azure/communication-signaling@1.0.0-beta.3.
+
+## 1.0.0-beta.5 (2021-03-09)
+
+### Breaking Changes
+
+- Removed `_response` from returned models.
+- Updated to @azure/communication-common@1.0.0-beta.6. Now uses `CommunicationIdentifier` in place of `CommunicationUserIdentifier`.
+- Swap the parameter order in `ChatThreadClient` constructor.
+- Generates `repeatabilityRequestId` if not populated in `createChatThread` operation.
 
 ## 1.0.0-beta.4 (2021-02-09)
 

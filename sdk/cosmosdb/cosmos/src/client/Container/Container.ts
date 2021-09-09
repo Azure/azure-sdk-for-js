@@ -8,7 +8,7 @@ import {
   isResourceValid,
   ResourceType
 } from "../../common";
-import { PartitionKeyDefinition } from "../../documents";
+import { PartitionKey, PartitionKeyDefinition } from "../../documents";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions, ResourceResponse, Response } from "../../request";
@@ -66,7 +66,7 @@ export class Container {
 
   private $conflicts: Conflicts;
   /**
-   * Opertaions for reading and querying conflicts for the given container.
+   * Operations for reading and querying conflicts for the given container.
    *
    * For reading or deleting a specific conflict, use `.conflict(id)`.
    */
@@ -80,7 +80,7 @@ export class Container {
   /**
    * Returns a reference URL to the resource. Used for linking in Permissions.
    */
-  public get url() {
+  public get url(): string {
     return createDocumentCollectionUri(this.database.id, this.id);
   }
 
@@ -106,7 +106,7 @@ export class Container {
    * @example Replace an item
    * `const {body: replacedItem} = await container.item("<item id>", "<partition key value>").replace({id: "<item id>", title: "Updated post", authorID: 5});`
    */
-  public item(id: string, partitionKeyValue?: any): Item {
+  public item(id: string, partitionKeyValue?: PartitionKey): Item {
     return new Item(this, id, partitionKeyValue, this.clientContext);
   }
 
@@ -116,8 +116,8 @@ export class Container {
    * Use `.conflicts` for creating new conflicts, or querying/reading all conflicts.
    * @param id - The id of the {@link Conflict}.
    */
-  public conflict(id: string): Conflict {
-    return new Conflict(this, id, this.clientContext);
+  public conflict(id: string, partitionKey?: PartitionKey): Conflict {
+    return new Conflict(this, id, this.clientContext, partitionKey);
   }
 
   /** Read the container's definition */

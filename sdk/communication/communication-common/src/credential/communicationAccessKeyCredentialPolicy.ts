@@ -16,10 +16,10 @@ import {
 import { shaHash, shaHMAC } from "./cryptoUtils";
 
 /**
- * Creates an HTTP pipeline policy to authenticate a request
- * using an `KeyCredential`
+ * Creates an HTTP pipeline policy to authenticate a request using a `KeyCredential`.
+ * @hidden
  *
- * @param credential - The key credential
+ * @param credential - The key credential.
  */
 export const createCommunicationAccessKeyCredentialPolicy = (
   credential: KeyCredential
@@ -58,7 +58,7 @@ class CommunicationAccessKeyCredentialPolicy extends BaseRequestPolicy {
     const verb = webResource.method.toUpperCase();
     const utcNow = new Date().toUTCString();
     const contentHash = await shaHash(webResource.body || "");
-    const dateHeader = isNode ? "date" : "x-ms-date";
+    const dateHeader = "x-ms-date";
     const signedHeaders = `${dateHeader};host;x-ms-content-sha256`;
 
     const url = URLBuilder.parse(webResource.url);

@@ -189,7 +189,7 @@ export const queryType: OperationQueryParameter = {
     serializedName: "queryType",
     type: {
       name: "Enum",
-      allowedValues: ["simple", "full"]
+      allowedValues: ["simple", "full", "semantic"]
     }
   }
 };
@@ -234,6 +234,36 @@ export const searchFields: OperationQueryParameter = {
     }
   },
   collectionFormat: QueryCollectionFormat.Csv
+};
+
+export const queryLanguage: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "queryLanguage"],
+  mapper: {
+    serializedName: "queryLanguage",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const speller: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "speller"],
+  mapper: {
+    serializedName: "speller",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const answers: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "answers"],
+  mapper: {
+    serializedName: "answers",
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const searchMode: OperationQueryParameter = {
@@ -302,6 +332,32 @@ export const top: OperationQueryParameter = {
       name: "Number"
     }
   }
+};
+
+export const captions: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "captions"],
+  mapper: {
+    serializedName: "captions",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const semanticFields: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "semanticFields"],
+  mapper: {
+    serializedName: "semanticFields",
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "String"
+        }
+      }
+    }
+  },
+  collectionFormat: QueryCollectionFormat.Csv
 };
 
 export const contentType: OperationParameter = {

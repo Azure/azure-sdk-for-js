@@ -16,7 +16,7 @@ import { IndexDocumentsResult } from "./generated/data/models";
 import { RestError, OperationOptions } from "@azure/core-http";
 import EventEmitter from "events";
 import { createSpan } from "./tracing";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { delay } from "@azure/core-http";
 import { getRandomIntegerInclusive } from "./serviceUtils";
 
@@ -164,7 +164,7 @@ export class SearchIndexingBufferedSender<T> {
       return this.internalFlush(false, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -196,7 +196,7 @@ export class SearchIndexingBufferedSender<T> {
       return this.internalFlush(false, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -228,7 +228,7 @@ export class SearchIndexingBufferedSender<T> {
       return this.internalFlush(false, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -260,7 +260,7 @@ export class SearchIndexingBufferedSender<T> {
       return this.internalFlush(false, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -284,7 +284,7 @@ export class SearchIndexingBufferedSender<T> {
       }
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

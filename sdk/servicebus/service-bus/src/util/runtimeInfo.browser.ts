@@ -15,7 +15,7 @@ interface NavigatorEx extends Navigator {
  * @internal
  */
 export function getRuntimeInfo(): string {
-  const navigator = window.navigator as NavigatorEx;
+  const navigator = self.navigator as NavigatorEx;
   const osInfo = {
     key: "OS",
     value: (navigator.oscpu || navigator.platform).replace(" ", "")

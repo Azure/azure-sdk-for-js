@@ -8,6 +8,7 @@
   "license": "ISC",
   "dependencies": {
     "@azure/service-bus": "^1.1.10",
+    "@azure/service-bus-v7": "npm:@azure/service-bus@^7.0.3",
     "@azure/test-utils-perfstress": "file:../../../../../test-utils/perfstress/azure-test-utils-perfstress-1.0.0.tgz"
   },
   "scripts": {

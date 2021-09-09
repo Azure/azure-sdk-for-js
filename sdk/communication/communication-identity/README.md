@@ -15,6 +15,12 @@ The identity library is used for managing users and tokens for Azure Communicati
 npm install @azure/communication-identity
 ```
 
+### Browser support
+
+#### JavaScript Bundle
+
+To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
+
 ## Key concepts
 
 ### Clients
@@ -34,7 +40,7 @@ import { AzureKeyCredential } from "@azure/core-auth";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 
 const credential = new AzureKeyCredential(KEY);
-const client = new CommunicationIdentityClient(HOST, credential);
+const client = new CommunicationIdentityClient(ENDPOINT, credential);
 ```
 
 ### Using a connection string
@@ -42,17 +48,18 @@ const client = new CommunicationIdentityClient(HOST, credential);
 ```typescript
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 
-const connectionString = `endpoint=HOST;accessKey=KEY`;
+const connectionString = `endpoint=ENDPOINT;accessKey=KEY`;
 const client = new CommunicationIdentityClient(connectionString);
 ```
 
 ### Using a `TokenCredential`
 
 ```typescript
+import { DefaultAzureCredential } from "@azure/identity";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 
 const credential = new DefaultAzureCredential();
-const client = new CommunicationIdentityClient(HOST, credential);
+const client = new CommunicationIdentityClient(ENDPOINT, credential);
 ```
 
 If you use a key to initialize the client you will also need to provide the appropriate endpoint. You can get this endpoint from your Communication Services resource in [Azure Portal][azure_portal].
@@ -89,15 +96,15 @@ let { token } = await client.getToken(user, ["chat"]);
 To refresh the user token, issue another token with the same user.
 
 ```typescript
-{ token } = await client.getToken(user, ["chat"]);
+let { token } = await client.getToken(user, ["chat"]);
 ```
 
-### Creating a user together with a token in a single request
+### Creating a user and a token in a single request
 
-For convenience, use `createUserWithToken` to create a new user and issue a token with one function call. This translates into a single web request as opposed to creating a user first and then issuing a token.
+For convenience, use `createUserAndToken` to create a new user and issue a token with one function call. This translates into a single web request as opposed to creating a user first and then issuing a token.
 
 ```typescript
-let { user, token } = await client.createUserWithToken(["chat"]);
+let { user, token } = await client.createUserAndToken(["chat"]);
 ```
 
 ### Revoking tokens for a user
@@ -121,12 +128,12 @@ await client.deleteUser(user);
 ## Next steps
 
 Please take a look at the
-[samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-identity/samples)
+[samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-identity/samples)
 directory for detailed examples on how to use this library.
 
 ## Contributing
 
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ## Related projects
 

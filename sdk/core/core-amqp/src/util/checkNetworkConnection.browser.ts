@@ -3,7 +3,6 @@
 
 /**
  * Checks whether a network connection is detected.
- * @hidden
  * @internal
  */
 export function checkNetworkConnection(): Promise<boolean> {

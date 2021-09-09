@@ -11,6 +11,7 @@ import sourcemaps from "rollup-plugin-sourcemaps";
 import shim from "rollup-plugin-shim";
 import path from "path";
 import inject from "@rollup/plugin-inject";
+import { openTelemetryCommonJs } from "@azure/dev-tool/shared-config/rollup";
 
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
@@ -75,7 +76,7 @@ export function nodeConfig({ test = false, production = false } = {}) {
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
     // different output file
-    baseConfig.output.file = "test-dist/index.js";
+    baseConfig.output.file = "dist-test/index.js";
 
     // mark assert as external
     baseConfig.external.push("assert", "fs", "path", "@azure/identity");
@@ -137,7 +138,7 @@ export function browserConfig(test = false) {
         namedExports: {
           events: ["EventEmitter"],
           long: ["ZERO"],
-          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"],
+          ...openTelemetryCommonJs(),
           chai: ["should", "assert"],
           assert: ["equal", "deepEqual", "notEqual"]
         }
@@ -160,9 +161,13 @@ export function browserConfig(test = false) {
   baseConfig.onwarn = ignoreKnownWarnings;
 
   if (test) {
-    baseConfig.input = ["dist-esm/test/public/**/*.spec.js", "dist-esm/test/internal/*.spec.js", "dist-esm/test/internal/unit/*.spec.js"];
+    baseConfig.input = [
+      "dist-esm/test/public/**/*.spec.js",
+      "dist-esm/test/internal/*.spec.js",
+      "dist-esm/test/internal/unit/*.spec.js"
+    ];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
-    baseConfig.output.file = "test-browser/index.js";
+    baseConfig.output.file = "dist-test/index.browser.js";
 
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also

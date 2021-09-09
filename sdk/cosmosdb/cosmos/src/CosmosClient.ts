@@ -10,7 +10,7 @@ import { CosmosClientOptions } from "./CosmosClientOptions";
 import { DatabaseAccount, defaultConnectionPolicy } from "./documents";
 import { GlobalEndpointManager } from "./globalEndpointManager";
 import { RequestOptions, ResourceResponse } from "./request";
-import { checkURL } from "./utils/url";
+import { checkURL } from "./utils/checkURL";
 
 /**
  * Provides a client-side logical representation of the Azure Cosmos DB database account.
@@ -50,6 +50,7 @@ export class CosmosClient {
    */
   public readonly offers: Offers;
   private clientContext: ClientContext;
+  private endpointRefresher: NodeJS.Timer;
   /**
    * Creates a new {@link CosmosClient} object from a connection string. Your database connection string can be found in the Azure Portal
    */
@@ -58,7 +59,7 @@ export class CosmosClient {
    * Creates a new {@link CosmosClient} object. See {@link CosmosClientOptions} for more details on what options you can use.
    * @param options - bag of options; require at least endpoint and auth to be configured
    */
-  constructor(options: CosmosClientOptions); // tslint:disable-line:unified-signatures
+  constructor(options: CosmosClientOptions);
   constructor(optionsOrConnectionString: string | CosmosClientOptions) {
     if (typeof optionsOrConnectionString === "string") {
       optionsOrConnectionString = parseConnectionString(optionsOrConnectionString);
@@ -93,6 +94,16 @@ export class CosmosClient {
       async (opts: RequestOptions) => this.getDatabaseAccount(opts)
     );
     this.clientContext = new ClientContext(optionsOrConnectionString, globalEndpointManager);
+    if (
+      optionsOrConnectionString.connectionPolicy?.enableEndpointDiscovery &&
+      optionsOrConnectionString.connectionPolicy?.enableBackgroundEndpointRefreshing
+    ) {
+      this.backgroundRefreshEndpointList(
+        globalEndpointManager,
+        optionsOrConnectionString.connectionPolicy.endpointRefreshRateInMs ||
+          defaultConnectionPolicy.endpointRefreshRateInMs
+      );
+    }
 
     this.databases = new Databases(this, this.clientContext);
     this.offers = new Offers(this, this.clientContext);
@@ -127,6 +138,24 @@ export class CosmosClient {
   }
 
   /**
+   * Gets the known write endpoints. Useful for troubleshooting purposes.
+   *
+   * The urls may contain a region suffix (e.g. "-eastus") if we're using location specific endpoints.
+   */
+  public getWriteEndpoints(): Promise<readonly string[]> {
+    return this.clientContext.getWriteEndpoints();
+  }
+
+  /**
+   * Gets the currently used read endpoint. Useful for troubleshooting purposes.
+   *
+   * The url may contain a region suffix (e.g. "-eastus") if we're using location specific endpoints.
+   */
+  public getReadEndpoints(): Promise<readonly string[]> {
+    return this.clientContext.getReadEndpoints();
+  }
+
+  /**
    * Used for reading, updating, or deleting a existing database by id or accessing containers belonging to that database.
    *
    * This does not make a network call. Use `.read` to get info about the database after getting the {@link Database} object.
@@ -150,7 +179,30 @@ export class CosmosClient {
    * Used for reading, or updating a existing offer by id.
    * @param id - The id of the offer.
    */
-  public offer(id: string) {
+  public offer(id: string): Offer {
     return new Offer(this, id, this.clientContext);
+  }
+
+  /**
+   * Clears background endpoint refresher. Use client.dispose() when destroying the CosmosClient within another process.
+   */
+  public dispose(): void {
+    clearTimeout(this.endpointRefresher);
+  }
+
+  private async backgroundRefreshEndpointList(
+    globalEndpointManager: GlobalEndpointManager,
+    refreshRate: number
+  ) {
+    this.endpointRefresher = setInterval(() => {
+      try {
+        globalEndpointManager.refreshEndpointList();
+      } catch (e) {
+        console.warn("Failed to refresh endpoints", e);
+      }
+    }, refreshRate);
+    if (this.endpointRefresher.unref && typeof this.endpointRefresher.unref === "function") {
+      this.endpointRefresher.unref();
+    }
   }
 }

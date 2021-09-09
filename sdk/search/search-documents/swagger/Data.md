@@ -10,15 +10,16 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated/data
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/55c3979124d193ab8cd4c5409a3e9f67739ca571/specification/search/data-plane/Azure.Search/preview/2020-06-30/searchindex.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/c99fbb96d7993daec8135a40681d9d807e3f5751/specification/search/data-plane/Azure.Search/preview/2021-04-30-Preview/searchindex.json
 add-credentials: false
 title: SearchClient
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20210121.1"
+  "@autorest/typescript": "6.0.0-beta.4"
 disable-async-iterators: true
 api-version-parameter: choice
 v3: true
 hide-clients: true
+use-core-v2: false
 ```
 
 ## Customizations for Track 2 Generator
@@ -84,4 +85,14 @@ modelerfour:
     override:
       Score: $DO_NOT_NORMALIZE$_score
       Highlights: $DO_NOT_NORMALIZE$_highlights
+```
+
+### Mark score, key and text fields as required in AnswerResult Object
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AnswerResult
+    transform: >
+      $.required = ['score', 'key', 'text'];
 ```

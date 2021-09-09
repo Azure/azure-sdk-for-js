@@ -4,24 +4,21 @@
 
 ```ts
 
-import * as coreHttp from '@azure/core-http';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import * as coreAuth from '@azure/core-auth';
+import * as coreClient from '@azure/core-client';
 
 // @public (undocumented)
 export class AccessControlClient extends AccessControlClientContext {
-    constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, endpoint: string, options?: AccessControlClientOptionalParams);
-    createRoleAssignment(createRoleAssignmentOptions: RoleAssignmentOptions, options?: coreHttp.OperationOptions): Promise<AccessControlClientCreateRoleAssignmentResponse>;
-    deleteRoleAssignmentById(roleAssignmentId: string, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
-    getCallerRoleAssignments(options?: coreHttp.OperationOptions): Promise<AccessControlClientGetCallerRoleAssignmentsResponse>;
-    getRoleAssignmentById(roleAssignmentId: string, options?: coreHttp.OperationOptions): Promise<AccessControlClientGetRoleAssignmentByIdResponse>;
-    getRoleAssignments(options?: AccessControlClientGetRoleAssignmentsOptionalParams): Promise<AccessControlClientGetRoleAssignmentsResponse>;
-    getRoleDefinitionById(roleId: string, options?: coreHttp.OperationOptions): Promise<AccessControlClientGetRoleDefinitionByIdResponse>;
-    listRoleDefinitions(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<SynapseRole>;
+    constructor(credentials: coreAuth.TokenCredential, endpoint: string, options?: AccessControlClientOptionalParams);
+    // (undocumented)
+    roleAssignments: RoleAssignments;
+    // (undocumented)
+    roleDefinitions: RoleDefinitions;
 }
 
 // @public (undocumented)
-export class AccessControlClientContext extends coreHttp.ServiceClient {
-    constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, endpoint: string, options?: AccessControlClientOptionalParams);
+export class AccessControlClientContext extends coreClient.ServiceClient {
+    constructor(credentials: coreAuth.TokenCredential, endpoint: string, options?: AccessControlClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -29,79 +26,34 @@ export class AccessControlClientContext extends coreHttp.ServiceClient {
 }
 
 // @public
-export type AccessControlClientCreateRoleAssignmentResponse = RoleAssignmentDetails & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: RoleAssignmentDetails;
-    };
-};
-
-// @public
-export type AccessControlClientGetCallerRoleAssignmentsResponse = {
-    body: string[];
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: string[];
-    };
-};
-
-// @public
-export type AccessControlClientGetRoleAssignmentByIdResponse = RoleAssignmentDetails & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: RoleAssignmentDetails;
-    };
-};
-
-// @public
-export interface AccessControlClientGetRoleAssignmentsHeaders {
-    xMsContinuation?: string;
-}
-
-// @public
-export interface AccessControlClientGetRoleAssignmentsOptionalParams extends coreHttp.OperationOptions {
-    continuationToken?: string;
-    principalId?: string;
-    roleId?: string;
-}
-
-// @public
-export type AccessControlClientGetRoleAssignmentsResponse = AccessControlClientGetRoleAssignmentsHeaders & RoleAssignmentDetails[] & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: RoleAssignmentDetails[];
-        parsedHeaders: AccessControlClientGetRoleAssignmentsHeaders;
-    };
-};
-
-// @public
-export type AccessControlClientGetRoleDefinitionByIdResponse = SynapseRole & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SynapseRole;
-    };
-};
-
-// @public
-export type AccessControlClientGetRoleDefinitionsNextResponse = RolesListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: RolesListResponse;
-    };
-};
-
-// @public
-export type AccessControlClientGetRoleDefinitionsResponse = RolesListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: RolesListResponse;
-    };
-};
-
-// @public
-export interface AccessControlClientOptionalParams extends coreHttp.ServiceClientOptions {
+export interface AccessControlClientOptionalParams extends coreClient.ServiceClientOptions {
     apiVersion?: string;
     endpoint?: string;
+}
+
+// @public
+export interface CheckAccessDecision {
+    accessDecision?: string;
+    actionId?: string;
+    roleAssignment?: RoleAssignmentDetails;
+}
+
+// @public
+export interface CheckPrincipalAccessRequest {
+    actions: RequiredAction[];
+    scope: string;
+    subject: SubjectInfo;
+}
+
+// @public
+export interface CheckPrincipalAccessResponse {
+    accessDecisions?: CheckAccessDecision[];
+}
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
 }
 
 // @public
@@ -109,52 +61,151 @@ export interface ErrorContract {
     error?: ErrorResponse;
 }
 
-// @public (undocumented)
-export interface ErrorDetail {
-    // (undocumented)
-    code: string;
-    // (undocumented)
-    message: string;
-    // (undocumented)
-    target?: string;
+// @public
+export interface ErrorResponse {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorResponse[];
+    readonly message?: string;
+    readonly target?: string;
 }
 
-// @public (undocumented)
-export interface ErrorResponse {
-    // (undocumented)
-    code: string;
-    // (undocumented)
-    details?: ErrorDetail[];
-    // (undocumented)
-    message: string;
-    // (undocumented)
-    target?: string;
+// @public
+export interface RequiredAction {
+    id: string;
+    isDataAction: boolean;
 }
 
 // @public
 export interface RoleAssignmentDetails {
     id?: string;
     principalId?: string;
-    roleId?: string;
+    principalType?: string;
+    roleDefinitionId?: string;
+    scope?: string;
 }
 
 // @public
-export interface RoleAssignmentOptions {
+export interface RoleAssignmentDetailsList {
+    count?: number;
+    value?: RoleAssignmentDetails[];
+}
+
+// @public
+export interface RoleAssignmentRequest {
     principalId: string;
+    principalType?: string;
     roleId: string;
+    scope: string;
 }
 
 // @public
-export interface RolesListResponse {
-    nextLink?: string;
-    value: SynapseRole[];
+export interface RoleAssignments {
+    checkPrincipalAccess(subject: SubjectInfo, actions: RequiredAction[], scope: string, options?: RoleAssignmentsCheckPrincipalAccessOptionalParams): Promise<RoleAssignmentsCheckPrincipalAccessResponse>;
+    createRoleAssignment(roleAssignmentId: string, roleId: string, principalId: string, scope: string, options?: RoleAssignmentsCreateRoleAssignmentOptionalParams): Promise<RoleAssignmentsCreateRoleAssignmentResponse>;
+    deleteRoleAssignmentById(roleAssignmentId: string, options?: RoleAssignmentsDeleteRoleAssignmentByIdOptionalParams): Promise<void>;
+    getRoleAssignmentById(roleAssignmentId: string, options?: RoleAssignmentsGetRoleAssignmentByIdOptionalParams): Promise<RoleAssignmentsGetRoleAssignmentByIdResponse>;
+    listRoleAssignments(options?: RoleAssignmentsListRoleAssignmentsOptionalParams): Promise<RoleAssignmentsListRoleAssignmentsResponse>;
 }
 
 // @public
-export interface SynapseRole {
+export interface RoleAssignmentsCheckPrincipalAccessOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RoleAssignmentsCheckPrincipalAccessResponse = CheckPrincipalAccessResponse;
+
+// @public
+export interface RoleAssignmentsCreateRoleAssignmentOptionalParams extends coreClient.OperationOptions {
+    principalType?: string;
+}
+
+// @public
+export type RoleAssignmentsCreateRoleAssignmentResponse = RoleAssignmentDetails;
+
+// @public
+export interface RoleAssignmentsDeleteRoleAssignmentByIdOptionalParams extends coreClient.OperationOptions {
+    scope?: string;
+}
+
+// @public
+export interface RoleAssignmentsGetRoleAssignmentByIdOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RoleAssignmentsGetRoleAssignmentByIdResponse = RoleAssignmentDetails;
+
+// @public
+export interface RoleAssignmentsListRoleAssignmentsHeaders {
+    xMsContinuation?: string;
+}
+
+// @public
+export interface RoleAssignmentsListRoleAssignmentsOptionalParams extends coreClient.OperationOptions {
+    continuationToken?: string;
+    principalId?: string;
+    roleId?: string;
+    scope?: string;
+}
+
+// @public
+export type RoleAssignmentsListRoleAssignmentsResponse = RoleAssignmentsListRoleAssignmentsHeaders & RoleAssignmentDetailsList;
+
+// @public
+export interface RoleDefinitions {
+    getRoleDefinitionById(roleDefinitionId: string, options?: RoleDefinitionsGetRoleDefinitionByIdOptionalParams): Promise<RoleDefinitionsGetRoleDefinitionByIdResponse>;
+    listRoleDefinitions(options?: RoleDefinitionsListRoleDefinitionsOptionalParams): Promise<RoleDefinitionsListRoleDefinitionsResponse>;
+    listScopes(options?: RoleDefinitionsListScopesOptionalParams): Promise<RoleDefinitionsListScopesResponse>;
+}
+
+// @public
+export interface RoleDefinitionsGetRoleDefinitionByIdOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RoleDefinitionsGetRoleDefinitionByIdResponse = SynapseRoleDefinition;
+
+// @public
+export interface RoleDefinitionsListRoleDefinitionsOptionalParams extends coreClient.OperationOptions {
+    isBuiltIn?: boolean;
+    scope?: string;
+}
+
+// @public
+export type RoleDefinitionsListRoleDefinitionsResponse = SynapseRoleDefinition[];
+
+// @public
+export interface RoleDefinitionsListScopesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RoleDefinitionsListScopesResponse = {
+    body: string[];
+};
+
+// @public
+export interface SubjectInfo {
+    groupIds?: string[];
+    principalId: string;
+}
+
+// @public
+export interface SynapseRbacPermission {
+    actions?: string[];
+    dataActions?: string[];
+    notActions?: string[];
+    notDataActions?: string[];
+}
+
+// @public
+export interface SynapseRoleDefinition {
+    availabilityStatus?: string;
+    description?: string;
     id?: string;
-    isBuiltIn: boolean;
+    isBuiltIn?: boolean;
     name?: string;
+    permissions?: SynapseRbacPermission[];
+    scopes?: string[];
 }
 
 

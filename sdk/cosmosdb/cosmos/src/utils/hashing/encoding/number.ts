@@ -4,7 +4,7 @@
 import JSBI from "jsbi";
 import { BytePrefix } from "./prefix";
 
-export function writeNumberForBinaryEncodingJSBI(hash: number) {
+export function writeNumberForBinaryEncodingJSBI(hash: number): Buffer {
   let payload = encodeNumberAsUInt64JSBI(hash);
   let outputStream = Buffer.from(BytePrefix.Number, "hex");
   const firstChunk = JSBI.asUintN(64, JSBI.signedRightShift(payload, JSBI.BigInt(56)));
@@ -47,7 +47,7 @@ export function writeNumberForBinaryEncodingJSBI(hash: number) {
   return outputStream;
 }
 
-function encodeNumberAsUInt64JSBI(value: number) {
+function encodeNumberAsUInt64JSBI(value: number): JSBI {
   const rawValueBits = getRawBitsJSBI(value);
   const mask = JSBI.BigInt(0x8000000000000000);
   const returned =
@@ -57,7 +57,7 @@ function encodeNumberAsUInt64JSBI(value: number) {
   return returned;
 }
 
-export function doubleToByteArrayJSBI(double: number) {
+export function doubleToByteArrayJSBI(double: number): Buffer {
   const output: Buffer = Buffer.alloc(8);
   const lng = getRawBitsJSBI(double);
   for (let i = 0; i < 8; i++) {
@@ -71,13 +71,13 @@ export function doubleToByteArrayJSBI(double: number) {
   return output;
 }
 
-function getRawBitsJSBI(value: number) {
+function getRawBitsJSBI(value: number): JSBI {
   const view = new DataView(new ArrayBuffer(8));
   view.setFloat64(0, value);
   return JSBI.BigInt(`0x${buf2hex(view.buffer)}`);
 }
 
-function buf2hex(buffer: ArrayBuffer) {
+function buf2hex(buffer: ArrayBuffer): string {
   return Array.prototype.map
     .call(new Uint8Array(buffer), (x: number) => ("00" + x.toString(16)).slice(-2))
     .join("");

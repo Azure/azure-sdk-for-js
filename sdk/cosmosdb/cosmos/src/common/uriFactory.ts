@@ -12,7 +12,7 @@ import { trimSlashFromLeftAndRight, validateResourceId } from "./helper";
  * @returns A database link in the format of `dbs/{0}`
  * with `{0}` being a Uri escaped version of the databaseId
  */
-export function createDatabaseUri(databaseId: string) {
+export function createDatabaseUri(databaseId: string): string {
   databaseId = trimSlashFromLeftAndRight(databaseId);
   validateResourceId(databaseId);
 
@@ -30,7 +30,7 @@ export function createDatabaseUri(databaseId: string) {
  * with `{0}` being a Uri escaped version of the databaseId and `{1}` being collectionId
  * @hidden
  */
-export function createDocumentCollectionUri(databaseId: string, collectionId: string) {
+export function createDocumentCollectionUri(databaseId: string, collectionId: string): string {
   collectionId = trimSlashFromLeftAndRight(collectionId);
   validateResourceId(collectionId);
 
@@ -49,7 +49,7 @@ export function createDocumentCollectionUri(databaseId: string, collectionId: st
  * with `{0}` being a Uri escaped version of the databaseId and `{1}` being userId
  * @hidden
  */
-export function createUserUri(databaseId: string, userId: string) {
+export function createUserUri(databaseId: string, userId: string): string {
   userId = trimSlashFromLeftAndRight(userId);
   validateResourceId(userId);
 
@@ -68,7 +68,11 @@ export function createUserUri(databaseId: string, userId: string) {
  * the databaseId, `{1}` being collectionId and `{2}` being the documentId
  * @hidden
  */
-export function createDocumentUri(databaseId: string, collectionId: string, documentId: string) {
+export function createDocumentUri(
+  databaseId: string,
+  collectionId: string,
+  documentId: string
+): string {
   documentId = trimSlashFromLeftAndRight(documentId);
   validateResourceId(documentId);
 
@@ -91,7 +95,11 @@ export function createDocumentUri(databaseId: string, collectionId: string, docu
  * with `{0}` being a Uri escaped version of the databaseId, `{1}` being userId and `{2}` being permissionId
  * @hidden
  */
-export function createPermissionUri(databaseId: string, userId: string, permissionId: string) {
+export function createPermissionUri(
+  databaseId: string,
+  userId: string,
+  permissionId: string
+): string {
   permissionId = trimSlashFromLeftAndRight(permissionId);
   validateResourceId(permissionId);
 
@@ -120,7 +128,7 @@ export function createStoredProcedureUri(
   databaseId: string,
   collectionId: string,
   storedProcedureId: string
-) {
+): string {
   storedProcedureId = trimSlashFromLeftAndRight(storedProcedureId);
   validateResourceId(storedProcedureId);
 
@@ -144,7 +152,11 @@ export function createStoredProcedureUri(
  * `{1}` being collectionId and `{2}` being the triggerId
  * @hidden
  */
-export function createTriggerUri(databaseId: string, collectionId: string, triggerId: string) {
+export function createTriggerUri(
+  databaseId: string,
+  collectionId: string,
+  triggerId: string
+): string {
   triggerId = trimSlashFromLeftAndRight(triggerId);
   validateResourceId(triggerId);
 
@@ -172,7 +184,7 @@ export function createUserDefinedFunctionUri(
   databaseId: string,
   collectionId: string,
   udfId: string
-) {
+): string {
   udfId = trimSlashFromLeftAndRight(udfId);
   validateResourceId(udfId);
 
@@ -195,7 +207,11 @@ export function createUserDefinedFunctionUri(
  * with `{0}` being a Uri escaped version of the databaseId, `{1}` being collectionId and `{2}` being the conflictId
  * @hidden
  */
-export function createConflictUri(databaseId: string, collectionId: string, conflictId: string) {
+export function createConflictUri(
+  databaseId: string,
+  collectionId: string,
+  conflictId: string
+): string {
   conflictId = trimSlashFromLeftAndRight(conflictId);
   validateResourceId(conflictId);
 
@@ -224,7 +240,7 @@ export function createAttachmentUri(
   collectionId: string,
   documentId: string,
   attachmentId: string
-) {
+): string {
   attachmentId = trimSlashFromLeftAndRight(attachmentId);
   validateResourceId(attachmentId);
 
@@ -246,7 +262,7 @@ export function createAttachmentUri(
  * `dbs/{0}/colls/{1}/pkranges` with `{0}` being a Uri escaped version of the databaseId and `{1}` being collectionId
  * @hidden
  */
-export function createPartitionKeyRangesUri(databaseId: string, collectionId: string) {
+export function createPartitionKeyRangesUri(databaseId: string, collectionId: string): string {
   return (
     createDocumentCollectionUri(databaseId, collectionId) +
     "/" +

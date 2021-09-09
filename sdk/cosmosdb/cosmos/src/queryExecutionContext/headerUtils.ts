@@ -42,7 +42,7 @@ export function getInitialHeader(): CosmosHeaders {
  * @hidden
  */
 // TODO: The name of this method isn't very accurate to what it does
-export function mergeHeaders(headers: CosmosHeaders, toBeMergedHeaders: CosmosHeaders) {
+export function mergeHeaders(headers: CosmosHeaders, toBeMergedHeaders: CosmosHeaders): void {
   if (headers[Constants.HttpHeaders.RequestCharge] === undefined) {
     headers[Constants.HttpHeaders.RequestCharge] = 0;
   }

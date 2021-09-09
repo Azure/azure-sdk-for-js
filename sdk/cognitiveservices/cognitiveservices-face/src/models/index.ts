@@ -159,7 +159,7 @@ export interface Hair {
 }
 
 /**
- * Properties describing present makeups on a given face.
+ * Properties describing the presence of makeup on a given face.
  */
 export interface Makeup {
   /**
@@ -251,6 +251,21 @@ export interface Noise {
 }
 
 /**
+ * Properties describing the presence of a mask on a given face.
+ */
+export interface Mask {
+  /**
+   * Mask type if any of the face. Possible values include: 'noMask', 'faceMask',
+   * 'otherMaskOrOcclusion', 'uncertain'
+   */
+  type?: MaskType;
+  /**
+   * A boolean value indicating whether nose and mouth are covered.
+   */
+  noseAndMouthCovered?: boolean;
+}
+
+/**
  * Face Attributes
  */
 export interface FaceAttributes {
@@ -288,7 +303,7 @@ export interface FaceAttributes {
    */
   hair?: Hair;
   /**
-   * Properties describing present makeups on a given face.
+   * Properties describing the presence of makeup on a given face.
    */
   makeup?: Makeup;
   /**
@@ -311,6 +326,10 @@ export interface FaceAttributes {
    * Properties describing noise level of the image.
    */
   noise?: Noise;
+  /**
+   * Properties describing the presence of a mask on a given face.
+   */
+  mask?: Mask;
 }
 
 /**
@@ -319,8 +338,8 @@ export interface FaceAttributes {
 export interface DetectedFace {
   faceId?: string;
   /**
-   * Possible values include: 'recognition_01', 'recognition_02', 'recognition_03'. Default value:
-   * 'recognition_01'.
+   * Possible values include: 'recognition_01', 'recognition_02', 'recognition_03',
+   * 'recognition_04'. Default value: 'recognition_01'.
    */
   recognitionModel?: RecognitionModel;
   faceRectangle: FaceRectangle;
@@ -334,7 +353,8 @@ export interface DetectedFace {
 export interface FindSimilarRequest {
   /**
    * FaceId of the query face. User needs to call Face - Detect first to get a valid faceId. Note
-   * that this faceId is not persisted and will expire 24 hours after the detection call
+   * that this faceId is not persisted and will expire at the time specified by faceIdTimeToLive
+   * after the detection call
    */
   faceId: string;
   /**
@@ -352,8 +372,9 @@ export interface FindSimilarRequest {
   largeFaceListId?: string;
   /**
    * An array of candidate faceIds. All of them are created by Face - Detect and the faceIds will
-   * expire 24 hours after the detection call. The number of faceIds is limited to 1000. Parameter
-   * faceListId, largeFaceListId and faceIds should not be provided at the same time.
+   * expire at the time specified by faceIdTimeToLive after the detection call. The number of
+   * faceIds is limited to 1000. Parameter faceListId, largeFaceListId and faceIds should not be
+   * provided at the same time.
    */
   faceIds?: string[];
   /**
@@ -373,7 +394,7 @@ export interface FindSimilarRequest {
 export interface SimilarFace {
   /**
    * FaceId of candidate face when find by faceIds. faceId is created by Face - Detect and will
-   * expire 24 hours after the detection call
+   * expire at the time specified by faceIdTimeToLive after the detection call
    */
   faceId?: string;
   /**
@@ -539,7 +560,8 @@ export interface VerifyResult {
 export interface PersistedFace {
   /**
    * The persistedFaceId of the target face, which is persisted and will not expire. Different from
-   * faceId created by Face - Detect and will expire in 24 hours after the detection call.
+   * faceId created by Face - Detect and will expire in at the time specified by faceIdTimeToLive
+   * after the detection call.
    */
   persistedFaceId: string;
   /**
@@ -569,8 +591,8 @@ export interface NameAndUserDataContract {
  */
 export interface MetaDataContract extends NameAndUserDataContract {
   /**
-   * Possible values include: 'recognition_01', 'recognition_02', 'recognition_03'. Default value:
-   * 'recognition_01'.
+   * Possible values include: 'recognition_01', 'recognition_02', 'recognition_03',
+   * 'recognition_04'. Default value: 'recognition_01'.
    */
   recognitionModel?: RecognitionModel;
 }
@@ -850,8 +872,9 @@ export interface FaceFindSimilarOptionalParams extends msRest.RequestOptionsBase
   largeFaceListId?: string;
   /**
    * An array of candidate faceIds. All of them are created by Face - Detect and the faceIds will
-   * expire 24 hours after the detection call. The number of faceIds is limited to 1000. Parameter
-   * faceListId, largeFaceListId and faceIds should not be provided at the same time.
+   * expire at the time specified by faceIdTimeToLive after the detection call. The number of
+   * faceIds is limited to 1000. Parameter faceListId, largeFaceListId and faceIds should not be
+   * provided at the same time.
    */
   faceIds?: string[];
   /**
@@ -906,9 +929,11 @@ export interface FaceDetectWithUrlOptionalParams extends msRest.RequestOptionsBa
   returnFaceLandmarks?: boolean;
   /**
    * Analyze and return the one or more specified face attributes in the comma-separated string
-   * like "returnFaceAttributes=age,gender". Supported face attributes include age, gender,
-   * headPose, smile, facialHair, glasses and emotion. Note that each face attribute analysis has
-   * additional computational and time cost.
+   * like "returnFaceAttributes=age,gender". The available attributes depends on the
+   * 'detectionModel' specified. 'detection_01' supports age, gender, headPose, smile, facialHair,
+   * glasses, emotion, hair, makeup, occlusion, accessories, blur, exposure, and noise. While
+   * 'detection_02' does not support any attributes and 'detection_03' only supports mask. Note
+   * that each face attribute analysis has additional computational and time cost.
    */
   returnFaceAttributes?: FaceAttributeType[];
   /**
@@ -917,7 +942,7 @@ export interface FaceDetectWithUrlOptionalParams extends msRest.RequestOptionsBa
    * name can be provided when performing Face - Detect or (Large)FaceList - Create or
    * (Large)PersonGroup - Create. The default value is 'recognition_01', if latest model needed,
    * please explicitly specify the model you need. Possible values include: 'recognition_01',
-   * 'recognition_02', 'recognition_03'. Default value: 'recognition_01'.
+   * 'recognition_02', 'recognition_03', 'recognition_04'. Default value: 'recognition_01'.
    */
   recognitionModel?: RecognitionModel;
   /**
@@ -930,9 +955,14 @@ export interface FaceDetectWithUrlOptionalParams extends msRest.RequestOptionsBa
    * detection model name can be provided when performing Face - Detect or (Large)FaceList - Add
    * Face or (Large)PersonGroup - Add Face. The default value is 'detection_01', if another model
    * is needed, please explicitly specify it. Possible values include: 'detection_01',
-   * 'detection_02'. Default value: 'detection_01'.
+   * 'detection_02', 'detection_03'. Default value: 'detection_01'.
    */
   detectionModel?: DetectionModel;
+  /**
+   * The number of seconds for the faceId being cached. Supported range from 60 seconds up to 86400
+   * seconds. The default value is 86400 (24 hours). Default value: 86400.
+   */
+  faceIdTimeToLive?: number;
 }
 
 /**
@@ -969,9 +999,11 @@ export interface FaceDetectWithStreamOptionalParams extends msRest.RequestOption
   returnFaceLandmarks?: boolean;
   /**
    * Analyze and return the one or more specified face attributes in the comma-separated string
-   * like "returnFaceAttributes=age,gender". Supported face attributes include age, gender,
-   * headPose, smile, facialHair, glasses and emotion. Note that each face attribute analysis has
-   * additional computational and time cost.
+   * like "returnFaceAttributes=age,gender". The available attributes depends on the
+   * 'detectionModel' specified. 'detection_01' supports age, gender, headPose, smile, facialHair,
+   * glasses, emotion, hair, makeup, occlusion, accessories, blur, exposure, and noise. While
+   * 'detection_02' does not support any attributes and 'detection_03' only supports mask. Note
+   * that each face attribute analysis has additional computational and time cost.
    */
   returnFaceAttributes?: FaceAttributeType[];
   /**
@@ -980,7 +1012,7 @@ export interface FaceDetectWithStreamOptionalParams extends msRest.RequestOption
    * name can be provided when performing Face - Detect or (Large)FaceList - Create or
    * (Large)PersonGroup - Create. The default value is 'recognition_01', if latest model needed,
    * please explicitly specify the model you need. Possible values include: 'recognition_01',
-   * 'recognition_02', 'recognition_03'. Default value: 'recognition_01'.
+   * 'recognition_02', 'recognition_03', 'recognition_04'. Default value: 'recognition_01'.
    */
   recognitionModel?: RecognitionModel;
   /**
@@ -993,9 +1025,14 @@ export interface FaceDetectWithStreamOptionalParams extends msRest.RequestOption
    * detection model name can be provided when performing Face - Detect or (Large)FaceList - Add
    * Face or (Large)PersonGroup - Add Face. The default value is 'detection_01', if another model
    * is needed, please explicitly specify it. Possible values include: 'detection_01',
-   * 'detection_02'. Default value: 'detection_01'.
+   * 'detection_02', 'detection_03'. Default value: 'detection_01'.
    */
   detectionModel?: DetectionModel;
+  /**
+   * The number of seconds for the faceId being cached. Supported range from 60 seconds up to 86400
+   * seconds. The default value is 86400 (24 hours). Default value: 86400.
+   */
+  faceIdTimeToLive?: number;
 }
 
 /**
@@ -1070,7 +1107,7 @@ export interface PersonGroupPersonAddFaceFromUrlOptionalParams extends msRest.Re
    * detection model name can be provided when performing Face - Detect or (Large)FaceList - Add
    * Face or (Large)PersonGroup - Add Face. The default value is 'detection_01', if another model
    * is needed, please explicitly specify it. Possible values include: 'detection_01',
-   * 'detection_02'. Default value: 'detection_01'.
+   * 'detection_02', 'detection_03'. Default value: 'detection_01'.
    */
   detectionModel?: DetectionModel;
 }
@@ -1095,7 +1132,7 @@ export interface PersonGroupPersonAddFaceFromStreamOptionalParams extends msRest
    * detection model name can be provided when performing Face - Detect or (Large)FaceList - Add
    * Face or (Large)PersonGroup - Add Face. The default value is 'detection_01', if another model
    * is needed, please explicitly specify it. Possible values include: 'detection_01',
-   * 'detection_02'. Default value: 'detection_01'.
+   * 'detection_02', 'detection_03'. Default value: 'detection_01'.
    */
   detectionModel?: DetectionModel;
 }
@@ -1113,8 +1150,8 @@ export interface PersonGroupCreateOptionalParams extends msRest.RequestOptionsBa
    */
   userData?: string;
   /**
-   * Possible values include: 'recognition_01', 'recognition_02', 'recognition_03'. Default value:
-   * 'recognition_01'.
+   * Possible values include: 'recognition_01', 'recognition_02', 'recognition_03',
+   * 'recognition_04'. Default value: 'recognition_01'.
    */
   recognitionModel?: RecognitionModel;
 }
@@ -1176,8 +1213,8 @@ export interface FaceListCreateOptionalParams extends msRest.RequestOptionsBase 
    */
   userData?: string;
   /**
-   * Possible values include: 'recognition_01', 'recognition_02', 'recognition_03'. Default value:
-   * 'recognition_01'.
+   * Possible values include: 'recognition_01', 'recognition_02', 'recognition_03',
+   * 'recognition_04'. Default value: 'recognition_01'.
    */
   recognitionModel?: RecognitionModel;
 }
@@ -1238,7 +1275,7 @@ export interface FaceListAddFaceFromUrlOptionalParams extends msRest.RequestOpti
    * detection model name can be provided when performing Face - Detect or (Large)FaceList - Add
    * Face or (Large)PersonGroup - Add Face. The default value is 'detection_01', if another model
    * is needed, please explicitly specify it. Possible values include: 'detection_01',
-   * 'detection_02'. Default value: 'detection_01'.
+   * 'detection_02', 'detection_03'. Default value: 'detection_01'.
    */
   detectionModel?: DetectionModel;
 }
@@ -1263,7 +1300,7 @@ export interface FaceListAddFaceFromStreamOptionalParams extends msRest.RequestO
    * detection model name can be provided when performing Face - Detect or (Large)FaceList - Add
    * Face or (Large)PersonGroup - Add Face. The default value is 'detection_01', if another model
    * is needed, please explicitly specify it. Possible values include: 'detection_01',
-   * 'detection_02'. Default value: 'detection_01'.
+   * 'detection_02', 'detection_03'. Default value: 'detection_01'.
    */
   detectionModel?: DetectionModel;
 }
@@ -1340,7 +1377,7 @@ export interface LargePersonGroupPersonAddFaceFromUrlOptionalParams extends msRe
    * detection model name can be provided when performing Face - Detect or (Large)FaceList - Add
    * Face or (Large)PersonGroup - Add Face. The default value is 'detection_01', if another model
    * is needed, please explicitly specify it. Possible values include: 'detection_01',
-   * 'detection_02'. Default value: 'detection_01'.
+   * 'detection_02', 'detection_03'. Default value: 'detection_01'.
    */
   detectionModel?: DetectionModel;
 }
@@ -1365,7 +1402,7 @@ export interface LargePersonGroupPersonAddFaceFromStreamOptionalParams extends m
    * detection model name can be provided when performing Face - Detect or (Large)FaceList - Add
    * Face or (Large)PersonGroup - Add Face. The default value is 'detection_01', if another model
    * is needed, please explicitly specify it. Possible values include: 'detection_01',
-   * 'detection_02'. Default value: 'detection_01'.
+   * 'detection_02', 'detection_03'. Default value: 'detection_01'.
    */
   detectionModel?: DetectionModel;
 }
@@ -1383,8 +1420,8 @@ export interface LargePersonGroupCreateOptionalParams extends msRest.RequestOpti
    */
   userData?: string;
   /**
-   * Possible values include: 'recognition_01', 'recognition_02', 'recognition_03'. Default value:
-   * 'recognition_01'.
+   * Possible values include: 'recognition_01', 'recognition_02', 'recognition_03',
+   * 'recognition_04'. Default value: 'recognition_01'.
    */
   recognitionModel?: RecognitionModel;
 }
@@ -1446,8 +1483,8 @@ export interface LargeFaceListCreateOptionalParams extends msRest.RequestOptions
    */
   userData?: string;
   /**
-   * Possible values include: 'recognition_01', 'recognition_02', 'recognition_03'. Default value:
-   * 'recognition_01'.
+   * Possible values include: 'recognition_01', 'recognition_02', 'recognition_03',
+   * 'recognition_04'. Default value: 'recognition_01'.
    */
   recognitionModel?: RecognitionModel;
 }
@@ -1518,7 +1555,7 @@ export interface LargeFaceListAddFaceFromUrlOptionalParams extends msRest.Reques
    * detection model name can be provided when performing Face - Detect or (Large)FaceList - Add
    * Face or (Large)PersonGroup - Add Face. The default value is 'detection_01', if another model
    * is needed, please explicitly specify it. Possible values include: 'detection_01',
-   * 'detection_02'. Default value: 'detection_01'.
+   * 'detection_02', 'detection_03'. Default value: 'detection_01'.
    */
   detectionModel?: DetectionModel;
 }
@@ -1557,7 +1594,7 @@ export interface LargeFaceListAddFaceFromStreamOptionalParams extends msRest.Req
    * detection model name can be provided when performing Face - Detect or (Large)FaceList - Add
    * Face or (Large)PersonGroup - Add Face. The default value is 'detection_01', if another model
    * is needed, please explicitly specify it. Possible values include: 'detection_01',
-   * 'detection_02'. Default value: 'detection_01'.
+   * 'detection_02', 'detection_03'. Default value: 'detection_01'.
    */
   detectionModel?: DetectionModel;
 }
@@ -1643,11 +1680,11 @@ export interface SnapshotApplyHeaders {
 
 /**
  * Defines values for RecognitionModel.
- * Possible values include: 'recognition_01', 'recognition_02', 'recognition_03'
+ * Possible values include: 'recognition_01', 'recognition_02', 'recognition_03', 'recognition_04'
  * @readonly
  * @enum {string}
  */
-export type RecognitionModel = 'recognition_01' | 'recognition_02' | 'recognition_03';
+export type RecognitionModel = 'recognition_01' | 'recognition_02' | 'recognition_03' | 'recognition_04';
 
 /**
  * Defines values for Gender.
@@ -1706,6 +1743,14 @@ export type ExposureLevel = 'UnderExposure' | 'GoodExposure' | 'OverExposure';
 export type NoiseLevel = 'Low' | 'Medium' | 'High';
 
 /**
+ * Defines values for MaskType.
+ * Possible values include: 'noMask', 'faceMask', 'otherMaskOrOcclusion', 'uncertain'
+ * @readonly
+ * @enum {string}
+ */
+export type MaskType = 'noMask' | 'faceMask' | 'otherMaskOrOcclusion' | 'uncertain';
+
+/**
  * Defines values for FindSimilarMatchMode.
  * Possible values include: 'matchPerson', 'matchFace'
  * @readonly
@@ -1748,19 +1793,19 @@ export type OperationStatusType = 'notstarted' | 'running' | 'succeeded' | 'fail
 /**
  * Defines values for FaceAttributeType.
  * Possible values include: 'age', 'gender', 'headPose', 'smile', 'facialHair', 'glasses',
- * 'emotion', 'hair', 'makeup', 'occlusion', 'accessories', 'blur', 'exposure', 'noise'
+ * 'emotion', 'hair', 'makeup', 'occlusion', 'accessories', 'blur', 'exposure', 'noise', 'mask'
  * @readonly
  * @enum {string}
  */
-export type FaceAttributeType = 'age' | 'gender' | 'headPose' | 'smile' | 'facialHair' | 'glasses' | 'emotion' | 'hair' | 'makeup' | 'occlusion' | 'accessories' | 'blur' | 'exposure' | 'noise';
+export type FaceAttributeType = 'age' | 'gender' | 'headPose' | 'smile' | 'facialHair' | 'glasses' | 'emotion' | 'hair' | 'makeup' | 'occlusion' | 'accessories' | 'blur' | 'exposure' | 'noise' | 'mask';
 
 /**
  * Defines values for DetectionModel.
- * Possible values include: 'detection_01', 'detection_02'
+ * Possible values include: 'detection_01', 'detection_02', 'detection_03'
  * @readonly
  * @enum {string}
  */
-export type DetectionModel = 'detection_01' | 'detection_02';
+export type DetectionModel = 'detection_01' | 'detection_02' | 'detection_03';
 
 /**
  * Contains response data for the findSimilar operation.

@@ -2,8 +2,15 @@
 // Licensed under the MIT license.
 
 import { createProcessingSpan, trace } from "../../src/partitionPump";
-import { NoOpSpan, TestSpan, TestTracer } from "@azure/core-tracing";
-import { CanonicalCode, SpanKind, SpanOptions } from "@opentelemetry/api";
+import {
+  SpanStatusCode,
+  SpanKind,
+  SpanOptions,
+  Context,
+  setSpanContext,
+  context
+} from "@azure/core-tracing";
+import { TestSpan, TestTracer } from "@azure/test-utils";
 import chai from "chai";
 import { ReceivedEventData } from "../../src/eventData";
 import { instrumentEventData } from "../../src/diagnostics/instrumentEventData";
@@ -15,29 +22,32 @@ describe("PartitionPump", () => {
   describe("telemetry", () => {
     const eventHubProperties = {
       host: "thehost",
-      eventHubName: "theeventhubname"
+      entityPath: "theeventhubname"
     };
 
     class TestTracer2 extends TestTracer {
       public spanOptions: SpanOptions | undefined;
       public spanName: string | undefined;
+      public context: Context | undefined;
 
-      startSpan(nameArg: string, optionsArg?: SpanOptions): TestSpan {
+      startSpan(nameArg: string, optionsArg?: SpanOptions, contextArg?: Context): TestSpan {
         this.spanName = nameArg;
         this.spanOptions = optionsArg;
-        return super.startSpan(nameArg, optionsArg);
+        this.context = contextArg;
+        return super.startSpan(nameArg, optionsArg, this.context);
       }
     }
 
     it("basic span properties are set", async () => {
-      const fakeParentSpanContext = new NoOpSpan().context();
       const { tracer, resetTracer } = setTracerForTest(new TestTracer2());
+      const fakeParentSpanContext = setSpanContext(
+        context.active(),
+        tracer.startSpan("test").spanContext()
+      );
 
       await createProcessingSpan([], eventHubProperties, {
         tracingOptions: {
-          spanOptions: {
-            parent: fakeParentSpanContext
-          }
+          tracingContext: fakeParentSpanContext
         }
       });
 
@@ -45,13 +55,14 @@ describe("PartitionPump", () => {
 
       should.exist(tracer.spanOptions);
       tracer.spanOptions!.kind!.should.equal(SpanKind.CONSUMER);
-      tracer.spanOptions!.parent!.should.equal(fakeParentSpanContext);
+      tracer.context!.should.equal(fakeParentSpanContext);
 
-      const attributes = tracer.getRootSpans()[0].attributes;
+      const attributes = tracer.getActiveSpans().find((s) => s.name === "Azure.EventHubs.process")
+        ?.attributes;
 
       attributes!.should.deep.equal({
         "az.namespace": "Microsoft.EventHub",
-        "message_bus.destination": eventHubProperties.eventHubName,
+        "message_bus.destination": eventHubProperties.entityPath,
         "peer.address": eventHubProperties.host
       });
 
@@ -64,7 +75,10 @@ describe("PartitionPump", () => {
         enqueuedTimeUtc: new Date(),
         offset: 0,
         partitionKey: null,
-        sequenceNumber: 0
+        sequenceNumber: 0,
+        getRawAmqpMessage() {
+          return {} as any;
+        }
       };
 
       const { tracer, resetTracer } = setTracerForTest(new TestTracer2());
@@ -73,9 +87,27 @@ describe("PartitionPump", () => {
       const thirdEvent = tracer.startSpan("c");
 
       const receivedEvents: ReceivedEventData[] = [
-        instrumentEventData({ ...requiredEventProperties }, firstEvent) as ReceivedEventData,
+        instrumentEventData(
+          { ...requiredEventProperties },
+          {
+            tracingOptions: {
+              tracingContext: setSpanContext(context.active(), firstEvent.spanContext())
+            }
+          },
+          "entityPath",
+          "host"
+        ).event as ReceivedEventData,
         { properties: {}, ...requiredEventProperties }, // no diagnostic ID means it gets skipped
-        instrumentEventData({ ...requiredEventProperties }, thirdEvent) as ReceivedEventData
+        instrumentEventData(
+          { ...requiredEventProperties },
+          {
+            tracingOptions: {
+              tracingContext: setSpanContext(context.active(), thirdEvent.spanContext())
+            }
+          },
+          "entityPath",
+          "host"
+        ).event as ReceivedEventData
       ];
 
       await createProcessingSpan(receivedEvents, eventHubProperties, {});
@@ -85,11 +117,11 @@ describe("PartitionPump", () => {
       tracer.spanOptions!.links!.length.should.equal(3 - 1);
       // the test tracer just hands out a string integer that just gets
       // incremented
-      tracer.spanOptions!.links![0]!.context.traceId.should.equal(firstEvent.context().traceId);
+      tracer.spanOptions!.links![0]!.context.traceId.should.equal(firstEvent.spanContext().traceId);
       (tracer.spanOptions!.links![0]!.attributes!.enqueuedTime as number).should.equal(
         requiredEventProperties.enqueuedTimeUtc.getTime()
       );
-      tracer.spanOptions!.links![1]!.context.traceId.should.equal(thirdEvent.context().traceId);
+      tracer.spanOptions!.links![1]!.context.traceId.should.equal(thirdEvent.spanContext().traceId);
       (tracer.spanOptions!.links![1]!.attributes!.enqueuedTime as number).should.equal(
         requiredEventProperties.enqueuedTimeUtc.getTime()
       );
@@ -105,7 +137,7 @@ describe("PartitionPump", () => {
         /* no-op */
       }, span);
 
-      span.status!.code.should.equal(CanonicalCode.OK);
+      span.status!.code.should.equal(SpanStatusCode.OK);
       should.equal(span.endCalled, true);
     });
 
@@ -117,7 +149,7 @@ describe("PartitionPump", () => {
         throw new Error("error thrown from fn");
       }, span).should.be.rejectedWith(/error thrown from fn/);
 
-      span.status!.code.should.equal(CanonicalCode.UNKNOWN);
+      span.status!.code.should.equal(SpanStatusCode.ERROR);
       span.status!.message!.should.equal("error thrown from fn");
       should.equal(span.endCalled, true);
     });

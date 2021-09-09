@@ -229,6 +229,16 @@ export const keyName: msRest.OperationURLParameter = {
     }
   }
 };
+export const libraryName: msRest.OperationURLParameter = {
+  parameterPath: "libraryName",
+  mapper: {
+    required: true,
+    serializedName: "libraryName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const linkId: msRest.OperationURLParameter = {
   parameterPath: "linkId",
   mapper: {

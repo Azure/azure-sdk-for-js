@@ -1,0 +1,28 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/",
+   "query": {
+    "api-version": "2018-01-01"
+   },
+   "requestBody": "[{\"ver\":\"1.0\",\"typ\":\"Azure.Sdk.TestEvent1\",\"sub\":\"Single\",\"payload\":{\"hello\":\"world\"}}]",
+   "status": 404,
+   "response": "{\r\n    \"error\": {\r\n        \"code\": \"NotFound\",\r\n        \"message\": \"No HTTP resource was found that matches the request URI 'https://endpoint/?api-version=2018-01-01'. Report '28a4e47a-c398-49b6-aa51-9f76d790a7ab:3/10/2021 9:03:01 PM (UTC)' to our forums for assistance or raise a support ticket.\",\r\n        \"details\": [{\r\n            \"code\": \"ResourceNotFound\",\r\n            \"message\": \"No HTTP resource was found that matches the request URI 'https://endpoint/?api-version=2018-01-01'. Report '28a4e47a-c398-49b6-aa51-9f76d790a7ab:3/10/2021 9:03:01 PM (UTC)' to our forums for assistance or raise a support ticket.\"\r\n    }]\r\n  }\r\n}",
+   "responseHeaders": {
+    "content-length": "721",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 10 Mar 2021 21:03:01 GMT",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "28a4e47a-c398-49b6-aa51-9f76d790a7ab"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "220a79acd0a51aa9e0ca04494dcf9109"
+}

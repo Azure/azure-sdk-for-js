@@ -1,10 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RestError } from "@azure/core-http";
+import { RestError } from "@azure/core-rest-pipeline";
+import { FullOperationResponse, OperationOptions, OperationSpec } from "@azure/core-client";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { URL, URLSearchParams } from "./utils/url";
 import { logger } from "./logger";
-import { StringIndexType as GeneratedStringIndexType } from "./generated";
+import { GeneratedClient, StringIndexType as GeneratedStringIndexType } from "./generated";
+import { TextAnalyticsAction } from "./textAnalyticsAction";
+import { createSpan } from "./tracing";
+import { LroResponse } from "@azure/core-lro";
 
 /**
  * @internal
@@ -94,7 +99,7 @@ const jsEncodingUnit = "Utf16CodeUnit";
 /**
  * Measurement units that can used to calculate the offset and length properties.
  */
-export type StringIndexType = "TextElements_v8" | "UnicodeCodePoint" | "Utf16CodeUnit";
+export type StringIndexType = "TextElement_v8" | "UnicodeCodePoint" | "Utf16CodeUnit";
 
 /**
  * @internal
@@ -116,11 +121,61 @@ export function setStrEncodingParam<X extends { stringIndexType?: GeneratedStrin
   return { ...x, stringIndexType: x.stringIndexType || jsEncodingUnit };
 }
 
+export function setStrEncodingParamValue(
+  stringIndexType?: GeneratedStringIndexType
+): GeneratedStringIndexType {
+  return stringIndexType || jsEncodingUnit;
+}
+
+/**
+ * Set the opinion mining property
+ * @internal
+ */
+export function setOpinionMining<X extends { includeOpinionMining?: boolean }>(
+  x: X
+): X & { opinionMining?: boolean } {
+  return { ...x, opinionMining: x.includeOpinionMining };
+}
+
+/**
+ * Set the pii categories property
+ * @internal
+ */
+export function setCategoriesFilter<X extends { categoriesFilter?: string[] }>(
+  x: X
+): X & { piiCategories?: string[] } {
+  return { ...x, piiCategories: x.categoriesFilter };
+}
+
+export function setSentenceCount<X extends { maxSentenceCount?: number }>(
+  x: X
+): X & { sentenceCount?: number } {
+  return { ...x, sentenceCount: x.maxSentenceCount };
+}
+
+export function setOrderBy<X extends { orderBy?: string }>(x: X): X & { sortBy?: string } {
+  return { ...x, sortBy: x.orderBy };
+}
+
 /**
  * @internal
  */
-export function AddParamsToTask<X>(action: X): { parameters?: X } {
-  return { parameters: action };
+export function addParamsToTask<X extends TextAnalyticsAction>(
+  action: X
+): { parameters?: Omit<X, "actionName">; taskName?: string } {
+  const { actionName, ...params } = action;
+  return { parameters: params, taskName: actionName };
+}
+
+/**
+ * Set the modelVersion property with default if it does not exist in x.
+ * @param options - operation options bag that has a {@link StringIndexType}
+ * @internal
+ */
+export function setModelVersionParam<X extends { modelVersion?: string }>(
+  x: X
+): X & { modelVersion: string } {
+  return { ...x, modelVersion: x.modelVersion || "latest" };
 }
 
 /**
@@ -187,7 +242,7 @@ export function handleInvalidDocumentBatch(error: unknown): any {
   const innerMessage = castError.response?.parsedBody?.error?.innererror?.message;
   if (innerMessage) {
     return innerCode === "InvalidDocumentBatch"
-      ? new RestError(innerMessage, innerCode, castError.statusCode)
+      ? new RestError(innerMessage, { code: innerCode, statusCode: castError.statusCode })
       : error;
   } else {
     // unfortunately, the service currently does not follow the swagger definition
@@ -200,5 +255,91 @@ export function handleInvalidDocumentBatch(error: unknown): any {
       `The error coming from the service does not follow the expected structure: ${error}`
     );
     return error;
+  }
+}
+
+/**
+ * A wrapper for setTimeout that resolves a promise after t milliseconds.
+ * @internal
+ * @param timeInMs - The number of milliseconds to be delayed.
+ * @returns Resolved promise
+ */
+export function delay(timeInMs: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(() => resolve(), timeInMs));
+}
+
+/**
+ * @internal
+ */
+export function compose<T1, T2, T3>(fn1: (x: T1) => T2, fn2: (y: T2) => T3): (x: T1) => T3 {
+  return (value: T1) => fn2(fn1(value));
+}
+
+/**
+ * @internal
+ */
+export async function getRawResponse<TOptions extends OperationOptions, TResult>(
+  f: (options: TOptions) => Promise<TResult>,
+  options: TOptions
+): Promise<LroResponse<TResult>> {
+  const { onResponse } = options || {};
+  let rawResponse: FullOperationResponse | undefined = undefined;
+  const flatResponse = await f({
+    ...options,
+    onResponse: (response: FullOperationResponse, flatResponseParam: unknown) => {
+      rawResponse = response;
+      onResponse?.(response, flatResponseParam);
+    }
+  });
+  return {
+    flatResponse,
+    rawResponse: {
+      statusCode: rawResponse!.status,
+      headers: rawResponse!.headers.toJSON(),
+      body: rawResponse!.parsedBody
+    }
+  };
+}
+
+/**
+ * @internal
+ */
+export async function sendGetRequest<TOptions extends OperationOptions>(
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
+  client: GeneratedClient,
+  spec: OperationSpec,
+  spanStr: string,
+  options: TOptions,
+  path: string
+): Promise<LroResponse<unknown>> {
+  const { span, updatedOptions: finalOptions } = createSpan(
+    `TextAnalyticsClient-${spanStr}`,
+    options
+  );
+  try {
+    const { flatResponse, rawResponse } = await getRawResponse(
+      (paramOptions) =>
+        client.sendOperationRequest(
+          { options: paramOptions },
+          {
+            ...spec,
+            path,
+            httpMethod: "GET"
+          }
+        ),
+      finalOptions
+    );
+    return {
+      flatResponse: flatResponse,
+      rawResponse
+    };
+  } catch (e) {
+    span.setStatus({
+      code: SpanStatusCode.ERROR,
+      message: e.message
+    });
+    throw e;
+  } finally {
+    span.end();
   }
 }

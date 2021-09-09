@@ -1,0 +1,4 @@
+project.lock.json
+local.settings.json
+node_modules
+dist

@@ -6,10 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { Indexers } from "../operationsInterfaces";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { SearchServiceClient } from "../searchServiceClient";
+import { SearchServiceClientContext } from "../searchServiceClientContext";
 import {
   IndexersResetOptionalParams,
   IndexersRunOptionalParams,
@@ -28,14 +29,14 @@ import {
 } from "../models";
 
 /** Class representing a Indexers. */
-export class Indexers {
-  private readonly client: SearchServiceClient;
+export class IndexersImpl implements Indexers {
+  private readonly client: SearchServiceClientContext;
 
   /**
    * Initialize a new instance of the class Indexers class.
    * @param client Reference to the service client
    */
-  constructor(client: SearchServiceClient) {
+  constructor(client: SearchServiceClientContext) {
     this.client = client;
   }
 
@@ -235,7 +236,11 @@ const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
     }
   },
   requestBody: Parameters.indexer,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.ignoreResetRequirements,
+    Parameters.disableCacheReprocessingChangeDetection
+  ],
   urlParameters: [Parameters.endpoint, Parameters.indexerName],
   headerParameters: [
     Parameters.contentType,

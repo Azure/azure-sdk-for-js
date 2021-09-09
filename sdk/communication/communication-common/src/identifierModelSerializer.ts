@@ -8,10 +8,10 @@ import {
 } from "./identifierModels";
 
 /**
- * @internal
+ * @hidden
  * Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.
  */
-export interface _SerializedCommunicationIdentifier {
+export interface SerializedCommunicationIdentifier {
   /**
    * Raw Id of the identifier. Optional in requests, required in responses.
    */
@@ -19,22 +19,22 @@ export interface _SerializedCommunicationIdentifier {
   /**
    * The communication user.
    */
-  communicationUser?: _SerializedCommunicationUserIdentifier;
+  communicationUser?: SerializedCommunicationUserIdentifier;
   /**
    * The phone number.
    */
-  phoneNumber?: _SerializedPhoneNumberIdentifier;
+  phoneNumber?: SerializedPhoneNumberIdentifier;
   /**
    * The Microsoft Teams user.
    */
-  microsoftTeamsUser?: _SerializedMicrosoftTeamsUserIdentifier;
+  microsoftTeamsUser?: SerializedMicrosoftTeamsUserIdentifier;
 }
 
 /**
- * @internal
+ * @hidden
  * A user that got created with an Azure Communication Services resource.
  */
-export interface _SerializedCommunicationUserIdentifier {
+export interface SerializedCommunicationUserIdentifier {
   /**
    * The Id of the communication user.
    */
@@ -42,10 +42,10 @@ export interface _SerializedCommunicationUserIdentifier {
 }
 
 /**
- * @internal
+ * @hidden
  * A phone number.
  */
-export interface _SerializedPhoneNumberIdentifier {
+export interface SerializedPhoneNumberIdentifier {
   /**
    * The phone number in E.164 format.
    */
@@ -53,10 +53,10 @@ export interface _SerializedPhoneNumberIdentifier {
 }
 
 /**
- * @internal
+ * @hidden
  * A Microsoft Teams user.
  */
-export interface _SerializedMicrosoftTeamsUserIdentifier {
+export interface SerializedMicrosoftTeamsUserIdentifier {
   /**
    * The Id of the Microsoft Teams user. If not anonymous, this is the AAD object Id of the user.
    */
@@ -68,14 +68,14 @@ export interface _SerializedMicrosoftTeamsUserIdentifier {
   /**
    * The cloud that the Microsoft Teams user belongs to. By default 'public' if missing.
    */
-  cloud?: _SerializedCommunicationCloudEnvironment;
+  cloud?: SerializedCommunicationCloudEnvironment;
 }
 
 /**
- * @internal
+ * @hidden
  * Defines values for CommunicationCloudEnvironmentModel.
  */
-export type _SerializedCommunicationCloudEnvironment = "public" | "dod" | "gcch";
+export type SerializedCommunicationCloudEnvironment = "public" | "dod" | "gcch";
 
 const addRawIdIfExisting = <T>(
   identifier: T,
@@ -100,8 +100,8 @@ const assertNotNullOrUndefined = <
   throw new Error(`Property ${prop} is required for identifier of type ${subObjName}.`);
 };
 
-const assertMaximumOneNestedModel = (identifier: _SerializedCommunicationIdentifier): void => {
-  const { rawId, ...props } = identifier;
+const assertMaximumOneNestedModel = (identifier: SerializedCommunicationIdentifier): void => {
+  const { rawId: _rawId, ...props } = identifier;
   const keys = Object.keys(props);
   if (keys.length > 1) {
     throw new Error(`Only one of the properties in ${JSON.stringify(keys)} should be present.`);
@@ -109,13 +109,13 @@ const assertMaximumOneNestedModel = (identifier: _SerializedCommunicationIdentif
 };
 
 /**
- * @internal
+ * @hidden
  * Translates a CommunicationIdentifier to its serialized format for sending a request.
  * @param identifier - The CommunicationIdentifier to be serialized.
  */
-export const _serializeCommunicationIdentifier = (
+export const serializeCommunicationIdentifier = (
   identifier: CommunicationIdentifier
-): _SerializedCommunicationIdentifier => {
+): SerializedCommunicationIdentifier => {
   const identifierKind = getIdentifierKind(identifier);
   switch (identifierKind.kind) {
     case "communicationUser":
@@ -144,12 +144,12 @@ export const _serializeCommunicationIdentifier = (
 };
 
 /**
- * @internal
+ * @hidden
  * Translates the serialized format of a communication identifier to CommunicationIdentifier.
  * @param serializedIdentifier - The SerializedCommunicationIdentifier to be deserialized.
  */
-export const _deserializeCommunicationIdentifier = (
-  serializedIdentifier: _SerializedCommunicationIdentifier
+export const deserializeCommunicationIdentifier = (
+  serializedIdentifier: SerializedCommunicationIdentifier
 ): CommunicationIdentifierKind => {
   assertMaximumOneNestedModel(serializedIdentifier);
 

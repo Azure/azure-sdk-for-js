@@ -255,6 +255,30 @@ export const ResourceNameAvailabilityRequest: msRest.CompositeMapper = {
   }
 };
 
+export const FilePathAvailabilityRequest: msRest.CompositeMapper = {
+  serializedName: "FilePathAvailabilityRequest",
+  type: {
+    name: "Composite",
+    className: "FilePathAvailabilityRequest",
+    modelProperties: {
+      name: {
+        required: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      subnetId: {
+        required: true,
+        serializedName: "subnetId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const QuotaAvailabilityRequest: msRest.CompositeMapper = {
   serializedName: "QuotaAvailabilityRequest",
   type: {
@@ -370,6 +394,17 @@ export const ActiveDirectory: msRest.CompositeMapper = {
           }
         }
       },
+      administrators: {
+        serializedName: "administrators",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
       kdcIP: {
         serializedName: "kdcIP",
         constraints: {
@@ -424,6 +459,12 @@ export const ActiveDirectory: msRest.CompositeMapper = {
       },
       ldapOverTLS: {
         serializedName: "ldapOverTLS",
+        type: {
+          name: "Boolean"
+        }
+      },
+      allowLocalNfsUsersWithLdap: {
+        serializedName: "allowLocalNfsUsersWithLdap",
         type: {
           name: "Boolean"
         }
@@ -754,6 +795,13 @@ export const CapacityPool: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      coolAccess: {
+        serializedName: "properties.coolAccess",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -920,6 +968,13 @@ export const ExportPolicyRule: msRest.CompositeMapper = {
         defaultValue: true,
         type: {
           name: "Boolean"
+        }
+      },
+      chownMode: {
+        serializedName: "chownMode",
+        defaultValue: 'Restricted',
+        type: {
+          name: "String"
         }
       }
     }
@@ -1340,8 +1395,7 @@ export const Volume: msRest.CompositeMapper = {
         defaultValue: 0,
         constraints: {
           InclusiveMaximum: 4500,
-          InclusiveMinimum: 0,
-          MultipleOf: 0.001
+          InclusiveMinimum: 0
         },
         type: {
           name: "Number"
@@ -1349,6 +1403,71 @@ export const Volume: msRest.CompositeMapper = {
       },
       encryptionKeySource: {
         serializedName: "properties.encryptionKeySource",
+        type: {
+          name: "String"
+        }
+      },
+      ldapEnabled: {
+        serializedName: "properties.ldapEnabled",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
+        }
+      },
+      coolAccess: {
+        serializedName: "properties.coolAccess",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
+        }
+      },
+      coolnessPeriod: {
+        serializedName: "properties.coolnessPeriod",
+        constraints: {
+          InclusiveMaximum: 63,
+          InclusiveMinimum: 7
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      unixPermissions: {
+        nullable: true,
+        serializedName: "properties.unixPermissions",
+        constraints: {
+          MaxLength: 4,
+          MinLength: 4
+        },
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceIdentity: msRest.CompositeMapper = {
+  serializedName: "resourceIdentity",
+  type: {
+    name: "Composite",
+    className: "ResourceIdentity",
+    modelProperties: {
+      principalId: {
+        readOnly: true,
+        serializedName: "principalId",
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        readOnly: true,
+        serializedName: "tenantId",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
         type: {
           name: "String"
         }
@@ -1431,6 +1550,13 @@ export const VolumePatchPropertiesDataProtection: msRest.CompositeMapper = {
           name: "Composite",
           className: "VolumeBackupProperties"
         }
+      },
+      snapshot: {
+        serializedName: "snapshot",
+        type: {
+          name: "Composite",
+          className: "VolumeSnapshotProperties"
+        }
       }
     }
   }
@@ -1509,8 +1635,7 @@ export const VolumePatch: msRest.CompositeMapper = {
         serializedName: "properties.throughputMibps",
         constraints: {
           InclusiveMaximum: 4500,
-          InclusiveMinimum: 1,
-          MultipleOf: 0.001
+          InclusiveMinimum: 1
         },
         type: {
           name: "Number"
@@ -1864,13 +1989,6 @@ export const SnapshotPolicy: msRest.CompositeMapper = {
           }
         }
       },
-      name1: {
-        readOnly: true,
-        serializedName: "properties.name",
-        type: {
-          name: "String"
-        }
-      },
       hourlySchedule: {
         serializedName: "properties.hourlySchedule",
         type: {
@@ -1960,13 +2078,6 @@ export const SnapshotPolicyDetails: msRest.CompositeMapper = {
           }
         }
       },
-      name1: {
-        readOnly: true,
-        serializedName: "properties.name",
-        type: {
-          name: "String"
-        }
-      },
       hourlySchedule: {
         serializedName: "properties.hourlySchedule",
         type: {
@@ -2054,13 +2165,6 @@ export const SnapshotPolicyPatch: msRest.CompositeMapper = {
               name: "String"
             }
           }
-        }
-      },
-      name1: {
-        readOnly: true,
-        serializedName: "properties.name",
-        type: {
-          name: "String"
         }
       },
       hourlySchedule: {
@@ -2280,6 +2384,20 @@ export const Backup: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      volumeName: {
+        readOnly: true,
+        serializedName: "properties.volumeName",
+        type: {
+          name: "String"
+        }
+      },
+      useExistingSnapshot: {
+        serializedName: "properties.useExistingSnapshot",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -2353,6 +2471,20 @@ export const BackupPatch: msRest.CompositeMapper = {
         serializedName: "properties.failureReason",
         type: {
           name: "String"
+        }
+      },
+      volumeName: {
+        readOnly: true,
+        serializedName: "properties.volumeName",
+        type: {
+          name: "String"
+        }
+      },
+      useExistingSnapshot: {
+        serializedName: "properties.useExistingSnapshot",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -2756,6 +2888,124 @@ export const Vault: msRest.CompositeMapper = {
         serializedName: "properties.vaultName",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BackupStatus: msRest.CompositeMapper = {
+  serializedName: "backupStatus",
+  type: {
+    name: "Composite",
+    className: "BackupStatus",
+    modelProperties: {
+      healthy: {
+        readOnly: true,
+        serializedName: "healthy",
+        type: {
+          name: "Boolean"
+        }
+      },
+      relationshipStatus: {
+        readOnly: true,
+        serializedName: "relationshipStatus",
+        type: {
+          name: "String"
+        }
+      },
+      mirrorState: {
+        readOnly: true,
+        serializedName: "mirrorState",
+        type: {
+          name: "String"
+        }
+      },
+      unhealthyReason: {
+        readOnly: true,
+        serializedName: "unhealthyReason",
+        type: {
+          name: "String"
+        }
+      },
+      errorMessage: {
+        readOnly: true,
+        serializedName: "errorMessage",
+        type: {
+          name: "String"
+        }
+      },
+      lastTransferSize: {
+        readOnly: true,
+        serializedName: "lastTransferSize",
+        type: {
+          name: "Number"
+        }
+      },
+      lastTransferType: {
+        readOnly: true,
+        serializedName: "lastTransferType",
+        type: {
+          name: "String"
+        }
+      },
+      totalTransferBytes: {
+        readOnly: true,
+        serializedName: "totalTransferBytes",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const RestoreStatus: msRest.CompositeMapper = {
+  serializedName: "restoreStatus",
+  type: {
+    name: "Composite",
+    className: "RestoreStatus",
+    modelProperties: {
+      healthy: {
+        readOnly: true,
+        serializedName: "healthy",
+        type: {
+          name: "Boolean"
+        }
+      },
+      relationshipStatus: {
+        readOnly: true,
+        serializedName: "relationshipStatus",
+        type: {
+          name: "String"
+        }
+      },
+      mirrorState: {
+        readOnly: true,
+        serializedName: "mirrorState",
+        type: {
+          name: "String"
+        }
+      },
+      unhealthyReason: {
+        readOnly: true,
+        serializedName: "unhealthyReason",
+        type: {
+          name: "String"
+        }
+      },
+      errorMessage: {
+        readOnly: true,
+        serializedName: "errorMessage",
+        type: {
+          name: "String"
+        }
+      },
+      totalTransferBytes: {
+        readOnly: true,
+        serializedName: "totalTransferBytes",
+        type: {
+          name: "Number"
         }
       }
     }

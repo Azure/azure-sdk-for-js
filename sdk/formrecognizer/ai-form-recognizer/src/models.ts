@@ -3,27 +3,21 @@
 
 import * as coreHttp from "@azure/core-http";
 
+export { KnownFormLanguage, KnownFormLocale } from "./generated/models";
+
 import {
   FormFieldsReport,
   KeysResult,
   KeyValueElement as KeyValueElementModel,
   KeyValueType,
-  KnownKeyValueType,
   KeyValuePair as KeyValuePairModel,
-  SelectionMarkState,
-  KnownSelectionMarkState,
-  Language,
-  KnownLanguage,
   LengthUnit,
   ModelsSummary,
   ModelStatus as CustomFormModelStatus,
   TrainStatus as TrainingStatus,
   OperationStatus,
   ModelStatus,
-  TextAppearance,
-  TextStyle,
-  StyleName,
-  KnownStyleName
+  FormReadingOrder
 } from "./generated/models";
 
 export {
@@ -31,22 +25,14 @@ export {
   KeysResult,
   KeyValueElementModel,
   KeyValueType,
-  KnownKeyValueType,
   KeyValuePairModel,
-  SelectionMarkState,
-  KnownSelectionMarkState,
-  Language,
-  KnownLanguage,
   LengthUnit,
   ModelsSummary,
   ModelStatus,
   CustomFormModelStatus,
   OperationStatus,
   TrainingStatus,
-  TextAppearance,
-  TextStyle,
-  StyleName,
-  KnownStyleName
+  FormReadingOrder
 };
 
 /**
@@ -108,11 +94,6 @@ export interface FormLine extends FormElementCommon {
    */
   kind: "line";
   /**
-   * The detected language of this line, if different from the overall page language. Possible
-   * values include: 'en', 'es'
-   */
-  // language?: Language;
-  /**
    * The text content of the line.
    */
   text: string;
@@ -127,6 +108,22 @@ export interface FormLine extends FormElementCommon {
 }
 
 /**
+ * Represents the appearance of a line of text in a form.
+ */
+export interface TextAppearance {
+  /**
+   * The identified style of writing, can be one of:
+   * - "handwriting"
+   * - "other"
+   */
+  styleName: "handwriting" | "other";
+  /**
+   * Confidence value.
+   */
+  styleConfidence: number;
+}
+
+/**
  * Represents a recognized selection mark.
  *
  * Selection marks include checkboxes, radio buttons, etc.
@@ -137,9 +134,11 @@ export interface FormSelectionMark extends FormElementCommon {
    */
   kind: "selectionMark";
   /**
-   * The state of the mark, either "selected" or "unselected".
+   * The state of the mark, either of:
+   * - "selected"
+   * - "unselected"
    */
-  state: SelectionMarkState;
+  state: "selected" | "unselected";
   /**
    * Confidence value.
    */
@@ -257,12 +256,34 @@ export interface FieldData {
 }
 
 /**
- * Represents recognized text elements in label-value pairs.
- * For example, "Address": "One Microsoft Way, Redmond, WA"
+ * A field recognized within a form, represented as a tagged union of several
+ * different types of form fields, all sharing some common elements.
+ *
+ * The `valueType` property of this object can be used to determine which
+ * variation of FormField was recognized. For example, if the `valueType`
+ * property is "number", then the FormField is a FormNumberField, and the
+ * `value` property will be a `number`.
  */
-export type FormField = {
+export type FormField =
+  | FormUnknownField
+  | FormStringField
+  | FormNumberField
+  | FormDateField
+  | FormTimeField
+  | FormPhoneNumberField
+  | FormIntegerField
+  | FormSelectionMarkField
+  | FormArrayField
+  | FormObjectField
+  | FormCountryRegionField;
+
+/**
+ * Fields common to all variations of FormField.
+ */
+export interface FormFieldCommon {
   /**
-   * Confidence value.
+   * The sevice's confidence (expressed as a number between zero and one) in
+   * the correctness of the field value.
    */
   confidence?: number;
   /**
@@ -270,57 +291,191 @@ export type FormField = {
    */
   labelData?: FieldData;
   /**
-   * A user defined label for the field.
+   * A user-defined label for the field.
    */
   name?: string;
   /**
    * Contains the recognized field value's text, bounding box, and field elements.
    */
   valueData?: FieldData;
-} & (
-  | {
-      /**
-       * value of the recognized field.
-       */
-      value?: string;
-      /**
-       * Type of the 'value' field
-       */
-      valueType?: "string";
-    }
-  | {
-      value?: number;
-      valueType?: "number";
-    }
-  | {
-      value?: Date;
-      valueType?: "date";
-    }
-  | {
-      value?: string;
-      valueType?: "time";
-    }
-  | {
-      value?: string;
-      valueType?: "phoneNumber";
-    }
-  | {
-      value?: number;
-      valueType?: "integer";
-    }
-  | {
-      value?: FormField[];
-      valueType?: "array";
-    }
-  | {
-      value?: Record<string, FormField>;
-      valueType?: "object";
-    }
-  | {
-      value?: SelectionMarkState;
-      valueType?: "selectionMark";
-    }
-);
+}
+
+/**
+ * A catch-all form field variation with an unknown value type.
+ *
+ * This interface is provided for type safety and should only be encountered
+ * when the `valueType` of a FormField is undefined, and there is no ordinary
+ * reason that should be the case.
+ */
+export interface FormUnknownField extends FormFieldCommon {
+  /**
+   * The type of this form value value - undefined.
+   *
+   * There is no reason this should ordinarily occur, but is provided as a way
+   * to hint to the type system that if `valueType` is not known, then the type
+   * of value is `unknown`.
+   */
+  valueType?: undefined;
+  /**
+   * If `valueType` is undefined, then the type of the value is unknown.
+   */
+  value?: unknown;
+}
+
+/**
+ * A form field with a string value.
+ */
+export interface FormStringField extends FormFieldCommon {
+  /**
+   * The type of this field's value - "string"
+   */
+  valueType: "string";
+  /**
+   * The value of the recognized string.
+   */
+  value?: string;
+}
+
+/**
+ * A form field with a numeric value.
+ */
+export interface FormNumberField extends FormFieldCommon {
+  /**
+   * The type of this field's value - "number"
+   */
+  valueType: "number";
+  /**
+   * The value of the recognized number.
+   */
+  value?: number;
+}
+
+/**
+ * A form field with a value representing a date.
+ */
+export interface FormDateField extends FormFieldCommon {
+  /**
+   * The type of this field's value - "date"
+   */
+  valueType: "date";
+  /**
+   * The value of the date field, represented as a JavaScript date object.
+   */
+  value?: Date;
+}
+
+/**
+ * A form field with a value representing a time.
+ */
+export interface FormTimeField extends FormFieldCommon {
+  /**
+   * The type of this field's value - "time"
+   */
+  valueType: "time";
+  /**
+   * The value of the time field, represented as a string.
+   */
+  value?: string;
+}
+
+/**
+ * A form field with a value representing a phone number.
+ */
+export interface FormPhoneNumberField extends FormFieldCommon {
+  /**
+   * The type of this field's value - "phoneNumber"
+   */
+  valueType: "phoneNumber";
+  /**
+   * The value of the recognized phone number, represented as a string.
+   *
+   * This value is normalized to a uniform string representation, e.g.
+   * "+447911123456". If the service is unable to normalize the value,
+   * information about the phone number's textual appearance may appear in the
+   * `text` property of the value data (see the `valueData` field of this
+   * object).
+   */
+  value?: string;
+}
+
+/**
+ * A form field with an integer value.
+ */
+export interface FormIntegerField extends FormFieldCommon {
+  /**
+   * The type of this field's value - "integer"
+   */
+  valueType: "integer";
+  /**
+   * The value of the recognized integer.
+   */
+  value?: number;
+}
+
+/**
+ * A form field with an array of FormFields as a value.
+ */
+export interface FormArrayField extends FormFieldCommon {
+  /**
+   * The type of this field's value - "array"
+   */
+  valueType: "array";
+  /**
+   * The recognized array of nested fields. Each value in this array is its
+   * own `FormField`.
+   */
+  value?: FormField[];
+}
+
+/**
+ * A form field with a key-value map (an "object") as a value.
+ */
+export interface FormObjectField extends FormFieldCommon {
+  /**
+   * The type of this field's value - "object"
+   */
+  valueType: "object";
+  /**
+   * The recognized object structure of the field, represented as a JavaScript
+   * object with the nested fields' names as properties that store their
+   * values.
+   */
+  value?: Record<string, FormField>;
+}
+
+/**
+ * A form field with a value representing the state of a selection mark.
+ */
+export interface FormSelectionMarkField extends FormFieldCommon {
+  /**
+   * The type of this field's value - "selectionMark"
+   */
+  valueType: "selectionMark";
+  /**
+   * The state of the recognized selection mark, represented as a string, with
+   * one of the following values:
+   *
+   * - "selected"
+   * - "unselected"
+   */
+  value?: "selected" | "unselected";
+}
+
+/**
+ * A form field with a value representing an administrative region or country
+ * in the world.
+ */
+export interface FormCountryRegionField extends FormFieldCommon {
+  /**
+   * The type of this field's value - "countryRegion"
+   */
+  valueType: "countryRegion";
+  /**
+   * The recognized country or region, represented by a three-letter (ISO
+   * 3166-1 alpha-3) code.
+   */
+  value?: string;
+}
 
 /**
  * Represents a Form page range
@@ -362,10 +517,6 @@ export interface FormPage {
    * "pixel". For PDF, the unit is "inch". Possible values include: 'pixel', 'inch'
    */
   unit: LengthUnit;
-  /**
-   * The detected language on the page overall. Possible values include: 'en', 'es'
-   */
-  // language?: Language;
   /**
    * When `includeFieldElements` is set to true, a list of recognized text lines. The maximum number of
    * lines returned is 300 per page. The lines are sorted top to bottom, left to right, although in
@@ -521,6 +672,9 @@ export interface CustomFormModelInfo {
   trainingCompletedOn: Date;
 }
 
+/**
+ * Information about an identified field within a model.
+ */
 export interface CustomFormModelField {
   /**
    * Estimated extraction accuracy for this field.
@@ -537,7 +691,7 @@ export interface CustomFormModelField {
 }
 
 /**
- * Represents the model for a type of custom form from the training.
+ * Represents the model for a specific type of custom form from training.
  */
 export interface CustomFormSubmodel {
   /**
@@ -545,7 +699,7 @@ export interface CustomFormSubmodel {
    */
   modelId?: string;
   /**
-   * Estimated extraction accuracy for this field.
+   * Estimated extraction accuracy for this model.
    */
   accuracy?: number;
   /**
@@ -553,7 +707,7 @@ export interface CustomFormSubmodel {
    */
   fields: Record<string, CustomFormModelField>;
   /**
-   * Form type
+   * The form type associated with this submodel.
    */
   formType: string;
 }

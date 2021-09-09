@@ -405,6 +405,117 @@ export const ApiProperties: msRest.CompositeMapper = {
   }
 };
 
+export const AnalyticalStorageConfiguration: msRest.CompositeMapper = {
+  serializedName: "AnalyticalStorageConfiguration",
+  type: {
+    name: "Composite",
+    className: "AnalyticalStorageConfiguration",
+    modelProperties: {
+      schemaType: {
+        serializedName: "schemaType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DatabaseRestoreResource: msRest.CompositeMapper = {
+  serializedName: "DatabaseRestoreResource",
+  type: {
+    name: "Composite",
+    className: "DatabaseRestoreResource",
+    modelProperties: {
+      databaseName: {
+        serializedName: "databaseName",
+        type: {
+          name: "String"
+        }
+      },
+      collectionNames: {
+        serializedName: "collectionNames",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const RestoreParameters: msRest.CompositeMapper = {
+  serializedName: "RestoreParameters",
+  type: {
+    name: "Composite",
+    className: "RestoreParameters",
+    modelProperties: {
+      restoreMode: {
+        serializedName: "restoreMode",
+        type: {
+          name: "String"
+        }
+      },
+      restoreSource: {
+        serializedName: "restoreSource",
+        type: {
+          name: "String"
+        }
+      },
+      restoreTimestampInUtc: {
+        serializedName: "restoreTimestampInUtc",
+        type: {
+          name: "DateTime"
+        }
+      },
+      databasesToRestore: {
+        serializedName: "databasesToRestore",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DatabaseRestoreResource"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const BackupPolicyMigrationState: msRest.CompositeMapper = {
+  serializedName: "BackupPolicyMigrationState",
+  type: {
+    name: "Composite",
+    className: "BackupPolicyMigrationState",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      targetType: {
+        serializedName: "targetType",
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
 export const BackupPolicy: msRest.CompositeMapper = {
   serializedName: "BackupPolicy",
   type: {
@@ -416,6 +527,13 @@ export const BackupPolicy: msRest.CompositeMapper = {
     uberParent: "BackupPolicy",
     className: "BackupPolicy",
     modelProperties: {
+      migrationState: {
+        serializedName: "migrationState",
+        type: {
+          name: "Composite",
+          className: "BackupPolicyMigrationState"
+        }
+      },
       type: {
         required: true,
         serializedName: "type",
@@ -466,6 +584,52 @@ export const CorsPolicy: msRest.CompositeMapper = {
         },
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const SystemData: msRest.CompositeMapper = {
+  serializedName: "systemData",
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String"
+        }
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        type: {
+          name: "String"
+        }
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime"
         }
       }
     }
@@ -714,6 +878,12 @@ export const DatabaseAccountGetResults: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      defaultIdentity: {
+        serializedName: "properties.defaultIdentity",
+        type: {
+          name: "String"
+        }
+      },
       publicNetworkAccess: {
         serializedName: "properties.publicNetworkAccess",
         type: {
@@ -737,6 +907,34 @@ export const DatabaseAccountGetResults: msRest.CompositeMapper = {
         serializedName: "properties.enableAnalyticalStorage",
         type: {
           name: "Boolean"
+        }
+      },
+      analyticalStorageConfiguration: {
+        serializedName: "properties.analyticalStorageConfiguration",
+        type: {
+          name: "Composite",
+          className: "AnalyticalStorageConfiguration"
+        }
+      },
+      instanceId: {
+        readOnly: true,
+        serializedName: "properties.instanceId",
+        type: {
+          name: "String"
+        }
+      },
+      createMode: {
+        serializedName: "properties.createMode",
+        defaultValue: 'Default',
+        type: {
+          name: "String"
+        }
+      },
+      restoreParameters: {
+        serializedName: "properties.restoreParameters",
+        type: {
+          name: "Composite",
+          className: "RestoreParameters"
         }
       },
       backupPolicy: {
@@ -777,6 +975,20 @@ export const DatabaseAccountGetResults: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      },
+      disableLocalAuth: {
+        serializedName: "properties.disableLocalAuth",
+        type: {
+          name: "Boolean"
+        }
+      },
+      systemData: {
+        readOnly: true,
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
         }
       }
     }
@@ -2315,23 +2527,6 @@ export const ErrorResponse: msRest.CompositeMapper = {
   }
 };
 
-export const ErrorResponseUpdatedFormat: msRest.CompositeMapper = {
-  serializedName: "ErrorResponseUpdatedFormat",
-  type: {
-    name: "Composite",
-    className: "ErrorResponseUpdatedFormat",
-    modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ErrorResponse"
-        }
-      }
-    }
-  }
-};
-
 export const FailoverPolicies: msRest.CompositeMapper = {
   serializedName: "FailoverPolicies",
   type: {
@@ -2708,6 +2903,12 @@ export const DatabaseAccountCreateUpdateParameters: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      defaultIdentity: {
+        serializedName: "properties.defaultIdentity",
+        type: {
+          name: "String"
+        }
+      },
       publicNetworkAccess: {
         serializedName: "properties.publicNetworkAccess",
         type: {
@@ -2731,6 +2932,20 @@ export const DatabaseAccountCreateUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.enableAnalyticalStorage",
         type: {
           name: "Boolean"
+        }
+      },
+      analyticalStorageConfiguration: {
+        serializedName: "properties.analyticalStorageConfiguration",
+        type: {
+          name: "Composite",
+          className: "AnalyticalStorageConfiguration"
+        }
+      },
+      createMode: {
+        serializedName: "properties.createMode",
+        defaultValue: 'Default',
+        type: {
+          name: "String"
         }
       },
       backupPolicy: {
@@ -2771,6 +2986,19 @@ export const DatabaseAccountCreateUpdateParameters: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      },
+      disableLocalAuth: {
+        serializedName: "properties.disableLocalAuth",
+        type: {
+          name: "Boolean"
+        }
+      },
+      restoreParameters: {
+        serializedName: "properties.restoreParameters",
+        type: {
+          name: "Composite",
+          className: "RestoreParameters"
         }
       }
     }
@@ -2904,6 +3132,12 @@ export const DatabaseAccountUpdateParameters: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      defaultIdentity: {
+        serializedName: "properties.defaultIdentity",
+        type: {
+          name: "String"
+        }
+      },
       publicNetworkAccess: {
         serializedName: "properties.publicNetworkAccess",
         type: {
@@ -2927,6 +3161,13 @@ export const DatabaseAccountUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.enableAnalyticalStorage",
         type: {
           name: "Boolean"
+        }
+      },
+      analyticalStorageConfiguration: {
+        serializedName: "properties.analyticalStorageConfiguration",
+        type: {
+          name: "Composite",
+          className: "AnalyticalStorageConfiguration"
         }
       },
       backupPolicy: {
@@ -2967,6 +3208,12 @@ export const DatabaseAccountUpdateParameters: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      },
+      disableLocalAuth: {
+        serializedName: "properties.disableLocalAuth",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -4537,6 +4784,846 @@ export const PrivateLinkResource: msRest.CompositeMapper = {
   }
 };
 
+export const Permission: msRest.CompositeMapper = {
+  serializedName: "Permission",
+  type: {
+    name: "Composite",
+    className: "Permission",
+    modelProperties: {
+      dataActions: {
+        serializedName: "dataActions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      notDataActions: {
+        serializedName: "notDataActions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SqlRoleDefinitionCreateUpdateParameters: msRest.CompositeMapper = {
+  serializedName: "SqlRoleDefinitionCreateUpdateParameters",
+  type: {
+    name: "Composite",
+    className: "SqlRoleDefinitionCreateUpdateParameters",
+    modelProperties: {
+      roleName: {
+        serializedName: "properties.roleName",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "properties.type",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "BuiltInRole",
+            "CustomRole"
+          ]
+        }
+      },
+      assignableScopes: {
+        serializedName: "properties.assignableScopes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      permissions: {
+        serializedName: "properties.permissions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Permission"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SqlRoleDefinitionGetResults: msRest.CompositeMapper = {
+  serializedName: "SqlRoleDefinitionGetResults",
+  type: {
+    name: "Composite",
+    className: "SqlRoleDefinitionGetResults",
+    modelProperties: {
+      ...ARMProxyResource.type.modelProperties,
+      roleName: {
+        serializedName: "properties.roleName",
+        type: {
+          name: "String"
+        }
+      },
+      sqlRoleDefinitionGetResultsType: {
+        serializedName: "properties.type",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "BuiltInRole",
+            "CustomRole"
+          ]
+        }
+      },
+      assignableScopes: {
+        serializedName: "properties.assignableScopes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      permissions: {
+        serializedName: "properties.permissions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Permission"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SqlRoleAssignmentCreateUpdateParameters: msRest.CompositeMapper = {
+  serializedName: "SqlRoleAssignmentCreateUpdateParameters",
+  type: {
+    name: "Composite",
+    className: "SqlRoleAssignmentCreateUpdateParameters",
+    modelProperties: {
+      roleDefinitionId: {
+        serializedName: "properties.roleDefinitionId",
+        type: {
+          name: "String"
+        }
+      },
+      scope: {
+        serializedName: "properties.scope",
+        type: {
+          name: "String"
+        }
+      },
+      principalId: {
+        serializedName: "properties.principalId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SqlRoleAssignmentGetResults: msRest.CompositeMapper = {
+  serializedName: "SqlRoleAssignmentGetResults",
+  type: {
+    name: "Composite",
+    className: "SqlRoleAssignmentGetResults",
+    modelProperties: {
+      ...ARMProxyResource.type.modelProperties,
+      roleDefinitionId: {
+        serializedName: "properties.roleDefinitionId",
+        type: {
+          name: "String"
+        }
+      },
+      scope: {
+        serializedName: "properties.scope",
+        type: {
+          name: "String"
+        }
+      },
+      principalId: {
+        serializedName: "properties.principalId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RestorableLocationResource: msRest.CompositeMapper = {
+  serializedName: "RestorableLocationResource",
+  type: {
+    name: "Composite",
+    className: "RestorableLocationResource",
+    modelProperties: {
+      locationName: {
+        readOnly: true,
+        serializedName: "locationName",
+        type: {
+          name: "String"
+        }
+      },
+      regionalDatabaseAccountInstanceId: {
+        readOnly: true,
+        serializedName: "regionalDatabaseAccountInstanceId",
+        type: {
+          name: "String"
+        }
+      },
+      creationTime: {
+        readOnly: true,
+        serializedName: "creationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      deletionTime: {
+        readOnly: true,
+        serializedName: "deletionTime",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const RestorableDatabaseAccountGetResult: msRest.CompositeMapper = {
+  serializedName: "RestorableDatabaseAccountGetResult",
+  type: {
+    name: "Composite",
+    className: "RestorableDatabaseAccountGetResult",
+    modelProperties: {
+      accountName: {
+        serializedName: "properties.accountName",
+        type: {
+          name: "String"
+        }
+      },
+      creationTime: {
+        serializedName: "properties.creationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      deletionTime: {
+        serializedName: "properties.deletionTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      apiType: {
+        readOnly: true,
+        serializedName: "properties.apiType",
+        type: {
+          name: "String"
+        }
+      },
+      restorableLocations: {
+        readOnly: true,
+        serializedName: "properties.restorableLocations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RestorableLocationResource"
+            }
+          }
+        }
+      },
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RestorableSqlDatabasePropertiesResourceDatabase: msRest.CompositeMapper = {
+  serializedName: "RestorableSqlDatabaseProperties_resource_database",
+  type: {
+    name: "Composite",
+    className: "RestorableSqlDatabasePropertiesResourceDatabase",
+    modelProperties: {
+      id: {
+        required: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      _rid: {
+        readOnly: true,
+        serializedName: "_rid",
+        type: {
+          name: "String"
+        }
+      },
+      _ts: {
+        readOnly: true,
+        serializedName: "_ts",
+        type: {
+          name: "Number"
+        }
+      },
+      _etag: {
+        readOnly: true,
+        serializedName: "_etag",
+        type: {
+          name: "String"
+        }
+      },
+      _colls: {
+        readOnly: true,
+        serializedName: "_colls",
+        type: {
+          name: "String"
+        }
+      },
+      _users: {
+        readOnly: true,
+        serializedName: "_users",
+        type: {
+          name: "String"
+        }
+      },
+      _self: {
+        readOnly: true,
+        serializedName: "_self",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RestorableSqlDatabasePropertiesResource: msRest.CompositeMapper = {
+  serializedName: "RestorableSqlDatabaseProperties_resource",
+  type: {
+    name: "Composite",
+    className: "RestorableSqlDatabasePropertiesResource",
+    modelProperties: {
+      _rid: {
+        readOnly: true,
+        serializedName: "_rid",
+        type: {
+          name: "String"
+        }
+      },
+      operationType: {
+        readOnly: true,
+        serializedName: "operationType",
+        type: {
+          name: "String"
+        }
+      },
+      eventTimestamp: {
+        readOnly: true,
+        serializedName: "eventTimestamp",
+        type: {
+          name: "String"
+        }
+      },
+      ownerId: {
+        readOnly: true,
+        serializedName: "ownerId",
+        type: {
+          name: "String"
+        }
+      },
+      ownerResourceId: {
+        readOnly: true,
+        serializedName: "ownerResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      database: {
+        serializedName: "database",
+        type: {
+          name: "Composite",
+          className: "RestorableSqlDatabasePropertiesResourceDatabase"
+        }
+      }
+    }
+  }
+};
+
+export const RestorableSqlDatabaseGetResult: msRest.CompositeMapper = {
+  serializedName: "RestorableSqlDatabaseGetResult",
+  type: {
+    name: "Composite",
+    className: "RestorableSqlDatabaseGetResult",
+    modelProperties: {
+      resource: {
+        serializedName: "properties.resource",
+        type: {
+          name: "Composite",
+          className: "RestorableSqlDatabasePropertiesResource"
+        }
+      },
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RestorableSqlContainerPropertiesResourceContainer: msRest.CompositeMapper = {
+  serializedName: "RestorableSqlContainerProperties_resource_container",
+  type: {
+    name: "Composite",
+    className: "RestorableSqlContainerPropertiesResourceContainer",
+    modelProperties: {
+      id: {
+        required: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      indexingPolicy: {
+        serializedName: "indexingPolicy",
+        type: {
+          name: "Composite",
+          className: "IndexingPolicy"
+        }
+      },
+      partitionKey: {
+        serializedName: "partitionKey",
+        type: {
+          name: "Composite",
+          className: "ContainerPartitionKey"
+        }
+      },
+      defaultTtl: {
+        serializedName: "defaultTtl",
+        type: {
+          name: "Number"
+        }
+      },
+      uniqueKeyPolicy: {
+        serializedName: "uniqueKeyPolicy",
+        type: {
+          name: "Composite",
+          className: "UniqueKeyPolicy"
+        }
+      },
+      conflictResolutionPolicy: {
+        serializedName: "conflictResolutionPolicy",
+        type: {
+          name: "Composite",
+          className: "ConflictResolutionPolicy"
+        }
+      },
+      analyticalStorageTtl: {
+        serializedName: "analyticalStorageTtl",
+        type: {
+          name: "Number"
+        }
+      },
+      _rid: {
+        readOnly: true,
+        serializedName: "_rid",
+        type: {
+          name: "String"
+        }
+      },
+      _ts: {
+        readOnly: true,
+        serializedName: "_ts",
+        type: {
+          name: "Number"
+        }
+      },
+      _etag: {
+        readOnly: true,
+        serializedName: "_etag",
+        type: {
+          name: "String"
+        }
+      },
+      _self: {
+        readOnly: true,
+        serializedName: "_self",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RestorableSqlContainerPropertiesResource: msRest.CompositeMapper = {
+  serializedName: "RestorableSqlContainerProperties_resource",
+  type: {
+    name: "Composite",
+    className: "RestorableSqlContainerPropertiesResource",
+    modelProperties: {
+      _rid: {
+        readOnly: true,
+        serializedName: "_rid",
+        type: {
+          name: "String"
+        }
+      },
+      operationType: {
+        readOnly: true,
+        serializedName: "operationType",
+        type: {
+          name: "String"
+        }
+      },
+      eventTimestamp: {
+        readOnly: true,
+        serializedName: "eventTimestamp",
+        type: {
+          name: "String"
+        }
+      },
+      ownerId: {
+        readOnly: true,
+        serializedName: "ownerId",
+        type: {
+          name: "String"
+        }
+      },
+      ownerResourceId: {
+        readOnly: true,
+        serializedName: "ownerResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      container: {
+        serializedName: "container",
+        type: {
+          name: "Composite",
+          className: "RestorableSqlContainerPropertiesResourceContainer"
+        }
+      }
+    }
+  }
+};
+
+export const RestorableSqlContainerGetResult: msRest.CompositeMapper = {
+  serializedName: "RestorableSqlContainerGetResult",
+  type: {
+    name: "Composite",
+    className: "RestorableSqlContainerGetResult",
+    modelProperties: {
+      resource: {
+        serializedName: "properties.resource",
+        type: {
+          name: "Composite",
+          className: "RestorableSqlContainerPropertiesResource"
+        }
+      },
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RestorableMongodbDatabasePropertiesResource: msRest.CompositeMapper = {
+  serializedName: "RestorableMongodbDatabaseProperties_resource",
+  type: {
+    name: "Composite",
+    className: "RestorableMongodbDatabasePropertiesResource",
+    modelProperties: {
+      _rid: {
+        readOnly: true,
+        serializedName: "_rid",
+        type: {
+          name: "String"
+        }
+      },
+      operationType: {
+        readOnly: true,
+        serializedName: "operationType",
+        type: {
+          name: "String"
+        }
+      },
+      eventTimestamp: {
+        readOnly: true,
+        serializedName: "eventTimestamp",
+        type: {
+          name: "String"
+        }
+      },
+      ownerId: {
+        readOnly: true,
+        serializedName: "ownerId",
+        type: {
+          name: "String"
+        }
+      },
+      ownerResourceId: {
+        readOnly: true,
+        serializedName: "ownerResourceId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RestorableMongodbDatabaseGetResult: msRest.CompositeMapper = {
+  serializedName: "RestorableMongodbDatabaseGetResult",
+  type: {
+    name: "Composite",
+    className: "RestorableMongodbDatabaseGetResult",
+    modelProperties: {
+      resource: {
+        serializedName: "properties.resource",
+        type: {
+          name: "Composite",
+          className: "RestorableMongodbDatabasePropertiesResource"
+        }
+      },
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RestorableMongodbCollectionPropertiesResource: msRest.CompositeMapper = {
+  serializedName: "RestorableMongodbCollectionProperties_resource",
+  type: {
+    name: "Composite",
+    className: "RestorableMongodbCollectionPropertiesResource",
+    modelProperties: {
+      _rid: {
+        readOnly: true,
+        serializedName: "_rid",
+        type: {
+          name: "String"
+        }
+      },
+      operationType: {
+        readOnly: true,
+        serializedName: "operationType",
+        type: {
+          name: "String"
+        }
+      },
+      eventTimestamp: {
+        readOnly: true,
+        serializedName: "eventTimestamp",
+        type: {
+          name: "String"
+        }
+      },
+      ownerId: {
+        readOnly: true,
+        serializedName: "ownerId",
+        type: {
+          name: "String"
+        }
+      },
+      ownerResourceId: {
+        readOnly: true,
+        serializedName: "ownerResourceId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RestorableMongodbCollectionGetResult: msRest.CompositeMapper = {
+  serializedName: "RestorableMongodbCollectionGetResult",
+  type: {
+    name: "Composite",
+    className: "RestorableMongodbCollectionGetResult",
+    modelProperties: {
+      resource: {
+        serializedName: "properties.resource",
+        type: {
+          name: "Composite",
+          className: "RestorableMongodbCollectionPropertiesResource"
+        }
+      },
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContinuousBackupRestoreLocation: msRest.CompositeMapper = {
+  serializedName: "ContinuousBackupRestoreLocation",
+  type: {
+    name: "Composite",
+    className: "ContinuousBackupRestoreLocation",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContinuousBackupInformation: msRest.CompositeMapper = {
+  serializedName: "ContinuousBackupInformation",
+  type: {
+    name: "Composite",
+    className: "ContinuousBackupInformation",
+    modelProperties: {
+      latestRestorableTimestamp: {
+        serializedName: "latestRestorableTimestamp",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BackupInformation: msRest.CompositeMapper = {
+  serializedName: "BackupInformation",
+  type: {
+    name: "Composite",
+    className: "BackupInformation",
+    modelProperties: {
+      continuousBackupInformation: {
+        serializedName: "continuousBackupInformation",
+        type: {
+          name: "Composite",
+          className: "ContinuousBackupInformation"
+        }
+      }
+    }
+  }
+};
+
 export const DatabaseAccountsListResult: msRest.CompositeMapper = {
   serializedName: "DatabaseAccountsListResult",
   type: {
@@ -4841,6 +5928,52 @@ export const SqlTriggerListResult: msRest.CompositeMapper = {
   }
 };
 
+export const SqlRoleDefinitionListResult: msRest.CompositeMapper = {
+  serializedName: "SqlRoleDefinitionListResult",
+  type: {
+    name: "Composite",
+    className: "SqlRoleDefinitionListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SqlRoleDefinitionGetResults"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SqlRoleAssignmentListResult: msRest.CompositeMapper = {
+  serializedName: "SqlRoleAssignmentListResult",
+  type: {
+    name: "Composite",
+    className: "SqlRoleAssignmentListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SqlRoleAssignmentGetResults"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const MongoDBDatabaseListResult: msRest.CompositeMapper = {
   serializedName: "MongoDBDatabaseListResult",
   type: {
@@ -5024,6 +6157,28 @@ export const NotebookWorkspaceListResult: msRest.CompositeMapper = {
   }
 };
 
+export const PrivateEndpointConnectionListResult: msRest.CompositeMapper = {
+  serializedName: "PrivateEndpointConnectionListResult",
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointConnectionListResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateEndpointConnection"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const PrivateLinkResourceListResult: msRest.CompositeMapper = {
   serializedName: "PrivateLinkResourceListResult",
   type: {
@@ -5046,20 +6201,159 @@ export const PrivateLinkResourceListResult: msRest.CompositeMapper = {
   }
 };
 
-export const PrivateEndpointConnectionListResult: msRest.CompositeMapper = {
-  serializedName: "PrivateEndpointConnectionListResult",
+export const RestorableDatabaseAccountsListResult: msRest.CompositeMapper = {
+  serializedName: "RestorableDatabaseAccountsListResult",
   type: {
     name: "Composite",
-    className: "PrivateEndpointConnectionListResult",
+    className: "RestorableDatabaseAccountsListResult",
     modelProperties: {
       value: {
+        readOnly: true,
         serializedName: "",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "PrivateEndpointConnection"
+              className: "RestorableDatabaseAccountGetResult"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const RestorableSqlDatabasesListResult: msRest.CompositeMapper = {
+  serializedName: "RestorableSqlDatabasesListResult",
+  type: {
+    name: "Composite",
+    className: "RestorableSqlDatabasesListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RestorableSqlDatabaseGetResult"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const RestorableSqlContainersListResult: msRest.CompositeMapper = {
+  serializedName: "RestorableSqlContainersListResult",
+  type: {
+    name: "Composite",
+    className: "RestorableSqlContainersListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RestorableSqlContainerGetResult"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const RestorableSqlResourcesListResult: msRest.CompositeMapper = {
+  serializedName: "RestorableSqlResourcesListResult",
+  type: {
+    name: "Composite",
+    className: "RestorableSqlResourcesListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DatabaseRestoreResource"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const RestorableMongodbDatabasesListResult: msRest.CompositeMapper = {
+  serializedName: "RestorableMongodbDatabasesListResult",
+  type: {
+    name: "Composite",
+    className: "RestorableMongodbDatabasesListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RestorableMongodbDatabaseGetResult"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const RestorableMongodbCollectionsListResult: msRest.CompositeMapper = {
+  serializedName: "RestorableMongodbCollectionsListResult",
+  type: {
+    name: "Composite",
+    className: "RestorableMongodbCollectionsListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RestorableMongodbCollectionGetResult"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const RestorableMongodbResourcesListResult: msRest.CompositeMapper = {
+  serializedName: "RestorableMongodbResourcesListResult",
+  type: {
+    name: "Composite",
+    className: "RestorableMongodbResourcesListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DatabaseRestoreResource"
             }
           }
         }

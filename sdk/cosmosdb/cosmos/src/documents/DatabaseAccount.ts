@@ -16,7 +16,7 @@ export class DatabaseAccount {
    * The self-link for Databases in the databaseAccount.
    * @deprecated Use `databasesLink`
    */
-  public get DatabasesLink() {
+  public get DatabasesLink(): string {
     return this.databasesLink;
   }
   /** The self-link for Databases in the databaseAccount. */
@@ -25,7 +25,7 @@ export class DatabaseAccount {
    * The self-link for Media in the databaseAccount.
    * @deprecated Use `mediaLink`
    */
-  public get MediaLink() {
+  public get MediaLink(): string {
     return this.mediaLink;
   }
   /** The self-link for Media in the databaseAccount. */
@@ -34,7 +34,7 @@ export class DatabaseAccount {
    * Attachment content (media) storage quota in MBs ( Retrieved from gateway ).
    * @deprecated use `maxMediaStorageUsageInMB`
    */
-  public get MaxMediaStorageUsageInMB() {
+  public get MaxMediaStorageUsageInMB(): number {
     return this.maxMediaStorageUsageInMB;
   }
   /** Attachment content (media) storage quota in MBs ( Retrieved from gateway ). */
@@ -47,7 +47,7 @@ export class DatabaseAccount {
    *
    * @deprecated use `currentMediaStorageUsageInMB`
    */
-  public get CurrentMediaStorageUsageInMB() {
+  public get CurrentMediaStorageUsageInMB(): number {
     return this.currentMediaStorageUsageInMB;
   }
   /**
@@ -61,7 +61,7 @@ export class DatabaseAccount {
    * Gets the UserConsistencyPolicy settings.
    * @deprecated use `consistencyPolicy`
    */
-  public get ConsistencyPolicy() {
+  public get ConsistencyPolicy(): ConsistencyLevel {
     return this.consistencyPolicy;
   }
   /** Gets the UserConsistencyPolicy settings. */

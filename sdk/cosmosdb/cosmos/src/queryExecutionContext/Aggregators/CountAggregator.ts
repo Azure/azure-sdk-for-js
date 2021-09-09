@@ -15,14 +15,14 @@ export class CountAggregator implements Aggregator {
   /**
    * Add the provided item to aggregation result.
    */
-  public aggregate(other: number) {
+  public aggregate(other: number): void {
     this.value += other;
   }
 
   /**
    * Get the aggregation result.
    */
-  public getResult() {
+  public getResult(): number {
     return this.value;
   }
 }

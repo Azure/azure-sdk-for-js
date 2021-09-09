@@ -1,20 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="../../src/jsrsasign.d.ts"/>
+import * as jsrsasign from "jsrsasign";
+
 import { assert, use as chaiUse } from "chai";
+import { Context } from "mocha";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 
-import { createRecordedClient, createRecorder } from "../utils/recordedClient";
-import { Buffer } from "../utils/Buffer";
-
+import { createRecordedClient, createRecorder, getAttestationUri } from "../utils/recordedClient";
+import { AttestationClient } from "../../src";
 describe("TokenCertTests", function() {
   let recorder: Recorder;
 
-  beforeEach(function() {
-    // eslint-disable-next-line no-invalid-this
+  beforeEach(function(this: Context) {
     recorder = createRecorder(this);
   });
 
@@ -22,44 +25,58 @@ describe("TokenCertTests", function() {
     await recorder.stop();
   });
 
-  it("#GetCertificatesAAD", async () => {
+  it("#GetCertificateAAD", async () => {
     const client = createRecordedClient("AAD");
-    const signingCertificates = await client.signingCertificates.get();
-    const certs = signingCertificates.keys!;
-    assert(certs.length > 0);
-    for (const key of certs) {
-      assert.isDefined(key.x5C);
-      for (const cert of key.x5C!) {
-        const berCert = Buffer.from(cert, "base64");
-        assert(berCert);
-      }
-    }
+    await getCertificatesTest(client);
   });
+
   it("#GetCertificatesIsolated", async () => {
     const client = createRecordedClient("Isolated");
-    const signingCertificates = await client.signingCertificates.get();
-    const certs = signingCertificates.keys!;
-    assert(certs.length > 0);
-    for (const key of certs) {
-      assert.isDefined(key.x5C);
-      for (const cert of key.x5C!) {
-        const berCert = Buffer.from(cert, "base64");
-        assert(berCert);
-      }
-    }
+    await getCertificatesTest(client);
   });
 
   it("#GetCertificatesShared", async () => {
     const client = createRecordedClient("Shared");
-    const signingCertificates = await client.signingCertificates.get();
-    const certs = signingCertificates.keys!;
-    assert(certs.length > 0);
-    for (const key of certs) {
-      assert.isDefined(key.x5C);
-      for (const cert of key.x5C!) {
-        const berCert = Buffer.from(cert, "base64");
-        assert(berCert);
-      }
-    }
+    await getCertificatesTest(client);
   });
+
+  async function getCertificatesTest(client: AttestationClient): Promise<void> {
+    const signingCertificates = await client.getAttestationSigners();
+    for (const key of signingCertificates) {
+      assert.isDefined(key.keyId);
+      assert.isDefined(key.certificates);
+
+      key.certificates.forEach((certBuffer) => {
+        assert.isDefined(certBuffer);
+
+        const cert = new jsrsasign.X509();
+        cert.readCertPEM(certBuffer);
+      });
+    }
+  }
+
+  it("#GetMetadataConfigAAD", async () => {
+    const client = createRecordedClient("AAD");
+    await getMetadataConfigTest(client, getAttestationUri("AAD"));
+  });
+
+  it("#GetMetadataConfigIsolated", async () => {
+    const client = createRecordedClient("Isolated");
+    await getMetadataConfigTest(client, getAttestationUri("Isolated"));
+  });
+
+  it("#GetMetadataConfigShared", async () => {
+    const client = createRecordedClient("Shared");
+    await getMetadataConfigTest(client, getAttestationUri("Shared"));
+  });
+
+  async function getMetadataConfigTest(
+    client: AttestationClient,
+    instanceUrl: string
+  ): Promise<void> {
+    const openIdMetadata = await client.getOpenIdMetadata();
+    assert.isDefined(openIdMetadata["response_types_supported"]);
+    assert.equal(openIdMetadata["jwks_uri"], instanceUrl + "/certs");
+    assert.equal(openIdMetadata["issuer"], instanceUrl);
+  }
 });

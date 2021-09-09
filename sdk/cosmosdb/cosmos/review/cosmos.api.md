@@ -4,7 +4,9 @@
 
 ```ts
 
-import { TokenCredential } from '@azure/identity';
+import { AbortSignal } from 'node-abort-controller';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
 export interface Agent {
@@ -30,6 +32,19 @@ export const BulkOperationType: {
     readonly Read: "Read";
     readonly Delete: "Delete";
     readonly Replace: "Replace";
+    readonly Patch: "Patch";
+};
+
+// @public
+export interface BulkOptions {
+    // (undocumented)
+    continueOnError?: boolean;
+}
+
+// @public (undocumented)
+export type BulkPatchOperation = OperationBase & {
+    operationType: typeof BulkOperationType.Patch;
+    id: string;
 };
 
 // @public
@@ -65,11 +80,20 @@ export class ChangeFeedResponse<T> {
 export class ClientContext {
     constructor(cosmosClientOptions: CosmosClientOptions, globalEndpointManager: GlobalEndpointManager);
     // (undocumented)
-    bulk<T>({ body, path, resourceId, partitionKeyRangeId, options }: {
+    batch<T>({ body, path, partitionKey, resourceId, options }: {
+        body: T;
+        path: string;
+        partitionKey: string;
+        resourceId: string;
+        options?: RequestOptions;
+    }): Promise<Response<any>>;
+    // (undocumented)
+    bulk<T>({ body, path, partitionKeyRangeId, resourceId, bulkOptions, options }: {
         body: T;
         path: string;
         partitionKeyRangeId: string;
         resourceId: string;
+        bulkOptions?: BulkOptions;
         options?: RequestOptions;
     }): Promise<Response<any>>;
     // (undocumented)
@@ -104,11 +128,24 @@ export class ClientContext {
     // (undocumented)
     getReadEndpoint(): Promise<string>;
     // (undocumented)
+    getReadEndpoints(): Promise<readonly string[]>;
+    // (undocumented)
     getWriteEndpoint(): Promise<string>;
+    // (undocumented)
+    getWriteEndpoints(): Promise<readonly string[]>;
     // (undocumented)
     partitionKeyDefinitionCache: {
         [containerUrl: string]: any;
     };
+    // (undocumented)
+    patch<T>({ body, path, resourceType, resourceId, options, partitionKey }: {
+        body: any;
+        path: string;
+        resourceType: ResourceType;
+        resourceId: string;
+        options?: RequestOptions;
+        partitionKey?: PartitionKey;
+    }): Promise<Response<T & Resource>>;
     // (undocumented)
     queryFeed<T>({ path, resourceType, resourceId, resultFn, query, options, partitionKeyRangeId, partitionKey }: {
         path: string;
@@ -166,7 +203,7 @@ export class ClientSideMetrics {
 
 // @public
 export class Conflict {
-    constructor(container: Container, id: string, clientContext: ClientContext);
+    constructor(container: Container, id: string, clientContext: ClientContext, partitionKey?: PartitionKey);
     // (undocumented)
     readonly container: Container;
     delete(options?: RequestOptions): Promise<ConflictResponse>;
@@ -227,7 +264,9 @@ export enum ConnectionMode {
 // @public
 export interface ConnectionPolicy {
     connectionMode?: ConnectionMode;
+    enableBackgroundEndpointRefreshing?: boolean;
     enableEndpointDiscovery?: boolean;
+    endpointRefreshRateInMs?: number;
     preferredLocations?: string[];
     requestTimeout?: number;
     retryOptions?: RetryOptions;
@@ -352,6 +391,7 @@ export const Constants: {
         ALLOW_MULTIPLE_WRITES: string;
         IsBatchRequest: string;
         IsBatchAtomic: string;
+        BatchContinueOnError: string;
         ForceRefresh: string;
     };
     WritableLocations: string;
@@ -367,6 +407,7 @@ export const Constants: {
         CollectionSize: string;
     };
     Path: {
+        Root: string;
         DatabasesPathSegment: string;
         CollectionsPathSegment: string;
         UsersPathSegment: string;
@@ -383,11 +424,7 @@ export const Constants: {
         TopologyPathSegment: string;
         DatabaseAccountPathSegment: string;
     };
-    PartitionKeyRange: {
-        MinInclusive: string;
-        MaxExclusive: string;
-        Id: string;
-    };
+    PartitionKeyRange: PartitionKeyRangePropertiesNames;
     QueryRangeConstants: {
         MinInclusive: string;
         MaxExclusive: string;
@@ -397,12 +434,16 @@ export const Constants: {
         MinimumInclusiveEffectivePartitionKey: string;
         MaximumExclusiveEffectivePartitionKey: string;
     };
+    EffectivePartitionKeyConstants: {
+        MinimumInclusiveEffectivePartitionKey: string;
+        MaximumExclusiveEffectivePartitionKey: string;
+    };
 };
 
 // @public
 export class Container {
     constructor(database: Database, id: string, clientContext: ClientContext);
-    conflict(id: string): Conflict;
+    conflict(id: string, partitionKey?: PartitionKey): Conflict;
     get conflicts(): Conflicts;
     // (undocumented)
     readonly database: Database;
@@ -413,7 +454,7 @@ export class Container {
     getQueryPlan(query: string | SqlQuerySpec): Promise<Response<PartitionedQueryExecutionInfo>>;
     // (undocumented)
     readonly id: string;
-    item(id: string, partitionKeyValue?: any): Item;
+    item(id: string, partitionKeyValue?: PartitionKey): Item;
     get items(): Items;
     read(options?: RequestOptions): Promise<ContainerResponse>;
     readOffer(options?: RequestOptions): Promise<OfferResponse>;
@@ -480,9 +521,12 @@ export class CosmosClient {
     constructor(options: CosmosClientOptions);
     database(id: string): Database;
     readonly databases: Databases;
+    dispose(): void;
     getDatabaseAccount(options?: RequestOptions): Promise<ResourceResponse<DatabaseAccount>>;
     getReadEndpoint(): Promise<string>;
+    getReadEndpoints(): Promise<readonly string[]>;
     getWriteEndpoint(): Promise<string>;
+    getWriteEndpoints(): Promise<readonly string[]>;
     offer(id: string): Offer;
     readonly offers: Offers;
 }
@@ -527,7 +571,7 @@ export interface CreateOperationInput {
     // (undocumented)
     operationType: typeof BulkOperationType.Create;
     // (undocumented)
-    partitionKey?: string | number | null | {} | undefined;
+    partitionKey?: string | number | null | Record<string, unknown> | undefined;
     // (undocumented)
     resourceBody: JSONObject;
 }
@@ -637,7 +681,7 @@ export interface DeleteOperationInput {
     // (undocumented)
     operationType: typeof BulkOperationType.Delete;
     // (undocumented)
-    partitionKey?: string | number | null | {} | undefined;
+    partitionKey?: string | number | null | Record<string, unknown> | undefined;
 }
 
 // @public (undocumented)
@@ -671,7 +715,14 @@ export interface ErrorResponse extends Error {
 }
 
 // @public (undocumented)
-export function extractPartitionKey(document: any, partitionKeyDefinition: PartitionKeyDefinition): PartitionKey[];
+export type ExistingKeyOperation = {
+    op: keyof typeof PatchOperationType;
+    value: any;
+    path: string;
+};
+
+// @public (undocumented)
+export function extractPartitionKey(document: unknown, partitionKeyDefinition: PartitionKeyDefinition): PartitionKey[];
 
 // @public
 export interface FeedOptions extends SharedOptions {
@@ -755,6 +806,8 @@ export enum HTTPMethod {
     // (undocumented)
     get = "GET",
     // (undocumented)
+    patch = "PATCH",
+    // (undocumented)
     post = "POST",
     // (undocumented)
     put = "PUT"
@@ -810,6 +863,7 @@ export class Item {
     delete<T extends ItemDefinition = any>(options?: RequestOptions): Promise<ItemResponse<T>>;
     // (undocumented)
     readonly id: string;
+    patch<T extends ItemDefinition = any>(body: PatchRequestBody, options?: RequestOptions): Promise<ItemResponse<T>>;
     read<T extends ItemDefinition = any>(options?: RequestOptions): Promise<ItemResponse<T>>;
     replace(body: ItemDefinition, options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
     replace<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
@@ -833,7 +887,8 @@ export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T &
 // @public
 export class Items {
     constructor(container: Container, clientContext: ClientContext);
-    bulk(operations: OperationInput[], options?: RequestOptions): Promise<OperationResponse[]>;
+    batch(operations: OperationInput[], partitionKey?: string, options?: RequestOptions): Promise<Response<any>>;
+    bulk(operations: OperationInput[], bulkOptions?: BulkOptions, options?: RequestOptions): Promise<OperationResponse[]>;
     changeFeed(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     changeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     changeFeed<T>(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
@@ -853,7 +908,7 @@ export class Items {
     readChangeFeed<T>(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
     // @deprecated
     readChangeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
-    upsert(body: any, options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
+    upsert(body: unknown, options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
     upsert<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
 }
 
@@ -941,7 +996,7 @@ export class Offers {
 }
 
 // @public (undocumented)
-export type Operation = CreateOperation | UpsertOperation | ReadOperation | DeleteOperation | ReplaceOperation;
+export type Operation = CreateOperation | UpsertOperation | ReadOperation | DeleteOperation | ReplaceOperation | BulkPatchOperation;
 
 // @public (undocumented)
 export interface OperationBase {
@@ -954,7 +1009,7 @@ export interface OperationBase {
 }
 
 // @public (undocumented)
-export type OperationInput = CreateOperationInput | UpsertOperationInput | ReadOperationInput | DeleteOperationInput | ReplaceOperationInput;
+export type OperationInput = CreateOperationInput | UpsertOperationInput | ReadOperationInput | DeleteOperationInput | ReplaceOperationInput | PatchOperationInput;
 
 // @public (undocumented)
 export interface OperationResponse {
@@ -978,6 +1033,8 @@ export enum OperationType {
     Delete = "delete",
     // (undocumented)
     Execute = "execute",
+    // (undocumented)
+    Patch = "patch",
     // (undocumented)
     Query = "query",
     // (undocumented)
@@ -1004,7 +1061,7 @@ export interface PartitionedQueryExecutionInfo {
 }
 
 // @public (undocumented)
-export type PartitionKey = PartitionKeyDefinition | string | number | {};
+export type PartitionKey = PartitionKeyDefinition | string | number | unknown;
 
 // @public (undocumented)
 export interface PartitionKeyDefinition {
@@ -1031,6 +1088,50 @@ export interface PartitionKeyRange {
     // (undocumented)
     throughputFraction: number;
 }
+
+// @public (undocumented)
+export interface PartitionKeyRangePropertiesNames {
+    // (undocumented)
+    Id: "id";
+    // (undocumented)
+    MaxExclusive: "maxExclusive";
+    // (undocumented)
+    MinInclusive: "minInclusive";
+}
+
+// @public (undocumented)
+export type PatchOperation = ExistingKeyOperation | RemoveOperation;
+
+// @public (undocumented)
+export interface PatchOperationInput {
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    ifMatch?: string;
+    // (undocumented)
+    ifNoneMatch?: string;
+    // (undocumented)
+    operationType: typeof BulkOperationType.Patch;
+    // (undocumented)
+    partitionKey?: string | number | null | Record<string, unknown> | undefined;
+    // (undocumented)
+    resourceBody: PatchRequestBody;
+}
+
+// @public (undocumented)
+export const PatchOperationType: {
+    readonly add: "add";
+    readonly replace: "replace";
+    readonly remove: "remove";
+    readonly set: "set";
+    readonly incr: "incr";
+};
+
+// @public (undocumented)
+export type PatchRequestBody = {
+    operations: PatchOperation[];
+    condition?: string;
+} | PatchOperation[];
 
 // @public
 export class Permission {
@@ -1264,8 +1365,14 @@ export interface ReadOperationInput {
     // (undocumented)
     operationType: typeof BulkOperationType.Read;
     // (undocumented)
-    partitionKey?: string | number | null | {} | undefined;
+    partitionKey?: string | number | boolean | null | Record<string, unknown> | undefined;
 }
+
+// @public (undocumented)
+export type RemoveOperation = {
+    op: "remove";
+    path: string;
+};
 
 // @public (undocumented)
 export type ReplaceOperation = OperationWithItem & {
@@ -1276,13 +1383,15 @@ export type ReplaceOperation = OperationWithItem & {
 // @public (undocumented)
 export interface ReplaceOperationInput {
     // (undocumented)
+    id: string;
+    // (undocumented)
     ifMatch?: string;
     // (undocumented)
     ifNoneMatch?: string;
     // (undocumented)
     operationType: typeof BulkOperationType.Replace;
     // (undocumented)
-    partitionKey?: string | number | null | {} | undefined;
+    partitionKey?: string | number | null | Record<string, unknown> | undefined;
     // (undocumented)
     resourceBody: JSONObject;
 }
@@ -1313,6 +1422,8 @@ export interface RequestContext {
     partitionKeyRangeId?: string;
     // (undocumented)
     path?: string;
+    // (undocumented)
+    pipeline?: Pipeline;
     // (undocumented)
     plugins: PluginConfig[];
     // (undocumented)
@@ -1514,57 +1625,58 @@ export interface SqlQuerySpec {
 }
 
 // @public (undocumented)
-export const StatusCode: {
-    Ok: 200;
-    Created: 201;
-    Accepted: 202;
-    NoContent: 204;
-    NotModified: 304;
-    BadRequest: 400;
-    Unauthorized: 401;
-    Forbidden: 403;
-    NotFound: 404;
-    MethodNotAllowed: 405;
-    RequestTimeout: 408;
-    Conflict: 409;
-    Gone: 410;
-    PreconditionFailed: 412;
-    RequestEntityTooLarge: 413;
-    TooManyRequests: 429;
-    RetryWith: 449;
-    InternalServerError: 500;
-    ServiceUnavailable: 503;
-    OperationPaused: 1200;
-    OperationCancelled: number;
-};
+export type StatusCode = number;
 
 // @public (undocumented)
-export type StatusCode = typeof StatusCode[keyof typeof StatusCode];
+export const StatusCodes: StatusCodesType;
 
 // @public (undocumented)
-export const StatusCodes: {
-    Ok: 200;
-    Created: 201;
+export interface StatusCodesType {
+    // (undocumented)
     Accepted: 202;
-    NoContent: 204;
-    NotModified: 304;
+    // (undocumented)
     BadRequest: 400;
-    Unauthorized: 401;
-    Forbidden: 403;
-    NotFound: 404;
-    MethodNotAllowed: 405;
-    RequestTimeout: 408;
+    // (undocumented)
     Conflict: 409;
+    // (undocumented)
+    Created: 201;
+    // (undocumented)
+    ENOTFOUND: "ENOTFOUND";
+    // (undocumented)
+    Forbidden: 403;
+    // (undocumented)
     Gone: 410;
-    PreconditionFailed: 412;
-    RequestEntityTooLarge: 413;
-    TooManyRequests: 429;
-    RetryWith: 449;
+    // (undocumented)
     InternalServerError: 500;
-    ServiceUnavailable: 503;
-    OperationPaused: 1200;
+    // (undocumented)
+    MethodNotAllowed: 405;
+    // (undocumented)
+    NoContent: 204;
+    // (undocumented)
+    NotFound: 404;
+    // (undocumented)
+    NotModified: 304;
+    // (undocumented)
+    Ok: 200;
+    // (undocumented)
     OperationCancelled: 1201;
-};
+    // (undocumented)
+    OperationPaused: 1200;
+    // (undocumented)
+    PreconditionFailed: 412;
+    // (undocumented)
+    RequestEntityTooLarge: 413;
+    // (undocumented)
+    RequestTimeout: 408;
+    // (undocumented)
+    RetryWith: 449;
+    // (undocumented)
+    ServiceUnavailable: 503;
+    // (undocumented)
+    TooManyRequests: 429;
+    // (undocumented)
+    Unauthorized: 401;
+}
 
 // @public
 export class StoredProcedure {
@@ -1572,7 +1684,7 @@ export class StoredProcedure {
     // (undocumented)
     readonly container: Container;
     delete(options?: RequestOptions): Promise<StoredProcedureResponse>;
-    execute<T = any>(partitionKey: any, params?: any[], options?: RequestOptions): Promise<ResourceResponse<T>>;
+    execute<T = any>(partitionKey: PartitionKey, params?: any[], options?: RequestOptions): Promise<ResourceResponse<T>>;
     // (undocumented)
     readonly id: string;
     read(options?: RequestOptions): Promise<StoredProcedureResponse>;
@@ -1605,16 +1717,7 @@ export class StoredProcedures {
 }
 
 // @public (undocumented)
-export const SubStatusCode: {
-    Unknown: 0;
-    CrossPartitionQueryNotServable: 1004;
-    PartitionKeyRangeGone: 1002;
-    ReadSessionNotAvailable: 1002;
-    WriteForbidden: number;
-};
-
-// @public (undocumented)
-export type SubStatusCode = typeof SubStatusCode[keyof typeof SubStatusCode];
+export type SubStatusCode = number;
 
 // @public
 export class TimeSpan {
@@ -1623,8 +1726,8 @@ export class TimeSpan {
     // (undocumented)
     static additionDoesOverflow(a: number, b: number): boolean;
     // (undocumented)
-    static compare(t1: TimeSpan, t2: TimeSpan): 0 | 1 | -1;
-    compareTo(value: TimeSpan): 0 | 1 | -1;
+    static compare(t1: TimeSpan, t2: TimeSpan): 1 | 0 | -1;
+    compareTo(value: TimeSpan): 1 | -1 | 0;
     // (undocumented)
     days(): number;
     duration(): TimeSpan;
@@ -1759,7 +1862,7 @@ export interface UpsertOperationInput {
     // (undocumented)
     operationType: typeof BulkOperationType.Upsert;
     // (undocumented)
-    partitionKey?: string | number | null | {} | undefined;
+    partitionKey?: string | number | null | Record<string, unknown> | undefined;
     // (undocumented)
     resourceBody: JSONObject;
 }

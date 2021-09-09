@@ -10,28 +10,38 @@
 import * as Models from "./models";
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
+import { TokenCredential } from "@azure/core-auth";
 
 const packageName = "@azure/arm-hdinsight";
-const packageVersion = "0.22.0";
+const packageVersion = "0.23.0";
 
 export class HDInsightManagementClientContext extends msRestAzure.AzureServiceClient {
-  credentials: msRest.ServiceClientCredentials;
+  credentials: msRest.ServiceClientCredentials | TokenCredential;
   subscriptionId: string;
   apiVersion?: string;
 
   /**
    * Initializes a new instance of the HDInsightManagementClient class.
-   * @param credentials Credentials needed for the client to connect to Azure.
+   * @param credentials Credentials needed for the client to connect to Azure. Credentials
+   * implementing the TokenCredential interface from the @azure/identity package are recommended. For
+   * more information about these credentials, see
+   * {@link https://www.npmjs.com/package/@azure/identity}. Credentials implementing the
+   * ServiceClientCredentials interface from the older packages @azure/ms-rest-nodeauth and
+   * @azure/ms-rest-browserauth are also supported.
    * @param subscriptionId The subscription credentials which uniquely identify Microsoft Azure
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.HDInsightManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials | TokenCredential,
+    subscriptionId: string,
+    options?: Models.HDInsightManagementClientOptions
+  ) {
     if (credentials == undefined) {
-      throw new Error('\'credentials\' cannot be null.');
+      throw new Error("'credentials' cannot be null.");
     }
     if (subscriptionId == undefined) {
-      throw new Error('\'subscriptionId\' cannot be null.');
+      throw new Error("'subscriptionId' cannot be null.");
     }
 
     if (!options) {
@@ -44,8 +54,8 @@ export class HDInsightManagementClientContext extends msRestAzure.AzureServiceCl
 
     super(credentials, options);
 
-    this.apiVersion = '2018-06-01-preview';
-    this.acceptLanguage = 'en-US';
+    this.apiVersion = "2018-06-01-preview";
+    this.acceptLanguage = "en-US";
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
     this.requestContentType = "application/json; charset=utf-8";
@@ -55,7 +65,10 @@ export class HDInsightManagementClientContext extends msRestAzure.AzureServiceCl
     if (options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }
-    if (options.longRunningOperationRetryTimeout !== null && options.longRunningOperationRetryTimeout !== undefined) {
+    if (
+      options.longRunningOperationRetryTimeout !== null &&
+      options.longRunningOperationRetryTimeout !== undefined
+    ) {
       this.longRunningOperationRetryTimeout = options.longRunningOperationRetryTimeout;
     }
   }

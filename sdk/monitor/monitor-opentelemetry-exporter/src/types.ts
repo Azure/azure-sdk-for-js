@@ -35,7 +35,7 @@ export type Measurements = { [key: string]: number };
  * Exporter sender result.
  * @internal
  */
-export type SenderResult = { statusCode: number; result: string };
+export type SenderResult = { statusCode: number | undefined; result: string };
 
 /**
  * Exporter sender.
@@ -44,6 +44,7 @@ export type SenderResult = { statusCode: number; result: string };
 export interface Sender {
   send(payload: unknown[]): Promise<SenderResult>;
   shutdown(): Promise<void>;
+  handlePermanentRedirect(location: string | undefined): void;
 }
 
 /**

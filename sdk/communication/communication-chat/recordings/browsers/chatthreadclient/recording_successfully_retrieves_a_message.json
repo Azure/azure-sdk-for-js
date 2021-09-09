@@ -2,13 +2,13 @@
  "recordings": [
   {
    "method": "GET",
-   "url": "https://endpoint/chat/threads/19%3A18dfab168a9245feb44837c918781d14%40thread.v2/messages/1612470112922",
+   "url": "https://endpoint/chat/threads/19%3Ag0x1r-Au6W3oC_P19M8Tg8l7xbEou6NTDjR2gplU33A1%40thread.v2/messages/1630697249791",
    "query": {
-    "api-version": "2020-11-01-preview3"
+    "api-version": "2021-09-07"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"1612470112922\",\"type\":\"text\",\"sequenceId\":\"3\",\"version\":\"1612470112922\",\"content\":{\"message\":\"content\"},\"senderDisplayName\":\"\",\"createdOn\":\"2021-02-04T20:21:52Z\",\"senderId\":\"8:acs:46849534-eb08-4ab7-bde7-c36928cd1547_00000008-0e96-eeba-b351-5a3a0d000093\"}",
+   "response": "{\"id\":\"1630697249791\",\"type\":\"text\",\"sequenceId\":\"4\",\"version\":\"1630697249791\",\"content\":{\"message\":\"content\"},\"senderDisplayName\":\"\",\"createdOn\":\"2021-09-03T19:27:29Z\",\"senderCommunicationIdentifier\":{\"rawId\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000c-4d02-f6a5-9508-45482200108f\",\"communicationUser\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000c-4d02-f6a5-9508-45482200108f\"}},\"metadata\":{\"tags\":\"sometag\"}}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }
@@ -18,5 +18,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "c1c2e88ec76ff30791855175bfa29192"
+ "hash": "b8b05b6ed7c050d353ccb0062a6efa0a"
 }

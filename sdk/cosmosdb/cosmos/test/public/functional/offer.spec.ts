@@ -1,13 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
+import { Context } from "mocha";
+import { Suite } from "mocha";
 import { Constants, CosmosClient } from "../../../src";
 import { endpoint, masterKey } from "../common/_testConfig";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 
-const client = new CosmosClient({ endpoint, key: masterKey });
+const client = new CosmosClient({
+  endpoint,
+  key: masterKey,
+  connectionPolicy: { enableBackgroundEndpointRefreshing: false }
+});
 
-const validateOfferResponseBody = function(offer: any) {
+const validateOfferResponseBody = function(offer: any): void {
   assert(offer.id, "Id cannot be null");
   assert(offer._rid, "Resource Id (Rid) cannot be null");
   assert(offer._self, "Self Link cannot be null");
@@ -15,10 +21,10 @@ const validateOfferResponseBody = function(offer: any) {
   assert(offer._self.indexOf(offer.id) !== -1, "Offer id not contained in offer self link.");
 };
 
-describe("NodeJS CRUD Tests", function() {
+describe("NodeJS CRUD Tests", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     this.timeout(process.env.MOCHA_TIMEOUT || 10000);
     await removeAllDatabases();
   });

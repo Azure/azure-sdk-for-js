@@ -21,9 +21,8 @@ export class StorageBlobListTest extends StorageBlobTest<StorageBlobListTestOpti
   public async globalSetup() {
     await super.globalSetup();
     await executeParallel(
-      async (count: number, parallelIndex: number) => {
+      async (_count: number, _parallelIndex: number) => {
         await this.containerClient.uploadBlockBlob(generateUuid(), Buffer.alloc(0), 0);
-        console.log(`[` + parallelIndex + `] ` + count);
       },
       this.parsedOptions.count.value!,
       32
@@ -32,6 +31,7 @@ export class StorageBlobListTest extends StorageBlobTest<StorageBlobListTestOpti
 
   async runAsync(): Promise<void> {
     for await (const segmentResponse of this.containerClient.listBlobsFlat().byPage()) {
+      // eslint-disable-next-line no-empty
       for (const _ of segmentResponse.segment.blobItems) {
       }
     }

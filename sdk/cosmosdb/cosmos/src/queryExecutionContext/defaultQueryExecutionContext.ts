@@ -29,7 +29,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
   private fetchFunctions: FetchFunctionCallback[];
   private options: FeedOptions; // TODO: any options
   public continuationToken: string; // TODO: any continuation
-  public get continuation() {
+  public get continuation(): string {
     return this.continuationToken;
   }
   private state: STATES;
@@ -45,8 +45,10 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
    *                          An array of functions may be used to query more than one partition.
    * @hidden
    */
-  constructor(options: any, fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[]) {
-    // TODO: any options
+  constructor(
+    options: FeedOptions,
+    fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[]
+  ) {
     this.resources = [];
     this.currentIndex = 0;
     this.currentPartitionIndex = 0;
@@ -100,7 +102,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
    *
    * @returns true if there is other elements to process in the DefaultQueryExecutionContext.
    */
-  public hasMoreResults() {
+  public hasMoreResults(): boolean {
     return (
       this.state === DefaultQueryExecutionContext.STATES.start ||
       this.continuationToken !== undefined ||
@@ -199,7 +201,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
     return { result: resources, headers: responseHeaders };
   }
 
-  private _canFetchMore() {
+  private _canFetchMore(): boolean {
     const res =
       this.state === DefaultQueryExecutionContext.STATES.start ||
       (this.continuationToken && this.state === DefaultQueryExecutionContext.STATES.inProgress) ||

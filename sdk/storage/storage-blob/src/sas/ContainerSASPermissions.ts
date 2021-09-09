@@ -15,7 +15,7 @@ export class ContainerSASPermissions {
    *
    * @param permissions -
    */
-  public static parse(permissions: string) {
+  public static parse(permissions: string): ContainerSASPermissions {
     const containerSASPermissions = new ContainerSASPermissions();
 
     for (const char of permissions) {
@@ -49,6 +49,9 @@ export class ContainerSASPermissions {
           break;
         case "e":
           containerSASPermissions.execute = true;
+          break;
+        case "i":
+          containerSASPermissions.setImmutabilityPolicy = true;
           break;
         default:
           throw new RangeError(`Invalid permission ${char}`);
@@ -95,6 +98,9 @@ export class ContainerSASPermissions {
     }
     if (permissionLike.execute) {
       containerSASPermissions.execute = true;
+    }
+    if (permissionLike.setImmutabilityPolicy) {
+      containerSASPermissions.setImmutabilityPolicy = true;
     }
     return containerSASPermissions;
   }
@@ -150,6 +156,11 @@ export class ContainerSASPermissions {
   public execute: boolean = false;
 
   /**
+   * Specifies SetImmutabilityPolicy access granted.
+   */
+  public setImmutabilityPolicy: boolean = false;
+
+  /**
    * Converts the given permissions to a string. Using this method will guarantee the permissions are in an
    * order accepted by the service.
    *
@@ -188,6 +199,9 @@ export class ContainerSASPermissions {
     }
     if (this.execute) {
       permissions.push("e");
+    }
+    if (this.setImmutabilityPolicy) {
+      permissions.push("i");
     }
     return permissions.join("");
   }
@@ -247,4 +261,9 @@ export interface ContainerSASPermissionsLike {
    * Specifies Execute access granted.
    */
   execute?: boolean;
+
+  /**
+   * Specifies SetImmutabilityPolicy access granted.
+   */
+  setImmutabilityPolicy?: boolean;
 }

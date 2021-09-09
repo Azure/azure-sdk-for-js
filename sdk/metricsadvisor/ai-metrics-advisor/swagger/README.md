@@ -14,13 +14,14 @@ license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
 # openapi v2 in PR
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/3cbc984fcf0fab278b9c28175319f65db1b9162a/specification/cognitiveservices/data-plane/MetricsAdvisor/preview/v1.0/MetricsAdvisor.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/08f5e391f2153a99580b458cc71ef88e45dd0531/specification/cognitiveservices/data-plane/MetricsAdvisor/preview/v1.0/MetricsAdvisor.json
 add-credentials: false
 override-client-name: GeneratedClient
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20210121.2"
+  "@autorest/typescript": "6.0.0-dev.20210223.1"
 disable-async-iterators: true
 hide-clients: true
+package-version: 1.0.1
 ```
 
 ## Customizations for Track 2 Generator
@@ -651,4 +652,90 @@ directive:
           }
         }
       }
+```
+
+### Make Sealed enums
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions..properties
+    transform: >
+      if($) {
+          let props = Object.keys($);
+          for(let i = 0; i < props.length; i++) {
+              
+              if ($[props[i]] &&  $[props[i]]["x-ms-enum"]) {
+                  $[props[i]]["x-ms-enum"].modelAsString = false;
+              } else if ($[props[i]] && $[props[i]]["enum"]) {
+                $[props[i]]["x-ms-enum"] = {modelAsString: false, name: props[i] }
+              }
+          }
+      }
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.paths..get.parameters
+    transform: >
+      if($) {
+          for(let i = 0; i < $.length; i++) {
+              if ($[i] &&  $[i]["x-ms-enum"]) {
+                  $[i]["x-ms-enum"].modelAsString = false;
+              } else if ($[i] && $[i]["enum"]) {
+                $[i]["x-ms-enum"] = {modelAsString: false, name: props[i] }
+              }
+          }
+      }
+```
+
+### Add description for `SmartDetectionCondition`
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SmartDetectionCondition
+    transform: >
+      $.description = "Represents Smart Condition"
+  - from: swagger-document
+    where: $.definitions.SuppressCondition
+    transform: >
+      $.description = "Represents Suppress Condition"
+  - from: swagger-document
+    where: $.definitions.AlertSnoozeCondition
+    transform: >
+      $.description = "Represents Conditions to snooze Alerts"
+  - from: swagger-document
+    where: $.definitions.SeverityFilterCondition
+    transform: >
+      $.description = "Represents Conditions to filter severity"
+  - from: swagger-document
+    where: $.definitions.DataFeedIngestionProgress
+    transform: >
+      $.description = "Track the progress for Datafeed Ingestion"
+  - from: swagger-document
+    where: $.definitions.EmailHookParameter
+    transform: >
+      $.description = "Parameters for Email Hook"
+  - from: swagger-document
+    where: $.definitions.EmailHookParameter
+    transform: >
+      $.description = "Parameters for Email Hook"
+  - from: swagger-document
+    where: $.definitions.WebHookParameter
+    transform: >
+      $.description = "Parameters for Web Hook"
+  - from: swagger-document
+    where: $.definitions.IngestionStatus
+    transform: >
+      $.description = "Ingestion Status"
+  - from: swagger-document
+    where: $.definitions.SeverityCondition
+    transform: >
+      $.description = "Alert Severity Condition"
+  - from: swagger-document
+    where: $.definitions.TopNGroupScope
+    transform: >
+      $.description = "Group Scope for Top N values"
 ```

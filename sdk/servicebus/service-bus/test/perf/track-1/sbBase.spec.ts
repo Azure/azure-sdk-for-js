@@ -3,24 +3,29 @@
 
 import { PerfStressTest, getEnvVar } from "@azure/test-utils-perfstress";
 import { ServiceBusClient } from "@azure/service-bus";
+import { ServiceBusAdministrationClient } from "@azure/service-bus-v7";
 
 // Expects the .env file at the same level as the "test" folder
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../../../.env" });
 
 const connectionString = getEnvVar("SERVICEBUS_CONNECTION_STRING");
-const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
 
 export abstract class ServiceBusTest<TOptions> extends PerfStressTest<TOptions> {
-  sbClient: ServiceBusClient;
-  static queueName = getEnvVar("QUEUE_NAME");
+  static sbClient: ServiceBusClient = ServiceBusClient.createFromConnectionString(connectionString);
+  static sbAdminClient = new ServiceBusAdministrationClient(connectionString);
+  static queueName = `newqueue-${Math.ceil(Math.random() * 1000)}`;
 
   constructor() {
     super();
-    this.sbClient = sbClient;
   }
 
-  public async globalCleanup() {
-    await this.sbClient.close();
+  public async globalSetup(): Promise<void> {
+    await ServiceBusTest.sbAdminClient.createQueue(ServiceBusTest.queueName);
+  }
+
+  public async globalCleanup(): Promise<void> {
+    await ServiceBusTest.sbClient.close();
+    await ServiceBusTest.sbAdminClient.deleteQueue(ServiceBusTest.queueName);
   }
 }

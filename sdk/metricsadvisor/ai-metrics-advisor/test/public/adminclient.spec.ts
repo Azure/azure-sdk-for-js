@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
+import { Context } from "mocha";
 
 import {
   AnomalyAlertConfiguration,
@@ -10,7 +11,7 @@ import {
   MetricsAdvisorAdministrationClient
 } from "../../src";
 import { createRecordedAdminClient, makeCredential, testEnv } from "./util/recordedClients";
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { matrix } from "./util/matrix";
 
 matrix([[true, false]] as const, async (useAad) => {
@@ -19,8 +20,7 @@ matrix([[true, false]] as const, async (useAad) => {
       let client: MetricsAdvisorAdministrationClient;
       let recorder: Recorder;
 
-      beforeEach(function() {
-        // eslint-disable-next-line no-invalid-this
+      beforeEach(function(this: Context) {
         ({ recorder, client } = createRecordedAdminClient(this, makeCredential(useAad)));
       });
 
@@ -78,7 +78,7 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.ok(result.latestActiveTimestamp, "Expecting valid latest active timestamp");
         });
 
-        it("refreshes ingesetion status", async function() {
+        it("refreshes ingesetion status", async function(this: Context) {
           const iterator = client.listDataFeedIngestionStatus(
             testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
             new Date(Date.UTC(2020, 7, 22)),
@@ -101,7 +101,6 @@ matrix([[true, false]] as const, async (useAad) => {
             const result2 = await iterator2.next();
             assert.notEqual(result2.value.status, "Succeeded");
           } else {
-            // eslint-disable-next-line no-invalid-this
             this.skip();
           }
         });
@@ -180,7 +179,7 @@ matrix([[true, false]] as const, async (useAad) => {
             },
             seriesGroupDetectionConditions: [
               {
-                group: { city: "Mumbai" },
+                groupKey: { city: "Mumbai" },
                 hardThresholdCondition: {
                   anomalyDetectorDirection: "Up",
                   upperBound: 400,
@@ -190,7 +189,7 @@ matrix([[true, false]] as const, async (useAad) => {
             ],
             seriesDetectionConditions: [
               {
-                series: { city: "Kolkata", category: "Handmade" },
+                seriesKey: { city: "Kolkata", category: "Handmade" },
                 changeThresholdCondition: {
                   anomalyDetectorDirection: "Both",
                   shiftPoint: 1,
@@ -202,8 +201,7 @@ matrix([[true, false]] as const, async (useAad) => {
             ]
           };
 
-          await client.updateDetectionConfig(createdDetectionConfigId, expected);
-          const actual = await client.getDetectionConfig(createdDetectionConfigId);
+          const actual = await client.updateDetectionConfig(createdDetectionConfigId, expected);
           assert.ok(actual.id, "Expecting valid detection config");
           createdDetectionConfigId = actual.id!;
 
@@ -218,18 +216,18 @@ matrix([[true, false]] as const, async (useAad) => {
             "Expecting valid seriesGroupDetectionConditions"
           );
           assert.deepStrictEqual(
-            actual.seriesGroupDetectionConditions![0].group,
-            expected.seriesGroupDetectionConditions![0].group
+            actual.seriesGroupDetectionConditions![0].groupKey,
+            expected.seriesGroupDetectionConditions![0].groupKey
           );
           assert.deepStrictEqual(
             actual.seriesGroupDetectionConditions![0].hardThresholdCondition,
             expected.seriesGroupDetectionConditions![0].hardThresholdCondition
           );
           assert.ok(actual.seriesDetectionConditions, "Expecting valid seriesDetectionConditions");
-          delete (actual.seriesDetectionConditions![0].series as any).seriesId; // workaround service issue
+          delete (actual.seriesDetectionConditions![0].seriesKey as any).seriesId; // workaround service issue
           assert.deepStrictEqual(
-            actual.seriesDetectionConditions![0].series,
-            expected.seriesDetectionConditions![0].series
+            actual.seriesDetectionConditions![0].seriesKey,
+            expected.seriesDetectionConditions![0].seriesKey
           );
           assert.deepStrictEqual(
             actual.seriesDetectionConditions![0].changeThresholdCondition,
@@ -277,7 +275,8 @@ matrix([[true, false]] as const, async (useAad) => {
             description: "alerting config description",
             crossMetricsOperator: "AND",
             metricAlertConfigurations: [metricAlertConfig, metricAlertConfig],
-            hookIds: []
+            hookIds: [],
+            dimensionsToSplitAlert: []
           };
 
           const actual = await client.createAlertConfig(expectedAlertConfig);
@@ -292,6 +291,10 @@ matrix([[true, false]] as const, async (useAad) => {
             expectedAlertConfig.metricAlertConfigurations[0].alertScope
           );
           assert.deepStrictEqual(actual.hookIds, expectedAlertConfig.hookIds);
+          assert.deepStrictEqual(
+            actual.dimensionsToSplitAlert,
+            expectedAlertConfig.dimensionsToSplitAlert
+          );
         });
 
         it("retrieves an alert configuration", async function() {
@@ -321,8 +324,7 @@ matrix([[true, false]] as const, async (useAad) => {
             metricAlertConfigurations: [metricAlertConfig, metricAlertConfig]
           };
 
-          await client.updateAlertConfig(createdAlertConfigId, patch);
-          const actual = await client.getAlertConfig(createdAlertConfigId);
+          const actual = await client.updateAlertConfig(createdAlertConfigId, patch);
           assert.ok(actual.id, "Expecting valid alerting config");
           assert.equal(actual.name, "new alert config name");
           assert.equal(actual.description, "new alert config description");
@@ -368,9 +370,8 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes an alert configuration", async function() {
+        it("deletes an alert configuration", async function(this: Context) {
           if (!createdAlertConfigId) {
-            // eslint-disable-next-line no-invalid-this
             this.skip();
           }
 
@@ -383,9 +384,8 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes a detection configuration", async function() {
+        it("deletes a detection configuration", async function(this: Context) {
           if (!createdDetectionConfigId) {
-            // eslint-disable-next-line no-invalid-this
             this.skip();
           }
 

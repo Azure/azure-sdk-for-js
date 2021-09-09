@@ -3,7 +3,6 @@
 
 import * as fs from "fs";
 import * as util from "util";
-import { isNode } from "@azure/core-http";
 
 /**
  * Reads a readable stream into buffer. Fill the buffer from offset to end.
@@ -19,7 +18,7 @@ export async function streamToBuffer(
   buffer: Buffer,
   offset: number,
   end: number,
-  encoding?: string
+  encoding?: BufferEncoding
 ): Promise<void> {
   let pos = 0; // Position in stream
   const count = end - offset; // Total amount of data needed in stream
@@ -73,7 +72,7 @@ export async function streamToBuffer(
 export async function streamToBuffer2(
   stream: NodeJS.ReadableStream,
   buffer: Buffer,
-  encoding?: string
+  encoding?: BufferEncoding
 ): Promise<number> {
   let pos = 0; // Position in stream
   const bufferSize = buffer.length;
@@ -110,6 +109,6 @@ export async function streamToBuffer2(
  *
  * Promisified version of fs.stat().
  */
-export const fsStat = util.promisify(isNode ? fs.stat : function stat() {});
+export const fsStat = util.promisify(fs.stat);
 
 export const fsCreateReadStream = fs.createReadStream;

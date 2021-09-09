@@ -537,12 +537,6 @@ export const ReadResult: coreHttp.CompositeMapper = {
           allowedValues: ["pixel", "inch"]
         }
       },
-      language: {
-        serializedName: "language",
-        type: {
-          name: "String"
-        }
-      },
       lines: {
         serializedName: "lines",
         type: {
@@ -597,12 +591,6 @@ export const TextLine: coreHttp.CompositeMapper = {
               name: "Number"
             }
           }
-        }
-      },
-      language: {
-        serializedName: "language",
-        type: {
-          name: "String"
         }
       },
       words: {
@@ -696,7 +684,8 @@ export const TextStyle: coreHttp.CompositeMapper = {
         serializedName: "name",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["other", "handwriting"]
         }
       },
       confidence: {
@@ -746,7 +735,8 @@ export const SelectionMark: coreHttp.CompositeMapper = {
         serializedName: "state",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["selected", "unselected"]
         }
       }
     }
@@ -1135,7 +1125,8 @@ export const FieldValue: coreHttp.CompositeMapper = {
             "integer",
             "array",
             "object",
-            "selectionMark"
+            "selectionMark",
+            "countryRegion"
           ]
         }
       },
@@ -1196,6 +1187,12 @@ export const FieldValue: coreHttp.CompositeMapper = {
       },
       valueSelectionMark: {
         serializedName: "valueSelectionMark",
+        type: {
+          name: "String"
+        }
+      },
+      valueCountryRegion: {
+        serializedName: "valueCountryRegion",
         type: {
           name: "String"
         }
@@ -1577,6 +1574,21 @@ export const GeneratedClientAnalyzeInvoiceAsyncHeaders: coreHttp.CompositeMapper
   type: {
     name: "Composite",
     className: "GeneratedClientAnalyzeInvoiceAsyncHeaders",
+    modelProperties: {
+      operationLocation: {
+        serializedName: "operation-location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const GeneratedClientAnalyzeIdDocumentAsyncHeaders: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GeneratedClientAnalyzeIdDocumentAsyncHeaders",
     modelProperties: {
       operationLocation: {
         serializedName: "operation-location",

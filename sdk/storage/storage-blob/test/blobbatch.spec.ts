@@ -11,7 +11,7 @@ import {
   recorderEnvSetup,
   getTokenBSU
 } from "./utils";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 import { BlobBatch } from "../src";
 import {
   ContainerClient,
@@ -21,6 +21,7 @@ import {
   BlobBatchClient,
   StorageSharedKeyCredential
 } from "../src";
+import { Context } from "mocha";
 
 dotenv.config();
 
@@ -37,7 +38,7 @@ describe("BlobBatch", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
 
     blobServiceClient = getGenericBSU("");
@@ -60,7 +61,7 @@ describe("BlobBatch", () => {
     blockBlobClients[blockBlobCount - 1] = tmpBlockBlobClient;
   });
 
-  afterEach(async function() {
+  afterEach(async function(this: Context) {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
       await recorder.stop();
@@ -92,7 +93,7 @@ describe("BlobBatch", () => {
     for (let i = 0; i < blockBlobCount; i++) {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 202);
-      assert.ok(resp.subResponses[i].statusMessage != "");
+      assert.ok(resp.subResponses[i].statusMessage !== "");
       assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
       assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
     }
@@ -129,7 +130,7 @@ describe("BlobBatch", () => {
     for (let i = 0; i < blockBlobCount; i++) {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 202);
-      assert.ok(resp.subResponses[i].statusMessage != "");
+      assert.ok(resp.subResponses[i].statusMessage !== "");
       assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
       assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
     }
@@ -304,13 +305,13 @@ describe("BlobBatch", () => {
     // First succeeded.
     assert.equal(resp.subResponses[0].errorCode, undefined);
     assert.equal(resp.subResponses[0].status, 202);
-    assert.ok(resp.subResponses[0].statusMessage != "");
+    assert.ok(resp.subResponses[0].statusMessage !== "");
     assert.equal(resp.subResponses[0]._request.url, blockBlobClients[0].url);
 
     // Second failed.
-    assert.ok(resp.subResponses[1].errorCode != undefined);
-    assert.ok(resp.subResponses[1].status == 412);
-    assert.ok(resp.subResponses[1].statusMessage != "");
+    assert.ok(resp.subResponses[1].errorCode !== undefined);
+    assert.ok(resp.subResponses[1].status === 412);
+    assert.ok(resp.subResponses[1].statusMessage !== "");
     assert.equal(resp.subResponses[1]._request.url, blockBlobClients[1].url);
   });
 
@@ -339,7 +340,7 @@ describe("BlobBatch", () => {
     for (let i = 0; i < blockBlobCount; i++) {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 200);
-      assert.ok(resp.subResponses[i].statusMessage != "");
+      assert.ok(resp.subResponses[i].statusMessage !== "");
       assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
       assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
 
@@ -369,7 +370,7 @@ describe("BlobBatch", () => {
     for (let i = 0; i < blockBlobCount; i++) {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 200);
-      assert.ok(resp.subResponses[i].statusMessage != "");
+      assert.ok(resp.subResponses[i].statusMessage !== "");
       assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
       assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
 
@@ -392,7 +393,7 @@ describe("BlobBatch", () => {
     const guid = "ca761232ed4211cebacd00aa0057b223";
     const duration = 30;
     const leaseResp = await blockBlobClients[1].getBlobLeaseClient(guid).acquireLease(duration);
-    assert.ok(leaseResp.leaseId! != "");
+    assert.ok(leaseResp.leaseId! !== "");
 
     // Assemble batch set tier request.
     const batchSetTierRequest = new BlobBatch();
@@ -410,7 +411,7 @@ describe("BlobBatch", () => {
     for (let i = 0; i < 2; i++) {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 200);
-      assert.ok(resp.subResponses[i].statusMessage != "");
+      assert.ok(resp.subResponses[i].statusMessage !== "");
       assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
       assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
 
@@ -456,7 +457,7 @@ describe("BlobBatch", () => {
     for (let i = 0; i < blockBlobClients.length; i++) {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 200);
-      assert.ok(resp.subResponses[i].statusMessage != "");
+      assert.ok(resp.subResponses[i].statusMessage !== "");
       assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
       assert.equal(resp.subResponses[i]._request.url, blockBlobClientsWithVersion[i].url);
 
@@ -501,7 +502,7 @@ describe("BlobBatch", () => {
     for (let i = 0; i < blockBlobClients.length; i++) {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 200);
-      assert.ok(resp.subResponses[i].statusMessage != "");
+      assert.ok(resp.subResponses[i].statusMessage !== "");
       assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
       assert.equal(resp.subResponses[i]._request.url, blockBlobClientsWithSnapshot[i].url);
 
@@ -511,23 +512,11 @@ describe("BlobBatch", () => {
     }
   });
 
-  it("submitBatch should work with multiple types of credentials for subrequests", async function() {
+  it("submitBatch should work with multiple types of credentials for subrequests", async function(this: Context) {
     recorder.skip(
       undefined,
       "UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved."
     );
-    // Try to get serviceURL object with TokenCredential
-    // when ACCOUNT_TOKEN environment variable is set
-    let tokenCredential;
-    try {
-      tokenCredential = getTokenCredential();
-    } catch {}
-
-    // Requires bearer token for this case which cannot be generated in the runtime
-    // Make sure this case passed in sanity test
-    if (tokenCredential === undefined) {
-      this.skip();
-    }
 
     // Upload blobs.
     await blockBlobClients[0].upload(content, content.length);
@@ -538,16 +527,26 @@ describe("BlobBatch", () => {
     await batchSetTierRequest.setBlobAccessTier(blockBlobClients[0].url, credential, "Cool");
     // When it's using token credential be sure it's not with SAS (browser testing case)
     let blockBlobClient1WithoutSAS = blockBlobClients[1].url;
-    if (blockBlobClient1WithoutSAS.indexOf("?") != -1) {
+    if (blockBlobClient1WithoutSAS.indexOf("?") !== -1) {
       // remove query part for this testing for ease
       blockBlobClient1WithoutSAS = blockBlobClients[1].url.substring(
         0,
         blockBlobClients[1].url.indexOf("?")
       );
     }
+
+    // Try to get serviceURL object with TokenCredential
+    // when ACCOUNT_TOKEN environment variable is set
+    let tokenCredential;
+    try {
+      tokenCredential = getTokenCredential();
+    } catch {
+      this.skip();
+    }
+
     await batchSetTierRequest.setBlobAccessTier(
       blockBlobClient1WithoutSAS,
-      getTokenCredential(),
+      tokenCredential,
       "Cool"
     );
 
@@ -560,7 +559,7 @@ describe("BlobBatch", () => {
     for (let i = 0; i < 2; i++) {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 200);
-      assert.ok(resp.subResponses[i].statusMessage != "");
+      assert.ok(resp.subResponses[i].statusMessage !== "");
       assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
 
       // Check blob tier set properly.
@@ -589,7 +588,7 @@ describe("BlobBatch", () => {
     } catch (err) {
       if (
         err instanceof RangeError &&
-        err.message == "Cannot exceed 256 sub requests in a single batch"
+        err.message === "Cannot exceed 256 sub requests in a single batch"
       ) {
         exceptionCaught = true;
       }
@@ -605,7 +604,10 @@ describe("BlobBatch", () => {
     try {
       await batchSetTierRequest.setBlobAccessTier("invalidurl", credential, "Cool");
     } catch (err) {
-      if (err instanceof RangeError && err.message.indexOf("Invalid url for sub request: ") != -1) {
+      if (
+        err instanceof RangeError &&
+        err.message.indexOf("Invalid url for sub request: ") !== -1
+      ) {
         exceptionCaught = true;
       }
     }
@@ -621,7 +623,7 @@ describe("BlobBatch", () => {
     } catch (err) {
       if (
         err instanceof RangeError &&
-        err.message == "Batch request should contain one or more sub requests."
+        err.message === "Batch request should contain one or more sub requests."
       ) {
         exceptionCaught = true;
       }
@@ -671,7 +673,7 @@ describe("BlobBatch", () => {
     } catch (err) {
       if (
         err instanceof RangeError &&
-        err.message ==
+        err.message ===
           "BlobBatch only supports one operation type per batch and it already is being used for delete operations."
       ) {
         exceptionCaught = true;
@@ -705,7 +707,7 @@ describe("BlobBatch", () => {
     for (let i = 0; i < blockBlobCount; i++) {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 202);
-      assert.ok(resp.subResponses[i].statusMessage != "");
+      assert.ok(resp.subResponses[i].statusMessage !== "");
       assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
       assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
     }
@@ -733,7 +735,7 @@ describe("BlobBatch Token auth", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
 
     // Try to get serviceURL object with TokenCredential when ACCOUNT_TOKEN environment variable is set
@@ -760,7 +762,7 @@ describe("BlobBatch Token auth", () => {
     blockBlobClients[blockBlobCount - 1] = tmpBlockBlobClient;
   });
 
-  afterEach(async function() {
+  afterEach(async function(this: Context) {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
       await recorder.stop();
@@ -792,7 +794,7 @@ describe("BlobBatch Token auth", () => {
     for (let i = 0; i < blockBlobCount; i++) {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 202);
-      assert.ok(resp.subResponses[i].statusMessage != "");
+      assert.ok(resp.subResponses[i].statusMessage !== "");
       assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
       assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
     }
@@ -823,7 +825,7 @@ describe("BlobBatch Token auth", () => {
     for (let i = 0; i < blockBlobCount; i++) {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 202);
-      assert.ok(resp.subResponses[i].statusMessage != "");
+      assert.ok(resp.subResponses[i].statusMessage !== "");
       assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
       assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
     }

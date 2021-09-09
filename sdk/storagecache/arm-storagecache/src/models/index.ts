@@ -196,7 +196,7 @@ export interface AscOperation {
    */
   error?: ErrorResponse;
   /**
-   * Additional Operation Specific Properties
+   * Additional operation-specific output.
    */
   output?: { [propertyName: string]: any };
 }
@@ -248,9 +248,25 @@ export interface SystemData {
    */
   lastModifiedByType?: CreatedByType;
   /**
-   * The type of identity that last modified the resource.
+   * The timestamp of resource last modification (UTC)
    */
   lastModifiedAt?: Date;
+}
+
+/**
+ * Outstanding conditions that will need to be resolved.
+ */
+export interface Condition {
+  /**
+   * The time when the condition was raised.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly timestamp?: Date;
+  /**
+   * The issue requiring attention.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly message?: string;
 }
 
 /**
@@ -267,6 +283,11 @@ export interface CacheHealth {
    * Describes explanation of state.
    */
   statusDescription?: string;
+  /**
+   * Outstanding conditions that need to be investigated and resolved.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly conditions?: Condition[];
 }
 
 /**
@@ -315,6 +336,19 @@ export interface CacheNetworkSettings {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly utilityAddresses?: string[];
+  /**
+   * DNS servers for the cache to use.  It will be set from the network configuration if no value
+   * is provided.
+   */
+  dnsServers?: string[];
+  /**
+   * DNS search domain
+   */
+  dnsSearchDomain?: string;
+  /**
+   * NTP server IP Address or FQDN for the cache to use. The default is time.windows.com.
+   */
+  ntpServer?: string;
 }
 
 /**
@@ -387,11 +421,12 @@ export interface NfsAccessRule {
    */
   rootSquash?: boolean;
   /**
-   * UID value that replaces 0 when rootSquash is true. Default value: '-2'.
+   * UID value that replaces 0 when rootSquash is true. 65534 will be used if not provided.
    */
   anonymousUID?: string;
   /**
-   * GID value that replaces 0 when rootSquash is true. Default value: '-2'.
+   * GID value that replaces 0 when rootSquash is true. This will use the value of anonymousUID if
+   * not provided.
    */
   anonymousGID?: string;
 }
@@ -584,9 +619,9 @@ export interface CacheSku {
  */
 export interface Cache extends BaseResource {
   /**
-   * ARM tags as name/value pairs.
+   * Resource tags.
    */
-  tags?: any;
+  tags?: { [propertyName: string]: string };
   /**
    * Resource ID of the Cache.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -697,8 +732,7 @@ export interface Nfs3Target {
    */
   target?: string;
   /**
-   * Identifies the usage model to be used for this Storage Target. Get choices from
-   * .../usageModels
+   * Identifies the StorageCache usage model to be used for this storage target.
    */
   usageModel?: string;
 }
@@ -720,45 +754,21 @@ export interface UnknownTarget {
   /**
    * Dictionary of string->string pairs containing information about the Storage Target.
    */
-  unknownMap?: { [propertyName: string]: string };
+  attributes?: { [propertyName: string]: string };
 }
 
 /**
- * Contains the possible cases for StorageTargetProperties.
+ * Properties pertaining to the BlobNfsTarget.
  */
-export type StorageTargetPropertiesUnion = StorageTargetProperties | Nfs3TargetProperties | ClfsTargetProperties | UnknownTargetProperties;
-
-/**
- * Properties of the Storage Target.
- */
-export interface StorageTargetProperties {
+export interface BlobNfsTarget {
   /**
-   * Polymorphic Discriminator
+   * Resource ID of the storage container.
    */
-  targetType: "StorageTargetProperties";
+  target?: string;
   /**
-   * List of Cache namespace junctions to target for namespace associations.
+   * Identifies the StorageCache usage model to be used for this storage target.
    */
-  junctions?: NamespaceJunction[];
-  /**
-   * ARM provisioning state, see
-   * https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property.
-   * Possible values include: 'Succeeded', 'Failed', 'Cancelled', 'Creating', 'Deleting',
-   * 'Updating'
-   */
-  provisioningState?: ProvisioningStateType;
-  /**
-   * Properties when targetType is nfs3.
-   */
-  nfs3?: Nfs3Target;
-  /**
-   * Properties when targetType is clfs.
-   */
-  clfs?: ClfsTarget;
-  /**
-   * Properties when targetType is unknown.
-   */
-  unknown?: UnknownTarget;
+  usageModel?: string;
 }
 
 /**
@@ -801,42 +811,9 @@ export interface StorageTarget extends StorageTargetResource {
    */
   junctions?: NamespaceJunction[];
   /**
-   * ARM provisioning state, see
-   * https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property.
-   * Possible values include: 'Succeeded', 'Failed', 'Cancelled', 'Creating', 'Deleting',
-   * 'Updating'
+   * Type of the Storage Target. Possible values include: 'nfs3', 'clfs', 'unknown', 'blobNfs'
    */
-  provisioningState?: ProvisioningStateType;
-  /**
-   * Properties when targetType is nfs3.
-   */
-  nfs3?: Nfs3Target;
-  /**
-   * Properties when targetType is clfs.
-   */
-  clfs?: ClfsTarget;
-  /**
-   * Properties when targetType is unknown.
-   */
-  unknown?: UnknownTarget;
-  /**
-   * Polymorphic Discriminator
-   */
-  targetType: string;
-}
-
-/**
- * An NFSv3 mount point for use as a Storage Target.
- */
-export interface Nfs3TargetProperties {
-  /**
-   * Polymorphic Discriminator
-   */
-  targetType: "nfs3";
-  /**
-   * List of Cache namespace junctions to target for namespace associations.
-   */
-  junctions?: NamespaceJunction[];
+  targetType: StorageTargetType;
   /**
    * ARM provisioning state, see
    * https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property.
@@ -856,72 +833,10 @@ export interface Nfs3TargetProperties {
    * Properties when targetType is unknown.
    */
   unknown?: UnknownTarget;
-}
-
-/**
- * Storage container for use as a CLFS Storage Target.
- */
-export interface ClfsTargetProperties {
   /**
-   * Polymorphic Discriminator
+   * Properties when targetType is blobNfs.
    */
-  targetType: "clfs";
-  /**
-   * List of Cache namespace junctions to target for namespace associations.
-   */
-  junctions?: NamespaceJunction[];
-  /**
-   * ARM provisioning state, see
-   * https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property.
-   * Possible values include: 'Succeeded', 'Failed', 'Cancelled', 'Creating', 'Deleting',
-   * 'Updating'
-   */
-  provisioningState?: ProvisioningStateType;
-  /**
-   * Properties when targetType is nfs3.
-   */
-  nfs3?: Nfs3Target;
-  /**
-   * Properties when targetType is clfs.
-   */
-  clfs?: ClfsTarget;
-  /**
-   * Properties when targetType is unknown.
-   */
-  unknown?: UnknownTarget;
-}
-
-/**
- * Storage container for use as an Unknown Storage Target.
- */
-export interface UnknownTargetProperties {
-  /**
-   * Polymorphic Discriminator
-   */
-  targetType: "unknown";
-  /**
-   * List of Cache namespace junctions to target for namespace associations.
-   */
-  junctions?: NamespaceJunction[];
-  /**
-   * ARM provisioning state, see
-   * https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property.
-   * Possible values include: 'Succeeded', 'Failed', 'Cancelled', 'Creating', 'Deleting',
-   * 'Updating'
-   */
-  provisioningState?: ProvisioningStateType;
-  /**
-   * Properties when targetType is nfs3.
-   */
-  nfs3?: Nfs3Target;
-  /**
-   * Properties when targetType is clfs.
-   */
-  clfs?: ClfsTarget;
-  /**
-   * Properties when targetType is unknown.
-   */
-  unknown?: UnknownTarget;
+  blobNfs?: BlobNfsTarget;
 }
 
 /**
@@ -1249,6 +1164,14 @@ export type UsernameSource = 'AD' | 'LDAP' | 'File' | 'None';
  * @enum {string}
  */
 export type UsernameDownloadedType = 'Yes' | 'No' | 'Error';
+
+/**
+ * Defines values for StorageTargetType.
+ * Possible values include: 'nfs3', 'clfs', 'unknown', 'blobNfs'
+ * @readonly
+ * @enum {string}
+ */
+export type StorageTargetType = 'nfs3' | 'clfs' | 'unknown' | 'blobNfs';
 
 /**
  * Defines values for ReasonCode.

@@ -3,12 +3,12 @@
 
 import { TokenCredential } from "@azure/core-auth";
 import {
-  HttpsClient,
+  HttpClient,
   PipelineRequest,
   PipelineResponse,
   Pipeline,
   createPipelineRequest
-} from "@azure/core-https";
+} from "@azure/core-rest-pipeline";
 import {
   OperationArguments,
   OperationSpec,
@@ -18,8 +18,7 @@ import {
 import { getStreamingResponseStatusCodes } from "./interfaceHelpers";
 import { getRequestUrl } from "./urlHelpers";
 import { flattenResponse } from "./utils";
-import { URL } from "./url";
-import { getCachedDefaultHttpsClient } from "./httpClientCache";
+import { getCachedDefaultHttpClient } from "./httpClientCache";
 import { getOperationRequestInfo } from "./operationHelpers";
 import { createClientPipeline } from "./pipeline";
 
@@ -68,9 +67,14 @@ export class ServiceClient {
   private readonly _requestContentType?: string;
 
   /**
+   * Set to true if the request is sent over HTTP instead of HTTPS
+   */
+  private readonly _allowInsecureConnection?: boolean;
+
+  /**
    * The HTTP client that will be used to send requests.
    */
-  private readonly _httpsClient: HttpsClient;
+  private readonly _httpClient: HttpClient;
 
   /**
    * The pipeline used by this client to make requests
@@ -85,7 +89,8 @@ export class ServiceClient {
   constructor(options: ServiceClientOptions = {}) {
     this._requestContentType = options.requestContentType;
     this._baseUri = options.baseUri;
-    this._httpsClient = options.httpsClient || getCachedDefaultHttpsClient();
+    this._allowInsecureConnection = options.allowInsecureConnection;
+    this._httpClient = options.httpClient || getCachedDefaultHttpClient();
 
     this.pipeline = options.pipeline || createDefaultPipeline(options);
   }
@@ -94,7 +99,7 @@ export class ServiceClient {
    * Send the provided httpRequest.
    */
   async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
-    return this.pipeline.sendRequest(this._httpsClient, request);
+    return this.pipeline.sendRequest(this._httpClient, request);
   }
 
   /**
@@ -137,12 +142,6 @@ export class ServiceClient {
       const requestOptions = options.requestOptions;
 
       if (requestOptions) {
-        if (requestOptions.customHeaders) {
-          for (const customHeaderName of Object.keys(requestOptions.customHeaders)) {
-            request.headers.set(customHeaderName, requestOptions.customHeaders[customHeaderName]);
-          }
-        }
-
         if (requestOptions.timeout) {
           request.timeout = requestOptions.timeout;
         }
@@ -158,15 +157,23 @@ export class ServiceClient {
         if (requestOptions.shouldDeserialize !== undefined) {
           operationInfo.shouldDeserialize = requestOptions.shouldDeserialize;
         }
+
+        if (requestOptions.allowInsecureConnection) {
+          request.allowInsecureConnection = true;
+        }
       }
 
       if (options.abortSignal) {
         request.abortSignal = options.abortSignal;
       }
 
-      if (options.tracingOptions?.spanOptions) {
-        request.spanOptions = options.tracingOptions.spanOptions;
+      if (options.tracingOptions) {
+        request.tracingOptions = options.tracingOptions;
       }
+    }
+
+    if (this._allowInsecureConnection) {
+      request.allowInsecureConnection = true;
     }
 
     if (request.streamResponseStatusCodes === undefined) {

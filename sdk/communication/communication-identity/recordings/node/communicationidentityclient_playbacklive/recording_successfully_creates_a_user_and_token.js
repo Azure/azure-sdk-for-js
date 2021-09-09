@@ -1,29 +1,33 @@
 let nock = require('nock');
 
-module.exports.hash = "d4ca4f01f37363d7de7cedfed77d38be";
+module.exports.hash = "0a49229be3fa1e539e92ade127fe93b5";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint', {"encodedQueryParams":true})
   .post('/identities', {"createTokenWithScopes":["voip"]})
   .query(true)
-  .reply(201, {"identity":{"id":"sanitized"},"accessToken":{"token":"sanitized","expiresOn":"2021-02-18T00:54:33.68764+00:00"}}, [
+  .reply(201, {"identity":{"id":"sanitized"},"accessToken":{"token":"sanitized","expiresOn":"2021-06-02T22:00:56.7077869+00:00"}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
+  'Request-Context',
+  'appId=',
   'MS-CV',
-  'EYSmCWTDs0GFkvpDpSk/9Q.0',
+  'bnSIbqXNU0eGqcU/dRpyTw.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'x-ms-client-request-id',
   'sanitized',
   'api-supported-versions',
-  '2020-07-20-preview2, 2021-03-07',
+  '2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1',
   'X-Processing-Time',
-  '32ms',
+  '39ms',
+  'X-Cache',
+  'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0SmksYAAAAAAJOPF107H0Raf1AnrsuUEBWVZSMzBFREdFMDMwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0Ga62YAAAAABju9GXiNfwR5mg+12zsH8WWVZSMzBFREdFMDMxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Wed, 17 Feb 2021 00:54:34 GMT'
+  'Tue, 01 Jun 2021 22:00:57 GMT'
 ]);

@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
+import { Suite } from "mocha";
 import { removeAllDatabases, getTestContainer } from "../common/TestHelpers";
 
-describe("Conflicts", function() {
+describe("Conflicts", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async function() {
     await removeAllDatabases();

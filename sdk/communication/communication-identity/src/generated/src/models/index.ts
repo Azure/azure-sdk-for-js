@@ -84,9 +84,16 @@ export interface CommunicationError {
    */
   readonly details?: CommunicationError[];
   /**
-   * The Communication Services error.
+   * The inner error if any.
    */
-  innerError?: CommunicationError;
+  readonly innerError?: CommunicationError;
+}
+
+export interface TeamsUserAccessTokenRequest {
+  /**
+   * Azure Active Directory access token to acquire a new ACS access token.
+   */
+  token: string;
 }
 
 export interface CommunicationIdentityAccessTokenRequest {
@@ -104,7 +111,8 @@ export type CommunicationIdentityTokenScope = "chat" | "voip";
 /**
  * Optional parameters.
  */
-export interface CommunicationIdentityCreateOptionalParams extends coreHttp.OperationOptions {
+export interface CommunicationIdentityCreateOptionalParams
+  extends coreHttp.OperationOptions {
   body?: CommunicationIdentityCreateRequest;
 }
 
@@ -125,6 +133,26 @@ export type CommunicationIdentityCreateResponse = CommunicationIdentityAccessTok
      * The response body as parsed JSON or XML
      */
     parsedBody: CommunicationIdentityAccessTokenResult;
+  };
+};
+
+/**
+ * Contains response data for the exchangeTeamsUserAccessToken operation.
+ */
+export type CommunicationIdentityExchangeTeamsUserAccessTokenResponse = CommunicationIdentityAccessToken & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CommunicationIdentityAccessToken;
   };
 };
 
@@ -151,7 +179,8 @@ export type CommunicationIdentityIssueAccessTokenResponse = CommunicationIdentit
 /**
  * Optional parameters.
  */
-export interface IdentityRestClientOptionalParams extends coreHttp.ServiceClientOptions {
+export interface IdentityRestClientOptionalParams
+  extends coreHttp.ServiceClientOptions {
   /**
    * Api Version
    */

@@ -22,7 +22,7 @@ function getEnvVarValue(name: string): string | undefined {
     return process.env[name];
   } else {
     // @ts-ignore
-    return window.__env__[name];
+    return self.__env__[name];
   }
 }
 

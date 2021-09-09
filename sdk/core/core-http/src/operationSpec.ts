@@ -97,7 +97,7 @@ export interface OperationSpec {
 
 /**
  * Gets the list of status codes for streaming responses.
- * @internal @hidden
+ * @internal
  */
 export function getStreamResponseStatusCodes(operationSpec: OperationSpec): Set<number> {
   const result = new Set<number>();

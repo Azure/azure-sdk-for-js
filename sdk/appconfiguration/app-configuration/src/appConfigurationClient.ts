@@ -6,9 +6,8 @@
 
 import { AppConfigCredential } from "./appConfigCredential";
 import { AppConfiguration } from "./generated/src/appConfiguration";
-import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  operationOptionsToRequestOptionsBase,
   isTokenCredential,
   exponentialRetryPolicy,
   systemErrorRetryPolicy,
@@ -18,7 +17,7 @@ import {
   userAgentPolicy
 } from "@azure/core-http";
 import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
-import { TokenCredential } from "@azure/identity";
+import { TokenCredential } from "@azure/core-auth";
 
 import "@azure/core-asynciterator-polyfill";
 
@@ -36,6 +35,8 @@ import {
   ListConfigurationSettingsOptions,
   ListRevisionsOptions,
   ListRevisionsPage,
+  PageSettings,
+  RetryOptions,
   SetConfigurationSettingOptions,
   SetConfigurationSettingParam,
   SetConfigurationSettingResponse,
@@ -51,15 +52,18 @@ import {
   transformKeyValueResponseWithStatusCode,
   transformKeyValue,
   formatAcceptDateTime,
-  formatFieldsForSelect
+  formatFieldsForSelect,
+  serializeAsConfigurationSettingParam
 } from "./internal/helpers";
 import { tracingPolicy } from "@azure/core-http";
-import { Spanner } from "./internal/tracingHelpers";
+import { trace as traceFromTracingHelpers } from "./internal/tracingHelpers";
 import {
   AppConfigurationGetKeyValuesResponse,
   AppConfigurationOptionalParams as GeneratedAppConfigurationClientOptions
 } from "./generated/src/models";
 import { syncTokenPolicy, SyncTokens } from "./internal/synctokenpolicy";
+import { FeatureFlagValue } from "./featureFlag";
+import { SecretReferenceValue } from "./secretReference";
 
 const packageName = "azsdk-js-app-configuration";
 
@@ -68,7 +72,7 @@ const packageName = "azsdk-js-app-configuration";
  * User - Agent header. There's a unit test that makes sure it always stays in sync.
  * @internal
  */
-export const packageVersion = "1.1.1";
+export const packageVersion = "1.3.1";
 const apiVersion = "1.0";
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
 const deserializationContentTypes = {
@@ -97,6 +101,11 @@ export interface AppConfigurationClientOptions {
    * Options for adding user agent details to outgoing requests.
    */
   userAgentOptions?: UserAgentOptions;
+
+  /**
+   * Options that control how to retry failed requests.
+   */
+  retryOptions?: RetryOptions;
 }
 
 /**
@@ -116,7 +125,9 @@ export interface InternalAppConfigurationClientOptions extends AppConfigurationC
  */
 export class AppConfigurationClient {
   private client: AppConfiguration;
-  private spanner: Spanner<AppConfigurationClient>;
+  private _syncTokens: SyncTokens;
+  // (for tests)
+  private _trace = traceFromTracingHelpers;
 
   /**
    * Initializes a new instance of the AppConfigurationClient class.
@@ -164,16 +175,14 @@ export class AppConfigurationClient {
       }
     }
 
-    const syncTokens = appConfigOptions.syncTokens || new SyncTokens();
+    this._syncTokens = appConfigOptions.syncTokens || new SyncTokens();
 
     this.client = new AppConfiguration(
       appConfigCredential,
       appConfigEndpoint,
       apiVersion,
-      getGeneratedClientOptions(appConfigEndpoint, syncTokens, appConfigOptions)
+      getGeneratedClientOptions(appConfigEndpoint, this._syncTokens, appConfigOptions)
     );
-
-    this.spanner = new Spanner<AppConfigurationClient>("Azure.Data.AppConfiguration");
   }
 
   /**
@@ -188,18 +197,20 @@ export class AppConfigurationClient {
    * @param options - Optional parameters for the request.
    */
   addConfigurationSetting(
-    configurationSetting: AddConfigurationSettingParam,
+    configurationSetting:
+      | AddConfigurationSettingParam
+      | AddConfigurationSettingParam<FeatureFlagValue>
+      | AddConfigurationSettingParam<SecretReferenceValue>,
     options: AddConfigurationSettingOptions = {}
   ): Promise<AddConfigurationSettingResponse> {
-    const opts = operationOptionsToRequestOptionsBase(options);
-    return this.spanner.trace("addConfigurationSetting", opts, async (newOptions) => {
+    return this._trace("addConfigurationSetting", options, async (newOptions) => {
+      const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
       const originalResponse = await this.client.putKeyValue(configurationSetting.key, {
         ifNoneMatch: "*",
         label: configurationSetting.label,
-        entity: configurationSetting,
+        entity: keyValue,
         ...newOptions
       });
-
       return transformKeyValueResponse(originalResponse);
     });
   }
@@ -218,8 +229,7 @@ export class AppConfigurationClient {
     id: ConfigurationSettingId,
     options: DeleteConfigurationSettingOptions = {}
   ): Promise<DeleteConfigurationSettingResponse> {
-    const opts = operationOptionsToRequestOptionsBase(options);
-    return this.spanner.trace("deleteConfigurationSetting", opts, async (newOptions) => {
+    return this._trace("deleteConfigurationSetting", options, async (newOptions) => {
       const originalResponse = await this.client.deleteKeyValue(id.key, {
         label: id.label,
         ...newOptions,
@@ -244,8 +254,7 @@ export class AppConfigurationClient {
     id: ConfigurationSettingId,
     options: GetConfigurationSettingOptions = {}
   ): Promise<GetConfigurationSettingResponse> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    return this.spanner.trace("getConfigurationSetting", requestOptions, async (newOptions) => {
+    return this._trace("getConfigurationSetting", options, async (newOptions) => {
       const originalResponse = await this.client.getKeyValue(id.key, {
         ...newOptions,
         label: id.label,
@@ -285,7 +294,7 @@ export class AppConfigurationClient {
    */
   listConfigurationSettings(
     options: ListConfigurationSettingsOptions = {}
-  ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage> {
+  ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
     const iter = this.getListConfigurationSettingsIterator(options);
 
     return {
@@ -295,10 +304,13 @@ export class AppConfigurationClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (_: PageSettings = {}) => {
+      byPage: (settings: PageSettings = {}) => {
         // The appconfig service doesn't currently support letting you select a page size
         // so we're ignoring their setting for now.
-        return this.listConfigurationSettingsByPage(options);
+        return this.listConfigurationSettingsByPage({
+          ...options,
+          continuationToken: settings.continuationToken
+        });
       }
     };
   }
@@ -314,17 +326,17 @@ export class AppConfigurationClient {
   }
 
   private async *listConfigurationSettingsByPage(
-    options: ListConfigurationSettingsOptions = {}
+    options: ListConfigurationSettingsOptions & PageSettings = {}
   ): AsyncIterableIterator<ListConfigurationSettingPage> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    let currentResponse = await this.spanner.trace(
+    let currentResponse = await this._trace(
       "listConfigurationSettings",
-      requestOptions,
+      options,
       async (newOptions) => {
         const response = await this.client.getKeyValues({
           ...newOptions,
           ...formatAcceptDateTime(options),
-          ...formatFiltersAndSelect(options)
+          ...formatFiltersAndSelect(options),
+          after: options.continuationToken
         });
 
         return response;
@@ -334,9 +346,9 @@ export class AppConfigurationClient {
     yield* this.createListConfigurationPageFromResponse(currentResponse);
 
     while (currentResponse.nextLink) {
-      currentResponse = await this.spanner.trace(
+      currentResponse = await this._trace(
         "listConfigurationSettings",
-        requestOptions,
+        options,
         // TODO: same code up above. Unify.
         async (newOptions) => {
           const response = await this.client.getKeyValues({
@@ -360,10 +372,13 @@ export class AppConfigurationClient {
 
   private *createListConfigurationPageFromResponse(
     currentResponse: AppConfigurationGetKeyValuesResponse
-  ) {
+  ): Generator<ListConfigurationSettingPage> {
     yield {
       ...currentResponse,
-      items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : []
+      items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : [],
+      continuationToken: currentResponse.nextLink
+        ? extractAfterTokenFromNextLink(currentResponse.nextLink)
+        : undefined
     };
   }
 
@@ -379,7 +394,7 @@ export class AppConfigurationClient {
    */
   listRevisions(
     options?: ListRevisionsOptions
-  ): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage> {
+  ): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage, PageSettings> {
     const iter = this.getListRevisionsIterator(options);
 
     return {
@@ -389,10 +404,13 @@ export class AppConfigurationClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (_: PageSettings = {}) => {
+      byPage: (settings: PageSettings = {}) => {
         // The appconfig service doesn't currently support letting you select a page size
         // so we're ignoring their setting for now.
-        return this.listRevisionsByPage(options);
+        return this.listRevisionsByPage({
+          ...options,
+          continuationToken: settings.continuationToken
+        });
       }
     };
   }
@@ -408,30 +426,23 @@ export class AppConfigurationClient {
   }
 
   private async *listRevisionsByPage(
-    options: ListRevisionsOptions = {}
+    options: ListRevisionsOptions & PageSettings = {}
   ): AsyncIterableIterator<ListRevisionsPage> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    let currentResponse = await this.spanner.trace(
-      "listRevisions",
-      requestOptions,
-      async (newOptions) => {
-        const response = await this.client.getRevisions({
-          ...newOptions,
-          ...formatAcceptDateTime(options),
-          ...formatFiltersAndSelect(newOptions)
-        });
+    let currentResponse = await this._trace("listRevisions", options, async (newOptions) => {
+      const response = await this.client.getRevisions({
+        ...newOptions,
+        ...formatAcceptDateTime(options),
+        ...formatFiltersAndSelect(newOptions),
+        after: options.continuationToken
+      });
 
-        return response;
-      }
-    );
+      return response;
+    });
 
-    yield {
-      ...currentResponse,
-      items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : []
-    };
+    yield* this.createListRevisionsPageFromResponse(currentResponse);
 
     while (currentResponse.nextLink) {
-      currentResponse = await this.spanner.trace("listRevisions", requestOptions, (newOptions) => {
+      currentResponse = await this._trace("listRevisions", options, (newOptions) => {
         return this.client.getRevisions({
           ...newOptions,
           ...formatAcceptDateTime(options),
@@ -444,11 +455,20 @@ export class AppConfigurationClient {
         break;
       }
 
-      yield {
-        ...currentResponse,
-        items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : []
-      };
+      yield* this.createListRevisionsPageFromResponse(currentResponse);
     }
+  }
+
+  private *createListRevisionsPageFromResponse(
+    currentResponse: AppConfigurationGetKeyValuesResponse
+  ) {
+    yield {
+      ...currentResponse,
+      items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : [],
+      continuationToken: currentResponse.nextLink
+        ? extractAfterTokenFromNextLink(currentResponse.nextLink)
+        : undefined
+    };
   }
 
   /**
@@ -463,16 +483,18 @@ export class AppConfigurationClient {
    * ```
    */
   async setConfigurationSetting(
-    configurationSetting: SetConfigurationSettingParam,
+    configurationSetting:
+      | SetConfigurationSettingParam
+      | SetConfigurationSettingParam<FeatureFlagValue>
+      | SetConfigurationSettingParam<SecretReferenceValue>,
     options: SetConfigurationSettingOptions = {}
   ): Promise<SetConfigurationSettingResponse> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-
-    return this.spanner.trace("setConfigurationSetting", requestOptions, async (newOptions) => {
+    return this._trace("setConfigurationSetting", options, async (newOptions) => {
+      const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
       const response = await this.client.putKeyValue(configurationSetting.key, {
         ...newOptions,
         label: configurationSetting.label,
-        entity: configurationSetting,
+        entity: keyValue,
         ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options)
       });
 
@@ -489,9 +511,7 @@ export class AppConfigurationClient {
     readOnly: boolean,
     options: SetReadOnlyOptions = {}
   ): Promise<SetReadOnlyResponse> {
-    const opts = operationOptionsToRequestOptionsBase(options);
-
-    return this.spanner.trace("setReadOnly", opts, async (newOptions) => {
+    return this._trace("setReadOnly", options, async (newOptions) => {
       if (readOnly) {
         const response = await this.client.putLock(id.key, {
           ...newOptions,
@@ -511,8 +531,16 @@ export class AppConfigurationClient {
       }
     });
   }
-}
 
+  /**
+   * Adds an external synchronization token to ensure service requests receive up-to-date values.
+   *
+   * @param syncToken - The synchronization token value.
+   */
+  updateSyncToken(syncToken: string): void {
+    this._syncTokens.addSyncTokenFromHeaderValue(syncToken);
+  }
+}
 /**
  * Gets the options for the generated AppConfigurationClient
  * @internal
@@ -525,7 +553,7 @@ export function getGeneratedClientOptions(
   const retryPolicies = [
     exponentialRetryPolicy(),
     systemErrorRetryPolicy(),
-    throttlingRetryPolicy()
+    throttlingRetryPolicy(internalAppConfigOptions.retryOptions)
   ];
 
   const userAgent = getUserAgentPrefix(

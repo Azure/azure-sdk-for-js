@@ -5,11 +5,12 @@ import { EventData, toRheaMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { MessageAnnotations, message, Message as RheaMessage } from "rhea-promise";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
-import { Span, SpanContext } from "@opentelemetry/api";
-import { TRACEPARENT_PROPERTY, instrumentEventData } from "./diagnostics/instrumentEventData";
-import { createMessageSpan } from "./diagnostics/messageSpan";
-import { defaultDataTransformer } from "./dataTransformer";
+import { AmqpAnnotatedMessage } from "@azure/core-amqp";
+import { Span, SpanContext } from "@azure/core-tracing";
+import { instrumentEventData } from "./diagnostics/instrumentEventData";
+import { convertTryAddOptionsForCompatibility } from "./diagnostics/tracing";
 import { isDefined, isObjectWithProperties } from "./util/typeGuards";
+import { OperationTracingOptions } from "@azure/core-tracing";
 
 /**
  * The amount of bytes to reserve as overhead for a small message.
@@ -43,7 +44,12 @@ export function isEventDataBatch(eventDataBatch: unknown): eventDataBatch is Eve
  */
 export interface TryAddOptions {
   /**
-   * The `Span` or `SpanContext` to use as the `parent` of any spans created while adding events.
+   * The options to use when creating Spans for tracing.
+   */
+  tracingOptions?: OperationTracingOptions;
+
+  /**
+   * @deprecated Tracing options have been moved to the `tracingOptions` property.
    */
   parentSpan?: Span | SpanContext;
 }
@@ -100,10 +106,10 @@ export interface EventDataBatch {
    * **NOTE**: Always remember to check the return value of this method, before calling it again
    * for the next event.
    *
-   * @param eventData -  An individual event data object.
+   * @param eventData -  An individual event data object or AmqpAnnotatedMessage.
    * @returns A boolean value indicating if the event data has been added to the batch or not.
    */
-  tryAdd(eventData: EventData, options?: TryAddOptions): boolean;
+  tryAdd(eventData: EventData | AmqpAnnotatedMessage, options?: TryAddOptions): boolean;
 
   /**
    * The AMQP message containing encoded events that were added to the batch.
@@ -278,24 +284,20 @@ export class EventDataBatchImpl implements EventDataBatch {
    * @param eventData -  An individual event data object.
    * @returns A boolean value indicating if the event data has been added to the batch or not.
    */
-  public tryAdd(eventData: EventData, options: TryAddOptions = {}): boolean {
+  public tryAdd(eventData: EventData | AmqpAnnotatedMessage, options: TryAddOptions = {}): boolean {
     throwTypeErrorIfParameterMissing(this._context.connectionId, "tryAdd", "eventData", eventData);
+    options = convertTryAddOptionsForCompatibility(options);
 
-    // check if the event has already been instrumented
-    const previouslyInstrumented = Boolean(
-      eventData.properties && eventData.properties[TRACEPARENT_PROPERTY]
+    const { entityPath, host } = this._context.config;
+    const { event: instrumentedEvent, spanContext } = instrumentEventData(
+      eventData,
+      options,
+      entityPath,
+      host
     );
-    let spanContext: SpanContext | undefined;
-    if (!previouslyInstrumented) {
-      const messageSpan = createMessageSpan(options.parentSpan, this._context.config);
-      eventData = instrumentEventData(eventData, messageSpan);
-      spanContext = messageSpan.context();
-      messageSpan.end();
-    }
 
     // Convert EventData to RheaMessage.
-    const amqpMessage = toRheaMessage(eventData, this._partitionKey);
-    amqpMessage.body = defaultDataTransformer.encode(eventData.body);
+    const amqpMessage = toRheaMessage(instrumentedEvent, this._partitionKey);
     const encodedMessage = message.encode(amqpMessage);
 
     let currentSize = this._sizeInBytes;

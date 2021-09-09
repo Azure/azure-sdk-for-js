@@ -23,7 +23,7 @@ export class MaxAggregator implements Aggregator {
   /**
    * Add the provided item to aggregation result.
    */
-  public aggregate(other: MaxAggregateResult) {
+  public aggregate(other: MaxAggregateResult): void {
     if (this.value === undefined) {
       this.value = other.max;
     } else if (
@@ -36,7 +36,7 @@ export class MaxAggregator implements Aggregator {
   /**
    * Get the aggregation result.
    */
-  public getResult() {
+  public getResult(): number {
     return this.value;
   }
 }

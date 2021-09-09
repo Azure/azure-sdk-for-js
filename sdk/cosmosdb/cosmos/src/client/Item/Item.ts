@@ -12,6 +12,7 @@ import {
 import { PartitionKey } from "../../documents";
 import { extractPartitionKey, undefinedPartitionKey } from "../../extractPartitionKey";
 import { RequestOptions, Response } from "../../request";
+import { PatchRequestBody } from "../../utils/patch";
 import { Container } from "../Container";
 import { Resource } from "../Resource";
 import { ItemDefinition } from "./ItemDefinition";
@@ -27,7 +28,7 @@ export class Item {
   /**
    * Returns a reference URL to the resource. Used for linking in Permissions.
    */
-  public get url() {
+  public get url(): string {
     return createDocumentUri(this.container.database.id, this.container.id, this.id);
   }
 
@@ -191,6 +192,45 @@ export class Item {
     const id = getIdFromLink(this.url);
 
     const response = await this.clientContext.delete<T>({
+      path,
+      resourceType: ResourceType.item,
+      resourceId: id,
+      options,
+      partitionKey: this.partitionKey
+    });
+    return new ItemResponse(
+      response.result,
+      response.headers,
+      response.code,
+      response.substatus,
+      this
+    );
+  }
+
+  /**
+   * Perform a JSONPatch on the item.
+   *
+   * Any provided type, T, is not necessarily enforced by the SDK.
+   * You may get more or less properties and it's up to your logic to enforce it.
+   *
+   * @param options - Additional options for the request
+   */
+  public async patch<T extends ItemDefinition = any>(
+    body: PatchRequestBody,
+    options: RequestOptions = {}
+  ): Promise<ItemResponse<T>> {
+    if (this.partitionKey === undefined) {
+      const {
+        resource: partitionKeyDefinition
+      } = await this.container.readPartitionKeyDefinition();
+      this.partitionKey = extractPartitionKey(body, partitionKeyDefinition);
+    }
+
+    const path = getPathFromLink(this.url);
+    const id = getIdFromLink(this.url);
+
+    const response = await this.clientContext.patch<T>({
+      body,
       path,
       resourceType: ResourceType.item,
       resourceId: id,

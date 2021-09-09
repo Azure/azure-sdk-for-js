@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import assert from "assert";
-import { assertRejects } from "../authTestUtils";
+import { assert } from "chai";
 import {
   ChainedTokenCredential,
   TokenCredential,
   AccessToken,
   AggregateAuthenticationError,
-  CredentialUnavailable
+  CredentialUnavailableError,
+  AuthenticationRequiredError
 } from "../../src";
+import { getError } from "../authTestUtils";
 
 function mockCredential(returnPromise: Promise<AccessToken | null>): TokenCredential {
   return {
@@ -20,7 +21,16 @@ function mockCredential(returnPromise: Promise<AccessToken | null>): TokenCreden
 describe("ChainedTokenCredential", function() {
   it("returns the first token received from a credential", async () => {
     const chainedTokenCredential = new ChainedTokenCredential(
-      mockCredential(Promise.reject(new CredentialUnavailable("unavailable."))),
+      mockCredential(Promise.reject(new CredentialUnavailableError("unavailable."))),
+      mockCredential(
+        Promise.reject(
+          new AuthenticationRequiredError(
+            ["https://vault.azure.net/.default"],
+            {},
+            "authentication-required."
+          )
+        )
+      ),
       mockCredential(Promise.resolve({ token: "firstToken", expiresOnTimestamp: 0 })),
       mockCredential(Promise.resolve({ token: "secondToken", expiresOnTimestamp: 0 }))
     );
@@ -31,13 +41,19 @@ describe("ChainedTokenCredential", function() {
 
   it("returns an AggregateAuthenticationError when no token is returned and one credential returned an error", async () => {
     const chainedTokenCredential = new ChainedTokenCredential(
-      mockCredential(Promise.reject(new CredentialUnavailable("unavailable."))),
-      mockCredential(Promise.reject(new CredentialUnavailable("unavailable.")))
+      mockCredential(Promise.reject(new CredentialUnavailableError("unavailable."))),
+      mockCredential(Promise.reject(new CredentialUnavailableError("unavailable.")))
     );
 
-    await assertRejects(
-      chainedTokenCredential.getToken("scope"),
-      (err: AggregateAuthenticationError) => err.errors.length === 2
+    const error = await getError<AggregateAuthenticationError>(
+      chainedTokenCredential.getToken("scope")
+    );
+    assert.deepEqual(error.errors.length, 2);
+    assert.deepEqual(
+      error.message,
+      `ChainedTokenCredential authentication failed.
+CredentialUnavailableError: unavailable.
+CredentialUnavailableError: unavailable.`
     );
   });
 });

@@ -11,7 +11,7 @@ import {
   URLBuilder
 } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { Container } from "./generated/src/operations";
@@ -43,7 +43,7 @@ import {
   ContainerRequestConditions,
   ModifiedAccessConditions
 } from "./models";
-import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
+import { newPipeline, PipelineLike, isPipelineLike, StoragePipelineOptions } from "./Pipeline";
 import { CommonOptions, StorageClient } from "./StorageClient";
 import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
 import {
@@ -421,6 +421,7 @@ export interface BlobItem {
   metadata?: { [propertyName: string]: string };
   tags?: Tags;
   objectReplicationSourceProperties?: ObjectReplicationPolicy[];
+  hasVersionsOnly?: boolean;
 }
 
 /**
@@ -516,6 +517,18 @@ export interface ContainerListBlobsOptions extends CommonOptions {
    * Specifies whether blob tags be returned in the response.
    */
   includeTags?: boolean;
+  /**
+   * Specifies whether deleted blob with versions be returned in the response.
+   */
+  includeDeletedWithVersions?: boolean;
+  /**
+   * Specifies whether blob immutability policy be returned in the response.
+   */
+  includeImmutabilityPolicy?: boolean;
+  /**
+   * Specifies whether blob legal hold be returned in the response.
+   */
+  includeLegalHold?: boolean;
 }
 
 /**
@@ -578,6 +591,8 @@ export class ContainerClient extends StorageClient {
    * @param containerName - Container name.
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
+  // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
   constructor(connectionString: string, containerName: string, options?: StoragePipelineOptions);
   /**
    * Creates an instance of ContainerClient.
@@ -595,6 +610,8 @@ export class ContainerClient extends StorageClient {
   constructor(
     url: string,
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   );
   /**
@@ -610,7 +627,7 @@ export class ContainerClient extends StorageClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  constructor(url: string, pipeline: Pipeline);
+  constructor(url: string, pipeline: PipelineLike);
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName?:
@@ -618,13 +635,15 @@ export class ContainerClient extends StorageClient {
       | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
-      | Pipeline,
+      | PipelineLike,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   ) {
-    let pipeline: Pipeline;
+    let pipeline: PipelineLike;
     let url: string;
     options = options || {};
-    if (credentialOrPipelineOrContainerName instanceof Pipeline) {
+    if (isPipelineLike(credentialOrPipelineOrContainerName)) {
       // (url: string, pipeline: Pipeline)
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
@@ -710,7 +729,7 @@ export class ContainerClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -740,7 +759,7 @@ export class ContainerClient extends StorageClient {
     } catch (e) {
       if (e.details?.errorCode === "ContainerAlreadyExists") {
         span.setStatus({
-          code: CanonicalCode.ALREADY_EXISTS,
+          code: SpanStatusCode.ERROR,
           message: "Expected exception when creating a container only if it does not already exist."
         });
         return {
@@ -751,7 +770,7 @@ export class ContainerClient extends StorageClient {
       }
 
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -780,13 +799,13 @@ export class ContainerClient extends StorageClient {
     } catch (e) {
       if (e.statusCode === 404) {
         span.setStatus({
-          code: CanonicalCode.NOT_FOUND,
+          code: SpanStatusCode.ERROR,
           message: "Expected exception when checking container existence"
         });
         return false;
       }
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -879,7 +898,7 @@ export class ContainerClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -904,7 +923,7 @@ export class ContainerClient extends StorageClient {
 
     const { span, updatedOptions } = createSpan("ContainerClient-delete", options);
     try {
-      return await this.containerContext.deleteMethod({
+      return await this.containerContext.delete({
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
@@ -912,7 +931,7 @@ export class ContainerClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -943,7 +962,7 @@ export class ContainerClient extends StorageClient {
     } catch (e) {
       if (e.details?.errorCode === "ContainerNotFound") {
         span.setStatus({
-          code: CanonicalCode.NOT_FOUND,
+          code: SpanStatusCode.ERROR,
           message: "Expected exception when deleting a container only if it exists."
         });
         return {
@@ -953,7 +972,7 @@ export class ContainerClient extends StorageClient {
         };
       }
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1000,7 +1019,7 @@ export class ContainerClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1074,7 +1093,7 @@ export class ContainerClient extends StorageClient {
       return res;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1134,7 +1153,7 @@ export class ContainerClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1191,7 +1210,7 @@ export class ContainerClient extends StorageClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1224,7 +1243,7 @@ export class ContainerClient extends StorageClient {
       return await blobClient.delete(updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1254,6 +1273,7 @@ export class ContainerClient extends StorageClient {
         ...options,
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
+
       const wrappedResponse: ContainerListBlobFlatSegmentResponse = {
         ...response,
         _response: response._response, // _response is made non-enumerable
@@ -1274,7 +1294,7 @@ export class ContainerClient extends StorageClient {
       return wrappedResponse;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1329,7 +1349,7 @@ export class ContainerClient extends StorageClient {
       return wrappedResponse;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1472,6 +1492,15 @@ export class ContainerClient extends StorageClient {
     }
     if (options.includeTags) {
       include.push("tags");
+    }
+    if (options.includeDeletedWithVersions) {
+      include.push("deletedwithversions");
+    }
+    if (options.includeImmutabilityPolicy) {
+      include.push("immutabilitypolicy");
+    }
+    if (options.includeLegalHold) {
+      include.push("legalhold");
     }
     if (options.prefix === "") {
       options.prefix = undefined;
@@ -1680,6 +1709,15 @@ export class ContainerClient extends StorageClient {
     }
     if (options.includeTags) {
       include.push("tags");
+    }
+    if (options.includeDeletedWithVersions) {
+      include.push("deletedwithversions");
+    }
+    if (options.includeImmutabilityPolicy) {
+      include.push("immutabilitypolicy");
+    }
+    if (options.includeLegalHold) {
+      include.push("legalhold");
     }
     if (options.prefix === "") {
       options.prefix = undefined;

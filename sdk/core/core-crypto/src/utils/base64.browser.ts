@@ -6,7 +6,6 @@
 /**
  * Converts a base64 string into a byte array.
  * @param content - The base64 string to convert.
- * @hidden
  * @internal
  */
 export function base64ToBytes(content: string): Uint8Array {
@@ -26,7 +25,6 @@ export function base64ToBytes(content: string): Uint8Array {
 /**
  * Converts an ArrayBuffer to base64 string.
  * @param buffer - Raw binary data.
- * @hidden
  * @internal
  */
 export function bufferToBase64(buffer: ArrayBuffer): string {

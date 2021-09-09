@@ -1,23 +1,190 @@
 # Release History
 
-## 1.2.4 (Unreleased)
+## 2.0.0-beta.6 (2021-09-09)
 
-## 1.2.4-beta.2 (Unreleased)
+### Features Added
 
-- Bug fix: Now if the `managedIdentityClientId` optional parameter is provided to `DefaultAzureCredential`, it will be properly passed through to the underlying `ManagedIdentityCredential`. Related to customer issue: [13973](https://github.com/Azure/azure-sdk-for-js/pull/13973).
-- `DefaultAzureCredential`'s implementation for browsers was simplified to throw a simple error instead of trying credentials that were already not supported for the browser.
-- Breaking Change: `InteractiveBrowserCredential` for the browser now requires the client ID to be provided.
-- Documentation was added to elaborate on how to configure an AAD application to support `InteractiveBrowserCredential`.
-- Replaced the use of the 'express' module with a Node-native http server, shrinking the resulting identity module considerably
+- Added the `OnBehalfOfCredential`, which allows users to authenticate through the [On-Behalf-Of authentication flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow).
+- `ManagedIdentityCredential` now supports token exchange authentication.
+
+### Breaking Changes
+
+- `ClientCertificateCredential` now evaluates the validity of the PEM certificate path on `getToken` and not on the constructor.
+
+#### Breaking Changes from 2.0.0-beta.5
+
+- The property named `selectedCredential` that was added to `ChainedTokenCredential` and `DefaultAzureCredential` has been removed, since customers reported that logging was enough.
+
+### Bugs Fixed
+
+- `ClientSecretCredential`, `ClientCertificateCredential` and `UsernamePasswordCredential` now throw if the required parameters are not provided (even in JavaScript).
+- Fixed a bug introduced on 2.0.0-beta.5 that caused the `ManagedIdentityCredential` to fail authenticating in Arc environments. Since our new core disables unsafe requests by default, we had to change the security settings for the first request of the Arc MSI, which retrieves the file path where the authentication value is stored since this request generally happens through an HTTP endpoint.
+- Fixed bug on the `AggregateAuthenticationError`, which caused an inconsistent error message on the `ChainedTokenCredential`, `DefaultAzureCredential` and `ApplicationCredential`.
+
+### Other Changes
+
+- The errors thrown by the `ManagedIdentityCredential` have been improved.
+
+## 2.0.0-beta.5 (2021-08-10)
+
+### Features Added
+
+- This release adds support by default for CP1 client capabilities, enabling all credentials to respond to claims challenges that occur due to insufficient claims. Claims challenges, for example, can occur due to requirements of [Continuous Access Enforcement (CAE)](https://docs.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) and [Conditional Access authentication context](https://techcommunity.microsoft.com/t5/azure-active-directory-identity/granular-conditional-access-for-sensitive-data-and-actions/ba-p/1751775). You may optionally disable this behavior by setting the environment variable `AZURE_IDENTITY_DISABLE_CP1` (to any value). You can read more about client capabilities, CAE, and Conditional Access on [the Microsoft Documentation](https://docs.microsoft.com/azure/active-directory/develop/claims-challenge).
+- `ChainedTokenCredential` and `DefaultAzureCredential` now expose a property named `selectedCredential`, which will store the selected credential once any of the available credentials succeeds.
+- Implementation of `ApplicationCredential` for use by applications which call into Microsoft Graph APIs and which have issues using `DefaultAzureCredential`. This credential is based on `EnvironmentCredential` and `ManagedIdentityCredential`.
+
+### Breaking Changes
+
+> These changes do not impact the API of stable versions such as 1.6.0.
+> Only code written against a beta version such as 1.7.0b1 may be affected.
+
+- Renamed `AZURE_POD_IDENTITY_TOKEN_URL` to `AZURE_POD_IDENTITY_AUTHORITY_HOST`.
+
+### Bugs Fixed
+
+- With this release, we've migrated from using `@azure/core-http` to `@azure/core-rest-pipeline` for the handling of HTTP requests. See [Azure Core v1 vs v2](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-rest-pipeline/documentation/core2.md) for more on the difference and benefits of the move. This removes our dependency on `node-fetch` and along with it issues we have seen in using this dependency in specific environments like Kubernetes pods.
+
+## 1.5.2 (2021-09-01)
+
+- Fixed a bug introduced on 1.5.0 that caused the `ManagedIdentityCredential` to fail authenticating in Arc environments. Since our new core disables unsafe requests by default, we had to change the security settings for the first request of the Arc MSI, which retrieves the file path where the authentication value is stored since this request generally happens through an HTTP endpoint.
+
+## 1.5.1 (2021-08-12)
+
+- Fixed how we verify the IMDS endpoint is available. Now, besides skipping the `Metadata` header, we skip the URL query. Both will ensure that all the known IMDS endpoints return as early as possible.
+- Added support for the `AZURE_POD_IDENTITY_AUTHORITY_HOST` environment variable. If present, the IMDS endpoint initial verification will be skipped.
+
+## 1.5.0 (2021-07-19)
+
+- With this release, we've migrated from using `@azure/core-http` to `@azure/core-rest-pipeline` for the handling of HTTP requests. See [Azure Core v1 vs v2](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-rest-pipeline/documentation/core2.md) for more on the difference and benefits of the move. This removes our dependency on `node-fetch` and along with it issues we have seen in using this dependency in specific environments like Kubernetes pods.
+
+## 1.4.0 (2021-07-09)
+
+- With this release, we drop support for Node.js versions that have reached the end of life, like Node.js 8. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+- Updated the default timeout of the first request of the IMDS MSI from half a second to three seconds to compensate for the slowness caused by `node-fetch` for initial requests in specific environments, like Kubernetes pods.
+- Upgraded `@azure/core-http` to version `^2.0.0`, and `@azure/core-tracing` to version `1.0.0-preview.12`.
+
+- Upgraded the `AuthorizationCodeCredential` to use the latest `@azure/msal-node`.
+
+## 2.0.0-beta.4 (2021-07-07)
+
+### Features Added
+
+- With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+- Introduced an extension API through a top-level method `useIdentityExtension`. The function accepts an "extension" as an argument, which is a function accepting a `context`. The extension context is an internal part of the Azure Identity API, so it has an `unknown` type. Two new packages are designed to be used with this API:
+  - `@azure/identity-vscode`, which provides the dependencies of `VisualStudioCodeCredential` and enables it (see more below).
+  - `@azure/identity-cache-persistence`, which provides persistent token caching (same as was available in version 2.0.0-beta.2, but now provided through a secondary extension package).
+- Reintroduced a stub implementation of `VisualStudioCodeCredential`. If the `@azure/identity-vscode` extension is not used, then it will throw a `CredentialUnavailableError` (similar to how it previously behaved if the `keytar` package was not installed). The extension now provides the underlying implementation of `VisualStudioCodeCredential` through dependency injection.
+- Reintroduced the `TokenCachePersistenceOptions` property on most credential constructor options. This property must be present with an `enabled` property set to true to enable persistent token caching for a credential instance. Credentials that do not support persistent token caching do not have this property.
+- Added support to `ManagedIdentityCredential` for Bridge to Kubernetes local development authentication.
+- Enabled PKCE on `InteractiveBrowserCredential` for Node.js. [Proof Key for Code Exchange (PKCE)](https://datatracker.ietf.org/doc/html/rfc7636) is a security feature that mitigates authentication code interception attacks.
+- Added `LoginHint` property to `InteractiveBrowserCredentialOptions` which allows a user name to be pre-selected for interactive logins. Setting this option skips the account selection prompt and immediately attempts to login with the specified account.
+- Added regional STS support to client credential types.
+  - Added the `RegionalAuthority` type, that allows specifying Azure regions.
+  - Added `regionalAuthority` property to `ClientSecretCredentialOptions` and `ClientCertificateCredentialOptions`.
+  - If instead of a region, `AutoDiscoverRegion` is specified as the value for `regionalAuthority`, MSAL will be used to attempt to discover the region.
+  - A region can also be specified through the `AZURE_REGIONAL_AUTHORITY_NAME` environment variable.
+- `AzureCliCredential` and `AzurePowerShellCredential` now allow specifying a `tenantId`.
+- All credentials except `ManagedIdentityCredential` support enabling multi tenant authentication via the `allowMultiTenantAuthentication` option.
+
+### Breaking Changes
+
+- Removed the protected method `getAzureCliAccessToken` from the public API of the `AzureCliCredential`. While it will continue to be available as part of v1, we won't be supporting this method as part of v2's public API.
+
+### Key Bugs Fixed
+
+- Fixed an issue in which `InteractiveBrowserCredential` on Node would sometimes cause the process to hang if there was no browser available.
+- Fixed an issue in which the `AZURE_AUTHORITY_HOST` environment variable was not properly picked up in Node.js.
+
+## 2.0.0-beta.3 (2021-05-12)
+
+### New features
+
+- Azure Identity for JavaScript no longer carries any native dependencies (neither ordinary, peer, nor optional dependencies). Previous distributions of `@azure/identity` carried an optional dependency on `keytar`, which caused issues for some users in restrictive environments.
+- Updated the `@azure/msal-node` dependency to version `^1.0.2`, which allows cancelling of an ongoing `getToken()` operation on `DeviceCodeCredential`.
+- Fixed issue with the logging of success messages on the `DefaultAzureCredential` and the `ChainedTokenCredential`. These messages will now mention the internal credential that succeeded.
+- `AuthenticationRequiredError` (introduced in 2.0.0-beta.1) now has the same impact on `ChainedTokenCredential` as the `CredentialUnavailableError` which is to allow the next credential in the chain to be tried.
+- `ManagedIdentityCredential` now retries with exponential back-off when a request for a token fails with a 404 status code on environments with available IMDS endpoints.
+- Added an `AzurePowerShellCredential` which will use the authenticated user session from the `Az.Account` PowerShell module. This credential will attempt to use PowerShell Core by calling `pwsh`, and on Windows it will fall back to Windows PowerShell (`powershell`) if PowerShell Core is not available.
+
+### Breaking changes from 2.0.0-beta.1
+
+- Removed `VisualStudioCodeCredential`, since it requires us to list [keytar](https://www.npmjs.com/package/keytar) as an optional dependency. `keytar` contains machine-code components that are difficult to build in certain environments, so this credential will be offered through a separate extension package in the future.
+- Removed token persistence through `@azure/msal-node-extensions`, as its machine-code components have the same problems as `keytar`. This functionality will similarly be reintroduced through a separate extension package in the future.
+- Removed `authenticationRecord`, `disableAutomaticAuthentication` and `authenticate()` from the credential `UsernamePasswordCredential`. While MSAL does support this, allowing `authenticationRecord` arguably could result in users authenticating through an account other than the one they're specifying with the username and the password.
+
+## 2.0.0-beta.2 (2021-04-06)
+
+- Breaking change: Renamed errors `CredentialUnavailable` to `CredentialUnavailableError`, and `AuthenticationRequired` to `AuthenticationRequiredError`, to align with the naming convention used for error classes in the Azure SDKs in JavaScript.
+- Added `clientId` to the `AuthenticationRecord` type, alongsides the `tenantId` that this interface already had. Together they can be used to re-authenticate after recovering a previously serialized `AuthenticationRecord`.
+- The `serialize()` method on the `AuthenticationRecord` object that allows an authenticated account to be stored as a string and re-used in another credential at any time, is removed in favor of a standalone function `serializeAuthenticationRecord` similar to how we have the `deserializeAuthenticationRecord` function.
+- `serializeAuthenticationRecord` now serializes into a JSON string with camel case properties. This makes it re-usable across languages.
+- Removed the interface `PersistentCredentialOptions` (introduced in `2.0.0-beta.1`) and instead inlined the options for the persistent cache feature in the options of individual credentials.
+- Added properties `scopes` and `getTokenOptions` to the AuthenticationRequired error. These properties hold the values used by the `getToken()` method on your credential to fetch the access token. You should pass these to the `authenticate()` method on your credential if you wanted to do manual authentication after catching the `AuthenticationRequired` error.
+- `InteractiveBrowserCredential` no longer supports [Implicit Grant Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow) and will only support [Auth Code Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow) instead. Therefore the `flow` option introduced in `1.2.4-beta.1` has been removed. More information from the documentation on Implicit Grant Flow:
+
+> With the plans for [third party cookies to be removed from browsers](https://docs.microsoft.com/azure/active-directory/develop/reference-third-party-cookies-spas), the **implicit grant flow is no longer a suitable authentication method**. The [silent SSO features](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow#getting-access-tokens-silently-in-the-background) of the implicit flow do not work without third party cookies, causing applications to break when they attempt to get a new token. We strongly recommend that all new applications use the authorization code flow that now supports single page apps in place of the implicit flow, and that [existing single page apps begin migrating to the authorization code flow](https://docs.microsoft.com/azure/active-directory/develop/migrate-spa-implicit-to-auth-code) as well.
+
+## 1.3.0 (2021-04-05)
+
+### Tracing Changes
+
+- Updated @azure/core-tracing to version `1.0.0-preview.11`. See [@azure/core-tracing CHANGELOG](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-tracing/CHANGELOG.md) for details about breaking changes with tracing.
+
+## 2.0.0-beta.1 (2021-03-24)
+
+This update marks the preview for the first major version update of the `@azure/identity` package since the first stable version was released in October, 2019. This is mainly driven by the improvements we are making for the `InteractiveBrowserCredential` when used in browser applications by updating it to use the new `@azure/msal-browser` which is replacing the older `msal` package.
+
+### Breaking changes
+
+- Changes to `InteractiveBrowserCredential`
+  - When used in browser applications, the `InteractiveBrowserCredential` has been updated to use the [Auth Code Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow) with [PKCE](https://tools.ietf.org/html/rfc7636) rather than [Implicit Grant Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow) by default to better support browsers with enhanced security restrictions. Please note that this credential always used the Auth Code Flow when used in Node.js applications. Read more on this in our [docs on Interactive Browser Credential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/interactive-browser-credential.md).
+  - The default client ID used for `InteractiveBrowserCredential` was viable only in Node.js and not for the browser. Therefore, client Id is now a required parameter when constructing this credential in browser applications.
+  - The `loginStyle` and `flow` options to the constructor for `InteractiveBrowserCredential` will now show up only when used in browser applications as these were never applicable to Node.js
+  - Removed the `postLogoutRedirectUri` from the options to the constructor for `InteractiveBrowserCredential`. This option was not being used since we don't have a way for users to log out yet.
+- When a token is not available, some credentials had the promise returned by the `getToken` method resolve with `null`, others had the `getToken` method throw the `CredentialUnavailable` error. This behavior is now made consistent across all credentials to throw the `CredentialUnavailable` error.
+  - This change has no bearing on the user if all they ever did was create the credentials and pass it to the Azure SDKs.
+  - This change affects only those users who called the `getToken()` method directly and did not handle resulting errors.
+- The constructor for `DeviceCodeCredential` always had multiple optional parameters and no required ones. As per our guidelines, this has now been simplified to take a single optional bag of parameters.
+
+### New features
+
+- Changes to `InteractiveBrowserCredential`, `DeviceCodeCredential`, `ClientSecretCredential`, `ClientCertificateCredential` and `UsernamePasswordCredential`:
+  - Migrated to use the latest MSAL. This update improves caching of tokens, significantly reducing the number of network requests.
+  - Added the feature of persistence caching of credentials. This is driven by the new `tokenCachePersistenceOptions` option available in the options you pass to the credential constructors.
+    - For now, to use this feature, users will need to install `@azure/msal-node-extensions` [1.0.0-alpha.6](https://www.npmjs.com/package/@azure/msal-node-extensions/v/1.0.0-alpha.6) on their own. This experience will be improved in the next update.
+    - This feature uses DPAPI on Windows, it tries to use the Keychain on OSX and the Keyring on Linux.
+    - To learn more on the usage, please refer to our docs on the `TokenCachePersistenceOptions` interface.
+    - **IMPORTANT:** As part of this beta, this feature is only supported in Node 10, 12 and 14.
+- Changes to `InteractiveBrowserCredential`, `DeviceCodeCredential`, and `UsernamePasswordCredential`:
+  - You can now control when the credential requests user input with the new `disableAutomaticAuthentication` option added to the options you pass to the credential constructors.
+    - When enabled, this option stops the `getToken()` method from requesting user input in case the credential is unable to authenticate silently.
+    - If `getToken()` fails to authenticate without user interaction, and `disableAutomaticAuthentication` has been set to true, a new error will be thrown: `AuthenticationRequired`. You may use this error to identify scenarios when manual authentication needs to be triggered (with `authenticate()`, as described in the next point).
+  - A new method `authenticate()` is added to these credentials which is similar to `getToken()`, but it does not read the `disableAutomaticAuthentication` option described above.
+    - Use this to get an `AuthenticationRecord` which you can then use to create new credentials that will re-use the token information.
+    - The `AuthenticationRecord` object has a `serialize()` method that allows an authenticated account to be stored as a string and re-used in another credential at any time. Use the new helper function `deserializeAuthenticationRecord` to de-serialize this string.
+    - `authenticate()` might succeed and still return `undefined` if we're unable to pick just one account record from the cache. This might happen if the cache is being used by more than one credential, or if multiple users have authenticated using the same Client ID and Tenant ID. To ensure consistency on a program with many users, please keep track of the `AuthenticationRecord` and provide them in the constructors of the credentials on initialization.
+
+### Other changes
+
+- Updated the `@azure/msal-node` dependency to `^1.0.0`.
+- `DefaultAzureCredential`'s implementation for browsers is simplified to throw the `BrowserNotSupportedError` in its constructor. Previously, we relied on getting the same error from trying to instantiate the different credentials that `DefaultAzureCredential` supports in Node.js.
+  - As before, please use only the `InteractiveBrowserCredential` in your browser applications.
+- For the `InteractiveBrowserCredential` for node, replaced the use of the `express` module with a native http server for Node, shrinking the resulting identity module considerably.
+
+## 1.2.4 (2021-03-08)
+
+This release doesn't have the changes from `1.2.4-beta.1`.
+
+- Bug fix: Now if the `managedIdentityClientId` optional parameter is provided to `DefaultAzureCredential`, it will be properly passed through to the underlying `ManagedIdentityCredential`. Related to customer issue: [13872](https://github.com/Azure/azure-sdk-for-js/issues/13872).
 - Bug fix: `ManagedIdentityCredential` now also properly handles `EHOSTUNREACH` errors. Fixes issue [13894](https://github.com/Azure/azure-sdk-for-js/issues/13894).
 
 ## 1.2.4-beta.1 (2021-02-12)
 
-- Breaking Change: Updated `InteractiveBrowserCredential` to use the Auth Code Flow with PKCE rather than Implicit Grant Flow by default in the browser, to better support browsers with enhanced security restrictions. A new file was added to provide more information about this credential [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/interactive-browser-credential.md).
+- Breaking Change: Updated `InteractiveBrowserCredential` to use the Auth Code Flow with PKCE rather than Implicit Grant Flow by default in the browser, to better support browsers with enhanced security restrictions. A new file was added to provide more information about this credential [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/interactive-browser-credential.md).
 
 ## 1.2.3 (2021-02-09)
 
-- Fixed Azure Stack support for the NodeJS version of the `InteractiveBrowserCredential`. Fixes issue [11220](https://github.com/Azure/azure-sdk-for-js/issues/11220).
+- Fixed Azure Stack support for the Node.js version of the `InteractiveBrowserCredential`. Fixes issue [11220](https://github.com/Azure/azure-sdk-for-js/issues/11220).
 - The 'keytar' dependency has been updated to the latest version.
 - No longer overrides global Axios defaults. This includes an update in `@azure/identity`'s source, and an update of the `@azure/msal-node` dependency. Fixes issue [13343](https://github.com/Azure/azure-sdk-for-js/issues/13343).
 

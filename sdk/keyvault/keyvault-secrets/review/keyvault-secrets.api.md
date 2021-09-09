@@ -26,12 +26,15 @@ export interface BeginRecoverDeletedSecretOptions extends SecretPollerOptions {
 
 // @public
 export interface DeletedSecret {
+    deletedOn?: Date;
     name: string;
     properties: SecretProperties & {
         recoveryId?: string;
         scheduledPurgeDate?: Date;
         deletedOn?: Date;
     };
+    recoveryId?: string;
+    scheduledPurgeDate?: Date;
     value?: string;
 }
 
@@ -55,7 +58,7 @@ export interface KeyVaultSecret {
 }
 
 // @public
-export interface KeyVaultSecretId {
+export interface KeyVaultSecretIdentifier {
     name: string;
     sourceId: string;
     vaultUrl: string;
@@ -91,6 +94,9 @@ export const logger: import("@azure/logger").AzureLogger;
 export { PagedAsyncIterableIterator }
 
 export { PageSettings }
+
+// @public
+export function parseKeyVaultSecretIdentifier(id: string): KeyVaultSecretIdentifier;
 
 export { PipelineOptions }
 
@@ -144,7 +150,7 @@ export interface SecretProperties {
     readonly expiresOn?: Date;
     id?: string;
     // @deprecated
-    readonly keyId?: unknown;
+    readonly keyId?: never;
     readonly managed?: boolean;
     name: string;
     readonly notBefore?: Date;

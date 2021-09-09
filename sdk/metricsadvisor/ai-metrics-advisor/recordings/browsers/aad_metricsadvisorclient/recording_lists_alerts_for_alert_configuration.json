@@ -11,15 +11,17 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 20 Jan 2021 18:40:00 GMT",
+    "date": "Wed, 02 Jun 2021 07:08:17 GMT",
     "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11419.13 - KRSLR1 ProdSlices",
-    "x-ms-request-id": "75b1142b-87bd-459c-bf45-04cdb59e8200"
+    "x-ms-ests-server": "2.1.11722.26 - EUS ProdSlices",
+    "x-ms-request-id": "da5cfda0-8af9-456e-b98d-03843848b800"
    }
   },
   {
@@ -28,16 +30,16 @@
    "query": {},
    "requestBody": "{\"startTime\":\"2020-11-01T00:00:00.000Z\",\"endTime\":\"2020-11-05T00:00:00.000Z\",\"timeMode\":\"AnomalyTime\"}",
    "status": 200,
-   "response": "{\"value\":[{\"alertId\":\"175908d9800\",\"timestamp\":\"2020-11-04T00:00:00Z\",\"createdTime\":\"2020-11-05T00:56:55.458Z\",\"modifiedTime\":\"2020-11-10T20:27:22.216Z\"},{\"alertId\":\"1758b673c00\",\"timestamp\":\"2020-11-03T00:00:00Z\",\"createdTime\":\"2020-11-04T00:06:13.262Z\",\"modifiedTime\":\"2020-11-09T00:07:02.44Z\"},{\"alertId\":\"1758640e000\",\"timestamp\":\"2020-11-02T00:00:00Z\",\"createdTime\":\"2020-11-03T00:06:12.487Z\",\"modifiedTime\":\"2020-11-08T00:06:42.859Z\"},{\"alertId\":\"175811a8400\",\"timestamp\":\"2020-11-01T00:00:00Z\",\"createdTime\":\"2020-11-02T00:33:16.23Z\",\"modifiedTime\":\"2020-11-07T00:07:17.348Z\"}],\"@nextLink\":null}",
+   "response": "{\"value\":[{\"alertId\":\"175908d9800\",\"timestamp\":\"2020-11-04T00:00:00Z\",\"createdTime\":\"2020-11-05T00:56:55.458Z\",\"modifiedTime\":\"2020-11-10T20:27:22.216Z\"},{\"alertId\":\"1758b673c00\",\"timestamp\":\"2020-11-03T00:00:00Z\",\"createdTime\":\"2020-11-04T00:06:13.262Z\",\"modifiedTime\":\"2020-11-09T00:07:02.44Z\"},{\"alertId\":\"1758640e000\",\"timestamp\":\"2020-11-02T00:00:00Z\",\"createdTime\":\"2020-11-03T00:06:12.487Z\",\"modifiedTime\":\"2020-11-08T00:06:42.859Z\"},{\"alertId\":\"175811a8400\",\"timestamp\":\"2020-11-01T00:00:00Z\",\"createdTime\":\"2020-11-02T00:33:16.23Z\",\"modifiedTime\":\"2020-11-07T00:07:17.348Z\"}]}",
    "responseHeaders": {
-    "apim-request-id": "0db962bd-d71b-433a-8f05-92e1e5048036",
-    "content-length": "602",
+    "apim-request-id": "f0ce72bf-96bd-4e56-aa20-890ffde41f94",
+    "content-length": "585",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 20 Jan 2021 18:40:01 GMT",
+    "date": "Wed, 02 Jun 2021 07:08:17 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "41",
-    "x-request-id": "0db962bd-d71b-433a-8f05-92e1e5048036"
+    "x-envoy-upstream-service-time": "410",
+    "x-request-id": "f0ce72bf-96bd-4e56-aa20-890ffde41f94"
    }
   }
  ],
@@ -45,5 +47,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "b8b3a92b82af9ddaea9e0f684195e32d"
+ "hash": "b1b69478d435819984ca732029375973"
 }

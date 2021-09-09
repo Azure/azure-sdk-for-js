@@ -5,7 +5,7 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 
 import { getBSU } from "./utils";
-import { record, Recorder, isRecordMode, isPlaybackMode } from "@azure/test-utils-recorder";
+import { record, Recorder, isRecordMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { recorderEnvSetup, testPollerProperties } from "./utils/testutils.common";
 import {
   BlobClient,
@@ -16,6 +16,7 @@ import {
   PollOperationState
 } from "../src";
 import { URLBuilder, URLQuery } from "@azure/core-http";
+import { Context } from "mocha";
 dotenv.config();
 
 describe("BlobClient beginCopyFromURL Poller", () => {
@@ -30,7 +31,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     const blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -45,7 +46,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     await destinationContainerClient.create();
   });
 
-  afterEach(async function() {
+  afterEach(async function(this: Context) {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
       await destinationContainerClient.delete();
@@ -137,7 +138,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     );
   });
 
-  it("supports cancellation of the copy", async function() {
+  it("supports cancellation of the copy", async function(this: Context) {
     if (!(isRecordMode() || isPlaybackMode())) {
       // Depends on the service not returning 'success' as soon as
       // the copy is initiated. Since this can't be guaranteed in the live tests,
@@ -161,7 +162,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     }
   });
 
-  it("supports updating on progress events", async function() {
+  it("supports updating on progress events", async function(this: Context) {
     if (!(isRecordMode() || isPlaybackMode())) {
       // Depends on the service not returning 'success' as soon as
       // the copy is initiated. Since this can't be guaranteed in the live tests,

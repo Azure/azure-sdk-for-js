@@ -6,26 +6,25 @@ import {
   DeletionRecoveryLevel,
   JsonWebKeyType as KeyType,
   KnownJsonWebKeyType as KnownKeyTypes,
-  JsonWebKeyOperation as KeyOperation,
-  KnownJsonWebKeyOperation as KnownKeyOperations
+  JsonWebKeyOperation as KeyOperation
 } from "./generated/models";
 import { KeyCurveName } from "./cryptographyClientModels";
 
-export { KeyType, KnownKeyTypes, KeyOperation, KnownKeyOperations };
+export { KeyType, KnownKeyTypes, KeyOperation };
 
 /**
  * The latest supported Key Vault service API version
  */
-export const LATEST_API_VERSION = "7.2";
+export const LATEST_API_VERSION = "7.3-preview";
 
 /**
  * The optional parameters accepted by the KeyVault's KeyClient
  */
 export interface KeyClientOptions extends coreHttp.PipelineOptions {
   /**
-   * The accepted versions of the KeyVault's service API.
+   * The version of the KeyVault's service API to make calls against.
    */
-  serviceVersion?: "7.0" | "7.1" | "7.2";
+  serviceVersion?: string;
 }
 
 /**
@@ -213,6 +212,16 @@ export interface KeyProperties {
    * the server.**
    */
   readonly managed?: boolean;
+
+  /**
+   * Indicates whether the private key can be exported.
+   */
+  exportable?: boolean;
+
+  /**
+   * A {@link KeyReleasePolicy} object specifying the rules under which the key can be exported.
+   */
+  releasePolicy?: KeyReleasePolicy;
 }
 
 /**
@@ -266,6 +275,21 @@ export interface DeletedKey {
 }
 
 /**
+ * The policy rules under which a key can be exported.
+ */
+export interface KeyReleasePolicy {
+  /**
+   * Content type and version of key release policy.
+   *
+   * Defaults to "application/json; charset=utf-8" if omitted.
+   */
+  contentType?: string;
+
+  /** Blob encoding the policy rules under which the key can be released. */
+  data?: Uint8Array;
+}
+
+/**
  * An interface representing the optional parameters that can be
  * passed to {@link createKey}
  */
@@ -300,6 +324,20 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
    * Possible values include: 'P-256', 'P-384', 'P-521', 'P-256K'
    */
   curve?: KeyCurveName;
+  /**
+   * Whether to import as a hardware key (HSM) or software key.
+   */
+  hsm?: boolean;
+
+  /**
+   * Indicates whether the private key can be exported.
+   */
+  exportable?: boolean;
+
+  /**
+   * A {@link KeyReleasePolicy} object specifying the rules under which the key can be exported.
+   */
+  releasePolicy?: KeyReleasePolicy;
 }
 
 /**
@@ -333,23 +371,13 @@ export interface BeginRecoverDeletedKeyOptions extends KeyPollerOptions {}
  * An interface representing the optional parameters that can be
  * passed to {@link createEcKey}
  */
-export interface CreateEcKeyOptions extends CreateKeyOptions {
-  /**
-   * Whether to import as a hardware key (HSM) or software key.
-   */
-  hsm?: boolean;
-}
+export interface CreateEcKeyOptions extends CreateKeyOptions {}
 
 /**
  * An interface representing the optional parameters that can be
  * passed to {@link createRsaKey}
  */
 export interface CreateRsaKeyOptions extends CreateKeyOptions {
-  /**
-   * Whether to import as a hardware key (HSM) or software key.
-   */
-  hsm?: boolean;
-
   /** The public exponent for a RSA key. */
   publicExponent?: number;
 }
@@ -358,12 +386,7 @@ export interface CreateRsaKeyOptions extends CreateKeyOptions {
  * An interface representing the optional parameters that can be
  * passed to {@link createOctKey}
  */
-export interface CreateOctKeyOptions extends CreateKeyOptions {
-  /**
-   * Whether to create a hardware-protected key in a hardware security module (HSM).
-   */
-  hsm?: boolean;
-}
+export interface CreateOctKeyOptions extends CreateKeyOptions {}
 
 /**
  * An interface representing the optional parameters that can be
@@ -390,6 +413,16 @@ export interface ImportKeyOptions extends coreHttp.OperationOptions {
    * Expiry date in UTC.
    */
   expiresOn?: Date;
+
+  /**
+   * Indicates whether the private key can be exported.
+   */
+  exportable?: boolean;
+
+  /**
+   * A {@link KeyReleasePolicy} object specifying the rules under which the key can be exported.
+   */
+  releasePolicy?: KeyReleasePolicy;
 }
 
 /**
@@ -417,6 +450,12 @@ export interface UpdateKeyPropertiesOptions extends coreHttp.OperationOptions {
    * Application specific metadata in the form of key-value pairs.
    */
   tags?: { [propertyName: string]: string };
+
+  /**
+   * A {@link KeyReleasePolicy} object specifying the rules under which the key can be exported.
+   * Only valid if the key is marked exportable, which cannot be changed after key creation.
+   */
+  releasePolicy?: KeyReleasePolicy;
 }
 
 /**
@@ -486,3 +525,78 @@ export interface RestoreKeyBackupOptions extends coreHttp.OperationOptions {}
  * An interface representing the options of the cryptography API methods, go to the {@link CryptographyClient} for more information.
  */
 export interface CryptographyOptions extends coreHttp.OperationOptions {}
+
+/**
+ * Options for {@link KeyClient.getRandomBytes}
+ */
+export interface GetRandomBytesOptions extends coreHttp.OperationOptions {}
+
+/**
+ * Options for {@link KeyClient.releaseKey}
+ */
+export interface ReleaseKeyOptions extends coreHttp.OperationOptions {
+  /** A client provided nonce for freshness. */
+  nonce?: string;
+
+  /** The {@link KeyExportEncryptionAlgorithm} to for protecting the exported key material. */
+  algorithm?: KeyExportEncryptionAlgorithm;
+
+  /**
+   * The version of the key to release. Defaults to the latest version of the key if omitted.
+   */
+  version?: string;
+}
+
+/**
+ * Result of the {@link KeyClient.releaseKey} operation.
+ */
+export interface ReleaseKeyResult {
+  /** A signed token containing the released key. */
+  value: string;
+}
+
+/** Known values of {@link KeyOperation} that the service accepts. */
+export enum KnownKeyOperations {
+  /** Key operation - encrypt */
+  Encrypt = "encrypt",
+  /** Key operation - decrypt */
+  Decrypt = "decrypt",
+  /** Key operation - sign */
+  Sign = "sign",
+  /** Key operation - verify */
+  Verify = "verify",
+  /** Key operation - wrapKey */
+  WrapKey = "wrapKey",
+  /** Key operation - unwrapKey */
+  UnwrapKey = "unwrapKey",
+  /** Key operation - import */
+  Import = "import"
+}
+
+/** Known values of {@link KeyExportEncryptionAlgorithm} that the service accepts. */
+export enum KnownKeyExportEncryptionAlgorithm {
+  CkmRsaAesKeyWrap = "CKM_RSA_AES_KEY_WRAP",
+  RsaAesKeyWrap256 = "RSA_AES_KEY_WRAP_256",
+  RsaAesKeyWrap384 = "RSA_AES_KEY_WRAP_384"
+}
+
+/* eslint-disable tsdoc/syntax */
+/**
+ * Defines values for KeyEncryptionAlgorithm.
+ * {@link KnownKeyExportEncryptionAlgorithm} can be used interchangeably with KeyEncryptionAlgorithm,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CKM_RSA_AES_KEY_WRAP** \
+ * **RSA_AES_KEY_WRAP_256** \
+ * **RSA_AES_KEY_WRAP_384**
+ */
+export type KeyExportEncryptionAlgorithm = string;
+/* eslint-enable tsdoc/syntax */
+
+/**
+ * Result of the {@link KeyClient.getRandomBytes} operation.
+ */
+export interface RandomBytes {
+  /** The random bytes returned by the service. */
+  bytes: Uint8Array;
+}

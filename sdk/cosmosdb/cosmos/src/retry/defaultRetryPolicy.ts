@@ -109,7 +109,7 @@ const CONNECTION_ERROR_CODES = [
 /**
  * @hidden
  */
-function needsRetry(operationType: OperationType, code: number | string) {
+function needsRetry(operationType: OperationType, code: number | string): boolean {
   if (
     (operationType === OperationType.Read || operationType === OperationType.Query) &&
     CONNECTION_ERROR_CODES.indexOf(code) !== -1

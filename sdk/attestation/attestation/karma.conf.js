@@ -9,7 +9,7 @@ const {
   isPlaybackMode,
   isSoftRecordMode,
   isRecordMode
-} = require("@azure/test-utils-recorder");
+} = require("@azure-tools/test-recorder");
 
 module.exports = function(config) {
   config.set({
@@ -57,15 +57,18 @@ module.exports = function(config) {
 
     envPreprocessor: [
       "TEST_MODE",
-      "AAD_ATTESTATION_URL",
-      "ISOLATED_ATTESTATION_URL",
+      "ATTESTATION_AAD_URL",
+      "ATTESTATION_ISOLATED_URL",
+      "ATTESTATION_LOCATION_SHORT_NAME",
       "policySigningCertificate0",
       "policySigningCertificate1",
       "policySigningCertificate2",
       "isolatedSigningCertificate",
+      "ATTESTATION_ISOLATED_SIGNING_CERTIFICATE",
+      "ATTESTATION_ISOLATED_SIGNING_KEY",
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
-      "AZURE_TENANT_ID",
+      "AZURE_TENANT_ID"
     ],
 
     // test results reporter to use
@@ -118,6 +121,10 @@ module.exports = function(config) {
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
         base: "ChromeHeadless",
+        flags: ["--no-sandbox", "--disable-web-security"]
+      },
+      ChromeInteractiveNoSandbox: {
+        base: "Chrome",
         flags: ["--no-sandbox", "--disable-web-security"]
       }
     },

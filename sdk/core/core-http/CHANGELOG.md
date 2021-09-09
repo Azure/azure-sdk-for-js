@@ -1,7 +1,68 @@
 # Release History
 
-## 1.2.4 (Unreleased)
+## 2.2.1 (Unreleased)
 
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 2.2.0 (2021-09-02)
+
+### Bugs Fixed
+
+- `tracingPolicy` will no longer propagate tracing errors to the caller, and such errors will be logged instead and the operation does not get interrupted. [PR #16916](https://github.com/Azure/azure-sdk-for-js/pull/16916)
+
+## 2.1.0 (2021-07-22)
+
+### Features Added
+
+- `tracingPolicy` will no longer inject invalid traceparent headers if an incorrect tracer implementation is used.
+- `proxyPolicy` now allows passing in a list of no-proxy patterns to override global ones loaded from NO_PROXY environment variable [PR #16414](https://github.com/Azure/azure-sdk-for-js/pull/16414)
+
+## 2.0.0 (2021-06-30)
+
+### Features Added
+
+- Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features.
+- Added support for the `Retry-After` header on responses with status code 503, Service Unavailable.
+- Added support for multiple retries on the `ThrottlingRetryPolicy` (up to 3 by default).
+
+### Breaking Changes
+
+- Updated @azure/core-tracing to version `1.0.0-preview.12`. See [@azure/core-tracing CHANGELOG](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-tracing/CHANGELOG.md) for details about breaking changes with tracing.
+
+### Fixed
+
+- Fixed an issue where `proxySettings` does not work when there is username but no password [Issue 15720](https://github.com/Azure/azure-sdk-for-js/issues/15720)
+- Throttling retry policy respects abort signal [#15796](https://github.com/Azure/azure-sdk-for-js/issues/15796)
+
+## 1.2.6 (2021-06-14)
+
+### Key Bugs Fixed
+
+- Fixed an issue of lost properties when flattening array in deserialization [issue 15653](https://github.com/azure/azure-sdk-for-js/issues/15653)
+- Fixed an issue of incorrect minimum version of tslib [issue 15697](https://github.com/Azure/azure-sdk-for-js/issues/15697)
+
+## 1.2.5 (2021-06-03)
+
+### Fixed
+
+- Delay loading of NO_PROXY environment variable until when request pipeline is being created. This fixes [issue 14873](https://github.com/Azure/azure-sdk-for-js/issues/14873)
+- Fixed an issue where tracing spans were not setting a status correctly (on success or error) which results in the span status being `UNSET`. In addition, we will now capture the HTTP status code when a request fails in the tracing span. [PR 15061](https://github.com/Azure/azure-sdk-for-js/pull/15061)
+- Fix packaging issue [PR 15286](https://github.com/Azure/azure-sdk-for-js/pull/15286)
+- Improve the sanitizer to handle recursive objects [PR 15426](https://github.com/Azure/azure-sdk-for-js/pull/15426)
+
+## 1.2.4 (2021-03-30)
+
+- Rewrote `bearerTokenAuthenticationPolicy` to use a new backend that refreshes tokens only when they're about to expire and not multiple times before. This fixes the issue: [13369](https://github.com/Azure/azure-sdk-for-js/issues/13369).
+
+### Breaking Changes
+
+- Updated @azure/core-tracing to version `1.0.0-preview.11`. See [@azure/core-tracing CHANGELOG](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-tracing/CHANGELOG.md) for details about breaking changes with tracing.
 
 ## 1.2.3 (2021-02-04)
 

@@ -139,10 +139,26 @@ export const CommunicationError: coreHttp.CompositeMapper = {
         }
       },
       innerError: {
-        serializedName: "innerError",
+        serializedName: "innererror",
         type: {
           name: "Composite",
           className: "CommunicationError"
+        }
+      }
+    }
+  }
+};
+
+export const TeamsUserAccessTokenRequest: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TeamsUserAccessTokenRequest",
+    modelProperties: {
+      token: {
+        serializedName: "token",
+        required: true,
+        type: {
+          name: "String"
         }
       }
     }

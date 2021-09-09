@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { BlobImmutabilityPolicyMode } from "./generatedModels";
 import {
   LeaseAccessConditions,
   SequenceNumberAccessConditions,
@@ -173,14 +174,14 @@ export enum PremiumPageBlobTier {
 export function toAccessTier(
   tier: BlockBlobTier | PremiumPageBlobTier | string | undefined
 ): AccessTier | undefined {
-  if (tier == undefined) {
+  if (tier === undefined) {
     return undefined;
   }
 
   return tier as AccessTier; // No more check if string is a valid AccessTier, and left this to underlay logic to decide(service).
 }
 
-export function ensureCpkIfSpecified(cpk: CpkInfo | undefined, isHttps: boolean) {
+export function ensureCpkIfSpecified(cpk: CpkInfo | undefined, isHttps: boolean): void {
   if (cpk && !isHttps) {
     throw new RangeError("Customer-provided encryption key must be used over HTTPS.");
   }
@@ -279,4 +280,34 @@ export interface BlobQueryArrowField {
    * The scale of the field.  Required if type is is "decimal".
    */
   scale?: number;
+}
+
+/**
+ * Describe immutable policy for blob.
+ */
+export interface BlobImmutabilityPolicy {
+  /**
+   * Specifies the date time when the blobs immutability policy is set to expire.
+   */
+  expiriesOn?: Date;
+  /**
+   * Specifies the immutability policy mode to set on the blob.
+   */
+  policyMode?: BlobImmutabilityPolicyMode;
+}
+
+/**
+ * Represents authentication information in Authorization, ProxyAuthorization,
+ * WWW-Authenticate, and Proxy-Authenticate header values.
+ */
+export interface HttpAuthorization {
+  /**
+   * The scheme to use for authorization.
+   */
+  scheme: string;
+
+  /**
+   * the credentials containing the authentication information of the user agent for the resource being requested.
+   */
+  value: string;
 }

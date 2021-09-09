@@ -11,6 +11,8 @@ import { RecognizedForm, FormPage } from "./models";
 
 /**
  * Represents the result from an Recognize Content operation
+ *
+ * @internal
  */
 export interface RecognizedContent {
   /**
@@ -41,6 +43,8 @@ export interface RecognizedContent {
 
 /**
  * Contains response data for the Recognize Content operation.
+ *
+ * @internal
  */
 export type RecognizeContentResultResponse = RecognizedContent & {
   /**
@@ -60,6 +64,8 @@ export type RecognizeContentResultResponse = RecognizedContent & {
 
 /**
  * Represents the result from an recognize form operation using a custom model from training.
+ *
+ * @internal
  */
 export interface RecognizedForms {
   /**
@@ -88,23 +94,3 @@ export interface RecognizedForms {
    */
   lastModified: Date;
 }
-
-/**
- * Contains the response data for recognize form operation using a custom model from training.
- */
-export type RecognizeFormResultResponse = RecognizedForms & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AnalyzeOperationResultModel;
-  };
-};

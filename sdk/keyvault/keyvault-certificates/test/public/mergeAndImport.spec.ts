@@ -2,9 +2,10 @@
 // Licensed under the MIT license.
 
 import fs from "fs";
+import { Context } from "mocha";
 import childProcess from "child_process";
 import { isNode } from "@azure/core-http";
-import { env, Recorder } from "@azure/test-utils-recorder";
+import { env, Recorder } from "@azure-tools/test-recorder";
 import { SecretClient } from "@azure/keyvault-secrets";
 import { ClientSecretCredential } from "@azure/identity";
 
@@ -24,7 +25,7 @@ describe("Certificates client - merge and import certificates", () => {
   let credential: ClientSecretCredential;
   let secretClient: SecretClient;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     const authentication = await authenticate(this);
     suffix = authentication.suffix;
     client = authentication.client;
@@ -41,7 +42,7 @@ describe("Certificates client - merge and import certificates", () => {
 
   // The tests follow
 
-  it("can import a certificate from a certificate's non base64 secret value", async function() {
+  it("can import a certificate from a certificate's non base64 secret value", async function(this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const certificateNames = [`${certificateName}0`, `${certificateName}1`];
     const createPoller = await client.beginCreateCertificate(
@@ -59,13 +60,9 @@ describe("Certificates client - merge and import certificates", () => {
     const buffer = base64ToUint8Array(base64EncodedCertificate);
 
     await client.importCertificate(certificateNames[1], buffer);
-
-    for (const name of certificateNames) {
-      await testClient.flushCertificate(name);
-    }
   });
 
-  it("can import a certificate from a certificate's base64 secret value", async function() {
+  it("can import a certificate from a certificate's base64 secret value", async function(this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const certificateNames = [`${certificateName}0`, `${certificateName}1`];
     const createPoller = await client.beginCreateCertificate(
@@ -87,15 +84,11 @@ describe("Certificates client - merge and import certificates", () => {
         contentType: "application/x-pem-file"
       }
     });
-
-    for (const name of certificateNames) {
-      await testClient.flushCertificate(name);
-    }
   });
 
   // The signed certificate will never be the same, so we can't play it back.
   // This test is only designed to work on NodeJS, since we use child_process to interact with openssl.
-  it("can merge a self signed certificate", async function(): Promise<void> {
+  it("can merge a self signed certificate", async function(this: Context): Promise<void> {
     recorder.skip(
       undefined,
       "The signed certificate will never be the same, so we can't play it back."
@@ -138,7 +131,5 @@ ${base64Csr}
       .join("");
 
     await client.mergeCertificate(certificateName, [Buffer.from(base64Crt)]);
-
-    await testClient.flushCertificate(certificateName);
   });
 });

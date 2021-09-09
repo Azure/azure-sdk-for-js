@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { SasTokenProvider } from "../auth/tokenProvider";
+
 /**
  * Helper TypeGuard that checks if something is defined or not.
  * @param thing - Anything
@@ -45,9 +47,14 @@ export function objectHasProperty<Thing extends unknown, PropertyName extends st
   thing: Thing,
   property: PropertyName
 ): thing is Thing & Record<PropertyName, unknown> {
-  if (!(property in thing)) {
-    return false;
-  }
+  return typeof thing === "object" && property in (thing as Record<string, unknown>);
+}
 
-  return true;
+/**
+ * Typeguard that checks if the input is a SasTokenProvider.
+ * @param thing - Any object.
+ * @hidden
+ */
+export function isSasTokenProvider(thing: unknown): thing is SasTokenProvider {
+  return isObjectWithProperties(thing, ["isSasTokenProvider"]) && thing.isSasTokenProvider === true;
 }

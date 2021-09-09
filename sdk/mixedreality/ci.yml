@@ -3,7 +3,6 @@
 trigger:
   branches:
     include:
-      - master
       - main
       - release/*
       - hotfix/*
@@ -14,7 +13,6 @@ trigger:
 pr:
   branches:
     include:
-      - master
       - main
       - feature/*
       - release/*
@@ -28,5 +26,5 @@ extends:
   parameters:
     ServiceDirectory: mixedreality
     Artifacts:
-      - name: azure-mixedreality-authentication
+      - name: azure-mixed-reality-authentication
         safeName: azuremixedrealityauthentication

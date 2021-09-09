@@ -1,6 +1,71 @@
 # Release History
 
-## 11.1.1 (Unreleased)
+## 11.3.0-beta.3 (2021-09-07)
+
+### Features Added
+
+- Added a new property `normalizerName` to the `AnalyzeRequest` object.
+- Added 2 new properties `captions` & `semanticFields` to the `SearchRequestOptions` object.
+
+## 11.3.0-beta.2 (2021-08-10)
+
+### Features Added
+
+- Added a new parameter `ignoreResetRequirements` for the `createOrUpdate` operation of Data Sources.
+- Added new parameters `ignoreResetRequirements` & `disableCacheReprocessingChangeDetection` for the `createOrUpdate` operation of Indexers and Skillsets.
+
+### Bugs Fixed
+
+- Converted the complex fields correctly within the Search Fields. Please refer [#16489](https://github.com/Azure/azure-sdk-for-js/issues/16489) for more details.
+- Fixed the typos `anayzerName` to `analyzerName` and `normalizerNames` to `normalizerName` in `convertFieldsToPublic` method of `serviceUtils.ts`.
+
+### Other Changes
+
+- Removed the `| null` from the definitions of the optional values. Please refer [#16694](https://github.com/Azure/azure-sdk-for-js/pull/16694) for more details.
+
+## 11.3.0-beta.1 (2021-07-07)
+
+- With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+- Updated our internal core package dependencies to their latest versions in order to add support for Opentelemetry 1.0.0 which is compatible with the latest versions of our other client libraries.
+- Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
+- Regenerated the search SDK with the latest swaggers that includes the following changes:
+
+  - Support for `TokenCredential` has been added. With this addition, the Search SDK supports authentication via AAD.
+  - Identity types - `SearchIndexerDataNoneIdentity` & `SearchIndexerDataUserAssignedIdentity` have been added.
+  - The following new skills have been added:
+    - SentimentSkill(V3)
+    - EntityLinkingSkill(V3)
+    - EntityRecognitionSkill(V3)
+    - PIIDetectionSkill
+  - A new property `lineEnding` has been added to the skill `OcrSkill`.
+
+## 11.2.0 (2021-06-08)
+
+The list of changes in 11.2.0 since 11.1.0 & 11.2.0-beta.2 are provided below:
+
+**Changes since 11.1.0**
+
+- Added support for Knowledge Store feature through the new `SearchIndexerKnowledgeStore` in the `SearchIndexerSkillset` object.
+- The `skillsetCounter` property in `ServiceCounters` object has been made optional.
+- Added Support for new datasource `adlsgen2`. Please refer [#14620](https://github.com/Azure/azure-sdk-for-js/pull/14620) for further details.
+- Added Support for new skills such as `CustomEntityLookupSkill`, `DocumentExtractionSkill`, etc. Please refer [#14620](https://github.com/Azure/azure-sdk-for-js/pull/14620) for further details.
+
+**Changes since 11.2.0-beta.2**
+
+- Removed Support for Semantic Search and introduced new properties in `SearchOptions`, `SearchRequest`, `SearchResult` and `SearchDocumentsResult` objects.
+- Removed Support for normalizers `LexicalNormalizer` & `CustomNormalizer`. Please refer [#14620](https://github.com/Azure/azure-sdk-for-js/pull/14620) for further details.
+
+## 11.2.0-beta.2 (2021-05-11)
+
+- Added Support for Semantic Search and introduced new properties in `SearchOptions`, `SearchRequest`, `SearchResult` and `SearchDocumentsResult` objects.
+- Added support for Knowledge Store feature through the new `SearchIndexerKnowledgeStore` in the `SearchIndexerSkillset` object.
+- The `skillsetCounter` property in `ServiceCounters` object has been made optional.
+
+## 11.2.0-beta.1 (2021-04-06)
+
+- Added Support for new skills such as `CustomEntityLookupSkill`, `DocumentExtractionSkill`, etc. Please refer [#14620](https://github.com/Azure/azure-sdk-for-js/pull/14620) for further details.
+- Added Support for new datasource `adlsgen2`. Please refer [#14620](https://github.com/Azure/azure-sdk-for-js/pull/14620) for further details.
+- Added Support for normalizers `LexicalNormalizer` & `CustomNormalizer`. Please refer [#14620](https://github.com/Azure/azure-sdk-for-js/pull/14620) for further details.
 
 ## 11.1.0 (2021-02-11)
 
@@ -45,11 +110,6 @@
 - [Breaking] In `ServiceCounters`, the `skillsetCounter` property has been removed.
 - [Breaking] Modified the names of several properties. Please refer [#9321](https://github.com/Azure/azure-sdk-for-js/issues/9321) for a detailed list of renames.
 
-## 11.0.0-preview.1 (2020-03-09)
-
-- Initial implementation of the data-plane Cognitive Search Client. The version number starts at 11 to align with client libraries in other languages.
-- This first preview has support for document operations on an index, such as querying and document management.
-
 ## 1.0.0-preview.4 (2020-06-08)
 
 - [Breaking] Changed `ListIndexes` operation to a pageable operation.
@@ -84,3 +144,8 @@
 - The type `IndexAction` was renamed to `IndexDocumentsAction`.
 - [Breaking] Removed `SearchApiKeyCredential` and replaced with `AzureKeyCredential`.
 - [Breaking] Search results accessed `byPage` now have an opaque `continuationToken` in place of `nextLink` and `nextPageParameters`.
+
+## 11.0.0-preview.1 (2020-03-09)
+
+- Initial implementation of the data-plane Cognitive Search Client. The version number starts at 11 to align with client libraries in other languages.
+- This first preview has support for document operations on an index, such as querying and document management.

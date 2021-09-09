@@ -11,13 +11,12 @@ import {
   bodyToString,
   getBrowserFile,
   getBSU,
-  isIE,
   recorderEnvSetup
 } from "../utils/index.browser";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
+import { Context } from "mocha";
 
-// tslint:disable:no-empty
 describe("Highlevel", () => {
   let containerName: string;
   let containerClient: ContainerClient;
@@ -32,7 +31,7 @@ describe("Highlevel", () => {
   let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -43,21 +42,23 @@ describe("Highlevel", () => {
     blockBlobClient = blobClient.getBlockBlobClient();
   });
 
-  afterEach(async function() {
+  afterEach(async function(this: Context) {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
       await recorder.stop();
     }
   });
 
-  before(async function() {
+  before(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     tempFile1 = getBrowserFile(recorder.getUniqueName("browserfile"), tempFile1Length);
     tempFile2 = getBrowserFile(recorder.getUniqueName("browserfile2"), tempFile2Length);
     await recorder.stop();
   });
 
-  after(async () => {});
+  after(async () => {
+    /* empty */
+  });
 
   it("uploadBrowserDataToBlockBlob should abort when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     recorder.skip("browser", "Temp file - recorder doesn't support saving the file");
@@ -94,6 +95,7 @@ describe("Highlevel", () => {
     let eventTriggered = false;
     const aborter = new AbortController();
 
+    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
     try {
       await blockBlobClient.uploadBrowserData(tempFile1, {
         abortSignal: aborter.signal,
@@ -114,6 +116,7 @@ describe("Highlevel", () => {
     let eventTriggered = false;
     const aborter = new AbortController();
 
+    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
     try {
       await blockBlobClient.uploadBrowserData(tempFile2, {
         abortSignal: aborter.signal,
@@ -177,14 +180,6 @@ describe("Highlevel", () => {
 
   it("uploadBrowserDataToBlockBlob should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function() {
     recorder.skip("browser", "Temp file - recorder doesn't support saving the file");
-    if (isIE()) {
-      assert.ok(
-        true,
-        "Skip this case in IE11 which doesn't have enough memory for downloading validation"
-      );
-      this.skip();
-    }
-
     await blockBlobClient.uploadBrowserData(tempFile1, {
       blockSize: 4 * 1024 * 1024,
       concurrency: 2

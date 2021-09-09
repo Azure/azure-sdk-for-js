@@ -28,7 +28,7 @@ export class OrderByEndpointComponent implements ExecutionContext {
    * Determine if there are still remaining resources to processs.
    * @returns true if there is other elements to process in the OrderByEndpointComponent.
    */
-  public hasMoreResults() {
+  public hasMoreResults(): boolean {
     return this.executionContext.hasMoreResults();
   }
 }

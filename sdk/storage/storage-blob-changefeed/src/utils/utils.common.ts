@@ -5,7 +5,7 @@ import { URLBuilder, AbortSignalLike } from "@azure/core-http";
 import { ContainerClient, CommonOptions } from "@azure/storage-blob";
 import { CHANGE_FEED_SEGMENT_PREFIX, CHANGE_FEED_INITIALIZATION_SEGMENT } from "./constants";
 import { createSpan } from "./tracing";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 
 const millisecondsInAnHour = 60 * 60 * 1000;
 export function ceilToNearestHour(date: Date | undefined): Date | undefined {
@@ -75,7 +75,6 @@ export async function getYearsPaths(
       tracingOptions: updatedOptions.tracingOptions,
       prefix: CHANGE_FEED_SEGMENT_PREFIX
     })) {
-      // TODO: add String.prototype.includes polyfill for IE11
       if (item.kind === "prefix" && !item.name.includes(CHANGE_FEED_INITIALIZATION_SEGMENT)) {
         const yearStr = item.name.slice(CHANGE_FEED_SEGMENT_PREFIX.length, -1);
         years.push(parseInt(yearStr));
@@ -84,7 +83,7 @@ export async function getYearsPaths(
     return years.sort((a, b) => a - b);
   } catch (e) {
     span.setStatus({
-      code: CanonicalCode.UNKNOWN,
+      code: SpanStatusCode.ERROR,
       message: e.message
     });
     throw e;
@@ -135,7 +134,7 @@ export async function getSegmentsInYear(
     return segments;
   } catch (e) {
     span.setStatus({
-      code: CanonicalCode.UNKNOWN,
+      code: SpanStatusCode.ERROR,
       message: e.message
     });
     throw e;

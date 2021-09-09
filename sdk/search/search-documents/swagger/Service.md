@@ -10,14 +10,15 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated/service
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/55c3979124d193ab8cd4c5409a3e9f67739ca571/specification/search/data-plane/Azure.Search/preview/2020-06-30/searchservice.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/c99fbb96d7993daec8135a40681d9d807e3f5751/specification/search/data-plane/Azure.Search/preview/2021-04-30-Preview/searchservice.json
 add-credentials: false
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20210121.1"
+  "@autorest/typescript": "6.0.0-beta.4"
 disable-async-iterators: true
 api-version-parameter: choice
 v3: true
 hide-clients: true
+use-core-v2: false
 ```
 
 ## Customizations for Track 2 Generator
@@ -277,4 +278,14 @@ directive:
     where: $.definitions.CustomAnalyzer.properties.tokenizer
     transform: >
       $["x-ms-client-name"] = "tokenizerName"
+```
+
+### Add discriminator to LexicalNormalizer
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.LexicalNormalizer
+  transform: >
+    $["discriminator"] = "@odata.type";
 ```

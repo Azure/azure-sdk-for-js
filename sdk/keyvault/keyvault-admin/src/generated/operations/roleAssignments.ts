@@ -6,14 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { RoleAssignments } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { KeyVaultClient } from "../keyVaultClient";
+import { KeyVaultClientContext } from "../keyVaultClientContext";
 import {
-  RoleAssignmentsDeleteResponse,
+  RoleAssignmentsDeleteOptionalParams,
   RoleAssignmentCreateParameters,
+  RoleAssignmentsCreateOptionalParams,
   RoleAssignmentsCreateResponse,
+  RoleAssignmentsGetOptionalParams,
   RoleAssignmentsGetResponse,
   RoleAssignmentsListForScopeOptionalParams,
   RoleAssignmentsListForScopeResponse,
@@ -21,17 +24,15 @@ import {
   RoleAssignmentsListForScopeNextResponse
 } from "../models";
 
-/**
- * Class representing a RoleAssignments.
- */
-export class RoleAssignments {
-  private readonly client: KeyVaultClient;
+/** Class representing a RoleAssignments. */
+export class RoleAssignmentsImpl implements RoleAssignments {
+  private readonly client: KeyVaultClientContext;
 
   /**
    * Initialize a new instance of the class RoleAssignments class.
    * @param client Reference to the service client
    */
-  constructor(client: KeyVaultClient) {
+  constructor(client: KeyVaultClientContext) {
     this.client = client;
   }
 
@@ -46,15 +47,12 @@ export class RoleAssignments {
     vaultBaseUrl: string,
     scope: string,
     roleAssignmentName: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<RoleAssignmentsDeleteResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    options?: RoleAssignmentsDeleteOptionalParams
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      { vaultBaseUrl, scope, roleAssignmentName, options: operationOptions },
+      { vaultBaseUrl, scope, roleAssignmentName, options },
       deleteOperationSpec
-    ) as Promise<RoleAssignmentsDeleteResponse>;
+    );
   }
 
   /**
@@ -70,21 +68,12 @@ export class RoleAssignments {
     scope: string,
     roleAssignmentName: string,
     parameters: RoleAssignmentCreateParameters,
-    options?: coreHttp.OperationOptions
+    options?: RoleAssignmentsCreateOptionalParams
   ): Promise<RoleAssignmentsCreateResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      {
-        vaultBaseUrl,
-        scope,
-        roleAssignmentName,
-        parameters,
-        options: operationOptions
-      },
+      { vaultBaseUrl, scope, roleAssignmentName, parameters, options },
       createOperationSpec
-    ) as Promise<RoleAssignmentsCreateResponse>;
+    );
   }
 
   /**
@@ -98,15 +87,12 @@ export class RoleAssignments {
     vaultBaseUrl: string,
     scope: string,
     roleAssignmentName: string,
-    options?: coreHttp.OperationOptions
+    options?: RoleAssignmentsGetOptionalParams
   ): Promise<RoleAssignmentsGetResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { vaultBaseUrl, scope, roleAssignmentName, options: operationOptions },
+      { vaultBaseUrl, scope, roleAssignmentName, options },
       getOperationSpec
-    ) as Promise<RoleAssignmentsGetResponse>;
+    );
   }
 
   /**
@@ -120,13 +106,10 @@ export class RoleAssignments {
     scope: string,
     options?: RoleAssignmentsListForScopeOptionalParams
   ): Promise<RoleAssignmentsListForScopeResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { vaultBaseUrl, scope, options: operationOptions },
+      { vaultBaseUrl, scope, options },
       listForScopeOperationSpec
-    ) as Promise<RoleAssignmentsListForScopeResponse>;
+    );
   }
 
   /**
@@ -142,27 +125,22 @@ export class RoleAssignments {
     nextLink: string,
     options?: RoleAssignmentsListForScopeNextOptionalParams
   ): Promise<RoleAssignmentsListForScopeNextResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { vaultBaseUrl, scope, nextLink, options: operationOptions },
+      { vaultBaseUrl, scope, nextLink, options },
       listForScopeNextOperationSpec
-    ) as Promise<RoleAssignmentsListForScopeNextResponse>;
+    );
   }
 }
 // Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
-
-const deleteOperationSpec: coreHttp.OperationSpec = {
+const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
   httpMethod: "DELETE",
   responses: {
-    200: {
-      bodyMapper: Mappers.RoleAssignment
-    },
+    200: {},
+    404: {},
     default: {
       bodyMapper: Mappers.KeyVaultError
     }
@@ -176,7 +154,7 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const createOperationSpec: coreHttp.OperationSpec = {
+const createOperationSpec: coreClient.OperationSpec = {
   path:
     "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
   httpMethod: "PUT",
@@ -195,11 +173,11 @@ const createOperationSpec: coreHttp.OperationSpec = {
     Parameters.scope,
     Parameters.roleAssignmentName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept1],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
-const getOperationSpec: coreHttp.OperationSpec = {
+const getOperationSpec: coreClient.OperationSpec = {
   path:
     "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
   httpMethod: "GET",
@@ -220,7 +198,7 @@ const getOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listForScopeOperationSpec: coreHttp.OperationSpec = {
+const listForScopeOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Authorization/roleAssignments",
   httpMethod: "GET",
   responses: {
@@ -236,7 +214,7 @@ const listForScopeOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listForScopeNextOperationSpec: coreHttp.OperationSpec = {
+const listForScopeNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {

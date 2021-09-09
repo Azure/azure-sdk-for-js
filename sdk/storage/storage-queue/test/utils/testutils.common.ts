@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { padStart } from "../../src/utils/utils.common";
-import { env, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import { env, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 
 export function isBrowser(): boolean {
-  return typeof window !== "undefined";
+  return typeof self !== "undefined";
 }
 
 const mockAccountName = "fakestorageaccount";
@@ -48,11 +47,9 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
 };
 
 export function getUniqueName(prefix: string): string {
-  return `${prefix}${new Date().getTime()}${padStart(
-    Math.floor(Math.random() * 10000).toString(),
-    5,
-    "00000"
-  )}`;
+  return `${prefix}${new Date().getTime()}${Math.floor(Math.random() * 10000)
+    .toString()
+    .padStart(5, "00000")}`;
 }
 
 export function base64encode(content: string): string {

@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
+import * as buffer from "buffer";
 import { DataLakeFileClient, DataLakeFileSystemClient } from "../../src";
 import {
   bodyToString,
@@ -15,16 +16,15 @@ import {
 } from "../utils";
 import {
   MB,
-  GB,
   FILE_MAX_SINGLE_UPLOAD_THRESHOLD,
   BLOCK_BLOB_MAX_BLOCKS,
   FILE_UPLOAD_MAX_CHUNK_SIZE
 } from "../../src/utils/constants";
 import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
-const { Readable } = require("stream");
 import { AbortController } from "@azure/abort-controller";
-import { PassThrough } from "stream";
+import { Readable, PassThrough } from "stream";
 import { streamToBuffer2 } from "../../src/utils/utils.node";
+import { Context } from "mocha";
 dotenv.config();
 
 describe("Highlevel Node.js only", () => {
@@ -41,7 +41,7 @@ describe("Highlevel Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getDataLakeServiceClient({
       keepAliveOptions: {
@@ -55,14 +55,14 @@ describe("Highlevel Node.js only", () => {
     fileClient = fileSystemClient.getFileClient(fileName);
   });
 
-  afterEach(async function() {
+  afterEach(async function(this: Context) {
     if (!this.currentTest?.isPending()) {
       await fileSystemClient.delete();
       await recorder.stop();
     }
   });
 
-  before(async function() {
+  before(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     if (!fs.existsSync(tempFolderPath)) {
       fs.mkdirSync(tempFolderPath);
@@ -75,7 +75,7 @@ describe("Highlevel Node.js only", () => {
     await recorder.stop();
   });
 
-  after(async function() {
+  after(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     fs.unlinkSync(tempFileLarge);
     fs.unlinkSync(tempFileSmall);
@@ -593,7 +593,7 @@ describe("Highlevel Node.js only", () => {
     let error;
     try {
       await fileClient.uploadFile(tempFileSmall);
-      await fileClient.readToBuffer(undefined, 4 * GB);
+      await fileClient.readToBuffer(undefined, (buffer as any).constants.MAX_LENGTH + 1);
     } catch (err) {
       error = err;
     }

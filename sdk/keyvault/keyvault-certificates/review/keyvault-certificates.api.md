@@ -250,7 +250,7 @@ export type DeleteIssuerOptions = coreHttp.OperationOptions;
 // @public
 export type DeletionRecoveryLevel = string;
 
-// @public
+// @public @deprecated
 export interface ErrorModel {
     readonly code?: string;
     readonly innerError?: ErrorModel;
@@ -333,7 +333,7 @@ export interface KeyVaultCertificate {
 }
 
 // @public
-export interface KeyVaultCertificateId {
+export interface KeyVaultCertificateIdentifier {
     name: string;
     sourceId: string;
     vaultUrl: string;
@@ -351,7 +351,7 @@ export interface KeyVaultCertificateWithPolicy extends KeyVaultCertificate {
 }
 
 // @public
-export const enum KnownCertificateKeyCurveNames {
+export enum KnownCertificateKeyCurveNames {
     P256 = "P-256",
     P256K = "P-256K",
     P384 = "P-384",
@@ -359,7 +359,7 @@ export const enum KnownCertificateKeyCurveNames {
 }
 
 // @public
-export const enum KnownCertificateKeyTypes {
+export enum KnownCertificateKeyTypes {
     EC = "EC",
     ECHSM = "EC-HSM",
     Oct = "oct",
@@ -423,6 +423,9 @@ export const logger: import("@azure/logger").AzureLogger;
 
 // @public
 export type MergeCertificateOptions = coreHttp.OperationOptions;
+
+// @public
+export function parseKeyVaultCertificateIdentifier(id: string): KeyVaultCertificateIdentifier;
 
 export { PipelineOptions }
 

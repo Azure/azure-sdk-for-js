@@ -30,7 +30,7 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
     return { result: undefined, headers: getInitialHeader() };
   }
 
-  public hasMoreResults() {
+  public hasMoreResults(): boolean {
     return (this.offset > 0 || this.limit > 0) && this.executionContext.hasMoreResults();
   }
 }

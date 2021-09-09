@@ -9,7 +9,7 @@ const {
   isPlaybackMode,
   isSoftRecordMode,
   isRecordMode
-} = require("@azure/test-utils-recorder");
+} = require("@azure-tools/test-recorder");
 
 module.exports = function(config) {
   config.set({
@@ -50,7 +50,7 @@ module.exports = function(config) {
       "recordings/browsers/**/*.json": ["json"]
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
-      // "test-browser/index.js": ["coverage"]
+      // "dist-test/index.browser.js": ["coverage"]
     },
 
     envPreprocessor: [

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ListConfigurationSettingsOptions } from "..";
+import { featureFlagContentType, ListConfigurationSettingsOptions } from "..";
 import { URLBuilder } from "@azure/core-http";
 import {
   ListRevisionsOptions,
@@ -10,9 +10,17 @@ import {
   HttpResponseField,
   HttpResponseFields,
   HttpOnlyIfChangedField,
-  HttpOnlyIfUnchangedField
+  HttpOnlyIfUnchangedField,
+  ConfigurationSettingParam
 } from "../models";
 import { AppConfigurationGetKeyValuesOptionalParams, KeyValue } from "../generated/src/models";
+import { FeatureFlagHelper, FeatureFlagValue } from "../featureFlag";
+import {
+  secretReferenceContentType,
+  SecretReferenceHelper,
+  SecretReferenceValue
+} from "../secretReference";
+import { isDefined } from "./typeguards";
 
 /**
  * Formats the etag so it can be used with a If-Match/If-None-Match header
@@ -150,13 +158,75 @@ export function makeConfigurationSettingEmpty(
  * @internal
  */
 export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
-  const obj: ConfigurationSetting & KeyValue = {
+  const setting: ConfigurationSetting & KeyValue = {
+    value: undefined,
     ...kvp,
     isReadOnly: !!kvp.locked
   };
 
-  delete obj.locked;
-  return obj;
+  delete setting.locked;
+
+  return setting;
+}
+
+/**
+ * @internal
+ */
+function isConfigSettingWithSecretReferenceValue(
+  setting: any
+): setting is ConfigurationSetting<SecretReferenceValue> {
+  return (
+    setting.contentType === secretReferenceContentType &&
+    isDefined(setting.value) &&
+    typeof setting.value !== "string"
+  );
+}
+
+/**
+ * @internal
+ */
+function isConfigSettingWithFeatureFlagValue(
+  setting: any
+): setting is ConfigurationSetting<FeatureFlagValue> {
+  return (
+    setting.contentType === featureFlagContentType &&
+    isDefined(setting.value) &&
+    typeof setting.value !== "string"
+  );
+}
+
+/**
+ * @internal
+ */
+function isSimpleConfigSetting(setting: any): setting is ConfigurationSetting {
+  return typeof setting.value === "string" || !isDefined(setting.value);
+}
+
+/**
+ * @internal
+ */
+export function serializeAsConfigurationSettingParam(
+  setting:
+    | ConfigurationSettingParam
+    | ConfigurationSettingParam<FeatureFlagValue>
+    | ConfigurationSettingParam<SecretReferenceValue>
+): ConfigurationSettingParam {
+  if (isSimpleConfigSetting(setting)) {
+    return setting as ConfigurationSettingParam;
+  }
+  try {
+    if (isConfigSettingWithFeatureFlagValue(setting)) {
+      return FeatureFlagHelper.toConfigurationSettingParam(setting);
+    }
+    if (isConfigSettingWithSecretReferenceValue(setting)) {
+      return SecretReferenceHelper.toConfigurationSettingParam(setting);
+    }
+  } catch (error) {
+    return setting as ConfigurationSettingParam;
+  }
+  throw new TypeError(
+    `Unable to serialize the setting with key "${setting.key}" as a configuration setting`
+  );
 }
 
 /**
@@ -230,4 +300,14 @@ export function formatFieldsForSelect(
   });
 
   return mappedFieldNames;
+}
+
+/**
+ * @internal
+ */
+export function errorMessageForUnexpectedSetting(
+  key: string,
+  expectedType: "FeatureFlag" | "SecretReference"
+): string {
+  return `Setting with key ${key} is not a valid ${expectedType}, make sure to have the correct content-type and a valid non-null value.`;
 }

@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { isObjectWithProperties } from "./typeguards";
+
 /**
  * Represents a credential defined by a static shared access signature.
  */
@@ -54,4 +56,15 @@ export class AzureSASCredential implements SASCredential {
 
     this._signature = newSignature;
   }
+}
+
+/**
+ * Tests an object to determine whether it implements SASCredential.
+ *
+ * @param credential - The assumed SASCredential to be tested.
+ */
+export function isSASCredential(credential: unknown): credential is SASCredential {
+  return (
+    isObjectWithProperties(credential, ["signature"]) && typeof credential.signature === "string"
+  );
 }

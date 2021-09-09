@@ -14,14 +14,15 @@ import {
   recorderEnvSetup,
   sleep
 } from "./utils";
-import { record, delay, Recorder, isLiveMode } from "@azure/test-utils-recorder";
+import { record, delay, Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { Tags } from "../src/models";
+import { Context } from "mocha";
 dotenv.config();
 
 describe("BlobServiceClient", () => {
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
   });
 
@@ -397,6 +398,7 @@ describe("BlobServiceClient", () => {
       .then((result) => {
         assert.ok(result.geoReplication!.lastSyncOn);
         done();
+        return;
       })
       .catch(done);
   });
@@ -446,10 +448,11 @@ describe("BlobServiceClient", () => {
     assert.ok(result.requestId!.length > 0);
   });
 
-  it("getUserDelegationKey should work", async function() {
+  it("getUserDelegationKey should work", async function(this: Context) {
     // Try to get serviceURL object with TokenCredential
     // when ACCOUNT_TOKEN environment variable is set
     let serviceURLWithToken: BlobServiceClient | undefined;
+    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
     try {
       serviceURLWithToken = getTokenBSU();
     } catch {}
@@ -576,7 +579,7 @@ describe("BlobServiceClient", () => {
     assert.equal(staticWebsite?.defaultIndexDocumentPath, defaultIndexDocumentPath);
   });
 
-  it("restore container", async function() {
+  it("restore container", async function(this: Context) {
     let blobServiceClient: BlobServiceClient;
     try {
       blobServiceClient = getGenericBSU("SOFT_DELETE_");
@@ -613,47 +616,7 @@ describe("BlobServiceClient", () => {
     assert.ok(listed);
   });
 
-  it("restore container to a new name", async function() {
-    let blobServiceClient: BlobServiceClient;
-    try {
-      blobServiceClient = getGenericBSU("SOFT_DELETE_");
-    } catch (err) {
-      this.skip();
-    }
-
-    const containerName = recorder.getUniqueName("container");
-    const containerClient = blobServiceClient.getContainerClient(containerName);
-
-    await containerClient.create();
-    await containerClient.delete();
-    await delay(30 * 1000);
-
-    let listed = false;
-    for await (const containerItem of blobServiceClient.listContainers({ includeDeleted: true })) {
-      if (containerItem.deleted && containerItem.name === containerName) {
-        listed = true;
-        // check list container response
-        assert.ok(containerItem.version);
-        assert.ok(containerItem.properties.deletedOn);
-        assert.ok(containerItem.properties.remainingRetentionDays);
-
-        const newContainerName = recorder.getUniqueName("newcontainer");
-        const restoreRes = await blobServiceClient.undeleteContainer(
-          containerName,
-          containerItem.version!,
-          {
-            destinationContainerName: newContainerName
-          }
-        );
-        assert.equal(restoreRes.containerClient.containerName, newContainerName);
-        await restoreRes.containerClient.delete();
-        break;
-      }
-    }
-    assert.ok(listed);
-  });
-
-  it("rename container", async function() {
+  it("rename container", async function(this: Context) {
     if (isLiveMode()) {
       // Turn on this case when the Container Rename feature is ready in the service side.
       this.skip();
@@ -677,7 +640,7 @@ describe("BlobServiceClient", () => {
     await newContainerClient.delete();
   });
 
-  it("rename container should work with source lease", async function() {
+  it("rename container should work with source lease", async function(this: Context) {
     if (isLiveMode()) {
       // Turn on this case when the Container Rename feature is ready in the service side.
       this.skip();

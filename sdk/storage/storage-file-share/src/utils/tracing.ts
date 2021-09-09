@@ -22,8 +22,10 @@ export const createSpan = createSpanFunction({
  */
 export function convertTracingToRequestOptionsBase(
   options?: OperationOptions
-): Pick<RequestOptionsBase, "spanOptions"> {
+): Pick<RequestOptionsBase, "spanOptions" | "tracingContext"> {
   return {
-    spanOptions: options?.tracingOptions?.spanOptions
+    // By passing spanOptions if they exist at runtime, we're backwards compatible with @azure/core-tracing@preview.13 and earlier.
+    spanOptions: (options?.tracingOptions as any)?.spanOptions,
+    tracingContext: options?.tracingOptions?.tracingContext
   };
 }

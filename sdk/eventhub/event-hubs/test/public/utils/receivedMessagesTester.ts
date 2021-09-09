@@ -2,10 +2,7 @@
 // Licensed under the MIT license.
 
 import { CloseReason, EventHubProducerClient, ReceivedEventData } from "../../../src";
-import {
-  PartitionContext,
-  SubscriptionEventHandlers
-} from "../../../src";
+import { PartitionContext, SubscriptionEventHandlers } from "../../../src";
 import chai from "chai";
 import { delay } from "@azure/core-amqp";
 
@@ -119,12 +116,6 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
       }
 
       if (lastExpectedMessageCount !== this.expectedMessageBodies.size) {
-        console.log(`Still waiting for these messages:`);
-
-        for (const body of this.expectedMessageBodies) {
-          console.log(`   ${body}`);
-        }
-
         lastExpectedMessageCount = this.expectedMessageBodies.size;
       }
 
@@ -134,8 +125,6 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
     if (this.expectedMessageBodies.size > 0) {
       throw new Error(`Never got these messages: ${Array.from(this.expectedMessageBodies)}`);
     }
-
-    console.log("All messages received");
   }
 
   private async produceMessages(client: EventHubProducerClient): Promise<number> {

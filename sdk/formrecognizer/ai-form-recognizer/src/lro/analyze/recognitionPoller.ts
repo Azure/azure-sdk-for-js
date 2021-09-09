@@ -3,14 +3,17 @@
 
 import { delay } from "@azure/core-http";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
-import { OperationStatus } from "../../generated/models";
 
-import { RecognizeFormResultResponse } from "../../internalModels";
+import {
+  GeneratedClientGetAnalyzeFormResultResponse,
+  OperationStatus
+} from "../../generated/models";
 import { RecognizedFormArray } from "../../models";
 import { toRecognizedFormArray } from "../../transforms";
 
 /**
  * Options for Form Recognition shared between prebuilt and custom models.
+ * @internal
  */
 export interface FormPollerOperationOptions {
   /**
@@ -33,6 +36,8 @@ export interface FormPollerOperationOptions {
 /**
  * Encapsulates the steps to start and query the status of
  * a form recognition operation
+ *
+ * @internal
  */
 export interface FormRecognitionOperationClient {
   /**
@@ -42,7 +47,10 @@ export interface FormRecognitionOperationClient {
   /**
    * Returns the results of the operation
    */
-  getResult(operationId: string, modelId?: string): Promise<RecognizeFormResultResponse>;
+  getResult(
+    operationId: string,
+    modelId?: string
+  ): Promise<GeneratedClientGetAnalyzeFormResultResponse>;
 }
 
 /**
@@ -109,9 +117,9 @@ function makeFormRecognitionOperation(
             [
               `Failed to recognize forms using the model "${description.modelId}"`,
               "Error(s):",
-              ...(response.errors?.map((e) => `  Code ${e.code}, message: '${e.message}'`) ?? [
-                "  <empty>"
-              ])
+              ...(response.analyzeResult?.errors?.map(
+                (e) => `  Code ${e.code}, message: '${e.message}'`
+              ) ?? ["  <empty>"])
             ].join("\n")
           );
         }
@@ -128,6 +136,7 @@ function makeFormRecognitionOperation(
 
 /**
  * Set of intrinsic properties that describe a form recognition polling operation.
+ * @internal
  */
 export type FormPollerOperationDescription = FormPollerOperationOptions &
   FormRecognitionOperationClient & {
@@ -147,6 +156,8 @@ const DEFAULT_POLLING_INTERVAL = 5000;
 /**
  * A poller for Form Recognition that works for all analysis endpoints
  * that return the basic, weakly-typed `RecognizedFormArray` type.
+ *
+ * @internal
  */
 export class FormRecognitionPoller extends Poller<
   RecognizeFormsOperationState,
@@ -159,7 +170,8 @@ export class FormRecognitionPoller extends Poller<
       ? JSON.parse(description.resumeFrom).state
       : {
           modelId: description.modelId,
-          status: "notStarted"
+          status: "notStarted",
+          expectedDocType: description.expectedDocType
         };
 
     super(makeFormRecognitionOperation(description, state));

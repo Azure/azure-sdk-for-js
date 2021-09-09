@@ -23,15 +23,22 @@ import {
   UserDelegationKey,
   BlobBatch
 } from "../../src";
-import { getBSU, getTokenBSUWithDefaultCredential, recorderEnvSetup, sleep } from "../utils";
-import { delay, record, Recorder } from "@azure/test-utils-recorder";
+import {
+  getBSU,
+  getImmutableContainerName,
+  getTokenBSUWithDefaultCredential,
+  recorderEnvSetup,
+  sleep
+} from "../utils";
+import { delay, record, Recorder } from "@azure-tools/test-recorder";
 import { SERVICE_VERSION } from "../../src/utils/constants";
+import { Context } from "mocha";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
   });
@@ -210,12 +217,14 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       newPipeline(new AnonymousCredential())
     );
 
-    (
+    const result = (
       await containerClientWithSAS
         .listBlobsFlat()
         .byPage()
         .next()
     ).value;
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.deepStrictEqual(result.continuationToken, "");
     await containerClient.delete();
   });
 
@@ -671,10 +680,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("GenerateUserDelegationSAS should work for container with all configurations", async function() {
+  it("GenerateUserDelegationSAS should work for container with all configurations", async function(this: Context) {
     // Try to get BlobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
     let blobServiceClientWithToken: BlobServiceClient | undefined;
+    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
     try {
       blobServiceClientWithToken = getTokenBSUWithDefaultCredential();
     } catch {}
@@ -720,19 +730,22 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       newPipeline(new AnonymousCredential())
     );
 
-    (
+    const result = (
       await containerClientWithSAS
         .listBlobsFlat()
         .byPage()
         .next()
     ).value;
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.deepStrictEqual(result.continuationToken, "");
     await containerClient.delete();
   });
 
-  it("GenerateUserDelegationSAS should work for container with minimum parameters", async function() {
+  it("GenerateUserDelegationSAS should work for container with minimum parameters", async function(this: Context) {
     // Try to get BlobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
     let blobServiceClientWithToken: BlobServiceClient | undefined;
+    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
     try {
       blobServiceClientWithToken = getTokenBSUWithDefaultCredential();
     } catch {}
@@ -774,19 +787,22 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       newPipeline(new AnonymousCredential())
     );
 
-    (
+    const result = (
       await containerClientWithSAS
         .listBlobsFlat()
         .byPage()
         .next()
     ).value;
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.deepStrictEqual(result.continuationToken, "");
     await containerClient.delete();
   });
 
-  it("GenerateUserDelegationSAS should work for blob", async function() {
+  it("GenerateUserDelegationSAS should work for blob", async function(this: Context) {
     // Try to get blobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
     let blobServiceClientWithToken: BlobServiceClient | undefined;
+    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
     try {
       blobServiceClientWithToken = getTokenBSUWithDefaultCredential();
     } catch {}
@@ -852,10 +868,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("GenerateUserDelegationSAS should work for blob snapshot", async function() {
+  it("GenerateUserDelegationSAS should work for blob snapshot", async function(this: Context) {
     // Try to get blobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
     let blobServiceClientWithToken: BlobServiceClient | undefined;
+    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
     try {
       blobServiceClientWithToken = getTokenBSUWithDefaultCredential();
     } catch {}
@@ -1010,10 +1027,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("GenerateUserDelegationSAS should work for blob version delete", async function() {
+  it("GenerateUserDelegationSAS should work for blob version delete", async function(this: Context) {
     // Try to get blobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
     let blobServiceClientWithToken: BlobServiceClient | undefined;
+    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
     try {
       blobServiceClientWithToken = getTokenBSUWithDefaultCredential();
     } catch {}
@@ -1345,12 +1363,14 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     });
 
     const containerClientWithSAS = new ContainerClient(sasURL);
-    (
+    const result = (
       await containerClientWithSAS
         .listBlobsFlat()
         .byPage()
         .next()
     ).value;
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.deepStrictEqual(result.continuationToken, "");
 
     try {
       await containerClientWithSAS.generateSasUrl({});
@@ -1602,7 +1622,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     for (let i = 0; i < blockBlobCount; i++) {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 202);
-      assert.ok(resp.subResponses[i].statusMessage != "");
+      assert.ok(resp.subResponses[i].statusMessage !== "");
       assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
       assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
     }
@@ -1630,7 +1650,7 @@ describe("Generation for user delegation SAS Node.js only", () => {
   let containerClient: ContainerClient;
   let blobClient: BlobClient;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     try {
       blobServiceClient = getTokenBSUWithDefaultCredential();
@@ -1717,5 +1737,180 @@ describe("Generation for user delegation SAS Node.js only", () => {
 
     const blobClientWithSAS = new BlobClient(`${blobClient.url}?${blobSAS}`);
     await blobClientWithSAS.getProperties();
+  });
+});
+
+describe("Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPolicy", () => {
+  let blobServiceClient: BlobServiceClient;
+  let containerName: string;
+  let containerClient: ContainerClient;
+  let blobName: string;
+  let blobClient: BlobClient;
+  const content = "Hello World";
+
+  let recorder: Recorder;
+
+  beforeEach(async function(this: Context) {
+    recorder = record(this, recorderEnvSetup);
+    blobServiceClient = getBSU();
+    try {
+      containerName = getImmutableContainerName();
+    } catch {
+      this.skip();
+    }
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    blobName = recorder.getUniqueName("blob");
+    blobClient = containerClient.getBlobClient(blobName);
+  });
+
+  afterEach(async function(this: Context) {
+    if (!this.currentTest?.isPending()) {
+      const listResult = (
+        await containerClient
+          .listBlobsFlat({
+            includeImmutabilityPolicy: true
+          })
+          .byPage()
+          .next()
+      ).value;
+
+      for (let i = 0; i < listResult.segment.blobItems!.length; ++i) {
+        const deleteBlobClient = containerClient.getBlobClient(
+          listResult.segment.blobItems[i].name
+        );
+        await deleteBlobClient.setLegalHold(false);
+        await deleteBlobClient.deleteImmutabilityPolicy();
+        await deleteBlobClient.delete();
+      }
+      await recorder.stop();
+    }
+  });
+
+  it("Account sas - set immutability policy and legalhold with account SAS should work", async () => {
+    const blockBlobClient = blobClient.getBlockBlobClient();
+    await blockBlobClient.upload(content, content.length);
+
+    const aDayLater = recorder.newDate("aDayLater");
+    aDayLater.setDate(aDayLater.getDate() + 1);
+
+    const sas = generateAccountSASQueryParameters(
+      {
+        expiresOn: aDayLater,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: AccountSASPermissions.parse("rwdlacupi"),
+        protocol: SASProtocol.HttpsAndHttp,
+        resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
+        services: AccountSASServices.parse("btqf").toString(),
+        version: "2020-08-04"
+      },
+      blobServiceClient.credential as StorageSharedKeyCredential
+    ).toString();
+
+    const sasClient = `${blobServiceClient.url}?${sas}`;
+    const accountSASServiceClient = new BlobServiceClient(sasClient, newPipeline());
+
+    const sasBlobClient = accountSASServiceClient
+      .getContainerClient(containerName)
+      .getBlobClient(blobName);
+
+    const minutesLater = recorder.newDate("minutesLater");
+    minutesLater.setMinutes(minutesLater.getMinutes() + 5);
+
+    const result = await sasBlobClient.setImmutabilityPolicy({
+      expiriesOn: minutesLater,
+      policyMode: "Unlocked"
+    });
+
+    assert.ok(result.immutabilityPolicyExpiry);
+    assert.equal(result.immutabilityPolicyMode, "unlocked");
+
+    const setLegalHoldResult = await sasBlobClient.setLegalHold(true);
+    assert.ok(setLegalHoldResult.legalHold);
+
+    const propertiesResult = await blobClient.getProperties();
+
+    assert.ok(propertiesResult.immutabilityPolicyExpiresOn);
+    assert.equal(propertiesResult.immutabilityPolicyMode, "unlocked");
+    assert.ok(propertiesResult.legalHold);
+  });
+
+  it("Container sas - set immutability policy and legalhold with container SAS should work", async () => {
+    const blockBlobClient = blobClient.getBlockBlobClient();
+    await blockBlobClient.upload(content, content.length);
+
+    const aDayLater = recorder.newDate("aDayLater");
+    aDayLater.setDate(aDayLater.getDate() + 1);
+    const containerSAS = generateBlobSASQueryParameters(
+      {
+        containerName: containerClient.containerName,
+        expiresOn: aDayLater,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: ContainerSASPermissions.parse("i"),
+        protocol: SASProtocol.HttpsAndHttp,
+        version: "2020-08-04"
+      },
+      blobServiceClient.credential as StorageSharedKeyCredential
+    );
+    const sasContainerClient = new ContainerClient(`${containerClient.url}?${containerSAS}`);
+    const sasBlobClient = sasContainerClient.getBlobClient(blobName);
+
+    const minutesLater = recorder.newDate("minutesLater");
+    minutesLater.setMinutes(minutesLater.getMinutes() + 5);
+
+    const result = await sasBlobClient.setImmutabilityPolicy({
+      expiriesOn: minutesLater,
+      policyMode: "Unlocked"
+    });
+
+    assert.ok(result.immutabilityPolicyExpiry);
+    assert.equal(result.immutabilityPolicyMode, "unlocked");
+
+    const setLegalHoldResult = await sasBlobClient.setLegalHold(true);
+    assert.ok(setLegalHoldResult.legalHold);
+
+    const propertiesResult = await blobClient.getProperties();
+
+    assert.ok(propertiesResult.immutabilityPolicyExpiresOn);
+    assert.equal(propertiesResult.immutabilityPolicyMode, "unlocked");
+    assert.ok(propertiesResult.legalHold);
+  });
+
+  it("Blob sas - set immutability policy and legalhold with blob SAS should work", async () => {
+    const blockBlobClient = blobClient.getBlockBlobClient();
+    await blockBlobClient.upload(content, content.length);
+
+    const aDayLater = recorder.newDate("aDayLater");
+    aDayLater.setDate(aDayLater.getDate() + 1);
+    const blobSAS = generateBlobSASQueryParameters(
+      {
+        blobName: blobClient.name,
+        containerName: blobClient.containerName,
+        expiresOn: aDayLater,
+        permissions: BlobSASPermissions.parse("i"),
+        version: "2020-08-04"
+      },
+      blobServiceClient.credential as StorageSharedKeyCredential
+    );
+    const sasBlobClient = new BlobClient(`${blobClient.url}?${blobSAS}`);
+
+    const minutesLater = recorder.newDate("minutesLater");
+    minutesLater.setMinutes(minutesLater.getMinutes() + 5);
+
+    const result = await sasBlobClient.setImmutabilityPolicy({
+      expiriesOn: minutesLater,
+      policyMode: "Unlocked"
+    });
+
+    assert.ok(result.immutabilityPolicyExpiry);
+    assert.equal(result.immutabilityPolicyMode, "unlocked");
+
+    const setLegalHoldResult = await sasBlobClient.setLegalHold(true);
+    assert.ok(setLegalHoldResult.legalHold);
+
+    const propertiesResult = await blobClient.getProperties();
+
+    assert.ok(propertiesResult.immutabilityPolicyExpiresOn);
+    assert.equal(propertiesResult.immutabilityPolicyMode, "unlocked");
+    assert.ok(propertiesResult.legalHold);
   });
 });

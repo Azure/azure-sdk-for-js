@@ -11,15 +11,14 @@ import { SimpleTokenCredential } from "./testutils.common";
 export * from "./testutils.common";
 
 export function getGenericCredential(accountType: string): AnonymousCredential {
-  accountType = accountType; // bypass compiling error
+  const _accountType = accountType; // bypass compiling error
+  accountType = _accountType;
   return new AnonymousCredential();
 }
 
 export function getTokenCredential(): TokenCredential {
   const accountTokenEnvVar = `DFS_ACCOUNT_TOKEN`;
-  let accountToken: string | undefined;
-
-  accountToken = (window as any).__env__[accountTokenEnvVar];
+  const accountToken = (self as any).__env__[accountTokenEnvVar];
 
   if (!accountToken || accountToken === "") {
     throw new Error(`${accountTokenEnvVar} environment variables not specified.`);
@@ -35,10 +34,10 @@ export function getGenericDataLakeServiceClient(
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
 
-  let accountName: string | undefined;
+  const accountName = (self as any).__env__[accountNameEnvVar];
+
   let accountSAS: string | undefined;
-  accountName = (window as any).__env__[accountNameEnvVar];
-  accountSAS = (window as any).__env__[accountSASEnvVar];
+  accountSAS = (self as any).__env__[accountSASEnvVar];
 
   if (!accountName || !accountSAS || accountName === "" || accountSAS === "") {
     throw new Error(
@@ -61,10 +60,7 @@ export function getGenericDataLakeServiceClient(
 
 export function getTokenDataLakeServiceClient(): DataLakeServiceClient {
   const accountNameEnvVar = `DFS_ACCOUNT_NAME`;
-
-  let accountName: string | undefined;
-
-  accountName = (window as any).__env__[accountNameEnvVar];
+  const accountName = (self as any).__env__[accountNameEnvVar];
 
   if (!accountName || accountName === "") {
     throw new Error(`${accountNameEnvVar} environment variables not specified.`);
@@ -99,7 +95,6 @@ export async function bodyToString(
     readableStreamBody?: NodeJS.ReadableStream;
     contentAsBlob?: Promise<Blob>;
   },
-  // tslint:disable-next-line:variable-name
   _length?: number
 ): Promise<string> {
   const blob = await response.contentAsBlob!;
@@ -145,21 +140,6 @@ export function arrayBufferEqual(buf1: ArrayBuffer, buf2: ArrayBuffer): boolean 
   return true;
 }
 
-export function isIE(): boolean {
-  const sAgent = window.navigator.userAgent;
-  const Idx = sAgent.indexOf("MSIE");
-
-  // If IE, return version number.
-  if (Idx > 0) {
-    return true;
-  } else if (navigator.userAgent.match(/Trident\/7\./)) {
-    // IE 11
-    return true;
-  } else {
-    return false;
-  } // It is not IE
-}
-
 // Mock a Browser file with specified name and size
 export function getBrowserFile(name: string, size: number): File {
   const uint8Arr = new Uint8Array(size);
@@ -176,6 +156,6 @@ export function getBrowserFile(name: string, size: number): File {
 }
 
 export function getSASConnectionStringFromEnvironment(): string {
-  const env = (window as any).__env__;
+  const env = (self as any).__env__;
   return `BlobEndpoint=https://${env.DFS_ACCOUNT_NAME}.blob.core.windows.net/;QueueEndpoint=https://${env.DFS_ACCOUNT_NAME}.queue.core.windows.net/;FileEndpoint=https://${env.DFS_ACCOUNT_NAME}.file.core.windows.net/;TableEndpoint=https://${env.DFS_ACCOUNT_NAME}.table.core.windows.net/;SharedAccessSignature=${env.DFS_ACCOUNT_SAS}`;
 }

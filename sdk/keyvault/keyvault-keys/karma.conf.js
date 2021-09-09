@@ -6,7 +6,7 @@ const {
   isPlaybackMode,
   isSoftRecordMode,
   isRecordMode
-} = require("@azure/test-utils-recorder");
+} = require("@azure-tools/test-recorder");
 
 module.exports = function(config) {
   config.set({
@@ -29,9 +29,6 @@ module.exports = function(config) {
     ],
 
     files: [
-      // polyfill service supporting IE11 missing features
-      // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys
-      "https://cdn.polyfill.io/v2/polyfill.js?features=Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys|always",
       "dist-test/index.browser.js",
       { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true }
     ].concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []),
@@ -51,6 +48,7 @@ module.exports = function(config) {
       "KEYVAULT_NAME",
       "KEYVAULT_URI",
       "AZURE_MANAGEDHSM_URI",
+      "AZURE_KEYVAULT_ATTESTATION_URI",
       "TEST_MODE"
     ],
 

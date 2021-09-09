@@ -7,7 +7,7 @@ import {
   SendRequest,
   PipelinePolicy,
   RestError
-} from "@azure/core-https";
+} from "@azure/core-rest-pipeline";
 import {
   OperationRequest,
   OperationResponseMap,

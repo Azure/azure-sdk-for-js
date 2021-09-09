@@ -7,7 +7,7 @@ import {
   HttpResponse,
   getDefaultProxySettings
 } from "@azure/core-http";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
   ServiceGetUserDelegationKeyHeaders,
@@ -29,7 +29,7 @@ import {
   LeaseAccessConditions
 } from "./generatedModels";
 import { Container, Service } from "./generated/src/operations";
-import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
+import { newPipeline, StoragePipelineOptions, PipelineLike, isPipelineLike } from "./Pipeline";
 import {
   ContainerClient,
   ContainerCreateOptions,
@@ -336,6 +336,7 @@ export interface ServiceUndeleteContainerOptions extends CommonOptions {
   /**
    * Optional. Specifies the new name of the restored container.
    * Will use its original name if this is not specified.
+   * @deprecated Restore container to a different name is not supported by service anymore.
    */
   destinationContainerName?: string;
 }
@@ -403,7 +404,12 @@ export class BlobServiceClient extends StorageClient {
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
-  public static fromConnectionString(connectionString: string, options?: StoragePipelineOptions) {
+  public static fromConnectionString(
+    connectionString: string,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
+    options?: StoragePipelineOptions
+  ): BlobServiceClient {
     options = options || {};
     const extractedCreds = extractConnectionStringParts(connectionString);
     if (extractedCreds.kind === "AccountConnString") {
@@ -465,6 +471,8 @@ export class BlobServiceClient extends StorageClient {
   constructor(
     url: string,
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   );
   /**
@@ -476,18 +484,20 @@ export class BlobServiceClient extends StorageClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  constructor(url: string, pipeline: Pipeline);
+  constructor(url: string, pipeline: PipelineLike);
   constructor(
     url: string,
     credentialOrPipeline?:
       | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
-      | Pipeline,
+      | PipelineLike,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   ) {
-    let pipeline: Pipeline;
-    if (credentialOrPipeline instanceof Pipeline) {
+    let pipeline: PipelineLike;
+    if (isPipelineLike(credentialOrPipeline)) {
       pipeline = credentialOrPipeline;
     } else if (
       (isNode && credentialOrPipeline instanceof StorageSharedKeyCredential) ||
@@ -546,7 +556,7 @@ export class BlobServiceClient extends StorageClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -572,7 +582,7 @@ export class BlobServiceClient extends StorageClient {
       return await containerClient.delete(updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -613,7 +623,7 @@ export class BlobServiceClient extends StorageClient {
       return { containerClient, containerUndeleteResponse };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -629,6 +639,7 @@ export class BlobServiceClient extends StorageClient {
    * @param destinationContainerName - The new name of the container.
    * @param options - Options to configure Container Rename operation.
    */
+  /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
   // @ts-ignore Need to hide this interface for now. Make it public and turn on the live tests for it when the service is ready.
   private async renameContainer(
     sourceContainerName: string,
@@ -650,7 +661,7 @@ export class BlobServiceClient extends StorageClient {
       return { containerClient, containerRenameResponse };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -678,7 +689,7 @@ export class BlobServiceClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -708,7 +719,7 @@ export class BlobServiceClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -737,7 +748,7 @@ export class BlobServiceClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -767,7 +778,7 @@ export class BlobServiceClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -806,7 +817,7 @@ export class BlobServiceClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -866,7 +877,7 @@ export class BlobServiceClient extends StorageClient {
       return wrappedResponse;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1259,7 +1270,7 @@ export class BlobServiceClient extends StorageClient {
       return res;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

@@ -1,28 +1,24 @@
-# NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
 trigger:
   branches:
     include:
-      - master
       - main
       - release/*
       - hotfix/*
   paths:
     include:
       - sdk/storage/
-
 pr:
   branches:
     include:
-      - master
       - main
       - feature/*
       - release/*
       - hotfix/*
+    exclude:
+      - feature/v4
   paths:
     include:
       - sdk/storage/
-
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -38,3 +34,5 @@ extends:
         safeName: azurestoragequeue
       - name: azure-storage-blob-changefeed
         safeName: azurestorageblobchangefeed
+      - name: azure-arm-storage
+        safeName: azurearmstorage

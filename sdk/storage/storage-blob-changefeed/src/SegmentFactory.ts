@@ -11,7 +11,7 @@ import { bodyToString } from "./utils/utils.node";
 import { parseDateFromSegmentPath } from "./utils/utils.common";
 import { AbortSignalLike } from "@azure/core-http";
 import { createSpan } from "./utils/tracing";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 
 export interface SegmentManifest {
   version?: number;
@@ -91,7 +91,7 @@ export class SegmentFactory {
       return new Segment(shards, shardIndex, dateTime, manifestPath);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

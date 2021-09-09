@@ -4,17 +4,18 @@
 
 ```yaml
 package-name: "@azure/keyvault-admin"
-use-extension:
-  "@autorest/typescript": "6.0.0-dev.20200917.1"
 azure-arm: false
+disable-async-iterators: true
+api-version-parameter: choice
 generate-metadata: false
 add-credentials: false
 license-header: MICROSOFT_MIT_NO_VERSION
 input-file:
-  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/f7879713cbd89efb2c68c6b6f2566b49db97d832/specification/keyvault/data-plane/Microsoft.KeyVault/preview/7.2-preview/rbac.json
-  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/f7879713cbd89efb2c68c6b6f2566b49db97d832/specification/keyvault/data-plane/Microsoft.KeyVault/preview/7.2-preview/backuprestore.json
+  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/7a42f16c75e5005c59b75fe7f0888c1103294d43/specification/keyvault/data-plane/Microsoft.KeyVault/preview/7.3-preview/rbac.json
+  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/7a42f16c75e5005c59b75fe7f0888c1103294d43/specification/keyvault/data-plane/Microsoft.KeyVault/preview/7.3-preview/backuprestore.json
 output-folder: ../
 source-code-folder-path: ./src/generated
+package-version: 4.2.0-beta.2
 ```
 
 ### Hide LROs
@@ -31,4 +32,38 @@ directive:
               }
           }
       }
+```
+
+### Ignore 404s for DELETE operations
+
+Treat HTTP 404 responses for DELETE operations for RBAC as non-errors.
+
+```yaml
+directive:
+  - where-operation: RoleAssignments_Delete
+    transform: >
+      $.responses["404"] = {
+          "description": "The resource to delete does not exist.",
+          "x-ms-error-response": false
+      };
+  - where-operation: RoleDefinitions_Delete
+    transform: >
+      $.responses["404"] = {
+          "description": "The resource to delete does not exist.",
+          "x-ms-error-response": false
+      };
+```
+
+### Return void for DELETE operations
+
+Do not parse response bodies unnecessarily.
+
+```yaml
+directive:
+  - where-operation: RoleAssignments_Delete
+    transform: >
+      delete $.responses["200"].schema;
+  - where-operation: RoleDefinitions_Delete
+    transform: >
+      delete $.responses["200"].schema;
 ```

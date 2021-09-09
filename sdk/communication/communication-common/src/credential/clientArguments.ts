@@ -41,6 +41,7 @@ export const isKeyCredential = (credential: unknown): credential is KeyCredentia
 
 /**
  * The URL and credential from parsing the arguments of a communication client.
+ * @hidden
  */
 export type UrlWithCredential = {
   url: string;
@@ -49,6 +50,7 @@ export type UrlWithCredential = {
 
 /**
  * Parses arguments passed to a communication client.
+ * @hidden
  */
 export const parseClientArguments = (
   connectionStringOrUrl: string,

@@ -8,7 +8,7 @@
  * @internal
  */
 export async function generateKey(secret: string, stringToSign: string): Promise<string> {
-  const key = await window.crypto.subtle.importKey(
+  const key = await self.crypto.subtle.importKey(
     "raw",
     convertToUint8Array(secret),
     {
@@ -19,7 +19,7 @@ export async function generateKey(secret: string, stringToSign: string): Promise
     ["sign"]
   );
 
-  const signature = await window.crypto.subtle.sign("HMAC", key, convertToUint8Array(stringToSign));
+  const signature = await self.crypto.subtle.sign("HMAC", key, convertToUint8Array(stringToSign));
   const base64encodedString = encodeByteArray(new Uint8Array(signature));
   const result = encodeURIComponent(base64encodedString);
   return result;

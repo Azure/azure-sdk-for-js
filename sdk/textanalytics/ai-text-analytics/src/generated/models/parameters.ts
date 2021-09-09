@@ -9,9 +9,8 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter,
-  QueryCollectionFormat
-} from "@azure/core-http";
+  OperationQueryParameter
+} from "@azure/core-client";
 import {
   AnalyzeBatchInput as AnalyzeBatchInputMapper,
   MultiLanguageBatchInput as MultiLanguageBatchInputMapper,
@@ -52,6 +51,19 @@ export const endpoint: OperationURLParameter = {
   mapper: {
     serializedName: "Endpoint",
     required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+
+export const apiVersion: OperationURLParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "v3.2-preview.1",
+    isConstant: true,
+    serializedName: "ApiVersion",
     type: {
       name: "String"
     }
@@ -137,10 +149,19 @@ export const modelVersion: OperationQueryParameter = {
 export const stringIndexType: OperationQueryParameter = {
   parameterPath: ["options", "stringIndexType"],
   mapper: {
-    defaultValue: "TextElements_v8",
     serializedName: "stringIndexType",
     type: {
       name: "String"
+    }
+  }
+};
+
+export const loggingOptOut: OperationQueryParameter = {
+  parameterPath: ["options", "loggingOptOut"],
+  mapper: {
+    serializedName: "loggingOptOut",
+    type: {
+      name: "Boolean"
     }
   }
 };
@@ -171,7 +192,7 @@ export const piiCategories: OperationQueryParameter = {
       }
     }
   },
-  collectionFormat: QueryCollectionFormat.Csv
+  collectionFormat: "CSV"
 };
 
 export const input1: OperationParameter = {

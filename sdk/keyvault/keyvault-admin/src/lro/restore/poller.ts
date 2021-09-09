@@ -2,15 +2,15 @@
 // Licensed under the MIT license.
 
 import {
-  RestorePollOperation,
-  RestoreOperationState,
-  RestorePollOperationState
+  KeyVaultRestorePollOperation,
+  KeyVaultRestoreOperationState,
+  KeyVaultRestorePollOperationState
 } from "./operation";
 import { KeyVaultAdminPollerOptions, KeyVaultAdminPoller } from "../keyVaultAdminPoller";
-import { RestoreResult } from "../../backupClientModels";
+import { KeyVaultRestoreResult } from "../../backupClientModels";
 
-export interface RestorePollerOptions extends KeyVaultAdminPollerOptions {
-  blobStorageUri: string;
+export interface KeyVaultRestorePollerOptions extends KeyVaultAdminPollerOptions {
+  folderUri: string;
   sasToken: string;
   folderName: string;
 }
@@ -18,12 +18,15 @@ export interface RestorePollerOptions extends KeyVaultAdminPollerOptions {
 /**
  * Class that creates a poller that waits until a Key Vault ends up being restored.
  */
-export class RestorePoller extends KeyVaultAdminPoller<RestoreOperationState, RestoreResult> {
-  constructor(options: RestorePollerOptions) {
+export class KeyVaultRestorePoller extends KeyVaultAdminPoller<
+  KeyVaultRestoreOperationState,
+  KeyVaultRestoreResult
+> {
+  constructor(options: KeyVaultRestorePollerOptions) {
     const {
       client,
       vaultUrl,
-      blobStorageUri,
+      folderUri,
       sasToken,
       folderName,
       requestOptions,
@@ -31,16 +34,16 @@ export class RestorePoller extends KeyVaultAdminPoller<RestoreOperationState, Re
       resumeFrom
     } = options;
 
-    let state: RestorePollOperationState | undefined;
+    let state: KeyVaultRestorePollOperationState | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;
     }
 
-    const operation = new RestorePollOperation(
+    const operation = new KeyVaultRestorePollOperation(
       {
         ...state,
-        blobStorageUri,
+        folderUri,
         sasToken,
         folderName
       },

@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineOptions, OperationOptions } from "@azure/core-http";
+import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 
 /**
  * Identifies a Schema by its unique ID, version, and location.
  */
-export interface SchemaId {
+export interface SchemaProperties {
   /** ID that uniquely identifies a schema in the registry namespace. */
   id: string;
 
@@ -18,12 +18,6 @@ export interface SchemaId {
 
   /** Automatically incremented version number of the schema. */
   version: number;
-
-  /** URL of schema by group and name. */
-  location: string;
-
-  /** URL of schema by ID. */
-  locationById: string;
 }
 
 /**
@@ -31,7 +25,7 @@ export interface SchemaId {
  */
 export interface SchemaDescription {
   /** Schema group under which schema is or should be registered. */
-  group: string;
+  groupName: string;
 
   /** Name of schema.*/
   name: string;
@@ -49,7 +43,7 @@ export interface SchemaDescription {
 /**
  * Schema definition with its unique ID, version, and location.
  */
-export interface Schema extends SchemaId {
+export interface Schema extends SchemaProperties {
   /** String representation of schema. */
   content: string;
 }
@@ -57,7 +51,7 @@ export interface Schema extends SchemaId {
 /**
  * Options for SchemaRegistrationClient.
  */
-export interface SchemaRegistryClientOptions extends PipelineOptions {}
+export interface SchemaRegistryClientOptions extends CommonClientOptions {}
 
 /**
  * Options for SchemaRegistryClient.registerSchema.
@@ -65,14 +59,14 @@ export interface SchemaRegistryClientOptions extends PipelineOptions {}
 export interface RegisterSchemaOptions extends OperationOptions {}
 
 /**
- * Options for SchemaRegistryClient.getSchemaId.
+ * Options for SchemaRegistryClient.getSchemaProperties.
  */
-export interface GetSchemaIdOptions extends OperationOptions {}
+export interface GetSchemaPropertiesOptions extends OperationOptions {}
 
 /**
- * Options to configure SchemaRegistryClient.getSchemaById.
+ * Options to configure SchemaRegistryClient.getSchema.
  */
-export interface GetSchemaByIdOptions extends OperationOptions {}
+export interface GetSchemaOptions extends OperationOptions {}
 
 /**
  * Represents a store of registered schemas.
@@ -91,22 +85,28 @@ export interface SchemaRegistry {
    * @param schema - Schema to register.
    * @returns Registered schema's ID.
    */
-  registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaId>;
+  registerSchema(
+    schema: SchemaDescription,
+    options?: RegisterSchemaOptions
+  ): Promise<SchemaProperties>;
 
   /**
    * Gets the ID of an existing schema with matching name, group, type, and
    * content.
    *
    * @param schema - Schema to match.
-   * @returns Matched schema's ID.
+   * @returns Matched schema's ID or undefined if no matching schema was found.
    */
-  getSchemaId(schema: SchemaDescription, options?: GetSchemaIdOptions): Promise<SchemaId>;
+  getSchemaProperties(
+    schema: SchemaDescription,
+    options?: GetSchemaPropertiesOptions
+  ): Promise<SchemaProperties | undefined>;
 
   /**
    * Gets an existing schema by ID.
    *
    * @param id - Unique schema ID.
-   * @returns Schema with given ID.
+   * @returns Schema with given ID or undefined if no schema was found with the given ID.
    */
-  getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema>;
+  getSchema(id: string, options?: GetSchemaOptions): Promise<Schema | undefined>;
 }

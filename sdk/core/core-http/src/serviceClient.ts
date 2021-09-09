@@ -492,7 +492,12 @@ export class ServiceClient {
         }
 
         if (options.spanOptions) {
-          httpRequest.spanOptions = options.spanOptions;
+          // By passing spanOptions if they exist at runtime, we're backwards compatible with @azure/core-tracing@preview.13 and earlier.
+          (httpRequest as any).spanOptions = options.spanOptions;
+        }
+
+        if (options.tracingContext) {
+          httpRequest.tracingContext = options.tracingContext;
         }
 
         if (options.shouldDeserialize !== undefined && options.shouldDeserialize !== null) {

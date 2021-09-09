@@ -1,12 +1,12 @@
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
-require("dotenv").config({ path: "../.env" });
+require("dotenv").config();
 const {
   jsonRecordingFilterFunction,
   isPlaybackMode,
   isSoftRecordMode,
   isRecordMode
-} = require("@azure/test-utils-recorder");
+} = require("@azure-tools/test-recorder");
 
 module.exports = function(config) {
   config.set({
@@ -29,9 +29,6 @@ module.exports = function(config) {
     ],
 
     files: [
-      // polyfill service supporting IE11 missing features
-      // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys
-      "https://cdn.polyfill.io/v2/polyfill.js?features=Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys|always",
       "dist-test/index.browser.js",
       { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true }
     ].concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []),
@@ -48,7 +45,6 @@ module.exports = function(config) {
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
       "AZURE_TENANT_ID",
-      "KEYVAULT_NAME",
       "KEYVAULT_URI",
       "TEST_MODE"
     ],
@@ -100,7 +96,7 @@ module.exports = function(config) {
     singleRun: false,
     concurrency: 1,
 
-    browserNoActivityTimeout: 180000,
+    browserNoActivityTimeout: 350000,
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
     browserConsoleLogOptions: {
@@ -112,7 +108,7 @@ module.exports = function(config) {
       mocha: {
         // change Karma's debug.html to the mocha web reporter
         reporter: "html",
-        timeout: "180000"
+        timeout: "350000"
       }
     }
   });

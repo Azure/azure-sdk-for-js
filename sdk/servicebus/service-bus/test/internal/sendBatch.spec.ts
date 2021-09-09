@@ -3,6 +3,7 @@
 
 import chai from "chai";
 const should = chai.should();
+const assert = chai.assert;
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import { OperationOptions, ServiceBusMessage } from "../../src";
@@ -470,5 +471,47 @@ describe("Send Batch", () => {
 
     await sender.sendMessages(batch);
     await serviceBusClient.test.verifyAndDeleteAllSentMessages(entityNames, messagesToSend);
+  });
+
+  it("send() with null/undefined properties", async () => {
+    await beforeEachTest(TestClientType.UnpartitionedQueue);
+
+    const messageId = `null/undefined properties: ${Date.now()}`;
+
+    await sender.sendMessages({
+      messageId,
+      body: undefined,
+      applicationProperties: {
+        nullProperty: null,
+        // the type definition hasn't opened up to allow undefined (we do allow)
+        // null, however.
+        undefinedProperty: undefined as any,
+        canary: "hello"
+      }
+    });
+
+    // round trip documentation
+    const receiver = await serviceBusClient.test.createReceiveAndDeleteReceiver(entityNames);
+    const messageWithNullProperties = await receiver.receiveMessages(1);
+    const receivedMessage = messageWithNullProperties[0]!;
+
+    assert.deepEqual(
+      {
+        messageId: receivedMessage.messageId,
+        applicationProperties: {
+          nullProperty: receivedMessage.applicationProperties?.nullProperty,
+          undefinedProperty: receivedMessage.applicationProperties?.undefinedProperty,
+          canary: receivedMessage.applicationProperties?.canary
+        }
+      },
+      {
+        messageId,
+        applicationProperties: {
+          nullProperty: null,
+          undefinedProperty: null, // NOTE, undefined just gets squashed to null,
+          canary: "hello"
+        }
+      }
+    );
   });
 });

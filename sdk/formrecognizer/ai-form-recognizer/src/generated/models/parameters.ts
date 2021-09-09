@@ -9,8 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter,
-  QueryCollectionFormat
+  OperationQueryParameter
 } from "@azure/core-http";
 import {
   TrainRequest as TrainRequestMapper,
@@ -149,6 +148,24 @@ export const includeTextDetails: OperationQueryParameter = {
   }
 };
 
+export const pages: OperationQueryParameter = {
+  parameterPath: ["options", "pages"],
+  mapper: {
+    serializedName: "pages",
+    type: {
+      name: "Sequence",
+      element: {
+        constraints: {
+          Pattern: new RegExp("(^[0-9]+-[0-9]+$)|(^[0-9]+$)")
+        },
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const resultId: OperationURLParameter = {
   parameterPath: "resultId",
   mapper: {
@@ -202,23 +219,16 @@ export const language: OperationQueryParameter = {
   }
 };
 
-export const pages: OperationQueryParameter = {
-  parameterPath: ["options", "pages"],
+export const readingOrder: OperationQueryParameter = {
+  parameterPath: ["options", "readingOrder"],
   mapper: {
-    serializedName: "Pages",
+    defaultValue: "basic",
+    serializedName: "readingOrder",
     type: {
-      name: "Sequence",
-      element: {
-        constraints: {
-          Pattern: new RegExp("(^[0-9]+-[0-9]+$)|(^[0-9]+$)")
-        },
-        type: {
-          name: "String"
-        }
-      }
+      name: "Enum",
+      allowedValues: ["basic", "natural"]
     }
-  },
-  collectionFormat: QueryCollectionFormat.Csv
+  }
 };
 
 export const op: OperationQueryParameter = {

@@ -4,13 +4,13 @@
 import * as chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
+import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 
 import { KeyVaultBackupClient } from "../../src";
 import { authenticate } from "../utils/authentication";
 import { testPollerProperties } from "../utils/recorder";
-import { getFolderName, getSasToken } from "../utils/common";
-import { delay } from "@azure/core-http";
+import { getSasToken } from "../utils/common";
+import { delay } from "@azure/core-util";
 import { assert } from "chai";
 import { KeyClient } from "@azure/keyvault-keys";
 
@@ -43,23 +43,32 @@ describe("KeyVaultBackupClient", () => {
         blobSasToken,
         testPollerProperties
       );
+      await backupPoller.poll();
+
+      // A poller can be serialized and then resumed
+      const resumedPoller = await client.beginBackup(blobStorageUri, blobSasToken, {
+        resumeFrom: backupPoller.toString(),
+        ...testPollerProperties
+      });
+
+      assert.isTrue(resumedPoller.getOperationState().isStarted); // without polling
+      assert.equal(resumedPoller.getOperationState().jobId, backupPoller.getOperationState().jobId);
+
       const backupResult = await backupPoller.pollUntilDone();
       assert.notExists(backupPoller.getOperationState().error);
-      assert.exists(backupResult.backupFolderUri);
+      assert.exists(backupResult.folderUri);
       assert.equal(backupResult.startTime, backupPoller.getOperationState().startTime);
       assert.equal(backupResult.endTime, backupPoller.getOperationState().endTime);
-      assert.match(backupResult.backupFolderUri!, new RegExp(blobStorageUri));
+      assert.match(backupResult.folderUri!, new RegExp(blobStorageUri));
     });
 
-    // There is a service issue that prevents errors from showing up in the
-    // error field. Pending until it's resolved. ADO 8750375
-    it.skip("returns the correct backup result when fails to authenticate", async function() {
+    it("throws when polling errors", async function() {
       const backupPoller = await client.beginBackup(
         blobStorageUri,
         "invalid_sas_token",
         testPollerProperties
       );
-      assert.isRejected(backupPoller.pollUntilDone());
+      await assert.isRejected(backupPoller.pollUntilDone(), /SAS token/);
     });
   });
 
@@ -71,15 +80,26 @@ describe("KeyVaultBackupClient", () => {
         testPollerProperties
       );
       const backupResult = await backupPoller.pollUntilDone();
-      assert.exists(backupResult.backupFolderUri);
-      const folderName = getFolderName(backupResult.backupFolderUri!);
+      assert.exists(backupResult.folderUri);
 
       const restorePoller = await client.beginRestore(
-        blobStorageUri,
+        backupResult.folderUri!,
         blobSasToken,
-        folderName,
         testPollerProperties
       );
+      await restorePoller.poll();
+
+      // A poller can be serialized and then resumed
+      const resumedPoller = await client.beginRestore(backupResult.folderUri!, blobSasToken, {
+        ...testPollerProperties,
+        resumeFrom: restorePoller.toString()
+      });
+      assert.isTrue(resumedPoller.getOperationState().isStarted); // without polling
+      assert.equal(
+        resumedPoller.getOperationState().jobId,
+        restorePoller.getOperationState().jobId
+      );
+
       const restoreResult = await restorePoller.pollUntilDone();
       const operationState = restorePoller.getOperationState();
       assert.equal(restoreResult.startTime, operationState.startTime);
@@ -89,10 +109,12 @@ describe("KeyVaultBackupClient", () => {
       // Restore is eventually consistent so while we work
       // through the retry operations adding a delay here allows
       // tests to pass the 5s polling delay.
-      await delay(5000);
+      if (!isPlaybackMode()) {
+        await delay(5000);
+      }
     });
 
-    it("selectiveRestore completes successfully", async function() {
+    it("selectiveKeyRestore completes successfully", async function() {
       // This test can only be run in playback mode because running a backup
       // or restore puts the instance in a bad state (tracked in IcM).
       if (!isPlaybackMode()) {
@@ -106,37 +128,50 @@ describe("KeyVaultBackupClient", () => {
         testPollerProperties
       );
       const backupURI = await backupPoller.pollUntilDone();
-      assert.exists(backupURI.backupFolderUri);
-      const folderName = getFolderName(backupURI.backupFolderUri!);
+      assert.exists(backupURI.folderUri);
 
       // Delete the key (purging it is required), then restore and ensure it's restored
-      await (await keyClient.beginDeleteKey(keyName)).pollUntilDone();
+      await (await keyClient.beginDeleteKey(keyName, testPollerProperties)).pollUntilDone();
       await keyClient.purgeDeletedKey(keyName);
 
-      const selectiveRestorePoller = await client.beginSelectiveRestore(
-        blobStorageUri,
-        blobSasToken,
-        folderName,
+      const selectiveKeyRestorePoller = await client.beginSelectiveKeyRestore(
         keyName,
+        backupURI.folderUri!,
+        blobSasToken,
         testPollerProperties
       );
-      await selectiveRestorePoller.pollUntilDone();
-      const operationState = selectiveRestorePoller.getOperationState();
+      await selectiveKeyRestorePoller.poll();
+
+      // A poller can be serialized and then resumed
+      const resumedPoller = await client.beginSelectiveKeyRestore(
+        keyName,
+        blobStorageUri,
+        blobSasToken,
+        {
+          ...testPollerProperties,
+          resumeFrom: selectiveKeyRestorePoller.toString()
+        }
+      );
+      assert.isTrue(resumedPoller.getOperationState().isStarted); // without polling
+      assert.equal(
+        resumedPoller.getOperationState().jobId,
+        selectiveKeyRestorePoller.getOperationState().jobId
+      );
+
+      await selectiveKeyRestorePoller.pollUntilDone();
+      const operationState = selectiveKeyRestorePoller.getOperationState();
       assert.equal(operationState.isCompleted, true);
 
       await keyClient.getKey(keyName);
     });
 
-    // There is a service issue that prevents errors from showing up in the
-    // error field. Pending until it's resolved. ADO 8750375
-    it.skip("contains an error when fails to authenticate", async function() {
+    it("throws when polling errors", async function() {
       const restorePoller = await client.beginRestore(
         blobStorageUri,
         "bad_token",
-        "bad_folder",
         testPollerProperties
       );
-      await assert.isRejected(restorePoller.pollUntilDone());
+      await assert.isRejected(restorePoller.pollUntilDone(), /SAS token is malformed/);
     });
   });
 });

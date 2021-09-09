@@ -15,6 +15,12 @@ This package contains common code for Azure Communication Service libraries.
 npm install @azure/communication-common
 ```
 
+### Browser support
+
+#### JavaScript Bundle
+
+To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
+
 ## Key concepts
 
 ### CommunicationTokenCredential and AzureCommunicationTokenCredential
@@ -77,7 +83,7 @@ const tokenCredential = new AzureCommunicationTokenCredential({
 
 ## Contributing
 
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ## Related projects
 

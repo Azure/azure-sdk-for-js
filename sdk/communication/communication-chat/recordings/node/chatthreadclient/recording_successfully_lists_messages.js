@@ -1,27 +1,29 @@
 let nock = require('nock');
 
-module.exports.hash = "cdaca9cba53e2ea55edb80336ba72818";
+module.exports.hash = "1f8534fbb5a951a66d210f9e8991c150";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('/chat/threads/19%3Ad1799fdf7b8b4f5e96675f30c01296e1%40thread.v2/messages')
+  .get('/chat/threads/19%3AGJhzTT5V5GxxOF-a6Z84_zITnb7xu-IRf-8431aqf8w1%40thread.v2/messages')
   .query(true)
-  .reply(200, {"value":[{"id":"1612470096086","type":"text","sequenceId":"3","version":"1612470096086","content":{"message":"content"},"senderDisplayName":"","createdOn":"2021-02-04T20:21:36Z","senderId":"8:acs:46849534-eb08-4ab7-bde7-c36928cd1547_00000008-0e96-ace2-b0b7-3a3a0d0000a8"},{"id":"1612470095059","type":"topicUpdated","sequenceId":"2","version":"1612470095059","content":{"topic":"test topic","initiator":"8:acs:46849534-eb08-4ab7-bde7-c36928cd1547_00000008-0e96-ace2-b0b7-3a3a0d0000a8"},"createdOn":"2021-02-04T20:21:35Z"},{"id":"1612470094997","type":"participantAdded","sequenceId":"1","version":"1612470094997","content":{"participants":[{"id":"8:acs:46849534-eb08-4ab7-bde7-c36928cd1547_00000008-0e96-ace2-b0b7-3a3a0d0000a8","shareHistoryTime":"1970-01-01T00:00:00Z"},{"id":"8:acs:46849534-eb08-4ab7-bde7-c36928cd1547_00000008-0e96-ae51-b0b7-3a3a0d0000a9","shareHistoryTime":"1970-01-01T00:00:00Z"}],"initiator":"8:acs:46849534-eb08-4ab7-bde7-c36928cd1547_00000008-0e96-ace2-b0b7-3a3a0d0000a8"},"createdOn":"2021-02-04T20:21:34Z"}]}, [
+  .reply(200, {"value":[{"id":"1630697238761","type":"text","sequenceId":"4","version":"1630697238761","content":{"message":"content"},"senderDisplayName":"","createdOn":"2021-09-03T19:27:18Z","senderCommunicationIdentifier":{"rawId":"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000c-4d02-cec5-8e0e-454822000d95","communicationUser":{"id":"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000c-4d02-cec5-8e0e-454822000d95"}},"metadata":{"tags":"sometag"}},{"id":"1630697238279","type":"topicUpdated","sequenceId":"3","version":"1630697238279","content":{"topic":"new topic","initiatorCommunicationIdentifier":{"rawId":"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000c-4d02-cec5-8e0e-454822000d95","communicationUser":{"id":"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000c-4d02-cec5-8e0e-454822000d95"}}},"createdOn":"2021-09-03T19:27:18Z"},{"id":"1630697237859","type":"topicUpdated","sequenceId":"2","version":"1630697237859","content":{"topic":"test topic","initiatorCommunicationIdentifier":{"rawId":"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000c-4d02-cec5-8e0e-454822000d95","communicationUser":{"id":"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000c-4d02-cec5-8e0e-454822000d95"}}},"createdOn":"2021-09-03T19:27:17Z"},{"id":"1630697237834","type":"participantAdded","sequenceId":"1","version":"1630697237834","content":{"participants":[{"communicationIdentifier":{"rawId":"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000c-4d02-cec5-8e0e-454822000d95","communicationUser":{"id":"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000c-4d02-cec5-8e0e-454822000d95"}},"shareHistoryTime":"1970-01-01T00:00:00Z"},{"communicationIdentifier":{"rawId":"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000c-4d02-cfd1-8e0e-454822000d96","communicationUser":{"id":"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000c-4d02-cfd1-8e0e-454822000d96"}},"shareHistoryTime":"1970-01-01T00:00:00Z"}],"initiatorCommunicationIdentifier":{"rawId":"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000c-4d02-cec5-8e0e-454822000d95","communicationUser":{"id":"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000c-4d02-cec5-8e0e-454822000d95"}}},"createdOn":"2021-09-03T19:27:17Z"}]}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'MS-CV',
-  '446OrzbYi0+rUyA+ZFTHTw.0',
+  'QpODZwBvL0CEpMH2BwbPbQ.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'api-supported-versions',
-  '2020-09-21-preview2, 2020-11-01-preview3, 2021-01-27-preview4',
+  '2020-09-21-preview2, 2020-11-01-preview3, 2021-01-27-preview4, 2021-03-01-preview5, 2021-03-07, 2021-04-05-preview6, 2021-09-07',
   'X-Processing-Time',
-  '298ms',
+  '128ms',
+  'X-Cache',
+  'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0UVccYAAAAAD6alKYg35wRJijx89Nfvx/WVZSMzBFREdFMDMwOQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=',
+  '0F3cyYQAAAABtqbKjydgzRojUEkmBMTFHUERYMzFFREdFMDIxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Thu, 04 Feb 2021 20:21:37 GMT'
+  'Fri, 03 Sep 2021 19:27:19 GMT'
 ]);

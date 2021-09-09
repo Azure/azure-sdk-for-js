@@ -13,7 +13,7 @@ import {
   URLBuilder
 } from "@azure/core-http";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { Readable } from "stream";
 
 import { BlobDownloadResponse } from "./BlobDownloadResponse";
@@ -33,7 +33,6 @@ import {
   BlobDownloadResponseModel,
   BlobGetPropertiesResponseModel,
   BlobGetTagsHeaders,
-  BlobHTTPHeaders,
   BlobSetHTTPHeadersResponse,
   BlobSetMetadataResponse,
   BlobSetTagsResponse,
@@ -60,7 +59,8 @@ import {
   PageBlobUploadPagesResponse,
   RehydratePriority,
   SequenceNumberActionType,
-  BlockBlobPutBlobFromUrlResponse
+  BlockBlobPutBlobFromUrlResponse,
+  BlobHTTPHeaders
 } from "./generatedModels";
 import {
   AppendBlobRequestConditions,
@@ -78,14 +78,16 @@ import {
   MatchConditions,
   ModificationConditions,
   ModifiedAccessConditions,
-  BlobQueryArrowField
+  BlobQueryArrowField,
+  BlobImmutabilityPolicy,
+  HttpAuthorization
 } from "./models";
 import {
   PageBlobGetPageRangesDiffResponse,
   PageBlobGetPageRangesResponse,
   rangeResponseFromModel
 } from "./PageBlobRangeResponse";
-import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
+import { newPipeline, PipelineLike, isPipelineLike, StoragePipelineOptions } from "./Pipeline";
 import {
   BlobBeginCopyFromUrlPoller,
   BlobBeginCopyFromUrlPollState,
@@ -112,6 +114,7 @@ import {
   extractConnectionStringParts,
   generateBlockID,
   getURLParameter,
+  httpAuthorizationToString,
   isIpEndpointStyle,
   parseObjectReplicationRecord,
   setURLParameter,
@@ -131,6 +134,11 @@ import { SasIPRange } from "./sas/SasIPRange";
 import { generateBlobSASQueryParameters } from "./sas/BlobSASSignatureValues";
 import { BlobSASPermissions } from "./sas/BlobSASPermissions";
 import { BlobLeaseClient } from "./BlobLeaseClient";
+import {
+  BlobDeleteImmutabilityPolicyResponse,
+  BlobSetImmutabilityPolicyResponse,
+  BlobSetLegalHoldResponse
+} from "./generatedModels";
 
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
@@ -532,6 +540,18 @@ export interface BlobStartCopyFromURLOptions extends CommonOptions {
    */
   rehydratePriority?: RehydratePriority;
   /**
+   * Optional. Specifies immutability policy for a blob.
+   * Note that is parameter is only applicable to a blob within a container that
+   * has version level worm enabled.
+   */
+  immutabilityPolicy?: BlobImmutabilityPolicy;
+  /**
+   * Optional. Indicates if a legal hold should be placed on the blob.
+   * Note that is parameter is only applicable to a blob within a container that
+   * has version level worm enabled.
+   */
+  legalHold?: boolean;
+  /**
    * Blob tags.
    */
   tags?: Tags;
@@ -583,9 +603,25 @@ export interface BlobSyncCopyFromURLOptions extends CommonOptions {
    */
   sourceContentMD5?: Uint8Array;
   /**
+   * Optional. Specifies immutability policy for a blob.
+   * Note that is parameter is only applicable to a blob within a container that
+   * has version level worm enabled.
+   */
+  immutabilityPolicy?: BlobImmutabilityPolicy;
+  /**
+   * Optional. Indicates if a legal hold should be placed on the blob.
+   * Note that is parameter is only applicable to a blob within a container that
+   * has version level worm enabled.
+   */
+  legalHold?: boolean;
+  /**
    * Blob tags.
    */
   tags?: Tags;
+  /**
+   * Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source.
+   */
+  sourceAuthorization?: HttpAuthorization;
 }
 
 /**
@@ -760,6 +796,40 @@ export interface BlobGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
 }
 
 /**
+ * Options for deleting immutability policy {@link BlobClient.deleteImmutabilityPolicy} operation.
+ */
+export interface BlobDeleteImmutabilityPolicyOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Options for setting immutability policy {@link BlobClient.setImmutabilityPolicy} operation.
+ */
+export interface BlobSetImmutabilityPolicyOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+  modifiedAccessCondition?: ModificationConditions;
+}
+
+/**
+ * Options for setting legal hold {@link BlobClient.setLegalHold} operation.
+ */
+export interface BlobSetLegalHoldOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
  * A BlobClient represents a URL to an Azure Storage blob; the blob may be a block blob,
  * append blob, or page blob.
  */
@@ -807,6 +877,8 @@ export class BlobClient extends StorageClient {
     connectionString: string,
     containerName: string,
     blobName: string,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   );
   /**
@@ -824,6 +896,8 @@ export class BlobClient extends StorageClient {
   constructor(
     url: string,
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   );
   /**
@@ -843,7 +917,7 @@ export class BlobClient extends StorageClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  constructor(url: string, pipeline: Pipeline);
+  constructor(url: string, pipeline: PipelineLike);
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName?:
@@ -851,14 +925,16 @@ export class BlobClient extends StorageClient {
       | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
-      | Pipeline,
+      | PipelineLike,
     blobNameOrOptions?: string | StoragePipelineOptions,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   ) {
     options = options || {};
-    let pipeline: Pipeline;
+    let pipeline: PipelineLike;
     let url: string;
-    if (credentialOrPipelineOrContainerName instanceof Pipeline) {
+    if (isPipelineLike(credentialOrPipelineOrContainerName)) {
       // (url: string, pipeline: Pipeline)
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
@@ -1073,7 +1149,9 @@ export class BlobClient extends StorageClient {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        onDownloadProgress: isNode ? undefined : options.onProgress, // for Node.js, progress is reported by RetriableReadableStream
+        requestOptions: {
+          onDownloadProgress: isNode ? undefined : options.onProgress // for Node.js, progress is reported by RetriableReadableStream
+        },
         range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
         rangeGetContentMD5: options.rangeGetContentMD5,
         rangeGetContentCRC64: options.rangeGetContentCrc64,
@@ -1114,7 +1192,7 @@ export class BlobClient extends StorageClient {
       return new BlobDownloadResponse(
         wrappedRes,
         async (start: number): Promise<NodeJS.ReadableStream> => {
-          const updatedOptions: BlobDownloadOptionalParams = {
+          const updatedDownloadOptions: BlobDownloadOptionalParams = {
             leaseAccessConditions: options.conditions,
             modifiedAccessConditions: {
               ifMatch: options.conditions!.ifMatch || res.etag,
@@ -1143,7 +1221,7 @@ export class BlobClient extends StorageClient {
           return (
             await this.blobContext.download({
               abortSignal: options.abortSignal,
-              ...updatedOptions
+              ...updatedDownloadOptions
             })
           ).readableStreamBody!;
         },
@@ -1156,7 +1234,7 @@ export class BlobClient extends StorageClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1188,13 +1266,13 @@ export class BlobClient extends StorageClient {
     } catch (e) {
       if (e.statusCode === 404) {
         span.setStatus({
-          code: CanonicalCode.NOT_FOUND,
+          code: SpanStatusCode.ERROR,
           message: "Expected exception when checking blob existence"
         });
         return false;
       }
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1241,7 +1319,7 @@ export class BlobClient extends StorageClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1263,7 +1341,7 @@ export class BlobClient extends StorageClient {
     const { span, updatedOptions } = createSpan("BlobClient-delete", options);
     options.conditions = options.conditions || {};
     try {
-      return await this.blobContext.deleteMethod({
+      return await this.blobContext.delete({
         abortSignal: options.abortSignal,
         deleteSnapshots: options.deleteSnapshots,
         leaseAccessConditions: options.conditions,
@@ -1275,7 +1353,7 @@ export class BlobClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1307,7 +1385,7 @@ export class BlobClient extends StorageClient {
     } catch (e) {
       if (e.details?.errorCode === "BlobNotFound") {
         span.setStatus({
-          code: CanonicalCode.NOT_FOUND,
+          code: SpanStatusCode.ERROR,
           message: "Expected exception when deleting a blob or snapshot only if it exists."
         });
         return {
@@ -1317,7 +1395,7 @@ export class BlobClient extends StorageClient {
         };
       }
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1343,7 +1421,7 @@ export class BlobClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1362,6 +1440,9 @@ export class BlobClient extends StorageClient {
    * @param blobHTTPHeaders - If no value provided, or no value provided for
    *                                                   the specified blob HTTP headers, these blob HTTP
    *                                                   headers without a value will be cleared.
+   *                                                   A common header to set is `blobContentType`
+   *                                                   enabling the browser to provide functionality
+   *                                                   based on file type.
    * @param options - Optional options to Blob Set HTTP Headers operation.
    */
   public async setHTTPHeaders(
@@ -1372,20 +1453,20 @@ export class BlobClient extends StorageClient {
     options.conditions = options.conditions || {};
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return await this.blobContext.setHTTPHeaders({
+      return await this.blobContext.setHttpHeaders({
         abortSignal: options.abortSignal,
-        blobHTTPHeaders,
+        blobHttpHeaders: blobHTTPHeaders,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        cpkInfo: options.customerProvidedKey,
+        // cpkInfo: options.customerProvidedKey, // CPK is not included in Swagger, should change this back when this issue is fixed in Swagger.
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1427,7 +1508,7 @@ export class BlobClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1460,7 +1541,7 @@ export class BlobClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1494,7 +1575,7 @@ export class BlobClient extends StorageClient {
       return wrappedResponse;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1540,7 +1621,7 @@ export class BlobClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1669,7 +1750,7 @@ export class BlobClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1710,12 +1791,16 @@ export class BlobClient extends StorageClient {
           sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince
         },
         sourceContentMD5: options.sourceContentMD5,
+        copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
         blobTagsString: toBlobTagsString(options.tags),
+        immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
+        immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
+        legalHold: options.legalHold,
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1753,7 +1838,7 @@ export class BlobClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1811,7 +1896,7 @@ export class BlobClient extends StorageClient {
     param2?: number,
     param3?: BlobDownloadToBufferOptions | number,
     param4: BlobDownloadToBufferOptions = {}
-  ) {
+  ): Promise<Buffer | undefined> {
     let buffer: Buffer | undefined;
     let offset = 0;
     let count = 0;
@@ -1918,7 +2003,7 @@ export class BlobClient extends StorageClient {
       return buffer;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1967,7 +2052,7 @@ export class BlobClient extends StorageClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2066,6 +2151,9 @@ export class BlobClient extends StorageClient {
           sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince,
           sourceIfTags: options.sourceConditions.tagConditions
         },
+        immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
+        immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
+        legalHold: options.legalHold,
         rehydratePriority: options.rehydratePriority,
         tier: toAccessTier(options.tier),
         blobTagsString: toBlobTagsString(options.tags),
@@ -2074,7 +2162,7 @@ export class BlobClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2116,6 +2204,86 @@ export class BlobClient extends StorageClient {
       resolve(appendToURLQuery(this.url, sas));
     });
   }
+
+  /**
+   * Delete the immutablility policy on the blob.
+   *
+   * @param options - Optional options to delete immutability policy on the blob.
+   */
+  public async deleteImmutabilityPolicy(
+    options?: BlobDeleteImmutabilityPolicyOptions
+  ): Promise<BlobDeleteImmutabilityPolicyResponse> {
+    const { span, updatedOptions } = createSpan("BlobClient-deleteImmutabilityPolicy", options);
+    try {
+      return await this.blobContext.deleteImmutabilityPolicy({
+        abortSignal: options?.abortSignal,
+        ...convertTracingToRequestOptionsBase(updatedOptions)
+      });
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Set immutablility policy on the blob.
+   *
+   * @param options - Optional options to set immutability policy on the blob.
+   */
+  public async setImmutabilityPolicy(
+    immutabilityPolicy: BlobImmutabilityPolicy,
+    options?: BlobSetImmutabilityPolicyOptions
+  ): Promise<BlobSetImmutabilityPolicyResponse> {
+    const { span, updatedOptions } = createSpan("BlobClient-setImmutabilityPolicy", options);
+    try {
+      return await this.blobContext.setImmutabilityPolicy({
+        abortSignal: options?.abortSignal,
+        immutabilityPolicyExpiry: immutabilityPolicy.expiriesOn,
+        immutabilityPolicyMode: immutabilityPolicy.policyMode,
+        modifiedAccessConditions: options?.modifiedAccessCondition,
+        ...convertTracingToRequestOptionsBase(updatedOptions)
+      });
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Set legal hold on the blob.
+   *
+   * @param options - Optional options to set legal hold on the blob.
+   */
+  public async setLegalHold(
+    legalHoldEnabled: boolean,
+    options?: BlobSetLegalHoldOptions
+  ): Promise<BlobSetLegalHoldResponse> {
+    const { span, updatedOptions } = createSpan("BlobClient-setLegalHold", options);
+    try {
+      return await this.blobContext.setLegalHold(legalHoldEnabled, {
+        abortSignal: options?.abortSignal,
+        ...convertTracingToRequestOptionsBase(updatedOptions)
+      });
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
 }
 
 /**
@@ -2133,7 +2301,10 @@ export interface AppendBlobCreateOptions extends CommonOptions {
    */
   conditions?: BlobRequestConditions;
   /**
-   * HTTP headers to set when creating append blobs.
+   * HTTP headers to set when creating append blobs. A common header
+   * to set is `blobContentType`, enabling the browser to provide functionality
+   * based on file type.
+   *
    */
   blobHTTPHeaders?: BlobHTTPHeaders;
   /**
@@ -2151,6 +2322,18 @@ export interface AppendBlobCreateOptions extends CommonOptions {
    * Storage Services.
    */
   encryptionScope?: string;
+  /**
+   * Optional. Specifies immutability policy for a blob.
+   * Note that is parameter is only applicable to a blob within a container that
+   * has version level worm enabled.
+   */
+  immutabilityPolicy?: BlobImmutabilityPolicy;
+  /**
+   * Optional. Indicates if a legal hold should be placed on the blob.
+   * Note that is parameter is only applicable to a blob within a container that
+   * has version level worm enabled.
+   */
+  legalHold?: boolean;
   /**
    * Blob tags.
    */
@@ -2167,7 +2350,10 @@ export interface AppendBlobCreateIfNotExistsOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * HTTP headers to set when creating append blobs.
+   * HTTP headers to set when creating append blobs. A common header to set is
+   * `blobContentType`, enabling the browser to provide functionality
+   * based on file type.
+   *
    */
   blobHTTPHeaders?: BlobHTTPHeaders;
   /**
@@ -2185,6 +2371,18 @@ export interface AppendBlobCreateIfNotExistsOptions extends CommonOptions {
    * Storage Services.
    */
   encryptionScope?: string;
+  /**
+   * Optional. Specifies immutability policy for a blob.
+   * Note that is parameter is only applicable to a blob within a container that
+   * has version level worm enabled.
+   */
+  immutabilityPolicy?: BlobImmutabilityPolicy;
+  /**
+   * Optional. Indicates if a legal hold should be placed on the blob.
+   * Note that is parameter is only applicable to a blob within a container that
+   * has version level worm enabled.
+   */
+  legalHold?: boolean;
 }
 
 /**
@@ -2290,6 +2488,10 @@ export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
    * Storage Services.
    */
   encryptionScope?: string;
+  /**
+   * Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source.
+   */
+  sourceAuthorization?: HttpAuthorization;
 }
 
 /**
@@ -2329,6 +2531,8 @@ export class AppendBlobClient extends BlobClient {
     connectionString: string,
     containerName: string,
     blobName: string,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   );
   /**
@@ -2351,6 +2555,8 @@ export class AppendBlobClient extends BlobClient {
   constructor(
     url: string,
     credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   );
   /**
@@ -2370,7 +2576,7 @@ export class AppendBlobClient extends BlobClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  constructor(url: string, pipeline: Pipeline);
+  constructor(url: string, pipeline: PipelineLike);
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName:
@@ -2378,16 +2584,18 @@ export class AppendBlobClient extends BlobClient {
       | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
-      | Pipeline,
+      | PipelineLike,
     blobNameOrOptions?: string | StoragePipelineOptions,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   ) {
     // In TypeScript we cannot simply pass all parameters to super() like below so have to duplicate the code instead.
     //   super(s, credentialOrPipelineOrContainerNameOrOptions, blobNameOrOptions, options);
-    let pipeline: Pipeline;
+    let pipeline: PipelineLike;
     let url: string;
     options = options || {};
-    if (credentialOrPipelineOrContainerName instanceof Pipeline) {
+    if (isPipelineLike(credentialOrPipelineOrContainerName)) {
       // (url: string, pipeline: Pipeline)
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
@@ -2496,7 +2704,7 @@ export class AppendBlobClient extends BlobClient {
 
       return await this.appendBlobContext.create(0, {
         abortSignal: options.abortSignal,
-        blobHTTPHeaders: options.blobHTTPHeaders,
+        blobHttpHeaders: options.blobHTTPHeaders,
         leaseAccessConditions: options.conditions,
         metadata: options.metadata,
         modifiedAccessConditions: {
@@ -2505,12 +2713,15 @@ export class AppendBlobClient extends BlobClient {
         },
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
+        immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
+        immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
+        legalHold: options.legalHold,
         blobTagsString: toBlobTagsString(options.tags),
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2544,7 +2755,7 @@ export class AppendBlobClient extends BlobClient {
     } catch (e) {
       if (e.details?.errorCode === "BlobAlreadyExists") {
         span.setStatus({
-          code: CanonicalCode.ALREADY_EXISTS,
+          code: SpanStatusCode.ERROR,
           message: "Expected exception when creating a blob only if it does not already exist."
         });
         return {
@@ -2555,7 +2766,7 @@ export class AppendBlobClient extends BlobClient {
       }
 
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2585,7 +2796,7 @@ export class AppendBlobClient extends BlobClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2628,7 +2839,7 @@ export class AppendBlobClient extends BlobClient {
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
 
-      return await this.appendBlobContext.appendBlock(body, contentLength, {
+      return await this.appendBlobContext.appendBlock(contentLength, body, {
         abortSignal: options.abortSignal,
         appendPositionAccessConditions: options.conditions,
         leaseAccessConditions: options.conditions,
@@ -2636,7 +2847,9 @@ export class AppendBlobClient extends BlobClient {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        onUploadProgress: options.onProgress,
+        requestOptions: {
+          onUploadProgress: options.onProgress
+        },
         transactionalContentMD5: options.transactionalContentMD5,
         transactionalContentCrc64: options.transactionalContentCrc64,
         cpkInfo: options.customerProvidedKey,
@@ -2645,7 +2858,7 @@ export class AppendBlobClient extends BlobClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2697,13 +2910,14 @@ export class AppendBlobClient extends BlobClient {
           sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
           sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince
         },
+        copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2727,7 +2941,10 @@ export interface BlockBlobUploadOptions extends CommonOptions {
    */
   conditions?: BlobRequestConditions;
   /**
-   * HTTP headers to set when uploading to a block blob.
+   * HTTP headers to set when uploading to a block blob. A common header to set is
+   * `blobContentType`, enabling the browser to provide functionality
+   * based on file type.
+   *
    */
   blobHTTPHeaders?: BlobHTTPHeaders;
   /**
@@ -2754,6 +2971,18 @@ export interface BlockBlobUploadOptions extends CommonOptions {
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
    */
   tier?: BlockBlobTier | string;
+  /**
+   * Optional. Specifies immutability policy for a blob.
+   * Note that is parameter is only applicable to a blob within a container that
+   * has version level worm enabled.
+   */
+  immutabilityPolicy?: BlobImmutabilityPolicy;
+  /**
+   * Optional. Indicates if a legal hold should be placed on the blob.
+   * Note that is parameter is only applicable to a blob within a container that
+   * has version level worm enabled.
+   */
+  legalHold?: boolean;
   /**
    * Blob tags.
    */
@@ -2810,6 +3039,10 @@ export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
   copySourceBlobProperties?: boolean;
   /**
    * HTTP headers to set when uploading to a block blob.
+   *
+   * A common header to set is `blobContentType`, enabling the browser to provide functionality
+   * based on file type.
+   *
    */
   blobHTTPHeaders?: BlobHTTPHeaders;
   /**
@@ -2824,6 +3057,10 @@ export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
    * Optional. Conditions to meet for the source Azure Blob.
    */
   sourceConditions?: ModifiedAccessConditions;
+  /**
+   * Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source.
+   */
+  sourceAuthorization?: HttpAuthorization;
 }
 
 /**
@@ -2908,6 +3145,16 @@ export interface BlobQueryArrowConfiguration {
 }
 
 /**
+ * Options to query blob with Parquet format. Only valid for {@link BlockBlobQueryOptions.inputTextConfiguration}.
+ */
+export interface BlobQueryParquetConfiguration {
+  /**
+   * Kind.
+   */
+  kind: "parquet";
+}
+
+/**
  * Options to configure {@link BlockBlobClient.query} operation.
  */
 export interface BlockBlobQueryOptions extends CommonOptions {
@@ -2919,7 +3166,10 @@ export interface BlockBlobQueryOptions extends CommonOptions {
   /**
    * Configurations for the query input.
    */
-  inputTextConfiguration?: BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration;
+  inputTextConfiguration?:
+    | BlobQueryJsonTextConfiguration
+    | BlobQueryCsvTextConfiguration
+    | BlobQueryParquetConfiguration;
   /**
    * Configurations for the query output.
    */
@@ -3037,6 +3287,10 @@ export interface BlockBlobStageBlockFromURLOptions extends CommonOptions {
    * Storage Services.
    */
   encryptionScope?: string;
+  /**
+   * Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source.
+   */
+  sourceAuthorization?: HttpAuthorization;
 }
 
 /**
@@ -3071,6 +3325,18 @@ export interface BlockBlobCommitBlockListOptions extends CommonOptions {
    * Storage Services.
    */
   encryptionScope?: string;
+  /**
+   * Optional. Specifies immutability policy for a blob.
+   * Note that is parameter is only applicable to a blob within a container that
+   * has version level worm enabled.
+   */
+  immutabilityPolicy?: BlobImmutabilityPolicy;
+  /**
+   * Optional. Indicates if a legal hold should be placed on the blob.
+   * Note that is parameter is only applicable to a blob within a container that
+   * has version level worm enabled.
+   */
+  legalHold?: boolean;
   /**
    * Access tier.
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
@@ -3111,6 +3377,10 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
 
   /**
    * Blob HTTP Headers.
+   *
+   * A common header to set is `blobContentType`, enabling the
+   * browser to provide functionality based on file type.
+   *
    */
   blobHTTPHeaders?: BlobHTTPHeaders;
 
@@ -3177,7 +3447,10 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
   onProgress?: (progress: TransferProgressEvent) => void;
 
   /**
-   * Blob HTTP Headers.
+   * Blob HTTP Headers. A common header to set is
+   * `blobContentType`, enabling the browser to provide
+   * functionality based on file type.
+   *
    */
   blobHTTPHeaders?: BlobHTTPHeaders;
 
@@ -3262,6 +3535,8 @@ export class BlockBlobClient extends BlobClient {
     connectionString: string,
     containerName: string,
     blobName: string,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   );
   /**
@@ -3284,6 +3559,8 @@ export class BlockBlobClient extends BlobClient {
   constructor(
     url: string,
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   );
   /**
@@ -3303,7 +3580,7 @@ export class BlockBlobClient extends BlobClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  constructor(url: string, pipeline: Pipeline);
+  constructor(url: string, pipeline: PipelineLike);
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName?:
@@ -3311,16 +3588,18 @@ export class BlockBlobClient extends BlobClient {
       | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
-      | Pipeline,
+      | PipelineLike,
     blobNameOrOptions?: string | StoragePipelineOptions,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   ) {
     // In TypeScript we cannot simply pass all parameters to super() like below so have to duplicate the code instead.
     //   super(s, credentialOrPipelineOrContainerNameOrOptions, blobNameOrOptions, options);
-    let pipeline: Pipeline;
+    let pipeline: PipelineLike;
     let url: string;
     options = options || {};
-    if (credentialOrPipelineOrContainerName instanceof Pipeline) {
+    if (isPipelineLike(credentialOrPipelineOrContainerName)) {
       // (url: string, pipeline: Pipeline)
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
@@ -3454,6 +3733,7 @@ export class BlockBlobClient extends BlobClient {
       const response = await this._blobContext.query({
         abortSignal: options.abortSignal,
         queryRequest: {
+          queryType: "SQL",
           expression: query,
           inputSerialization: toQuerySerialization(options.inputTextConfiguration),
           outputSerialization: toQuerySerialization(options.outputTextConfiguration)
@@ -3472,7 +3752,7 @@ export class BlockBlobClient extends BlobClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -3517,25 +3797,30 @@ export class BlockBlobClient extends BlobClient {
     const { span, updatedOptions } = createSpan("BlockBlobClient-upload", options);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return await this.blockBlobContext.upload(body, contentLength, {
+      return await this.blockBlobContext.upload(contentLength, body, {
         abortSignal: options.abortSignal,
-        blobHTTPHeaders: options.blobHTTPHeaders,
+        blobHttpHeaders: options.blobHTTPHeaders,
         leaseAccessConditions: options.conditions,
         metadata: options.metadata,
         modifiedAccessConditions: {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        onUploadProgress: options.onProgress,
+        requestOptions: {
+          onUploadProgress: options.onProgress
+        },
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
+        immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
+        immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
+        legalHold: options.legalHold,
         tier: toAccessTier(options.tier),
         blobTagsString: toBlobTagsString(options.tags),
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -3573,6 +3858,7 @@ export class BlockBlobClient extends BlobClient {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
       return await this.blockBlobContext.putBlobFromUrl(0, sourceURL, {
         ...options,
+        blobHttpHeaders: options.blobHTTPHeaders,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
@@ -3586,13 +3872,14 @@ export class BlockBlobClient extends BlobClient {
           sourceIfTags: options.sourceConditions?.tagConditions
         },
         cpkInfo: options.customerProvidedKey,
+        copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
         tier: toAccessTier(options.tier),
         blobTagsString: toBlobTagsString(options.tags),
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -3624,7 +3911,9 @@ export class BlockBlobClient extends BlobClient {
       return await this.blockBlobContext.stageBlock(blockId, contentLength, body, {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
-        onUploadProgress: options.onProgress,
+        requestOptions: {
+          onUploadProgress: options.onProgress
+        },
         transactionalContentMD5: options.transactionalContentMD5,
         transactionalContentCrc64: options.transactionalContentCrc64,
         cpkInfo: options.customerProvidedKey,
@@ -3633,7 +3922,7 @@ export class BlockBlobClient extends BlobClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -3681,11 +3970,12 @@ export class BlockBlobClient extends BlobClient {
         sourceRange: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
+        copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -3718,7 +4008,7 @@ export class BlockBlobClient extends BlobClient {
         { latest: blocks },
         {
           abortSignal: options.abortSignal,
-          blobHTTPHeaders: options.blobHTTPHeaders,
+          blobHttpHeaders: options.blobHTTPHeaders,
           leaseAccessConditions: options.conditions,
           metadata: options.metadata,
           modifiedAccessConditions: {
@@ -3727,6 +4017,9 @@ export class BlockBlobClient extends BlobClient {
           },
           cpkInfo: options.customerProvidedKey,
           encryptionScope: options.encryptionScope,
+          immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
+          immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
+          legalHold: options.legalHold,
           tier: toAccessTier(options.tier),
           blobTagsString: toBlobTagsString(options.tags),
           ...convertTracingToRequestOptionsBase(updatedOptions)
@@ -3734,7 +4027,7 @@ export class BlockBlobClient extends BlobClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -3780,7 +4073,7 @@ export class BlockBlobClient extends BlobClient {
       return res;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -3798,6 +4091,10 @@ export class BlockBlobClient extends BlobClient {
    * {@link BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES}), this method will use 1 {@link upload} call to finish the upload.
    * Otherwise, this method will call {@link stageBlock} to upload blocks, and finally call {@link commitBlockList}
    * to commit the block list.
+   *
+   * A common {@link BlockBlobParallelUploadOptions.blobHTTPHeaders} option to set is
+   * `blobContentType`, enabling the browser to provide
+   * functionality based on file type.
    *
    * @param data - Buffer(Node.js), Blob, ArrayBuffer or ArrayBufferView
    * @param options -
@@ -3834,7 +4131,7 @@ export class BlockBlobClient extends BlobClient {
       }
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -3851,6 +4148,10 @@ export class BlockBlobClient extends BlobClient {
    * When buffer length lesser than or equal to 256MB, this method will use 1 upload call to finish the upload.
    * Otherwise, this method will call {@link stageBlock} to upload blocks, and finally call
    * {@link commitBlockList} to commit the block list.
+   *
+   * A common {@link BlockBlobParallelUploadOptions.blobHTTPHeaders} option to set is
+   * `blobContentType`, enabling the browser to provide
+   * functionality based on file type.
    *
    * @deprecated Use {@link uploadData} instead.
    *
@@ -3872,7 +4173,7 @@ export class BlockBlobClient extends BlobClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -3990,7 +4291,7 @@ export class BlockBlobClient extends BlobClient {
       return this.commitBlockList(blockList, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4039,7 +4340,7 @@ export class BlockBlobClient extends BlobClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4123,7 +4424,7 @@ export class BlockBlobClient extends BlobClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4171,6 +4472,18 @@ export interface PageBlobCreateOptions extends CommonOptions {
    */
   encryptionScope?: string;
   /**
+   * Optional. Specifies immutability policy for a blob.
+   * Note that is parameter is only applicable to a blob within a container that
+   * has version level worm enabled.
+   */
+  immutabilityPolicy?: BlobImmutabilityPolicy;
+  /**
+   * Optional. Indicates if a legal hold should be placed on the blob.
+   * Note that is parameter is only applicable to a blob within a container that
+   * has version level worm enabled.
+   */
+  legalHold?: boolean;
+  /**
    * Access tier.
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
    */
@@ -4214,6 +4527,18 @@ export interface PageBlobCreateIfNotExistsOptions extends CommonOptions {
    * Storage Services.
    */
   encryptionScope?: string;
+  /**
+   * Optional. Specifies immutability policy for a blob.
+   * Note that is parameter is only applicable to a blob within a container that
+   * has version level worm enabled.
+   */
+  immutabilityPolicy?: BlobImmutabilityPolicy;
+  /**
+   * Optional. Indicates if a legal hold should be placed on the blob.
+   * Note that is parameter is only applicable to a blob within a container that
+   * has version level worm enabled.
+   */
+  legalHold?: boolean;
   /**
    * Access tier.
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
@@ -4421,6 +4746,10 @@ export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
    * Storage Services.
    */
   encryptionScope?: string;
+  /**
+   * Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source.
+   */
+  sourceAuthorization?: HttpAuthorization;
 }
 
 /**
@@ -4460,6 +4789,8 @@ export class PageBlobClient extends BlobClient {
     connectionString: string,
     containerName: string,
     blobName: string,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   );
   /**
@@ -4477,6 +4808,8 @@ export class PageBlobClient extends BlobClient {
   constructor(
     url: string,
     credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   );
   /**
@@ -4493,7 +4826,7 @@ export class PageBlobClient extends BlobClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  constructor(url: string, pipeline: Pipeline);
+  constructor(url: string, pipeline: PipelineLike);
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName:
@@ -4501,16 +4834,18 @@ export class PageBlobClient extends BlobClient {
       | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
-      | Pipeline,
+      | PipelineLike,
     blobNameOrOptions?: string | StoragePipelineOptions,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   ) {
     // In TypeScript we cannot simply pass all parameters to super() like below so have to duplicate the code instead.
     //   super(s, credentialOrPipelineOrContainerNameOrOptions, blobNameOrOptions, options);
-    let pipeline: Pipeline;
+    let pipeline: PipelineLike;
     let url: string;
     options = options || {};
-    if (credentialOrPipelineOrContainerName instanceof Pipeline) {
+    if (isPipelineLike(credentialOrPipelineOrContainerName)) {
       // (url: string, pipeline: Pipeline)
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
@@ -4616,7 +4951,7 @@ export class PageBlobClient extends BlobClient {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
       return await this.pageBlobContext.create(0, size, {
         abortSignal: options.abortSignal,
-        blobHTTPHeaders: options.blobHTTPHeaders,
+        blobHttpHeaders: options.blobHTTPHeaders,
         blobSequenceNumber: options.blobSequenceNumber,
         leaseAccessConditions: options.conditions,
         metadata: options.metadata,
@@ -4626,13 +4961,16 @@ export class PageBlobClient extends BlobClient {
         },
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
+        immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
+        immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
+        legalHold: options.legalHold,
         tier: toAccessTier(options.tier),
         blobTagsString: toBlobTagsString(options.tags),
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4670,7 +5008,7 @@ export class PageBlobClient extends BlobClient {
     } catch (e) {
       if (e.details?.errorCode === "BlobAlreadyExists") {
         span.setStatus({
-          code: CanonicalCode.ALREADY_EXISTS,
+          code: SpanStatusCode.ERROR,
           message: "Expected exception when creating a blob only if it does not already exist."
         });
         return {
@@ -4681,7 +5019,7 @@ export class PageBlobClient extends BlobClient {
       }
 
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4710,14 +5048,16 @@ export class PageBlobClient extends BlobClient {
     const { span, updatedOptions } = createSpan("PageBlobClient-uploadPages", options);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return await this.pageBlobContext.uploadPages(body, count, {
+      return await this.pageBlobContext.uploadPages(count, body, {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        onUploadProgress: options.onProgress,
+        requestOptions: {
+          onUploadProgress: options.onProgress
+        },
         range: rangeToString({ offset, count }),
         sequenceNumberAccessConditions: options.conditions,
         transactionalContentMD5: options.transactionalContentMD5,
@@ -4728,7 +5068,7 @@ export class PageBlobClient extends BlobClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4783,12 +5123,13 @@ export class PageBlobClient extends BlobClient {
           },
           cpkInfo: options.customerProvidedKey,
           encryptionScope: options.encryptionScope,
+          copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
           ...convertTracingToRequestOptionsBase(updatedOptions)
         }
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4829,7 +5170,7 @@ export class PageBlobClient extends BlobClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4869,7 +5210,7 @@ export class PageBlobClient extends BlobClient {
         .then(rangeResponseFromModel);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4913,7 +5254,7 @@ export class PageBlobClient extends BlobClient {
         .then(rangeResponseFromModel);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4960,7 +5301,7 @@ export class PageBlobClient extends BlobClient {
         .then(rangeResponseFromModel);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4996,7 +5337,7 @@ export class PageBlobClient extends BlobClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -5034,7 +5375,7 @@ export class PageBlobClient extends BlobClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -5072,7 +5413,7 @@ export class PageBlobClient extends BlobClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

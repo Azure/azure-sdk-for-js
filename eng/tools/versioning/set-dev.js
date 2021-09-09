@@ -77,12 +77,7 @@ const updateDependencySection = (rushPackages, dependencySection, buildId) => {
 
       const parsedPackageVersion = semver.parse(packageVersion);
       const parsedDepMinVersion = semver.minVersion(depVersionRange);
-
-      if (
-        parsedDepMinVersion.major == parsedPackageVersion.major &&
-        parsedDepMinVersion.minor == parsedPackageVersion.minor &&
-        parsedDepMinVersion.patch == parsedPackageVersion.patch
-      ) {
+      if (semver.eq(parsedDepMinVersion, parsedPackageVersion)) {
         rushPackages = updatePackageVersion(rushPackages, depName, buildId);
       }
     }
@@ -137,16 +132,14 @@ const makeDependencySectionConsistentForPackage = (rushPackages, dependencySecti
     const parsedDepMinVersion = semver.minVersion(depVersionRange);
     // If the dependency range is satisfied by the package's current version,
     // replace it with an exact match to the package's new version
-    if (
-      parsedDepMinVersion.major == parsedPackageVersion.major &&
-      parsedDepMinVersion.minor == parsedPackageVersion.minor &&
-      parsedDepMinVersion.patch == parsedPackageVersion.patch &&
+    if (semver.eq(parsedDepMinVersion, parsedPackageVersion) &&
       rushPackages[depName].newVer !== undefined
     ) {
 
-      // Setting version to ^[major.minor.patch]-alpha so that this automatically matches 
+      // Setting version to >=[major.minor.patch]-alpha <[major.minor.patch]-alphb so that this automatically matches 
       // with the latest dev version published on npm
-      dependencySection[depName] = `^${parsedPackageVersion.major}.${parsedPackageVersion.minor}.${parsedPackageVersion.patch}-alpha`;
+      const versionPrefix = `${parsedPackageVersion.major}.${parsedPackageVersion.minor}.${parsedPackageVersion.patch}`;
+      dependencySection[depName] = `>=${versionPrefix}-alpha <${versionPrefix}-alphb`;
     }
   }
   return rushPackages;
@@ -179,10 +172,9 @@ const updateCommonVersions = async (repoRoot, commonVersionsConfig, package, sea
   if (allowedAlternativeVersions[package]) {
     for (var version of allowedAlternativeVersions[package]) {
       const parsedPackageVersion = semver.minVersion(version);
-      if (parsedPackageVersion.major == parsedSearchVersion.major &&
-        parsedPackageVersion.minor == parsedSearchVersion.minor &&
-        parsedPackageVersion.patch == parsedSearchVersion.patch) {
-        var devVersionRange = "^" + parsedSearchVersion.major + "." + parsedSearchVersion.minor + "." + parsedSearchVersion.patch + "-alpha";
+      if (semver.eq(parsedPackageVersion, parsedSearchVersion)) {
+        const versionPrefix = `${parsedSearchVersion.major}.${parsedSearchVersion.minor}.${parsedSearchVersion.patch}`;
+        var devVersionRange = ">=" + versionPrefix + "-alpha <" + versionPrefix + "-alphb";
         allowedAlternativeVersions[package].push(devVersionRange);
         break;
       }
@@ -208,7 +200,7 @@ async function main(argv) {
   let targetPackages = [];
   for (const package of Object.keys(rushPackages)) {
     if (
-      ["client", "core"].includes(rushPackages[package].versionPolicy) &&
+      ["client", "core", "management"].includes(rushPackages[package].versionPolicy) &&
       rushPackages[package].projectFolder.startsWith(`sdk/${service}`) &&
       !rushPackages[package].json["private"]
     ) {

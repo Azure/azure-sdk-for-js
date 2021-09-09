@@ -155,8 +155,6 @@ export interface ReadResult {
   height: number;
   /** The unit used by the width, height and boundingBox properties. For images, the unit is "pixel". For PDF, the unit is "inch". */
   unit: LengthUnit;
-  /** The detected language on the page overall. */
-  language?: Language;
   /** When includeTextDetails is set to true, a list of recognized text lines. The maximum number of lines returned is 300 per page. The lines are sorted top to bottom, left to right, although in certain cases proximity is treated with higher priority. As the sorting order depends on the detected text, it may change across images and OCR version updates. Thus, business logic should be built upon the actual line location instead of order. */
   lines?: TextLine[];
   /** List of selection marks extracted from the page. */
@@ -169,8 +167,6 @@ export interface TextLine {
   text: string;
   /** Bounding box of an extracted line. */
   boundingBox: number[];
-  /** The detected language of this line, if different from the overall page language. */
-  language?: Language;
   /** List of words in the text line. */
   words: TextWord[];
   /** Text appearance properties. */
@@ -322,6 +318,8 @@ export interface FieldValue {
   valueObject?: { [propertyName: string]: FieldValue };
   /** Selection mark value. */
   valueSelectionMark?: FieldValueSelectionMark;
+  /** 3-letter country code (ISO 3166-1 alpha-3). */
+  valueCountryRegion?: string;
   /** Text content of the extracted field. */
   text?: string;
   /** Bounding box of the field value, if appropriate. */
@@ -444,6 +442,12 @@ export interface GeneratedClientAnalyzeInvoiceAsyncHeaders {
   operationLocation?: string;
 }
 
+/** Defines headers for GeneratedClient_analyzeIdDocumentAsync operation. */
+export interface GeneratedClientAnalyzeIdDocumentAsyncHeaders {
+  /** URL containing the resultId used to track the progress and obtain the result of the analyze operation. */
+  operationLocation?: string;
+}
+
 /** Defines headers for GeneratedClient_analyzeReceiptAsync operation. */
 export interface GeneratedClientAnalyzeReceiptAsyncHeaders {
   /** URL containing the resultId used to track the progress and obtain the result of the analyze operation. */
@@ -455,66 +459,6 @@ export interface GeneratedClientAnalyzeLayoutAsyncHeaders {
   /** URL containing the resultId used to track the progress and obtain the result of the analyze operation. */
   operationLocation?: string;
 }
-
-/** Known values of {@link Language} that the service accepts. */
-export const enum KnownLanguage {
-  En = "en",
-  Es = "es",
-  De = "de",
-  Fr = "fr",
-  It = "it",
-  Nl = "nl",
-  Pt = "pt",
-  ZhHans = "zh-Hans"
-}
-
-/**
- * Defines values for Language. \
- * {@link KnownLanguage} can be used interchangeably with Language,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **en** \
- * **es** \
- * **de** \
- * **fr** \
- * **it** \
- * **nl** \
- * **pt** \
- * **zh-Hans**
- */
-export type Language = string;
-
-/** Known values of {@link StyleName} that the service accepts. */
-export const enum KnownStyleName {
-  Other = "other",
-  Handwriting = "handwriting"
-}
-
-/**
- * Defines values for StyleName. \
- * {@link KnownStyleName} can be used interchangeably with StyleName,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **other** \
- * **handwriting**
- */
-export type StyleName = string;
-
-/** Known values of {@link SelectionMarkState} that the service accepts. */
-export const enum KnownSelectionMarkState {
-  Selected = "selected",
-  Unselected = "unselected"
-}
-
-/**
- * Defines values for SelectionMarkState. \
- * {@link KnownSelectionMarkState} can be used interchangeably with SelectionMarkState,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **selected** \
- * **unselected**
- */
-export type SelectionMarkState = string;
 
 /** Known values of {@link KeyValueType} that the service accepts. */
 export const enum KnownKeyValueType {
@@ -548,8 +492,8 @@ export const enum KnownFieldValueSelectionMark {
  */
 export type FieldValueSelectionMark = string;
 
-/** Known values of {@link Locale} that the service accepts. */
-export const enum KnownLocale {
+/** Known values of {@link FormLocale} that the service accepts. */
+export const enum KnownFormLocale {
   EnAU = "en-AU",
   EnCA = "en-CA",
   EnGB = "en-GB",
@@ -558,8 +502,8 @@ export const enum KnownLocale {
 }
 
 /**
- * Defines values for Locale. \
- * {@link KnownLocale} can be used interchangeably with Locale,
+ * Defines values for FormLocale. \
+ * {@link KnownFormLocale} can be used interchangeably with FormLocale,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
  * **en-AU** \
@@ -568,7 +512,165 @@ export const enum KnownLocale {
  * **en-IN** \
  * **en-US**
  */
-export type Locale = string;
+export type FormLocale = string;
+
+/** Known values of {@link FormLanguage} that the service accepts. */
+export const enum KnownFormLanguage {
+  Af = "af",
+  Ast = "ast",
+  Bi = "bi",
+  Br = "br",
+  Ca = "ca",
+  Ceb = "ceb",
+  Ch = "ch",
+  Co = "co",
+  Crh = "crh",
+  Cs = "cs",
+  Csb = "csb",
+  Da = "da",
+  De = "de",
+  En = "en",
+  Es = "es",
+  Et = "et",
+  Eu = "eu",
+  Fi = "fi",
+  Fil = "fil",
+  Fj = "fj",
+  Fr = "fr",
+  Fur = "fur",
+  Fy = "fy",
+  Ga = "ga",
+  Gd = "gd",
+  Gil = "gil",
+  Gl = "gl",
+  Gv = "gv",
+  Hni = "hni",
+  Hsb = "hsb",
+  Ht = "ht",
+  Hu = "hu",
+  Ia = "ia",
+  Id = "id",
+  It = "it",
+  Iu = "iu",
+  Ja = "ja",
+  Jv = "jv",
+  Kaa = "kaa",
+  Kac = "kac",
+  Kea = "kea",
+  Kha = "kha",
+  Kl = "kl",
+  Ko = "ko",
+  Ku = "ku",
+  Kw = "kw",
+  Lb = "lb",
+  Ms = "ms",
+  Mww = "mww",
+  Nap = "nap",
+  Nl = "nl",
+  No = "no",
+  Oc = "oc",
+  Pl = "pl",
+  Pt = "pt",
+  Quc = "quc",
+  Rm = "rm",
+  Sco = "sco",
+  Sl = "sl",
+  Sq = "sq",
+  Sv = "sv",
+  Sw = "sw",
+  Tet = "tet",
+  Tr = "tr",
+  Tt = "tt",
+  Uz = "uz",
+  Vo = "vo",
+  Wae = "wae",
+  Yua = "yua",
+  Za = "za",
+  ZhHans = "zh-Hans",
+  ZhHant = "zh-Hant",
+  Zu = "zu"
+}
+
+/**
+ * Defines values for FormLanguage. \
+ * {@link KnownFormLanguage} can be used interchangeably with FormLanguage,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **af** \
+ * **ast** \
+ * **bi** \
+ * **br** \
+ * **ca** \
+ * **ceb** \
+ * **ch** \
+ * **co** \
+ * **crh** \
+ * **cs** \
+ * **csb** \
+ * **da** \
+ * **de** \
+ * **en** \
+ * **es** \
+ * **et** \
+ * **eu** \
+ * **fi** \
+ * **fil** \
+ * **fj** \
+ * **fr** \
+ * **fur** \
+ * **fy** \
+ * **ga** \
+ * **gd** \
+ * **gil** \
+ * **gl** \
+ * **gv** \
+ * **hni** \
+ * **hsb** \
+ * **ht** \
+ * **hu** \
+ * **ia** \
+ * **id** \
+ * **it** \
+ * **iu** \
+ * **ja** \
+ * **jv** \
+ * **kaa** \
+ * **kac** \
+ * **kea** \
+ * **kha** \
+ * **kl** \
+ * **ko** \
+ * **ku** \
+ * **kw** \
+ * **lb** \
+ * **ms** \
+ * **mww** \
+ * **nap** \
+ * **nl** \
+ * **no** \
+ * **oc** \
+ * **pl** \
+ * **pt** \
+ * **quc** \
+ * **rm** \
+ * **sco** \
+ * **sl** \
+ * **sq** \
+ * **sv** \
+ * **sw** \
+ * **tet** \
+ * **tr** \
+ * **tt** \
+ * **uz** \
+ * **vo** \
+ * **wae** \
+ * **yua** \
+ * **za** \
+ * **zh-Hans** \
+ * **zh-Hant** \
+ * **zu**
+ */
+export type FormLanguage = string;
 /** Defines values for ModelStatus. */
 export type ModelStatus = "creating" | "ready" | "invalid";
 /** Defines values for TrainStatus. */
@@ -584,6 +686,10 @@ export type ContentType =
 export type OperationStatus = "notStarted" | "running" | "succeeded" | "failed";
 /** Defines values for LengthUnit. */
 export type LengthUnit = "pixel" | "inch";
+/** Defines values for StyleName. */
+export type StyleName = "other" | "handwriting";
+/** Defines values for SelectionMarkState. */
+export type SelectionMarkState = "selected" | "unselected";
 /** Defines values for FieldValueType. */
 export type FieldValueType =
   | "string"
@@ -594,7 +700,10 @@ export type FieldValueType =
   | "integer"
   | "array"
   | "object"
-  | "selectionMark";
+  | "selectionMark"
+  | "countryRegion";
+/** Defines values for FormReadingOrder. */
+export type FormReadingOrder = "basic" | "natural";
 
 /** Contains response data for the trainCustomModelAsync operation. */
 export type GeneratedClientTrainCustomModelAsyncResponse = GeneratedClientTrainCustomModelAsyncHeaders & {
@@ -629,15 +738,19 @@ export interface GeneratedClientAnalyzeWithCustomModel$binaryOptionalParams
   extends coreHttp.OperationOptions {
   /** Include text lines and element references in the result. */
   includeTextDetails?: boolean;
+  /** Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma. */
+  pages?: string[];
 }
 
 /** Optional parameters. */
 export interface GeneratedClientAnalyzeWithCustomModel$jsonOptionalParams
   extends coreHttp.OperationOptions {
-  /** .json, .pdf, .jpg, .png or .tiff type file stream. */
+  /** .json, .pdf, .jpg, .png, .tiff or .bmp type file stream. */
   fileStream?: SourcePath;
   /** Include text lines and element references in the result. */
   includeTextDetails?: boolean;
+  /** Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma. */
+  pages?: string[];
 }
 
 /** Contains response data for the analyzeWithCustomModel operation. */
@@ -711,19 +824,23 @@ export interface GeneratedClientAnalyzeBusinessCardAsync$binaryOptionalParams
   extends coreHttp.OperationOptions {
   /** Include text lines and element references in the result. */
   includeTextDetails?: boolean;
+  /** Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma. */
+  pages?: string[];
   /** Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default). */
-  locale?: Locale;
+  locale?: FormLocale;
 }
 
 /** Optional parameters. */
 export interface GeneratedClientAnalyzeBusinessCardAsync$jsonOptionalParams
   extends coreHttp.OperationOptions {
-  /** .json, .pdf, .jpg, .png or .tiff type file stream. */
+  /** .json, .pdf, .jpg, .png, .tiff or .bmp type file stream. */
   fileStream?: SourcePath;
   /** Include text lines and element references in the result. */
   includeTextDetails?: boolean;
+  /** Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma. */
+  pages?: string[];
   /** Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default). */
-  locale?: Locale;
+  locale?: FormLocale;
 }
 
 /** Contains response data for the analyzeBusinessCardAsync operation. */
@@ -752,19 +869,23 @@ export interface GeneratedClientAnalyzeInvoiceAsync$binaryOptionalParams
   extends coreHttp.OperationOptions {
   /** Include text lines and element references in the result. */
   includeTextDetails?: boolean;
+  /** Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma. */
+  pages?: string[];
   /** Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default). */
-  locale?: Locale;
+  locale?: FormLocale;
 }
 
 /** Optional parameters. */
 export interface GeneratedClientAnalyzeInvoiceAsync$jsonOptionalParams
   extends coreHttp.OperationOptions {
-  /** .json, .pdf, .jpg, .png or .tiff type file stream. */
+  /** .json, .pdf, .jpg, .png, .tiff or .bmp type file stream. */
   fileStream?: SourcePath;
   /** Include text lines and element references in the result. */
   includeTextDetails?: boolean;
+  /** Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma. */
+  pages?: string[];
   /** Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default). */
-  locale?: Locale;
+  locale?: FormLocale;
 }
 
 /** Contains response data for the analyzeInvoiceAsync operation. */
@@ -789,23 +910,68 @@ export type GeneratedClientGetAnalyzeInvoiceResultResponse = AnalyzeOperationRes
 };
 
 /** Optional parameters. */
+export interface GeneratedClientAnalyzeIdDocumentAsync$binaryOptionalParams
+  extends coreHttp.OperationOptions {
+  /** Include text lines and element references in the result. */
+  includeTextDetails?: boolean;
+  /** Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma. */
+  pages?: string[];
+}
+
+/** Optional parameters. */
+export interface GeneratedClientAnalyzeIdDocumentAsync$jsonOptionalParams
+  extends coreHttp.OperationOptions {
+  /** .json, .pdf, .jpg, .png, .tiff or .bmp type file stream. */
+  fileStream?: SourcePath;
+  /** Include text lines and element references in the result. */
+  includeTextDetails?: boolean;
+  /** Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma. */
+  pages?: string[];
+}
+
+/** Contains response data for the analyzeIdDocumentAsync operation. */
+export type GeneratedClientAnalyzeIdDocumentAsyncResponse = GeneratedClientAnalyzeIdDocumentAsyncHeaders & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The parsed HTTP response headers. */
+    parsedHeaders: GeneratedClientAnalyzeIdDocumentAsyncHeaders;
+  };
+};
+
+/** Contains response data for the getAnalyzeIdDocumentResult operation. */
+export type GeneratedClientGetAnalyzeIdDocumentResultResponse = AnalyzeOperationResult & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: AnalyzeOperationResult;
+  };
+};
+
+/** Optional parameters. */
 export interface GeneratedClientAnalyzeReceiptAsync$binaryOptionalParams
   extends coreHttp.OperationOptions {
   /** Include text lines and element references in the result. */
   includeTextDetails?: boolean;
+  /** Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma. */
+  pages?: string[];
   /** Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default). */
-  locale?: Locale;
+  locale?: FormLocale;
 }
 
 /** Optional parameters. */
 export interface GeneratedClientAnalyzeReceiptAsync$jsonOptionalParams
   extends coreHttp.OperationOptions {
-  /** .json, .pdf, .jpg, .png or .tiff type file stream. */
+  /** .json, .pdf, .jpg, .png, .tiff or .bmp type file stream. */
   fileStream?: SourcePath;
   /** Include text lines and element references in the result. */
   includeTextDetails?: boolean;
+  /** Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma. */
+  pages?: string[];
   /** Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default). */
-  locale?: Locale;
+  locale?: FormLocale;
 }
 
 /** Contains response data for the analyzeReceiptAsync operation. */
@@ -832,21 +998,25 @@ export type GeneratedClientGetAnalyzeReceiptResultResponse = AnalyzeOperationRes
 /** Optional parameters. */
 export interface GeneratedClientAnalyzeLayoutAsync$binaryOptionalParams
   extends coreHttp.OperationOptions {
-  /** The BCP-47 language code of the text in the document. Currently, only English ('en'), Dutch (‘nl’), French (‘fr’), German (‘de’), Italian (‘it’), Portuguese (‘pt'), simplified Chinese ('zh-Hans') and Spanish ('es') are supported (print – nine languages and handwritten – English only). Layout supports auto language identification and multi language documents, so only provide a language code if you would like to force the documented to be processed as that specific language. */
-  language?: Language;
-  /** Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma or space. */
+  /** Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma. */
   pages?: string[];
+  /** Currently, only Afrikaans (‘af’), Albanian (‘sq’), Asturian (‘ast’), Basque (‘eu’), Bislama (‘bi’), Breton (‘br’), Catalan (‘ca’), Cebuano (‘ceb’), Chamorro (‘ch’), Cornish (‘kw’), Corsican (‘co’), Crimean Tatar - Latin script(‘crh’), Czech (‘cs’), Danish (‘da’), Dutch (‘nl’), English ('en'), Estonian (‘et’), Fijian (‘fj’), Filipino (‘fil’), Finnish (‘fi’), French (‘fr’), Friulian (‘fur’), Galician (‘gl’), German (‘de’), Gilbertese (‘gil’), Greenlandic (‘kl’), Haitian Creole (‘ht’), Hani (‘hni’), Hmong Daw (‘mww’), Hungarian (‘hu’), Indonesian (‘id’), Interlingua (‘ia’), Inuktitut (‘iu’), Irish (‘ga’), Italian (‘it’), Japanese (‘ja’), Javanese (‘jv’), Kabuverdianu (‘kea’), Kachin (‘kac’), Kara-Kalpak (‘kaa’), Kashubian (‘csb’), Khasi (‘kha’), Korean (‘ko’), Kurdish - Latin script (‘ku’), K’iche’ (‘quc’), Luxembourgish (‘lb’), Malay (‘ms’), Manx (‘gv’), Neapolitan (‘nap’), Norwegian (‘no’), Occitan (‘oc’), Polish (‘pl’), Portuguese (‘pt’), Romansh (‘rm’), Scots (‘sco’), Scottish Gaelic (‘gd’), simplified Chinese (‘zh-Hans’), Slovenian (‘sl’), Spanish (‘es’), Swahili (‘sw’), Swedish (‘sv’), Tatar - Latin script (‘tt’), Tetum (‘tet’), traditional Chinese (‘zh-Hant’), Turkish (‘tr’), Upper Sorbian (‘hsb’), Uzbek (‘uz’), Volapük (‘vo’), Walser (‘wae’), Western Frisian (‘fy’), Yucatec Maya (‘yua’), Zhuang (‘za’) and Zulu (‘zu’) are supported (print – seventy-three languages and handwritten – English only). Layout supports auto language identification and multi language documents, so only provide a language code if you would like to force the documented to be processed as that specific language. */
+  language?: FormLanguage;
+  /** Reading order algorithm to sort the text lines returned. Supported reading orders include: basic(default), natural. */
+  readingOrder?: FormReadingOrder;
 }
 
 /** Optional parameters. */
 export interface GeneratedClientAnalyzeLayoutAsync$jsonOptionalParams
   extends coreHttp.OperationOptions {
-  /** .json, .pdf, .jpg, .png or .tiff type file stream. */
+  /** .json, .pdf, .jpg, .png, .tiff or .bmp type file stream. */
   fileStream?: SourcePath;
-  /** The BCP-47 language code of the text in the document. Currently, only English ('en'), Dutch (‘nl’), French (‘fr’), German (‘de’), Italian (‘it’), Portuguese (‘pt'), simplified Chinese ('zh-Hans') and Spanish ('es') are supported (print – nine languages and handwritten – English only). Layout supports auto language identification and multi language documents, so only provide a language code if you would like to force the documented to be processed as that specific language. */
-  language?: Language;
-  /** Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma or space. */
+  /** Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma. */
   pages?: string[];
+  /** Currently, only Afrikaans (‘af’), Albanian (‘sq’), Asturian (‘ast’), Basque (‘eu’), Bislama (‘bi’), Breton (‘br’), Catalan (‘ca’), Cebuano (‘ceb’), Chamorro (‘ch’), Cornish (‘kw’), Corsican (‘co’), Crimean Tatar - Latin script(‘crh’), Czech (‘cs’), Danish (‘da’), Dutch (‘nl’), English ('en'), Estonian (‘et’), Fijian (‘fj’), Filipino (‘fil’), Finnish (‘fi’), French (‘fr’), Friulian (‘fur’), Galician (‘gl’), German (‘de’), Gilbertese (‘gil’), Greenlandic (‘kl’), Haitian Creole (‘ht’), Hani (‘hni’), Hmong Daw (‘mww’), Hungarian (‘hu’), Indonesian (‘id’), Interlingua (‘ia’), Inuktitut (‘iu’), Irish (‘ga’), Italian (‘it’), Japanese (‘ja’), Javanese (‘jv’), Kabuverdianu (‘kea’), Kachin (‘kac’), Kara-Kalpak (‘kaa’), Kashubian (‘csb’), Khasi (‘kha’), Korean (‘ko’), Kurdish - Latin script (‘ku’), K’iche’ (‘quc’), Luxembourgish (‘lb’), Malay (‘ms’), Manx (‘gv’), Neapolitan (‘nap’), Norwegian (‘no’), Occitan (‘oc’), Polish (‘pl’), Portuguese (‘pt’), Romansh (‘rm’), Scots (‘sco’), Scottish Gaelic (‘gd’), simplified Chinese (‘zh-Hans’), Slovenian (‘sl’), Spanish (‘es’), Swahili (‘sw’), Swedish (‘sv’), Tatar - Latin script (‘tt’), Tetum (‘tet’), traditional Chinese (‘zh-Hant’), Turkish (‘tr’), Upper Sorbian (‘hsb’), Uzbek (‘uz’), Volapük (‘vo’), Walser (‘wae’), Western Frisian (‘fy’), Yucatec Maya (‘yua’), Zhuang (‘za’) and Zulu (‘zu’) are supported (print – seventy-three languages and handwritten – English only). Layout supports auto language identification and multi language documents, so only provide a language code if you would like to force the documented to be processed as that specific language. */
+  language?: FormLanguage;
+  /** Reading order algorithm to sort the text lines returned. Supported reading orders include: basic(default), natural. */
+  readingOrder?: FormReadingOrder;
 }
 
 /** Contains response data for the analyzeLayoutAsync operation. */

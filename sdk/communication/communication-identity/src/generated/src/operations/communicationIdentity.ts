@@ -13,6 +13,8 @@ import { IdentityRestClient } from "../identityRestClient";
 import {
   CommunicationIdentityCreateOptionalParams,
   CommunicationIdentityCreateResponse,
+  TeamsUserAccessTokenRequest,
+  CommunicationIdentityExchangeTeamsUserAccessTokenResponse,
   CommunicationIdentityAccessTokenRequest,
   CommunicationIdentityIssueAccessTokenResponse
 } from "../models";
@@ -52,7 +54,10 @@ export class CommunicationIdentity {
    * @param id Identifier of the identity to be deleted.
    * @param options The options parameters.
    */
-  delete(id: string, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse> {
+  delete(
+    id: string,
+    options?: coreHttp.OperationOptions
+  ): Promise<coreHttp.RestResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
@@ -78,6 +83,24 @@ export class CommunicationIdentity {
       { id, options: operationOptions },
       revokeAccessTokensOperationSpec
     ) as Promise<coreHttp.RestResponse>;
+  }
+
+  /**
+   * Exchange an AAD access token of a Teams user for a new ACS access token.
+   * @param body
+   * @param options The options parameters.
+   */
+  exchangeTeamsUserAccessToken(
+    body: TeamsUserAccessTokenRequest,
+    options?: coreHttp.OperationOptions
+  ): Promise<CommunicationIdentityExchangeTeamsUserAccessTokenResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
+    return this.client.sendOperationRequest(
+      { body, options: operationOptions },
+      exchangeTeamsUserAccessTokenOperationSpec
+    ) as Promise<CommunicationIdentityExchangeTeamsUserAccessTokenResponse>;
   }
 
   /**
@@ -148,6 +171,24 @@ const revokeAccessTokensOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [Parameters.endpoint, Parameters.id],
   serializer
 };
+const exchangeTeamsUserAccessTokenOperationSpec: coreHttp.OperationSpec = {
+  path: "/teamsUser/:exchangeAccessToken",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommunicationIdentityAccessToken
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  requestBody: Parameters.body1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const issueAccessTokenOperationSpec: coreHttp.OperationSpec = {
   path: "/identities/{id}/:issueAccessToken",
   httpMethod: "POST",
@@ -159,7 +200,7 @@ const issueAccessTokenOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  requestBody: Parameters.body1,
+  requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.id],
   headerParameters: [Parameters.contentType],

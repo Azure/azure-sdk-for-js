@@ -6,9 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Documents } from "./operations";
+import { DocumentsImpl } from "./operations";
+import { Documents } from "./operationsInterfaces";
 import { SearchClientContext } from "./searchClientContext";
-import { SearchClientOptionalParams, ApiVersion20200630 } from "./models";
+import {
+  SearchClientOptionalParams,
+  ApiVersion20210430Preview
+} from "./models";
 
 /** @internal */
 export class SearchClient extends SearchClientContext {
@@ -22,11 +26,11 @@ export class SearchClient extends SearchClientContext {
   constructor(
     endpoint: string,
     indexName: string,
-    apiVersion: ApiVersion20200630,
+    apiVersion: ApiVersion20210430Preview,
     options?: SearchClientOptionalParams
   ) {
     super(endpoint, indexName, apiVersion, options);
-    this.documents = new Documents(this);
+    this.documents = new DocumentsImpl(this);
   }
 
   documents: Documents;

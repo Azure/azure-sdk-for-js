@@ -6,8 +6,8 @@ import * as dotenv from "dotenv";
 
 import { AbortController } from "@azure/abort-controller";
 import { isNode, URLBuilder, URLQuery } from "@azure/core-http";
-import { setTracer, SpanGraph, TestTracer } from "@azure/core-tracing";
-import { delay, isLiveMode, record, Recorder } from "@azure/test-utils-recorder";
+import { SpanGraph, setTracer } from "@azure/test-utils";
+import { delay, isLiveMode, record, Recorder } from "@azure-tools/test-recorder";
 
 import { FileStartCopyOptions, ShareClient, ShareDirectoryClient, ShareFileClient } from "../src";
 import { FileSystemAttributes } from "../src/FileSystemAttributes";
@@ -17,7 +17,8 @@ import { truncatedISO8061Date } from "../src/utils/utils.common";
 import { bodyToString, compareBodyWithUint8Array, getBSU, recorderEnvSetup } from "./utils";
 import { MockPolicyFactory } from "./utils/MockPolicyFactory";
 import { FILE_MAX_SIZE_BYTES } from "../src/utils/constants";
-import { isIE } from "./utils/index.browser";
+import { setSpan, context } from "@azure/core-tracing";
+import { Context } from "mocha";
 
 dotenv.config();
 
@@ -45,7 +46,7 @@ describe("FileClient", () => {
   fullFileAttributes.notContentIndexed = true;
   fullFileAttributes.noScrubData = true;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
@@ -61,7 +62,7 @@ describe("FileClient", () => {
     fileClient = dirClient.getFileClient(fileName);
   });
 
-  afterEach(async function() {
+  afterEach(async function(this: Context) {
     if (!this.currentTest?.isPending()) {
       await shareClient.delete({ deleteSnapshots: "include" });
       await recorder.stop();
@@ -153,11 +154,6 @@ describe("FileClient", () => {
   });
 
   it("create largest file", async function() {
-    // IE complains about "Arithmetic result exceeded 32 bits".
-    if (!isNode && isIE()) {
-      this.skip();
-    }
-
     const fileSize = FILE_MAX_SIZE_BYTES;
     const cResp = await fileClient.create(fileSize);
     assert.equal(cResp.errorCode, undefined);
@@ -184,12 +180,7 @@ describe("FileClient", () => {
     assert.ok(result.fileParentId!);
     assert.ok(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
-    // IE11 sends "cache-control: no-cache"/"cache-control:max-age=0" for every requests
-    if (!isNode && isIE()) {
-      assert.ok(result.cacheControl);
-    } else {
-      assert.ok(!result.cacheControl);
-    }
+    assert.ok(!result.cacheControl);
     assert.ok(!result.contentType);
     assert.ok(!result.contentMD5);
     assert.ok(!result.contentEncoding);
@@ -277,10 +268,7 @@ describe("FileClient", () => {
 
     assert.ok(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
-    // IE11 force adds `cache-control: no-cache` for requests sent to Azure Storage server.
-    // So, cacheControl has `no-cache` as its value instead of undefined.
-    // Disabling the following check until the issue is resolved.
-    // assert.ok(!result.cacheControl);
+    assert.ok(!result.cacheControl);
     assert.ok(!result.contentType);
     assert.ok(!result.contentMD5);
     assert.ok(!result.contentEncoding);
@@ -600,7 +588,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(result.rangeList[0], { start: 512, end: 512 });
   });
 
-  it("getRangeListDiff", async function() {
+  it("getRangeListDiff", async function(this: Context) {
     if (isLiveMode()) {
       // Skipped for now as the result is not stable.
       this.skip();
@@ -624,7 +612,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
   });
 
-  it("getRangeListDiff with share snapshot", async function() {
+  it("getRangeListDiff with share snapshot", async function(this: Context) {
     if (isLiveMode()) {
       // Skipped for now as the result is not stable.
       this.skip();
@@ -688,7 +676,9 @@ describe("FileClient", () => {
     await fileClient.create(content.length);
     await fileClient.uploadRange(content, 0, content.length);
     const result = await fileClient.download(0, undefined, {
-      onProgress: () => {}
+      onProgress: () => {
+        /* empty */
+      }
     });
     assert.deepStrictEqual(await bodyToString(result), content);
   });
@@ -724,8 +714,9 @@ describe("FileClient", () => {
           // Receiving data...
           const rs = result.readableStreamBody!;
 
-          // tslint:disable-next-line:no-empty
-          rs.on("data", () => {});
+          rs.on("data", () => {
+            /* empty */
+          });
           rs.on("end", resolve);
           rs.on("error", reject);
         } else {
@@ -734,7 +725,6 @@ describe("FileClient", () => {
       });
 
       assert.fail();
-      // tslint:disable-next-line:no-empty
     } catch (err) {
       assert.equal(err.name, "AbortError");
     }
@@ -850,12 +840,11 @@ describe("FileClient", () => {
   });
 
   it("create with tracing", async () => {
-    const tracer = new TestTracer();
-    setTracer(tracer);
+    const tracer = setTracer();
     const rootSpan = tracer.startSpan("root");
     await fileClient.create(content.length, {
       tracingOptions: {
-        spanOptions: { parent: rootSpan.context() }
+        tracingContext: setSpan(context.active(), rootSpan)
       }
     });
     rootSpan.end();
@@ -885,7 +874,7 @@ describe("FileClient", () => {
       ]
     };
 
-    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
+    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
     assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
   });
 });

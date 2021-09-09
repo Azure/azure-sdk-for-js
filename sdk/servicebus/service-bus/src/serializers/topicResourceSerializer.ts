@@ -31,6 +31,13 @@ import {
  */
 export function buildTopicOptions(topic: CreateTopicOptions): InternalTopicOptions {
   return {
+    // NOTE: this ordering is extremely important. As an example, misordering of the ForwardTo property
+    // resulted in a customer bug where the Forwarding attributes appeared to be set but the portal was
+    // not picking up on it.
+    //
+    // The authority on this ordering is here:
+    // https://github.com/Azure/azure-sdk-for-net/blob/8af2dfc32c96ef3e340f9d20013bf588d97ea756/sdk/servicebus/Azure.Messaging.ServiceBus/src/Administration/TopicPropertiesExtensions.cs#L175
+
     DefaultMessageTimeToLive: topic.defaultMessageTimeToLive,
     MaxSizeInMegabytes: getStringOrUndefined(topic.maxSizeInMegabytes),
     RequiresDuplicateDetection: getStringOrUndefined(topic.requiresDuplicateDetection),
@@ -52,7 +59,7 @@ export function buildTopicOptions(topic: CreateTopicOptions): InternalTopicOptio
  * Builds the topic object from the raw json object gotten after deserializing the
  * response from the service
  */
-export function buildTopic(rawTopic: any): TopicProperties {
+export function buildTopic(rawTopic: Record<string, any>): TopicProperties {
   return {
     name: getString(rawTopic[Constants.TOPIC_NAME], "topicName"),
     maxSizeInMegabytes: getInteger(rawTopic[Constants.MAX_SIZE_IN_MEGABYTES], "maxSizeInMegabytes"),
@@ -95,7 +102,7 @@ export function buildTopic(rawTopic: any): TopicProperties {
  * Builds the topic runtime info object from the raw json object gotten after deserializing the
  * response from the service
  */
-export function buildTopicRuntimeProperties(rawTopic: any): TopicRuntimeProperties {
+export function buildTopicRuntimeProperties(rawTopic: Record<string, any>): TopicRuntimeProperties {
   return {
     name: getString(rawTopic[Constants.TOPIC_NAME], "topicName"),
     sizeInBytes: getIntegerOrUndefined(rawTopic[Constants.SIZE_IN_BYTES]),

@@ -14,7 +14,7 @@ export * from "./pools";
 export * from "./volumes";
 export * from "./snapshots";
 export * from "./snapshotPolicies";
-export * from "./accountBackups";
 export * from "./backups";
+export * from "./accountBackups";
 export * from "./backupPolicies";
 export * from "./vaults";

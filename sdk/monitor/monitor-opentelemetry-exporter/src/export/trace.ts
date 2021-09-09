@@ -4,7 +4,7 @@
 import { diag } from "@opentelemetry/api";
 import { ExportResult, ExportResultCode } from "@opentelemetry/core";
 import { ReadableSpan, SpanExporter } from "@opentelemetry/tracing";
-import { RestError } from "@azure/core-http";
+import { RestError } from "@azure/core-rest-pipeline";
 import { ConnectionStringParser } from "../utils/connectionStringParser";
 import { HttpSender, FileSystemPersist } from "../platform";
 import {
@@ -23,11 +23,9 @@ import { readableSpanToEnvelope } from "../utils/spanUtils";
  */
 export class AzureMonitorTraceExporter implements SpanExporter {
   private readonly _persister: PersistentStorage;
-
   private readonly _sender: Sender;
-
+  private _numConsecutiveRedirects: number;
   private _retryTimer: NodeJS.Timer | null;
-
   private readonly _options: AzureExporterInternalConfig;
 
   /**
@@ -35,6 +33,7 @@ export class AzureMonitorTraceExporter implements SpanExporter {
    * @param AzureExporterConfig - Exporter configuration.
    */
   constructor(options: AzureExporterConfig = {}) {
+    this._numConsecutiveRedirects = 0;
     const connectionString = options.connectionString || process.env[ENV_CONNECTION_STRING];
     this._options = {
       ...DEFAULT_EXPORTER_CONFIG
@@ -81,6 +80,7 @@ export class AzureMonitorTraceExporter implements SpanExporter {
 
     try {
       const { result, statusCode } = await this._sender.send(envelopes);
+      this._numConsecutiveRedirects = 0;
       if (statusCode === 200) {
         // Success -- @todo: start retry timer
         if (!this._retryTimer) {
@@ -96,12 +96,20 @@ export class AzureMonitorTraceExporter implements SpanExporter {
         if (result) {
           diag.info(result);
           const breezeResponse = JSON.parse(result) as BreezeResponse;
-          const filteredEnvelopes = breezeResponse.errors.reduce(
-            (acc, v) => [...acc, envelopes[v.index]],
-            [] as Envelope[]
-          );
-          // calls resultCallback(ExportResult) based on result of persister.push
-          return await this._persist(filteredEnvelopes);
+          const filteredEnvelopes: Envelope[] = [];
+          breezeResponse.errors.forEach((error) => {
+            if (error.statusCode && isRetriable(error.statusCode)) {
+              filteredEnvelopes.push(envelopes[error.index]);
+            }
+          });
+          if (filteredEnvelopes.length > 0) {
+            // calls resultCallback(ExportResult) based on result of persister.push
+            return await this._persist(filteredEnvelopes);
+          }
+          // Failed -- not retriable
+          return {
+            code: ExportResultCode.FAILED
+          };
         } else {
           // calls resultCallback(ExportResult) based on result of persister.push
           return await this._persist(envelopes);
@@ -112,20 +120,45 @@ export class AzureMonitorTraceExporter implements SpanExporter {
           code: ExportResultCode.FAILED
         };
       }
-    } catch (senderErr) {
-      if (this._isNetworkError(senderErr)) {
+    } catch (error) {
+      const restError = error as RestError;
+      if (
+        restError.statusCode &&
+        (restError.statusCode === 307 || // Temporary redirect
+          restError.statusCode === 308)
+      ) {
+        // Permanent redirect
+        this._numConsecutiveRedirects++;
+        // To prevent circular redirects
+        if (this._numConsecutiveRedirects < 10) {
+          if (restError.response && restError.response.headers) {
+            const location = restError.response.headers.get("location");
+            if (location) {
+              // Update sender URL
+              this._sender.handlePermanentRedirect(location);
+              // Send to redirect endpoint as HTTPs library doesn't handle redirect automatically
+              return this.exportEnvelopes(envelopes);
+            }
+          }
+        } else {
+          return { code: ExportResultCode.FAILED, error: new Error("Circular redirect") };
+        }
+      } else if (restError.statusCode && isRetriable(restError.statusCode)) {
+        return await this._persist(envelopes);
+      }
+      if (this._isNetworkError(restError)) {
         diag.error(
           "Retrying due to transient client side error. Error message:",
-          senderErr.message
+          restError.message
         );
         return await this._persist(envelopes);
-      } else {
-        diag.error(
-          "Envelopes could not be exported and are not retriable. Error message:",
-          senderErr.message
-        );
-        return { code: ExportResultCode.FAILED, error: senderErr };
       }
+
+      diag.error(
+        "Envelopes could not be exported and are not retriable. Error message:",
+        restError.message
+      );
+      return { code: ExportResultCode.FAILED, error: restError };
     }
   }
 
@@ -164,11 +197,9 @@ export class AzureMonitorTraceExporter implements SpanExporter {
     }
   }
 
-  private _isNetworkError(error: Error): boolean {
-    if (error instanceof RestError) {
-      if (error && error.code && error.code === "REQUEST_SEND_ERROR") {
-        return true;
-      }
+  private _isNetworkError(error: RestError): boolean {
+    if (error && error.code && error.code === "REQUEST_SEND_ERROR") {
+      return true;
     }
     return false;
   }

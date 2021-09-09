@@ -15,12 +15,7 @@ npm install @azure/arm-mediaservices
 
 ### How to use
 
-#### nodejs - Authentication, client creation and list all Assets as an example written in TypeScript.
-This sample shows how to use Service Principal authentication with details obtained from the Azure Portal's API Access page in your Azure Media Services account. 
-It also demonstrates how to create the Media Services client and do a simple listing of all assets in the account. If no Assets have been created yet, the list will just return empty. 
-
-More detailed examples are available at the following Samples repository. Contributions are encouraged!
-- [Azure Media Services v3 Node samples](https://github.com/Azure-Samples/media-services-v3-node-tutorials)
+#### nodejs - client creation and list accountFilters as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
@@ -31,38 +26,22 @@ npm install @azure/ms-rest-nodeauth@"^3.0.0"
 
 ##### Sample code
 
+While the below sample uses the interactive login, other authentication options can be found in the [README.md file of @azure/ms-rest-nodeauth](https://www.npmjs.com/package/@azure/ms-rest-nodeauth) package
 ```typescript
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { AzureMediaServices, AzureMediaServicesModels, AzureMediaServicesMappers } from "@azure/arm-mediaservices";
+const msRestNodeAuth = require("@azure/ms-rest-nodeauth");
+const { AzureMediaServices } = require("@azure/arm-mediaservices");
+const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
-export async function main() {
-    // Go to the Azure Portal and copy the values obtained 
-    // from your Media Services account's API Access page into the constants
-    const clientId = "<<Enter the AadClientId value from the Azure Portal>>";
-    const secret = "<<Enter the AadSecret value from the Azure Portal>>";
-    const tenantDomain = "<<Enter the AadTenantDomain value from the Azure portal>>";
-    const subscriptionId = "<<Enter the SubscriptionId value from the Azure portal>>";
-    const resourceGroup = "<<Enter the ResourceGroup value from the Azure portal>>";
-    const accountName = "<<Enter the AccountName value from the Azure portal>>";
-
-
-    const creds = await msRestNodeAuth.loginWithServicePrincipalSecret(clientId, secret, tenantDomain);
-    const mediaClient = new AzureMediaServices(creds, subscriptionId);
-
-    // List Assets in Account
-    console.log("Listing Assets Names in account:")
-    var assets = await mediaClient.assets.list(resourceGroup, accountName);
-
-    assets.forEach(asset => {
-        console.log(asset.name);    
-    });
-
-}
-
-main().catch((err) => {
-    console.error("Error running sample:", err.message);
+msRestNodeAuth.interactiveLogin().then((creds) => {
+  const client = new AzureMediaServices(creds, subscriptionId);
+  const resourceGroupName = "testresourceGroupName";
+  const accountName = "testaccountName";
+  client.accountFilters.list(resourceGroupName, accountName).then((result) => {
+    console.log("The result is:");
+    console.log(result);
+  });
+}).catch((err) => {
+  console.error(err);
 });
 ```
 
@@ -102,7 +81,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
         const client = new Azure.ArmMediaservices.AzureMediaServices(res.creds, subscriptionId);
         const resourceGroupName = "testresourceGroupName";
         const accountName = "testaccountName";
-        client.assets.list(resourceGroupName, accountName).then((result) => {
+        client.accountFilters.list(resourceGroupName, accountName).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {

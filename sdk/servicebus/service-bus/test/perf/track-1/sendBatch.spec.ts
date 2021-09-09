@@ -11,7 +11,7 @@ interface SendTestOptions {
 }
 
 export class BatchSendTest extends ServiceBusTest<SendTestOptions> {
-  sender: Sender;
+  static sender = ServiceBusTest.sbClient.createQueueClient(BatchSendTest.queueName).createSender();
   batch: SendableMessageInfo[];
   public options: PerfStressOptionDictionary<SendTestOptions> = {
     messageBodySize: {
@@ -32,7 +32,6 @@ export class BatchSendTest extends ServiceBusTest<SendTestOptions> {
 
   constructor() {
     super();
-    this.sender = this.sbClient.createQueueClient(BatchSendTest.queueName).createSender();
     const sbMessage = {
       body: Buffer.alloc(this.parsedOptions.messageBodySize.value!)
     };
@@ -40,6 +39,6 @@ export class BatchSendTest extends ServiceBusTest<SendTestOptions> {
   }
 
   async runAsync(): Promise<void> {
-    await this.sender.sendBatch(this.batch);
+    await BatchSendTest.sender.sendBatch(this.batch);
   }
 }

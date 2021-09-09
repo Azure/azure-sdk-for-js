@@ -15,7 +15,7 @@ export class AverageAggregator implements Aggregator {
   /**
    * Add the provided item to aggregation result.
    */
-  public aggregate(other: AverageAggregateResult) {
+  public aggregate(other: AverageAggregateResult): void {
     if (other == null || other.sum == null) {
       return;
     }
@@ -30,7 +30,7 @@ export class AverageAggregator implements Aggregator {
   /**
    * Get the aggregation result.
    */
-  public getResult() {
+  public getResult(): number {
     if (this.sum == null || this.count <= 0) {
       return undefined;
     }

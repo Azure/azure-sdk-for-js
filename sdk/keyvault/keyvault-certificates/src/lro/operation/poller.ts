@@ -23,7 +23,7 @@ export class CertificateOperationPoller extends KeyVaultCertificatePoller<
       vaultUrl,
       client,
       certificateName,
-      requestOptions,
+      operationOptions,
       intervalInMs = 2000,
       resumeFrom
     } = options;
@@ -41,7 +41,7 @@ export class CertificateOperationPoller extends KeyVaultCertificatePoller<
       },
       vaultUrl,
       client,
-      requestOptions
+      operationOptions
     );
 
     super(operation);

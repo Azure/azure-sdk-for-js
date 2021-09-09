@@ -2,10 +2,10 @@
   "name": "@azure/keyvault-keys",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "4.2.0-beta.4",
+  "version": "4.4.0-beta.2",
   "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's keys.",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "node",
@@ -23,7 +23,7 @@
   "module": "dist-esm/keyvault-keys/src/index.js",
   "types": "./types/keyvault-keys.d.ts",
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=12.0.0"
   },
   "files": [
     "types/keyvault-keys.d.ts",
@@ -36,37 +36,39 @@
   "browser": {
     "os": false,
     "process": false,
-    "./dist-esm/keyvault-keys/src/localCryptography/algorithms.js": "./dist-esm/keyvault-keys/src/localCryptography/algorithms.browser.js",
-    "./dist-esm/keyvault-keys/src/localCryptography/hash.js": "./dist-esm/keyvault-keys/src/localCryptography/hash.browser.js"
+    "./dist-esm/keyvault-keys/src/cryptography/crypto.js": "./dist-esm/keyvault-keys/src/cryptography/crypto.browser.js",
+    "./dist-esm/keyvault-keys/src/cryptography/rsaCryptographyProvider.js": "./dist-esm/keyvault-keys/src/cryptography/rsaCryptographyProvider.browser.js",
+    "./dist-esm/keyvault-keys/src/cryptography/aesCryptographyProvider.js": "./dist-esm/keyvault-keys/src/cryptography/aesCryptographyProvider.browser.js",
+    "./dist-esm/keyvault-keys/test/utils/base64url.js": "./dist-esm/keyvault-keys/test/utils/base64url.browser.js"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js 2>&1",
-    "build:samples": "dev-tool samples prep && cd dist-samples && tsc",
-    "build:es6": "tsc -p tsconfig.json",
+    "build:samples": "echo Obsolete.",
+    "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
+    "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:nodebrowser": "rollup -c 2>&1",
-    "build:test": "npm run build:es6 && rollup -c rollup.test.config.js 2>&1",
-    "build": "npm run extract-api && npm run build:es6 && npm run build:nodebrowser",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-esm dist-test types *.tgz *.log dist-browser statistics.html coverage && rimraf src/**/*.js && rimraf test/**/*.js",
-    "execute:samples": "npm run build:samples && dev-tool samples run dist-samples/javascript dist-samples/typescript/dist/keyvault-keys/dist-samples/typescript/src/",
+    "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
+    "build": "npm run clean && tsc -p . && npm run build:nodebrowser && api-extractor run --local",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf dist dist-* types *.tgz *.log dist-browser statistics.html coverage && rimraf src/**/*.js && rimraf test/**/*.js",
+    "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-esm/**/*.spec.js",
-    "integration-test:node:no-timeout": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --no-timeouts --full-trace dist-esm/**/*.spec.js",
+    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace \"dist-esm/**/*.spec.js\"",
+    "integration-test:node:no-timeout": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --no-timeouts --full-trace \"dist-esm/**/*.spec.js\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json api-extractor.json src test --ext .ts",
     "pack": "npm pack 2>&1",
-    "prebuild": "npm run clean",
     "regenerate": "npx autorest swagger/README.md --typescript",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "test": "npm run clean && npm run build:test && npm run unit-test",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-test/index.node.js",
-    "unit-test:node:no-timeout": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --no-timeouts --full-trace dist-test/index.node.js",
+    "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace \"dist-test/index.node.js\"",
+    "unit-test:node:no-timeout": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --no-timeouts --full-trace \"dist-test/index.node.js\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
@@ -80,25 +82,41 @@
       {
         "path": "src/constants.ts",
         "prefix": "SDK_VERSION"
+      },
+      {
+        "path": "swagger/README.md",
+        "prefix": "package-version"
       }
     ]
   },
+  "//sampleConfiguration": {
+    "productName": "Azure Key Vault Keys",
+    "productSlugs": [
+      "azure",
+      "azure-key-vault"
+    ],
+    "requiredResources": {
+      "Azure Key Vault": "https://docs.microsoft.com/azure/key-vault/quick-create-portal"
+    },
+    "customSnippets": {
+      "prerequisites": "samples-dev/snippets/_prerequisites.md"
+    }
+  },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/core-http": "^1.2.0",
-    "@azure/core-lro": "^1.0.2",
+    "@azure/core-http": "^2.0.0",
+    "@azure/core-lro": "^2.2.0",
     "@azure/core-paging": "^1.1.1",
-    "@azure/core-tracing": "1.0.0-beta.1",
+    "@azure/core-tracing": "1.0.0-preview.13",
     "@azure/logger": "^1.0.0",
-    "@opentelemetry/api": "^0.10.2",
-    "tslib": "^2.0.0"
+    "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^1.1.0",
-    "@azure/test-utils-recorder": "^1.0.0",
-    "@azure/test-utils-multi-version": "^1.0.0",
+    "@azure/identity": "2.0.0-beta.6",
+    "@azure/test-utils": "^1.0.0",
+    "@azure-tools/test-recorder": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-json": "^4.0.0",
@@ -108,17 +126,17 @@
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^8.0.0",
-    "@types/query-string": "6.2.0",
+    "@types/node": "^12.0.0",
     "@types/sinon": "^9.0.4",
     "assert": "^1.4.1",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
+    "chai-exclude": "^2.0.2",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "eslint": "^7.15.0",
     "esm": "^3.2.18",
-    "karma": "^5.1.0",
+    "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-edge-launcher": "^0.4.2",
@@ -135,8 +153,7 @@
     "mocha-junit-reporter": "^1.18.0",
     "nyc": "^14.0.0",
     "prettier": "^1.16.4",
-    "puppeteer": "^3.3.0",
-    "query-string": "^5.0.0",
+    "puppeteer": "^10.2.0",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
     "rollup-plugin-shim": "^1.0.0",
@@ -145,7 +162,7 @@
     "rollup-plugin-visualizer": "^4.0.4",
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",
-    "typescript": "4.1.2",
+    "typescript": "~4.2.0",
     "url": "^0.11.0",
     "typedoc": "0.15.2"
   }

@@ -7,7 +7,7 @@ import { SegmentCursor, ShardCursor } from "./models/ChangeFeedCursor";
 import { CommonOptions } from "@azure/storage-blob";
 import { AbortSignalLike } from "@azure/core-http";
 import { createSpan } from "./utils/tracing";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 
 /**
  * Options to configure {@link Segment.getChange} operation.
@@ -46,7 +46,6 @@ export class Segment {
     this.shardIndex = shardIndex;
     this._dateTime = dateTime;
 
-    // TODO: add polyfill for Array.prototype.fill for IE11
     this.shardDone = Array(shards.length).fill(false);
     this.shardDoneCount = 0;
   }
@@ -88,7 +87,7 @@ export class Segment {
       return event;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

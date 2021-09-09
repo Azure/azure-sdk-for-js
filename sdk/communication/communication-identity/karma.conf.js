@@ -6,7 +6,7 @@ const {
   isPlaybackMode,
   isSoftRecordMode,
   isRecordMode
-} = require("@azure/test-utils-recorder");
+} = require("@azure-tools/test-recorder");
 
 module.exports = function(config) {
   config.set({
@@ -33,12 +33,9 @@ module.exports = function(config) {
     ],
 
     // list of files / patterns to load in the browser
-    files: [
-      // Uncomment the cdn link below for the polyfill service to support IE11 missing features
-      // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys
-      // "https://cdn.polyfill.io/v2/polyfill.js?features=Symbol,Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys|always",
-      "dist-test/index.browser.js"
-    ].concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []),
+    files: ["dist-test/index.browser.js"].concat(
+      isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []
+    ),
 
     // list of files / patterns to exclude
     exclude: [],
@@ -50,7 +47,7 @@ module.exports = function(config) {
       "recordings/browsers/**/*.json": ["json"]
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
-      //"test-browser/index.js": ["coverage"]
+      //"dist-test/index.browser.js": ["coverage"]
     },
 
     // inject following environment values into browser testing with window.__env__
@@ -58,7 +55,7 @@ module.exports = function(config) {
     // https://www.npmjs.com/package/karma-env-preprocessor
     envPreprocessor: [
       "TEST_MODE",
-      "COMMUNICATION_CONNECTION_STRING",
+      "COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING",
       "INCLUDE_PHONENUMBER_TESTS",
       "COMMUNICATION_ENDPOINT",
       "AZURE_CLIENT_ID",
@@ -113,7 +110,14 @@ module.exports = function(config) {
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     // 'ChromeHeadless', 'Chrome', 'Firefox', 'Edge', 'IE'
-    browsers: ["ChromeHeadless"],
+    browsers: ["HeadlessChrome"],
+
+    customLaunchers: {
+      HeadlessChrome: {
+        base: "ChromeHeadless",
+        flags: ["--no-sandbox", "--disable-web-security"]
+      }
+    },
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits

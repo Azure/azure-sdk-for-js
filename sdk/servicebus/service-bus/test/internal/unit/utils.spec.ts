@@ -3,9 +3,9 @@
 
 import {
   checkAndRegisterWithAbortSignal,
-  waitForTimeoutOrAbortOrResolve,
-  StandardAbortMessage
+  waitForTimeoutOrAbortOrResolve
 } from "../../../src/util/utils";
+import { StandardAbortMessage } from "@azure/core-amqp";
 import { AbortController, AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "rhea-promise";
 import chai from "chai";
@@ -15,7 +15,7 @@ import {
   TRACEPARENT_PROPERTY
 } from "../../../src/diagnostics/instrumentServiceBusMessage";
 import { ServiceBusReceivedMessage } from "../../../src";
-import { TraceFlags } from "@opentelemetry/api";
+import { TraceFlags } from "@azure/core-tracing";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 

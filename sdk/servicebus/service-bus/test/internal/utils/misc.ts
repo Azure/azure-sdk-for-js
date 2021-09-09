@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { defaultLock } from "@azure/core-amqp";
+import { createClientLogger } from "@azure/logger";
 import { Delivery, ServiceBusReceivedMessage } from "../../../src";
-import { LinkEntity } from "../../../src/core/linkEntity";
 import { ServiceBusMessageImpl } from "../../../src/serviceBusMessage";
 
 export function getDeliveryProperty(message: ServiceBusReceivedMessage): Delivery {
@@ -20,6 +19,4 @@ export function getDeliveryProperty(message: ServiceBusReceivedMessage): Deliver
   );
 }
 
-export function isLinkLocked(linkEntity: LinkEntity<any>): boolean {
-  return defaultLock.isBusy(linkEntity["_openLock"]);
-}
+export const testLogger = createClientLogger("test");
