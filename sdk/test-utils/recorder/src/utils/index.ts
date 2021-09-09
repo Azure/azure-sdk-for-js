@@ -134,9 +134,9 @@ export function applyReplacementMap(
   replacements.forEach((replacement: string, key: string) => {
     if (env[key]) {
       const value = env[key]!;
-      const encoded = [value, replacement].map(encodeRFC3986);
-      if (value !== encoded[0] || replacement !== encoded[1]) {
-        updated = replaceAll(updated, encoded[0], encoded[1]);
+      const [encodedValue, encodedReplacement] = [value, replacement].map(encodeRFC3986);
+      if (value !== encodedValue || replacement !== encodedReplacement) {
+        updated = replaceAll(updated, encodedValue, encodedReplacement);
       }
       updated = replaceAll(updated, value, replacement);
       if (
