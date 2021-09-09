@@ -92,10 +92,11 @@ function New-DeployManifest {
   Write-Verbose "Detecting samples..."
   $packageDir = Get-ChildItem -Directory -Path "$repoRoot/sdk/$ServiceDirectory/*"
 
-  $javascriptSamples = $packageDir.ForEach{
+  $javascriptSamples = @()
+  $packageDir.ForEach{
     $versions = (Get-Item "$_/samples/*").Name
     $newestVer = $versions | Sort-Object {[int]($_ -replace '^v' -replace '(\d+).*', '$1')} -Descending | Select-Object -First 1
-    return Get-ChildItem -Path "$_/samples/$newestVer/javascript/" -Recurse -Include package.json
+    $javascriptSamples += Get-ChildItem -Path "$_/samples/$newestVer/javascript/" -Recurse -Include package.json
   }
 
   $manifest = $javascriptSamples | ForEach-Object {
