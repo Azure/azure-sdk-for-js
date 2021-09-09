@@ -6,6 +6,7 @@
 
 - Added convenience method `getMetricByName` in `MetricsQueryResult` to allow users to fetch results of a particular metric
 - Added a flag `throwOnAnyFailure` to be set by user for methods `queryLogs` and `queryLogsBatch` to enable error throwing
+- Defining `AggregateBatchError` class for throwing batch errors
 - Added status with potential values `("Partial" | "Success" | "Failed")` for responses of `query` and `queryBatch` APIs to indicate whether the status of results of each query.
 
 ### Breaking Changes
