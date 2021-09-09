@@ -327,7 +327,7 @@ LogsQueryBatchResult
             |---type
 ```
 
-To handle a batch response,
+To handle a batch response:
 
 ```ts
 let i = 0;
