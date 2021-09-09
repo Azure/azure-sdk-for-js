@@ -1,14 +1,11 @@
 # Release History
 
-## 1.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.0.0-beta.2 (2021-09-09)
 
 ### Other Changes
+
+- Changed the name of the "extension" API to the "plugin" API to reduce confusion between this package and VS Code extensions. This package is now a "plugin package."
+- Renamed `vsCodeExtension` to `vsCodePlugin`.
 
 ## 1.0.0-beta.1 (2021-07-07)
 

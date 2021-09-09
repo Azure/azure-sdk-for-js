@@ -4,10 +4,10 @@
 
 ```ts
 
-import { IdentityExtension } from '@azure/identity';
+import { IdentityPlugin } from '@azure/identity';
 
 // @public
-export const cachePersistenceExtension: IdentityExtension;
+export const cachePersistencePlugin: IdentityPlugin;
 
 
 // (No @packageDocumentation comment for this package)

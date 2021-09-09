@@ -22,9 +22,10 @@
     "./dist-esm/src/credentials/usernamePasswordCredential.js": "./dist-esm/src/credentials/usernamePasswordCredential.browser.js",
     "./dist-esm/src/credentials/azurePowerShellCredential.js": "./dist-esm/src/credentials/azurePowerShellCredential.browser.js",
     "./dist-esm/src/credentials/applicationCredential.js": "./dist-esm/src/credentials/applicationCredential.browser.js",
+    "./dist-esm/src/credentials/onBehalfOfCredential.js": "./dist-esm/src/credentials/onBehalfOfCredential.browser.js",
     "./dist-esm/src/util/authHostEnv.js": "./dist-esm/src/util/authHostEnv.browser.js",
     "./dist-esm/src/tokenCache/TokenCachePersistence.js": "./dist-esm/src/tokenCache/TokenCachePersistence.browser.js",
-    "./dist-esm/src/extensions/consumer.js": "./dist-esm/src/extensions/consumer.browser.js",
+    "./dist-esm/src/plugins/consumer.js": "./dist-esm/src/plugins/consumer.browser.js",
     "./dist-esm/test/httpRequests.js": "./dist-esm/test/httpRequests.browser.js"
   },
   "scripts": {

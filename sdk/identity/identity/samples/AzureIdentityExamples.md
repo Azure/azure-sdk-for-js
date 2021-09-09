@@ -993,7 +993,7 @@ Many credential implementations in the `@azure/identity` library have an underly
 
 > IMPORTANT! The token cache contains sensitive data and MUST be protected to prevent compromising accounts. All application decisions regarding the persistence of the token cache must consider that a breach of its content will fully compromise all the accounts it contains.
 
-Starting in version 2 of `@azure/identity`, the `@azure/identity-cache-persistence` package can be used. This package provides an extension to the `@azure/identity` package to enable persistent token caching. The package `@azure/identity-cache-persistence` exports an extension object that you must pass as an argument to the top-level `useIdentityExtension` function from the `@azure/identity` package.
+Starting in version 2 of `@azure/identity`, the `@azure/identity-cache-persistence` package can be used. This package provides a plugin to the `@azure/identity` package to enable persistent token caching. The package `@azure/identity-cache-persistence` exports a plugin object that you must pass as an argument to the top-level `useIdentityPlugin` function from the `@azure/identity` package.
 
 ```
 npm install --save @azure/identity-cache-persistence
@@ -1002,13 +1002,13 @@ npm install --save @azure/identity-cache-persistence
 Enable token cache persistence in your application as follows:
 
 ```ts
-import { useIdentityExtension } from "@azure/identity";
-import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
+import { useIdentityPlugin } from "@azure/identity";
+import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
 
-useIdentityExtension(cachePersistenceExtension);
+useIdentityPlugin(cachePersistencePlugin);
 ```
 
-After calling `useIdentityExtension`, the persistent token cache extension is registered to the `@azure/identity` package and will be available on all credentials that support persistent token caching (those that have `tokenCachePersistenceOptions` in their constructor options).
+After calling `useIdentityPlugin`, the persistent token cache plugin is registered to the `@azure/identity` package and will be available on all credentials that support persistent token caching (those that have `tokenCachePersistenceOptions` in their constructor options).
 
 #### Persist the token cache
 
@@ -1017,10 +1017,10 @@ The credential handles persisting all the data needed to silently authenticate o
 To configure a credential, such as the `InteractiveBrowserCredential`, to persist token data, set the `tokenCachePersistenceOptions` option. The simplest way to persist the token data for a credential is to use the default `tokenCachePersistenceOptions`. This will persist and read token data from a shared persisted token cache protected to the current account.
 
 ```ts
-import { useIdentityExtension, InteractiveBrowserCredential } from "@azure/identity";
-import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
+import { useIdentityPlugin, InteractiveBrowserCredential } from "@azure/identity";
+import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
 
-useIdentityExtension(cachePersistenceExtension);
+useIdentityPlugin(cachePersistencePlugin);
 
 const credential = new InteractiveBrowserCredential({
   tokenCachePersistenceOptions: {
@@ -1050,16 +1050,16 @@ The following example stores the `AuthenticationRecord` to the local file system
 
 ```ts
 import {
-  useIdentityExtension,
+  useIdentityPlugin,
   InteractiveBrowserCredential,
   AuthenticationRecord,
   serializeAuthenticationRecord
 } from "@azure/identity";
-import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
+import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
 import { writeFileSync } from "fs";
 import path from "path";
 
-useIdentityExtension(cachePersistenceExtension);
+useIdentityPlugin(cachePersistencePlugin);
 
 export async function main(): Promise<void> {
   const AUTH_RECORD_PATH = "./tokencache.bin";
@@ -1089,16 +1089,16 @@ Once an application has configured a credential to persist token data and an `Au
 
 ```ts
 import {
-  useIdentityExtension,
+  useIdentityPlugin,
   InteractiveBrowserCredential,
   AuthenticationRecord,
   deserializeAuthenticationRecord
 } from "@azure/identity";
-import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
+import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
 import { readFileSync } from "fs";
 import path from "path";
 
-useIdentityExtension(cachePersistenceExtension);
+useIdentityPlugin(cachePersistencePlugin);
 
 export async function main(): Promise<void> {
   const AUTH_RECORD_PATH = "./tokencache.bin";
@@ -1127,23 +1127,23 @@ The credential created in the preceding example will silently authenticate, give
 
 #### Allow unencrypted storage
 
-By default, the token cache will protect any data that is persisted using the user data protection APIs available on the current platform. However, there are cases where no data protection is available, and applications may choose to still persist the token cache in an unencrypted state. This is accomplished with the `allowUnencryptedStorage` option.
+By default, the token cache will protect any data that is persisted using the user data protection APIs available on the current platform. However, there are cases where no data protection is available, and applications may choose to still persist the token cache in an unencrypted state. This is accomplished with the `unsafeAllowUnencryptedStorage` option.
 
 ```ts
-import { useIdentityExtension, InteractiveBrowserCredential } from "@azure/identity";
-import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
+import { useIdentityPlugin, InteractiveBrowserCredential } from "@azure/identity";
+import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
 
-useIdentityExtension(cachePersistenceExtension);
+useIdentityPlugin(cachePersistencePlugin);
 
 const credential = new InteractiveBrowserCredential({
   tokenCachePersistenceOptions: {
     enabled: true,
-    allowUnencryptedStorage: true
+    unsafeAllowUnencryptedStorage: true
   }
 });
 ```
 
-By setting `allowUnencryptedStorage` to `true`, the credential will encrypt the contents of the token cache before persisting it, if data protection is available on the current platform. If platform data protection is unavailable, it will write and read the persisted token data to an unencrypted local file with access permissions restricted to the current user. If `allowUnencryptedStorage` is `false` (the default), a `CredentialUnavailableError` will be thrown in the case that no data protection is available.
+By setting `unsafeAllowUnencryptedStorage` to `true`, the credential will encrypt the contents of the token cache before persisting it, if data protection is available on the current platform. If platform data protection is unavailable, it will write and read the persisted token data to an unencrypted local file with access permissions restricted to the current user. If `unsafeAllowUnencryptedStorage` is `false` (the default), a `CredentialUnavailableError` will be thrown in the case that no data protection is available.
 
 ### Authenticate national clouds
 

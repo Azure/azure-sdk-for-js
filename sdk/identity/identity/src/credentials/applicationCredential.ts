@@ -48,9 +48,6 @@ export const ApplicationCredentials: ApplicationCredentialConstructor[] = [
  *
  * Consult the documentation of these credential types for more information
  * on how they attempt authentication.
- *
- * Azure Identity extensions may add credential types to the default credential
- * stack.
  */
 export class ApplicationCredential extends ChainedTokenCredential {
   /**
