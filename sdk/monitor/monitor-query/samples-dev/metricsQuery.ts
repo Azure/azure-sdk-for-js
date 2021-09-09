@@ -22,26 +22,20 @@ export async function main() {
   }
 
   const iterator = metricsQueryClient.listMetricDefinitions(metricsResourceId);
-  let result = await iterator.next();
-  const firstMetric: MetricDefinition = result.value;
-  let secondMetricName: string = "TotalCalls";
+  let metricNames: string[] = [];
   for await (const result of iterator) {
     console.log(` metricDefinitions - ${result.id}, ${result.name}`);
     if (result.name) {
-      secondMetricName = result.name; // will assign the last value in the loop
+      metricNames.push(result.name);
     }
   }
 
-  if (firstMetric.name && secondMetricName) {
-    console.log(`Picking an example metric to query: ${firstMetric.name} and ${secondMetricName}`);
-    const metricsResponse = await metricsQueryClient.query(
-      metricsResourceId,
-      [firstMetric.name, secondMetricName],
-      {
-        granularity: "PT1M",
-        timespan: { duration: Durations.FiveMinutes }
-      }
-    );
+  if (metricNames.length > 0) {
+    console.log(`Picking an example list of metrics to query: ${metricNames}`);
+    const metricsResponse = await metricsQueryClient.query(metricsResourceId, metricNames, {
+      granularity: "PT1M",
+      timespan: { duration: Durations.FiveMinutes }
+    });
 
     console.log(
       `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.granularity}, time span: ${metricsResponse.timespan}`
@@ -49,10 +43,10 @@ export async function main() {
 
     const metrics: Metric[] = metricsResponse.metrics;
     console.log(`Metrics:`, JSON.stringify(metrics, undefined, 2));
-    const metric = metricsResponse.getMetricByName(firstMetric.name);
-    console.log(`Selected Metric: ${firstMetric.name}`, JSON.stringify(metric, undefined, 2));
+    const metric = metricsResponse.getMetricByName(metricNames[0]);
+    console.log(`Selected Metric: ${metricNames[0]}`, JSON.stringify(metric, undefined, 2));
   } else {
-    console.error(`Metric names are not defined - ${firstMetric.name} and ${secondMetricName}`);
+    console.error(`Metric names are not defined - ${metricNames}`);
   }
 }
 

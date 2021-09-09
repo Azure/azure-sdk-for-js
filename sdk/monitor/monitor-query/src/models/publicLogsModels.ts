@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-client";
-import { ErrorInfo, LogsColumnType } from "../generated/logquery/src";
+import { ErrorDetail, LogsColumnType } from "../generated/logquery/src";
 import { TimeInterval } from "./timeInterval";
 
 // https://dev.loganalytics.io/documentation/Using-the-API/RequestOptions
@@ -52,24 +52,67 @@ export interface QueryStatistics {
   [key: string]: unknown;
 }
 
+/** The code and message for an error. */
+export interface ErrorInfo extends Error {
+  /** A machine readable error code. */
+  code: string;
+  /** A human readable error message. */
+  message: string;
+  /** error details. */
+  details?: ErrorDetail[];
+  /** Inner error details if they exist. */
+  innerError?: ErrorInfo;
+  /** Additional properties that can be provided on the error info object */
+  additionalProperties?: Record<string, unknown>;
+}
+
+export class BatchError extends Error implements ErrorInfo {
+  /** A machine readable error code. */
+  code: string;
+  /** A human readable error message. */
+  message: string;
+  /** error details. */
+  details?: ErrorDetail[];
+  /** Inner error details if they exist. */
+  innerError?: ErrorInfo;
+  /** Additional properties that can be provided on the error info object */
+  additionalProperties?: Record<string, unknown>;
+
+  constructor(errorInfo: ErrorInfo) {
+    super();
+    this.name = "Error";
+    this.code = errorInfo.code;
+    (this.message = errorInfo.message),
+      (this.details = errorInfo.details),
+      (this.innerError = errorInfo.innerError),
+      (this.additionalProperties = errorInfo.additionalProperties);
+  }
+}
+export class AggregateBatchError extends Error {
+  errors: BatchError[];
+  constructor(errors: BatchError[]) {
+    super();
+    this.errors = errors;
+  }
+}
 /**
  * Tables and statistic results from a logs query.
  */
 
 export interface LogsQueryResult {
-  /** The list of tables, columns and rows. */
+  /** Populated results from the query. */
   tables: LogsTable[];
-  /** Statistics represented in JSON format. */
-  statistics?: Record<string, unknown>;
-  /** Visualization data in JSON format. */
-  visualization?: Record<string, unknown>;
-  /** The code and message for an error. */
+  /** error information for partial errors or failed queries */
   error?: ErrorInfo;
   /** Indicates if a query succeeded or failed or partially failed.
    * Represented by "Partial" | "Success" | "Failed".
    * For partially failed queries, users can find data in "tables" attribute
    * and error information in "error" attribute */
-  status?: LogsQueryResultStatus;
+  status: LogsQueryResultStatus;
+  /** Statistics represented in JSON format. */
+  statistics?: Record<string, unknown>;
+  /** Visualization data in JSON format. */
+  visualization?: Record<string, unknown>;
 }
 
 /** Configurable HTTP request settings and `throwOnAnyFailure` setting for the Logs query batch operation. */
@@ -150,7 +193,7 @@ export interface LogsTable {
   name: string;
   /** The list of columns in this table. */
   columnDescriptors: LogsColumn[];
-  /** The 2D array of results from this query indexed by row and column. */
+  /** The two dimensional array of results from this query indexed by row and column. */
   rows: (Date | string | number | Record<string, unknown> | boolean)[][];
 }
 

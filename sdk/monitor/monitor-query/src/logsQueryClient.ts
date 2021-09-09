@@ -9,13 +9,17 @@ import {
   LogsQueryBatchOptions,
   LogsQueryBatchResult,
   LogsQueryOptions,
-  LogsQueryResult
+  LogsQueryResult,
+  AggregateBatchError,
+  BatchError,
+  ErrorInfo
 } from "./models/publicLogsModels";
 
 import {
   convertGeneratedTable,
   convertRequestForQueryBatch,
-  convertResponseForQueryBatch
+  convertResponseForQueryBatch,
+  mapError
 } from "./internal/modelConverters";
 import { formatPreferHeader } from "./internal/util";
 import { CommonClientOptions, FullOperationResponse, OperationOptions } from "@azure/core-client";
@@ -119,7 +123,8 @@ export class LogsQueryClient {
       tables: flatResponse.tables.map(convertGeneratedTable),
       statistics: flatResponse.statistics,
       visualization: flatResponse.render,
-      error: flatResponse.error
+      error: mapError(flatResponse.error),
+      status: "Success" // Assume success until shown otherwise.
     };
     if (result.tables && result.error) {
       result.status = "Partial";
@@ -152,7 +157,9 @@ export class LogsQueryClient {
     const result: LogsQueryBatchResult = convertResponseForQueryBatch(flatResponse, rawResponse);
 
     if (options?.throwOnAnyFailure && result.results.some((it) => it.status !== "Success")) {
-      throw result;
+      let errorResults = result.results.filter((it) => it.status !== "Success").map((x) => x.error);
+      let batchErrorList = errorResults.map((x) => new BatchError(x as ErrorInfo));
+      throw new AggregateBatchError(batchErrorList);
     }
     return result;
   }

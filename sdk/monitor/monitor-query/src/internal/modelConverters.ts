@@ -8,7 +8,8 @@ import {
   BatchQueryResponse as GeneratedBatchQueryResponse,
   QueryBody,
   Table as GeneratedTable,
-  BatchQueryResults as GeneratedBatchQueryResults
+  BatchQueryResults as GeneratedBatchQueryResults,
+  ErrorInfo as GeneratedErrorInfo
 } from "../generated/logquery/src";
 
 import {
@@ -45,6 +46,7 @@ import {
   convertIntervalToTimeIntervalObject,
   convertTimespanToInterval
 } from "../timespanConversion";
+import { ErrorInfo, LogsQueryResult } from "../models/publicLogsModels";
 
 /**
  * @internal
@@ -393,27 +395,40 @@ export function convertGeneratedTable(table: GeneratedTable): LogsTable {
 /**
  * @internal
  */
-export function convertBatchQueryResponseHelper(response: GeneratedBatchQueryResponse): any {
+export function convertBatchQueryResponseHelper(
+  response: GeneratedBatchQueryResponse
+): Partial<LogsQueryResult> {
   try {
     const parsedResponseBody: GeneratedBatchQueryResults = JSON.parse(
       response.body as any
     ) as GeneratedBatchQueryResults;
     return {
       visualization: parsedResponseBody.render,
-      status: "Success",
+      status: "Success", // Assume success until shown otherwise.
       statistics: parsedResponseBody.statistics,
-      error: parsedResponseBody.error,
+      error: mapError(parsedResponseBody.error), // ? { ...parsedResponseBody.error, name: "Error" } : undefined,
       tables: parsedResponseBody.tables?.map((table: GeneratedTable) =>
         convertGeneratedTable(table)
-      )
+      )!
     };
   } catch (e) {
     return {
       visualization: response.body?.render,
-      status: "Success",
+      status: "Success", // Assume success until shown otherwise.
       statistics: response.body?.statistics,
-      error: response.body?.error,
-      tables: response.body?.tables?.map((table: GeneratedTable) => convertGeneratedTable(table))
+      error: mapError(response.body?.error),
+      tables: response.body?.tables?.map((table: GeneratedTable) => convertGeneratedTable(table))!
     };
   }
+}
+
+export function mapError(error?: GeneratedErrorInfo): ErrorInfo | undefined {
+  if (error) {
+    return {
+      ...error,
+      name: "Error",
+      innerError: mapError(error.innerError)
+    };
+  }
+  return undefined;
 }
