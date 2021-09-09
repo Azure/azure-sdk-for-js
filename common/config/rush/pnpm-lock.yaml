@@ -21,6 +21,7 @@ dependencies:
   '@rush-temp/arm-purview': file:projects/arm-purview.tgz
   '@rush-temp/arm-resources': file:projects/arm-resources.tgz
   '@rush-temp/arm-resources-subscriptions': file:projects/arm-resources-subscriptions.tgz
+  '@rush-temp/arm-servicebus': file:projects/arm-servicebus.tgz
   '@rush-temp/arm-sql': file:projects/arm-sql.tgz
   '@rush-temp/arm-storage': file:projects/arm-storage.tgz
   '@rush-temp/arm-templatespecs': file:projects/arm-templatespecs.tgz
@@ -8763,6 +8764,25 @@ packages:
       integrity: sha512-qCoJfklY7j2h5N8EgS7J/9fgg52p1QJminenS8L2y2O8z2mnEc/qr5PqkypeM7GZaQXUf0vK68A0U6fOEuWRxg==
       tarball: file:projects/arm-resources.tgz
     version: 0.0.0
+  file:projects/arm-servicebus.tgz:
+    dependencies:
+      '@microsoft/api-extractor': 7.7.11
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      mkdirp: 1.0.4
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.1
+    dev: false
+    name: '@rush-temp/arm-servicebus'
+    resolution:
+      integrity: sha512-q1Mf8xx0bI00+fi1OIqZeMgMxlWfliTjUdbCEdsmFUI9XhB+LZ83NIyXB5uNECvuIiOca9aJr/0rxaop11KKLg==
+      tarball: file:projects/arm-servicebus.tgz
+    version: 0.0.0
   file:projects/arm-sql.tgz:
     dependencies:
       '@microsoft/api-extractor': 7.7.11
@@ -12707,6 +12727,7 @@ specifiers:
   '@rush-temp/arm-purview': file:./projects/arm-purview.tgz
   '@rush-temp/arm-resources': file:./projects/arm-resources.tgz
   '@rush-temp/arm-resources-subscriptions': file:./projects/arm-resources-subscriptions.tgz
+  '@rush-temp/arm-servicebus': file:./projects/arm-servicebus.tgz
   '@rush-temp/arm-sql': file:./projects/arm-sql.tgz
   '@rush-temp/arm-storage': file:./projects/arm-storage.tgz
   '@rush-temp/arm-templatespecs': file:./projects/arm-templatespecs.tgz
