@@ -35,7 +35,7 @@ If you are on a [Node.js that has LTS status](https://nodejs.org/about/releases/
   - Use the credential you picked in the place of `DefaultAzureCredential` in the Node.js sample below.
 
 In the below samples, we pass the credential and the Azure subscription id to instantiate the client.
-Once the client is created, explore the operations on it either in your favorite editor or in our [API reference documentation](https://docs.microsoft.com/javascript/api) to get started.
+Once the client is created, explore the operations on it either in your favorite editor or in our [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-cosmosdb/?view=azure-node-latest) to get started.
 #### nodejs - Authentication, client creation, and get databaseAccounts as an example written in JavaScript.
 
 ##### Sample code
