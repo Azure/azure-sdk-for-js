@@ -5,7 +5,7 @@ import { VSCodeCredentialFinder } from "../credentials/visualStudioCodeCredentia
 import { TokenCachePersistenceOptions } from "../msal/nodeFlows/tokenCachePersistenceOptions";
 
 /**
- * The type of an Azure Identity Plugin, a function accepting a plugin
+ * The type of an Azure Identity plugin, a function accepting a plugin
  * context.
  */
 export type IdentityPlugin = (context: unknown) => void;

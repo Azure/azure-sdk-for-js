@@ -1,6 +1,6 @@
 ## Azure Identity Plugin for Token Cache Persistence
 
-This package provides a plugin to the Azure Identity library for JavaScript ([`@azure/identity`](https://npmjs.com/package/@azure/identity)) that enables persistent token caching. Token cache persistence allows the built-in token cache to persist across sessions using a secure storage system provided by the local Operating System.
+This package provides a plugin to the Azure Identity library for JavaScript ([`@azure/identity`](https://npmjs.com/package/@azure/identity)) that enables persistent token caching. Token cache persistence allows the built-in token cache to persist across sessions using a secure storage system provided by the local operating system.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-cache-persistence) | [Samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity-cache-persistence/samples-dev)
 
@@ -28,7 +28,7 @@ $ npm install --save @azure/identity-cache-persistence
 
 #### Supported Environments
 
-Azure Identity plugins for JavaScript support stable (even numbered) versions of Node.js starting from v12. While it may run in other Node versions, no support is guaranteed. `@azure/identity-cache-persistence` **does not** support browser environments.
+Azure Identity plugins for JavaScript support stable (even numbered) versions of Node.js starting from v12. While the plugins may run in other Node versions, no support is guaranteed. `@azure/identity-cache-persistence` **does not** support browser environments.
 
 ## Key concepts
 

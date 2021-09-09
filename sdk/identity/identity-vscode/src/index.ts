@@ -10,7 +10,7 @@ import keytar from "keytar";
 const VSCodeServiceName = "VS Code Azure";
 
 /**
- * An plugin that provides the dependencies of `VisualStudioCodeCredential`
+ * A plugin that provides the dependencies of `VisualStudioCodeCredential`
  * and enables it within `@azure/identity`. The plugin API is compatible with
  * `@azure/identity` versions 2.0.0 and later. Load this plugin using the
  * `useIdentityPlugin` function, imported from `@azure/identity`.

@@ -6,7 +6,7 @@ import { msalNodeFlowCacheControl } from "../msal/nodeFlows/nodeCommon";
 import { vsCodeCredentialControl } from "../credentials/visualStudioCodeCredential";
 
 /**
- * The context passed to an Identity Plugin. This contains objects that
+ * The context passed to an Identity plugin. This contains objects that
  * plugins can use to set backend implementations.
  * @internal
  */
