@@ -31,7 +31,7 @@
     "build:es6": "tsc -p tsconfig.json",
     "build:nodebrowser": "echo skipped",
     "build:test": "echo skipped",
-    "build": "npm run clean && npm run extract-api && npm run build:es6 && npm run build:nodebrowser",
+    "build": " npm run extract-api && npm run build:es6 && npm run build:nodebrowser",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist-esm dist-test types *.tgz *.log samples/typescript/dist",
     "execute:js-samples": "echo skipped",
