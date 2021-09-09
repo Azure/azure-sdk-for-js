@@ -132,13 +132,15 @@ export function convertResponseForQueryBatch(
   };
   // compute status for failed or succeed or partial results
 
-  for (let i = 0; i < newResponse.results?.length; i++) {
-    if (newResponse.results[i].error && newResponse.results[i].tables) {
-      newResponse.results[i].status = "Partial";
-    } else if (newResponse.results[i].tables) {
-      newResponse.results[i].status = "Success";
+  const resultsCount = newResponse.results?.length ?? 0;
+  for (let i = 0; i < resultsCount; i++) {
+    const result = newResponse.results[i];
+    if (result.error && result.tables) {
+      result.status = "Partial";
+    } else if (result.tables) {
+       result.status = "Success";
     } else {
-      newResponse.results[i].status = "Failed";
+      result.status = "Failed";
     }
   }
   (newResponse as any)["__fixApplied"] = fixApplied;
