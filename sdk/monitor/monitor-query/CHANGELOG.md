@@ -19,7 +19,7 @@
 - Renamed `QueryLogsBatchResult` to `LogsQueryBatchResult`
 - Renamed `QueryMetricsResult` to `MetricsQueryResult`
 - Renamed `QueryLogsResult` to `LogsQueryResult`, `QueryLogsBatchOptions` to `LogsQueryBatchOptions`
-- Updated type for `timespan` property from `string` to `TimeInterval` type in `query` and `queryBatch`methods of`LogsQueryClient` and in `MetricsQueryResult` interface
+- Updated type for `timespan` property from `string` to `TimeInterval` type in `query` and `queryBatch` methods of `LogsQueryClient` and in `MetricsQueryResult` interface
 - Renamed `MetricColumn` to `LogsColumn` and `column` to `columnDescriptors` in `LogsTable` model
 - Renamed `displayDescription` property to `description` in `Metric` and `MetricNames`
 - Flattened the `metricNamespaceName` property for `MetricNamespace`
