@@ -104,17 +104,13 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
         throw new Error("Could not find 'name' of key in key URL");
       }
 
-      if (!parsed.version || parsed.version === "") {
-        throw new Error("Could not find 'version' of key in key URL");
-      }
-
       if (!parsed.vaultUrl || parsed.vaultUrl === "") {
         throw new Error("Could not find 'vaultUrl' of key in key URL");
       }
 
       this.vaultUrl = parsed.vaultUrl;
       this.name = parsed.name;
-      this.version = parsed.version;
+      this.version = parsed.version || "";
     } catch (err) {
       logger.error(err);
 

@@ -42,6 +42,14 @@ describe("internal crypto tests", () => {
         /not a valid Key Vault key ID/
       );
     });
+
+    it("allows version to be omitted", () => {
+      const client = new CryptographyClient(
+        "https://my.vault.azure.net/keys/keyId",
+        tokenCredential
+      );
+      assert.equal(client.vaultUrl, "https://my.vault.azure.net");
+    });
   });
 
   describe("with a KeyVault Key", () => {
