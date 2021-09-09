@@ -1008,7 +1008,7 @@ import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
 useIdentityPlugin(cachePersistencePlugin);
 ```
 
-After calling `useIdentityPlugin`, the persistent token cache extension is registered to the `@azure/identity` package and will be available on all credentials that support persistent token caching (those that have `tokenCachePersistenceOptions` in their constructor options).
+After calling `useIdentityPlugin`, the persistent token cache plugin is registered to the `@azure/identity` package and will be available on all credentials that support persistent token caching (those that have `tokenCachePersistenceOptions` in their constructor options).
 
 #### Persist the token cache
 

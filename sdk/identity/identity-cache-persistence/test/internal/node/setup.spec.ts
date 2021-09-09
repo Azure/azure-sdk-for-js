@@ -19,7 +19,7 @@ if (!process.versions.node.startsWith("14")) {
   process.exit(0);
 }
 
-// This shim is required to defer loading of msal-node-plugins in environments where
+// This shim is required to defer loading of @azure/msal-node-extensions in environments where
 // it will crash CI with an invalid Node API version.
 export const createPersistence: typeof import("../../../src/provider").createPersistence = (
   ...args

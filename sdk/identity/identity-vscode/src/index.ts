@@ -16,7 +16,7 @@ const VSCodeServiceName = "VS Code Azure";
  * `useIdentityPlugin` function, imported from `@azure/identity`.
  *
  * `VisualStudioCodeCredential` uses the authentication session from the "Azure
- * Account" plugin in VS Code.
+ * Account" extension in VS Code.
  *
  * To use this functionality, import `VisualStudioCodeCredential` or
  * `DefaultAzureCredential` from `@azure/identity`. If this plugin is not

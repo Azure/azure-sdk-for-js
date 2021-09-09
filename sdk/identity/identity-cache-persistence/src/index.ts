@@ -7,7 +7,7 @@ import { AzurePluginContext } from "../../identity/src/plugins/provider";
 import { createPersistenceCachePlugin } from "./provider";
 
 /**
- * An plugin that provides persistent token caching for `@azure/identity`
+ * A plugin that provides persistent token caching for `@azure/identity`
  * credentials. The plugin API is compatible with `@azure/identity` versions
  * 2.0.0 and later. Load this plugin using the `useIdentityPlugin`
  * function, imported from `@azure/identity`.
