@@ -1,6 +1,6 @@
 ### Guide
 
-1. Navigate to `sdk\servicebus\perf-tests\service-bus-track-1`
+1. Navigate to `sdk/servicebus/perf-tests/service-bus-track-1`.
 2. Do `rush update`.
 3. Run `npm run setup`.
 4. Create a service-bus namespace and populate the .env file with `SERVICEBUS_CONNECTION_STRING` variable.
