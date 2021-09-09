@@ -446,7 +446,7 @@ The metrics query API returns a `QueryMetricsResult` object. The `QueryMetricsRe
 ```
 QueryMetricsResult
 |---cost
-|---timespan
+|---timespan (of type `TimeInterval`)
 |---granularity
 |---namespace
 |---resourceRegion
@@ -460,6 +460,12 @@ QueryMetricsResult
     |---timeseries (list of `TimeSeriesElement` objects)
         |---metadataValues
         |---data (list of data points represented by `MetricValue` objects)
+            |---timeStamp
+            |---average
+            |---minimum
+            |---maximum
+            |---total
+            |---count
 |---getMetricByName(metricName): Metric | undefined (convenience method)
 ```
 
