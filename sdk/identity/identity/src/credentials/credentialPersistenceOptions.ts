@@ -11,18 +11,18 @@ export interface CredentialPersistenceOptions {
   /**
    * Options to provide to the persistence layer (if one is available) when
    * storing credentials.
-   * 
+   *
    * You must first register a persistence provider plugin. See the
    * `@azure/identity-cache-persistence` package on NPM.
-   * 
+   *
    * Example:
-   * 
+   *
    * ```typescript
    * import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
    * import { useIdentityPlugin, DeviceCodeCredential } from "@azure/identity";
-   * 
+   *
    * useIdentityPlugin(cachePersistencePlugin);
-   * 
+   *
    * async function main() {
    *   const credential = new DeviceCodeCredential({
    *     tokenCachePersistenceOptions: {
@@ -30,7 +30,7 @@ export interface CredentialPersistenceOptions {
    *     }
    *   });
    * }
-   * 
+   *
    * main().catch((error) => {
    *   console.error("An error occured:", error);
    *   process.exit(1);
