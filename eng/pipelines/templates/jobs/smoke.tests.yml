@@ -142,10 +142,7 @@ jobs:
           $packageOverrides += (dir env: | Where-Object { $_.Name.StartsWith("SMOKE_PACKAGE_") }).Value
 
           $packageArtifact = Get-ChildItem $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{parameters.Artifact.name}}/*.tgz
-          if (($packageArtifact.count -ne 1) -Or ($packageArtifact.name[0] -notmatch "${{parameters.Artifact.name}}")) {
-            Write-Host $packageArtifact.count
-            Write-Host $packageArtifact.name[0]
-            Write-Host "${{parameters.Artifact.name}}"
+          if (($packageArtifact.count -ne 1) -Or ($packageArtifact.name -notmatch "${{parameters.Artifact.name}}")) {
             Write-Host "Can't find package ${{parameters.Artifact.name}}"
             exit 1
           }
