@@ -6,7 +6,7 @@ import {
   PerfStressOptionDictionary,
   PerfStressTest
 } from "@azure/test-utils-perfstress";
-import { EventHubProducerClient, EventData } from "../../../src";
+import { EventHubProducerClient, EventData } from "@azure/event-hubs";
 
 // Expects the .env file at the same level as the "test" folder
 import * as dotenv from "dotenv";

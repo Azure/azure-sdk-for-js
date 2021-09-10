@@ -82,12 +82,14 @@ dependencies:
   '@rush-temp/perf-app-configuration': file:projects/perf-app-configuration.tgz
   '@rush-temp/perf-core-rest-pipeline': file:projects/perf-core-rest-pipeline.tgz
   '@rush-temp/perf-data-tables': file:projects/perf-data-tables.tgz
+  '@rush-temp/perf-event-hubs': file:projects/perf-event-hubs.tgz
   '@rush-temp/perf-eventgrid': file:projects/perf-eventgrid.tgz
   '@rush-temp/perf-identity': file:projects/perf-identity.tgz
   '@rush-temp/perf-keyvault-certificates': file:projects/perf-keyvault-certificates.tgz
   '@rush-temp/perf-keyvault-keys': file:projects/perf-keyvault-keys.tgz
   '@rush-temp/perf-keyvault-secrets': file:projects/perf-keyvault-secrets.tgz
   '@rush-temp/perf-search-documents': file:projects/perf-search-documents.tgz
+  '@rush-temp/perf-service-bus': file:projects/perf-service-bus.tgz
   '@rush-temp/perf-storage-blob': file:projects/perf-storage-blob.tgz
   '@rush-temp/perf-storage-file-datalake': file:projects/perf-storage-file-datalake.tgz
   '@rush-temp/perf-storage-file-share': file:projects/perf-storage-file-share.tgz
@@ -10539,7 +10541,7 @@ packages:
     dev: false
     name: '@rush-temp/eventgrid'
     resolution:
-      integrity: sha512-Ztvxdc1a/BSN8OplIn88u+miQQ7RXvF3unoe4XEU8N/crvHDzU8vLfwVgYY6z/0bcMylG54f93yrZN8RPQpXNg==
+      integrity: sha512-Jrr8B6Kywqflk+Fymq8MZxvcOmurDBXM1CUCHWnXd0LfnmriKX+/l6Vt6uWoQ0gvxZhf2X2XLZb/PtQT4Rh6RQ==
       tarball: file:projects/eventgrid.tgz
     version: 0.0.0
   file:projects/eventhubs-checkpointstore-blob.tgz:
@@ -11414,6 +11416,25 @@ packages:
       integrity: sha512-g4FRGr8Z+8vNBR9DdYBnTdG1RcbnfziJHkK5CuzPxmETBsphN6Xz/mYCxPxurBbedchx/6Jj26hV0CRl9aFWTA==
       tarball: file:projects/perf-data-tables.tgz
     version: 0.0.0
+  file:projects/perf-event-hubs.tgz:
+    dependencies:
+      '@types/node': 12.20.23
+      '@types/uuid': 8.3.1
+      dotenv: 8.6.0
+      eslint: 7.32.0
+      moment: 2.29.1
+      prettier: 1.19.1
+      rimraf: 3.0.2
+      ts-node: 9.1.1_typescript@4.2.4
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uuid: 8.3.2
+    dev: false
+    name: '@rush-temp/perf-event-hubs'
+    resolution:
+      integrity: sha512-OnOQvfhIlrf2b8w1yQnDQbEiNrUtEUxbLN0CuiGJ3usTNaO6fG9TGKyuW1UKGtSSguDNJFE2mOkQzbIHCmoUgg==
+      tarball: file:projects/perf-event-hubs.tgz
+    version: 0.0.0
   file:projects/perf-eventgrid.tgz:
     dependencies:
       '@types/node': 12.20.21
@@ -11518,6 +11539,24 @@ packages:
     resolution:
       integrity: sha512-VTTCMcAvAZ9/7XurfiFIqnNtrosScqFV8h35jy4ae2u9Dy1fG0YmmUQlVEemNGWrlUNhKMhL8kr7fi6kuytkpg==
       tarball: file:projects/perf-search-documents.tgz
+    version: 0.0.0
+  file:projects/perf-service-bus.tgz:
+    dependencies:
+      '@types/node': 12.20.23
+      '@types/uuid': 8.3.1
+      dotenv: 8.6.0
+      eslint: 7.32.0
+      prettier: 1.19.1
+      rimraf: 3.0.2
+      ts-node: 9.1.1_typescript@4.2.4
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uuid: 8.3.2
+    dev: false
+    name: '@rush-temp/perf-service-bus'
+    resolution:
+      integrity: sha512-V+r3hprkPc0/8gx80uwFeFukghkN2N6aKeYLKtrk2XI7T0YO3VwfGLNQoNgXO6PTFF1BFPMS7rZrDi0FeCi9HQ==
+      tarball: file:projects/perf-service-bus.tgz
     version: 0.0.0
   file:projects/perf-storage-blob.tgz:
     dependencies:
@@ -13015,12 +13054,14 @@ specifiers:
   '@rush-temp/perf-app-configuration': file:./projects/perf-app-configuration.tgz
   '@rush-temp/perf-core-rest-pipeline': file:./projects/perf-core-rest-pipeline.tgz
   '@rush-temp/perf-data-tables': file:./projects/perf-data-tables.tgz
+  '@rush-temp/perf-event-hubs': file:./projects/perf-event-hubs.tgz
   '@rush-temp/perf-eventgrid': file:./projects/perf-eventgrid.tgz
   '@rush-temp/perf-identity': file:./projects/perf-identity.tgz
   '@rush-temp/perf-keyvault-certificates': file:./projects/perf-keyvault-certificates.tgz
   '@rush-temp/perf-keyvault-keys': file:./projects/perf-keyvault-keys.tgz
   '@rush-temp/perf-keyvault-secrets': file:./projects/perf-keyvault-secrets.tgz
   '@rush-temp/perf-search-documents': file:./projects/perf-search-documents.tgz
+  '@rush-temp/perf-service-bus': file:./projects/perf-service-bus.tgz
   '@rush-temp/perf-storage-blob': file:./projects/perf-storage-blob.tgz
   '@rush-temp/perf-storage-file-datalake': file:./projects/perf-storage-file-datalake.tgz
   '@rush-temp/perf-storage-file-share': file:./projects/perf-storage-file-share.tgz

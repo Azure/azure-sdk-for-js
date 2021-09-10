@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
-import { ServiceBusMessage, ServiceBusSender } from "../../../src";
+import { SendableMessageInfo } from "@azure/service-bus";
 import { ServiceBusTest } from "./sbBase.spec";
 
 interface SendTestOptions {
@@ -11,8 +11,8 @@ interface SendTestOptions {
 }
 
 export class BatchSendTest extends ServiceBusTest<SendTestOptions> {
-  static sender: ServiceBusSender = ServiceBusTest.sbClient.createSender(BatchSendTest.queueName);
-  batch: ServiceBusMessage[];
+  static sender = ServiceBusTest.sbClient.createQueueClient(BatchSendTest.queueName).createSender();
+  batch: SendableMessageInfo[];
   public options: PerfStressOptionDictionary<SendTestOptions> = {
     messageBodySize: {
       required: true,
@@ -39,6 +39,6 @@ export class BatchSendTest extends ServiceBusTest<SendTestOptions> {
   }
 
   async runAsync(): Promise<void> {
-    await BatchSendTest.sender.sendMessages(this.batch);
+    await BatchSendTest.sender.sendBatch(this.batch);
   }
 }
