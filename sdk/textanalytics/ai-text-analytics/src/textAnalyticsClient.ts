@@ -391,13 +391,13 @@ export class TextAnalyticsClient {
    */
   private readonly client: GeneratedClient;
 
-  isBrowser(): boolean {
-    try {
-      return typeof self !== "undefined";
-    } catch (e) {
-      return false;
-    }
-  }
+  // isBrowser(): boolean {
+  //   try {
+  //     return typeof self !== "undefined";
+  //   } catch (e) {
+  //     return false;
+  //   }
+  // }
 
   /**
    * Creates an instance of TextAnalyticsClient.
@@ -437,22 +437,22 @@ export class TextAnalyticsClient {
 
     this.client = new GeneratedClient(this.endpointUrl, internalPipelineOptions);
 
-    let scopes;
-    const env = this.isBrowser() ? (self as any).__env__ : process.env;
+    // let scopes;
+    // const env = this.isBrowser() ? (self as any).__env__ : process.env;
 
-    switch (env["AZURE_AUTHORITY_HOST"]) {
-      case "https://login.microsoftonline.us":
-        scopes = "https://cognitiveservices.azure.us/.default";
-        break;
-      case "https://login.chinacloudapi.cn":
-        scopes = "https://cognitiveservices.azure.cn/.default";
-        break;
-      default:
-        scopes = DEFAULT_COGNITIVE_SCOPE;
-    }
+    // switch (env["AZURE_AUTHORITY_HOST"]) {
+    //   case "https://login.microsoftonline.us":
+    //     scopes = "https://cognitiveservices.azure.us/.default";
+    //     break;
+    //   case "https://login.chinacloudapi.cn":
+    //     scopes = "https://cognitiveservices.azure.cn/.default";
+    //     break;
+    //   default:
+    //     scopes = DEFAULT_COGNITIVE_SCOPE;
+    // }
 
     const authPolicy = isTokenCredential(credential)
-      ? bearerTokenAuthenticationPolicy({ credential, scopes: scopes })
+      ? bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_COGNITIVE_SCOPE })
       : textAnalyticsAzureKeyCredentialPolicy(credential);
 
     this.client.pipeline.addPolicy(authPolicy);
