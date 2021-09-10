@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 export const SDK_VERSION: string = "12.7.0";
-export const SERVICE_VERSION: string = "2020-08-04";
+export const SERVICE_VERSION: string = "2020-10-02";
 
 /**
  * The OAuth scope to use with Azure Storage.
