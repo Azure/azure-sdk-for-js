@@ -55,10 +55,10 @@
         "sdk/identity/identity/test/azure-identity-test.crt",
         "sdk/keyvault/keyvault-certificates/ca.key",
         "sdk/identity/identity/assets/fake-cert.pem",
-        "sdk/storage/storage-blob/test/utils/constants.ts",
-        "sdk/servicebus/service-bus/test/public/testConstants.ts",
-        "sdk/cosmosdb/cosmos/test/public/common/_testConfig.ts",
-        "sdk/tables/data-tables/test/internal/testConstants.ts"
+        "sdk/storage/storage-blob/test/utils/fakeTestSecrets.ts",
+        "sdk/servicebus/service-bus/test/public/fakeTestSecrets.ts",
+        "sdk/cosmosdb/cosmos/test/public/common/_fakeTestSecrets.ts",
+        "sdk/tables/data-tables/test/internal/fakeTestSecrets.ts"
       ],
       "_justification": "File contains private key used by test code."
     }
