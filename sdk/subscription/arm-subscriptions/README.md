@@ -50,7 +50,7 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 // Use `DefaultAzureCredential` or any other credential of your choice based on https://aka.ms/azsdk/js/identity/examples
 // Please note that you can also use credentials from the `@azure/ms-rest-nodeauth` package instead.
 const creds = new DefaultAzureCredential();
-const client = new SubscriptionClient(creds, subscriptionId);
+const client = new SubscriptionClient(creds);
 client.subscriptions.listLocations(subscriptionId).then((result) => {
   console.log("The result is:");
   console.log(result);
@@ -87,7 +87,7 @@ In browser applications, we recommend using the `InteractiveBrowserCredential` t
         clientId: "<client id for your Azure AD app>",
         tenantId: "<optional tenant for your organization>"
       });
-      const client = new Azure.ArmSubscriptions.SubscriptionClient(creds, subscriptionId);
+      const client = new Azure.ArmSubscriptions.SubscriptionClient(creds);
       client.subscriptions.listLocations(subscriptionId).then((result) => {
         console.log("The result is:");
         console.log(result);
