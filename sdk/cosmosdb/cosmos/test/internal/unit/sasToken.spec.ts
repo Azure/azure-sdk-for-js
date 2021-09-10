@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 import assert from "assert";
 import { CosmosClient } from "../../../dist-esm/";
-import { endpoint, masterKey, userSasTokenKey } from "../../public/common/_testConfig";
+import { endpoint } from "../../public/common/_testConfig";
+import { masterKey, userSasTokenKey } from "../../public/common/_fakeTestSecrets";
 import { SasTokenPermissionKind } from "../../../dist-esm/common";
 import { createAuthorizationSasToken } from "../../../dist-esm/utils/SasToken";
 import { SasTokenProperties } from "../../../dist-esm/client/SasToken/SasTokenProperties";

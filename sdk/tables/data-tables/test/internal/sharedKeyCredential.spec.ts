@@ -14,7 +14,7 @@ import { assert } from "chai";
 
 import { tablesNamedKeyCredentialPolicy } from "../../src/tablesNamedCredentialPolicy";
 import { AzureNamedKeyCredential } from "@azure/core-auth";
-import { expectedSharedKeyLiteHeader } from "./testConstants";
+import { expectedSharedKeyLiteHeader } from "./fakeTestSecrets";
 
 describe("TablesSharedKeyCredential", () => {
   let originalToUTCString: () => string;

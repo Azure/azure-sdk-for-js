@@ -24,7 +24,7 @@ import {
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { isPlaybackMode, record, Recorder } from "@azure-tools/test-recorder";
-import { Test_CPK_INFO } from "../utils/constants";
+import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
 import { Context } from "mocha";
 dotenv.config();
 
