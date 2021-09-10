@@ -34,7 +34,7 @@
 /sdk/batch/ @dpwatrous @paterasMSFT @zfengms @deyaaeldeen
 
 # PRLabel: %Communication
-/sdk/communication/communication-identity/ @petrsvihlik @martinbarnas-ms
+/sdk/communication/communication-identity/ @Azure/acs-identity-sdk 
 /sdk/communication/communication-chat/ @LuChen-Microsoft
 /sdk/communication/communication-phone-numbers/ @miguhern
 /sdk/communication/communication-network-traversal/ @AriZavala2
