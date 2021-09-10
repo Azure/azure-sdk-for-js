@@ -66,6 +66,7 @@ export interface ErrorInfo extends Error {
   additionalProperties?: Record<string, unknown>;
 }
 
+/** Batch Error class */
 export class BatchError extends Error implements ErrorInfo {
   /** A machine readable error code. */
   code: string;
@@ -88,6 +89,7 @@ export class BatchError extends Error implements ErrorInfo {
     this.additionalProperties = errorInfo.additionalProperties;
   }
 }
+/** AggregateBatchError class */
 export class AggregateBatchError extends Error {
   errors: BatchError[];
   constructor(errors: ErrorInfo[]) {

@@ -115,6 +115,16 @@ export interface MetricsQueryResult {
   getMetricByName(metricName: string): Metric | undefined;
 }
 
+export function getMetricByName(this: MetricsQueryResult, metricName: string) {
+  return this.metrics.find((it) => it.name === metricName);
+}
+
+export function createMetricsQueryResult({
+  ...params
+}: Omit<MetricsQueryResult, "getMetricByName">): MetricsQueryResult {
+  return { ...params, getMetricByName };
+}
+
 /**
  * Options used when getting metric definitions.
  */
