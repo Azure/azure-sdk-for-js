@@ -1,7 +1,7 @@
 {
   "name": "@azure/storage-file-share",
   "sdk-type": "client",
-  "version": "12.8.0-beta.2",
+  "version": "12.8.0",
   "description": "Microsoft Azure Storage SDK for JavaScript - File",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
@@ -122,7 +122,7 @@
     "tslib": "^2.2.0"
   },
   "devDependencies": {
-    "@azure/storage-blob": "^12.8.0-beta.1",
+    "@azure/storage-blob": "^12.8.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/test-utils": "^1.0.0",

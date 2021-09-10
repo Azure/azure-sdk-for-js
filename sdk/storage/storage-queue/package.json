@@ -1,7 +1,7 @@
 {
   "name": "@azure/storage-queue",
   "sdk-type": "client",
-  "version": "12.7.0",
+  "version": "12.7.1",
   "description": "Microsoft Azure Storage SDK for JavaScript - Queue",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",

@@ -7,7 +7,6 @@
 import { CommonClientOptions } from '@azure/core-client';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PipelineOptions } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -38,11 +37,11 @@ export interface ErrorDetail {
 }
 
 // @public
-export interface ErrorInfo {
+export interface ErrorInfo extends Error {
     additionalProperties?: Record<string, unknown>;
     code: string;
     details?: ErrorDetail[];
-    innererror?: ErrorInfo;
+    innerError?: ErrorInfo;
     message: string;
 }
 
@@ -66,15 +65,16 @@ export interface LogsColumn {
 export type LogsColumnType = string;
 
 // @public
-export type LogsQueryBatchOptions = OperationOptions;
+export interface LogsQueryBatchOptions extends OperationOptions {
+    throwOnAnyFailure?: boolean;
+}
 
 // @public
 export interface LogsQueryBatchResult {
-    results?: {
-        id?: string;
-        status?: number;
+    results: {
         tables?: LogsTable[];
         error?: ErrorInfo;
+        status?: LogsQueryResultStatus;
         statistics?: Record<string, unknown>;
         visualization?: Record<string, unknown>;
     }[];
@@ -101,19 +101,24 @@ export interface LogsQueryOptions extends OperationOptions {
     includeQueryStatistics?: boolean;
     includeVisualization?: boolean;
     serverTimeoutInSeconds?: number;
+    throwOnAnyFailure?: boolean;
 }
 
 // @public
 export interface LogsQueryResult {
     error?: ErrorInfo;
     statistics?: Record<string, unknown>;
+    status: LogsQueryResultStatus;
     tables: LogsTable[];
     visualization?: Record<string, unknown>;
 }
 
 // @public
+export type LogsQueryResultStatus = "Partial" | "Success" | "Failed";
+
+// @public
 export interface LogsTable {
-    columns: LogsColumn[];
+    columnDescriptors: LogsColumn[];
     name: string;
     rows: (Date | string | number | Record<string, unknown> | boolean)[][];
 }
@@ -128,6 +133,7 @@ export interface MetadataValue {
 export interface Metric {
     description?: string;
     errorCode?: string;
+    errorMessage?: string;
     id: string;
     name: string;
     timeseries: TimeSeriesElement[];
@@ -171,7 +177,7 @@ export interface MetricNamespace {
 }
 
 // @public
-export interface MetricsClientOptions extends PipelineOptions {
+export interface MetricsClientOptions extends CommonClientOptions {
     endpoint?: string;
 }
 
@@ -199,11 +205,12 @@ export interface MetricsQueryOptions extends OperationOptions {
 // @public
 export interface MetricsQueryResult {
     cost?: number;
+    getMetricByName(metricName: string): Metric | undefined;
     granularity?: string;
     metrics: Metric[];
     namespace?: string;
     resourceRegion?: string;
-    timespan: string;
+    timespan: TimeInterval;
 }
 
 // @public
@@ -229,7 +236,7 @@ export interface QueryBatch {
     includeVisualization?: boolean;
     query: string;
     serverTimeoutInSeconds?: number;
-    timespan?: TimeInterval;
+    timespan: TimeInterval;
     workspaceId: string;
 }
 

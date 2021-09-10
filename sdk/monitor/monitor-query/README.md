@@ -127,16 +127,6 @@ Each set of metric values is a time series with the following characteristics:
 
 The [`MetricsQueryClient`][msdocs_metrics_client] allows you to query metrics.
 
-#### Resource URI of a resource
-
-The resource URI must be that of the resource for which metrics are being queried. It's normally of the format `/subscriptions/<id>/resourceGroups/<rg-name>/providers/<source>/topics/<resource-name>`.
-
-To find the resource URI:
-
-1. Navigate to your resource's page in the Azure portal.
-2. From the **Overview** blade, select the **JSON View** link.
-3. In the resulting JSON, copy the value of the `id` property.
-
 ## Examples
 
 ### Querying logs
@@ -147,7 +137,6 @@ You can use the `Durations` constants provided for some commonly used ISO8601 du
 ```ts
 const { LogsQueryClient, Durations } = require("@azure/monitor-query");
 const { DefaultAzureCredential } = require("@azure/identity");
-g;
 
 const azureLogAnalyticsWorkspaceId = "<the Workspace Id for your Azure Log Analytics resource>";
 const logsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
@@ -167,7 +156,7 @@ async function run() {
   console.log(`Results for query '${kustoQuery}'`);
 
   for (const table of tablesFromResult) {
-    const columnHeaderString = table.columns
+    const columnHeaderString = table.columnDescriptors
       .map((column) => `${column.name}(${column.type}) `)
       .join("| ");
     console.log("| " + columnHeaderString);
@@ -190,12 +179,13 @@ Here is a hierarchy of the response:
 ```
 LogsQueryResult
 |---statistics
-|---visalization
+|---visualization
 |---error
+|---status ("Partial" | "Success" | "Failed")
 |---tables (list of `LogsTable` objects)
     |---name
     |---rows
-    |---columns (list of `LogsColumn` objects)
+    |---columnDescriptors (list of `LogsColumn` objects)
         |---name
         |---type
 ```
@@ -205,7 +195,7 @@ So, to handle a response with tables,
 ```ts
 const tablesFromResult = result.tables;
 for (const table of tablesFromResult) {
-  const columnHeaderString = table.columns
+  const columnHeaderString = table.columnDescriptors
     .map((column) => `${column.name}(${column.type}) `)
     .join("| ");
   console.log("| " + columnHeaderString);
@@ -250,10 +240,12 @@ export async function main() {
 
   const tokenCredential = new DefaultAzureCredential();
   const logsQueryClient = new LogsQueryClient(tokenCredential);
-  const queriesBatch: QueryBatch[] = [
+
+  const kqlQuery = "AppEvents | project TimeGenerated, Name, AppRoleInstance | limit 1";
+  const queriesBatch = [
     {
       workspaceId: monitorWorkspaceId,
-      query: "AppEvents | project TimeGenerated, Name, AppRoleInstance | limit 1",
+      query: kqlQuery,
       timespan: { duration: "P1D" }
     },
     {
@@ -276,16 +268,17 @@ export async function main() {
   ];
 
   const result = await logsQueryClient.queryBatch(queriesBatch);
+
   if (result.results == null) {
     throw new Error("No response for query");
   }
 
   let i = 0;
   for (const response of result.results) {
-    console.log(`Results for query with id: ${response.id}`);
+    console.log(`Results for query with query: ${queriesBatch[i]}`);
 
     if (response.error) {
-      console.log(`Query had errors:`, response.error);
+      console.log(` Query had errors:`, response.error);
     } else {
       if (response.tables == null) {
         console.log(`No results for query`);
@@ -295,7 +288,7 @@ export async function main() {
         );
 
         for (const table of response.tables) {
-          const columnHeaderString = table.columns
+          const columnHeaderString = table.columnDescriptors
             .map((column) => `${column.name}(${column.type}) `)
             .join("| ");
           console.log(columnHeaderString);
@@ -322,33 +315,37 @@ Here is a hierarchy of the response:
 ```
 LogsQueryBatchResult
 |---results (list of following objects)
-    |---id
-    |---status
     |---statistics
-    |---visalization
+    |---visualization
     |---error
+    |---status ("Partial" | "Success" | "Failed")
     |---tables (list of `LogsTable` objects)
         |---name
         |---rows
-        |---columns (list of `LogsColumn` objects)
+        |---columnDescriptors (list of `LogsColumn` objects)
             |---name
             |---type
 ```
 
-To handle a batch response,
+To handle a batch response:
 
 ```ts
+let i = 0;
 for (const response of result.results) {
-  console.log(`Results for query with id: ${response.id}`);
+  console.log(`Results for query with query: ${queriesBatch[i]}`);
 
   if (response.error) {
-    console.log(`Query had errors:`, response.error);
+    console.log(` Query had errors:`, response.error);
   } else {
     if (response.tables == null) {
       console.log(`No results for query`);
     } else {
+      console.log(
+        `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
+      );
+
       for (const table of response.tables) {
-        const columnHeaderString = table.columns
+        const columnHeaderString = table.columnDescriptors
           .map((column) => `${column.name}(${column.type}) `)
           .join("| ");
         console.log(columnHeaderString);
@@ -360,14 +357,25 @@ for (const response of result.results) {
       }
     }
   }
+  // next query
+  i++;
 }
 ```
 
 A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQueryBatch.ts)
 
+For information on request throttling at the Log Analytics service level, see [Rate limits](https://dev.loganalytics.io/documentation/Using-the-API/Limits).
+
 ### Query metrics
 
-The following example gets metrics for an [Azure Metrics Advisor](https://docs.microsoft.com/azure/applied-ai-services/metrics-advisor/overview) subscription. The resource URI is that of a Metrics Advisor resource.
+The following example gets metrics for an [Azure Metrics Advisor](https://docs.microsoft.com/azure/applied-ai-services/metrics-advisor/overview) subscription.
+The resource URI must be that of the resource for which metrics are being queried. It's normally of the format `/subscriptions/<id>/resourceGroups/<rg-name>/providers/<source>/topics/<resource-name>`.
+
+To find the resource URI:
+
+1. Navigate to your resource's page in the Azure portal.
+2. From the **Overview** blade, select the **JSON View** link.
+3. In the resulting JSON, copy the value of the `id` property.
 
 ```ts
 import { DefaultAzureCredential } from "@azure/identity";
@@ -386,31 +394,39 @@ export async function main() {
     throw new Error("METRICS_RESOURCE_ID must be set in the environment for this sample");
   }
 
-  const result = await metricsQueryClient.getMetricDefinitions(metricsResourceId);
-
-  for (const definition of result.definitions) {
-    console.log(`Definition = ${definition.name}`);
-  }
-
-  const firstMetric = result.definitions[0];
-
-  console.log(`Picking an example metric to query: ${firstMetric.name}`);
-
-  const metricsResponse = await metricsQueryClient.queryMetrics(
-    metricsResourceId,
-    { duration: Durations.FiveMinutes },
-    {
-      metricNames: [firstMetric.name!],
-      interval: "PT1M"
+  const iterator = metricsQueryClient.listMetricDefinitions(metricsResourceId);
+  let result = await iterator.next();
+  let metricNames: string[] = [];
+  for await (const result of iterator) {
+    console.log(` metricDefinitions - ${result.id}, ${result.name}`);
+    if (result.name) {
+      metricNames.push(result.name);
     }
-  );
+  }
+  const firstMetricName = metricNames[0];
+  const secondMetricName = metricNames[1];
+  if (firstMetricName && secondMetricName) {
+    console.log(`Picking an example metric to query: ${firstMetricName} and ${secondMetricName}`);
+    const metricsResponse = await metricsQueryClient.query(
+      metricsResourceId,
+      [firstMetricName, secondMetricName],
+      {
+        granularity: "PT1M",
+        timespan: { duration: Durations.FiveMinutes }
+      }
+    );
 
-  console.log(
-    `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.interval}, time span: ${metricsResponse.timespan}`
-  );
+    console.log(
+      `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.granularity}, time span: ${metricsResponse.timespan}`
+    );
 
-  const metrics: Metric[] = metricsResponse.metrics;
-  console.log(`Metrics:`, JSON.stringify(metrics, undefined, 2));
+    const metrics: Metric[] = metricsResponse.metrics;
+    console.log(`Metrics:`, JSON.stringify(metrics, undefined, 2));
+    const metric = metricsResponse.getMetricByName(firstMetricName);
+    console.log(`Selected Metric: ${firstMetricName}`, JSON.stringify(metric, undefined, 2));
+  } else {
+    console.error(`Metric names are not defined - ${firstMetricName} and ${secondMetricName}`);
+  }
 }
 
 main().catch((err) => {
@@ -419,6 +435,8 @@ main().catch((err) => {
 });
 ```
 
+In the preceding sample, the ordering of results for the metrics in the `metricResponse` will be in the order in which the user specifies the metric names in the `metricNames` array argument for the query method. If user specifies `[firstMetricName,secondMetricName]`, the result for `firstMetricName` will appear before the result for `secondMetricName` in the `metricResponse`.
+
 ### Handle metrics response
 
 The metrics query API returns a `QueryMetricsResult` object. The `QueryMetricsResult` object contains properties such as a list of `Metric`-typed objects, `interval`, `namespace`, and `timespan`. The `Metric` objects list can be accessed using the `metrics` property. Each `Metric` object in this list contains a list of `TimeSeriesElement` objects. Each `TimeSeriesElement` contains `data` and `metadataValues` properties. In visual form, the object hierarchy of the response resembles the following structure:
@@ -426,8 +444,8 @@ The metrics query API returns a `QueryMetricsResult` object. The `QueryMetricsRe
 ```
 QueryMetricsResult
 |---cost
-|---timespan
-|---interval
+|---timespan (of type `TimeInterval`)
+|---granularity
 |---namespace
 |---resourceRegion
 |---metrics (list of `Metric` objects)
@@ -440,6 +458,13 @@ QueryMetricsResult
     |---timeseries (list of `TimeSeriesElement` objects)
         |---metadataValues
         |---data (list of data points represented by `MetricValue` objects)
+            |---timeStamp
+            |---average
+            |---minimum
+            |---maximum
+            |---total
+            |---count
+|---getMetricByName(metricName): Metric | undefined (convenience method)
 ```
 
 #### Example of handling response
@@ -459,7 +484,7 @@ export async function main() {
     throw new Error("METRICS_RESOURCE_ID must be set in the environment for this sample");
   }
 
-  console.log(`Picking an example metric to query: ${firstMetric.name}`);
+  console.log(`Picking an example metric to query: ${firstMetricName}`);
 
   const metricsResponse = await metricsQueryClient.queryMetrics(
     metricsResourceId,
@@ -515,13 +540,26 @@ const queryLogsOptions: LogsQueryOptions = {
   additionalWorkspaces: ["<workspace2>", "<workspace3>"]
 };
 
-const kustoQuery = "AppEvents | limit 1";
+const kustoQuery = "AppEvents | limit 10";
 const result = await logsQueryClient.queryLogs(
   azureLogAnalyticsWorkspaceId,
   kustoQuery,
   { duration: Durations.TwentyFourHours },
   queryLogsOptions
 );
+```
+
+To view the results for each workspace, use the `TenantId` column to either order the results or filter them in the Kusto query.
+**Order results by TenantId**
+
+```
+AppEvents | order by TenantId
+```
+
+**Filter results by TenantId**
+
+```
+AppEvents | filter TenantId == "<workspace2>"
 ```
 
 A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQueryMultipleWorkspaces.ts)

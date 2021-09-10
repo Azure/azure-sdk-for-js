@@ -22,7 +22,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a AzureFirewallFqdnTags. */
+/** Class containing AzureFirewallFqdnTags operations. */
 export class AzureFirewallFqdnTagsImpl implements AzureFirewallFqdnTags {
   private readonly client: NetworkManagementClientContext;
 

@@ -18,7 +18,7 @@ import {
   MetadataPostResponse
 } from "../models";
 
-/** Class representing a Metadata. */
+/** Class containing Metadata operations. */
 export class MetadataImpl implements Metadata {
   private readonly client: AzureLogAnalyticsContext;
 

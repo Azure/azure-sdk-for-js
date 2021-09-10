@@ -16,7 +16,7 @@ import {
   MetricDefinitionsListResponse
 } from "../models";
 
-/** Class representing a MetricDefinitions. */
+/** Class containing MetricDefinitions operations. */
 export class MetricDefinitionsImpl implements MetricDefinitions {
   private readonly client: MonitorManagementClientContext;
 

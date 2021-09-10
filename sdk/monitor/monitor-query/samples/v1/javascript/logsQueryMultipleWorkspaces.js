@@ -35,13 +35,13 @@ async function main() {
     additionalWorkspaces: [additionalWorkspaces1, additionalWorkspaces2]
   };
 
-  const result = await logsQueryClient.queryLogs(
+  const result = await logsQueryClient.query(
     monitorWorkspaceId,
     kustoQuery,
     // The timespan is an ISO8601 formatted time (or interval). Some common aliases
-    // are available (like lastDay, lastHour, last48Hours, etc..) but any properly formatted ISO8601
+    // are available (like durationOf1Day, durationOf1Hour, durationOf48Hours, etc..) but any properly formatted ISO8601
     // value is valid.
-    Durations.lastHour,
+    { duration: Durations.OneHour },
     queryLogsOptions
   );
 
@@ -62,7 +62,7 @@ async function main() {
   );
 
   for (const table of tablesFromResult) {
-    const columnHeaderString = table.columns
+    const columnHeaderString = table.columnDescriptors
       .map((column) => `${column.name}(${column.type}) `)
       .join("| ");
     console.log("| " + columnHeaderString);
