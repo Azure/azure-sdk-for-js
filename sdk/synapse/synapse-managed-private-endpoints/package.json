@@ -3,7 +3,7 @@
   "author": "Microsoft Corporation",
   "description": "A generated SDK for ManagedPrivateEndpointsClient.",
   "sdk-type": "client",
-  "version": "1.0.0-beta.4",
+  "version": "1.0.0-beta.5",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/synapse/synapse-managed-private-endpoints/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
   "dependencies": {
