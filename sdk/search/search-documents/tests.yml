@@ -5,3 +5,4 @@ stages:
     parameters:
       PackageName: "@azure/search-documents"
       ServiceDirectory: search
+      SupportedClouds: 'Public,UsGov,China'
