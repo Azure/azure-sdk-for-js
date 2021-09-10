@@ -51,8 +51,7 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 // Please note that you can also use credentials from the `@azure/ms-rest-nodeauth` package instead.
 const creds = new DefaultAzureCredential();
 const client = new SubscriptionClient(creds, subscriptionId);
-const testSubscriptionId = "testsubscriptionId";
-client.subscriptions.listLocations(testSubscriptionId).then((result) => {
+client.subscriptions.listLocations(subscriptionId).then((result) => {
   console.log("The result is:");
   console.log(result);
 }).catch((err) => {
@@ -89,8 +88,7 @@ In browser applications, we recommend using the `InteractiveBrowserCredential` t
         tenantId: "<optional tenant for your organization>"
       });
       const client = new Azure.ArmSubscriptions.SubscriptionClient(creds, subscriptionId);
-      const testSubscriptionId = "testsubscriptionId";
-      client.subscriptions.listLocations(testSubscriptionId).then((result) => {
+      client.subscriptions.listLocations(subscriptionId).then((result) => {
         console.log("The result is:");
         console.log(result);
       }).catch((err) => {
