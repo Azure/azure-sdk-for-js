@@ -2,13 +2,13 @@
 
 ## 2.0.0-beta.7 (Unreleased)
 
- ### Features Added
+### Features Added
 
- ### Breaking Changes
+### Breaking Changes
 
- ### Bugs Fixed
+### Bugs Fixed
 
- ### Other Changes
+### Other Changes
 
 ## 2.0.0-beta.6 (2021-09-09)
 
