@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import https from "https";
 import { createHttpHeaders, PipelineRequestOptions } from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { MSI, MSIConfiguration } from "./models";
@@ -87,7 +88,7 @@ export const fabricMsi: MSI = {
     configuration: MSIConfiguration,
     getTokenOptions: GetTokenOptions = {}
   ): Promise<AccessToken | null> {
-    const { identityClient, scopes, clientId } = configuration;
+    const { scopes, identityClient, clientId } = configuration;
 
     logger.info(
       [
@@ -103,7 +104,10 @@ export const fabricMsi: MSI = {
       identityClient,
       prepareRequestOptions(scopes, clientId),
       expiresInParser,
-      getTokenOptions
+      getTokenOptions,
+      new https.Agent({
+        rejectUnauthorized: false
+      })
     );
   }
 };
