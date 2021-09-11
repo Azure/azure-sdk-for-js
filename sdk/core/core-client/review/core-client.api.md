@@ -5,6 +5,7 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
+import { ChallengeCallbacks } from '@azure/core-rest-pipeline';
 import { HttpClient } from '@azure/core-rest-pipeline';
 import { HttpMethods } from '@azure/core-rest-pipeline';
 import { InternalPipelineOptions } from '@azure/core-rest-pipeline';
@@ -64,6 +65,9 @@ export interface CompositeMapperType {
     // (undocumented)
     uberParent?: string;
 }
+
+// @public
+export function createCAECallbacks(): ChallengeCallbacks;
 
 // @public
 export function createClientPipeline(options?: InternalClientPipelineOptions): Pipeline;

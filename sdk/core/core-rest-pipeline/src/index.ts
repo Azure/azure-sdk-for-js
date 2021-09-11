@@ -71,9 +71,4 @@ export {
   AuthorizeRequestOptions,
   AuthorizeRequestOnChallengeOptions
 } from "./policies/bearerTokenAuthenticationPolicy";
-export {
-  armChallengeAuthenticationPolicy,
-  ARMChallengeAuthenticationPolicyOptions,
-  ARMChallengeAuthenticationPolicyName
-} from "./policies/armChallengeAuthenticationPolicy";
 export { ndJsonPolicy, ndJsonPolicyName } from "./policies/ndJsonPolicy";

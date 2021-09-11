@@ -52,4 +52,5 @@ export {
   serializationPolicyName,
   SerializationPolicyOptions
 } from "./serializationPolicy";
+export { createCAECallbacks } from "./caeCallbacks";
 import "@azure/core-asynciterator-polyfill";
