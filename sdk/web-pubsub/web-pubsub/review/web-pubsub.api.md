@@ -30,20 +30,6 @@ export interface GenerateClientTokenOptions extends OperationOptions {
 }
 
 // @public
-export interface GetAuthenticationTokenOptions {
-    roles?: string[];
-    ttl?: number;
-    userId?: string;
-}
-
-// @public
-export interface GetAuthenticationTokenResponse {
-    baseUrl: string;
-    token: string;
-    url: string;
-}
-
-// @public
 export interface GroupAddConnectionOptions extends OperationOptions {
 }
 
@@ -170,7 +156,6 @@ export class WebPubSubServiceClient {
     closeConnection(connectionId: string, options?: CloseConnectionOptions): Promise<void>;
     endpoint: string;
     generateClientToken(options?: GenerateClientTokenOptions): Promise<ClientTokenResponse>;
-    getAuthenticationToken(options?: GetAuthenticationTokenOptions): Promise<GetAuthenticationTokenResponse>;
     grantPermission(connectionId: string, permission: Permission, options?: HubGrantPermissionOptions): Promise<void>;
     group(groupName: string): WebPubSubGroup;
     hasConnection(connectionId: string, options?: HasConnectionOptions): Promise<boolean>;

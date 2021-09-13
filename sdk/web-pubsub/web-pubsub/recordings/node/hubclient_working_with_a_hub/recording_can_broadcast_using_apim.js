@@ -13,7 +13,7 @@ nock('https://rp-endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Wed, 01 Sep 2021 22:47:03 GMT',
+  'Mon, 13 Sep 2021 20:55:21 GMT',
   'Content-Length',
   '0'
 ]);
@@ -27,7 +27,7 @@ nock('https://rp-endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Wed, 01 Sep 2021 22:47:03 GMT',
+  'Mon, 13 Sep 2021 20:55:21 GMT',
   'Content-Length',
   '0'
 ]);
@@ -41,7 +41,7 @@ nock('https://rp-endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Wed, 01 Sep 2021 22:47:03 GMT',
+  'Mon, 13 Sep 2021 20:55:21 GMT',
   'Content-Length',
   '0'
 ]);

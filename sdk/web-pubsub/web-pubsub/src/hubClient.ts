@@ -101,51 +101,6 @@ export interface HubSendTextToUserOptions extends HubSendToUserOptions {
   contentType: "text/plain";
 }
 
-/**
- * Options for auth a client
- */
-export interface GetAuthenticationTokenOptions {
-  /**
-   * The userId for the client
-   */
-  userId?: string;
-  /**
-   * The roles the client have.
-   * Roles give the client initial permissions to leave, join, or publish to groups when using PubSub subprotocol
-   * * `webpubsub.joinLeaveGroup`: the client can join or leave any group
-   * * `webpubsub.sendToGroup`: the client can send messages to any group
-   * * `webpubsub.joinLeaveGroup.<group>`: the client can join or leave group `<group>`
-   * * `webpubsub.sendToGroup.<group>`: the client can send messages to group `<group>`
-   *
-   * {@link https://azure.github.io/azure-webpubsub/references/pubsub-websocket-subprotocol#permissions}
-   */
-  roles?: string[];
-  /**
-   * The time-to-live minutes for the access token. If not set, the default value is 60 minutes.
-   */
-  ttl?: number;
-}
-
-/**
- * Response for the authed client, including the url and the jwt token
- */
-export interface GetAuthenticationTokenResponse {
-  /**
-   * The URL client connects to
-   */
-  baseUrl: string;
-
-  /**
-   * The JWT token the client uses to connect
-   */
-  token: string;
-
-  /**
-   * The URL client connects to with access_token query string
-   */
-  url: string;
-}
-
 export type Permission = "joinLeaveGroup" | "sendToGroup";
 
 /**
@@ -325,40 +280,6 @@ export class WebPubSubServiceClient {
         webPubSubReverseProxyPolicy(this.clientOptions?.reverseProxyEndpoint)
       );
     }
-  }
-
-  /**
-   * Auth the client connection with userId and custom claims if any
-   * @param options - The options that the client has
-   */
-  public async getAuthenticationToken(
-    options?: GetAuthenticationTokenOptions
-  ): Promise<GetAuthenticationTokenResponse> {
-    if (isTokenCredential(this.credential)) {
-      throw new Error("getAuthenticationToken is not supported with a TokenCredential.");
-    }
-    const endpoint = this.endpoint.endsWith("/") ? this.endpoint : this.endpoint + "/";
-    const key = this.credential.key;
-    const hub = this.hubName;
-    const clientEndpoint = endpoint.replace(/(http)(s?:\/\/)/gi, "ws$2");
-    const clientUrl = `${clientEndpoint}client/hubs/${hub}`;
-    const audience = `${endpoint}client/hubs/${hub}`;
-    const payload = { role: options?.roles };
-    const signOptions: jwt.SignOptions = {
-      audience: audience,
-      expiresIn: options?.ttl === undefined ? "1h" : `${options.ttl}m`,
-      algorithm: "HS256"
-    };
-    if (options?.userId) {
-      signOptions.subject = options?.userId;
-    }
-    const token = jwt.sign(payload, key, signOptions);
-    const url = `${clientUrl}?access_token=${token}`;
-    return {
-      baseUrl: clientUrl,
-      token: jwt.sign(payload, key, signOptions),
-      url: url
-    };
   }
 
   /**
@@ -821,7 +742,30 @@ export class WebPubSubServiceClient {
     );
 
     try {
-      return await this.client.webPubSub.generateClientToken(this.hubName, updatedOptions);
+      if (isTokenCredential(this.credential)) {
+        return await this.client.webPubSub.generateClientToken(this.hubName, updatedOptions);
+      } else {
+        const endpoint = this.endpoint.endsWith("/") ? this.endpoint : this.endpoint + "/";
+        const key = this.credential.key;
+        const hub = this.hubName;
+        const audience = `${endpoint}client/hubs/${hub}`;
+        const payload = { role: options?.roles };
+        const signOptions: jwt.SignOptions = {
+          audience: audience,
+          expiresIn:
+            options?.expirationTimeInMinutes === undefined
+              ? "1h"
+              : `${options.expirationTimeInMinutes}m`,
+          algorithm: "HS256"
+        };
+        if (options?.userId) {
+          signOptions.subject = options?.userId;
+        }
+        const token = jwt.sign(payload, key, signOptions);
+        return {
+          token
+        };
+      }
     } finally {
       span.end();
     }

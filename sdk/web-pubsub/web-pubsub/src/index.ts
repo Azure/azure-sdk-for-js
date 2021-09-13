@@ -3,8 +3,6 @@
 export { AzureKeyCredential } from "@azure/core-auth";
 export {
   WebPubSubServiceClient,
-  GetAuthenticationTokenOptions,
-  GetAuthenticationTokenResponse,
   HubSendToAllOptions,
   ClientTokenResponse,
   CloseConnectionOptions,
