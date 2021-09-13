@@ -58,7 +58,7 @@ function convertResponse<T>(
     // is not modeled by the generated client.
     id: response.schemaId!,
     version: response.schemaVersion!,
-    serializationType: response.serializationType!,
+    serializationType: response.contentType!,
     ...additionalProperties
   };
 }

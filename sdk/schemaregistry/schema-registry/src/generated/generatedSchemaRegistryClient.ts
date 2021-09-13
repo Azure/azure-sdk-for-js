@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SchemaImpl } from "./operations";
-import { Schema } from "./operationsInterfaces";
+import { GetImpl, SchemaImpl } from "./operations";
+import { Get, Schema } from "./operationsInterfaces";
 import { GeneratedSchemaRegistryClientContext } from "./generatedSchemaRegistryClientContext";
 import { GeneratedSchemaRegistryClientOptionalParams } from "./models";
 
@@ -23,8 +23,10 @@ export class GeneratedSchemaRegistryClient extends GeneratedSchemaRegistryClient
     options?: GeneratedSchemaRegistryClientOptionalParams
   ) {
     super(endpoint, options);
+    this.get = new GetImpl(this);
     this.schema = new SchemaImpl(this);
   }
 
+  get: Get;
   schema: Schema;
 }

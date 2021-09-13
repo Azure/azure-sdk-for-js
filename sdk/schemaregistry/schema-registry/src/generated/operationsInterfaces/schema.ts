@@ -9,11 +9,12 @@
 import {
   SchemaGetByIdOptionalParams,
   SchemaGetByIdResponse,
-  SerializationType,
-  SchemaRegisterOptionalParams,
-  SchemaRegisterResponse,
+  SchemaGetVersionsOptionalParams,
+  SchemaGetVersionsResponse,
   SchemaQueryIdByContentOptionalParams,
-  SchemaQueryIdByContentResponse
+  SchemaQueryIdByContentResponse,
+  SchemaRegisterOptionalParams,
+  SchemaRegisterResponse
 } from "../models";
 
 /** Interface representing a Schema. */
@@ -21,13 +22,42 @@ export interface Schema {
   /**
    * Gets a registered schema by its unique ID.  Azure Schema Registry guarantees that ID is unique
    * within a namespace.
-   * @param schemaId References specific schema in registry namespace.
+   * @param id References specific schema in registry namespace.
    * @param options The options parameters.
    */
   getById(
-    schemaId: string,
+    id: string,
     options?: SchemaGetByIdOptionalParams
   ): Promise<SchemaGetByIdResponse>;
+  /**
+   * Gets the list of all versions of one schema.
+   * @param groupName Schema group under which schema is registered.  Group's serialization type should
+   *                  match the serialization type specified in the request.
+   * @param schemaName Name of schema being registered.
+   * @param options The options parameters.
+   */
+  getVersions(
+    groupName: string,
+    schemaName: string,
+    options?: SchemaGetVersionsOptionalParams
+  ): Promise<SchemaGetVersionsResponse>;
+  /**
+   * Gets the ID referencing an existing schema within the specified schema group, as matched by schema
+   * content comparison.
+   * @param groupName Schema group under which schema is registered.  Group's serialization type should
+   *                  match the serialization type specified in the request.
+   * @param schemaName Name of schema being registered.
+   * @param accept Serialization type for the schema being retrieved.
+   * @param schemaContent String representation (UTF-8) of the registered schema.
+   * @param options The options parameters.
+   */
+  queryIdByContent(
+    groupName: string,
+    schemaName: string,
+    accept: string,
+    schemaContent: string,
+    options?: SchemaQueryIdByContentOptionalParams
+  ): Promise<SchemaQueryIdByContentResponse>;
   /**
    * Register new schema. If schema of specified name does not exist in specified group, schema is
    * created at version 1. If schema of specified name exists already in specified group, schema is
@@ -36,32 +66,15 @@ export interface Schema {
    * @param groupName Schema group under which schema should be registered.  Group's serialization type
    *                  should match the serialization type specified in the request.
    * @param schemaName Name of schema being registered.
-   * @param serializationType Serialization type for the schema being registered.
+   * @param accept Serialization type for the schema being retrieved.
    * @param schemaContent String representation (UTF-8) of the schema being registered.
    * @param options The options parameters.
    */
   register(
     groupName: string,
     schemaName: string,
-    serializationType: SerializationType,
+    accept: string,
     schemaContent: string,
     options?: SchemaRegisterOptionalParams
   ): Promise<SchemaRegisterResponse>;
-  /**
-   * Gets the ID referencing an existing schema within the specified schema group, as matched by schema
-   * content comparison.
-   * @param groupName Schema group under which schema is registered.  Group's serialization type should
-   *                  match the serialization type specified in the request.
-   * @param schemaName Name of the registered schema.
-   * @param serializationType Serialization type for the schema being registered.
-   * @param schemaContent String representation (UTF-8) of the registered schema.
-   * @param options The options parameters.
-   */
-  queryIdByContent(
-    groupName: string,
-    schemaName: string,
-    serializationType: SerializationType,
-    schemaContent: string,
-    options?: SchemaQueryIdByContentOptionalParams
-  ): Promise<SchemaQueryIdByContentResponse>;
 }

@@ -8,42 +8,52 @@
 
 import * as coreClient from "@azure/core-client";
 
+/** Array received from the registry containing the list of schema groups. */
+export interface SchemaGroups {
+  /** Array of schema groups. */
+  schemaGroups?: string[];
+}
+
+/** An error response returned from Azure Schema Registry service. */
+export interface ErrorModel {
+  /** Error response returned from Azure Schema Registry service. */
+  error?: ErrorDetail;
+}
+
+/** Error response returned from Azure Schema Registry service. */
+export interface ErrorDetail {
+  /** HTTP status code. */
+  code: string;
+  /** Type of error. */
+  message: string;
+  /** Error message details to help user understand/debug failure. */
+  details?: string;
+}
+
+/** Array received from the registry containing the list of versions for specific schema. */
+export interface SchemaVersions {
+  /** Array of schema groups. */
+  schemaVersions?: number[];
+}
+
 /** Object received from the registry containing schema identifiers. */
 export interface SchemaId {
   /** Schema ID that uniquely identifies a schema in the registry namespace. */
   id?: string;
 }
 
-/** Error response returned from Azure Schema Registry service. */
-export interface ServiceErrorResponse {
-  /** Type of error. */
-  type: string;
-  /** HTTP status code. */
-  status: number;
-  /** Error message details to help user understand/debug failure. */
-  message: string;
-  /** More error information. */
-  innererror?: InnerErrorInfo;
-}
-
-/** More error information. */
-export interface InnerErrorInfo {
-  /** More detailed information about the error. */
-  details?: string;
-}
-
-/** Schema object returned from requested schema registry */
-export interface SchemaObject {
-  /** Schema object returned as plain text. */
-  schema?: string;
+/** Defines headers for Get_schemaGroups operation. */
+export interface GetSchemaGroupsExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
 }
 
 /** Defines headers for Schema_getById operation. */
 export interface SchemaGetByIdHeaders {
   /** URL location of schema, identified by schema group, schema name, and version. */
   location?: string;
-  /** Serialization type for the schema being stored. */
-  serializationType?: string;
+  /** The serialization type for given schema. Specific type expressed in optional parameter. */
+  contentType?: string;
   /** References specific schema in registry namespace. */
   schemaId?: string;
   /** URL location of schema, identified by schema ID. */
@@ -56,12 +66,24 @@ export interface SchemaGetByIdHeaders {
   schemaVersion?: number;
 }
 
-/** Defines headers for Schema_register operation. */
-export interface SchemaRegisterHeaders {
+/** Defines headers for Schema_getById operation. */
+export interface SchemaGetByIdExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for Schema_getVersions operation. */
+export interface SchemaGetVersionsExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for Schema_queryIdByContent operation. */
+export interface SchemaQueryIdByContentHeaders {
   /** URL location of schema, identified by schema group, schema name, and version. */
   location?: string;
-  /** Serialization type for the schema being registered. */
-  serializationType?: string;
+  /** The serialization type for given schema. Specific type expressed in optional parameter. */
+  contentType?: string;
   /** References specific schema in registry namespace. */
   schemaId?: string;
   /** URL location of schema, identified by schema ID. */
@@ -75,11 +97,17 @@ export interface SchemaRegisterHeaders {
 }
 
 /** Defines headers for Schema_queryIdByContent operation. */
-export interface SchemaQueryIdByContentHeaders {
+export interface SchemaQueryIdByContentExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for Schema_register operation. */
+export interface SchemaRegisterHeaders {
   /** URL location of schema, identified by schema group, schema name, and version. */
   location?: string;
-  /** Serialization type for the schema being stored. */
-  serializationType?: string;
+  /** The serialization type for given schema. Specific type expressed in optional parameter. */
+  contentType?: string;
   /** References specific schema in registry namespace. */
   schemaId?: string;
   /** URL location of schema, identified by schema ID. */
@@ -92,34 +120,35 @@ export interface SchemaQueryIdByContentHeaders {
   schemaVersion?: number;
 }
 
-/** Known values of {@link SerializationType} that the service accepts. */
-export enum KnownSerializationType {
-  /** Avro Serialization schema type */
-  Avro = "avro"
+/** Defines headers for Schema_register operation. */
+export interface SchemaRegisterExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
 }
 
-/**
- * Defines values for SerializationType. \
- * {@link KnownSerializationType} can be used interchangeably with SerializationType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **avro**: Avro Serialization schema type
- */
-export type SerializationType = string;
+/** Optional parameters. */
+export interface GetSchemaGroupsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the schemaGroups operation. */
+export type GetSchemaGroupsResponse = SchemaGroups;
 
 /** Optional parameters. */
 export interface SchemaGetByIdOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getById operation. */
-export type SchemaGetByIdResponse = SchemaGetByIdHeaders;
+export type SchemaGetByIdResponse = SchemaGetByIdHeaders & {
+  /** The parsed response body. */
+  body: string;
+};
 
 /** Optional parameters. */
-export interface SchemaRegisterOptionalParams
+export interface SchemaGetVersionsOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the register operation. */
-export type SchemaRegisterResponse = SchemaRegisterHeaders;
+/** Contains response data for the getVersions operation. */
+export type SchemaGetVersionsResponse = SchemaVersions;
 
 /** Optional parameters. */
 export interface SchemaQueryIdByContentOptionalParams
@@ -128,6 +157,13 @@ export interface SchemaQueryIdByContentOptionalParams
 /** Contains response data for the queryIdByContent operation. */
 export type SchemaQueryIdByContentResponse = SchemaQueryIdByContentHeaders &
   SchemaId;
+
+/** Optional parameters. */
+export interface SchemaRegisterOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the register operation. */
+export type SchemaRegisterResponse = SchemaRegisterHeaders;
 
 /** Optional parameters. */
 export interface GeneratedSchemaRegistryClientOptionalParams
