@@ -40,6 +40,5 @@
    * USUAL VERSION (WHICH IS INFERRED BY LOOKING AT ALL PROJECTS IN THE REPO).
    * This design avoids unnecessary churn in this file.
    */
-  "allowedAlternativeVersions": {
-  }
+  "allowedAlternativeVersions": {}
 }
