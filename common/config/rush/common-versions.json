@@ -40,33 +40,5 @@
    * USUAL VERSION (WHICH IS INFERRED BY LOOKING AT ALL PROJECTS IN THE REPO).
    * This design avoids unnecessary churn in this file.
    */
-  "allowedAlternativeVersions": {
-    // challengeCallback is required for Cosmos SDK to handle AAD auth. Remove once this feature is in
-    // a shared release.
-    "@azure/core-rest-pipeline": ["^1.2.0"],
-    // Text Analytics uses this version and it is not released yet. I am making an exception
-    // for it here and it should be removed once core-paging 1.2.0 is released.
-    "@azure/core-paging": ["^1.2.0", ">=1.2.0-alpha <1.2.0-alphb"],
-    "@azure/ms-rest-js": ["^2.0.0"],
-    /**
-     * For example, allow some projects to use an older TypeScript compiler
-     * (in addition to whatever "usual" version is being used by other projects in the repo):
-     */
-    // "typescript": [
-    //   "~2.4.0"
-    // ]
-    // Following is required to allow for backward compatibility with Event Processor Host Track 1
-    "@azure/event-hubs": ["^2.1.4"],
-    // Monitor: Allow node 10 types until Timeout / Timer conflict is resolved in OpenTelemetry repo
-    // TODO: remove when released https://github.com/open-telemetry/opentelemetry-js/pull/1352
-    // eslint v7.15 needs node v10.12
-    "@types/node": ["^10.0.0", "^10.12.0"],
-    // @azure/event-processor-host is on a much lower major version
-    "@azure/ms-rest-nodeauth": ["^0.9.2"],
-    // Idenity is moving from v1 to v2. Moving all packages to v2 is going to take a bit of time, in the mean time we could use v2 on the perf-identity tests.
-    "@azure/identity": ["^2.0.0-beta.6", "2.0.0-beta.5", "^1.1.0"],
-    // Issue #14771 tracks updating to these versions
-    "@microsoft/api-extractor": ["7.13.2", "^7.18.7"],
-    "prettier": ["2.2.1"]
-  }
+  "allowedAlternativeVersions": {}
 }
