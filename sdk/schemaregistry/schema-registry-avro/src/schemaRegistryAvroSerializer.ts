@@ -113,7 +113,7 @@ export class SchemaRegistryAvroSerializer {
    * @param schema - The Avro schema to use.
    * @returns A new buffer with the serialized value
    */
-  async serialize(value: unknown, schema: string): Promise<Buffer> {
+  async serialize(value: unknown, schema: string): Promise<Uint8Array> {
     const entry = await this.getSchemaByContent(schema);
     const payload = entry.type.toBuffer(value);
     const buffer = Buffer.alloc(PAYLOAD_OFFSET + payload.length);
@@ -121,7 +121,11 @@ export class SchemaRegistryAvroSerializer {
     buffer.writeUInt32BE(FORMAT_INDICATOR, 0);
     buffer.write(entry.id, SCHEMA_ID_OFFSET, SCHEMA_ID_LENGTH, "utf-8");
     payload.copy(buffer, PAYLOAD_OFFSET);
-    return buffer;
+    return new Uint8Array(
+      buffer.buffer,
+      buffer.byteOffset,
+      buffer.byteLength / Uint8Array.BYTES_PER_ELEMENT
+    );
   }
 
   // REVIEW: signature. See serialize and s/serialize into/deserialize from/.
