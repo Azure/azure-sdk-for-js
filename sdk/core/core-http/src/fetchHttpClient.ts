@@ -242,12 +242,12 @@ function isReadableStream(body: any): body is Readable {
 
 function isStreamComplete(stream: Readable, aborter?: AbortController): Promise<void> {
   return new Promise((resolve) => {
-    stream.on("close", () => {
+    stream.once("close", () => {
       aborter?.abort();
       resolve();
     });
-    stream.on("end", resolve);
-    stream.on("error", resolve);
+    stream.once("end", resolve);
+    stream.once("error", resolve);
   });
 }
 
