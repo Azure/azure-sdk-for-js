@@ -927,7 +927,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
       });
 
       describe("#analyze", function() {
-        it("single extract summary action", async function() {
+        it.skip("single extract summary action", async function() {
           // Source: https://news.microsoft.com/innovation-stories/cloud-pc-windows-365/
           const windows365ArticlePart1 = `
           No roads or rails connect the 39,000 people dispersed across Nunavut, a territory in northeastern Canada that spans three time zones and features fjord-cut isles that stretch into the Arctic Circle off the west coast of Greenland. About 80% of the population is of Inuit descent with cultural ties to the land that date back more than 4,000 years.
