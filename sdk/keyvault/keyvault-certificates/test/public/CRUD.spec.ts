@@ -8,7 +8,7 @@ import childProcess from "child_process";
 import { assert } from "chai";
 import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
 
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
 import { SecretClient } from "@azure/keyvault-secrets";
 import { ClientSecretCredential } from "@azure/identity";
@@ -240,30 +240,34 @@ describe("Certificates client - create, read, update and delete", () => {
     const base64PKCS12 = certificateSecret.value!;
     fs.writeFileSync("pkcs12.p12", Buffer.from(base64PKCS12, "base64"));
 
-    // Obtaining only the public certificate.
-    // We send "-passin 'pass:'" because our self-signed certificate doesn't specify a password on its issuer.
-    childProcess.execSync(
-      "openssl pkcs12 -in pkcs12.p12 -out pkcs12.crt.pem -clcerts -nokeys -passin pass:"
-    );
+    // skip the following in playback mode because the certificate placeholder value
+    // isn't in valid pkcs12 format.
+    if (!isPlaybackMode()) {
+      // Obtaining only the public certificate.
+      // We send "-passin 'pass:'" because our self-signed certificate doesn't specify a password on its issuer.
+      childProcess.execSync(
+        "openssl pkcs12 -in pkcs12.p12 -out pkcs12.crt.pem -clcerts -nokeys -passin pass:"
+      );
 
-    // To generate a PEM private key out of a KeyVault Certificate
-    // created with the default (or "application/x-pkcs12") content type,
-    // use:
-    //
-    //     openssl pkcs12 -in file_name.p12 -out file_name.key.pem -nocerts -nodes
-    //
+      // To generate a PEM private key out of a KeyVault Certificate
+      // created with the default (or "application/x-pkcs12") content type,
+      // use:
+      //
+      //     openssl pkcs12 -in file_name.p12 -out file_name.key.pem -nocerts -nodes
+      //
 
-    const PEMPublicCertificate = fs.readFileSync("pkcs12.crt.pem");
+      const PEMPublicCertificate = fs.readFileSync("pkcs12.crt.pem");
 
-    // The PEM encoded public certificate should be the same as the Base64 encoded CER
-    assert.equal(
-      base64CER,
-      PEMPublicCertificate.toString()
-        .split(/-----(BEGIN|END) CERTIFICATE-----/g)[2]
-        .split(os.EOL)
-        .join("")
-        .replace(/\n/g, "")
-    );
+      // The PEM encoded public certificate should be the same as the Base64 encoded CER
+      assert.equal(
+        base64CER,
+        PEMPublicCertificate.toString()
+          .split(/-----(BEGIN|END) CERTIFICATE-----/g)[2]
+          .split(os.EOL)
+          .join("")
+          .replace(/\n/g, "")
+      );
+    }
   });
 
   it("can get a certificate's secret in PEM format", async function(this: Context) {
