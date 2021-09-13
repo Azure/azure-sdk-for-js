@@ -688,6 +688,8 @@ export class TextAnalyticsClient {
     beginAnalyzeActions(documents: TextDocumentInput[], actions: TextAnalyticsActions, options?: BeginAnalyzeActionsOptions): Promise<AnalyzeActionsPollerLike>;
     beginAnalyzeHealthcareEntities(documents: string[], language?: string, options?: BeginAnalyzeHealthcareEntitiesOptions): Promise<AnalyzeHealthcareEntitiesPollerLike>;
     beginAnalyzeHealthcareEntities(documents: TextDocumentInput[], options?: BeginAnalyzeHealthcareEntitiesOptions): Promise<AnalyzeHealthcareEntitiesPollerLike>;
+    beginAnalyzeHealthcareEntitiesAndWait(documents: string[], language?: string, options?: BeginAnalyzeHealthcareEntitiesOptions): Promise<PagedAnalyzeHealthcareEntitiesResult>;
+    beginAnalyzeHealthcareEntitiesAndWait(documents: TextDocumentInput[], options?: BeginAnalyzeHealthcareEntitiesOptions): Promise<PagedAnalyzeHealthcareEntitiesResult>;
     defaultCountryHint: string;
     defaultLanguage: string;
     detectLanguage(documents: string[], countryHint?: string, options?: DetectLanguageOptions): Promise<DetectLanguageResultArray>;
@@ -772,7 +774,6 @@ export type TokenSentimentValue = "positive" | "mixed" | "negative";
 
 // @public
 export type WarningCode = string;
-
 
 // (No @packageDocumentation comment for this package)
 

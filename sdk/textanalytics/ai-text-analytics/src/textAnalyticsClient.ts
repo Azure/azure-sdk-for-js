@@ -1017,6 +1017,52 @@ export class TextAnalyticsClient {
   }
 
   /**
+   * Start a healthcare analysis operation to recognize healthcare related entities (drugs, conditions,
+   * symptoms, etc) and their relations.
+   * @param documents - Collection of documents to analyze.
+   * @param language - The language that all the input strings are
+        written in. If unspecified, this value will be set to the default
+        language in `TextAnalyticsClientOptions`.
+        If set to an empty string, the service will apply a model
+        where the language is explicitly set to "None".
+   * @param options - Options for the operation.
+   */
+  async beginAnalyzeHealthcareEntitiesAndWait(
+    documents: string[],
+    language?: string,
+    options?: BeginAnalyzeHealthcareEntitiesOptions
+  ): Promise<PagedAnalyzeHealthcareEntitiesResult>;
+  /**
+   * Start a healthcare analysis operation to recognize healthcare related entities (drugs, conditions,
+   * symptoms, etc) and their relations.
+   * @param documents - Collection of documents to analyze.
+   * @param options - Options for the operation.
+   */
+  async beginAnalyzeHealthcareEntitiesAndWait(
+    documents: TextDocumentInput[],
+    options?: BeginAnalyzeHealthcareEntitiesOptions
+  ): Promise<PagedAnalyzeHealthcareEntitiesResult>;
+
+  async beginAnalyzeHealthcareEntitiesAndWait(
+    documents: string[] | TextDocumentInput[],
+    languageOrOptions?: string | BeginAnalyzeHealthcareEntitiesOptions,
+    options?: BeginAnalyzeHealthcareEntitiesOptions
+  ): Promise<PagedAnalyzeHealthcareEntitiesResult> {
+    let realOptions: BeginAnalyzeHealthcareEntitiesOptions;
+    let realInputs: TextDocumentInput[];
+    if (isStringArray(documents)) {
+      const language = (languageOrOptions as string) || this.defaultLanguage;
+      realInputs = convertToTextDocumentInput(documents, language);
+      realOptions = options || {};
+    } else {
+      realInputs = documents;
+      realOptions = (languageOrOptions as BeginAnalyzeHealthcareEntitiesOptions) || {};
+    }
+    const poller = await this.beginAnalyzeHealthcareEntities(realInputs, realOptions);
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Submit a collection of text documents for analysis. Specify one or more unique actions to be executed.
    * @param documents - Collection of documents to analyze
    * @param actions - TextAnalyticsActions to execute.
