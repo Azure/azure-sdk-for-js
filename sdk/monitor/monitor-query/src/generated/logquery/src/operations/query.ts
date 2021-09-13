@@ -22,7 +22,7 @@ import {
   QueryBatchResponse
 } from "../models";
 
-/** Class representing a Query. */
+/** Class containing Query operations. */
 export class QueryImpl implements Query {
   private readonly client: AzureLogAnalyticsContext;
 

@@ -4,20 +4,21 @@
 
 ```ts
 
+/// <reference types="node" />
+
 import { SchemaRegistry } from '@azure/schema-registry';
 
 // @public
 export class SchemaRegistryAvroSerializer {
     constructor(client: SchemaRegistry, groupName: string, options?: SchemaRegistryAvroSerializerOptions);
-    deserialize(buffer: Buffer): Promise<unknown>;
-    serialize(value: unknown, schema: string): Promise<Buffer>;
+    deserialize(input: Buffer | Blob | Uint8Array): Promise<unknown>;
+    serialize(value: unknown, schema: string): Promise<Uint8Array>;
 }
 
 // @public
 export interface SchemaRegistryAvroSerializerOptions {
     autoRegisterSchemas?: boolean;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

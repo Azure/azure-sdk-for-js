@@ -131,11 +131,11 @@ The [`MetricsQueryClient`][msdocs_metrics_client] allows you to query metrics.
 
 ### Querying logs
 
-The `LogsQueryClient` can be used to query a Monitor workspace using the Kusto Query language. The timespan can be specified as a string in an ISO8601 duration format.
+The `LogsQueryClient` can be used to query a Monitor workspace using the [Kusto Query Language](https://docs.microsoft.com/azure/data-explorer/kusto/query). The `timespan.duration` can be specified as a string in an ISO8601 duration format.
 You can use the `Durations` constants provided for some commonly used ISO8601 durations.
 
 ```ts
-const { LogsQueryClient } = require("@azure/monitor-query");
+const { LogsQueryClient, Durations } = require("@azure/monitor-query");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 const azureLogAnalyticsWorkspaceId = "<the Workspace Id for your Azure Log Analytics resource>";
@@ -143,11 +143,9 @@ const logsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
 
 async function run() {
   const kustoQuery = "AppEvents | limit 1";
-  const result = await logsQueryClient.queryLogs(
-    azureLogAnalyticsWorkspaceId,
-    kustoQuery,
-    Durations.last24Hours
-  );
+  const result = await logsQueryClient.query(azureLogAnalyticsWorkspaceId, kustoQuery, {
+    duration: Durations.TwentFourHours
+  });
   const tablesFromResult = result.tables;
 
   if (tablesFromResult == null) {
@@ -158,7 +156,7 @@ async function run() {
   console.log(`Results for query '${kustoQuery}'`);
 
   for (const table of tablesFromResult) {
-    const columnHeaderString = table.columns
+    const columnHeaderString = table.columnDescriptors
       .map((column) => `${column.name}(${column.type}) `)
       .join("| ");
     console.log("| " + columnHeaderString);
@@ -174,19 +172,20 @@ run().catch((err) => console.log("ERROR:", err));
 
 #### Handling the response for Logs Query
 
-The `queryLogs` API returns the `QueryLogsResult`.
+The `query` API for `LogsQueryClient` returns the `LogsQueryResult`.
 
-Here is a heirarchy of the response:
+Here is a hierarchy of the response:
 
 ```
-QueryLogsResult
+LogsQueryResult
 |---statistics
-|---visalization
+|---visualization
 |---error
+|---status ("Partial" | "Success" | "Failed")
 |---tables (list of `LogsTable` objects)
     |---name
     |---rows
-    |---columns (list of `LogsColumn` objects)
+    |---columnDescriptors (list of `LogsColumn` objects)
         |---name
         |---type
 ```
@@ -196,7 +195,7 @@ So, to handle a response with tables,
 ```ts
 const tablesFromResult = result.tables;
 for (const table of tablesFromResult) {
-  const columnHeaderString = table.columns
+  const columnHeaderString = table.columnDescriptors
     .map((column) => `${column.name}(${column.type}) `)
     .join("| ");
   console.log("| " + columnHeaderString);
@@ -213,41 +212,20 @@ A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob
 #### Set logs query timeout
 
 ```ts
-  // setting optional parameters
-   const queryLogsOptions: QueryLogsOptions = {
-    // explicitly control the amount of time the server can spend processing the query.
-    serverTimeoutInSeconds: 60
-  };
+// setting optional parameters
+const queryLogsOptions: LogsQueryOptions = {
+  // explicitly control the amount of time the server can spend processing the query.
+  serverTimeoutInSeconds: 60
+};
 
-  const result = await logsQueryClient.queryLogs(
-    azureLogAnalyticsWorkspaceId,
-    kustoQuery,
-    Durations.last24Hours,
-    queryLogsOptions
-  );
+const result = await logsQueryClient.query(
+  azureLogAnalyticsWorkspaceId,
+  kustoQuery,
+  { duration: Durations.TwentyFourHours },
+  queryLogsOptions
+);
 
-  const tablesFromResult = result.tables;
-
-  if (tablesFromResult == null) {
-    console.log(`No results for query '${kustoQuery}'`);
-    return;
-  }
-
-  console.log(`Results for query '${kustoQuery}'`);
-
-// Formatting the table from results
-  for (const table of tablesFromResult) {
-    const columnHeaderString = table.columns
-      .map((column) => `${column.name}(${column.type}) `)
-      .join("| ");
-    console.log("| " + columnHeaderString);
-
-    for (const row of table.rows) {
-      const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
-      console.log("| " + columnValuesString);
-    }
-  }
-}
+const tablesFromResult = result.tables;
 ```
 
 ### Batch logs query
@@ -263,33 +241,33 @@ export async function main() {
   const tokenCredential = new DefaultAzureCredential();
   const logsQueryClient = new LogsQueryClient(tokenCredential);
 
-  const queriesBatch: BatchQuery[] = [
+  const kqlQuery = "AppEvents | project TimeGenerated, Name, AppRoleInstance | limit 1";
+  const queriesBatch = [
     {
       workspaceId: monitorWorkspaceId,
-      query: "AppEvents | project TimeGenerated, Name, AppRoleInstance | limit 1",
-      timespan: "P1D"
+      query: kqlQuery,
+      timespan: { duration: "P1D" }
     },
     {
       workspaceId: monitorWorkspaceId,
       query: "AzureActivity | summarize count()",
-      timespan: "PT1H"
+      timespan: { duration: "PT1H" }
     },
     {
       workspaceId: monitorWorkspaceId,
       query:
         "AppRequests | take 10 | summarize avgRequestDuration=avg(DurationMs) by bin(TimeGenerated, 10m), _ResourceId",
-      timespan: "PT1H"
+      timespan: { duration: "PT1H" }
     },
     {
       workspaceId: monitorWorkspaceId,
       query: "AppRequests | take 2",
-      timespan: "PT1H"
+      timespan: { duration: "PT1H" },
+      includeQueryStatistics: true
     }
   ];
 
-  const result = await logsQueryClient.queryLogsBatch({
-    queries: queriesBatch
-  });
+  const result = await logsQueryClient.queryBatch(queriesBatch);
 
   if (result.results == null) {
     throw new Error("No response for query");
@@ -297,10 +275,10 @@ export async function main() {
 
   let i = 0;
   for (const response of result.results) {
-    console.log(`Results for query with id: ${response.id}`);
+    console.log(`Results for query with query: ${queriesBatch[i]}`);
 
     if (response.error) {
-      console.log(`Query had errors:`, response.error);
+      console.log(` Query had errors:`, response.error);
     } else {
       if (response.tables == null) {
         console.log(`No results for query`);
@@ -310,7 +288,7 @@ export async function main() {
         );
 
         for (const table of response.tables) {
-          const columnHeaderString = table.columns
+          const columnHeaderString = table.columnDescriptors
             .map((column) => `${column.name}(${column.type}) `)
             .join("| ");
           console.log(columnHeaderString);
@@ -330,40 +308,44 @@ export async function main() {
 
 #### Handling the response for Query Logs Batch
 
-The `queryLogsBatch` API returns the `QueryLogsBatchResult`.
+The `queryLogsBatch` API returns the `LogsQueryBatchResult`.
 
-Here is a heirarchy of the response:
+Here is a hierarchy of the response:
 
 ```
-QueryLogsBatchResult
+LogsQueryBatchResult
 |---results (list of following objects)
-    |---id
-    |---status
     |---statistics
-    |---visalization
+    |---visualization
     |---error
+    |---status ("Partial" | "Success" | "Failed")
     |---tables (list of `LogsTable` objects)
         |---name
         |---rows
-        |---columns (list of `LogsColumn` objects)
+        |---columnDescriptors (list of `LogsColumn` objects)
             |---name
             |---type
 ```
 
-To handle a batch response,
+To handle a batch response:
 
 ```ts
+let i = 0;
 for (const response of result.results) {
-  console.log(`Results for query with id: ${response.id}`);
+  console.log(`Results for query with query: ${queriesBatch[i]}`);
 
   if (response.error) {
-    console.log(`Query had errors:`, response.error);
+    console.log(` Query had errors:`, response.error);
   } else {
     if (response.tables == null) {
       console.log(`No results for query`);
     } else {
+      console.log(
+        `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
+      );
+
       for (const table of response.tables) {
-        const columnHeaderString = table.columns
+        const columnHeaderString = table.columnDescriptors
           .map((column) => `${column.name}(${column.type}) `)
           .join("| ");
         console.log(columnHeaderString);
@@ -375,15 +357,18 @@ for (const response of result.results) {
       }
     }
   }
+  // next query
+  i++;
 }
 ```
 
 A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQueryBatch.ts)
 
+For information on request throttling at the Log Analytics service level, see [Rate limits](https://dev.loganalytics.io/documentation/Using-the-API/Limits).
+
 ### Query metrics
 
-The following example gets metrics for an [Azure Metrics Advisor](https://docs.microsoft.com/azure/applied-ai-services/metrics-advisor/overview) subscription. The resource URI is that of a Metrics Advisor resource.
-
+The following example gets metrics for an [Azure Metrics Advisor](https://docs.microsoft.com/azure/applied-ai-services/metrics-advisor/overview) subscription.
 The resource URI must be that of the resource for which metrics are being queried. It's normally of the format `/subscriptions/<id>/resourceGroups/<rg-name>/providers/<source>/topics/<resource-name>`.
 
 To find the resource URI:
@@ -409,31 +394,39 @@ export async function main() {
     throw new Error("METRICS_RESOURCE_ID must be set in the environment for this sample");
   }
 
-  const result = await metricsQueryClient.getMetricDefinitions(metricsResourceId);
-
-  for (const definition of result.definitions) {
-    console.log(`Definition = ${definition.name}`);
-  }
-
-  const firstMetric = result.definitions[0];
-
-  console.log(`Picking an example metric to query: ${firstMetric.name}`);
-
-  const metricsResponse = await metricsQueryClient.queryMetrics(
-    metricsResourceId,
-    Durations.last5Minutes,
-    {
-      metricNames: [firstMetric.name!],
-      interval: "PT1M"
+  const iterator = metricsQueryClient.listMetricDefinitions(metricsResourceId);
+  let result = await iterator.next();
+  let metricNames: string[] = [];
+  for await (const result of iterator) {
+    console.log(` metricDefinitions - ${result.id}, ${result.name}`);
+    if (result.name) {
+      metricNames.push(result.name);
     }
-  );
+  }
+  const firstMetricName = metricNames[0];
+  const secondMetricName = metricNames[1];
+  if (firstMetricName && secondMetricName) {
+    console.log(`Picking an example metric to query: ${firstMetricName} and ${secondMetricName}`);
+    const metricsResponse = await metricsQueryClient.query(
+      metricsResourceId,
+      [firstMetricName, secondMetricName],
+      {
+        granularity: "PT1M",
+        timespan: { duration: Durations.FiveMinutes }
+      }
+    );
 
-  console.log(
-    `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.interval}, time span: ${metricsResponse.timespan}`
-  );
+    console.log(
+      `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.granularity}, time span: ${metricsResponse.timespan}`
+    );
 
-  const metrics: Metric[] = metricsResponse.metrics;
-  console.log(`Metrics:`, JSON.stringify(metrics, undefined, 2));
+    const metrics: Metric[] = metricsResponse.metrics;
+    console.log(`Metrics:`, JSON.stringify(metrics, undefined, 2));
+    const metric = metricsResponse.getMetricByName(firstMetricName);
+    console.log(`Selected Metric: ${firstMetricName}`, JSON.stringify(metric, undefined, 2));
+  } else {
+    console.error(`Metric names are not defined - ${firstMetricName} and ${secondMetricName}`);
+  }
 }
 
 main().catch((err) => {
@@ -442,6 +435,8 @@ main().catch((err) => {
 });
 ```
 
+In the preceding sample, the ordering of results for the metrics in the `metricResponse` will be in the order in which the user specifies the metric names in the `metricNames` array argument for the query method. If user specifies `[firstMetricName,secondMetricName]`, the result for `firstMetricName` will appear before the result for `secondMetricName` in the `metricResponse`.
+
 ### Handle metrics response
 
 The metrics query API returns a `QueryMetricsResult` object. The `QueryMetricsResult` object contains properties such as a list of `Metric`-typed objects, `interval`, `namespace`, and `timespan`. The `Metric` objects list can be accessed using the `metrics` property. Each `Metric` object in this list contains a list of `TimeSeriesElement` objects. Each `TimeSeriesElement` contains `data` and `metadataValues` properties. In visual form, the object hierarchy of the response resembles the following structure:
@@ -449,8 +444,8 @@ The metrics query API returns a `QueryMetricsResult` object. The `QueryMetricsRe
 ```
 QueryMetricsResult
 |---cost
-|---timespan
-|---interval
+|---timespan (of type `TimeInterval`)
+|---granularity
 |---namespace
 |---resourceRegion
 |---metrics (list of `Metric` objects)
@@ -463,6 +458,13 @@ QueryMetricsResult
     |---timeseries (list of `TimeSeriesElement` objects)
         |---metadataValues
         |---data (list of data points represented by `MetricValue` objects)
+            |---timeStamp
+            |---average
+            |---minimum
+            |---maximum
+            |---total
+            |---count
+|---getMetricByName(metricName): Metric | undefined (convenience method)
 ```
 
 #### Example of handling response
@@ -482,11 +484,11 @@ export async function main() {
     throw new Error("METRICS_RESOURCE_ID must be set in the environment for this sample");
   }
 
-  console.log(`Picking an example metric to query: ${firstMetric.name}`);
+  console.log(`Picking an example metric to query: ${firstMetricName}`);
 
   const metricsResponse = await metricsQueryClient.queryMetrics(
     metricsResourceId,
-    Durations.last5Minutes,
+    { duration: Durations.FiveMinutes },
     {
       metricNames: ["MatchedEventCount"],
       interval: "PT1M",
@@ -534,17 +536,30 @@ The same log query can be executed across multiple Log Analytics workspaces. In 
 For example, the following query executes in three workspaces:
 
 ```ts
-const queryLogsOptions: QueryLogsOptions = {
+const queryLogsOptions: LogsQueryOptions = {
   additionalWorkspaces: ["<workspace2>", "<workspace3>"]
 };
 
-const kustoQuery = "AppEvents | limit 1";
+const kustoQuery = "AppEvents | limit 10";
 const result = await logsQueryClient.queryLogs(
   azureLogAnalyticsWorkspaceId,
   kustoQuery,
-  Durations.last24Hours,
+  { duration: Durations.TwentyFourHours },
   queryLogsOptions
 );
+```
+
+To view the results for each workspace, use the `TenantId` column to either order the results or filter them in the Kusto query.
+**Order results by TenantId**
+
+```
+AppEvents | order by TenantId
+```
+
+**Filter results by TenantId**
+
+```
+AppEvents | filter TenantId == "<workspace2>"
 ```
 
 A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQueryMultipleWorkspaces.ts)

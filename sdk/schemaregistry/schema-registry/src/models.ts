@@ -18,12 +18,6 @@ export interface SchemaProperties {
 
   /** Automatically incremented version number of the schema. */
   version: number;
-
-  /** URL of schema by group and name. */
-  location: string;
-
-  /** URL of schema by ID. */
-  locationById: string;
 }
 
 /**
@@ -65,9 +59,9 @@ export interface SchemaRegistryClientOptions extends CommonClientOptions {}
 export interface RegisterSchemaOptions extends OperationOptions {}
 
 /**
- * Options for SchemaRegistryClient.getSchemaId.
+ * Options for SchemaRegistryClient.getSchemaProperties.
  */
-export interface GetSchemaIdOptions extends OperationOptions {}
+export interface GetSchemaPropertiesOptions extends OperationOptions {}
 
 /**
  * Options to configure SchemaRegistryClient.getSchema.
@@ -103,9 +97,9 @@ export interface SchemaRegistry {
    * @param schema - Schema to match.
    * @returns Matched schema's ID or undefined if no matching schema was found.
    */
-  getSchemaId(
+  getSchemaProperties(
     schema: SchemaDescription,
-    options?: GetSchemaIdOptions
+    options?: GetSchemaPropertiesOptions
   ): Promise<SchemaProperties | undefined>;
 
   /**

@@ -17,10 +17,18 @@ export async function blobToArrayBuffer(blob: Blob): Promise<ArrayBuffer> {
   });
 }
 
-export function streamToBuffer() {}
+export function streamToBuffer(): void {
+  /* empty */
+}
 
-export function readStreamToLocalFile() {}
+export function readStreamToLocalFile(): void {
+  /* empty */
+}
 
-export const fsStat = function stat() {};
+export const fsStat = function stat(): void {
+  /* empty */
+};
 
-export const fsCreateReadStream = function createReadStream() {};
+export const fsCreateReadStream = function createReadStream(): void {
+  /* empty */
+};

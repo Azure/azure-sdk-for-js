@@ -107,22 +107,28 @@ authModes.forEach((authMode) => {
       }).timeout(10000);
 
       it("should list by page", async function() {
-        const totalItems = 21;
+        const barItems = 20;
         const maxPageSize = 5;
         const entities = client.listEntities<TestEntity>({
           queryOptions: { filter: odata`PartitionKey eq ${listPartitionKey}` }
         });
         let all: TestEntity[] = [];
-        let i = 0;
         for await (const entity of entities.byPage({
           maxPageSize
         })) {
-          i++;
           all = [...all, ...entity];
         }
+        for (let i = 0; i < barItems; i++) {
+          assert.isTrue(
+            all.some((e) => e.rowKey === `${i}`),
+            `Couldn't find entity with row key ${i}`
+          );
+        }
 
-        assert.lengthOf(all, totalItems);
-        assert.equal(i, Math.ceil(totalItems / maxPageSize));
+        assert.isTrue(
+          all.some((e) => e.rowKey === `binary1`),
+          `Couldn't find entity with row key binary1`
+        );
       });
 
       it("should list with filter", async function() {
@@ -136,7 +142,12 @@ authModes.forEach((authMode) => {
           all = [...all, entity];
         }
 
-        assert.lengthOf(all, barItems);
+        for (let i = 0; i < barItems; i++) {
+          assert.isTrue(
+            all.some((e) => e.rowKey === `${i}`),
+            `Couldn't find entity with row key ${i}`
+          );
+        }
       });
 
       it("should list binary with filter", async function() {
@@ -150,8 +161,6 @@ authModes.forEach((authMode) => {
           assert.isDefined(entity.etag, "Expected etag");
           all = [...all, entity];
         }
-
-        assert.lengthOf(all, 1);
 
         if (isNode) {
           assert.deepEqual(all[0].foo, Buffer.from("Bar"));
@@ -401,16 +410,23 @@ authModes.forEach((authMode) => {
       });
 
       it("should createEntity with primitive int and float without automatic type conversion", async () => {
-        type TestType = { integerNumber: number; floatingPointNumber: number };
+        type TestType = {
+          integerNumber: number;
+          floatingPointNumber: number;
+          booleanValue: boolean;
+        };
         const testEntity: TableEntity<TestType> = {
           partitionKey: `P8_${suffix}`,
           rowKey: "R8",
           integerNumber: 3,
-          floatingPointNumber: 3.14
+          floatingPointNumber: 3.14,
+          booleanValue: true
         };
         let createResult: FullOperationResponse | undefined;
         let deleteResult: FullOperationResponse | undefined;
-        await client.createEntity(testEntity, { onResponse: (res) => (createResult = res) });
+        await client.createEntity(testEntity, {
+          onResponse: (res) => (createResult = res)
+        });
         const result = await client.getEntity(testEntity.partitionKey, testEntity.rowKey, {
           disableTypeConversion: true
         });
@@ -422,8 +438,18 @@ authModes.forEach((authMode) => {
         assert.equal(createResult?.status, 204);
         assert.equal(result.partitionKey, testEntity.partitionKey);
         assert.equal(result.rowKey, testEntity.rowKey);
-        assert.deepEqual(result.integerNumber, { value: 3, type: "Int32" });
-        assert.deepEqual(result.floatingPointNumber, { value: 3.14, type: "Double" });
+        assert.deepEqual(result.integerNumber, {
+          value: "3",
+          type: "Int32"
+        });
+        assert.deepEqual(result.floatingPointNumber, {
+          value: "3.14",
+          type: "Double"
+        });
+        assert.deepEqual(result.booleanValue, {
+          value: "true",
+          type: "Boolean"
+        });
       });
     });
   });

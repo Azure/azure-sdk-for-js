@@ -127,31 +127,3 @@ export type QuickPulseType =
   | "RequestTelemetryDocument"
   | "DependencyTelemetryDocument"
   | "AvailabilityTelemetryDocument";
-
-/**
- * OpenTelemetry Span Attributes.
- * @internal
- */
-export const SpanAttribute = {
-  // HTTP
-  HttpHost: "http.host",
-  HttpMethod: "http.method",
-  HttpPort: "http.port",
-  HttpStatusCode: "http.status_code",
-  HttpUrl: "http.url",
-  HttpUserAgent: "http.user_agent",
-
-  // GRPC
-  GrpcMethod: "grpc.method",
-  GrpcService: "rpc.service" // rpc not grpc
-};
-
-/**
- * OpenTelemetry dependency type names.
- * @internal
- */
-export const DependencyTypeName = {
-  Grpc: "GRPC",
-  Http: "HTTP",
-  InProc: "InProc"
-};

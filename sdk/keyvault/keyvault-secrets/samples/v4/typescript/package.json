@@ -31,9 +31,9 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-secrets",
   "dependencies": {
-    "@azure/keyvault-secrets": "latest",
+    "@azure/keyvault-secrets": "next",
     "dotenv": "latest",
-    "@azure/identity": "2.0.0-beta.5"
+    "@azure/identity": "2.0.0-beta.6"
   },
   "devDependencies": {
     "typescript": "~4.2.0",

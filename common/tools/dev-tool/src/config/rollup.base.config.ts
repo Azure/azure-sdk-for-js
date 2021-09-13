@@ -103,7 +103,7 @@ function makeOnWarnForTesting(): (warning: RollupWarning, warn: WarningHandler) 
 
 // #endregion
 
-function makeBrowserTestConfig() {
+export function makeBrowserTestConfig() {
   const config: RollupOptions = {
     input: {
       include: ["dist-esm/test/**/*.spec.js"],
