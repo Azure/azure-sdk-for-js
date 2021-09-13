@@ -919,7 +919,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
       });
     });
 
-    describe("LROs", function() {
+    describe.skip("LROs", function() {
       const pollingInterval = isPlaybackMode() ? 0 : 2000;
 
       before(function(this: Context) {
