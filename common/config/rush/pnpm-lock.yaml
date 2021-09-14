@@ -251,7 +251,7 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-fa220+fQn27JN8QtajeMe88rqrJn3qctT/8FV/abJe6tSBJlAWYXOHiIF3nCgSeyIb5F9pi7Fycd9M55OY4O9w==
-  /@azure/communication-signaling/1.0.0-beta.7:
+  /@azure/communication-signaling/1.0.0-beta.8:
     dependencies:
       '@azure/core-http': 1.2.6
       '@azure/core-tracing': 1.0.0-preview.9
@@ -263,7 +263,7 @@ packages:
     engines:
       node: '>=8.0.0'
     resolution:
-      integrity: sha512-iO2Wpnr95HrAfOoq9IX7pcB7QlfSoJKDd4Ty9cjZK3Efv9vFN23kVybyd0JqC3HHXf0ALIcIm98bNH6PyVCOgw==
+      integrity: sha512-MGWfGAimafIxeK7bsUMAKNKlSTgOvE6TheN6rMjekIQyoPJ7/Tcdu8QY5YJVW1u8F4ODyh6sFIJWVKjHLGcbOA==
   /@azure/core-asynciterator-polyfill/1.0.0:
     dev: false
     resolution:
@@ -476,7 +476,7 @@ packages:
       integrity: sha512-CxaMaEjwtsmIhWtjHyGimKO7RmES0YxPqGQ9+jKqGygNlhG5NYHktDaiQu6w7k3g+I51VaLXtVSt+BVFd6VWfQ==
   /@azure/identity/1.2.5_debug@4.3.2:
     dependencies:
-      '@azure/core-http': 1.2.3
+      '@azure/core-http': 1.2.6
       '@azure/core-tracing': 1.0.0-preview.9
       '@azure/logger': 1.0.2
       '@azure/msal-node': 1.0.0-beta.6_debug@4.3.2
@@ -2980,7 +2980,7 @@ packages:
       integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==
   /debug/3.2.6:
     dependencies:
-      ms: 2.1.1
+      ms: 2.1.3
     deprecated: Debug versions >=3.2.0 <3.2.7 || >=4 <4.3.1 have a low-severity ReDos regression when used in a Node.js environment. It is recommended you upgrade to 3.2.7 or 4.3.1. (https://github.com/visionmedia/debug/issues/797)
     dev: false
     resolution:
@@ -8991,7 +8991,7 @@ packages:
   file:projects/communication-chat.tgz:
     dependencies:
       '@azure/communication-identity': 1.0.0
-      '@azure/communication-signaling': 1.0.0-beta.7
+      '@azure/communication-signaling': 1.0.0-beta.8
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
@@ -9043,7 +9043,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-chat'
     resolution:
-      integrity: sha512-KszXOiQ6lNUS3PlMbXnixpPy/OIxd6pVxjgG8jiMcB7LwjLZMiLHqSzAS6dpbJOLUtr5ZQGChSKYgRhkXmMzCg==
+      integrity: sha512-dMBdogZnAYTq0QshugnoYo00njZMMRgp48ej7zYzw3k02p7Emh8Grt13aQJn1kmVek64bViKn2yfOCIFsUNvRA==
       tarball: file:projects/communication-chat.tgz
     version: 0.0.0
   file:projects/communication-common.tgz:
