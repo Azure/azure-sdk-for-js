@@ -119,10 +119,10 @@ export function getMetricByName(this: MetricsQueryResult, metricName: string): M
   return this.metrics.find((it) => it.name === metricName);
 }
 
-export function createMetricsQueryResult({
-  ...params
-}: Omit<MetricsQueryResult, "getMetricByName">): MetricsQueryResult {
-  return { ...params, getMetricByName };
+export function createMetricsQueryResult(
+  metricsQueryResultData: Omit<MetricsQueryResult, "getMetricByName">
+): MetricsQueryResult {
+  return { ...metricsQueryResultData, getMetricByName };
 }
 
 /**
