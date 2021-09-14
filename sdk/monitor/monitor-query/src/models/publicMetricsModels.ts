@@ -115,7 +115,7 @@ export interface MetricsQueryResult {
   getMetricByName(metricName: string): Metric | undefined;
 }
 
-export function getMetricByName(this: MetricsQueryResult, metricName: string) {
+export function getMetricByName(this: MetricsQueryResult, metricName: string): Metric | undefined {
   return this.metrics.find((it) => it.name === metricName);
 }
 
