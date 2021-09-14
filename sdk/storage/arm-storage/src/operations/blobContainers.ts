@@ -8,6 +8,7 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/blobContainersMappers";
 import * as Parameters from "../models/parameters";
@@ -312,7 +313,7 @@ export class BlobContainers {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobContainersSetLegalHoldResponse>
    */
-  setLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], options?: msRest.RequestOptionsBase): Promise<Models.BlobContainersSetLegalHoldResponse>;
+  setLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], options?: Models.BlobContainersSetLegalHoldOptionalParams): Promise<Models.BlobContainersSetLegalHoldResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -343,8 +344,8 @@ export class BlobContainers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  setLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LegalHold>): void;
-  setLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LegalHold>, callback?: msRest.ServiceCallback<Models.LegalHold>): Promise<Models.BlobContainersSetLegalHoldResponse> {
+  setLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], options: Models.BlobContainersSetLegalHoldOptionalParams, callback: msRest.ServiceCallback<Models.LegalHold>): void;
+  setLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], options?: Models.BlobContainersSetLegalHoldOptionalParams | msRest.ServiceCallback<Models.LegalHold>, callback?: msRest.ServiceCallback<Models.LegalHold>): Promise<Models.BlobContainersSetLegalHoldResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -374,7 +375,7 @@ export class BlobContainers {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobContainersClearLegalHoldResponse>
    */
-  clearLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], options?: msRest.RequestOptionsBase): Promise<Models.BlobContainersClearLegalHoldResponse>;
+  clearLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], options?: Models.BlobContainersClearLegalHoldOptionalParams): Promise<Models.BlobContainersClearLegalHoldResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -405,8 +406,8 @@ export class BlobContainers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  clearLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LegalHold>): void;
-  clearLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LegalHold>, callback?: msRest.ServiceCallback<Models.LegalHold>): Promise<Models.BlobContainersClearLegalHoldResponse> {
+  clearLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], options: Models.BlobContainersClearLegalHoldOptionalParams, callback: msRest.ServiceCallback<Models.LegalHold>): void;
+  clearLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], options?: Models.BlobContainersClearLegalHoldOptionalParams | msRest.ServiceCallback<Models.LegalHold>, callback?: msRest.ServiceCallback<Models.LegalHold>): Promise<Models.BlobContainersClearLegalHoldResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -783,6 +784,57 @@ export class BlobContainers {
   }
 
   /**
+   * This operation migrates a blob container from container level WORM to object level immutability
+   * enabled container. Prerequisites require a container level immutability policy either in locked
+   * or unlocked state, Account level versioning must be enabled and there should be no Legal hold on
+   * the container.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  objectLevelWorm(resourceGroupName: string, accountName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginObjectLevelWorm(resourceGroupName,accountName,containerName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * This operation migrates a blob container from container level WORM to object level immutability
+   * enabled container. Prerequisites require a container level immutability policy either in locked
+   * or unlocked state, Account level versioning must be enabled and there should be no Legal hold on
+   * the container.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginObjectLevelWorm(resourceGroupName: string, accountName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        containerName,
+        options
+      },
+      beginObjectLevelWormOperationSpec,
+      options);
+  }
+
+  /**
    * Lists all containers and does not support a prefix like data plane. Also SRP today does not
    * return continuation token.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
@@ -979,7 +1031,11 @@ const setLegalHoldOperationSpec: msRest.OperationSpec = {
   ],
   requestBody: {
     parameterPath: {
-      tags: "tags"
+      tags: "tags",
+      allowProtectedAppendWritesAll: [
+        "options",
+        "allowProtectedAppendWritesAll"
+      ]
     },
     mapper: {
       ...Mappers.LegalHold,
@@ -1014,7 +1070,11 @@ const clearLegalHoldOperationSpec: msRest.OperationSpec = {
   ],
   requestBody: {
     parameterPath: {
-      tags: "tags"
+      tags: "tags",
+      allowProtectedAppendWritesAll: [
+        "options",
+        "allowProtectedAppendWritesAll"
+      ]
     },
     mapper: {
       ...Mappers.LegalHold,
@@ -1050,16 +1110,10 @@ const createOrUpdateImmutabilityPolicyOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: {
-      immutabilityPeriodSinceCreationInDays: [
-        "options",
-        "immutabilityPeriodSinceCreationInDays"
-      ],
-      allowProtectedAppendWrites: [
-        "options",
-        "allowProtectedAppendWrites"
-      ]
-    },
+    parameterPath: [
+      "options",
+      "parameters"
+    ],
     mapper: Mappers.ImmutabilityPolicy
   },
   responses: {
@@ -1181,16 +1235,10 @@ const extendImmutabilityPolicyOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: {
-      immutabilityPeriodSinceCreationInDays: [
-        "options",
-        "immutabilityPeriodSinceCreationInDays"
-      ],
-      allowProtectedAppendWrites: [
-        "options",
-        "allowProtectedAppendWrites"
-      ]
-    },
+    parameterPath: [
+      "options",
+      "parameters"
+    ],
     mapper: Mappers.ImmutabilityPolicy
   },
   responses: {
@@ -1232,6 +1280,31 @@ const leaseOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.LeaseContainerResponse
     },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginObjectLevelWormOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/migrate",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.containerName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

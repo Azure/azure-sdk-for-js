@@ -7,6 +7,8 @@
  */
 
 export {
+  AccessPolicy,
+  AccountImmutabilityPolicyProperties,
   ActiveDirectoryProperties,
   AzureEntityResource,
   AzureFilesIdentityBasedAuthentication,
@@ -47,6 +49,8 @@ export {
   Identity,
   ImmutabilityPolicy,
   ImmutabilityPolicyProperties,
+  ImmutableStorageAccount,
+  ImmutableStorageWithVersioning,
   IPRule,
   KeyCreationTime,
   KeyPolicy,
@@ -74,6 +78,7 @@ export {
   PrivateEndpointConnectionListResult,
   PrivateLinkResource,
   PrivateLinkServiceConnectionState,
+  ProtectedAppendWritesHistory,
   ProtocolSettings,
   ProxyResource,
   QueueServiceProperties,
@@ -82,6 +87,7 @@ export {
   RestorePolicyProperties,
   RoutingPreference,
   SasPolicy,
+  SignedIdentifier,
   Sku,
   SmbSetting,
   StorageAccount,

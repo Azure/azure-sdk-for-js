@@ -213,7 +213,7 @@ export const StorageAccountCheckNameAvailabilityParameters: msRest.CompositeMapp
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: "Microsoft.Storage/storageAccounts",
+        defaultValue: 'Microsoft.Storage/storageAccounts',
         type: {
           name: "String"
         }
@@ -298,7 +298,10 @@ export const SkuInformation: msRest.CompositeMapper = {
         serializedName: "tier",
         type: {
           name: "Enum",
-          allowedValues: ["Standard", "Premium"]
+          allowedValues: [
+            "Standard",
+            "Premium"
+          ]
         }
       },
       resourceType: {
@@ -374,7 +377,10 @@ export const CheckNameAvailabilityResult: msRest.CompositeMapper = {
         serializedName: "reason",
         type: {
           name: "Enum",
-          allowedValues: ["AccountNameInvalid", "AlreadyExists"]
+          allowedValues: [
+            "AccountNameInvalid",
+            "AlreadyExists"
+          ]
         }
       },
       message: {
@@ -428,7 +434,7 @@ export const SasPolicy: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "expirationAction",
-        defaultValue: "Log",
+        defaultValue: 'Log',
         type: {
           name: "String"
         }
@@ -617,7 +623,7 @@ export const Encryption: msRest.CompositeMapper = {
       keySource: {
         required: true,
         serializedName: "keySource",
-        defaultValue: "Microsoft.Storage",
+        defaultValue: 'Microsoft.Storage',
         type: {
           name: "String"
         }
@@ -707,10 +713,12 @@ export const VirtualNetworkRule: msRest.CompositeMapper = {
       },
       action: {
         serializedName: "action",
-        defaultValue: "Allow",
+        defaultValue: 'Allow',
         type: {
           name: "Enum",
-          allowedValues: ["Allow"]
+          allowedValues: [
+            "Allow"
+          ]
         }
       },
       state: {
@@ -738,10 +746,12 @@ export const IPRule: msRest.CompositeMapper = {
       },
       action: {
         serializedName: "action",
-        defaultValue: "Allow",
+        defaultValue: 'Allow',
         type: {
           name: "Enum",
-          allowedValues: ["Allow"]
+          allowedValues: [
+            "Allow"
+          ]
         }
       }
     }
@@ -756,7 +766,7 @@ export const NetworkRuleSet: msRest.CompositeMapper = {
     modelProperties: {
       bypass: {
         serializedName: "bypass",
-        defaultValue: "AzureServices",
+        defaultValue: 'AzureServices',
         type: {
           name: "String"
         }
@@ -800,10 +810,13 @@ export const NetworkRuleSet: msRest.CompositeMapper = {
       defaultAction: {
         required: true,
         serializedName: "defaultAction",
-        defaultValue: "Allow",
+        defaultValue: 'Allow',
         type: {
           name: "Enum",
-          allowedValues: ["Allow", "Deny"]
+          allowedValues: [
+            "Allow",
+            "Deny"
+          ]
         }
       }
     }
@@ -881,6 +894,12 @@ export const AzureFilesIdentityBasedAuthentication: msRest.CompositeMapper = {
           name: "Composite",
           className: "ActiveDirectoryProperties"
         }
+      },
+      defaultSharePermission: {
+        serializedName: "defaultSharePermission",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -908,6 +927,61 @@ export const RoutingPreference: msRest.CompositeMapper = {
         serializedName: "publishInternetEndpoints",
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const AccountImmutabilityPolicyProperties: msRest.CompositeMapper = {
+  serializedName: "AccountImmutabilityPolicyProperties",
+  type: {
+    name: "Composite",
+    className: "AccountImmutabilityPolicyProperties",
+    modelProperties: {
+      immutabilityPeriodSinceCreationInDays: {
+        serializedName: "immutabilityPeriodSinceCreationInDays",
+        constraints: {
+          InclusiveMaximum: 146000,
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      state: {
+        serializedName: "state",
+        type: {
+          name: "String"
+        }
+      },
+      allowProtectedAppendWrites: {
+        serializedName: "allowProtectedAppendWrites",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const ImmutableStorageAccount: msRest.CompositeMapper = {
+  serializedName: "ImmutableStorageAccount",
+  type: {
+    name: "Composite",
+    className: "ImmutableStorageAccount",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      immutabilityPolicy: {
+        serializedName: "immutabilityPolicy",
+        type: {
+          name: "Composite",
+          className: "AccountImmutabilityPolicyProperties"
         }
       }
     }
@@ -996,7 +1070,10 @@ export const Sku: msRest.CompositeMapper = {
         serializedName: "tier",
         type: {
           name: "Enum",
-          allowedValues: ["Standard", "Premium"]
+          allowedValues: [
+            "Standard",
+            "Premium"
+          ]
         }
       }
     }
@@ -1056,6 +1133,12 @@ export const StorageAccountCreateParameters: msRest.CompositeMapper = {
           className: "Identity"
         }
       },
+      publicNetworkAccess: {
+        serializedName: "properties.publicNetworkAccess",
+        type: {
+          name: "String"
+        }
+      },
       sasPolicy: {
         serializedName: "properties.sasPolicy",
         type: {
@@ -1095,7 +1178,10 @@ export const StorageAccountCreateParameters: msRest.CompositeMapper = {
         serializedName: "properties.accessTier",
         type: {
           name: "Enum",
-          allowedValues: ["Hot", "Cool"]
+          allowedValues: [
+            "Hot",
+            "Cool"
+          ]
         }
       },
       azureFilesIdentityBasedAuthentication: {
@@ -1152,6 +1238,25 @@ export const StorageAccountCreateParameters: msRest.CompositeMapper = {
         serializedName: "properties.isNfsV3Enabled",
         type: {
           name: "Boolean"
+        }
+      },
+      allowCrossTenantReplication: {
+        serializedName: "properties.allowCrossTenantReplication",
+        type: {
+          name: "Boolean"
+        }
+      },
+      defaultToOAuthAuthentication: {
+        serializedName: "properties.defaultToOAuthAuthentication",
+        type: {
+          name: "Boolean"
+        }
+      },
+      immutableStorageWithVersioning: {
+        serializedName: "properties.immutableStorageWithVersioning",
+        type: {
+          name: "Composite",
+          className: "ImmutableStorageAccount"
         }
       }
     }
@@ -1673,7 +1778,11 @@ export const StorageAccount: msRest.CompositeMapper = {
         serializedName: "properties.provisioningState",
         type: {
           name: "Enum",
-          allowedValues: ["Creating", "ResolvingDNS", "Succeeded"]
+          allowedValues: [
+            "Creating",
+            "ResolvingDNS",
+            "Succeeded"
+          ]
         }
       },
       primaryEndpoints: {
@@ -1696,7 +1805,10 @@ export const StorageAccount: msRest.CompositeMapper = {
         serializedName: "properties.statusOfPrimary",
         type: {
           name: "Enum",
-          allowedValues: ["available", "unavailable"]
+          allowedValues: [
+            "available",
+            "unavailable"
+          ]
         }
       },
       lastGeoFailoverTime: {
@@ -1718,7 +1830,10 @@ export const StorageAccount: msRest.CompositeMapper = {
         serializedName: "properties.statusOfSecondary",
         type: {
           name: "Enum",
-          allowedValues: ["available", "unavailable"]
+          allowedValues: [
+            "available",
+            "unavailable"
+          ]
         }
       },
       creationTime: {
@@ -1781,7 +1896,10 @@ export const StorageAccount: msRest.CompositeMapper = {
         serializedName: "properties.accessTier",
         type: {
           name: "Enum",
-          allowedValues: ["Hot", "Cool"]
+          allowedValues: [
+            "Hot",
+            "Cool"
+          ]
         }
       },
       azureFilesIdentityBasedAuthentication: {
@@ -1883,6 +2001,31 @@ export const StorageAccount: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      allowCrossTenantReplication: {
+        serializedName: "properties.allowCrossTenantReplication",
+        type: {
+          name: "Boolean"
+        }
+      },
+      defaultToOAuthAuthentication: {
+        serializedName: "properties.defaultToOAuthAuthentication",
+        type: {
+          name: "Boolean"
+        }
+      },
+      publicNetworkAccess: {
+        serializedName: "properties.publicNetworkAccess",
+        type: {
+          name: "String"
+        }
+      },
+      immutableStorageWithVersioning: {
+        serializedName: "properties.immutableStorageWithVersioning",
+        type: {
+          name: "Composite",
+          className: "ImmutableStorageAccount"
+        }
       }
     }
   }
@@ -1913,7 +2056,10 @@ export const StorageAccountKey: msRest.CompositeMapper = {
         serializedName: "permissions",
         type: {
           name: "Enum",
-          allowedValues: ["Read", "Full"]
+          allowedValues: [
+            "Read",
+            "Full"
+          ]
         }
       },
       creationTime: {
@@ -2030,7 +2176,10 @@ export const StorageAccountUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.accessTier",
         type: {
           name: "Enum",
-          allowedValues: ["Hot", "Cool"]
+          allowedValues: [
+            "Hot",
+            "Cool"
+          ]
         }
       },
       azureFilesIdentityBasedAuthentication: {
@@ -2082,6 +2231,31 @@ export const StorageAccountUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.allowSharedKeyAccess",
         type: {
           name: "Boolean"
+        }
+      },
+      allowCrossTenantReplication: {
+        serializedName: "properties.allowCrossTenantReplication",
+        type: {
+          name: "Boolean"
+        }
+      },
+      defaultToOAuthAuthentication: {
+        serializedName: "properties.defaultToOAuthAuthentication",
+        type: {
+          name: "Boolean"
+        }
+      },
+      publicNetworkAccess: {
+        serializedName: "properties.publicNetworkAccess",
+        type: {
+          name: "String"
+        }
+      },
+      immutableStorageWithVersioning: {
+        serializedName: "properties.immutableStorageWithVersioning",
+        type: {
+          name: "Composite",
+          className: "ImmutableStorageAccount"
         }
       },
       kind: {
@@ -2202,7 +2376,10 @@ export const AccountSasParameters: msRest.CompositeMapper = {
         serializedName: "signedProtocol",
         type: {
           name: "Enum",
-          allowedValues: ["https,http", "https"]
+          allowedValues: [
+            "https,http",
+            "https"
+          ]
         }
       },
       sharedAccessStartTime: {
@@ -2280,7 +2457,10 @@ export const ServiceSasParameters: msRest.CompositeMapper = {
         serializedName: "signedProtocol",
         type: {
           name: "Enum",
-          allowedValues: ["https,http", "https"]
+          allowedValues: [
+            "https,http",
+            "https"
+          ]
         }
       },
       sharedAccessStartTime: {
@@ -2698,7 +2878,7 @@ export const ManagementPolicyRule: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: "Lifecycle",
+        defaultValue: 'Lifecycle',
         type: {
           name: "String"
         }
@@ -2977,7 +3157,6 @@ export const BlobInventoryPolicyFilter: msRest.CompositeMapper = {
         }
       },
       blobTypes: {
-        required: true,
         serializedName: "blobTypes",
         type: {
           name: "Sequence",
@@ -3011,11 +3190,43 @@ export const BlobInventoryPolicyDefinition: msRest.CompositeMapper = {
     className: "BlobInventoryPolicyDefinition",
     modelProperties: {
       filters: {
-        required: true,
         serializedName: "filters",
         type: {
           name: "Composite",
           className: "BlobInventoryPolicyFilter"
+        }
+      },
+      format: {
+        required: true,
+        serializedName: "format",
+        type: {
+          name: "String"
+        }
+      },
+      schedule: {
+        required: true,
+        serializedName: "schedule",
+        type: {
+          name: "String"
+        }
+      },
+      objectType: {
+        required: true,
+        serializedName: "objectType",
+        type: {
+          name: "String"
+        }
+      },
+      schemaFields: {
+        required: true,
+        serializedName: "schemaFields",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -3038,6 +3249,13 @@ export const BlobInventoryPolicyRule: msRest.CompositeMapper = {
       name: {
         required: true,
         serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      destination: {
+        required: true,
+        serializedName: "destination",
         type: {
           name: "String"
         }
@@ -3067,18 +3285,11 @@ export const BlobInventoryPolicySchema: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
-      destination: {
-        required: true,
-        serializedName: "destination",
-        type: {
-          name: "String"
-        }
-      },
       type: {
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: "Inventory",
+        defaultValue: 'Inventory',
         type: {
           name: "String"
         }
@@ -3347,6 +3558,18 @@ export const UpdateHistoryProperty: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      allowProtectedAppendWrites: {
+        serializedName: "allowProtectedAppendWrites",
+        type: {
+          name: "Boolean"
+        }
+      },
+      allowProtectedAppendWritesAll: {
+        serializedName: "allowProtectedAppendWritesAll",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -3373,6 +3596,12 @@ export const ImmutabilityPolicyProperties: msRest.CompositeMapper = {
       },
       allowProtectedAppendWrites: {
         serializedName: "properties.allowProtectedAppendWrites",
+        type: {
+          name: "Boolean"
+        }
+      },
+      allowProtectedAppendWritesAll: {
+        serializedName: "properties.allowProtectedAppendWritesAll",
         type: {
           name: "Boolean"
         }
@@ -3446,6 +3675,29 @@ export const TagProperty: msRest.CompositeMapper = {
   }
 };
 
+export const ProtectedAppendWritesHistory: msRest.CompositeMapper = {
+  serializedName: "ProtectedAppendWritesHistory",
+  type: {
+    name: "Composite",
+    className: "ProtectedAppendWritesHistory",
+    modelProperties: {
+      allowProtectedAppendWritesAll: {
+        serializedName: "allowProtectedAppendWritesAll",
+        type: {
+          name: "Boolean"
+        }
+      },
+      timestamp: {
+        readOnly: true,
+        serializedName: "timestamp",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
 export const LegalHoldProperties: msRest.CompositeMapper = {
   serializedName: "LegalHoldProperties",
   type: {
@@ -3469,6 +3721,43 @@ export const LegalHoldProperties: msRest.CompositeMapper = {
               className: "TagProperty"
             }
           }
+        }
+      },
+      protectedAppendWritesHistory: {
+        serializedName: "protectedAppendWritesHistory",
+        type: {
+          name: "Composite",
+          className: "ProtectedAppendWritesHistory"
+        }
+      }
+    }
+  }
+};
+
+export const ImmutableStorageWithVersioning: msRest.CompositeMapper = {
+  serializedName: "ImmutableStorageWithVersioning",
+  type: {
+    name: "Composite",
+    className: "ImmutableStorageWithVersioning",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      timeStamp: {
+        readOnly: true,
+        serializedName: "timeStamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      migrationState: {
+        readOnly: true,
+        serializedName: "migrationState",
+        type: {
+          name: "String"
         }
       }
     }
@@ -3526,7 +3815,11 @@ export const BlobContainer: msRest.CompositeMapper = {
         serializedName: "properties.publicAccess",
         type: {
           name: "Enum",
-          allowedValues: ["Container", "Blob", "None"]
+          allowedValues: [
+            "Container",
+            "Blob",
+            "None"
+          ]
         }
       },
       lastModifiedTime: {
@@ -3597,6 +3890,25 @@ export const BlobContainer: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      immutableStorageWithVersioning: {
+        serializedName: "properties.immutableStorageWithVersioning",
+        type: {
+          name: "Composite",
+          className: "ImmutableStorageWithVersioning"
+        }
+      },
+      enableNfsV3RootSquash: {
+        serializedName: "properties.enableNfsV3RootSquash",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enableNfsV3AllSquash: {
+        serializedName: "properties.enableNfsV3AllSquash",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -3624,6 +3936,12 @@ export const ImmutabilityPolicy: msRest.CompositeMapper = {
       },
       allowProtectedAppendWrites: {
         serializedName: "properties.allowProtectedAppendWrites",
+        type: {
+          name: "Boolean"
+        }
+      },
+      allowProtectedAppendWritesAll: {
+        serializedName: "properties.allowProtectedAppendWritesAll",
         type: {
           name: "Boolean"
         }
@@ -3655,6 +3973,12 @@ export const LegalHold: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      },
+      allowProtectedAppendWritesAll: {
+        serializedName: "allowProtectedAppendWritesAll",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -3712,7 +4036,11 @@ export const ListContainerItem: msRest.CompositeMapper = {
         serializedName: "properties.publicAccess",
         type: {
           name: "Enum",
-          allowedValues: ["Container", "Blob", "None"]
+          allowedValues: [
+            "Container",
+            "Blob",
+            "None"
+          ]
         }
       },
       lastModifiedTime: {
@@ -3780,6 +4108,25 @@ export const ListContainerItem: msRest.CompositeMapper = {
       hasImmutabilityPolicy: {
         readOnly: true,
         serializedName: "properties.hasImmutabilityPolicy",
+        type: {
+          name: "Boolean"
+        }
+      },
+      immutableStorageWithVersioning: {
+        serializedName: "properties.immutableStorageWithVersioning",
+        type: {
+          name: "Composite",
+          className: "ImmutableStorageWithVersioning"
+        }
+      },
+      enableNfsV3RootSquash: {
+        serializedName: "properties.enableNfsV3RootSquash",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enableNfsV3AllSquash: {
+        serializedName: "properties.enableNfsV3AllSquash",
         type: {
           name: "Boolean"
         }
@@ -4287,6 +4634,57 @@ export const FileServiceItems: msRest.CompositeMapper = {
   }
 };
 
+export const AccessPolicy: msRest.CompositeMapper = {
+  serializedName: "AccessPolicy",
+  type: {
+    name: "Composite",
+    className: "AccessPolicy",
+    modelProperties: {
+      startTime: {
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      expiryTime: {
+        serializedName: "expiryTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      permission: {
+        serializedName: "permission",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SignedIdentifier: msRest.CompositeMapper = {
+  serializedName: "SignedIdentifier",
+  type: {
+    name: "Composite",
+    className: "SignedIdentifier",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      accessPolicy: {
+        serializedName: "accessPolicy",
+        type: {
+          name: "Composite",
+          className: "AccessPolicy"
+        }
+      }
+    }
+  }
+};
+
 export const FileShare: msRest.CompositeMapper = {
   serializedName: "FileShare",
   type: {
@@ -4387,6 +4785,39 @@ export const FileShare: msRest.CompositeMapper = {
         serializedName: "properties.shareUsageBytes",
         type: {
           name: "Number"
+        }
+      },
+      leaseStatus: {
+        readOnly: true,
+        serializedName: "properties.leaseStatus",
+        type: {
+          name: "String"
+        }
+      },
+      leaseState: {
+        readOnly: true,
+        serializedName: "properties.leaseState",
+        type: {
+          name: "String"
+        }
+      },
+      leaseDuration: {
+        readOnly: true,
+        serializedName: "properties.leaseDuration",
+        type: {
+          name: "String"
+        }
+      },
+      signedIdentifiers: {
+        serializedName: "properties.signedIdentifiers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SignedIdentifier"
+            }
+          }
         }
       },
       snapshotTime: {
@@ -4526,11 +4957,107 @@ export const FileShareItem: msRest.CompositeMapper = {
           name: "Number"
         }
       },
+      leaseStatus: {
+        readOnly: true,
+        serializedName: "properties.leaseStatus",
+        type: {
+          name: "String"
+        }
+      },
+      leaseState: {
+        readOnly: true,
+        serializedName: "properties.leaseState",
+        type: {
+          name: "String"
+        }
+      },
+      leaseDuration: {
+        readOnly: true,
+        serializedName: "properties.leaseDuration",
+        type: {
+          name: "String"
+        }
+      },
+      signedIdentifiers: {
+        serializedName: "properties.signedIdentifiers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SignedIdentifier"
+            }
+          }
+        }
+      },
       snapshotTime: {
         readOnly: true,
         serializedName: "properties.snapshotTime",
         type: {
           name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const LeaseShareRequest: msRest.CompositeMapper = {
+  serializedName: "LeaseShareRequest",
+  type: {
+    name: "Composite",
+    className: "LeaseShareRequest",
+    modelProperties: {
+      action: {
+        required: true,
+        serializedName: "action",
+        type: {
+          name: "String"
+        }
+      },
+      leaseId: {
+        serializedName: "leaseId",
+        type: {
+          name: "String"
+        }
+      },
+      breakPeriod: {
+        serializedName: "breakPeriod",
+        type: {
+          name: "Number"
+        }
+      },
+      leaseDuration: {
+        serializedName: "leaseDuration",
+        type: {
+          name: "Number"
+        }
+      },
+      proposedLeaseId: {
+        serializedName: "proposedLeaseId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LeaseShareResponse: msRest.CompositeMapper = {
+  serializedName: "LeaseShareResponse",
+  type: {
+    name: "Composite",
+    className: "LeaseShareResponse",
+    modelProperties: {
+      leaseId: {
+        serializedName: "leaseId",
+        type: {
+          name: "String"
+        }
+      },
+      leaseTimeSeconds: {
+        serializedName: "leaseTimeSeconds",
+        type: {
+          name: "String"
         }
       }
     }
@@ -4757,6 +5284,22 @@ export const BlobContainersExtendImmutabilityPolicyHeaders: msRest.CompositeMapp
   type: {
     name: "Composite",
     className: "BlobContainersExtendImmutabilityPolicyHeaders",
+    modelProperties: {
+      eTag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FileSharesLeaseHeaders: msRest.CompositeMapper = {
+  serializedName: "fileshares-lease-headers",
+  type: {
+    name: "Composite",
+    className: "FileSharesLeaseHeaders",
     modelProperties: {
       eTag: {
         serializedName: "etag",

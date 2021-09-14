@@ -464,6 +464,40 @@ export class StorageAccounts {
   }
 
   /**
+   * Live Migration of storage account to enable Hns
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param requestType Required. Hierarchical namespace migration type can either be a hierarchical
+   * namespace validation request 'HnsOnValidationRequest' or a hydration request
+   * 'HnsOnHydrationRequest'. The validation request will validate the migration whereas the
+   * hydration request will migrate the account.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  hierarchicalNamespaceMigration(resourceGroupName: string, accountName: string, requestType: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginHierarchicalNamespaceMigration(resourceGroupName,accountName,requestType,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Abort live Migration of storage account to enable Hns
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  abortHierarchicalNamespaceMigration(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginAbortHierarchicalNamespaceMigration(resourceGroupName,accountName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
    * Restore blobs in the specified blob ranges
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -567,6 +601,53 @@ export class StorageAccounts {
         options
       },
       beginFailoverOperationSpec,
+      options);
+  }
+
+  /**
+   * Live Migration of storage account to enable Hns
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param requestType Required. Hierarchical namespace migration type can either be a hierarchical
+   * namespace validation request 'HnsOnValidationRequest' or a hydration request
+   * 'HnsOnHydrationRequest'. The validation request will validate the migration whereas the
+   * hydration request will migrate the account.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginHierarchicalNamespaceMigration(resourceGroupName: string, accountName: string, requestType: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        requestType,
+        options
+      },
+      beginHierarchicalNamespaceMigrationOperationSpec,
+      options);
+  }
+
+  /**
+   * Abort live Migration of storage account to enable Hns
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginAbortHierarchicalNamespaceMigration(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        options
+      },
+      beginAbortHierarchicalNamespaceMigrationOperationSpec,
       options);
   }
 
@@ -1016,6 +1097,55 @@ const beginFailoverOperationSpec: msRest.OperationSpec = {
     202: {},
     default: {
       bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginHierarchicalNamespaceMigrationOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/hnsonmigration",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.requestType
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginAbortHierarchicalNamespaceMigrationOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/aborthnsonmigration",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
