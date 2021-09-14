@@ -220,7 +220,10 @@ describe("Certificates client - create, read, update and delete", () => {
   });
 
   it("can get a certificate's secret in PKCS 12 format", async function(this: Context) {
-    recorder.skip(undefined, "This test uses the file system and the certificate value has been sanitized in recordings.");
+    recorder.skip(
+      undefined,
+      "This test uses the file system and the certificate value has been sanitized in recordings."
+    );
 
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const createPoller = await client.beginCreateCertificate(
