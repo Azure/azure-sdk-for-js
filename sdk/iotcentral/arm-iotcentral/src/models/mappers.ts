@@ -113,6 +113,12 @@ export const App: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      state: {
+        serializedName: "properties.state",
+        type: {
+          name: "String"
+        }
+      },
       sku: {
         required: true,
         serializedName: "sku",
@@ -170,6 +176,12 @@ export const AppPatch: msRest.CompositeMapper = {
       },
       template: {
         serializedName: "properties.template",
+        type: {
+          name: "String"
+        }
+      },
+      state: {
+        serializedName: "properties.state",
         type: {
           name: "String"
         }
