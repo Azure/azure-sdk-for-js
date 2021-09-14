@@ -254,7 +254,8 @@ function handleErrorResponse(
       return { error: null, shouldReturnResponse: false };
     }
   }
-
+  console.log(parsedResponse);
+  console.log(parsedResponse.bodyAsText);
   const errorResponseSpec = responseSpec ?? operationSpec.responses.default;
   const streaming =
     parsedResponse.request.streamResponseStatusCodes?.has(parsedResponse.status) ||
