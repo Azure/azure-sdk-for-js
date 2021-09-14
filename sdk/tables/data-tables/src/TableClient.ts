@@ -389,11 +389,16 @@ export class TableClient {
 
     try {
       const { disableTypeConversion, queryOptions, ...getEntityOptions } = updatedOptions || {};
-      await this.table.queryEntitiesWithPartitionAndRowKey(this.tableName, partitionKey, rowKey, {
-        ...getEntityOptions,
-        queryOptions: serializeQueryOptions(queryOptions || {}),
-        onResponse
-      });
+      await this.table.queryEntitiesWithPartitionAndRowKey(
+        this.tableName,
+        escapeString(partitionKey),
+        escapeString(rowKey),
+        {
+          ...getEntityOptions,
+          queryOptions: serializeQueryOptions(queryOptions || {}),
+          onResponse
+        }
+      );
       const tableEntity = deserialize<TableEntityResult<T>>(
         parsedBody,
         disableTypeConversion ?? false
@@ -641,8 +646,8 @@ export class TableClient {
       };
       return await this.table.deleteEntity(
         this.tableName,
-        partitionKey,
-        rowKey,
+        escapeString(partitionKey),
+        escapeString(rowKey),
         etag,
         deleteOptions
       );
@@ -706,16 +711,19 @@ export class TableClient {
         throw new Error("partitionKey and rowKey must be defined");
       }
 
+      const partitionKey = escapeString(entity.partitionKey);
+      const rowKey = escapeString(entity.rowKey);
+
       const { etag = "*", ...updateEntityOptions } = updatedOptions || {};
       if (mode === "Merge") {
-        return await this.table.mergeEntity(this.tableName, entity.partitionKey, entity.rowKey, {
+        return await this.table.mergeEntity(this.tableName, partitionKey, rowKey, {
           tableEntityProperties: serialize(entity),
           ifMatch: etag,
           ...updateEntityOptions
         });
       }
       if (mode === "Replace") {
-        return await this.table.updateEntity(this.tableName, entity.partitionKey, entity.rowKey, {
+        return await this.table.updateEntity(this.tableName, partitionKey, rowKey, {
           tableEntityProperties: serialize(entity),
           ifMatch: etag,
           ...updateEntityOptions
@@ -779,15 +787,18 @@ export class TableClient {
         throw new Error("partitionKey and rowKey must be defined");
       }
 
+      const partitionKey = escapeString(entity.partitionKey);
+      const rowKey = escapeString(entity.rowKey);
+
       if (mode === "Merge") {
-        return await this.table.mergeEntity(this.tableName, entity.partitionKey, entity.rowKey, {
+        return await this.table.mergeEntity(this.tableName, partitionKey, rowKey, {
           tableEntityProperties: serialize(entity),
           ...updatedOptions
         });
       }
 
       if (mode === "Replace") {
-        return await this.table.updateEntity(this.tableName, entity.partitionKey, entity.rowKey, {
+        return await this.table.updateEntity(this.tableName, partitionKey, rowKey, {
           tableEntityProperties: serialize(entity),
           ...updatedOptions
         });
@@ -962,4 +973,8 @@ interface InternalListTableEntitiesOptions extends ListTableEntitiesOptions {
    * This option applies for all the properties
    */
   disableTypeConversion?: boolean;
+}
+
+function escapeString(value: string) {
+  return value.replace(/'/g, "''");
 }
