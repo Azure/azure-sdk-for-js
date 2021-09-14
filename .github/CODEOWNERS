@@ -34,9 +34,12 @@
 /sdk/batch/ @dpwatrous @paterasMSFT @zfengms @deyaaeldeen
 
 # PRLabel: %Communication
-/sdk/communication/ @DominikMe @0rland0Wats0n @ankitarorabit @Azure/azure-sdk-communication-code-reviewers
-/sdk/communication/communication-identity/ @petrsvihlik @martinbarnas-ms
+/sdk/communication/communication-identity/ @Azure/acs-identity-sdk 
 /sdk/communication/communication-chat/ @LuChen-Microsoft
+/sdk/communication/communication-phone-numbers/ @miguhern
+/sdk/communication/communication-network-traversal/ @AriZavala2
+/sdk/communication/communication-sms/ @RoyHerrod
+/sdk/communication/communication-common/ @Azure/acs-identity-sdk
 
 # PRLabel: %Container Registry
 /sdk/containerregistry/ @jeremymeng
