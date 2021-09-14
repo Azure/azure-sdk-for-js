@@ -170,7 +170,15 @@ export interface ClientTokenResponse {
   /**
    * The client token.
    */
-  token?: string;
+  token: string;
+  /**
+   * The URL client connects to
+   */
+  baseUrl: string;
+  /**
+   * The URL client connects to with access_token query string
+   */
+  url: string;
 }
 
 /**
@@ -742,13 +750,20 @@ export class WebPubSubServiceClient {
     );
 
     try {
+      const endpoint = this.endpoint.endsWith("/") ? this.endpoint : this.endpoint + "/";
+      const clientEndpoint = endpoint.replace(/(http)(s?:\/\/)/gi, "ws$2");
+      const baseUrl = `${clientEndpoint}client/hubs/${this.hubName}`;
+
+      let token: string;
       if (isTokenCredential(this.credential)) {
-        return await this.client.webPubSub.generateClientToken(this.hubName, updatedOptions);
+        const response = await this.client.webPubSub.generateClientToken(
+          this.hubName,
+          updatedOptions
+        );
+        token = response.token!;
       } else {
-        const endpoint = this.endpoint.endsWith("/") ? this.endpoint : this.endpoint + "/";
         const key = this.credential.key;
-        const hub = this.hubName;
-        const audience = `${endpoint}client/hubs/${hub}`;
+        const audience = `${endpoint}client/hubs/${this.hubName}`;
         const payload = { role: options?.roles };
         const signOptions: jwt.SignOptions = {
           audience: audience,
@@ -761,11 +776,14 @@ export class WebPubSubServiceClient {
         if (options?.userId) {
           signOptions.subject = options?.userId;
         }
-        const token = jwt.sign(payload, key, signOptions);
-        return {
-          token
-        };
+        token = jwt.sign(payload, key, signOptions);
       }
+
+      return {
+        token,
+        baseUrl,
+        url: `${baseUrl}?access_token=${token}`
+      };
     } finally {
       span.end();
     }
