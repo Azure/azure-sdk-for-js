@@ -26,6 +26,14 @@
       "_justification": "Secret used by test code"
     },
     {
+      "placeholder": "Resource",
+      "_justification": "False positive: `export type Secret = Resource & {` (sdk/keyvault/arm-keyvault/review/arm-keyvault.api.md)"
+    },
+    {
+      "placeholder": "sanitized.${expiryReplacement}.sanitized",
+      "_justification": "Replacement in Azure Container Registry playback recordings (sdk/containerregistry/container-registry/test/utils/utils.ts)"
+    },
+    {
       "placeholder": [
         "`$`{NPM_TOKEN`}",
         "azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
