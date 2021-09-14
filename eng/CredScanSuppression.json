@@ -26,6 +26,10 @@
       "_justification": "Secret used by test code"
     },
     {
+      "placeholder": "SharedKey fakestorageaccount:pass123",
+      "_justification": "fake test secret placeholder used by storage blob (sdk/storage/storage-blob/test/utils/testutils.common.ts)"
+    },
+    {
       "placeholder": [
         "`$`{NPM_TOKEN`}",
         "azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
