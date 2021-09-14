@@ -224,7 +224,10 @@ describe("Certificates client - create, read, update and delete", () => {
       undefined,
       "This test uses the file system and the certificate value has been sanitized in recordings."
     );
-
+    // Skipping this test from the live browser test runs, because we use the file system.
+    if (!isNode) {
+      this.skip();
+    }
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const createPoller = await client.beginCreateCertificate(
       certificateName,
