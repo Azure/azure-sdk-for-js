@@ -24,15 +24,15 @@ npm install @azure/ms-rest-nodeauth
 ```
 
 ##### Sample code
-
-###### Interactive Login
 ```ts
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { LogAnalyticsClient, LogAnalyticsModels, LogAnalyticsMappers } from "@azure/loganalytics";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
-msRestNodeAuth.interactiveLogin().then((creds) => {
+msRestNodeAuth.interactiveLogin({
+  tokenAudience: "https://api.loganalytics.io"
+}).then((creds) => {
   const client = new LogAnalyticsClient(creds, subscriptionId);
   const workspaceId = "testworkspaceId";
   const body: LogAnalyticsModels.QueryBody = {
@@ -48,37 +48,6 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
   console.error(err);
 });
 ```
-
-###### Client Credential Login
-```ts
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { LogAnalyticsClient, LogAnalyticsModels } from "@azure/loganalytics";
-
-const tenantId = process.env["AZURE_TENANT_ID"];
-const clientId = process.env["AZURE_CLIENT_ID"];
-const clientSecret = process.env["AZURE_CLIENT_SECRET"];
-
-const credentials:msRest.ServiceClientCredentials = await msRestNodeAuth.loginWithServicePrincipalSecret(
-  clientId,
-  clientSecret,
-  tenantId,
-  {
-    tokenAudience: "https://api.loganalytics.io"
-  }
-);
-const client = new LogAnalyticsClient(credentials);
-const workspaceId = "testworkspaceId";
-const body: LogAnalyticsModels.QueryBody = {
-  query: "testquery",
-  timespan: "testtimespan",
-  workspaces: ["testworkspaces"]
-};
-const result = await client.query.execute(workspaceId, body);
-console.log("The result is:");
-console.log(result);
-```
-
 
 #### browser - Authentication, client creation and execute query as an example written in JavaScript.
 
