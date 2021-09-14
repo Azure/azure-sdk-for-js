@@ -126,7 +126,7 @@ describe("internal crypto tests", () => {
   describe("from a keyClient", () => {
     it("shares the generated client", () => {
       const keyClient = new KeyClient("https://my.vault.azure.net/", tokenCredential);
-      const cryptoClient = keyClient.getCryptographyClient("keyId", "v1");
+      const cryptoClient = keyClient.getCryptographyClient("keyId", { keyVersion: "v1" });
       assert.strictEqual(keyClient["client"], cryptoClient["remoteProvider"]!["client"]);
     });
 

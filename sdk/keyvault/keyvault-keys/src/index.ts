@@ -65,7 +65,8 @@ import {
   ReleaseKeyResult,
   KeyReleasePolicy,
   KeyExportEncryptionAlgorithm,
-  RandomBytes
+  RandomBytes,
+  GetCryptographyClientOptions
 } from "./keysModels";
 
 import { CryptographyClient } from "./cryptographyClient";
@@ -188,7 +189,8 @@ export {
   ReleaseKeyOptions,
   ReleaseKeyResult,
   KeyReleasePolicy,
-  KeyExportEncryptionAlgorithm
+  KeyExportEncryptionAlgorithm,
+  GetCryptographyClientOptions
 };
 
 const withTrace = createTraceFunction("Azure.KeyVault.Keys.KeyClient");
@@ -440,17 +442,27 @@ export class KeyClient {
    * @param version - Optional version of the key used to perform cryptographic operations.
    * @returns - A {@link CryptographyClient} using the same options, credentials, and http client as this {@link KeyClient}
    */
-  public getCryptographyClient(keyName: string, keyVersion?: string): CryptographyClient {
-    const keyUrl = new URL(["keys", keyName, keyVersion].filter(Boolean).join("/"), this.vaultUrl);
+  public getCryptographyClient(
+    keyName: string,
+    options?: GetCryptographyClientOptions
+  ): CryptographyClient {
+    const keyUrl = new URL(
+      ["keys", keyName, options?.keyVersion].filter(Boolean).join("/"),
+      this.vaultUrl
+    );
 
     // The goals of this method are discoverability and performance (by sharing a client and pipeline).
     // The existing cryptography client does not accept a pipeline as an argument, nor does it expose it.
     // In order to avoid publicly exposing the pipeline we will pass in the underlying client as an undocumented
     // property to the constructor so that crypto providers downstream can use it.
-    const options: CryptographyClientOptions & { generatedClient: KeyVaultClient } = {
+    const constructorOptions: CryptographyClientOptions & { generatedClient: KeyVaultClient } = {
       generatedClient: this.client
     };
-    const cryptoClient = new CryptographyClient(keyUrl.toString(), this.credential, options);
+    const cryptoClient = new CryptographyClient(
+      keyUrl.toString(),
+      this.credential,
+      constructorOptions
+    );
     return cryptoClient;
   }
 
