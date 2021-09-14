@@ -499,6 +499,93 @@ export interface EncryptionInTransitProperties {
 }
 
 /**
+ * The azure resource id.
+ */
+export interface ResourceId {
+  /**
+   * The azure resource id.
+   */
+  id?: string;
+}
+
+/**
+ * The ip configurations for the private link service.
+ */
+export interface IPConfiguration {
+  /**
+   * The private link IP configuration id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of private link IP configuration.
+   */
+  name: string;
+  /**
+   * The type of the private link IP configuration.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * The private link configuration provisioning state, which only appears in the response.
+   * Possible values include: 'InProgress', 'Failed', 'Succeeded', 'Canceled', 'Deleting'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: PrivateLinkConfigurationProvisioningState;
+  /**
+   * Indicates whether this IP configuration is primary for the corresponding NIC.
+   */
+  primary?: boolean;
+  /**
+   * The IP address.
+   */
+  privateIPAddress?: string;
+  /**
+   * The method that private IP address is allocated. Possible values include: 'dynamic', 'static'
+   */
+  privateIPAllocationMethod?: PrivateIPAllocationMethod;
+  /**
+   * The subnet resource id.
+   */
+  subnet?: ResourceId;
+}
+
+/**
+ * The private link configuration.
+ */
+export interface PrivateLinkConfiguration {
+  /**
+   * The private link configuration id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of private link configuration.
+   */
+  name: string;
+  /**
+   * The type of the private link configuration.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * The HDInsight private linkable sub-resource name to apply the private link configuration to.
+   * For example, 'headnode', 'gateway', 'edgenode'.
+   */
+  groupId: string;
+  /**
+   * The private link configuration provisioning state, which only appears in the response.
+   * Possible values include: 'InProgress', 'Failed', 'Succeeded', 'Canceled', 'Deleting'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: PrivateLinkConfigurationProvisioningState;
+  /**
+   * The IP configurations for the private link service.
+   */
+  ipConfigurations: IPConfiguration[];
+}
+
+/**
  * The cluster create parameters.
  */
 export interface ClusterCreateProperties {
@@ -554,12 +641,16 @@ export interface ClusterCreateProperties {
    * The compute isolation properties.
    */
   computeIsolationProperties?: ComputeIsolationProperties;
+  /**
+   * The private link configurations.
+   */
+  privateLinkConfigurations?: PrivateLinkConfiguration[];
 }
 
 /**
- * An interface representing ClusterIdentityUserAssignedIdentitiesValue.
+ * The User Assigned Identity
  */
-export interface ClusterIdentityUserAssignedIdentitiesValue {
+export interface UserAssignedIdentity {
   /**
    * The principal id of user assigned identity.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -603,7 +694,7 @@ export interface ClusterIdentity {
    * references will be ARM resource ids in the form:
    * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
    */
-  userAssignedIdentities?: { [propertyName: string]: ClusterIdentityUserAssignedIdentitiesValue };
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
 }
 
 /**
@@ -618,6 +709,10 @@ export interface ClusterCreateParametersExtended {
    * The resource tags.
    */
   tags?: { [propertyName: string]: string };
+  /**
+   * The availability zones.
+   */
+  zones?: string[];
   /**
    * The cluster create parameters.
    */
@@ -686,6 +781,121 @@ export interface ConnectivityEndpoint {
    * The private ip address of the endpoint.
    */
   privateIPAddress?: string;
+}
+
+/**
+ * The private endpoint.
+ */
+export interface PrivateEndpoint {
+  /**
+   * The private endpoint id.
+   */
+  id?: string;
+}
+
+/**
+ * The private link service connection state.
+ */
+export interface PrivateLinkServiceConnectionState {
+  /**
+   * The concrete private link service connection. Possible values include: 'Approved', 'Rejected',
+   * 'Pending', 'Removed'
+   */
+  status: PrivateLinkServiceConnectionStatus;
+  /**
+   * The optional description of the status.
+   */
+  description?: string;
+  /**
+   * Whether there is further actions.
+   */
+  actionsRequired?: string;
+}
+
+/**
+ * Metadata pertaining to creation and last modification of the resource.
+ */
+export interface SystemData {
+  /**
+   * The identity that created the resource.
+   */
+  createdBy?: string;
+  /**
+   * The type of identity that created the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  createdByType?: CreatedByType;
+  /**
+   * The timestamp of resource creation (UTC).
+   */
+  createdAt?: Date;
+  /**
+   * The identity that last modified the resource.
+   */
+  lastModifiedBy?: string;
+  /**
+   * The type of identity that last modified the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  lastModifiedByType?: CreatedByType;
+  /**
+   * The timestamp of resource last modification (UTC)
+   */
+  lastModifiedAt?: Date;
+}
+
+/**
+ * Common fields that are returned in the response for all Azure Resource Manager resources
+ * @summary Resource
+ */
+export interface Resource extends BaseResource {
+  /**
+   * Fully qualified resource ID for the resource. Ex -
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+   * "Microsoft.Storage/storageAccounts"
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * The private endpoint connection.
+ */
+export interface PrivateEndpointConnection extends Resource {
+  /**
+   * The private endpoint of the private endpoint connection
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly privateEndpoint?: PrivateEndpoint;
+  /**
+   * The private link service connection state.
+   */
+  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+  /**
+   * The link identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly linkIdentifier?: string;
+  /**
+   * The provisioning state, which only appears in the response. Possible values include:
+   * 'InProgress', 'Updating', 'Failed', 'Succeeded', 'Canceled', 'Deleting'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
 }
 
 /**
@@ -781,41 +991,31 @@ export interface ClusterGetProperties {
    * The compute isolation properties.
    */
   computeIsolationProperties?: ComputeIsolationProperties;
+  /**
+   * The private link configurations.
+   */
+  privateLinkConfigurations?: PrivateLinkConfiguration[];
+  /**
+   * The list of private endpoint connections.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
 }
 
 /**
- * The core properties of ARM resources
- */
-export interface Resource extends BaseResource {
-  /**
-   * Fully qualified resource Id for the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-}
-
-/**
- * The resource model definition for a ARM tracked top level resource
+ * The resource model definition for an Azure Resource Manager tracked top level resource which has
+ * 'tags' and a 'location'
+ * @summary Tracked Resource
  */
 export interface TrackedResource extends Resource {
-  /**
-   * The Azure Region where the resource lives
-   */
-  location?: string;
   /**
    * Resource tags.
    */
   tags?: { [propertyName: string]: string };
+  /**
+   * The geo-location where the resource lives
+   */
+  location: string;
 }
 
 /**
@@ -827,6 +1027,10 @@ export interface Cluster extends TrackedResource {
    */
   etag?: string;
   /**
+   * The availability zones.
+   */
+  zones?: string[];
+  /**
    * The properties of the cluster.
    */
   properties?: ClusterGetProperties;
@@ -834,6 +1038,10 @@ export interface Cluster extends TrackedResource {
    * The identity of the cluster, if configured.
    */
   identity?: ClusterIdentity;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
 }
 
 /**
@@ -950,22 +1158,6 @@ export interface RuntimeScriptActionDetail extends RuntimeScriptAction {
 }
 
 /**
- * The list runtime script action detail response.
- */
-export interface ClusterListRuntimeScriptActionDetailResult {
-  /**
-   * The list of persisted script action details for the cluster.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly value?: RuntimeScriptActionDetail[];
-  /**
-   * The link (url) to the next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
  * The Resize Cluster request parameters.
  */
 export interface ClusterResizeParameters {
@@ -1066,10 +1258,12 @@ export interface UpdateClusterIdentityCertificateParameters {
 }
 
 /**
- * The resource model definition for a ARM proxy resource. It will have everything other than
- * required location and tags
+ * The resource model definition for a Azure Resource Manager proxy resource. It will not have tags
+ * and a location
+ * @summary Proxy Resource
  */
-export interface ProxyResource extends Resource {}
+export interface ProxyResource extends Resource {
+}
 
 /**
  * Describes the format of Error response.
@@ -1195,6 +1389,10 @@ export interface ApplicationProperties {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly marketplaceIdentifier?: string;
+  /**
+   * The private link configurations.
+   */
+  privateLinkConfigurations?: PrivateLinkConfiguration[];
 }
 
 /**
@@ -1213,6 +1411,10 @@ export interface Application extends ProxyResource {
    * The properties of the application.
    */
   properties?: ApplicationProperties;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
 }
 
 /**
@@ -1255,60 +1457,6 @@ export interface RegionsCapability {
    * The list of region capabilities.
    */
   available?: string[];
-}
-
-/**
- * The virtual machine sizes capability.
- */
-export interface VmSizesCapability {
-  /**
-   * The list of virtual machine size capabilities.
-   */
-  available?: string[];
-}
-
-/**
- * The virtual machine type compatibility filter.
- */
-export interface VmSizeCompatibilityFilter {
-  /**
-   * The mode for the filter.
-   */
-  filterMode?: string;
-  /**
-   * The list of regions.
-   */
-  regions?: string[];
-  /**
-   * The list of cluster types available.
-   */
-  clusterFlavors?: string[];
-  /**
-   * The list of node types.
-   */
-  nodeTypes?: string[];
-  /**
-   * The list of cluster versions.
-   */
-  clusterVersions?: string[];
-  /**
-   * The list of OS types.
-   */
-  osType?: string[];
-  /**
-   * The list of virtual machine sizes.
-   */
-  vMSizes?: string[];
-  /**
-   * Whether apply for ESP cluster. 'true' means only for ESP, 'false' means only for non-ESP, null
-   * or empty string or others mean for both.
-   */
-  eSPApplied?: string;
-  /**
-   * Whether support compute isolation. 'true' means only for ComputeIsolationEnabled, 'false'
-   * means only for regular cluster.
-   */
-  computeIsolationSupported?: string;
 }
 
 /**
@@ -1359,14 +1507,6 @@ export interface CapabilitiesResult {
    * The virtual machine size compatibility features.
    */
   regions?: { [propertyName: string]: RegionsCapability };
-  /**
-   * The virtual machine sizes.
-   */
-  vmsizes?: { [propertyName: string]: VmSizesCapability };
-  /**
-   * The virtual machine size compatibility filters.
-   */
-  vmsizeFilters?: VmSizeCompatibilityFilter[];
   /**
    * The capability features.
    */
@@ -1460,6 +1600,16 @@ export interface VmSizeCompatibilityFilterV2 {
    * The list of virtual machine sizes to include or exclude.
    */
   vmSizes?: string[];
+  /**
+   * Whether apply for ESP cluster. 'true' means only for ESP, 'false' means only for non-ESP, null
+   * or empty string or others mean for both.
+   */
+  espApplied?: string;
+  /**
+   * Whether support compute isolation. 'true' means only for ComputeIsolationEnabled, 'false'
+   * means only for regular cluster.
+   */
+  computeIsolationSupported?: string;
 }
 
 /**
@@ -2014,7 +2164,7 @@ export interface Operation {
    */
   name?: string;
   /**
-   * The object that represents the operation.
+   * The display of operation.
    */
   display?: OperationDisplay;
   /**
@@ -2039,6 +2189,52 @@ export interface HostInfo {
    * The effective disk encryption key URL used by the host
    */
   effectiveDiskEncryptionKeyUrl?: string;
+}
+
+/**
+ * A private link resource
+ */
+export interface PrivateLinkResource extends Resource {
+  /**
+   * The private link resource group id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly groupId?: string;
+  /**
+   * The private link resource required member names.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly requiredMembers?: string[];
+  /**
+   * The private link resource Private link DNS zone name.
+   */
+  requiredZoneNames?: string[];
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
+}
+
+/**
+ * A list of private link resources
+ */
+export interface PrivateLinkResourceListResult {
+  /**
+   * Array of private link resources
+   */
+  value?: PrivateLinkResource[];
+}
+
+/**
+ * The resource model definition for an Azure Resource Manager resource with an etag.
+ * @summary Entity Resource
+ */
+export interface AzureEntityResource extends Resource {
+  /**
+   * Resource Etag.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
 }
 
 /**
@@ -2115,12 +2311,25 @@ export interface OperationListResult extends Array<Operation> {
 }
 
 /**
+ * @interface
+ * The list private endpoint connections response.
+ * @extends Array<PrivateEndpointConnection>
+ */
+export interface PrivateEndpointConnectionListResult extends Array<PrivateEndpointConnection> {
+  /**
+   * The link (url) to the next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
  * Defines values for DirectoryType.
  * Possible values include: 'ActiveDirectory'
  * @readonly
  * @enum {string}
  */
-export type DirectoryType = "ActiveDirectory";
+export type DirectoryType = 'ActiveDirectory';
 
 /**
  * Defines values for DaysOfWeek.
@@ -2129,14 +2338,7 @@ export type DirectoryType = "ActiveDirectory";
  * @readonly
  * @enum {string}
  */
-export type DaysOfWeek =
-  | "Monday"
-  | "Tuesday"
-  | "Wednesday"
-  | "Thursday"
-  | "Friday"
-  | "Saturday"
-  | "Sunday";
+export type DaysOfWeek = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
 
 /**
  * Defines values for ResourceProviderConnection.
@@ -2144,7 +2346,7 @@ export type DaysOfWeek =
  * @readonly
  * @enum {string}
  */
-export type ResourceProviderConnection = "Inbound" | "Outbound";
+export type ResourceProviderConnection = 'Inbound' | 'Outbound';
 
 /**
  * Defines values for PrivateLink.
@@ -2152,7 +2354,7 @@ export type ResourceProviderConnection = "Inbound" | "Outbound";
  * @readonly
  * @enum {string}
  */
-export type PrivateLink = "Disabled" | "Enabled";
+export type PrivateLink = 'Disabled' | 'Enabled';
 
 /**
  * Defines values for OSType.
@@ -2160,7 +2362,7 @@ export type PrivateLink = "Disabled" | "Enabled";
  * @readonly
  * @enum {string}
  */
-export type OSType = "Windows" | "Linux";
+export type OSType = 'Windows' | 'Linux';
 
 /**
  * Defines values for Tier.
@@ -2168,7 +2370,7 @@ export type OSType = "Windows" | "Linux";
  * @readonly
  * @enum {string}
  */
-export type Tier = "Standard" | "Premium";
+export type Tier = 'Standard' | 'Premium';
 
 /**
  * Defines values for JsonWebKeyEncryptionAlgorithm.
@@ -2176,7 +2378,23 @@ export type Tier = "Standard" | "Premium";
  * @readonly
  * @enum {string}
  */
-export type JsonWebKeyEncryptionAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
+export type JsonWebKeyEncryptionAlgorithm = 'RSA-OAEP' | 'RSA-OAEP-256' | 'RSA1_5';
+
+/**
+ * Defines values for PrivateLinkConfigurationProvisioningState.
+ * Possible values include: 'InProgress', 'Failed', 'Succeeded', 'Canceled', 'Deleting'
+ * @readonly
+ * @enum {string}
+ */
+export type PrivateLinkConfigurationProvisioningState = 'InProgress' | 'Failed' | 'Succeeded' | 'Canceled' | 'Deleting';
+
+/**
+ * Defines values for PrivateIPAllocationMethod.
+ * Possible values include: 'dynamic', 'static'
+ * @readonly
+ * @enum {string}
+ */
+export type PrivateIPAllocationMethod = 'dynamic' | 'static';
 
 /**
  * Defines values for ResourceIdentityType.
@@ -2185,11 +2403,7 @@ export type JsonWebKeyEncryptionAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_
  * @readonly
  * @enum {string}
  */
-export type ResourceIdentityType =
-  | "SystemAssigned"
-  | "UserAssigned"
-  | "SystemAssigned, UserAssigned"
-  | "None";
+export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned' | 'None';
 
 /**
  * Defines values for HDInsightClusterProvisioningState.
@@ -2197,12 +2411,31 @@ export type ResourceIdentityType =
  * @readonly
  * @enum {string}
  */
-export type HDInsightClusterProvisioningState =
-  | "InProgress"
-  | "Failed"
-  | "Succeeded"
-  | "Canceled"
-  | "Deleting";
+export type HDInsightClusterProvisioningState = 'InProgress' | 'Failed' | 'Succeeded' | 'Canceled' | 'Deleting';
+
+/**
+ * Defines values for PrivateLinkServiceConnectionStatus.
+ * Possible values include: 'Approved', 'Rejected', 'Pending', 'Removed'
+ * @readonly
+ * @enum {string}
+ */
+export type PrivateLinkServiceConnectionStatus = 'Approved' | 'Rejected' | 'Pending' | 'Removed';
+
+/**
+ * Defines values for PrivateEndpointConnectionProvisioningState.
+ * Possible values include: 'InProgress', 'Updating', 'Failed', 'Succeeded', 'Canceled', 'Deleting'
+ * @readonly
+ * @enum {string}
+ */
+export type PrivateEndpointConnectionProvisioningState = 'InProgress' | 'Updating' | 'Failed' | 'Succeeded' | 'Canceled' | 'Deleting';
+
+/**
+ * Defines values for CreatedByType.
+ * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
+ * @readonly
+ * @enum {string}
+ */
+export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
 
 /**
  * Defines values for AsyncOperationState.
@@ -2210,7 +2443,7 @@ export type HDInsightClusterProvisioningState =
  * @readonly
  * @enum {string}
  */
-export type AsyncOperationState = "InProgress" | "Succeeded" | "Failed";
+export type AsyncOperationState = 'InProgress' | 'Succeeded' | 'Failed';
 
 /**
  * Defines values for FilterMode.
@@ -2218,7 +2451,7 @@ export type AsyncOperationState = "InProgress" | "Succeeded" | "Failed";
  * @readonly
  * @enum {string}
  */
-export type FilterMode = "Exclude" | "Include" | "Recommend" | "Default";
+export type FilterMode = 'Exclude' | 'Include' | 'Recommend' | 'Default';
 
 /**
  * Contains response data for the create operation.
@@ -2228,16 +2461,16 @@ export type ClustersCreateResponse = Cluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Cluster;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Cluster;
+    };
 };
 
 /**
@@ -2248,16 +2481,16 @@ export type ClustersUpdateResponse = Cluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Cluster;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Cluster;
+    };
 };
 
 /**
@@ -2268,16 +2501,16 @@ export type ClustersGetResponse = Cluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Cluster;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Cluster;
+    };
 };
 
 /**
@@ -2288,16 +2521,16 @@ export type ClustersListByResourceGroupResponse = ClusterListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClusterListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClusterListResult;
+    };
 };
 
 /**
@@ -2308,16 +2541,16 @@ export type ClustersListResponse = ClusterListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClusterListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClusterListResult;
+    };
 };
 
 /**
@@ -2328,16 +2561,16 @@ export type ClustersGetGatewaySettingsResponse = GatewaySettings & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: GatewaySettings;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GatewaySettings;
+    };
 };
 
 /**
@@ -2348,16 +2581,16 @@ export type ClustersGetAzureAsyncOperationStatusResponse = AsyncOperationResult 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AsyncOperationResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AsyncOperationResult;
+    };
 };
 
 /**
@@ -2368,16 +2601,16 @@ export type ClustersBeginCreateResponse = Cluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Cluster;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Cluster;
+    };
 };
 
 /**
@@ -2388,16 +2621,16 @@ export type ClustersListByResourceGroupNextResponse = ClusterListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClusterListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClusterListResult;
+    };
 };
 
 /**
@@ -2408,16 +2641,16 @@ export type ClustersListNextResponse = ClusterListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClusterListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClusterListResult;
+    };
 };
 
 /**
@@ -2428,16 +2661,16 @@ export type ApplicationsListByClusterResponse = ApplicationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ApplicationListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApplicationListResult;
+    };
 };
 
 /**
@@ -2448,16 +2681,16 @@ export type ApplicationsGetResponse = Application & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Application;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Application;
+    };
 };
 
 /**
@@ -2468,16 +2701,16 @@ export type ApplicationsCreateResponse = Application & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Application;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Application;
+    };
 };
 
 /**
@@ -2488,16 +2721,16 @@ export type ApplicationsGetAzureAsyncOperationStatusResponse = AsyncOperationRes
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AsyncOperationResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AsyncOperationResult;
+    };
 };
 
 /**
@@ -2508,16 +2741,16 @@ export type ApplicationsBeginCreateResponse = Application & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Application;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Application;
+    };
 };
 
 /**
@@ -2528,16 +2761,16 @@ export type ApplicationsListByClusterNextResponse = ApplicationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ApplicationListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApplicationListResult;
+    };
 };
 
 /**
@@ -2548,16 +2781,16 @@ export type LocationsGetCapabilitiesResponse = CapabilitiesResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CapabilitiesResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CapabilitiesResult;
+    };
 };
 
 /**
@@ -2568,16 +2801,16 @@ export type LocationsListUsagesResponse = UsagesListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: UsagesListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: UsagesListResult;
+    };
 };
 
 /**
@@ -2588,16 +2821,16 @@ export type LocationsListBillingSpecsResponse = BillingResponseListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: BillingResponseListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BillingResponseListResult;
+    };
 };
 
 /**
@@ -2608,16 +2841,16 @@ export type LocationsGetAzureAsyncOperationStatusResponse = AsyncOperationResult
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AsyncOperationResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AsyncOperationResult;
+    };
 };
 
 /**
@@ -2628,16 +2861,16 @@ export type LocationsCheckNameAvailabilityResponse = NameAvailabilityCheckResult
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: NameAvailabilityCheckResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NameAvailabilityCheckResult;
+    };
 };
 
 /**
@@ -2648,16 +2881,16 @@ export type LocationsValidateClusterCreateRequestResponse = ClusterCreateValidat
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClusterCreateValidationResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClusterCreateValidationResult;
+    };
 };
 
 /**
@@ -2668,16 +2901,16 @@ export type ConfigurationsListResponse = ClusterConfigurations & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClusterConfigurations;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClusterConfigurations;
+    };
 };
 
 /**
@@ -2693,16 +2926,16 @@ export type ConfigurationsGetResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: { [propertyName: string]: string };
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: { [propertyName: string]: string };
+    };
 };
 
 /**
@@ -2713,16 +2946,16 @@ export type ExtensionsGetMonitoringStatusResponse = ClusterMonitoringResponse & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClusterMonitoringResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClusterMonitoringResponse;
+    };
 };
 
 /**
@@ -2733,16 +2966,16 @@ export type ExtensionsGetAzureMonitorStatusResponse = AzureMonitorResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AzureMonitorResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AzureMonitorResponse;
+    };
 };
 
 /**
@@ -2753,16 +2986,16 @@ export type ExtensionsGetResponse = ClusterMonitoringResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClusterMonitoringResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClusterMonitoringResponse;
+    };
 };
 
 /**
@@ -2773,16 +3006,16 @@ export type ExtensionsGetAzureAsyncOperationStatusResponse = AsyncOperationResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AsyncOperationResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AsyncOperationResult;
+    };
 };
 
 /**
@@ -2793,16 +3026,16 @@ export type ScriptActionsListByClusterResponse = ScriptActionsList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ScriptActionsList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ScriptActionsList;
+    };
 };
 
 /**
@@ -2813,16 +3046,16 @@ export type ScriptActionsGetExecutionDetailResponse = RuntimeScriptActionDetail 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: RuntimeScriptActionDetail;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RuntimeScriptActionDetail;
+    };
 };
 
 /**
@@ -2833,16 +3066,16 @@ export type ScriptActionsGetExecutionAsyncOperationStatusResponse = AsyncOperati
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AsyncOperationResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AsyncOperationResult;
+    };
 };
 
 /**
@@ -2853,16 +3086,16 @@ export type ScriptActionsListByClusterNextResponse = ScriptActionsList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ScriptActionsList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ScriptActionsList;
+    };
 };
 
 /**
@@ -2873,16 +3106,16 @@ export type ScriptExecutionHistoryListByClusterResponse = ScriptActionExecutionH
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ScriptActionExecutionHistoryList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ScriptActionExecutionHistoryList;
+    };
 };
 
 /**
@@ -2893,16 +3126,16 @@ export type ScriptExecutionHistoryListByClusterNextResponse = ScriptActionExecut
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ScriptActionExecutionHistoryList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ScriptActionExecutionHistoryList;
+    };
 };
 
 /**
@@ -2913,16 +3146,16 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationListResult;
+    };
 };
 
 /**
@@ -2933,16 +3166,16 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationListResult;
+    };
 };
 
 /**
@@ -2953,16 +3186,16 @@ export type VirtualMachinesListHostsResponse = Array<HostInfo> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: HostInfo[];
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: HostInfo[];
+    };
 };
 
 /**
@@ -2973,14 +3206,154 @@ export type VirtualMachinesGetAsyncOperationStatusResponse = AsyncOperationResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AsyncOperationResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AsyncOperationResult;
+    };
+};
+
+/**
+ * Contains response data for the listByCluster operation.
+ */
+export type PrivateEndpointConnectionsListByClusterResponse = PrivateEndpointConnectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionListResult;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type PrivateEndpointConnectionsBeginCreateOrUpdateResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the listByClusterNext operation.
+ */
+export type PrivateEndpointConnectionsListByClusterNextResponse = PrivateEndpointConnectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByCluster operation.
+ */
+export type PrivateLinkResourcesListByClusterResponse = PrivateLinkResourceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourceListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateLinkResourcesGetResponse = PrivateLinkResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResource;
+    };
 };
