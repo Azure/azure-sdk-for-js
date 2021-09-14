@@ -111,7 +111,6 @@ import {
   getKeyPropertiesFromKeyItem
 } from "./transformations";
 import { createTraceFunction } from "../../keyvault-common/src";
-import { URL } from "./url";
 
 export {
   CryptographyClientOptions,
@@ -442,15 +441,17 @@ export class KeyClient {
    * @returns - A {@link CryptographyClient} using the same options, credentials, and http client as this {@link KeyClient}
    */
   public getCryptographyClient(keyName: string, keyVersion?: string): CryptographyClient {
+    const keyUrl = new URL(["keys", keyName, keyVersion].filter(Boolean).join("/"), this.vaultUrl);
+    console.log(keyUrl);
+
     // The goals of this method are discoverability and performance (by sharing a client and pipeline).
     // The existing cryptography client does not accept a pipeline as an argument, nor does it expose it.
-    // In order to avoid publicly exposing the pipeline we will access the underlying client
-    // via private variables and set the client to shared client.
-    const keyUrl = new URL(["keys", keyName, keyVersion].filter(Boolean).join("/"), this.vaultUrl);
-    const cryptoClient = new CryptographyClient(keyUrl.toString(), this.credential);
-    if (cryptoClient["remoteProvider"]) {
-      cryptoClient["remoteProvider"]["client"] = this.client;
-    }
+    // In order to avoid publicly exposing the pipeline we will pass in the underlying client as an undocumented
+    // property to the constructor so that crypto providers downstream can use it.
+    const options: CryptographyClientOptions & { generatedClient: KeyVaultClient } = {
+      generatedClient: this.client
+    };
+    const cryptoClient = new CryptographyClient(keyUrl.toString(), this.credential, options);
     return cryptoClient;
   }
 

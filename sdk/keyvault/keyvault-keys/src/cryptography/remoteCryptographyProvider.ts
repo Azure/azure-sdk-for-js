@@ -57,37 +57,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
     credential: TokenCredential,
     pipelineOptions: CryptographyClientOptions = {}
   ) {
-    const libInfo = `azsdk-js-keyvault-keys/${SDK_VERSION}`;
-
-    const userAgentOptions = pipelineOptions.userAgentOptions;
-
-    pipelineOptions.userAgentOptions = {
-      userAgentPrefix:
-        userAgentOptions && userAgentOptions.userAgentPrefix
-          ? `${userAgentOptions.userAgentPrefix} ${libInfo}`
-          : libInfo
-    };
-
-    const authPolicy = isTokenCredential(credential)
-      ? challengeBasedAuthenticationPolicy(credential)
-      : signingPolicy(credential);
-
-    const internalPipelineOptions = {
-      ...pipelineOptions,
-      loggingOptions: {
-        logger: logger.info,
-        allowedHeaderNames: [
-          "x-ms-keyvault-region",
-          "x-ms-keyvault-network-info",
-          "x-ms-keyvault-service-version"
-        ]
-      }
-    };
-
-    this.client = new KeyVaultClient(
-      pipelineOptions.serviceVersion || LATEST_API_VERSION,
-      createPipelineFromOptions(internalPipelineOptions, authPolicy)
-    );
+    this.client = getOrInitializeClient(credential, pipelineOptions);
 
     this.key = key;
 
@@ -361,4 +331,54 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
 
     return kid;
   }
+}
+
+/**
+ * A helper method to either get the passed down generated client or initialize a new one.
+ * An already constructed generated client may be passed down from {@link KeyClient} in which case we should reuse it.
+ *
+ * @internal
+ * @param credential - The credential to use when initializing a new client.
+ * @param options - The options for constructing a client or the underlying client if one already exists.
+ * @returns - A generated client instance
+ */
+function getOrInitializeClient(
+  credential: TokenCredential,
+  options: CryptographyClientOptions & { generatedClient?: KeyVaultClient }
+): KeyVaultClient {
+  if (options.generatedClient) {
+    return options.generatedClient;
+  }
+
+  const libInfo = `azsdk-js-keyvault-keys/${SDK_VERSION}`;
+
+  const userAgentOptions = options.userAgentOptions;
+
+  options.userAgentOptions = {
+    userAgentPrefix:
+      userAgentOptions && userAgentOptions.userAgentPrefix
+        ? `${userAgentOptions.userAgentPrefix} ${libInfo}`
+        : libInfo
+  };
+
+  const authPolicy = isTokenCredential(credential)
+    ? challengeBasedAuthenticationPolicy(credential)
+    : signingPolicy(credential);
+
+  const internalPipelineOptions = {
+    ...options,
+    loggingOptions: {
+      logger: logger.info,
+      allowedHeaderNames: [
+        "x-ms-keyvault-region",
+        "x-ms-keyvault-network-info",
+        "x-ms-keyvault-service-version"
+      ]
+    }
+  };
+
+  return new KeyVaultClient(
+    options.serviceVersion || LATEST_API_VERSION,
+    createPipelineFromOptions(internalPipelineOptions, authPolicy)
+  );
 }

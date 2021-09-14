@@ -129,6 +129,12 @@ describe("internal crypto tests", () => {
       const cryptoClient = keyClient.getCryptographyClient("keyId", "v1");
       assert.strictEqual(keyClient["client"], cryptoClient["remoteProvider"]!["client"]);
     });
+
+    it("supports omitting key version", () => {
+      const keyClient = new KeyClient("https://my.vault.azure.net/", tokenCredential);
+      const cryptoClient = keyClient.getCryptographyClient("keyId");
+      assert.strictEqual(keyClient["client"], cryptoClient["remoteProvider"]!["client"]);
+    });
   });
 
   describe("Parameter passing to encrypt / decrypt", function() {
