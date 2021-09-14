@@ -7,7 +7,7 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":true})
   .get('/tableClientTestSASConnectionStringnode()')
   .query(true)
-  .reply(200, {"odata.metadata":"https://fakeaccount.table.core.windows.net/$metadata#tableClientTestSASConnectionStringnode","value":[{"odata.etag":"W/\"datetime'2021-09-07T16%3A24%3A04.1614904Z'\"","PartitionKey":"listEntitiesTest","RowKey":"0","Timestamp":"2021-09-07T16:24:04.1614904Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A24%3A04.2385453Z'\"","PartitionKey":"listEntitiesTest","RowKey":"1","Timestamp":"2021-09-07T16:24:04.2385453Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A24%3A04.9120248Z'\"","PartitionKey":"listEntitiesTest","RowKey":"10","Timestamp":"2021-09-07T16:24:04.9120248Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A24%3A04.9890796Z'\"","PartitionKey":"listEntitiesTest","RowKey":"11","Timestamp":"2021-09-07T16:24:04.9890796Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A24%3A05.0751409Z'\"","PartitionKey":"listEntitiesTest","RowKey":"12","Timestamp":"2021-09-07T16:24:05.0751409Z","foo":"testEntity"}]}, [
+  .reply(200, {"odata.metadata":"https://fakeaccount.table.core.windows.net/$metadata#tableClientTestSASConnectionStringnode","value":[{"odata.etag":"W/\"datetime'2021-09-14T21%3A23%3A57.0306156Z'\"","PartitionKey":"listEntitiesTest","RowKey":"0","Timestamp":"2021-09-14T21:23:57.0306156Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-14T21%3A23%3A57.1346893Z'\"","PartitionKey":"listEntitiesTest","RowKey":"1","Timestamp":"2021-09-14T21:23:57.1346893Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-14T21%3A23%3A57.9572797Z'\"","PartitionKey":"listEntitiesTest","RowKey":"10","Timestamp":"2021-09-14T21:23:57.9572797Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-14T21%3A23%3A58.0553495Z'\"","PartitionKey":"listEntitiesTest","RowKey":"11","Timestamp":"2021-09-14T21:23:58.0553495Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-14T21%3A23%3A58.138409Z'\"","PartitionKey":"listEntitiesTest","RowKey":"12","Timestamp":"2021-09-14T21:23:58.138409Z","foo":"testEntity"}]}, [
   'Cache-Control',
   'no-cache',
   'Transfer-Encoding',
@@ -17,9 +17,9 @@ nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":tru
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '007652bc-e002-0038-0904-a4c0e6000000',
+  '6ced22a8-0002-0039-4bae-a9c11b000000',
   'x-ms-client-request-id',
-  '285047ad-f773-497f-b0c7-7d530fd754ab',
+  'e427f153-499a-4fb4-9fb7-1983baa42305',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -33,13 +33,13 @@ nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":tru
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Tue, 07 Sep 2021 16:24:05 GMT'
+  'Tue, 14 Sep 2021 21:23:58 GMT'
 ]);
 
 nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":true})
   .get('/tableClientTestSASConnectionStringnode()')
   .query(true)
-  .reply(200, {"odata.metadata":"https://fakeaccount.table.core.windows.net/$metadata#tableClientTestSASConnectionStringnode","value":[{"odata.etag":"W/\"datetime'2021-09-07T16%3A24%3A05.1471918Z'\"","PartitionKey":"listEntitiesTest","RowKey":"13","Timestamp":"2021-09-07T16:24:05.1471918Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A24%3A05.2212449Z'\"","PartitionKey":"listEntitiesTest","RowKey":"14","Timestamp":"2021-09-07T16:24:05.2212449Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A24%3A05.3013019Z'\"","PartitionKey":"listEntitiesTest","RowKey":"15","Timestamp":"2021-09-07T16:24:05.3013019Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A24%3A05.3743539Z'\"","PartitionKey":"listEntitiesTest","RowKey":"16","Timestamp":"2021-09-07T16:24:05.3743539Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A24%3A05.4494078Z'\"","PartitionKey":"listEntitiesTest","RowKey":"17","Timestamp":"2021-09-07T16:24:05.4494078Z","foo":"testEntity"}]}, [
+  .reply(200, {"odata.metadata":"https://fakeaccount.table.core.windows.net/$metadata#tableClientTestSASConnectionStringnode","value":[{"odata.etag":"W/\"datetime'2021-09-14T21%3A23%3A58.2594958Z'\"","PartitionKey":"listEntitiesTest","RowKey":"13","Timestamp":"2021-09-14T21:23:58.2594958Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-14T21%3A23%3A58.3615694Z'\"","PartitionKey":"listEntitiesTest","RowKey":"14","Timestamp":"2021-09-14T21:23:58.3615694Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-14T21%3A23%3A58.4636426Z'\"","PartitionKey":"listEntitiesTest","RowKey":"15","Timestamp":"2021-09-14T21:23:58.4636426Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-14T21%3A23%3A58.5457009Z'\"","PartitionKey":"listEntitiesTest","RowKey":"16","Timestamp":"2021-09-14T21:23:58.5457009Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-14T21%3A23%3A58.6687888Z'\"","PartitionKey":"listEntitiesTest","RowKey":"17","Timestamp":"2021-09-14T21:23:58.6687888Z","foo":"testEntity"}]}, [
   'Cache-Control',
   'no-cache',
   'Transfer-Encoding',
@@ -49,9 +49,9 @@ nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":tru
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '007652cf-e002-0038-1c04-a4c0e6000000',
+  '6ced22c9-0002-0039-6bae-a9c11b000000',
   'x-ms-client-request-id',
-  '7b7583b8-a575-458f-9a2f-ce4a0d2f68a3',
+  '07eb595b-25ed-4b65-8e86-a1d4bcef1c11',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -65,13 +65,13 @@ nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":tru
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Tue, 07 Sep 2021 16:24:05 GMT'
+  'Tue, 14 Sep 2021 21:23:59 GMT'
 ]);
 
 nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":true})
   .get('/tableClientTestSASConnectionStringnode()')
   .query(true)
-  .reply(200, {"odata.metadata":"https://fakeaccount.table.core.windows.net/$metadata#tableClientTestSASConnectionStringnode","value":[{"odata.etag":"W/\"datetime'2021-09-07T16%3A24%3A05.5224598Z'\"","PartitionKey":"listEntitiesTest","RowKey":"18","Timestamp":"2021-09-07T16:24:05.5224598Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A24%3A05.59351Z'\"","PartitionKey":"listEntitiesTest","RowKey":"19","Timestamp":"2021-09-07T16:24:05.59351Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A24%3A04.3115973Z'\"","PartitionKey":"listEntitiesTest","RowKey":"2","Timestamp":"2021-09-07T16:24:04.3115973Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A24%3A04.4016614Z'\"","PartitionKey":"listEntitiesTest","RowKey":"3","Timestamp":"2021-09-07T16:24:04.4016614Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A24%3A04.479717Z'\"","PartitionKey":"listEntitiesTest","RowKey":"4","Timestamp":"2021-09-07T16:24:04.479717Z","foo":"testEntity"}]}, [
+  .reply(200, {"odata.metadata":"https://fakeaccount.table.core.windows.net/$metadata#tableClientTestSASConnectionStringnode","value":[{"odata.etag":"W/\"datetime'2021-09-14T21%3A23%3A58.7708609Z'\"","PartitionKey":"listEntitiesTest","RowKey":"18","Timestamp":"2021-09-14T21:23:58.7708609Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-14T21%3A23%3A58.8749352Z'\"","PartitionKey":"listEntitiesTest","RowKey":"19","Timestamp":"2021-09-14T21:23:58.8749352Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-14T21%3A23%3A57.2367629Z'\"","PartitionKey":"listEntitiesTest","RowKey":"2","Timestamp":"2021-09-14T21:23:57.2367629Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-14T21%3A23%3A57.3368346Z'\"","PartitionKey":"listEntitiesTest","RowKey":"3","Timestamp":"2021-09-14T21:23:57.3368346Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-14T21%3A23%3A57.4228963Z'\"","PartitionKey":"listEntitiesTest","RowKey":"4","Timestamp":"2021-09-14T21:23:57.4228963Z","foo":"testEntity"}]}, [
   'Cache-Control',
   'no-cache',
   'Transfer-Encoding',
@@ -81,9 +81,9 @@ nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":tru
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '007652d7-e002-0038-2404-a4c0e6000000',
+  '6ced22db-0002-0039-7aae-a9c11b000000',
   'x-ms-client-request-id',
-  '40105a9f-97e6-4026-80b3-b55ce49e6ebf',
+  'a33a6336-b8c3-414c-940d-a5b5a4fa8003',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -97,13 +97,13 @@ nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":tru
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Tue, 07 Sep 2021 16:24:05 GMT'
+  'Tue, 14 Sep 2021 21:23:59 GMT'
 ]);
 
 nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":true})
   .get('/tableClientTestSASConnectionStringnode()')
   .query(true)
-  .reply(200, {"odata.metadata":"https://fakeaccount.table.core.windows.net/$metadata#tableClientTestSASConnectionStringnode","value":[{"odata.etag":"W/\"datetime'2021-09-07T16%3A24%3A04.5487662Z'\"","PartitionKey":"listEntitiesTest","RowKey":"5","Timestamp":"2021-09-07T16:24:04.5487662Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A24%3A04.6308241Z'\"","PartitionKey":"listEntitiesTest","RowKey":"6","Timestamp":"2021-09-07T16:24:04.6308241Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A24%3A04.7008744Z'\"","PartitionKey":"listEntitiesTest","RowKey":"7","Timestamp":"2021-09-07T16:24:04.7008744Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A24%3A04.7729253Z'\"","PartitionKey":"listEntitiesTest","RowKey":"8","Timestamp":"2021-09-07T16:24:04.7729253Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A24%3A04.8419745Z'\"","PartitionKey":"listEntitiesTest","RowKey":"9","Timestamp":"2021-09-07T16:24:04.8419745Z","foo":"testEntity"}]}, [
+  .reply(200, {"odata.metadata":"https://fakeaccount.table.core.windows.net/$metadata#tableClientTestSASConnectionStringnode","value":[{"odata.etag":"W/\"datetime'2021-09-14T21%3A23%3A57.5069565Z'\"","PartitionKey":"listEntitiesTest","RowKey":"5","Timestamp":"2021-09-14T21:23:57.5069565Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-14T21%3A23%3A57.5930178Z'\"","PartitionKey":"listEntitiesTest","RowKey":"6","Timestamp":"2021-09-14T21:23:57.5930178Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-14T21%3A23%3A57.6770784Z'\"","PartitionKey":"listEntitiesTest","RowKey":"7","Timestamp":"2021-09-14T21:23:57.6770784Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-14T21%3A23%3A57.7581361Z'\"","PartitionKey":"listEntitiesTest","RowKey":"8","Timestamp":"2021-09-14T21:23:57.7581361Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-14T21%3A23%3A57.8502021Z'\"","PartitionKey":"listEntitiesTest","RowKey":"9","Timestamp":"2021-09-14T21:23:57.8502021Z","foo":"testEntity"}]}, [
   'Cache-Control',
   'no-cache',
   'Transfer-Encoding',
@@ -113,9 +113,9 @@ nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":tru
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '007652e4-e002-0038-3004-a4c0e6000000',
+  '6ced22f3-0002-0039-0fae-a9c11b000000',
   'x-ms-client-request-id',
-  '2c92e9eb-e830-4a08-a88b-f29bc1ef7381',
+  '4c3f8dca-a697-407d-b4da-9f3311b0106a',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -129,13 +129,13 @@ nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":tru
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Tue, 07 Sep 2021 16:24:05 GMT'
+  'Tue, 14 Sep 2021 21:23:59 GMT'
 ]);
 
 nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":true})
   .get('/tableClientTestSASConnectionStringnode()')
   .query(true)
-  .reply(200, {"odata.metadata":"https://fakeaccount.table.core.windows.net/$metadata#tableClientTestSASConnectionStringnode","value":[{"odata.etag":"W/\"datetime'2021-09-07T16%3A24%3A03.9823625Z'\"","PartitionKey":"listEntitiesTest","RowKey":"binary1","Timestamp":"2021-09-07T16:24:03.9823625Z","foo@odata.type":"Edm.Binary","foo":"QmFy"}]}, [
+  .reply(200, {"odata.metadata":"https://fakeaccount.table.core.windows.net/$metadata#tableClientTestSASConnectionStringnode","value":[{"odata.etag":"W/\"datetime'2021-09-14T21%3A23%3A56.9315446Z'\"","PartitionKey":"listEntitiesTest","RowKey":"binary1","Timestamp":"2021-09-14T21:23:56.9315446Z","foo@odata.type":"Edm.Binary","foo":"QmFy"}]}, [
   'Cache-Control',
   'no-cache',
   'Transfer-Encoding',
@@ -145,9 +145,9 @@ nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":tru
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '007652f1-e002-0038-3d04-a4c0e6000000',
+  '6ced230b-0002-0039-25ae-a9c11b000000',
   'x-ms-client-request-id',
-  '2151e4c2-7b76-48ed-8b70-34d7cacc3dc3',
+  'cd1ea06c-ab5d-4a05-9da5-5a7da4186e54',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -157,5 +157,5 @@ nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":tru
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Tue, 07 Sep 2021 16:24:05 GMT'
+  'Tue, 14 Sep 2021 21:23:59 GMT'
 ]);

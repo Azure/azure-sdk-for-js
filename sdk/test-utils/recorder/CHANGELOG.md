@@ -2,7 +2,9 @@
 
 ## 1.0.2 (Unreleased)
 
-Fixed double replacements in case the source value and the replacement happened to remain the same after encoding.
+- Fixed double replacements in case the source value and the replacement happened to remain the same after encoding.
+
+- Update nock to version 13
 
 ## 1.0.1 (2021-09-01)
 
