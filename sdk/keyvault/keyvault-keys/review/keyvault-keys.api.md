@@ -169,6 +169,11 @@ export interface EncryptResult {
 }
 
 // @public
+export interface GetCryptographyClientOptions {
+    keyVersion?: string;
+}
+
+// @public
 export interface GetDeletedKeyOptions extends coreHttp.OperationOptions {
 }
 
@@ -224,6 +229,7 @@ export class KeyClient {
     createKey(name: string, keyType: KeyType, options?: CreateKeyOptions): Promise<KeyVaultKey>;
     createOctKey(name: string, options?: CreateOctKeyOptions): Promise<KeyVaultKey>;
     createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<KeyVaultKey>;
+    getCryptographyClient(keyName: string, options?: GetCryptographyClientOptions): CryptographyClient;
     getDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<DeletedKey>;
     getKey(name: string, options?: GetKeyOptions): Promise<KeyVaultKey>;
     getRandomBytes(count: number, options?: GetRandomBytesOptions): Promise<RandomBytes>;
