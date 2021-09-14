@@ -34,33 +34,6 @@ export interface CreateSpanFunctionArgs {
 }
 
 // @public
-export type Exception = ExceptionWithCode | ExceptionWithMessage | ExceptionWithName | string;
-
-// @public
-export interface ExceptionWithCode {
-    code: string | number;
-    message?: string;
-    name?: string;
-    stack?: string;
-}
-
-// @public
-export interface ExceptionWithMessage {
-    code?: string | number;
-    message: string;
-    name?: string;
-    stack?: string;
-}
-
-// @public
-export interface ExceptionWithName {
-    code?: string | number;
-    message?: string;
-    name: string;
-    stack?: string;
-}
-
-// @public
 export function extractSpanContextFromTraceParentHeader(traceParentHeader: string): SpanContext | undefined;
 
 // @public
@@ -77,9 +50,6 @@ export function getTracer(): Tracer;
 
 // @public
 export function getTracer(name: string, version?: string): Tracer;
-
-// @public
-export type HrTime = [number, number];
 
 // @public
 export function isSpanContextValid(context: SpanContext): boolean;
@@ -103,10 +73,10 @@ export function setSpanContext(context: Context, spanContext: SpanContext): Cont
 
 // @public
 export interface Span {
-    addEvent(name: string, attributesOrStartTime?: SpanAttributes | TimeInput, startTime?: TimeInput): this;
-    end(endTime?: TimeInput): void;
+    addEvent(name: string, attributesOrStartTime?: SpanAttributes | Date, startTime?: Date): this;
+    end(endTime?: Date): void;
     isRecording(): boolean;
-    recordException(exception: Exception, time?: TimeInput): void;
+    recordException(exception: Error, time?: Date): void;
     setAttribute(key: string, value: SpanAttributeValue): this;
     setAttributes(attributes: SpanAttributes): this;
     setStatus(status: SpanStatus): this;
@@ -144,7 +114,7 @@ export interface SpanOptions {
     attributes?: SpanAttributes;
     kind?: SpanKind;
     links?: Link[];
-    startTime?: TimeInput;
+    startTime?: Date;
 }
 
 // @public
@@ -159,9 +129,6 @@ export enum SpanStatusCode {
     OK = 1,
     UNSET = 0
 }
-
-// @public
-export type TimeInput = HrTime | number | Date;
 
 // @public
 export const enum TraceFlags {

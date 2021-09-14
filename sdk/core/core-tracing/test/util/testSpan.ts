@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import {
-  TimeInput,
   Tracer,
   SpanKind,
   SpanStatus,
@@ -41,7 +40,7 @@ export class TestSpan implements Span {
   /**
    * The start time of the Span
    */
-  readonly startTime: TimeInput;
+  readonly startTime: Date;
 
   /**
    * The id of the parent Span, if any.
@@ -75,7 +74,7 @@ export class TestSpan implements Span {
     this._tracer = parentTracer;
     this.name = name;
     this.kind = options?.kind || SpanKind.INTERNAL;
-    this.startTime = options?.startTime || Date.now();
+    this.startTime = options?.startTime || new Date();
     this.parentSpanId = parentSpanId;
     this.attributes = options?.attributes || {};
     this.status = {
@@ -104,7 +103,7 @@ export class TestSpan implements Span {
    * @param _endTime - The time to use as the Span's end time. Defaults to
    * the current time.
    */
-  end(_endTime?: number): void {
+  end(_endTime?: Date): void {
     this.endCalled = true;
   }
 

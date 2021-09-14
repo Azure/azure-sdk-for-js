@@ -66,16 +66,6 @@ export interface TraceState {
 }
 
 /**
- * Represents high resolution time.
- */
-export declare type HrTime = [number, number];
-
-/**
- * Used to represent a Time.
- */
-export type TimeInput = HrTime | number | Date;
-
-/**
  * The status for a span.
  */
 export interface SpanStatus {
@@ -113,57 +103,6 @@ export enum SpanKind {
    * relationship between producer and consumer spans.
    */
   CONSUMER = 4
-}
-
-/**
- * An Exception for a Span.
- */
-export declare type Exception =
-  | ExceptionWithCode
-  | ExceptionWithMessage
-  | ExceptionWithName
-  | string;
-
-/**
- * An Exception with a code.
- */
-export interface ExceptionWithCode {
-  /** The code. */
-  code: string | number;
-  /** The name. */
-  name?: string;
-  /** The message. */
-  message?: string;
-  /** The stack. */
-  stack?: string;
-}
-
-/**
- * An Exception with a message.
- */
-export interface ExceptionWithMessage {
-  /** The code. */
-  code?: string | number;
-  /** The message. */
-  message: string;
-  /** The name. */
-  name?: string;
-  /** The stack. */
-  stack?: string;
-}
-
-/**
- * An Exception with a name.
- */
-export interface ExceptionWithName {
-  /** The code. */
-  code?: string | number;
-  /** The message. */
-  message?: string;
-  /** The name. */
-  name: string;
-  /** The stack. */
-  stack?: string;
 }
 
 /**
@@ -213,6 +152,21 @@ export interface ContextAPI {
    * Get the currently active context
    */
   active(): Context;
+
+  /**
+   * Execute a function with an active context.
+   *
+   * @param context context to be active during function execution
+   * @param fn function to execute in a context
+   * @param thisArg optional receiver to be used for calling fn
+   * @param args optional arguments forwarded to fn
+   */
+  with<A extends unknown[], F extends (...args: A) => ReturnType<F>>(
+    context: Context,
+    fn: F,
+    thisArg?: ThisParameterType<F>,
+    ...args: A
+  ): ReturnType<F>;
 }
 
 /**
@@ -306,11 +260,7 @@ export interface Span {
    *     if type is TimeInput and 3rd param is undefined
    * @param startTime - start time of the event.
    */
-  addEvent(
-    name: string,
-    attributesOrStartTime?: SpanAttributes | TimeInput,
-    startTime?: TimeInput
-  ): this;
+  addEvent(name: string, attributesOrStartTime?: SpanAttributes | Date, startTime?: Date): this;
   /**
    * Sets a status to the span. If used, this will override the default Span
    * status. Default is {@link SpanStatusCode.UNSET}. SetStatus overrides the value
@@ -331,7 +281,7 @@ export interface Span {
    * @param endTime - the time to set as Span's end time. If not provided,
    *     use the current time as the span's end time.
    */
-  end(endTime?: TimeInput): void;
+  end(endTime?: Date): void;
   /**
    * Returns the flag whether this span will be recorded.
    *
@@ -342,11 +292,11 @@ export interface Span {
 
   /**
    * Sets exception as a span event
-   * @param exception - the exception the only accepted values are string or Error
+   * @param exception - the exception to record.
    * @param time - the time to set as Span's event time. If not provided,
    *     use the current time.
    */
-  recordException(exception: Exception, time?: TimeInput): void;
+  recordException(exception: Error, time?: Date): void;
 
   /**
    * Updates the Span name.
@@ -459,7 +409,7 @@ export interface SpanOptions {
   /**
    * A manually specified start time for the created `Span` object.
    */
-  startTime?: TimeInput;
+  startTime?: Date;
 }
 
 /**
