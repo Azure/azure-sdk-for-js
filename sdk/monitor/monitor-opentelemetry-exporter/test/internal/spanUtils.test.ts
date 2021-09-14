@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import fs from "fs";
+import path from "path";
 import { Span, BasicTracerProvider, TracerConfig } from "@opentelemetry/tracing";
 import { SpanKind, SpanStatusCode, ROOT_CONTEXT } from "@opentelemetry/api";
 import * as assert from "assert";
@@ -12,14 +14,13 @@ import {
 } from "@opentelemetry/semantic-conventions";
 
 import { Tags, Properties, Measurements } from "../../src/types";
-import * as ai from "../../src/utils/constants/applicationinsights";
 import { Context, getInstance } from "../../src/platform";
 import { msToTimeSpan } from "../../src/utils/breezeUtils";
 import { readableSpanToEnvelope } from "../../src/utils/spanUtils";
 import { RemoteDependencyData, RequestData, KnownContextTagKeys } from "../../src/generated";
 import { TelemetryItem as Envelope } from "../../src/generated";
 
-const context = getInstance(undefined, "./");
+const context = getInstance();
 
 const tracerProviderConfig: TracerConfig = {
   resource: new Resource({
@@ -30,6 +31,8 @@ const tracerProviderConfig: TracerConfig = {
 };
 
 const tracer = new BasicTracerProvider(tracerProviderConfig).getTracer("default");
+const packageJsonPath = path.resolve(__dirname, "../../", "./package.json");
+let packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
 
 function assertEnvelope(
   envelope: Envelope,
@@ -41,10 +44,7 @@ function assertEnvelope(
   expectedBaseData: Partial<RequestData | RemoteDependencyData>,
   expectedTime?: Date
 ): void {
-  assert.strictEqual(Context.sdkVersion, ai.packageVersion);
-  assert.strictEqual(Object.keys(Context.appVersion).length, 1);
-  assert.notDeepStrictEqual(Context.appVersion, "unknown");
-
+  assert.strictEqual(Context.sdkVersion, packageJson.version);
   assert.ok(envelope);
   assert.strictEqual(envelope.name, name);
   assert.deepStrictEqual(envelope.data?.baseType, baseType);

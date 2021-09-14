@@ -8,9 +8,8 @@ import {
 } from "@azure/test-utils-perfstress";
 import { EventHubClient, EventData } from "@azure/event-hubs";
 
-// Expects the .env file at the same level as the "test" folder
-import * as dotenv from "dotenv";
-dotenv.config({ path: "../../../.env" });
+import { config } from "dotenv";
+config();
 
 const connectionString = getEnvVar("EVENTHUB_CONNECTION_STRING");
 const eventHubName = getEnvVar("EVENTHUB_NAME");

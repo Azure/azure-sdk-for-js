@@ -70,7 +70,9 @@ describe("SchemaRegistryAvroSerializer", function() {
     const registry = createTestRegistry();
     const schemaId = await registerTestSchema(registry);
     const serializer = await createTestSerializer(false, registry);
-    const buffer = await serializer.serialize(testValue, testSchema);
+    const arr = await serializer.serialize(testValue, testSchema);
+    assert.isUndefined((arr as Buffer).readBigInt64BE);
+    const buffer = Buffer.from(arr);
     assert.strictEqual(0x0, buffer.readUInt32BE(0));
     assert.strictEqual(schemaId, buffer.toString("utf-8", 4, 36));
     const payload = buffer.slice(36);

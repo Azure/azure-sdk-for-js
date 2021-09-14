@@ -14,7 +14,6 @@
 #### Breaking Changes from 2.0.0-beta.5
 
 - The property named `selectedCredential` that was added to `ChainedTokenCredential` and `DefaultAzureCredential` has been removed, since customers reported that logging was enough.
-- Renamed the `allowUnencryptedStorage` property of `TokenCachePersistenceOptions` to `unsafeAllowUnencryptedStorage` to make it clear that enabling the unencrypted storage feature is not generally safe for production use.
 - Changed the name of the "extension" API to the "plugin" API to reduce confusion between this package and VS Code extensions. The function `useIdentityExtension` was renamed to `useIdentityPlugin`, and "extension packages" are now known as "plugin packages".
 - Renamed the `allowUnencryptedStorage` property of `TokenCachePersistenceOptions` to `unsafeAllowUnencryptedStorage` to make it clear that enabling the unencrypted storage feature is not generally safe for production use.
 
