@@ -323,10 +323,13 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
   }
 
   // Azure SDK
-  if (span.attributes[AzNamespace] === MicrosoftEventHub) {
-    parseEventHubSpan(span, baseData);
-  } else if (span.attributes[AzNamespace] && span.kind === SpanKind.INTERNAL) {
-    baseData.type = `${DependencyTypes.InProc} | ${span.attributes[AzNamespace]}`;
+  if (span.attributes[AzNamespace]) {
+    if (span.kind === SpanKind.INTERNAL) {
+      baseData.type = `${DependencyTypes.InProc} | ${span.attributes[AzNamespace]}`;
+    }
+    if (span.attributes[AzNamespace] === MicrosoftEventHub) {
+      parseEventHubSpan(span, baseData);
+    }
   }
 
   return {

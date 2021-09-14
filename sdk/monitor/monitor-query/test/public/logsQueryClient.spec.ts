@@ -345,7 +345,7 @@ describe("LogsQueryClient live tests", function() {
     });
   });
 
-  describe("Ingested data tests (can be slow due to loading times)", () => {
+  describe.skip("Ingested data tests (can be slow due to loading times)", () => {
     before(async function(this: Context) {
       if (env.TEST_RUN_ID) {
         loggerForTest.warning(`Using cached test run ID ${env.TEST_RUN_ID}`);

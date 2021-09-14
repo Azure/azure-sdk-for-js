@@ -18,7 +18,8 @@ import {
   getTestContainer
 } from "../common/TestHelpers";
 import { BulkOperationType, OperationInput } from "../../../src";
-import { endpoint, masterKey } from "../common/_testConfig";
+import { endpoint } from "../common/_testConfig";
+import { masterKey } from "../common/_fakeTestSecrets";
 
 interface TestItem {
   id?: string;

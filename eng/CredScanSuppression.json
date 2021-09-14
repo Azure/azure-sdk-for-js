@@ -45,7 +45,8 @@
         "kt#_gahr!@aGERDXA",
         "goose",
         "_password",
-        "YmFzZTY0X3BsYWNlaG9sZGVy"
+        "YmFzZTY0X3BsYWNlaG9sZGVy",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjM2MDB9.adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs"
       ],
       "_justification": "Secret used by test code, it is fake."
     },
@@ -55,7 +56,11 @@
         "sdk/identity/identity/test/azure-identity-chain-test.crt",
         "sdk/identity/identity/test/azure-identity-test.crt",
         "sdk/keyvault/keyvault-certificates/ca.key",
-        "sdk/identity/identity/assets/fake-cert.pem"
+        "sdk/identity/identity/assets/fake-cert.pem",
+        "sdk/storage/storage-blob/test/utils/fakeTestSecrets.ts",
+        "sdk/servicebus/service-bus/test/public/fakeTestSecrets.ts",
+        "sdk/cosmosdb/cosmos/test/public/common/_fakeTestSecrets.ts",
+        "sdk/tables/data-tables/test/internal/fakeTestSecrets.ts"
       ],
       "_justification": "File contains private key used by test code."
     }
