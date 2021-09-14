@@ -80,7 +80,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
 
       this.vaultUrl = parsed.vaultUrl;
       this.name = parsed.name;
-      this.version = parsed.version || "";
+      this.version = parsed.version ?? "";
     } catch (err) {
       logger.error(err);
 

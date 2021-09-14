@@ -442,7 +442,6 @@ export class KeyClient {
    */
   public getCryptographyClient(keyName: string, keyVersion?: string): CryptographyClient {
     const keyUrl = new URL(["keys", keyName, keyVersion].filter(Boolean).join("/"), this.vaultUrl);
-    console.log(keyUrl);
 
     // The goals of this method are discoverability and performance (by sharing a client and pipeline).
     // The existing cryptography client does not accept a pipeline as an argument, nor does it expose it.
