@@ -558,16 +558,15 @@ export interface AccessToken {
 
 As long as a valid `AccessToken` is returned, the parameters are not required to be used by a method implementing the `TokenCredential` interface. So, the simplest possible object compatible with the `TokenCredential` interface is one that has a `getToken` method that may return either null, or an object with two properties, a numeric property called `expiresOnTimestamp`, and a string property called `token`. Example:
 
-
 ```ts
 const mySimpleCredential = {
   getToken() {
     return {
       expiresOnTimestamp: Date.now() + 1000, // Expires in a second
       token: "my access token"
-    }
+    };
   }
-}
+};
 ```
 
 ### Authenticating with a pre-fetched access token
@@ -1156,20 +1155,25 @@ National clouds are physically isolated instances of Azure. These regions of Azu
 All credentials have `authorityHost` as a setting in the constructor at some level. To authenticate for various national cloud or a private cloud, we can send the most appropriate `authorityHost`. We provide a set of common values through the `AzureAuthorityHosts` interface. So, for the US Government cloud, you could instantiate a credential this way:
 
 ```ts
-const identity = require("@azure/identity");
-const credential = new identity.ClientSecretCredential({
-  authorityHost: identity.AzureAuthorityHosts.AzureGovernment
-});
+import { AzureAuthorityHosts, ClientSecretCredential } from "@azure/identity";
+const credential = new ClientSecretCredential(
+  "<YOUR_TENANT_ID>",
+  "<YOUR_CLIENT_ID>",
+  "<YOUR_CLIENT_SECRET>",
+  {
+    authorityHost: AzureAuthorityHosts.AzureGovernment
+  }
+);
 ```
 
 The following table shows common values provided through the `AzureAuthorityHosts`.
 
-| National Cloud | Azure AD authentication endpoint | AzureAuthorityHost |
-| ----------------------------------- | ---------------------------------------- | -------------------------------------- |
-| Azure AD for US Government | https://login.microsoftonline.us | `AzureAuthorityHosts.AzureGovernment` |
-| Azure AD Germany | https://login.microsoftonline.de | `AzureAuthorityHosts.AzureGermany` |
-| Azure AD China operated by 21Vianet | https://login.partner.microsoftonline.cn | `AzureAuthorityHosts.AzureChina` |
-| Azure AD (global service) | https://login.microsoftonline.com | `AzureAuthorityHosts.AzurePublicCloud` |
+| National Cloud                      | Azure AD authentication endpoint  | AzureAuthorityHost                     |
+| ----------------------------------- | --------------------------------- | -------------------------------------- |
+| Azure AD for US Government          | https://login.microsoftonline.us  | `AzureAuthorityHosts.AzureGovernment`  |
+| Azure AD Germany                    | https://login.microsoftonline.de  | `AzureAuthorityHosts.AzureGermany`     |
+| Azure AD China operated by 21Vianet | https://login.chinacloudapi.cn    | `AzureAuthorityHosts.AzureChina`       |
+| Azure AD (global service)           | https://login.microsoftonline.com | `AzureAuthorityHosts.AzurePublicCloud` |
 
 To learn more about Azure Authentication for National Clouds, see [National clouds](https://docs.microsoft.com/azure/active-directory/develop/authentication-national-cloud).
 
