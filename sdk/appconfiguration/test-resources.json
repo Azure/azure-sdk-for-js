@@ -16,12 +16,19 @@
     "azConfigEndpointSuffix": {
       "defaultValue": ".azconfig.io",
       "type": "string"
+    },
+    "testApplicationOid": {
+      "type": "string",
+      "metadata": {
+        "description": "The client OID to grant access to test resources."
+      }
     }
   },
   "variables": {
     "configurationApiVersion": "2019-10-01",
     "accountName": "[parameters('baseName')]",
-    "endpoint": "[concat('https://', parameters('baseName'), parameters('azConfigEndpointSuffix'))]"
+    "endpoint": "[concat('https://', parameters('baseName'), parameters('azConfigEndpointSuffix'))]",
+    "roleDefinitionId": "[format('/subscriptions/{0}/providers/Microsoft.Authorization/roleDefinitions/5ae67dd6-50cb-40e7-96ff-dc2bfa4b606b', subscription().subscriptionId)]"
   },
   "resources": [
     {
@@ -35,6 +42,15 @@
       "properties": {
         "endpoint": "[variables('endpoint')]"
       }
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2018-09-01-preview",
+      "name": "[guid(resourceGroup().id)]",
+      "properties": {
+        "roleDefinitionId": "[variables('roleDefinitionId')]",
+        "principalId": "[parameters('testApplicationOid')]"
+      }
     }
   ],
   "outputs": {
@@ -45,6 +61,10 @@
     "AZ_CONFIG_ENDPOINT": {
       "type": "string",
       "value": "[variables('endpoint')]"
+    },
+    "testApplicationOid": {
+      "type": "string",
+      "value": "[parameters('testApplicationOid')]"
     }
   }
 }
