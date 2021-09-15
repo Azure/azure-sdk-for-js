@@ -31,6 +31,8 @@ export interface ManagedPrivateEndpoint {
 
 /** Properties of a managed private endpoint */
 export interface ManagedPrivateEndpointProperties {
+  /** The name of managed private endpoint */
+  name?: string;
   /** The ARM resource ID of the resource to which the managed private endpoint is created */
   privateLinkResourceId?: string;
   /** The groupId to which the managed private endpoint is created */
@@ -47,6 +49,10 @@ export interface ManagedPrivateEndpointProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isReserved?: boolean;
+  /** List of fully qualified domain names */
+  fqdns?: string[];
+  /** Denotes whether the managed private endpoint is compliant */
+  isCompliant?: boolean;
 }
 
 /** The connection state of a managed private endpoint */

@@ -82,12 +82,8 @@ describe("ApplicationCredential", function() {
     const credential = new ApplicationCredential();
     const error = await getError(credential.getToken(scope));
     assert.equal(error.name, "AggregateAuthenticationError");
-    console.log(`${error.message}`);
-    assert.ok(
-      error.message.indexOf(
-        `CredentialUnavailableError: EnvironmentCredential is unavailable. No underlying credential could be used.\nCredentialUnavailableError: ManagedIdentityCredential authentication failed.`
-      ) > -1
-    );
+    assert.ok(error.message.indexOf(`CredentialUnavailableError: EnvironmentCredential`) > -1);
+    assert.ok(error.message.indexOf(`CredentialUnavailableError: ManagedIdentityCredential`) > -1);
   });
 
   it("throws an AuthenticationError when getToken is called and ApplicationCredential authentication failed", async () => {

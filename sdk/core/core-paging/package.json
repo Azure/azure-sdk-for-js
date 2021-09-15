@@ -27,8 +27,8 @@
   "files": [
     "types/latest/core-paging.d.ts",
     "types/3.1",
-    "dist/index.js",
-    "dist-esm/src/index.js",
+    "dist/",
+    "dist-esm/src/",
     "LICENSE",
     "README.md"
   ],

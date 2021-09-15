@@ -31,8 +31,8 @@ $npmVersionInfo = GetNpmTagVersions -packageName $packageName
 if ($npmVersionInfo -eq $null)
 {
   # Version info object should not be null even if package is not present in npm
-  Write-Error "Failed to get version info from NPM registry."
-  exit 1
+  Write-Host "Failed to get version info from NPM registry. Package is probably published for the first time."
+  exit 0
 }
 $nextVersion = [AzureEngSemanticVersion]::ParseVersionString($npmVersionInfo.next)
 $latestVersion = [AzureEngSemanticVersion]::ParseVersionString($packageVersion) 

@@ -1,5 +1,34 @@
 # Release History
 
+## 3.14.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 3.14.1 (2021-09-02)
+
+### Bugs Fixed
+
+- Fix @azure/core-rest-pipeline version for AAD auth.
+
+## 3.14.0 (2021-09-01)
+
+### Features Added
+
+- _PREVIEW_ Adds `container.item(itemId).patch()`. `patch()` is an alternative to `replace()` for item updates. https://github.com/Azure/azure-sdk-for-js/pull/16264/files#diff-7caca690c469e2025576523c0377ac71815f001024fde7c48b20cd24adaa6977R561
+- _PREVIEW_ Adds support for Bulk operation PATCH.
+- _PREVIEW_ Adds support for Batch operation PATCH.
+
+### Bugs Fixed
+
+- Fixes bug where Batch was passing the wrong header for batch requests with partition keys
+- Fixes 401s when using AAD auth. AAD credentials should now work and no longer cause 429s from @azure/identity at high throughput.
+
 ## 3.13.1 (2021-08-23)
 
 ### Bugs Fixed

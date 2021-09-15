@@ -1,109 +1,93 @@
-## Azure AuthorizationManagementClient SDK for JavaScript
+# Azure AuthorizationManagement client library for JavaScript
 
-This package contains an isomorphic SDK (runs both in Node.js and in browsers) for AuthorizationManagementClient.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure AuthorizationManagement client.
+
+Role based access control provides you a way to apply granular level policy administration down to individual resources or resource groups. These operations enable you to manage role assignments. A role assignment grants access to Azure Active Directory users.
+
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/authorization/arm-authorization) |
+[Package (NPM)](https://www.npmjs.com/package/@azure/arm-authorization) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-authorization) |
+[Samples](https://github.com/Azure-Samples/azure-samples-js-management)
+
+## Getting started
 
 ### Currently supported environments
 
 - [LTS versions of Node.js](https://nodejs.org/about/releases/)
-- Latest versions of Safari, Chrome, Edge, and Firefox.
+- Latest versions of Safari, Chrome, Edge and Firefox.
 
 ### Prerequisites
 
-You must have an [Azure subscription](https://azure.microsoft.com/free/).
+- An [Azure subscription][azure_sub].
 
-### How to install
+### Install the `@azure/arm-authorization` package
 
-To use this SDK in your project, you will need to install two packages.
-- `@azure/arm-authorization` that contains the client.
-- `@azure/identity` that provides different mechanisms for the client to authenticate your requests using Azure Active Directory.
+Install the Azure AuthorizationManagement client library for JavaScript with `npm`:
 
-Install both packages using the below command:
 ```bash
-npm install --save @azure/arm-authorization @azure/identity
+npm install @azure/arm-authorization
 ```
 
-> **Note**: You may have used either `@azure/ms-rest-nodeauth` or `@azure/ms-rest-browserauth` in the past. These packages are in maintenance mode receiving critical bug fixes, but no new features.
-If you are on a [Node.js that has LTS status](https://nodejs.org/about/releases/), or are writing a client side browser application, we strongly encourage you to upgrade to `@azure/identity` which uses the latest versions of Azure Active Directory and MSAL APIs and provides more authentication options.
+### Create and authenticate a `AuthorizationManagementClient`
 
-### How to use
+To create a client object to access the Azure AuthorizationManagement API, you will need the `endpoint` of your Azure AuthorizationManagement resource and a `credential`. The Azure AuthorizationManagement client can use Azure Active Directory credentials to authenticate.
+You can find the endpoint for your Azure AuthorizationManagement resource in the [Azure Portal][azure_portal].
 
-- If you are writing a client side browser application,
-  - Follow the instructions in the section on Authenticating client side browser applications in [Azure Identity examples](https://aka.ms/azsdk/js/identity/examples) to register your application in the Microsoft identity platform and set the right permissions.
-  - Copy the client ID and tenant ID from the Overview section of your app registration in Azure portal and use it in the browser sample below.
-- If you are writing a server side application,
-  - [Select a credential from `@azure/identity` based on the authentication method of your choice](https://aka.ms/azsdk/js/identity/examples)
-  - Complete the set up steps required by the credential if any.
-  - Use the credential you picked in the place of `DefaultAzureCredential` in the Node.js sample below.
+#### Using an Azure Active Directory Credential
 
-In the below samples, we pass the credential and the Azure subscription id to instantiate the client.
-Once the client is created, explore the operations on it either in your favorite editor or in our [API reference documentation](https://docs.microsoft.com/javascript/api) to get started.
+You can authenticate with Azure Active Directory using the [Azure Identity library][azure_identity]. To use the [DefaultAzureCredential][defaultazurecredential] provider shown below, or other credential providers provided with the Azure SDK, please install the `@azure/identity` package:
 
-#### nodejs - Authentication, client creation, and list classicAdministrators as an example written in JavaScript.
+```bash
+npm install @azure/identity
+```
 
-##### Sample code
+You will also need to **register a new AAD application and grant access to Azure AuthorizationManagement** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
+
+For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
+```javascript
+const { AuthorizationManagementClient } = require("@azure/arm-authorization");
+const { DefaultAzureCredential } = require("@azure/identity");
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
+const client = new AuthorizationManagementClient(new DefaultAzureCredential(), subscriptionId);
+```
+
+## Key concepts
+
+### AuthorizationManagementClient
+
+`AuthorizationManagementClient` is the primary interface for developers using the Azure AuthorizationManagement client library. Explore the methods on this client object to understand the different features of the Azure AuthorizationManagement service that you can access.
+
+## Troubleshooting
+
+### Logging
+
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
 ```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { AuthorizationManagementClient } = require("@azure/arm-authorization");
-const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
-
-// Use `DefaultAzureCredential` or any other credential of your choice based on https://aka.ms/azsdk/js/identity/examples
-// Please note that you can also use credentials from the `@azure/ms-rest-nodeauth` package instead.
-const creds = new DefaultAzureCredential();
-const client = new AuthorizationManagementClient(creds, subscriptionId);
-
-client.classicAdministrators.list().then((result) => {
-  console.log("The result is:");
-  console.log(result);
-}).catch((err) => {
-  console.log("An error occurred:");
-  console.error(err);
-});
+const { setLogLevel } = require("@azure/logger");
+setLogLevel("info");
 ```
 
-#### browser - Authentication, client creation, and list classicAdministrators as an example written in JavaScript.
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
-In browser applications, we recommend using the `InteractiveBrowserCredential` that interactively authenticates using the default system browser.
-  - See [Single-page application: App registration guide](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) to configure your app registration for the browser.
-  - Note down the client Id from the previous step and use it in the browser sample below.
+## Next steps
 
-##### Sample code
+Please take a look at the [samples](https://github.com/Azure-Samples/azure-samples-js-management) directory for detailed examples on how to use this library.
 
-- index.html
+## Contributing
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>@azure/arm-authorization sample</title>
-    <script src="node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"></script>
-    <script src="node_modules/@azure/identity/dist/index.js"></script>
-    <script src="node_modules/@azure/arm-authorization/dist/arm-authorization.js"></script>
-    <script type="text/javascript">
-      const subscriptionId = "<Subscription_Id>";
-      // Create credentials using the `@azure/identity` package.
-      // Please note that you can also use credentials from the `@azure/ms-rest-browserauth` package instead.
-      const credential = new InteractiveBrowserCredential(
-      {
-        clientId: "<client id for your Azure AD app>",
-        tenantId: "<optional tenant for your organization>"
-      });
-      const client = new Azure.ArmAuthorization.AuthorizationManagementClient(creds, subscriptionId);
-      client.classicAdministrators.list().then((result) => {
-        console.log("The result is:");
-        console.log(result);
-      }).catch((err) => {
-        console.log("An error occurred:");
-        console.error(err);
-      });
-    </script>
-  </head>
-  <body></body>
-</html>
-```
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ## Related projects
 
-- [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
+- [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/authorization/arm-authorization/README.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fauthorization%2Farm-authorization%2FREADME.png)
+
+[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_sub]: https://azure.microsoft.com/free/
+[azure_sub]: https://azure.microsoft.com/free/
+[azure_portal]: https://portal.azure.com
+[azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
+[defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential

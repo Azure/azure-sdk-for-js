@@ -353,6 +353,65 @@ describe("defaultHttpClient (node)", function() {
       download.notified.should.be.true;
     });
   });
+
+  it("should use cached agent for requests with the same proxy settings", async function() {
+    const proxySettings = { host: "host1", port: 8001, username: "user1", password: "pass123" };
+    const request1 = new WebResource("/url");
+    request1.proxySettings = proxySettings;
+    const request2 = new WebResource("/url");
+    request2.proxySettings = proxySettings;
+    const client = new DefaultHttpClient();
+
+    const requestInit1: Partial<RequestInit & { agent?: any }> = await client.prepareRequest(
+      request1
+    );
+    const requestInit2: Partial<RequestInit & { agent?: any }> = await client.prepareRequest(
+      request2
+    );
+    assert.deepStrictEqual(requestInit1.agent, requestInit2.agent);
+  });
+
+  it("should use different agents for requests with different proxy settings", async function() {
+    const request1 = new WebResource("/url");
+    request1.proxySettings = { host: "host1", port: 8001, username: "user1", password: "pass123" };
+    const request2 = new WebResource("/url");
+    request2.proxySettings = { host: "host2", port: 8002, username: "user2", password: "p@55wOrd" };
+    const client = new DefaultHttpClient();
+
+    const requestInit1: Partial<RequestInit & { agent?: any }> = await client.prepareRequest(
+      request1
+    );
+    const requestInit2: Partial<RequestInit & { agent?: any }> = await client.prepareRequest(
+      request2
+    );
+    assert.notStrictEqual(requestInit1.agent, requestInit2.agent);
+    assert.notEqual(requestInit1.agent.proxyOptions.host, requestInit2.agent.proxyOptions.host);
+    assert.notEqual(requestInit1.agent.proxyOptions.port, requestInit2.agent.proxyOptions.port);
+    assert.notEqual(
+      requestInit1.agent.proxyOptions.proxyAuth,
+      requestInit2.agent.proxyOptions.proxyAuth
+    );
+  });
+
+  it("should use different agents for requests with different proxy settings of same url but different credentials", async function() {
+    const request1 = new WebResource("/url");
+    request1.proxySettings = { host: "host1", port: 8001, username: "user1", password: "pass123" };
+    const request2 = new WebResource("/url");
+    request2.proxySettings = { host: "host1", port: 8001 };
+    const client = new DefaultHttpClient();
+
+    const requestInit1: Partial<RequestInit & { agent?: any }> = await client.prepareRequest(
+      request1
+    );
+    const requestInit2: Partial<RequestInit & { agent?: any }> = await client.prepareRequest(
+      request2
+    );
+    assert.notStrictEqual(requestInit1.agent, requestInit2.agent);
+    assert.notEqual(
+      requestInit1.agent.proxyOptions.proxyAuth,
+      requestInit2.agent.proxyOptions.proxyAuth
+    );
+  });
 });
 
 describe("ReportTransform", function() {

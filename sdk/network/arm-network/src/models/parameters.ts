@@ -176,7 +176,7 @@ export const applicationGatewayName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-02-01",
+    defaultValue: "2021-03-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -1330,6 +1330,26 @@ export const serviceEndpointPolicyDefinitionName: OperationURLParameter = {
 export const serviceEndpointPolicyDefinitions: OperationParameter = {
   parameterPath: "serviceEndpointPolicyDefinitions",
   mapper: ServiceEndpointPolicyDefinitionMapper
+};
+
+export const noAddressPrefixes: OperationQueryParameter = {
+  parameterPath: ["options", "noAddressPrefixes"],
+  mapper: {
+    serializedName: "noAddressPrefixes",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
+export const tagName: OperationQueryParameter = {
+  parameterPath: ["options", "tagName"],
+  mapper: {
+    serializedName: "tagName",
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const location1: OperationURLParameter = {

@@ -6,7 +6,8 @@
 // import { URL } from "url";
 // import ProxyAgent from "proxy-agent";
 // import { CosmosClient } from "../../../src";
-// import { endpoint, masterKey } from "../common/_testConfig";
+// import { endpoint } from "../common/_testConfig";
+// import { masterKey } from "../common/_fakeTestSecrets";
 // import { addEntropy } from "../common/TestHelpers";
 
 // const isBrowser = new Function("try {return this===window;}catch(e){ return false;}");

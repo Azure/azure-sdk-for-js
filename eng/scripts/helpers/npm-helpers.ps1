@@ -97,7 +97,7 @@ function GetNewNpmTags($packageName, $packageVersion)
       if ($latestVersion -eq $null -or $latestVersion.IsPreRelease) {
         $setLatest = $true
       }
-    }    
+    }
   }
 
   $tag = ""

@@ -22,7 +22,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a ResourceSkus. */
+/** Class containing ResourceSkus operations. */
 export class ResourceSkusImpl implements ResourceSkus {
   private readonly client: ComputeManagementClientContext;
 
@@ -112,7 +112,11 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ResourceSkusResult
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion1],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.includeExtendedLocations
+  ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -125,7 +129,11 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ResourceSkusResult
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion1],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.includeExtendedLocations
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

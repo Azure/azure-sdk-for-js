@@ -10,13 +10,13 @@ import {
 import { convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
 
 import {
-  GetSchemaByIdOptions,
-  GetSchemaIdOptions,
+  GetSchemaOptions,
+  GetSchemaPropertiesOptions,
   SchemaDescription,
   SchemaRegistryClientOptions,
   SchemaRegistry,
   RegisterSchemaOptions,
-  SchemaId,
+  SchemaProperties,
   Schema
 } from "./models";
 import { DEFAULT_SCOPE } from "./constants";
@@ -33,7 +33,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
   /** Underlying autorest generated client. */
   private readonly client: GeneratedSchemaRegistryClient;
 
-  private readonly schemaToIdMap: Map<SchemaDescription, SchemaId>;
+  private readonly schemaToIdMap: Map<SchemaDescription, SchemaProperties>;
   private readonly idToSchemaMap: Map<string, Schema>;
 
   /**
@@ -71,7 +71,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
     this.idToSchemaMap = new Map();
   }
 
-  private addToCache(schema: SchemaDescription, id: SchemaId): void {
+  private addToCache(schema: SchemaDescription, id: SchemaProperties): void {
     this.schemaToIdMap.set(schema, id);
     this.idToSchemaMap.set(id.id, { ...id, content: schema.content });
   }
@@ -89,9 +89,9 @@ export class SchemaRegistryClient implements SchemaRegistry {
   async registerSchema(
     schema: SchemaDescription,
     options?: RegisterSchemaOptions
-  ): Promise<SchemaId> {
+  ): Promise<SchemaProperties> {
     const id = await this.client.schema
-      .register(schema.group, schema.name, schema.serializationType, schema.content, options)
+      .register(schema.groupName, schema.name, schema.serializationType, schema.content, options)
       .then(convertSchemaIdResponse);
     this.addToCache(schema, id);
     return id;
@@ -104,10 +104,10 @@ export class SchemaRegistryClient implements SchemaRegistry {
    * @param schema - Schema to match.
    * @returns Matched schema's ID or undefined if no matching schema was found.
    */
-  async getSchemaId(
+  async getSchemaProperties(
     schema: SchemaDescription,
-    options?: GetSchemaIdOptions
-  ): Promise<SchemaId | undefined> {
+    options?: GetSchemaPropertiesOptions
+  ): Promise<SchemaProperties | undefined> {
     const cached = this.schemaToIdMap.get(schema);
     if (cached !== undefined) {
       return cached;
@@ -115,7 +115,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
     try {
       const id = await this.client.schema
         .queryIdByContent(
-          schema.group,
+          schema.groupName,
           schema.name,
           schema.serializationType,
           schema.content,
@@ -138,7 +138,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
    * @param id - Unique schema ID.
    * @returns Schema with given ID or undefined if no schema was found with the given ID.
    */
-  async getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema | undefined> {
+  async getSchema(id: string, options?: GetSchemaOptions): Promise<Schema | undefined> {
     const cached = this.idToSchemaMap.get(id);
     if (cached !== undefined) {
       return cached;

@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Check for string type before calling toLowerCase(). [PR #17573](https://github.com/Azure/azure-sdk-for-js/pull/17573)
+
 ### Other Changes
 
 ## 2.2.0 (2021-08-05)

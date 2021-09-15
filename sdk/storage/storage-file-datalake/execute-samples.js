@@ -63,7 +63,7 @@ async function runSamples(language) {
         await exec(`${cmd} ${files[i]}`, directory);
         console.log(`${g(files[i] + " is done..!")}`);
       } catch (error) {
-        console.log(error.message);
+        console.log(error.shortMessage);
         console.log(`${r(del)}\n${del}`);
         console.log(`${bDel}\t${files[i]} Sample - FAILED\t `);
         console.log(`${del}\n${r(del)}`);

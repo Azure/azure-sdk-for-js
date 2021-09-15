@@ -1,8 +1,8 @@
 import { PerfStressTest, getEnvVar } from "@azure/test-utils-perfstress";
-import { useIdentityExtension, ClientSecretCredential } from "@azure/identity";
+import { useIdentityPlugin, ClientSecretCredential } from "@azure/identity";
 
-import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
-useIdentityExtension(cachePersistenceExtension);
+import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
+useIdentityPlugin(cachePersistencePlugin);
 
 const scope = `https://servicebus.azure.net/.default`;
 
@@ -24,7 +24,7 @@ export class ClientSecretCredentialPersistenceTest extends PerfStressTest {
       tokenCachePersistenceOptions: {
         enabled: true,
         name: "nodeTestSilent",
-        allowUnencryptedStorage: true
+        unsafeAllowUnencryptedStorage: true
       }
     });
 
