@@ -33,7 +33,8 @@
         "_password",
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjM2MDB9.adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs",
         "Resource",
-        "sanitized.${expiryReplacement}.sanitized"
+        "sanitized.${expiryReplacement}.sanitized",
+        "YmFzZTY0X3BsYWNlaG9sZGVy"
       ],
       "_justification": "Secret used by test code, it is fake."
     },

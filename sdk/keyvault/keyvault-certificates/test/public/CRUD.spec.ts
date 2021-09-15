@@ -220,7 +220,10 @@ describe("Certificates client - create, read, update and delete", () => {
   });
 
   it("can get a certificate's secret in PKCS 12 format", async function(this: Context) {
-    recorder.skip("browser", "This test uses the file system.");
+    recorder.skip(
+      undefined,
+      "This test uses the file system and the certificate value has been sanitized in recordings."
+    );
     // Skipping this test from the live browser test runs, because we use the file system.
     if (!isNode) {
       this.skip();
