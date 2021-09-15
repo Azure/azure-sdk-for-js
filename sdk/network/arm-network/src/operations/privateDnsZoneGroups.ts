@@ -13,9 +13,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClientContext } from "../networkManagementClientContext";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { LroEngine } from "../lro";
-import { CoreClientLro, shouldDeserializeLro } from "../coreClientLro";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   PrivateDnsZoneGroup,
   PrivateDnsZoneGroupsListNextOptionalParams,
@@ -30,7 +29,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a PrivateDnsZoneGroups. */
+/** Class containing PrivateDnsZoneGroups operations. */
 export class PrivateDnsZoneGroupsImpl implements PrivateDnsZoneGroups {
   private readonly client: NetworkManagementClientContext;
 
@@ -165,7 +164,7 @@ export class PrivateDnsZoneGroupsImpl implements PrivateDnsZoneGroups {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       {
         resourceGroupName,
@@ -173,10 +172,13 @@ export class PrivateDnsZoneGroupsImpl implements PrivateDnsZoneGroups {
         privateDnsZoneGroupName,
         options
       },
-      deleteOperationSpec,
-      "location"
+      deleteOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
   }
 
   /**
@@ -284,7 +286,7 @@ export class PrivateDnsZoneGroupsImpl implements PrivateDnsZoneGroups {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       {
         resourceGroupName,
@@ -293,10 +295,13 @@ export class PrivateDnsZoneGroupsImpl implements PrivateDnsZoneGroups {
         parameters,
         options
       },
-      createOrUpdateOperationSpec,
-      "azure-async-operation"
+      createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
+    });
   }
 
   /**

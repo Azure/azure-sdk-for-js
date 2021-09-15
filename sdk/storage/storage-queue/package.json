@@ -1,7 +1,7 @@
 {
   "name": "@azure/storage-queue",
   "sdk-type": "client",
-  "version": "12.7.0",
+  "version": "12.7.1",
   "description": "Microsoft Azure Storage SDK for JavaScript - Queue",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
@@ -161,7 +161,7 @@
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^4.0.4",
     "source-map-support": "^0.5.9",
-    "ts-node": "^9.0.0",
+    "ts-node": "^10.0.0",
     "typescript": "~4.2.0",
     "typedoc": "0.15.2",
     "util": "^0.12.1"

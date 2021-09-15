@@ -133,18 +133,22 @@ export function applyReplacementMap(
   let updated = content;
   replacements.forEach((replacement: string, key: string) => {
     if (env[key]) {
-      updated = replaceAll(updated, encodeRFC3986(env[key]!), encodeRFC3986(replacement));
-      updated = replaceAll(updated, env[key]!, replacement);
+      const value = env[key]!;
+      const [encodedValue, encodedReplacement] = [value, replacement].map(encodeRFC3986);
+      if (value !== encodedValue || replacement !== encodedReplacement) {
+        updated = replaceAll(updated, encodedValue, encodedReplacement);
+      }
+      updated = replaceAll(updated, value, replacement);
       if (
-        env[key]!.startsWith("http") &&
+        value.startsWith("http") &&
         replacement.startsWith("http") &&
-        URLBuilder.parse(env[key]!).getHost()
+        URLBuilder.parse(value).getHost()
       ) {
         // If an ENV variable and its replacement start with `http` with a valid hostname, replace the hostname
         // with the one provided in the replacement. This has no effect incase the URI is already replaced in the previous step.
         updated = replaceAll(
           updated,
-          URLBuilder.parse(env[key]!).getHost()!,
+          URLBuilder.parse(value).getHost()!,
           URLBuilder.parse(replacement).getHost()!
         );
       }

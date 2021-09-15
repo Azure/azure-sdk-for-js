@@ -22,7 +22,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a BgpServiceCommunities. */
+/** Class containing BgpServiceCommunities operations. */
 export class BgpServiceCommunitiesImpl implements BgpServiceCommunities {
   private readonly client: NetworkManagementClientContext;
 

@@ -8,6 +8,9 @@
 
 ### Bugs Fixed
 
+- Using this SDK with the resources from Sovereign clouds (AzureUSGovernment/AzureChinaCloud) would have failed with an authorization error.
+  Has been fixed in [#17583](https://github.com/Azure/azure-sdk-for-js/pull/17583)
+
 ### Other Changes
 
 ## 1.3.0 (2021-07-26)

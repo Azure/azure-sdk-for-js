@@ -4,10 +4,12 @@
 import {
   BatchRequest as GeneratedBatchRequest,
   BatchQueryRequest as GeneratedBatchQueryRequest,
-  BatchQueryResponse as GeneratedBatchQueryResponse,
   QueryBatchResponse as GeneratedQueryBatchResponse,
+  BatchQueryResponse as GeneratedBatchQueryResponse,
   QueryBody,
-  Table as GeneratedTable
+  Table as GeneratedTable,
+  BatchQueryResults as GeneratedBatchQueryResults,
+  ErrorInfo as GeneratedErrorInfo
 } from "../generated/logquery/src";
 
 import {
@@ -39,8 +41,12 @@ import {
   MetricDefinition,
   TimeSeriesElement
 } from "../models/publicMetricsModels";
-import { FullOperationResponse } from "../../../../core/core-client/types/latest/core-client";
-import { convertTimespanToInterval } from "../timespanConversion";
+import { FullOperationResponse } from "@azure/core-client";
+import {
+  convertIntervalToTimeIntervalObject,
+  convertTimespanToInterval
+} from "../timespanConversion";
+import { ErrorInfo, LogsQueryResult } from "../models/publicLogsModels";
 
 /**
  * @internal
@@ -101,13 +107,14 @@ export function convertResponseForQueryBatch(
   rawResponse: FullOperationResponse
 ): LogsQueryBatchResult {
   const fixApplied = fixInvalidBatchQueryResponse(generatedResponse, rawResponse);
-
   /* Sort the ids that are passed in with the queries, as numbers instead of strings
    * It is not guaranteed that service will return the responses for queries in the same order
    * as the queries are passed in
    */
+  const responseList = generatedResponse.responses || [];
+
   const newResponse: LogsQueryBatchResult = {
-    results: generatedResponse.responses
+    results: responseList
       ?.sort((a, b) => {
         let left = 0;
         if (a.id != null) {
@@ -121,19 +128,24 @@ export function convertResponseForQueryBatch(
 
         return left - right;
       })
-      ?.map((response: GeneratedBatchQueryResponse) => ({
-        id: response.id,
-        status: response.status,
-        // hoist fields from the sub-object 'body' to this level
-        error: response.body?.error,
-        tables: response.body?.tables?.map(convertGeneratedTable)
-      }))
+      ?.map((response: GeneratedBatchQueryResponse) => convertBatchQueryResponseHelper(response))
   };
+  // compute status for failed or succeed or partial results
 
+  const resultsCount = newResponse.results?.length ?? 0;
+  for (let i = 0; i < resultsCount; i++) {
+    const result = newResponse.results[i];
+    if (result.error && result.tables) {
+      result.status = "Partial";
+    } else if (result.tables) {
+      result.status = "Success";
+    } else {
+      result.status = "Failed";
+    }
+  }
   (newResponse as any)["__fixApplied"] = fixApplied;
   return newResponse;
 }
-
 /**
  * This is a workaround for a service bug that we're investigating. The 'body' column will occasionally come
  * back as a JSON string, instead of being a JSON object.
@@ -248,11 +260,15 @@ export function convertResponseForMetrics(
   });
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars -- eslint doesn't recognize that the extracted variables are prefixed with '_' and are purposefully unused.
-  const { resourceregion, value: _ignoredValue, interval, ...rest } = generatedResponse;
+  const { resourceregion, value: _ignoredValue, interval, timespan, ...rest } = generatedResponse;
 
   const obj: MetricsQueryResult = {
     ...rest,
-    metrics
+    metrics,
+    timespan: convertIntervalToTimeIntervalObject(timespan),
+    getMetricByName(metricName) {
+      return this.metrics.find((it) => it.name === metricName);
+    }
   };
 
   if (resourceregion) {
@@ -373,6 +389,48 @@ export function convertGeneratedTable(table: GeneratedTable): LogsTable {
       }
 
       return row;
-    })
+    }),
+    columnDescriptors: table.columns
   };
+}
+
+/**
+ * @internal
+ */
+export function convertBatchQueryResponseHelper(
+  response: GeneratedBatchQueryResponse
+): Partial<LogsQueryResult> {
+  try {
+    const parsedResponseBody: GeneratedBatchQueryResults = JSON.parse(
+      response.body as any
+    ) as GeneratedBatchQueryResults;
+    return {
+      visualization: parsedResponseBody.render,
+      status: "Success", // Assume success until shown otherwise.
+      statistics: parsedResponseBody.statistics,
+      error: mapError(parsedResponseBody.error), // ? { ...parsedResponseBody.error, name: "Error" } : undefined,
+      tables: parsedResponseBody.tables?.map((table: GeneratedTable) =>
+        convertGeneratedTable(table)
+      )
+    };
+  } catch (e) {
+    return {
+      visualization: response.body?.render,
+      status: "Success", // Assume success until shown otherwise.
+      statistics: response.body?.statistics,
+      error: mapError(response.body?.error),
+      tables: response.body?.tables?.map((table: GeneratedTable) => convertGeneratedTable(table))
+    };
+  }
+}
+
+export function mapError(error?: GeneratedErrorInfo): ErrorInfo | undefined {
+  if (error) {
+    return {
+      ...error,
+      name: "Error",
+      innerError: mapError(error.innerError)
+    };
+  }
+  return undefined;
 }

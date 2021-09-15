@@ -96,25 +96,28 @@ describe("SchemaRegistryClient", function() {
   });
 
   it("fails to get schema ID when given invalid args", async () => {
-    await assert.isRejected(client.getSchemaId({ ...schema, name: null! }), /null/);
-    await assert.isRejected(client.getSchemaId({ ...schema, groupName: null! }), /null/);
-    await assert.isRejected(client.getSchemaId({ ...schema, content: null! }), /null/);
-    await assert.isRejected(client.getSchemaId({ ...schema, serializationType: null! }), /null/);
+    await assert.isRejected(client.getSchemaProperties({ ...schema, name: null! }), /null/);
+    await assert.isRejected(client.getSchemaProperties({ ...schema, groupName: null! }), /null/);
+    await assert.isRejected(client.getSchemaProperties({ ...schema, content: null! }), /null/);
     await assert.isRejected(
-      client.getSchemaId({ ...schema, serializationType: "not-valid" }),
+      client.getSchemaProperties({ ...schema, serializationType: null! }),
+      /null/
+    );
+    await assert.isRejected(
+      client.getSchemaProperties({ ...schema, serializationType: "not-valid" }),
       /not-valid/
     );
   });
 
   it("fails to get schema ID when no matching schema exists", async () => {
-    assert.isUndefined(await client.getSchemaId({ ...schema, name: "never-registered" }));
+    assert.isRejected(client.getSchemaProperties({ ...schema, name: "never-registered" }));
   });
 
   it("gets schema ID", async () => {
     const registered = await client.registerSchema(schema, options);
     assertIsValidSchemaId(registered);
 
-    const found = await client.getSchemaId(schema, options);
+    const found = await client.getSchemaProperties(schema, options);
     assertIsValidSchemaId(found);
 
     // NOTE: IDs may differ here as we could get a different version with same content.
@@ -125,7 +128,7 @@ describe("SchemaRegistryClient", function() {
   });
 
   it("fails to get schema when no schema exists with given ID", async () => {
-    assert.isUndefined(await client.getSchema("ffffffffffffffffffffffffffffffff"));
+    assert.isRejected(client.getSchema("ffffffffffffffffffffffffffffffff"));
   });
 
   it("gets schema by ID", async () => {
@@ -149,7 +152,7 @@ describe("SchemaRegistryClient", function() {
     assertIsValidSchemaId(foundSchema);
     assert.equal(foundSchema.content, schema.content);
 
-    const foundId = await client.getSchemaId(schema, {
+    const foundId = await client.getSchemaProperties(schema, {
       onResponse: () => {
         assert.fail("Unexpected call to the service");
       }
@@ -187,7 +190,7 @@ describe("SchemaRegistryClient", function() {
 
     firstCall = false;
     // first call sends a request to the service and then cache the response
-    const foundIdFirstCall = await client.getSchemaId(schema, {
+    const foundIdFirstCall = await client.getSchemaProperties(schema, {
       onResponse: () => {
         firstCall = true;
       }
@@ -197,7 +200,7 @@ describe("SchemaRegistryClient", function() {
     assert.equal(foundIdFirstCall?.id, registered.id);
 
     // second call returns the result from the cache
-    const foundIdSecondCall = await client.getSchemaId(schema, {
+    const foundIdSecondCall = await client.getSchemaProperties(schema, {
       onResponse: () => {
         assert.fail("Unexpected call to the service");
       }
@@ -232,7 +235,7 @@ describe("SchemaRegistryClient", function() {
     assert.equal(foundSchema.content, schema2.content);
 
     let ran = false;
-    const foundId = await client.getSchemaId(
+    const foundId = await client.getSchemaProperties(
       {
         // content that comes from the service does not have whitespaces
         content: foundSchema.content,

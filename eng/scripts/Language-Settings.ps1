@@ -258,9 +258,9 @@ $PackageExclusions = @{
   '@azure/identity-cache-persistence'   = 'Fails typedoc2fx execution https://github.com/Azure/azure-sdk-for-js/issues/16310';
   '@azure-rest/core-client-paging'      = 'Cannot find types/latest/core-client-paging-rest.d.ts https://github.com/Azure/azure-sdk-for-js/issues/16677';
   '@azure/core-asynciterator-polyfill'  = 'Docs CI fails https://github.com/Azure/azure-sdk-for-js/issues/16675';
-  '@azure/batch'                        = 'Docs CI fails https://github.com/Azure/azure-sdk-for-js/issues/16809';
   '@azure/arm-keyvault'                 = 'Docs CI fails https://github.com/Azure/azure-sdk-for-js/issues/16988';
   '@azure/arm-sql'                      = 'Docs CI fails https://github.com/Azure/azure-sdk-for-js/issues/16989';
+  '@azure/schema-registry-avro'         = 'Docs CI fails https://github.com/Azure/azure-sdk-for-js/issues/17550';
 }
 
 function Update-javascript-DocsMsPackages($DocsRepoLocation, $DocsMetadata) {

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-client";
-import { ErrorInfo, LogsColumnType } from "../generated/logquery/src";
+import { ErrorDetail, LogsColumnType } from "../generated/logquery/src";
 import { TimeInterval } from "./timeInterval";
 
 // https://dev.loganalytics.io/documentation/Using-the-API/RequestOptions
@@ -35,6 +35,10 @@ export interface LogsQueryOptions extends OperationOptions {
    * Results will also include visualization information, in JSON format.
    */
   includeVisualization?: boolean;
+  /**
+   * If true, will cause this operation to throw if query operation did not succeed.
+   */
+  throwOnAnyFailure?: boolean;
 }
 
 /**
@@ -48,22 +52,76 @@ export interface QueryStatistics {
   [key: string]: unknown;
 }
 
+/** The code and message for an error. */
+export interface ErrorInfo extends Error {
+  /** A machine readable error code. */
+  code: string;
+  /** A human readable error message. */
+  message: string;
+  /** error details. */
+  details?: ErrorDetail[];
+  /** Inner error details if they exist. */
+  innerError?: ErrorInfo;
+  /** Additional properties that can be provided on the error info object */
+  additionalProperties?: Record<string, unknown>;
+}
+
+export class BatchError extends Error implements ErrorInfo {
+  /** A machine readable error code. */
+  code: string;
+  /** A human readable error message. */
+  message: string;
+  /** error details. */
+  details?: ErrorDetail[];
+  /** Inner error details if they exist. */
+  innerError?: ErrorInfo;
+  /** Additional properties that can be provided on the error info object */
+  additionalProperties?: Record<string, unknown>;
+
+  constructor(errorInfo: ErrorInfo) {
+    super();
+    this.name = "Error";
+    this.code = errorInfo.code;
+    this.message = errorInfo.message;
+    this.details = errorInfo.details;
+    this.innerError = errorInfo.innerError;
+    this.additionalProperties = errorInfo.additionalProperties;
+  }
+}
+export class AggregateBatchError extends Error {
+  errors: BatchError[];
+  constructor(errors: ErrorInfo[]) {
+    super();
+    this.errors = errors.map((x) => new BatchError(x));
+  }
+}
 /**
  * Tables and statistic results from a logs query.
  */
+
 export interface LogsQueryResult {
-  /** The list of tables, columns and rows. */
+  /** Populated results from the query. */
   tables: LogsTable[];
+  /** error information for partial errors or failed queries */
+  error?: ErrorInfo;
+  /** Indicates if a query succeeded or failed or partially failed.
+   * Represented by "Partial" | "Success" | "Failed".
+   * For partially failed queries, users can find data in "tables" attribute
+   * and error information in "error" attribute */
+  status: LogsQueryResultStatus;
   /** Statistics represented in JSON format. */
   statistics?: Record<string, unknown>;
   /** Visualization data in JSON format. */
   visualization?: Record<string, unknown>;
-  /** The code and message for an error. */
-  error?: ErrorInfo;
 }
 
-/** Configurable HTTP request settings for the Logs query batch operation. */
-export type LogsQueryBatchOptions = OperationOptions;
+/** Configurable HTTP request settings and `throwOnAnyFailure` setting for the Logs query batch operation. */
+export interface LogsQueryBatchOptions extends OperationOptions {
+  /**
+   * If true, will cause the batch operation to throw if any query operations in the batch did not succeed.
+   */
+  throwOnAnyFailure?: boolean;
+}
 
 /** The Analytics query. Learn more about the [Analytics query syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/) */
 // NOTE: 'id' is added automatically by our LogsQueryClient.
@@ -77,7 +135,7 @@ export interface QueryBatch {
   /** The query to execute. */
   query: string;
   /** The timespan over which to query data. This timespan is applied in addition to any that are specified in the query expression. */
-  timespan?: TimeInterval;
+  timespan: TimeInterval;
   /**
    * A list of workspaces that are included in the query, except for the one set as the `workspaceId` parameter
    * These may consist of the following identifier formats:
@@ -106,31 +164,36 @@ export interface QueryBatch {
 /** Results for a batch query. */
 export interface LogsQueryBatchResult {
   /** An array of responses corresponding to each individual request in a batch. */
-  results?: {
-    id?: string;
-    status?: number;
-    /** The list of tables, columns and rows. */
-    // (hoisted up from `LogQueryResult`)
+  results: {
+    /** Populated results from the query */
     tables?: LogsTable[];
+    /** error information for partial errors or failed queries */
     error?: ErrorInfo;
+    /** Indicates if a query succeeded or failed or partially failed.
+     * Represented by "Partial" | "Success" | "Failed".
+     * For partially failed queries, users can find data in "tables" attribute
+     * and error information in "error" attribute */
+    status?: LogsQueryResultStatus;
     /** Statistics represented in JSON format. */
     statistics?: Record<string, unknown>;
     /** Visualization data in JSON format. */
     visualization?: Record<string, unknown>;
   }[];
-
-  // TODO: this is omitted from the Java models.
-  /** Error response for a batch request */
-  // error?: BatchResponseError;
 }
+
+/** Indicates if a query succeeded or failed or partially failed.
+ * Represented by "Partial" | "Success" | "Failed".
+ * For partially failed queries, users can find data in "tables" attribute
+ * and error information in "error" attribute */
+export type LogsQueryResultStatus = "Partial" | "Success" | "Failed";
 
 /** Contains the columns and rows for one table in a query response. */
 export interface LogsTable {
   /** The name of the table. */
   name: string;
   /** The list of columns in this table. */
-  columns: LogsColumn[];
-  /** The resulting rows from this query. */
+  columnDescriptors: LogsColumn[];
+  /** The two dimensional array of results from this query indexed by row and column. */
   rows: (Date | string | number | Record<string, unknown> | boolean)[][];
 }
 

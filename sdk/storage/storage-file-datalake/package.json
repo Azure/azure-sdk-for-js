@@ -1,6 +1,6 @@
 {
   "name": "@azure/storage-file-datalake",
-  "version": "12.7.0-beta.2",
+  "version": "12.7.1",
   "description": "Microsoft Azure Storage SDK for JavaScript - DataLake",
   "sdk-type": "client",
   "main": "./dist/index.js",
@@ -110,7 +110,7 @@
     "@azure/core-paging": "^1.1.1",
     "@azure/core-tracing": "1.0.0-preview.13",
     "@azure/logger": "^1.0.0",
-    "@azure/storage-blob": "^12.8.0-beta.1",
+    "@azure/storage-blob": "^12.8.0",
     "events": "^3.0.0",
     "tslib": "^2.2.0"
   },
@@ -163,7 +163,7 @@
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^4.0.4",
     "source-map-support": "^0.5.9",
-    "ts-node": "^9.0.0",
+    "ts-node": "^10.0.0",
     "typescript": "~4.2.0",
     "util": "^0.12.1",
     "typedoc": "0.15.2"

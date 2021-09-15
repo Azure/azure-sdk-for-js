@@ -1,72 +1,49 @@
-# Azure Monitor Workspace query client library for JavaScript
+# Azure Monitor Query client library for JavaScript
 
-[Azure Monitor](https://docs.microsoft.com/azure/azure-monitor/overview) is a comprehensive solution for collecting, analyzing, and acting on telemetry from your cloud and on-premises environments. This service helps you maximize the availability and performance of your apps.
+The Azure Monitor Query client library is used to execute read-only queries against [Azure Monitor][azure_monitor_overview]'s two data platforms:
 
-All data collected by Azure Monitor fits into one of two fundamental types:
+- [Logs](https://docs.microsoft.com/azure/azure-monitor/logs/data-platform-logs) - Collects and organizes log and performance data from monitored resources. Data from different sources such as platform logs from Azure services, log and performance data from virtual machines agents, and usage and performance data from apps can be consolidated into a single [Azure Log Analytics workspace](https://docs.microsoft.com/azure/azure-monitor/logs/data-platform-logs#log-analytics-workspaces). The various data types can be analyzed together using the [Kusto Query Language][kusto_query_language].
+- [Metrics](https://docs.microsoft.com/azure/azure-monitor/essentials/data-platform-metrics) - Collects numeric data from monitored resources into a time series database. Metrics are numerical values that are collected at regular intervals and describe some aspect of a system at a particular time. Metrics are lightweight and capable of supporting near real-time scenarios, making them particularly useful for alerting and fast detection of issues.
 
-- Metrics - Numerical values that describe some aspect of a system at a particular time. They're lightweight and can support near real-time scenarios.
-- Logs - Disparate types of data organized into records with different sets of properties for each type. Performance data and telemetry such as events, exceptions, and traces are stored as logs.
+**Resources:**
 
-To programmatically analyze these data sources, the Azure Monitor Query client library can be used.
-Use the client library for Azure Monitor to:
-
-- Query logs using the [Kusto query language][kusto_query_language]
-- Query metrics
-
-Key links:
-
-- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/)
-- [Package (NPM)](https://www.npmjs.com/package/@azure/monitor-query)
+- [Source code][source]
+- [Package (npm)][package]
 - [API reference documentation][msdocs_apiref]
-- [Product documentation][azure_monitor_product_documentation]
+- [Service documentation][azure_monitor_overview]
 - [Samples][samples]
+- [Change log][changelog]
 
 ## Getting started
 
+### Supported environments
+
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox
+
+For more details, see our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md).
+
+### Prerequisites
+
+- An [Azure subscription][azure_subscription]
+- To query Logs, you need an [Azure Log Analytics workspace][azure_monitor_create_using_portal].
+- To query Metrics, you need an Azure resource of any kind (Storage Account, Key Vault, Cosmos DB, etc.).
+
 ### Install the package
+
+Install the Azure Monitor Query client library for JavaScript with npm:
 
 ```bash
 npm install @azure/monitor-query
 ```
 
-### Currently supported environments
+### Create the client
 
-- [LTS versions of Node.js](https://nodejs.org/about/releases/)
-- Latest versions of Safari, Chrome, Edge, and Firefox.
-
-See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
-
-### Prerequisites
-
-- An [Azure Subscription](https://azure.microsoft.com)
-- An [Azure Monitor][azure_monitor_product_documentation] resource
-
-### Create an Azure Monitor resource
-
-You can use the [Azure Portal][azure_monitor_create_using_portal] or the [Azure CLI][azure_monitor_create_using_cli] to create an Azure Monitor resource.
-
-Instructions:
-
-- [Using the Azure Portal][azure_monitor_create_using_portal]
-- [Using the Azure CLI][azure_monitor_create_using_cli]
-
-### Authenticate the client
-
-[LogsQueryClient][msdocs_logs_client] and [MetricsQueryClient][msdocs_metrics_client] authenticate using a [service principal](#authenticating-with-a-service-principal).
-
-#### Authenticating with a service principal
-
-Authentication via service principal is done by:
-
-- Creating a credential using the `@azure/identity` package.
-- Setting appropriate RBAC rules on your Azure Monitor resource.
-  More information on Azure Monitor roles can be found [here][azure_monitor_roles].
-
-Using [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md#defaultazurecredential)
+An authenticated client is required to query Logs or Metrics. To authenticate, the following example uses [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md#defaultazurecredential) from the [@azure/identity](https://www.npmjs.com/package/@azure/identity) package.
 
 ```ts
-const { DefaultAzureCredential } = require("@azure/identity");
-const { LogsQueryClient, MetricsQueryClient } = require("@azure/monitor-query");
+import { DefaultAzureCredential } from "@azure/identity";
+import { LogsQueryClient, MetricsQueryClient } from "@azure/monitor-query";
 
 const credential = new DefaultAzureCredential();
 
@@ -75,44 +52,23 @@ const logsQueryClient = new LogsQueryClient(credential);
 const metricsQueryClient = new MetricsQueryClient(credential);
 ```
 
-More information about `@azure/identity` can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md)
+### Execute the query
+
+For examples of Logs and Metrics queries, see the [Examples](#examples) section.
 
 ## Key concepts
 
-### Logs
+### Logs query rate limits and throttling
 
-Azure Monitor Logs collects and organizes log and performance data from monitored resources. Data from different sources can be consolidated into a single workspace. Examples of data sources include:
+Each Azure Active Directory user is able to make up to 200 requests per 30 seconds, with no cap on the total calls per day. If requests are made at a rate higher than this, these requests will receive HTTP status code 429 (Too Many Requests) along with the `Retry-After: <delta-seconds>` header. The header indicates the number of seconds until requests to this app are likely to be accepted.
 
-- Platform logs from Azure services.
-- Log and performance data from virtual machine agents.
-- Usage and performance data from apps.
+In addition to call rate limits and daily quota caps, there are limits on queries themselves. Queries cannot:
 
-#### Azure Log Analytics workspaces
+- Return more than 500,000 rows.
+- Return more than 64,000,000 bytes (~61 MiB total data).
+- Run longer than 10 minutes by default. See this for details.
 
-Data collected by Azure Monitor Logs is stored in one or more [Log Analytics workspaces](https://docs.microsoft.com/azure/azure-monitor/logs/data-platform-logs#log-analytics-workspaces). The workspace defines the:
-
-- Geographic location of the data.
-- Access rights defining which users can access data.
-- Configuration settings, such as the pricing tier and data retention.
-
-#### Log queries
-
-Data from the disparate sources can be analyzed together using [Kusto Query Language (KQL)](https://docs.microsoft.com/azure/data-explorer/kusto/query/)&mdash;the same query language used by [Azure Data Explorer](https://docs.microsoft.com/azure/data-explorer/data-explorer-overview). Data is retrieved from a Log Analytics workspace using a KQL query&mdash;a read-only request to process data and return results. For more information, see [Log queries in Azure Monitor](https://docs.microsoft.com/azure/azure-monitor/logs/log-query-overview).
-
-#### Logs Query Client
-
-The [`LogsQueryClient`][msdocs_logs_client] allows you to query logs, using the [Kusto query language][kusto_query_language]. This data can be queried in the
-portal using tables like `AppEvents`, `AppDependencies` and others.
-
-### Metrics
-
-Azure Monitor Metrics collects numeric data from monitored resources into a time series database. Metrics are collected at regular intervals and describe some aspect of a system at a particular time. Metrics in Azure Monitor are lightweight and can support near real-time scenarios. They're useful for alerting and fast detection of issues. Metrics can be:
-
-- Analyzed interactively with [Metrics Explorer](https://docs.microsoft.com/azure/azure-monitor/essentials/metrics-getting-started).
-- Used to receive notifications with an alert when a value crosses a threshold.
-- Visualized in a workbook or dashboard.
-
-#### Metrics data structure
+### Metrics data structure
 
 Each set of metric values is a time series with the following characteristics:
 
@@ -123,31 +79,26 @@ Each set of metric values is a time series with the following characteristics:
 - The value itself
 - Some metrics may have multiple dimensions as described in multi-dimensional metrics. Custom metrics can have up to 10 dimensions.
 
-#### Metrics Query Client
-
-The [`MetricsQueryClient`][msdocs_metrics_client] allows you to query metrics.
-
-#### Resource URI of a resource
-
-The resource URI must be that of the resource for which metrics are being queried. It's normally of the format `/subscriptions/<id>/resourceGroups/<rg-name>/providers/<source>/topics/<resource-name>`.
-
-To find the resource URI:
-
-1. Navigate to your resource's page in the Azure portal.
-2. From the **Overview** blade, select the **JSON View** link.
-3. In the resulting JSON, copy the value of the `id` property.
-
 ## Examples
 
-### Querying logs
+- [Logs query](#logs-query)
+  - [Handle logs query response](#handle-logs-query-response)
+- [Batch logs query](#batch-logs-query)
+  - [Handle logs batch query response](#handle-logs-batch-query-response)
+- [Advanced logs query scenarios](#advanced-logs-query-scenarios)
+  - [Set logs query timeout](#set-logs-query-timeout)
+  - [Query multiple workspaces](#query-multiple-workspaces)
+- [Metrics query](#metrics-query)
+  - [Handle metrics query response](#handle-metrics-query-response)
+  - [Example of handling response](#example-of-handling-response)
 
-The `LogsQueryClient` can be used to query a Monitor workspace using the [Kusto Query Language](https://docs.microsoft.com/azure/data-explorer/kusto/query). The `timespan.duration` can be specified as a string in an ISO8601 duration format.
-You can use the `Durations` constants provided for some commonly used ISO8601 durations.
+### Logs query
+
+The `LogsQueryClient` can be used to query a Log Analytics workspace using the [Kusto Query Language][kusto_query_language]. The `timespan.duration` can be specified as a string in an ISO 8601 duration format. You can use the `Durations` constants provided for some commonly used ISO 8601 durations.
 
 ```ts
-const { LogsQueryClient, Durations } = require("@azure/monitor-query");
-const { DefaultAzureCredential } = require("@azure/identity");
-g;
+import { DefaultAzureCredential } from "@azure/identity";
+import { Durations, LogsQueryClient } from "@azure/monitor-query";
 
 const azureLogAnalyticsWorkspaceId = "<the Workspace Id for your Azure Log Analytics resource>";
 const logsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
@@ -155,7 +106,7 @@ const logsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
 async function run() {
   const kustoQuery = "AppEvents | limit 1";
   const result = await logsQueryClient.query(azureLogAnalyticsWorkspaceId, kustoQuery, {
-    duration: Durations.TwentFourHours
+    duration: Durations.TwentyFourHours
   });
   const tablesFromResult = result.tables;
 
@@ -167,7 +118,7 @@ async function run() {
   console.log(`Results for query '${kustoQuery}'`);
 
   for (const table of tablesFromResult) {
-    const columnHeaderString = table.columns
+    const columnHeaderString = table.columnDescriptors
       .map((column) => `${column.name}(${column.type}) `)
       .join("| ");
     console.log("| " + columnHeaderString);
@@ -181,31 +132,31 @@ async function run() {
 run().catch((err) => console.log("ERROR:", err));
 ```
 
-#### Handling the response for Logs Query
+#### Handle logs query response
 
-The `query` API for `LogsQueryClient` returns the `LogsQueryResult`.
-
-Here is a hierarchy of the response:
+The `query` function of `LogsQueryClient` returns the `LogsQueryResult`. Here's a hierarchy of the response:
 
 ```
 LogsQueryResult
 |---statistics
-|---visalization
+|---visualization
 |---error
+|---status ("Partial" | "Success" | "Failed")
 |---tables (list of `LogsTable` objects)
     |---name
     |---rows
-    |---columns (list of `LogsColumn` objects)
+    |---columnDescriptors (list of `LogsColumn` objects)
         |---name
         |---type
 ```
 
-So, to handle a response with tables,
+For example, to handle a response with tables:
 
 ```ts
 const tablesFromResult = result.tables;
+
 for (const table of tablesFromResult) {
-  const columnHeaderString = table.columns
+  const columnHeaderString = table.columnDescriptors
     .map((column) => `${column.name}(${column.type}) `)
     .join("| ");
   console.log("| " + columnHeaderString);
@@ -219,25 +170,6 @@ for (const table of tablesFromResult) {
 
 A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQuery.ts).
 
-#### Set logs query timeout
-
-```ts
-// setting optional parameters
-const queryLogsOptions: LogsQueryOptions = {
-  // explicitly control the amount of time the server can spend processing the query.
-  serverTimeoutInSeconds: 60
-};
-
-const result = await logsQueryClient.query(
-  azureLogAnalyticsWorkspaceId,
-  kustoQuery,
-  { duration: Durations.TwentyFourHours },
-  queryLogsOptions
-);
-
-const tablesFromResult = result.tables;
-```
-
 ### Batch logs query
 
 The following example demonstrates sending multiple queries at the same time using the batch query API. The queries can be represented as a list of `BatchQuery` objects.
@@ -250,10 +182,12 @@ export async function main() {
 
   const tokenCredential = new DefaultAzureCredential();
   const logsQueryClient = new LogsQueryClient(tokenCredential);
-  const queriesBatch: QueryBatch[] = [
+
+  const kqlQuery = "AppEvents | project TimeGenerated, Name, AppRoleInstance | limit 1";
+  const queriesBatch = [
     {
       workspaceId: monitorWorkspaceId,
-      query: "AppEvents | project TimeGenerated, Name, AppRoleInstance | limit 1",
+      query: kqlQuery,
       timespan: { duration: "P1D" }
     },
     {
@@ -276,16 +210,17 @@ export async function main() {
   ];
 
   const result = await logsQueryClient.queryBatch(queriesBatch);
+
   if (result.results == null) {
     throw new Error("No response for query");
   }
 
   let i = 0;
   for (const response of result.results) {
-    console.log(`Results for query with id: ${response.id}`);
+    console.log(`Results for query with query: ${queriesBatch[i]}`);
 
     if (response.error) {
-      console.log(`Query had errors:`, response.error);
+      console.log(` Query had errors:`, response.error);
     } else {
       if (response.tables == null) {
         console.log(`No results for query`);
@@ -295,7 +230,7 @@ export async function main() {
         );
 
         for (const table of response.tables) {
-          const columnHeaderString = table.columns
+          const columnHeaderString = table.columnDescriptors
             .map((column) => `${column.name}(${column.type}) `)
             .join("| ");
           console.log(columnHeaderString);
@@ -313,42 +248,44 @@ export async function main() {
 }
 ```
 
-#### Handling the response for Query Logs Batch
+#### Handle logs batch query response
 
-The `queryLogsBatch` API returns the `LogsQueryBatchResult`.
-
-Here is a hierarchy of the response:
+The `queryBatch` function of `LogsQueryClient` returns a `LogsQueryBatchResult` object. Here's a hierarchy of the response:
 
 ```
 LogsQueryBatchResult
 |---results (list of following objects)
-    |---id
-    |---status
     |---statistics
-    |---visalization
+    |---visualization
     |---error
+    |---status ("Partial" | "Success" | "Failed")
     |---tables (list of `LogsTable` objects)
         |---name
         |---rows
-        |---columns (list of `LogsColumn` objects)
+        |---columnDescriptors (list of `LogsColumn` objects)
             |---name
             |---type
 ```
 
-To handle a batch response,
+For example, to handle a batch logs query response:
 
 ```ts
+let i = 0;
 for (const response of result.results) {
-  console.log(`Results for query with id: ${response.id}`);
+  console.log(`Results for query with query: ${queriesBatch[i]}`);
 
   if (response.error) {
-    console.log(`Query had errors:`, response.error);
+    console.log(` Query had errors:`, response.error);
   } else {
     if (response.tables == null) {
       console.log(`No results for query`);
     } else {
+      console.log(
+        `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
+      );
+
       for (const table of response.tables) {
-        const columnHeaderString = table.columns
+        const columnHeaderString = table.columnDescriptors
           .map((column) => `${column.name}(${column.type}) `)
           .join("| ");
         console.log(columnHeaderString);
@@ -360,14 +297,90 @@ for (const response of result.results) {
       }
     }
   }
+  // next query
+  i++;
 }
 ```
 
-A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQueryBatch.ts)
+A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQueryBatch.ts).
 
-### Query metrics
+For information on request throttling at the Log Analytics service level, see [Rate limits](https://dev.loganalytics.io/documentation/Using-the-API/Limits).
 
-The following example gets metrics for an [Azure Metrics Advisor](https://docs.microsoft.com/azure/applied-ai-services/metrics-advisor/overview) subscription. The resource URI is that of a Metrics Advisor resource.
+### Advanced logs query scenarios
+
+#### Set logs query timeout
+
+Some logs queries take longer than 3 minutes to execute. The default server timeout is 3 minutes. You can increase the server timeout to a maximum of 10 minutes. In the following example, the `LogsQueryOptions` object's `serverTimeoutInSeconds` property is used to decrease the server timeout to 1 minute:
+
+```ts
+// setting optional parameters
+const queryLogsOptions: LogsQueryOptions = {
+  // explicitly control the amount of time the server can spend processing the query.
+  serverTimeoutInSeconds: 60
+};
+
+const result = await logsQueryClient.query(
+  azureLogAnalyticsWorkspaceId,
+  kustoQuery,
+  { duration: Durations.TwentyFourHours },
+  queryLogsOptions
+);
+
+const tablesFromResult = result.tables;
+```
+
+#### Query multiple workspaces
+
+The same logs query can be executed across multiple Log Analytics workspaces. In addition to the Kusto query, the following parameters are required:
+
+- `workspaceId` - The first (primary) workspace ID.
+- `additionalWorkspaces` - A list of workspaces, excluding the workspace provided in the `workspaceId` parameter. The parameter's list items may consist of the following identifier formats:
+  - Qualified workspace names
+  - Workspace IDs
+  - Azure resource IDs
+
+For example, the following query executes in three workspaces:
+
+```ts
+const queryLogsOptions: LogsQueryOptions = {
+  additionalWorkspaces: ["<workspace2>", "<workspace3>"]
+};
+
+const kustoQuery = "AppEvents | limit 10";
+const result = await logsQueryClient.queryLogs(
+  azureLogAnalyticsWorkspaceId,
+  kustoQuery,
+  { duration: Durations.TwentyFourHours },
+  queryLogsOptions
+);
+```
+
+To view the results for each workspace, use the `TenantId` column to either order the results or filter them in the Kusto query.
+
+**Order results by TenantId**
+
+```
+AppEvents | order by TenantId
+```
+
+**Filter results by TenantId**
+
+```
+AppEvents | filter TenantId == "<workspace2>"
+```
+
+A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQueryMultipleWorkspaces.ts).
+
+### Metrics query
+
+The following example gets metrics for an [Azure Metrics Advisor](https://docs.microsoft.com/azure/applied-ai-services/metrics-advisor/overview) subscription.
+The resource URI must be that of the resource for which metrics are being queried. It's normally of the format `/subscriptions/<id>/resourceGroups/<rg-name>/providers/<source>/topics/<resource-name>`.
+
+To find the resource URI:
+
+1. Navigate to your resource's page in the Azure portal.
+2. From the **Overview** blade, select the **JSON View** link.
+3. In the resulting JSON, copy the value of the `id` property.
 
 ```ts
 import { DefaultAzureCredential } from "@azure/identity";
@@ -386,31 +399,39 @@ export async function main() {
     throw new Error("METRICS_RESOURCE_ID must be set in the environment for this sample");
   }
 
-  const result = await metricsQueryClient.getMetricDefinitions(metricsResourceId);
-
-  for (const definition of result.definitions) {
-    console.log(`Definition = ${definition.name}`);
-  }
-
-  const firstMetric = result.definitions[0];
-
-  console.log(`Picking an example metric to query: ${firstMetric.name}`);
-
-  const metricsResponse = await metricsQueryClient.queryMetrics(
-    metricsResourceId,
-    { duration: Durations.FiveMinutes },
-    {
-      metricNames: [firstMetric.name!],
-      interval: "PT1M"
+  const iterator = metricsQueryClient.listMetricDefinitions(metricsResourceId);
+  let result = await iterator.next();
+  let metricNames: string[] = [];
+  for await (const result of iterator) {
+    console.log(` metricDefinitions - ${result.id}, ${result.name}`);
+    if (result.name) {
+      metricNames.push(result.name);
     }
-  );
+  }
+  const firstMetricName = metricNames[0];
+  const secondMetricName = metricNames[1];
+  if (firstMetricName && secondMetricName) {
+    console.log(`Picking an example metric to query: ${firstMetricName} and ${secondMetricName}`);
+    const metricsResponse = await metricsQueryClient.query(
+      metricsResourceId,
+      [firstMetricName, secondMetricName],
+      {
+        granularity: "PT1M",
+        timespan: { duration: Durations.FiveMinutes }
+      }
+    );
 
-  console.log(
-    `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.interval}, time span: ${metricsResponse.timespan}`
-  );
+    console.log(
+      `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.granularity}, time span: ${metricsResponse.timespan}`
+    );
 
-  const metrics: Metric[] = metricsResponse.metrics;
-  console.log(`Metrics:`, JSON.stringify(metrics, undefined, 2));
+    const metrics: Metric[] = metricsResponse.metrics;
+    console.log(`Metrics:`, JSON.stringify(metrics, undefined, 2));
+    const metric = metricsResponse.getMetricByName(firstMetricName);
+    console.log(`Selected Metric: ${firstMetricName}`, JSON.stringify(metric, undefined, 2));
+  } else {
+    console.error(`Metric names are not defined - ${firstMetricName} and ${secondMetricName}`);
+  }
 }
 
 main().catch((err) => {
@@ -419,15 +440,17 @@ main().catch((err) => {
 });
 ```
 
-### Handle metrics response
+In the preceding sample, metric results in `metricsResponse` are ordered according to the order in which the user specifies the metric names in the `metricNames` array argument for the `query` function. If the user specifies `[firstMetricName,secondMetricName]`, the result for `firstMetricName` will appear before the result for `secondMetricName` in the `metricResponse`.
 
-The metrics query API returns a `QueryMetricsResult` object. The `QueryMetricsResult` object contains properties such as a list of `Metric`-typed objects, `interval`, `namespace`, and `timespan`. The `Metric` objects list can be accessed using the `metrics` property. Each `Metric` object in this list contains a list of `TimeSeriesElement` objects. Each `TimeSeriesElement` contains `data` and `metadataValues` properties. In visual form, the object hierarchy of the response resembles the following structure:
+#### Handle metrics query response
+
+The metrics `query` function returns a `QueryMetricsResult` object. The `QueryMetricsResult` object contains properties such as a list of `Metric`-typed objects, `interval`, `namespace`, and `timespan`. The `Metric` objects list can be accessed using the `metrics` property. Each `Metric` object in this list contains a list of `TimeSeriesElement` objects. Each `TimeSeriesElement` contains `data` and `metadataValues` properties. In visual form, the object hierarchy of the response resembles the following structure:
 
 ```
 QueryMetricsResult
 |---cost
-|---timespan
-|---interval
+|---timespan (of type `TimeInterval`)
+|---granularity
 |---namespace
 |---resourceRegion
 |---metrics (list of `Metric` objects)
@@ -440,6 +463,13 @@ QueryMetricsResult
     |---timeseries (list of `TimeSeriesElement` objects)
         |---metadataValues
         |---data (list of data points represented by `MetricValue` objects)
+            |---timeStamp
+            |---average
+            |---minimum
+            |---maximum
+            |---total
+            |---count
+|---getMetricByName(metricName): Metric | undefined (convenience method)
 ```
 
 #### Example of handling response
@@ -459,7 +489,7 @@ export async function main() {
     throw new Error("METRICS_RESOURCE_ID must be set in the environment for this sample");
   }
 
-  console.log(`Picking an example metric to query: ${firstMetric.name}`);
+  console.log(`Picking an example metric to query: ${firstMetricName}`);
 
   const metricsResponse = await metricsQueryClient.queryMetrics(
     metricsResourceId,
@@ -494,45 +524,13 @@ main().catch((err) => {
 });
 ```
 
-A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/metricsQuery.ts)
-
-### Advanced scenarios
-
-#### Query multiple workspaces
-
-The same log query can be executed across multiple Log Analytics workspaces. In addition to the KQL query, the following parameters are required:
-
-- `workspaceId` - The first (primary) workspace ID.
-- `additionalWorkspaces` - A list of workspaces, excluding the workspace provided in the `workspaceId` parameter. The parameter's list items may consist of the following identifier formats:
-  - Qualified workspace names
-  - Workspace IDs
-  - Azure resource IDs
-
-For example, the following query executes in three workspaces:
-
-```ts
-const queryLogsOptions: LogsQueryOptions = {
-  additionalWorkspaces: ["<workspace2>", "<workspace3>"]
-};
-
-const kustoQuery = "AppEvents | limit 1";
-const result = await logsQueryClient.queryLogs(
-  azureLogAnalyticsWorkspaceId,
-  kustoQuery,
-  { duration: Durations.TwentyFourHours },
-  queryLogsOptions
-);
-```
-
-A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQueryMultipleWorkspaces.ts)
-
-For more samples see here: [samples][samples].
+A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/metricsQuery.ts).
 
 ## Troubleshooting
 
 ### Logging
 
-Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
+Enabling logging may help uncover useful information about failures. To see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
 ```ts
 import { setLogLevel } from "@azure/logger";
@@ -540,24 +538,17 @@ import { setLogLevel } from "@azure/logger";
 setLogLevel("info");
 ```
 
-For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
+For detailed instructions on how to enable logs, see the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
 ## Next steps
 
-The following samples show you the various ways you can query your Log Analytics workspace:
-
-- [`logsQuery.ts`][samples_logsquery_ts] - Query logs in a Monitor workspace
-- [`logsQueryMultipleWorkspaces.ts`][samples_logquerymultipleworkspaces_ts] - Query logs in multiple workspaces
-- [`logsQueryBatch.ts`][samples_logquerybatch_ts] - Run multiple queries, simultaneously, with a batch in a Monitor workspace
-- [`metricsQuery.ts`][samples_metricsquery_ts] - Query metrics in a Monitor workspace
-
-More in-depth examples can be found in the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-query/samples/v1/) folder on GitHub.
+To learn more about Azure Monitor, see the [Azure Monitor service documentation][azure_monitor_overview].
 
 ## Contributing
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
-This module's tests are a mixture of live and unit tests, which require you to have an Azure Monitor instance. To execute the tests you'll need to run:
+This module's tests are a mixture of live and unit tests, which require you to have an Azure Monitor instance. To execute the tests, you'll need to run:
 
 1. `rush update`
 2. `rush build -t @azure/monitor-query`
@@ -566,8 +557,7 @@ This module's tests are a mixture of live and unit tests, which require you to h
 5. Open the `.env` file in an editor and fill in the values.
 6. `npm run test`.
 
-View our [tests](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/test)
-folder for more details.
+For more details, view our [tests](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/test) folder.
 
 ## Related projects
 
@@ -576,19 +566,12 @@ folder for more details.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fmonitor%2Fmonitor-query%2FREADME.png)
 
-[azure_monitor_overview]: https://docs.microsoft.com/azure/azure-monitor/overview
-[azure_monitor_create_workspace]: https://docs.microsoft.com/azure/azure-monitor/logs/quick-create-workspace
-[azure_monitor_product_documentation]: https://docs.microsoft.com/azure/azure-monitor
-[azure_monitor_logs_overview]: https://docs.microsoft.com/azure/azure-monitor/logs/data-platform-logs
 [azure_monitor_create_using_portal]: https://docs.microsoft.com/azure/azure-monitor/logs/quick-create-workspace
-[azure_monitor_create_using_cli]: https://docs.microsoft.com/azure/azure-monitor/logs/quick-create-workspace-cli
-[azure_monitor_roles]: https://docs.microsoft.com/azure/azure-monitor/roles-permissions-security
+[azure_monitor_overview]: https://docs.microsoft.com/azure/azure-monitor/overview
+[azure_subscription]: https://azure.microsoft.com/free/
+[changelog]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/CHANGELOG.md
 [kusto_query_language]: https://docs.microsoft.com/azure/data-explorer/kusto/query/
-[msdocs_metrics_client]: https://docs.microsoft.com/javascript/api/@azure/monitor-query/metricsqueryclient
-[msdocs_logs_client]: https://docs.microsoft.com/javascript/api/@azure/monitor-query/logsqueryclient
 [msdocs_apiref]: https://docs.microsoft.com/javascript/api/@azure/monitor-query
+[package]: https://www.npmjs.com/package/@azure/monitor-query
 [samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-query/samples
-[samples_logsquery_ts]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQuery.ts
-[samples_logquerybatch_ts]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQueryBatch.ts
-[samples_logquerymultipleworkspaces_ts]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQueryMultipleWorkspaces.ts
-[samples_metricsquery_ts]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/metricsQuery.ts
+[source]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/

@@ -4,7 +4,8 @@ import assert from "assert";
 import { Suite } from "mocha";
 import { CosmosClient } from "../../../src";
 import { Container } from "../../../src/";
-import { endpoint, masterKey } from "../common/_testConfig";
+import { endpoint } from "../common/_testConfig";
+import { masterKey } from "../common/_fakeTestSecrets";
 import { getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
 const client = new CosmosClient({

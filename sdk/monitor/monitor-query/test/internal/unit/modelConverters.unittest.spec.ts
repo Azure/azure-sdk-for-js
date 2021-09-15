@@ -24,12 +24,7 @@ import {
   SerializerOptions
 } from "@azure/core-client";
 import { OperationTracingOptions } from "@azure/core-tracing";
-import {
-  Durations,
-  ListMetricDefinitionsOptions,
-  MetricsQueryOptions,
-  MetricsQueryResult
-} from "../../../src";
+import { Durations, ListMetricDefinitionsOptions, MetricsQueryOptions } from "../../../src";
 import { AbortSignalLike } from "@azure/abort-controller";
 
 describe("Model unit tests", () => {
@@ -74,7 +69,6 @@ describe("Model unit tests", () => {
           additionalWorkspaces: ["additionalWorkspace", "resourceId1"]
         }
       ]);
-      console.log(JSON.stringify(generatedRequest.requests?.[1]));
       assert.deepEqual(generatedRequest.requests?.[1], <BatchQueryRequest>{
         body: {
           workspaces: ["additionalWorkspace", "resourceId1"],
@@ -111,7 +105,7 @@ describe("Model unit tests", () => {
         requestOptions,
         resultType: "Data",
         top: 10,
-        timespan: { duration: "arbitraryTimespan" },
+        timespan: { duration: "P20H" },
         tracingOptions,
         serializerOptions,
         onResponse
@@ -132,7 +126,7 @@ describe("Model unit tests", () => {
         orderby: "orderByClause",
         requestOptions,
         resultType: "Data",
-        timespan: "arbitraryTimespan",
+        timespan: "P20H",
         top: 10,
         tracingOptions,
         serializerOptions,
@@ -153,7 +147,7 @@ describe("Model unit tests", () => {
 
       const generatedResponse: Required<GeneratedMetricsListResponse> = {
         // all of these fields are just copied over verbatim...
-        timespan: "aTimespan",
+        timespan: "P10H",
         value: [
           {
             id: "fakeMetric",
@@ -198,8 +192,8 @@ describe("Model unit tests", () => {
       };
 
       const actualConvertedResponse = convertResponseForMetrics(generatedResponse);
-      const expectedResponse: MetricsQueryResult = {
-        timespan: "aTimespan",
+      const expectedResponse = {
+        timespan: { duration: "P10H" },
         metrics: [
           {
             id: "fakeMetric",
@@ -238,7 +232,9 @@ describe("Model unit tests", () => {
         // NOTE: _response is not returned as part of our track 2 response.
       };
 
-      assert.deepEqual(actualConvertedResponse, expectedResponse);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { getMetricByName, ...rest } = actualConvertedResponse;
+      assert.deepEqual({ ...rest }, expectedResponse);
     });
 
     it("convertRequestOptionsForMetricsDefinitions (all fields)", () => {

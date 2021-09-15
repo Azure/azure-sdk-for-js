@@ -16,7 +16,7 @@ import {
   ResourceNavigationLinksListResponse
 } from "../models";
 
-/** Class representing a ResourceNavigationLinks. */
+/** Class containing ResourceNavigationLinks operations. */
 export class ResourceNavigationLinksImpl implements ResourceNavigationLinks {
   private readonly client: NetworkManagementClientContext;
 

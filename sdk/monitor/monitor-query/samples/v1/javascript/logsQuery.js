@@ -23,7 +23,7 @@ async function main() {
   const kustoQuery =
     "AppEvents | project TimeGenerated, Name, AppRoleInstance | order by TimeGenerated asc | limit 10";
 
-  console.log(`Running '${kustoQuery}' over the last 5 minutes`);
+  console.log(`Running '${kustoQuery}' over the last One Hour`);
   const queryLogsOptions = {
     // explicitly control the amount of time the server can spend processing the query.
     serverTimeoutInSeconds: 60,
@@ -32,13 +32,13 @@ async function main() {
     includeQueryStatistics: true
   };
 
-  const result = await logsQueryClient.queryLogs(
+  const result = await logsQueryClient.query(
     monitorWorkspaceId,
     kustoQuery,
     // The timespan is an ISO8601 formatted time (or interval). Some common aliases
-    // are available (like lastDay, lastHour, last48Hours, etc..) but any properly formatted ISO8601
+    // are available (like OneDay, OneHour, FoutyEightHours, etc..) but any properly formatted ISO8601
     // value is valid.
-    Durations.lastHour,
+    { duration: Durations.OneHour },
     queryLogsOptions
   );
 
@@ -59,7 +59,7 @@ async function main() {
   );
 
   for (const table of tablesFromResult) {
-    const columnHeaderString = table.columns
+    const columnHeaderString = table.columnDescriptors
       .map((column) => `${column.name}(${column.type}) `)
       .join("| ");
     console.log("| " + columnHeaderString);

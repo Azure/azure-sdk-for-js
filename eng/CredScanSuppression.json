@@ -2,31 +2,17 @@
   "tool": "Credential Scanner",
   "suppressions": [
     {
-      "placeholder": "efQ8O5wj+98pO9uoDas4uhlPwdp5GHCRs9N2Da2EC/g=",
-      "_justification": "Secret used by test code, it is fake."
-    },
-    {
-      "placeholder": "79f43c3b9c23fbdf293bdba80dab38ba194fc1da79187091b3d3760dad840bf8",
-      "_justification": "Secret used by test code, it is fake."
-    },
-    {
-      "placeholder": "AJ/qUoDtgLeA1A5ND2AS3uF7hsSe9O7imtXlkAj8VR4=",
-      "_justification": "Secret used by test code, it is fake."
-    },
-    {
-      "placeholder": "009fea5280ed80b780d40e4d0f6012dee17b86c49ef4eee29ad5e59008fc551e",
-      "_justification": "Secret used by test code, it is fake."
-    },
-    {
-      "placeholder": "1cb763e7c4b9a3c4811c4560af6827c2",
-      "_justification": "Secret used by test code"
-    },
-    {
       "hash": "5ETIzLYe9aa9Xx5512Uy6gJiCZ/CL2QzS3nDfN51nz8=",
       "_justification": "Secret used by test code"
     },
     {
       "placeholder": [
+        "SharedKey fakestorageaccount:pass123",
+        "1cb763e7c4b9a3c4811c4560af6827c2",
+        "009fea5280ed80b780d40e4d0f6012dee17b86c49ef4eee29ad5e59008fc551e",
+        "AJ/qUoDtgLeA1A5ND2AS3uF7hsSe9O7imtXlkAj8VR4=",
+        "79f43c3b9c23fbdf293bdba80dab38ba194fc1da79187091b3d3760dad840bf8",
+        "efQ8O5wj+98pO9uoDas4uhlPwdp5GHCRs9N2Da2EC/g=",
         "`$`{NPM_TOKEN`}",
         "azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
         "azure_client_secret&scope=https%3A%2F%2Fattest.azure.net%2F.default",
@@ -44,7 +30,10 @@
         "liilef#$DdRGSa_ewkjh",
         "kt#_gahr!@aGERDXA",
         "goose",
-        "_password"
+        "_password",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjM2MDB9.adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs",
+        "Resource",
+        "sanitized.${expiryReplacement}.sanitized"
       ],
       "_justification": "Secret used by test code, it is fake."
     },
@@ -54,7 +43,11 @@
         "sdk/identity/identity/test/azure-identity-chain-test.crt",
         "sdk/identity/identity/test/azure-identity-test.crt",
         "sdk/keyvault/keyvault-certificates/ca.key",
-        "sdk/identity/identity/assets/fake-cert.pem"
+        "sdk/identity/identity/assets/fake-cert.pem",
+        "sdk/storage/storage-blob/test/utils/fakeTestSecrets.ts",
+        "sdk/servicebus/service-bus/test/public/fakeTestSecrets.ts",
+        "sdk/cosmosdb/cosmos/test/public/common/_fakeTestSecrets.ts",
+        "sdk/tables/data-tables/test/internal/fakeTestSecrets.ts"
       ],
       "_justification": "File contains private key used by test code."
     }

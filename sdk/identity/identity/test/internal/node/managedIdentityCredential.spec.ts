@@ -21,34 +21,37 @@ import {
   SendCredentialRequests
 } from "../../httpRequestsCommon";
 import { prepareIdentityTests } from "../../httpRequests";
+import { AzureAuthorityHosts, DefaultAuthorityHost, DefaultTenantId } from "../../../src/constants";
 
 describe("ManagedIdentityCredential", function() {
-  let envCopy: string = "";
   let testContext: IdentityTestContext;
   let sendCredentialRequests: SendCredentialRequests;
+  let envCopy: string = "";
 
   beforeEach(async function() {
     envCopy = JSON.stringify(process.env);
+    delete process.env.AZURE_CLIENT_ID;
+    delete process.env.AZURE_TENANT_ID;
+    delete process.env.AZURE_CLIENT_SECRET;
     delete process.env.IDENTITY_ENDPOINT;
     delete process.env.IDENTITY_HEADER;
     delete process.env.MSI_ENDPOINT;
     delete process.env.MSI_SECRET;
     delete process.env.IDENTITY_SERVER_THUMBPRINT;
     delete process.env.IMDS_ENDPOINT;
+    delete process.env.AZURE_AUTHORITY_HOST;
     delete process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST;
+    delete process.env.AZURE_FEDERATED_TOKEN_FILE;
     testContext = await prepareIdentityTests({});
     sendCredentialRequests = testContext.sendCredentialRequests;
   });
 
   afterEach(async function() {
     const env = JSON.parse(envCopy);
-    process.env.IDENTITY_ENDPOINT = env.IDENTITY_ENDPOINT;
-    process.env.IDENTITY_HEADER = env.IDENTITY_HEADER;
-    process.env.MSI_ENDPOINT = env.MSI_ENDPOINT;
-    process.env.MSI_SECRET = env.MSI_SECRET;
-    process.env.IDENTITY_SERVER_THUMBPRINT = env.IDENTITY_SERVER_THUMBPRINT;
-    process.env.IMDS_ENDPOINT = env.IMDS_ENDPOINT;
-    process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST = env.AZURE_POD_IDENTITY_AUTHORITY_HOST;
+    // Useful for record mode.
+    process.env.AZURE_CLIENT_ID = env.AZURE_CLIENT_ID;
+    process.env.AZURE_TENANT_ID = env.AZURE_TENANT_ID;
+    process.env.AZURE_CLIENT_SECRET = env.AZURE_CLIENT_SECRET;
     await testContext.restore();
   });
 
@@ -236,7 +239,7 @@ describe("ManagedIdentityCredential", function() {
   it("IMDS MSI skips verification if the AZURE_POD_IDENTITY_AUTHORITY_HOST environment variable is available", async function() {
     process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST = "token URL";
 
-    assert.ok(await imdsMsi.isAvailable());
+    assert.ok(await imdsMsi.isAvailable("https://endpoint/.default"));
   });
 
   it("IMDS MSI works even if the AZURE_POD_IDENTITY_AUTHORITY_HOST ends with a slash", async function() {
@@ -369,7 +372,7 @@ describe("ManagedIdentityCredential", function() {
     assert.equal(authDetails.result!.token, "token");
   });
 
-  it("sends an authorization request correctly in an Azure Arc environment", async function() {
+  it("sends an authorization request correctly in an Azure Arc environment", async function(this: Mocha.Context) {
     // Trigger Azure Arc behavior by setting environment variables
 
     process.env.IMDS_ENDPOINT = "http://endpoint";
@@ -481,5 +484,202 @@ describe("ManagedIdentityCredential", function() {
     } else {
       assert.fail("No token was returned!");
     }
+  });
+
+  describe("File Exchange MSI", () => {
+    it("sends an authorization request correctly if token file path is available", async function(this: Mocha.Context) {
+      // Keep in mind that in this test we're also testing:
+      // - Parametrized client ID.
+      // - Non-default AZURE_TENANT_ID.
+      // - Non-default AZURE_AUTHORITY_HOST.
+      // - Support for single scopes.
+
+      const testTitle = this.test?.title || Date.now().toString();
+      const tempDir = mkdtempSync(join(tmpdir(), testTitle));
+      const tempFile = join(tempDir, testTitle);
+      const expectedAssertion = "{}";
+      writeFileSync(tempFile, expectedAssertion, { encoding: "utf8" });
+
+      // Trigger token file path by setting environment variables
+      process.env.AZURE_TENANT_ID = "my-tenant-id";
+      process.env.AZURE_FEDERATED_TOKEN_FILE = tempFile;
+      process.env.AZURE_AUTHORITY_HOST = AzureAuthorityHosts.AzureGovernment;
+
+      const parameterClientId = "client";
+
+      const authDetails = await sendCredentialRequests({
+        scopes: ["https://service/.default"],
+        credential: new ManagedIdentityCredential(parameterClientId),
+        secureResponses: [
+          createResponse(200, {
+            access_token: "token",
+            expires_on: 1
+          })
+        ]
+      });
+
+      const authRequest = authDetails.requests[0];
+
+      const body = new URLSearchParams(authRequest.body);
+
+      assert.strictEqual(
+        authRequest.url,
+        `${AzureAuthorityHosts.AzureGovernment}/${"my-tenant-id"}/oauth2/v2.0/token`
+      );
+      assert.strictEqual(authRequest.method, "POST");
+      assert.strictEqual(decodeURIComponent(body.get("client_id")!), parameterClientId);
+      assert.strictEqual(decodeURIComponent(body.get("client_assertion")!), expectedAssertion);
+      assert.strictEqual(
+        decodeURIComponent(body.get("client_assertion_type")!),
+        "urn:ietf:params:oauth:client-assertion-type:jwt-bearer"
+      );
+      assert.strictEqual(decodeURIComponent(body.get("scope")!), "https://service/.default");
+      assert.strictEqual(authDetails.result!.token, "token");
+    });
+
+    it("reads from the token file again only after 5 minutes have passed", async function(this: Mocha.Context) {
+      // Keep in mind that in this test we're also testing:
+      // - Client ID on environment variable.
+      // - Default AZURE_TENANT_ID.
+      // - Default AZURE_AUTHORITY_HOST.
+      // - Support for multiple scopes.
+
+      const testTitle = this.test?.title || Date.now().toString();
+      const tempDir = mkdtempSync(join(tmpdir(), testTitle));
+      const tempFile = join(tempDir, testTitle);
+      const expectedAssertion = "{}";
+      writeFileSync(tempFile, expectedAssertion, { encoding: "utf8" });
+
+      // Trigger token file path by setting environment variables
+      process.env.AZURE_CLIENT_ID = "client-id";
+      process.env.AZURE_TENANT_ID = DefaultTenantId;
+      process.env.AZURE_FEDERATED_TOKEN_FILE = tempFile;
+
+      const credential = new ManagedIdentityCredential();
+
+      let authDetails = await sendCredentialRequests({
+        scopes: ["https://service/.default", "https://service2/.default"],
+        credential,
+        secureResponses: [
+          createResponse(200, {
+            access_token: "token",
+            expires_on: 1
+          })
+        ]
+      });
+
+      let authRequest = authDetails.requests[0];
+      let body = new URLSearchParams(authRequest.body);
+
+      assert.strictEqual(
+        authRequest.url,
+        `${DefaultAuthorityHost}/${DefaultTenantId}/oauth2/v2.0/token`
+      );
+      assert.strictEqual(authRequest.method, "POST");
+      assert.strictEqual(decodeURIComponent(body.get("client_id")!), process.env.AZURE_CLIENT_ID);
+      assert.strictEqual(decodeURIComponent(body.get("client_assertion")!), expectedAssertion);
+      assert.strictEqual(
+        decodeURIComponent(body.get("client_assertion_type")!),
+        "urn:ietf:params:oauth:client-assertion-type:jwt-bearer"
+      );
+      assert.strictEqual(
+        decodeURIComponent(body.get("scope")!),
+        "https://service/.default https://service2/.default"
+      );
+      assert.strictEqual(authDetails.result!.token, "token");
+
+      const newExpectedAssertion = '{ "different": true }';
+      writeFileSync(tempFile, newExpectedAssertion, { encoding: "utf8" });
+
+      // A new credential means we read the file again
+      testContext.sandbox.restore();
+      authDetails = await sendCredentialRequests({
+        scopes: ["https://service/.default", "https://service2/.default"],
+        credential: new ManagedIdentityCredential("client"),
+        secureResponses: [
+          createResponse(200, {
+            access_token: "token",
+            expires_on: 1
+          })
+        ]
+      });
+      authRequest = authDetails.requests[0];
+      body = new URLSearchParams(authRequest.body);
+      assert.strictEqual(decodeURIComponent(body.get("client_assertion")!), newExpectedAssertion);
+
+      // If we stick to the original credential...
+
+      // Less than 5 minutes means we don't read the file again.
+      testContext.sandbox.restore();
+      testContext.sandbox.useFakeTimers();
+      authDetails = await sendCredentialRequests({
+        scopes: ["https://service/.default", "https://service2/.default"],
+        credential,
+        secureResponses: [
+          createResponse(200, {
+            access_token: "token",
+            expires_on: 1
+          })
+        ]
+      });
+      authRequest = authDetails.requests[0];
+      body = new URLSearchParams(authRequest.body);
+      assert.strictEqual(decodeURIComponent(body.get("client_assertion")!), expectedAssertion);
+
+      // More than 5 minutes means we read the file again.
+      testContext.sandbox.restore();
+      testContext.sandbox.useFakeTimers();
+      testContext.sandbox.clock.tick(1000 * 60 * 5);
+      authDetails = await sendCredentialRequests({
+        scopes: ["https://service/.default", "https://service2/.default"],
+        credential,
+        secureResponses: [
+          createResponse(200, {
+            access_token: "token",
+            expires_on: 1
+          })
+        ]
+      });
+      authRequest = authDetails.requests[0];
+      body = new URLSearchParams(authRequest.body);
+      assert.strictEqual(decodeURIComponent(body.get("client_assertion")!), newExpectedAssertion);
+    });
+
+    it("the provided client ID overrides the AZURE_CLIENT_ID environment variable", async function(this: Mocha.Context) {
+      const testTitle = this.test?.title || Date.now().toString();
+      const tempDir = mkdtempSync(join(tmpdir(), testTitle));
+      const tempFile = join(tempDir, testTitle);
+      const expectedAssertion = "{}";
+      writeFileSync(tempFile, expectedAssertion, { encoding: "utf8" });
+
+      // Trigger token file path by setting environment variables
+      process.env.AZURE_TENANT_ID = DefaultTenantId;
+      process.env.AZURE_FEDERATED_TOKEN_FILE = tempFile;
+      process.env.AZURE_CLIENT_ID = "client-id";
+
+      const parameterClientId = "client";
+
+      const authDetails = await sendCredentialRequests({
+        scopes: ["https://service/.default"],
+        credential: new ManagedIdentityCredential(parameterClientId),
+        secureResponses: [
+          createResponse(200, {
+            access_token: "token",
+            expires_on: 1
+          })
+        ]
+      });
+
+      const authRequest = authDetails.requests[0];
+
+      const body = new URLSearchParams(authRequest.body);
+
+      assert.strictEqual(
+        authRequest.url,
+        `${DefaultAuthorityHost}/${DefaultTenantId}/oauth2/v2.0/token`
+      );
+      assert.strictEqual(authRequest.method, "POST");
+      assert.strictEqual(decodeURIComponent(body.get("client_id")!), parameterClientId);
+    });
   });
 });
