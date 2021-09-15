@@ -57,7 +57,6 @@
         "roleDefinitionId": "[format('/subscriptions/{0}/providers/Microsoft.Authorization/roleDefinitions/5ae67dd6-50cb-40e7-96ff-dc2bfa4b606b', subscription().subscriptionId)]",
         "uniqueAzConfigName": "[format('{0}-{1}', parameters('baseName'), parameters('azConfigPrefix'))]",
         "endpointValue": "[format('https://{0}-{1}{2}', parameters('baseName'), parameters('azConfigPrefix'), parameters('azConfigEndpointSuffix'))]",
-        "azureKeyVaultSecretUrl": "[format('https://{0}{1}/secrets/TestSecret', parameters('baseName'), parameters('keyVaultEndpointSuffix'))]"
     },
     "resources": [
         {
