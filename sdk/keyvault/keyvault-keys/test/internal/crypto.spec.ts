@@ -9,7 +9,13 @@ chai.use(chaiAsPromised);
 import chaiExclude from "chai-exclude";
 chai.use(chaiExclude);
 import sinon from "sinon";
-import { CryptographyClient, DecryptParameters, EncryptParameters, KeyVaultKey } from "../../src";
+import {
+  CryptographyClient,
+  DecryptParameters,
+  EncryptParameters,
+  KeyClient,
+  KeyVaultKey
+} from "../../src";
 import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider";
 import { JsonWebKey } from "../../src";
 import { stringToUint8Array } from "../utils/crypto";
@@ -35,6 +41,14 @@ describe("internal crypto tests", () => {
         () => new CryptographyClient("foo", tokenCredential),
         /not a valid Key Vault key ID/
       );
+    });
+
+    it("allows version to be omitted", () => {
+      const client = new CryptographyClient(
+        "https://my.vault.azure.net/keys/keyId",
+        tokenCredential
+      );
+      assert.equal(client.vaultUrl, "https://my.vault.azure.net");
     });
   });
 
@@ -106,6 +120,20 @@ describe("internal crypto tests", () => {
         cryptoClient.decrypt("RSA1_5", stringToUint8Array("")),
         /Operation decrypt is not supported/
       );
+    });
+  });
+
+  describe("from a keyClient", () => {
+    it("shares the generated client", () => {
+      const keyClient = new KeyClient("https://my.vault.azure.net/", tokenCredential);
+      const cryptoClient = keyClient.getCryptographyClient("keyId", { keyVersion: "v1" });
+      assert.strictEqual(keyClient["client"], cryptoClient["remoteProvider"]!["client"]);
+    });
+
+    it("supports omitting key version", () => {
+      const keyClient = new KeyClient("https://my.vault.azure.net/", tokenCredential);
+      const cryptoClient = keyClient.getCryptographyClient("keyId");
+      assert.strictEqual(keyClient["client"], cryptoClient["remoteProvider"]!["client"]);
     });
   });
 

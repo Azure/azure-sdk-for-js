@@ -65,7 +65,8 @@ import {
   ReleaseKeyResult,
   KeyReleasePolicy,
   KeyExportEncryptionAlgorithm,
-  RandomBytes
+  RandomBytes,
+  GetCryptographyClientOptions
 } from "./keysModels";
 
 import { CryptographyClient } from "./cryptographyClient";
@@ -188,7 +189,8 @@ export {
   ReleaseKeyOptions,
   ReleaseKeyResult,
   KeyReleasePolicy,
-  KeyExportEncryptionAlgorithm
+  KeyExportEncryptionAlgorithm,
+  GetCryptographyClientOptions
 };
 
 const withTrace = createTraceFunction("Azure.KeyVault.Keys.KeyClient");
@@ -212,6 +214,13 @@ export class KeyClient {
    * A reference to the auto-generated Key Vault HTTP client.
    */
   private readonly client: KeyVaultClient;
+
+  /**
+   * @internal
+   * A reference to the credential that was used to construct this client.
+   * Later used to instantiate a {@link CryptographyClient} with the same credential.
+   */
+  private readonly credential: TokenCredential;
 
   /**
    * Creates an instance of KeyClient.
@@ -264,6 +273,7 @@ export class KeyClient {
       }
     };
 
+    this.credential = credential;
     this.client = new KeyVaultClient(
       pipelineOptions.serviceVersion || LATEST_API_VERSION,
       createPipelineFromOptions(internalPipelineOptions, authPolicy)
@@ -417,6 +427,43 @@ export class KeyClient {
       const response = await this.client.importKey(this.vaultUrl, name, key, updatedOptions);
       return getKeyFromKeyBundle(response);
     });
+  }
+
+  /**
+   * Gets a {@link CryptographyClient} for the given key.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new KeyClient(url, credentials);
+   * // get a cryptography client for a given key
+   * let cryptographyClient = client.getCryptographyClient("MyKey");
+   * ```
+   * @param name - The name of the key used to perform cryptographic operations.
+   * @param version - Optional version of the key used to perform cryptographic operations.
+   * @returns - A {@link CryptographyClient} using the same options, credentials, and http client as this {@link KeyClient}
+   */
+  public getCryptographyClient(
+    keyName: string,
+    options?: GetCryptographyClientOptions
+  ): CryptographyClient {
+    const keyUrl = new URL(
+      ["keys", keyName, options?.keyVersion].filter(Boolean).join("/"),
+      this.vaultUrl
+    );
+
+    // The goals of this method are discoverability and performance (by sharing a client and pipeline).
+    // The existing cryptography client does not accept a pipeline as an argument, nor does it expose it.
+    // In order to avoid publicly exposing the pipeline we will pass in the underlying client as an undocumented
+    // property to the constructor so that crypto providers downstream can use it.
+    const constructorOptions: CryptographyClientOptions & { generatedClient: KeyVaultClient } = {
+      generatedClient: this.client
+    };
+    const cryptoClient = new CryptographyClient(
+      keyUrl.toString(),
+      this.credential,
+      constructorOptions
+    );
+    return cryptoClient;
   }
 
   /**
