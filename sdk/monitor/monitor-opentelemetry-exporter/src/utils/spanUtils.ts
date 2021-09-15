@@ -231,9 +231,9 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
   // DB Dependency
   else if (dbSystem) {
     if (isSqlDB(String(dbSystem))) {
-      remoteDependencyData.dependencyTypeName = "SQL";
+      remoteDependencyData.type = "SQL";
     } else {
-      remoteDependencyData.dependencyTypeName = String(dbSystem);
+      remoteDependencyData.type = String(dbSystem);
     }
     const dbStatement = span.attributes[SemanticAttributes.DB_STATEMENT];
     if (dbStatement) {
