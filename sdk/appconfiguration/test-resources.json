@@ -54,6 +54,7 @@
     }
   },
   "variables": {
+    "configurationApiVersion": "2019-10-01",
     "roleDefinitionId": "[format('/subscriptions/{0}/providers/Microsoft.Authorization/roleDefinitions/5ae67dd6-50cb-40e7-96ff-dc2bfa4b606b', subscription().subscriptionId)]",
     "uniqueAzConfigName": "[format('{0}-{1}', parameters('baseName'), parameters('azConfigPrefix'))]",
     "endpointValue": "[format('https://{0}-{1}{2}', parameters('baseName'), parameters('azConfigPrefix'), parameters('azConfigEndpointSuffix'))]"
@@ -61,7 +62,7 @@
   "resources": [
     {
       "type": "Microsoft.AppConfiguration/configurationStores",
-      "apiVersion": "2019-10-01",
+      "apiVersion": "[variables('configurationApiVersion')]",
       "name": "[variables('uniqueAzConfigName')]",
       "location": "[parameters('location')]",
       "sku": {
@@ -84,7 +85,7 @@
   "outputs": {
     "APPCONFIG_CONNECTION_STRING": {
       "type": "string",
-      "value": "[listKeys(resourceId('Microsoft.AppConfiguration/configurationStores',variables('uniqueAzConfigName')), '2019-02-01-preview').value[0].connectionString]"
+      "value": "[listKeys(resourceId('Microsoft.AppConfiguration/configurationStores',variables('uniqueAzConfigName')), variables('configurationApiVersion')).value[0].connectionString]"
     },
     "AZ_CONFIG_ENDPOINT": {
       "type": "string",
