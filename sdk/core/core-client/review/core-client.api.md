@@ -5,7 +5,7 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
-import { ChallengeCallbacks } from '@azure/core-rest-pipeline';
+import { AuthorizeRequestOnChallengeOptions } from '@azure/core-rest-pipeline';
 import { HttpClient } from '@azure/core-rest-pipeline';
 import { HttpMethods } from '@azure/core-rest-pipeline';
 import { InternalPipelineOptions } from '@azure/core-rest-pipeline';
@@ -17,6 +17,9 @@ import { PipelineRequest } from '@azure/core-rest-pipeline';
 import { PipelineResponse } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 import { TransferProgressEvent } from '@azure/core-rest-pipeline';
+
+// @public
+export function authorizeRequestOnClaimChallenge(onChallengeOptions: AuthorizeRequestOnChallengeOptions): Promise<boolean>;
 
 // @public (undocumented)
 export interface BaseMapper {
@@ -65,9 +68,6 @@ export interface CompositeMapperType {
     // (undocumented)
     uberParent?: string;
 }
-
-// @public
-export function createCAECallbacks(): ChallengeCallbacks;
 
 // @public
 export function createClientPipeline(options?: InternalClientPipelineOptions): Pipeline;
