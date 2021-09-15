@@ -32,12 +32,16 @@ steps:
         # <pkg>@<version> is the leaf node of the path
         # Example: keytar@5.6.0
         # Move one more level up if package has org name
-        # for e.g. node_modules\.pnpm\@azure\msal-node-extensions@1.0.0-alpha.6\node_modules\@azure\msal-node-extensions
+        # for e.g. node_modules\.pnpm\@azure+msal-node-extensions@1.0.0-alpha.6\node_modules\@azure\msal-node-extensions
         if ((Split-Path -Leaf $packageInstallPath) -eq "node_modules") {
           $packageInstallPath = Join-Path $packageInstallPath ".."
         }
 
         $packageAtVersion = Split-Path -Leaf $packageInstallPath
+
+        # pnpm v6 replaces '/' in package names with '+' to reduce nesting directory in virtual store so we need to
+        # change it back
+        $packageAtVersion = $packageAtVersion.Replace("+", "/")
 
         # Check if package has org name. for e.g @azure/msal-node-enxtensions
         # This returns either @azure or .pnpm( if no org is present)

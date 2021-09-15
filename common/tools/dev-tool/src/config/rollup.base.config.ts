@@ -44,7 +44,7 @@ export function openTelemetryCommonJs(): Record<string, string[]> {
   for (const version of releasedOpenTelemetryVersions) {
     namedExports[
       // working around a limitation in the rollup common.js plugin - it's not able to resolve these modules so the named exports listed above will not get applied. We have to drill down to the actual path.
-      `../../../common/temp/node_modules/.pnpm/@opentelemetry/api@${version}/node_modules/@opentelemetry/api/build/src/index.js`
+      `../../../common/temp/node_modules/.pnpm/@opentelemetry+api@${version}/node_modules/@opentelemetry/api/build/src/index.js`
     ] = [
       "SpanKind",
       "TraceFlags",
