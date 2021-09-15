@@ -347,6 +347,9 @@ export class MockServer extends EventEmitter {
       : [message];
 
     for (const m of incomingMessages) {
+      // The multiple check detects if an AMQP message is actually a batch of messages.
+      // If it is, then content is an array of individual AMQP messages.
+      // Otherwise, it's the content of a single AMQP message (e.g. sequence body type).
       if (m.body.multiple && m.body?.content) {
         m.body = m.body.content;
       }
