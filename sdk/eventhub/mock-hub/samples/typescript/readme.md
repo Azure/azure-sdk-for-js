@@ -4,7 +4,7 @@ This sample shows how to use the Azure Mock Hub utility.
 
 ## Prerequisites
 
-The samples are compatible with Node.js >= 8.0.0.
+The samples are compatible with all [LTS versions of Node.js](https://nodejs.org/about/releases/).
 
 You'll also need to generate a pfx certificate chain that the mock service
 will use to enforce TLS.
