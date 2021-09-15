@@ -4,6 +4,9 @@
 
 ```ts
 
+/// <reference lib="esnext.asynciterable" />
+
+import { AzureLogger } from '@azure/logger';
 import * as coreHttp from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
@@ -419,7 +422,7 @@ export type ListPropertiesOfCertificateVersionsOptions = coreHttp.OperationOptio
 export type ListPropertiesOfIssuersOptions = coreHttp.OperationOptions;
 
 // @public
-export const logger: import("@azure/logger").AzureLogger;
+export const logger: AzureLogger;
 
 // @public
 export type MergeCertificateOptions = coreHttp.OperationOptions;
@@ -490,7 +493,6 @@ export interface X509CertificateProperties {
     subjectAlternativeNames?: CoreSubjectAlternativeNames;
     validityInMonths?: number;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

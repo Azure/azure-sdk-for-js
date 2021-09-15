@@ -4,6 +4,9 @@
 
 ```ts
 
+/// <reference lib="esnext.asynciterable" />
+
+import { AzureLogger } from '@azure/logger';
 import * as coreHttp from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
@@ -89,7 +92,7 @@ export interface ListPropertiesOfSecretVersionsOptions extends coreHttp.Operatio
 }
 
 // @public
-export const logger: import("@azure/logger").AzureLogger;
+export const logger: AzureLogger;
 
 export { PagedAsyncIterableIterator }
 
@@ -185,7 +188,6 @@ export interface UpdateSecretPropertiesOptions extends coreHttp.OperationOptions
         [propertyName: string]: string;
     };
 }
-
 
 // (No @packageDocumentation comment for this package)
 
