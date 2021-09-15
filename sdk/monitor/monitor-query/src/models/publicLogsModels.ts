@@ -66,7 +66,7 @@ export interface ErrorInfo extends Error {
   additionalProperties?: Record<string, unknown>;
 }
 
-/** Batch Error class for errors returned in logs query API */
+/** Batch Error class for type of each error item in the {@link AggregateBatchError} list returned in logs query batch API */
 export class BatchError extends Error implements ErrorInfo {
   /** A machine readable error code. */
   code: string;
