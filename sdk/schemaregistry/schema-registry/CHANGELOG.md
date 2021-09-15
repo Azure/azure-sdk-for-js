@@ -10,6 +10,7 @@
 - renames `SchemaId` to `SchemaProperties`
 - renames `getSchemaById` to `getSchema`
 - renames `GetSchemaByIdOptions` to `GetSchemaOptions`
+- `getSchema` and `getSchemaProperties` no longer return `undefined` if the schema was not registered
 
 ### Bugs Fixed
 

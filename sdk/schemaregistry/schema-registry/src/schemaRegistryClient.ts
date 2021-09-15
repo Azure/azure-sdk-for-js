@@ -107,29 +107,22 @@ export class SchemaRegistryClient implements SchemaRegistry {
   async getSchemaProperties(
     schema: SchemaDescription,
     options?: GetSchemaPropertiesOptions
-  ): Promise<SchemaProperties | undefined> {
+  ): Promise<SchemaProperties> {
     const cached = this.schemaToIdMap.get(schema);
     if (cached !== undefined) {
       return cached;
     }
-    try {
-      const id = await this.client.schema
-        .queryIdByContent(
-          schema.groupName,
-          schema.name,
-          schema.serializationType,
-          schema.content,
-          options
-        )
-        .then(convertSchemaIdResponse);
-      this.addToCache(schema, id);
-      return id;
-    } catch (error) {
-      if (typeof error === "object" && error?.statusCode === 404) {
-        return undefined;
-      }
-      throw error;
-    }
+    const id = await this.client.schema
+      .queryIdByContent(
+        schema.groupName,
+        schema.name,
+        schema.serializationType,
+        schema.content,
+        options
+      )
+      .then(convertSchemaIdResponse);
+    this.addToCache(schema, id);
+    return id;
   }
 
   /**
@@ -138,27 +131,20 @@ export class SchemaRegistryClient implements SchemaRegistry {
    * @param id - Unique schema ID.
    * @returns Schema with given ID or undefined if no schema was found with the given ID.
    */
-  async getSchema(id: string, options?: GetSchemaOptions): Promise<Schema | undefined> {
+  async getSchema(id: string, options?: GetSchemaOptions): Promise<Schema> {
     const cached = this.idToSchemaMap.get(id);
     if (cached !== undefined) {
       return cached;
     }
-    try {
-      const { flatResponse, rawResponse } = await getRawResponse(
-        (paramOptions) => this.client.schema.getById(id, paramOptions),
-        options || {}
-      );
-      const schema = convertSchemaResponse(flatResponse, rawResponse);
-      // the service should send schema's name and group in separate headers so
-      // we can implement the other direction of the bidirectional caching.
-      // see https://github.com/Azure/azure-sdk-for-js/issues/16763
-      this.idToSchemaMap.set(id, schema);
-      return schema;
-    } catch (error) {
-      if (typeof error === "object" && error?.statusCode === 404) {
-        return undefined;
-      }
-      throw error;
-    }
+    const { flatResponse, rawResponse } = await getRawResponse(
+      (paramOptions) => this.client.schema.getById(id, paramOptions),
+      options || {}
+    );
+    const schema = convertSchemaResponse(flatResponse, rawResponse);
+    // the service should send schema's name and group in separate headers so
+    // we can implement the other direction of the bidirectional caching.
+    // see https://github.com/Azure/azure-sdk-for-js/issues/16763
+    this.idToSchemaMap.set(id, schema);
+    return schema;
   }
 }

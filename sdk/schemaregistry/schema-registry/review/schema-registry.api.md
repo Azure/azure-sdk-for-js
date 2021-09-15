@@ -56,15 +56,14 @@ export interface SchemaRegistry {
 export class SchemaRegistryClient implements SchemaRegistry {
     constructor(endpoint: string, credential: TokenCredential, options?: SchemaRegistryClientOptions);
     readonly endpoint: string;
-    getSchema(id: string, options?: GetSchemaOptions): Promise<Schema | undefined>;
-    getSchemaProperties(schema: SchemaDescription, options?: GetSchemaPropertiesOptions): Promise<SchemaProperties | undefined>;
+    getSchema(id: string, options?: GetSchemaOptions): Promise<Schema>;
+    getSchemaProperties(schema: SchemaDescription, options?: GetSchemaPropertiesOptions): Promise<SchemaProperties>;
     registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaProperties>;
-    }
+}
 
 // @public
 export interface SchemaRegistryClientOptions extends CommonClientOptions {
 }
-
 
 // (No @packageDocumentation comment for this package)
 
