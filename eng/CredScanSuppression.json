@@ -20,8 +20,6 @@
         "SecretBaseUnion",
         "SecureString",
         "azure_client_secret&scope=https%3A%2F%2Feventhubs.azure.net%2F.default",
-        "pass123",
-        "pwd1",
         "azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
         "azure_client_secret&scope=https%3A%2F%2Fdigitaltwins.azure.net%2F.default",
         "azure_client_secret",
@@ -29,12 +27,10 @@
         "nodesdk",
         "liilef#$DdRGSa_ewkjh",
         "kt#_gahr!@aGERDXA",
-        "goose",
-        "_password",
+        "SecretPlaceholder",
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjM2MDB9.adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs",
         "Resource",
-        "sanitized.${expiryReplacement}.sanitized",
-        "YmFzZTY0X3BsYWNlaG9sZGVy"
+        "sanitized.${expiryReplacement}.sanitized"
       ],
       "_justification": "Secret used by test code, it is fake."
     },

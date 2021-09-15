@@ -580,7 +580,7 @@ matrix([[true, false]] as const, async (useAad) => {
             connectionString: "https://connect-to-influxdb",
             database: "data-feed-database",
             userName: "user",
-            password: "pwd1",
+            password: "SecretPlaceholder",
             query: "partition-key eq @start-time",
             authenticationType: "Basic"
           };
