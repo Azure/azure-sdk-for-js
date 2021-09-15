@@ -34,39 +34,21 @@ export class PolicySetDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicySetDefinitionsCreateOrUpdateResponse>
    */
-  createOrUpdate(
-    policySetDefinitionName: string,
-    parameters: Models.PolicySetDefinition,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.PolicySetDefinitionsCreateOrUpdateResponse>;
+  createOrUpdate(policySetDefinitionName: string, parameters: Models.PolicySetDefinition, options?: msRest.RequestOptionsBase): Promise<Models.PolicySetDefinitionsCreateOrUpdateResponse>;
   /**
    * @param policySetDefinitionName The name of the policy set definition to create.
    * @param parameters The policy set definition properties.
    * @param callback The callback
    */
-  createOrUpdate(
-    policySetDefinitionName: string,
-    parameters: Models.PolicySetDefinition,
-    callback: msRest.ServiceCallback<Models.PolicySetDefinition>
-  ): void;
+  createOrUpdate(policySetDefinitionName: string, parameters: Models.PolicySetDefinition, callback: msRest.ServiceCallback<Models.PolicySetDefinition>): void;
   /**
    * @param policySetDefinitionName The name of the policy set definition to create.
    * @param parameters The policy set definition properties.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(
-    policySetDefinitionName: string,
-    parameters: Models.PolicySetDefinition,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.PolicySetDefinition>
-  ): void;
-  createOrUpdate(
-    policySetDefinitionName: string,
-    parameters: Models.PolicySetDefinition,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicySetDefinition>,
-    callback?: msRest.ServiceCallback<Models.PolicySetDefinition>
-  ): Promise<Models.PolicySetDefinitionsCreateOrUpdateResponse> {
+  createOrUpdate(policySetDefinitionName: string, parameters: Models.PolicySetDefinition, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicySetDefinition>): void;
+  createOrUpdate(policySetDefinitionName: string, parameters: Models.PolicySetDefinition, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicySetDefinition>, callback?: msRest.ServiceCallback<Models.PolicySetDefinition>): Promise<Models.PolicySetDefinitionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         policySetDefinitionName,
@@ -74,8 +56,7 @@ export class PolicySetDefinitions {
         options
       },
       createOrUpdateOperationSpec,
-      callback
-    ) as Promise<Models.PolicySetDefinitionsCreateOrUpdateResponse>;
+      callback) as Promise<Models.PolicySetDefinitionsCreateOrUpdateResponse>;
   }
 
   /**
@@ -85,10 +66,7 @@ export class PolicySetDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(
-    policySetDefinitionName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse>;
+  deleteMethod(policySetDefinitionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param policySetDefinitionName The name of the policy set definition to delete.
    * @param callback The callback
@@ -99,24 +77,15 @@ export class PolicySetDefinitions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(
-    policySetDefinitionName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<void>
-  ): void;
-  deleteMethod(
-    policySetDefinitionName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
-    callback?: msRest.ServiceCallback<void>
-  ): Promise<msRest.RestResponse> {
+  deleteMethod(policySetDefinitionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(policySetDefinitionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         policySetDefinitionName,
         options
       },
       deleteMethodOperationSpec,
-      callback
-    );
+      callback);
   }
 
   /**
@@ -127,41 +96,26 @@ export class PolicySetDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicySetDefinitionsGetResponse>
    */
-  get(
-    policySetDefinitionName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.PolicySetDefinitionsGetResponse>;
+  get(policySetDefinitionName: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicySetDefinitionsGetResponse>;
   /**
    * @param policySetDefinitionName The name of the policy set definition to get.
    * @param callback The callback
    */
-  get(
-    policySetDefinitionName: string,
-    callback: msRest.ServiceCallback<Models.PolicySetDefinition>
-  ): void;
+  get(policySetDefinitionName: string, callback: msRest.ServiceCallback<Models.PolicySetDefinition>): void;
   /**
    * @param policySetDefinitionName The name of the policy set definition to get.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(
-    policySetDefinitionName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.PolicySetDefinition>
-  ): void;
-  get(
-    policySetDefinitionName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicySetDefinition>,
-    callback?: msRest.ServiceCallback<Models.PolicySetDefinition>
-  ): Promise<Models.PolicySetDefinitionsGetResponse> {
+  get(policySetDefinitionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicySetDefinition>): void;
+  get(policySetDefinitionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicySetDefinition>, callback?: msRest.ServiceCallback<Models.PolicySetDefinition>): Promise<Models.PolicySetDefinitionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         policySetDefinitionName,
         options
       },
       getOperationSpec,
-      callback
-    ) as Promise<Models.PolicySetDefinitionsGetResponse>;
+      callback) as Promise<Models.PolicySetDefinitionsGetResponse>;
   }
 
   /**
@@ -171,41 +125,26 @@ export class PolicySetDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicySetDefinitionsGetBuiltInResponse>
    */
-  getBuiltIn(
-    policySetDefinitionName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.PolicySetDefinitionsGetBuiltInResponse>;
+  getBuiltIn(policySetDefinitionName: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicySetDefinitionsGetBuiltInResponse>;
   /**
    * @param policySetDefinitionName The name of the policy set definition to get.
    * @param callback The callback
    */
-  getBuiltIn(
-    policySetDefinitionName: string,
-    callback: msRest.ServiceCallback<Models.PolicySetDefinition>
-  ): void;
+  getBuiltIn(policySetDefinitionName: string, callback: msRest.ServiceCallback<Models.PolicySetDefinition>): void;
   /**
    * @param policySetDefinitionName The name of the policy set definition to get.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getBuiltIn(
-    policySetDefinitionName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.PolicySetDefinition>
-  ): void;
-  getBuiltIn(
-    policySetDefinitionName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicySetDefinition>,
-    callback?: msRest.ServiceCallback<Models.PolicySetDefinition>
-  ): Promise<Models.PolicySetDefinitionsGetBuiltInResponse> {
+  getBuiltIn(policySetDefinitionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicySetDefinition>): void;
+  getBuiltIn(policySetDefinitionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicySetDefinition>, callback?: msRest.ServiceCallback<Models.PolicySetDefinition>): Promise<Models.PolicySetDefinitionsGetBuiltInResponse> {
     return this.client.sendOperationRequest(
       {
         policySetDefinitionName,
         options
       },
       getBuiltInOperationSpec,
-      callback
-    ) as Promise<Models.PolicySetDefinitionsGetBuiltInResponse>;
+      callback) as Promise<Models.PolicySetDefinitionsGetBuiltInResponse>;
   }
 
   /**
@@ -223,9 +162,7 @@ export class PolicySetDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicySetDefinitionsListResponse>
    */
-  list(
-    options?: Models.PolicySetDefinitionsListOptionalParams
-  ): Promise<Models.PolicySetDefinitionsListResponse>;
+  list(options?: Models.PolicySetDefinitionsListOptionalParams): Promise<Models.PolicySetDefinitionsListResponse>;
   /**
    * @param callback The callback
    */
@@ -234,23 +171,14 @@ export class PolicySetDefinitions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(
-    options: Models.PolicySetDefinitionsListOptionalParams,
-    callback: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>
-  ): void;
-  list(
-    options?:
-      | Models.PolicySetDefinitionsListOptionalParams
-      | msRest.ServiceCallback<Models.PolicySetDefinitionListResult>,
-    callback?: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>
-  ): Promise<Models.PolicySetDefinitionsListResponse> {
+  list(options: Models.PolicySetDefinitionsListOptionalParams, callback: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>): void;
+  list(options?: Models.PolicySetDefinitionsListOptionalParams | msRest.ServiceCallback<Models.PolicySetDefinitionListResult>, callback?: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>): Promise<Models.PolicySetDefinitionsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback
-    ) as Promise<Models.PolicySetDefinitionsListResponse>;
+      callback) as Promise<Models.PolicySetDefinitionsListResponse>;
   }
 
   /**
@@ -261,9 +189,7 @@ export class PolicySetDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicySetDefinitionsListBuiltInResponse>
    */
-  listBuiltIn(
-    options?: Models.PolicySetDefinitionsListBuiltInOptionalParams
-  ): Promise<Models.PolicySetDefinitionsListBuiltInResponse>;
+  listBuiltIn(options?: Models.PolicySetDefinitionsListBuiltInOptionalParams): Promise<Models.PolicySetDefinitionsListBuiltInResponse>;
   /**
    * @param callback The callback
    */
@@ -272,23 +198,14 @@ export class PolicySetDefinitions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBuiltIn(
-    options: Models.PolicySetDefinitionsListBuiltInOptionalParams,
-    callback: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>
-  ): void;
-  listBuiltIn(
-    options?:
-      | Models.PolicySetDefinitionsListBuiltInOptionalParams
-      | msRest.ServiceCallback<Models.PolicySetDefinitionListResult>,
-    callback?: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>
-  ): Promise<Models.PolicySetDefinitionsListBuiltInResponse> {
+  listBuiltIn(options: Models.PolicySetDefinitionsListBuiltInOptionalParams, callback: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>): void;
+  listBuiltIn(options?: Models.PolicySetDefinitionsListBuiltInOptionalParams | msRest.ServiceCallback<Models.PolicySetDefinitionListResult>, callback?: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>): Promise<Models.PolicySetDefinitionsListBuiltInResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBuiltInOperationSpec,
-      callback
-    ) as Promise<Models.PolicySetDefinitionsListBuiltInResponse>;
+      callback) as Promise<Models.PolicySetDefinitionsListBuiltInResponse>;
   }
 
   /**
@@ -301,24 +218,14 @@ export class PolicySetDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicySetDefinitionsCreateOrUpdateAtManagementGroupResponse>
    */
-  createOrUpdateAtManagementGroup(
-    policySetDefinitionName: string,
-    parameters: Models.PolicySetDefinition,
-    managementGroupId: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.PolicySetDefinitionsCreateOrUpdateAtManagementGroupResponse>;
+  createOrUpdateAtManagementGroup(policySetDefinitionName: string, parameters: Models.PolicySetDefinition, managementGroupId: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicySetDefinitionsCreateOrUpdateAtManagementGroupResponse>;
   /**
    * @param policySetDefinitionName The name of the policy set definition to create.
    * @param parameters The policy set definition properties.
    * @param managementGroupId The ID of the management group.
    * @param callback The callback
    */
-  createOrUpdateAtManagementGroup(
-    policySetDefinitionName: string,
-    parameters: Models.PolicySetDefinition,
-    managementGroupId: string,
-    callback: msRest.ServiceCallback<Models.PolicySetDefinition>
-  ): void;
+  createOrUpdateAtManagementGroup(policySetDefinitionName: string, parameters: Models.PolicySetDefinition, managementGroupId: string, callback: msRest.ServiceCallback<Models.PolicySetDefinition>): void;
   /**
    * @param policySetDefinitionName The name of the policy set definition to create.
    * @param parameters The policy set definition properties.
@@ -326,20 +233,8 @@ export class PolicySetDefinitions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdateAtManagementGroup(
-    policySetDefinitionName: string,
-    parameters: Models.PolicySetDefinition,
-    managementGroupId: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.PolicySetDefinition>
-  ): void;
-  createOrUpdateAtManagementGroup(
-    policySetDefinitionName: string,
-    parameters: Models.PolicySetDefinition,
-    managementGroupId: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicySetDefinition>,
-    callback?: msRest.ServiceCallback<Models.PolicySetDefinition>
-  ): Promise<Models.PolicySetDefinitionsCreateOrUpdateAtManagementGroupResponse> {
+  createOrUpdateAtManagementGroup(policySetDefinitionName: string, parameters: Models.PolicySetDefinition, managementGroupId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicySetDefinition>): void;
+  createOrUpdateAtManagementGroup(policySetDefinitionName: string, parameters: Models.PolicySetDefinition, managementGroupId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicySetDefinition>, callback?: msRest.ServiceCallback<Models.PolicySetDefinition>): Promise<Models.PolicySetDefinitionsCreateOrUpdateAtManagementGroupResponse> {
     return this.client.sendOperationRequest(
       {
         policySetDefinitionName,
@@ -348,8 +243,7 @@ export class PolicySetDefinitions {
         options
       },
       createOrUpdateAtManagementGroupOperationSpec,
-      callback
-    ) as Promise<Models.PolicySetDefinitionsCreateOrUpdateAtManagementGroupResponse>;
+      callback) as Promise<Models.PolicySetDefinitionsCreateOrUpdateAtManagementGroupResponse>;
   }
 
   /**
@@ -361,39 +255,21 @@ export class PolicySetDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteAtManagementGroup(
-    policySetDefinitionName: string,
-    managementGroupId: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse>;
+  deleteAtManagementGroup(policySetDefinitionName: string, managementGroupId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param policySetDefinitionName The name of the policy set definition to delete.
    * @param managementGroupId The ID of the management group.
    * @param callback The callback
    */
-  deleteAtManagementGroup(
-    policySetDefinitionName: string,
-    managementGroupId: string,
-    callback: msRest.ServiceCallback<void>
-  ): void;
+  deleteAtManagementGroup(policySetDefinitionName: string, managementGroupId: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param policySetDefinitionName The name of the policy set definition to delete.
    * @param managementGroupId The ID of the management group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteAtManagementGroup(
-    policySetDefinitionName: string,
-    managementGroupId: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<void>
-  ): void;
-  deleteAtManagementGroup(
-    policySetDefinitionName: string,
-    managementGroupId: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
-    callback?: msRest.ServiceCallback<void>
-  ): Promise<msRest.RestResponse> {
+  deleteAtManagementGroup(policySetDefinitionName: string, managementGroupId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteAtManagementGroup(policySetDefinitionName: string, managementGroupId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         policySetDefinitionName,
@@ -401,8 +277,7 @@ export class PolicySetDefinitions {
         options
       },
       deleteAtManagementGroupOperationSpec,
-      callback
-    );
+      callback);
   }
 
   /**
@@ -414,39 +289,21 @@ export class PolicySetDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicySetDefinitionsGetAtManagementGroupResponse>
    */
-  getAtManagementGroup(
-    policySetDefinitionName: string,
-    managementGroupId: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.PolicySetDefinitionsGetAtManagementGroupResponse>;
+  getAtManagementGroup(policySetDefinitionName: string, managementGroupId: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicySetDefinitionsGetAtManagementGroupResponse>;
   /**
    * @param policySetDefinitionName The name of the policy set definition to get.
    * @param managementGroupId The ID of the management group.
    * @param callback The callback
    */
-  getAtManagementGroup(
-    policySetDefinitionName: string,
-    managementGroupId: string,
-    callback: msRest.ServiceCallback<Models.PolicySetDefinition>
-  ): void;
+  getAtManagementGroup(policySetDefinitionName: string, managementGroupId: string, callback: msRest.ServiceCallback<Models.PolicySetDefinition>): void;
   /**
    * @param policySetDefinitionName The name of the policy set definition to get.
    * @param managementGroupId The ID of the management group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAtManagementGroup(
-    policySetDefinitionName: string,
-    managementGroupId: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.PolicySetDefinition>
-  ): void;
-  getAtManagementGroup(
-    policySetDefinitionName: string,
-    managementGroupId: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicySetDefinition>,
-    callback?: msRest.ServiceCallback<Models.PolicySetDefinition>
-  ): Promise<Models.PolicySetDefinitionsGetAtManagementGroupResponse> {
+  getAtManagementGroup(policySetDefinitionName: string, managementGroupId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicySetDefinition>): void;
+  getAtManagementGroup(policySetDefinitionName: string, managementGroupId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicySetDefinition>, callback?: msRest.ServiceCallback<Models.PolicySetDefinition>): Promise<Models.PolicySetDefinitionsGetAtManagementGroupResponse> {
     return this.client.sendOperationRequest(
       {
         policySetDefinitionName,
@@ -454,8 +311,7 @@ export class PolicySetDefinitions {
         options
       },
       getAtManagementGroupOperationSpec,
-      callback
-    ) as Promise<Models.PolicySetDefinitionsGetAtManagementGroupResponse>;
+      callback) as Promise<Models.PolicySetDefinitionsGetAtManagementGroupResponse>;
   }
 
   /**
@@ -475,43 +331,26 @@ export class PolicySetDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicySetDefinitionsListByManagementGroupResponse>
    */
-  listByManagementGroup(
-    managementGroupId: string,
-    options?: Models.PolicySetDefinitionsListByManagementGroupOptionalParams
-  ): Promise<Models.PolicySetDefinitionsListByManagementGroupResponse>;
+  listByManagementGroup(managementGroupId: string, options?: Models.PolicySetDefinitionsListByManagementGroupOptionalParams): Promise<Models.PolicySetDefinitionsListByManagementGroupResponse>;
   /**
    * @param managementGroupId The ID of the management group.
    * @param callback The callback
    */
-  listByManagementGroup(
-    managementGroupId: string,
-    callback: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>
-  ): void;
+  listByManagementGroup(managementGroupId: string, callback: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>): void;
   /**
    * @param managementGroupId The ID of the management group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByManagementGroup(
-    managementGroupId: string,
-    options: Models.PolicySetDefinitionsListByManagementGroupOptionalParams,
-    callback: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>
-  ): void;
-  listByManagementGroup(
-    managementGroupId: string,
-    options?:
-      | Models.PolicySetDefinitionsListByManagementGroupOptionalParams
-      | msRest.ServiceCallback<Models.PolicySetDefinitionListResult>,
-    callback?: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>
-  ): Promise<Models.PolicySetDefinitionsListByManagementGroupResponse> {
+  listByManagementGroup(managementGroupId: string, options: Models.PolicySetDefinitionsListByManagementGroupOptionalParams, callback: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>): void;
+  listByManagementGroup(managementGroupId: string, options?: Models.PolicySetDefinitionsListByManagementGroupOptionalParams | msRest.ServiceCallback<Models.PolicySetDefinitionListResult>, callback?: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>): Promise<Models.PolicySetDefinitionsListByManagementGroupResponse> {
     return this.client.sendOperationRequest(
       {
         managementGroupId,
         options
       },
       listByManagementGroupOperationSpec,
-      callback
-    ) as Promise<Models.PolicySetDefinitionsListByManagementGroupResponse>;
+      callback) as Promise<Models.PolicySetDefinitionsListByManagementGroupResponse>;
   }
 
   /**
@@ -530,43 +369,26 @@ export class PolicySetDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicySetDefinitionsListNextResponse>
    */
-  listNext(
-    nextPageLink: string,
-    options?: Models.PolicySetDefinitionsListNextOptionalParams
-  ): Promise<Models.PolicySetDefinitionsListNextResponse>;
+  listNext(nextPageLink: string, options?: Models.PolicySetDefinitionsListNextOptionalParams): Promise<Models.PolicySetDefinitionsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>
-  ): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(
-    nextPageLink: string,
-    options: Models.PolicySetDefinitionsListNextOptionalParams,
-    callback: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>
-  ): void;
-  listNext(
-    nextPageLink: string,
-    options?:
-      | Models.PolicySetDefinitionsListNextOptionalParams
-      | msRest.ServiceCallback<Models.PolicySetDefinitionListResult>,
-    callback?: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>
-  ): Promise<Models.PolicySetDefinitionsListNextResponse> {
+  listNext(nextPageLink: string, options: Models.PolicySetDefinitionsListNextOptionalParams, callback: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>): void;
+  listNext(nextPageLink: string, options?: Models.PolicySetDefinitionsListNextOptionalParams | msRest.ServiceCallback<Models.PolicySetDefinitionListResult>, callback?: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>): Promise<Models.PolicySetDefinitionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback
-    ) as Promise<Models.PolicySetDefinitionsListNextResponse>;
+      callback) as Promise<Models.PolicySetDefinitionsListNextResponse>;
   }
 
   /**
@@ -578,43 +400,26 @@ export class PolicySetDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicySetDefinitionsListBuiltInNextResponse>
    */
-  listBuiltInNext(
-    nextPageLink: string,
-    options?: Models.PolicySetDefinitionsListBuiltInNextOptionalParams
-  ): Promise<Models.PolicySetDefinitionsListBuiltInNextResponse>;
+  listBuiltInNext(nextPageLink: string, options?: Models.PolicySetDefinitionsListBuiltInNextOptionalParams): Promise<Models.PolicySetDefinitionsListBuiltInNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBuiltInNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>
-  ): void;
+  listBuiltInNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBuiltInNext(
-    nextPageLink: string,
-    options: Models.PolicySetDefinitionsListBuiltInNextOptionalParams,
-    callback: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>
-  ): void;
-  listBuiltInNext(
-    nextPageLink: string,
-    options?:
-      | Models.PolicySetDefinitionsListBuiltInNextOptionalParams
-      | msRest.ServiceCallback<Models.PolicySetDefinitionListResult>,
-    callback?: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>
-  ): Promise<Models.PolicySetDefinitionsListBuiltInNextResponse> {
+  listBuiltInNext(nextPageLink: string, options: Models.PolicySetDefinitionsListBuiltInNextOptionalParams, callback: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>): void;
+  listBuiltInNext(nextPageLink: string, options?: Models.PolicySetDefinitionsListBuiltInNextOptionalParams | msRest.ServiceCallback<Models.PolicySetDefinitionListResult>, callback?: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>): Promise<Models.PolicySetDefinitionsListBuiltInNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listBuiltInNextOperationSpec,
-      callback
-    ) as Promise<Models.PolicySetDefinitionsListBuiltInNextResponse>;
+      callback) as Promise<Models.PolicySetDefinitionsListBuiltInNextResponse>;
   }
 
   /**
@@ -634,43 +439,26 @@ export class PolicySetDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicySetDefinitionsListByManagementGroupNextResponse>
    */
-  listByManagementGroupNext(
-    nextPageLink: string,
-    options?: Models.PolicySetDefinitionsListByManagementGroupNextOptionalParams
-  ): Promise<Models.PolicySetDefinitionsListByManagementGroupNextResponse>;
+  listByManagementGroupNext(nextPageLink: string, options?: Models.PolicySetDefinitionsListByManagementGroupNextOptionalParams): Promise<Models.PolicySetDefinitionsListByManagementGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByManagementGroupNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>
-  ): void;
+  listByManagementGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByManagementGroupNext(
-    nextPageLink: string,
-    options: Models.PolicySetDefinitionsListByManagementGroupNextOptionalParams,
-    callback: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>
-  ): void;
-  listByManagementGroupNext(
-    nextPageLink: string,
-    options?:
-      | Models.PolicySetDefinitionsListByManagementGroupNextOptionalParams
-      | msRest.ServiceCallback<Models.PolicySetDefinitionListResult>,
-    callback?: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>
-  ): Promise<Models.PolicySetDefinitionsListByManagementGroupNextResponse> {
+  listByManagementGroupNext(nextPageLink: string, options: Models.PolicySetDefinitionsListByManagementGroupNextOptionalParams, callback: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>): void;
+  listByManagementGroupNext(nextPageLink: string, options?: Models.PolicySetDefinitionsListByManagementGroupNextOptionalParams | msRest.ServiceCallback<Models.PolicySetDefinitionListResult>, callback?: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>): Promise<Models.PolicySetDefinitionsListByManagementGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByManagementGroupNextOperationSpec,
-      callback
-    ) as Promise<Models.PolicySetDefinitionsListByManagementGroupNextResponse>;
+      callback) as Promise<Models.PolicySetDefinitionsListByManagementGroupNextResponse>;
   }
 }
 
@@ -678,11 +466,17 @@ export class PolicySetDefinitions {
 const serializer = new msRest.Serializer(Mappers);
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path:
-    "subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}",
-  urlParameters: [Parameters.policySetDefinitionName, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}",
+  urlParameters: [
+    Parameters.policySetDefinitionName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion1
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -706,11 +500,17 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path:
-    "subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}",
-  urlParameters: [Parameters.policySetDefinitionName, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}",
+  urlParameters: [
+    Parameters.policySetDefinitionName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion1
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {},
     204: {},
@@ -723,11 +523,17 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}",
-  urlParameters: [Parameters.policySetDefinitionName, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}",
+  urlParameters: [
+    Parameters.policySetDefinitionName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion1
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.PolicySetDefinition
@@ -742,9 +548,15 @@ const getOperationSpec: msRest.OperationSpec = {
 const getBuiltInOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}",
-  urlParameters: [Parameters.policySetDefinitionName],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.policySetDefinitionName
+  ],
+  queryParameters: [
+    Parameters.apiVersion1
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.PolicySetDefinition
@@ -759,9 +571,17 @@ const getBuiltInOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policySetDefinitions",
-  urlParameters: [Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion0, Parameters.filter, Parameters.top],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion1,
+    Parameters.filter,
+    Parameters.top
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.PolicySetDefinitionListResult
@@ -776,8 +596,14 @@ const listOperationSpec: msRest.OperationSpec = {
 const listBuiltInOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Authorization/policySetDefinitions",
-  queryParameters: [Parameters.apiVersion0, Parameters.filter, Parameters.top],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion1,
+    Parameters.filter,
+    Parameters.top
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.PolicySetDefinitionListResult
@@ -791,11 +617,17 @@ const listBuiltInOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateAtManagementGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path:
-    "providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}",
-  urlParameters: [Parameters.policySetDefinitionName, Parameters.managementGroupId],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}",
+  urlParameters: [
+    Parameters.policySetDefinitionName,
+    Parameters.managementGroupId
+  ],
+  queryParameters: [
+    Parameters.apiVersion1
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -819,11 +651,17 @@ const createOrUpdateAtManagementGroupOperationSpec: msRest.OperationSpec = {
 
 const deleteAtManagementGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path:
-    "providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}",
-  urlParameters: [Parameters.policySetDefinitionName, Parameters.managementGroupId],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}",
+  urlParameters: [
+    Parameters.policySetDefinitionName,
+    Parameters.managementGroupId
+  ],
+  queryParameters: [
+    Parameters.apiVersion1
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {},
     204: {},
@@ -836,11 +674,17 @@ const deleteAtManagementGroupOperationSpec: msRest.OperationSpec = {
 
 const getAtManagementGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}",
-  urlParameters: [Parameters.policySetDefinitionName, Parameters.managementGroupId],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}",
+  urlParameters: [
+    Parameters.policySetDefinitionName,
+    Parameters.managementGroupId
+  ],
+  queryParameters: [
+    Parameters.apiVersion1
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.PolicySetDefinition
@@ -854,11 +698,18 @@ const getAtManagementGroupOperationSpec: msRest.OperationSpec = {
 
 const listByManagementGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policySetDefinitions",
-  urlParameters: [Parameters.managementGroupId],
-  queryParameters: [Parameters.apiVersion0, Parameters.filter, Parameters.top],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policySetDefinitions",
+  urlParameters: [
+    Parameters.managementGroupId
+  ],
+  queryParameters: [
+    Parameters.apiVersion1,
+    Parameters.filter,
+    Parameters.top
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.PolicySetDefinitionListResult
@@ -874,9 +725,17 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion0, Parameters.filter, Parameters.top],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion1,
+    Parameters.filter,
+    Parameters.top
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.PolicySetDefinitionListResult
@@ -892,9 +751,17 @@ const listBuiltInNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion0, Parameters.filter, Parameters.top],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion1,
+    Parameters.filter,
+    Parameters.top
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.PolicySetDefinitionListResult
@@ -910,9 +777,17 @@ const listByManagementGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion0, Parameters.filter, Parameters.top],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion1,
+    Parameters.filter,
+    Parameters.top
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.PolicySetDefinitionListResult

@@ -32,41 +32,26 @@ export class DataPolicyManifests {
    * @param [options] The optional parameters
    * @returns Promise<Models.DataPolicyManifestsGetByPolicyModeResponse>
    */
-  getByPolicyMode(
-    policyMode: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.DataPolicyManifestsGetByPolicyModeResponse>;
+  getByPolicyMode(policyMode: string, options?: msRest.RequestOptionsBase): Promise<Models.DataPolicyManifestsGetByPolicyModeResponse>;
   /**
    * @param policyMode The policy mode of the data policy manifest to get.
    * @param callback The callback
    */
-  getByPolicyMode(
-    policyMode: string,
-    callback: msRest.ServiceCallback<Models.DataPolicyManifest>
-  ): void;
+  getByPolicyMode(policyMode: string, callback: msRest.ServiceCallback<Models.DataPolicyManifest>): void;
   /**
    * @param policyMode The policy mode of the data policy manifest to get.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getByPolicyMode(
-    policyMode: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.DataPolicyManifest>
-  ): void;
-  getByPolicyMode(
-    policyMode: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataPolicyManifest>,
-    callback?: msRest.ServiceCallback<Models.DataPolicyManifest>
-  ): Promise<Models.DataPolicyManifestsGetByPolicyModeResponse> {
+  getByPolicyMode(policyMode: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataPolicyManifest>): void;
+  getByPolicyMode(policyMode: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataPolicyManifest>, callback?: msRest.ServiceCallback<Models.DataPolicyManifest>): Promise<Models.DataPolicyManifestsGetByPolicyModeResponse> {
     return this.client.sendOperationRequest(
       {
         policyMode,
         options
       },
       getByPolicyModeOperationSpec,
-      callback
-    ) as Promise<Models.DataPolicyManifestsGetByPolicyModeResponse>;
+      callback) as Promise<Models.DataPolicyManifestsGetByPolicyModeResponse>;
   }
 
   /**
@@ -79,9 +64,7 @@ export class DataPolicyManifests {
    * @param [options] The optional parameters
    * @returns Promise<Models.DataPolicyManifestsListResponse>
    */
-  list(
-    options?: Models.DataPolicyManifestsListOptionalParams
-  ): Promise<Models.DataPolicyManifestsListResponse>;
+  list(options?: Models.DataPolicyManifestsListOptionalParams): Promise<Models.DataPolicyManifestsListResponse>;
   /**
    * @param callback The callback
    */
@@ -90,23 +73,14 @@ export class DataPolicyManifests {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(
-    options: Models.DataPolicyManifestsListOptionalParams,
-    callback: msRest.ServiceCallback<Models.DataPolicyManifestListResult>
-  ): void;
-  list(
-    options?:
-      | Models.DataPolicyManifestsListOptionalParams
-      | msRest.ServiceCallback<Models.DataPolicyManifestListResult>,
-    callback?: msRest.ServiceCallback<Models.DataPolicyManifestListResult>
-  ): Promise<Models.DataPolicyManifestsListResponse> {
+  list(options: Models.DataPolicyManifestsListOptionalParams, callback: msRest.ServiceCallback<Models.DataPolicyManifestListResult>): void;
+  list(options?: Models.DataPolicyManifestsListOptionalParams | msRest.ServiceCallback<Models.DataPolicyManifestListResult>, callback?: msRest.ServiceCallback<Models.DataPolicyManifestListResult>): Promise<Models.DataPolicyManifestsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback
-    ) as Promise<Models.DataPolicyManifestsListResponse>;
+      callback) as Promise<Models.DataPolicyManifestsListResponse>;
   }
 
   /**
@@ -120,43 +94,26 @@ export class DataPolicyManifests {
    * @param [options] The optional parameters
    * @returns Promise<Models.DataPolicyManifestsListNextResponse>
    */
-  listNext(
-    nextPageLink: string,
-    options?: Models.DataPolicyManifestsListNextOptionalParams
-  ): Promise<Models.DataPolicyManifestsListNextResponse>;
+  listNext(nextPageLink: string, options?: Models.DataPolicyManifestsListNextOptionalParams): Promise<Models.DataPolicyManifestsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.DataPolicyManifestListResult>
-  ): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DataPolicyManifestListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(
-    nextPageLink: string,
-    options: Models.DataPolicyManifestsListNextOptionalParams,
-    callback: msRest.ServiceCallback<Models.DataPolicyManifestListResult>
-  ): void;
-  listNext(
-    nextPageLink: string,
-    options?:
-      | Models.DataPolicyManifestsListNextOptionalParams
-      | msRest.ServiceCallback<Models.DataPolicyManifestListResult>,
-    callback?: msRest.ServiceCallback<Models.DataPolicyManifestListResult>
-  ): Promise<Models.DataPolicyManifestsListNextResponse> {
+  listNext(nextPageLink: string, options: Models.DataPolicyManifestsListNextOptionalParams, callback: msRest.ServiceCallback<Models.DataPolicyManifestListResult>): void;
+  listNext(nextPageLink: string, options?: Models.DataPolicyManifestsListNextOptionalParams | msRest.ServiceCallback<Models.DataPolicyManifestListResult>, callback?: msRest.ServiceCallback<Models.DataPolicyManifestListResult>): Promise<Models.DataPolicyManifestsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback
-    ) as Promise<Models.DataPolicyManifestsListNextResponse>;
+      callback) as Promise<Models.DataPolicyManifestsListNextResponse>;
   }
 }
 
@@ -165,9 +122,15 @@ const serializer = new msRest.Serializer(Mappers);
 const getByPolicyModeOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Authorization/dataPolicyManifests/{policyMode}",
-  urlParameters: [Parameters.policyMode],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.policyMode
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DataPolicyManifest
@@ -182,8 +145,13 @@ const getByPolicyModeOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Authorization/dataPolicyManifests",
-  queryParameters: [Parameters.apiVersion0, Parameters.filter],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion0,
+    Parameters.filter
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DataPolicyManifestListResult
@@ -199,9 +167,16 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion0, Parameters.filter],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion0,
+    Parameters.filter
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DataPolicyManifestListResult

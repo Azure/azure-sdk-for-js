@@ -20,6 +20,7 @@ export {
   ErrorAdditionalInfo,
   ErrorResponse,
   Identity,
+  IdentityUserAssignedIdentitiesValue,
   NonComplianceMessage,
   ParameterDefinitionsValue,
   ParameterDefinitionsValueMetadata,

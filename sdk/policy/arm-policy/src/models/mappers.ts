@@ -176,7 +176,10 @@ export const AliasPattern: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: ["NotSpecified", "Extract"]
+          allowedValues: [
+            "NotSpecified",
+            "Extract"
+          ]
         }
       }
     }
@@ -277,7 +280,11 @@ export const Alias: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: ["NotSpecified", "PlainText", "Mask"]
+          allowedValues: [
+            "NotSpecified",
+            "PlainText",
+            "Mask"
+          ]
         }
       },
       defaultPath: {
@@ -484,6 +491,30 @@ export const NonComplianceMessage: msRest.CompositeMapper = {
   }
 };
 
+export const IdentityUserAssignedIdentitiesValue: msRest.CompositeMapper = {
+  serializedName: "Identity_userAssignedIdentitiesValue",
+  type: {
+    name: "Composite",
+    className: "IdentityUserAssignedIdentitiesValue",
+    modelProperties: {
+      principalId: {
+        readOnly: true,
+        serializedName: "principalId",
+        type: {
+          name: "String"
+        }
+      },
+      clientId: {
+        readOnly: true,
+        serializedName: "clientId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Identity: msRest.CompositeMapper = {
   serializedName: "Identity",
   type: {
@@ -508,7 +539,69 @@ export const Identity: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: ["SystemAssigned", "None"]
+          allowedValues: [
+            "SystemAssigned",
+            "UserAssigned",
+            "None"
+          ]
+        }
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "IdentityUserAssignedIdentitiesValue"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SystemData: msRest.CompositeMapper = {
+  serializedName: "systemData",
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String"
+        }
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        type: {
+          name: "String"
+        }
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime"
         }
       }
     }
@@ -577,7 +670,7 @@ export const PolicyAssignment: msRest.CompositeMapper = {
       },
       enforcementMode: {
         serializedName: "properties.enforcementMode",
-        defaultValue: "Default",
+        defaultValue: 'Default',
         type: {
           name: "String"
         }
@@ -615,6 +708,37 @@ export const PolicyAssignment: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "Identity"
+        }
+      },
+      systemData: {
+        readOnly: true,
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      }
+    }
+  }
+};
+
+export const PolicyAssignmentUpdate: msRest.CompositeMapper = {
+  serializedName: "PolicyAssignmentUpdate",
+  type: {
+    name: "Composite",
+    className: "PolicyAssignmentUpdate",
+    modelProperties: {
       location: {
         serializedName: "location",
         type: {
@@ -730,7 +854,7 @@ export const PolicyDefinition: msRest.CompositeMapper = {
       },
       mode: {
         serializedName: "properties.mode",
-        defaultValue: "Indexed",
+        defaultValue: 'Indexed',
         type: {
           name: "String"
         }
@@ -790,6 +914,14 @@ export const PolicyDefinition: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "String"
+        }
+      },
+      systemData: {
+        readOnly: true,
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
         }
       }
     }
@@ -970,51 +1102,13 @@ export const PolicySetDefinition: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
-      }
-    }
-  }
-};
-
-export const SystemData: msRest.CompositeMapper = {
-  serializedName: "systemData",
-  type: {
-    name: "Composite",
-    className: "SystemData",
-    modelProperties: {
-      createdBy: {
-        serializedName: "createdBy",
-        type: {
-          name: "String"
-        }
       },
-      createdByType: {
-        serializedName: "createdByType",
+      systemData: {
+        readOnly: true,
+        serializedName: "systemData",
         type: {
-          name: "String"
-        }
-      },
-      createdAt: {
-        serializedName: "createdAt",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModifiedBy: {
-        serializedName: "lastModifiedBy",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedByType: {
-        serializedName: "lastModifiedByType",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedAt: {
-        serializedName: "lastModifiedAt",
-        type: {
-          name: "DateTime"
+          name: "Composite",
+          className: "SystemData"
         }
       }
     }
