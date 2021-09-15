@@ -17,6 +17,7 @@ export const context: ContextAPI;
 // @public
 export interface ContextAPI {
     active(): Context;
+    with<A extends unknown[], F extends (...args: A) => ReturnType<F>>(context: Context, fn: F, thisArg?: ThisParameterType<F>, ...args: A): ReturnType<F>;
 }
 
 // @public
@@ -77,7 +78,7 @@ export interface Span {
     end(endTime?: Date): void;
     isRecording(): boolean;
     recordException(exception: Error, time?: Date): void;
-    setAttribute(key: string, value: SpanAttributeValue): this;
+    setAttribute(key: string, value: string | number): this;
     setAttributes(attributes: SpanAttributes): this;
     setStatus(status: SpanStatus): this;
     spanContext(): SpanContext;
@@ -86,11 +87,8 @@ export interface Span {
 
 // @public
 export interface SpanAttributes {
-    [attributeKey: string]: SpanAttributeValue | undefined;
+    [attributeKey: string]: string | number | boolean;
 }
-
-// @public
-export type SpanAttributeValue = string | number | boolean | Array<null | undefined | string> | Array<null | undefined | number> | Array<null | undefined | boolean>;
 
 // @public
 export interface SpanContext {

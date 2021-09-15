@@ -242,7 +242,7 @@ export interface Span {
    * @param value - the value for this attribute. Setting a value null or
    *              undefined is invalid and will result in undefined behavior.
    */
-  setAttribute(key: string, value: SpanAttributeValue): this;
+  setAttribute(key: string, value: string | number): this;
   /**
    * Sets attributes to the span.
    *
@@ -374,20 +374,8 @@ export interface SpanAttributes {
   /**
    * Attributes for a Span.
    */
-  [attributeKey: string]: SpanAttributeValue | undefined;
+  [attributeKey: string]: string | number | boolean;
 }
-/**
- * Attribute values may be any non-nullish primitive value except an object.
- *
- * null or undefined attribute values are invalid and will result in undefined behavior.
- */
-export declare type SpanAttributeValue =
-  | string
-  | number
-  | boolean
-  | Array<null | undefined | string>
-  | Array<null | undefined | number>
-  | Array<null | undefined | boolean>;
 
 /**
  * An interface that enables manual propagation of Spans

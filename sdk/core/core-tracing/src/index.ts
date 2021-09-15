@@ -19,7 +19,6 @@ export {
   setSpanContext,
   Span,
   SpanAttributes,
-  SpanAttributeValue,
   SpanContext,
   SpanKind,
   SpanOptions,

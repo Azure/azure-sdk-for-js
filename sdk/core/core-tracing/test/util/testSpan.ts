@@ -8,7 +8,6 @@ import {
   SpanContext,
   SpanAttributes,
   SpanStatusCode,
-  SpanAttributeValue,
   Span,
   SpanOptions
 } from "../../src/interfaces";
@@ -128,7 +127,7 @@ export class TestSpan implements Span {
    * @param key - The attribute key
    * @param value - The attribute value
    */
-  setAttribute(key: string, value: SpanAttributeValue): this {
+  setAttribute(key: string, value: string | number): this {
     this.attributes[key] = value;
     return this;
   }
