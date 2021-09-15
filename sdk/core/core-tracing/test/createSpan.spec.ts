@@ -2,13 +2,8 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import {
-  setSpan,
-  SpanKind,
-  context as otContext,
-  getSpanContext,
-  Context
-} from "../src/interfaces";
+import { setSpan, SpanKind, context as otContext, Context } from "../src/interfaces";
+import { trace } from "@opentelemetry/api";
 
 import { TestSpan } from "./util/testSpan";
 import { createSpanFunction, isTracingDisabled, knownSpanAttributes } from "../src/createSpan";
@@ -178,7 +173,7 @@ describe("createSpan", () => {
       assert.ok(parentContext);
       assert.notDeepEqual(parentContext, otContext.active(), "new child context should be created");
       assert.equal(
-        getSpanContext(parentContext!)?.spanId,
+        trace.getSpanContext(parentContext!)?.spanId,
         span.spanContext().spanId,
         "context returned in the updated options should point to our newly created span"
       );
@@ -193,7 +188,7 @@ describe("createSpan", () => {
 
     assert.ok(updatedOptions.tracingOptions.tracingContext);
     assert.equal(
-      getSpanContext(updatedOptions.tracingOptions.tracingContext!)?.spanId,
+      trace.getSpanContext(updatedOptions.tracingOptions.tracingContext!)?.spanId,
       childSpan.spanContext().spanId
     );
   });

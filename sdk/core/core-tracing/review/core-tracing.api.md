@@ -17,7 +17,7 @@ export const context: ContextAPI;
 // @public
 export interface ContextAPI {
     active(): Context;
-    with<A extends unknown[], F extends (...args: A) => ReturnType<F>>(context: Context, fn: F, thisArg?: ThisParameterType<F>, ...args: A): ReturnType<F>;
+    with<TArgs extends unknown[], TCallback extends (...args: TArgs) => ReturnType<TCallback>>(context: Context, fn: TCallback, thisArg?: ThisParameterType<TCallback>, ...args: TArgs): ReturnType<TCallback>;
 }
 
 // @public
@@ -36,12 +36,6 @@ export interface CreateSpanFunctionArgs {
 
 // @public
 export function extractSpanContextFromTraceParentHeader(traceParentHeader: string): SpanContext | undefined;
-
-// @public
-export function getSpan(context: Context): Span | undefined;
-
-// @public
-export function getSpanContext(context: Context): SpanContext | undefined;
 
 // @public
 export function getTraceParentHeader(spanContext: SpanContext): string | undefined;
@@ -68,9 +62,6 @@ export interface OperationTracingOptions {
 
 // @public
 export function setSpan(context: Context, span: Span): Context;
-
-// @public
-export function setSpanContext(context: Context, spanContext: SpanContext): Context;
 
 // @public
 export interface Span {

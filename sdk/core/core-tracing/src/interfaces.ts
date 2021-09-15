@@ -106,15 +106,6 @@ export enum SpanKind {
 }
 
 /**
- * Return the span if one exists
- *
- * @param context - context to get span from
- */
-export function getSpan(context: Context): Span | undefined {
-  return otTrace.getSpan(context);
-}
-
-/**
  * Set the span on a context
  *
  * @param context - context to use as parent
@@ -122,26 +113,6 @@ export function getSpan(context: Context): Span | undefined {
  */
 export function setSpan(context: Context, span: Span): Context {
   return otTrace.setSpan(context, span);
-}
-
-/**
- * Wrap span context in a NoopSpan and set as span in a new
- * context
- *
- * @param context - context to set active span on
- * @param spanContext - span context to be wrapped
- */
-export function setSpanContext(context: Context, spanContext: SpanContext): Context {
-  return otTrace.setSpanContext(context, spanContext);
-}
-
-/**
- * Get the span context of the span if it exists.
- *
- * @param context - context to get values from
- */
-export function getSpanContext(context: Context): SpanContext | undefined {
-  return otTrace.getSpanContext(context);
 }
 
 /**
@@ -161,12 +132,12 @@ export interface ContextAPI {
    * @param thisArg optional receiver to be used for calling fn
    * @param args optional arguments forwarded to fn
    */
-  with<A extends unknown[], F extends (...args: A) => ReturnType<F>>(
+  with<TArgs extends unknown[], TCallback extends (...args: TArgs) => ReturnType<TCallback>>(
     context: Context,
-    fn: F,
-    thisArg?: ThisParameterType<F>,
-    ...args: A
-  ): ReturnType<F>;
+    fn: TCallback,
+    thisArg?: ThisParameterType<TCallback>,
+    ...args: TArgs
+  ): ReturnType<TCallback>;
 }
 
 /**

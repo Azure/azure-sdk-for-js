@@ -2,14 +2,12 @@
 // Licensed under the MIT license.
 
 import {
-  TimeInput,
   Tracer,
   SpanKind,
   SpanStatus,
   SpanContext,
   SpanAttributes,
   SpanStatusCode,
-  SpanAttributeValue,
   Span
 } from "@azure/core-tracing";
 
@@ -40,7 +38,7 @@ export class TestSpan implements Span {
   /**
    * The start time of the Span
    */
-  readonly startTime: TimeInput;
+  readonly startTime: Date;
 
   /**
    * The id of the parent Span, if any.
@@ -70,7 +68,7 @@ export class TestSpan implements Span {
     context: SpanContext,
     kind: SpanKind,
     parentSpanId?: string,
-    startTime: TimeInput = Date.now(),
+    startTime = new Date(),
     attributes: SpanAttributes = {}
   ) {
     this._tracer = parentTracer;
@@ -105,7 +103,7 @@ export class TestSpan implements Span {
    * @param _endTime - The time to use as the Span's end time. Defaults to
    * the current time.
    */
-  end(_endTime?: number): void {
+  end(_endTime?: Date): void {
     this.endCalled = true;
   }
 
@@ -130,7 +128,7 @@ export class TestSpan implements Span {
    * @param key - The attribute key
    * @param value - The attribute value
    */
-  setAttribute(key: string, value: SpanAttributeValue): this {
+  setAttribute(key: string, value: string | number): this {
     this.attributes[key] = value;
     return this;
   }
