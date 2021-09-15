@@ -3143,6 +3143,12 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha1-9fj7sYp9bVCyH2QfZJ67Uiz+JPc=
+  /define-lazy-prop/2.0.0:
+    dev: false
+    engines:
+      node: '>=8'
+    resolution:
+      integrity: sha512-Ds09qNh8yw3khSjiJjiUInaGX9xlqZDY7JVryGxdxV7NPeuqQfplOpQ66yJFZut3jLa5zOwkXw1g9EI2uKh4Og==
   /define-properties/1.1.3:
     dependencies:
       object-keys: 1.1.1
@@ -6081,6 +6087,16 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-MVHddDVweXZF3awtlAS+6pgKLlm/JgxZ90+/NBurBoQctVOOB/zDdVjcyPzQ+0laDGbsWgrRkflI65sQeOgT9Q==
+  /open/8.2.1:
+    dependencies:
+      define-lazy-prop: 2.0.0
+      is-docker: 2.2.1
+      is-wsl: 2.2.0
+    dev: false
+    engines:
+      node: '>=12'
+    resolution:
+      integrity: sha512-rXILpcQlkF/QuFez2BJDf3GsqpjGKbkUUToAIGo9A0Q6ZkoSGogZJulrUdwRkrAsoQvoZsrjCYt8+zblOk7JQQ==
   /optionator/0.9.1:
     dependencies:
       deep-is: 0.1.4
@@ -10685,7 +10701,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      open: 7.4.2
+      open: 8.2.1
       prettier: 1.19.1
       puppeteer: 10.2.0
       rimraf: 3.0.2
@@ -10700,7 +10716,7 @@ packages:
     dev: false
     name: '@rush-temp/identity'
     resolution:
-      integrity: sha512-R/d1+WdL7aoUb0bgnSJacnMBjc5y5bzfo0PVX0TPbjiJwDK88Mua4KsvF8ler/Sr7X5bm1CsuAwsX4Nt27FSIg==
+      integrity: sha512-sgTczJD8/f1/+UWPeOS6mvAYqwyhtAM8a/1AUqlNOwrUHbtruEncMEaDgaLNA3zGie9O2H3akEXYAYzl6X6+iw==
       tarball: file:projects/identity.tgz
     version: 0.0.0
   file:projects/iot-device-update.tgz:
