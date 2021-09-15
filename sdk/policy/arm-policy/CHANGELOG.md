@@ -1,15 +1,38 @@
-# Release History
+## 30.0.0-beta.3 (2021-09-15)
+    
+**Features**
 
-## 30.0.0-beta.3 (Unreleased)
+  - Added operation PolicyAssignments.update
+  - Added operation PolicyAssignments.updateById
+  - Added Interface PolicyAssignmentsUpdateByIdOptionalParams
+  - Added Interface PolicyAssignmentsUpdateOptionalParams
+  - Added Interface PolicyAssignmentUpdate
+  - Added Interface UserAssignedIdentitiesValue
+  - Added Type Alias PolicyAssignmentsUpdateByIdResponse
+  - Added Type Alias PolicyAssignmentsUpdateResponse
+  - Interface Identity has a new optional parameter userAssignedIdentities
+  - Interface PolicyAssignment has a new optional parameter systemData
+  - Interface PolicyDefinition has a new optional parameter systemData
+  - Interface PolicySetDefinition has a new optional parameter systemData
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation DataPolicyManifests.listNext
+  - Removed operation PolicyAssignments.listForManagementGroupNext
+  - Removed operation PolicyAssignments.listForResourceGroupNext
+  - Removed operation PolicyAssignments.listForResourceNext
+  - Removed operation PolicyAssignments.listNext
+  - Removed operation PolicyDefinitions.listBuiltInNext
+  - Removed operation PolicyDefinitions.listByManagementGroupNext
+  - Removed operation PolicyDefinitions.listNext
+  - Removed operation PolicyExemptions.listForManagementGroupNext
+  - Removed operation PolicyExemptions.listForResourceGroupNext
+  - Removed operation PolicyExemptions.listForResourceNext
+  - Removed operation PolicyExemptions.listNext
+  - Removed operation PolicySetDefinitions.listBuiltInNext
+  - Removed operation PolicySetDefinitions.listByManagementGroupNext
+  - Removed operation PolicySetDefinitions.listNext
+    
 ## 30.0.0-beta.2 (2021-09-06)
 
 **Bug Fixes**
