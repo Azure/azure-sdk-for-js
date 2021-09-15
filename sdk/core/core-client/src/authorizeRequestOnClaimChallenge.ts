@@ -3,7 +3,7 @@
 
 import { GetTokenOptions } from "@azure/core-auth";
 import { AuthorizeRequestOnChallengeOptions } from "@azure/core-rest-pipeline";
-import { decodeString } from "./base64";
+import { decodeString, uint8ArrayToString } from "./base64";
 
 /**
  * Converts: `Bearer a="b", c="d", Bearer d="e", f="g"`.
@@ -56,7 +56,7 @@ export async function authorizeRequestOnClaimChallenge(
     parsedChallenge.scope ? [parsedChallenge.scope] : onChallengeScopes,
     {
       ...onChallengeOptions,
-      claims: decodeString(parsedChallenge.claims)
+      claims: uint8ArrayToString(decodeString(parsedChallenge.claims))
     } as GetTokenOptions
   );
 

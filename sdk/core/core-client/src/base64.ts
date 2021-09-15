@@ -30,3 +30,11 @@ export function encodeByteArray(value: Uint8Array): string {
 export function decodeString(value: string): Uint8Array {
   return Buffer.from(value, "base64");
 }
+
+/**
+ * Converts a uint8Array to a string.
+ */
+export function uint8ArrayToString(ab: Uint8Array): string {
+  const decoder = new TextDecoder("utf-8");
+  return decoder.decode(ab);
+}
