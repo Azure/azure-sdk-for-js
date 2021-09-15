@@ -18,7 +18,7 @@ const should = chai.should();
 
 const TEST_FAILURE = "test failure";
 
-testWithServiceTypes("public/auth.spec.ts", (serviceVersion, onVersions) => {
+testWithServiceTypes((serviceVersion, onVersions) => {
   const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;

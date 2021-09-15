@@ -10,7 +10,7 @@ import { EventHubConsumerClient, EventHubProducerClient, Subscription } from "..
 import { testWithServiceTypes } from "../utils/testWithServiceTypes";
 import { createMockServer } from "../utils/mockService";
 
-testWithServiceTypes("public/node/disconnects.spec.ts", (serviceVersion, onVersions) => {
+testWithServiceTypes((serviceVersion, onVersions) => {
   const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;

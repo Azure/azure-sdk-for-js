@@ -30,7 +30,7 @@ import { setSpan, context } from "@azure/core-tracing";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 import { createMockServer } from "../public/utils/mockService";
 
-testWithServiceTypes("internal/sender.spec.ts", (serviceVersion) => {
+testWithServiceTypes((serviceVersion) => {
   const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;

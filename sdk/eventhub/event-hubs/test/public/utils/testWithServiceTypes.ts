@@ -9,24 +9,29 @@ const serviceVersions: SupportedTargets[] = ["mock", "live"];
 const testTarget = getEnvVarValue("TEST_TARGET") || "live";
 
 export function testWithServiceTypes(
-  filePath: string,
   handler: (
     serviceVersion: SupportedTargets,
     onVersions: (supported: SupportedTargets[]) => TestFunctionWrapper
   ) => void
 ): void {
-  describe(filePath, function() {
-    versionsToTest(serviceVersions, { versionForRecording: testTarget }, function(
-      serviceVersion,
-      ...rest
-    ) {
-      if (serviceVersion === "mock" && !isNode) {
-        // We don't currently support running tests aginst the mock service in browsers.
-        // This can be revisted once the mock service supports websockets.
-        return;
-      }
+  // Wrap within an empty `describe` so that nested functions get the mocha
+  // context object for the current suite being ran.
+  describe("", function() {
+    // this.file comes from the current mocha suite context.
+    // eslint-disable-next-line @typescript-eslint/no-invalid-this
+    describe(this.file ?? "", function() {
+      versionsToTest(serviceVersions, { versionForRecording: testTarget }, function(
+        serviceVersion,
+        ...rest
+      ) {
+        if (serviceVersion === "mock" && !isNode) {
+          // We don't currently support running tests aginst the mock service in browsers.
+          // This can be revisted once the mock service supports websockets.
+          return;
+        }
 
-      handler(serviceVersion as SupportedTargets, ...rest);
+        handler(serviceVersion as SupportedTargets, ...rest);
+      });
     });
   });
 }

@@ -15,7 +15,7 @@ import { EventHubConsumerClient, latestEventPosition } from "../../../src";
 import { createMockServer } from "../../public/utils/mockService";
 import { testWithServiceTypes } from "../../public/utils/testWithServiceTypes";
 
-testWithServiceTypes("internal/node/disconnect.spec.ts", (serviceVersion) => {
+testWithServiceTypes((serviceVersion) => {
   const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;

@@ -44,7 +44,7 @@ const testSourceEventData: EventData = {
 
 const messageFromED = toRheaMessage(testSourceEventData);
 
-testWithServiceTypes("internal/eventdata.spec.ts", () => {
+testWithServiceTypes(() => {
   describe("EventData", function(): void {
     describe("fromRheaMessage", function(): void {
       it("populates body with the message body", function(): void {

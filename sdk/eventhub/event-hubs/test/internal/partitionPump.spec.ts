@@ -19,7 +19,7 @@ import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 
 const should = chai.should();
 
-testWithServiceTypes("internal/partitionPump.spec.ts", () => {
+testWithServiceTypes(() => {
   describe("PartitionPump", () => {
     describe("telemetry", () => {
       const eventHubProperties = {

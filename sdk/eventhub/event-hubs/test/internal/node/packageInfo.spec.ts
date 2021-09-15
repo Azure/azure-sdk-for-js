@@ -11,7 +11,7 @@ import { testWithServiceTypes } from "../../public/utils/testWithServiceTypes";
 // Since we currently hardcode package name and version in `constants.ts` file,
 // following test is in place to ensure the values in package.json and in this file are consistent
 
-testWithServiceTypes("internal/node/packageInfo.spec.ts", () => {
+testWithServiceTypes(() => {
   describe("Ensure package name and version are consistent in SDK and package.json", function(): void {
     it("Ensure constants.ts file is consistent with package.json", () => {
       const packageJsonFilePath = path.join(__dirname, "..", "..", "..", "..", "package.json");

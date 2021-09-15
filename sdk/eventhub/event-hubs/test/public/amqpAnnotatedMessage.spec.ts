@@ -24,7 +24,7 @@ chai.use(chaiAsPromised);
 chai.use(chaiExclude);
 const assert = chai.assert;
 
-testWithServiceTypes("public/amqpAnnotatedMessage.spec.ts", (serviceVersion) => {
+testWithServiceTypes((serviceVersion) => {
   const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;

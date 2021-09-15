@@ -6,7 +6,7 @@ import chai from "chai";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 const should = chai.should();
 
-testWithServiceTypes("internal/config.spec.ts", () => {
+testWithServiceTypes(() => {
   describe("ConnectionConfig", function() {
     describe("EventHub", function() {
       it("should fail if connection config does not contain path and the connectionstring also does not contain EntityPath", function(done) {

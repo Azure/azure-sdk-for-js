@@ -6,7 +6,7 @@ import chai from "chai";
 import { testWithServiceTypes } from "../../public/utils/testWithServiceTypes";
 const should = chai.should();
 
-testWithServiceTypes("internal/impl/partitionGate.spec.ts", () => {
+testWithServiceTypes(() => {
   describe("PartitionGate", () => {
     it("add", () => {
       const gate = new PartitionGate();

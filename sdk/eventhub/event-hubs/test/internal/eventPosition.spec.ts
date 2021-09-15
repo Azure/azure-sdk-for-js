@@ -8,7 +8,7 @@ import { earliestEventPosition, latestEventPosition } from "../../src";
 import { getEventPositionFilter, validateEventPositions } from "../../src/eventPosition";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 
-testWithServiceTypes("internal/eventPosition.spec.ts", () => {
+testWithServiceTypes(() => {
   describe("EventPosition", function(): void {
     describe("happy", function(): void {
       it("should create from an offset with inclusive false", function(done: Mocha.Done): void {

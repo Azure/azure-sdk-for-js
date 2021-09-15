@@ -9,7 +9,7 @@ import { testWithServiceTypes } from "../../public/utils/testWithServiceTypes";
 const should = chai.should();
 const assert = chai.assert;
 
-testWithServiceTypes("internal/diagnostics/messageSpan.spec.ts", () => {
+testWithServiceTypes(() => {
   describe("#createMessageSpan()", () => {
     before(() => {
       setTracer();

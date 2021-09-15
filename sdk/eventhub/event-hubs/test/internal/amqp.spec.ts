@@ -7,7 +7,7 @@ import { fromRheaMessage, isAmqpAnnotatedMessage } from "../../src/eventData";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 const assert = chai.assert;
 
-testWithServiceTypes("internal/amqp.spec.ts", () => {
+testWithServiceTypes(() => {
   describe("AMQP message encoding", () => {
     it("isAmqpAnnotatedMessage", () => {
       assert.isFalse(isAmqpAnnotatedMessage({}));

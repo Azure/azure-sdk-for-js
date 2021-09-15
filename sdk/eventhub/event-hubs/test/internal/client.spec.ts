@@ -32,7 +32,7 @@ function validateConnectionError<E extends Error & { code?: string }>(err: E): v
   should.not.equal(err.message, testFailureMessage);
 }
 
-testWithServiceTypes("internal/client.spec.ts", (serviceVersion) => {
+testWithServiceTypes((serviceVersion) => {
   const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;

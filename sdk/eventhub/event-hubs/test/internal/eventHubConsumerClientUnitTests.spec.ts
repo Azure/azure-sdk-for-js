@@ -15,7 +15,7 @@ import { createMockServer } from "../public/utils/mockService";
 
 const should = chai.should();
 
-testWithServiceTypes("internal/eventHubConsumerClientUnitTests.spec.ts", (serviceVersion) => {
+testWithServiceTypes((serviceVersion) => {
   const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;

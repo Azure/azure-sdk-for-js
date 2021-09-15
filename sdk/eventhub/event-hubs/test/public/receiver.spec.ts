@@ -20,7 +20,7 @@ import { createMockServer } from "./utils/mockService";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { testWithServiceTypes } from "./utils/testWithServiceTypes";
 
-testWithServiceTypes("public/receiver.spec.ts", (serviceVersion) => {
+testWithServiceTypes((serviceVersion) => {
   const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;

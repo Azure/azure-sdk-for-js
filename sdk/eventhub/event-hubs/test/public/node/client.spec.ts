@@ -14,7 +14,7 @@ import { TestTracer, setTracer, resetTracer } from "@azure/test-utils";
 import { testWithServiceTypes } from "../utils/testWithServiceTypes";
 import { createMockServer } from "../utils/mockService";
 
-testWithServiceTypes("public/node/client.spec.ts", (serviceVersion) => {
+testWithServiceTypes((serviceVersion) => {
   const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;

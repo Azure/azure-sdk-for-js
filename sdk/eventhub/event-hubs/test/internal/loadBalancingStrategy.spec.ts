@@ -9,7 +9,7 @@ import { UnbalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategie
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 const should = chai.should();
 
-testWithServiceTypes("internal/loadBalancingStrategy.spec.ts", () => {
+testWithServiceTypes(() => {
   describe("LoadBalancingStrategy", () => {
     function createOwnershipMap(
       partitionToOwner: Record<string, string>

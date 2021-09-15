@@ -15,7 +15,7 @@ import { EventHubProducerClient, EventHubConsumerClient, MessagingError } from "
 import { testWithServiceTypes } from "./utils/testWithServiceTypes";
 import { createMockServer } from "./utils/mockService";
 
-testWithServiceTypes("public/hubruntime.spec.ts", (serviceVersion) => {
+testWithServiceTypes((serviceVersion) => {
   const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;

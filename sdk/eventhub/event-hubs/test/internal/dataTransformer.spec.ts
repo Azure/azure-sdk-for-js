@@ -9,7 +9,7 @@ import isBuffer from "is-buffer";
 import { defaultDataTransformer } from "../../src/dataTransformer";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 
-testWithServiceTypes("internal/dataTransformer.spec.ts", () => {
+testWithServiceTypes(() => {
   describe("DataTransformer", function() {
     const objectBody: any = {
       id: "123-456-789",

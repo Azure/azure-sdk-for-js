@@ -27,7 +27,7 @@ import { SubscriptionHandlerForTests } from "../public/utils/subscriptionHandler
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 import { createMockServer } from "../public/utils/mockService";
 
-testWithServiceTypes("internal/misc.spec.ts", (serviceVersion) => {
+testWithServiceTypes((serviceVersion) => {
   const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;
