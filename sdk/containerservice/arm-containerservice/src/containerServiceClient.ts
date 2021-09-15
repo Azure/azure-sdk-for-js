@@ -24,6 +24,7 @@ class ContainerServiceClient extends ContainerServiceClientContext {
   privateEndpointConnections: operations.PrivateEndpointConnections;
   privateLinkResources: operations.PrivateLinkResources;
   resolvePrivateLinkServiceId: operations.ResolvePrivateLinkServiceId;
+  snapshots: operations.Snapshots;
 
   /**
    * Initializes a new instance of the ContainerServiceClient class.
@@ -46,6 +47,7 @@ class ContainerServiceClient extends ContainerServiceClientContext {
     this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);
     this.privateLinkResources = new operations.PrivateLinkResources(this);
     this.resolvePrivateLinkServiceId = new operations.ResolvePrivateLinkServiceId(this);
+    this.snapshots = new operations.Snapshots(this);
   }
 }
 

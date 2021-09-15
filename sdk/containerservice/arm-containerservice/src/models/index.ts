@@ -440,6 +440,16 @@ export interface LinuxOSConfig {
 }
 
 /**
+ * Data used when creating a target resource from a source resource.
+ */
+export interface CreationData {
+  /**
+   * This is the ARM ID of the source object to be used to create the target object.
+   */
+  sourceResourceId?: string;
+}
+
+/**
  * Properties for the container service agent pool profile.
  */
 export interface ManagedClusterAgentPoolProfileProperties {
@@ -464,6 +474,10 @@ export interface ManagedClusterAgentPoolProfileProperties {
    * Possible values include: 'OS', 'Temporary'
    */
   kubeletDiskType?: KubeletDiskType;
+  /**
+   * Possible values include: 'OCIContainer', 'WasmWasi'
+   */
+  workloadRuntime?: WorkloadRuntime;
   /**
    * The ID of the subnet which agent pool nodes and optionally pods will join on startup. If this
    * is not specified, a VNET and subnet will be generated and used. If no podSubnetID is
@@ -628,6 +642,11 @@ export interface ManagedClusterAgentPoolProfileProperties {
    * Possible values include: 'MIG1g', 'MIG2g', 'MIG3g', 'MIG4g', 'MIG7g'
    */
   gpuInstanceProfile?: GPUInstanceProfile;
+  /**
+   * CreationData to be used to specify the source Snapshot ID if the node pool will be
+   * created/upgraded using a snapshot.
+   */
+  creationData?: CreationData;
 }
 
 /**
@@ -666,6 +685,10 @@ export interface AgentPool extends SubResource {
    * Possible values include: 'OS', 'Temporary'
    */
   kubeletDiskType?: KubeletDiskType;
+  /**
+   * Possible values include: 'OCIContainer', 'WasmWasi'
+   */
+  workloadRuntime?: WorkloadRuntime;
   /**
    * The ID of the subnet which agent pool nodes and optionally pods will join on startup. If this
    * is not specified, a VNET and subnet will be generated and used. If no podSubnetID is
@@ -830,6 +853,11 @@ export interface AgentPool extends SubResource {
    * Possible values include: 'MIG1g', 'MIG2g', 'MIG3g', 'MIG4g', 'MIG7g'
    */
   gpuInstanceProfile?: GPUInstanceProfile;
+  /**
+   * CreationData to be used to specify the source Snapshot ID if the node pool will be
+   * created/upgraded using a snapshot.
+   */
+  creationData?: CreationData;
 }
 
 /**
@@ -976,6 +1004,10 @@ export interface ManagedClusterLoadBalancerProfile {
    * (inclusive). The default value is 30 minutes. Default value: 30.
    */
   idleTimeoutInMinutes?: number;
+  /**
+   * Enable multiple standard load balancers per AKS cluster or not.
+   */
+  enableMultipleStandardLoadBalancers?: boolean;
 }
 
 /**
@@ -1667,6 +1699,10 @@ export interface ManagedClusterAPIServerAccessProfile {
    * Whether to create additional public FQDN for private cluster or not.
    */
   enablePrivateClusterPublicFQDN?: boolean;
+  /**
+   * Whether to disable run command for the cluster or not.
+   */
+  disableRunCommand?: boolean;
 }
 
 /**
@@ -1905,6 +1941,12 @@ export interface ManagedCluster extends Resource {
    * Security profile for the managed cluster.
    */
   securityProfile?: ManagedClusterSecurityProfile;
+  /**
+   * Whether the cluster can be accessed through public network or not. Default value is 'Enabled'
+   * (case insensitive). Could be set to 'Disabled' to enable private cluster. Possible values
+   * include: 'Enabled', 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
 }
 
 /**
@@ -2275,6 +2317,25 @@ export interface OutboundEnvironmentEndpoint {
 }
 
 /**
+ * A node pool snapshot resource.
+ */
+export interface Snapshot extends Resource {
+  /**
+   * The system metadata relating to this snapshot.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
+  /**
+   * CreationData to be used to specify the source agent pool resource ID to create this snapshot.
+   */
+  creationData?: CreationData;
+  /**
+   * Possible values include: 'NodePool'. Default value: 'NodePool'.
+   */
+  snapshotType?: SnapshotType;
+}
+
+/**
  * Optional Parameters.
  */
 export interface ManagedClustersGetOSOptionsOptionalParams extends msRest.RequestOptionsBase {
@@ -2382,6 +2443,19 @@ export interface AgentPoolListResult extends Array<AgentPool> {
 }
 
 /**
+ * @interface
+ * The response from the List Snapshots operation.
+ * @extends Array<Snapshot>
+ */
+export interface SnapshotListResult extends Array<Snapshot> {
+  /**
+   * The URL to get the next set of snapshot results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
  * Defines values for ContainerServiceStorageProfileTypes.
  * Possible values include: 'StorageAccount', 'ManagedDisks'
  * @readonly
@@ -2449,6 +2523,14 @@ export type OSDiskType = 'Managed' | 'Ephemeral';
  * @enum {string}
  */
 export type KubeletDiskType = 'OS' | 'Temporary';
+
+/**
+ * Defines values for WorkloadRuntime.
+ * Possible values include: 'OCIContainer', 'WasmWasi'
+ * @readonly
+ * @enum {string}
+ */
+export type WorkloadRuntime = 'OCIContainer' | 'WasmWasi';
 
 /**
  * Defines values for OSType.
@@ -2645,6 +2727,14 @@ export type UpgradeChannel = 'rapid' | 'stable' | 'patch' | 'node-image' | 'none
 export type Expander = 'least-waste' | 'most-pods' | 'priority' | 'random';
 
 /**
+ * Defines values for PublicNetworkAccess.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type PublicNetworkAccess = 'Enabled' | 'Disabled';
+
+/**
  * Defines values for PrivateEndpointConnectionProvisioningState.
  * Possible values include: 'Succeeded', 'Creating', 'Deleting', 'Failed'
  * @readonly
@@ -2659,6 +2749,14 @@ export type PrivateEndpointConnectionProvisioningState = 'Succeeded' | 'Creating
  * @enum {string}
  */
 export type ConnectionStatus = 'Pending' | 'Approved' | 'Rejected' | 'Disconnected';
+
+/**
+ * Defines values for SnapshotType.
+ * Possible values include: 'NodePool'
+ * @readonly
+ * @enum {string}
+ */
+export type SnapshotType = 'NodePool';
 
 /**
  * Contains response data for the list operation.
@@ -3437,5 +3535,145 @@ export type ResolvePrivateLinkServiceIdPOSTResponse = PrivateLinkResource & {
        * The response body as parsed JSON or XML
        */
       parsedBody: PrivateLinkResource;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type SnapshotsListResponse = SnapshotListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SnapshotListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type SnapshotsListByResourceGroupResponse = SnapshotListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SnapshotListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type SnapshotsGetResponse = Snapshot & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Snapshot;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type SnapshotsCreateOrUpdateResponse = Snapshot & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Snapshot;
+    };
+};
+
+/**
+ * Contains response data for the updateTags operation.
+ */
+export type SnapshotsUpdateTagsResponse = Snapshot & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Snapshot;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type SnapshotsListNextResponse = SnapshotListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SnapshotListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type SnapshotsListByResourceGroupNextResponse = SnapshotListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SnapshotListResult;
     };
 };
