@@ -81,7 +81,7 @@ class MockSpan implements Span {
     return this;
   }
 
-  setAttribute(key: string, value: string | number) {
+  setAttribute(key: string, value: string | number | boolean) {
     this._attributes[key] = value;
     return this;
   }

@@ -17,10 +17,11 @@ import {
   context,
   SpanStatusCode,
   SpanStatus,
-  SpanAttributes
+  SpanAttributes,
+  SpanOptions
 } from "@azure/core-tracing";
 import { tracingPolicy } from "../../src/policies/tracingPolicy";
-import { TracerProvider, Tracer, Span, SpanOptions, trace } from "@opentelemetry/api";
+import { TracerProvider, Tracer, Span, trace } from "@opentelemetry/api";
 import sinon from "sinon";
 
 class MockSpan implements Span {
@@ -80,7 +81,7 @@ class MockSpan implements Span {
     return this;
   }
 
-  setAttribute(key: string, value: string | number) {
+  setAttribute(key: string, value: string | number | boolean) {
     this._attributes[key] = value;
     return this;
   }
