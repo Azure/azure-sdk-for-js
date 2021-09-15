@@ -12,23 +12,12 @@
     "sku": {
       "defaultValue": "Standard",
       "type": "string"
-    },
-    "azConfigEndpointSuffix": {
-      "defaultValue": ".azconfig.io",
-      "type": "string"
-    },
-    "testApplicationOid": {
-      "type": "string",
-      "metadata": {
-        "description": "The client OID to grant access to test resources."
-      }
     }
   },
   "variables": {
     "configurationApiVersion": "2019-10-01",
-    "roleDefinitionId": "[format('/subscriptions/{0}/providers/Microsoft.Authorization/roleDefinitions/5ae67dd6-50cb-40e7-96ff-dc2bfa4b606b', subscription().subscriptionId)]",
     "accountName": "[parameters('baseName')]",
-    "endpoint": "[concat('https://', parameters('baseName'), parameters('azConfigEndpointSuffix'))]"
+    "endpoint": "[concat('https://', parameters('baseName'), '.azconfig.io')]"
   },
   "resources": [
     {
@@ -42,21 +31,12 @@
       "properties": {
         "endpoint": "[variables('endpoint')]"
       }
-    },
-    {
-      "type": "Microsoft.Authorization/roleAssignments",
-      "apiVersion": "2018-09-01-preview",
-      "name": "[guid(resourceGroup().id)]",
-      "properties": {
-        "roleDefinitionId": "[variables('roleDefinitionId')]",
-        "principalId": "[parameters('testApplicationOid')]"
-      }
     }
   ],
   "outputs": {
     "APPCONFIG_CONNECTION_STRING": {
       "type": "string",
-      "value": "[listKeys(resourceId('Microsoft.AppConfiguration/configurationStores', variables('accountName')), '2019-02-01-preview').value[0].connectionString]"
+      "value": "[listKeys(resourceId('Microsoft.AppConfiguration/configurationStores', variables('accountName')), variables('configurationApiVersion')).value[0].connectionString]"
     },
     "AZ_CONFIG_ENDPOINT": {
       "type": "string",
