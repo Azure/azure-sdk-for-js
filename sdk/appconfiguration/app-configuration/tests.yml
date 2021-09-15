@@ -5,9 +5,9 @@ stages:
     parameters:
       PackageName: "@azure/app-configuration"
       ServiceDirectory: appconfiguration
-      TimeoutInMinutes: 200
+      TimeoutInMinutes: 120
       SupportedClouds: 'Public,UsGov,China'
       EnvVars:
-        AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
-        AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
-        AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
+        AZURE_CLIENT_ID: $(APPCONFIGURATION_CLIENT_ID)
+        AZURE_TENANT_ID: $(APPCONFIGURATION_TENANT_ID)
+        AZURE_CLIENT_SECRET: $(APPCONFIGURATION_CLIENT_SECRET)
