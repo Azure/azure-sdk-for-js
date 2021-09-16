@@ -28,13 +28,13 @@ describe("SchemaRegistryAvroSerializer", function() {
     await assert.isRejected(serializer.serialize({}, schema), /name/);
   });
 
-  it("rejects a schema with different serialization type", async () => {
+  it("rejects a schema with different format", async () => {
     const registry = createTestRegistry(true); // true means never live, we can't register non-avro schema in live service
     const serializer = await createTestSerializer(false, registry);
     const schema = await registry.registerSchema({
       name: "_",
-      content: "_",
-      serializationType: "NotAvro",
+      definition: "_",
+      format: "NotAvro",
       groupName: testGroup
     });
 

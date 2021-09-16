@@ -20,8 +20,8 @@ export async function registerTestSchema(registry: SchemaRegistry): Promise<stri
   const schema = await registry.registerSchema({
     name: `${testSchemaObject.namespace}.${testSchemaObject.name}`,
     groupName: testGroup,
-    content: testSchema,
-    serializationType: "avro"
+    definition: testSchema,
+    format: "avro"
   });
   return schema.id;
 }
