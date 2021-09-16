@@ -7,7 +7,7 @@ import { expect } from "chai";
 import { TestProxyHttpClient } from "../src";
 import { RecorderError, RecordingStateManager } from "../src/utils";
 
-describe("TestProxyClient functions", () => {
+describe("TestProxyClient unit tests", () => {
   afterEach(() => {
     env.TEST_MODE = undefined;
   });
