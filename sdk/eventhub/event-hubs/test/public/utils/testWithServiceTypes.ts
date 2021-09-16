@@ -7,7 +7,7 @@ import { getEnvVarValue } from "./testUtils";
 export type SupportedTargets = "mock" | "live";
 const serviceVersions: SupportedTargets[] = ["mock", "live"];
 const testTarget = getEnvVarValue("TEST_TARGET") || "live";
-
+console.log(`TestTarget: ${testTarget}`);
 export function testWithServiceTypes(
   handler: (
     serviceVersion: SupportedTargets,
