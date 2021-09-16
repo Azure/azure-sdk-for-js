@@ -24,8 +24,8 @@ export async function authenticate(that: Context): Promise<any> {
       (recording: string): string =>
         suffix === "" ? recording : recording.replace(new RegExp(suffix, "g"), ""),
       (recording: string): string => {
-        // replace pkcs12 certificate value with a placeholder
-        return recording.replace(/"value":"MII[^"]+"/g, `"value":"SecretPlaceholder"`);
+        // replace pkcs12 certificate value with base64 encoding of "base64_placeholder"
+        return recording.replace(/"value":"MII[^"]+"/g, `"value":"YmFzZTY0X3BsYWNlaG9sZGVy"`);
       }
     ],
     queryParametersToSkip: []
