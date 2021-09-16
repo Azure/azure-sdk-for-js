@@ -6,6 +6,9 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "types": "./types/src/index.d.ts",
+  "browser": {
+    "./dist-esm/test/utils/server.js": "./dist-esm/test/utils/server.browser.js"
+  },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "echo skipped",
@@ -17,8 +20,9 @@
     "clean": "rimraf dist dist-esm test-dist typings *.tgz *.log",
     "extract-api": "echo skipped",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 --full-trace dist-esm/test/*.spec.js dist-esm/test/node/*.spec.js",
+    "tests:server": "TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\": \\\"commonjs\\\"}\" ts-node test/utils/server.ts",
+    "integration-test:browser": "concurrently \"npm run tests:server\" \"karma start --single-run\" --kill-others --success first",
+    "integration-test:node": "concurrently \"npm run tests:server\" \"nyc mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 --full-trace 'test/*.spec.ts'\" --kill-others --success first",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json src test --ext .ts -f html -o recorder-lintReport.html || exit 0",
@@ -62,12 +66,14 @@
     "@azure/core-rest-pipeline": "^1.1.0"
   },
   "devDependencies": {
+    "@azure/core-client": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-multi-entry": "^3.0.0",
     "@rollup/plugin-node-resolve": "^8.0.0",
     "@rollup/plugin-replace": "^2.2.0",
+    "@types/express": "^4.16.0",
     "@types/fs-extra": "^8.0.0",
     "@types/chai": "^4.1.6",
     "@types/md5": "^2.2.0",
@@ -77,8 +83,10 @@
     "@types/mock-require": "~2.0.0",
     "@types/mock-fs": "~4.10.0",
     "chai": "^4.2.0",
+    "concurrently": "^6.2.1",
     "dotenv": "^8.2.0",
     "eslint": "^7.15.0",
+    "express": "^4.16.3",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
