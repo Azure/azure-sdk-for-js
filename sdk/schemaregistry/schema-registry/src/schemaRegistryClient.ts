@@ -102,7 +102,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
    * content.
    *
    * @param schema - Schema to match.
-   * @returns Matched schema's ID or undefined if no matching schema was found.
+   * @returns Matched schema's ID.
    */
   async getSchemaProperties(
     schema: SchemaDescription,
@@ -129,7 +129,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
    * Gets an existing schema by ID.
    *
    * @param id - Unique schema ID.
-   * @returns Schema with given ID or undefined if no schema was found with the given ID.
+   * @returns Schema with given ID.
    */
   async getSchema(id: string, options?: GetSchemaOptions): Promise<Schema> {
     const cached = this.idToSchemaMap.get(id);

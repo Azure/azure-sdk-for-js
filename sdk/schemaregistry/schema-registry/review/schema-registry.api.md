@@ -47,8 +47,8 @@ export interface SchemaProperties {
 
 // @public
 export interface SchemaRegistry {
-    getSchema(id: string, options?: GetSchemaOptions): Promise<Schema | undefined>;
-    getSchemaProperties(schema: SchemaDescription, options?: GetSchemaPropertiesOptions): Promise<SchemaProperties | undefined>;
+    getSchema(id: string, options?: GetSchemaOptions): Promise<Schema>;
+    getSchemaProperties(schema: SchemaDescription, options?: GetSchemaPropertiesOptions): Promise<SchemaProperties>;
     registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaProperties>;
 }
 
