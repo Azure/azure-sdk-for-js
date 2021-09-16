@@ -7,7 +7,7 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":true})
   .post('/Tables', {"TableName":"batchTableTestSASConnectionStringnode"})
   .query(true)
-  .reply(409, {"odata.error":{"code":"TableAlreadyExists","message":{"lang":"en-US","value":"The table specified already exists.\nRequestId:6ced32fd-0002-0039-2cae-a9c11b000000\nTime:2021-09-14T21:24:22.0384925Z"}}}, [
+  .reply(409, {"odata.error":{"code":"TableAlreadyExists","message":{"lang":"en-US","value":"The table specified already exists.\nRequestId:0076604d-e002-0038-5a04-a4c0e6000000\nTime:2021-09-07T16:24:23.9886062Z"}}}, [
   'Cache-Control',
   'no-cache',
   'Transfer-Encoding',
@@ -17,37 +17,37 @@ nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":tru
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '6ced32fd-0002-0039-2cae-a9c11b000000',
+  '0076604d-e002-0038-5a04-a4c0e6000000',
   'x-ms-client-request-id',
-  'cfe2c3b1-0bb4-4c62-9cb8-a84017758556',
+  '7b11c210-589e-4318-b601-fcfcb0d6adcf',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 14 Sep 2021 21:24:21 GMT'
+  'Tue, 07 Sep 2021 16:24:23 GMT'
 ]);
 
 nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":true})
   .post('/$batch', "--batch_fakeId\r\ncontent-type: multipart/mixed; boundary=changeset_fakeId\r\n\r\n\r\n--changeset_fakeId\r\ncontent-type: application/http\r\ncontent-transfer-encoding: binary\r\n\r\nDELETE https://fakeaccount.table.core.windows.net/batchTableTestSASConnectionStringnode(PartitionKey='batchTest',RowKey='1') HTTP/1.1\r\naccept: application/json;odata=minimalmetadata\r\ndataserviceversion: 3.0\r\nif-match: *\r\n\r\n\r\n--changeset_fakeId\r\ncontent-type: application/http\r\ncontent-transfer-encoding: binary\r\n\r\nDELETE https://fakeaccount.table.core.windows.net/batchTableTestSASConnectionStringnode(PartitionKey='batchTest',RowKey='2') HTTP/1.1\r\naccept: application/json;odata=minimalmetadata\r\ndataserviceversion: 3.0\r\nif-match: *\r\n\r\n\r\n--changeset_fakeId\r\ncontent-type: application/http\r\ncontent-transfer-encoding: binary\r\n\r\nDELETE https://fakeaccount.table.core.windows.net/batchTableTestSASConnectionStringnode(PartitionKey='batchTest',RowKey='3') HTTP/1.1\r\naccept: application/json;odata=minimalmetadata\r\ndataserviceversion: 3.0\r\nif-match: *\r\n\r\n\r\n--changeset_fakeId--\r\n--batch_fakeId--\r\n")
   .query(true)
-  .reply(202, "--batchresponse_33cab853-4ce3-47bc-a601-241340435350\r\nContent-Type: multipart/mixed; boundary=changesetresponse_d5a3698b-9abf-45f9-9a7c-feab472e2ced\r\n\r\n--changesetresponse_d5a3698b-9abf-45f9-9a7c-feab472e2ced\r\nContent-Type: application/http\r\nContent-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 204 No Content\r\nX-Content-Type-Options: nosniff\r\nCache-Control: no-cache\r\nDataServiceVersion: 1.0;\r\n\r\n\r\n--changesetresponse_d5a3698b-9abf-45f9-9a7c-feab472e2ced\r\nContent-Type: application/http\r\nContent-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 204 No Content\r\nX-Content-Type-Options: nosniff\r\nCache-Control: no-cache\r\nDataServiceVersion: 1.0;\r\n\r\n\r\n--changesetresponse_d5a3698b-9abf-45f9-9a7c-feab472e2ced\r\nContent-Type: application/http\r\nContent-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 204 No Content\r\nX-Content-Type-Options: nosniff\r\nCache-Control: no-cache\r\nDataServiceVersion: 1.0;\r\n\r\n\r\n--changesetresponse_d5a3698b-9abf-45f9-9a7c-feab472e2ced--\r\n--batchresponse_33cab853-4ce3-47bc-a601-241340435350--\r\n", [
+  .reply(202, "--batchresponse_80aa529a-6281-4320-8d83-a4efe9c097e9\r\nContent-Type: multipart/mixed; boundary=changesetresponse_390a4a0a-c0d2-4509-83cd-0252d37af50f\r\n\r\n--changesetresponse_390a4a0a-c0d2-4509-83cd-0252d37af50f\r\nContent-Type: application/http\r\nContent-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 204 No Content\r\nX-Content-Type-Options: nosniff\r\nCache-Control: no-cache\r\nDataServiceVersion: 1.0;\r\n\r\n\r\n--changesetresponse_390a4a0a-c0d2-4509-83cd-0252d37af50f\r\nContent-Type: application/http\r\nContent-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 204 No Content\r\nX-Content-Type-Options: nosniff\r\nCache-Control: no-cache\r\nDataServiceVersion: 1.0;\r\n\r\n\r\n--changesetresponse_390a4a0a-c0d2-4509-83cd-0252d37af50f\r\nContent-Type: application/http\r\nContent-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 204 No Content\r\nX-Content-Type-Options: nosniff\r\nCache-Control: no-cache\r\nDataServiceVersion: 1.0;\r\n\r\n\r\n--changesetresponse_390a4a0a-c0d2-4509-83cd-0252d37af50f--\r\n--batchresponse_80aa529a-6281-4320-8d83-a4efe9c097e9--\r\n", [
   'Cache-Control',
   'no-cache',
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
-  'multipart/mixed; boundary=batchresponse_33cab853-4ce3-47bc-a601-241340435350',
+  'multipart/mixed; boundary=batchresponse_80aa529a-6281-4320-8d83-a4efe9c097e9',
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '6ced3321-0002-0039-4aae-a9c11b000000',
+  '00766058-e002-0038-6504-a4c0e6000000',
   'x-ms-client-request-id',
-  '6f61dcb6-586f-4457-9fb7-e8f4e2a21593',
+  '8a04c663-f861-4dcf-9e06-1a5d2f951931',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 14 Sep 2021 21:24:21 GMT'
+  'Tue, 07 Sep 2021 16:24:23 GMT'
 ]);
