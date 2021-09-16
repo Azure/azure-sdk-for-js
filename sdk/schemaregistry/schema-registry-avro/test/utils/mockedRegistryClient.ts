@@ -62,10 +62,18 @@ export function createTestRegistry(neverLive = false): SchemaRegistry {
     schema: SchemaDescription,
     _options?: GetSchemaPropertiesOptions
   ): Promise<SchemaProperties> {
-    return mapByContent.get(schema.content);
+    const result = mapByContent.get(schema.content);
+    if (result !== undefined) {
+      return result;
+    }
+    throw new Error(`Schema not found: ${schema.content}`);
   }
 
   async function getSchema(id: string, _options?: GetSchemaOptions): Promise<Schema> {
-    return mapById.get(id);
+    const result = mapById.get(id);
+    if (result !== undefined) {
+      return result;
+    }
+    throw new Error(`Schema ID not found: ${id}`);
   }
 }
