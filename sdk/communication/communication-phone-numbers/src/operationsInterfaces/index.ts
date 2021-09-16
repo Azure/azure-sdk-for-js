@@ -6,7 +6,5 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-/// <reference lib="esnext.asynciterable" />
-export * from "./models";
-export { PhoneNumbersClient } from "./phoneNumbersClient";
-export { PhoneNumbersClientContext } from "./phoneNumbersClientContext";
+export * from "./phoneNumbers";
+export * from "./shortCodes";

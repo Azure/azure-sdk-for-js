@@ -10,11 +10,12 @@ import {
   OperationParameter,
   OperationURLParameter,
   OperationQueryParameter
-} from "@azure/core-http";
+} from "@azure/core-client";
 import {
   PhoneNumberSearchRequest as PhoneNumberSearchRequestMapper,
   PhoneNumberPurchaseRequest as PhoneNumberPurchaseRequestMapper,
-  PhoneNumberCapabilitiesRequest as PhoneNumberCapabilitiesRequestMapper
+  PhoneNumberCapabilitiesRequest as PhoneNumberCapabilitiesRequestMapper,
+  ProgramBriefEntity as ProgramBriefEntityMapper
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -29,6 +30,11 @@ export const contentType: OperationParameter = {
   }
 };
 
+export const body: OperationParameter = {
+  parameterPath: "body",
+  mapper: PhoneNumberSearchRequestMapper
+};
+
 export const accept: OperationParameter = {
   parameterPath: "accept",
   mapper: {
@@ -39,31 +45,6 @@ export const accept: OperationParameter = {
       name: "String"
     }
   }
-};
-
-export const phoneNumberType: OperationParameter = {
-  parameterPath: "phoneNumberType",
-  mapper: PhoneNumberSearchRequestMapper
-};
-
-export const assignmentType: OperationParameter = {
-  parameterPath: "assignmentType",
-  mapper: PhoneNumberSearchRequestMapper
-};
-
-export const capabilities: OperationParameter = {
-  parameterPath: "capabilities",
-  mapper: PhoneNumberSearchRequestMapper
-};
-
-export const areaCode: OperationParameter = {
-  parameterPath: ["options", "areaCode"],
-  mapper: PhoneNumberSearchRequestMapper
-};
-
-export const quantity: OperationParameter = {
-  parameterPath: ["options", "quantity"],
-  mapper: PhoneNumberSearchRequestMapper
 };
 
 export const endpoint: OperationURLParameter = {
@@ -92,7 +73,7 @@ export const countryCode: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-03-07",
+    defaultValue: "2021-10-25-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -112,8 +93,8 @@ export const searchId: OperationURLParameter = {
   }
 };
 
-export const searchId1: OperationParameter = {
-  parameterPath: ["options", "searchId"],
+export const body1: OperationParameter = {
+  parameterPath: "body",
   mapper: PhoneNumberPurchaseRequestMapper
 };
 
@@ -140,13 +121,8 @@ export const contentType1: OperationParameter = {
   }
 };
 
-export const calling: OperationParameter = {
-  parameterPath: ["options", "calling"],
-  mapper: PhoneNumberCapabilitiesRequestMapper
-};
-
-export const sms: OperationParameter = {
-  parameterPath: ["options", "sms"],
+export const body2: OperationParameter = {
+  parameterPath: ["options", "body"],
   mapper: PhoneNumberCapabilitiesRequestMapper
 };
 
@@ -164,6 +140,7 @@ export const phoneNumber: OperationURLParameter = {
 export const skip: OperationQueryParameter = {
   parameterPath: ["options", "skip"],
   mapper: {
+    defaultValue: 0,
     serializedName: "skip",
     type: {
       name: "Number"
@@ -192,4 +169,31 @@ export const nextLink: OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+
+export const take: OperationQueryParameter = {
+  parameterPath: ["options", "take"],
+  mapper: {
+    defaultValue: 100,
+    serializedName: "take",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const body3: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: ProgramBriefEntityMapper
+};
+
+export const programBriefId: OperationURLParameter = {
+  parameterPath: "programBriefId",
+  mapper: {
+    serializedName: "programBriefId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
