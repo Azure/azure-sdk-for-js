@@ -355,7 +355,12 @@ describe("defaultHttpClient (node)", function() {
   });
 
   it("should use cached agent for requests with the same proxy settings", async function() {
-    const proxySettings = { host: "host1", port: 8001, username: "user1", password: "pass123" };
+    const proxySettings = {
+      host: "host1",
+      port: 8001,
+      username: "user1",
+      password: "SecretPlaceholder"
+    };
     const request1 = new WebResource("/url");
     request1.proxySettings = proxySettings;
     const request2 = new WebResource("/url");
@@ -373,7 +378,12 @@ describe("defaultHttpClient (node)", function() {
 
   it("should use different agents for requests with different proxy settings", async function() {
     const request1 = new WebResource("/url");
-    request1.proxySettings = { host: "host1", port: 8001, username: "user1", password: "pass123" };
+    request1.proxySettings = {
+      host: "host1",
+      port: 8001,
+      username: "user1",
+      password: "SecretPlaceholder"
+    };
     const request2 = new WebResource("/url");
     request2.proxySettings = { host: "host2", port: 8002, username: "user2", password: "p@55wOrd" };
     const client = new DefaultHttpClient();
@@ -395,7 +405,12 @@ describe("defaultHttpClient (node)", function() {
 
   it("should use different agents for requests with different proxy settings of same url but different credentials", async function() {
     const request1 = new WebResource("/url");
-    request1.proxySettings = { host: "host1", port: 8001, username: "user1", password: "pass123" };
+    request1.proxySettings = {
+      host: "host1",
+      port: 8001,
+      username: "user1",
+      password: "SecretPlaceholder"
+    };
     const request2 = new WebResource("/url");
     request2.proxySettings = { host: "host1", port: 8001 };
     const client = new DefaultHttpClient();

@@ -93,7 +93,7 @@ matrix([[true, false]] as const, async (useAad) => {
           hookParameter: {
             endpoint: "https://mawebhook.azurewebsites.net/api/HttpTrigger",
             username: "user1",
-            password: "pass123"
+            password: "SecretPlaceholder"
           }
         };
         const updated = await client.updateHook(createdWebHookId, webPatch);
@@ -104,7 +104,7 @@ matrix([[true, false]] as const, async (useAad) => {
           webHook.hookParameter?.endpoint,
           "https://mawebhook.azurewebsites.net/api/HttpTrigger"
         );
-        assert.equal(webHook.hookParameter?.password, "pass123");
+        assert.equal(webHook.hookParameter?.password, "SecretPlaceholder");
       });
 
       it("lists hooks", async function() {
