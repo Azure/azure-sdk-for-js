@@ -11,7 +11,7 @@ import { decodeString, uint8ArrayToString } from "./base64";
  *
  * @internal
  */
-function parseCAEChallenge(challenges: string): any[] {
+export function parseCAEChallenge(challenges: string): any[] {
   return challenges
     .split("Bearer ")
     .filter((x) => x)
@@ -35,6 +35,28 @@ export interface CAEChallenge {
 /**
  * This function can be used as a callback for the `bearerTokenAuthenticationPolicy` of `@azure/core-rest-pipeline`, to support CAE challenges:
  * [Continuous Access Evaluation](https://docs.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation).
+ *
+ * Call the `bearerTokenAuthenticationPolicy` with the following options:
+ *
+ * ```ts
+ * import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+ * import { authorizeRequestOnClaimChallenge } from "@azure/core-client";
+ *
+ * const bearerTokenAuthenticationPolicy = bearerTokenAuthenticationPolicy({
+ *   authorizeRequestOnChallenge: authorizeRequestOnClaimChallenge
+ * });
+ * ```
+ *
+ * Once provided, the `bearerTokenAuthenticationPolicy` policy will internally handle Continuous Access Evaluation (CAE) challenges.
+ * When it can't complete a challenge it will return the 401 (unauthorized) response from ARM.
+ *
+ * Example challenge with claims:
+ *
+ * ```
+ * Bearer authorization_uri="https://login.windows-ppe.net/", error="invalid_token",
+ * error_description="User session has been revoked",
+ * claims="eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwgInZhbHVlIjoiMTYwMzc0MjgwMCJ9fX0="
+ * ```
  */
 export async function authorizeRequestOnClaimChallenge(
   onChallengeOptions: AuthorizeRequestOnChallengeOptions
@@ -43,20 +65,31 @@ export async function authorizeRequestOnClaimChallenge(
 
   const challenge = onChallengeOptions.response.headers.get("WWW-Authenticate");
   if (!challenge) {
-    throw new Error("Missing challenge");
+    console.log(
+      `The WWW-Authenticate header was missing. Failed to perform the Continuous Access Evaluation authentication flow.`
+    );
+    return false;
   }
   const challenges: CAEChallenge[] = parseCAEChallenge(challenge) || [];
 
   const parsedChallenge = challenges.find((x) => x.claims);
   if (!parsedChallenge) {
-    throw new Error("Missing claims");
+    console.log(
+      `The WWW-Authenticate header was missing the necessary "claims" to perform the Continuous Access Evaluation authentication flow.`
+    );
+    return false;
   }
+
+  // Added padding, if necessary.
+  const claims = parsedChallenge.claims;
+  const padding = claims.length % 4;
+  const claimsPadded = claims + "=".repeat(padding);
 
   const accessToken = await onChallengeOptions.getAccessToken(
     parsedChallenge.scope ? [parsedChallenge.scope] : onChallengeScopes,
     {
       ...onChallengeOptions,
-      claims: uint8ArrayToString(decodeString(parsedChallenge.claims))
+      claims: uint8ArrayToString(decodeString(claimsPadded))
     } as GetTokenOptions
   );
 
