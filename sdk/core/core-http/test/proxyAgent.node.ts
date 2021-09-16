@@ -76,7 +76,7 @@ describe("proxyAgent", () => {
 
       const agent = proxyAgent.agent as HttpsAgent;
       should().exist(agent.options.proxy.proxyAuth);
-      agent.options.proxy.proxyAuth!.should.equal("username:secret-placeholder");
+      agent.options.proxy.proxyAuth!.should.equal("username:SecretPlaceholder");
       done();
     });
 
