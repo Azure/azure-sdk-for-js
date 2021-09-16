@@ -23,7 +23,6 @@ Key links:
 ### Currently supported environments
 
 - [LTS versions of Node.js](https://nodejs.org/about/releases/)
-- Latest versions of Safari, Chrome, Edge, and Firefox.
 
 See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
@@ -47,12 +46,6 @@ Install the Container Registry client library for JavaScript with `npm`:
 ```bash
 npm install @azure/container-registry
 ```
-
-### Browser support
-
-#### JavaScript Bundle
-
-To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ### Authenticate the client
 
