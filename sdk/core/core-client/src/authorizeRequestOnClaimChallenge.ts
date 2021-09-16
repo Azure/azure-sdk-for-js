@@ -80,15 +80,10 @@ export async function authorizeRequestOnClaimChallenge(
     return false;
   }
 
-  // Added padding, if necessary.
-  const claims = parsedChallenge.claims;
-  const padding = claims.length % 4;
-  const claimsPadded = claims + "=".repeat(padding);
-
   const accessToken = await onChallengeOptions.getAccessToken(
     parsedChallenge.scope ? [parsedChallenge.scope] : scopes,
     {
-      claims: uint8ArrayToString(decodeString(claimsPadded))
+      claims: uint8ArrayToString(decodeString(parsedChallenge.claims))
     } as GetTokenOptions
   );
 

@@ -104,6 +104,9 @@ describe("authorizeRequestOnClaimChallenge", function() {
   });
 
   it(`should work even if the WWW-authenticate header is missing some base64 padding`, async function() {
+    // In Python, padding has to be added at the end if the size of the base64 string is not a multiple of 4.
+    // In JavaScript, the padding is added automatically.
+
     const request = createPipelineRequest({ url: "https://example.com" });
     const getAccessTokenParameters: {
       scopes: string | string[];

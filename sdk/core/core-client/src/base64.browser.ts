@@ -45,11 +45,13 @@ export function decodeString(value: string): Uint8Array {
  * Converts a uint8Array to a string.
  */
 export function uint8ArrayToString(ab: Uint8Array): string {
-  return escape(
-    Array.from(ab)
-      .map(function(item) {
-        return String.fromCharCode(item);
-      })
-      .join("")
+  return decodeURIComponent(
+    escape(
+      Array.from(ab)
+        .map(function(item) {
+          return String.fromCharCode(item);
+        })
+        .join("")
+    )
   );
 }
