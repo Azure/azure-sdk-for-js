@@ -73,7 +73,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
 
   private addToCache(schema: SchemaDescription, id: SchemaProperties): void {
     this.schemaToIdMap.set(schema, id);
-    this.idToSchemaMap.set(id.id, { ...id, content: schema.content });
+    this.idToSchemaMap.set(id.id, { ...id, definition: schema.definition });
   }
 
   /**
@@ -91,7 +91,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
     options?: RegisterSchemaOptions
   ): Promise<SchemaProperties> {
     const id = await this.client.schema
-      .register(schema.groupName, schema.name, schema.serializationType, schema.content, options)
+      .register(schema.groupName, schema.name, schema.format, schema.definition, options)
       .then(convertSchemaIdResponse);
     this.addToCache(schema, id);
     return id;
@@ -99,7 +99,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
 
   /**
    * Gets the ID of an existing schema with matching name, group, type, and
-   * content.
+   * definition.
    *
    * @param schema - Schema to match.
    * @returns Matched schema's ID or undefined if no matching schema was found.
@@ -113,13 +113,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
       return cached;
     }
     const id = await this.client.schema
-      .queryIdByContent(
-        schema.groupName,
-        schema.name,
-        schema.serializationType,
-        schema.content,
-        options
-      )
+      .queryIdByContent(schema.groupName, schema.name, schema.format, schema.definition, options)
       .then(convertSchemaIdResponse);
     this.addToCache(schema, id);
     return id;
