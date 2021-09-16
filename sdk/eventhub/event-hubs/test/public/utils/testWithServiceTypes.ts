@@ -24,6 +24,7 @@ export function testWithServiceTypes(
         serviceVersion,
         ...rest
       ) {
+        console.log(`ServiceVersion in helper: ${serviceVersion}`);
         if (serviceVersion === "mock" && !isNode) {
           // We don't currently support running tests aginst the mock service in browsers.
           // This can be revisted once the mock service supports websockets.
