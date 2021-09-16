@@ -7,13 +7,13 @@ import { decodeString, uint8ArrayToString } from "./base64";
 
 /**
  * Converts: `Bearer a="b", c="d", Bearer d="e", f="g"`.
- * Into: `[ { a: 'b', c: 'd' }, { d: 'e', f: 'g"' } ]`.
+ * Into: `[ { a: 'b', c: 'd' }, { d: 'e', f: 'g' } ]`.
  *
  * @internal
  */
 export function parseCAEChallenge(challenges: string): any[] {
-  return challenges
-    .split("Bearer ")
+  return `, ${challenges.trim()}`
+    .split(", Bearer ")
     .filter((x) => x)
     .map((challenge) =>
       `${challenge.trim()}, `
@@ -61,9 +61,9 @@ export interface CAEChallenge {
 export async function authorizeRequestOnClaimChallenge(
   onChallengeOptions: AuthorizeRequestOnChallengeOptions
 ): Promise<boolean> {
-  const { scopes: onChallengeScopes } = onChallengeOptions;
+  const { scopes, response } = onChallengeOptions;
 
-  const challenge = onChallengeOptions.response.headers.get("WWW-Authenticate");
+  const challenge = response.headers.get("WWW-Authenticate");
   if (!challenge) {
     console.log(
       `The WWW-Authenticate header was missing. Failed to perform the Continuous Access Evaluation authentication flow.`
@@ -86,9 +86,8 @@ export async function authorizeRequestOnClaimChallenge(
   const claimsPadded = claims + "=".repeat(padding);
 
   const accessToken = await onChallengeOptions.getAccessToken(
-    parsedChallenge.scope ? [parsedChallenge.scope] : onChallengeScopes,
+    parsedChallenge.scope ? [parsedChallenge.scope] : scopes,
     {
-      ...onChallengeOptions,
       claims: uint8ArrayToString(decodeString(claimsPadded))
     } as GetTokenOptions
   );
