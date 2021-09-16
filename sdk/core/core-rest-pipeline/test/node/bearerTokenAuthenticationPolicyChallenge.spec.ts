@@ -4,7 +4,6 @@
 import { assert } from "chai";
 import * as sinon from "sinon";
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { authorizeRequestOnClaimChallenge } from "@azure/core-client";
 import {
   bearerTokenAuthenticationPolicy,
   AuthorizeRequestOnChallengeOptions,
@@ -120,7 +119,7 @@ class MockRefreshAzureCredential implements TokenCredential {
   }
 }
 
-describe("bearerTokenAuthenticationPolicy with challenge", function () {
+describe("bearerTokenAuthenticationPolicy with challenge", function() {
   let clock: sinon.SinonFakeTimers;
 
   beforeEach(() => {
@@ -130,7 +129,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
     clock.restore();
   });
 
-  it("tests that the scope and the claim have been passed through to getToken correctly", async function () {
+  it("tests that the scope and the claim have been passed through to getToken correctly", async function() {
     const expected = {
       scope: ["http://localhost/.default"],
       challengeClaims: JSON.stringify({
@@ -214,7 +213,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
     assert.deepEqual(finalSendRequestHeaders, [undefined, `Bearer ${getTokenResponse.token}`]);
   });
 
-  it("tests that the challenge is processed even we already had a token", async function () {
+  it("tests that the challenge is processed even we already had a token", async function() {
     const expected = [
       {
         scope: ["http://localhost/.default"],
@@ -339,7 +338,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
     ]);
   });
 
-  it("service errors without challenges should bubble up", async function () {
+  it("service errors without challenges should bubble up", async function() {
     const pipelineRequest = createPipelineRequest({ url: "https://example.com" });
     const credential = new MockRefreshAzureCredential([]);
 
@@ -386,81 +385,5 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
 
     assert.ok(error);
     assert.equal(error?.message, "Failed sendRequest error");
-  });
-
-  it("tests that the scope and the claim have been passed through to getToken correctly - with @azure/core-client's authorizeRequestOnClaimChallenge", async function () {
-    const expected = {
-      scope: ["http://localhost/.default"],
-      challengeClaims: JSON.stringify({
-        access_token: { foo: "bar" }
-      })
-    };
-
-    const pipelineRequest = createPipelineRequest({ url: "https://example.com" });
-    const responses: PipelineResponse[] = [
-      {
-        headers: createHttpHeaders({
-          "WWW-Authenticate": `Bearer scope="${expected.scope[0]}", claims="${encodeString(
-            expected.challengeClaims
-          )}"`
-        }),
-        request: pipelineRequest,
-        status: 401
-      },
-      {
-        headers: createHttpHeaders(),
-        request: pipelineRequest,
-        status: 200
-      }
-    ];
-
-    const expiresOn = Date.now() + 5000;
-    const getTokenResponse = { token: "mock-token", expiresOnTimestamp: expiresOn };
-    const credential = new MockRefreshAzureCredential([getTokenResponse]);
-
-    const pipeline = createEmptyPipeline();
-    let firstRequest: boolean = true;
-    const bearerPolicy = bearerTokenAuthenticationPolicy({
-      // Intentionally left empty, as it should be replaced by the challenge.
-      scopes: [],
-      credential,
-      challengeCallbacks: {
-        async authorizeRequest({ request, getAccessToken }) {
-          if (firstRequest) {
-            firstRequest = false;
-            // send first request without the Authorization header
-          } else {
-            const token = await getAccessToken([], {});
-            request.headers.set("Authorization", `Bearer ${token}`);
-          }
-        },
-        authorizeRequestOnChallenge: authorizeRequestOnClaimChallenge
-      }
-    });
-    pipeline.addPolicy(bearerPolicy);
-
-    const finalSendRequestHeaders: (string | undefined)[] = [];
-
-    const testHttpsClient: HttpClient = {
-      sendRequest: async (req) => {
-        finalSendRequestHeaders.push(req.headers.get("Authorization"));
-        if (responses.length) {
-          const response = responses.shift()!;
-          response.request = req;
-          return response;
-        }
-        throw new Error("No responses found");
-      }
-    };
-
-    await pipeline.sendRequest(testHttpsClient, pipelineRequest);
-
-    assert.deepEqual(credential.scopesAndClaims, [
-      {
-        scope: expected.scope,
-        challengeClaims: expected.challengeClaims
-      }
-    ]);
-    assert.deepEqual(finalSendRequestHeaders, [undefined, `Bearer ${getTokenResponse.token}`]);
   });
 });

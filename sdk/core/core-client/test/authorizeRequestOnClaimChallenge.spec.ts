@@ -1,13 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { GetTokenOptions } from "@azure/core-auth";
-import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import {
+  bearerTokenAuthenticationPolicy,
+  createEmptyPipeline,
+  createHttpHeaders,
+  createPipelineRequest,
+  HttpClient,
+  PipelineResponse
+} from "@azure/core-rest-pipeline";
 import { assert } from "chai";
 import {
   authorizeRequestOnClaimChallenge,
   parseCAEChallenge
 } from "../src/authorizeRequestOnClaimChallenge";
+import { encodeString } from "../src/base64";
 
 describe("authorizeRequestOnClaimChallenge", function() {
   it(`should try to get the access token if the response has a valid claims parameter on the WWW-Authenticate header`, async function() {
@@ -239,6 +247,106 @@ describe("authorizeRequestOnClaimChallenge", function() {
         { a: "b", c: "d" },
         { d: "e", f: "g" }
       ]);
+    });
+  });
+
+  describe("with the bearerTokenAuthenticationPolicy", function() {
+    class MockRefreshAzureCredential implements TokenCredential {
+      public authCount = 0;
+      public scopesAndClaims: {
+        scope: string | string[];
+        challengeClaims: string | undefined;
+      }[] = [];
+      public getTokenResponses: (AccessToken | null)[];
+
+      constructor(getTokenResponses: (AccessToken | null)[]) {
+        this.getTokenResponses = getTokenResponses;
+      }
+
+      public getToken(
+        scope: string | string[],
+        options: GetTokenOptions & { claims?: string }
+      ): Promise<AccessToken | null> {
+        this.authCount++;
+        this.scopesAndClaims.push({ scope, challengeClaims: options.claims });
+        return Promise.resolve(this.getTokenResponses.shift()!);
+      }
+    }
+
+    it("tests that the scope and the claim have been passed through to getToken correctly - with @azure/core-client's authorizeRequestOnClaimChallenge", async function() {
+      const expected = {
+        scope: ["http://localhost/.default"],
+        challengeClaims: JSON.stringify({
+          access_token: { foo: "bar" }
+        })
+      };
+
+      const pipelineRequest = createPipelineRequest({ url: "https://example.com" });
+      const responses: PipelineResponse[] = [
+        {
+          headers: createHttpHeaders({
+            "WWW-Authenticate": `Bearer scope="${expected.scope[0]}", claims="${encodeString(
+              expected.challengeClaims
+            )}"`
+          }),
+          request: pipelineRequest,
+          status: 401
+        },
+        {
+          headers: createHttpHeaders(),
+          request: pipelineRequest,
+          status: 200
+        }
+      ];
+
+      const expiresOn = Date.now() + 5000;
+      const getTokenResponse = { token: "mock-token", expiresOnTimestamp: expiresOn };
+      const credential = new MockRefreshAzureCredential([getTokenResponse]);
+
+      const pipeline = createEmptyPipeline();
+      let firstRequest: boolean = true;
+      const bearerPolicy = bearerTokenAuthenticationPolicy({
+        // Intentionally left empty, as it should be replaced by the challenge.
+        scopes: [],
+        credential,
+        challengeCallbacks: {
+          async authorizeRequest({ request, getAccessToken }) {
+            if (firstRequest) {
+              firstRequest = false;
+              // send first request without the Authorization header
+            } else {
+              const token = await getAccessToken([], {});
+              request.headers.set("Authorization", `Bearer ${token}`);
+            }
+          },
+          authorizeRequestOnChallenge: authorizeRequestOnClaimChallenge
+        }
+      });
+      pipeline.addPolicy(bearerPolicy);
+
+      const finalSendRequestHeaders: (string | undefined)[] = [];
+
+      const testHttpsClient: HttpClient = {
+        sendRequest: async (req) => {
+          finalSendRequestHeaders.push(req.headers.get("Authorization"));
+          if (responses.length) {
+            const response = responses.shift()!;
+            response.request = req;
+            return response;
+          }
+          throw new Error("No responses found");
+        }
+      };
+
+      await pipeline.sendRequest(testHttpsClient, pipelineRequest);
+
+      assert.deepEqual(credential.scopesAndClaims, [
+        {
+          scope: expected.scope,
+          challengeClaims: expected.challengeClaims
+        }
+      ]);
+      assert.deepEqual(finalSendRequestHeaders, [undefined, `Bearer ${getTokenResponse.token}`]);
     });
   });
 });
