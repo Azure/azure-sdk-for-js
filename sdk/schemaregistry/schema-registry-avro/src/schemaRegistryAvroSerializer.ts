@@ -165,9 +165,6 @@ export class SchemaRegistryAvroSerializer {
     }
 
     const schemaResponse = await this.registry.getSchema(schemaId);
-    if (!schemaResponse) {
-      throw new Error(`Schema with ID '${schemaId}' not found.`);
-    }
 
     if (!schemaResponse.serializationType.match(/^avro$/i)) {
       throw new Error(
@@ -202,11 +199,6 @@ export class SchemaRegistryAvroSerializer {
       id = (await this.registry.registerSchema(description)).id;
     } else {
       const response = await this.registry.getSchemaProperties(description);
-      if (!response) {
-        throw new Error(
-          `Schema '${description.name}' not found in registry group '${description.groupName}', or not found to have matching content.`
-        );
-      }
       id = response.id;
     }
 
