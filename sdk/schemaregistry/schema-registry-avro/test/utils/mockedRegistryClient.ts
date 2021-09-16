@@ -61,11 +61,11 @@ export function createTestRegistry(neverLive = false): SchemaRegistry {
   async function getSchemaProperties(
     schema: SchemaDescription,
     _options?: GetSchemaPropertiesOptions
-  ): Promise<SchemaProperties | undefined> {
+  ): Promise<SchemaProperties> {
     return mapByContent.get(schema.content);
   }
 
-  async function getSchema(id: string, _options?: GetSchemaOptions): Promise<Schema | undefined> {
+  async function getSchema(id: string, _options?: GetSchemaOptions): Promise<Schema> {
     return mapById.get(id);
   }
 }
