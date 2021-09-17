@@ -157,7 +157,8 @@ describe("SchemaRegistryClient", function() {
 
     const foundSchema = await client.getSchema(registered.id);
     assertIsValidSchemaId(foundSchema);
-    assert.equal(foundSchema.content, schema2.content);
+    // the schema comes from the service normalized
+    assert.equal(foundSchema.content, schema2.content.replace(/\s/g, ""));
 
     const foundId = await client.getSchemaProperties({
       // content that comes from the service does not have whitespaces
