@@ -169,14 +169,14 @@ export class SchemaRegistryAvroSerializer {
       throw new Error(`Schema with ID '${schemaId}' not found.`);
     }
 
-    if (!schemaResponse.serializationType.match(/^avro$/i)) {
+    if (!schemaResponse.format.match(/^avro$/i)) {
       throw new Error(
-        `Schema with ID '${schemaResponse.id}' has serialization type '${schemaResponse.serializationType}', not 'avro'.`
+        `Schema with ID '${schemaResponse.id}' has format '${schemaResponse.format}', not 'avro'.`
       );
     }
 
-    const avroType = this.getAvroTypeForSchema(schemaResponse.content);
-    return this.cache(schemaId, schemaResponse.content, avroType);
+    const avroType = this.getAvroTypeForSchema(schemaResponse.definition);
+    return this.cache(schemaId, schemaResponse.definition, avroType);
   }
 
   private async getSchemaByContent(schema: string): Promise<CacheEntry> {
@@ -193,8 +193,8 @@ export class SchemaRegistryAvroSerializer {
     const description = {
       groupName: this.schemaGroup,
       name: avroType.name,
-      serializationType: "avro",
-      content: schema
+      format: "avro",
+      definition: schema
     };
 
     let id: string;
