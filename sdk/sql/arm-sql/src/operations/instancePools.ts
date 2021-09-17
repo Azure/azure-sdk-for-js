@@ -36,7 +36,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a InstancePools. */
+/** Class containing InstancePools operations. */
 export class InstancePoolsImpl implements InstancePools {
   private readonly client: SqlManagementClientContext;
 

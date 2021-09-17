@@ -17,7 +17,7 @@ import {
   ManagedDatabaseRestoreDetailsGetResponse
 } from "../models";
 
-/** Class representing a ManagedDatabaseRestoreDetails. */
+/** Class containing ManagedDatabaseRestoreDetails operations. */
 export class ManagedDatabaseRestoreDetailsImpl
   implements ManagedDatabaseRestoreDetails {
   private readonly client: SqlManagementClientContext;

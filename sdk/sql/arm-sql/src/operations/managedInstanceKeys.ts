@@ -29,7 +29,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a ManagedInstanceKeys. */
+/** Class containing ManagedInstanceKeys operations. */
 export class ManagedInstanceKeysImpl implements ManagedInstanceKeys {
   private readonly client: SqlManagementClientContext;
 

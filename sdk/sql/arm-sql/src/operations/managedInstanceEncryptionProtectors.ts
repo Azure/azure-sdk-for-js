@@ -30,7 +30,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a ManagedInstanceEncryptionProtectors. */
+/** Class containing ManagedInstanceEncryptionProtectors operations. */
 export class ManagedInstanceEncryptionProtectorsImpl
   implements ManagedInstanceEncryptionProtectors {
   private readonly client: SqlManagementClientContext;

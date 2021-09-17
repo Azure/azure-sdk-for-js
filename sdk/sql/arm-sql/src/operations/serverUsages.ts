@@ -20,7 +20,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a ServerUsages. */
+/** Class containing ServerUsages operations. */
 export class ServerUsagesImpl implements ServerUsages {
   private readonly client: SqlManagementClientContext;
 

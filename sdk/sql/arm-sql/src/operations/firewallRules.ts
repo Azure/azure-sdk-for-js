@@ -30,7 +30,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a FirewallRules. */
+/** Class containing FirewallRules operations. */
 export class FirewallRulesImpl implements FirewallRules {
   private readonly client: SqlManagementClientContext;
 

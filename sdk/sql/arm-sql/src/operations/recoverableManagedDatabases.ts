@@ -24,7 +24,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a RecoverableManagedDatabases. */
+/** Class containing RecoverableManagedDatabases operations. */
 export class RecoverableManagedDatabasesImpl
   implements RecoverableManagedDatabases {
   private readonly client: SqlManagementClientContext;
