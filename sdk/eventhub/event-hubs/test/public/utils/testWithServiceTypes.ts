@@ -7,7 +7,6 @@ import { getEnvVarValue } from "./testUtils";
 export type SupportedTargets = "mock" | "live";
 const serviceVersions: SupportedTargets[] = ["mock", "live"];
 const testTarget = getEnvVarValue("TEST_TARGET") || "live";
-console.log(`TestTarget: ${testTarget}`);
 export function testWithServiceTypes(
   handler: (
     serviceVersion: SupportedTargets,
@@ -24,7 +23,13 @@ export function testWithServiceTypes(
         serviceVersion,
         ...rest
       ) {
-        console.log(`ServiceVersion in helper: ${serviceVersion}`);
+        if (serviceVersion !== testTarget) {
+          // The min-max tests don't currently allow us to set the environment variables
+          // we use to disable running all targets when TEST_MODE is live.
+          // This ensures we only run the tests against the target version we want.
+          return;
+        }
+
         if (serviceVersion === "mock" && !isNode) {
           // We don't currently support running tests aginst the mock service in browsers.
           // This can be revisted once the mock service supports websockets.

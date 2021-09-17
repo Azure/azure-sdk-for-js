@@ -14,12 +14,9 @@ import { testWithServiceTypes } from "./utils/testWithServiceTypes";
 
 testWithServiceTypes((serviceVersion) => {
   const env = getEnvVars();
-  console.log(`ServiceVersion: ${serviceVersion}`);
   if (serviceVersion === "mock") {
-    console.log("Running before hook?");
     let service: ReturnType<typeof createMockServer>;
     before("Starting mock service", () => {
-      console.log("Before hook ran!");
       service = createMockServer();
       return service.start();
     });
