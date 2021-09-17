@@ -27,7 +27,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a JobCredentials. */
+/** Class containing JobCredentials operations. */
 export class JobCredentialsImpl implements JobCredentials {
   private readonly client: SqlManagementClientContext;
 

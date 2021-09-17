@@ -1484,17 +1484,6 @@ export const restorableDroppedDatabaseId: OperationURLParameter = {
   }
 };
 
-export const securityAlertPolicyName1: OperationURLParameter = {
-  parameterPath: "securityAlertPolicyName",
-  mapper: {
-    serializedName: "securityAlertPolicyName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const parameters61: OperationParameter = {
   parameterPath: "parameters",
   mapper: ManagedServerSecurityAlertPolicyMapper

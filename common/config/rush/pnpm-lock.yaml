@@ -376,14 +376,13 @@ packages:
       tslib: 2.3.1
     dev: false
 
-  /@azure/communication-signaling/1.0.0-beta.9:
-    resolution: {integrity: sha512-27zRu2F0UurRg4b4QmwQxt6I2y2FkgWMCzi8UkzBps+Ii0FyqaHmdER2Rd952q3QjLn0lLHRpGYmxFr1Q1Sx5A==}
+  /@azure/communication-signaling/1.0.0-beta.10:
+    resolution: {integrity: sha512-1eQphUq80S+vF79h3SooOLcMuhSreB3CYwlVQWV31AX1ypfc6QvaIsAumIPMw48R9CSyZJ67wub0hKHR8WsFSg==}
     engines: {node: '>=8.0.0'}
     dependencies:
-      '@azure/core-http': 1.2.6
+      '@azure/core-http': 2.2.0
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/logger': 1.0.2
-      '@opentelemetry/api': 0.10.2
       events: 3.3.0
       tslib: 1.14.1
     dev: false
@@ -8788,12 +8787,12 @@ packages:
     dev: false
 
   file:projects/communication-chat.tgz:
-    resolution: {integrity: sha512-yucFh/h5QEBuBnEU6XqUyaB40BGZqtaDs4KUMuZOc01wb4dF5+hfmiujw5ZwfiIR0x4wFI3GEYdUIAsZQufzLA==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-+NrWprQdQDByOujthknzzOHYc1QFEiUfHIeoE3yRoPmS3eX1ghAInV7LBDcm4zm6o2FRMCDxcTJto9iZhigI3Q==, tarball: file:projects/communication-chat.tgz}
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
       '@azure/communication-identity': 1.0.0
-      '@azure/communication-signaling': 1.0.0-beta.9
+      '@azure/communication-signaling': 1.0.0-beta.10
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1

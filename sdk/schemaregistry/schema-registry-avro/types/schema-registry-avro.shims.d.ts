@@ -5,4 +5,4 @@ declare global {
   interface Blob {}
 }
 
-export * from "./types/schema-registry-avro";
+export * from "./schema-registry-avro";

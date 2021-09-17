@@ -21,8 +21,8 @@ const options: OperationOptions = {
 const schema: SchemaDescription = {
   name: "azsdk_js_test",
   groupName: testEnv.SCHEMA_REGISTRY_GROUP,
-  serializationType: "avro",
-  content: JSON.stringify({
+  format: "avro",
+  definition: JSON.stringify({
     type: "record",
     name: "User",
     namespace: "com.azure.schemaregistry.samples",
@@ -53,9 +53,9 @@ function assertIsValidSchemaId(
 ): asserts schemaId {
   assertIsNotNullUndefinedOrEmpty(schemaId);
   assertIsNotNullUndefinedOrEmpty(schemaId.id);
-  assertIsNotNullUndefinedOrEmpty(schemaId.serializationType);
+  assertIsNotNullUndefinedOrEmpty(schemaId.format);
   assert.isNotNull(schemaId.version);
-  assert.equal(schemaId.serializationType.toLowerCase(), expectedSerializationType.toLowerCase());
+  assert.equal(schemaId.format.toLowerCase(), expectedSerializationType.toLowerCase());
 }
 
 describe("SchemaRegistryClient", function() {
@@ -81,12 +81,9 @@ describe("SchemaRegistryClient", function() {
   it("rejects schema registration with invalid args", async () => {
     await assert.isRejected(client.registerSchema({ ...schema, name: null! }), /null/);
     await assert.isRejected(client.registerSchema({ ...schema, groupName: null! }), /null/);
-    await assert.isRejected(client.registerSchema({ ...schema, content: null! }), /null/);
-    await assert.isRejected(client.registerSchema({ ...schema, serializationType: null! }), /null/);
-    await assert.isRejected(
-      client.registerSchema({ ...schema, serializationType: "not-valid" }),
-      /not-valid/
-    );
+    await assert.isRejected(client.registerSchema({ ...schema, definition: null! }), /null/);
+    await assert.isRejected(client.registerSchema({ ...schema, format: null! }), /null/);
+    await assert.isRejected(client.registerSchema({ ...schema, format: "not-valid" }), /not-valid/);
   });
 
   it("registers schema", async () => {
@@ -97,13 +94,10 @@ describe("SchemaRegistryClient", function() {
   it("fails to get schema ID when given invalid args", async () => {
     await assert.isRejected(client.getSchemaProperties({ ...schema, name: null! }), /null/);
     await assert.isRejected(client.getSchemaProperties({ ...schema, groupName: null! }), /null/);
-    await assert.isRejected(client.getSchemaProperties({ ...schema, content: null! }), /null/);
+    await assert.isRejected(client.getSchemaProperties({ ...schema, definition: null! }), /null/);
+    await assert.isRejected(client.getSchemaProperties({ ...schema, format: null! }), /null/);
     await assert.isRejected(
-      client.getSchemaProperties({ ...schema, serializationType: null! }),
-      /null/
-    );
-    await assert.isRejected(
-      client.getSchemaProperties({ ...schema, serializationType: "not-valid" }),
+      client.getSchemaProperties({ ...schema, format: "not-valid" }),
       /not-valid/
     );
   });
@@ -119,7 +113,7 @@ describe("SchemaRegistryClient", function() {
     const found = await client.getSchemaProperties(schema, options);
     assertIsValidSchemaId(found);
 
-    // NOTE: IDs may differ here as we could get a different version with same content.
+    // NOTE: IDs may differ here as we could get a different version with same definition.
   });
 
   it("fails to get schema by ID when given invalid ID", async () => {
@@ -136,36 +130,36 @@ describe("SchemaRegistryClient", function() {
 
     const found = await client.getSchema(registered.id, options);
     assertIsValidSchemaId(found);
-    assert.equal(found.content, schema.content);
+    assert.equal(found.definition, schema.definition);
   });
 
   it("schema with whitespace", async () => {
     const schema2: SchemaDescription = {
       name: "azsdk_js_test2",
       groupName: testEnv.SCHEMA_REGISTRY_GROUP,
-      serializationType: "avro",
-      content:
+      format: "avro",
+      definition:
         "{\n" +
         '  "type": "record",\n' +
         '  "name": "Test",\n' +
         '  "fields": [{ "name": "X", "type": { "type": "string" } }]\n' +
         "}\n"
     };
-    // content that is going to the service has whitespaces
+    // definition that is going to the service has whitespaces
     const registered = await client.registerSchema(schema2, options);
     assertIsValidSchemaId(registered);
 
     const foundSchema = await client.getSchema(registered.id);
     assertIsValidSchemaId(foundSchema);
     // the schema comes from the service normalized
-    assert.equal(foundSchema.content, schema2.content.replace(/\s/g, ""));
+    assert.equal(foundSchema.definition, schema2.definition.replace(/\s/g, ""));
 
     const foundId = await client.getSchemaProperties({
       // content that comes from the service does not have whitespaces
-      content: foundSchema.content,
+      definition: foundSchema.definition,
       groupName: schema2.groupName,
       name: schema2.name,
-      serializationType: foundSchema.serializationType
+      format: foundSchema.format
     });
     assertIsValidSchemaId(foundId);
   });

@@ -29,7 +29,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a ServerKeys. */
+/** Class containing ServerKeys operations. */
 export class ServerKeysImpl implements ServerKeys {
   private readonly client: SqlManagementClientContext;
 

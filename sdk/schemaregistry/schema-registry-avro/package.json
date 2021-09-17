@@ -8,7 +8,7 @@
   "browser": {
     "./dist-esm/src/utils/buffer.js": "./dist-esm/src/utils/buffer.browser.js"
   },
-  "types": "schema-registry-avro.shims.d.ts",
+  "types": "types/schema-registry-avro.shims.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
@@ -17,7 +17,7 @@
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
     "build": "npm run clean && tsc -p . && rollup -c 2>&1 && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-* temp types *.tgz *.log",
+    "clean": "rimraf dist dist-* temp \"types/!(schema-registry-avro.shims.d.ts)\" *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
@@ -39,7 +39,7 @@
     "dist/",
     "dist-esm/src/",
     "types/schema-registry-avro.d.ts",
-    "schema-registry-avro.shims.d.ts",
+    "types/schema-registry-avro.shims.d.ts",
     "README.md",
     "LICENSE"
   ],

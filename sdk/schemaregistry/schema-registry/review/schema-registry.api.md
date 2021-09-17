@@ -17,7 +17,7 @@ export interface GetSchemaPropertiesOptions extends OperationOptions {
 }
 
 // @public
-export const enum KnownSerializationType {
+export const enum KnownSchemaFormat {
     Avro = "avro"
 }
 
@@ -27,21 +27,21 @@ export interface RegisterSchemaOptions extends OperationOptions {
 
 // @public
 export interface Schema extends SchemaProperties {
-    content: string;
+    definition: string;
 }
 
 // @public
 export interface SchemaDescription {
-    content: string;
+    definition: string;
+    format: string;
     groupName: string;
     name: string;
-    serializationType: string;
 }
 
 // @public
 export interface SchemaProperties {
+    format: string;
     id: string;
-    serializationType: string;
     version: number;
 }
 

@@ -10,7 +10,24 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
+export class AggregateBatchError extends Error {
+    constructor(errors: ErrorInfo[]);
+    // (undocumented)
+    errors: BatchError[];
+}
+
+// @public
 export type AggregationType = "None" | "Average" | "Count" | "Minimum" | "Maximum" | "Total";
+
+// @public
+export class BatchError extends Error implements ErrorInfo {
+    constructor(errorInfo: ErrorInfo);
+    additionalProperties?: Record<string, unknown>;
+    code: string;
+    details?: ErrorDetail[];
+    innerError?: ErrorInfo;
+    message: string;
+}
 
 // @public
 export const Durations: {

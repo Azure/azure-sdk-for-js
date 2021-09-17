@@ -21,7 +21,7 @@ import {
   DatabaseRecommendedActionsUpdateResponse
 } from "../models";
 
-/** Class representing a DatabaseRecommendedActions. */
+/** Class containing DatabaseRecommendedActions operations. */
 export class DatabaseRecommendedActionsImpl
   implements DatabaseRecommendedActions {
   private readonly client: SqlManagementClientContext;

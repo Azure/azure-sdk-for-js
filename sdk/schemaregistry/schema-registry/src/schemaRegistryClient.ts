@@ -81,13 +81,13 @@ export class SchemaRegistryClient implements SchemaRegistry {
     options?: RegisterSchemaOptions
   ): Promise<SchemaProperties> {
     return this.client.schema
-      .register(schema.groupName, schema.name, schema.serializationType, schema.content, options)
+      .register(schema.groupName, schema.name, schema.format, schema.definition, options)
       .then(convertSchemaIdResponse);
   }
 
   /**
    * Gets the ID of an existing schema with matching name, group, type, and
-   * content.
+   * definition.
    *
    * @param schema - Schema to match.
    * @returns Matched schema's ID or undefined if no matching schema was found.
@@ -97,13 +97,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
     options?: GetSchemaPropertiesOptions
   ): Promise<SchemaProperties> {
     return this.client.schema
-      .queryIdByContent(
-        schema.groupName,
-        schema.name,
-        schema.serializationType,
-        schema.content,
-        options
-      )
+      .queryIdByContent(schema.groupName, schema.name, schema.format, schema.definition, options)
       .then(convertSchemaIdResponse);
   }
 

@@ -39,7 +39,8 @@ import {
   MetricNamespace,
   Metric,
   MetricDefinition,
-  TimeSeriesElement
+  TimeSeriesElement,
+  createMetricsQueryResult
 } from "../models/publicMetricsModels";
 import { FullOperationResponse } from "@azure/core-client";
 import {
@@ -262,13 +263,10 @@ export function convertResponseForMetrics(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars -- eslint doesn't recognize that the extracted variables are prefixed with '_' and are purposefully unused.
   const { resourceregion, value: _ignoredValue, interval, timespan, ...rest } = generatedResponse;
 
-  const obj: MetricsQueryResult = {
+  const obj: Omit<MetricsQueryResult, "getMetricByName"> = {
     ...rest,
     metrics,
-    timespan: convertIntervalToTimeIntervalObject(timespan),
-    getMetricByName(metricName) {
-      return this.metrics.find((it) => it.name === metricName);
-    }
+    timespan: convertIntervalToTimeIntervalObject(timespan)
   };
 
   if (resourceregion) {
@@ -278,7 +276,7 @@ export function convertResponseForMetrics(
     obj.granularity = interval;
   }
 
-  return obj;
+  return createMetricsQueryResult(obj);
 }
 
 /**

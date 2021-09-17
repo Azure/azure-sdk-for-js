@@ -138,7 +138,7 @@ export class LogsQueryClient {
       }
     }
     if (options?.throwOnAnyFailure && result.status !== "Success") {
-      throw result.error;
+      throw new BatchError(result.error as ErrorInfo);
     }
     return result;
   }

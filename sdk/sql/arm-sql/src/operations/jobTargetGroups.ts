@@ -27,7 +27,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a JobTargetGroups. */
+/** Class containing JobTargetGroups operations. */
 export class JobTargetGroupsImpl implements JobTargetGroups {
   private readonly client: SqlManagementClientContext;
 

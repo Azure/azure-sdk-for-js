@@ -33,7 +33,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a ServerTrustGroups. */
+/** Class containing ServerTrustGroups operations. */
 export class ServerTrustGroupsImpl implements ServerTrustGroups {
   private readonly client: SqlManagementClientContext;
 

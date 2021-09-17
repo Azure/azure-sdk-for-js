@@ -29,7 +29,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a OutboundFirewallRules. */
+/** Class containing OutboundFirewallRules operations. */
 export class OutboundFirewallRulesImpl implements OutboundFirewallRules {
   private readonly client: SqlManagementClientContext;
 

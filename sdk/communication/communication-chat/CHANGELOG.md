@@ -5,7 +5,7 @@
 ### Features Added
 
 - Migrated from using `@azure/core-http` to `@azure/core-rest-pipeline` for the handling of HTTP requests. See [Azure Core v1 vs v2](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-rest-pipeline/documentation/core2.md) for more on the difference and benefits of the move.
-- Updated to @azure/communication-signaling@1.0.0-beta.9.
+- Updated to @azure/communication-signaling@1.0.0-beta.10.
 
 ## 1.1.0-beta.1 (2021-08-10)
 
