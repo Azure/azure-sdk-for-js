@@ -9,7 +9,8 @@ import {
   SpanAttributes,
   SpanStatusCode,
   Span,
-  SpanAttributeValue
+  SpanAttributeValue,
+  TimeInput
 } from "@azure/core-tracing";
 
 /**
@@ -39,7 +40,7 @@ export class TestSpan implements Span {
   /**
    * The start time of the Span
    */
-  readonly startTime: Date;
+  readonly startTime: TimeInput;
 
   /**
    * The id of the parent Span, if any.
@@ -69,7 +70,7 @@ export class TestSpan implements Span {
     context: SpanContext,
     kind: SpanKind,
     parentSpanId?: string,
-    startTime = new Date(),
+    startTime: TimeInput = new Date(),
     attributes: SpanAttributes = {}
   ) {
     this._tracer = parentTracer;
