@@ -580,6 +580,22 @@ export const LinuxOSConfig: msRest.CompositeMapper = {
   }
 };
 
+export const CreationData: msRest.CompositeMapper = {
+  serializedName: "CreationData",
+  type: {
+    name: "Composite",
+    className: "CreationData",
+    modelProperties: {
+      sourceResourceId: {
+        serializedName: "sourceResourceId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ManagedClusterAgentPoolProfileProperties: msRest.CompositeMapper = {
   serializedName: "ManagedClusterAgentPoolProfileProperties",
   type: {
@@ -612,6 +628,12 @@ export const ManagedClusterAgentPoolProfileProperties: msRest.CompositeMapper = 
       },
       kubeletDiskType: {
         serializedName: "kubeletDiskType",
+        type: {
+          name: "String"
+        }
+      },
+      workloadRuntime: {
+        serializedName: "workloadRuntime",
         type: {
           name: "String"
         }
@@ -837,6 +859,13 @@ export const ManagedClusterAgentPoolProfileProperties: msRest.CompositeMapper = 
         type: {
           name: "String"
         }
+      },
+      creationData: {
+        serializedName: "creationData",
+        type: {
+          name: "Composite",
+          className: "CreationData"
+        }
       }
     }
   }
@@ -896,6 +925,12 @@ export const AgentPool: msRest.CompositeMapper = {
       },
       kubeletDiskType: {
         serializedName: "properties.kubeletDiskType",
+        type: {
+          name: "String"
+        }
+      },
+      workloadRuntime: {
+        serializedName: "properties.workloadRuntime",
         type: {
           name: "String"
         }
@@ -1120,6 +1155,13 @@ export const AgentPool: msRest.CompositeMapper = {
         serializedName: "properties.gpuInstanceProfile",
         type: {
           name: "String"
+        }
+      },
+      creationData: {
+        serializedName: "properties.creationData",
+        type: {
+          name: "Composite",
+          className: "CreationData"
         }
       }
     }
@@ -1369,6 +1411,12 @@ export const ManagedClusterLoadBalancerProfile: msRest.CompositeMapper = {
         },
         type: {
           name: "Number"
+        }
+      },
+      enableMultipleStandardLoadBalancers: {
+        serializedName: "enableMultipleStandardLoadBalancers",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -2418,6 +2466,12 @@ export const ManagedClusterAPIServerAccessProfile: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      disableRunCommand: {
+        serializedName: "disableRunCommand",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -2795,6 +2849,12 @@ export const ManagedCluster: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ManagedClusterSecurityProfile"
+        }
+      },
+      publicNetworkAccess: {
+        serializedName: "properties.publicNetworkAccess",
+        type: {
+          name: "String"
         }
       }
     }
@@ -3432,6 +3492,39 @@ export const OutboundEnvironmentEndpoint: msRest.CompositeMapper = {
   }
 };
 
+export const Snapshot: msRest.CompositeMapper = {
+  serializedName: "Snapshot",
+  type: {
+    name: "Composite",
+    className: "Snapshot",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      systemData: {
+        readOnly: true,
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      creationData: {
+        serializedName: "properties.creationData",
+        type: {
+          name: "Composite",
+          className: "CreationData"
+        }
+      },
+      snapshotType: {
+        serializedName: "properties.snapshotType",
+        defaultValue: 'NodePool',
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const OperationListResult: msRest.CompositeMapper = {
   serializedName: "OperationListResult",
   type: {
@@ -3557,6 +3650,35 @@ export const AgentPoolListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "AgentPool"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SnapshotListResult: msRest.CompositeMapper = {
+  serializedName: "SnapshotListResult",
+  type: {
+    name: "Composite",
+    className: "SnapshotListResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Snapshot"
             }
           }
         }
