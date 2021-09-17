@@ -268,7 +268,7 @@ export const enum TraceFlags {
 }
 
 /**
- * A light interface that tries to be structurally compatible with OpenTelemetry
+ * A SpanContext represents the portion of a {@link Span} which must be serialized and propagated.
  */
 export interface SpanContext {
   /**
@@ -324,9 +324,7 @@ export interface SpanAttributes {
 }
 
 /**
- * Attribute values may be any non-nullish primitive value except an object.
- *
- * null or undefined attribute values are invalid and will result in undefined behavior.
+ * The types that can be used as a value for {@link SpanAttributes}.
  */
 export type SpanAttributeValue = string | number | boolean;
 

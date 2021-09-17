@@ -1,10 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createSpanFunction, SpanOptions, Span, SpanKind } from "@azure/core-tracing";
+import {
+  createSpanFunction,
+  SpanOptions,
+  Span,
+  SpanKind,
+  SpanContext,
+  Context
+} from "@azure/core-tracing";
 import { TryAddOptions } from "../eventDataBatch";
 import { EventHubConnectionConfig } from "../eventhubConnectionConfig";
 import { OperationOptions } from "../util/operationOptions";
+import { context } from "@azure/core-tracing";
 
 const _createSpan = createSpanFunction({
   namespace: "Microsoft.EventHub",
@@ -106,22 +114,36 @@ export function convertTryAddOptionsForCompatibility(tryAddOptions: TryAddOption
   }
 
   const convertedOptions: TryAddOptions = {
-    ...tryAddOptions
-    // tracingOptions: {
-    //   tracingContext: isSpan(legacyParentSpanOrSpanContext)
-    //     ? setSpan(context.active(), legacyParentSpanOrSpanContext)
-    //     : setSpanContext(context.active(), legacyParentSpanOrSpanContext)
-    // }
+    ...tryAddOptions,
+    tracingOptions: {
+      tracingContext: isSpan(legacyParentSpanOrSpanContext)
+        ? setSpan(context.active(), legacyParentSpanOrSpanContext)
+        : setSpanContext(context.active(), legacyParentSpanOrSpanContext)
+    }
   };
 
   return convertedOptions;
 }
 
-// function isSpan(possibleSpan: Span | SpanContext | undefined): possibleSpan is Span {
-//   if (possibleSpan == null) {
-//     return false;
-//   }
+function isSpan(possibleSpan: Span | SpanContext | undefined): possibleSpan is Span {
+  if (possibleSpan == null) {
+    return false;
+  }
 
-//   const x = possibleSpan as Span;
-//   return typeof x.spanContext === "function";
-// }
+  const x = possibleSpan as Span;
+  return typeof x.spanContext === "function";
+}
+
+// TODO: remove this before taking out of draft.
+function setSpan(arg0: Context, legacyParentSpanOrSpanContext: Span): Context | undefined {
+  console.log(arg0, legacyParentSpanOrSpanContext);
+  return arg0;
+}
+
+function setSpanContext(
+  arg0: Context,
+  legacyParentSpanOrSpanContext: SpanContext
+): Context | undefined {
+  console.log(arg0, legacyParentSpanOrSpanContext);
+  return arg0;
+}

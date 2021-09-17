@@ -7,7 +7,8 @@ import {
   Link,
   Span,
   SpanContext,
-  SpanKind
+  SpanKind,
+  SpanAttributes
 } from "@azure/core-tracing";
 import { ConnectionContext } from "../connectionContext";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
@@ -84,12 +85,16 @@ export function createProcessingSpan(
       continue;
     }
 
-    links.push({
+    const link: { context: SpanContext; attributes: SpanAttributes } = {
       context: spanContext,
-      attributes: {
-        enqueuedTime: receivedMessage.enqueuedTimeUtc?.getTime() || Date.now()
-      }
-    });
+      attributes: {}
+    };
+
+    if (receivedMessage.enqueuedTimeUtc) {
+      link.attributes.enqueuedTime = receivedMessage.enqueuedTimeUtc.getTime();
+    }
+
+    links.push(link);
   }
 
   const { span } = createServiceBusSpan(

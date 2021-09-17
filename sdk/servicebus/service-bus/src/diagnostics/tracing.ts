@@ -9,7 +9,9 @@ import {
   SpanOptions,
   Span,
   SpanContext,
-  SpanKind
+  SpanKind,
+  Context,
+  context as otContext
 } from "@azure/core-tracing";
 import { ServiceBusMessage } from "../serviceBusMessage";
 import { TryAddOptions } from "../modelsToBeSharedWithEventHubs";
@@ -217,23 +219,37 @@ export function convertTryAddOptionsForCompatibility(tryAddOptions: TryAddOption
     return tryAddOptions;
   }
 
-  // const convertedOptions: TryAddOptions = {
-  //   ...tryAddOptions,
-  //   tracingOptions: {
-  //     tracingContext: isSpan(legacyParentSpanOrSpanContext)
-  //       ? setSpan(otContext.active(), legacyParentSpanOrSpanContext)
-  //       : setSpanContext(otContext.active(), legacyParentSpanOrSpanContext)
-  //   }
-  // };
+  const convertedOptions: TryAddOptions = {
+    ...tryAddOptions,
+    tracingOptions: {
+      tracingContext: isSpan(legacyParentSpanOrSpanContext)
+        ? setSpan(otContext.active(), legacyParentSpanOrSpanContext)
+        : setSpanContext(otContext.active(), legacyParentSpanOrSpanContext)
+    }
+  };
 
-  return tryAddOptions;
+  return convertedOptions;
 }
 
-// function isSpan(possibleSpan: Span | SpanContext | undefined): possibleSpan is Span {
-//   if (possibleSpan == null) {
-//     return false;
-//   }
+function isSpan(possibleSpan: Span | SpanContext | undefined): possibleSpan is Span {
+  if (possibleSpan == null) {
+    return false;
+  }
 
-//   const x = possibleSpan as Span;
-//   return typeof x.spanContext === "function";
-// }
+  const x = possibleSpan as Span;
+  return typeof x.spanContext === "function";
+}
+
+// TODO: remove this before taking out of draft.
+function setSpan(arg0: Context, legacyParentSpanOrSpanContext: Span): Context | undefined {
+  console.log(arg0, legacyParentSpanOrSpanContext);
+  return arg0;
+}
+
+function setSpanContext(
+  arg0: Context,
+  legacyParentSpanOrSpanContext: SpanContext
+): Context | undefined {
+  console.log(arg0, legacyParentSpanOrSpanContext);
+  return arg0;
+}
