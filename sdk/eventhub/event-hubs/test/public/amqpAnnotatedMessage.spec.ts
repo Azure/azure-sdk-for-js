@@ -26,7 +26,6 @@ const assert = chai.assert;
 
 testWithServiceTypes((serviceVersion) => {
   const env = getEnvVars();
-  console.log(`Environment Variable: ${(env as any)["TEST_TARGET"]}`);
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;
     before("Starting mock service", () => {
