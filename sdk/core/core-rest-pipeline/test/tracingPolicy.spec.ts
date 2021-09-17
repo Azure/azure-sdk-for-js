@@ -16,7 +16,6 @@ import {
   TraceFlags,
   TraceState,
   context,
-  setSpan,
   SpanStatus,
   SpanStatusCode,
   SpanAttributes,
@@ -211,7 +210,7 @@ describe("tracingPolicy", function() {
     const request = createPipelineRequest({
       url: "https://bing.com",
       tracingOptions: {
-        tracingContext: setSpan(context.active(), ROOT_SPAN)
+        tracingContext: trace.setSpan(context.active(), ROOT_SPAN)
       }
     });
     const response: PipelineResponse = {
@@ -250,7 +249,7 @@ describe("tracingPolicy", function() {
     const request = createPipelineRequest({
       url: "https://bing.com",
       tracingOptions: {
-        tracingContext: setSpan(context.active(), ROOT_SPAN)
+        tracingContext: trace.setSpan(context.active(), ROOT_SPAN)
       }
     });
     const response: PipelineResponse = {
@@ -289,7 +288,7 @@ describe("tracingPolicy", function() {
     const request = createPipelineRequest({
       url: "https://bing.com",
       tracingOptions: {
-        tracingContext: setSpan(context.active(), ROOT_SPAN)
+        tracingContext: trace.setSpan(context.active(), ROOT_SPAN)
       }
     });
     const response: PipelineResponse = {
@@ -327,7 +326,7 @@ describe("tracingPolicy", function() {
     const request = createPipelineRequest({
       url: "https://bing.com",
       tracingOptions: {
-        tracingContext: setSpan(context.active(), ROOT_SPAN)
+        tracingContext: trace.setSpan(context.active(), ROOT_SPAN)
       }
     });
     const policy = tracingPolicy();
@@ -365,7 +364,7 @@ describe("tracingPolicy", function() {
     const request = createPipelineRequest({
       url: "https://bing.com",
       tracingOptions: {
-        tracingContext: setSpan(context.active(), ROOT_SPAN)
+        tracingContext: trace.setSpan(context.active(), ROOT_SPAN)
       }
     });
     const response: PipelineResponse = {
@@ -390,7 +389,7 @@ describe("tracingPolicy", function() {
     const request = createPipelineRequest({
       url: "https://bing.com",
       tracingOptions: {
-        tracingContext: setSpan(context.active(), ROOT_SPAN)
+        tracingContext: trace.setSpan(context.active(), ROOT_SPAN)
       }
     });
     const response: PipelineResponse = {
@@ -415,7 +414,7 @@ describe("tracingPolicy", function() {
     const request = createPipelineRequest({
       url: "https://bing.com",
       tracingOptions: {
-        tracingContext: setSpan(context.active(), ROOT_SPAN)
+        tracingContext: trace.setSpan(context.active(), ROOT_SPAN)
       }
     });
     const response: PipelineResponse = {
@@ -442,7 +441,7 @@ describe("tracingPolicy", function() {
     const request = createPipelineRequest({
       url: "https://bing.com",
       tracingOptions: {
-        tracingContext: setSpan(context.active(), ROOT_SPAN)
+        tracingContext: trace.setSpan(context.active(), ROOT_SPAN)
       }
     });
     const response: PipelineResponse = {
@@ -468,10 +467,9 @@ describe("tracingPolicy", function() {
     const request = createPipelineRequest({
       url: "https://bing.com",
       tracingOptions: {
-        tracingContext: setSpan(context.active(), ROOT_SPAN).setValue(
-          Symbol.for("az.namespace"),
-          "value_from_context"
-        )
+        tracingContext: trace
+          .setSpan(context.active(), ROOT_SPAN)
+          .setValue(Symbol.for("az.namespace"), "value_from_context")
       }
     });
     Object.assign(request.tracingOptions, {
@@ -502,7 +500,7 @@ describe("tracingPolicy", function() {
     const request = createPipelineRequest({
       url: "https://bing.com",
       tracingOptions: {
-        tracingContext: setSpan(context.active(), ROOT_SPAN)
+        tracingContext: trace.setSpan(context.active(), ROOT_SPAN)
       }
     });
     Object.assign(request.tracingOptions, {
@@ -533,7 +531,7 @@ describe("tracingPolicy", function() {
     const request = createPipelineRequest({
       url: "https://bing.com",
       tracingOptions: {
-        tracingContext: setSpan(context.active(), ROOT_SPAN)
+        tracingContext: trace.setSpan(context.active(), ROOT_SPAN)
       }
     });
     const response: PipelineResponse = {

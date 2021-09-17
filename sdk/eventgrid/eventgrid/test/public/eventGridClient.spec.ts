@@ -8,13 +8,13 @@ import { Recorder } from "@azure-tools/test-recorder";
 
 import { createRecordedClient, testEnv } from "./utils/recordedClient";
 
-import { resetTracer, setTracer } from "@azure/test-utils";
+import { resetTracer, setTracer, trace } from "@azure/test-utils";
 
 import { AzureKeyCredential, EventGridPublisherClient } from "../../src";
 
 import { FullOperationResponse } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
-import { setSpan, context } from "@azure/core-tracing";
+import { context } from "@azure/core-tracing";
 
 describe("EventGridPublisherClient", function(this: Suite) {
   let recorder: Recorder;
@@ -218,7 +218,7 @@ describe("EventGridPublisherClient", function(this: Suite) {
         ],
         {
           tracingOptions: {
-            tracingContext: setSpan(context.active(), rootSpan)
+            tracingContext: trace.setSpan(context.active(), rootSpan)
           },
           onResponse: (response) => (res = response)
         }

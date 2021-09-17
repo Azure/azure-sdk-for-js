@@ -6,10 +6,10 @@ import { record, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { recorderEnvSetup, getBlobChangeFeedClient } from "./utils";
 import { BlobChangeFeedClient, BlobChangeFeedEvent, BlobChangeFeedEventPage } from "../src";
 import { AbortController } from "@azure/abort-controller";
-import { setTracer } from "@azure/test-utils";
+import { setTracer, trace } from "@azure/test-utils";
 import { Pipeline } from "@azure/storage-blob";
 import { SDK_VERSION } from "../src/utils/constants";
-import { setSpan, context } from "@azure/core-tracing";
+import { context } from "@azure/core-tracing";
 
 import * as dotenv from "dotenv";
 import { Context } from "mocha";
@@ -164,7 +164,7 @@ describe("BlobChangeFeedClient", async () => {
 
     const pageIter = changeFeedClient.listChanges({
       tracingOptions: {
-        tracingContext: setSpan(context.active(), rootSpan)
+        tracingContext: trace.setSpan(context.active(), rootSpan)
       }
     });
     await pageIter.next();

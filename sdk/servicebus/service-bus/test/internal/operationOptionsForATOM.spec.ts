@@ -11,8 +11,8 @@ import { AbortController } from "@azure/abort-controller";
 import { WebResource } from "@azure/core-http";
 import { executeAtomXmlOperation } from "../../src/util/atomXmlHelper";
 import { NamespaceResourceSerializer } from "../../src/serializers/namespaceResourceSerializer";
-import { TestTracer, SpanGraph, setTracer } from "@azure/test-utils";
-import { setSpan, context } from "@azure/core-tracing";
+import { TestTracer, SpanGraph, setTracer, trace } from "@azure/test-utils";
+import { context } from "@azure/core-tracing";
 
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);
@@ -245,7 +245,7 @@ describe("Operation Options", () => {
       setTracer(tracer);
       const rootSpan = tracer.startSpan("root");
       await serviceBusAtomManagementClient.getNamespaceProperties({
-        tracingOptions: { tracingContext: setSpan(context.active(), rootSpan) }
+        tracingOptions: { tracingContext: trace.setSpan(context.active(), rootSpan) }
       });
       rootSpan.end();
 

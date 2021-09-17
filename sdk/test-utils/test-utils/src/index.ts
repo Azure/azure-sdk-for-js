@@ -15,3 +15,4 @@ export { isNode, isNode8 } from "./utils";
 export { TestSpan } from "./tracing/testSpan";
 export * from "./tracing/testTracer";
 export * from "./tracing/testTracerProvider";
+export { trace } from "@opentelemetry/api";

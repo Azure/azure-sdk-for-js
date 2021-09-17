@@ -105,15 +105,15 @@ export enum SpanKind {
   CONSUMER = 4
 }
 
-/**
- * Set the span on a context
- *
- * @param context - context to use as parent
- * @param span - span to set active
- */
-export function setSpan(context: Context, span: Span): Context {
-  return otTrace.setSpan(context, span);
-}
+// /**
+//  * Set the span on a context
+//  *
+//  * @param context - context to use as parent
+//  * @param span - span to set active
+//  */
+// export function setSpan(context: Context, span: Span): Context {
+//   return otTrace.setSpan(context, span);
+// }
 
 /**
  * Singleton object which represents the entry point to the OpenTelemetry Context API

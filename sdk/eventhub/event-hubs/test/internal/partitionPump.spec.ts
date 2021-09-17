@@ -2,15 +2,8 @@
 // Licensed under the MIT license.
 
 import { createProcessingSpan, trace } from "../../src/partitionPump";
-import {
-  SpanStatusCode,
-  SpanKind,
-  SpanOptions,
-  Context,
-  setSpanContext,
-  context
-} from "@azure/core-tracing";
-import { TestSpan, TestTracer } from "@azure/test-utils";
+import { SpanStatusCode, SpanKind, SpanOptions, Context, context } from "@azure/core-tracing";
+import { TestSpan, TestTracer, trace as otTrace } from "@azure/test-utils";
 import chai from "chai";
 import { ReceivedEventData } from "../../src/eventData";
 import { instrumentEventData } from "../../src/diagnostics/instrumentEventData";
@@ -42,7 +35,7 @@ testWithServiceTypes(() => {
 
       it("basic span properties are set", async () => {
         const { tracer, resetTracer } = setTracerForTest(new TestTracer2());
-        const fakeParentSpanContext = setSpanContext(
+        const fakeParentSpanContext = otTrace.setSpanContext(
           context.active(),
           tracer.startSpan("test").spanContext()
         );
@@ -93,7 +86,7 @@ testWithServiceTypes(() => {
             { ...requiredEventProperties },
             {
               tracingOptions: {
-                tracingContext: setSpanContext(context.active(), firstEvent.spanContext())
+                tracingContext: otTrace.setSpanContext(context.active(), firstEvent.spanContext())
               }
             },
             "entityPath",
@@ -104,7 +97,7 @@ testWithServiceTypes(() => {
             { ...requiredEventProperties },
             {
               tracingOptions: {
-                tracingContext: setSpanContext(context.active(), thirdEvent.spanContext())
+                tracingContext: otTrace.setSpanContext(context.active(), thirdEvent.spanContext())
               }
             },
             "entityPath",

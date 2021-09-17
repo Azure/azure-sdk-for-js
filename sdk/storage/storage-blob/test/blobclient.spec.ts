@@ -6,7 +6,7 @@ import * as dotenv from "dotenv";
 import * as fs from "fs";
 import { AbortController } from "@azure/abort-controller";
 import { isNode, URLBuilder, URLQuery } from "@azure/core-http";
-import { SpanGraph, setTracer } from "@azure/test-utils";
+import { SpanGraph, setTracer, trace } from "@azure/test-utils";
 import {
   bodyToString,
   getBSU,
@@ -26,7 +26,7 @@ import {
 } from "../src";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
 import { base64encode } from "../src/utils/utils.common";
-import { context, setSpan } from "@azure/core-tracing";
+import { context } from "@azure/core-tracing";
 import { Context } from "mocha";
 dotenv.config();
 
@@ -712,7 +712,7 @@ describe("BlobClient", () => {
 
     const result = await blobClient.download(undefined, undefined, {
       tracingOptions: {
-        tracingContext: setSpan(context.active(), rootSpan)
+        tracingContext: trace.setSpan(context.active(), rootSpan)
       }
     });
     assert.deepStrictEqual(await bodyToString(result, content.length), content);

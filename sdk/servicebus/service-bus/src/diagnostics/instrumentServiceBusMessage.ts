@@ -87,7 +87,7 @@ export function createProcessingSpan(
     links.push({
       context: spanContext,
       attributes: {
-        enqueuedTime: receivedMessage.enqueuedTimeUtc?.getTime()
+        enqueuedTime: receivedMessage.enqueuedTimeUtc?.getTime() || Date.now()
       }
     });
   }

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { setSpan, SpanKind, context as otContext, Context } from "../src/interfaces";
+import { SpanKind, context as otContext, Context } from "../src/interfaces";
 import { trace } from "@opentelemetry/api";
 
 import { TestSpan } from "./util/testSpan";
@@ -26,7 +26,7 @@ describe("createSpan", () => {
 
   it("is backwards compatible at runtime with versions prior to preview.13", () => {
     const testSpan = tracerProvider.getTracer("test").startSpan("test");
-    const someContext = setSpan(otContext.active(), testSpan);
+    const someContext = trace.setSpan(otContext.active(), testSpan);
 
     // Ensure we are backwards compatible with { tracingOptions: { spanOptions } } shape which was
     // used prior to preview.13 for setting span options.
@@ -68,7 +68,7 @@ describe("createSpan", () => {
   it("returns a created span with the right metadata", () => {
     const testSpan = tracerProvider.getTracer("test").startSpan("testing");
 
-    const someContext = setSpan(otContext.active(), testSpan);
+    const someContext = trace.setSpan(otContext.active(), testSpan);
 
     const { span, updatedOptions } = <{ span: TestSpan; updatedOptions: any }>createSpan(
       "testMethod",
@@ -99,10 +99,9 @@ describe("createSpan", () => {
   it("preserves existing attributes", () => {
     const testSpan = tracerProvider.getTracer("test").startSpan("testing");
 
-    const someContext = setSpan(otContext.active(), testSpan).setValue(
-      Symbol.for("someOtherKey"),
-      "someOtherValue"
-    );
+    const someContext = trace
+      .setSpan(otContext.active(), testSpan)
+      .setValue(Symbol.for("someOtherKey"), "someOtherValue");
 
     const { span, updatedOptions } = <{ span: TestSpan; updatedOptions: any }>(
       createSpan("testMethod", {
@@ -209,7 +208,7 @@ describe("createSpan", () => {
 
     const testSpan = tracerProvider.getTracer("test").startSpan("testing");
 
-    const someContext = setSpan(otContext.active(), testSpan);
+    const someContext = trace.setSpan(otContext.active(), testSpan);
 
     const { span } = <{ span: TestSpan; updatedOptions: any }>createSpan("testMethod", {
       tracingOptions: ({

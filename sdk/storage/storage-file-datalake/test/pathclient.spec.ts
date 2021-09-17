@@ -3,9 +3,9 @@
 
 import { AbortController } from "@azure/abort-controller";
 import { isNode, URLBuilder, delay } from "@azure/core-http";
-import { SpanGraph, setTracer } from "@azure/test-utils";
+import { SpanGraph, setTracer, trace } from "@azure/test-utils";
 import { record, Recorder } from "@azure-tools/test-recorder";
-import { setSpan, context } from "@azure/core-tracing";
+import { context } from "@azure/core-tracing";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 
@@ -156,7 +156,7 @@ describe("DataLakePathClient", () => {
 
     const result = await fileClient.read(undefined, undefined, {
       tracingOptions: {
-        tracingContext: setSpan(context.active(), rootSpan)
+        tracingContext: trace.setSpan(context.active(), rootSpan)
       }
     });
     assert.deepStrictEqual(await bodyToString(result, content.length), content);

@@ -1,16 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  createSpanFunction,
-  SpanContext,
-  SpanOptions,
-  setSpan,
-  setSpanContext,
-  Span,
-  SpanKind,
-  context
-} from "@azure/core-tracing";
+import { createSpanFunction, SpanOptions, Span, SpanKind } from "@azure/core-tracing";
 import { TryAddOptions } from "../eventDataBatch";
 import { EventHubConnectionConfig } from "../eventhubConnectionConfig";
 import { OperationOptions } from "../util/operationOptions";
@@ -115,22 +106,22 @@ export function convertTryAddOptionsForCompatibility(tryAddOptions: TryAddOption
   }
 
   const convertedOptions: TryAddOptions = {
-    ...tryAddOptions,
-    tracingOptions: {
-      tracingContext: isSpan(legacyParentSpanOrSpanContext)
-        ? setSpan(context.active(), legacyParentSpanOrSpanContext)
-        : setSpanContext(context.active(), legacyParentSpanOrSpanContext)
-    }
+    ...tryAddOptions
+    // tracingOptions: {
+    //   tracingContext: isSpan(legacyParentSpanOrSpanContext)
+    //     ? setSpan(context.active(), legacyParentSpanOrSpanContext)
+    //     : setSpanContext(context.active(), legacyParentSpanOrSpanContext)
+    // }
   };
 
   return convertedOptions;
 }
 
-function isSpan(possibleSpan: Span | SpanContext | undefined): possibleSpan is Span {
-  if (possibleSpan == null) {
-    return false;
-  }
+// function isSpan(possibleSpan: Span | SpanContext | undefined): possibleSpan is Span {
+//   if (possibleSpan == null) {
+//     return false;
+//   }
 
-  const x = possibleSpan as Span;
-  return typeof x.spanContext === "function";
-}
+//   const x = possibleSpan as Span;
+//   return typeof x.spanContext === "function";
+// }

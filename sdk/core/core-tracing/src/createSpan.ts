@@ -5,7 +5,6 @@ import {
   OperationTracingOptions,
   Span,
   SpanOptions,
-  setSpan,
   context as otContext,
   getTracer,
   Context,
@@ -199,7 +198,7 @@ export function createSpanFunction(args: CreateSpanFunctionArgs) {
     const newTracingOptions = {
       ...tracingOptions,
       spanOptions: newSpanOptions,
-      tracingContext: setSpan(tracingContext, span)
+      tracingContext: trace.setSpan(tracingContext, span)
     };
 
     const newOperationOptions = {

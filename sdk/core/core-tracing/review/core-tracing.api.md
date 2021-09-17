@@ -61,9 +61,6 @@ export interface OperationTracingOptions {
 }
 
 // @public
-export function setSpan(context: Context, span: Span): Context;
-
-// @public
 export interface Span {
     addEvent(name: string, attributesOrStartTime?: SpanAttributes | Date, startTime?: Date): this;
     end(endTime?: Date): void;

@@ -23,10 +23,10 @@ import {
   getStartingPositionsForTests,
   setTracerForTest
 } from "../public/utils/testUtils";
-import { SpanGraph, TestSpan } from "@azure/test-utils";
+import { SpanGraph, TestSpan, trace } from "@azure/test-utils";
 import { TRACEPARENT_PROPERTY } from "../../src/diagnostics/instrumentEventData";
 import { SubscriptionHandlerForTests } from "../public/utils/subscriptionHandlerForTests";
-import { setSpan, context } from "@azure/core-tracing";
+import { context } from "@azure/core-tracing";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 import { createMockServer } from "../public/utils/mockService";
 
@@ -338,7 +338,7 @@ testWithServiceTypes((serviceVersion) => {
             { body: `${list[i].name}` },
             {
               tracingOptions: {
-                tracingContext: setSpan(context.active(), rootSpan)
+                tracingContext: trace.setSpan(context.active(), rootSpan)
               }
             }
           );
@@ -407,7 +407,7 @@ testWithServiceTypes((serviceVersion) => {
       function modernOptions(rootSpan: TestSpan): OperationOptions {
         return {
           tracingOptions: {
-            tracingContext: setSpan(context.active(), rootSpan)
+            tracingContext: trace.setSpan(context.active(), rootSpan)
           }
         };
       }
@@ -483,7 +483,7 @@ testWithServiceTypes((serviceVersion) => {
               }
               await producerClient.sendBatch(eventDataBatch, {
                 tracingOptions: {
-                  tracingContext: setSpan(context.active(), rootSpan)
+                  tracingContext: trace.setSpan(context.active(), rootSpan)
                 }
               });
               rootSpan.end();
@@ -668,7 +668,7 @@ testWithServiceTypes((serviceVersion) => {
         await producerClient.sendBatch(events, {
           partitionId: "0",
           tracingOptions: {
-            tracingContext: setSpan(context.active(), rootSpan)
+            tracingContext: trace.setSpan(context.active(), rootSpan)
           }
         });
         rootSpan.end();
@@ -730,7 +730,7 @@ testWithServiceTypes((serviceVersion) => {
         await producerClient.sendBatch(events, {
           partitionId: "0",
           tracingOptions: {
-            tracingContext: setSpan(context.active(), rootSpan)
+            tracingContext: trace.setSpan(context.active(), rootSpan)
           }
         });
         rootSpan.end();
@@ -887,7 +887,7 @@ testWithServiceTypes((serviceVersion) => {
         }
         await producerClient.sendBatch(events, {
           tracingOptions: {
-            tracingContext: setSpan(context.active(), rootSpan)
+            tracingContext: trace.setSpan(context.active(), rootSpan)
           }
         });
         rootSpan.end();
@@ -957,7 +957,7 @@ testWithServiceTypes((serviceVersion) => {
         events[0].properties = { [TRACEPARENT_PROPERTY]: "foo" };
         await producerClient.sendBatch(events, {
           tracingOptions: {
-            tracingContext: setSpan(context.active(), rootSpan)
+            tracingContext: trace.setSpan(context.active(), rootSpan)
           }
         });
         rootSpan.end();

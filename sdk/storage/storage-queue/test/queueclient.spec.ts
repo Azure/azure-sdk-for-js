@@ -5,8 +5,8 @@ import * as assert from "assert";
 import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
 import * as dotenv from "dotenv";
 import { QueueClient, QueueServiceClient } from "../src";
-import { setSpan, context } from "@azure/core-tracing";
-import { SpanGraph, setTracer } from "@azure/test-utils";
+import { context } from "@azure/core-tracing";
+import { SpanGraph, setTracer, trace } from "@azure/test-utils";
 import { URLBuilder, RestError } from "@azure/core-http";
 import { Recorder, record } from "@azure-tools/test-recorder";
 import { recorderEnvSetup } from "./utils/testutils.common";
@@ -202,7 +202,7 @@ describe("QueueClient", () => {
     const rootSpan = tracer.startSpan("root");
     await queueClient.getProperties({
       tracingOptions: {
-        tracingContext: setSpan(context.active(), rootSpan)
+        tracingContext: trace.setSpan(context.active(), rootSpan)
       }
     });
     rootSpan.end();

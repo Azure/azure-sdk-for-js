@@ -8,9 +8,9 @@ chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:hubruntime-spec");
 import { EnvVarKeys, getEnvVars, setTracerForTest } from "./utils/testUtils";
-import { setSpan, context } from "@azure/core-tracing";
+import { context } from "@azure/core-tracing";
 
-import { SpanGraph } from "@azure/test-utils";
+import { SpanGraph, trace } from "@azure/test-utils";
 import { EventHubProducerClient, EventHubConsumerClient, MessagingError } from "../../src";
 import { testWithServiceTypes } from "./utils/testWithServiceTypes";
 import { createMockServer } from "./utils/mockService";
@@ -91,7 +91,7 @@ testWithServiceTypes((serviceVersion) => {
         const rootSpan = tracer.startSpan("root");
         const ids = await producerClient.getPartitionIds({
           tracingOptions: {
-            tracingContext: setSpan(context.active(), rootSpan)
+            tracingContext: trace.setSpan(context.active(), rootSpan)
           }
         });
         ids.should.have.members(arrayOfIncreasingNumbersFromZero(ids.length));
@@ -126,7 +126,7 @@ testWithServiceTypes((serviceVersion) => {
         const rootSpan = tracer.startSpan("root");
         const ids = await consumerClient.getPartitionIds({
           tracingOptions: {
-            tracingContext: setSpan(context.active(), rootSpan)
+            tracingContext: trace.setSpan(context.active(), rootSpan)
           }
         });
         ids.should.have.members(arrayOfIncreasingNumbersFromZero(ids.length));
@@ -189,7 +189,7 @@ testWithServiceTypes((serviceVersion) => {
         const rootSpan = tracer.startSpan("root");
         const hubRuntimeInfo = await producerClient.getEventHubProperties({
           tracingOptions: {
-            tracingContext: setSpan(context.active(), rootSpan)
+            tracingContext: trace.setSpan(context.active(), rootSpan)
           }
         });
         hubRuntimeInfo.partitionIds.should.have.members(
@@ -226,7 +226,7 @@ testWithServiceTypes((serviceVersion) => {
         const rootSpan = tracer.startSpan("root");
         const hubRuntimeInfo = await consumerClient.getEventHubProperties({
           tracingOptions: {
-            tracingContext: setSpan(context.active(), rootSpan)
+            tracingContext: trace.setSpan(context.active(), rootSpan)
           }
         });
         hubRuntimeInfo.partitionIds.should.have.members(
@@ -367,7 +367,7 @@ testWithServiceTypes((serviceVersion) => {
         const rootSpan = tracer.startSpan("root");
         const partitionRuntimeInfo = await producerClient.getPartitionProperties("0", {
           tracingOptions: {
-            tracingContext: setSpan(context.active(), rootSpan)
+            tracingContext: trace.setSpan(context.active(), rootSpan)
           }
         });
         partitionRuntimeInfo.partitionId.should.equal("0");
@@ -406,7 +406,7 @@ testWithServiceTypes((serviceVersion) => {
         const rootSpan = tracer.startSpan("root");
         const partitionRuntimeInfo = await consumerClient.getPartitionProperties("0", {
           tracingOptions: {
-            tracingContext: setSpan(context.active(), rootSpan)
+            tracingContext: trace.setSpan(context.active(), rootSpan)
           }
         });
         partitionRuntimeInfo.partitionId.should.equal("0");

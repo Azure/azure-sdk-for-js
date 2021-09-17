@@ -10,8 +10,8 @@ import {
 } from "@azure-tools/test-recorder";
 import Sinon, { createSandbox } from "sinon";
 import { assert } from "chai";
-import { OperationTracingOptions, setSpan, context as otContext } from "@azure/core-tracing";
-import { SpanGraph, setTracer } from "@azure/test-utils";
+import { OperationTracingOptions, context as otContext } from "@azure/core-tracing";
+import { SpanGraph, setTracer, trace } from "@azure/test-utils";
 import { MsalBaseUtilities } from "../src/msal/utils";
 
 export type MsalTestCleanup = () => Promise<void>;
@@ -169,7 +169,7 @@ export function testTracing(options: TestTracingOptions): () => Promise<void> {
     const tracer = setTracer();
     const rootSpan = tracer.startSpan("root");
 
-    const tracingContext = setSpan(otContext.active(), rootSpan);
+    const tracingContext = trace.setSpan(otContext.active(), rootSpan);
 
     await test({
       tracingContext

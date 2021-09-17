@@ -13,7 +13,6 @@ export {
   isSpanContextValid,
   Link,
   OperationTracingOptions,
-  setSpan,
   Span,
   SpanAttributes,
   SpanContext,

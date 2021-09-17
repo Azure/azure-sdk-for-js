@@ -5,13 +5,11 @@ import chai from "chai";
 import {
   context as otContext,
   Context as OTContext,
-  getSpanContext,
   getTracer,
-  setSpanContext,
   SpanOptions,
   SpanStatusCode
 } from "@azure/core-tracing";
-import { TestSpan, TestTracer } from "@azure/test-utils";
+import { TestSpan, TestTracer, trace as otTrace } from "@azure/test-utils";
 import { ServiceBusMessageImpl, ServiceBusReceivedMessage } from "../../../src/serviceBusMessage";
 import {
   createAndEndProcessingSpan,
@@ -38,7 +36,7 @@ describe("Tracing tests", () => {
   let tracer: TestTracer2;
   let resetTracer: () => void;
   const tracingOptions: OperationOptionsBase["tracingOptions"] = {
-    tracingContext: setSpanContext(otContext.active(), {
+    tracingContext: otTrace.setSpanContext(otContext.active(), {
       spanId: "my parent span id",
       traceId: "my trace id",
       traceFlags: 0
@@ -104,7 +102,7 @@ describe("Tracing tests", () => {
     );
 
     assert.equal(
-      getSpanContext(options?.tracingOptions?.tracingContext!)?.spanId,
+      otTrace.getSpanContext(options?.tracingOptions?.tracingContext!)?.spanId,
       "my parent span id",
       "Parent span should be properly passed in."
     );
@@ -287,7 +285,7 @@ describe("Tracing tests", () => {
       assert.isFalse(Array.isArray(messages));
 
       assert.equal(
-        getSpanContext(options?.tracingOptions?.tracingContext!)!.spanId,
+        otTrace.getSpanContext(options?.tracingOptions?.tracingContext!)!.spanId,
         "my parent span id"
       );
 
@@ -313,14 +311,14 @@ describe("Tracing tests", () => {
 
       createProcessingSpan([], receiverProperties, connectionConfig, {
         tracingOptions: {
-          tracingContext: setSpanContext(otContext.active(), fakeParentSpanContext)
+          tracingContext: otTrace.setSpanContext(otContext.active(), fakeParentSpanContext)
         }
       });
 
       should.equal(tracer.spanName, "Azure.ServiceBus.process");
       should.exist(tracer.spanOptions);
       tracer.spanOptions!.kind!.should.equal(SpanKind.CONSUMER);
-      getSpanContext(tracer.context!)!.should.equal(fakeParentSpanContext);
+      otTrace.getSpanContext(tracer.context!)!.should.equal(fakeParentSpanContext);
 
       const attributes = tracer.getActiveSpans().find((s) => s.name === "Azure.ServiceBus.process")
         ?.attributes;

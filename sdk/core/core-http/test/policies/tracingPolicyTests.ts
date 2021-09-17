@@ -13,7 +13,6 @@ import {
   SpanContext,
   TraceFlags,
   TraceState,
-  setSpan,
   context,
   SpanStatusCode,
   SpanStatus,
@@ -210,7 +209,7 @@ describe("tracingPolicy", function() {
     mockTracerProvider.setTracer(mockTracer);
 
     const request = new WebResource();
-    request.tracingContext = setSpan(context.active(), ROOT_SPAN);
+    request.tracingContext = trace.setSpan(context.active(), ROOT_SPAN);
 
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);
@@ -237,7 +236,7 @@ describe("tracingPolicy", function() {
     mockTracerProvider.setTracer(mockTracer);
 
     const request = new WebResource();
-    request.tracingContext = setSpan(context.active(), ROOT_SPAN);
+    request.tracingContext = trace.setSpan(context.active(), ROOT_SPAN);
 
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);
@@ -265,7 +264,7 @@ describe("tracingPolicy", function() {
     const mockTracer = new MockTracer(mockTraceId, mockSpanId, TraceFlags.SAMPLED, mockTraceState);
     mockTracerProvider.setTracer(mockTracer);
     const request = new WebResource();
-    request.tracingContext = setSpan(context.active(), ROOT_SPAN);
+    request.tracingContext = trace.setSpan(context.active(), ROOT_SPAN);
 
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);
@@ -293,7 +292,7 @@ describe("tracingPolicy", function() {
     const mockTracer = new MockTracer(mockTraceId, mockSpanId, TraceFlags.SAMPLED, mockTraceState);
     mockTracerProvider.setTracer(mockTracer);
     const request = new WebResource();
-    request.tracingContext = setSpan(context.active(), ROOT_SPAN);
+    request.tracingContext = trace.setSpan(context.active(), ROOT_SPAN);
 
     const policy = tracingPolicy().create(
       {
@@ -336,7 +335,7 @@ describe("tracingPolicy", function() {
   it("will not set headers if span is a NoOpSpan", async () => {
     mockTracerProvider.disable();
     const request = new WebResource();
-    request.tracingContext = setSpan(context.active(), ROOT_SPAN);
+    request.tracingContext = trace.setSpan(context.active(), ROOT_SPAN);
 
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);
@@ -351,7 +350,7 @@ describe("tracingPolicy", function() {
     mockTracerProvider.setTracer(mockTracer);
 
     const request = new WebResource();
-    request.tracingContext = setSpan(context.active(), ROOT_SPAN);
+    request.tracingContext = trace.setSpan(context.active(), ROOT_SPAN);
 
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);
@@ -366,7 +365,7 @@ describe("tracingPolicy", function() {
     mockTracerProvider.setTracer(errorTracer);
 
     const request = new WebResource();
-    request.tracingContext = setSpan(context.active(), ROOT_SPAN);
+    request.tracingContext = trace.setSpan(context.active(), ROOT_SPAN);
 
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
 
@@ -382,7 +381,7 @@ describe("tracingPolicy", function() {
     sinon.stub(errorTracer, "startSpan").returns(errorSpan);
 
     const request = new WebResource();
-    request.tracingContext = setSpan(context.active(), ROOT_SPAN);
+    request.tracingContext = trace.setSpan(context.active(), ROOT_SPAN);
 
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
 
@@ -398,10 +397,9 @@ describe("tracingPolicy", function() {
     request.spanOptions = {
       attributes: { "az.namespace": "value_from_span_options" }
     };
-    request.tracingContext = setSpan(context.active(), ROOT_SPAN).setValue(
-      Symbol.for("az.namespace"),
-      "value_from_context"
-    );
+    request.tracingContext = trace
+      .setSpan(context.active(), ROOT_SPAN)
+      .setValue(Symbol.for("az.namespace"), "value_from_context");
 
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);
@@ -420,7 +418,7 @@ describe("tracingPolicy", function() {
     request.spanOptions = {
       attributes: { "az.namespace": "value_from_span_options" }
     };
-    request.tracingContext = setSpan(context.active(), ROOT_SPAN);
+    request.tracingContext = trace.setSpan(context.active(), ROOT_SPAN);
 
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);
