@@ -3,16 +3,17 @@
 
 import {
   createSpanFunction,
+  SpanContext,
   SpanOptions,
+  setSpan,
+  setSpanContext,
   Span,
   SpanKind,
-  SpanContext,
-  Context
+  context
 } from "@azure/core-tracing";
 import { TryAddOptions } from "../eventDataBatch";
 import { EventHubConnectionConfig } from "../eventhubConnectionConfig";
 import { OperationOptions } from "../util/operationOptions";
-import { context } from "@azure/core-tracing";
 
 const _createSpan = createSpanFunction({
   namespace: "Microsoft.EventHub",
@@ -132,18 +133,4 @@ function isSpan(possibleSpan: Span | SpanContext | undefined): possibleSpan is S
 
   const x = possibleSpan as Span;
   return typeof x.spanContext === "function";
-}
-
-// TODO: remove this before taking out of draft.
-function setSpan(arg0: Context, legacyParentSpanOrSpanContext: Span): Context | undefined {
-  console.log(arg0, legacyParentSpanOrSpanContext);
-  return arg0;
-}
-
-function setSpanContext(
-  arg0: Context,
-  legacyParentSpanOrSpanContext: SpanContext
-): Context | undefined {
-  console.log(arg0, legacyParentSpanOrSpanContext);
-  return arg0;
 }

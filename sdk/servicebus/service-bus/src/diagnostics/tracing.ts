@@ -7,11 +7,12 @@ import {
   extractSpanContextFromTraceParentHeader,
   getTraceParentHeader,
   SpanOptions,
+  setSpan,
   Span,
   SpanContext,
   SpanKind,
-  Context,
-  context as otContext
+  context as otContext,
+  setSpanContext
 } from "@azure/core-tracing";
 import { ServiceBusMessage } from "../serviceBusMessage";
 import { TryAddOptions } from "../modelsToBeSharedWithEventHubs";
@@ -238,18 +239,4 @@ function isSpan(possibleSpan: Span | SpanContext | undefined): possibleSpan is S
 
   const x = possibleSpan as Span;
   return typeof x.spanContext === "function";
-}
-
-// TODO: remove this before taking out of draft.
-function setSpan(arg0: Context, legacyParentSpanOrSpanContext: Span): Context | undefined {
-  console.log(arg0, legacyParentSpanOrSpanContext);
-  return arg0;
-}
-
-function setSpanContext(
-  arg0: Context,
-  legacyParentSpanOrSpanContext: SpanContext
-): Context | undefined {
-  console.log(arg0, legacyParentSpanOrSpanContext);
-  return arg0;
 }
