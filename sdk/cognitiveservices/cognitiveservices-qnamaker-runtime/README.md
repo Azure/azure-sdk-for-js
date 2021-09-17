@@ -5,8 +5,8 @@ For editing and creating Knowledge Bases see @azure/cognitiveservices-qnamaker.
 
 ### Currently supported environments
 
-- Node.js version 6.x.x or higher
-- Browser JavaScript
+- [Node.js](https://nodejs.org/) LTS version.
+- Browser JavaScript.
 
 ### How to Install
 

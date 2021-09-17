@@ -4,8 +4,8 @@ This package contains an isomorphic SDK (runs both in node.js and in browsers) f
 
 ### Currently supported environments
 
-- Node.js version 8.x.x or higher
-- Browser JavaScript
+- [Node.js](https://nodejs.org/) LTS version.
+- Browser JavaScript.
 
 ### Prerequisites
 
