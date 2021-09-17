@@ -19,7 +19,8 @@ import {
   SpanStatus,
   SpanStatusCode,
   SpanAttributes,
-  SpanOptions
+  SpanOptions,
+  SpanAttributeValue
 } from "@azure/core-tracing";
 import { TracerProvider, Tracer, Span, trace } from "@opentelemetry/api";
 
@@ -80,7 +81,7 @@ class MockSpan implements Span {
     return this;
   }
 
-  setAttribute(key: string, value: string | number | boolean) {
+  setAttribute(key: string, value: SpanAttributeValue) {
     this._attributes[key] = value;
     return this;
   }
