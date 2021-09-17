@@ -8,7 +8,7 @@
 ```
 az acr login -n <registry-name>
 
-az acr import --name <registry-name> --source docker.io/library/hello-world:latest --image hello-world:latest
+az acr import --name <registry-name> --source docker.io/library/node:latest --image node:latest
 
 az acr update --name <registry-name> --anonymous-pull-enabled
 ```
@@ -18,6 +18,4 @@ az acr update --name <registry-name> --anonymous-pull-enabled
 - list repositories
   - `npm run perf-test:node -- RepositoryListTest --warmup 1 --iterations 1 --parallel 50 --duration 15`
 - list manifests
-  - `npm run perf-test:node -- ManifestListTest --warmup 1 --iterations 1 --parallel 50 --duration 15`
-- list tags
-  - `npm run perf-test:node -- TagListTest --warmup 1 --iterations 1 --parallel 50 --duration 15`
+  - `npm run perf-test:node -- ArtifactListTest --warmup 1 --iterations 1 --parallel 50 --duration 15`
