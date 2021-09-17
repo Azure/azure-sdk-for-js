@@ -24,7 +24,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a SubscriptionUsages. */
+/** Class containing SubscriptionUsages operations. */
 export class SubscriptionUsagesImpl implements SubscriptionUsages {
   private readonly client: SqlManagementClientContext;
 

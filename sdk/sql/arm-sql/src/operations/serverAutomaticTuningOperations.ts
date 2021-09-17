@@ -19,7 +19,7 @@ import {
   ServerAutomaticTuningOperationsUpdateResponse
 } from "../models";
 
-/** Class representing a ServerAutomaticTuningOperations. */
+/** Class containing ServerAutomaticTuningOperations operations. */
 export class ServerAutomaticTuningOperationsImpl
   implements ServerAutomaticTuningOperations {
   private readonly client: SqlManagementClientContext;

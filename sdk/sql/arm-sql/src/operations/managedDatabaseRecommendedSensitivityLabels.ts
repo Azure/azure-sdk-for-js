@@ -16,7 +16,7 @@ import {
   ManagedDatabaseRecommendedSensitivityLabelsUpdateOptionalParams
 } from "../models";
 
-/** Class representing a ManagedDatabaseRecommendedSensitivityLabels. */
+/** Class containing ManagedDatabaseRecommendedSensitivityLabels operations. */
 export class ManagedDatabaseRecommendedSensitivityLabelsImpl
   implements ManagedDatabaseRecommendedSensitivityLabels {
   private readonly client: SqlManagementClientContext;

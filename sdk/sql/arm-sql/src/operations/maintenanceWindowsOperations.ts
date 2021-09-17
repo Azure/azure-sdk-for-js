@@ -18,7 +18,7 @@ import {
   MaintenanceWindowsOperationsCreateOrUpdateOptionalParams
 } from "../models";
 
-/** Class representing a MaintenanceWindowsOperations. */
+/** Class containing MaintenanceWindowsOperations operations. */
 export class MaintenanceWindowsOperationsImpl
   implements MaintenanceWindowsOperations {
   private readonly client: SqlManagementClientContext;

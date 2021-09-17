@@ -20,7 +20,7 @@ import {
   TransparentDataEncryptionsGetResponse
 } from "../models";
 
-/** Class representing a TransparentDataEncryptions. */
+/** Class containing TransparentDataEncryptions operations. */
 export class TransparentDataEncryptionsImpl
   implements TransparentDataEncryptions {
   private readonly client: SqlManagementClientContext;

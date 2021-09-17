@@ -15,7 +15,7 @@ import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import { TdeCertificate, TdeCertificatesCreateOptionalParams } from "../models";
 
-/** Class representing a TdeCertificates. */
+/** Class containing TdeCertificates operations. */
 export class TdeCertificatesImpl implements TdeCertificates {
   private readonly client: SqlManagementClientContext;
 

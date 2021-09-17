@@ -30,7 +30,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a RestorePoints. */
+/** Class containing RestorePoints operations. */
 export class RestorePointsImpl implements RestorePoints {
   private readonly client: SqlManagementClientContext;
 

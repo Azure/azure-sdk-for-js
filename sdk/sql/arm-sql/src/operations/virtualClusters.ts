@@ -36,7 +36,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a VirtualClusters. */
+/** Class containing VirtualClusters operations. */
 export class VirtualClustersImpl implements VirtualClusters {
   private readonly client: SqlManagementClientContext;
 
