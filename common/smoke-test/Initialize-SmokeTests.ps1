@@ -93,13 +93,13 @@ function New-DeployManifest {
   $packageDir = Get-ChildItem -Directory -Path "$repoRoot/sdk/$ServiceDirectory/*"
 
   $javascriptSamples = @()
-  $packageDir.ForEach{
-    $versions = (Get-Item "$_/samples/*").Name
+  foreach ($package in $packageDir){
+    $versions = (Get-Item "$package/samples/*").Name
     $newestVer = $versions | Sort-Object {[int]($_ -replace '[^0-9]' -replace '(\d+).*', '$1')} -Descending | Select-Object -First 1
     if($versions -contains $newestVer+"-beta") {
       $newestVer += "-beta"
     }
-    $javascriptSamples += Get-ChildItem -Path "$_/samples/$newestVer/javascript/" -Recurse -Include package.json
+    $javascriptSamples += Get-ChildItem -Path "$package/samples/$newestVer/javascript/" -Recurse -Include package.json
   }
 
   $manifest = $javascriptSamples | ForEach-Object {
