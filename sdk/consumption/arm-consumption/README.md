@@ -50,12 +50,7 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 const creds = new DefaultAzureCredential();
 const client = new ConsumptionManagementClient(creds, subscriptionId);
 const scope = "testscope";
-const expand = "testexpand";
-const filter = "testfilter";
-const skiptoken = "testskiptoken";
-const top = 1;
-const metric = "actualcost";
-client.usageDetails.list(scope, expand, filter, skiptoken, top, metric).then((result) => {
+client.usageDetails.list(scope).then((result) => {
   console.log("The result is:");
   console.log(result);
 }).catch((err) => {
@@ -93,12 +88,7 @@ In browser applications, we recommend using the `InteractiveBrowserCredential` t
       });
       const client = new Azure.ArmConsumption.ConsumptionManagementClient(creds, subscriptionId);
       const scope = "testscope";
-      const expand = "testexpand";
-      const filter = "testfilter";
-      const skiptoken = "testskiptoken";
-      const top = 1;
-      const metric = "actualcost";
-      client.usageDetails.list(scope, expand, filter, skiptoken, top, metric).then((result) => {
+      client.usageDetails.list(scope).then((result) => {
         console.log("The result is:");
         console.log(result);
       }).catch((err) => {
