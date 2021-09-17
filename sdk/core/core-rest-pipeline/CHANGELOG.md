@@ -1,6 +1,6 @@
 # Release History
 
-## 1.2.1 (Unreleased)
+## 1.3.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,19 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+- Added support for the `PipelineRequest` and `PipelineOptions` property `allowInsecureConnection` in the `bearerTokenAuthenticationPolicy`. If the `bearerTokenAuthenticationPolicy` encounters requests with the `allowInsecureConnection` property set to true, this policy will be allowed to authenticate against insecure authority hosts using the `http` endpoint. [PR #17517](https://github.com/Azure/azure-sdk-for-js/pull/17517)
+
+## 1.3.0 (2021-09-02)
+
+### Bugs Fixed
+
+- `tracingPolicy` will no longer propagate tracing errors to the caller, and such errors will be logged instead and the operation does not get interrupted. [PR #16916](https://github.com/Azure/azure-sdk-for-js/pull/16916)
+
+### Other Changes
+
+- Allow `number`, `boolean` and `string` for input raw http headers. [PR #17358](https://github.com/Azure/azure-sdk-for-js/pull/17358)
+- Refactor `createPipelineFromOptions` to its own file to help tree shaking. [PR #17015](https://github.com/Azure/azure-sdk-for-js/pull/17015)
 
 ## 1.2.0 (2021-08-04)
 

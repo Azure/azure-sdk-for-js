@@ -30,7 +30,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a ServerAzureADAdministrators. */
+/** Class containing ServerAzureADAdministrators operations. */
 export class ServerAzureADAdministratorsImpl
   implements ServerAzureADAdministrators {
   private readonly client: SqlManagementClientContext;

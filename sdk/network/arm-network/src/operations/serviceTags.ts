@@ -16,7 +16,7 @@ import {
   ServiceTagsListResponse
 } from "../models";
 
-/** Class representing a ServiceTags. */
+/** Class containing ServiceTags operations. */
 export class ServiceTagsImpl implements ServiceTags {
   private readonly client: NetworkManagementClientContext;
 

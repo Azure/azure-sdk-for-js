@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { FarmBeatsRestClient, getPoller } from "../../src";
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { isNode } from "@azure/core-util";
 
 import { assert } from "chai";

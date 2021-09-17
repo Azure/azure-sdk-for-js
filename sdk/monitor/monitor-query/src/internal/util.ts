@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { QueryLogsOptions } from "../models/publicLogsModels";
+import { LogsQueryOptions } from "../models/publicLogsModels";
 
 /**
  * @internal
@@ -9,7 +9,7 @@ import { QueryLogsOptions } from "../models/publicLogsModels";
 export function formatPreferHeader(
   args:
     | Pick<
-        QueryLogsOptions,
+        LogsQueryOptions,
         "serverTimeoutInSeconds" | "includeQueryStatistics" | "includeVisualization"
       >
     | undefined

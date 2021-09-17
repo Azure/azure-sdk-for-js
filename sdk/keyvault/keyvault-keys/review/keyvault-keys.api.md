@@ -169,6 +169,11 @@ export interface EncryptResult {
 }
 
 // @public
+export interface GetCryptographyClientOptions {
+    keyVersion?: string;
+}
+
+// @public
 export interface GetDeletedKeyOptions extends coreHttp.OperationOptions {
 }
 
@@ -224,6 +229,7 @@ export class KeyClient {
     createKey(name: string, keyType: KeyType, options?: CreateKeyOptions): Promise<KeyVaultKey>;
     createOctKey(name: string, options?: CreateOctKeyOptions): Promise<KeyVaultKey>;
     createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<KeyVaultKey>;
+    getCryptographyClient(keyName: string, options?: GetCryptographyClientOptions): CryptographyClient;
     getDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<DeletedKey>;
     getKey(name: string, options?: GetKeyOptions): Promise<KeyVaultKey>;
     getRandomBytes(count: number, options?: GetRandomBytesOptions): Promise<RandomBytes>;
@@ -311,7 +317,7 @@ export interface KeyVaultKeyIdentifier {
 export type KeyWrapAlgorithm = "A128KW" | "A192KW" | "A256KW" | "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
 
 // @public
-export const enum KnownDeletionRecoveryLevel {
+export enum KnownDeletionRecoveryLevel {
     CustomizedRecoverable = "CustomizedRecoverable",
     CustomizedRecoverableProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription",
     CustomizedRecoverablePurgeable = "CustomizedRecoverable+Purgeable",
@@ -322,7 +328,7 @@ export const enum KnownDeletionRecoveryLevel {
 }
 
 // @public
-export const enum KnownEncryptionAlgorithms {
+export enum KnownEncryptionAlgorithms {
     A128CBC = "A128CBC",
     A128Cbcpad = "A128CBCPAD",
     A128GCM = "A128GCM",
@@ -341,7 +347,7 @@ export const enum KnownEncryptionAlgorithms {
 }
 
 // @public
-export const enum KnownKeyCurveNames {
+export enum KnownKeyCurveNames {
     P256 = "P-256",
     P256K = "P-256K",
     P384 = "P-384",
@@ -360,7 +366,7 @@ export enum KnownKeyOperations {
 }
 
 // @public
-export const enum KnownKeyTypes {
+export enum KnownKeyTypes {
     EC = "EC",
     ECHSM = "EC-HSM",
     Oct = "oct",
@@ -370,7 +376,7 @@ export const enum KnownKeyTypes {
 }
 
 // @public
-export const enum KnownSignatureAlgorithms {
+export enum KnownSignatureAlgorithms {
     ES256 = "ES256",
     ES256K = "ES256K",
     ES384 = "ES384",

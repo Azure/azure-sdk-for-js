@@ -24,7 +24,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a VirtualApplianceSkus. */
+/** Class containing VirtualApplianceSkus operations. */
 export class VirtualApplianceSkusImpl implements VirtualApplianceSkus {
   private readonly client: NetworkManagementClientContext;
 

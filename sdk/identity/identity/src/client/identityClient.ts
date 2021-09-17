@@ -64,7 +64,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
   private abortControllers: Map<string, AbortController[] | undefined>;
 
   constructor(options?: TokenCredentialOptions) {
-    const packageDetails = `azsdk-js-identity/2.0.0-beta.5`;
+    const packageDetails = `azsdk-js-identity/2.0.0-beta.7`;
     const userAgentPrefix = options?.userAgentOptions?.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
       : `${packageDetails}`;
@@ -174,10 +174,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
           Accept: "application/json",
           "Content-Type": "application/x-www-form-urlencoded"
         }),
-        tracingOptions: {
-          spanOptions: updatedOptions?.tracingOptions?.spanOptions,
-          tracingContext: updatedOptions?.tracingOptions?.tracingContext
-        }
+        tracingOptions: updatedOptions?.tracingOptions
       });
 
       const response = await this.sendTokenRequest(request, expiresOnParser);

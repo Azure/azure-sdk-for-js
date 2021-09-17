@@ -11,17 +11,15 @@ description: Chat Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: package-chat-2021-04-05-preview6
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/29e0c9624a8e60138127457f2e863bb4a9ba1419/specification/communication/data-plane/Chat/readme.md
+tag: package-chat-2021-09-07
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/communication/data-plane/Chat/readme.md
 model-date-time-as-string: false
 optional-response-headers: true
-use-extension:
-  "@autorest/typescript": "6.0.0-dev.20210114.1"
-  "@autorest/modelerfour": "4.15.442"
+typescript: true
 azure-arm: false
 add-credentials: false
 disable-async-iterators: true
-package-version: 1.1.0-beta.1
+package-version: 1.1.0
 ```
 
 ### Rename CommunicationError to ChatError

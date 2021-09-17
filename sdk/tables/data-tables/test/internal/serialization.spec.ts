@@ -190,7 +190,7 @@ describe("Deserializer", () => {
       },
       true
     );
-    assert.strictEqual(deserialized.int64ObjProp.value, int64Value);
+    assert.strictEqual(deserialized.int64ObjProp.value, `${int64Value}`);
     assert.strictEqual(deserialized.int64ObjProp.type, "Int64");
   });
 
@@ -202,8 +202,20 @@ describe("Deserializer", () => {
       },
       true
     );
-    assert.strictEqual(deserialized.intValue.value, intValue);
+    assert.strictEqual(deserialized.intValue.value, `${intValue}`);
     assert.strictEqual(deserialized.intValue.type, "Int32");
+  });
+
+  it("should return an EDM object for Boolean when disableTypeConversion is true", () => {
+    const boolValue = true;
+    const deserialized = deserialize(
+      {
+        boolValue
+      },
+      true
+    );
+    assert.strictEqual(deserialized.boolValue.value, `${boolValue}`);
+    assert.strictEqual(deserialized.boolValue.type, "Boolean");
   });
 
   it("should return an EDM object for String when disableTypeConversion is true", () => {
@@ -230,7 +242,7 @@ describe("Deserializer", () => {
       },
       true
     );
-    assert.strictEqual(deserialized.intValue.value, doubleValue);
+    assert.strictEqual(deserialized.intValue.value, `${doubleValue}`);
     assert.strictEqual(deserialized.intValue.type, "Int32");
   });
 
@@ -244,7 +256,7 @@ describe("Deserializer", () => {
       },
       true
     );
-    assert.strictEqual(deserialized.intValue.value, doubleValue);
+    assert.strictEqual(deserialized.intValue.value, `${doubleValue}`);
     assert.strictEqual(deserialized.intValue.type, "Double");
   });
 

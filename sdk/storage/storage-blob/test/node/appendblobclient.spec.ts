@@ -23,8 +23,8 @@ import {
 } from "../utils";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { isPlaybackMode, record, Recorder } from "@azure/test-utils-recorder";
-import { Test_CPK_INFO } from "../utils/constants";
+import { isPlaybackMode, record, Recorder } from "@azure-tools/test-recorder";
+import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
 import { Context } from "mocha";
 dotenv.config();
 
@@ -218,7 +218,7 @@ describe("AppendBlobClient Node.js only", () => {
     await appendBlobClient.appendBlockFromURL(blockBlobClient.url, 0, content.length, {
       sourceAuthorization: {
         scheme: "Bearer",
-        parameter: accessToken!.token
+        value: accessToken!.token
       }
     });
 

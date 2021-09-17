@@ -600,3 +600,15 @@ export interface RandomBytes {
   /** The random bytes returned by the service. */
   bytes: Uint8Array;
 }
+
+/**
+ * Options for {@link KeyClient.getCryptographyClient}.
+ */
+export interface GetCryptographyClientOptions {
+  /**
+   * The version of the key to use for cryptographic operations.
+   *
+   * When undefined, the latest version of the key will be used.
+   */
+  keyVersion?: string;
+}

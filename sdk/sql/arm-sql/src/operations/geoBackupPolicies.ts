@@ -25,7 +25,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a GeoBackupPolicies. */
+/** Class containing GeoBackupPolicies operations. */
 export class GeoBackupPoliciesImpl implements GeoBackupPolicies {
   private readonly client: SqlManagementClientContext;
 

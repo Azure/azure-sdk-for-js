@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { DataLakeFileClient, DataLakeFileSystemClient } from "../../src";
@@ -15,6 +15,7 @@ import {
 } from "../utils/index.browser";
 import { MB } from "../../src/utils/constants";
 import { AbortController } from "@azure/abort-controller";
+import { Context } from "mocha";
 
 dotenv.config();
 
@@ -29,7 +30,7 @@ describe("Highlevel browser only", () => {
   const tempFileSmallLength: number = 1 * MB - 1;
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
@@ -39,21 +40,19 @@ describe("Highlevel browser only", () => {
     fileClient = fileSystemClient.getFileClient(fileName);
   });
 
-  afterEach(async function() {
+  afterEach(async function(this: Context) {
     if (!this.currentTest?.isPending()) {
       await fileSystemClient.delete();
       await recorder.stop();
     }
   });
 
-  before(async function() {
+  before(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     tempFileLarge = getBrowserFile(recorder.getUniqueName("browserfilesmall"), tempFileLargeLength);
     tempFileSmall = getBrowserFile(recorder.getUniqueName("browserfilelarge"), tempFileSmallLength);
     await recorder.stop();
   });
-
-  after(async () => {});
 
   it("upload should succeed with a single upload", async () => {
     recorder.skip("browser", "Temp file - recorder doesn't support saving the file");

@@ -21,8 +21,17 @@ export {
   UpsertOperationInput,
   ReplaceOperationInput,
   ReadOperationInput,
-  DeleteOperationInput
+  DeleteOperationInput,
+  PatchOperationInput,
+  BulkPatchOperation
 } from "./utils/batch";
+export {
+  PatchOperation,
+  PatchOperationType,
+  ExistingKeyOperation,
+  RemoveOperation,
+  PatchRequestBody
+} from "./utils/patch";
 export {
   ConnectionMode,
   ConsistencyLevel,

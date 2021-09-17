@@ -290,9 +290,13 @@ export interface SearchRequest {
    * Search request for the next page of results.
    */
   top?: number;
-  /** A value that specifies whether captions should be returned as part of the search response. */
+  /**
+   * A value that specifies whether captions should be returned as part of the search response.
+   */
   captions?: Captions;
-  /** The comma-separated list of field names used for semantic search. */
+  /**
+   * The comma-separated list of field names used for semantic search.
+   */
   semanticFields?: string;
 }
 
@@ -420,6 +424,17 @@ export interface SearchRequestOptions<Fields> {
    * Search request for the next page of results.
    */
   top?: number;
+  /**
+   * This parameter is only valid if the query type is 'semantic'. If set, the query returns captions
+   * extracted from key passages in the highest ranked documents. When Captions is set to 'extractive',
+   * highlighting is enabled by default, and can be configured by appending the pipe character '|'
+   * followed by the 'highlight-true'/'highlight-false' option, such as 'extractive|highlight-true'. Defaults to 'None'.
+   */
+  captions?: Captions;
+  /**
+   * The list of field names used for semantic search.
+   */
+  semanticFields?: string[];
 }
 
 /**

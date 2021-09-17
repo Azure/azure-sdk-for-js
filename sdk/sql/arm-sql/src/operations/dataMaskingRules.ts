@@ -22,7 +22,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a DataMaskingRules. */
+/** Class containing DataMaskingRules operations. */
 export class DataMaskingRulesImpl implements DataMaskingRules {
   private readonly client: SqlManagementClientContext;
 

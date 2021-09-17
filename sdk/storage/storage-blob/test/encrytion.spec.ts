@@ -4,9 +4,9 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { getBSU, recorderEnvSetup } from "./utils";
-import { record, isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
+import { record, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { BlobServiceClient, BlobClient, BlockBlobClient, ContainerClient } from "../src";
-import { Test_CPK_INFO } from "./utils/constants";
+import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
 import { isNode } from "@azure/core-http";
 import { Context } from "mocha";
 dotenv.config();

@@ -36,7 +36,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a FailoverGroups. */
+/** Class containing FailoverGroups operations. */
 export class FailoverGroupsImpl implements FailoverGroups {
   private readonly client: SqlManagementClientContext;
 

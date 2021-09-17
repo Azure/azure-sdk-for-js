@@ -3,7 +3,7 @@
 
 import { TableClient } from "../../src";
 import { Context } from "mocha";
-import { record, Recorder, isPlaybackMode } from "@azure/test-utils-recorder";
+import { record, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { recordedEnvironmentSetup, createTableClient } from "./utils/recordedClient";
 import { isNode } from "@azure/test-utils";
 import { assert } from "chai";

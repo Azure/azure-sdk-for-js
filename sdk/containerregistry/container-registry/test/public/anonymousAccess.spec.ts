@@ -7,7 +7,7 @@ import * as dotenv from "dotenv";
 
 import { ContainerRegistryClient } from "../../src";
 
-import { env, record, Recorder } from "@azure/test-utils-recorder";
+import { env, record, Recorder } from "@azure-tools/test-recorder";
 import { isNode } from "../utils/isNode";
 import { createRegistryClient, recorderEnvSetup } from "../utils/utils";
 

@@ -6,41 +6,82 @@ export { ContainerRepositoryProperties, ArtifactTagProperties } from "./generate
 import { ArtifactTagProperties } from "./generated";
 
 /**
- * Defines known {@link ArtifactArchitecture} that the service supports.
+ * Defines known cloud audiences for Azure Container Registry.
+ */
+export enum KnownContainerRegistryAudience {
+  /** Azure China */
+  AzureResourceManagerChina = "https://management.chinacloudapi.cn",
+  /** Azure Gemany */
+  AzureResourceManagerGermany = "https://management.microsoftazure.de",
+  /** Azure Government */
+  AzureResourceManagerGovernment = "https://management.usgovcloudapi.net",
+  /** Azure Public Cloud */
+  AzureResourceManagerPublicCloud = "https://management.azure.com"
+}
+
+/**
+ * Defines known artifact architectures that the service supports.
  */
 export enum KnownArtifactArchitecture {
+  /** i386 */
   I386 = "386",
+  /** AMD64 */
   Amd64 = "amd64",
+  /** ARM */
   Arm = "arm",
+  /** ARM64 */
   Arm64 = "arm64",
+  /** MIPS */
   Mips = "mips",
+  /** MIPSLE */
   MipsLe = "mipsle",
+  /** MIPS64 */
   Mips64 = "mips64",
+  /** MIPS64LE */
   Mips64Le = "mips64le",
+  /** PPC64 */
   Ppc64 = "ppc64",
+  /** PPC64LE */
   Ppc64Le = "ppc64le",
+  /** RISCv64 */
   RiscV64 = "riscv64",
+  /** s390x */
   S390X = "s390x",
+  /** Wasm */
   Wasm = "wasm"
 }
 
 /**
- * Defines known {@link ArtifactOperatingSystem} values that the service supports.
+ * Defines known artifact platform's operating systems that the service supports.
  */
 export enum KnownArtifactOperatingSystem {
+  /** Aix */
   Aix = "aix",
+  /** Android */
   Android = "android",
+  /** Darwin */
   Darwin = "darwin",
+  /** Dragonfly */
   Dragonfly = "dragonfly",
+  /** FreeBSD */
   FreeBsd = "freebsd",
+  /** Illumos */
   Illumos = "illumos",
+  /** iOS */
   iOS = "ios",
+  /** JS */
   JS = "js",
+  /** Linux */
   Linux = "linux",
+  /** NetBSD */
   NetBsd = "netbsd",
+  /** OpenBSD */
   OpenBsd = "openbsd",
+  /** Plan9 */
   Plan9 = "plan9",
+  /** Solaris */
   Solaris = "solaris",
+  /** Windows */
   Windows = "windows"
 }
 

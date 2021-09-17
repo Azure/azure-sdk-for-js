@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNode } from "@azure/core-http";
+import { isNode } from "@azure/core-util";
 
-export const baseUri = "https://contoso.api.fake:443";
+export const baseUri = "https://contoso.api.fake";
 
 declare function btoa(stringToEncode: string): string;
 

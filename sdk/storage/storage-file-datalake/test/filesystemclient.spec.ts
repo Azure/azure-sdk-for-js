@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { SpanGraph, setTracer } from "@azure/test-utils";
-import { isLiveMode, record, Recorder } from "@azure/test-utils-recorder";
+import { isLiveMode, record, Recorder } from "@azure-tools/test-recorder";
 import { setSpan, context } from "@azure/core-tracing";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
@@ -21,6 +21,7 @@ import {
   recorderEnvSetup
 } from "./utils";
 import { URLBuilder } from "@azure/core-http";
+import { Context } from "mocha";
 
 dotenv.config();
 
@@ -31,7 +32,7 @@ describe("DataLakeFileSystemClient", () => {
   let recorder: Recorder;
   let serviceClient: DataLakeServiceClient;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
@@ -447,7 +448,7 @@ describe("DataLakeFileSystemClient with soft delete", () => {
   let recorder: Recorder;
   let serviceClient: DataLakeServiceClient;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
 
     if (isLiveMode()) {
@@ -466,7 +467,7 @@ describe("DataLakeFileSystemClient with soft delete", () => {
   });
 
   afterEach(async function() {
-    if (fileSystemClient != undefined) {
+    if (fileSystemClient !== undefined) {
       await fileSystemClient.delete();
     }
     await recorder.stop();
@@ -895,7 +896,10 @@ describe("DataLakeFileSystemClient with soft delete", () => {
     try {
       await fileSystemClient.undeletePath(fileName, firstDeleteResponse.deletionId ?? "");
       assert.fail("Second undeletion should fail");
-    } catch (err) {}
+    } catch (err) {
+      /* empty */
+      // The test case here expects an expection, so the exception should not fail the case.
+    }
   });
 
   it("Undelete file and directory with deleteIfExists", async () => {

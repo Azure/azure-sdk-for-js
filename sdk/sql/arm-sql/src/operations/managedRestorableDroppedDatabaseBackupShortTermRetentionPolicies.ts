@@ -31,7 +31,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies. */
+/** Class containing ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies operations. */
 export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImpl
   implements ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies {
   private readonly client: SqlManagementClientContext;
