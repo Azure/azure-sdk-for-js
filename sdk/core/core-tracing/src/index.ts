@@ -15,6 +15,7 @@ export {
   OperationTracingOptions,
   Span,
   SpanAttributes,
+  SpanAttributeValue,
   SpanContext,
   SpanKind,
   SpanOptions,

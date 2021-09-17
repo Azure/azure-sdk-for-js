@@ -105,16 +105,6 @@ export enum SpanKind {
   CONSUMER = 4
 }
 
-// /**
-//  * Set the span on a context
-//  *
-//  * @param context - context to use as parent
-//  * @param span - span to set active
-//  */
-// export function setSpan(context: Context, span: Span): Context {
-//   return otTrace.setSpan(context, span);
-// }
-
 /**
  * Singleton object which represents the entry point to the OpenTelemetry Context API
  */
@@ -123,21 +113,6 @@ export interface ContextAPI {
    * Get the currently active context
    */
   active(): Context;
-
-  /**
-   * Execute a function with an active context.
-   *
-   * @param context context to be active during function execution
-   * @param fn function to execute in a context
-   * @param thisArg optional receiver to be used for calling fn
-   * @param args optional arguments forwarded to fn
-   */
-  with<TArgs extends unknown[], TCallback extends (...args: TArgs) => ReturnType<TCallback>>(
-    context: Context,
-    fn: TCallback,
-    thisArg?: ThisParameterType<TCallback>,
-    ...args: TArgs
-  ): ReturnType<TCallback>;
 }
 
 /**
@@ -213,7 +188,7 @@ export interface Span {
    * @param value - the value for this attribute. Setting a value null or
    *              undefined is invalid and will result in undefined behavior.
    */
-  setAttribute(key: string, value: string | number): this;
+  setAttribute(key: string, value: SpanAttributeValue): this;
   /**
    * Sets attributes to the span.
    *
@@ -228,7 +203,7 @@ export interface Span {
    * @param name - the name of the event.
    * @param attributesOrStartTime -  the attributes that will be added; these are
    *     associated with this event. Can be also a start time
-   *     if type is TimeInput and 3rd param is undefined
+   *     if type is Date and 3rd param is undefined
    * @param startTime - start time of the event.
    */
   addEvent(name: string, attributesOrStartTime?: SpanAttributes | Date, startTime?: Date): this;
@@ -345,8 +320,15 @@ export interface SpanAttributes {
   /**
    * Attributes for a Span.
    */
-  [attributeKey: string]: string | number | boolean;
+  [attributeKey: string]: SpanAttributeValue;
 }
+
+/**
+ * Attribute values may be any non-nullish primitive value except an object.
+ *
+ * null or undefined attribute values are invalid and will result in undefined behavior.
+ */
+export type SpanAttributeValue = string | number | boolean;
 
 /**
  * An interface that enables manual propagation of Spans

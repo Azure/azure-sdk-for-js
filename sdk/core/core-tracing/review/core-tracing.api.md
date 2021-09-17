@@ -17,7 +17,6 @@ export const context: ContextAPI;
 // @public
 export interface ContextAPI {
     active(): Context;
-    with<TArgs extends unknown[], TCallback extends (...args: TArgs) => ReturnType<TCallback>>(context: Context, fn: TCallback, thisArg?: ThisParameterType<TCallback>, ...args: TArgs): ReturnType<TCallback>;
 }
 
 // @public
@@ -66,7 +65,7 @@ export interface Span {
     end(endTime?: Date): void;
     isRecording(): boolean;
     recordException(exception: Error, time?: Date): void;
-    setAttribute(key: string, value: string | number): this;
+    setAttribute(key: string, value: SpanAttributeValue): this;
     setAttributes(attributes: SpanAttributes): this;
     setStatus(status: SpanStatus): this;
     spanContext(): SpanContext;
@@ -75,8 +74,11 @@ export interface Span {
 
 // @public
 export interface SpanAttributes {
-    [attributeKey: string]: string | number | boolean;
+    [attributeKey: string]: SpanAttributeValue;
 }
+
+// @public
+export type SpanAttributeValue = string | number | boolean;
 
 // @public
 export interface SpanContext {
