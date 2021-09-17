@@ -55,7 +55,13 @@ const filter = "testfilter";
 const skiptoken = "testskiptoken";
 const top = 1;
 const metric = "actualcost";
-client.usageDetails.list(scope, expand, filter, skiptoken, top, metric).then((result) => {
+client.usageDetails.list(scope,{
+    expand: expand,
+    filter: filter,
+    skiptoken: skiptoken,
+    top: top,
+    metric: metric
+}).then((result) => {
   console.log("The result is:");
   console.log(result);
 }).catch((err) => {
@@ -98,13 +104,19 @@ In browser applications, we recommend using the `InteractiveBrowserCredential` t
       const skiptoken = "testskiptoken";
       const top = 1;
       const metric = "actualcost";
-      client.usageDetails.list(scope, expand, filter, skiptoken, top, metric).then((result) => {
-        console.log("The result is:");
-        console.log(result);
-      }).catch((err) => {
-        console.log("An error occurred:");
-        console.error(err);
-      });
+      client.usageDetails.list(scope,{
+	    expand: expand,
+	    filter: filter,
+	    skiptoken: skiptoken,
+	    top: top,
+	    metric: metric
+	}).then((result) => {
+	  console.log("The result is:");
+	  console.log(result);
+	}).catch((err) => {
+	  console.log("An error occurred:");
+	  console.error(err);
+	});
     </script>
   </head>
   <body></body>
