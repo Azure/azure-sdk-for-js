@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
-import { MetricsAdvisorTest } from "./client.spec";
-type MetricsAdvisorTestOptions = Record<string, unknown>;
+import { ContainerRegistryTest, ContainerRegistryTestOptions } from "./client.spec";
 
-export class RepositoryListTest extends MetricsAdvisorTest<MetricsAdvisorTestOptions> {
-  public options: PerfStressOptionDictionary<MetricsAdvisorTestOptions> = {};
+export class RepositoryListTest extends ContainerRegistryTest<ContainerRegistryTestOptions> {
+  public options: PerfStressOptionDictionary<ContainerRegistryTestOptions> = {};
   constructor() {
     super();
   }
@@ -14,7 +13,7 @@ export class RepositoryListTest extends MetricsAdvisorTest<MetricsAdvisorTestOpt
     const listIterator = this.client.listRepositoryNames();
 
     // eslint-disable-next-line no-empty
-    for await (const _anomaly of listIterator) {
+    for await (const _repositoryName of listIterator) {
     }
   }
 }

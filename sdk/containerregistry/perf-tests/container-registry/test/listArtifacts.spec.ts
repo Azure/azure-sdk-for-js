@@ -2,10 +2,9 @@
 // Licensed under the MIT license.
 import { PerfStressOptionDictionary, getEnvVar } from "@azure/test-utils-perfstress";
 import { ContainerRepository } from "@azure/container-registry";
-import { MetricsAdvisorTest } from "./client.spec";
-type ContainerRegistryTestOptions = Record<string, unknown>;
+import { ContainerRegistryTest, ContainerRegistryTestOptions } from "./client.spec";
 
-export class ArtifactListTest extends MetricsAdvisorTest<ContainerRegistryTestOptions> {
+export class ArtifactListTest extends ContainerRegistryTest<ContainerRegistryTestOptions> {
   repository: ContainerRepository;
   public options: PerfStressOptionDictionary<ContainerRegistryTestOptions> = {};
   constructor() {
@@ -18,7 +17,7 @@ export class ArtifactListTest extends MetricsAdvisorTest<ContainerRegistryTestOp
 
     // eslint-disable-next-line no-empty
     for await (const manifest of listIterator) {
-      const artifact = this.repository.getArtifact(manifest.digest);
+      this.repository.getArtifact(manifest.digest);
     }
   }
 }

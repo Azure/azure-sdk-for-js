@@ -8,7 +8,7 @@ import { ContainerRegistryClient } from "@azure/container-registry";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-export abstract class MetricsAdvisorTest<TOptions> extends PerfStressTest<TOptions> {
+export abstract class ContainerRegistryTest<TOptions> extends PerfStressTest<TOptions> {
   client: ContainerRegistryClient;
 
   constructor() {
@@ -16,3 +16,5 @@ export abstract class MetricsAdvisorTest<TOptions> extends PerfStressTest<TOptio
     this.client = new ContainerRegistryClient(getEnvVar("CONTAINER_REGISTRY_ENDPOINT"));
   }
 }
+
+export type ContainerRegistryTestOptions = Record<string, unknown>;
