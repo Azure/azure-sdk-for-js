@@ -21,6 +21,7 @@ specifiers:
   '@rush-temp/arm-network': file:./projects/arm-network.tgz
   '@rush-temp/arm-policy': file:./projects/arm-policy.tgz
   '@rush-temp/arm-purview': file:./projects/arm-purview.tgz
+  '@rush-temp/arm-rediscache': file:./projects/arm-rediscache.tgz
   '@rush-temp/arm-resources': file:./projects/arm-resources.tgz
   '@rush-temp/arm-resources-subscriptions': file:./projects/arm-resources-subscriptions.tgz
   '@rush-temp/arm-servicebus': file:./projects/arm-servicebus.tgz
@@ -145,6 +146,7 @@ dependencies:
   '@rush-temp/arm-network': file:projects/arm-network.tgz
   '@rush-temp/arm-policy': file:projects/arm-policy.tgz
   '@rush-temp/arm-purview': file:projects/arm-purview.tgz
+  '@rush-temp/arm-rediscache': file:projects/arm-rediscache.tgz
   '@rush-temp/arm-resources': file:projects/arm-resources.tgz
   '@rush-temp/arm-resources-subscriptions': file:projects/arm-resources-subscriptions.tgz
   '@rush-temp/arm-servicebus': file:projects/arm-servicebus.tgz
@@ -8596,6 +8598,30 @@ packages:
       uglify-js: 3.14.2
     dev: false
 
+  file:projects/arm-rediscache.tgz:
+    resolution: {integrity: sha512-gdHGWiOe7LjN0S+jb3qkDGm/mnkKpeWaSqVcmga2nlIy4kP+ZkiOpI/xtAGCWZIBJV1aFZLP3wnRIe8ZwYgBig==, tarball: file:projects/arm-rediscache.tgz}
+    name: '@rush-temp/arm-rediscache'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.0.0-beta.6
+      '@microsoft/api-extractor': 7.7.11
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.2
+    transitivePeerDependencies:
+      - debug
+      - supports-color
+    dev: false
+
   file:projects/arm-resources-subscriptions.tgz:
     resolution: {integrity: sha512-6GWFjnVvh/TZyCDi+Fj6ShcBGzmKQ8mvChj7v+n68IPy8QUwXlB08EvQ5zo/7+jii9EwFGCBOQok/5+BISRnJg==, tarball: file:projects/arm-resources-subscriptions.tgz}
     name: '@rush-temp/arm-resources-subscriptions'
@@ -8653,7 +8679,7 @@ packages:
     dev: false
 
   file:projects/arm-sql.tgz:
-    resolution: {integrity: sha512-d740cACOOsMXQ3bwlpaXrGeOxAVZMCf+6D+LKN8ltZbTJHPrw5Jv0q6tCp7k+aa+nY6hBP1qYtYfKpk0Rg4wuA==, tarball: file:projects/arm-sql.tgz}
+    resolution: {integrity: sha512-1nv+fHLm/8KtX6rSVv/pmclEN7WzLAFtJuFqOOGUCSYEH0uK/vjrTWdV9/z5v2hCopmTGrnLM1m1JyQTwEL5aA==, tarball: file:projects/arm-sql.tgz}
     name: '@rush-temp/arm-sql'
     version: 0.0.0
     dependencies:
@@ -10132,7 +10158,7 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-Znp/pWCEiVRhPM+mk2OVq9n1+fbGl7kkvL9mkWWKuHIXsjQZB9hBAL7EclBtRsqDVABFj9tRos4SXkDvj/cUVQ==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-D3tr8uQ85UFSFzCGQBpvzM6AUzjVjad/XlSja8lQeXnHUeHAfx/YH3FRGkXlsYYmVmDHLEOHTrxwBDzVZSuOoA==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
