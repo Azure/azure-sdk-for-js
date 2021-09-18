@@ -4,8 +4,8 @@ This package contains an isomorphic SDK for FormRecognizerClient.
 
 ### Currently supported environments
 
-- Node.js version 6.x.x or higher
-- Browser JavaScript
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
 
 ### How to Install
 
@@ -19,12 +19,12 @@ npm install @azure/cognitiveservices-formrecognizer
 
 ##### Install @azure/ms-rest-azure-js
 
-
 ```bash
 npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
+
 The following sample reads the scanned copy of a sample receipt. To know more, refer to the [Azure Documentation on Form Recognizer](https://docs.microsoft.com/azure/cognitive-services/form-recognizer/overview)
 
 ```javascript

@@ -4,8 +4,8 @@ This package contains an isomorphic SDK for WebSearchClient.
 
 ### Currently supported environments
 
-- Node.js version 6.x.x or higher
-- Browser JavaScript
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
 
 ### How to Install
 
@@ -24,6 +24,7 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
+
 The following sample performs a web search on the text 'Microsoft Azure'. To know more, refer to the [Azure Documentation on Bing Web Search](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/)
 
 ```javascript
@@ -32,11 +33,8 @@ const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
 
 async function main() {
   const webSearchKey = process.env["webSearchKey"] || "<webSearchKey>";
-  const webSearchEndPoint =
-    process.env["webSearchEndPoint"] || "<webSearchEndPoint>";
-  const cognitiveServiceCredentials = new CognitiveServicesCredentials(
-    webSearchKey
-  );
+  const webSearchEndPoint = process.env["webSearchEndPoint"] || "<webSearchEndPoint>";
+  const cognitiveServiceCredentials = new CognitiveServicesCredentials(webSearchKey);
   const client = new WebSearchClient(cognitiveServiceCredentials, {
     endpoint: webSearchEndPoint
   });
@@ -48,11 +46,11 @@ async function main() {
   };
   client.web
     .search(query, options)
-    .then(result => {
+    .then((result) => {
       console.log("The result is: ");
       console.log(result);
     })
-    .catch(err => {
+    .catch((err) => {
       console.log("An error occurred:");
       console.error(err);
     });
@@ -97,11 +95,11 @@ main();
       };
       client.web
         .search(query, options)
-        .then(result => {
+        .then((result) => {
           console.log("The result is: ");
           console.log(result);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log("An error occurred:");
           console.error(err);
         });
@@ -109,7 +107,6 @@ main();
   </head>
   <body></body>
 </html>
-
 ```
 
 ## Related projects

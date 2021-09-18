@@ -4,8 +4,8 @@ This package contains an isomorphic SDK for ManagedLabsClient.
 
 ### Currently supported environments
 
-- Node.js version 6.x.x or higher
-- Browser JavaScript
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
 
 ### How to Install
 
@@ -32,15 +32,18 @@ import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { ManagedLabsClient, ManagedLabsModels, ManagedLabsMappers } from "@azure/arm-labservices";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
-msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new ManagedLabsClient(creds, subscriptionId);
-  client.providerOperations.list().then((result) => {
-    console.log("The result is:");
-    console.log(result);
+msRestNodeAuth
+  .interactiveLogin()
+  .then((creds) => {
+    const client = new ManagedLabsClient(creds, subscriptionId);
+    client.providerOperations.list().then((result) => {
+      console.log("The result is:");
+      console.log(result);
+    });
+  })
+  .catch((err) => {
+    console.error(err);
   });
-}).catch((err) => {
-  console.error(err);
-});
 ```
 
 #### browser - Authentication, client creation and list providerOperations as an example written in JavaScript.
@@ -56,6 +59,7 @@ npm install @azure/ms-rest-browserauth
 See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -77,13 +81,16 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           authManager.login();
         }
         const client = new Azure.ArmLabservices.ManagedLabsClient(res.creds, subscriptionId);
-        client.providerOperations.list().then((result) => {
-          console.log("The result is:");
-          console.log(result);
-        }).catch((err) => {
-          console.log("An error occurred:");
-          console.error(err);
-        });
+        client.providerOperations
+          .list()
+          .then((result) => {
+            console.log("The result is:");
+            console.log(result);
+          })
+          .catch((err) => {
+            console.log("An error occurred:");
+            console.error(err);
+          });
       });
     </script>
   </head>
@@ -94,6 +101,5 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
-
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Flabservices%2Farm-labservices%2FREADME.png)

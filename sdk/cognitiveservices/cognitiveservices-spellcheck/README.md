@@ -4,8 +4,8 @@ This package contains an isomorphic SDK for SpellCheckClient.
 
 ### Currently supported environments
 
-- Node.js version 6.x.x or higher
-- Browser JavaScript
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
 
 ### How to Install
 
@@ -15,7 +15,7 @@ npm install @azure/cognitiveservices-spellcheck
 
 ### How to use
 
-#### nodejs - Authentication, client creation and spellChecker  as an example written in TypeScript.
+#### nodejs - Authentication, client creation and spellChecker as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-azure-js
 
@@ -24,6 +24,7 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
+
 The following sample performs a spell check on the text - 'Bill Gatos'. The result will return a suggestion of 'Gates'. To know more, refer to the [Azure Documentation on Spell Check](https://docs.microsoft.com/azure/cognitive-services/bing-spell-check/)
 
 ```javascript
@@ -32,11 +33,8 @@ const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
 
 async function main() {
   const spellCheckKey = process.env["spellCheckKey"] || "<spellCheckKey>";
-  const spellCheckEndPoint =
-    process.env["spellCheckEndPoint"] || "<spellCheckEndPoint>";
-  const cognitiveServiceCredentials = new CognitiveServicesCredentials(
-    spellCheckKey
-  );
+  const spellCheckEndPoint = process.env["spellCheckEndPoint"] || "<spellCheckEndPoint>";
+  const cognitiveServiceCredentials = new CognitiveServicesCredentials(spellCheckKey);
   const client = new SpellCheckClient(cognitiveServiceCredentials, {
     endpoint: spellCheckEndPoint
   });
@@ -48,15 +46,15 @@ async function main() {
 
   client
     .spellChecker("Bill Gatos", options)
-    .then(result => {
+    .then((result) => {
       console.log("The result is: ");
-      result.flaggedTokens.forEach(flaggedToken => {
-        flaggedToken.suggestions.forEach(suggestion => {
+      result.flaggedTokens.forEach((flaggedToken) => {
+        flaggedToken.suggestions.forEach((suggestion) => {
           console.log(suggestion);
         });
       });
     })
-    .catch(err => {
+    .catch((err) => {
       console.log("An error occurred:");
       console.error(err);
     });
@@ -65,11 +63,12 @@ async function main() {
 main();
 ```
 
-#### browser - Authentication, client creation and spellChecker  as an example written in JavaScript.
+#### browser - Authentication, client creation and spellChecker as an example written in JavaScript.
 
 ##### Sample code
 
 - index.html
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -99,15 +98,15 @@ main();
 
       client
         .spellChecker("Bill Gatos", options)
-        .then(result => {
+        .then((result) => {
           console.log("The result is: ");
-          result.flaggedTokens.forEach(flaggedToken => {
-            flaggedToken.suggestions.forEach(suggestion => {
+          result.flaggedTokens.forEach((flaggedToken) => {
+            flaggedToken.suggestions.forEach((suggestion) => {
               console.log(suggestion);
             });
           });
         })
-        .catch(err => {
+        .catch((err) => {
           console.log("An error occurred:");
           console.error(err);
         });

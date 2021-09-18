@@ -4,8 +4,8 @@ This package contains an isomorphic SDK for EntitySearchClient.
 
 ### Currently supported environments
 
-- Node.js version 6.x.x or higher
-- Browser JavaScript
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
 
 ### How to Install
 
@@ -24,6 +24,7 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
+
 The following sample performs a Bing entity search on the query 'Microsoft Azure'. To know more, refer to the [Azure Documentation on Bing Entities Search](https://docs.microsoft.com/azure/cognitive-services/bing-entities-search/).
 
 ```javascript
@@ -32,22 +33,19 @@ const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
 
 async function main() {
   const entitySearchKey = process.env["entitySearchKey"] || "<entitySearchKey>";
-  const entitySearchEndPoint =
-    process.env["entitySearchEndPoint"] || "<entitySearchEndPoint>";
-  const cognitiveServiceCredentials = new CognitiveServicesCredentials(
-    entitySearchKey
-  );
+  const entitySearchEndPoint = process.env["entitySearchEndPoint"] || "<entitySearchEndPoint>";
+  const cognitiveServiceCredentials = new CognitiveServicesCredentials(entitySearchKey);
   const client = new EntitySearchClient(cognitiveServiceCredentials, {
     endpoint: entitySearchEndPoint
   });
   const query = "Microsoft Azure";
   client.entities
     .search(query)
-    .then(result => {
+    .then((result) => {
       console.log("The result is: ");
       console.log(result);
     })
-    .catch(err => {
+    .catch((err) => {
       console.log("An error occurred:");
       console.error(err);
     });
@@ -61,6 +59,7 @@ main();
 ##### Sample code
 
 - index.html
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -86,11 +85,11 @@ main();
       const query = "Microsoft Azure";
       client.entities
         .search(query)
-        .then(result => {
+        .then((result) => {
           console.log("The result is: ");
           console.log(result);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log("An error occurred:");
           console.error(err);
         });

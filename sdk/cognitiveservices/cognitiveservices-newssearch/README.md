@@ -4,8 +4,8 @@ This package contains an isomorphic SDK for NewsSearchClient.
 
 ### Currently supported environments
 
-- Node.js version 6.x.x or higher
-- Browser JavaScript
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
 
 ### How to Install
 
@@ -24,6 +24,7 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
+
 The following sample performs a news search on 'Microsoft Azure' with conditions such as the freshness must be within a Month, etc. To know more, refer to the [Azure Documentation on Bing News Search](https://docs.microsoft.com/azure/cognitive-services/bing-news-search/)
 
 ```javascript
@@ -32,9 +33,7 @@ const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
 
 async function main() {
   const newsSearchKey = process.env["newsSearchKey"] || "<newsSearchKey>";
-  const cognitiveServiceCredentials = new CognitiveServicesCredentials(
-    newsSearchKey
-  );
+  const cognitiveServiceCredentials = new CognitiveServicesCredentials(newsSearchKey);
   const client = new NewsSearchClient(cognitiveServiceCredentials);
   const query = "Microsoft Azure";
   const options = {
@@ -44,11 +43,11 @@ async function main() {
   };
   client.news
     .search(query, options)
-    .then(result => {
+    .then((result) => {
       console.log("The result is:");
       console.log(result);
     })
-    .catch(err => {
+    .catch((err) => {
       console.log("An error occurred:");
       console.error(err);
     });
@@ -62,6 +61,7 @@ main();
 ##### Sample code
 
 - index.html
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -88,11 +88,11 @@ main();
       };
       client.news
         .search(query, options)
-        .then(result => {
+        .then((result) => {
           console.log("The result is:");
           console.log(result);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log("An error occurred:");
           console.error(err);
         });

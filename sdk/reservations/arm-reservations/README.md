@@ -4,8 +4,8 @@ This package contains an isomorphic SDK for AzureReservationAPI.
 
 ### Currently supported environments
 
-- Node.js version 6.x.x or higher
-- Browser JavaScript
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
 
 ### How to Install
 
@@ -20,6 +20,7 @@ npm install @azure/arm-reservations
 ##### Install @azure/ms-rest-nodeauth
 
 - Please install minimum version of `"@azure/ms-rest-nodeauth": "^3.0.0"`.
+
 ```bash
 npm install @azure/ms-rest-nodeauth@"^3.0.0"
 ```
@@ -30,19 +31,21 @@ npm install @azure/ms-rest-nodeauth@"^3.0.0"
 const { AzureReservationAPI } = require("@azure/arm-reservations");
 const { interactiveLogin } = require("@azure/ms-rest-nodeauth");
 
-interactiveLogin().then((creds) => {
-  const client = new AzureReservationAPI(creds);
-  const subscriptionId = "testsubscriptionId";
-  const providerId = "testproviderId";
-  const location = "westus";
-  const resourceName = "testresourceName";
-  client.quota.get(subscriptionId, providerId, location, resourceName).then((result) => {
-    console.log("The result is:");
-    console.log(result);
+interactiveLogin()
+  .then((creds) => {
+    const client = new AzureReservationAPI(creds);
+    const subscriptionId = "testsubscriptionId";
+    const providerId = "testproviderId";
+    const location = "westus";
+    const resourceName = "testresourceName";
+    client.quota.get(subscriptionId, providerId, location, resourceName).then((result) => {
+      console.log("The result is:");
+      console.log(result);
+    });
+  })
+  .catch((err) => {
+    console.error(err);
   });
-}).catch((err) => {
-  console.error(err);
-});
 ```
 
 #### browser - Authentication, client creation and get quota as an example written in JavaScript.
@@ -58,6 +61,7 @@ npm install @azure/ms-rest-browserauth
 See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -82,13 +86,16 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
         const providerId = "testproviderId";
         const location = "westus";
         const resourceName = "testresourceName";
-        client.quota.get(subscriptionId, providerId, location, resourceName).then((result) => {
-          console.log("The result is:");
-          console.log(result);
-        }).catch((err) => {
-          console.log("An error occurred:");
-          console.error(err);
-        });
+        client.quota
+          .get(subscriptionId, providerId, location, resourceName)
+          .then((result) => {
+            console.log("The result is:");
+            console.log(result);
+          })
+          .catch((err) => {
+            console.log("An error occurred:");
+            console.error(err);
+          });
       });
     </script>
   </head>

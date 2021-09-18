@@ -4,8 +4,8 @@ This package contains an isomorphic SDK for LUISRuntimeClient.
 
 ### Currently supported environments
 
-- Node.js version 6.x.x or higher
-- Browser JavaScript
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
 
 ### How to Install
 
@@ -51,7 +51,7 @@ const predictionRequest = {
       entityName: "testentityName",
       startIndex: 1,
       entityLength: 1,
-	    score: 0.86,
+      score: 0.86,
       resolution: {}
     }
   ],
@@ -84,8 +84,6 @@ client.prediction
 
 #### browser - Authentication, client creation and getVersionPrediction prediction as an example written in JavaScript.
 
-
-
 ##### Sample code
 
 - index.html
@@ -99,8 +97,9 @@ client.prediction
     <script src="node_modules/@azure/cognitiveservices-luis-runtime/dist/cognitiveservices-luis-runtime.js"></script>
     <script type="text/javascript">
       let authoringKey = process.env["luis-authoring-key"];
-      const creds = new msRest.ApiKeyCredentials({ inHeader: { 'Ocp-Apim-Subscription-Key': authoringKey } });
-
+      const creds = new msRest.ApiKeyCredentials({
+        inHeader: { "Ocp-Apim-Subscription-Key": authoringKey }
+      });
 
       // check the following link to find your region
       // https://docs.microsoft.com/azure/cognitive-services/luis/luis-reference-regions
@@ -124,7 +123,7 @@ client.prediction
             entityName: "testentityName",
             startIndex: 1,
             entityLength: 1,
-			      score: 0.9,
+            score: 0.9,
             resolution: {}
           }
         ],

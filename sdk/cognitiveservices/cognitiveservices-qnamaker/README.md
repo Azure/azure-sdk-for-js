@@ -5,8 +5,8 @@ For interacting with QnAMaker such as training and asking questions please see @
 
 ### Currently supported environments
 
-- Node.js version 6.x.x or higher
-- Browser JavaScript
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
 
 ### How to Install
 
@@ -27,7 +27,7 @@ npm install @azure/ms-rest-azure-js
 ##### Sample code
 
 ```javascript
-const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");  
+const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
 const { QnAMakerClient } = require("@azure/cognitiveservices-qnamaker");
 
 async function main() {

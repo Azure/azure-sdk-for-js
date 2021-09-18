@@ -4,8 +4,8 @@ This package contains an isomorphic SDK for TextAnalyticsClient.
 
 ### Currently supported environments
 
-- Node.js version 6.x.x or higher
-- Browser JavaScript
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
 
 ### How to Install
 
@@ -15,7 +15,7 @@ npm install @azure/cognitiveservices-textanalytics
 
 ### How to use
 
-#### nodejs - Authentication, client creation and detectLanguage  as an example written in TypeScript.
+#### nodejs - Authentication, client creation and detectLanguage as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-azure-js
 
@@ -24,6 +24,7 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
+
 The following sample detects the langauge in the provided text. In addition, it provides data such as Characters count, transaction count, etc. To know more, refer to the [Azure Documentation on Text Analytics](https://docs.microsoft.com/azure/cognitive-services/text-analytics/overview)
 
 ```javascript
@@ -31,17 +32,10 @@ const { TextAnalyticsClient } = require("@azure/cognitiveservices-textanalytics"
 const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
 
 async function main() {
-  const textAnalyticsKey =
-    process.env["textAnalyticsKey"] || "<textAnalyticsKey>";
-  const textAnalyticsEndPoint =
-    process.env["textAnalyticsEndPoint"] || "<textAnalyticsEndPoint>";
-  const cognitiveServiceCredentials = new CognitiveServicesCredentials(
-    textAnalyticsKey
-  );
-  const client = new TextAnalyticsClient(
-    cognitiveServiceCredentials,
-    textAnalyticsEndPoint
-  );
+  const textAnalyticsKey = process.env["textAnalyticsKey"] || "<textAnalyticsKey>";
+  const textAnalyticsEndPoint = process.env["textAnalyticsEndPoint"] || "<textAnalyticsEndPoint>";
+  const cognitiveServiceCredentials = new CognitiveServicesCredentials(textAnalyticsKey);
+  const client = new TextAnalyticsClient(cognitiveServiceCredentials, textAnalyticsEndPoint);
   const options = {
     showStats: true,
     languageBatchInput: {
@@ -59,37 +53,33 @@ async function main() {
   };
   client
     .detectLanguage(options)
-    .then(result => {
+    .then((result) => {
       console.log("The result is:");
-      result.documents.forEach(document => {
+      result.documents.forEach((document) => {
         console.log(`Id: ${document.id}`);
         console.log("Detected Languages:");
-        document.detectedLanguages.forEach(dl => {
+        document.detectedLanguages.forEach((dl) => {
           console.log(dl.name);
         });
-        console.log(
-          `Characters Count: ${document.statistics.charactersCount}`
-        );
-        console.log(
-          `Transactions Count: ${document.statistics.transactionsCount}`
-        );
+        console.log(`Characters Count: ${document.statistics.charactersCount}`);
+        console.log(`Transactions Count: ${document.statistics.transactionsCount}`);
       });
     })
-    .catch(err => {
+    .catch((err) => {
       console.log("An error occurred:");
       console.error(err);
     });
 }
 
 main();
-
 ```
 
-#### browser - Authentication, client creation and detectLanguage  as an example written in JavaScript.
+#### browser - Authentication, client creation and detectLanguage as an example written in JavaScript.
 
 ##### Sample code
 
 - index.html
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -128,23 +118,19 @@ main();
 
       client
         .detectLanguage(options)
-        .then(result => {
+        .then((result) => {
           console.log("The result is:");
-          result.documents.forEach(document => {
+          result.documents.forEach((document) => {
             console.log(`Id: ${document.id}`);
             console.log("Detected Languages:");
-            document.detectedLanguages.forEach(dl => {
+            document.detectedLanguages.forEach((dl) => {
               console.log(dl.name);
             });
-            console.log(
-              `Characters Count: ${document.statistics.charactersCount}`
-            );
-            console.log(
-              `Transactions Count: ${document.statistics.transactionsCount}`
-            );
+            console.log(`Characters Count: ${document.statistics.charactersCount}`);
+            console.log(`Transactions Count: ${document.statistics.transactionsCount}`);
           });
         })
-        .catch(err => {
+        .catch((err) => {
           console.log("An error occurred:");
           console.error(err);
         });

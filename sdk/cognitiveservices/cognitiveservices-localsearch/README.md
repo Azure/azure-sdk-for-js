@@ -4,8 +4,8 @@ This package contains an isomorphic SDK for LocalSearchClient.
 
 ### Currently supported environments
 
-- Node.js version 6.x.x or higher
-- Browser JavaScript
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
 
 ### How to Install
 
@@ -24,6 +24,7 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
+
 The following sample performs an local business search with the query 'Coffee 98052'. To know more, refer to the [Azure Documentation on Bing Local Search](https://docs.microsoft.com/azure/cognitive-services/bing-local-business-search/)
 
 ```javascript
@@ -32,29 +33,26 @@ const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
 
 async function main() {
   const localSearchKey = process.env["localSearchKey"] || "<localSearchKey>";
-  const cognitiveServiceCredentials = new CognitiveServicesCredentials(
-    localSearchKey
-  );
+  const cognitiveServiceCredentials = new CognitiveServicesCredentials(localSearchKey);
   const client = new LocalSearchClient(cognitiveServiceCredentials, {
     baseUri: "https://api.cognitive.microsoft.com/"
   });
 
   client.local
     .search("Coffee 98052")
-    .then(result => {
+    .then((result) => {
       console.log("The result is: ");
-      result.places.value.forEach(place => {
+      result.places.value.forEach((place) => {
         console.log(place);
       });
     })
-    .catch(err => {
+    .catch((err) => {
       console.log("An error occurred:");
       console.error(err);
     });
 }
 
 main();
-
 ```
 
 #### browser - Authentication, client creation and search local as an example written in JavaScript.
@@ -62,6 +60,7 @@ main();
 ##### Sample code
 
 - index.html
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -85,13 +84,13 @@ main();
 
       client.local
         .search("Coffee 98052")
-        .then(result => {
+        .then((result) => {
           console.log("The result is: ");
-          result.places.value.forEach(place => {
+          result.places.value.forEach((place) => {
             console.log(place);
           });
         })
-        .catch(err => {
+        .catch((err) => {
           console.log("An error occurred:");
           console.error(err);
         });
@@ -99,7 +98,6 @@ main();
   </head>
   <body></body>
 </html>
-
 ```
 
 ## Related projects

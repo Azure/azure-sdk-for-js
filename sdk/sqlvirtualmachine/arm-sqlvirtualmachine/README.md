@@ -4,8 +4,8 @@ This package contains an isomorphic SDK for SqlVirtualMachineManagementClient.
 
 ### Currently supported environments
 
-- Node.js version 6.x.x or higher
-- Browser JavaScript
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
 
 ### How to Install
 
@@ -20,6 +20,7 @@ npm install @azure/arm-sqlvirtualmachine
 ##### Install @azure/ms-rest-nodeauth
 
 - Please install minimum version of `"@azure/ms-rest-nodeauth": "^3.0.0"`.
+
 ```bash
 npm install @azure/ms-rest-nodeauth@"^3.0.0"
 ```
@@ -30,21 +31,30 @@ npm install @azure/ms-rest-nodeauth@"^3.0.0"
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { SqlVirtualMachineManagementClient, SqlVirtualMachineManagementModels, SqlVirtualMachineManagementMappers } from "@azure/arm-sqlvirtualmachine";
+import {
+  SqlVirtualMachineManagementClient,
+  SqlVirtualMachineManagementModels,
+  SqlVirtualMachineManagementMappers
+} from "@azure/arm-sqlvirtualmachine";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
-msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new SqlVirtualMachineManagementClient(creds, subscriptionId);
-  const resourceGroupName = "testresourceGroupName";
-  const sqlVirtualMachineGroupName = "testsqlVirtualMachineGroupName";
-  const availabilityGroupListenerName = "testavailabilityGroupListenerName";
-  client.availabilityGroupListeners.get(resourceGroupName, sqlVirtualMachineGroupName, availabilityGroupListenerName).then((result) => {
-    console.log("The result is:");
-    console.log(result);
+msRestNodeAuth
+  .interactiveLogin()
+  .then((creds) => {
+    const client = new SqlVirtualMachineManagementClient(creds, subscriptionId);
+    const resourceGroupName = "testresourceGroupName";
+    const sqlVirtualMachineGroupName = "testsqlVirtualMachineGroupName";
+    const availabilityGroupListenerName = "testavailabilityGroupListenerName";
+    client.availabilityGroupListeners
+      .get(resourceGroupName, sqlVirtualMachineGroupName, availabilityGroupListenerName)
+      .then((result) => {
+        console.log("The result is:");
+        console.log(result);
+      });
+  })
+  .catch((err) => {
+    console.error(err);
   });
-}).catch((err) => {
-  console.error(err);
-});
 ```
 
 #### browser - Authentication, client creation and get availabilityGroupListeners as an example written in JavaScript.
@@ -60,6 +70,7 @@ npm install @azure/ms-rest-browserauth
 See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -80,17 +91,23 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.ArmSqlvirtualmachine.SqlVirtualMachineManagementClient(res.creds, subscriptionId);
+        const client = new Azure.ArmSqlvirtualmachine.SqlVirtualMachineManagementClient(
+          res.creds,
+          subscriptionId
+        );
         const resourceGroupName = "testresourceGroupName";
         const sqlVirtualMachineGroupName = "testsqlVirtualMachineGroupName";
         const availabilityGroupListenerName = "testavailabilityGroupListenerName";
-        client.availabilityGroupListeners.get(resourceGroupName, sqlVirtualMachineGroupName, availabilityGroupListenerName).then((result) => {
-          console.log("The result is:");
-          console.log(result);
-        }).catch((err) => {
-          console.log("An error occurred:");
-          console.error(err);
-        });
+        client.availabilityGroupListeners
+          .get(resourceGroupName, sqlVirtualMachineGroupName, availabilityGroupListenerName)
+          .then((result) => {
+            console.log("The result is:");
+            console.log(result);
+          })
+          .catch((err) => {
+            console.log("An error occurred:");
+            console.error(err);
+          });
       });
     </script>
   </head>

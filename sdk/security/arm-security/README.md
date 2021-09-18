@@ -4,8 +4,8 @@ This package contains an isomorphic SDK for SecurityCenter.
 
 ### Currently supported environments
 
-- Node.js version 6.x.x or higher
-- Browser JavaScript
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
 
 ### How to Install
 
@@ -20,6 +20,7 @@ npm install @azure/arm-security
 ##### Install @azure/ms-rest-nodeauth
 
 - Please install minimum version of `"@azure/ms-rest-nodeauth": "^3.0.0"`.
+
 ```bash
 npm install @azure/ms-rest-nodeauth@"^3.0.0"
 ```
@@ -33,16 +34,19 @@ import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { SecurityCenter, SecurityCenterModels, SecurityCenterMappers } from "@azure/arm-security";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
-msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new SecurityCenter(creds, subscriptionId);
-  const scope = "testscope";
-  client.complianceResults.list(scope).then((result) => {
-    console.log("The result is:");
-    console.log(result);
+msRestNodeAuth
+  .interactiveLogin()
+  .then((creds) => {
+    const client = new SecurityCenter(creds, subscriptionId);
+    const scope = "testscope";
+    client.complianceResults.list(scope).then((result) => {
+      console.log("The result is:");
+      console.log(result);
+    });
+  })
+  .catch((err) => {
+    console.error(err);
   });
-}).catch((err) => {
-  console.error(err);
-});
 ```
 
 #### browser - Authentication, client creation and list complianceResults as an example written in JavaScript.
@@ -58,6 +62,7 @@ npm install @azure/ms-rest-browserauth
 See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -80,13 +85,16 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
         }
         const client = new Azure.ArmSecurity.SecurityCenter(res.creds, subscriptionId);
         const scope = "testscope";
-        client.complianceResults.list(scope).then((result) => {
-          console.log("The result is:");
-          console.log(result);
-        }).catch((err) => {
-          console.log("An error occurred:");
-          console.error(err);
-        });
+        client.complianceResults
+          .list(scope)
+          .then((result) => {
+            console.log("The result is:");
+            console.log(result);
+          })
+          .catch((err) => {
+            console.log("An error occurred:");
+            console.error(err);
+          });
       });
     </script>
   </head>

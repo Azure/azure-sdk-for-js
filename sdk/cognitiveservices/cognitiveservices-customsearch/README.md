@@ -4,8 +4,8 @@ This package contains an isomorphic SDK for CustomSearchClient.
 
 ### Currently supported environments
 
-- Node.js version 6.x.x or higher
-- Browser JavaScript
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
 
 ### How to Install
 
@@ -24,6 +24,7 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
+
 The following sample performs a search for given query on a custom configuration. The custom configuration can be setup using the Custom search portal. To know more, refer to the [Azure Documentation Bing Custom Search](https://docs.microsoft.com/azure/cognitive-services/bing-custom-search/)
 
 ```javascript
@@ -32,12 +33,9 @@ const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
 
 async function main() {
   const customSearchKey = process.env["customSearchKey"] || "<customSearchKey>";
-  const customSearchEndPoint =
-    process.env["customSearchEndPoint"] || "<customSearchEndPoint>";
+  const customSearchEndPoint = process.env["customSearchEndPoint"] || "<customSearchEndPoint>";
   const customConfig = process.env["customConfig"] || "<customConfig>";
-  const cognitiveServiceCredentials = new CognitiveServicesCredentials(
-    customSearchKey
-  );
+  const cognitiveServiceCredentials = new CognitiveServicesCredentials(customSearchKey);
   const client = new CustomSearchClient(cognitiveServiceCredentials, {
     endpoint: customSearchEndPoint
   });
@@ -48,11 +46,11 @@ async function main() {
   };
   client.customInstance
     .search(customConfig, query, options)
-    .then(result => {
+    .then((result) => {
       console.log("The result is: ");
       console.log(result);
     })
-    .catch(err => {
+    .catch((err) => {
       console.log("An error occurred:");
       console.error(err);
     });
@@ -66,6 +64,7 @@ main();
 ##### Sample code
 
 - index.html
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -98,11 +97,11 @@ main();
       };
       client.customInstance
         .search(customConfig, query, options)
-        .then(result => {
+        .then((result) => {
           console.log("The result is: ");
           console.log(result);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log("An error occurred:");
           console.error(err);
         });

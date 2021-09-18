@@ -4,8 +4,8 @@ This package contains an isomorphic SDK for PredictionAPIClient.
 
 ### Currently supported environments
 
-- Node.js version 6.x.x or higher
-- Browser JavaScript
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
 
 ### How to Install
 
@@ -18,6 +18,7 @@ npm install @azure/cognitiveservices-customvision-prediction
 #### nodejs - Authentication, client creation and classifyImageUrl as an example written in TypeScript.
 
 ##### Sample code
+
 The following sample predicts and classifies the given image based on your custom vision training. To know more, refer to the [Azure Documentation on Custom Vision Services](https://docs.microsoft.com/azure/cognitive-services/custom-vision-service/home).
 
 ```javascript
@@ -28,11 +29,12 @@ async function main() {
   const customVisionPredictionKey =
     process.env["customVisionPredictionKey"] || "<customVisionPredictionKey>";
   const customVisionPredictionEndPoint =
-    process.env["customVisionPredictionEndPoint"] ||
-    "<customVisionPredictionEndPoint>";
+    process.env["customVisionPredictionEndPoint"] || "<customVisionPredictionEndPoint>";
   const projectId = process.env["projectId"] || "<projectId>";
 
-  const credentials = new ApiKeyCredentials({ inHeader: {"Prediction-key": customVisionPredictionKey } });
+  const credentials = new ApiKeyCredentials({
+    inHeader: { "Prediction-key": customVisionPredictionKey }
+  });
   const client = new PredictionAPIClient(credentials, customVisionPredictionEndPoint);
 
   const imageURL =
@@ -40,11 +42,11 @@ async function main() {
 
   client
     .classifyImageUrl(projectId, "Iteration1", { url: imageURL })
-    .then(result => {
+    .then((result) => {
       console.log("The result is: ");
       console.log(result);
     })
-    .catch(err => {
+    .catch((err) => {
       console.log("An error occurred:");
       console.error(err);
     });
@@ -53,11 +55,12 @@ async function main() {
 main();
 ```
 
-#### browser - Authentication, client creation and classifyImageUrl  as an example written in JavaScript.
+#### browser - Authentication, client creation and classifyImageUrl as an example written in JavaScript.
 
 ##### Sample code
 
 - index.html
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -67,8 +70,7 @@ main();
     <script src="node_modules/@azure/cognitiveservices-customvision-prediction/dist/cognitiveservices-customvision-prediction.js"></script>
     <script type="text/javascript">
       const customVisionPredictionKey = "<YOUR_CUSTOM_VISION_PREDICTION_KEY>";
-      const customVisionPredictionEndPoint =
-        "<YOUR_CUSTOM_VISION_PREDICTION_ENDPOINT>";
+      const customVisionPredictionEndPoint = "<YOUR_CUSTOM_VISION_PREDICTION_ENDPOINT>";
       const projectId = "<YOUR_CUSTOM_VISION_PREDICTION_PROJECTID>";
       const cognitiveServiceCredentials = new msRest.ApiKeyCredentials({
         inHeader: {
@@ -86,11 +88,11 @@ main();
 
       client
         .classifyImageUrl(projectId, "Iteration1", { url: imageURL })
-        .then(result => {
+        .then((result) => {
           console.log("The result is: ");
           console.log(result);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log("An error occurred:");
           console.error(err);
         });

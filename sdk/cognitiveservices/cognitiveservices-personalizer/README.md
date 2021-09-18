@@ -4,8 +4,8 @@ This package contains an isomorphic SDK for PersonalizerClient.
 
 ### Currently supported environments
 
-- Node.js version 6.x.x or higher
-- Browser JavaScript
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
 
 ### How to Install
 
@@ -24,6 +24,7 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
+
 The following sample ranks a personalized request object. To know more, refer to the [Azure Documentation on Personalizer](https://docs.microsoft.com/azure/cognitive-services/personalizer/)
 
 ```javascript
@@ -32,16 +33,10 @@ const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
 
 async function main() {
   const personalizerKey = process.env["personalizerKey"] || "<personalizerKey>";
-  const personalizerEndPoint =
-    process.env["personalizerEndPoint"] || "<personalizerEndPoint>";
-  const cognitiveServiceCredentials = new CognitiveServicesCredentials(
-    personalizerKey
-  );
+  const personalizerEndPoint = process.env["personalizerEndPoint"] || "<personalizerEndPoint>";
+  const cognitiveServiceCredentials = new CognitiveServicesCredentials(personalizerKey);
 
-  const client = new PersonalizerClient(
-    cognitiveServiceCredentials,
-    personalizerEndPoint
-  );
+  const client = new PersonalizerClient(cognitiveServiceCredentials, personalizerEndPoint);
 
   const rankRequest = {
     contextFeatures: [
@@ -82,11 +77,11 @@ async function main() {
 
   client
     .rank(rankRequest)
-    .then(result => {
+    .then((result) => {
       console.log("The result is: ");
       console.log(result);
     })
-    .catch(err => {
+    .catch((err) => {
       console.log("An error occurred:");
       console.error(err);
     });
@@ -100,6 +95,7 @@ main();
 ##### Sample code
 
 - index.html
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -159,11 +155,11 @@ main();
 
       client
         .rank(rankRequest)
-        .then(result => {
+        .then((result) => {
           console.log("The result is: ");
           console.log(result);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log("An error occurred:");
           console.error(err);
         });

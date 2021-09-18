@@ -4,8 +4,8 @@ This package contains an isomorphic SDK for TranslatorTextClient.
 
 ### Currently supported environments
 
-- Node.js version 6.x.x or higher
-- Browser JavaScript
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
 
 ### How to Install
 
@@ -24,6 +24,7 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
+
 The following sample translates the given text which is in Chinese to English. To know more, refer to the [Azure Documentation on Translator](https://docs.microsoft.com/azure/cognitive-services/translator/)
 
 ```javascript
@@ -31,17 +32,11 @@ const { TranslatorTextClient } = require("@azure/cognitiveservices-translatortex
 const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
 
 async function main() {
-  const translatorTextKey =
-    process.env["translatorTextKey"] || "<translatorTextKey>";
+  const translatorTextKey = process.env["translatorTextKey"] || "<translatorTextKey>";
   const translatorTextEndPoint =
     process.env["translatorTextEndPoint"] || "<translatorTextEndPoint>";
-  const cognitiveServiceCredentials = new CognitiveServicesCredentials(
-    translatorTextKey
-  );
-  const client = new TranslatorTextClient(
-    cognitiveServiceCredentials,
-    translatorTextEndPoint
-  );
+  const cognitiveServiceCredentials = new CognitiveServicesCredentials(translatorTextKey);
+  const client = new TranslatorTextClient(cognitiveServiceCredentials, translatorTextEndPoint);
 
   const text = [
     {
@@ -51,11 +46,11 @@ async function main() {
 
   client.translator
     .detect(text)
-    .then(result => {
+    .then((result) => {
       console.log("The result is: ");
       console.log(result);
     })
-    .catch(err => {
+    .catch((err) => {
       console.log("An error occurred:");
       console.error(err);
     });
@@ -69,6 +64,7 @@ main();
 ##### Sample code
 
 - index.html
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -98,11 +94,11 @@ main();
 
       client.translator
         .detect(text)
-        .then(result => {
+        .then((result) => {
           console.log("The result is: ");
           console.log(result);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log("An error occurred:");
           console.error(err);
         });

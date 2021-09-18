@@ -4,8 +4,8 @@ This package contains an isomorphic SDK for FaceClient.
 
 ### Currently supported environments
 
-- Node.js version 6.x.x or higher
-- Browser JavaScript
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
 
 ### How to Install
 
@@ -24,6 +24,7 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
+
 The following sample detects the facial features on the given image. To know more, refer to the [Azure Documentation on Face APIs](https://docs.microsoft.com/azure/cognitive-services/face/overview)
 
 ```javascript
@@ -42,11 +43,11 @@ async function main() {
   };
   client.face
     .detectWithUrl(url, options)
-    .then(result => {
+    .then((result) => {
       console.log("The result is: ");
       console.log(result);
     })
-    .catch(err => {
+    .catch((err) => {
       console.log("An error occurred:");
       console.error(err);
     });
@@ -60,6 +61,7 @@ main();
 ##### Sample code
 
 - index.html
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -87,11 +89,11 @@ main();
       };
       client.face
         .detectWithUrl(url, options)
-        .then(result => {
+        .then((result) => {
           console.log("The result is: ");
           console.log(result);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log("An error occurred:");
           console.error(err);
         });

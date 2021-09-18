@@ -4,8 +4,8 @@ This package contains an isomorphic SDK for VisualSearchClient.
 
 ### Currently supported environments
 
-- Node.js version 6.x.x or higher
-- Browser JavaScript
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
 
 ### How to Install
 
@@ -24,6 +24,7 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
+
 The following sample performs a visual search, i.e. perform a search with a image. To know more, refer to the [Azure Documentation on Bing Visual Search](https://docs.microsoft.com/azure/cognitive-services/bing-visual-search/).
 
 ```javascript
@@ -32,17 +33,13 @@ const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
 
 async function main() {
   const visualSearchKey = process.env["visualSearchKey"] || "<visualSearchKey>";
-  const visualSearchEndPoint =
-    process.env["visualSearchEndPoint"] || "<visualSearchEndPoint>";
-  const cognitiveServiceCredentials = new CognitiveServicesCredentials(
-    visualSearchKey
-  );
+  const visualSearchEndPoint = process.env["visualSearchEndPoint"] || "<visualSearchEndPoint>";
+  const cognitiveServiceCredentials = new CognitiveServicesCredentials(visualSearchKey);
   const client = new VisualSearchClient(cognitiveServiceCredentials, {
     endpoint: visualSearchEndPoint
   });
 
-  const insightsToken =
-    process.env["insights_token"] || "<insights_token>";;
+  const insightsToken = process.env["insights_token"] || "<insights_token>";
 
   const knowledgeRequest = JSON.stringify({
     imageInfo: {
@@ -57,11 +54,11 @@ async function main() {
 
   client.images
     .visualSearch(options)
-    .then(result => {
+    .then((result) => {
       console.log("The result is: ");
       console.log(result);
     })
-    .catch(err => {
+    .catch((err) => {
       console.log("An error occurred:");
       console.error(err);
     });
@@ -75,6 +72,7 @@ main();
 ##### Sample code
 
 - index.html
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -112,11 +110,11 @@ main();
 
       client.images
         .visualSearch(options)
-        .then(result => {
+        .then((result) => {
           console.log("The result is: ");
           console.log(result);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log("An error occurred:");
           console.error(err);
         });

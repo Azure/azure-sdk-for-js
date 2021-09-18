@@ -5,8 +5,8 @@ For editing and creating Knowledge Bases see @azure/cognitiveservices-qnamaker.
 
 ### Currently supported environments
 
-- Node.js version 6.x.x or higher
-- Browser JavaScript
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
 
 ### How to Install
 
@@ -80,7 +80,7 @@ async function main() {
 main();
 ```
 
-#### browser - Authentication, client creation and generateAnswer runtime  as an example written in JavaScript.
+#### browser - Authentication, client creation and generateAnswer runtime as an example written in JavaScript.
 
 ##### Sample code
 
@@ -117,14 +117,16 @@ main();
       const topValue = 1;
 
       // Find only answers that contain these metadata
-      const strictFilters = [{
-        name: "editorial",
-        value: "chitchat"
-      }];
+      const strictFilters = [
+        {
+          name: "editorial",
+          value: "chitchat"
+        }
+      ];
 
       client.runtime
-        .generateAnswer(kbid, {question, topValue, strictFilters}, {customHeaders})
-        .then(result => {
+        .generateAnswer(kbid, { question, topValue, strictFilters }, { customHeaders })
+        .then((result) => {
           console.log(JSON.stringify(result));
           // Sample Result
           // {
@@ -148,7 +150,7 @@ main();
           //   activeLearningEnabled: false
           // }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log("An error occurred:");
           console.error(err);
         });

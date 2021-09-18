@@ -2,15 +2,15 @@
 
 This package contains an isomorphic SDK for LUISAuthoringClient.
 
-Package version | LUIS Authoring API version
---------------- | --------------------------
-3.0.0           |  /luis/api/v2.0
-4.0.0-preview.3 |  /luis/authoring/v3.0-preview
+| Package version | LUIS Authoring API version   |
+| --------------- | ---------------------------- |
+| 3.0.0           | /luis/api/v2.0               |
+| 4.0.0-preview.3 | /luis/authoring/v3.0-preview |
 
 ### Currently supported environments
 
-- Node.js version 6.x.x or higher
-- Browser JavaScript
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
 
 ### How to Install
 
@@ -64,7 +64,6 @@ client.features
 
 #### browser - Authentication, client creation and listPhraseLists features as an example written in JavaScript.
 
-
 ##### Sample code
 
 - index.html
@@ -78,7 +77,9 @@ client.features
     <script src="node_modules/@azure/cognitiveservices-luis-authoring/dist/cognitiveservices-luis-authoring.js"></script>
     <script type="text/javascript">
       let authoringKey = process.env["luis-authoring-key"];
-      const creds = new msRest.ApiKeyCredentials({ inHeader: { 'Ocp-Apim-Subscription-Key': authoringKey } });
+      const creds = new msRest.ApiKeyCredentials({
+        inHeader: { "Ocp-Apim-Subscription-Key": authoringKey }
+      });
 
       const region = "<your-region>";
       const client = new Azure.CognitiveservicesLuisAuthoring.LUISAuthoringClient(
