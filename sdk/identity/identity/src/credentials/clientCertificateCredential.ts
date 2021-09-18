@@ -97,12 +97,12 @@ export class ClientCertificateCredential implements TokenCredential {
     };
     if (!configuration || !(configuration.certificate || configuration.certificatePath)) {
       throw new Error(
-        `${credentialName}: Provide either a PEM certificate in string form, or the path to that certificate in the filesystem.`
+        `${credentialName}: Provide either a PEM certificate in string form, or the path to that certificate in the filesystem. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot.`
       );
     }
     if (configuration.certificate && configuration.certificatePath) {
       throw new Error(
-        `${credentialName}: To avoid unexpected behaviors, providing both the contents of a PEM certificate and the path to a PEM certificate is forbidden.`
+        `${credentialName}: To avoid unexpected behaviors, providing both the contents of a PEM certificate and the path to a PEM certificate is forbidden. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot.`
       );
     }
     this.msalFlow = new MsalClientCertificate({
