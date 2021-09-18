@@ -7,16 +7,9 @@
  */
 
 export {
-  AzureEntityResource,
-  BaseResource,
-  ComplianceStatus,
-  ErrorDefinition,
+  ErrorAdditionalInfo,
+  ErrorDetail,
   ErrorResponse,
-  HelmOperatorProperties,
-  ProxyResource,
-  Resource,
-  SourceControlConfiguration,
-  SourceControlConfigurationList,
-  SystemData,
-  TrackedResource
+  OperationStatusList,
+  OperationStatusResult
 } from "../models/mappers";

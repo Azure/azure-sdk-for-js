@@ -17,7 +17,8 @@ import { SourceControlConfigurationClientContext } from "./sourceControlConfigur
 
 class SourceControlConfigurationClient extends SourceControlConfigurationClientContext {
   // Operation groups
-  sourceControlConfigurations: operations.SourceControlConfigurations;
+  extensions: operations.Extensions;
+  operationStatus: operations.OperationStatus;
   operations: operations.Operations;
 
   /**
@@ -28,13 +29,13 @@ class SourceControlConfigurationClient extends SourceControlConfigurationClientC
    * {@link https://www.npmjs.com/package/@azure/identity}. Credentials implementing the
    * ServiceClientCredentials interface from the older packages @azure/ms-rest-nodeauth and
    * @azure/ms-rest-browserauth are also supported.
-   * @param subscriptionId The Azure subscription ID. This is a GUID-formatted string (e.g.
-   * 00000000-0000-0000-0000-000000000000)
+   * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
   constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.SourceControlConfigurationClientOptions) {
     super(credentials, subscriptionId, options);
-    this.sourceControlConfigurations = new operations.SourceControlConfigurations(this);
+    this.extensions = new operations.Extensions(this);
+    this.operationStatus = new operations.OperationStatus(this);
     this.operations = new operations.Operations(this);
   }
 }

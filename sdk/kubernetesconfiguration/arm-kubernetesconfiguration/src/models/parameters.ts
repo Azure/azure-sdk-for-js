@@ -24,6 +24,9 @@ export const apiVersion: msRest.OperationQueryParameter = {
   mapper: {
     required: true,
     serializedName: "api-version",
+    constraints: {
+      MinLength: 1
+    },
     type: {
       name: "String"
     }
@@ -59,6 +62,28 @@ export const clusterRp: msRest.OperationURLParameter = {
     }
   }
 };
+export const extensionName: msRest.OperationURLParameter = {
+  parameterPath: "extensionName",
+  mapper: {
+    required: true,
+    serializedName: "extensionName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const forceDelete: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "forceDelete"
+  ],
+  mapper: {
+    serializedName: "forceDelete",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
 export const nextPageLink: msRest.OperationURLParameter = {
   parameterPath: "nextPageLink",
   mapper: {
@@ -70,21 +95,25 @@ export const nextPageLink: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const resourceGroupName: msRest.OperationURLParameter = {
-  parameterPath: "resourceGroupName",
+export const operationId: msRest.OperationURLParameter = {
+  parameterPath: "operationId",
   mapper: {
     required: true,
-    serializedName: "resourceGroupName",
+    serializedName: "operationId",
     type: {
       name: "String"
     }
   }
 };
-export const sourceControlConfigurationName: msRest.OperationURLParameter = {
-  parameterPath: "sourceControlConfigurationName",
+export const resourceGroupName: msRest.OperationURLParameter = {
+  parameterPath: "resourceGroupName",
   mapper: {
     required: true,
-    serializedName: "sourceControlConfigurationName",
+    serializedName: "resourceGroupName",
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1
+    },
     type: {
       name: "String"
     }
@@ -95,6 +124,9 @@ export const subscriptionId: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "subscriptionId",
+    constraints: {
+      MinLength: 1
+    },
     type: {
       name: "String"
     }

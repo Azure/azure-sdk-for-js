@@ -7,5 +7,6 @@
  * regenerated.
  */
 
-export * from "./sourceControlConfigurations";
+export * from "./extensions";
+export * from "./operationStatus";
 export * from "./operations";

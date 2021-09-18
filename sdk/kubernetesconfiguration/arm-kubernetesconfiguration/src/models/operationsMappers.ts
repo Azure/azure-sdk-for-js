@@ -7,7 +7,8 @@
  */
 
 export {
-  ErrorDefinition,
+  ErrorAdditionalInfo,
+  ErrorDetail,
   ErrorResponse,
   ResourceProviderOperation,
   ResourceProviderOperationDisplay,

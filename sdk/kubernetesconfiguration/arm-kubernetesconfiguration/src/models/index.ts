@@ -12,75 +12,147 @@ import * as msRest from "@azure/ms-rest-js";
 export { BaseResource, CloudError };
 
 /**
- * Sample result definition
+ * Specifies that the scope of the extension is Cluster
  */
-export interface Result {
+export interface ScopeCluster {
   /**
-   * Sample property of type string
+   * Namespace where the extension Release must be placed, for a Cluster scoped extension.  If this
+   * namespace does not exist, it will be created
    */
-  sampleProperty?: string;
+  releaseNamespace?: string;
 }
 
 /**
- * Error definition.
+ * Specifies that the scope of the extension is Namespace
  */
-export interface ErrorDefinition {
+export interface ScopeNamespace {
   /**
-   * Service specific error code which serves as the substatus for the HTTP error code.
+   * Namespace where the extension will be created for an Namespace scoped extension.  If this
+   * namespace does not exist, it will be created
    */
-  code: string;
-  /**
-   * Description of the error.
-   */
-  message: string;
+  targetNamespace?: string;
 }
 
 /**
- * Error response.
+ * Scope of the extension. It can be either Cluster or Namespace; but not both.
  */
-export interface ErrorResponse {
-  /**
-   * Error definition.
-   */
-  error?: ErrorDefinition;
+export interface Scope {
+  cluster?: ScopeCluster;
+  namespace?: ScopeNamespace;
 }
 
 /**
- * Compliance Status details
+ * Status from the extension.
  */
-export interface ComplianceStatus {
+export interface ExtensionStatus {
   /**
-   * The compliance state of the configuration. Possible values include: 'Pending', 'Compliant',
-   * 'Noncompliant', 'Installed', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Status code provided by the Extension
    */
-  readonly complianceState?: ComplianceStateType;
+  code?: string;
   /**
-   * Datetime the configuration was last applied.
+   * Short description of status of the extension.
    */
-  lastConfigApplied?: Date;
+  displayStatus?: string;
   /**
-   * Message from when the configuration was applied.
+   * Level of the status. Possible values include: 'Error', 'Warning', 'Information'. Default
+   * value: 'Information'.
+   */
+  level?: LevelType;
+  /**
+   * Detailed message of the status from the Extension.
    */
   message?: string;
   /**
-   * Level of the message. Possible values include: 'Error', 'Warning', 'Information'
+   * DateLiteral (per ISO8601) noting the time of installation status.
    */
-  messageLevel?: MessageLevelType;
+  time?: string;
 }
 
 /**
- * Properties for Helm operator.
+ * The resource management error additional info.
  */
-export interface HelmOperatorProperties {
+export interface ErrorAdditionalInfo {
   /**
-   * Version of the operator Helm chart.
+   * The additional info type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  chartVersion?: string;
+  readonly type?: string;
   /**
-   * Values override for the operator Helm chart.
+   * The additional info.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  chartValues?: string;
+  readonly info?: any;
+}
+
+/**
+ * The error detail.
+ */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/**
+ * Identity of the Extension resource in an AKS cluster
+ */
+export interface ExtensionPropertiesAksAssignedIdentity {
+  /**
+   * The principal ID of resource identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantId?: string;
+  /**
+   * The identity type. Possible values include: 'SystemAssigned'
+   */
+  type?: ResourceIdentityType;
+}
+
+/**
+ * Identity for the resource.
+ */
+export interface Identity {
+  /**
+   * The principal ID of resource identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantId?: string;
+  /**
+   * The identity type. Possible values include: 'SystemAssigned'
+   */
+  type?: ResourceIdentityType;
 }
 
 /**
@@ -110,7 +182,7 @@ export interface SystemData {
    */
   lastModifiedByType?: CreatedByType;
   /**
-   * The type of identity that last modified the resource.
+   * The timestamp of resource last modification (UTC)
    */
   lastModifiedAt?: Date;
 }
@@ -148,69 +220,68 @@ export interface ProxyResource extends Resource {
 }
 
 /**
- * The SourceControl Configuration object returned in Get & Put response.
+ * The Extension object.
  */
-export interface SourceControlConfiguration extends ProxyResource {
+export interface Extension extends ProxyResource {
   /**
-   * Url of the SourceControl Repository.
+   * Type of the Extension, of which this resource is an instance of.  It must be one of the
+   * Extension Types registered with Microsoft.KubernetesConfiguration by the Extension publisher.
    */
-  repositoryUrl?: string;
+  extensionType?: string;
   /**
-   * The namespace to which this operator is installed to. Maximum of 253 lower case alphanumeric
-   * characters, hyphen and period only. Default value: 'default'.
+   * Flag to note if this extension participates in auto upgrade of minor version, or not. Default
+   * value: true.
    */
-  operatorNamespace?: string;
+  autoUpgradeMinorVersion?: boolean;
   /**
-   * Instance name of the operator - identifying the specific configuration.
+   * ReleaseTrain this extension participates in for auto-upgrade (e.g. Stable, Preview, etc.) -
+   * only if autoUpgradeMinorVersion is 'true'. Default value: 'Stable'.
    */
-  operatorInstanceName?: string;
+  releaseTrain?: string;
   /**
-   * Type of the operator. Possible values include: 'Flux'
+   * Version of the extension for this extension, if it is 'pinned' to a specific version.
+   * autoUpgradeMinorVersion must be 'false'.
    */
-  operatorType?: OperatorType;
+  version?: string;
   /**
-   * Any Parameters for the Operator instance in string format.
+   * Scope at which the extension is installed.
    */
-  operatorParams?: string;
+  scope?: Scope;
   /**
-   * Name-value pairs of protected configuration settings for the configuration
+   * Configuration settings, as name-value pairs for configuring this extension.
+   */
+  configurationSettings?: { [propertyName: string]: string };
+  /**
+   * Configuration settings that are sensitive, as name-value pairs for configuring this extension.
    */
   configurationProtectedSettings?: { [propertyName: string]: string };
   /**
-   * Scope at which the operator will be installed. Possible values include: 'cluster',
-   * 'namespace'. Default value: 'cluster'.
+   * Possible values include: 'Succeeded', 'Failed', 'Canceled', 'Creating', 'Updating', 'Deleting'
    */
-  operatorScope?: OperatorScopeType;
+  provisioningState?: ProvisioningState;
   /**
-   * Public Key associated with this SourceControl configuration (either generated within the
-   * cluster or provided by the user).
+   * Status from this extension.
+   */
+  statuses?: ExtensionStatus[];
+  errorInfo?: ErrorDetail;
+  /**
+   * Custom Location settings properties.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly repositoryPublicKey?: string;
+  readonly customLocationSettings?: { [propertyName: string]: string };
   /**
-   * Base64-encoded known_hosts contents containing public SSH keys required to access private Git
-   * instances
-   */
-  sshKnownHostsContents?: string;
-  /**
-   * Option to enable Helm Operator for this git configuration.
-   */
-  enableHelmOperator?: boolean;
-  /**
-   * Properties for Helm operator.
-   */
-  helmOperatorProperties?: HelmOperatorProperties;
-  /**
-   * The provisioning state of the resource provider. Possible values include: 'Accepted',
-   * 'Deleting', 'Running', 'Succeeded', 'Failed'
+   * Uri of the Helm package
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly provisioningState?: ProvisioningStateType;
+  readonly packageUri?: string;
   /**
-   * Compliance Status of the Configuration
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Identity of the Extension resource in an AKS cluster
    */
-  readonly complianceStatus?: ComplianceStatus;
+  aksAssignedIdentity?: ExtensionPropertiesAksAssignedIdentity;
+  /**
+   * Identity of the Extension resource
+   */
+  identity?: Identity;
   /**
    * Top level metadata
    * https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources
@@ -257,6 +328,63 @@ export interface ResourceProviderOperation {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly isDataAction?: boolean;
+  /**
+   * Origin of the operation
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly origin?: string;
+}
+
+/**
+ * The current status of an async operation.
+ */
+export interface OperationStatusResult {
+  /**
+   * Fully qualified ID for the async operation.
+   */
+  id?: string;
+  /**
+   * Name of the async operation.
+   */
+  name?: string;
+  /**
+   * Operation status.
+   */
+  status: string;
+  /**
+   * Additional information, if available.
+   */
+  properties?: { [propertyName: string]: string };
+  error?: ErrorDetail;
+}
+
+/**
+ * The Extension Patch Request object.
+ */
+export interface PatchExtension {
+  /**
+   * Flag to note if this extension participates in auto upgrade of minor version, or not. Default
+   * value: true.
+   */
+  autoUpgradeMinorVersion?: boolean;
+  /**
+   * ReleaseTrain this extension participates in for auto-upgrade (e.g. Stable, Preview, etc.) -
+   * only if autoUpgradeMinorVersion is 'true'. Default value: 'Stable'.
+   */
+  releaseTrain?: string;
+  /**
+   * Version of the extension for this extension, if it is 'pinned' to a specific version.
+   * autoUpgradeMinorVersion must be 'false'.
+   */
+  version?: string;
+  /**
+   * Configuration settings, as name-value pairs for configuring this extension.
+   */
+  configurationSettings?: { [propertyName: string]: string };
+  /**
+   * Configuration settings that are sensitive, as name-value pairs for configuring this extension.
+   */
+  configurationProtectedSettings?: { [propertyName: string]: string };
 }
 
 /**
@@ -288,6 +416,172 @@ export interface AzureEntityResource extends Resource {
 }
 
 /**
+ * An interface representing ResourceModelWithAllowedPropertySetIdentity.
+ */
+export interface ResourceModelWithAllowedPropertySetIdentity extends Identity {
+}
+
+/**
+ * The resource model definition representing SKU
+ */
+export interface Sku {
+  /**
+   * The name of the SKU. Ex - P3. It is typically a letter+number code
+   */
+  name: string;
+  /**
+   * This field is required to be implemented by the Resource Provider if the service has more than
+   * one tier, but is not required on a PUT. Possible values include: 'Free', 'Basic', 'Standard',
+   * 'Premium'
+   */
+  tier?: SkuTier;
+  /**
+   * The SKU size. When the name field is the combination of tier and some other value, this would
+   * be the standalone code.
+   */
+  size?: string;
+  /**
+   * If the service has different generations of hardware, for the same SKU, then that can be
+   * captured here.
+   */
+  family?: string;
+  /**
+   * If the SKU supports scale out/in then the capacity integer should be included. If scale out/in
+   * is not possible for the resource this may be omitted.
+   */
+  capacity?: number;
+}
+
+/**
+ * An interface representing ResourceModelWithAllowedPropertySetSku.
+ */
+export interface ResourceModelWithAllowedPropertySetSku extends Sku {
+}
+
+/**
+ * Plan for the resource.
+ */
+export interface Plan {
+  /**
+   * A user defined name of the 3rd Party Artifact that is being procured.
+   */
+  name: string;
+  /**
+   * The publisher of the 3rd Party Artifact that is being bought. E.g. NewRelic
+   */
+  publisher: string;
+  /**
+   * The 3rd Party artifact that is being procured. E.g. NewRelic. Product maps to the OfferID
+   * specified for the artifact at the time of Data Market onboarding.
+   */
+  product: string;
+  /**
+   * A publisher provided promotion code as provisioned in Data Market for the said
+   * product/artifact.
+   */
+  promotionCode?: string;
+  /**
+   * The version of the desired product/artifact.
+   */
+  version?: string;
+}
+
+/**
+ * An interface representing ResourceModelWithAllowedPropertySetPlan.
+ */
+export interface ResourceModelWithAllowedPropertySetPlan extends Plan {
+}
+
+/**
+ * The resource model definition containing the full set of allowed properties for a resource.
+ * Except properties bag, there cannot be a top level property outside of this set.
+ */
+export interface ResourceModelWithAllowedPropertySet extends BaseResource {
+  /**
+   * Fully qualified resource ID for the resource. Ex -
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+   * "Microsoft.Storage/storageAccounts"
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * The geo-location where the resource lives
+   */
+  location?: string;
+  /**
+   * The fully qualified resource ID of the resource that manages this resource. Indicates if this
+   * resource is managed by another Azure resource. If this is present, complete mode deployment
+   * will not delete the resource if it is removed from the template since it is managed by another
+   * resource.
+   */
+  managedBy?: string;
+  /**
+   * Metadata used by portal/tooling/etc to render different UX experiences for resources of the
+   * same type; e.g. ApiApps are a kind of Microsoft.Web/sites type.  If supported, the resource
+   * provider must validate and persist this value.
+   */
+  kind?: string;
+  /**
+   * The etag field is *not* required. If it is provided in the response body, it must also be
+   * provided as a header per the normal etag convention.  Entity tags are used for comparing two
+   * or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag
+   * (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range
+   * (section 14.27) header fields.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+  /**
+   * Resource tags.
+   */
+  tags?: { [propertyName: string]: string };
+  identity?: ResourceModelWithAllowedPropertySetIdentity;
+  sku?: ResourceModelWithAllowedPropertySetSku;
+  plan?: ResourceModelWithAllowedPropertySetPlan;
+}
+
+/**
+ * Common error response for all Azure Resource Manager APIs to return error details for failed
+ * operations. (This also follows the OData error response format.).
+ * @summary Error response
+ */
+export interface ErrorResponse {
+  /**
+   * The error object.
+   */
+  error?: ErrorDetail;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ExtensionsDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Delete the extension resource in Azure - not the normal asynchronous delete.
+   */
+  forceDelete?: boolean;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ExtensionsBeginDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Delete the extension resource in Azure - not the normal asynchronous delete.
+   */
+  forceDelete?: boolean;
+}
+
+/**
  * An interface representing SourceControlConfigurationClientOptions.
  */
 export interface SourceControlConfigurationClientOptions extends AzureServiceClientOptions {
@@ -296,13 +590,26 @@ export interface SourceControlConfigurationClientOptions extends AzureServiceCli
 
 /**
  * @interface
- * Result of the request to list Source Control Configurations.  It contains a list of
- * SourceControlConfiguration objects and a URL link to get the next set of results.
- * @extends Array<SourceControlConfiguration>
+ * Result of the request to list Extensions.  It contains a list of Extension objects and a URL
+ * link to get the next set of results.
+ * @extends Array<Extension>
  */
-export interface SourceControlConfigurationList extends Array<SourceControlConfiguration> {
+export interface ExtensionsList extends Array<Extension> {
   /**
-   * URL to get the next set of configuration objects, if any.
+   * URL to get the next set of extension objects, if any.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * The async operations in progress, in the cluster.
+ * @extends Array<OperationStatusResult>
+ */
+export interface OperationStatusList extends Array<OperationStatusResult> {
+  /**
+   * URL to get the next set of Operation Result objects, if any.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly nextLink?: string;
@@ -322,44 +629,28 @@ export interface ResourceProviderOperationList extends Array<ResourceProviderOpe
 }
 
 /**
- * Defines values for ComplianceStateType.
- * Possible values include: 'Pending', 'Compliant', 'Noncompliant', 'Installed', 'Failed'
+ * Defines values for ProvisioningState.
+ * Possible values include: 'Succeeded', 'Failed', 'Canceled', 'Creating', 'Updating', 'Deleting'
  * @readonly
  * @enum {string}
  */
-export type ComplianceStateType = 'Pending' | 'Compliant' | 'Noncompliant' | 'Installed' | 'Failed';
+export type ProvisioningState = 'Succeeded' | 'Failed' | 'Canceled' | 'Creating' | 'Updating' | 'Deleting';
 
 /**
- * Defines values for MessageLevelType.
+ * Defines values for LevelType.
  * Possible values include: 'Error', 'Warning', 'Information'
  * @readonly
  * @enum {string}
  */
-export type MessageLevelType = 'Error' | 'Warning' | 'Information';
+export type LevelType = 'Error' | 'Warning' | 'Information';
 
 /**
- * Defines values for OperatorType.
- * Possible values include: 'Flux'
+ * Defines values for ResourceIdentityType.
+ * Possible values include: 'SystemAssigned'
  * @readonly
  * @enum {string}
  */
-export type OperatorType = 'Flux';
-
-/**
- * Defines values for OperatorScopeType.
- * Possible values include: 'cluster', 'namespace'
- * @readonly
- * @enum {string}
- */
-export type OperatorScopeType = 'cluster' | 'namespace';
-
-/**
- * Defines values for ProvisioningStateType.
- * Possible values include: 'Accepted', 'Deleting', 'Running', 'Succeeded', 'Failed'
- * @readonly
- * @enum {string}
- */
-export type ProvisioningStateType = 'Accepted' | 'Deleting' | 'Running' | 'Succeeded' | 'Failed';
+export type ResourceIdentityType = 'SystemAssigned';
 
 /**
  * Defines values for CreatedByType.
@@ -368,6 +659,14 @@ export type ProvisioningStateType = 'Accepted' | 'Deleting' | 'Running' | 'Succe
  * @enum {string}
  */
 export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
+
+/**
+ * Defines values for SkuTier.
+ * Possible values include: 'Free', 'Basic', 'Standard', 'Premium'
+ * @readonly
+ * @enum {string}
+ */
+export type SkuTier = 'Free' | 'Basic' | 'Standard' | 'Premium';
 
 /**
  * Defines values for ClusterRp.
@@ -434,9 +733,57 @@ export type ClusterRp3 = 'Microsoft.ContainerService' | 'Microsoft.Kubernetes';
 export type ClusterResourceName3 = 'managedClusters' | 'connectedClusters';
 
 /**
- * Contains response data for the get operation.
+ * Defines values for ClusterRp4.
+ * Possible values include: 'Microsoft.ContainerService', 'Microsoft.Kubernetes'
+ * @readonly
+ * @enum {string}
  */
-export type SourceControlConfigurationsGetResponse = SourceControlConfiguration & {
+export type ClusterRp4 = 'Microsoft.ContainerService' | 'Microsoft.Kubernetes';
+
+/**
+ * Defines values for ClusterResourceName4.
+ * Possible values include: 'managedClusters', 'connectedClusters'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterResourceName4 = 'managedClusters' | 'connectedClusters';
+
+/**
+ * Defines values for ClusterRp5.
+ * Possible values include: 'Microsoft.ContainerService', 'Microsoft.Kubernetes'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterRp5 = 'Microsoft.ContainerService' | 'Microsoft.Kubernetes';
+
+/**
+ * Defines values for ClusterResourceName5.
+ * Possible values include: 'managedClusters', 'connectedClusters'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterResourceName5 = 'managedClusters' | 'connectedClusters';
+
+/**
+ * Defines values for ClusterRp6.
+ * Possible values include: 'Microsoft.ContainerService', 'Microsoft.Kubernetes'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterRp6 = 'Microsoft.ContainerService' | 'Microsoft.Kubernetes';
+
+/**
+ * Defines values for ClusterResourceName6.
+ * Possible values include: 'managedClusters', 'connectedClusters'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterResourceName6 = 'managedClusters' | 'connectedClusters';
+
+/**
+ * Contains response data for the create operation.
+ */
+export type ExtensionsCreateResponse = Extension & {
   /**
    * The underlying HTTP response.
    */
@@ -449,14 +796,14 @@ export type SourceControlConfigurationsGetResponse = SourceControlConfiguration 
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SourceControlConfiguration;
+      parsedBody: Extension;
     };
 };
 
 /**
- * Contains response data for the createOrUpdate operation.
+ * Contains response data for the get operation.
  */
-export type SourceControlConfigurationsCreateOrUpdateResponse = SourceControlConfiguration & {
+export type ExtensionsGetResponse = Extension & {
   /**
    * The underlying HTTP response.
    */
@@ -469,14 +816,34 @@ export type SourceControlConfigurationsCreateOrUpdateResponse = SourceControlCon
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SourceControlConfiguration;
+      parsedBody: Extension;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type ExtensionsUpdateResponse = Extension & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Extension;
     };
 };
 
 /**
  * Contains response data for the list operation.
  */
-export type SourceControlConfigurationsListResponse = SourceControlConfigurationList & {
+export type ExtensionsListResponse = ExtensionsList & {
   /**
    * The underlying HTTP response.
    */
@@ -489,14 +856,54 @@ export type SourceControlConfigurationsListResponse = SourceControlConfiguration
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SourceControlConfigurationList;
+      parsedBody: ExtensionsList;
+    };
+};
+
+/**
+ * Contains response data for the beginCreate operation.
+ */
+export type ExtensionsBeginCreateResponse = Extension & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Extension;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type ExtensionsBeginUpdateResponse = Extension & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Extension;
     };
 };
 
 /**
  * Contains response data for the listNext operation.
  */
-export type SourceControlConfigurationsListNextResponse = SourceControlConfigurationList & {
+export type ExtensionsListNextResponse = ExtensionsList & {
   /**
    * The underlying HTTP response.
    */
@@ -509,7 +916,67 @@ export type SourceControlConfigurationsListNextResponse = SourceControlConfigura
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SourceControlConfigurationList;
+      parsedBody: ExtensionsList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type OperationStatusListResponse = OperationStatusList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationStatusList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type OperationStatusGetResponse = OperationStatusResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationStatusResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type OperationStatusListNextResponse = OperationStatusList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationStatusList;
     };
 };
 

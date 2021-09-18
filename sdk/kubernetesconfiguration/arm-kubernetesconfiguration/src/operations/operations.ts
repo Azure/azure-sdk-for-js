@@ -26,7 +26,8 @@ export class Operations {
   }
 
   /**
-   * List all the available operations the KubernetesConfiguration resource provider supports.
+   * List all the available operations the KubernetesConfiguration resource provider supports, in
+   * this api-version.
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationsListResponse>
    */
@@ -50,7 +51,8 @@ export class Operations {
   }
 
   /**
-   * List all the available operations the KubernetesConfiguration resource provider supports.
+   * List all the available operations the KubernetesConfiguration resource provider supports, in
+   * this api-version.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationsListNextResponse>
