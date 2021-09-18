@@ -9,6 +9,7 @@ Use the client library for App Configuration to:
 - Replay settings from any point in time
 
 Key links:
+
 - [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/app-configuration)
 - [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/app-configuration)
@@ -67,6 +68,23 @@ const credential = new azureIdentity.DefaultAzureCredential();
 const client = new appConfig.AppConfigurationClient(
   endpoint, // ex: <https://<your appconfig resource>.azconfig.io>
   credential
+);
+```
+
+More information about `@azure/identity` can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md)
+
+#### Sovereign Clouds
+
+To authenticate with a resource in a [Sovereign Cloud](https://docs.microsoft.com/azure/active-directory/develop/authentication-national-cloud), you will need to set the `authorityHost` in the credential options or via the `AZURE_AUTHORITY_HOST` environment variable.
+
+```javascript
+const { AppConfigurationClient } = require("@azure/app-configuration");
+const { DefaultAzureCredential, AzureAuthorityHosts } = require("@azure/identity");
+
+// Create an AppConfigurationClient that will authenticate through AAD in the China cloud
+const client = new AppConfigurationClient(
+  endpoint, // ex: <https://<your appconfig resource>.azconfig.azure.cn>
+  new DefaultAzureCredential({ authorityHost: AzureAuthorityHosts.AzureChina })
 );
 ```
 

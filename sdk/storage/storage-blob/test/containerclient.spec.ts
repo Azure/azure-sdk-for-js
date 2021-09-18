@@ -19,7 +19,7 @@ import {
   ContainerListBlobHierarchySegmentResponse,
   BlobServiceClient
 } from "../src";
-import { Test_CPK_INFO } from "./utils/constants";
+import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
 import { context, setSpan } from "@azure/core-tracing";
 import { Context } from "mocha";
 dotenv.config();

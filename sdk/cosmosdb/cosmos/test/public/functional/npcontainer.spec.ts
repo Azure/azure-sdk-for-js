@@ -9,7 +9,8 @@ import {
   CosmosClientOptions
 } from "../../../src";
 import { removeAllDatabases, getTestContainer } from "../common/TestHelpers";
-import { endpoint, masterKey } from "../common/_testConfig";
+import { endpoint } from "../common/_testConfig";
+import { masterKey } from "../common/_fakeTestSecrets";
 import { ResourceType, HTTPMethod, StatusCodes } from "../../../src";
 
 const plugins: PluginConfig[] = [

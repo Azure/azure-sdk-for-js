@@ -1,75 +1,85 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { URL } from "url";
+import os from "os";
 import { ReadableSpan } from "@opentelemetry/tracing";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { diag, SpanKind, SpanStatusCode, Link } from "@opentelemetry/api";
-import { ResourceAttributes } from "@opentelemetry/semantic-conventions";
+import {
+  SemanticResourceAttributes,
+  SemanticAttributes,
+  DbSystemValues
+} from "@opentelemetry/semantic-conventions";
+
 import { Tags, Properties, MSLink, Measurements } from "../types";
-import {
-  HTTP_METHOD,
-  HTTP_ROUTE,
-  HTTP_URL,
-  HTTP_STATUS_CODE
-} from "./constants/span/httpAttributes";
-import {
-  AI_CLOUD_ROLE,
-  AI_CLOUD_ROLE_INSTACE,
-  AI_OPERATION_ID,
-  AI_OPERATION_PARENT_ID,
-  AI_OPERATION_NAME,
-  MS_LINKS,
-  INPROC
-} from "./constants/applicationinsights";
-import { GRPC_METHOD, GRPC_STATUS_CODE } from "./constants/span/grpcAttributes";
 import { msToTimeSpan } from "./breezeUtils";
 import { getInstance } from "../platform";
-import { DB_NAME, DB_STATEMENT } from "./constants/span/dbAttributes";
 import { parseEventHubSpan } from "./eventhub";
+import { DependencyTypes, MS_LINKS } from "./constants/applicationinsights";
 import { AzNamespace, MicrosoftEventHub } from "./constants/span/azAttributes";
-import { RemoteDependencyData, RequestData, TelemetryItem as Envelope } from "../generated";
+import {
+  RemoteDependencyData,
+  RequestData,
+  TelemetryItem as Envelope,
+  KnownContextTagKeys
+} from "../generated";
 
 function createTagsFromSpan(span: ReadableSpan): Tags {
   const context = getInstance();
   const tags: Tags = { ...context.tags };
 
-  tags[AI_OPERATION_ID] = span.spanContext().traceId;
+  tags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
   if (span.parentSpanId) {
-    tags[AI_OPERATION_PARENT_ID] = span.parentSpanId;
+    tags[KnownContextTagKeys.AiOperationParentId] = span.parentSpanId;
   }
   if (span.resource && span.resource.attributes) {
-    const serviceName = span.resource.attributes[ResourceAttributes.SERVICE_NAME];
-    const serviceNamespace = span.resource.attributes[ResourceAttributes.SERVICE_NAMESPACE];
-    const serviceInstanceId = span.resource.attributes[ResourceAttributes.SERVICE_INSTANCE_ID];
+    const serviceName = span.resource.attributes[SemanticResourceAttributes.SERVICE_NAME];
+    const serviceNamespace = span.resource.attributes[SemanticResourceAttributes.SERVICE_NAMESPACE];
     if (serviceName) {
       if (serviceNamespace) {
-        tags[AI_CLOUD_ROLE] = `${serviceNamespace}.${serviceName}`;
+        tags[KnownContextTagKeys.AiCloudRole] = `${serviceNamespace}.${serviceName}`;
       } else {
-        tags[AI_CLOUD_ROLE] = String(serviceName);
+        tags[KnownContextTagKeys.AiCloudRole] = String(serviceName);
       }
     }
+    const serviceInstanceId =
+      span.resource.attributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID];
     if (serviceInstanceId) {
-      tags[AI_CLOUD_ROLE_INSTACE] = String(serviceInstanceId);
+      tags[KnownContextTagKeys.AiCloudRoleInstance] = String(serviceInstanceId);
+    } else {
+      tags[KnownContextTagKeys.AiCloudRoleInstance] = os && os.hostname();
+    }
+    const endUserId = span.resource.attributes[SemanticAttributes.ENDUSER_ID];
+    if (endUserId) {
+      tags[KnownContextTagKeys.AiUserId] = String(endUserId);
     }
   }
+  if (span.kind === SpanKind.SERVER) {
+    const httpMethod = span.attributes[SemanticAttributes.HTTP_METHOD];
+    let httpClientIp = span.attributes[SemanticAttributes.HTTP_CLIENT_IP];
+    let netPeerIp = span.attributes[SemanticAttributes.NET_PEER_IP];
+    if (httpMethod) {
+      tags[KnownContextTagKeys.AiOperationName] = `${httpMethod as string} ${span.name as string}`;
+      if (httpClientIp) {
+        tags[KnownContextTagKeys.AiLocationIp] = String(httpClientIp);
+      } else if (netPeerIp) {
+        tags[KnownContextTagKeys.AiLocationIp] = String(netPeerIp);
+      }
+    } else {
+      tags[KnownContextTagKeys.AiOperationName] = span.name;
+      if (netPeerIp) {
+        tags[KnownContextTagKeys.AiLocationIp] = String(netPeerIp);
+      }
+    }
+  }
+  // TODO: Operation Name and Location IP TBD for non server spans
 
-  // @todo: is this for RequestData only?
-  if (
-    (span.kind === SpanKind.SERVER || span.kind === SpanKind.CONSUMER) &&
-    span.attributes[GRPC_METHOD]
-  ) {
-    tags[AI_OPERATION_NAME] = String(span.attributes[GRPC_METHOD]);
+  const httpUserAgent = span.attributes[SemanticAttributes.HTTP_USER_AGENT];
+  if (httpUserAgent) {
+    // TODO: Not exposed in Swagger, need to update def
+    tags["ai.user.userAgent"] = String(httpUserAgent);
   }
-  if (
-    (span.kind === SpanKind.SERVER || span.kind === SpanKind.CONSUMER) &&
-    span.attributes[HTTP_METHOD] &&
-    span.attributes[HTTP_ROUTE]
-  ) {
-    tags[AI_OPERATION_NAME] = `${span.attributes[HTTP_METHOD] as string} ${span.attributes[
-      HTTP_ROUTE
-    ] as string}`;
-  }
+
   return tags;
 }
 
@@ -78,7 +88,15 @@ function createPropertiesFromSpan(span: ReadableSpan): [Properties, Measurements
   const measurements: Measurements = {};
 
   for (const key of Object.keys(span.attributes)) {
-    if (!(key.startsWith("http.") || key.startsWith("rpc.") || key.startsWith("db."))) {
+    if (
+      !(
+        key.startsWith("http.") ||
+        key.startsWith("rpc.") ||
+        key.startsWith("db.") ||
+        key.startsWith("peer.") ||
+        key.startsWith("net.")
+      )
+    ) {
       properties[key] = span.attributes[key] as string;
     }
   }
@@ -95,102 +113,179 @@ function createPropertiesFromSpan(span: ReadableSpan): [Properties, Measurements
   return [properties, measurements];
 }
 
+function isSqlDB(dbSystem: string) {
+  return (
+    dbSystem === DbSystemValues.DB2 ||
+    dbSystem === DbSystemValues.DERBY ||
+    dbSystem === DbSystemValues.MARIADB ||
+    dbSystem === DbSystemValues.MYSQL ||
+    dbSystem === DbSystemValues.MSSQL ||
+    dbSystem === DbSystemValues.ORACLE ||
+    dbSystem === DbSystemValues.POSTGRESQL ||
+    dbSystem === DbSystemValues.SQLITE ||
+    dbSystem === DbSystemValues.OTHER_SQL ||
+    dbSystem === DbSystemValues.HSQLDB ||
+    dbSystem === DbSystemValues.H2
+  );
+}
+
+function getUrl(span: ReadableSpan): string {
+  const httpMethod = span.attributes[SemanticAttributes.HTTP_METHOD];
+  if (httpMethod) {
+    const httpUrl = span.attributes[SemanticAttributes.HTTP_URL];
+    if (httpUrl) {
+      return String(httpUrl);
+    } else {
+      const httpScheme = span.attributes[SemanticAttributes.HTTP_SCHEME];
+      const httpTarget = span.attributes[SemanticAttributes.HTTP_TARGET];
+      if (httpScheme && httpTarget) {
+        const httpHost = span.attributes[SemanticAttributes.HTTP_HOST];
+        if (httpHost) {
+          return `${httpScheme}://${httpHost}${httpTarget}`;
+        } else {
+          const netPeerPort = span.attributes[SemanticAttributes.NET_PEER_PORT];
+          if (netPeerPort) {
+            const netPeerName = span.attributes[SemanticAttributes.NET_PEER_NAME];
+            if (netPeerName) {
+              return `${httpScheme}://${netPeerName}:${netPeerPort}${httpTarget}`;
+            } else {
+              const netPeerIp = span.attributes[SemanticAttributes.NET_PEER_IP];
+              if (netPeerIp) {
+                return `${httpScheme}://${netPeerIp}:${netPeerPort}${httpTarget}`;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  return "";
+}
+
+function getDependencyTarget(span: ReadableSpan): string {
+  const peerService = span.attributes[SemanticAttributes.PEER_SERVICE];
+  const httpHost = span.attributes[SemanticAttributes.HTTP_HOST];
+  const httpUrl = span.attributes[SemanticAttributes.HTTP_URL];
+  const netPeerName = span.attributes[SemanticAttributes.NET_PEER_NAME];
+  const netPeerIp = span.attributes[SemanticAttributes.NET_PEER_IP];
+  if (peerService) {
+    return String(peerService);
+  } else if (httpHost) {
+    return String(httpHost);
+  } else if (httpUrl) {
+    return String(httpUrl);
+  } else if (netPeerName) {
+    return String(netPeerName);
+  } else if (netPeerIp) {
+    return String(netPeerIp);
+  }
+  return "";
+}
+
 function createDependencyData(span: ReadableSpan): RemoteDependencyData {
-  const data: RemoteDependencyData = {
+  const remoteDependencyData: RemoteDependencyData = {
     name: span.name,
-    id: `|${span.spanContext().traceId}.${span.spanContext().spanId}.`,
-    success: span.status.code === SpanStatusCode.OK,
-    resultCode: String(span.status.code),
-    target: span.attributes[HTTP_URL] as string | undefined,
+    id: `${span.spanContext().spanId}`,
+    success: span.status.code != SpanStatusCode.ERROR,
+    resultCode: "0",
     type: "Dependency",
     duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
-    version: 1
+    version: 2
   };
-
-  if (span.attributes[HTTP_STATUS_CODE]) {
-    data.type = "HTTP";
-    data.resultCode = String(span.attributes[HTTP_STATUS_CODE]);
+  if (span.kind === SpanKind.PRODUCER) {
+    remoteDependencyData.type = DependencyTypes.QueueMessage;
+  }
+  if (span.kind === SpanKind.INTERNAL && span.parentSpanId) {
+    remoteDependencyData.type = DependencyTypes.InProc;
   }
 
-  if (span.attributes[GRPC_STATUS_CODE] !== undefined) {
-    data.type = "GRPC";
-    data.resultCode = String(span.attributes[GRPC_STATUS_CODE]);
-  }
-
-  if (span.attributes[GRPC_METHOD]) {
-    data.target = String(span.attributes[GRPC_METHOD]);
-    data.data = String(span.attributes[GRPC_METHOD]);
-  }
-
-  if (span.attributes[HTTP_URL]) {
-    const url = new URL(span.attributes[HTTP_URL] as string);
-    data.target = url.hostname;
-    data.data = url.href;
-
-    if (span.attributes[HTTP_METHOD]) {
-      data.name = `${span.attributes[HTTP_METHOD] as string} ${url.pathname}`;
+  const httpMethod = span.attributes[SemanticAttributes.HTTP_METHOD];
+  const dbSystem = span.attributes[SemanticAttributes.DB_SYSTEM];
+  const rpcSystem = span.attributes[SemanticAttributes.RPC_SYSTEM];
+  // HTTP Dependency
+  if (httpMethod) {
+    remoteDependencyData.type = DependencyTypes.Http;
+    remoteDependencyData.data = getUrl(span);
+    const httpStatusCode = span.attributes[SemanticAttributes.HTTP_STATUS_CODE];
+    if (httpStatusCode) {
+      remoteDependencyData.resultCode = String(httpStatusCode);
+    }
+    let target = getDependencyTarget(span);
+    if (target) {
+      try {
+        // Remove default port
+        let portRegex = new RegExp(/(https?)(:\/\/.*)(:\d+)(\S*)/);
+        let res = portRegex.exec(target);
+        if (res != null) {
+          let protocol = res[1];
+          let port = res[3];
+          if ((protocol == "https" && port == ":443") || (protocol == "http" && port == ":80")) {
+            // Drop port
+            target = res[1] + res[2] + res[4];
+          }
+        }
+      } catch (error) {}
+      remoteDependencyData.target = `${target}`;
     }
   }
-
-  if (span.attributes[DB_STATEMENT]) {
-    data.name = String(span.attributes[DB_STATEMENT]);
-    data.data = String(span.attributes[DB_STATEMENT]);
-    data.type = "DB";
-    if (span.attributes[DB_NAME]) {
-      data.target = String(span.attributes[DB_NAME]);
+  // DB Dependency
+  else if (dbSystem) {
+    if (isSqlDB(String(dbSystem))) {
+      remoteDependencyData.type = "SQL";
+    } else {
+      remoteDependencyData.type = String(dbSystem);
+    }
+    const dbStatement = span.attributes[SemanticAttributes.DB_STATEMENT];
+    if (dbStatement) {
+      remoteDependencyData.data = String(dbStatement);
+    }
+    let target = getDependencyTarget(span);
+    const dbName = span.attributes[SemanticAttributes.DB_NAME];
+    if (target) {
+      remoteDependencyData.target = dbName ? `${target}/${dbName}` : `${target}`;
+    } else {
+      remoteDependencyData.target = dbName ? `${dbName}` : `${dbSystem}`;
     }
   }
-
-  return data;
+  // grpc Dependency
+  else if (rpcSystem) {
+    remoteDependencyData.type = DependencyTypes.Grpc;
+    const grpcStatusCode = span.attributes[SemanticAttributes.RPC_GRPC_STATUS_CODE];
+    if (grpcStatusCode) {
+      remoteDependencyData.resultCode = String(grpcStatusCode);
+    }
+    let target = getDependencyTarget(span);
+    if (target) {
+      remoteDependencyData.target = `${target}`;
+    } else if (rpcSystem) {
+      remoteDependencyData.target = String(rpcSystem);
+    }
+  }
+  return remoteDependencyData;
 }
 
 function createRequestData(span: ReadableSpan): RequestData {
-  const data: RequestData = {
+  const requestData: RequestData = {
     name: span.name,
-    id: `|${span.spanContext().traceId}.${span.spanContext().spanId}.`,
-    success: span.status.code === SpanStatusCode.OK,
-    responseCode: String(span.status.code),
+    id: `${span.spanContext().spanId}`,
+    success: span.status.code != SpanStatusCode.ERROR,
+    responseCode: "0",
     duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
-    version: 1,
+    version: 2,
     source: undefined
   };
-
-  if (span.attributes[HTTP_METHOD]) {
-    data.name = span.attributes[HTTP_METHOD] as string;
-
-    if (span.attributes[HTTP_STATUS_CODE]) {
-      data.responseCode = String(span.attributes[HTTP_STATUS_CODE]);
+  const httpMethod = span.attributes[SemanticAttributes.HTTP_METHOD];
+  const grpcStatusCode = span.attributes[SemanticAttributes.RPC_GRPC_STATUS_CODE];
+  if (httpMethod) {
+    requestData.url = getUrl(span);
+    const httpStatusCode = span.attributes[SemanticAttributes.HTTP_STATUS_CODE];
+    if (httpStatusCode) {
+      requestData.responseCode = String(httpStatusCode);
     }
-
-    if (span.attributes[HTTP_URL]) {
-      data.url = span.attributes[HTTP_URL] as string;
-    }
-
-    if (span.attributes[HTTP_ROUTE]) {
-      data.name = `${span.attributes[HTTP_METHOD] as string} ${span.attributes[
-        HTTP_ROUTE
-      ] as string}`;
-    } else if (span.attributes[HTTP_URL]) {
-      const url = new URL(span.attributes[HTTP_URL] as string);
-      data.name = `${span.attributes[HTTP_METHOD] as string} ${url.pathname}`;
-    }
+  } else if (grpcStatusCode) {
+    requestData.responseCode = String(grpcStatusCode);
   }
-
-  if (span.attributes[GRPC_STATUS_CODE]) {
-    data.responseCode = String(span.attributes[GRPC_STATUS_CODE]);
-  }
-  if (span.attributes[GRPC_METHOD]) {
-    data.url = String(span.attributes[GRPC_METHOD]);
-  }
-
-  return data;
-}
-
-function createInProcData(span: ReadableSpan): RemoteDependencyData {
-  const data = createDependencyData(span);
-  data.type = INPROC;
-  data.success = true;
-  return data;
+  return requestData;
 }
 
 /**
@@ -210,6 +305,7 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
   switch (span.kind) {
     case SpanKind.CLIENT:
     case SpanKind.PRODUCER:
+    case SpanKind.INTERNAL:
       name = "Microsoft.ApplicationInsights.RemoteDependency";
       baseType = "RemoteDependencyData";
       baseData = createDependencyData(span);
@@ -220,25 +316,19 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
       baseType = "RequestData";
       baseData = createRequestData(span);
       break;
-    case SpanKind.INTERNAL:
-      baseType = "RemoteDependencyData";
-      name = "Microsoft.ApplicationInsights.RemoteDependency";
-      baseData = createInProcData(span);
-      break;
     default:
       // never
       diag.error(`Unsupported span kind ${span.kind}`);
       throw new Error(`Unsupported span kind ${span.kind}`);
   }
 
-  if (span.attributes[AzNamespace] === MicrosoftEventHub) {
-    parseEventHubSpan(span, baseData);
-  } else if (span.attributes[AzNamespace]) {
-    switch (span.kind) {
-      case SpanKind.INTERNAL:
-        (baseData as RemoteDependencyData).type = `${INPROC} | ${span.attributes[AzNamespace]}`;
-        break;
-      default: // no op
+  // Azure SDK
+  if (span.attributes[AzNamespace]) {
+    if (span.kind === SpanKind.INTERNAL) {
+      baseData.type = `${DependencyTypes.InProc} | ${span.attributes[AzNamespace]}`;
+    }
+    if (span.attributes[AzNamespace] === MicrosoftEventHub) {
+      parseEventHubSpan(span, baseData);
     }
   }
 

@@ -29,7 +29,7 @@
   "dependencies": {
     "@azure/schema-registry": "next",
     "dotenv": "latest",
-    "@azure/identity": "2.0.0-beta.5"
+    "@azure/identity": "2.0.0-beta.6"
   },
   "devDependencies": {
     "typescript": "~4.2.0",

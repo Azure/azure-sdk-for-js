@@ -21,7 +21,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a TransparentDataEncryptionActivities. */
+/** Class containing TransparentDataEncryptionActivities operations. */
 export class TransparentDataEncryptionActivitiesImpl
   implements TransparentDataEncryptionActivities {
   private readonly client: SqlManagementClientContext;

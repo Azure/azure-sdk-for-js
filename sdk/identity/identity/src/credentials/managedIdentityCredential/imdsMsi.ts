@@ -14,27 +14,40 @@ import { IdentityClient } from "../../client/identityClient";
 import { credentialLogger } from "../../util/logging";
 import { createSpan } from "../../util/tracing";
 import { imdsApiVersion, imdsEndpointPath, imdsHost } from "./constants";
-import { MSI } from "./models";
-import { msiGenericGetToken } from "./utils";
+import { MSI, MSIConfiguration } from "./models";
+import { mapScopesToResource, msiGenericGetToken } from "./utils";
 import { AuthenticationError } from "../../client/errors";
 
-const logger = credentialLogger("ManagedIdentityCredential - IMDS");
+const msiName = "ManagedIdentityCredential - IMDS";
+const logger = credentialLogger(msiName);
 
 function expiresInParser(requestBody: any): number {
   if (requestBody.expires_on) {
     // Use the expires_on timestamp if it's available
     const expires = +requestBody.expires_on * 1000;
-    logger.info(`IMDS using expires_on: ${expires} (original value: ${requestBody.expires_on})`);
+    logger.info(
+      `${msiName}: IMDS using expires_on: ${expires} (original value: ${requestBody.expires_on})`
+    );
     return expires;
   } else {
     // If these aren't possible, use expires_in and calculate a timestamp
     const expires = Date.now() + requestBody.expires_in * 1000;
-    logger.info(`IMDS using expires_in: ${expires} (original value: ${requestBody.expires_in})`);
+    logger.info(
+      `${msiName}: IMDS using expires_in: ${expires} (original value: ${requestBody.expires_in})`
+    );
     return expires;
   }
 }
 
-function prepareRequestOptions(resource?: string, clientId?: string): PipelineRequestOptions {
+function prepareRequestOptions(
+  scopes: string | string[],
+  clientId?: string
+): PipelineRequestOptions {
+  const resource = mapScopesToResource(scopes);
+  if (!resource) {
+    throw new Error(`${msiName}: Multiple scopes are not supported.`);
+  }
+
   const queryParameters: any = {
     resource,
     "api-version": imdsApiVersion
@@ -67,11 +80,16 @@ export const imdsMsiRetryConfig = {
 
 export const imdsMsi: MSI = {
   async isAvailable(
+    scopes: string | string[],
     identityClient: IdentityClient,
-    resource: string,
     clientId?: string,
     getTokenOptions?: GetTokenOptions
   ): Promise<boolean> {
+    const resource = mapScopesToResource(scopes);
+    if (!resource) {
+      logger.info(`${msiName}: Unavailable. Multiple scopes are not supported.`);
+      return false;
+    }
     const { span, updatedOptions: options } = createSpan(
       "ManagedIdentityCredential-pingImdsEndpoint",
       getTokenOptions
@@ -105,18 +123,19 @@ export const imdsMsi: MSI = {
       request.allowInsecureConnection = true;
 
       try {
-        logger.info(`Pinging the Azure IMDS endpoint`);
+        logger.info(`${msiName}: Pinging the Azure IMDS endpoint`);
         await identityClient.sendRequest(request);
       } catch (err) {
         if (
           (err.name === "RestError" && err.code === RestError.REQUEST_SEND_ERROR) ||
           err.name === "AbortError" ||
+          err.code === "ENETUNREACH" || // Network unreachable
           err.code === "ECONNREFUSED" || // connection refused
           err.code === "EHOSTDOWN" // host is down
         ) {
           // If the request failed, or Node.js was unable to establish a connection,
           // or the host was down, we'll assume the IMDS endpoint isn't available.
-          logger.info(`The Azure IMDS endpoint is unavailable`);
+          logger.info(`${msiName}: The Azure IMDS endpoint is unavailable`);
           span.setStatus({
             code: SpanStatusCode.ERROR,
             message: err.message
@@ -126,13 +145,13 @@ export const imdsMsi: MSI = {
       }
 
       // If we received any response, the endpoint is available
-      logger.info(`The Azure IMDS endpoint is available`);
+      logger.info(`${msiName}: The Azure IMDS endpoint is available`);
       return true;
     } catch (err) {
       // createWebResource failed.
       // This error should bubble up to the user.
       logger.info(
-        `Error when creating the WebResource for the Azure IMDS endpoint: ${err.message}`
+        `${msiName}: Error when creating the WebResource for the Azure IMDS endpoint: ${err.message}`
       );
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -144,13 +163,13 @@ export const imdsMsi: MSI = {
     }
   },
   async getToken(
-    identityClient: IdentityClient,
-    resource: string,
-    clientId?: string,
+    configuration: MSIConfiguration,
     getTokenOptions: GetTokenOptions = {}
   ): Promise<AccessToken | null> {
+    const { identityClient, scopes, clientId } = configuration;
+
     logger.info(
-      `Using the Azure IMDS endpoint coming from the environment variable MSI_ENDPOINT=${process.env.MSI_ENDPOINT}, and using the cloud shell to proceed with the authentication.`
+      `${msiName}: Using the Azure IMDS endpoint coming from the environment variable MSI_ENDPOINT=${process.env.MSI_ENDPOINT}, and using the cloud shell to proceed with the authentication.`
     );
 
     let nextDelayInMs = imdsMsiRetryConfig.startDelayInMs;
@@ -158,7 +177,7 @@ export const imdsMsi: MSI = {
       try {
         return await msiGenericGetToken(
           identityClient,
-          prepareRequestOptions(resource, clientId),
+          prepareRequestOptions(scopes, clientId),
           expiresInParser,
           getTokenOptions
         );
@@ -174,7 +193,7 @@ export const imdsMsi: MSI = {
 
     throw new AuthenticationError(
       404,
-      `Failed to retrieve IMDS token after ${imdsMsiRetryConfig.maxRetries} retries.`
+      `${msiName}: Failed to retrieve IMDS token after ${imdsMsiRetryConfig.maxRetries} retries.`
     );
   }
 };

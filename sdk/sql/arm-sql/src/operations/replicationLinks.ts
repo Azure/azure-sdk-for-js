@@ -35,7 +35,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a ReplicationLinks. */
+/** Class containing ReplicationLinks operations. */
 export class ReplicationLinksImpl implements ReplicationLinks {
   private readonly client: SqlManagementClientContext;
 

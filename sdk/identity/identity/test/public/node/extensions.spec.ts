@@ -22,7 +22,7 @@ async function assertRejects(p: Promise<unknown>, regexp: RegExp): Promise<void>
   throw new AssertionError("Expected the function body to throw.");
 }
 
-describe("Extension API", function(this: Mocha.Suite) {
+describe("Plugin API", function(this: Mocha.Suite) {
   it("Setting persistence options throws if not initialized", function() {
     assert.throws(() => {
       new DefaultAzureCredential({
@@ -36,7 +36,7 @@ describe("Extension API", function(this: Mocha.Suite) {
   it("Calling getToken on VisualStudioCodeCredential throws if not initialized", async function() {
     await assertRejects(
       new VisualStudioCodeCredential().getToken("https://graph.microsoft.com/.default"),
-      /No implementation of VisualStudioCodeCredential.*@azure\/identity-vscode/
+      /No implementation of `VisualStudioCodeCredential`.*@azure\/identity-vscode/
     );
   });
 });

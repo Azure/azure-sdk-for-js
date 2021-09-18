@@ -25,6 +25,6 @@
   "dependencies": {
     "@azure/schema-registry": "next",
     "dotenv": "latest",
-    "@azure/identity": "2.0.0-beta.4"
+    "@azure/identity": "2.0.0-beta.6"
   }
 }

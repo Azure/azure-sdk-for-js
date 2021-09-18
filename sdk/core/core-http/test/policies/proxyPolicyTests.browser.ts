@@ -14,7 +14,7 @@ describe("ProxyPolicy (browser)", function() {
     host: "https://example.com",
     port: 3030,
     username: "admin",
-    password: "_password"
+    password: "SecretPlaceholder"
   };
 
   const emptyRequestPolicy = {

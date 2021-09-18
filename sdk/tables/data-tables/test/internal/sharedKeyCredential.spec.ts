@@ -14,6 +14,7 @@ import { assert } from "chai";
 
 import { tablesNamedKeyCredentialPolicy } from "../../src/tablesNamedCredentialPolicy";
 import { AzureNamedKeyCredential } from "@azure/core-auth";
+import { expectedSharedKeyLiteHeader } from "./fakeTestSecrets";
 
 describe("TablesSharedKeyCredential", () => {
   let originalToUTCString: () => string;
@@ -45,9 +46,6 @@ describe("TablesSharedKeyCredential", () => {
     const policy = tablesNamedKeyCredentialPolicy(cred);
     const response = await policy.sendRequest(requestToSign, next);
     assert.strictEqual(response.status, 200);
-    assert.deepEqual(
-      response.request.headers.get("authorization"),
-      "SharedKeyLite accountName:mzKy4ZjXbTEueNQp2cxou+kKrfCnWpdau5I6kJIO58g="
-    );
+    assert.deepEqual(response.request.headers.get("authorization"), expectedSharedKeyLiteHeader);
   });
 });
