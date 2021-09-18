@@ -6,493 +6,213 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import * as coreClient from "@azure/core-client";
 
-export { BaseResource, CloudError };
+export type InputSchemaMappingUnion =
+  | InputSchemaMapping
+  | JsonInputSchemaMapping;
+export type AdvancedFilterUnion =
+  | AdvancedFilter
+  | NumberInAdvancedFilter
+  | NumberNotInAdvancedFilter
+  | NumberLessThanAdvancedFilter
+  | NumberGreaterThanAdvancedFilter
+  | NumberLessThanOrEqualsAdvancedFilter
+  | NumberGreaterThanOrEqualsAdvancedFilter
+  | BoolEqualsAdvancedFilter
+  | StringInAdvancedFilter
+  | StringNotInAdvancedFilter
+  | StringBeginsWithAdvancedFilter
+  | StringEndsWithAdvancedFilter
+  | StringContainsAdvancedFilter
+  | NumberInRangeAdvancedFilter
+  | NumberNotInRangeAdvancedFilter
+  | StringNotBeginsWithAdvancedFilter
+  | StringNotEndsWithAdvancedFilter
+  | StringNotContainsAdvancedFilter
+  | IsNullOrUndefinedAdvancedFilter
+  | IsNotNullAdvancedFilter;
+export type EventSubscriptionDestinationUnion =
+  | EventSubscriptionDestination
+  | WebHookEventSubscriptionDestination
+  | EventHubEventSubscriptionDestination
+  | StorageQueueEventSubscriptionDestination
+  | HybridConnectionEventSubscriptionDestination
+  | ServiceBusQueueEventSubscriptionDestination
+  | ServiceBusTopicEventSubscriptionDestination
+  | AzureFunctionEventSubscriptionDestination;
+export type DeadLetterDestinationUnion =
+  | DeadLetterDestination
+  | StorageBlobDeadLetterDestination;
+export type DeliveryAttributeMappingUnion =
+  | DeliveryAttributeMapping
+  | StaticDeliveryAttributeMapping
+  | DynamicDeliveryAttributeMapping;
 
-/**
- * PrivateEndpoint information.
- */
-export interface PrivateEndpoint {
-  /**
-   * The ARM identifier for Private Endpoint.
-   */
-  id?: string;
-}
-
-/**
- * ConnectionState information.
- */
-export interface ConnectionState {
-  /**
-   * Status of the connection. Possible values include: 'Pending', 'Approved', 'Rejected',
-   * 'Disconnected'
-   */
-  status?: PersistedConnectionStatus;
-  /**
-   * Description of the connection state.
-   */
-  description?: string;
-  /**
-   * Actions required (if any).
-   */
-  actionsRequired?: string;
-}
-
-/**
- * Definition of a Resource
- */
-export interface Resource extends BaseResource {
+/** Definition of a Resource */
+export interface Resource {
   /**
    * Fully qualified identifier of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
    * Name of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
    * Type of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
 }
 
-/**
- * An interface representing PrivateEndpointConnection.
- */
-export interface PrivateEndpointConnection extends Resource {
-  /**
-   * The Private Endpoint resource for this Connection.
-   */
-  privateEndpoint?: PrivateEndpoint;
-  /**
-   * GroupIds from the private link service resource.
-   */
-  groupIds?: string[];
-  /**
-   * Details about the state of the connection.
-   */
-  privateLinkServiceConnectionState?: ConnectionState;
-  /**
-   * Provisioning state of the Private Endpoint Connection. Possible values include: 'Creating',
-   * 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed'
-   */
-  provisioningState?: ResourceProvisioningState;
+/** PrivateEndpoint information. */
+export interface PrivateEndpoint {
+  /** The ARM identifier for Private Endpoint. */
+  id?: string;
 }
 
-/**
- * Contains the possible cases for InputSchemaMapping.
- */
-export type InputSchemaMappingUnion = InputSchemaMapping | JsonInputSchemaMapping;
+/** ConnectionState information. */
+export interface ConnectionState {
+  /** Status of the connection. */
+  status?: PersistedConnectionStatus;
+  /** Description of the connection state. */
+  description?: string;
+  /** Actions required (if any). */
+  actionsRequired?: string;
+}
 
-/**
- * By default, Event Grid expects events to be in the Event Grid event schema. Specifying an input
- * schema mapping enables publishing to Event Grid using a custom input schema. Currently, the only
- * supported type of InputSchemaMapping is 'JsonInputSchemaMapping'.
- */
+/** By default, Event Grid expects events to be in the Event Grid event schema. Specifying an input schema mapping enables publishing to Event Grid using a custom input schema. Currently, the only supported type of InputSchemaMapping is 'JsonInputSchemaMapping'. */
 export interface InputSchemaMapping {
-  /**
-   * Polymorphic Discriminator
-   */
-  inputSchemaMappingType: "InputSchemaMapping";
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  inputSchemaMappingType: "Json";
 }
 
-/**
- * An interface representing InboundIpRule.
- */
 export interface InboundIpRule {
-  /**
-   * IP Address in CIDR notation e.g., 10.0.0.0/8.
-   */
+  /** IP Address in CIDR notation e.g., 10.0.0.0/8. */
   ipMask?: string;
-  /**
-   * Action to perform based on the match or no match of the IpMask. Possible values include:
-   * 'Allow'
-   */
+  /** Action to perform based on the match or no match of the IpMask. */
   action?: IpActionType;
 }
 
-/**
- * Describes an EventGrid Resource Sku.
- */
+/** Describes an EventGrid Resource Sku. */
 export interface ResourceSku {
-  /**
-   * The Sku name of the resource. The possible values are: Basic or Premium. Possible values
-   * include: 'Basic', 'Premium'. Default value: 'Basic'.
-   */
+  /** The Sku name of the resource. The possible values are: Basic or Premium. */
   name?: Sku;
 }
 
-/**
- * The information about the user identity.
- */
-export interface UserIdentityProperties {
-  /**
-   * The principal id of user assigned identity.
-   */
-  principalId?: string;
-  /**
-   * The client id of user assigned identity.
-   */
-  clientId?: string;
-}
-
-/**
- * The identity information for the resource.
- */
+/** The identity information for the resource. */
 export interface IdentityInfo {
-  /**
-   * The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an
-   * implicitly created identity and a set of user-assigned identities. The type 'None' will remove
-   * any identity. Possible values include: 'None', 'SystemAssigned', 'UserAssigned',
-   * 'SystemAssigned, UserAssigned'
-   */
+  /** The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove any identity. */
   type?: IdentityType;
-  /**
-   * The principal ID of resource identity.
-   */
+  /** The principal ID of resource identity. */
   principalId?: string;
-  /**
-   * The tenant ID of resource.
-   */
+  /** The tenant ID of resource. */
   tenantId?: string;
   /**
-   * The list of user identities associated with the resource. The user identity dictionary key
-   * references will be ARM resource ids in the form:
+   * The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form:
    * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
    * This property is currently not used and reserved for future usage.
    */
   userAssignedIdentities?: { [propertyName: string]: UserIdentityProperties };
 }
 
-/**
- * This is used to express the source of an input schema mapping for a single target field in the
- * Event Grid Event schema. This is currently used in the mappings for the 'id', 'topic' and
- * 'eventtime' properties. This represents a field in the input event schema.
- */
-export interface JsonField {
-  /**
-   * Name of a field in the input event schema that's to be used as the source of a mapping.
-   */
-  sourceField?: string;
+/** The information about the user identity. */
+export interface UserIdentityProperties {
+  /** The principal id of user assigned identity. */
+  principalId?: string;
+  /** The client id of user assigned identity. */
+  clientId?: string;
 }
 
-/**
- * This is used to express the source of an input schema mapping for a single target field
- * in the Event Grid Event schema. This is currently used in the mappings for the 'subject',
- * 'eventtype' and 'dataversion' properties. This represents a field in the input event schema
- * along with a default value to be used, and at least one of these two properties should be
- * provided.
- */
-export interface JsonFieldWithDefault {
-  /**
-   * Name of a field in the input event schema that's to be used as the source of a mapping.
-   */
-  sourceField?: string;
-  /**
-   * The default value to be used for mapping when a SourceField is not provided or if there's no
-   * property with the specified name in the published JSON event payload.
-   */
-  defaultValue?: string;
-}
-
-/**
- * This enables publishing to Event Grid using a custom input schema. This can be used to map
- * properties from a custom input JSON schema to the Event Grid event schema.
- */
-export interface JsonInputSchemaMapping {
-  /**
-   * Polymorphic Discriminator
-   */
-  inputSchemaMappingType: "Json";
-  /**
-   * The mapping information for the Id property of the Event Grid Event.
-   */
-  id?: JsonField;
-  /**
-   * The mapping information for the Topic property of the Event Grid Event.
-   */
-  topic?: JsonField;
-  /**
-   * The mapping information for the EventTime property of the Event Grid Event.
-   */
-  eventTime?: JsonField;
-  /**
-   * The mapping information for the EventType property of the Event Grid Event.
-   */
-  eventType?: JsonFieldWithDefault;
-  /**
-   * The mapping information for the Subject property of the Event Grid Event.
-   */
-  subject?: JsonFieldWithDefault;
-  /**
-   * The mapping information for the DataVersion property of the Event Grid Event.
-   */
-  dataVersion?: JsonFieldWithDefault;
-}
-
-/**
- * Definition of a Tracked Resource.
- */
-export interface TrackedResource extends Resource {
-  /**
-   * Location of the resource.
-   */
-  location: string;
-  /**
-   * Tags of the resource.
-   */
-  tags?: { [propertyName: string]: string };
-}
-
-/**
- * Metadata pertaining to creation and last modification of the resource.
- */
+/** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
-  /**
-   * The identity that created the resource.
-   */
+  /** The identity that created the resource. */
   createdBy?: string;
-  /**
-   * The type of identity that created the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
-   */
+  /** The type of identity that created the resource. */
   createdByType?: CreatedByType;
-  /**
-   * The timestamp of resource creation (UTC).
-   */
+  /** The timestamp of resource creation (UTC). */
   createdAt?: Date;
-  /**
-   * The identity that last modified the resource.
-   */
+  /** The identity that last modified the resource. */
   lastModifiedBy?: string;
-  /**
-   * The type of identity that last modified the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
-   */
+  /** The type of identity that last modified the resource. */
   lastModifiedByType?: CreatedByType;
-  /**
-   * The timestamp of resource last modification (UTC)
-   */
+  /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: Date;
 }
 
-/**
- * EventGrid Domain.
- */
-export interface Domain extends TrackedResource {
-  /**
-   * List of private endpoint connections.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly privateEndpointConnections?: PrivateEndpointConnection[];
-  /**
-   * Provisioning state of the Event Grid Domain Resource. Possible values include: 'Creating',
-   * 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: DomainProvisioningState;
-  /**
-   * Endpoint for the Event Grid Domain Resource which is used for publishing the events.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly endpoint?: string;
-  /**
-   * This determines the format that Event Grid should expect for incoming events published to the
-   * Event Grid Domain Resource. Possible values include: 'EventGridSchema', 'CustomEventSchema',
-   * 'CloudEventSchemaV1_0'. Default value: 'EventGridSchema'.
-   */
-  inputSchema?: InputSchema;
-  /**
-   * Information about the InputSchemaMapping which specified the info about mapping event payload.
-   */
-  inputSchemaMapping?: InputSchemaMappingUnion;
-  /**
-   * Metric resource id for the Event Grid Domain Resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly metricResourceId?: string;
-  /**
-   * This determines if traffic is allowed over public network. By default it is enabled.
-   * You can further restrict to specific IPs by configuring <seealso
-   * cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules"
-   * />. Possible values include: 'Enabled', 'Disabled'. Default value: 'Enabled'.
-   */
-  publicNetworkAccess?: PublicNetworkAccess;
-  /**
-   * This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are
-   * considered only if PublicNetworkAccess is enabled.
-   */
-  inboundIpRules?: InboundIpRule[];
-  /**
-   * This boolean is used to enable or disable local auth. Default value is false. When the
-   * property is set to true, only AAD token will be used to authenticate if user is allowed to
-   * publish to the domain. Default value: false.
-   */
-  disableLocalAuth?: boolean;
-  /**
-   * This Boolean is used to specify the creation mechanism for 'all' the Event Grid Domain Topics
-   * associated with this Event Grid Domain resource.
-   * In this context, creation of domain topic can be auto-managed (when true) or self-managed
-   * (when false). The default value for this property is true.
-   * When this property is null or set to true, Event Grid is responsible of automatically creating
-   * the domain topic when the first event subscription is
-   * created at the scope of the domain topic. If this property is set to false, then creating the
-   * first event subscription will require creating a domain topic
-   * by the user. The self-management mode can be used if the user wants full control of when the
-   * domain topic is created, while auto-managed mode provides the
-   * flexibility to perform less operations and manage fewer resources by the user. Also, note that
-   * in auto-managed creation mode, user is allowed to create the
-   * domain topic on demand if needed. Default value: true.
-   */
-  autoCreateTopicWithFirstSubscription?: boolean;
-  /**
-   * This Boolean is used to specify the deletion mechanism for 'all' the Event Grid Domain Topics
-   * associated with this Event Grid Domain resource.
-   * In this context, deletion of domain topic can be auto-managed (when true) or self-managed
-   * (when false). The default value for this property is true.
-   * When this property is set to true, Event Grid is responsible of automatically deleting the
-   * domain topic when the last event subscription at the scope
-   * of the domain topic is deleted. If this property is set to false, then the user needs to
-   * manually delete the domain topic when it is no longer needed
-   * (e.g., when last event subscription is deleted and the resource needs to be cleaned up). The
-   * self-management mode can be used if the user wants full
-   * control of when the domain topic needs to be deleted, while auto-managed mode provides the
-   * flexibility to perform less operations and manage fewer
-   * resources by the user. Default value: true.
-   */
-  autoDeleteTopicWithLastSubscription?: boolean;
-  /**
-   * The Sku pricing tier for the Event Grid Domain resource.
-   */
+/** Properties of the Domain update. */
+export interface DomainUpdateParameters {
+  /** Tags of the domains resource. */
+  tags?: { [propertyName: string]: string };
+  /** Identity information for the resource. */
+  identity?: IdentityInfo;
+  /** The Sku pricing tier for the domain. */
   sku?: ResourceSku;
   /**
-   * Identity information for the Event Grid Domain resource.
-   */
-  identity?: IdentityInfo;
-  /**
-   * The system metadata relating to the Event Grid Domain resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly systemData?: SystemData;
-}
-
-/**
- * Properties of the Domain update.
- */
-export interface DomainUpdateParameters {
-  /**
-   * Tags of the domains resource.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
    * This determines if traffic is allowed over public network. By default it is enabled.
-   * You can further restrict to specific IPs by configuring <seealso
-   * cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainUpdateParameterProperties.InboundIpRules"
-   * />. Possible values include: 'Enabled', 'Disabled'
+   * You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainUpdateParameterProperties.InboundIpRules" />
    */
   publicNetworkAccess?: PublicNetworkAccess;
-  /**
-   * This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are
-   * considered only if PublicNetworkAccess is enabled.
-   */
+  /** This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled. */
   inboundIpRules?: InboundIpRule[];
-  /**
-   * This boolean is used to enable or disable local auth. Default value is false. When the
-   * property is set to true, only AAD token will be used to authenticate if user is allowed to
-   * publish to the domain.
-   */
+  /** This boolean is used to enable or disable local auth. Default value is false. When the property is set to true, only AAD token will be used to authenticate if user is allowed to publish to the domain. */
   disableLocalAuth?: boolean;
   /**
-   * This Boolean is used to specify the creation mechanism for 'all' the Event Grid Domain Topics
-   * associated with this Event Grid Domain resource.
-   * In this context, creation of domain topic can be auto-managed (when true) or self-managed
-   * (when false). The default value for this property is true.
-   * When this property is null or set to true, Event Grid is responsible of automatically creating
-   * the domain topic when the first event subscription is
-   * created at the scope of the domain topic. If this property is set to false, then creating the
-   * first event subscription will require creating a domain topic
-   * by the user. The self-management mode can be used if the user wants full control of when the
-   * domain topic is created, while auto-managed mode provides the
-   * flexibility to perform less operations and manage fewer resources by the user. Also, note that
-   * in auto-managed creation mode, user is allowed to create the
+   * This Boolean is used to specify the creation mechanism for 'all' the Event Grid Domain Topics associated with this Event Grid Domain resource.
+   * In this context, creation of domain topic can be auto-managed (when true) or self-managed (when false). The default value for this property is true.
+   * When this property is null or set to true, Event Grid is responsible of automatically creating the domain topic when the first event subscription is
+   * created at the scope of the domain topic. If this property is set to false, then creating the first event subscription will require creating a domain topic
+   * by the user. The self-management mode can be used if the user wants full control of when the domain topic is created, while auto-managed mode provides the
+   * flexibility to perform less operations and manage fewer resources by the user. Also, note that in auto-managed creation mode, user is allowed to create the
    * domain topic on demand if needed.
    */
   autoCreateTopicWithFirstSubscription?: boolean;
   /**
-   * This Boolean is used to specify the deletion mechanism for 'all' the Event Grid Domain Topics
-   * associated with this Event Grid Domain resource.
-   * In this context, deletion of domain topic can be auto-managed (when true) or self-managed
-   * (when false). The default value for this property is true.
-   * When this property is set to true, Event Grid is responsible of automatically deleting the
-   * domain topic when the last event subscription at the scope
-   * of the domain topic is deleted. If this property is set to false, then the user needs to
-   * manually delete the domain topic when it is no longer needed
-   * (e.g., when last event subscription is deleted and the resource needs to be cleaned up). The
-   * self-management mode can be used if the user wants full
-   * control of when the domain topic needs to be deleted, while auto-managed mode provides the
-   * flexibility to perform less operations and manage fewer
+   * This Boolean is used to specify the deletion mechanism for 'all' the Event Grid Domain Topics associated with this Event Grid Domain resource.
+   * In this context, deletion of domain topic can be auto-managed (when true) or self-managed (when false). The default value for this property is true.
+   * When this property is set to true, Event Grid is responsible of automatically deleting the domain topic when the last event subscription at the scope
+   * of the domain topic is deleted. If this property is set to false, then the user needs to manually delete the domain topic when it is no longer needed
+   * (e.g., when last event subscription is deleted and the resource needs to be cleaned up). The self-management mode can be used if the user wants full
+   * control of when the domain topic needs to be deleted, while auto-managed mode provides the flexibility to perform less operations and manage fewer
    * resources by the user.
    */
   autoDeleteTopicWithLastSubscription?: boolean;
-  /**
-   * Identity information for the resource.
-   */
-  identity?: IdentityInfo;
-  /**
-   * The Sku pricing tier for the domain.
-   */
-  sku?: ResourceSku;
 }
 
-/**
- * Shared access keys of the Domain.
- */
+/** Result of the List Domains operation */
+export interface DomainsListResult {
+  /** A collection of Domains */
+  value?: Domain[];
+  /** A link for the next page of domains */
+  nextLink?: string;
+}
+
+/** Shared access keys of the Domain. */
 export interface DomainSharedAccessKeys {
-  /**
-   * Shared access key1 for the domain.
-   */
+  /** Shared access key1 for the domain. */
   key1?: string;
-  /**
-   * Shared access key2 for the domain.
-   */
+  /** Shared access key2 for the domain. */
   key2?: string;
 }
 
-/**
- * Domain regenerate share access key request.
- */
+/** Domain regenerate share access key request. */
 export interface DomainRegenerateKeyRequest {
-  /**
-   * Key name to regenerate key1 or key2.
-   */
+  /** Key name to regenerate key1 or key2. */
   keyName: string;
 }
 
-/**
- * Domain Topic.
- */
-export interface DomainTopic extends Resource {
-  /**
-   * Provisioning state of the domain topic. Possible values include: 'Creating', 'Updating',
-   * 'Deleting', 'Succeeded', 'Canceled', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: DomainTopicProvisioningState;
-  /**
-   * The system metadata relating to Domain Topic resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly systemData?: SystemData;
+/** Result of the List Domain Topics operation. */
+export interface DomainTopicsListResult {
+  /** A collection of Domain Topics. */
+  value?: DomainTopic[];
+  /** A link for the next page of domain topics. */
+  nextLink?: string;
 }
 
-/**
- * Properties of the source of an event channel.
- */
+/** Properties of the source of an event channel. */
 export interface EventChannelSource {
   /**
    * The identifier of the resource that's the source of the events.
@@ -501,9 +221,7 @@ export interface EventChannelSource {
   source?: string;
 }
 
-/**
- * Properties of the destination of an event channel.
- */
+/** Properties of the destination of an event channel. */
 export interface EventChannelDestination {
   /**
    * Azure subscription ID of the customer creating the event channel. The partner topic
@@ -515,483 +233,86 @@ export interface EventChannelDestination {
    * associated with the event channel will be created under this resource group.
    */
   resourceGroup?: string;
-  /**
-   * Name of the partner topic associated with the event channel.
-   */
+  /** Name of the partner topic associated with the event channel. */
   partnerTopicName?: string;
 }
 
-/**
- * Contains the possible cases for AdvancedFilter.
- */
-export type AdvancedFilterUnion = AdvancedFilter | NumberInAdvancedFilter | NumberNotInAdvancedFilter | NumberLessThanAdvancedFilter | NumberGreaterThanAdvancedFilter | NumberLessThanOrEqualsAdvancedFilter | NumberGreaterThanOrEqualsAdvancedFilter | BoolEqualsAdvancedFilter | StringInAdvancedFilter | StringNotInAdvancedFilter | StringBeginsWithAdvancedFilter | StringEndsWithAdvancedFilter | StringContainsAdvancedFilter | NumberInRangeAdvancedFilter | NumberNotInRangeAdvancedFilter | StringNotBeginsWithAdvancedFilter | StringNotEndsWithAdvancedFilter | StringNotContainsAdvancedFilter | IsNullOrUndefinedAdvancedFilter | IsNotNullAdvancedFilter;
-
-/**
- * This is the base type that represents an advanced filter. To configure an advanced filter, do
- * not directly instantiate an object of this class. Instead, instantiate an object of a derived
- * class such as BoolEqualsAdvancedFilter, NumberInAdvancedFilter, StringEqualsAdvancedFilter etc.
- * depending on the type of the key based on which you want to filter.
- */
-export interface AdvancedFilter {
-  /**
-   * Polymorphic Discriminator
-   */
-  operatorType: "AdvancedFilter";
-  /**
-   * The field/property in the event based on which you want to filter.
-   */
-  key?: string;
-}
-
-/**
- * Filter for the Event Channel.
- */
+/** Filter for the Event Channel. */
 export interface EventChannelFilter {
-  /**
-   * Allows advanced filters to be evaluated against an array of values instead of expecting a
-   * singular value. The default value is either false or null. Default value: false.
-   */
+  /** Allows advanced filters to be evaluated against an array of values instead of expecting a singular value. The default value is either false or null. */
   enableAdvancedFilteringOnArrays?: boolean;
-  /**
-   * An array of advanced filters that are used for filtering event channels.
-   */
+  /** An array of advanced filters that are used for filtering event channels. */
   advancedFilters?: AdvancedFilterUnion[];
 }
 
-/**
- * NumberIn Advanced Filter.
- */
-export interface NumberInAdvancedFilter {
-  /**
-   * Polymorphic Discriminator
-   */
-  operatorType: "NumberIn";
-  /**
-   * The field/property in the event based on which you want to filter.
-   */
-  key?: string;
-  /**
-   * The set of filter values.
-   */
-  values?: number[];
-}
-
-/**
- * NumberNotIn Advanced Filter.
- */
-export interface NumberNotInAdvancedFilter {
-  /**
-   * Polymorphic Discriminator
-   */
-  operatorType: "NumberNotIn";
-  /**
-   * The field/property in the event based on which you want to filter.
-   */
-  key?: string;
-  /**
-   * The set of filter values.
-   */
-  values?: number[];
-}
-
-/**
- * NumberLessThan Advanced Filter.
- */
-export interface NumberLessThanAdvancedFilter {
-  /**
-   * Polymorphic Discriminator
-   */
-  operatorType: "NumberLessThan";
-  /**
-   * The field/property in the event based on which you want to filter.
-   */
-  key?: string;
-  /**
-   * The filter value.
-   */
-  value?: number;
-}
-
-/**
- * NumberGreaterThan Advanced Filter.
- */
-export interface NumberGreaterThanAdvancedFilter {
-  /**
-   * Polymorphic Discriminator
-   */
-  operatorType: "NumberGreaterThan";
-  /**
-   * The field/property in the event based on which you want to filter.
-   */
-  key?: string;
-  /**
-   * The filter value.
-   */
-  value?: number;
-}
-
-/**
- * NumberLessThanOrEquals Advanced Filter.
- */
-export interface NumberLessThanOrEqualsAdvancedFilter {
-  /**
-   * Polymorphic Discriminator
-   */
-  operatorType: "NumberLessThanOrEquals";
-  /**
-   * The field/property in the event based on which you want to filter.
-   */
-  key?: string;
-  /**
-   * The filter value.
-   */
-  value?: number;
-}
-
-/**
- * NumberGreaterThanOrEquals Advanced Filter.
- */
-export interface NumberGreaterThanOrEqualsAdvancedFilter {
-  /**
-   * Polymorphic Discriminator
-   */
-  operatorType: "NumberGreaterThanOrEquals";
-  /**
-   * The field/property in the event based on which you want to filter.
-   */
-  key?: string;
-  /**
-   * The filter value.
-   */
-  value?: number;
-}
-
-/**
- * BoolEquals Advanced Filter.
- */
-export interface BoolEqualsAdvancedFilter {
-  /**
-   * Polymorphic Discriminator
-   */
-  operatorType: "BoolEquals";
-  /**
-   * The field/property in the event based on which you want to filter.
-   */
-  key?: string;
-  /**
-   * The boolean filter value.
-   */
-  value?: boolean;
-}
-
-/**
- * StringIn Advanced Filter.
- */
-export interface StringInAdvancedFilter {
-  /**
-   * Polymorphic Discriminator
-   */
-  operatorType: "StringIn";
-  /**
-   * The field/property in the event based on which you want to filter.
-   */
-  key?: string;
-  /**
-   * The set of filter values.
-   */
-  values?: string[];
-}
-
-/**
- * StringNotIn Advanced Filter.
- */
-export interface StringNotInAdvancedFilter {
-  /**
-   * Polymorphic Discriminator
-   */
-  operatorType: "StringNotIn";
-  /**
-   * The field/property in the event based on which you want to filter.
-   */
-  key?: string;
-  /**
-   * The set of filter values.
-   */
-  values?: string[];
-}
-
-/**
- * StringBeginsWith Advanced Filter.
- */
-export interface StringBeginsWithAdvancedFilter {
-  /**
-   * Polymorphic Discriminator
-   */
-  operatorType: "StringBeginsWith";
-  /**
-   * The field/property in the event based on which you want to filter.
-   */
-  key?: string;
-  /**
-   * The set of filter values.
-   */
-  values?: string[];
-}
-
-/**
- * StringEndsWith Advanced Filter.
- */
-export interface StringEndsWithAdvancedFilter {
-  /**
-   * Polymorphic Discriminator
-   */
-  operatorType: "StringEndsWith";
-  /**
-   * The field/property in the event based on which you want to filter.
-   */
-  key?: string;
-  /**
-   * The set of filter values.
-   */
-  values?: string[];
-}
-
-/**
- * StringContains Advanced Filter.
- */
-export interface StringContainsAdvancedFilter {
-  /**
-   * Polymorphic Discriminator
-   */
-  operatorType: "StringContains";
-  /**
-   * The field/property in the event based on which you want to filter.
-   */
-  key?: string;
-  /**
-   * The set of filter values.
-   */
-  values?: string[];
-}
-
-/**
- * NumberInRange Advanced Filter.
- */
-export interface NumberInRangeAdvancedFilter {
-  /**
-   * Polymorphic Discriminator
-   */
-  operatorType: "NumberInRange";
-  /**
-   * The field/property in the event based on which you want to filter.
-   */
-  key?: string;
-  /**
-   * The set of filter values.
-   */
-  values?: number[][];
-}
-
-/**
- * NumberNotInRange Advanced Filter.
- */
-export interface NumberNotInRangeAdvancedFilter {
-  /**
-   * Polymorphic Discriminator
-   */
-  operatorType: "NumberNotInRange";
-  /**
-   * The field/property in the event based on which you want to filter.
-   */
-  key?: string;
-  /**
-   * The set of filter values.
-   */
-  values?: number[][];
-}
-
-/**
- * StringNotBeginsWith Advanced Filter.
- */
-export interface StringNotBeginsWithAdvancedFilter {
-  /**
-   * Polymorphic Discriminator
-   */
-  operatorType: "StringNotBeginsWith";
-  /**
-   * The field/property in the event based on which you want to filter.
-   */
-  key?: string;
-  /**
-   * The set of filter values.
-   */
-  values?: string[];
-}
-
-/**
- * StringNotEndsWith Advanced Filter.
- */
-export interface StringNotEndsWithAdvancedFilter {
-  /**
-   * Polymorphic Discriminator
-   */
-  operatorType: "StringNotEndsWith";
-  /**
-   * The field/property in the event based on which you want to filter.
-   */
-  key?: string;
-  /**
-   * The set of filter values.
-   */
-  values?: string[];
-}
-
-/**
- * StringNotContains Advanced Filter.
- */
-export interface StringNotContainsAdvancedFilter {
-  /**
-   * Polymorphic Discriminator
-   */
-  operatorType: "StringNotContains";
-  /**
-   * The field/property in the event based on which you want to filter.
-   */
-  key?: string;
-  /**
-   * The set of filter values.
-   */
-  values?: string[];
-}
-
-/**
- * IsNullOrUndefined Advanced Filter.
- */
-export interface IsNullOrUndefinedAdvancedFilter {
-  /**
-   * Polymorphic Discriminator
-   */
-  operatorType: "IsNullOrUndefined";
-  /**
-   * The field/property in the event based on which you want to filter.
-   */
+/** This is the base type that represents an advanced filter. To configure an advanced filter, do not directly instantiate an object of this class. Instead, instantiate an object of a derived class such as BoolEqualsAdvancedFilter, NumberInAdvancedFilter, StringEqualsAdvancedFilter etc. depending on the type of the key based on which you want to filter. */
+export interface AdvancedFilter {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType:
+    | "NumberIn"
+    | "NumberNotIn"
+    | "NumberLessThan"
+    | "NumberGreaterThan"
+    | "NumberLessThanOrEquals"
+    | "NumberGreaterThanOrEquals"
+    | "BoolEquals"
+    | "StringIn"
+    | "StringNotIn"
+    | "StringBeginsWith"
+    | "StringEndsWith"
+    | "StringContains"
+    | "NumberInRange"
+    | "NumberNotInRange"
+    | "StringNotBeginsWith"
+    | "StringNotEndsWith"
+    | "StringNotContains"
+    | "IsNullOrUndefined"
+    | "IsNotNull";
+  /** The field/property in the event based on which you want to filter. */
   key?: string;
 }
 
-/**
- * IsNotNull Advanced Filter.
- */
-export interface IsNotNullAdvancedFilter {
-  /**
-   * Polymorphic Discriminator
-   */
-  operatorType: "IsNotNull";
-  /**
-   * The field/property in the event based on which you want to filter.
-   */
-  key?: string;
+/** Result of the List Event Channels operation */
+export interface EventChannelsListResult {
+  /** A collection of Event Channels */
+  value?: EventChannel[];
+  /** A link for the next page of event channels */
+  nextLink?: string;
 }
 
-/**
- * Event Channel.
- */
-export interface EventChannel extends Resource {
-  /**
-   * Source of the event channel. This represents a unique resource in the partner's resource
-   * model.
-   */
-  source?: EventChannelSource;
-  /**
-   * Represents the destination of an event channel.
-   */
-  destination?: EventChannelDestination;
-  /**
-   * Provisioning state of the event channel. Possible values include: 'Creating', 'Updating',
-   * 'Deleting', 'Succeeded', 'Canceled', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: EventChannelProvisioningState;
-  /**
-   * The readiness state of the corresponding partner topic. Possible values include:
-   * 'NotActivatedByUserYet', 'ActivatedByUser', 'DeactivatedByUser', 'DeletedByUser'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly partnerTopicReadinessState?: PartnerTopicReadinessState;
-  /**
-   * Expiration time of the event channel. If this timer expires while the corresponding partner
-   * topic is never activated,
-   * the event channel and corresponding partner topic are deleted.
-   */
-  expirationTimeIfNotActivatedUtc?: Date;
-  /**
-   * Information about the filter for the event channel.
-   */
-  filter?: EventChannelFilter;
-  /**
-   * Friendly description about the topic. This can be set by the publisher/partner to show custom
-   * description for the customer partner topic.
-   * This will be helpful to remove any ambiguity of the origin of creation of the partner topic
-   * for the customer.
-   */
-  partnerTopicFriendlyDescription?: string;
-  /**
-   * The system metadata relating to Event Channel resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly systemData?: SystemData;
-}
-
-/**
- * Contains the possible cases for EventSubscriptionDestination.
- */
-export type EventSubscriptionDestinationUnion = EventSubscriptionDestination | WebHookEventSubscriptionDestination | EventHubEventSubscriptionDestination | StorageQueueEventSubscriptionDestination | HybridConnectionEventSubscriptionDestination | ServiceBusQueueEventSubscriptionDestination | ServiceBusTopicEventSubscriptionDestination | AzureFunctionEventSubscriptionDestination;
-
-/**
- * Information about the destination for an event subscription.
- */
+/** Information about the destination for an event subscription. */
 export interface EventSubscriptionDestination {
-  /**
-   * Polymorphic Discriminator
-   */
-  endpointType: "EventSubscriptionDestination";
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType:
+    | "WebHook"
+    | "EventHub"
+    | "StorageQueue"
+    | "HybridConnection"
+    | "ServiceBusQueue"
+    | "ServiceBusTopic"
+    | "AzureFunction";
 }
 
-/**
- * The identity information with the event subscription.
- */
-export interface EventSubscriptionIdentity {
-  /**
-   * The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an
-   * implicitly created identity and a set of user-assigned identities. The type 'None' will remove
-   * any identity. Possible values include: 'SystemAssigned', 'UserAssigned'
-   */
-  type?: EventSubscriptionIdentityType;
-  /**
-   * The user identity associated with the resource.
-   */
-  userAssignedIdentity?: string;
-}
-
-/**
- * Information about the delivery for an event subscription with resource identity.
- */
+/** Information about the delivery for an event subscription with resource identity. */
 export interface DeliveryWithResourceIdentity {
-  /**
-   * The identity to use when delivering events.
-   */
+  /** The identity to use when delivering events. */
   identity?: EventSubscriptionIdentity;
   /**
-   * Information about the destination where events have to be delivered for the event
-   * subscription.
-   * Uses Azure Event Grid's identity to acquire the authentication tokens being used during
-   * delivery / dead-lettering.
+   * Information about the destination where events have to be delivered for the event subscription.
+   * Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery / dead-lettering.
    */
   destination?: EventSubscriptionDestinationUnion;
 }
 
-/**
- * Filter for the Event Subscription.
- */
+/** The identity information with the event subscription. */
+export interface EventSubscriptionIdentity {
+  /** The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove any identity. */
+  type?: EventSubscriptionIdentityType;
+  /** The user identity associated with the resource. */
+  userAssignedIdentity?: string;
+}
+
+/** Filter for the Event Subscription. */
 export interface EventSubscriptionFilter {
   /**
    * An optional string to filter events for an event subscription based on a resource path prefix.
@@ -1004,729 +325,191 @@ export interface EventSubscriptionFilter {
    * Wildcard characters are not supported in this path.
    */
   subjectEndsWith?: string;
-  /**
-   * A list of applicable event types that need to be part of the event subscription. If it is
-   * desired to subscribe to all default event types, set the IncludedEventTypes to null.
-   */
+  /** A list of applicable event types that need to be part of the event subscription. If it is desired to subscribe to all default event types, set the IncludedEventTypes to null. */
   includedEventTypes?: string[];
   /**
    * Specifies if the SubjectBeginsWith and SubjectEndsWith properties of the filter
-   * should be compared in a case sensitive manner. Default value: false.
+   * should be compared in a case sensitive manner.
    */
   isSubjectCaseSensitive?: boolean;
-  /**
-   * Allows advanced filters to be evaluated against an array of values instead of expecting a
-   * singular value.
-   */
+  /** Allows advanced filters to be evaluated against an array of values instead of expecting a singular value. */
   enableAdvancedFilteringOnArrays?: boolean;
-  /**
-   * An array of advanced filters that are used for filtering event subscriptions.
-   */
+  /** An array of advanced filters that are used for filtering event subscriptions. */
   advancedFilters?: AdvancedFilterUnion[];
 }
 
-/**
- * Information about the retry policy for an event subscription.
- */
+/** Information about the retry policy for an event subscription. */
 export interface RetryPolicy {
-  /**
-   * Maximum number of delivery retry attempts for events. Default value: 30.
-   */
+  /** Maximum number of delivery retry attempts for events. */
   maxDeliveryAttempts?: number;
-  /**
-   * Time To Live (in minutes) for events. Default value: 1440.
-   */
+  /** Time To Live (in minutes) for events. */
   eventTimeToLiveInMinutes?: number;
 }
 
-/**
- * Contains the possible cases for DeadLetterDestination.
- */
-export type DeadLetterDestinationUnion = DeadLetterDestination | StorageBlobDeadLetterDestination;
-
-/**
- * Information about the dead letter destination for an event subscription. To configure a
- * deadletter destination, do not directly instantiate an object of this class. Instead,
- * instantiate an object of a derived class. Currently, StorageBlobDeadLetterDestination is the
- * only class that derives from this class.
- */
+/** Information about the dead letter destination for an event subscription. To configure a deadletter destination, do not directly instantiate an object of this class. Instead, instantiate an object of a derived class. Currently, StorageBlobDeadLetterDestination is the only class that derives from this class. */
 export interface DeadLetterDestination {
-  /**
-   * Polymorphic Discriminator
-   */
-  endpointType: "DeadLetterDestination";
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "StorageBlob";
 }
 
-/**
- * Information about the deadletter destination with resource identity.
- */
+/** Information about the deadletter destination with resource identity. */
 export interface DeadLetterWithResourceIdentity {
-  /**
-   * The identity to use when dead-lettering events.
-   */
+  /** The identity to use when dead-lettering events. */
   identity?: EventSubscriptionIdentity;
   /**
-   * Information about the destination where events have to be delivered for the event
-   * subscription.
-   * Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire
-   * the authentication tokens being used during delivery / dead-lettering.
+   * Information about the destination where events have to be delivered for the event subscription.
+   * Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire the authentication tokens being used during delivery / dead-lettering.
    */
   deadLetterDestination?: DeadLetterDestinationUnion;
 }
 
-/**
- * Contains the possible cases for DeliveryAttributeMapping.
- */
-export type DeliveryAttributeMappingUnion = DeliveryAttributeMapping | StaticDeliveryAttributeMapping | DynamicDeliveryAttributeMapping;
-
-/**
- * Delivery attribute mapping details.
- */
-export interface DeliveryAttributeMapping {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "DeliveryAttributeMapping";
-  /**
-   * Name of the delivery attribute or header.
-   */
-  name?: string;
-}
-
-/**
- * Static delivery attribute mapping details.
- */
-export interface StaticDeliveryAttributeMapping {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "Static";
-  /**
-   * Name of the delivery attribute or header.
-   */
-  name?: string;
-  /**
-   * Value of the delivery attribute.
-   */
-  value?: string;
-  /**
-   * Boolean flag to tell if the attribute contains sensitive information .
-   */
-  isSecret?: boolean;
-}
-
-/**
- * Dynamic delivery attribute mapping details.
- */
-export interface DynamicDeliveryAttributeMapping {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "Dynamic";
-  /**
-   * Name of the delivery attribute or header.
-   */
-  name?: string;
-  /**
-   * JSON path in the event which contains attribute value.
-   */
-  sourceField?: string;
-}
-
-/**
- * Information about the storage blob based dead letter destination.
- */
-export interface StorageBlobDeadLetterDestination {
-  /**
-   * Polymorphic Discriminator
-   */
-  endpointType: "StorageBlob";
-  /**
-   * The Azure Resource ID of the storage account that is the destination of the deadletter events
-   */
-  resourceId?: string;
-  /**
-   * The name of the Storage blob container that is the destination of the deadletter events
-   */
-  blobContainerName?: string;
-}
-
-/**
- * Information about the webhook destination for an event subscription.
- */
-export interface WebHookEventSubscriptionDestination {
-  /**
-   * Polymorphic Discriminator
-   */
-  endpointType: "WebHook";
-  /**
-   * The URL that represents the endpoint of the destination of an event subscription.
-   */
-  endpointUrl?: string;
-  /**
-   * The base URL that represents the endpoint of the destination of an event subscription.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly endpointBaseUrl?: string;
-  /**
-   * Maximum number of events per batch. Default value: 1.
-   */
-  maxEventsPerBatch?: number;
-  /**
-   * Preferred batch size in Kilobytes. Default value: 64.
-   */
-  preferredBatchSizeInKilobytes?: number;
-  /**
-   * The Azure Active Directory Tenant ID to get the access token that will be included as the
-   * bearer token in delivery requests.
-   */
-  azureActiveDirectoryTenantId?: string;
-  /**
-   * The Azure Active Directory Application ID or URI to get the access token that will be included
-   * as the bearer token in delivery requests.
-   */
-  azureActiveDirectoryApplicationIdOrUri?: string;
-  /**
-   * Delivery attribute details.
-   */
-  deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
-}
-
-/**
- * Information about the event hub destination for an event subscription.
- */
-export interface EventHubEventSubscriptionDestination {
-  /**
-   * Polymorphic Discriminator
-   */
-  endpointType: "EventHub";
-  /**
-   * The Azure Resource Id that represents the endpoint of an Event Hub destination of an event
-   * subscription.
-   */
-  resourceId?: string;
-  /**
-   * Delivery attribute details.
-   */
-  deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
-}
-
-/**
- * Information about the storage queue destination for an event subscription.
- */
-export interface StorageQueueEventSubscriptionDestination {
-  /**
-   * Polymorphic Discriminator
-   */
-  endpointType: "StorageQueue";
-  /**
-   * The Azure Resource ID of the storage account that contains the queue that is the destination
-   * of an event subscription.
-   */
-  resourceId?: string;
-  /**
-   * The name of the Storage queue under a storage account that is the destination of an event
-   * subscription.
-   */
-  queueName?: string;
-  /**
-   * Storage queue message time to live in seconds.
-   */
-  queueMessageTimeToLiveInSeconds?: number;
-}
-
-/**
- * Information about the HybridConnection destination for an event subscription.
- */
-export interface HybridConnectionEventSubscriptionDestination {
-  /**
-   * Polymorphic Discriminator
-   */
-  endpointType: "HybridConnection";
-  /**
-   * The Azure Resource ID of an hybrid connection that is the destination of an event
-   * subscription.
-   */
-  resourceId?: string;
-  /**
-   * Delivery attribute details.
-   */
-  deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
-}
-
-/**
- * Information about the service bus destination for an event subscription.
- */
-export interface ServiceBusQueueEventSubscriptionDestination {
-  /**
-   * Polymorphic Discriminator
-   */
-  endpointType: "ServiceBusQueue";
-  /**
-   * The Azure Resource Id that represents the endpoint of the Service Bus destination of an event
-   * subscription.
-   */
-  resourceId?: string;
-  /**
-   * Delivery attribute details.
-   */
-  deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
-}
-
-/**
- * Information about the service bus topic destination for an event subscription.
- */
-export interface ServiceBusTopicEventSubscriptionDestination {
-  /**
-   * Polymorphic Discriminator
-   */
-  endpointType: "ServiceBusTopic";
-  /**
-   * The Azure Resource Id that represents the endpoint of the Service Bus Topic destination of an
-   * event subscription.
-   */
-  resourceId?: string;
-  /**
-   * Delivery attribute details.
-   */
-  deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
-}
-
-/**
- * Information about the azure function destination for an event subscription.
- */
-export interface AzureFunctionEventSubscriptionDestination {
-  /**
-   * Polymorphic Discriminator
-   */
-  endpointType: "AzureFunction";
-  /**
-   * The Azure Resource Id that represents the endpoint of the Azure Function destination of an
-   * event subscription.
-   */
-  resourceId?: string;
-  /**
-   * Maximum number of events per batch. Default value: 1.
-   */
-  maxEventsPerBatch?: number;
-  /**
-   * Preferred batch size in Kilobytes. Default value: 64.
-   */
-  preferredBatchSizeInKilobytes?: number;
-  /**
-   * Delivery attribute details.
-   */
-  deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
-}
-
-/**
- * Event Subscription
- */
-export interface EventSubscription extends Resource {
-  /**
-   * Name of the topic of the event subscription.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly topic?: string;
-  /**
-   * Provisioning state of the event subscription. Possible values include: 'Creating', 'Updating',
-   * 'Deleting', 'Succeeded', 'Canceled', 'Failed', 'AwaitingManualAction'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: EventSubscriptionProvisioningState;
-  /**
-   * Information about the destination where events have to be delivered for the event
-   * subscription.
-   * Uses Azure Event Grid's identity to acquire the authentication tokens being used during
-   * delivery / dead-lettering.
-   */
-  destination?: EventSubscriptionDestinationUnion;
-  /**
-   * Information about the destination where events have to be delivered for the event
-   * subscription.
-   * Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire
-   * the authentication tokens being used during delivery / dead-lettering.
-   */
-  deliveryWithResourceIdentity?: DeliveryWithResourceIdentity;
-  /**
-   * Information about the filter for the event subscription.
-   */
-  filter?: EventSubscriptionFilter;
-  /**
-   * List of user defined labels.
-   */
-  labels?: string[];
-  /**
-   * Expiration time of the event subscription.
-   */
-  expirationTimeUtc?: Date;
-  /**
-   * The event delivery schema for the event subscription. Possible values include:
-   * 'EventGridSchema', 'CustomInputSchema', 'CloudEventSchemaV1_0'. Default value:
-   * 'EventGridSchema'.
-   */
-  eventDeliverySchema?: EventDeliverySchema;
-  /**
-   * The retry policy for events. This can be used to configure maximum number of delivery attempts
-   * and time to live for events.
-   */
-  retryPolicy?: RetryPolicy;
-  /**
-   * The dead letter destination of the event subscription. Any event that cannot be delivered to
-   * its' destination is sent to the dead letter destination.
-   * Uses Azure Event Grid's identity to acquire the authentication tokens being used during
-   * delivery / dead-lettering.
-   */
-  deadLetterDestination?: DeadLetterDestinationUnion;
-  /**
-   * The dead letter destination of the event subscription. Any event that cannot be delivered to
-   * its' destination is sent to the dead letter destination.
-   * Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire
-   * the authentication tokens being used during delivery / dead-lettering.
-   */
-  deadLetterWithResourceIdentity?: DeadLetterWithResourceIdentity;
-  /**
-   * The system metadata relating to Event Subscription resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly systemData?: SystemData;
-}
-
-/**
- * Properties of the Event Subscription update.
- */
+/** Properties of the Event Subscription update. */
 export interface EventSubscriptionUpdateParameters {
   /**
-   * Information about the destination where events have to be delivered for the event
-   * subscription.
-   * Uses Azure Event Grid's identity to acquire the authentication tokens being used during
-   * delivery / dead-lettering.
+   * Information about the destination where events have to be delivered for the event subscription.
+   * Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery / dead-lettering.
    */
   destination?: EventSubscriptionDestinationUnion;
   /**
-   * Information about the destination where events have to be delivered for the event
-   * subscription.
-   * Uses the managed identity setup on the parent resource (topic / domain) to acquire the
-   * authentication tokens being used during delivery / dead-lettering.
+   * Information about the destination where events have to be delivered for the event subscription.
+   * Uses the managed identity setup on the parent resource (topic / domain) to acquire the authentication tokens being used during delivery / dead-lettering.
    */
   deliveryWithResourceIdentity?: DeliveryWithResourceIdentity;
-  /**
-   * Information about the filter for the event subscription.
-   */
+  /** Information about the filter for the event subscription. */
   filter?: EventSubscriptionFilter;
-  /**
-   * List of user defined labels.
-   */
+  /** List of user defined labels. */
   labels?: string[];
-  /**
-   * Information about the expiration time for the event subscription.
-   */
+  /** Information about the expiration time for the event subscription. */
   expirationTimeUtc?: Date;
-  /**
-   * The event delivery schema for the event subscription. Possible values include:
-   * 'EventGridSchema', 'CustomInputSchema', 'CloudEventSchemaV1_0'
-   */
+  /** The event delivery schema for the event subscription. */
   eventDeliverySchema?: EventDeliverySchema;
-  /**
-   * The retry policy for events. This can be used to configure maximum number of delivery attempts
-   * and time to live for events.
-   */
+  /** The retry policy for events. This can be used to configure maximum number of delivery attempts and time to live for events. */
   retryPolicy?: RetryPolicy;
   /**
-   * The dead letter destination of the event subscription. Any event that cannot be delivered to
-   * its' destination is sent to the dead letter destination.
-   * Uses Azure Event Grid's identity to acquire the authentication tokens being used during
-   * delivery / dead-lettering.
+   * The dead letter destination of the event subscription. Any event that cannot be delivered to its' destination is sent to the dead letter destination.
+   * Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery / dead-lettering.
    */
   deadLetterDestination?: DeadLetterDestinationUnion;
   /**
-   * The dead letter destination of the event subscription. Any event that cannot be delivered to
-   * its' destination is sent to the dead letter destination.
-   * Uses the managed identity setup on the parent resource (topic / domain) to acquire the
-   * authentication tokens being used during delivery / dead-lettering.
+   * The dead letter destination of the event subscription. Any event that cannot be delivered to its' destination is sent to the dead letter destination.
+   * Uses the managed identity setup on the parent resource (topic / domain) to acquire the authentication tokens being used during delivery / dead-lettering.
    */
   deadLetterWithResourceIdentity?: DeadLetterWithResourceIdentity;
 }
 
-/**
- * Full endpoint url of an event subscription
- */
+/** Full endpoint url of an event subscription */
 export interface EventSubscriptionFullUrl {
-  /**
-   * The URL that represents the endpoint of the destination of an event subscription.
-   */
+  /** The URL that represents the endpoint of the destination of an event subscription. */
   endpointUrl?: string;
 }
 
-/**
- * Result of the Get delivery attributes operation.
- */
+/** Result of the List EventSubscriptions operation */
+export interface EventSubscriptionsListResult {
+  /** A collection of EventSubscriptions */
+  value?: EventSubscription[];
+  /** A link for the next page of event subscriptions */
+  nextLink?: string;
+}
+
+/** Result of the Get delivery attributes operation. */
 export interface DeliveryAttributeListResult {
-  /**
-   * A collection of DeliveryAttributeMapping
-   */
+  /** A collection of DeliveryAttributeMapping */
   value?: DeliveryAttributeMappingUnion[];
 }
 
-/**
- * Information about an operation
- */
+/** Delivery attribute mapping details. */
+export interface DeliveryAttributeMapping {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Static" | "Dynamic";
+  /** Name of the delivery attribute or header. */
+  name?: string;
+}
+
+/** Result of the List Operations operation */
+export interface OperationsListResult {
+  /** A collection of operations */
+  value?: Operation[];
+}
+
+/** Represents an operation returned by the GetOperations request */
+export interface Operation {
+  /** Name of the operation */
+  name?: string;
+  /** Display name of the operation */
+  display?: OperationInfo;
+  /** Origin of the operation */
+  origin?: string;
+  /** This Boolean is used to determine if the operation is a data plane action or not. */
+  isDataAction?: boolean;
+  /** Properties of the operation */
+  properties?: Record<string, unknown>;
+}
+
+/** Information about an operation */
 export interface OperationInfo {
-  /**
-   * Name of the provider
-   */
+  /** Name of the provider */
   provider?: string;
-  /**
-   * Name of the resource type
-   */
+  /** Name of the resource type */
   resource?: string;
-  /**
-   * Name of the operation
-   */
+  /** Name of the operation */
   operation?: string;
-  /**
-   * Description of the operation
-   */
+  /** Description of the operation */
   description?: string;
 }
 
-/**
- * Represents an operation returned by the GetOperations request
- */
-export interface Operation {
-  /**
-   * Name of the operation
-   */
-  name?: string;
-  /**
-   * Display name of the operation
-   */
-  display?: OperationInfo;
-  /**
-   * Origin of the operation
-   */
-  origin?: string;
-  /**
-   * This Boolean is used to determine if the operation is a data plane action or not.
-   */
-  isDataAction?: boolean;
-  /**
-   * Properties of the operation
-   */
-  properties?: any;
-}
-
-/**
- * EventGrid Partner Namespace.
- */
-export interface PartnerNamespace extends TrackedResource {
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly privateEndpointConnections?: PrivateEndpointConnection[];
-  /**
-   * Provisioning state of the partner namespace. Possible values include: 'Creating', 'Updating',
-   * 'Deleting', 'Succeeded', 'Canceled', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: PartnerNamespaceProvisioningState;
-  /**
-   * The fully qualified ARM Id of the partner registration that should be associated with this
-   * partner namespace. This takes the following format:
-   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerRegistrations/{partnerRegistrationName}.
-   */
-  partnerRegistrationFullyQualifiedId?: string;
-  /**
-   * Endpoint for the partner namespace.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly endpoint?: string;
-  /**
-   * This determines if traffic is allowed over public network. By default it is enabled.
-   * You can further restrict to specific IPs by configuring <seealso
-   * cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.PartnerNamespaceProperties.InboundIpRules"
-   * />. Possible values include: 'Enabled', 'Disabled'. Default value: 'Enabled'.
-   */
-  publicNetworkAccess?: PublicNetworkAccess;
-  /**
-   * This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are
-   * considered only if PublicNetworkAccess is enabled.
-   */
-  inboundIpRules?: InboundIpRule[];
-  /**
-   * This boolean is used to enable or disable local auth. Default value is false. When the
-   * property is set to true, only AAD token will be used to authenticate if user is allowed to
-   * publish to the partner namespace. Default value: false.
-   */
-  disableLocalAuth?: boolean;
-  /**
-   * The system metadata relating to Partner Namespace resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly systemData?: SystemData;
-}
-
-/**
- * Properties of the PartnerNamespace update.
- */
+/** Properties of the PartnerNamespace update. */
 export interface PartnerNamespaceUpdateParameters {
-  /**
-   * Tags of the partner namespace.
-   */
+  /** Tags of the partner namespace. */
   tags?: { [propertyName: string]: string };
   /**
    * This determines if traffic is allowed over public network. By default it is enabled.
-   * You can further restrict to specific IPs by configuring <seealso
-   * cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.PartnerNamespaceUpdateParameterProperties.InboundIpRules"
-   * />. Possible values include: 'Enabled', 'Disabled'
+   * You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.PartnerNamespaceUpdateParameterProperties.InboundIpRules" />
    */
   publicNetworkAccess?: PublicNetworkAccess;
-  /**
-   * This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are
-   * considered only if PublicNetworkAccess is enabled.
-   */
+  /** This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled. */
   inboundIpRules?: InboundIpRule[];
-  /**
-   * This boolean is used to enable or disable local auth. Default value is false. When the
-   * property is set to true, only AAD token will be used to authenticate if user is allowed to
-   * publish to the partner namespace.
-   */
+  /** This boolean is used to enable or disable local auth. Default value is false. When the property is set to true, only AAD token will be used to authenticate if user is allowed to publish to the partner namespace. */
   disableLocalAuth?: boolean;
 }
 
-/**
- * Shared access keys of the partner namespace.
- */
+/** Result of the List Partner Namespaces operation */
+export interface PartnerNamespacesListResult {
+  /** A collection of partner namespaces. */
+  value?: PartnerNamespace[];
+  /** A link for the next page of partner namespaces. */
+  nextLink?: string;
+}
+
+/** Shared access keys of the partner namespace. */
 export interface PartnerNamespaceSharedAccessKeys {
-  /**
-   * Shared access key1 for the partner namespace.
-   */
+  /** Shared access key1 for the partner namespace. */
   key1?: string;
-  /**
-   * Shared access key2 for the partner namespace.
-   */
+  /** Shared access key2 for the partner namespace. */
   key2?: string;
 }
 
-/**
- * PartnerNamespace regenerate shared access key request.
- */
+/** PartnerNamespace regenerate shared access key request. */
 export interface PartnerNamespaceRegenerateKeyRequest {
-  /**
-   * Key name to regenerate (key1 or key2).
-   */
+  /** Key name to regenerate (key1 or key2). */
   keyName: string;
 }
 
-/**
- * Information about a partner registration.
- */
-export interface PartnerRegistration extends TrackedResource {
-  /**
-   * Provisioning state of the partner registration. Possible values include: 'Creating',
-   * 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: PartnerRegistrationProvisioningState;
-  /**
-   * Official name of the partner name. For example: "Contoso".
-   */
-  partnerName?: string;
-  /**
-   * Name of the partner resource type.
-   */
-  partnerResourceTypeName?: string;
-  /**
-   * Display name of the partner resource type.
-   */
-  partnerResourceTypeDisplayName?: string;
-  /**
-   * Short description of the partner resource type. The length of this description should not
-   * exceed 256 characters.
-   */
-  partnerResourceTypeDescription?: string;
-  /**
-   * Long description for the custom scenarios and integration to be displayed in the portal if
-   * needed.
-   * Length of this description should not exceed 2048 characters.
-   */
-  longDescription?: string;
-  /**
-   * The customer service number of the publisher. The expected phone format should start with a
-   * '+' sign
-   * followed by the country code. The remaining digits are then followed. Only digits and spaces
-   * are allowed and its
-   * length cannot exceed 16 digits including country code. Examples of valid phone numbers are: +1
-   * 515 123 4567 and
-   * +966 7 5115 2471. Examples of invalid phone numbers are: +1 (515) 123-4567, 1 515 123 4567 and
-   * +966 121 5115 24 7 551 1234 43
-   */
-  partnerCustomerServiceNumber?: string;
-  /**
-   * The extension of the customer service number of the publisher. Only digits are allowed and
-   * number of digits should not exceed 10.
-   */
-  partnerCustomerServiceExtension?: string;
-  /**
-   * The extension of the customer service URI of the publisher.
-   */
-  customerServiceUri?: string;
-  /**
-   * URI of the partner website that can be used by Azure customers to setup Event Grid
-   * integration on an event source.
-   */
-  setupUri?: string;
-  /**
-   * URI of the logo.
-   */
-  logoUri?: string;
-  /**
-   * Visibility state of the partner registration. Possible values include: 'Hidden',
-   * 'PublicPreview', 'GenerallyAvailable'
-   */
-  visibilityState?: PartnerRegistrationVisibilityState;
-  /**
-   * List of Azure subscription Ids that are authorized to create a partner namespace
-   * associated with this partner registration. This is an optional property. Creating
-   * partner namespaces is always permitted under the same Azure subscription as the one used
-   * for creating the partner registration.
-   */
-  authorizedAzureSubscriptionIds?: string[];
-  /**
-   * The system metadata relating to Partner Registration resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly systemData?: SystemData;
-}
-
-/**
- * Properties of the Partner Registration update.
- */
+/** Properties of the Partner Registration update. */
 export interface PartnerRegistrationUpdateParameters {
-  /**
-   * Tags of the partner registration resource.
-   */
+  /** Tags of the partner registration resource. */
   tags?: { [propertyName: string]: string };
-  /**
-   * Name of the partner topic type.
-   */
+  /** Name of the partner topic type. */
   partnerTopicTypeName?: string;
-  /**
-   * Display name of the partner topic type.
-   */
+  /** Display name of the partner topic type. */
   partnerTopicTypeDisplayName?: string;
-  /**
-   * Description of the partner topic type.
-   */
+  /** Description of the partner topic type. */
   partnerTopicTypeDescription?: string;
   /**
    * URI of the partner website that can be used by Azure customers to setup Event Grid
    * integration on an event source.
    */
   setupUri?: string;
-  /**
-   * URI of the partner logo.
-   */
+  /** URI of the partner logo. */
   logoUri?: string;
   /**
    * List of IDs of Azure AD applications that are authorized to create a partner namespace
@@ -1737,4442 +520,2778 @@ export interface PartnerRegistrationUpdateParameters {
   authorizedAzureSubscriptionIds?: string[];
 }
 
-/**
- * Event Type for a subject under a topic
- */
-export interface EventType extends Resource {
-  /**
-   * Display name of the event type.
-   */
-  displayName?: string;
-  /**
-   * Description of the event type.
-   */
-  description?: string;
-  /**
-   * Url of the schema for this event type.
-   */
-  schemaUrl?: string;
-  /**
-   * IsInDefaultSet flag of the event type.
-   */
-  isInDefaultSet?: boolean;
+/** Result of the List Partner Registrations operation. */
+export interface PartnerRegistrationsListResult {
+  /** A collection of partner registrations. */
+  value?: PartnerRegistration[];
+  /** A link for the next page of partner registrations. */
+  nextLink?: string;
 }
 
-/**
- * Properties of the Partner Topic update.
- */
+/** Properties of the Partner Topic update. */
 export interface PartnerTopicUpdateParameters {
-  /**
-   * Tags of the Partner Topic resource.
-   */
+  /** Tags of the Partner Topic resource. */
   tags?: { [propertyName: string]: string };
-  /**
-   * Identity information for the Partner Topic resource.
-   */
+  /** Identity information for the Partner Topic resource. */
   identity?: IdentityInfo;
 }
 
-/**
- * EventGrid Partner Topic.
- */
-export interface PartnerTopic extends TrackedResource {
-  /**
-   * Source associated with this partner topic. This represents a unique partner resource.
-   */
-  source?: string;
-  /**
-   * Expiration time of the partner topic. If this timer expires while the partner topic is still
-   * never activated,
-   * the partner topic and corresponding event channel are deleted.
-   */
-  expirationTimeIfNotActivatedUtc?: Date;
-  /**
-   * Provisioning state of the partner topic. Possible values include: 'Creating', 'Updating',
-   * 'Deleting', 'Succeeded', 'Canceled', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: PartnerTopicProvisioningState;
-  /**
-   * Activation state of the partner topic. Possible values include: 'NeverActivated', 'Activated',
-   * 'Deactivated'
-   */
-  activationState?: PartnerTopicActivationState;
-  /**
-   * Friendly description about the topic. This can be set by the publisher/partner to show custom
-   * description for the customer partner topic.
-   * This will be helpful to remove any ambiguity of the origin of creation of the partner topic
-   * for the customer.
-   */
-  partnerTopicFriendlyDescription?: string;
-  /**
-   * The system metadata relating to Partner Topic resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly systemData?: SystemData;
-  /**
-   * Identity information for the Partner Topic resource.
-   */
-  identity?: IdentityInfo;
+/** Result of the List Partner Topics operation. */
+export interface PartnerTopicsListResult {
+  /** A collection of partner topics. */
+  value?: PartnerTopic[];
+  /** A link for the next page of partner topics. */
+  nextLink?: string;
 }
 
-/**
- * Information of the private link resource.
- */
+/** Result of the list of all private endpoint connections operation. */
+export interface PrivateEndpointConnectionListResult {
+  /** A collection of private endpoint connection resources. */
+  value?: PrivateEndpointConnection[];
+  /** A link for the next page of private endpoint connection resources. */
+  nextLink?: string;
+}
+
+/** Information of the private link resource. */
 export interface PrivateLinkResource {
+  /** Fully qualified identifier of the resource. */
+  id?: string;
+  /** Name of the resource. */
+  name?: string;
+  /** Type of the resource. */
+  type?: string;
   groupId?: string;
   displayName?: string;
   requiredMembers?: string[];
   requiredZoneNames?: string[];
-  /**
-   * Fully qualified identifier of the resource.
-   */
-  id?: string;
-  /**
-   * Name of the resource.
-   */
+}
+
+/** Result of the List private link resources operation. */
+export interface PrivateLinkResourcesListResult {
+  /** A collection of private link resources */
+  value?: PrivateLinkResource[];
+  /** A link for the next page of private link resources. */
+  nextLink?: string;
+}
+
+/** Properties of the System Topic update. */
+export interface SystemTopicUpdateParameters {
+  /** Tags of the system topic. */
+  tags?: { [propertyName: string]: string };
+  /** Resource identity information. */
+  identity?: IdentityInfo;
+}
+
+/** Result of the List System topics operation. */
+export interface SystemTopicsListResult {
+  /** A collection of system Topics. */
+  value?: SystemTopic[];
+  /** A link for the next page of topics. */
+  nextLink?: string;
+}
+
+/** Definition of an Extended Location */
+export interface ExtendedLocation {
+  /** Fully qualified name of the extended location. */
   name?: string;
-  /**
-   * Type of the resource.
-   */
+  /** Type of the extended location. */
   type?: string;
 }
 
+/** Properties of the Topic update */
+export interface TopicUpdateParameters {
+  /** Tags of the Topic resource. */
+  tags?: { [propertyName: string]: string };
+  /** Topic resource identity information. */
+  identity?: IdentityInfo;
+  /** The Sku pricing tier for the topic. */
+  sku?: ResourceSku;
+  /**
+   * This determines if traffic is allowed over public network. By default it is enabled.
+   * You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicUpdateParameterProperties.InboundIpRules" />
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /** This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled. */
+  inboundIpRules?: InboundIpRule[];
+  /** This boolean is used to enable or disable local auth. Default value is false. When the property is set to true, only AAD token will be used to authenticate if user is allowed to publish to the topic. */
+  disableLocalAuth?: boolean;
+}
+
+/** Result of the List Topics operation */
+export interface TopicsListResult {
+  /** A collection of Topics */
+  value?: Topic[];
+  /** A link for the next page of topics */
+  nextLink?: string;
+}
+
+/** Shared access keys of the Topic */
+export interface TopicSharedAccessKeys {
+  /** Shared access key1 for the topic. */
+  key1?: string;
+  /** Shared access key2 for the topic. */
+  key2?: string;
+}
+
+/** Topic regenerate share access key request */
+export interface TopicRegenerateKeyRequest {
+  /** Key name to regenerate key1 or key2 */
+  keyName: string;
+}
+
+/** Result of the List Event Types operation */
+export interface EventTypesListResult {
+  /** A collection of event types */
+  value?: EventType[];
+}
+
+/** Result of the List Topic Types operation */
+export interface TopicTypesListResult {
+  /** A collection of topic types */
+  value?: TopicTypeInfo[];
+}
+
+/** This is used to express the source of an input schema mapping for a single target field in the Event Grid Event schema. This is currently used in the mappings for the 'id', 'topic' and 'eventtime' properties. This represents a field in the input event schema. */
+export interface JsonField {
+  /** Name of a field in the input event schema that's to be used as the source of a mapping. */
+  sourceField?: string;
+}
+
 /**
- * EventGrid System Topic.
+ * This is used to express the source of an input schema mapping for a single target field
+ * in the Event Grid Event schema. This is currently used in the mappings for the 'subject',
+ * 'eventtype' and 'dataversion' properties. This represents a field in the input event schema
+ * along with a default value to be used, and at least one of these two properties should be provided.
  */
-export interface SystemTopic extends TrackedResource {
+export interface JsonFieldWithDefault {
+  /** Name of a field in the input event schema that's to be used as the source of a mapping. */
+  sourceField?: string;
+  /** The default value to be used for mapping when a SourceField is not provided or if there's no property with the specified name in the published JSON event payload. */
+  defaultValue?: string;
+}
+
+/** Definition of a Tracked Resource. */
+export type TrackedResource = Resource & {
+  /** Location of the resource. */
+  location: string;
+  /** Tags of the resource. */
+  tags?: { [propertyName: string]: string };
+};
+
+export type PrivateEndpointConnection = Resource & {
+  /** The Private Endpoint resource for this Connection. */
+  privateEndpoint?: PrivateEndpoint;
+  /** GroupIds from the private link service resource. */
+  groupIds?: string[];
+  /** Details about the state of the connection. */
+  privateLinkServiceConnectionState?: ConnectionState;
+  /** Provisioning state of the Private Endpoint Connection. */
+  provisioningState?: ResourceProvisioningState;
+};
+
+/** Domain Topic. */
+export type DomainTopic = Resource & {
   /**
-   * Provisioning state of the system topic. Possible values include: 'Creating', 'Updating',
-   * 'Deleting', 'Succeeded', 'Canceled', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ResourceProvisioningState;
-  /**
-   * Source for the system topic.
-   */
-  source?: string;
-  /**
-   * TopicType for the system topic.
-   */
-  topicType?: string;
-  /**
-   * Metric resource id for the system topic.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly metricResourceId?: string;
-  /**
-   * The system metadata relating to System Topic resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * The system metadata relating to Domain Topic resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
   /**
-   * Identity information for the resource.
+   * Provisioning state of the domain topic.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
+  readonly provisioningState?: DomainTopicProvisioningState;
+};
+
+/** Event Channel. */
+export type EventChannel = Resource & {
+  /**
+   * The system metadata relating to Event Channel resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** Source of the event channel. This represents a unique resource in the partner's resource model. */
+  source?: EventChannelSource;
+  /** Represents the destination of an event channel. */
+  destination?: EventChannelDestination;
+  /**
+   * Provisioning state of the event channel.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: EventChannelProvisioningState;
+  /**
+   * The readiness state of the corresponding partner topic.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly partnerTopicReadinessState?: PartnerTopicReadinessState;
+  /**
+   * Expiration time of the event channel. If this timer expires while the corresponding partner topic is never activated,
+   * the event channel and corresponding partner topic are deleted.
+   */
+  expirationTimeIfNotActivatedUtc?: Date;
+  /** Information about the filter for the event channel. */
+  filter?: EventChannelFilter;
+  /**
+   * Friendly description about the topic. This can be set by the publisher/partner to show custom description for the customer partner topic.
+   * This will be helpful to remove any ambiguity of the origin of creation of the partner topic for the customer.
+   */
+  partnerTopicFriendlyDescription?: string;
+};
+
+/** Event Subscription */
+export type EventSubscription = Resource & {
+  /**
+   * The system metadata relating to Event Subscription resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * Name of the topic of the event subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly topic?: string;
+  /**
+   * Provisioning state of the event subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: EventSubscriptionProvisioningState;
+  /**
+   * Information about the destination where events have to be delivered for the event subscription.
+   * Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery / dead-lettering.
+   */
+  destination?: EventSubscriptionDestinationUnion;
+  /**
+   * Information about the destination where events have to be delivered for the event subscription.
+   * Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire the authentication tokens being used during delivery / dead-lettering.
+   */
+  deliveryWithResourceIdentity?: DeliveryWithResourceIdentity;
+  /** Information about the filter for the event subscription. */
+  filter?: EventSubscriptionFilter;
+  /** List of user defined labels. */
+  labels?: string[];
+  /** Expiration time of the event subscription. */
+  expirationTimeUtc?: Date;
+  /** The event delivery schema for the event subscription. */
+  eventDeliverySchema?: EventDeliverySchema;
+  /** The retry policy for events. This can be used to configure maximum number of delivery attempts and time to live for events. */
+  retryPolicy?: RetryPolicy;
+  /**
+   * The dead letter destination of the event subscription. Any event that cannot be delivered to its' destination is sent to the dead letter destination.
+   * Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery / dead-lettering.
+   */
+  deadLetterDestination?: DeadLetterDestinationUnion;
+  /**
+   * The dead letter destination of the event subscription. Any event that cannot be delivered to its' destination is sent to the dead letter destination.
+   * Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire the authentication tokens being used during delivery / dead-lettering.
+   */
+  deadLetterWithResourceIdentity?: DeadLetterWithResourceIdentity;
+};
+
+/** Event Type for a subject under a topic */
+export type EventType = Resource & {
+  /** Display name of the event type. */
+  displayName?: string;
+  /** Description of the event type. */
+  description?: string;
+  /** Url of the schema for this event type. */
+  schemaUrl?: string;
+  /** IsInDefaultSet flag of the event type. */
+  isInDefaultSet?: boolean;
+};
+
+/** Event grid Extension Topic. This is used for getting Event Grid related metrics for Azure resources. */
+export type ExtensionTopic = Resource & {
+  /** Description of the extension topic. */
+  description?: string;
+  /** System topic resource id which is mapped to the source. */
+  systemTopic?: string;
+};
+
+/** Properties of a topic type info. */
+export type TopicTypeInfo = Resource & {
+  /** Namespace of the provider of the topic type. */
+  provider?: string;
+  /** Display Name for the topic type. */
+  displayName?: string;
+  /** Description of the topic type. */
+  description?: string;
+  /** Region type of the resource. */
+  resourceRegionType?: ResourceRegionType;
+  /** Provisioning state of the topic type */
+  provisioningState?: TopicTypeProvisioningState;
+  /** List of locations supported by this topic type. */
+  supportedLocations?: string[];
+  /** Source resource format. */
+  sourceResourceFormat?: string;
+  /** Supported source scopes. */
+  supportedScopesForSource?: TopicTypePropertiesSupportedScopesForSourceItem[];
+};
+
+/** This enables publishing to Event Grid using a custom input schema. This can be used to map properties from a custom input JSON schema to the Event Grid event schema. */
+export type JsonInputSchemaMapping = InputSchemaMapping & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  inputSchemaMappingType: "Json";
+  /** The mapping information for the Id property of the Event Grid Event. */
+  id?: JsonField;
+  /** The mapping information for the Topic property of the Event Grid Event. */
+  topic?: JsonField;
+  /** The mapping information for the EventTime property of the Event Grid Event. */
+  eventTime?: JsonField;
+  /** The mapping information for the EventType property of the Event Grid Event. */
+  eventType?: JsonFieldWithDefault;
+  /** The mapping information for the Subject property of the Event Grid Event. */
+  subject?: JsonFieldWithDefault;
+  /** The mapping information for the DataVersion property of the Event Grid Event. */
+  dataVersion?: JsonFieldWithDefault;
+};
+
+/** NumberIn Advanced Filter. */
+export type NumberInAdvancedFilter = AdvancedFilter & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "NumberIn";
+  /** The set of filter values. */
+  values?: number[];
+};
+
+/** NumberNotIn Advanced Filter. */
+export type NumberNotInAdvancedFilter = AdvancedFilter & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "NumberNotIn";
+  /** The set of filter values. */
+  values?: number[];
+};
+
+/** NumberLessThan Advanced Filter. */
+export type NumberLessThanAdvancedFilter = AdvancedFilter & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "NumberLessThan";
+  /** The filter value. */
+  value?: number;
+};
+
+/** NumberGreaterThan Advanced Filter. */
+export type NumberGreaterThanAdvancedFilter = AdvancedFilter & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "NumberGreaterThan";
+  /** The filter value. */
+  value?: number;
+};
+
+/** NumberLessThanOrEquals Advanced Filter. */
+export type NumberLessThanOrEqualsAdvancedFilter = AdvancedFilter & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "NumberLessThanOrEquals";
+  /** The filter value. */
+  value?: number;
+};
+
+/** NumberGreaterThanOrEquals Advanced Filter. */
+export type NumberGreaterThanOrEqualsAdvancedFilter = AdvancedFilter & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "NumberGreaterThanOrEquals";
+  /** The filter value. */
+  value?: number;
+};
+
+/** BoolEquals Advanced Filter. */
+export type BoolEqualsAdvancedFilter = AdvancedFilter & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "BoolEquals";
+  /** The boolean filter value. */
+  value?: boolean;
+};
+
+/** StringIn Advanced Filter. */
+export type StringInAdvancedFilter = AdvancedFilter & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "StringIn";
+  /** The set of filter values. */
+  values?: string[];
+};
+
+/** StringNotIn Advanced Filter. */
+export type StringNotInAdvancedFilter = AdvancedFilter & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "StringNotIn";
+  /** The set of filter values. */
+  values?: string[];
+};
+
+/** StringBeginsWith Advanced Filter. */
+export type StringBeginsWithAdvancedFilter = AdvancedFilter & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "StringBeginsWith";
+  /** The set of filter values. */
+  values?: string[];
+};
+
+/** StringEndsWith Advanced Filter. */
+export type StringEndsWithAdvancedFilter = AdvancedFilter & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "StringEndsWith";
+  /** The set of filter values. */
+  values?: string[];
+};
+
+/** StringContains Advanced Filter. */
+export type StringContainsAdvancedFilter = AdvancedFilter & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "StringContains";
+  /** The set of filter values. */
+  values?: string[];
+};
+
+/** NumberInRange Advanced Filter. */
+export type NumberInRangeAdvancedFilter = AdvancedFilter & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "NumberInRange";
+  /** The set of filter values. */
+  values?: number[][];
+};
+
+/** NumberNotInRange Advanced Filter. */
+export type NumberNotInRangeAdvancedFilter = AdvancedFilter & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "NumberNotInRange";
+  /** The set of filter values. */
+  values?: number[][];
+};
+
+/** StringNotBeginsWith Advanced Filter. */
+export type StringNotBeginsWithAdvancedFilter = AdvancedFilter & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "StringNotBeginsWith";
+  /** The set of filter values. */
+  values?: string[];
+};
+
+/** StringNotEndsWith Advanced Filter. */
+export type StringNotEndsWithAdvancedFilter = AdvancedFilter & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "StringNotEndsWith";
+  /** The set of filter values. */
+  values?: string[];
+};
+
+/** StringNotContains Advanced Filter. */
+export type StringNotContainsAdvancedFilter = AdvancedFilter & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "StringNotContains";
+  /** The set of filter values. */
+  values?: string[];
+};
+
+/** IsNullOrUndefined Advanced Filter. */
+export type IsNullOrUndefinedAdvancedFilter = AdvancedFilter & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "IsNullOrUndefined";
+};
+
+/** IsNotNull Advanced Filter. */
+export type IsNotNullAdvancedFilter = AdvancedFilter & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "IsNotNull";
+};
+
+/** Information about the webhook destination for an event subscription. */
+export type WebHookEventSubscriptionDestination = EventSubscriptionDestination & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "WebHook";
+  /** The URL that represents the endpoint of the destination of an event subscription. */
+  endpointUrl?: string;
+  /**
+   * The base URL that represents the endpoint of the destination of an event subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endpointBaseUrl?: string;
+  /** Maximum number of events per batch. */
+  maxEventsPerBatch?: number;
+  /** Preferred batch size in Kilobytes. */
+  preferredBatchSizeInKilobytes?: number;
+  /** The Azure Active Directory Tenant ID to get the access token that will be included as the bearer token in delivery requests. */
+  azureActiveDirectoryTenantId?: string;
+  /** The Azure Active Directory Application ID or URI to get the access token that will be included as the bearer token in delivery requests. */
+  azureActiveDirectoryApplicationIdOrUri?: string;
+  /** Delivery attribute details. */
+  deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
+};
+
+/** Information about the event hub destination for an event subscription. */
+export type EventHubEventSubscriptionDestination = EventSubscriptionDestination & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "EventHub";
+  /** The Azure Resource Id that represents the endpoint of an Event Hub destination of an event subscription. */
+  resourceId?: string;
+  /** Delivery attribute details. */
+  deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
+};
+
+/** Information about the storage queue destination for an event subscription. */
+export type StorageQueueEventSubscriptionDestination = EventSubscriptionDestination & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "StorageQueue";
+  /** The Azure Resource ID of the storage account that contains the queue that is the destination of an event subscription. */
+  resourceId?: string;
+  /** The name of the Storage queue under a storage account that is the destination of an event subscription. */
+  queueName?: string;
+  /** Storage queue message time to live in seconds. */
+  queueMessageTimeToLiveInSeconds?: number;
+};
+
+/** Information about the HybridConnection destination for an event subscription. */
+export type HybridConnectionEventSubscriptionDestination = EventSubscriptionDestination & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "HybridConnection";
+  /** The Azure Resource ID of an hybrid connection that is the destination of an event subscription. */
+  resourceId?: string;
+  /** Delivery attribute details. */
+  deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
+};
+
+/** Information about the service bus destination for an event subscription. */
+export type ServiceBusQueueEventSubscriptionDestination = EventSubscriptionDestination & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "ServiceBusQueue";
+  /** The Azure Resource Id that represents the endpoint of the Service Bus destination of an event subscription. */
+  resourceId?: string;
+  /** Delivery attribute details. */
+  deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
+};
+
+/** Information about the service bus topic destination for an event subscription. */
+export type ServiceBusTopicEventSubscriptionDestination = EventSubscriptionDestination & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "ServiceBusTopic";
+  /** The Azure Resource Id that represents the endpoint of the Service Bus Topic destination of an event subscription. */
+  resourceId?: string;
+  /** Delivery attribute details. */
+  deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
+};
+
+/** Information about the azure function destination for an event subscription. */
+export type AzureFunctionEventSubscriptionDestination = EventSubscriptionDestination & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "AzureFunction";
+  /** The Azure Resource Id that represents the endpoint of the Azure Function destination of an event subscription. */
+  resourceId?: string;
+  /** Maximum number of events per batch. */
+  maxEventsPerBatch?: number;
+  /** Preferred batch size in Kilobytes. */
+  preferredBatchSizeInKilobytes?: number;
+  /** Delivery attribute details. */
+  deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
+};
+
+/** Information about the storage blob based dead letter destination. */
+export type StorageBlobDeadLetterDestination = DeadLetterDestination & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "StorageBlob";
+  /** The Azure Resource ID of the storage account that is the destination of the deadletter events */
+  resourceId?: string;
+  /** The name of the Storage blob container that is the destination of the deadletter events */
+  blobContainerName?: string;
+};
+
+/** Static delivery attribute mapping details. */
+export type StaticDeliveryAttributeMapping = DeliveryAttributeMapping & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Static";
+  /** Value of the delivery attribute. */
+  value?: string;
+  /** Boolean flag to tell if the attribute contains sensitive information . */
+  isSecret?: boolean;
+};
+
+/** Dynamic delivery attribute mapping details. */
+export type DynamicDeliveryAttributeMapping = DeliveryAttributeMapping & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Dynamic";
+  /** JSON path in the event which contains attribute value. */
+  sourceField?: string;
+};
+
+/** EventGrid Domain. */
+export type Domain = TrackedResource & {
+  /** The Sku pricing tier for the Event Grid Domain resource. */
+  sku?: ResourceSku;
+  /** Identity information for the Event Grid Domain resource. */
   identity?: IdentityInfo;
-}
-
-/**
- * Properties of the System Topic update.
- */
-export interface SystemTopicUpdateParameters {
   /**
-   * Tags of the system topic.
+   * The system metadata relating to the Event Grid Domain resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  tags?: { [propertyName: string]: string };
+  readonly systemData?: SystemData;
   /**
-   * Resource identity information.
-   */
-  identity?: IdentityInfo;
-}
-
-/**
- * Definition of an Extended Location
- */
-export interface ExtendedLocation {
-  /**
-   * Fully qualified name of the extended location.
-   */
-  name?: string;
-  /**
-   * Type of the extended location.
-   */
-  type?: string;
-}
-
-/**
- * EventGrid Topic
- */
-export interface Topic extends TrackedResource {
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * List of private endpoint connections.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
   /**
-   * Provisioning state of the topic. Possible values include: 'Creating', 'Updating', 'Deleting',
-   * 'Succeeded', 'Canceled', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Provisioning state of the Event Grid Domain Resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: DomainProvisioningState;
+  /**
+   * Endpoint for the Event Grid Domain Resource which is used for publishing the events.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endpoint?: string;
+  /** This determines the format that Event Grid should expect for incoming events published to the Event Grid Domain Resource. */
+  inputSchema?: InputSchema;
+  /** Information about the InputSchemaMapping which specified the info about mapping event payload. */
+  inputSchemaMapping?: InputSchemaMappingUnion;
+  /**
+   * Metric resource id for the Event Grid Domain Resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly metricResourceId?: string;
+  /**
+   * This determines if traffic is allowed over public network. By default it is enabled.
+   * You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules" />
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /** This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled. */
+  inboundIpRules?: InboundIpRule[];
+  /** This boolean is used to enable or disable local auth. Default value is false. When the property is set to true, only AAD token will be used to authenticate if user is allowed to publish to the domain. */
+  disableLocalAuth?: boolean;
+  /**
+   * This Boolean is used to specify the creation mechanism for 'all' the Event Grid Domain Topics associated with this Event Grid Domain resource.
+   * In this context, creation of domain topic can be auto-managed (when true) or self-managed (when false). The default value for this property is true.
+   * When this property is null or set to true, Event Grid is responsible of automatically creating the domain topic when the first event subscription is
+   * created at the scope of the domain topic. If this property is set to false, then creating the first event subscription will require creating a domain topic
+   * by the user. The self-management mode can be used if the user wants full control of when the domain topic is created, while auto-managed mode provides the
+   * flexibility to perform less operations and manage fewer resources by the user. Also, note that in auto-managed creation mode, user is allowed to create the
+   * domain topic on demand if needed.
+   */
+  autoCreateTopicWithFirstSubscription?: boolean;
+  /**
+   * This Boolean is used to specify the deletion mechanism for 'all' the Event Grid Domain Topics associated with this Event Grid Domain resource.
+   * In this context, deletion of domain topic can be auto-managed (when true) or self-managed (when false). The default value for this property is true.
+   * When this property is set to true, Event Grid is responsible of automatically deleting the domain topic when the last event subscription at the scope
+   * of the domain topic is deleted. If this property is set to false, then the user needs to manually delete the domain topic when it is no longer needed
+   * (e.g., when last event subscription is deleted and the resource needs to be cleaned up). The self-management mode can be used if the user wants full
+   * control of when the domain topic needs to be deleted, while auto-managed mode provides the flexibility to perform less operations and manage fewer
+   * resources by the user.
+   */
+  autoDeleteTopicWithLastSubscription?: boolean;
+};
+
+/** EventGrid Partner Namespace. */
+export type PartnerNamespace = TrackedResource & {
+  /**
+   * The system metadata relating to Partner Namespace resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /**
+   * Provisioning state of the partner namespace.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: PartnerNamespaceProvisioningState;
+  /**
+   * The fully qualified ARM Id of the partner registration that should be associated with this partner namespace. This takes the following format:
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerRegistrations/{partnerRegistrationName}.
+   */
+  partnerRegistrationFullyQualifiedId?: string;
+  /**
+   * Endpoint for the partner namespace.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endpoint?: string;
+  /**
+   * This determines if traffic is allowed over public network. By default it is enabled.
+   * You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.PartnerNamespaceProperties.InboundIpRules" />
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /** This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled. */
+  inboundIpRules?: InboundIpRule[];
+  /** This boolean is used to enable or disable local auth. Default value is false. When the property is set to true, only AAD token will be used to authenticate if user is allowed to publish to the partner namespace. */
+  disableLocalAuth?: boolean;
+};
+
+/** Information about a partner registration. */
+export type PartnerRegistration = TrackedResource & {
+  /**
+   * The system metadata relating to Partner Registration resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * Provisioning state of the partner registration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: PartnerRegistrationProvisioningState;
+  /** Official name of the partner name. For example: "Contoso". */
+  partnerName?: string;
+  /** Name of the partner resource type. */
+  partnerResourceTypeName?: string;
+  /** Display name of the partner resource type. */
+  partnerResourceTypeDisplayName?: string;
+  /** Short description of the partner resource type. The length of this description should not exceed 256 characters. */
+  partnerResourceTypeDescription?: string;
+  /**
+   * Long description for the custom scenarios and integration to be displayed in the portal if needed.
+   * Length of this description should not exceed 2048 characters.
+   */
+  longDescription?: string;
+  /**
+   * The customer service number of the publisher. The expected phone format should start with a '+' sign
+   * followed by the country code. The remaining digits are then followed. Only digits and spaces are allowed and its
+   * length cannot exceed 16 digits including country code. Examples of valid phone numbers are: +1 515 123 4567 and
+   * +966 7 5115 2471. Examples of invalid phone numbers are: +1 (515) 123-4567, 1 515 123 4567 and +966 121 5115 24 7 551 1234 43
+   */
+  partnerCustomerServiceNumber?: string;
+  /** The extension of the customer service number of the publisher. Only digits are allowed and number of digits should not exceed 10. */
+  partnerCustomerServiceExtension?: string;
+  /** The extension of the customer service URI of the publisher. */
+  customerServiceUri?: string;
+  /**
+   * URI of the partner website that can be used by Azure customers to setup Event Grid
+   * integration on an event source.
+   */
+  setupUri?: string;
+  /** URI of the logo. */
+  logoUri?: string;
+  /** Visibility state of the partner registration. */
+  visibilityState?: PartnerRegistrationVisibilityState;
+  /**
+   * List of Azure subscription Ids that are authorized to create a partner namespace
+   * associated with this partner registration. This is an optional property. Creating
+   * partner namespaces is always permitted under the same Azure subscription as the one used
+   * for creating the partner registration.
+   */
+  authorizedAzureSubscriptionIds?: string[];
+};
+
+/** EventGrid Partner Topic. */
+export type PartnerTopic = TrackedResource & {
+  /**
+   * The system metadata relating to Partner Topic resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** Identity information for the Partner Topic resource. */
+  identity?: IdentityInfo;
+  /** Source associated with this partner topic. This represents a unique partner resource. */
+  source?: string;
+  /**
+   * Expiration time of the partner topic. If this timer expires while the partner topic is still never activated,
+   * the partner topic and corresponding event channel are deleted.
+   */
+  expirationTimeIfNotActivatedUtc?: Date;
+  /**
+   * Provisioning state of the partner topic.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: PartnerTopicProvisioningState;
+  /** Activation state of the partner topic. */
+  activationState?: PartnerTopicActivationState;
+  /**
+   * Friendly description about the topic. This can be set by the publisher/partner to show custom description for the customer partner topic.
+   * This will be helpful to remove any ambiguity of the origin of creation of the partner topic for the customer.
+   */
+  partnerTopicFriendlyDescription?: string;
+};
+
+/** EventGrid System Topic. */
+export type SystemTopic = TrackedResource & {
+  /**
+   * The system metadata relating to System Topic resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** Identity information for the resource. */
+  identity?: IdentityInfo;
+  /**
+   * Provisioning state of the system topic.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ResourceProvisioningState;
+  /** Source for the system topic. */
+  source?: string;
+  /** TopicType for the system topic. */
+  topicType?: string;
+  /**
+   * Metric resource id for the system topic.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly metricResourceId?: string;
+};
+
+/** EventGrid Topic */
+export type Topic = TrackedResource & {
+  /** The Sku pricing tier for the topic. */
+  sku?: ResourceSku;
+  /** Identity information for the resource. */
+  identity?: IdentityInfo;
+  /** Kind of the resource. */
+  kind?: ResourceKind;
+  /** Extended location of the resource. */
+  extendedLocation?: ExtendedLocation;
+  /**
+   * The system metadata relating to Topic resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /**
+   * Provisioning state of the topic.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: TopicProvisioningState;
   /**
    * Endpoint for the topic.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly endpoint?: string;
-  /**
-   * This determines the format that Event Grid should expect for incoming events published to the
-   * topic. Possible values include: 'EventGridSchema', 'CustomEventSchema',
-   * 'CloudEventSchemaV1_0'. Default value: 'EventGridSchema'.
-   */
+  /** This determines the format that Event Grid should expect for incoming events published to the topic. */
   inputSchema?: InputSchema;
-  /**
-   * This enables publishing using custom event schemas. An InputSchemaMapping can be specified to
-   * map various properties of a source schema to various required properties of the EventGridEvent
-   * schema.
-   */
+  /** This enables publishing using custom event schemas. An InputSchemaMapping can be specified to map various properties of a source schema to various required properties of the EventGridEvent schema. */
   inputSchemaMapping?: InputSchemaMappingUnion;
   /**
    * Metric resource id for the topic.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly metricResourceId?: string;
   /**
    * This determines if traffic is allowed over public network. By default it is enabled.
-   * You can further restrict to specific IPs by configuring <seealso
-   * cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties.InboundIpRules"
-   * />. Possible values include: 'Enabled', 'Disabled'. Default value: 'Enabled'.
+   * You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties.InboundIpRules" />
    */
   publicNetworkAccess?: PublicNetworkAccess;
-  /**
-   * This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are
-   * considered only if PublicNetworkAccess is enabled.
-   */
+  /** This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled. */
   inboundIpRules?: InboundIpRule[];
-  /**
-   * This boolean is used to enable or disable local auth. Default value is false. When the
-   * property is set to true, only AAD token will be used to authenticate if user is allowed to
-   * publish to the topic. Default value: false.
-   */
+  /** This boolean is used to enable or disable local auth. Default value is false. When the property is set to true, only AAD token will be used to authenticate if user is allowed to publish to the topic. */
   disableLocalAuth?: boolean;
-  /**
-   * The Sku pricing tier for the topic.
-   */
-  sku?: ResourceSku;
-  /**
-   * Identity information for the resource.
-   */
-  identity?: IdentityInfo;
-  /**
-   * Kind of the resource. Possible values include: 'Azure', 'AzureArc'
-   */
-  kind?: ResourceKind;
-  /**
-   * Extended location of the resource.
-   */
-  extendedLocation?: ExtendedLocation;
-  /**
-   * The system metadata relating to Topic resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly systemData?: SystemData;
+};
+
+/** Known values of {@link PersistedConnectionStatus} that the service accepts. */
+export enum KnownPersistedConnectionStatus {
+  Pending = "Pending",
+  Approved = "Approved",
+  Rejected = "Rejected",
+  Disconnected = "Disconnected"
 }
 
 /**
- * Properties of the Topic update
+ * Defines values for PersistedConnectionStatus. \
+ * {@link KnownPersistedConnectionStatus} can be used interchangeably with PersistedConnectionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pending** \
+ * **Approved** \
+ * **Rejected** \
+ * **Disconnected**
  */
-export interface TopicUpdateParameters {
-  /**
-   * Tags of the Topic resource.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * Topic resource identity information.
-   */
-  identity?: IdentityInfo;
-  /**
-   * This determines if traffic is allowed over public network. By default it is enabled.
-   * You can further restrict to specific IPs by configuring <seealso
-   * cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicUpdateParameterProperties.InboundIpRules"
-   * />. Possible values include: 'Enabled', 'Disabled'
-   */
-  publicNetworkAccess?: PublicNetworkAccess;
-  /**
-   * This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are
-   * considered only if PublicNetworkAccess is enabled.
-   */
-  inboundIpRules?: InboundIpRule[];
-  /**
-   * This boolean is used to enable or disable local auth. Default value is false. When the
-   * property is set to true, only AAD token will be used to authenticate if user is allowed to
-   * publish to the topic.
-   */
-  disableLocalAuth?: boolean;
-  /**
-   * The Sku pricing tier for the topic.
-   */
-  sku?: ResourceSku;
+export type PersistedConnectionStatus = string;
+
+/** Known values of {@link ResourceProvisioningState} that the service accepts. */
+export enum KnownResourceProvisioningState {
+  Creating = "Creating",
+  Updating = "Updating",
+  Deleting = "Deleting",
+  Succeeded = "Succeeded",
+  Canceled = "Canceled",
+  Failed = "Failed"
 }
 
 /**
- * Shared access keys of the Topic
+ * Defines values for ResourceProvisioningState. \
+ * {@link KnownResourceProvisioningState} can be used interchangeably with ResourceProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Succeeded** \
+ * **Canceled** \
+ * **Failed**
  */
-export interface TopicSharedAccessKeys {
-  /**
-   * Shared access key1 for the topic.
-   */
-  key1?: string;
-  /**
-   * Shared access key2 for the topic.
-   */
-  key2?: string;
+export type ResourceProvisioningState = string;
+
+/** Known values of {@link DomainProvisioningState} that the service accepts. */
+export enum KnownDomainProvisioningState {
+  Creating = "Creating",
+  Updating = "Updating",
+  Deleting = "Deleting",
+  Succeeded = "Succeeded",
+  Canceled = "Canceled",
+  Failed = "Failed"
 }
 
 /**
- * Topic regenerate share access key request
+ * Defines values for DomainProvisioningState. \
+ * {@link KnownDomainProvisioningState} can be used interchangeably with DomainProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Succeeded** \
+ * **Canceled** \
+ * **Failed**
  */
-export interface TopicRegenerateKeyRequest {
-  /**
-   * Key name to regenerate key1 or key2
-   */
-  keyName: string;
+export type DomainProvisioningState = string;
+
+/** Known values of {@link InputSchema} that the service accepts. */
+export enum KnownInputSchema {
+  EventGridSchema = "EventGridSchema",
+  CustomEventSchema = "CustomEventSchema",
+  CloudEventSchemaV10 = "CloudEventSchemaV1_0"
 }
 
 /**
- * Event grid Extension Topic. This is used for getting Event Grid related metrics for Azure
- * resources.
+ * Defines values for InputSchema. \
+ * {@link KnownInputSchema} can be used interchangeably with InputSchema,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **EventGridSchema** \
+ * **CustomEventSchema** \
+ * **CloudEventSchemaV1_0**
  */
-export interface ExtensionTopic extends Resource {
-  /**
-   * Description of the extension topic.
-   */
-  description?: string;
-  /**
-   * System topic resource id which is mapped to the source.
-   */
-  systemTopic?: string;
+export type InputSchema = string;
+
+/** Known values of {@link InputSchemaMappingType} that the service accepts. */
+export enum KnownInputSchemaMappingType {
+  Json = "Json"
 }
 
 /**
- * Properties of a topic type info.
+ * Defines values for InputSchemaMappingType. \
+ * {@link KnownInputSchemaMappingType} can be used interchangeably with InputSchemaMappingType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Json**
  */
-export interface TopicTypeInfo extends Resource {
-  /**
-   * Namespace of the provider of the topic type.
-   */
-  provider?: string;
-  /**
-   * Display Name for the topic type.
-   */
-  displayName?: string;
-  /**
-   * Description of the topic type.
-   */
-  description?: string;
-  /**
-   * Region type of the resource. Possible values include: 'RegionalResource', 'GlobalResource'
-   */
-  resourceRegionType?: ResourceRegionType;
-  /**
-   * Provisioning state of the topic type. Possible values include: 'Creating', 'Updating',
-   * 'Deleting', 'Succeeded', 'Canceled', 'Failed'
-   */
-  provisioningState?: TopicTypeProvisioningState;
-  /**
-   * List of locations supported by this topic type.
-   */
-  supportedLocations?: string[];
-  /**
-   * Source resource format.
-   */
-  sourceResourceFormat?: string;
-  /**
-   * Supported source scopes.
-   */
-  supportedScopesForSource?: string[];
+export type InputSchemaMappingType = string;
+
+/** Known values of {@link PublicNetworkAccess} that the service accepts. */
+export enum KnownPublicNetworkAccess {
+  Enabled = "Enabled",
+  Disabled = "Disabled"
 }
 
 /**
- * Optional Parameters.
+ * Defines values for PublicNetworkAccess. \
+ * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
  */
-export interface DomainsListBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+export type PublicNetworkAccess = string;
+
+/** Known values of {@link IpActionType} that the service accepts. */
+export enum KnownIpActionType {
+  Allow = "Allow"
+}
+
+/**
+ * Defines values for IpActionType. \
+ * {@link KnownIpActionType} can be used interchangeably with IpActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Allow**
+ */
+export type IpActionType = string;
+
+/** Known values of {@link Sku} that the service accepts. */
+export enum KnownSku {
+  Basic = "Basic",
+  Premium = "Premium"
+}
+
+/**
+ * Defines values for Sku. \
+ * {@link KnownSku} can be used interchangeably with Sku,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Basic** \
+ * **Premium**
+ */
+export type Sku = string;
+
+/** Known values of {@link IdentityType} that the service accepts. */
+export enum KnownIdentityType {
+  None = "None",
+  SystemAssigned = "SystemAssigned",
+  UserAssigned = "UserAssigned",
+  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned"
+}
+
+/**
+ * Defines values for IdentityType. \
+ * {@link KnownIdentityType} can be used interchangeably with IdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned, UserAssigned**
+ */
+export type IdentityType = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  User = "User",
+  Application = "Application",
+  ManagedIdentity = "ManagedIdentity",
+  Key = "Key"
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
+/** Known values of {@link DomainTopicProvisioningState} that the service accepts. */
+export enum KnownDomainTopicProvisioningState {
+  Creating = "Creating",
+  Updating = "Updating",
+  Deleting = "Deleting",
+  Succeeded = "Succeeded",
+  Canceled = "Canceled",
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for DomainTopicProvisioningState. \
+ * {@link KnownDomainTopicProvisioningState} can be used interchangeably with DomainTopicProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Succeeded** \
+ * **Canceled** \
+ * **Failed**
+ */
+export type DomainTopicProvisioningState = string;
+
+/** Known values of {@link EventChannelProvisioningState} that the service accepts. */
+export enum KnownEventChannelProvisioningState {
+  Creating = "Creating",
+  Updating = "Updating",
+  Deleting = "Deleting",
+  Succeeded = "Succeeded",
+  Canceled = "Canceled",
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for EventChannelProvisioningState. \
+ * {@link KnownEventChannelProvisioningState} can be used interchangeably with EventChannelProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Succeeded** \
+ * **Canceled** \
+ * **Failed**
+ */
+export type EventChannelProvisioningState = string;
+
+/** Known values of {@link PartnerTopicReadinessState} that the service accepts. */
+export enum KnownPartnerTopicReadinessState {
+  NotActivatedByUserYet = "NotActivatedByUserYet",
+  ActivatedByUser = "ActivatedByUser",
+  DeactivatedByUser = "DeactivatedByUser",
+  DeletedByUser = "DeletedByUser"
+}
+
+/**
+ * Defines values for PartnerTopicReadinessState. \
+ * {@link KnownPartnerTopicReadinessState} can be used interchangeably with PartnerTopicReadinessState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotActivatedByUserYet** \
+ * **ActivatedByUser** \
+ * **DeactivatedByUser** \
+ * **DeletedByUser**
+ */
+export type PartnerTopicReadinessState = string;
+
+/** Known values of {@link AdvancedFilterOperatorType} that the service accepts. */
+export enum KnownAdvancedFilterOperatorType {
+  NumberIn = "NumberIn",
+  NumberNotIn = "NumberNotIn",
+  NumberLessThan = "NumberLessThan",
+  NumberGreaterThan = "NumberGreaterThan",
+  NumberLessThanOrEquals = "NumberLessThanOrEquals",
+  NumberGreaterThanOrEquals = "NumberGreaterThanOrEquals",
+  BoolEquals = "BoolEquals",
+  StringIn = "StringIn",
+  StringNotIn = "StringNotIn",
+  StringBeginsWith = "StringBeginsWith",
+  StringEndsWith = "StringEndsWith",
+  StringContains = "StringContains",
+  NumberInRange = "NumberInRange",
+  NumberNotInRange = "NumberNotInRange",
+  StringNotBeginsWith = "StringNotBeginsWith",
+  StringNotEndsWith = "StringNotEndsWith",
+  StringNotContains = "StringNotContains",
+  IsNullOrUndefined = "IsNullOrUndefined",
+  IsNotNull = "IsNotNull"
+}
+
+/**
+ * Defines values for AdvancedFilterOperatorType. \
+ * {@link KnownAdvancedFilterOperatorType} can be used interchangeably with AdvancedFilterOperatorType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NumberIn** \
+ * **NumberNotIn** \
+ * **NumberLessThan** \
+ * **NumberGreaterThan** \
+ * **NumberLessThanOrEquals** \
+ * **NumberGreaterThanOrEquals** \
+ * **BoolEquals** \
+ * **StringIn** \
+ * **StringNotIn** \
+ * **StringBeginsWith** \
+ * **StringEndsWith** \
+ * **StringContains** \
+ * **NumberInRange** \
+ * **NumberNotInRange** \
+ * **StringNotBeginsWith** \
+ * **StringNotEndsWith** \
+ * **StringNotContains** \
+ * **IsNullOrUndefined** \
+ * **IsNotNull**
+ */
+export type AdvancedFilterOperatorType = string;
+
+/** Known values of {@link EventSubscriptionProvisioningState} that the service accepts. */
+export enum KnownEventSubscriptionProvisioningState {
+  Creating = "Creating",
+  Updating = "Updating",
+  Deleting = "Deleting",
+  Succeeded = "Succeeded",
+  Canceled = "Canceled",
+  Failed = "Failed",
+  AwaitingManualAction = "AwaitingManualAction"
+}
+
+/**
+ * Defines values for EventSubscriptionProvisioningState. \
+ * {@link KnownEventSubscriptionProvisioningState} can be used interchangeably with EventSubscriptionProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Succeeded** \
+ * **Canceled** \
+ * **Failed** \
+ * **AwaitingManualAction**
+ */
+export type EventSubscriptionProvisioningState = string;
+
+/** Known values of {@link EndpointType} that the service accepts. */
+export enum KnownEndpointType {
+  WebHook = "WebHook",
+  EventHub = "EventHub",
+  StorageQueue = "StorageQueue",
+  HybridConnection = "HybridConnection",
+  ServiceBusQueue = "ServiceBusQueue",
+  ServiceBusTopic = "ServiceBusTopic",
+  AzureFunction = "AzureFunction"
+}
+
+/**
+ * Defines values for EndpointType. \
+ * {@link KnownEndpointType} can be used interchangeably with EndpointType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **WebHook** \
+ * **EventHub** \
+ * **StorageQueue** \
+ * **HybridConnection** \
+ * **ServiceBusQueue** \
+ * **ServiceBusTopic** \
+ * **AzureFunction**
+ */
+export type EndpointType = string;
+
+/** Known values of {@link EventSubscriptionIdentityType} that the service accepts. */
+export enum KnownEventSubscriptionIdentityType {
+  SystemAssigned = "SystemAssigned",
+  UserAssigned = "UserAssigned"
+}
+
+/**
+ * Defines values for EventSubscriptionIdentityType. \
+ * {@link KnownEventSubscriptionIdentityType} can be used interchangeably with EventSubscriptionIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SystemAssigned** \
+ * **UserAssigned**
+ */
+export type EventSubscriptionIdentityType = string;
+
+/** Known values of {@link EventDeliverySchema} that the service accepts. */
+export enum KnownEventDeliverySchema {
+  EventGridSchema = "EventGridSchema",
+  CustomInputSchema = "CustomInputSchema",
+  CloudEventSchemaV10 = "CloudEventSchemaV1_0"
+}
+
+/**
+ * Defines values for EventDeliverySchema. \
+ * {@link KnownEventDeliverySchema} can be used interchangeably with EventDeliverySchema,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **EventGridSchema** \
+ * **CustomInputSchema** \
+ * **CloudEventSchemaV1_0**
+ */
+export type EventDeliverySchema = string;
+
+/** Known values of {@link DeadLetterEndPointType} that the service accepts. */
+export enum KnownDeadLetterEndPointType {
+  StorageBlob = "StorageBlob"
+}
+
+/**
+ * Defines values for DeadLetterEndPointType. \
+ * {@link KnownDeadLetterEndPointType} can be used interchangeably with DeadLetterEndPointType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **StorageBlob**
+ */
+export type DeadLetterEndPointType = string;
+
+/** Known values of {@link DeliveryAttributeMappingType} that the service accepts. */
+export enum KnownDeliveryAttributeMappingType {
+  Static = "Static",
+  Dynamic = "Dynamic"
+}
+
+/**
+ * Defines values for DeliveryAttributeMappingType. \
+ * {@link KnownDeliveryAttributeMappingType} can be used interchangeably with DeliveryAttributeMappingType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Static** \
+ * **Dynamic**
+ */
+export type DeliveryAttributeMappingType = string;
+
+/** Known values of {@link PartnerNamespaceProvisioningState} that the service accepts. */
+export enum KnownPartnerNamespaceProvisioningState {
+  Creating = "Creating",
+  Updating = "Updating",
+  Deleting = "Deleting",
+  Succeeded = "Succeeded",
+  Canceled = "Canceled",
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for PartnerNamespaceProvisioningState. \
+ * {@link KnownPartnerNamespaceProvisioningState} can be used interchangeably with PartnerNamespaceProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Succeeded** \
+ * **Canceled** \
+ * **Failed**
+ */
+export type PartnerNamespaceProvisioningState = string;
+
+/** Known values of {@link PartnerRegistrationProvisioningState} that the service accepts. */
+export enum KnownPartnerRegistrationProvisioningState {
+  Creating = "Creating",
+  Updating = "Updating",
+  Deleting = "Deleting",
+  Succeeded = "Succeeded",
+  Canceled = "Canceled",
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for PartnerRegistrationProvisioningState. \
+ * {@link KnownPartnerRegistrationProvisioningState} can be used interchangeably with PartnerRegistrationProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Succeeded** \
+ * **Canceled** \
+ * **Failed**
+ */
+export type PartnerRegistrationProvisioningState = string;
+
+/** Known values of {@link PartnerRegistrationVisibilityState} that the service accepts. */
+export enum KnownPartnerRegistrationVisibilityState {
+  Hidden = "Hidden",
+  PublicPreview = "PublicPreview",
+  GenerallyAvailable = "GenerallyAvailable"
+}
+
+/**
+ * Defines values for PartnerRegistrationVisibilityState. \
+ * {@link KnownPartnerRegistrationVisibilityState} can be used interchangeably with PartnerRegistrationVisibilityState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Hidden** \
+ * **PublicPreview** \
+ * **GenerallyAvailable**
+ */
+export type PartnerRegistrationVisibilityState = string;
+
+/** Known values of {@link PartnerTopicProvisioningState} that the service accepts. */
+export enum KnownPartnerTopicProvisioningState {
+  Creating = "Creating",
+  Updating = "Updating",
+  Deleting = "Deleting",
+  Succeeded = "Succeeded",
+  Canceled = "Canceled",
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for PartnerTopicProvisioningState. \
+ * {@link KnownPartnerTopicProvisioningState} can be used interchangeably with PartnerTopicProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Succeeded** \
+ * **Canceled** \
+ * **Failed**
+ */
+export type PartnerTopicProvisioningState = string;
+
+/** Known values of {@link PartnerTopicActivationState} that the service accepts. */
+export enum KnownPartnerTopicActivationState {
+  NeverActivated = "NeverActivated",
+  Activated = "Activated",
+  Deactivated = "Deactivated"
+}
+
+/**
+ * Defines values for PartnerTopicActivationState. \
+ * {@link KnownPartnerTopicActivationState} can be used interchangeably with PartnerTopicActivationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NeverActivated** \
+ * **Activated** \
+ * **Deactivated**
+ */
+export type PartnerTopicActivationState = string;
+
+/** Known values of {@link Enum25} that the service accepts. */
+export enum KnownEnum25 {
+  Topics = "topics",
+  Domains = "domains",
+  PartnerNamespaces = "partnerNamespaces"
+}
+
+/**
+ * Defines values for Enum25. \
+ * {@link KnownEnum25} can be used interchangeably with Enum25,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **topics** \
+ * **domains** \
+ * **partnerNamespaces**
+ */
+export type Enum25 = string;
+
+/** Known values of {@link Enum26} that the service accepts. */
+export enum KnownEnum26 {
+  Topics = "topics",
+  Domains = "domains",
+  PartnerNamespaces = "partnerNamespaces"
+}
+
+/**
+ * Defines values for Enum26. \
+ * {@link KnownEnum26} can be used interchangeably with Enum26,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **topics** \
+ * **domains** \
+ * **partnerNamespaces**
+ */
+export type Enum26 = string;
+
+/** Known values of {@link Enum27} that the service accepts. */
+export enum KnownEnum27 {
+  Topics = "topics",
+  Domains = "domains",
+  PartnerNamespaces = "partnerNamespaces"
+}
+
+/**
+ * Defines values for Enum27. \
+ * {@link KnownEnum27} can be used interchangeably with Enum27,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **topics** \
+ * **domains** \
+ * **partnerNamespaces**
+ */
+export type Enum27 = string;
+
+/** Known values of {@link Enum28} that the service accepts. */
+export enum KnownEnum28 {
+  Topics = "topics",
+  Domains = "domains",
+  PartnerNamespaces = "partnerNamespaces"
+}
+
+/**
+ * Defines values for Enum28. \
+ * {@link KnownEnum28} can be used interchangeably with Enum28,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **topics** \
+ * **domains** \
+ * **partnerNamespaces**
+ */
+export type Enum28 = string;
+
+/** Known values of {@link TopicProvisioningState} that the service accepts. */
+export enum KnownTopicProvisioningState {
+  Creating = "Creating",
+  Updating = "Updating",
+  Deleting = "Deleting",
+  Succeeded = "Succeeded",
+  Canceled = "Canceled",
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for TopicProvisioningState. \
+ * {@link KnownTopicProvisioningState} can be used interchangeably with TopicProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Succeeded** \
+ * **Canceled** \
+ * **Failed**
+ */
+export type TopicProvisioningState = string;
+
+/** Known values of {@link ResourceKind} that the service accepts. */
+export enum KnownResourceKind {
+  Azure = "Azure",
+  AzureArc = "AzureArc"
+}
+
+/**
+ * Defines values for ResourceKind. \
+ * {@link KnownResourceKind} can be used interchangeably with ResourceKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Azure** \
+ * **AzureArc**
+ */
+export type ResourceKind = string;
+
+/** Known values of {@link ResourceRegionType} that the service accepts. */
+export enum KnownResourceRegionType {
+  RegionalResource = "RegionalResource",
+  GlobalResource = "GlobalResource"
+}
+
+/**
+ * Defines values for ResourceRegionType. \
+ * {@link KnownResourceRegionType} can be used interchangeably with ResourceRegionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **RegionalResource** \
+ * **GlobalResource**
+ */
+export type ResourceRegionType = string;
+
+/** Known values of {@link TopicTypeProvisioningState} that the service accepts. */
+export enum KnownTopicTypeProvisioningState {
+  Creating = "Creating",
+  Updating = "Updating",
+  Deleting = "Deleting",
+  Succeeded = "Succeeded",
+  Canceled = "Canceled",
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for TopicTypeProvisioningState. \
+ * {@link KnownTopicTypeProvisioningState} can be used interchangeably with TopicTypeProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Succeeded** \
+ * **Canceled** \
+ * **Failed**
+ */
+export type TopicTypeProvisioningState = string;
+
+/** Known values of {@link TopicTypePropertiesSupportedScopesForSourceItem} that the service accepts. */
+export enum KnownTopicTypePropertiesSupportedScopesForSourceItem {
+  Resource = "Resource",
+  ResourceGroup = "ResourceGroup",
+  AzureSubscription = "AzureSubscription"
+}
+
+/**
+ * Defines values for TopicTypePropertiesSupportedScopesForSourceItem. \
+ * {@link KnownTopicTypePropertiesSupportedScopesForSourceItem} can be used interchangeably with TopicTypePropertiesSupportedScopesForSourceItem,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Resource** \
+ * **ResourceGroup** \
+ * **AzureSubscription**
+ */
+export type TopicTypePropertiesSupportedScopesForSourceItem = string;
+
+/** Optional parameters. */
+export interface DomainsGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DomainsGetResponse = Domain;
+
+/** Optional parameters. */
+export interface DomainsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type DomainsCreateOrUpdateResponse = Domain;
+
+/** Optional parameters. */
+export interface DomainsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface DomainsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface DomainsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface DomainsListByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listBySubscription operation. */
+export type DomainsListBySubscriptionResponse = DomainsListResult;
+
+/** Optional parameters. */
+export interface DomainsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface DomainsListBySubscriptionNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listByResourceGroup operation. */
+export type DomainsListByResourceGroupResponse = DomainsListResult;
+
+/** Optional parameters. */
+export interface DomainsListSharedAccessKeysOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSharedAccessKeys operation. */
+export type DomainsListSharedAccessKeysResponse = DomainSharedAccessKeys;
+
+/** Optional parameters. */
+export interface DomainsRegenerateKeyOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the regenerateKey operation. */
+export type DomainsRegenerateKeyResponse = DomainSharedAccessKeys;
+
+/** Optional parameters. */
+export interface DomainsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface DomainsListByResourceGroupNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listBySubscriptionNext operation. */
+export type DomainsListBySubscriptionNextResponse = DomainsListResult;
+
+/** Optional parameters. */
+export interface DomainsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface DomainTopicsListByDomainOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listByResourceGroupNext operation. */
+export type DomainsListByResourceGroupNextResponse = DomainsListResult;
+
+/** Optional parameters. */
+export interface DomainTopicsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DomainTopicsGetResponse = DomainTopic;
+
+/** Optional parameters. */
+export interface DomainTopicsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type DomainTopicsCreateOrUpdateResponse = DomainTopic;
+
+/** Optional parameters. */
+export interface DomainTopicsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface DomainTopicsListByDomainOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface DomainTopicsListByDomainNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listByDomain operation. */
+export type DomainTopicsListByDomainResponse = DomainTopicsListResult;
+
+/** Optional parameters. */
+export interface DomainTopicsListByDomainNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface EventChannelsListByPartnerNamespaceOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listByDomainNext operation. */
+export type DomainTopicsListByDomainNextResponse = DomainTopicsListResult;
+
+/** Optional parameters. */
+export interface EventChannelsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type EventChannelsGetResponse = EventChannel;
+
+/** Optional parameters. */
+export interface EventChannelsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type EventChannelsCreateOrUpdateResponse = EventChannel;
+
+/** Optional parameters. */
+export interface EventChannelsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface EventChannelsListByPartnerNamespaceOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface EventChannelsListByPartnerNamespaceNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listByPartnerNamespace operation. */
+export type EventChannelsListByPartnerNamespaceResponse = EventChannelsListResult;
+
+/** Optional parameters. */
+export interface EventChannelsListByPartnerNamespaceNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface EventSubscriptionsListGlobalBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listByPartnerNamespaceNext operation. */
+export type EventChannelsListByPartnerNamespaceNextResponse = EventChannelsListResult;
+
+/** Optional parameters. */
+export interface EventSubscriptionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type EventSubscriptionsGetResponse = EventSubscription;
+
+/** Optional parameters. */
+export interface EventSubscriptionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type EventSubscriptionsCreateOrUpdateResponse = EventSubscription;
+
+/** Optional parameters. */
+export interface EventSubscriptionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface EventSubscriptionsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type EventSubscriptionsUpdateResponse = EventSubscription;
+
+/** Optional parameters. */
+export interface EventSubscriptionsGetFullUrlOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getFullUrl operation. */
+export type EventSubscriptionsGetFullUrlResponse = EventSubscriptionFullUrl;
+
+/** Optional parameters. */
+export interface EventSubscriptionsListGlobalBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface EventSubscriptionsListGlobalBySubscriptionForTopicTypeOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listGlobalBySubscription operation. */
+export type EventSubscriptionsListGlobalBySubscriptionResponse = EventSubscriptionsListResult;
+
+/** Optional parameters. */
+export interface EventSubscriptionsListGlobalBySubscriptionForTopicTypeOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface EventSubscriptionsListGlobalByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listGlobalBySubscriptionForTopicType operation. */
+export type EventSubscriptionsListGlobalBySubscriptionForTopicTypeResponse = EventSubscriptionsListResult;
+
+/** Optional parameters. */
+export interface EventSubscriptionsListGlobalByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface EventSubscriptionsListGlobalByResourceGroupForTopicTypeOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listGlobalByResourceGroup operation. */
+export type EventSubscriptionsListGlobalByResourceGroupResponse = EventSubscriptionsListResult;
+
+/** Optional parameters. */
+export interface EventSubscriptionsListGlobalByResourceGroupForTopicTypeOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface EventSubscriptionsListRegionalBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listGlobalByResourceGroupForTopicType operation. */
+export type EventSubscriptionsListGlobalByResourceGroupForTopicTypeResponse = EventSubscriptionsListResult;
+
+/** Optional parameters. */
+export interface EventSubscriptionsListRegionalBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface EventSubscriptionsListRegionalByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listRegionalBySubscription operation. */
+export type EventSubscriptionsListRegionalBySubscriptionResponse = EventSubscriptionsListResult;
+
+/** Optional parameters. */
+export interface EventSubscriptionsListRegionalByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface EventSubscriptionsListRegionalBySubscriptionForTopicTypeOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listRegionalByResourceGroup operation. */
+export type EventSubscriptionsListRegionalByResourceGroupResponse = EventSubscriptionsListResult;
+
+/** Optional parameters. */
+export interface EventSubscriptionsListRegionalBySubscriptionForTopicTypeOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface EventSubscriptionsListRegionalByResourceGroupForTopicTypeOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listRegionalBySubscriptionForTopicType operation. */
+export type EventSubscriptionsListRegionalBySubscriptionForTopicTypeResponse = EventSubscriptionsListResult;
+
+/** Optional parameters. */
+export interface EventSubscriptionsListRegionalByResourceGroupForTopicTypeOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface EventSubscriptionsListByResourceOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listRegionalByResourceGroupForTopicType operation. */
+export type EventSubscriptionsListRegionalByResourceGroupForTopicTypeResponse = EventSubscriptionsListResult;
+
+/** Optional parameters. */
+export interface EventSubscriptionsListByResourceOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface EventSubscriptionsListByDomainTopicOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listByResource operation. */
+export type EventSubscriptionsListByResourceResponse = EventSubscriptionsListResult;
+
+/** Optional parameters. */
+export interface EventSubscriptionsListByDomainTopicOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface EventSubscriptionsListGlobalBySubscriptionNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listByDomainTopic operation. */
+export type EventSubscriptionsListByDomainTopicResponse = EventSubscriptionsListResult;
+
+/** Optional parameters. */
+export interface EventSubscriptionsGetDeliveryAttributesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getDeliveryAttributes operation. */
+export type EventSubscriptionsGetDeliveryAttributesResponse = DeliveryAttributeListResult;
+
+/** Optional parameters. */
+export interface EventSubscriptionsListGlobalBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface EventSubscriptionsListGlobalBySubscriptionForTopicTypeNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listGlobalBySubscriptionNext operation. */
+export type EventSubscriptionsListGlobalBySubscriptionNextResponse = EventSubscriptionsListResult;
+
+/** Optional parameters. */
+export interface EventSubscriptionsListGlobalBySubscriptionForTopicTypeNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface EventSubscriptionsListGlobalByResourceGroupNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listGlobalBySubscriptionForTopicTypeNext operation. */
+export type EventSubscriptionsListGlobalBySubscriptionForTopicTypeNextResponse = EventSubscriptionsListResult;
+
+/** Optional parameters. */
+export interface EventSubscriptionsListGlobalByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface EventSubscriptionsListGlobalByResourceGroupForTopicTypeNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listGlobalByResourceGroupNext operation. */
+export type EventSubscriptionsListGlobalByResourceGroupNextResponse = EventSubscriptionsListResult;
+
+/** Optional parameters. */
+export interface EventSubscriptionsListGlobalByResourceGroupForTopicTypeNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface EventSubscriptionsListRegionalBySubscriptionNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listGlobalByResourceGroupForTopicTypeNext operation. */
+export type EventSubscriptionsListGlobalByResourceGroupForTopicTypeNextResponse = EventSubscriptionsListResult;
+
+/** Optional parameters. */
+export interface EventSubscriptionsListRegionalBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface EventSubscriptionsListRegionalByResourceGroupNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listRegionalBySubscriptionNext operation. */
+export type EventSubscriptionsListRegionalBySubscriptionNextResponse = EventSubscriptionsListResult;
+
+/** Optional parameters. */
+export interface EventSubscriptionsListRegionalByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface EventSubscriptionsListRegionalBySubscriptionForTopicTypeNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listRegionalByResourceGroupNext operation. */
+export type EventSubscriptionsListRegionalByResourceGroupNextResponse = EventSubscriptionsListResult;
+
+/** Optional parameters. */
+export interface EventSubscriptionsListRegionalBySubscriptionForTopicTypeNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface EventSubscriptionsListRegionalByResourceGroupForTopicTypeNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listRegionalBySubscriptionForTopicTypeNext operation. */
+export type EventSubscriptionsListRegionalBySubscriptionForTopicTypeNextResponse = EventSubscriptionsListResult;
+
+/** Optional parameters. */
+export interface EventSubscriptionsListRegionalByResourceGroupForTopicTypeNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface EventSubscriptionsListByResourceNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listRegionalByResourceGroupForTopicTypeNext operation. */
+export type EventSubscriptionsListRegionalByResourceGroupForTopicTypeNextResponse = EventSubscriptionsListResult;
+
+/** Optional parameters. */
+export interface EventSubscriptionsListByResourceNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface EventSubscriptionsListByDomainTopicNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listByResourceNext operation. */
+export type EventSubscriptionsListByResourceNextResponse = EventSubscriptionsListResult;
+
+/** Optional parameters. */
+export interface EventSubscriptionsListByDomainTopicNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface SystemTopicEventSubscriptionsListBySystemTopicOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listByDomainTopicNext operation. */
+export type EventSubscriptionsListByDomainTopicNextResponse = EventSubscriptionsListResult;
+
+/** Optional parameters. */
+export interface SystemTopicEventSubscriptionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SystemTopicEventSubscriptionsGetResponse = EventSubscription;
+
+/** Optional parameters. */
+export interface SystemTopicEventSubscriptionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SystemTopicEventSubscriptionsCreateOrUpdateResponse = EventSubscription;
+
+/** Optional parameters. */
+export interface SystemTopicEventSubscriptionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface SystemTopicEventSubscriptionsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type SystemTopicEventSubscriptionsUpdateResponse = EventSubscription;
+
+/** Optional parameters. */
+export interface SystemTopicEventSubscriptionsGetFullUrlOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getFullUrl operation. */
+export type SystemTopicEventSubscriptionsGetFullUrlResponse = EventSubscriptionFullUrl;
+
+/** Optional parameters. */
+export interface SystemTopicEventSubscriptionsListBySystemTopicOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface SystemTopicEventSubscriptionsListBySystemTopicNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listBySystemTopic operation. */
+export type SystemTopicEventSubscriptionsListBySystemTopicResponse = EventSubscriptionsListResult;
+
+/** Optional parameters. */
+export interface SystemTopicEventSubscriptionsGetDeliveryAttributesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getDeliveryAttributes operation. */
+export type SystemTopicEventSubscriptionsGetDeliveryAttributesResponse = DeliveryAttributeListResult;
+
+/** Optional parameters. */
+export interface SystemTopicEventSubscriptionsListBySystemTopicNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface PartnerTopicEventSubscriptionsListByPartnerTopicOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listBySystemTopicNext operation. */
+export type SystemTopicEventSubscriptionsListBySystemTopicNextResponse = EventSubscriptionsListResult;
+
+/** Optional parameters. */
+export interface PartnerTopicEventSubscriptionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PartnerTopicEventSubscriptionsGetResponse = EventSubscription;
+
+/** Optional parameters. */
+export interface PartnerTopicEventSubscriptionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type PartnerTopicEventSubscriptionsCreateOrUpdateResponse = EventSubscription;
+
+/** Optional parameters. */
+export interface PartnerTopicEventSubscriptionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface PartnerTopicEventSubscriptionsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type PartnerTopicEventSubscriptionsUpdateResponse = EventSubscription;
+
+/** Optional parameters. */
+export interface PartnerTopicEventSubscriptionsGetFullUrlOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getFullUrl operation. */
+export type PartnerTopicEventSubscriptionsGetFullUrlResponse = EventSubscriptionFullUrl;
+
+/** Optional parameters. */
+export interface PartnerTopicEventSubscriptionsListByPartnerTopicOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface PartnerTopicEventSubscriptionsListByPartnerTopicNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listByPartnerTopic operation. */
+export type PartnerTopicEventSubscriptionsListByPartnerTopicResponse = EventSubscriptionsListResult;
+
+/** Optional parameters. */
+export interface PartnerTopicEventSubscriptionsGetDeliveryAttributesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getDeliveryAttributes operation. */
+export type PartnerTopicEventSubscriptionsGetDeliveryAttributesResponse = DeliveryAttributeListResult;
+
+/** Optional parameters. */
+export interface PartnerTopicEventSubscriptionsListByPartnerTopicNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface PartnerNamespacesListBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listByPartnerTopicNext operation. */
+export type PartnerTopicEventSubscriptionsListByPartnerTopicNextResponse = EventSubscriptionsListResult;
+
+/** Optional parameters. */
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationsListResult;
+
+/** Optional parameters. */
+export interface PartnerNamespacesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PartnerNamespacesGetResponse = PartnerNamespace;
+
+/** Optional parameters. */
+export interface PartnerNamespacesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type PartnerNamespacesCreateOrUpdateResponse = PartnerNamespace;
+
+/** Optional parameters. */
+export interface PartnerNamespacesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface PartnerNamespacesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface PartnerNamespacesListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface PartnerNamespacesListByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listBySubscription operation. */
+export type PartnerNamespacesListBySubscriptionResponse = PartnerNamespacesListResult;
+
+/** Optional parameters. */
+export interface PartnerNamespacesListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface PartnerNamespacesListBySubscriptionNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listByResourceGroup operation. */
+export type PartnerNamespacesListByResourceGroupResponse = PartnerNamespacesListResult;
+
+/** Optional parameters. */
+export interface PartnerNamespacesListSharedAccessKeysOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSharedAccessKeys operation. */
+export type PartnerNamespacesListSharedAccessKeysResponse = PartnerNamespaceSharedAccessKeys;
+
+/** Optional parameters. */
+export interface PartnerNamespacesRegenerateKeyOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the regenerateKey operation. */
+export type PartnerNamespacesRegenerateKeyResponse = PartnerNamespaceSharedAccessKeys;
+
+/** Optional parameters. */
+export interface PartnerNamespacesListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface PartnerNamespacesListByResourceGroupNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listBySubscriptionNext operation. */
+export type PartnerNamespacesListBySubscriptionNextResponse = PartnerNamespacesListResult;
+
+/** Optional parameters. */
+export interface PartnerNamespacesListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface PartnerRegistrationsListBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listByResourceGroupNext operation. */
+export type PartnerNamespacesListByResourceGroupNextResponse = PartnerNamespacesListResult;
+
+/** Optional parameters. */
+export interface PartnerRegistrationsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PartnerRegistrationsGetResponse = PartnerRegistration;
+
+/** Optional parameters. */
+export interface PartnerRegistrationsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type PartnerRegistrationsCreateOrUpdateResponse = PartnerRegistration;
+
+/** Optional parameters. */
+export interface PartnerRegistrationsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface PartnerRegistrationsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type PartnerRegistrationsUpdateResponse = PartnerRegistration;
+
+/** Optional parameters. */
+export interface PartnerRegistrationsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface PartnerRegistrationsListByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listBySubscription operation. */
+export type PartnerRegistrationsListBySubscriptionResponse = PartnerRegistrationsListResult;
+
+/** Optional parameters. */
+export interface PartnerRegistrationsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface PartnerRegistrationsListBySubscriptionNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listByResourceGroup operation. */
+export type PartnerRegistrationsListByResourceGroupResponse = PartnerRegistrationsListResult;
+
+/** Optional parameters. */
+export interface PartnerRegistrationsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface PartnerRegistrationsListByResourceGroupNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listBySubscriptionNext operation. */
+export type PartnerRegistrationsListBySubscriptionNextResponse = PartnerRegistrationsListResult;
+
+/** Optional parameters. */
+export interface PartnerRegistrationsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface PartnerTopicsListBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listByResourceGroupNext operation. */
+export type PartnerRegistrationsListByResourceGroupNextResponse = PartnerRegistrationsListResult;
+
+/** Optional parameters. */
+export interface PartnerTopicsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PartnerTopicsGetResponse = PartnerTopic;
+
+/** Optional parameters. */
+export interface PartnerTopicsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface PartnerTopicsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type PartnerTopicsUpdateResponse = PartnerTopic;
+
+/** Optional parameters. */
+export interface PartnerTopicsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface PartnerTopicsListByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listBySubscription operation. */
+export type PartnerTopicsListBySubscriptionResponse = PartnerTopicsListResult;
+
+/** Optional parameters. */
+export interface PartnerTopicsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface PartnerTopicsListBySubscriptionNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listByResourceGroup operation. */
+export type PartnerTopicsListByResourceGroupResponse = PartnerTopicsListResult;
+
+/** Optional parameters. */
+export interface PartnerTopicsActivateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the activate operation. */
+export type PartnerTopicsActivateResponse = PartnerTopic;
+
+/** Optional parameters. */
+export interface PartnerTopicsDeactivateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the deactivate operation. */
+export type PartnerTopicsDeactivateResponse = PartnerTopic;
+
+/** Optional parameters. */
+export interface PartnerTopicsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface PartnerTopicsListByResourceGroupNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listBySubscriptionNext operation. */
+export type PartnerTopicsListBySubscriptionNextResponse = PartnerTopicsListResult;
+
+/** Optional parameters. */
+export interface PartnerTopicsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface PrivateEndpointConnectionsListByResourceOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listByResourceGroupNext operation. */
+export type PartnerTopicsListByResourceGroupNextResponse = PartnerTopicsListResult;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type PrivateEndpointConnectionsUpdateResponse = PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsListByResourceOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface PrivateEndpointConnectionsListByResourceNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listByResource operation. */
+export type PrivateEndpointConnectionsListByResourceResponse = PrivateEndpointConnectionListResult;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsListByResourceNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface PrivateLinkResourcesListByResourceOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listByResourceNext operation. */
+export type PrivateEndpointConnectionsListByResourceNextResponse = PrivateEndpointConnectionListResult;
+
+/** Optional parameters. */
+export interface PrivateLinkResourcesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PrivateLinkResourcesGetResponse = PrivateLinkResource;
+
+/** Optional parameters. */
+export interface PrivateLinkResourcesListByResourceOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface PrivateLinkResourcesListByResourceNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listByResource operation. */
+export type PrivateLinkResourcesListByResourceResponse = PrivateLinkResourcesListResult;
+
+/** Optional parameters. */
+export interface PrivateLinkResourcesListByResourceNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface SystemTopicsListBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listByResourceNext operation. */
+export type PrivateLinkResourcesListByResourceNextResponse = PrivateLinkResourcesListResult;
+
+/** Optional parameters. */
+export interface SystemTopicsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SystemTopicsGetResponse = SystemTopic;
+
+/** Optional parameters. */
+export interface SystemTopicsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SystemTopicsCreateOrUpdateResponse = SystemTopic;
+
+/** Optional parameters. */
+export interface SystemTopicsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface SystemTopicsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type SystemTopicsUpdateResponse = SystemTopic;
+
+/** Optional parameters. */
+export interface SystemTopicsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface SystemTopicsListByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listBySubscription operation. */
+export type SystemTopicsListBySubscriptionResponse = SystemTopicsListResult;
+
+/** Optional parameters. */
+export interface SystemTopicsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface SystemTopicsListBySubscriptionNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listByResourceGroup operation. */
+export type SystemTopicsListByResourceGroupResponse = SystemTopicsListResult;
+
+/** Optional parameters. */
+export interface SystemTopicsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface SystemTopicsListByResourceGroupNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listBySubscriptionNext operation. */
+export type SystemTopicsListBySubscriptionNextResponse = SystemTopicsListResult;
+
+/** Optional parameters. */
+export interface SystemTopicsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface TopicsListBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listByResourceGroupNext operation. */
+export type SystemTopicsListByResourceGroupNextResponse = SystemTopicsListResult;
+
+/** Optional parameters. */
+export interface TopicsGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type TopicsGetResponse = Topic;
+
+/** Optional parameters. */
+export interface TopicsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type TopicsCreateOrUpdateResponse = Topic;
+
+/** Optional parameters. */
+export interface TopicsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface TopicsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface TopicsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface TopicsListByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listBySubscription operation. */
+export type TopicsListBySubscriptionResponse = TopicsListResult;
+
+/** Optional parameters. */
+export interface TopicsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface TopicsListBySubscriptionNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listByResourceGroup operation. */
+export type TopicsListByResourceGroupResponse = TopicsListResult;
+
+/** Optional parameters. */
+export interface TopicsListSharedAccessKeysOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSharedAccessKeys operation. */
+export type TopicsListSharedAccessKeysResponse = TopicSharedAccessKeys;
+
+/** Optional parameters. */
+export interface TopicsRegenerateKeyOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the regenerateKey operation. */
+export type TopicsRegenerateKeyResponse = TopicSharedAccessKeys;
+
+/** Optional parameters. */
+export interface TopicsListEventTypesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listEventTypes operation. */
+export type TopicsListEventTypesResponse = EventTypesListResult;
+
+/** Optional parameters. */
+export interface TopicsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * Optional Parameters.
- */
-export interface TopicsListByResourceGroupNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
+/** Contains response data for the listBySubscriptionNext operation. */
+export type TopicsListBySubscriptionNextResponse = TopicsListResult;
+
+/** Optional parameters. */
+export interface TopicsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
   filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
+  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
   top?: number;
 }
 
-/**
- * An interface representing EventGridManagementClientOptions.
- */
-export interface EventGridManagementClientOptions extends AzureServiceClientOptions {
-  baseUri?: string;
+/** Contains response data for the listByResourceGroupNext operation. */
+export type TopicsListByResourceGroupNextResponse = TopicsListResult;
+
+/** Optional parameters. */
+export interface ExtensionTopicsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ExtensionTopicsGetResponse = ExtensionTopic;
+
+/** Optional parameters. */
+export interface TopicTypesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type TopicTypesListResponse = TopicTypesListResult;
+
+/** Optional parameters. */
+export interface TopicTypesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type TopicTypesGetResponse = TopicTypeInfo;
+
+/** Optional parameters. */
+export interface TopicTypesListEventTypesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listEventTypes operation. */
+export type TopicTypesListEventTypesResponse = EventTypesListResult;
+
+/** Optional parameters. */
+export interface EventGridManagementClientOptionalParams
+  extends coreClient.ServiceClientOptions {
+  /** server parameter */
+  $host?: string;
+  /** Api Version */
+  apiVersion?: string;
+  /** Overrides client endpoint. */
+  endpoint?: string;
 }
-
-/**
- * @interface
- * Result of the List Domains operation
- * @extends Array<Domain>
- */
-export interface DomainsListResult extends Array<Domain> {
-  /**
-   * A link for the next page of domains
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * Result of the List Domain Topics operation.
- * @extends Array<DomainTopic>
- */
-export interface DomainTopicsListResult extends Array<DomainTopic> {
-  /**
-   * A link for the next page of domain topics.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * Result of the List Event Channels operation
- * @extends Array<EventChannel>
- */
-export interface EventChannelsListResult extends Array<EventChannel> {
-  /**
-   * A link for the next page of event channels
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * Result of the List EventSubscriptions operation
- * @extends Array<EventSubscription>
- */
-export interface EventSubscriptionsListResult extends Array<EventSubscription> {
-  /**
-   * A link for the next page of event subscriptions
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * Result of the List Operations operation
- * @extends Array<Operation>
- */
-export interface OperationsListResult extends Array<Operation> {
-}
-
-/**
- * @interface
- * Result of the List Partner Namespaces operation
- * @extends Array<PartnerNamespace>
- */
-export interface PartnerNamespacesListResult extends Array<PartnerNamespace> {
-  /**
-   * A link for the next page of partner namespaces.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * Result of the List Partner Registrations operation.
- * @extends Array<PartnerRegistration>
- */
-export interface PartnerRegistrationsListResult extends Array<PartnerRegistration> {
-  /**
-   * A link for the next page of partner registrations.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * Result of the List Partner Topics operation.
- * @extends Array<PartnerTopic>
- */
-export interface PartnerTopicsListResult extends Array<PartnerTopic> {
-  /**
-   * A link for the next page of partner topics.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * Result of the list of all private endpoint connections operation.
- * @extends Array<PrivateEndpointConnection>
- */
-export interface PrivateEndpointConnectionListResult extends Array<PrivateEndpointConnection> {
-  /**
-   * A link for the next page of private endpoint connection resources.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * Result of the List private link resources operation.
- * @extends Array<PrivateLinkResource>
- */
-export interface PrivateLinkResourcesListResult extends Array<PrivateLinkResource> {
-  /**
-   * A link for the next page of private link resources.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * Result of the List System topics operation.
- * @extends Array<SystemTopic>
- */
-export interface SystemTopicsListResult extends Array<SystemTopic> {
-  /**
-   * A link for the next page of topics.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * Result of the List Topics operation
- * @extends Array<Topic>
- */
-export interface TopicsListResult extends Array<Topic> {
-  /**
-   * A link for the next page of topics
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * Result of the List Event Types operation
- * @extends Array<EventType>
- */
-export interface EventTypesListResult extends Array<EventType> {
-}
-
-/**
- * @interface
- * Result of the List Topic Types operation
- * @extends Array<TopicTypeInfo>
- */
-export interface TopicTypesListResult extends Array<TopicTypeInfo> {
-}
-
-/**
- * Defines values for PersistedConnectionStatus.
- * Possible values include: 'Pending', 'Approved', 'Rejected', 'Disconnected'
- * @readonly
- * @enum {string}
- */
-export type PersistedConnectionStatus = 'Pending' | 'Approved' | 'Rejected' | 'Disconnected';
-
-/**
- * Defines values for ResourceProvisioningState.
- * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed'
- * @readonly
- * @enum {string}
- */
-export type ResourceProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
-
-/**
- * Defines values for DomainProvisioningState.
- * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed'
- * @readonly
- * @enum {string}
- */
-export type DomainProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
-
-/**
- * Defines values for InputSchema.
- * Possible values include: 'EventGridSchema', 'CustomEventSchema', 'CloudEventSchemaV1_0'
- * @readonly
- * @enum {string}
- */
-export type InputSchema = 'EventGridSchema' | 'CustomEventSchema' | 'CloudEventSchemaV1_0';
-
-/**
- * Defines values for PublicNetworkAccess.
- * Possible values include: 'Enabled', 'Disabled'
- * @readonly
- * @enum {string}
- */
-export type PublicNetworkAccess = 'Enabled' | 'Disabled';
-
-/**
- * Defines values for IpActionType.
- * Possible values include: 'Allow'
- * @readonly
- * @enum {string}
- */
-export type IpActionType = 'Allow';
-
-/**
- * Defines values for Sku.
- * Possible values include: 'Basic', 'Premium'
- * @readonly
- * @enum {string}
- */
-export type Sku = 'Basic' | 'Premium';
-
-/**
- * Defines values for IdentityType.
- * Possible values include: 'None', 'SystemAssigned', 'UserAssigned', 'SystemAssigned,
- * UserAssigned'
- * @readonly
- * @enum {string}
- */
-export type IdentityType = 'None' | 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned';
-
-/**
- * Defines values for CreatedByType.
- * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
- * @readonly
- * @enum {string}
- */
-export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
-
-/**
- * Defines values for DomainTopicProvisioningState.
- * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed'
- * @readonly
- * @enum {string}
- */
-export type DomainTopicProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
-
-/**
- * Defines values for EventChannelProvisioningState.
- * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed'
- * @readonly
- * @enum {string}
- */
-export type EventChannelProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
-
-/**
- * Defines values for PartnerTopicReadinessState.
- * Possible values include: 'NotActivatedByUserYet', 'ActivatedByUser', 'DeactivatedByUser',
- * 'DeletedByUser'
- * @readonly
- * @enum {string}
- */
-export type PartnerTopicReadinessState = 'NotActivatedByUserYet' | 'ActivatedByUser' | 'DeactivatedByUser' | 'DeletedByUser';
-
-/**
- * Defines values for EventSubscriptionProvisioningState.
- * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed',
- * 'AwaitingManualAction'
- * @readonly
- * @enum {string}
- */
-export type EventSubscriptionProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed' | 'AwaitingManualAction';
-
-/**
- * Defines values for EventSubscriptionIdentityType.
- * Possible values include: 'SystemAssigned', 'UserAssigned'
- * @readonly
- * @enum {string}
- */
-export type EventSubscriptionIdentityType = 'SystemAssigned' | 'UserAssigned';
-
-/**
- * Defines values for EventDeliverySchema.
- * Possible values include: 'EventGridSchema', 'CustomInputSchema', 'CloudEventSchemaV1_0'
- * @readonly
- * @enum {string}
- */
-export type EventDeliverySchema = 'EventGridSchema' | 'CustomInputSchema' | 'CloudEventSchemaV1_0';
-
-/**
- * Defines values for PartnerNamespaceProvisioningState.
- * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed'
- * @readonly
- * @enum {string}
- */
-export type PartnerNamespaceProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
-
-/**
- * Defines values for PartnerRegistrationProvisioningState.
- * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed'
- * @readonly
- * @enum {string}
- */
-export type PartnerRegistrationProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
-
-/**
- * Defines values for PartnerRegistrationVisibilityState.
- * Possible values include: 'Hidden', 'PublicPreview', 'GenerallyAvailable'
- * @readonly
- * @enum {string}
- */
-export type PartnerRegistrationVisibilityState = 'Hidden' | 'PublicPreview' | 'GenerallyAvailable';
-
-/**
- * Defines values for PartnerTopicProvisioningState.
- * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed'
- * @readonly
- * @enum {string}
- */
-export type PartnerTopicProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
-
-/**
- * Defines values for PartnerTopicActivationState.
- * Possible values include: 'NeverActivated', 'Activated', 'Deactivated'
- * @readonly
- * @enum {string}
- */
-export type PartnerTopicActivationState = 'NeverActivated' | 'Activated' | 'Deactivated';
-
-/**
- * Defines values for TopicProvisioningState.
- * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed'
- * @readonly
- * @enum {string}
- */
-export type TopicProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
-
-/**
- * Defines values for ResourceKind.
- * Possible values include: 'Azure', 'AzureArc'
- * @readonly
- * @enum {string}
- */
-export type ResourceKind = 'Azure' | 'AzureArc';
-
-/**
- * Defines values for ResourceRegionType.
- * Possible values include: 'RegionalResource', 'GlobalResource'
- * @readonly
- * @enum {string}
- */
-export type ResourceRegionType = 'RegionalResource' | 'GlobalResource';
-
-/**
- * Defines values for TopicTypeProvisioningState.
- * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed'
- * @readonly
- * @enum {string}
- */
-export type TopicTypeProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
-
-/**
- * Defines values for ParentType.
- * Possible values include: 'topics', 'domains', 'partnerNamespaces'
- * @readonly
- * @enum {string}
- */
-export type ParentType = 'topics' | 'domains' | 'partnerNamespaces';
-
-/**
- * Defines values for ParentType1.
- * Possible values include: 'topics', 'domains', 'partnerNamespaces'
- * @readonly
- * @enum {string}
- */
-export type ParentType1 = 'topics' | 'domains' | 'partnerNamespaces';
-
-/**
- * Defines values for ParentType2.
- * Possible values include: 'topics', 'domains', 'partnerNamespaces'
- * @readonly
- * @enum {string}
- */
-export type ParentType2 = 'topics' | 'domains' | 'partnerNamespaces';
-
-/**
- * Defines values for ParentType3.
- * Possible values include: 'topics', 'domains', 'partnerNamespaces'
- * @readonly
- * @enum {string}
- */
-export type ParentType3 = 'topics' | 'domains' | 'partnerNamespaces';
-
-/**
- * Contains response data for the get operation.
- */
-export type DomainsGetResponse = Domain & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Domain;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type DomainsCreateOrUpdateResponse = Domain & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Domain;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type DomainsUpdateResponse = Domain & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Domain;
-    };
-};
-
-/**
- * Contains response data for the listBySubscription operation.
- */
-export type DomainsListBySubscriptionResponse = DomainsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type DomainsListByResourceGroupResponse = DomainsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainsListResult;
-    };
-};
-
-/**
- * Contains response data for the listSharedAccessKeys operation.
- */
-export type DomainsListSharedAccessKeysResponse = DomainSharedAccessKeys & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainSharedAccessKeys;
-    };
-};
-
-/**
- * Contains response data for the regenerateKey operation.
- */
-export type DomainsRegenerateKeyResponse = DomainSharedAccessKeys & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainSharedAccessKeys;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type DomainsBeginCreateOrUpdateResponse = Domain & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Domain;
-    };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type DomainsBeginUpdateResponse = Domain & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Domain;
-    };
-};
-
-/**
- * Contains response data for the listBySubscriptionNext operation.
- */
-export type DomainsListBySubscriptionNextResponse = DomainsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type DomainsListByResourceGroupNextResponse = DomainsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainsListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type DomainTopicsGetResponse = DomainTopic & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainTopic;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type DomainTopicsCreateOrUpdateResponse = DomainTopic & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainTopic;
-    };
-};
-
-/**
- * Contains response data for the listByDomain operation.
- */
-export type DomainTopicsListByDomainResponse = DomainTopicsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainTopicsListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type DomainTopicsBeginCreateOrUpdateResponse = DomainTopic & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainTopic;
-    };
-};
-
-/**
- * Contains response data for the listByDomainNext operation.
- */
-export type DomainTopicsListByDomainNextResponse = DomainTopicsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainTopicsListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type EventChannelsGetResponse = EventChannel & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventChannel;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type EventChannelsCreateOrUpdateResponse = EventChannel & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventChannel;
-    };
-};
-
-/**
- * Contains response data for the listByPartnerNamespace operation.
- */
-export type EventChannelsListByPartnerNamespaceResponse = EventChannelsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventChannelsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByPartnerNamespaceNext operation.
- */
-export type EventChannelsListByPartnerNamespaceNextResponse = EventChannelsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventChannelsListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type EventSubscriptionsGetResponse = EventSubscription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscription;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type EventSubscriptionsCreateOrUpdateResponse = EventSubscription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscription;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type EventSubscriptionsUpdateResponse = EventSubscription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscription;
-    };
-};
-
-/**
- * Contains response data for the getFullUrl operation.
- */
-export type EventSubscriptionsGetFullUrlResponse = EventSubscriptionFullUrl & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionFullUrl;
-    };
-};
-
-/**
- * Contains response data for the listGlobalBySubscription operation.
- */
-export type EventSubscriptionsListGlobalBySubscriptionResponse = EventSubscriptionsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
-};
-
-/**
- * Contains response data for the listGlobalBySubscriptionForTopicType operation.
- */
-export type EventSubscriptionsListGlobalBySubscriptionForTopicTypeResponse = EventSubscriptionsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
-};
-
-/**
- * Contains response data for the listGlobalByResourceGroup operation.
- */
-export type EventSubscriptionsListGlobalByResourceGroupResponse = EventSubscriptionsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
-};
-
-/**
- * Contains response data for the listGlobalByResourceGroupForTopicType operation.
- */
-export type EventSubscriptionsListGlobalByResourceGroupForTopicTypeResponse = EventSubscriptionsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
-};
-
-/**
- * Contains response data for the listRegionalBySubscription operation.
- */
-export type EventSubscriptionsListRegionalBySubscriptionResponse = EventSubscriptionsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
-};
-
-/**
- * Contains response data for the listRegionalByResourceGroup operation.
- */
-export type EventSubscriptionsListRegionalByResourceGroupResponse = EventSubscriptionsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
-};
-
-/**
- * Contains response data for the listRegionalBySubscriptionForTopicType operation.
- */
-export type EventSubscriptionsListRegionalBySubscriptionForTopicTypeResponse = EventSubscriptionsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
-};
-
-/**
- * Contains response data for the listRegionalByResourceGroupForTopicType operation.
- */
-export type EventSubscriptionsListRegionalByResourceGroupForTopicTypeResponse = EventSubscriptionsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResource operation.
- */
-export type EventSubscriptionsListByResourceResponse = EventSubscriptionsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByDomainTopic operation.
- */
-export type EventSubscriptionsListByDomainTopicResponse = EventSubscriptionsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
-};
-
-/**
- * Contains response data for the getDeliveryAttributes operation.
- */
-export type EventSubscriptionsGetDeliveryAttributesResponse = DeliveryAttributeListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeliveryAttributeListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type EventSubscriptionsBeginCreateOrUpdateResponse = EventSubscription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscription;
-    };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type EventSubscriptionsBeginUpdateResponse = EventSubscription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscription;
-    };
-};
-
-/**
- * Contains response data for the listGlobalBySubscriptionNext operation.
- */
-export type EventSubscriptionsListGlobalBySubscriptionNextResponse = EventSubscriptionsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
-};
-
-/**
- * Contains response data for the listGlobalBySubscriptionForTopicTypeNext operation.
- */
-export type EventSubscriptionsListGlobalBySubscriptionForTopicTypeNextResponse = EventSubscriptionsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
-};
-
-/**
- * Contains response data for the listGlobalByResourceGroupNext operation.
- */
-export type EventSubscriptionsListGlobalByResourceGroupNextResponse = EventSubscriptionsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
-};
-
-/**
- * Contains response data for the listGlobalByResourceGroupForTopicTypeNext operation.
- */
-export type EventSubscriptionsListGlobalByResourceGroupForTopicTypeNextResponse = EventSubscriptionsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
-};
-
-/**
- * Contains response data for the listRegionalBySubscriptionNext operation.
- */
-export type EventSubscriptionsListRegionalBySubscriptionNextResponse = EventSubscriptionsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
-};
-
-/**
- * Contains response data for the listRegionalByResourceGroupNext operation.
- */
-export type EventSubscriptionsListRegionalByResourceGroupNextResponse = EventSubscriptionsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
-};
-
-/**
- * Contains response data for the listRegionalBySubscriptionForTopicTypeNext operation.
- */
-export type EventSubscriptionsListRegionalBySubscriptionForTopicTypeNextResponse = EventSubscriptionsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
-};
-
-/**
- * Contains response data for the listRegionalByResourceGroupForTopicTypeNext operation.
- */
-export type EventSubscriptionsListRegionalByResourceGroupForTopicTypeNextResponse = EventSubscriptionsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceNext operation.
- */
-export type EventSubscriptionsListByResourceNextResponse = EventSubscriptionsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByDomainTopicNext operation.
- */
-export type EventSubscriptionsListByDomainTopicNextResponse = EventSubscriptionsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type SystemTopicEventSubscriptionsGetResponse = EventSubscription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscription;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type SystemTopicEventSubscriptionsCreateOrUpdateResponse = EventSubscription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscription;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type SystemTopicEventSubscriptionsUpdateResponse = EventSubscription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscription;
-    };
-};
-
-/**
- * Contains response data for the getFullUrl operation.
- */
-export type SystemTopicEventSubscriptionsGetFullUrlResponse = EventSubscriptionFullUrl & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionFullUrl;
-    };
-};
-
-/**
- * Contains response data for the listBySystemTopic operation.
- */
-export type SystemTopicEventSubscriptionsListBySystemTopicResponse = EventSubscriptionsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
-};
-
-/**
- * Contains response data for the getDeliveryAttributes operation.
- */
-export type SystemTopicEventSubscriptionsGetDeliveryAttributesResponse = DeliveryAttributeListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeliveryAttributeListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type SystemTopicEventSubscriptionsBeginCreateOrUpdateResponse = EventSubscription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscription;
-    };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type SystemTopicEventSubscriptionsBeginUpdateResponse = EventSubscription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscription;
-    };
-};
-
-/**
- * Contains response data for the listBySystemTopicNext operation.
- */
-export type SystemTopicEventSubscriptionsListBySystemTopicNextResponse = EventSubscriptionsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type PartnerTopicEventSubscriptionsGetResponse = EventSubscription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscription;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type PartnerTopicEventSubscriptionsCreateOrUpdateResponse = EventSubscription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscription;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type PartnerTopicEventSubscriptionsUpdateResponse = EventSubscription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscription;
-    };
-};
-
-/**
- * Contains response data for the getFullUrl operation.
- */
-export type PartnerTopicEventSubscriptionsGetFullUrlResponse = EventSubscriptionFullUrl & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionFullUrl;
-    };
-};
-
-/**
- * Contains response data for the listByPartnerTopic operation.
- */
-export type PartnerTopicEventSubscriptionsListByPartnerTopicResponse = EventSubscriptionsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
-};
-
-/**
- * Contains response data for the getDeliveryAttributes operation.
- */
-export type PartnerTopicEventSubscriptionsGetDeliveryAttributesResponse = DeliveryAttributeListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeliveryAttributeListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type PartnerTopicEventSubscriptionsBeginCreateOrUpdateResponse = EventSubscription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscription;
-    };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type PartnerTopicEventSubscriptionsBeginUpdateResponse = EventSubscription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscription;
-    };
-};
-
-/**
- * Contains response data for the listByPartnerTopicNext operation.
- */
-export type PartnerTopicEventSubscriptionsListByPartnerTopicNextResponse = EventSubscriptionsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type OperationsListResponse = OperationsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationsListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type PartnerNamespacesGetResponse = PartnerNamespace & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerNamespace;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type PartnerNamespacesCreateOrUpdateResponse = PartnerNamespace & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerNamespace;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type PartnerNamespacesUpdateResponse = PartnerNamespace & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerNamespace;
-    };
-};
-
-/**
- * Contains response data for the listBySubscription operation.
- */
-export type PartnerNamespacesListBySubscriptionResponse = PartnerNamespacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerNamespacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type PartnerNamespacesListByResourceGroupResponse = PartnerNamespacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerNamespacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listSharedAccessKeys operation.
- */
-export type PartnerNamespacesListSharedAccessKeysResponse = PartnerNamespaceSharedAccessKeys & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerNamespaceSharedAccessKeys;
-    };
-};
-
-/**
- * Contains response data for the regenerateKey operation.
- */
-export type PartnerNamespacesRegenerateKeyResponse = PartnerNamespaceSharedAccessKeys & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerNamespaceSharedAccessKeys;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type PartnerNamespacesBeginCreateOrUpdateResponse = PartnerNamespace & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerNamespace;
-    };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type PartnerNamespacesBeginUpdateResponse = PartnerNamespace & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerNamespace;
-    };
-};
-
-/**
- * Contains response data for the listBySubscriptionNext operation.
- */
-export type PartnerNamespacesListBySubscriptionNextResponse = PartnerNamespacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerNamespacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type PartnerNamespacesListByResourceGroupNextResponse = PartnerNamespacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerNamespacesListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type PartnerRegistrationsGetResponse = PartnerRegistration & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerRegistration;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type PartnerRegistrationsCreateOrUpdateResponse = PartnerRegistration & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerRegistration;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type PartnerRegistrationsUpdateResponse = PartnerRegistration & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerRegistration;
-    };
-};
-
-/**
- * Contains response data for the listBySubscription operation.
- */
-export type PartnerRegistrationsListBySubscriptionResponse = PartnerRegistrationsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerRegistrationsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type PartnerRegistrationsListByResourceGroupResponse = PartnerRegistrationsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerRegistrationsListResult;
-    };
-};
-
-/**
- * Contains response data for the listBySubscriptionNext operation.
- */
-export type PartnerRegistrationsListBySubscriptionNextResponse = PartnerRegistrationsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerRegistrationsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type PartnerRegistrationsListByResourceGroupNextResponse = PartnerRegistrationsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerRegistrationsListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type PartnerTopicsGetResponse = PartnerTopic & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerTopic;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type PartnerTopicsUpdateResponse = PartnerTopic & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerTopic;
-    };
-};
-
-/**
- * Contains response data for the listBySubscription operation.
- */
-export type PartnerTopicsListBySubscriptionResponse = PartnerTopicsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerTopicsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type PartnerTopicsListByResourceGroupResponse = PartnerTopicsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerTopicsListResult;
-    };
-};
-
-/**
- * Contains response data for the activate operation.
- */
-export type PartnerTopicsActivateResponse = PartnerTopic & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerTopic;
-    };
-};
-
-/**
- * Contains response data for the deactivate operation.
- */
-export type PartnerTopicsDeactivateResponse = PartnerTopic & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerTopic;
-    };
-};
-
-/**
- * Contains response data for the listBySubscriptionNext operation.
- */
-export type PartnerTopicsListBySubscriptionNextResponse = PartnerTopicsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerTopicsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type PartnerTopicsListByResourceGroupNextResponse = PartnerTopicsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerTopicsListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type PrivateEndpointConnectionsUpdateResponse = PrivateEndpointConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
-};
-
-/**
- * Contains response data for the listByResource operation.
- */
-export type PrivateEndpointConnectionsListByResourceResponse = PrivateEndpointConnectionListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnectionListResult;
-    };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type PrivateEndpointConnectionsBeginUpdateResponse = PrivateEndpointConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
-};
-
-/**
- * Contains response data for the listByResourceNext operation.
- */
-export type PrivateEndpointConnectionsListByResourceNextResponse = PrivateEndpointConnectionListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnectionListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type PrivateLinkResourcesGetResponse = PrivateLinkResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkResource;
-    };
-};
-
-/**
- * Contains response data for the listByResource operation.
- */
-export type PrivateLinkResourcesListByResourceResponse = PrivateLinkResourcesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkResourcesListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceNext operation.
- */
-export type PrivateLinkResourcesListByResourceNextResponse = PrivateLinkResourcesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkResourcesListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type SystemTopicsGetResponse = SystemTopic & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SystemTopic;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type SystemTopicsCreateOrUpdateResponse = SystemTopic & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SystemTopic;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type SystemTopicsUpdateResponse = SystemTopic & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SystemTopic;
-    };
-};
-
-/**
- * Contains response data for the listBySubscription operation.
- */
-export type SystemTopicsListBySubscriptionResponse = SystemTopicsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SystemTopicsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type SystemTopicsListByResourceGroupResponse = SystemTopicsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SystemTopicsListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type SystemTopicsBeginCreateOrUpdateResponse = SystemTopic & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SystemTopic;
-    };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type SystemTopicsBeginUpdateResponse = SystemTopic & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SystemTopic;
-    };
-};
-
-/**
- * Contains response data for the listBySubscriptionNext operation.
- */
-export type SystemTopicsListBySubscriptionNextResponse = SystemTopicsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SystemTopicsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type SystemTopicsListByResourceGroupNextResponse = SystemTopicsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SystemTopicsListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type TopicsGetResponse = Topic & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Topic;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type TopicsCreateOrUpdateResponse = Topic & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Topic;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type TopicsUpdateResponse = Topic & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Topic;
-    };
-};
-
-/**
- * Contains response data for the listBySubscription operation.
- */
-export type TopicsListBySubscriptionResponse = TopicsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TopicsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type TopicsListByResourceGroupResponse = TopicsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TopicsListResult;
-    };
-};
-
-/**
- * Contains response data for the listSharedAccessKeys operation.
- */
-export type TopicsListSharedAccessKeysResponse = TopicSharedAccessKeys & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TopicSharedAccessKeys;
-    };
-};
-
-/**
- * Contains response data for the regenerateKey operation.
- */
-export type TopicsRegenerateKeyResponse = TopicSharedAccessKeys & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TopicSharedAccessKeys;
-    };
-};
-
-/**
- * Contains response data for the listEventTypes operation.
- */
-export type TopicsListEventTypesResponse = EventTypesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventTypesListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type TopicsBeginCreateOrUpdateResponse = Topic & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Topic;
-    };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type TopicsBeginUpdateResponse = Topic & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Topic;
-    };
-};
-
-/**
- * Contains response data for the beginRegenerateKey operation.
- */
-export type TopicsBeginRegenerateKeyResponse = TopicSharedAccessKeys & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TopicSharedAccessKeys;
-    };
-};
-
-/**
- * Contains response data for the listBySubscriptionNext operation.
- */
-export type TopicsListBySubscriptionNextResponse = TopicsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TopicsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type TopicsListByResourceGroupNextResponse = TopicsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TopicsListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ExtensionTopicsGetResponse = ExtensionTopic & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExtensionTopic;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type TopicTypesListResponse = TopicTypesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TopicTypesListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type TopicTypesGetResponse = TopicTypeInfo & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TopicTypeInfo;
-    };
-};
-
-/**
- * Contains response data for the listEventTypes operation.
- */
-export type TopicTypesListEventTypesResponse = EventTypesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventTypesListResult;
-    };
-};

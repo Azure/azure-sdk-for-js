@@ -12,6 +12,7 @@ specifiers:
   '@rush-temp/arm-appservice': file:./projects/arm-appservice.tgz
   '@rush-temp/arm-authorization': file:./projects/arm-authorization.tgz
   '@rush-temp/arm-compute': file:./projects/arm-compute.tgz
+  '@rush-temp/arm-eventgrid': file:./projects/arm-eventgrid.tgz
   '@rush-temp/arm-eventhub': file:./projects/arm-eventhub.tgz
   '@rush-temp/arm-features': file:./projects/arm-features.tgz
   '@rush-temp/arm-keyvault': file:./projects/arm-keyvault.tgz
@@ -136,6 +137,7 @@ dependencies:
   '@rush-temp/arm-appservice': file:projects/arm-appservice.tgz
   '@rush-temp/arm-authorization': file:projects/arm-authorization.tgz
   '@rush-temp/arm-compute': file:projects/arm-compute.tgz
+  '@rush-temp/arm-eventgrid': file:projects/arm-eventgrid.tgz
   '@rush-temp/arm-eventhub': file:projects/arm-eventhub.tgz
   '@rush-temp/arm-features': file:projects/arm-features.tgz
   '@rush-temp/arm-keyvault': file:projects/arm-keyvault.tgz
@@ -8428,6 +8430,30 @@ packages:
       uglify-js: 3.14.2
     dev: false
 
+  file:projects/arm-eventgrid.tgz:
+    resolution: {integrity: sha512-PMzPDLEcZd3yBiZ0C/SDkxjGo5O570UkCFe+WEB3nBKU11CYeCiDKSNS9OIkwR2clJCkLkU6hrlygp9a18N3Fg==, tarball: file:projects/arm-eventgrid.tgz}
+    name: '@rush-temp/arm-eventgrid'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.0.0-beta.6
+      '@microsoft/api-extractor': 7.7.11
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.2
+    transitivePeerDependencies:
+      - debug
+      - supports-color
+    dev: false
+
   file:projects/arm-eventhub.tgz:
     resolution: {integrity: sha512-prxNN24vp5ndwaqivPOFLkNF0Id6m0zm5YL0Azqgv6PoZzThFLxEkgaWtsUxFQicLGqXWB7XomzA0EUyPHyDbQ==, tarball: file:projects/arm-eventhub.tgz}
     name: '@rush-temp/arm-eventhub'
@@ -8653,7 +8679,7 @@ packages:
     dev: false
 
   file:projects/arm-sql.tgz:
-    resolution: {integrity: sha512-d740cACOOsMXQ3bwlpaXrGeOxAVZMCf+6D+LKN8ltZbTJHPrw5Jv0q6tCp7k+aa+nY6hBP1qYtYfKpk0Rg4wuA==, tarball: file:projects/arm-sql.tgz}
+    resolution: {integrity: sha512-1nv+fHLm/8KtX6rSVv/pmclEN7WzLAFtJuFqOOGUCSYEH0uK/vjrTWdV9/z5v2hCopmTGrnLM1m1JyQTwEL5aA==, tarball: file:projects/arm-sql.tgz}
     name: '@rush-temp/arm-sql'
     version: 0.0.0
     dependencies:
@@ -10132,7 +10158,7 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-Znp/pWCEiVRhPM+mk2OVq9n1+fbGl7kkvL9mkWWKuHIXsjQZB9hBAL7EclBtRsqDVABFj9tRos4SXkDvj/cUVQ==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-D3tr8uQ85UFSFzCGQBpvzM6AUzjVjad/XlSja8lQeXnHUeHAfx/YH3FRGkXlsYYmVmDHLEOHTrxwBDzVZSuOoA==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
