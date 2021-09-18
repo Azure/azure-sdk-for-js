@@ -13,6 +13,7 @@ import {
   Recorder
 } from "@azure-tools/test-recorder";
 import * as assert from "assert";
+import { ClientSecretCredential } from "@azure/identity";
 
 const recorderEnvSetup: RecorderEnvironmentSetup = {
   replaceableVariables: {
@@ -33,9 +34,17 @@ const recorderEnvSetup: RecorderEnvironmentSetup = {
 
 describe("My test", () => {
   let recorder: Recorder;
+  let subscriptionId: string;
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
+    subscriptionId = env.SUBSCRIPTION_ID;
+    // This is an example of how the environment variables are used
+    const credential = new ClientSecretCredential(
+      env.AZURE_TENANT_ID,
+      env.AZURE_CLIENT_ID,
+      env.AZURE_CLIENT_SECRET
+    );
   });
 
   afterEach(async function() {
