@@ -862,7 +862,7 @@ export class KeyClient {
   public getKeyRotationPolicy(
     name: string,
     options: GetKeyRotationPolicyOptions = {}
-  ): Promise<KeyRotationPolicy | undefined> {
+  ): Promise<KeyRotationPolicy> {
     return withTrace("getKeyRotationPolicy", options, async () => {
       const policy = await this.client.getKeyRotationPolicy(this.vaultUrl, name);
       return keyRotationTransformations.generatedToPublic(policy);
