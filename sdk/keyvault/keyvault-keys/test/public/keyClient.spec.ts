@@ -505,14 +505,6 @@ describe("Keys client - create, read, update and delete operations", () => {
       );
     });
 
-    it("getKeyRotationPolicy returns undefined if there is no rotation policy", async () => {
-      const keyName = recorder.getUniqueName("getrotationpolicy");
-      await client.createKey(keyName, "RSA");
-
-      const fetchedPolicy = await client.getKeyRotationPolicy(keyName);
-      assert.notExists(fetchedPolicy);
-    });
-
     it("throws when attempting to fetch a policy of a non-existent key", async () => {
       const keyName = recorder.getUniqueName("nonexistentkey");
       await assert.isRejected(client.getKeyRotationPolicy(keyName));
@@ -521,6 +513,15 @@ describe("Keys client - create, read, update and delete operations", () => {
     it("getKeyRotationPolicy supports tracing", async () => {
       const keyName = recorder.getUniqueName("rotationpolicytracing");
       const key = await client.createKey(keyName, "RSA");
+
+      await client.updateKeyRotationPolicy(key.name, {
+        lifetimeActions: [
+          {
+            action: "Rotate",
+            timeAfterCreate: "P2M"
+          }
+        ]
+      });
 
       await supportsTracing(
         (tracingOptions) => client.getKeyRotationPolicy(key.name, { tracingOptions }),
