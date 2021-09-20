@@ -14,7 +14,7 @@ import { Connection, SenderEvents, ConnectionOptions } from "rhea-promise";
 import moment from "moment";
 
 function delay(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms))
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 const _payload = Buffer.alloc(1024);

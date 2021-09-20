@@ -15,7 +15,7 @@ import { createServiceBusService, ServiceBusService } from "azure-sb";
 import moment from "moment";
 
 function delay(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms))
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 const _start = moment();

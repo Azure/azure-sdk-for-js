@@ -18,7 +18,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 function delay(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms))
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 const _start = moment();
