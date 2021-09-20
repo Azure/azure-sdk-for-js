@@ -27,7 +27,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a ServerCommunicationLinks. */
+/** Class containing ServerCommunicationLinks operations. */
 export class ServerCommunicationLinksImpl implements ServerCommunicationLinks {
   private readonly client: SqlManagementClientContext;
 

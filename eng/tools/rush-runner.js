@@ -3,6 +3,28 @@ const path = require("path");
 const process = require("process");
 const { spawnSync } = require("child_process");
 
+const reducedDependencyTestMatrix = {
+  'core': ['@azure-rest/core-client',
+    '@azure-rest/core-client-lro',
+    '@azure-rest/core-client-paging',
+    '@azure-rest/purview-account',
+    '@azure-tests/perf-storage-blob',
+    '@azure/ai-text-analytics',
+    '@azure/arm-compute',
+    '@azure/dev-tool',
+    '@azure/identity',
+    '@azure/identity-cache-persistence',
+    '@azure/identity-vscode',
+    '@azure/service-bus',
+    '@azure/storage-blob',
+    '@azure/template',
+    '@azure/test-utils',
+    '@azure/test-utils-perfstress',
+    '@azure-tools/test-recorder',
+    '@azure/synapse-monitoring'
+  ]
+};
+
 const parseArgs = () => {
   if (
     process.argv.length < 3 ||
@@ -133,7 +155,12 @@ function tryGetPkgRelativePath(absolutePath) {
   return sdkDirectoryPathStartIndex === -1 ? absolutePath : absolutePath.substring(sdkDirectoryPathStartIndex);
 }
 
-
+const isReducedTestScopeEnabled = reducedDependencyTestMatrix[serviceDirs];
+if (isReducedTestScopeEnabled) {
+  // If a service is configured to have reduced test matrix then run rush for those reduced projects
+  console.log(`Found reduced test matrix configured for ${serviceDirs}.`);
+  packageNames.push(...reducedDependencyTestMatrix[serviceDirs]);
+}
 const rushx_runner_path = path.join(baseDir, "common/scripts/install-run-rushx.js");
 if (serviceDirs.length === 0) {
   spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...rushParams);
@@ -141,20 +168,31 @@ if (serviceDirs.length === 0) {
   const actionComponents = action.toLowerCase().split(":");
   switch (actionComponents[0]) {
     case "build":
-      if (actionComponents.length == 1) {
-        rushRunAll("--from", packageNames);
+      // Build command without any additional option should build the project and downstream
+      // If service is configured to run only a set of downstream projects then build all projects leading to them to support testing
+      // if this is build:test for any non-configured package service then all impacted projects downstream and it's dependents should be built
+      var rushCommandFlag = "--impacted-by";
+      if (isReducedTestScopeEnabled) {
+        // reduced preconfigured set of projects and it's required projects
+        rushCommandFlag = "--to";
       }
-      else {
-        // build:samples or build:test doesn't have to build dependent packages
-        // This should use impacted-by to build from current package to downstream
-        rushRunAll("--impacted-by", packageNames);
+      else if (actionComponents.length == 1) {
+        rushCommandFlag = "--from";
       }
+
+      rushRunAll(rushCommandFlag, packageNames);
       break;
 
     case "test":
     case "unit-test":
     case "integration-test":
-      rushRunAll("--impacted-by", packageNames);
+      var rushCommandFlag = "--impacted-by";
+      if (isReducedTestScopeEnabled) {
+        // If a service is configured to have reduced test matrix then run rush test only for those projects
+        rushCommandFlag = "--only";
+      }
+
+      rushRunAll(rushCommandFlag, packageNames);
       break;
 
     case "lint":

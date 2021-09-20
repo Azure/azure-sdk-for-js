@@ -6,7 +6,7 @@
 import Sinon from "sinon";
 import assert from "assert";
 
-import { env } from "@azure/test-utils-recorder";
+import { env } from "@azure-tools/test-recorder";
 import { PublicClientApplication } from "@azure/msal-node";
 
 import { UsernamePasswordCredential, TokenCachePersistenceOptions } from "../../../../identity/src";
@@ -48,7 +48,7 @@ describe("UsernamePasswordCredential (internal)", function(this: Mocha.Suite) {
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
       enabled: true,
       name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
-      allowUnencryptedStorage: true
+      unsafeAllowUnencryptedStorage: true
     };
 
     // Emptying the token cache before we start.
@@ -78,7 +78,7 @@ describe("UsernamePasswordCredential (internal)", function(this: Mocha.Suite) {
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
       enabled: true,
       name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
-      allowUnencryptedStorage: true
+      unsafeAllowUnencryptedStorage: true
     };
 
     // Emptying the token cache before we start.

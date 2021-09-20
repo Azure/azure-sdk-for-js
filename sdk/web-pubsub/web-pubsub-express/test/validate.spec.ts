@@ -12,7 +12,7 @@ describe("Abuse protection works", function() {
     const res = new ServerResponse(req);
     const dispatcher = new CloudEventsDispatcher("hub", ["*"]);
 
-    var result = dispatcher.processValidateRequest(req, res);
+    const result = dispatcher.processValidateRequest(req, res);
     assert.isFalse(result);
   });
 
@@ -22,7 +22,7 @@ describe("Abuse protection works", function() {
     const res = new ServerResponse(req);
     const dispatcher = new CloudEventsDispatcher("hub", ["*"]);
 
-    var result = dispatcher.processValidateRequest(req, res);
+    const result = dispatcher.processValidateRequest(req, res);
     assert.isTrue(result);
     assert.equal("*", res.getHeader("webhook-allowed-origin"));
   });
@@ -33,7 +33,7 @@ describe("Abuse protection works", function() {
     const res = new ServerResponse(req);
     const dispatcher = new CloudEventsDispatcher("hub", ["*", "https://a.com/c"]);
 
-    var result = dispatcher.processValidateRequest(req, res);
+    const result = dispatcher.processValidateRequest(req, res);
     assert.isTrue(result);
     assert.equal("*,a.com", res.getHeader("webhook-allowed-origin"));
   });

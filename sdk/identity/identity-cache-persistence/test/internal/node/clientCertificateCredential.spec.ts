@@ -7,7 +7,7 @@ import Sinon from "sinon";
 import assert from "assert";
 import * as path from "path";
 
-import { env, isPlaybackMode } from "@azure/test-utils-recorder";
+import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 
 import {
@@ -62,7 +62,7 @@ describe("ClientCertificateCredential (internal)", function(this: Mocha.Suite) {
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
       enabled: true,
       name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
-      allowUnencryptedStorage: true
+      unsafeAllowUnencryptedStorage: true
     };
 
     // Emptying the token cache before we start.
@@ -97,7 +97,7 @@ describe("ClientCertificateCredential (internal)", function(this: Mocha.Suite) {
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
       enabled: true,
       name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
-      allowUnencryptedStorage: true
+      unsafeAllowUnencryptedStorage: true
     };
 
     // Emptying the token cache before we start.

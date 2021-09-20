@@ -22,7 +22,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a ApplicationGatewayPrivateLinkResources. */
+/** Class containing ApplicationGatewayPrivateLinkResources operations. */
 export class ApplicationGatewayPrivateLinkResourcesImpl
   implements ApplicationGatewayPrivateLinkResources {
   private readonly client: NetworkManagementClientContext;

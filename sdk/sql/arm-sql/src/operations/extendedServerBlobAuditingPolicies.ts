@@ -28,7 +28,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a ExtendedServerBlobAuditingPolicies. */
+/** Class containing ExtendedServerBlobAuditingPolicies operations. */
 export class ExtendedServerBlobAuditingPoliciesImpl
   implements ExtendedServerBlobAuditingPolicies {
   private readonly client: SqlManagementClientContext;

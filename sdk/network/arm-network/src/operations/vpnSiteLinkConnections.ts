@@ -16,7 +16,7 @@ import {
   VpnSiteLinkConnectionsGetResponse
 } from "../models";
 
-/** Class representing a VpnSiteLinkConnections. */
+/** Class containing VpnSiteLinkConnections operations. */
 export class VpnSiteLinkConnectionsImpl implements VpnSiteLinkConnections {
   private readonly client: NetworkManagementClientContext;
 

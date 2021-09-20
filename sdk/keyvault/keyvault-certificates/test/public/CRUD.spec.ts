@@ -8,7 +8,7 @@ import childProcess from "child_process";
 import { assert } from "chai";
 import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
 
-import { env, Recorder } from "@azure/test-utils-recorder";
+import { env, Recorder } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
 import { SecretClient } from "@azure/keyvault-secrets";
 import { ClientSecretCredential } from "@azure/identity";
@@ -220,7 +220,10 @@ describe("Certificates client - create, read, update and delete", () => {
   });
 
   it("can get a certificate's secret in PKCS 12 format", async function(this: Context) {
-    recorder.skip("browser", "This test uses the file system.");
+    recorder.skip(
+      undefined,
+      "This test uses the file system and the certificate value has been sanitized in recordings."
+    );
     // Skipping this test from the live browser test runs, because we use the file system.
     if (!isNode) {
       this.skip();

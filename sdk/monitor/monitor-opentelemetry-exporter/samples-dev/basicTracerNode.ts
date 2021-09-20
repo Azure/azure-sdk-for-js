@@ -11,7 +11,7 @@
 
 import * as opentelemetry from "@opentelemetry/api";
 import { Resource } from "@opentelemetry/resources";
-import { ResourceAttributes } from "@opentelemetry/semantic-conventions";
+import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
 import { BasicTracerProvider, SimpleSpanProcessor } from "@opentelemetry/tracing";
 import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
 
@@ -21,7 +21,7 @@ dotenv.config();
 
 const provider = new BasicTracerProvider({
   resource: new Resource({
-    [ResourceAttributes.SERVICE_NAME]: "basic-service"
+    [SemanticResourceAttributes.SERVICE_NAME]: "basic-service"
   })
 });
 

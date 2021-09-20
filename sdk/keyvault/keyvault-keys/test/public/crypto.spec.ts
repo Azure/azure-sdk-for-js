@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
 import { Context } from "mocha";
 import { createHash } from "crypto";
-import { Recorder, env, isLiveMode } from "@azure/test-utils-recorder";
+import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 
 import { CryptographyClient, KeyVaultKey, KeyClient } from "../../src";
@@ -303,7 +303,10 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     ] as const) {
       it(`sign / signData and verify / verifyData using ${signatureAlgorithm}`, async function(this: Context) {
         keyVaultKey = await client.createEcKey(keyName, { curve: keyCurve });
-        cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
+        // Implicitly test the getCryptographyClient method here
+        cryptoClient = client.getCryptographyClient(keyVaultKey.name, {
+          keyVersion: keyVaultKey.properties.version
+        });
         const data = Buffer.from("my message");
 
         // Sign and verify

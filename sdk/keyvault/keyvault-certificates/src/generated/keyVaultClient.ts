@@ -12,7 +12,7 @@ import * as Mappers from "./models/mappers";
 import { KeyVaultClientContext } from "./keyVaultClientContext";
 import {
   KeyVaultClientOptionalParams,
-  ApiVersion72,
+  ApiVersion73Preview,
   KeyVaultClientGetCertificatesOptionalParams,
   KeyVaultClientGetCertificatesResponse,
   KeyVaultClientDeleteCertificateResponse,
@@ -69,7 +69,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
    * @param options The parameter options
    */
   constructor(
-    apiVersion: ApiVersion72,
+    apiVersion: ApiVersion73Preview,
     options?: KeyVaultClientOptionalParams
   ) {
     super(apiVersion, options);
@@ -321,10 +321,10 @@ export class KeyVaultClient extends KeyVaultClientContext {
   }
 
   /**
-   * Imports an existing valid certificate, containing a private key, into Azure Key Vault. The
-   * certificate to be imported can be in either PFX or PEM format. If the certificate is in PEM format
-   * the PEM file must contain the key as well as x509 certificates. This operation requires the
-   * certificates/import permission.
+   * Imports an existing valid certificate, containing a private key, into Azure Key Vault. This
+   * operation requires the certificates/import permission. The certificate to be imported can be in
+   * either PFX or PEM format. If the certificate is in PEM format the PEM file must contain the key as
+   * well as x509 certificates. Key Vault will only accept a key in PKCS#8 format.
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
    * @param base64EncodedCertificate Base64 encoded representation of the certificate object to import.

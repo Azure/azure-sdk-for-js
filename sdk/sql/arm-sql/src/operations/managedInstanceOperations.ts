@@ -25,7 +25,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a ManagedInstanceOperations. */
+/** Class containing ManagedInstanceOperations operations. */
 export class ManagedInstanceOperationsImpl
   implements ManagedInstanceOperations {
   private readonly client: SqlManagementClientContext;

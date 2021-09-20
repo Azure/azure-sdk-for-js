@@ -32,7 +32,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a DeletedServers. */
+/** Class containing DeletedServers operations. */
 export class DeletedServersImpl implements DeletedServers {
   private readonly client: SqlManagementClientContext;
 

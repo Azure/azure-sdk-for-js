@@ -22,7 +22,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a LoadBalancerNetworkInterfaces. */
+/** Class containing LoadBalancerNetworkInterfaces operations. */
 export class LoadBalancerNetworkInterfacesImpl
   implements LoadBalancerNetworkInterfaces {
   private readonly client: NetworkManagementClientContext;

@@ -181,7 +181,10 @@ Headers: {
       "https://foo.com",
       "PUT",
       { a: 1 },
-      { "api-version": "1.0", secret: "goose" }
+      {
+        "api-version": "1.0",
+        secret: "SecretPlaceholder"
+      }
     );
     delete (request as any).requestId;
     assertLog(request, expected, done);

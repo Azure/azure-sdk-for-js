@@ -36,7 +36,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a SyncAgents. */
+/** Class containing SyncAgents operations. */
 export class SyncAgentsImpl implements SyncAgents {
   private readonly client: SqlManagementClientContext;
 

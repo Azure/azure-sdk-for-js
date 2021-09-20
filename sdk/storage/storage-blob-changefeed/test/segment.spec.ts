@@ -65,8 +65,8 @@ describe("Segment", async () => {
 
     const shardRemainingCount = shardCount - 1;
     for (let i = 0; i < shardRemainingCount; i++) {
-      const event = await segment.getChange();
-      assert.equal(event, (i + 2) % shardCount);
+      const changedEvent = await segment.getChange();
+      assert.equal(changedEvent, (i + 2) % shardCount);
     }
     const event2 = await segment.getChange();
     assert.equal(event2, 2);

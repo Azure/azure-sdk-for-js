@@ -90,20 +90,33 @@ function Set-EnvironmentVariables {
 
 function New-DeployManifest {
   Write-Verbose "Detecting samples..."
-  $javascriptSamples = (Get-ChildItem -Path "$repoRoot/sdk/$ServiceDirectory/*/samples/javascript/" -Directory
-    | Where-Object { Test-Path "$_/package.json" })
+  $packageDir = Get-ChildItem -Directory -Path "$repoRoot/sdk/$ServiceDirectory/*"
+
+  $javascriptSamples = @()
+  $packageDir.ForEach{
+    $versions = (Get-Item "$_/samples/*").Name
+    $newestVer = $versions | Sort-Object {[int]($_ -replace '[^0-9]' -replace '(\d+).*', '$1')} -Descending | Select-Object -First 1
+    if($versions -contains $newestVer+"-beta") {
+      $newestVer += "-beta"
+    }
+    $javascriptSamples += Get-ChildItem -Path "$_/samples/$newestVer/javascript/" -Recurse -Include package.json
+  }
 
   $manifest = $javascriptSamples | ForEach-Object {
-    # Example: azure-sdk-for-js/sdk/appconfiguration/app-configuration/samples/javascript
+    # Example: azure-sdk-for-js/sdk/appconfiguration/app-configuration/samples/v1/javascript
+    $PackagePath = (Join-Path $_ ../../../../) | Get-Item
     @{
       # Package name for example "app-configuration"
-      Name               = ((Join-Path $_ ../../) | Get-Item).Name;
+      Name               = $PackagePath.Name;
 
       # Path to "app-configuration" part from example
-      PackageDirectory   = ((Join-Path $_ ../../) | Get-Item).FullName;
+      PackageDirectory   = $PackagePath.FullName;
 
       # Service Directory for example "appconfiguration"
-      ResourcesDirectory = ((Join-Path $_ ../../../) | Get-Item).Name;
+      ResourcesDirectory = $PackagePath.Parent.Name;
+
+      # Path to "javascript"
+      SamplesDirectory   = $_.Directoryname;
     }
   }
 
@@ -113,12 +126,12 @@ function New-DeployManifest {
 function Update-SamplesForService {
   Param([Parameter(Mandatory = $true)] $entry)
 
-  Write-Verbose "Preparing samples for $($entry.Name)"
-  dev-tool samples prep --directory $entry.PackageDirectory --use-packages
-
-  # Resolve full path for samples location. This has to be set after sample
-  # prep because the directory will not resolve until the folder exists.
-  $entry.SamplesDirectory = Join-Path -Path $entry.PackageDirectory -ChildPath 'dist-samples/javascript' -Resolve
+  $sampleFiles = Get-ChildItem "$($entry.SamplesDirectory)/*.js"
+  foreach ($sampleFile in $sampleFiles) {
+    $fileContent = Get-Content -Raw $sampleFile
+    $fileContent = $fileContent -replace "(?s)main\(\)\.catch.*", "module.exports = { main };`n"
+    Set-Content -Path $sampleFile -Value $fileContent
+  }
 }
 
 function Update-SampleDependencies {

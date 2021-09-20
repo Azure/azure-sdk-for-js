@@ -7,7 +7,7 @@ import Sinon from "sinon";
 import { assert } from "chai";
 import * as path from "path";
 import { AbortController } from "@azure/abort-controller";
-import { env, isPlaybackMode, delay } from "@azure/test-utils-recorder";
+import { env, isPlaybackMode, delay } from "@azure-tools/test-recorder";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import { ClientCertificateCredential, RegionalAuthority } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
@@ -79,14 +79,19 @@ describe("ClientCertificateCredential (internal)", function() {
     });
   });
 
-  it("throws when given a file that doesn't contain a PEM-formatted certificate", () => {
-    assert.throws(() => {
-      new ClientCertificateCredential(
-        "tenant",
-        "client",
-        path.resolve(__dirname, "../src/index.ts")
-      );
-    });
+  it("throws when given a file that doesn't contain a PEM-formatted certificate", async function(this: Context) {
+    const fullPath = path.resolve(__dirname, "../src/index.ts");
+    const credential = new ClientCertificateCredential("tenant", "client", fullPath);
+
+    let error: Error | undefined;
+    try {
+      await credential.getToken(scope);
+    } catch (_error) {
+      error = _error;
+    }
+
+    assert.ok(error);
+    assert.deepEqual(error?.message, `ENOENT: no such file or directory, open '${fullPath}'`);
   });
 
   it("Authenticates silently after the initial request", async function(this: Context) {

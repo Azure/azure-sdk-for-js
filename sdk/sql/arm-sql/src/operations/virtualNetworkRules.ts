@@ -29,7 +29,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a VirtualNetworkRules. */
+/** Class containing VirtualNetworkRules operations. */
 export class VirtualNetworkRulesImpl implements VirtualNetworkRules {
   private readonly client: SqlManagementClientContext;
 

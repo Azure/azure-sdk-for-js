@@ -21,5 +21,5 @@ disable-async-iterators: true
 hide-clients: true
 use-extension:
   "@autorest/typescript": "6.0.0-beta.4"
-package-version: 1.0.0-beta.5
+package-version: 1.0.0-beta.6
 ```

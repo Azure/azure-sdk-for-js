@@ -3,7 +3,7 @@
 
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
-import { isPlaybackMode } from "@azure/test-utils-recorder";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
 
 if (isNode) {
   dotenv.config();
