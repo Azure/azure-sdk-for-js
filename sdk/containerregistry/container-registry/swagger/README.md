@@ -49,4 +49,24 @@ directive:
       delete $.get
 ```
 
+### Remove "definitions.TagAttributesBase.properties.signed"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.TagAttributesBase
+    transform: >
+      delete $.properties.signed
+```
+
+### Remove "definitions.ManifestAttributesBase.properties.configMediaType"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.ManifestAttributesBase
+    transform: >
+      delete $.properties.configMediaType
+```
+
 
