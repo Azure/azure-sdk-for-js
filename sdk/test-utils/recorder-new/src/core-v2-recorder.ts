@@ -19,7 +19,7 @@ import {
 } from "@azure-tools/test-recorder";
 import { RecorderError, RecordingStateManager } from "./utils";
 import { isNode } from "@azure/test-utils";
-import { Suite } from "mocha";
+import { Test } from "mocha";
 
 const paths = {
   playback: "/playback",
@@ -44,12 +44,7 @@ export class TestProxyHttpClient {
   private playback: boolean;
   private sessionFile: string;
 
-  constructor(
-    private testContext?: {
-      parent?: Suite | undefined;
-      title?: string;
-    }
-  ) {
+  constructor(private testContext?: Test | undefined) {
     if (!this.testContext) {
       // throw error in record and playback modes saying that file path is undetermined
       throw new Error("");
