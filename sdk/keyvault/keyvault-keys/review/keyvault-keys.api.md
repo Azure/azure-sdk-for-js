@@ -308,7 +308,7 @@ export interface KeyRotationLifetimeAction {
 
 // @public
 export interface KeyRotationPolicy extends KeyRotationPolicyProperties {
-    readonly createdOn: Date;
+    readonly createdOn?: Date;
     readonly id: string;
     readonly updatedOn?: Date;
 }
