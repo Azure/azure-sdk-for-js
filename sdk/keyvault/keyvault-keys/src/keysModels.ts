@@ -620,15 +620,19 @@ export interface RotateKeyOptions extends coreHttp.OperationOptions {}
 
 /**
  * The properties of a key rotation policy that the client can set for a given key.
+ *
+ * You may also reset the key rotation policy to its default values by setting lifetimeActions to an empty array.
  */
 export interface KeyRotationPolicyProperties {
   /**
-   * The expiry time of the policy that will be applied on new key versions, defined as an ISO 8601 duration.
+   * Optional key expiration period used to define the duration after which a newly rotated key will expire, defined as an ISO 8601 duration.
    */
   expiresIn?: string;
 
   /**
    * Actions that will be performed by Key Vault over the lifetime of a key.
+   *
+   * You may also pass an empty array to restore to its default values.
    */
   lifetimeActions?: KeyRotationLifetimeAction[];
 }
@@ -639,16 +643,19 @@ export interface KeyRotationPolicyProperties {
 export interface KeyRotationPolicy extends KeyRotationPolicyProperties {
   /**
    * The identifier of the Key Rotation Policy.
+   * May be undefined if a policy has not been explicitly set.
    */
-  readonly id: string;
+  readonly id?: string;
 
   /**
    * The created time in UTC.
+   * May be undefined if a policy has not been explicitly set.
    */
   readonly createdOn?: Date;
 
   /**
    * The last updated time in UTC.
+   * May be undefined if a policy has not been explicitly set.
    */
   readonly updatedOn?: Date;
 }

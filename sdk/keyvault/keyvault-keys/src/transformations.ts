@@ -154,7 +154,7 @@ export const keyRotationTransformations = {
   },
   generatedToPublic(generated: GeneratedPolicy): KeyRotationPolicy {
     const policy: KeyRotationPolicy = {
-      id: generated.id!,
+      id: generated.id,
       createdOn: generated.attributes?.created,
       updatedOn: generated.attributes?.updated,
       expiresIn: generated.attributes?.expiryTime,
