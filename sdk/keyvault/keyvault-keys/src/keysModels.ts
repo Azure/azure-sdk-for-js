@@ -645,7 +645,7 @@ export interface KeyRotationPolicy extends KeyRotationPolicyProperties {
   /**
    * The created time in UTC.
    */
-  readonly createdOn: Date;
+  readonly createdOn?: Date;
 
   /**
    * The last updated time in UTC.
