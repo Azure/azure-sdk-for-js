@@ -6,7 +6,7 @@ import { env } from "@azure-tools/test-recorder";
 import { expect } from "chai";
 import { TestProxyHttpClient } from "../src";
 import { RecorderError, RecordingStateManager } from "../src/utils";
-import { Suite } from "mocha";
+import { Test } from "mocha";
 
 describe("TestProxyClient functions", () => {
   afterEach(() => {
@@ -25,7 +25,7 @@ describe("TestProxyClient functions", () => {
   const fakeTestContext = {
     parent: { fullTitle: () => "" },
     title: "dummy_file_name"
-  } as Suite;
+  } as Test;
   describe("redirectRequest method", () => {
     it("request unchanged if not playback or record modes", function() {
       env.TEST_MODE = "live";
