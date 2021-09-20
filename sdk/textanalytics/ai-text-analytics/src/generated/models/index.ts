@@ -207,7 +207,7 @@ export interface TasksStateTasks {
   sentimentAnalysisTasks?: TasksStateTasksSentimentAnalysisTasksItem[];
   extractiveSummarizationTasks?: TasksStateTasksExtractiveSummarizationTasksItem[];
   customEntityRecognitionTasks?: TasksStateTasksCustomEntityRecognitionTasksItem[];
-  customSingleClassificationTasks?: TasksStateTasksCustomSingleClassificationTasksItem[];
+  customClassificationTasks?: TasksStateTasksCustomClassificationTasksItem[];
   customMultiClassificationTasks?: TasksStateTasksCustomMultiClassificationTasksItem[];
 }
 
@@ -790,7 +790,7 @@ export type TasksStateTasksExtractiveSummarizationTasksItem = TaskState &
 export type TasksStateTasksCustomEntityRecognitionTasksItem = TaskState &
   CustomEntitiesTaskResult & {};
 
-export type TasksStateTasksCustomSingleClassificationTasksItem = TaskState &
+export type TasksStateTasksCustomClassificationTasksItem = TaskState &
   CustomSingleClassificationTaskResult & {};
 
 export type TasksStateTasksCustomMultiClassificationTasksItem = TaskState &

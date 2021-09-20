@@ -551,14 +551,14 @@ export const CustomEntitiesTaskParameters: coreClient.CompositeMapper = {
     className: "CustomEntitiesTaskParameters",
     modelProperties: {
       projectName: {
-        serializedName: "projectName",
+        serializedName: "project-name",
         required: true,
         type: {
           name: "String"
         }
       },
       deploymentName: {
-        serializedName: "deploymentName",
+        serializedName: "deployment-name",
         required: true,
         type: {
           name: "String"
@@ -603,14 +603,14 @@ export const CustomSingleClassificationTaskParameters: coreClient.CompositeMappe
     className: "CustomSingleClassificationTaskParameters",
     modelProperties: {
       projectName: {
-        serializedName: "projectName",
+        serializedName: "project-name",
         required: true,
         type: {
           name: "String"
         }
       },
       deploymentName: {
-        serializedName: "deploymentName",
+        serializedName: "deployment-name",
         required: true,
         type: {
           name: "String"
@@ -649,14 +649,14 @@ export const CustomMultiClassificationTaskParameters: coreClient.CompositeMapper
     className: "CustomMultiClassificationTaskParameters",
     modelProperties: {
       projectName: {
-        serializedName: "projectName",
+        serializedName: "project-name",
         required: true,
         type: {
           name: "String"
         }
       },
       deploymentName: {
-        serializedName: "deploymentName",
+        serializedName: "deployment-name",
         required: true,
         type: {
           name: "String"
@@ -980,14 +980,14 @@ export const TasksStateTasks: coreClient.CompositeMapper = {
           }
         }
       },
-      customSingleClassificationTasks: {
-        serializedName: "customSingleClassificationTasks",
+      customClassificationTasks: {
+        serializedName: "customClassificationTasks",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "TasksStateTasksCustomSingleClassificationTasksItem"
+              className: "TasksStateTasksCustomClassificationTasksItem"
             }
           }
         }
@@ -3299,10 +3299,10 @@ export const TasksStateTasksCustomEntityRecognitionTasksItem: coreClient.Composi
   }
 };
 
-export const TasksStateTasksCustomSingleClassificationTasksItem: coreClient.CompositeMapper = {
+export const TasksStateTasksCustomClassificationTasksItem: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "TasksStateTasksCustomSingleClassificationTasksItem",
+    className: "TasksStateTasksCustomClassificationTasksItem",
     modelProperties: {
       ...TaskState.type.modelProperties,
       ...CustomSingleClassificationTaskResult.type.modelProperties

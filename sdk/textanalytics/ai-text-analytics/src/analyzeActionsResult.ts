@@ -72,15 +72,15 @@ export interface AnalyzeActionsResult {
   /**
    * Array of the results for each recognize custom entities action.
    */
-  customRecognizeEntities?: CustomRecognizeEntitiesActionResult[];
+  customRecognizeEntitiesResults: CustomRecognizeEntitiesActionResult[];
   /**
    * Array of the results for each custom classify document single category action.
    */
-  customClassifyDocumentSingleCategory?: CustomClassifyDocumentSingleCategoryActionResult[];
+  customClassifyDocumentSingleCategoryResults: CustomClassifyDocumentSingleCategoryActionResult[];
   /**
    * Array of the results for each custom classify document multi categories action.
    */
-  customClassifyDocumentMultiCategories?: CustomClassifyDocumentMultiCategoriesActionResult[];
+  customClassifyDocumentMultiCategoriesResults: CustomClassifyDocumentMultiCategoriesActionResult[];
 }
 
 /**
@@ -637,19 +637,19 @@ export function createAnalyzeActionsResult(
       response.tasks.extractiveSummarizationTasks ?? [],
       extractSummarySentencesActionErrors
     ),
-    customRecognizeEntities: makeActionResult(
+    customRecognizeEntitiesResults: makeActionResult(
       documents,
       makeCustomRecognizeEntitiesResultArray,
       response.tasks.customEntityRecognitionTasks ?? [],
       customRecognizeEntitiesActionErrors
     ),
-    customClassifyDocumentSingleCategory: makeActionResult(
+    customClassifyDocumentSingleCategoryResults: makeActionResult(
       documents,
       makeCustomClassifyDocumentSingleCategoryResultArray,
-      response.tasks.customSingleClassificationTasks ?? [],
+      response.tasks.customClassificationTasks ?? [],
       customClassifyDocumentSingleCategoryActionErrors
     ),
-    customClassifyDocumentMultiCategories: makeActionResult(
+    customClassifyDocumentMultiCategoriesResults: makeActionResult(
       documents,
       makeCustomClassifyDocumentMultiCategoriesResultArray,
       response.tasks.customMultiClassificationTasks ?? [],

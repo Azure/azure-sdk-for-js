@@ -35,9 +35,9 @@ export type AnalyzeActionsPollerLike = PollerLike<AnalyzeActionsOperationState, 
 // @public
 export interface AnalyzeActionsResult {
     analyzeSentimentResults: AnalyzeSentimentActionResult[];
-    customClassifyDocumentMultiCategories?: CustomClassifyDocumentMultiCategoriesActionResult[];
-    customClassifyDocumentSingleCategory?: CustomClassifyDocumentSingleCategoryActionResult[];
-    customRecognizeEntities?: CustomRecognizeEntitiesActionResult[];
+    customClassifyDocumentMultiCategoriesResults: CustomClassifyDocumentMultiCategoriesActionResult[];
+    customClassifyDocumentSingleCategoryResults: CustomClassifyDocumentSingleCategoryActionResult[];
+    customRecognizeEntitiesResults: CustomRecognizeEntitiesActionResult[];
     extractKeyPhrasesResults: ExtractKeyPhrasesActionResult[];
     extractSummaryResults: ExtractSummaryActionResult[];
     recognizeEntitiesResults: RecognizeCategorizedEntitiesActionResult[];
@@ -789,9 +789,9 @@ export interface TextAnalyticsActionErrorResult {
 // @public
 export interface TextAnalyticsActions {
     analyzeSentimentActions?: AnalyzeSentimentAction[];
-    customClassifyDocumentMultiCategories?: CustomClassifyDocumentMultiCategoriesAction[];
-    customClassifyDocumentSingleCategory?: CustomClassifyDocumentSingleCategoryAction[];
-    customRecognizeEntities?: CustomRecognizeEntitiesAction[];
+    customClassifyDocumentMultiCategoriesActions?: CustomClassifyDocumentMultiCategoriesAction[];
+    customClassifyDocumentSingleCategoryActions?: CustomClassifyDocumentSingleCategoryAction[];
+    customRecognizeEntitiesActions?: CustomRecognizeEntitiesAction[];
     extractKeyPhrasesActions?: ExtractKeyPhrasesAction[];
     extractSummaryActions?: ExtractSummaryAction[];
     recognizeEntitiesActions?: RecognizeCategorizedEntitiesAction[];
@@ -898,7 +898,6 @@ export type TokenSentimentValue = "positive" | "mixed" | "negative";
 
 // @public
 export type WarningCode = string;
-
 
 // (No @packageDocumentation comment for this package)
 
