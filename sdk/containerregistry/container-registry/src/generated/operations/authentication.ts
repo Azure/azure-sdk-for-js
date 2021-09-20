@@ -70,7 +70,8 @@ const exchangeAadAccessTokenForAcrRefreshTokenOperationSpec: coreClient.Operatio
       bodyMapper: Mappers.AcrErrors
     }
   },
-  formDataParameters: [Parameters.aadAccessToken],
+  formDataParameters: [Parameters.grantType],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.url],
   headerParameters: [Parameters.contentType3, Parameters.accept4],
   serializer
@@ -86,7 +87,8 @@ const exchangeAcrRefreshTokenForAcrAccessTokenOperationSpec: coreClient.Operatio
       bodyMapper: Mappers.AcrErrors
     }
   },
-  formDataParameters: [Parameters.acrRefreshToken],
+  formDataParameters: [Parameters.service],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.url],
   headerParameters: [Parameters.contentType3, Parameters.accept4],
   serializer

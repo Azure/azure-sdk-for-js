@@ -113,6 +113,18 @@ export const n: OperationQueryParameter = {
   }
 };
 
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2021-07-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const contentType1: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
@@ -308,8 +320,8 @@ export const contentType3: OperationParameter = {
   }
 };
 
-export const aadAccessToken: OperationParameter = {
-  parameterPath: ["options", "aadAccessToken"],
+export const grantType: OperationParameter = {
+  parameterPath: ["options", "grantType"],
   mapper: Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchemaMapper
 };
 
@@ -325,7 +337,7 @@ export const accept4: OperationParameter = {
   }
 };
 
-export const acrRefreshToken: OperationParameter = {
-  parameterPath: ["options", "acrRefreshToken"],
+export const service: OperationParameter = {
+  parameterPath: ["options", "service"],
   mapper: PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchemaMapper
 };
