@@ -23,3 +23,20 @@ use-extension:
   "@autorest/typescript": "6.0.0-beta.4"
 package-version: 1.0.0-beta.6
 ```
+
+## Customizations for Track 2 Generator
+
+See the [AutoRest samples](https://github.com/Azure/autorest/tree/master/Samples/3b-custom-transformations)
+for more about how we're customizing things.
+
+### Remove response for "ContainerRegistry_DeleteRepository" operation
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["paths"]["/acr/v1/{name}"]
+    transform: >
+      delete $.delete["responses"]["202"].schema
+```
+
+
