@@ -18,7 +18,7 @@ import {
 } from "rhea";
 import { convertBufferToMessages } from "../utils/convertBufferToMessage";
 
-export interface StartOptions {
+export interface MockServerOptions {
   /**
    * The port number the server should listen on.
    * If not specified, an open port will be chosen at random.
@@ -121,9 +121,11 @@ export interface OnMessagesEvent {
 export class MockServer extends EventEmitter {
   private _container: Container;
   private _listener?: ReturnType<Container["listen"]>;
+  private _options: MockServerOptions;
 
-  constructor() {
+  constructor(options: MockServerOptions = {}) {
     super();
+    this._options = options;
     this._container = create_container();
   }
 
@@ -140,11 +142,11 @@ export class MockServer extends EventEmitter {
   }
 
   /**
-   * Starts the server using the specified options.
-   * @param options
+   * Starts the server.
    */
-  public start(options: StartOptions = {}): Promise<void> {
+  public start(): Promise<void> {
     return new Promise((resolve, reject) => {
+      const options = this._options;
       const ONE_MB = 1024 * 1024;
       const listenOptions: ListenOptions & ConnectionOptions & any = {
         port: options.port ?? 0,
@@ -254,11 +256,13 @@ export class MockServer extends EventEmitter {
     }
     return new Promise((resolve, reject) => {
       listener.close((err) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve();
-        }
+        setTimeout(() => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve();
+          }
+        }, 0);
       });
     });
   }
@@ -343,7 +347,10 @@ export class MockServer extends EventEmitter {
       : [message];
 
     for (const m of incomingMessages) {
-      if (m.body?.content) {
+      // The multiple check detects if an AMQP message is actually a batch of messages.
+      // If it is, then content is an array of individual AMQP messages.
+      // Otherwise, it's the content of a single AMQP message (e.g. sequence body type).
+      if (m.body.multiple && m.body?.content) {
         m.body = m.body.content;
       }
     }

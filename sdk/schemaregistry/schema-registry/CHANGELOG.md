@@ -6,6 +6,13 @@
 
 ### Breaking Changes
 
+- renames `SchemaDescription`'s `group` to `groupName`
+- renames `SchemaId` to `SchemaProperties`
+- renames `getSchemaById` to `getSchema`
+- renames `GetSchemaByIdOptions` to `GetSchemaOptions`
+- `getSchema` and `getSchemaProperties` no longer return `undefined` if the schema was not registered
+- renames `content` to `definition`, `serializationType` to `format`, and `KnownSerializationType` to `KnownSchemaFormat`
+
 ### Bugs Fixed
 
 ### Other Changes

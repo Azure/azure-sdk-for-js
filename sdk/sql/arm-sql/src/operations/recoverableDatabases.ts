@@ -22,7 +22,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a RecoverableDatabases. */
+/** Class containing RecoverableDatabases operations. */
 export class RecoverableDatabasesImpl implements RecoverableDatabases {
   private readonly client: SqlManagementClientContext;
 

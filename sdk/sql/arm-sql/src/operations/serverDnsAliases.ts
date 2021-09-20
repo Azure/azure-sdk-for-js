@@ -32,7 +32,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a ServerDnsAliases. */
+/** Class containing ServerDnsAliases operations. */
 export class ServerDnsAliasesImpl implements ServerDnsAliases {
   private readonly client: SqlManagementClientContext;
 

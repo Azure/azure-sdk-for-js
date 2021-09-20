@@ -1,6 +1,6 @@
 {
   "name": "@azure/container-registry",
-  "version": "1.0.0-beta.5",
+  "version": "1.0.0-beta.6",
   "description": "An isomorphic client library for the Azure Container Registry service.",
   "sdk-type": "client",
   "main": "dist/index.js",

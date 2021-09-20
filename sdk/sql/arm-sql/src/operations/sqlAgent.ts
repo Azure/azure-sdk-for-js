@@ -19,7 +19,7 @@ import {
   SqlAgentCreateOrUpdateResponse
 } from "../models";
 
-/** Class representing a SqlAgent. */
+/** Class containing SqlAgent operations. */
 export class SqlAgentImpl implements SqlAgent {
   private readonly client: SqlManagementClientContext;
 

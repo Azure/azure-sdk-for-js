@@ -29,7 +29,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a ManagedInstancePrivateEndpointConnections. */
+/** Class containing ManagedInstancePrivateEndpointConnections operations. */
 export class ManagedInstancePrivateEndpointConnectionsImpl
   implements ManagedInstancePrivateEndpointConnections {
   private readonly client: SqlManagementClientContext;

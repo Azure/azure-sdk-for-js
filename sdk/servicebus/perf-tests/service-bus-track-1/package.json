@@ -1,0 +1,48 @@
+{
+  "name": "@azure-tests/perf-service-bus-track-1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@azure/service-bus": "^1.1.10",
+    "@azure/service-bus-v7": "npm:@azure/service-bus@^7.0.0",
+    "@azure/test-utils-perfstress": "file:../../../test-utils/perfstress/azure-test-utils-perfstress-1.0.0.tgz",
+    "dotenv": "^8.2.0",
+    "uuid": "^8.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^8.0.0",
+    "@types/uuid": "^8.0.0",
+    "prettier": "^1.16.4",
+    "ts-node": "^8.3.0",
+    "tslib": "^2.0.0",
+    "typescript": "4.1.2"
+  },
+  "private": true,
+  "scripts": {
+    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "build": "tsc -p .",
+    "build:samples": "echo skipped",
+    "build:test": "echo skipped",
+    "check-format": "prettier --list-different --config ../../../../.prettierrc.json --ignore-path ../../../../.prettierignore \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf dist dist-esm test-dist typings *.tgz *.log",
+    "format": "prettier --write --config ../../../../.prettierrc.json --ignore-path ../../../../.prettierignore \"test/**/*.ts\" \"*.{js,json}\"",
+    "integration-test:browser": "echo skipped",
+    "integration-test:node": "echo skipped",
+    "integration-test": "echo skipped",
+    "lint:fix": "eslint --no-eslintrc -c ../../../.eslintrc.internal.json package.json test --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint --no-eslintrc -c ../../../.eslintrc.internal.json package.json test --ext .ts",
+    "pack": "npm pack 2>&1",
+    "perf-test:node": "ts-node test/index.spec.ts",
+    "setup": "node ../../../../common/tools/perf-tests-track-1-setup.js",
+    "unit-test:browser": "echo skipped",
+    "unit-test:node": "echo skipped",
+    "unit-test": "echo skipped",
+    "test:browser": "echo skipped",
+    "test:node": "echo skipped",
+    "test": "echo skipped"
+  }
+}

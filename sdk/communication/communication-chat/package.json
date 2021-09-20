@@ -65,7 +65,7 @@
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/communication-common": "^1.1.0",
-    "@azure/communication-signaling": "1.0.0-beta.7",
+    "@azure/communication-signaling": "1.0.0-beta.10",
     "@azure/core-auth": "^1.3.0",
     "@azure/core-client": "^1.0.0",
     "@azure/core-rest-pipeline": "^1.1.0",

@@ -13,7 +13,7 @@ import {
 } from "rhea";
 import {
   MockServer,
-  StartOptions,
+  MockServerOptions,
   SenderOpenEvent,
   ReceiverOpenEvent,
   OnMessagesEvent,
@@ -34,7 +34,16 @@ import {
   generateBadPartitionInfoResponse
 } from "../messages/event-hubs/partitionInfo";
 
-export interface MockEventHubOptions {
+export interface IMockEventHub {
+  readonly partitionIds: string[];
+  readonly consumerGroups: Set<string>;
+  readonly port: number;
+
+  start: () => Promise<void>;
+  stop: () => Promise<void>;
+}
+
+export interface MockEventHubOptions extends MockServerOptions {
   /**
    * The number of partitions for the Event Hub.
    * Defaults to 2.
@@ -73,7 +82,7 @@ interface PartionReceiverEntityComponents {
  *
  * It stores events in memory and does not perform any auth verification.
  */
-export class MockEventHub {
+export class MockEventHub implements IMockEventHub {
   /**
    * When the EventHub was 'created'.
    */
@@ -151,7 +160,7 @@ export class MockEventHub {
     this._consumerGroups = options.consumerGroups ?? [];
     this._connectionInactivityTimeoutInMs = options.connectionInactivityTimeoutInMs ?? 0;
 
-    this._mockServer = new MockServer();
+    this._mockServer = new MockServer(options);
     this._mockServer.on("receiverOpen", this._handleReceiverOpen);
     this._mockServer.on("senderOpen", this._handleSenderOpen);
     this._mockServer.on("senderClose", this._handleSenderClose);
@@ -199,7 +208,6 @@ export class MockEventHub {
    * @param event
    */
   private _handleReceiverOpen = (event: ReceiverOpenEvent) => {
-    console.log(`Attempting to open receiver: ${event.entityPath}`);
     event.receiver.set_source(event.receiver.source);
     event.receiver.set_target(event.receiver.target);
     if (this._isReceiverPartitionEntityPath(event.entityPath)) {
@@ -228,7 +236,6 @@ export class MockEventHub {
    * @param event
    */
   private _handleSenderOpen = (event: SenderOpenEvent) => {
-    console.log(`Attempting to open sender: ${event.entityPath}`);
     event.sender.set_source(event.sender.source);
     event.sender.set_target(event.sender.target);
     if (event.entityPath === "$cbs") {
@@ -294,7 +301,7 @@ export class MockEventHub {
         // Probably should close the sender at this point.
         event.sender.close({
           condition: "amqp:internal-error",
-          description: err?.message ?? ""
+          description: (err as any)?.message ?? ""
         });
       }
     }
@@ -363,8 +370,6 @@ export class MockEventHub {
    * @param event
    */
   private _handleOnMessages = (event: OnMessagesEvent) => {
-    console.log(`message entityPath: "${event.entityPath}"`);
-
     // Handle batched messages first.
     if (event.entityPath === this._name) {
       // received a message without a partition id
@@ -481,7 +486,6 @@ export class MockEventHub {
     const maxMessageSize =
       event.context.receiver?.get_option("max_message_size", 1024 * 1024) ?? 1024 * 1024;
     if (deliverySize >= maxMessageSize) {
-      console.log("too large!");
       delivery.reject({
         condition: "amqp:link:message-size-exceeded",
         description: `The received message (delivery-id:${
@@ -697,11 +701,9 @@ export class MockEventHub {
 
   /**
    * Starts the service.
-   * @param options
    */
-  start(options: StartOptions) {
-    // this.enableDebug(1000);
-    return this._mockServer.start(options);
+  start() {
+    return this._mockServer.start();
   }
 
   /**

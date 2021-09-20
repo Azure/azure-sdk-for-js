@@ -58,7 +58,7 @@
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
     "@azure/core-lro": "^2.2.0",
-    "@azure-rest/core-client": "1.0.0-beta.6",
+    "@azure-rest/core-client": "1.0.0-beta.7",
     "tslib": "^2.2.0"
   },
   "devDependencies": {

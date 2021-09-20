@@ -22,7 +22,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a ServiceObjectives. */
+/** Class containing ServiceObjectives operations. */
 export class ServiceObjectivesImpl implements ServiceObjectives {
   private readonly client: SqlManagementClientContext;
 

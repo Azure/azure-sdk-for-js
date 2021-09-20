@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { DatabaseAccount, ResourceResponse } from "../../../src";
-import { masterKey } from "../common/_testConfig";
+import { masterKey } from "../common/_fakeTestSecrets";
 import { GlobalEndpointManager } from "../../../src";
 import { OperationType, ResourceType } from "../../../src";
 

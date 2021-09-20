@@ -520,7 +520,7 @@ export interface ContainerListBlobsOptions extends CommonOptions {
   /**
    * Specifies whether deleted blob with versions be returned in the response.
    */
-  includeDeletedwithVersions?: boolean;
+  includeDeletedWithVersions?: boolean;
   /**
    * Specifies whether blob immutability policy be returned in the response.
    */
@@ -1493,7 +1493,7 @@ export class ContainerClient extends StorageClient {
     if (options.includeTags) {
       include.push("tags");
     }
-    if (options.includeDeletedwithVersions) {
+    if (options.includeDeletedWithVersions) {
       include.push("deletedwithversions");
     }
     if (options.includeImmutabilityPolicy) {
@@ -1710,7 +1710,7 @@ export class ContainerClient extends StorageClient {
     if (options.includeTags) {
       include.push("tags");
     }
-    if (options.includeDeletedwithVersions) {
+    if (options.includeDeletedWithVersions) {
       include.push("deletedwithversions");
     }
     if (options.includeImmutabilityPolicy) {

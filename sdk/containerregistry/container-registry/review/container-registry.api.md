@@ -61,7 +61,7 @@ export class ContainerRegistryClient {
 
 // @public
 export interface ContainerRegistryClientOptions extends PipelineOptions {
-    authenticationScope?: string;
+    audience?: string;
 }
 
 // @public
@@ -147,6 +147,14 @@ export enum KnownArtifactOperatingSystem {
     Plan9 = "plan9",
     Solaris = "solaris",
     Windows = "windows"
+}
+
+// @public
+export enum KnownContainerRegistryAudience {
+    AzureResourceManagerChina = "https://management.chinacloudapi.cn",
+    AzureResourceManagerGermany = "https://management.microsoftazure.de",
+    AzureResourceManagerGovernment = "https://management.usgovcloudapi.net",
+    AzureResourceManagerPublicCloud = "https://management.azure.com"
 }
 
 // @public

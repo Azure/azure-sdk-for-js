@@ -4,8 +4,10 @@ This package contains an isomorphic SDK for LogAnalyticsClient.
 
 ### Currently supported environments
 
-- Node.js version 6.x.x or higher
-- Browser JavaScript
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
 ### How to Install
 
@@ -24,14 +26,15 @@ npm install @azure/ms-rest-nodeauth
 ```
 
 ##### Sample code
-
 ```ts
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { LogAnalyticsClient, LogAnalyticsModels, LogAnalyticsMappers } from "@azure/loganalytics";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
-msRestNodeAuth.interactiveLogin().then((creds) => {
+msRestNodeAuth.interactiveLogin({
+  tokenAudience: "https://api.loganalytics.io"
+}).then((creds) => {
   const client = new LogAnalyticsClient(creds, subscriptionId);
   const workspaceId = "testworkspaceId";
   const body: LogAnalyticsModels.QueryBody = {
