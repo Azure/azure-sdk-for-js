@@ -39,4 +39,14 @@ directive:
       delete $.delete["responses"]["202"].schema
 ```
 
+### Remove "Authentication_GetAcrAccessTokenFromLogin" operation
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["paths"]["/oauth2/token"]
+    transform: >
+      delete $.get
+```
+
 
