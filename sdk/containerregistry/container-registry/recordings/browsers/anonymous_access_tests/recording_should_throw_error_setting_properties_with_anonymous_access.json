@@ -3,7 +3,9 @@
   {
    "method": "PATCH",
    "url": "https://myregistry.azurecr.io/acr/v1/library%2Fhello-world",
-   "query": {},
+   "query": {
+    "api-version": "2021-07-01"
+   },
    "requestBody": "{\"deleteEnabled\":false}",
    "status": 401,
    "response": "{\"errors\":[{\"code\":\"UNAUTHORIZED\",\"message\":\"authentication required, visit https://aka.ms/acr/authorization for more information.\",\"detail\":[{\"Type\":\"repository\",\"Name\":\"library/hello-world\",\"Action\":\"metadata_write\"}]}]}\n",
@@ -12,13 +14,13 @@
     "connection": "keep-alive",
     "content-length": "223",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 27 May 2021 21:11:32 GMT",
+    "date": "Mon, 20 Sep 2021 18:55:28 GMT",
     "docker-distribution-api-version": "registry/2.0",
     "server": "openresty",
     "strict-transport-security": "max-age=31536000; includeSubDomains, max-age=31536000; includeSubDomains",
     "www-authenticate": "Bearer realm=\"https://myregistry.azurecr.io/oauth2/token\",service=\"myregistry.azurecr.io\",scope=\"repository:library/hello-world:metadata_write\"",
     "x-content-type-options": "nosniff",
-    "x-ms-correlation-request-id": "6e4b2eae-56f3-4737-9845-6f1a8f626752"
+    "x-ms-correlation-request-id": "4970a64f-e6ea-469f-9457-784291d9be69"
    }
   },
   {
@@ -31,18 +33,20 @@
    "responseHeaders": {
     "connection": "keep-alive",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 27 May 2021 21:11:32 GMT",
+    "date": "Mon, 20 Sep 2021 18:55:28 GMT",
     "server": "openresty",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "transfer-encoding": "chunked",
-    "x-ms-correlation-request-id": "c2d702ed-ad2a-4931-908c-c40d3255ed2b",
+    "x-ms-correlation-request-id": "6649916e-3736-4df6-b19e-dadcd02ca629",
     "x-ms-ratelimit-remaining-calls-per-second": "166.633333"
    }
   },
   {
    "method": "PATCH",
    "url": "https://myregistry.azurecr.io/acr/v1/library%2Fhello-world",
-   "query": {},
+   "query": {
+    "api-version": "2021-07-01"
+   },
    "requestBody": "{\"deleteEnabled\":false}",
    "status": 401,
    "response": "{\"errors\":[{\"code\":\"UNAUTHORIZED\",\"message\":\"authentication required, visit https://aka.ms/acr/authorization for more information.\",\"detail\":[{\"Type\":\"repository\",\"Name\":\"library/hello-world\",\"Action\":\"metadata_write\"}]}]}\n",
@@ -51,13 +55,13 @@
     "connection": "keep-alive",
     "content-length": "223",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 27 May 2021 21:11:33 GMT",
+    "date": "Mon, 20 Sep 2021 18:55:28 GMT",
     "docker-distribution-api-version": "registry/2.0",
     "server": "openresty",
     "strict-transport-security": "max-age=31536000; includeSubDomains, max-age=31536000; includeSubDomains",
     "www-authenticate": "Bearer realm=\"https://myregistry.azurecr.io/oauth2/token\",service=\"myregistry.azurecr.io\",scope=\"repository:library/hello-world:metadata_write\",error=\"insufficient_scope\"",
     "x-content-type-options": "nosniff",
-    "x-ms-correlation-request-id": "0d48c1f4-b430-4c02-8d8b-f83e340bebdc"
+    "x-ms-correlation-request-id": "5b719c23-b186-4d68-82b7-a2602d57582f"
    }
   }
  ],
@@ -65,5 +69,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "00bc126f304ddaf04d67625f6720bf24"
+ "hash": "e44e177d78e4bcdd2775021346a85bea"
 }
