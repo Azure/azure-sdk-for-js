@@ -87,7 +87,6 @@ export interface ContainerRepositoryProperties {
     readonly name: string;
     readonly registryLoginServer: string;
     readonly tagCount: number;
-    teleportEnabled?: boolean;
 }
 
 // @public
@@ -220,7 +219,6 @@ export interface UpdateRepositoryPropertiesOptions extends OperationOptions {
     canList?: boolean;
     canRead?: boolean;
     canWrite?: boolean;
-    teleportEnabled?: boolean;
 }
 
 // @public
