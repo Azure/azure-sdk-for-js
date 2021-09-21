@@ -118,7 +118,7 @@
 /sdk/cognitiveservices/cognitiveservices-qnamaker-runtime/ @bingisbestest @nerajput1607
 /sdk/cognitiveservices/cognitiveservices-qnamaker/ @bingisbestest @nerajput1607
 
-# PRLabel: %MixedReality
+# PRLabel: %Mixed Reality
 /sdk/mixedreality/ @craigktreasure 
 
 # PRLabel: %RemoteRendering
