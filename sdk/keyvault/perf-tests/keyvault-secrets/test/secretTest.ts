@@ -11,6 +11,7 @@ export abstract class SecretTest<TOptions = Record<string, unknown>> extends Per
 
   constructor() {
     super();
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
     this.secretClient = new SecretClient(keyVaultUri, credential, this.configureClientOptionsCoreV1({}));
   }
 

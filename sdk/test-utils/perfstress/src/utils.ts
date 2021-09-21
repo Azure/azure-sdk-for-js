@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { IncomingMessage, RequestOptions, request } from "http";
+import { IncomingMessage } from "http";
+import { RequestOptions, request } from "https";
 import { TestProxyHttpClient, TestProxyHttpClientV1 } from "./testProxyHttpClient";
 
 /**
@@ -25,7 +26,7 @@ export function getEnvVar(name: string) {
  */
 export async function drainStream(stream: NodeJS.ReadableStream) {
   return new Promise((resolve, reject) => {
-    stream.on("data", () => {});
+    stream.on("data", () => { });
     stream.on("end", resolve);
     stream.on("error", reject);
   });
