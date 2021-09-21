@@ -151,6 +151,10 @@
     ],
     "requiredResources": {
       "Azure App Configuration account": "https://docs.microsoft.com/azure/azure-app-configuration/quickstart-aspnet-core-app?tabs=core5x#create-an-app-configuration-store"
-    }
+    },
+    "skip": [
+      "featureFlag.js",
+      "secretReference.js"
+    ]
   }
 }
