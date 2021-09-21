@@ -40,8 +40,12 @@ stages:
             PEM_CONTENTS: $(net-identity-spcert-pem)
             SNI_CONTENTS: $(net-identity-spcert-sni)
       EnvVars:
-        AZURE_CLIENT_ID: $(net-identity-sp-clientid)
-        AZURE_TENANT_ID: $(net-identity-sp-tenantid)
-        AZURE_CLIENT_SECRET: $(net-identity-sp-clientsecret)
-        AZURE_CLIENT_CERTIFICATE_PATH: $(Agent.TempDirectory)/test.pem
+        AZURE_CLIENT_ID: $(net-identity-clientid)
+        AZURE_TENANT_ID: $(net-identity-tenantid)
+        AZURE_USERNAME: $(net-identity-username)
+        AZURE_PASSWORD: $(net-identity-password)
+        TEST_CERTIFICATES_AZURE_CLIENT_ID: $(net-identity-sp-clientid)
+        TEST_CERTIFICATES_AZURE_TENANT_ID: $(net-identity-sp-tenantid)
+        TEST_CERTIFICATES_AZURE_CLIENT_SECRET: $(net-identity-sp-clientsecret)
+        TEST_CERTIFICATES_AZURE_CLIENT_CERTIFICATE_PATH: $(Agent.TempDirectory)/test.pem
   
