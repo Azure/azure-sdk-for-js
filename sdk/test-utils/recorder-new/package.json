@@ -6,6 +6,9 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "types": "./types/src/index.d.ts",
+  "browser": {
+    "./dist-esm/src/utils/relativePathCalculator.js": "./dist-esm/src/utils/relativePathCalculator.browser.js"
+  },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "echo skipped",
