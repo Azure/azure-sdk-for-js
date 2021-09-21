@@ -17,7 +17,7 @@ import {
   isPlaybackMode,
   isRecordMode
 } from "@azure-tools/test-recorder";
-import { RecorderError, RecordingStateManager } from "./utils";
+import { RecorderError, RecordingStateManager } from "./utils/utils";
 import { isNode } from "@azure/test-utils";
 import { Test } from "mocha";
 
@@ -49,14 +49,25 @@ export class TestProxyHttpClient {
       // throw error in record and playback modes saying that file path is undetermined
       throw new Error("");
     } else {
-      this.sessionFile =
-        "sdk/test-utils/testing-recorder-new/recordings/" +
-        `${generateTestRecordingFilePath(
-          isNode ? "node" : "browsers",
-          this.testContext.parent!.fullTitle(),
-          this.testContext.title!,
-          "json"
-        )}`;
+      if (!isNode) {
+        this.sessionFile =
+          env.RECORDINGS_RELATIVE_PATH +
+          `${generateTestRecordingFilePath(
+            isNode ? "node" : "browsers",
+            this.testContext.parent!.fullTitle(),
+            this.testContext.title!,
+            "json"
+          )}`;
+      } else {
+        this.sessionFile =
+          "sdk/test-utils/testing-recorder-new/recordings/" +
+          `${generateTestRecordingFilePath(
+            isNode ? "node" : "browsers",
+            this.testContext.parent!.fullTitle(),
+            this.testContext.title!,
+            "json"
+          )}`;
+      }
       this.mode = env.TEST_MODE;
       this.playback = isPlaybackMode();
       this.httpClient = createDefaultHttpClient();
