@@ -18,8 +18,11 @@ import {
   ReceiverEvents,
   ReceiverOptionsWithSession
 } from "rhea-promise";
-import delay from "delay";
 import moment from "moment";
+
+function delay(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 const _start = moment();
 

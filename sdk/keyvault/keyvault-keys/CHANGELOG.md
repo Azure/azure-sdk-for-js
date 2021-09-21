@@ -6,6 +6,9 @@
 
 - Added support for `KeyClient.getCryptographyClient(keyName, options)` which provides a simple way to create a `CryptographyClient` for a given key (identified by its name).
   - An optional `keyVersion` property may be used in the `options` parameter to create a cryptography client targeting a specific key version. The latest version is used by default.
+- Added support for automated key rotation in Azure Key Vault.
+  - Added `KeyClient.rotateKey` to rotate a key on-demand.
+  - Added `KeyClient.updateKeyRotationPolicy` to update a key's automated rotation policy.
 
 ### Breaking Changes
 

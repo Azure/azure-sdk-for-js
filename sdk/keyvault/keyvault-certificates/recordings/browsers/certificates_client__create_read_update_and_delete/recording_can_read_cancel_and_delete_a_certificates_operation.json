@@ -2,28 +2,28 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/create",
+   "url": "https://keyvault_name.vault.azure.net/certificates/crudcertoperation163217583204004746/create",
    "query": {
     "api-version": "7.2"
    },
    "requestBody": "",
    "status": 401,
-   "response": "{\"error\":{\"code\":\"Unauthorized\",\"message\":\"Request is missing a Bearer or PoP token.\"}}",
+   "response": "{\"error\":{\"code\":\"Unauthorized\",\"message\":\"AKV10000: Request is missing a Bearer or PoP token.\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "87",
+    "content-length": "97",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Feb 2021 19:19:11 GMT",
+    "date": "Mon, 20 Sep 2021 22:10:31 GMT",
     "expires": "-1",
     "pragma": "no-cache",
-    "status": "401",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/12345678-1234-1234-1234-123456789012\", resource=\"https://vault.azure.net\"",
     "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "4933a8ba-f13d-49d1-88f7-be1ccd6bf36c",
     "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus2",
-    "x-ms-keyvault-service-version": "1.2.164.2",
-    "x-ms-request-id": "d361dde1-822d-4d37-bf04-b3cc1eb99462",
+    "x-ms-keyvault-service-version": "1.9.79.2",
+    "x-ms-request-id": "dd63394a-c388-4521-b3e6-0ff883f030c6",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -31,446 +31,244 @@
    "method": "POST",
    "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
    "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-store, no-cache",
     "content-length": "1315",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Feb 2021 19:19:10 GMT",
+    "date": "Mon, 20 Sep 2021 22:10:32 GMT",
     "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11496.6 - WUS2 ProdSlices",
-    "x-ms-request-id": "83d649a2-1493-4ffd-9026-5cd730f63200"
+    "x-ms-ests-server": "2.1.12071.7 - SCUS ProdSlices",
+    "x-ms-request-id": "8024f362-7408-46c7-a6c9-36cd254eab00"
    }
   },
   {
    "method": "POST",
-   "url": "https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/create",
+   "url": "https://keyvault_name.vault.azure.net/certificates/crudcertoperation163217583204004746/create",
    "query": {
     "api-version": "7.2"
    },
    "requestBody": "{\"policy\":{\"key_props\":{},\"secret_props\":{},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{}},\"issuer\":{\"name\":\"Self\"},\"attributes\":{}},\"attributes\":{}}",
    "status": 202,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAp1JGLEmT0SxTGNdQaVPo23Atw0nwvvlK0aSp9Ym15BEAG7RPg4k9UTXOQIFuO/0Vs/RJ1Kjok96j/r4IYX1E69j3ipYgIXScy50P6Fe/TpmRDmXKxr5eXy0nqaM31zh7vqS8F1lQoK/bubbMw5z3H2/nI5gxUqXs5P+hlaL7raFZH7Hg3mNjd5wnMzYXavNiGyAnwndsxplQ+plnzIGrd5Q1Gj9MYyskov1FCqNyQAtO7CSv8Q6jXXeUoRKPK3KCLb+4fGx40OJJd98VtoajMO7yDjfVSOKXmNzZPZIa5yUCwnN4IeZJ+hmQXR8vx+x/95XrQRBUuHW2973fKh+s1QIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAHH6ao6CBAH7a3XKp+xCouIdlMN8lVmLMwU4f+a/BEJA66dZxksBGcnOeZvRVIKjQ43vrp6mEdf6/XqTtWtda9xonZRBvev33buFhptA9I1o/fbvYCNrHNZeF9e6lJ6ixbZl+LP2F/EHiCw9bs+L4uI2wFCERJAcRAZtstWVzALIZhlIFclYdsLagEx66s4+t/5ULAD4bCz3Cdxdew3K0HkP3+5lbHHQOzJiZN3y+aJLbyKJnpl1dREAGycwFuJnNaReHFBzbVv5nj10vWwtnu+6uok9Q4Z0nJ6yT2cBLkso/8At5vS6dfqvSIuQ1nADsRpnaBfRPl1uhchN58Eox00=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"1694491266ea41c59778a75ccaa29c7d\"}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/crudcertoperation163217583204004746/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwPfojcWz97x2fVGJ3Xa74D2mv8aaos9ZDIKFahkG2bNmDFJMCXcqn7cjo2RTCOWut73mQU+qqPI82NwtL27VsXMqHUi4isM19wygKcC++OgWrPzWOv2FRfj0kiHUQKasbjRKD3yLLkzcSROPk/BtHUiAlwT5uhzPp8Qpo7O8m/HPzbYIZE9HQzRtTt37hf3LnMTkYdWVcjyCxyN2cBU95IMOkAvlZJPyWITw4AmLYUJYZ+NC/ftyX1pnbBha5+qS9j4kN7bvx2CNfP2cG3LpFUDzRzS3DSPfL6RZlIWvIwX+OmGE9L6W+NYzN7O8H1XFKNM22CcYAwLSYpatFat1xQIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBABtx9JVqfAxOSNhU5ir7DdGa8o9m/GGoZG84HPMvqb7A/M2SLopgtbdaRSr7ylD1+QcZWBUoVgl8QrotrBvyPVD4HVUWZtx0l7e/LYf/QoIMTMV4wmbqK7Q9fgYadjMHDu93bGLkBq0EWyVR3xghL2EYd2NANVKhBOVnIAm4alSRIeeIzqsrm+5Us1Z5DxWOQPtLvxVmhY0uB/fkSf4k3tL/j7Wc/yxl+6ZC1HpHSBERr0sunXkzctsBYm2k5Ep/OMkUmRFY5TaSKkyPB4E6wmYF20R3jJIM+jVD4AT/Ph8o0FTLX9Gv6uKTxjbyB1mo5ECW647EDGL8rCSMwwEgBMk=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"ae726655ba7f46a180785d54d93f6bc6\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "1348",
+    "content-length": "1302",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Feb 2021 19:19:11 GMT",
+    "date": "Mon, 20 Sep 2021 22:10:32 GMT",
     "expires": "-1",
-    "location": "https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/pending?api-version=7.2&request_id=1694491266ea41c59778a75ccaa29c7d",
+    "location": "https://keyvault_name.vault.azure.net/certificates/crudcertoperation163217583204004746/pending?api-version=7.2&request_id=ae726655ba7f46a180785d54d93f6bc6",
     "pragma": "no-cache",
     "retry-after": "10",
-    "status": "202",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "4933a8ba-f13d-49d1-88f7-be1ccd6bf36c",
     "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus2",
-    "x-ms-keyvault-service-version": "1.2.164.2",
-    "x-ms-request-id": "2de51202-7a11-4e0a-90d8-9dc0c0055328",
+    "x-ms-keyvault-service-version": "1.9.79.2",
+    "x-ms-request-id": "108a2b6d-e4e1-4fdf-8b05-10afa0e115f5",
     "x-powered-by": "ASP.NET"
    }
   },
   {
    "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/pending",
+   "url": "https://keyvault_name.vault.azure.net/certificates/crudcertoperation163217583204004746/pending",
    "query": {
     "api-version": "7.2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAp1JGLEmT0SxTGNdQaVPo23Atw0nwvvlK0aSp9Ym15BEAG7RPg4k9UTXOQIFuO/0Vs/RJ1Kjok96j/r4IYX1E69j3ipYgIXScy50P6Fe/TpmRDmXKxr5eXy0nqaM31zh7vqS8F1lQoK/bubbMw5z3H2/nI5gxUqXs5P+hlaL7raFZH7Hg3mNjd5wnMzYXavNiGyAnwndsxplQ+plnzIGrd5Q1Gj9MYyskov1FCqNyQAtO7CSv8Q6jXXeUoRKPK3KCLb+4fGx40OJJd98VtoajMO7yDjfVSOKXmNzZPZIa5yUCwnN4IeZJ+hmQXR8vx+x/95XrQRBUuHW2973fKh+s1QIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAHH6ao6CBAH7a3XKp+xCouIdlMN8lVmLMwU4f+a/BEJA66dZxksBGcnOeZvRVIKjQ43vrp6mEdf6/XqTtWtda9xonZRBvev33buFhptA9I1o/fbvYCNrHNZeF9e6lJ6ixbZl+LP2F/EHiCw9bs+L4uI2wFCERJAcRAZtstWVzALIZhlIFclYdsLagEx66s4+t/5ULAD4bCz3Cdxdew3K0HkP3+5lbHHQOzJiZN3y+aJLbyKJnpl1dREAGycwFuJnNaReHFBzbVv5nj10vWwtnu+6uok9Q4Z0nJ6yT2cBLkso/8At5vS6dfqvSIuQ1nADsRpnaBfRPl1uhchN58Eox00=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"1694491266ea41c59778a75ccaa29c7d\"}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/crudcertoperation163217583204004746/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwPfojcWz97x2fVGJ3Xa74D2mv8aaos9ZDIKFahkG2bNmDFJMCXcqn7cjo2RTCOWut73mQU+qqPI82NwtL27VsXMqHUi4isM19wygKcC++OgWrPzWOv2FRfj0kiHUQKasbjRKD3yLLkzcSROPk/BtHUiAlwT5uhzPp8Qpo7O8m/HPzbYIZE9HQzRtTt37hf3LnMTkYdWVcjyCxyN2cBU95IMOkAvlZJPyWITw4AmLYUJYZ+NC/ftyX1pnbBha5+qS9j4kN7bvx2CNfP2cG3LpFUDzRzS3DSPfL6RZlIWvIwX+OmGE9L6W+NYzN7O8H1XFKNM22CcYAwLSYpatFat1xQIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBABtx9JVqfAxOSNhU5ir7DdGa8o9m/GGoZG84HPMvqb7A/M2SLopgtbdaRSr7ylD1+QcZWBUoVgl8QrotrBvyPVD4HVUWZtx0l7e/LYf/QoIMTMV4wmbqK7Q9fgYadjMHDu93bGLkBq0EWyVR3xghL2EYd2NANVKhBOVnIAm4alSRIeeIzqsrm+5Us1Z5DxWOQPtLvxVmhY0uB/fkSf4k3tL/j7Wc/yxl+6ZC1HpHSBERr0sunXkzctsBYm2k5Ep/OMkUmRFY5TaSKkyPB4E6wmYF20R3jJIM+jVD4AT/Ph8o0FTLX9Gv6uKTxjbyB1mo5ECW647EDGL8rCSMwwEgBMk=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"ae726655ba7f46a180785d54d93f6bc6\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "1348",
+    "content-length": "1302",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Feb 2021 19:19:11 GMT",
+    "date": "Mon, 20 Sep 2021 22:10:32 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "retry-after": "10",
-    "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "0610339e-f78a-4cca-8c4f-fffe96c80f93",
     "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus2",
-    "x-ms-keyvault-service-version": "1.2.164.2",
-    "x-ms-request-id": "b020dbc4-d2b2-4ae7-ba43-a94d42ee550f",
+    "x-ms-keyvault-service-version": "1.9.79.2",
+    "x-ms-request-id": "64d5ebec-d1e4-42ca-9209-519ef75fa057",
     "x-powered-by": "ASP.NET"
    }
   },
   {
    "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/",
+   "url": "https://keyvault_name.vault.azure.net/certificates/crudcertoperation163217583204004746/",
    "query": {
     "api-version": "7.2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/4cf53285a5124e81a7908108f6e25f5a\",\"attributes\":{\"enabled\":false,\"nbf\":1613502551,\"exp\":1645039151,\"created\":1613503151,\"updated\":1613503151,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1613503152,\"updated\":1613503152}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/pending\"}}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/crudcertoperation163217583204004746/225037e718a34d11b09010b07a77fd4c\",\"attributes\":{\"enabled\":false,\"nbf\":1632175232,\"exp\":1663711832,\"created\":1632175832,\"updated\":1632175832,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/crudcertoperation163217583204004746/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1632175832,\"updated\":1632175832}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/crudcertoperation163217583204004746/pending\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "1184",
+    "content-length": "1046",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Feb 2021 19:19:11 GMT",
+    "date": "Mon, 20 Sep 2021 22:10:32 GMT",
     "expires": "-1",
     "pragma": "no-cache",
-    "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "adc1043c-6a0d-4d77-a817-4cd7ccf5f01f",
     "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus2",
-    "x-ms-keyvault-service-version": "1.2.164.2",
-    "x-ms-request-id": "67070408-eeb2-4d33-a4fb-43aebe7a8e1e",
+    "x-ms-keyvault-service-version": "1.9.79.2",
+    "x-ms-request-id": "791076e2-ea8a-41e6-94c4-2da77a78d69d",
     "x-powered-by": "ASP.NET"
    }
   },
   {
    "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/pending",
+   "url": "https://keyvault_name.vault.azure.net/certificates/crudcertoperation163217583204004746/pending",
    "query": {
     "api-version": "7.2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAp1JGLEmT0SxTGNdQaVPo23Atw0nwvvlK0aSp9Ym15BEAG7RPg4k9UTXOQIFuO/0Vs/RJ1Kjok96j/r4IYX1E69j3ipYgIXScy50P6Fe/TpmRDmXKxr5eXy0nqaM31zh7vqS8F1lQoK/bubbMw5z3H2/nI5gxUqXs5P+hlaL7raFZH7Hg3mNjd5wnMzYXavNiGyAnwndsxplQ+plnzIGrd5Q1Gj9MYyskov1FCqNyQAtO7CSv8Q6jXXeUoRKPK3KCLb+4fGx40OJJd98VtoajMO7yDjfVSOKXmNzZPZIa5yUCwnN4IeZJ+hmQXR8vx+x/95XrQRBUuHW2973fKh+s1QIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAHH6ao6CBAH7a3XKp+xCouIdlMN8lVmLMwU4f+a/BEJA66dZxksBGcnOeZvRVIKjQ43vrp6mEdf6/XqTtWtda9xonZRBvev33buFhptA9I1o/fbvYCNrHNZeF9e6lJ6ixbZl+LP2F/EHiCw9bs+L4uI2wFCERJAcRAZtstWVzALIZhlIFclYdsLagEx66s4+t/5ULAD4bCz3Cdxdew3K0HkP3+5lbHHQOzJiZN3y+aJLbyKJnpl1dREAGycwFuJnNaReHFBzbVv5nj10vWwtnu+6uok9Q4Z0nJ6yT2cBLkso/8At5vS6dfqvSIuQ1nADsRpnaBfRPl1uhchN58Eox00=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"1694491266ea41c59778a75ccaa29c7d\"}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/crudcertoperation163217583204004746/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwPfojcWz97x2fVGJ3Xa74D2mv8aaos9ZDIKFahkG2bNmDFJMCXcqn7cjo2RTCOWut73mQU+qqPI82NwtL27VsXMqHUi4isM19wygKcC++OgWrPzWOv2FRfj0kiHUQKasbjRKD3yLLkzcSROPk/BtHUiAlwT5uhzPp8Qpo7O8m/HPzbYIZE9HQzRtTt37hf3LnMTkYdWVcjyCxyN2cBU95IMOkAvlZJPyWITw4AmLYUJYZ+NC/ftyX1pnbBha5+qS9j4kN7bvx2CNfP2cG3LpFUDzRzS3DSPfL6RZlIWvIwX+OmGE9L6W+NYzN7O8H1XFKNM22CcYAwLSYpatFat1xQIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBABtx9JVqfAxOSNhU5ir7DdGa8o9m/GGoZG84HPMvqb7A/M2SLopgtbdaRSr7ylD1+QcZWBUoVgl8QrotrBvyPVD4HVUWZtx0l7e/LYf/QoIMTMV4wmbqK7Q9fgYadjMHDu93bGLkBq0EWyVR3xghL2EYd2NANVKhBOVnIAm4alSRIeeIzqsrm+5Us1Z5DxWOQPtLvxVmhY0uB/fkSf4k3tL/j7Wc/yxl+6ZC1HpHSBERr0sunXkzctsBYm2k5Ep/OMkUmRFY5TaSKkyPB4E6wmYF20R3jJIM+jVD4AT/Ph8o0FTLX9Gv6uKTxjbyB1mo5ECW647EDGL8rCSMwwEgBMk=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"ae726655ba7f46a180785d54d93f6bc6\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "1348",
+    "content-length": "1302",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Feb 2021 19:19:12 GMT",
+    "date": "Mon, 20 Sep 2021 22:10:32 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "retry-after": "10",
-    "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "0cc1df5f-6d10-43ac-bf06-a7609449e1b1",
     "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus2",
-    "x-ms-keyvault-service-version": "1.2.164.2",
-    "x-ms-request-id": "af002994-5b77-4437-8ddb-4de00110db27",
+    "x-ms-keyvault-service-version": "1.9.79.2",
+    "x-ms-request-id": "af0fcba2-bad8-4aed-a220-195a89678321",
     "x-powered-by": "ASP.NET"
    }
   },
   {
    "method": "PATCH",
-   "url": "https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/pending",
+   "url": "https://keyvault_name.vault.azure.net/certificates/crudcertoperation163217583204004746/pending",
    "query": {
     "api-version": "7.2"
    },
    "requestBody": "{\"cancellation_requested\":true}",
    "status": 200,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAp1JGLEmT0SxTGNdQaVPo23Atw0nwvvlK0aSp9Ym15BEAG7RPg4k9UTXOQIFuO/0Vs/RJ1Kjok96j/r4IYX1E69j3ipYgIXScy50P6Fe/TpmRDmXKxr5eXy0nqaM31zh7vqS8F1lQoK/bubbMw5z3H2/nI5gxUqXs5P+hlaL7raFZH7Hg3mNjd5wnMzYXavNiGyAnwndsxplQ+plnzIGrd5Q1Gj9MYyskov1FCqNyQAtO7CSv8Q6jXXeUoRKPK3KCLb+4fGx40OJJd98VtoajMO7yDjfVSOKXmNzZPZIa5yUCwnN4IeZJ+hmQXR8vx+x/95XrQRBUuHW2973fKh+s1QIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAHH6ao6CBAH7a3XKp+xCouIdlMN8lVmLMwU4f+a/BEJA66dZxksBGcnOeZvRVIKjQ43vrp6mEdf6/XqTtWtda9xonZRBvev33buFhptA9I1o/fbvYCNrHNZeF9e6lJ6ixbZl+LP2F/EHiCw9bs+L4uI2wFCERJAcRAZtstWVzALIZhlIFclYdsLagEx66s4+t/5ULAD4bCz3Cdxdew3K0HkP3+5lbHHQOzJiZN3y+aJLbyKJnpl1dREAGycwFuJnNaReHFBzbVv5nj10vWwtnu+6uok9Q4Z0nJ6yT2cBLkso/8At5vS6dfqvSIuQ1nADsRpnaBfRPl1uhchN58Eox00=\",\"cancellation_requested\":true,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"1694491266ea41c59778a75ccaa29c7d\"}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/crudcertoperation163217583204004746/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwPfojcWz97x2fVGJ3Xa74D2mv8aaos9ZDIKFahkG2bNmDFJMCXcqn7cjo2RTCOWut73mQU+qqPI82NwtL27VsXMqHUi4isM19wygKcC++OgWrPzWOv2FRfj0kiHUQKasbjRKD3yLLkzcSROPk/BtHUiAlwT5uhzPp8Qpo7O8m/HPzbYIZE9HQzRtTt37hf3LnMTkYdWVcjyCxyN2cBU95IMOkAvlZJPyWITw4AmLYUJYZ+NC/ftyX1pnbBha5+qS9j4kN7bvx2CNfP2cG3LpFUDzRzS3DSPfL6RZlIWvIwX+OmGE9L6W+NYzN7O8H1XFKNM22CcYAwLSYpatFat1xQIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBABtx9JVqfAxOSNhU5ir7DdGa8o9m/GGoZG84HPMvqb7A/M2SLopgtbdaRSr7ylD1+QcZWBUoVgl8QrotrBvyPVD4HVUWZtx0l7e/LYf/QoIMTMV4wmbqK7Q9fgYadjMHDu93bGLkBq0EWyVR3xghL2EYd2NANVKhBOVnIAm4alSRIeeIzqsrm+5Us1Z5DxWOQPtLvxVmhY0uB/fkSf4k3tL/j7Wc/yxl+6ZC1HpHSBERr0sunXkzctsBYm2k5Ep/OMkUmRFY5TaSKkyPB4E6wmYF20R3jJIM+jVD4AT/Ph8o0FTLX9Gv6uKTxjbyB1mo5ECW647EDGL8rCSMwwEgBMk=\",\"cancellation_requested\":true,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"ae726655ba7f46a180785d54d93f6bc6\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "1347",
+    "content-length": "1301",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Feb 2021 19:19:12 GMT",
+    "date": "Mon, 20 Sep 2021 22:10:32 GMT",
     "expires": "-1",
     "pragma": "no-cache",
-    "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "3dc746c9-e475-4f84-bb8c-736fd4e5f4a0",
     "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus2",
-    "x-ms-keyvault-service-version": "1.2.164.2",
-    "x-ms-request-id": "bb0c0439-141e-440e-bed4-49e972465a55",
+    "x-ms-keyvault-service-version": "1.9.79.2",
+    "x-ms-request-id": "ed5285da-cb31-42d3-8161-45dca3353084",
     "x-powered-by": "ASP.NET"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/pending",
+   "url": "https://keyvault_name.vault.azure.net/certificates/crudcertoperation163217583204004746/pending",
    "query": {
     "api-version": "7.2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAp1JGLEmT0SxTGNdQaVPo23Atw0nwvvlK0aSp9Ym15BEAG7RPg4k9UTXOQIFuO/0Vs/RJ1Kjok96j/r4IYX1E69j3ipYgIXScy50P6Fe/TpmRDmXKxr5eXy0nqaM31zh7vqS8F1lQoK/bubbMw5z3H2/nI5gxUqXs5P+hlaL7raFZH7Hg3mNjd5wnMzYXavNiGyAnwndsxplQ+plnzIGrd5Q1Gj9MYyskov1FCqNyQAtO7CSv8Q6jXXeUoRKPK3KCLb+4fGx40OJJd98VtoajMO7yDjfVSOKXmNzZPZIa5yUCwnN4IeZJ+hmQXR8vx+x/95XrQRBUuHW2973fKh+s1QIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAHH6ao6CBAH7a3XKp+xCouIdlMN8lVmLMwU4f+a/BEJA66dZxksBGcnOeZvRVIKjQ43vrp6mEdf6/XqTtWtda9xonZRBvev33buFhptA9I1o/fbvYCNrHNZeF9e6lJ6ixbZl+LP2F/EHiCw9bs+L4uI2wFCERJAcRAZtstWVzALIZhlIFclYdsLagEx66s4+t/5ULAD4bCz3Cdxdew3K0HkP3+5lbHHQOzJiZN3y+aJLbyKJnpl1dREAGycwFuJnNaReHFBzbVv5nj10vWwtnu+6uok9Q4Z0nJ6yT2cBLkso/8At5vS6dfqvSIuQ1nADsRpnaBfRPl1uhchN58Eox00=\",\"cancellation_requested\":true,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"1694491266ea41c59778a75ccaa29c7d\"}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/crudcertoperation163217583204004746/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwPfojcWz97x2fVGJ3Xa74D2mv8aaos9ZDIKFahkG2bNmDFJMCXcqn7cjo2RTCOWut73mQU+qqPI82NwtL27VsXMqHUi4isM19wygKcC++OgWrPzWOv2FRfj0kiHUQKasbjRKD3yLLkzcSROPk/BtHUiAlwT5uhzPp8Qpo7O8m/HPzbYIZE9HQzRtTt37hf3LnMTkYdWVcjyCxyN2cBU95IMOkAvlZJPyWITw4AmLYUJYZ+NC/ftyX1pnbBha5+qS9j4kN7bvx2CNfP2cG3LpFUDzRzS3DSPfL6RZlIWvIwX+OmGE9L6W+NYzN7O8H1XFKNM22CcYAwLSYpatFat1xQIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBABtx9JVqfAxOSNhU5ir7DdGa8o9m/GGoZG84HPMvqb7A/M2SLopgtbdaRSr7ylD1+QcZWBUoVgl8QrotrBvyPVD4HVUWZtx0l7e/LYf/QoIMTMV4wmbqK7Q9fgYadjMHDu93bGLkBq0EWyVR3xghL2EYd2NANVKhBOVnIAm4alSRIeeIzqsrm+5Us1Z5DxWOQPtLvxVmhY0uB/fkSf4k3tL/j7Wc/yxl+6ZC1HpHSBERr0sunXkzctsBYm2k5Ep/OMkUmRFY5TaSKkyPB4E6wmYF20R3jJIM+jVD4AT/Ph8o0FTLX9Gv6uKTxjbyB1mo5ECW647EDGL8rCSMwwEgBMk=\",\"cancellation_requested\":true,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"ae726655ba7f46a180785d54d93f6bc6\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "1347",
+    "content-length": "1301",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Feb 2021 19:19:12 GMT",
+    "date": "Mon, 20 Sep 2021 22:10:32 GMT",
     "expires": "-1",
     "pragma": "no-cache",
-    "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "f0fc1c5b-1e02-4348-96fb-bc52f7b82b06",
     "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus2",
-    "x-ms-keyvault-service-version": "1.2.164.2",
-    "x-ms-request-id": "0ade378c-ad6b-4b95-b6d4-249548692881",
+    "x-ms-keyvault-service-version": "1.9.79.2",
+    "x-ms-request-id": "a3a9abbc-0f77-4fe9-8a70-804d0b74baec",
     "x-powered-by": "ASP.NET"
    }
   },
   {
    "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/",
+   "url": "https://keyvault_name.vault.azure.net/certificates/crudcertoperation163217583204004746/",
    "query": {
     "api-version": "7.2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/4cf53285a5124e81a7908108f6e25f5a\",\"attributes\":{\"enabled\":false,\"nbf\":1613502551,\"exp\":1645039151,\"created\":1613503151,\"updated\":1613503151,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1613503152,\"updated\":1613503152}}}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/crudcertoperation163217583204004746/225037e718a34d11b09010b07a77fd4c\",\"attributes\":{\"enabled\":false,\"nbf\":1632175232,\"exp\":1663711832,\"created\":1632175832,\"updated\":1632175832,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/crudcertoperation163217583204004746/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1632175832,\"updated\":1632175832}}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "1028",
+    "content-length": "936",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Feb 2021 19:19:12 GMT",
+    "date": "Mon, 20 Sep 2021 22:10:32 GMT",
     "expires": "-1",
     "pragma": "no-cache",
-    "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "6fb0fbc9-4ab2-4749-b2a3-03b47bda5d20",
     "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus2",
-    "x-ms-keyvault-service-version": "1.2.164.2",
-    "x-ms-request-id": "829cddf8-3497-4eeb-831e-bb78ab85f282",
+    "x-ms-keyvault-service-version": "1.9.79.2",
+    "x-ms-request-id": "91df96ad-795e-4877-98b7-3d079c36da1a",
     "x-powered-by": "ASP.NET"
    }
   },
   {
    "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/pending",
+   "url": "https://keyvault_name.vault.azure.net/certificates/crudcertoperation163217583204004746/pending",
    "query": {
     "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
-   "response": "{\"error\":{\"code\":\"PendingCertificateNotFound\",\"message\":\"Pending certificate not found: CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-\"}}",
+   "response": "{\"error\":{\"code\":\"PendingCertificateNotFound\",\"message\":\"Pending certificate not found: crudcertoperation163217583204004746\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "172",
+    "content-length": "126",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Feb 2021 19:19:12 GMT",
+    "date": "Mon, 20 Sep 2021 22:10:32 GMT",
     "expires": "-1",
     "pragma": "no-cache",
-    "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "1c4c1421-d033-4278-aa31-78defee531b7",
     "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus2",
-    "x-ms-keyvault-service-version": "1.2.164.2",
-    "x-ms-request-id": "e2004d12-7078-4350-b79f-4ff72091bbd0",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "DELETE",
-   "url": "https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-",
-   "query": {
-    "api-version": "7.2"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedcertificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-\",\"deletedDate\":1613503152,\"scheduledPurgeDate\":1614107952,\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/4cf53285a5124e81a7908108f6e25f5a\",\"attributes\":{\"enabled\":false,\"nbf\":1613502551,\"exp\":1645039151,\"created\":1613503151,\"updated\":1613503151,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1613503152,\"updated\":1613503152}}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "1236",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Feb 2021 19:19:12 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "200",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus2",
-    "x-ms-keyvault-service-version": "1.2.164.2",
-    "x-ms-request-id": "28baf022-9d0e-4b4b-b7e1-a44e415b15a5",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-",
-   "query": {
-    "api-version": "7.2"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "165",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Feb 2021 19:19:12 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus2",
-    "x-ms-keyvault-service-version": "1.2.164.2",
-    "x-ms-request-id": "40a5a55c-5f37-4342-a145-fc5122644546",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-",
-   "query": {
-    "api-version": "7.2"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "165",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Feb 2021 19:19:12 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus2",
-    "x-ms-keyvault-service-version": "1.2.164.2",
-    "x-ms-request-id": "b84412d5-78b2-4d56-aade-1602aba6f159",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-",
-   "query": {
-    "api-version": "7.2"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "165",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Feb 2021 19:19:14 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus2",
-    "x-ms-keyvault-service-version": "1.2.164.2",
-    "x-ms-request-id": "6751e2eb-a46f-41a3-9e15-7e059615f9c3",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-",
-   "query": {
-    "api-version": "7.2"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "165",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Feb 2021 19:19:16 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus2",
-    "x-ms-keyvault-service-version": "1.2.164.2",
-    "x-ms-request-id": "458a405e-ea2f-4114-b1ca-ceeaa22bfe43",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-",
-   "query": {
-    "api-version": "7.2"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "165",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Feb 2021 19:19:19 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus2",
-    "x-ms-keyvault-service-version": "1.2.164.2",
-    "x-ms-request-id": "adec2b7c-7f91-450a-b30a-741ea2edbc76",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-",
-   "query": {
-    "api-version": "7.2"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedcertificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-\",\"deletedDate\":1613503152,\"scheduledPurgeDate\":1614107952,\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/4cf53285a5124e81a7908108f6e25f5a\",\"attributes\":{\"enabled\":false,\"nbf\":1613502551,\"exp\":1645039151,\"created\":1613503151,\"updated\":1613503151,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1613503152,\"updated\":1613503152}}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "1236",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Feb 2021 19:19:21 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "200",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus2",
-    "x-ms-keyvault-service-version": "1.2.164.2",
-    "x-ms-request-id": "458da7b1-dd16-44c0-a978-dad1934bb60c",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "DELETE",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-",
-   "query": {
-    "api-version": "7.2"
-   },
-   "requestBody": null,
-   "status": 204,
-   "response": "",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "date": "Tue, 16 Feb 2021 19:19:21 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "204",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus2",
-    "x-ms-keyvault-service-version": "1.2.164.2",
-    "x-ms-request-id": "4c593dd8-ca77-4456-ac4e-260a5008b5ce",
+    "x-ms-keyvault-service-version": "1.9.79.2",
+    "x-ms-request-id": "cb348250-fce7-4448-a4e6-e601f2e4f981",
     "x-powered-by": "ASP.NET"
    }
   }
  ],
  "uniqueTestInfo": {
-  "uniqueName": {},
+  "uniqueName": {
+   "crudcertoperation": "crudcertoperation163217583204004746"
+  },
   "newDate": {}
  },
- "hash": "febc97be1252a6070f86b22b0a09a172"
+ "hash": "2111338004d4caa1823e07fd8e932780"
 }
