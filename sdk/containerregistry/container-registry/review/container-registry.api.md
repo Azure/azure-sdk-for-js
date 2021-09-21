@@ -62,6 +62,7 @@ export class ContainerRegistryClient {
 // @public
 export interface ContainerRegistryClientOptions extends PipelineOptions {
     audience?: string;
+    serviceVersion?: string;
 }
 
 // @public
@@ -155,6 +156,9 @@ export enum KnownContainerRegistryAudience {
     AzureResourceManagerGovernment = "https://management.usgovcloudapi.net",
     AzureResourceManagerPublicCloud = "https://management.azure.com"
 }
+
+// @public (undocumented)
+export const LATEST_API_VERSION = "2021-07-01";
 
 // @public
 export interface ListManifestPropertiesOptions extends OperationOptions {
