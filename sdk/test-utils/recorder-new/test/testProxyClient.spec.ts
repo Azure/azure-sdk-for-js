@@ -5,7 +5,7 @@ import { createHttpHeaders, PipelineRequest, PipelineResponse } from "@azure/cor
 import { env } from "@azure-tools/test-recorder";
 import { expect } from "chai";
 import { TestProxyHttpClient } from "../src";
-import { RecorderError, RecordingStateManager } from "../src/utils";
+import { RecorderError, RecordingStateManager } from "../src/utils/utils";
 import { Test } from "mocha";
 
 describe("TestProxyClient functions", () => {
