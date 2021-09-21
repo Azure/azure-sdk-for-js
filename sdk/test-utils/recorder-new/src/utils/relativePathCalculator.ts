@@ -1,10 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import path from "path";
 
-export function relativeRecordingsPathForNode(testPath: string) {
+import { findRecordingsFolderPath } from "@azure-tools/test-recorder";
+import path from "path";
+import { RecorderError } from "./utils";
+
+export function relativeRecordingsPathForNode(testContext: Mocha.Test) {
+  const testAbsolutePath = testContext.file;
+  if (!testAbsolutePath) {
+    throw new RecorderError("Unable to grab the file path from the test run");
+  }
+  // TO generate "sdk/test-utils/testing-recorder-new/recordings"
+  console.log(findRecordingsFolderPath(testAbsolutePath));
   // Calculate and return
-  return testPath;
+  return testAbsolutePath;
 }
 
 export function relativeRecordingsPathForBrowser() {
@@ -16,7 +25,7 @@ export function relativeRecordingsPathForBrowser() {
     throw new Error("Unexpected location for recordings, please fix the location.");
   }
   return path
-    .join(sdk, serviceFolder, projectFolder, "recordings/")
+    .join(sdk, serviceFolder, projectFolder, "recordings")
     .split(path.sep)
     .join(path.posix.sep);
 }

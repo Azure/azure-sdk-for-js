@@ -35,3 +35,9 @@ export function testHasChanged(
 
   return previousHash !== currentHash;
 }
+
+export function findRecordingsFolderPath() {
+  throw new Error(
+    "Attempted to use the method `findRecordingsFolderPath`(meant for node) in a browser"
+  );
+}
