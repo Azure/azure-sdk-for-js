@@ -7,7 +7,7 @@ import Sinon from "sinon";
 import { assert } from "chai";
 import * as path from "path";
 import { AbortController } from "@azure/abort-controller";
-import { env, isPlaybackMode, delay } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode, delay, isLiveMode } from "@azure-tools/test-recorder";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import { ClientCertificateCredential, RegionalAuthority } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
@@ -16,12 +16,12 @@ import { Context } from "mocha";
 
 const ASSET_PATH = "assets";
 
-describe("ClientCertificateCredential (internal)", function() {
+describe("ClientCertificateCredential (internal)", function () {
   let cleanup: MsalTestCleanup;
   let getTokenSilentSpy: Sinon.SinonSpy;
   let doGetTokenSpy: Sinon.SinonSpy;
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     const setup = msalNodeTestSetup(this);
     cleanup = setup.cleanup;
 
@@ -33,14 +33,14 @@ describe("ClientCertificateCredential (internal)", function() {
       "acquireTokenByClientCredential"
     );
   });
-  afterEach(async function() {
+  afterEach(async function () {
     await cleanup();
   });
 
   const certificatePath = path.join(ASSET_PATH, "fake-cert.pem");
   const scope = "https://vault.azure.net/.default";
 
-  it("Should throw if the parameteres are not correctly specified", async function() {
+  it("Should throw if the parameteres are not correctly specified", async function () {
     const errors: Error[] = [];
     try {
       new ClientCertificateCredential(
@@ -79,7 +79,7 @@ describe("ClientCertificateCredential (internal)", function() {
     });
   });
 
-  it("throws when given a file that doesn't contain a PEM-formatted certificate", async function(this: Context) {
+  it("throws when given a file that doesn't contain a PEM-formatted certificate", async function (this: Context) {
     const fullPath = path.resolve(__dirname, "../src/index.ts");
     const credential = new ClientCertificateCredential("tenant", "client", fullPath);
 
@@ -94,8 +94,8 @@ describe("ClientCertificateCredential (internal)", function() {
     assert.deepEqual(error?.message, `ENOENT: no such file or directory, open '${fullPath}'`);
   });
 
-  it("Authenticates silently after the initial request", async function(this: Context) {
-    if (isPlaybackMode()) {
+  it("Authenticates silently after the initial request", async function (this: Context) {
+    if (isPlaybackMode() || isLiveMode()) {
       // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
       // This assertion could be provided as parameters, but we don't have that in the public API yet,
       // and I'm trying to avoid having to generate one ourselves.
@@ -121,7 +121,7 @@ describe("ClientCertificateCredential (internal)", function() {
     assert.equal(doGetTokenSpy.callCount, 2);
   });
 
-  it("supports specifying the regional authority", async function() {
+  it("supports specifying the regional authority", async function () {
     const credential = new ClientCertificateCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
