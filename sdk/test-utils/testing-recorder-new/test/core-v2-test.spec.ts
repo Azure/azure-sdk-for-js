@@ -9,8 +9,17 @@ import { createSimpleEntity } from "./utils/utils";
 config();
 
 describe("Core V2 tests", () => {
+  let recorder: TestProxyHttpClient;
+
+  beforeEach(function() {
+    recorder = new TestProxyHttpClient(this.currentTest);
+  });
+
+  afterEach(async () => {
+    await recorder.stop();
+  });
+
   it("data-tables create entity", async function() {
-    const recorder = new TestProxyHttpClient(this.test);
     const client = TableClient.fromConnectionString(env.TABLES_SAS_CONNECTION_STRING, "newtable");
     client.pipeline.addPolicy(recorderHttpPolicy(recorder));
     await recorder.start();
@@ -18,6 +27,5 @@ describe("Core V2 tests", () => {
     const simpleEntity: TableEntity = createSimpleEntity();
     await client.createEntity(simpleEntity);
     await client.deleteTable();
-    await recorder.stop();
   });
 });
