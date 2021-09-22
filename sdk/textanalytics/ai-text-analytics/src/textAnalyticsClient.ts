@@ -410,15 +410,15 @@ export interface TextAnalyticsActions {
   /**
    * A collection of descriptions of custom entity recognition actions. However, currently, the service can accept up to one action only for `customRecognizeEntities`.
    */
-  customRecognizeEntities?: CustomRecognizeEntitiesAction[];
+  customRecognizeEntitiesActions?: CustomRecognizeEntitiesAction[];
   /**
    * A collection of descriptions of custom single classification actions. However, currently, the service can accept up to one action only for `customClassifyDocumentSingleCategory`.
    */
-  customClassifyDocumentSingleCategory?: CustomClassifyDocumentSingleCategoryAction[];
+  customClassifyDocumentSingleCategoryActions?: CustomClassifyDocumentSingleCategoryAction[];
   /**
    * A collection of descriptions of custom multi classification actions. However, currently, the service can accept up to one action only for `customClassifyDocumentMultiCategories`.
    */
-  customClassifyDocumentMultiCategories?: CustomClassifyDocumentMultiCategoriesAction[];
+  customClassifyDocumentMultiCategoriesActions?: CustomClassifyDocumentMultiCategoriesAction[];
 }
 /**
  * Client class for interacting with Azure Text Analytics.
@@ -1204,13 +1204,13 @@ function compileAnalyzeInput(actions: TextAnalyticsActions): GeneratedActions {
     extractiveSummarizationTasks: actions.extractSummaryActions?.map(
       compose(setStrEncodingParam, compose(setSentenceCount, compose(setOrderBy, addParamsToTask)))
     ),
-    customEntityRecognitionTasks: actions.customRecognizeEntities?.map(
+    customEntityRecognitionTasks: actions.customRecognizeEntitiesActions?.map(
       compose(setStrEncodingParam, addParamsToTask)
     ),
-    customSingleClassificationTasks: actions.customClassifyDocumentSingleCategory?.map(
+    customSingleClassificationTasks: actions.customClassifyDocumentSingleCategoryActions?.map(
       addParamsToTask
     ),
-    customMultiClassificationTasks: actions.customClassifyDocumentMultiCategories?.map(
+    customMultiClassificationTasks: actions.customClassifyDocumentMultiCategoriesActions?.map(
       addParamsToTask
     )
   };
