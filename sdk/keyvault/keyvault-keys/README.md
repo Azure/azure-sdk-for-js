@@ -513,7 +513,7 @@ async function main() {
   const currentPolicy = await client.getKeyRotationPolicy(key.name);
 
   // Finally, you can rotate a key on-demand by creating a new version of the given key.
-  const newKeyVersion = await client.rotateKey(key.name);
+  const rotatedKey = await client.rotateKey(key.name);
 }
 
 main();
