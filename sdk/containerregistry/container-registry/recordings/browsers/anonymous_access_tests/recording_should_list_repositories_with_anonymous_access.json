@@ -3,7 +3,9 @@
   {
    "method": "GET",
    "url": "https://myregistry.azurecr.io/acr/v1/_catalog",
-   "query": {},
+   "query": {
+    "api-version": "2021-07-01"
+   },
    "requestBody": null,
    "status": 401,
    "response": "{\"errors\":[{\"code\":\"UNAUTHORIZED\",\"message\":\"authentication required, visit https://aka.ms/acr/authorization for more information.\",\"detail\":[{\"Type\":\"registry\",\"Name\":\"catalog\",\"Action\":\"*\"}]}]}\n",
@@ -12,13 +14,13 @@
     "connection": "keep-alive",
     "content-length": "196",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 06 May 2021 00:26:28 GMT",
+    "date": "Mon, 20 Sep 2021 18:55:28 GMT",
     "docker-distribution-api-version": "registry/2.0",
     "server": "openresty",
     "strict-transport-security": "max-age=31536000; includeSubDomains, max-age=31536000; includeSubDomains",
     "www-authenticate": "Bearer realm=\"https://myregistry.azurecr.io/oauth2/token\",service=\"myregistry.azurecr.io\",scope=\"registry:catalog:*\"",
     "x-content-type-options": "nosniff",
-    "x-ms-correlation-request-id": "7fba30ad-31c3-44e6-9df9-3b564d658e55"
+    "x-ms-correlation-request-id": "dc979d96-9f0f-436f-acd7-f06ba60bd53b"
    }
   },
   {
@@ -31,32 +33,34 @@
    "responseHeaders": {
     "connection": "keep-alive",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 06 May 2021 00:26:28 GMT",
+    "date": "Mon, 20 Sep 2021 18:55:28 GMT",
     "server": "openresty",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "transfer-encoding": "chunked",
-    "x-ms-correlation-request-id": "d70b878f-e55c-4a92-ab9e-c34019fdc971",
+    "x-ms-correlation-request-id": "c3dd5108-38eb-4aa6-bf71-48a8f920ee01",
     "x-ms-ratelimit-remaining-calls-per-second": "166.65"
    }
   },
   {
    "method": "GET",
    "url": "https://myregistry.azurecr.io/acr/v1/_catalog",
-   "query": {},
+   "query": {
+    "api-version": "2021-07-01"
+   },
    "requestBody": null,
    "status": 200,
-   "response": "{\"repositories\":[\"hello-world\",\"library/alpine\",\"library/busybox\",\"library/hello-world\",\"library/node\"]}\n",
+   "response": "{\"repositories\":[\"hello-world\",\"library/alpine\",\"library/busybox\",\"library/hello-world\",\"library/node\",\"node\"]}\n",
    "responseHeaders": {
     "access-control-expose-headers": "Docker-Content-Digest, WWW-Authenticate, Link, X-Ms-Correlation-Request-Id",
     "connection": "keep-alive",
-    "content-length": "105",
+    "content-length": "112",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 06 May 2021 00:26:28 GMT",
+    "date": "Mon, 20 Sep 2021 18:55:28 GMT",
     "docker-distribution-api-version": "registry/2.0",
     "server": "openresty",
     "strict-transport-security": "max-age=31536000; includeSubDomains, max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-correlation-request-id": "14b6c0af-ddba-4644-b534-dd6ae496e196"
+    "x-ms-correlation-request-id": "c08c7a94-2faf-440e-a9c0-8550390803be"
    }
   }
  ],
@@ -64,5 +68,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "40ab27e4a5d9d1ed5d7f94ca97a0f539"
+ "hash": "fc066e23b2fc33b080eb748a9f6d47dc"
 }

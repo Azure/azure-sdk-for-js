@@ -22,13 +22,128 @@ export interface AcrErrorInfo {
   /** Error message */
   message?: string;
   /** Error details */
-  detail?: any;
+  detail?: Record<string, unknown>;
 }
 
 /** Returns the requested manifest file */
 export interface Manifest {
   /** Schema version */
   schemaVersion?: number;
+}
+
+export interface ManifestListAttributes {
+  /** The MIME type of the referenced object. This will generally be application/vnd.docker.image.manifest.v2+json, but it could also be application/vnd.docker.image.manifest.v1+json */
+  mediaType?: string;
+  /** The size in bytes of the object */
+  size?: number;
+  /** The digest of the content, as defined by the Registry V2 HTTP API Specification */
+  digest?: string;
+  /** The platform object describes the platform which the image in the manifest runs on. A full list of valid operating system and architecture values are listed in the Go language documentation for $GOOS and $GOARCH */
+  platform?: Platform;
+}
+
+/** The platform object describes the platform which the image in the manifest runs on. A full list of valid operating system and architecture values are listed in the Go language documentation for $GOOS and $GOARCH */
+export interface Platform {
+  /** Specifies the CPU architecture, for example amd64 or ppc64le. */
+  architecture?: string;
+  /** The os field specifies the operating system, for example linux or windows. */
+  os?: string;
+  /** The optional os.version field specifies the operating system version, for example 10.0.10586. */
+  osVersion?: string;
+  /** The optional os.features field specifies an array of strings, each listing a required OS feature (for example on Windows win32k */
+  osFeatures?: string[];
+  /** The optional variant field specifies a variant of the CPU, for example armv6l to specify a particular CPU variant of the ARM CPU. */
+  variant?: string;
+  /** The optional features field specifies an array of strings, each listing a required CPU feature (for example sse4 or aes */
+  features?: string[];
+}
+
+/** Docker V2 image layer descriptor including config and layers */
+export interface Descriptor {
+  /** Layer media type */
+  mediaType?: string;
+  /** Layer size */
+  size?: number;
+  /** Layer digest */
+  digest?: string;
+  /** Specifies a list of URIs from which this object may be downloaded. */
+  urls?: string[];
+  /** Additional information provided through arbitrary metadata. */
+  annotations?: Annotations;
+}
+
+/** Additional information provided through arbitrary metadata. */
+export interface Annotations {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /** Date and time on which the image was built (string, date-time as defined by https://tools.ietf.org/html/rfc3339#section-5.6) */
+  created?: Date;
+  /** Contact details of the people or organization responsible for the image. */
+  authors?: string;
+  /** URL to find more information on the image. */
+  url?: string;
+  /** URL to get documentation on the image. */
+  documentation?: string;
+  /** URL to get source code for building the image. */
+  source?: string;
+  /** Version of the packaged software. The version MAY match a label or tag in the source code repository, may also be Semantic versioning-compatible */
+  version?: string;
+  /** Source control revision identifier for the packaged software. */
+  revision?: string;
+  /** Name of the distributing entity, organization or individual. */
+  vendor?: string;
+  /** License(s) under which contained software is distributed as an SPDX License Expression. */
+  licenses?: string;
+  /** Name of the reference for a target. */
+  name?: string;
+  /** Human-readable title of the image */
+  title?: string;
+  /** Human-readable description of the software packaged in the image */
+  description?: string;
+}
+
+/** Image layer information */
+export interface FsLayer {
+  /** SHA of an image layer */
+  blobSum?: string;
+}
+
+/** A list of unstructured historical data for v1 compatibility */
+export interface History {
+  /** The raw v1 compatibility information */
+  v1Compatibility?: string;
+}
+
+/** Signature of a signed manifest */
+export interface ImageSignature {
+  /** A JSON web signature */
+  header?: Jwk;
+  /** A signature for the image manifest, signed by a libtrust private key */
+  signature?: string;
+  /** The signed protected header */
+  protected?: string;
+}
+
+/** A JSON web signature */
+export interface Jwk {
+  /** JSON web key parameter */
+  jwk?: JWKHeader;
+  /** The algorithm used to sign or encrypt the JWT */
+  alg?: string;
+}
+
+/** JSON web key parameter */
+export interface JWKHeader {
+  /** crv value */
+  crv?: string;
+  /** kid value */
+  kid?: string;
+  /** kty value */
+  kty?: string;
+  /** x value */
+  x?: string;
+  /** y value */
+  y?: string;
 }
 
 /** List of repositories */
@@ -41,7 +156,7 @@ export interface Repositories {
 /** Properties of this repository. */
 export interface ContainerRepositoryProperties {
   /**
-   * Registry login server name.  This is likely to be similar to {registry-name}.azurecr.io
+   * Registry login server name. This is likely to be similar to {registry-name}.azurecr.io.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly registryLoginServer: string;
@@ -78,8 +193,6 @@ export interface ContainerRepositoryProperties {
   canList?: boolean;
   /** Read enabled */
   canRead?: boolean;
-  /** Enables Teleport functionality on new images in the repository improving Container startup performance */
-  teleportEnabled?: boolean;
 }
 
 /** Changeable attributes for Repository */
@@ -92,13 +205,11 @@ export interface RepositoryWriteableProperties {
   canList?: boolean;
   /** Read enabled */
   canRead?: boolean;
-  /** Enables Teleport functionality on new images in the repository improving Container startup performance */
-  teleportEnabled?: boolean;
 }
 
 /** List of tag details */
 export interface TagList {
-  /** Registry login server name.  This is likely to be similar to {registry-name}.azurecr.io */
+  /** Registry login server name. This is likely to be similar to {registry-name}.azurecr.io. */
   registryLoginServer: string;
   /** Image name */
   repository: string;
@@ -154,7 +265,7 @@ export interface TagWriteableProperties {
 /** Tag attributes */
 export interface ArtifactTagProperties {
   /**
-   * Registry login server name.  This is likely to be similar to {registry-name}.azurecr.io
+   * Registry login server name. This is likely to be similar to {registry-name}.azurecr.io.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly registryLoginServer: string;
@@ -195,7 +306,7 @@ export interface ArtifactTagProperties {
 
 /** Manifest attributes */
 export interface AcrManifests {
-  /** Registry login server name.  This is likely to be similar to {registry-name}.azurecr.io */
+  /** Registry login server name. This is likely to be similar to {registry-name}.azurecr.io. */
   registryLoginServer?: string;
   /** Image name */
   repository?: string;
@@ -254,13 +365,9 @@ export interface ManifestAttributesBase {
   canList?: boolean;
   /** Read enabled */
   canRead?: boolean;
-  /** Quarantine state */
-  quarantineState?: string;
-  /** Quarantine details */
-  quarantineDetails?: string;
 }
 
-/** Manifest attributes details */
+/** The artifact's platform, consisting of operating system and architecture. */
 export interface ArtifactManifestPlatform {
   /**
    * Manifest digest
@@ -289,16 +396,12 @@ export interface ManifestWriteableProperties {
   canList?: boolean;
   /** Read enabled */
   canRead?: boolean;
-  /** Quarantine state */
-  quarantineState?: string;
-  /** Quarantine details */
-  quarantineDetails?: string;
 }
 
 /** Manifest attributes details */
 export interface ArtifactManifestProperties {
   /**
-   * Registry login server name.  This is likely to be similar to {registry-name}.azurecr.io
+   * Registry login server name. This is likely to be similar to {registry-name}.azurecr.io.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly registryLoginServer?: string;
@@ -355,35 +458,11 @@ export interface ArtifactManifestProperties {
   canList?: boolean;
   /** Read enabled */
   canRead?: boolean;
-  /** Quarantine state */
-  quarantineState?: string;
-  /** Quarantine details */
-  quarantineDetails?: string;
-}
-
-export interface Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema {
-  /** Can take a value of access_token */
-  grantType: "access_token";
-  /** Indicates the name of your Azure container registry. */
-  service: string;
-  /** AAD access token, mandatory when grant_type is access_token_refresh_token or access_token. */
-  aadAccessToken: string;
 }
 
 export interface AcrRefreshToken {
   /** The refresh token to be used for generating access tokens */
   refreshToken?: string;
-}
-
-export interface PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchema {
-  /** Indicates the name of your Azure container registry. */
-  service: string;
-  /** Which is expected to be a valid scope, and can be specified more than once for multiple scope requests. You obtained this from the Www-Authenticate response header from the challenge. */
-  scope: string;
-  /** Must be a valid ACR refresh token */
-  acrRefreshToken: string;
-  /** Grant type is expected to be refresh_token */
-  grantType: TokenGrantType;
 }
 
 export interface AcrAccessToken {
@@ -397,44 +476,6 @@ export interface RepositoryTags {
   name?: string;
   /** List of tags */
   tags?: string[];
-}
-
-/** Signature of a signed manifest */
-export interface ImageSignature {
-  /** A JSON web signature */
-  header?: Jwk;
-  /** A signature for the image manifest, signed by a libtrust private key */
-  signature?: string;
-  /** The signed protected header */
-  protected?: string;
-}
-
-/** A JSON web signature */
-export interface Jwk {
-  /** JSON web key parameter */
-  jwk?: JWKHeader;
-  /** The algorithm used to sign or encrypt the JWT */
-  alg?: string;
-}
-
-/** JSON web key parameter */
-export interface JWKHeader {
-  /** crv value */
-  crv?: string;
-  /** kid value */
-  kid?: string;
-  /** kty value */
-  kty?: string;
-  /** x value */
-  x?: string;
-  /** y value */
-  y?: string;
-}
-
-/** A list of unstructured historical data for v1 compatibility */
-export interface History {
-  /** The raw v1 compatibility information */
-  v1Compatibility?: string;
 }
 
 /** Deleted repository */
@@ -451,56 +492,6 @@ export interface DeleteRepositoryResult {
   readonly deletedTags?: string[];
 }
 
-/** Image layer information */
-export interface FsLayer {
-  /** SHA of an image layer */
-  blobSum?: string;
-}
-
-/** Docker V2 image layer descriptor including config and layers */
-export interface Descriptor {
-  /** Layer media type */
-  mediaType?: string;
-  /** Layer size */
-  size?: number;
-  /** Layer digest */
-  digest?: string;
-  /** Specifies a list of URIs from which this object may be downloaded. */
-  urls?: string[];
-  /** Additional information provided through arbitrary metadata. */
-  annotations?: Annotations;
-}
-
-/** Additional information provided through arbitrary metadata. */
-export interface Annotations {
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-  /** Date and time on which the image was built (string, date-time as defined by https://tools.ietf.org/html/rfc3339#section-5.6) */
-  created?: Date;
-  /** Contact details of the people or organization responsible for the image. */
-  authors?: string;
-  /** URL to find more information on the image. */
-  url?: string;
-  /** URL to get documentation on the image. */
-  documentation?: string;
-  /** URL to get source code for building the image. */
-  source?: string;
-  /** Version of the packaged software. The version MAY match a label or tag in the source code repository, may also be Semantic versioning-compatible */
-  version?: string;
-  /** Source control revision identifier for the packaged software. */
-  revision?: string;
-  /** Name of the distributing entity, organization or individual. */
-  vendor?: string;
-  /** License(s) under which contained software is distributed as an SPDX License Expression. */
-  licenses?: string;
-  /** Name of the reference for a target. */
-  name?: string;
-  /** Human-readable title of the image */
-  title?: string;
-  /** Human-readable description of the software packaged in the image */
-  description?: string;
-}
-
 /** Tag */
 export interface TagAttributesTag {
   /** SignatureRecord value */
@@ -511,35 +502,30 @@ export interface TagAttributesTag {
 export interface ManifestAttributesManifest {
   /** List of manifest attributes details */
   references?: ArtifactManifestPlatform[];
-  /** Quarantine tag name */
-  quarantineTag?: string;
 }
 
-export interface ManifestListAttributes {
-  /** The MIME type of the referenced object. This will generally be application/vnd.docker.image.manifest.v2+json, but it could also be application/vnd.docker.image.manifest.v1+json */
-  mediaType?: string;
-  /** The size in bytes of the object */
-  size?: number;
-  /** The digest of the content, as defined by the Registry V2 HTTP API Specification */
-  digest?: string;
-  /** The platform object describes the platform which the image in the manifest runs on. A full list of valid operating system and architecture values are listed in the Go language documentation for $GOOS and $GOARCH */
-  platform?: Platform;
+export interface Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema {
+  /** Can take a value of access_token_refresh_token, or access_token, or refresh_token */
+  grantType: PostContentSchemaGrantType;
+  /** Indicates the name of your Azure container registry. */
+  service: string;
+  /** AAD tenant associated to the AAD credentials. */
+  tenant?: string;
+  /** AAD refresh token, mandatory when grant_type is access_token_refresh_token or refresh_token */
+  refreshToken?: string;
+  /** AAD access token, mandatory when grant_type is access_token_refresh_token or access_token. */
+  aadAccessToken?: string;
 }
 
-/** The platform object describes the platform which the image in the manifest runs on. A full list of valid operating system and architecture values are listed in the Go language documentation for $GOOS and $GOARCH */
-export interface Platform {
-  /** Specifies the CPU architecture, for example amd64 or ppc64le. */
-  architecture?: string;
-  /** The os field specifies the operating system, for example linux or windows. */
-  os?: string;
-  /** The optional os.version field specifies the operating system version, for example 10.0.10586. */
-  osVersion?: string;
-  /** The optional os.features field specifies an array of strings, each listing a required OS feature (for example on Windows win32k */
-  osFeatures?: string[];
-  /** The optional variant field specifies a variant of the CPU, for example armv6l to specify a particular CPU variant of the ARM CPU. */
-  variant?: string;
-  /** The optional features field specifies an array of strings, each listing a required CPU feature (for example sse4 or aes */
-  features?: string[];
+export interface PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchema {
+  /** Indicates the name of your Azure container registry. */
+  service: string;
+  /** Which is expected to be a valid scope, and can be specified more than once for multiple scope requests. You obtained this from the Www-Authenticate response header from the challenge. */
+  scope: string;
+  /** Must be a valid ACR refresh token */
+  acrRefreshToken: string;
+  /** Grant type is expected to be refresh_token */
+  grantType: TokenGrantType;
 }
 
 /** Returns the requested manifest file */
@@ -753,19 +739,32 @@ export interface ContainerRegistryBlobCheckChunkExistsHeaders {
 }
 
 /** Known values of {@link ArtifactArchitecture} that the service accepts. */
-export const enum KnownArtifactArchitecture {
+export enum KnownArtifactArchitecture {
+  /** i386 */
   I386 = "386",
+  /** AMD64 */
   Amd64 = "amd64",
+  /** ARM */
   Arm = "arm",
+  /** ARM64 */
   Arm64 = "arm64",
+  /** MIPS */
   Mips = "mips",
+  /** MIPSLE */
   MipsLe = "mipsle",
+  /** MIPS64 */
   Mips64 = "mips64",
+  /** MIPS64LE */
   Mips64Le = "mips64le",
+  /** PPC64 */
   Ppc64 = "ppc64",
+  /** PPC64LE */
   Ppc64Le = "ppc64le",
+  /** RISCv64 */
   RiscV64 = "riscv64",
+  /** s390x */
   S390X = "s390x",
+  /** Wasm */
   Wasm = "wasm"
 }
 
@@ -774,24 +773,24 @@ export const enum KnownArtifactArchitecture {
  * {@link KnownArtifactArchitecture} can be used interchangeably with ArtifactArchitecture,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **386** \
- * **amd64** \
- * **arm** \
- * **arm64** \
- * **mips** \
- * **mipsle** \
- * **mips64** \
- * **mips64le** \
- * **ppc64** \
- * **ppc64le** \
- * **riscv64** \
- * **s390x** \
- * **wasm**
+ * **386**: i386 \
+ * **amd64**: AMD64 \
+ * **arm**: ARM \
+ * **arm64**: ARM64 \
+ * **mips**: MIPS \
+ * **mipsle**: MIPSLE \
+ * **mips64**: MIPS64 \
+ * **mips64le**: MIPS64LE \
+ * **ppc64**: PPC64 \
+ * **ppc64le**: PPC64LE \
+ * **riscv64**: RISCv64 \
+ * **s390x**: s390x \
+ * **wasm**: Wasm
  */
 export type ArtifactArchitecture = string;
 
 /** Known values of {@link ArtifactOperatingSystem} that the service accepts. */
-export const enum KnownArtifactOperatingSystem {
+export enum KnownArtifactOperatingSystem {
   Aix = "aix",
   Android = "android",
   Darwin = "darwin",
@@ -829,6 +828,24 @@ export const enum KnownArtifactOperatingSystem {
  * **windows**
  */
 export type ArtifactOperatingSystem = string;
+
+/** Known values of {@link PostContentSchemaGrantType} that the service accepts. */
+export enum KnownPostContentSchemaGrantType {
+  AccessTokenRefreshToken = "access_token_refresh_token",
+  AccessToken = "access_token",
+  RefreshToken = "refresh_token"
+}
+
+/**
+ * Defines values for PostContentSchemaGrantType. \
+ * {@link KnownPostContentSchemaGrantType} can be used interchangeably with PostContentSchemaGrantType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **access_token_refresh_token** \
+ * **access_token** \
+ * **refresh_token**
+ */
+export type PostContentSchemaGrantType = string;
 /** Defines values for TokenGrantType. */
 export type TokenGrantType = "refresh_token" | "password";
 /** Defines values for ArtifactTagOrderBy. */
@@ -848,7 +865,7 @@ export interface ContainerRegistryGetManifestOptionalParams
 }
 
 /** Contains response data for the getManifest operation. */
-export type ContainerRegistryGetManifestResponse = Manifest;
+export type ContainerRegistryGetManifestResponse = ManifestWrapper;
 
 /** Optional parameters. */
 export interface ContainerRegistryCreateManifestOptionalParams
@@ -1138,7 +1155,12 @@ export type ContainerRegistryBlobCheckChunkExistsResponse = ContainerRegistryBlo
 /** Optional parameters. */
 export interface AuthenticationExchangeAadAccessTokenForAcrRefreshTokenOptionalParams
   extends coreClient.OperationOptions {
-  aadAccessToken?: Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema;
+  /** AAD tenant associated to the AAD credentials. */
+  tenant?: string;
+  /** AAD refresh token, mandatory when grant_type is access_token_refresh_token or refresh_token */
+  refreshToken?: string;
+  /** AAD access token, mandatory when grant_type is access_token_refresh_token or access_token. */
+  accessToken?: string;
 }
 
 /** Contains response data for the exchangeAadAccessTokenForAcrRefreshToken operation. */
@@ -1146,9 +1168,7 @@ export type AuthenticationExchangeAadAccessTokenForAcrRefreshTokenResponse = Acr
 
 /** Optional parameters. */
 export interface AuthenticationExchangeAcrRefreshTokenForAcrAccessTokenOptionalParams
-  extends coreClient.OperationOptions {
-  acrRefreshToken?: PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchema;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the exchangeAcrRefreshTokenForAcrAccessToken operation. */
 export type AuthenticationExchangeAcrRefreshTokenForAcrAccessTokenResponse = AcrAccessToken;
@@ -1156,6 +1176,8 @@ export type AuthenticationExchangeAcrRefreshTokenForAcrAccessTokenResponse = Acr
 /** Optional parameters. */
 export interface GeneratedClientOptionalParams
   extends coreClient.ServiceClientOptions {
+  /** Api Version */
+  apiVersion?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
 }

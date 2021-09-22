@@ -47,8 +47,6 @@ export interface UpdateRepositoryPropertiesOptions extends OperationOptions {
   canList?: boolean;
   /** Whether or not this repository can be read */
   canRead?: boolean;
-  /** Enables Teleport functionality on new images in the repository improving Container startup performance */
-  teleportEnabled?: boolean;
 }
 
 /**
@@ -252,8 +250,7 @@ export class ContainerRepositoryImpl {
       canDelete: options.canDelete,
       canWrite: options.canWrite,
       canList: options.canList,
-      canRead: options.canRead,
-      teleportEnabled: options.teleportEnabled
+      canRead: options.canRead
     };
     const { span, updatedOptions } = createSpan("ContainerRepository-updateProperties", {
       ...options,
