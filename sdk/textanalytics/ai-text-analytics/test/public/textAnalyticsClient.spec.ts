@@ -962,12 +962,11 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                     assert.ok(result.id);
                     assert.ok(result.entities);
                     for (const entity of result.entities) {
-                      assert.ok(entity.category);
-                      assert.ok(entity.confidenceScore);
-                      assert.ok(entity.length);
-                      assert.ok(entity.offset);
-                      assert.ok(entity.subCategory);
-                      assert.ok(entity.text);
+                      assert.ok(entity.category, "entity category not found");
+                      assert.ok(entity.confidenceScore, "confidence score not found");
+                      assert.ok(entity.length, "length not found");
+                      assert.ok(entity.offset, "offset not found");
+                      assert.ok(entity.text, "text not found");
                     }
                   } else {
                     assert.fail("did not expect document errors but got one.");

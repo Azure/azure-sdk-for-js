@@ -980,14 +980,14 @@ export const TasksStateTasks: coreClient.CompositeMapper = {
           }
         }
       },
-      customClassificationTasks: {
-        serializedName: "customClassificationTasks",
+      customSingleClassificationTasks: {
+        serializedName: "customSingleClassificationTasks",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "TasksStateTasksCustomClassificationTasksItem"
+              className: "TasksStateTasksCustomSingleClassificationTasksItem"
             }
           }
         }
@@ -3299,10 +3299,10 @@ export const TasksStateTasksCustomEntityRecognitionTasksItem: coreClient.Composi
   }
 };
 
-export const TasksStateTasksCustomClassificationTasksItem: coreClient.CompositeMapper = {
+export const TasksStateTasksCustomSingleClassificationTasksItem: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "TasksStateTasksCustomClassificationTasksItem",
+    className: "TasksStateTasksCustomSingleClassificationTasksItem",
     modelProperties: {
       ...TaskState.type.modelProperties,
       ...CustomSingleClassificationTaskResult.type.modelProperties

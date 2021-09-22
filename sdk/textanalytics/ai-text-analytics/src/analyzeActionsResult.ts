@@ -646,7 +646,7 @@ export function createAnalyzeActionsResult(
     customClassifyDocumentSingleCategoryResults: makeActionResult(
       documents,
       makeCustomClassifyDocumentSingleCategoryResultArray,
-      response.tasks.customClassificationTasks ?? [],
+      response.tasks.customSingleClassificationTasks ?? [],
       customClassifyDocumentSingleCategoryActionErrors
     ),
     customClassifyDocumentMultiCategoriesResults: makeActionResult(
