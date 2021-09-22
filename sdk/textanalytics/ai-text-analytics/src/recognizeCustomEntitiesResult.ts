@@ -13,15 +13,15 @@ import { CategorizedEntity } from "./recognizeCategorizedEntitiesResult";
 /**
  * The result of the custom recognize entities operation on a single document.
  */
-export type CustomRecognizeEntitiesResult =
-  | CustomRecognizeEntitiesSuccessResult
-  | CustomRecognizeEntitiesErrorResult;
+export type RecognizeCustomEntitiesResult =
+  | RecognizeCustomEntitiesSuccessResult
+  | RecognizeCustomEntitiesErrorResult;
 
 /**
  * The result of the recognize custom entities operation on a single document,
  * containing a collection of the entities identified in that document.
  */
-export interface CustomRecognizeEntitiesSuccessResult extends TextAnalyticsSuccessResult {
+export interface RecognizeCustomEntitiesSuccessResult extends TextAnalyticsSuccessResult {
   /**
    * The collection of entities identified in the input document.
    */
@@ -31,14 +31,14 @@ export interface CustomRecognizeEntitiesSuccessResult extends TextAnalyticsSucce
 /**
  * An error result from the recognize custom entities operation on a single document.
  */
-export type CustomRecognizeEntitiesErrorResult = TextAnalyticsErrorResult;
+export type RecognizeCustomEntitiesErrorResult = TextAnalyticsErrorResult;
 
 /**
  * @internal
  */
-export function makeCustomRecognizeEntitiesResult(
+export function makeRecognizeCustomEntitiesResult(
   result: DocumentEntities
-): CustomRecognizeEntitiesSuccessResult {
+): RecognizeCustomEntitiesSuccessResult {
   const { id, warnings, statistics, entities } = result;
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
@@ -49,9 +49,9 @@ export function makeCustomRecognizeEntitiesResult(
 /**
  * @internal
  */
-export function makeCustomRecognizeEntitiesErrorResult(
+export function makeRecognizeCustomEntitiesErrorResult(
   id: string,
   error: TextAnalyticsError
-): CustomRecognizeEntitiesErrorResult {
+): RecognizeCustomEntitiesErrorResult {
   return makeTextAnalyticsErrorResult(id, error);
 }

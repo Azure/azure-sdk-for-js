@@ -35,9 +35,9 @@ export {
   AnalyzeSentimentAction,
   ExtractSummaryAction,
   KnownSummarySentencesSortBy as KnownSummarySentencesOrderBy,
-  CustomRecognizeEntitiesAction,
-  CustomClassifyDocumentSingleCategoryAction,
-  CustomClassifyDocumentMultiCategoriesAction
+  RecognizeCustomEntitiesAction,
+  ClassifyDocumentSingleCategoryAction,
+  ClassifyDocumentMultiCategoriesAction
 } from "./textAnalyticsClient";
 export { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
 export {
@@ -84,24 +84,24 @@ export {
 } from "./extractSummaryResult";
 export { ExtractSummaryResultArray } from "./extractSummaryResultArray";
 export {
-  CustomRecognizeEntitiesErrorResult,
-  CustomRecognizeEntitiesResult,
-  CustomRecognizeEntitiesSuccessResult
-} from "./customRecognizeEntitiesResult";
-export { CustomRecognizeEntitiesResultArray } from "./customRecognizeEntitiesResultArray";
+  RecognizeCustomEntitiesErrorResult,
+  RecognizeCustomEntitiesResult,
+  RecognizeCustomEntitiesSuccessResult
+} from "./recognizeCustomEntitiesResult";
+export { RecognizeCustomEntitiesResultArray } from "./recognizeCustomEntitiesResultArray";
 export {
-  CustomClassifyDocumentSingleCategoryErrorResult,
-  CustomClassifyDocumentSingleCategoryResult,
-  CustomClassifyDocumentSingleCategorySuccessResult,
+  ClassifyDocumentSingleCategoryErrorResult,
+  ClassifyDocumentSingleCategoryResult,
+  ClassifyDocumentSingleCategorySuccessResult,
   DocumentClassification
-} from "./customClassifyDocumentSingleCategoryResult";
-export { CustomClassifyDocumentSingleCategoryResultArray } from "./customClassifyDocumentSingleCategoryResultArray";
+} from "./classifyDocumentSingleCategoryResult";
+export { ClassifyDocumentSingleCategoryResultArray } from "./classifyDocumentSingleCategoryResultArray";
 export {
-  CustomClassifyDocumentMultiCategoriesErrorResult,
-  CustomClassifyDocumentMultiCategoriesResult,
-  CustomClassifyDocumentMultiCategoriesSuccessResult
-} from "./customClassifyDocumentMultiCategoriesResult";
-export { CustomClassifyDocumentMultiCategoriesResultArray } from "./customClassifyDocumentMultiCategoriesResultArray";
+  ClassifyDocumentMultiCategoriesErrorResult,
+  ClassifyDocumentMultiCategoriesResult,
+  ClassifyDocumentMultiCategoriesSuccessResult
+} from "./classifyDocumentMultiCategoriesResult";
+export { ClassifyDocumentMultiCategoriesResultArray } from "./classifyDocumentMultiCategoriesResultArray";
 export {
   RecognizeLinkedEntitiesResult,
   RecognizeLinkedEntitiesErrorResult,
@@ -145,15 +145,15 @@ export {
   ExtractSummaryActionResult,
   ExtractSummaryActionSuccessResult,
   ExtractSummaryActionErrorResult,
-  CustomRecognizeEntitiesActionResult,
-  CustomRecongizeEntitiesActionErrorResult,
-  CustomRecongizeEntitiesActionSuccessResult,
-  CustomClassifyDocumentMultiCategoriesActionErrorResult,
-  CustomClassifyDocumentMultiCategoriesActionResult,
-  CustomClassifyDocumentMultiCategoriesActionSuccessResult,
-  CustomClassifyDocumentSingleCategoryActionErrorResult,
-  CustomClassifyDocumentSingleCategoryActionResult,
-  CustomClassifyDocumentSingleCategoryActionSuccessResult
+  RecognizeCustomEntitiesActionResult,
+  RecongizeCustomEntitiesActionErrorResult,
+  RecongizeCustomEntitiesActionSuccessResult,
+  ClassifyDocumentMultiCategoriesActionErrorResult,
+  ClassifyDocumentMultiCategoriesActionResult,
+  ClassifyDocumentMultiCategoriesActionSuccessResult,
+  ClassifyDocumentSingleCategoryActionErrorResult,
+  ClassifyDocumentSingleCategoryActionResult,
+  ClassifyDocumentSingleCategoryActionSuccessResult
 } from "./analyzeActionsResult";
 export {
   ErrorCode,

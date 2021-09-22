@@ -4,21 +4,20 @@
 import {
   TextDocumentBatchStatistics,
   TextDocumentInput,
-  CustomMultiClassificationResult
+  CustomEntitiesResult
 } from "./generated/models";
 import {
-  CustomClassifyDocumentMultiCategoriesResult,
-  makeCustomClassifyDocumentMultiCategoriesResult,
-  makeCustomClassifyDocumentMultiCategoriesErrorResult
-} from "./customClassifyDocumentMultiCategoriesResult";
+  RecognizeCustomEntitiesResult,
+  makeRecognizeCustomEntitiesResult,
+  makeRecognizeCustomEntitiesErrorResult
+} from "./recognizeCustomEntitiesResult";
 import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndCustomProjectInfo } from "./textAnalyticsResult";
 
 /**
- * Array of `CustomClassifyDocumentMultiCategoriesResult` objects corresponding to a batch of input documents, and
+ * Array of `CustomRecognizeEntitiesResult` objects corresponding to a batch of input documents, and
  * annotated with information about the batch operation.
  */
-export interface CustomClassifyDocumentMultiCategoriesResultArray
-  extends Array<CustomClassifyDocumentMultiCategoriesResult> {
+export interface RecognizeCustomEntitiesResultArray extends Array<RecognizeCustomEntitiesResult> {
   /**
    * Statistics about the input document batch and how it was processed
    * by the service. This property will have a value when includeStatistics is set to true
@@ -40,14 +39,14 @@ export interface CustomClassifyDocumentMultiCategoriesResultArray
 /**
  * @internal
  */
-export function makeCustomClassifyDocumentMultiCategoriesResultArray(
+export function makeRecognizeCustomEntitiesResultArray(
   input: TextDocumentInput[],
-  response: CustomMultiClassificationResult
-): CustomClassifyDocumentMultiCategoriesResultArray {
+  response: CustomEntitiesResult
+): RecognizeCustomEntitiesResultArray {
   return combineSuccessfulAndErroneousDocumentsWithStatisticsAndCustomProjectInfo(
     input,
     response,
-    makeCustomClassifyDocumentMultiCategoriesResult,
-    makeCustomClassifyDocumentMultiCategoriesErrorResult
+    makeRecognizeCustomEntitiesResult,
+    makeRecognizeCustomEntitiesErrorResult
   );
 }

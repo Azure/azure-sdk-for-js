@@ -7,13 +7,13 @@ import {
   makeAnalyzeSentimentResultArray
 } from "./analyzeSentimentResultArray";
 import {
-  CustomClassifyDocumentMultiCategoriesResultArray,
-  makeCustomClassifyDocumentMultiCategoriesResultArray
-} from "./customClassifyDocumentMultiCategoriesResultArray";
+  ClassifyDocumentMultiCategoriesResultArray,
+  makeClassifyDocumentMultiCategoriesResultArray
+} from "./classifyDocumentMultiCategoriesResultArray";
 import {
-  CustomClassifyDocumentSingleCategoryResultArray,
-  makeCustomClassifyDocumentSingleCategoryResultArray
-} from "./customClassifyDocumentSingleCategoryResultArray";
+  ClassifyDocumentSingleCategoryResultArray,
+  makeClassifyDocumentSingleCategoryResultArray
+} from "./classifyDocumentSingleCategoryResultArray";
 import {
   ExtractKeyPhrasesResultArray,
   makeExtractKeyPhrasesResultArray
@@ -28,9 +28,9 @@ import {
   RecognizeCategorizedEntitiesResultArray
 } from "./recognizeCategorizedEntitiesResultArray";
 import {
-  makeCustomRecognizeEntitiesResultArray,
-  CustomRecognizeEntitiesResultArray
-} from "./customRecognizeEntitiesResultArray";
+  makeRecognizeCustomEntitiesResultArray,
+  RecognizeCustomEntitiesResultArray
+} from "./recognizeCustomEntitiesResultArray";
 import {
   makeRecognizeLinkedEntitiesResultArray,
   RecognizeLinkedEntitiesResultArray
@@ -72,15 +72,15 @@ export interface AnalyzeActionsResult {
   /**
    * Array of the results for each recognize custom entities action.
    */
-  customRecognizeEntitiesResults: CustomRecognizeEntitiesActionResult[];
+  recognizeCustomEntitiesResults: RecognizeCustomEntitiesActionResult[];
   /**
    * Array of the results for each custom classify document single category action.
    */
-  customClassifyDocumentSingleCategoryResults: CustomClassifyDocumentSingleCategoryActionResult[];
+  classifyDocumentSingleCategoryResults: ClassifyDocumentSingleCategoryActionResult[];
   /**
    * Array of the results for each custom classify document multi categories action.
    */
-  customClassifyDocumentMultiCategoriesResults: CustomClassifyDocumentMultiCategoriesActionResult[];
+  classifyDocumentMultiCategoriesResults: ClassifyDocumentMultiCategoriesActionResult[];
 }
 
 /**
@@ -248,71 +248,71 @@ export type ExtractSummaryActionResult =
 /**
  * The error of a custom recognize entities action.
  */
-export type CustomRecongizeEntitiesActionErrorResult = TextAnalyticsActionErrorResult;
+export type RecongizeCustomEntitiesActionErrorResult = TextAnalyticsActionErrorResult;
 
 /**
  * The results of a succeeded custom recognize entities action.
  */
-export interface CustomRecongizeEntitiesActionSuccessResult
+export interface RecongizeCustomEntitiesActionSuccessResult
   extends TextAnalyticsActionSuccessState {
   /**
    * Array of the results for each custom recognize entities action.
    */
-  results: CustomRecognizeEntitiesResultArray;
+  results: RecognizeCustomEntitiesResultArray;
 }
 
 /**
  * The result of a custom recognize entities action.
  */
-export type CustomRecognizeEntitiesActionResult =
-  | CustomRecongizeEntitiesActionSuccessResult
-  | CustomRecongizeEntitiesActionErrorResult;
+export type RecognizeCustomEntitiesActionResult =
+  | RecongizeCustomEntitiesActionSuccessResult
+  | RecongizeCustomEntitiesActionErrorResult;
 
 /**
  * The error of a custom classify document single category action.
  */
-export type CustomClassifyDocumentSingleCategoryActionErrorResult = TextAnalyticsActionErrorResult;
+export type ClassifyDocumentSingleCategoryActionErrorResult = TextAnalyticsActionErrorResult;
 
 /**
  * The results of a succeeded custom classify document single category action.
  */
-export interface CustomClassifyDocumentSingleCategoryActionSuccessResult
+export interface ClassifyDocumentSingleCategoryActionSuccessResult
   extends TextAnalyticsActionSuccessState {
   /**
    * Array of the results for each custom classify document single category action.
    */
-  results: CustomClassifyDocumentSingleCategoryResultArray;
+  results: ClassifyDocumentSingleCategoryResultArray;
 }
 
 /**
  * The result of a custom classify document single category action.
  */
-export type CustomClassifyDocumentSingleCategoryActionResult =
-  | CustomClassifyDocumentSingleCategoryActionSuccessResult
-  | CustomClassifyDocumentSingleCategoryActionErrorResult;
+export type ClassifyDocumentSingleCategoryActionResult =
+  | ClassifyDocumentSingleCategoryActionSuccessResult
+  | ClassifyDocumentSingleCategoryActionErrorResult;
 
 /**
  * The error of a custom classify document multi categories action.
  */
-export type CustomClassifyDocumentMultiCategoriesActionErrorResult = TextAnalyticsActionErrorResult;
+export type ClassifyDocumentMultiCategoriesActionErrorResult = TextAnalyticsActionErrorResult;
 
 /**
  * The results of a succeeded custom classify document multi categories action.
  */
-export interface CustomClassifyDocumentMultiCategoriesActionSuccessResult
+export interface ClassifyDocumentMultiCategoriesActionSuccessResult
   extends TextAnalyticsActionSuccessState {
   /**
    * Array of the results for each custom classify document multi categories action.
    */
-  results: CustomClassifyDocumentMultiCategoriesResultArray;
+  results: ClassifyDocumentMultiCategoriesResultArray;
 }
 
 /**
  * The result of a custom classify document multi categories action.
  */
-export type CustomClassifyDocumentMultiCategoriesActionResult =
-  | CustomClassifyDocumentMultiCategoriesActionSuccessResult
-  | CustomClassifyDocumentMultiCategoriesActionErrorResult;
+export type ClassifyDocumentMultiCategoriesActionResult =
+  | ClassifyDocumentMultiCategoriesActionSuccessResult
+  | ClassifyDocumentMultiCategoriesActionErrorResult;
 
 /**
  * The results of an analyze Actions operation represented as a paged iterator that
@@ -347,9 +347,9 @@ type TextAnalyticsActionType =
   | "RecognizeLinkedEntities"
   | "AnalyzeSentiment"
   | "ExtractSummary"
-  | "CustomRecognizeEntities"
-  | "CustomClassifyDocumentSingleCategory"
-  | "CustomClassifyDocumentMultiCategories";
+  | "RecognizeCustomEntities"
+  | "ClassifyDocumentSingleCategory"
+  | "ClassifyDocumentMultiCategories";
 
 /**
  * The type of an action error with the type of the action that erred and its
@@ -402,13 +402,13 @@ function convertTaskTypeToActionType(taskType: string): TextAnalyticsActionType 
       return "ExtractSummary";
     }
     case "customEntityRecognitionTasks": {
-      return "CustomRecognizeEntities";
+      return "RecognizeCustomEntities";
     }
     case "customSingleClassificationTasks": {
-      return "CustomClassifyDocumentSingleCategory";
+      return "ClassifyDocumentSingleCategory";
     }
     case "customMultiClassificationTasks": {
-      return "CustomClassifyDocumentMultiCategories";
+      return "ClassifyDocumentMultiCategories";
     }
     default: {
       throw new Error(`unexpected action type from the service: ${taskType}`);
@@ -461,9 +461,9 @@ function categorizeActionErrors(
   recognizeLinkedEntitiesActionErrors: TextAnalyticsActionError[],
   analyzeSentimentActionErrors: TextAnalyticsActionError[],
   extractSummarySentencesActionErrors: TextAnalyticsActionError[],
-  customRecognizeEntitiesActionErrors: TextAnalyticsActionError[],
-  customClassifyDocumentSingleCategoryActionErrors: TextAnalyticsActionError[],
-  customClassifyDocumentMultiCategoriesActionErrors: TextAnalyticsActionError[]
+  recognizeCustomEntitiesActionErrors: TextAnalyticsActionError[],
+  classifyDocumentSingleCategoryActionErrors: TextAnalyticsActionError[],
+  classifyDocumentMultiCategoriesActionErrors: TextAnalyticsActionError[]
 ): void {
   for (const error of erredActions) {
     const actionError = parseActionError(error);
@@ -492,16 +492,16 @@ function categorizeActionErrors(
         extractSummarySentencesActionErrors.push(actionError);
         break;
       }
-      case "CustomRecognizeEntities": {
-        customRecognizeEntitiesActionErrors.push(actionError);
+      case "RecognizeCustomEntities": {
+        recognizeCustomEntitiesActionErrors.push(actionError);
         break;
       }
-      case "CustomClassifyDocumentSingleCategory": {
-        customClassifyDocumentSingleCategoryActionErrors.push(actionError);
+      case "ClassifyDocumentSingleCategory": {
+        classifyDocumentSingleCategoryActionErrors.push(actionError);
         break;
       }
-      case "CustomClassifyDocumentMultiCategories": {
-        customClassifyDocumentMultiCategoriesActionErrors.push(actionError);
+      case "ClassifyDocumentMultiCategories": {
+        classifyDocumentMultiCategoriesActionErrors.push(actionError);
         break;
       }
     }
@@ -585,9 +585,9 @@ export function createAnalyzeActionsResult(
   const recognizeLinkedEntitiesActionErrors: TextAnalyticsActionError[] = [];
   const analyzeSentimentActionErrors: TextAnalyticsActionError[] = [];
   const extractSummarySentencesActionErrors: TextAnalyticsActionError[] = [];
-  const customRecognizeEntitiesActionErrors: TextAnalyticsActionError[] = [];
-  const customClassifyDocumentSingleCategoryActionErrors: TextAnalyticsActionError[] = [];
-  const customClassifyDocumentMultiCategoriesActionErrors: TextAnalyticsActionError[] = [];
+  const recognizeCustomEntitiesActionErrors: TextAnalyticsActionError[] = [];
+  const classifyDocumentSingleCategoryActionErrors: TextAnalyticsActionError[] = [];
+  const classifyDocumentMultiCategoriesActionErrors: TextAnalyticsActionError[] = [];
   categorizeActionErrors(
     response?.errors ?? [],
     recognizeEntitiesActionErrors,
@@ -596,9 +596,9 @@ export function createAnalyzeActionsResult(
     recognizeLinkedEntitiesActionErrors,
     analyzeSentimentActionErrors,
     extractSummarySentencesActionErrors,
-    customRecognizeEntitiesActionErrors,
-    customClassifyDocumentSingleCategoryActionErrors,
-    customClassifyDocumentMultiCategoriesActionErrors
+    recognizeCustomEntitiesActionErrors,
+    classifyDocumentSingleCategoryActionErrors,
+    classifyDocumentMultiCategoriesActionErrors
   );
   return {
     recognizeEntitiesResults: makeActionResult(
@@ -637,23 +637,23 @@ export function createAnalyzeActionsResult(
       response.tasks.extractiveSummarizationTasks ?? [],
       extractSummarySentencesActionErrors
     ),
-    customRecognizeEntitiesResults: makeActionResult(
+    recognizeCustomEntitiesResults: makeActionResult(
       documents,
-      makeCustomRecognizeEntitiesResultArray,
+      makeRecognizeCustomEntitiesResultArray,
       response.tasks.customEntityRecognitionTasks ?? [],
-      customRecognizeEntitiesActionErrors
+      recognizeCustomEntitiesActionErrors
     ),
-    customClassifyDocumentSingleCategoryResults: makeActionResult(
+    classifyDocumentSingleCategoryResults: makeActionResult(
       documents,
-      makeCustomClassifyDocumentSingleCategoryResultArray,
+      makeClassifyDocumentSingleCategoryResultArray,
       response.tasks.customSingleClassificationTasks ?? [],
-      customClassifyDocumentSingleCategoryActionErrors
+      classifyDocumentSingleCategoryActionErrors
     ),
-    customClassifyDocumentMultiCategoriesResults: makeActionResult(
+    classifyDocumentMultiCategoriesResults: makeActionResult(
       documents,
-      makeCustomClassifyDocumentMultiCategoriesResultArray,
+      makeClassifyDocumentMultiCategoriesResultArray,
       response.tasks.customMultiClassificationTasks ?? [],
-      customClassifyDocumentMultiCategoriesActionErrors
+      classifyDocumentMultiCategoriesActionErrors
     )
   };
 }

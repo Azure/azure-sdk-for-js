@@ -940,7 +940,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           const poller = await client.beginAnalyzeActions(
             docs,
             {
-              customRecognizeEntitiesActions: [
+              recognizeCustomEntitiesActions: [
                 {
                   projectName: "88ee0f78-fbca-444d-98e2-7c4c8631e494",
                   deploymentName: "88ee0f78-fbca-444d-98e2-7c4c8631e494"
@@ -953,7 +953,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           );
           const results = await poller.pollUntilDone();
           for await (const page of results) {
-            const entitiesResult = page.customRecognizeEntitiesResults;
+            const entitiesResult = page.recognizeCustomEntitiesResults;
             if (entitiesResult.length === 1) {
               const action = entitiesResult[0];
               if (!action.error) {
@@ -992,7 +992,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           const poller = await client.beginAnalyzeActions(
             docs,
             {
-              customClassifyDocumentSingleCategoryActions: [
+              classifyDocumentSingleCategoryActions: [
                 {
                   projectName: "659c1851-be0b-4142-b12a-087da9785926",
                   deploymentName: "659c1851-be0b-4142-b12a-087da9785926"
@@ -1005,7 +1005,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           );
           const results = await poller.pollUntilDone();
           for await (const page of results) {
-            const classificationResult = page.customClassifyDocumentSingleCategoryResults;
+            const classificationResult = page.classifyDocumentSingleCategoryResults;
             if (classificationResult.length === 1) {
               const action = classificationResult[0];
               if (!action.error) {
@@ -1043,7 +1043,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           const poller = await client.beginAnalyzeActions(
             docs,
             {
-              customClassifyDocumentMultiCategoriesActions: [
+              classifyDocumentMultiCategoriesActions: [
                 {
                   projectName: "7cdace98-537b-494a-b69a-c19754718025",
                   deploymentName: "7cdace98-537b-494a-b69a-c19754718025"
@@ -1056,7 +1056,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           );
           const results = await poller.pollUntilDone();
           for await (const page of results) {
-            const classificationResult = page.customClassifyDocumentMultiCategoriesResults;
+            const classificationResult = page.classifyDocumentMultiCategoriesResults;
             if (classificationResult.length === 1) {
               const action = classificationResult[0];
               if (!action.error) {

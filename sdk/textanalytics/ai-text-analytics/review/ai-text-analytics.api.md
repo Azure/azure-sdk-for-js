@@ -35,11 +35,11 @@ export type AnalyzeActionsPollerLike = PollerLike<AnalyzeActionsOperationState, 
 // @public
 export interface AnalyzeActionsResult {
     analyzeSentimentResults: AnalyzeSentimentActionResult[];
-    customClassifyDocumentMultiCategoriesResults: CustomClassifyDocumentMultiCategoriesActionResult[];
-    customClassifyDocumentSingleCategoryResults: CustomClassifyDocumentSingleCategoryActionResult[];
-    customRecognizeEntitiesResults: CustomRecognizeEntitiesActionResult[];
+    classifyDocumentMultiCategoriesResults: ClassifyDocumentMultiCategoriesActionResult[];
+    classifyDocumentSingleCategoryResults: ClassifyDocumentSingleCategoryActionResult[];
     extractKeyPhrasesResults: ExtractKeyPhrasesActionResult[];
     extractSummaryResults: ExtractSummaryActionResult[];
+    recognizeCustomEntitiesResults: RecognizeCustomEntitiesActionResult[];
     recognizeEntitiesResults: RecognizeCategorizedEntitiesActionResult[];
     recognizeLinkedEntitiesResults: RecognizeLinkedEntitiesActionResult[];
     recognizePiiEntitiesResults: RecognizePiiEntitiesActionResult[];
@@ -143,106 +143,71 @@ export interface ClassificationResult {
 }
 
 // @public
-export interface CustomClassifyDocumentMultiCategoriesAction extends CustomTextAnalyticsAction {
+export interface ClassifyDocumentMultiCategoriesAction extends CustomTextAnalyticsAction {
     disableServiceLogs?: boolean;
 }
 
 // @public
-export type CustomClassifyDocumentMultiCategoriesActionErrorResult = TextAnalyticsActionErrorResult;
+export type ClassifyDocumentMultiCategoriesActionErrorResult = TextAnalyticsActionErrorResult;
 
 // @public
-export type CustomClassifyDocumentMultiCategoriesActionResult = CustomClassifyDocumentMultiCategoriesActionSuccessResult | CustomClassifyDocumentMultiCategoriesActionErrorResult;
+export type ClassifyDocumentMultiCategoriesActionResult = ClassifyDocumentMultiCategoriesActionSuccessResult | ClassifyDocumentMultiCategoriesActionErrorResult;
 
 // @public
-export interface CustomClassifyDocumentMultiCategoriesActionSuccessResult extends TextAnalyticsActionSuccessState {
-    results: CustomClassifyDocumentMultiCategoriesResultArray;
+export interface ClassifyDocumentMultiCategoriesActionSuccessResult extends TextAnalyticsActionSuccessState {
+    results: ClassifyDocumentMultiCategoriesResultArray;
 }
 
 // @public
-export type CustomClassifyDocumentMultiCategoriesErrorResult = TextAnalyticsErrorResult;
+export type ClassifyDocumentMultiCategoriesErrorResult = TextAnalyticsErrorResult;
 
 // @public
-export type CustomClassifyDocumentMultiCategoriesResult = CustomClassifyDocumentMultiCategoriesSuccessResult | CustomClassifyDocumentMultiCategoriesErrorResult;
+export type ClassifyDocumentMultiCategoriesResult = ClassifyDocumentMultiCategoriesSuccessResult | ClassifyDocumentMultiCategoriesErrorResult;
 
 // @public
-export interface CustomClassifyDocumentMultiCategoriesResultArray extends Array<CustomClassifyDocumentMultiCategoriesResult> {
+export interface ClassifyDocumentMultiCategoriesResultArray extends Array<ClassifyDocumentMultiCategoriesResult> {
     deploymentName: string;
     projectName: string;
     statistics?: TextDocumentBatchStatistics;
 }
 
 // @public
-export interface CustomClassifyDocumentMultiCategoriesSuccessResult extends TextAnalyticsSuccessResult {
+export interface ClassifyDocumentMultiCategoriesSuccessResult extends TextAnalyticsSuccessResult {
     classifications: DocumentClassification[];
 }
 
 // @public
-export interface CustomClassifyDocumentSingleCategoryAction extends CustomTextAnalyticsAction {
+export interface ClassifyDocumentSingleCategoryAction extends CustomTextAnalyticsAction {
     disableServiceLogs?: boolean;
 }
 
 // @public
-export type CustomClassifyDocumentSingleCategoryActionErrorResult = TextAnalyticsActionErrorResult;
+export type ClassifyDocumentSingleCategoryActionErrorResult = TextAnalyticsActionErrorResult;
 
 // @public
-export type CustomClassifyDocumentSingleCategoryActionResult = CustomClassifyDocumentSingleCategoryActionSuccessResult | CustomClassifyDocumentSingleCategoryActionErrorResult;
+export type ClassifyDocumentSingleCategoryActionResult = ClassifyDocumentSingleCategoryActionSuccessResult | ClassifyDocumentSingleCategoryActionErrorResult;
 
 // @public
-export interface CustomClassifyDocumentSingleCategoryActionSuccessResult extends TextAnalyticsActionSuccessState {
-    results: CustomClassifyDocumentSingleCategoryResultArray;
+export interface ClassifyDocumentSingleCategoryActionSuccessResult extends TextAnalyticsActionSuccessState {
+    results: ClassifyDocumentSingleCategoryResultArray;
 }
 
 // @public
-export type CustomClassifyDocumentSingleCategoryErrorResult = TextAnalyticsErrorResult;
+export type ClassifyDocumentSingleCategoryErrorResult = TextAnalyticsErrorResult;
 
 // @public
-export type CustomClassifyDocumentSingleCategoryResult = CustomClassifyDocumentSingleCategorySuccessResult | CustomClassifyDocumentSingleCategoryErrorResult;
+export type ClassifyDocumentSingleCategoryResult = ClassifyDocumentSingleCategorySuccessResult | ClassifyDocumentSingleCategoryErrorResult;
 
 // @public
-export interface CustomClassifyDocumentSingleCategoryResultArray extends Array<CustomClassifyDocumentSingleCategoryResult> {
+export interface ClassifyDocumentSingleCategoryResultArray extends Array<ClassifyDocumentSingleCategoryResult> {
     deploymentName: string;
     projectName: string;
     statistics?: TextDocumentBatchStatistics;
 }
 
 // @public
-export interface CustomClassifyDocumentSingleCategorySuccessResult extends TextAnalyticsSuccessResult {
+export interface ClassifyDocumentSingleCategorySuccessResult extends TextAnalyticsSuccessResult {
     classification: DocumentClassification;
-}
-
-// @public
-export interface CustomRecognizeEntitiesAction extends CustomTextAnalyticsAction {
-    disableServiceLogs?: boolean;
-    stringIndexType?: StringIndexType;
-}
-
-// @public
-export type CustomRecognizeEntitiesActionResult = CustomRecongizeEntitiesActionSuccessResult | CustomRecongizeEntitiesActionErrorResult;
-
-// @public
-export type CustomRecognizeEntitiesErrorResult = TextAnalyticsErrorResult;
-
-// @public
-export type CustomRecognizeEntitiesResult = CustomRecognizeEntitiesSuccessResult | CustomRecognizeEntitiesErrorResult;
-
-// @public
-export interface CustomRecognizeEntitiesResultArray extends Array<CustomRecognizeEntitiesResult> {
-    deploymentName: string;
-    projectName: string;
-    statistics?: TextDocumentBatchStatistics;
-}
-
-// @public
-export interface CustomRecognizeEntitiesSuccessResult extends TextAnalyticsSuccessResult {
-    entities: CategorizedEntity[];
-}
-
-// @public
-export type CustomRecongizeEntitiesActionErrorResult = TextAnalyticsActionErrorResult;
-
-// @public
-export interface CustomRecongizeEntitiesActionSuccessResult extends TextAnalyticsActionSuccessState {
-    results: CustomRecognizeEntitiesResultArray;
 }
 
 // @public
@@ -631,6 +596,33 @@ export interface RecognizeCategorizedEntitiesSuccessResult extends TextAnalytics
 }
 
 // @public
+export interface RecognizeCustomEntitiesAction extends CustomTextAnalyticsAction {
+    disableServiceLogs?: boolean;
+    stringIndexType?: StringIndexType;
+}
+
+// @public
+export type RecognizeCustomEntitiesActionResult = RecongizeCustomEntitiesActionSuccessResult | RecongizeCustomEntitiesActionErrorResult;
+
+// @public
+export type RecognizeCustomEntitiesErrorResult = TextAnalyticsErrorResult;
+
+// @public
+export type RecognizeCustomEntitiesResult = RecognizeCustomEntitiesSuccessResult | RecognizeCustomEntitiesErrorResult;
+
+// @public
+export interface RecognizeCustomEntitiesResultArray extends Array<RecognizeCustomEntitiesResult> {
+    deploymentName: string;
+    projectName: string;
+    statistics?: TextDocumentBatchStatistics;
+}
+
+// @public
+export interface RecognizeCustomEntitiesSuccessResult extends TextAnalyticsSuccessResult {
+    entities: CategorizedEntity[];
+}
+
+// @public
 export interface RecognizeLinkedEntitiesAction extends TextAnalyticsAction {
     disableServiceLogs?: boolean;
     stringIndexType?: StringIndexType;
@@ -713,6 +705,14 @@ export interface RecognizePiiEntitiesSuccessResult extends TextAnalyticsSuccessR
     redactedText: string;
 }
 
+// @public
+export type RecongizeCustomEntitiesActionErrorResult = TextAnalyticsActionErrorResult;
+
+// @public
+export interface RecongizeCustomEntitiesActionSuccessResult extends TextAnalyticsActionSuccessState {
+    results: RecognizeCustomEntitiesResultArray;
+}
+
 // @public (undocumented)
 export interface SentenceAssessment {
     confidenceScores: TargetConfidenceScoreLabel;
@@ -789,11 +789,11 @@ export interface TextAnalyticsActionErrorResult {
 // @public
 export interface TextAnalyticsActions {
     analyzeSentimentActions?: AnalyzeSentimentAction[];
-    customClassifyDocumentMultiCategoriesActions?: CustomClassifyDocumentMultiCategoriesAction[];
-    customClassifyDocumentSingleCategoryActions?: CustomClassifyDocumentSingleCategoryAction[];
-    customRecognizeEntitiesActions?: CustomRecognizeEntitiesAction[];
+    classifyDocumentMultiCategoriesActions?: ClassifyDocumentMultiCategoriesAction[];
+    classifyDocumentSingleCategoryActions?: ClassifyDocumentSingleCategoryAction[];
     extractKeyPhrasesActions?: ExtractKeyPhrasesAction[];
     extractSummaryActions?: ExtractSummaryAction[];
+    recognizeCustomEntitiesActions?: RecognizeCustomEntitiesAction[];
     recognizeEntitiesActions?: RecognizeCategorizedEntitiesAction[];
     recognizeLinkedEntitiesActions?: RecognizeLinkedEntitiesAction[];
     recognizePiiEntitiesActions?: RecognizePiiEntitiesAction[];
