@@ -10,14 +10,13 @@ import { EnvironmentCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { MsalNode } from "../../../src/msal/nodeFlows/nodeCommon";
 import { Context } from "mocha";
-import { isLiveMode } from "@azure-tools/test-recorder";
 
-describe("EnvironmentCredential (internal)", function () {
+describe("EnvironmentCredential (internal)", function() {
   let cleanup: MsalTestCleanup;
   let getTokenSilentSpy: Sinon.SinonSpy;
   let doGetTokenSpy: Sinon.SinonSpy;
 
-  beforeEach(function (this: Context) {
+  beforeEach(function(this: Context) {
     const setup = msalNodeTestSetup(this);
     cleanup = setup.cleanup;
 
@@ -29,18 +28,13 @@ describe("EnvironmentCredential (internal)", function () {
       "acquireTokenByClientCredential"
     );
   });
-  afterEach(async function () {
+  afterEach(async function() {
     await cleanup();
   });
 
   const scope = "https://vault.azure.net/.default";
 
-  it("Authenticates silently after the initial request", async function () {
-    if (isLiveMode()) {
-      // This test is not meant to run in live mode.
-      this.skip();
-    }
-
+  it("Authenticates silently after the initial request", async function() {
     const credential = new EnvironmentCredential();
 
     const { token: firstToken } = await credential.getToken(scope);
