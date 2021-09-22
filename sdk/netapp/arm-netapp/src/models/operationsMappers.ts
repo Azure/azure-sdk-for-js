@@ -9,6 +9,7 @@
 export {
   CloudError,
   Dimension,
+  LogSpecification,
   MetricSpecification,
   Operation,
   OperationDisplay,

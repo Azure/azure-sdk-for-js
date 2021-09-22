@@ -13,7 +13,7 @@ import * as msRestAzure from "@azure/ms-rest-azure-js";
 import { TokenCredential } from "@azure/core-auth";
 
 const packageName = "@azure/arm-netapp";
-const packageVersion = "14.2.0";
+const packageVersion = "14.3.0";
 
 export class AzureNetAppFilesManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials | TokenCredential;
