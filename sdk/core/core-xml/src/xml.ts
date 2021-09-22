@@ -1,63 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as xml2js from "xml2js";
-import { XML_ATTRKEY, XML_CHARKEY, XmlOptions } from "./xml.common";
+import * as parser from "fast-xml-parser";
+import { j2xParser } from "fast-xml-parser";
 
-// Note: The reason we re-define all of the xml2js default settings (version 2.0) here is because the default settings object exposed
-// by the xm2js library is mutable. See https://github.com/Leonidas-from-XIV/node-xml2js/issues/536
-// By creating a new copy of the settings each time we instantiate the parser,
-// we are safeguarding against the possibility of the default settings being mutated elsewhere unintentionally.
-const xml2jsDefaultOptionsV2: xml2js.OptionsV2 = {
-  explicitCharkey: false,
-  trim: false,
-  normalize: false,
-  normalizeTags: false,
-  attrkey: XML_ATTRKEY,
-  explicitArray: true,
-  ignoreAttrs: false,
-  mergeAttrs: false,
-  explicitRoot: true,
-  validator: undefined,
-  xmlns: false,
-  explicitChildren: false,
-  preserveChildrenOrder: false,
-  childkey: "$$",
-  charsAsChildren: false,
-  includeWhiteChars: false,
-  async: false,
-  strict: true,
-  attrNameProcessors: undefined,
-  attrValueProcessors: undefined,
-  tagNameProcessors: undefined,
-  valueProcessors: undefined,
-  rootName: "root",
-  xmldec: {
-    version: "1.0",
-    encoding: "UTF-8",
-    standalone: true
-  },
-  doctype: undefined,
-  renderOpts: {
-    pretty: true,
-    indent: "  ",
-    newline: "\n"
-  },
-  headless: false,
-  chunkSize: 10000,
-  emptyTag: "",
-  cdata: false
-};
+import { XmlOptions } from "./xml.common";
 
-// The xml2js settings for general XML parsing operations.
-const xml2jsParserSettings: any = Object.assign({}, xml2jsDefaultOptionsV2);
-xml2jsParserSettings.explicitArray = false;
-
-// The xml2js settings for general XML building operations.
-const xml2jsBuilderSettings: any = Object.assign({}, xml2jsDefaultOptionsV2);
-xml2jsBuilderSettings.explicitArray = false;
-xml2jsBuilderSettings.renderOpts = {
-  pretty: false
+const toXMLOptions: Partial<parser.J2xOptions> = {
+  attributeNamePrefix: "@_",
+  textNodeName: "_",
+  ignoreAttributes: false,
+  format: true
 };
 
 /**
@@ -67,10 +20,13 @@ xml2jsBuilderSettings.renderOpts = {
  * `rootName` indicates the name of the root element in the resulting XML
  */
 export function stringifyXML(obj: unknown, opts: XmlOptions = {}): string {
-  xml2jsBuilderSettings.rootName = opts.rootName;
-  xml2jsBuilderSettings.charkey = opts.xmlCharKey ?? XML_CHARKEY;
-  const builder = new xml2js.Builder(xml2jsBuilderSettings);
-  return builder.buildObject(obj);
+  const j2x = new j2xParser(toXMLOptions);
+  const flattened = flattenAttributes(obj as any);
+  let xml: string = j2x.parse(flattened);
+  if (opts?.rootName) {
+    xml = `<${opts.rootName}>${xml}</${opts.rootName}>`;
+  }
+  return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>${xml}`.replace(/\n/g, "");
 }
 
 /**
@@ -79,21 +35,68 @@ export function stringifyXML(obj: unknown, opts: XmlOptions = {}): string {
  * @param opts - Options that govern the parsing of given xml string
  * `includeRoot` indicates whether the root element is to be included or not in the output
  */
-export function parseXML(str: string, opts: XmlOptions = {}): Promise<any> {
-  xml2jsParserSettings.explicitRoot = !!opts.includeRoot;
-  xml2jsParserSettings.charkey = opts.xmlCharKey ?? XML_CHARKEY;
-  const xmlParser = new xml2js.Parser(xml2jsParserSettings);
-  return new Promise((resolve, reject) => {
-    if (!str) {
-      reject(new Error("Document is empty"));
-    } else {
-      xmlParser.parseString(str, (err?: Error, res?: any) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(res);
-        }
-      });
-    }
+export async function parseXML(str: string, opts: XmlOptions = {}): Promise<any> {
+  if (!str) {
+    throw new Error("Document is empty");
+  }
+
+  const validation = parser.validate(str);
+
+  if (validation !== true) {
+    throw validation;
+  }
+
+  const parsedXml = parser.parse(str, {
+    parseAttributeValue: true,
+    ignoreAttributes: false,
+    textNodeName: "_"
   });
+
+  if (!opts.includeRoot) {
+    for (let key of Object.keys(parsedXml)) {
+      return groupAttributes(parsedXml[key]);
+    }
+  }
+
+  return groupAttributes(parsedXml);
+}
+
+function flattenAttributes(obj: Record<string, any>) {
+  const attributes: Record<string, unknown> = {};
+  for (const [key, value] of Object.entries(obj)) {
+    if (key === "$" && value instanceof Object) {
+      for (const [attName, attValue] of Object.entries(value)) {
+        attributes[`@_${attName}`] = attValue;
+      }
+      delete obj["$"];
+      if (Object.keys(attributes).length) {
+        obj = { ...obj, ...attributes };
+      }
+    } else if (value instanceof Object) {
+      obj[key] = flattenAttributes(value);
+    } else if (value === undefined) {
+      obj[key] = null;
+    }
+  }
+
+  return obj;
+}
+
+function groupAttributes(obj: Record<string, any>) {
+  const attributes: Record<string, any> = {};
+  for (const [key, value] of Object.entries(obj)) {
+    if (key.startsWith("@_")) {
+      const attributeName = key.substr(2);
+      attributes[`${attributeName}`] = value;
+      delete obj[key];
+    } else if (value instanceof Object) {
+      obj[key] = groupAttributes(value);
+    }
+  }
+
+  if (attributes && Object.keys(attributes).length) {
+    obj["$"] = attributes;
+  }
+
+  return obj;
 }
