@@ -1,49 +1,12 @@
 trigger: none
 
-resources:
-  containers:
-    - container: 'ubuntu_netcore_keyring'
-      image: 'azsdkengsys.azurecr.io/dotnet/ubuntu_netcore_keyring:689585'
-      endpoint: 'azsdkengsys'
-      options: -ti --cap-add=IPC_LOCK
-
 stages:
   - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
       PackageName: "@azure/identity"
       ServiceDirectory: identity
-      TimeoutInMinutes: 30
-      SupportedClouds: 'Public,UsGov,China,Canary'
-      AdditionalMatrixConfigs:
-        - Name: identity_container
-          Path: sdk/identity/identity/platform-matrix.json
-          Selection: sparse
-          GenerateContainerJobs: true
-      PreSteps:
-        - pwsh: Install-Module -Name Az -Scope CurrentUser -AllowClobber -Force -Verbose
-          displayName: Install Azure PowerShell module
-          condition: and(succeededOrFailed(), startsWith(variables['Agent.JobName'], 'ubuntu_keyring_container'))
-        - script: |
-            set -x
-            export $(dbus-launch)
-            gnome-keyring-daemon --start --daemonize --components=secrets
-            echo "##vso[task.setvariable variable=DBUS_SESSION_BUS_ADDRESS]$DBUS_SESSION_BUS_ADDRESS"
-            echo "##vso[task.setvariable variable=DBUS_SESSION_BUS_PID]$DBUS_SESSION_BUS_PID"
-            echo "##vso[task.setvariable variable=GNOME_KEYRING_CONTROL]$GNOME_KEYRING_CONTROL"
-          condition: and(succeededOrFailed(), startsWith(variables['Agent.JobName'], 'ubuntu_keyring_container'))
-        - pwsh: |
-            [System.Convert]::FromBase64String($env:PFX_CONTENTS) | Set-Content -Path $(Agent.TempDirectory)/test.pfx -AsByteStream
-            Set-Content -Path $(Agent.TempDirectory)/test.pem -Value $env:PEM_CONTENTS
-            [System.Convert]::FromBase64String($env:SNI_CONTENTS) | Set-Content -Path $(Agent.TempDirectory)/testsni.pfx -AsByteStream
-          env:
-            PFX_CONTENTS: $(net-identity-spcert-pfx)
-            PEM_CONTENTS: $(net-identity-spcert-pem)
-            SNI_CONTENTS: $(net-identity-spcert-sni)
+      TimeoutInMinutes: 20
       EnvVars:
-        AZURE_USERNAME: $(net-identity-username)
-        AZURE_PASSWORD: $(net-identity-password)
-        TEST_CERTIFICATES_AZURE_CLIENT_ID: $(net-identity-sp-clientid)
-        TEST_CERTIFICATES_AZURE_TENANT_ID: $(net-identity-sp-tenantid)
-        TEST_CERTIFICATES_AZURE_CLIENT_SECRET: $(net-identity-sp-clientsecret)
-        TEST_CERTIFICATES_AZURE_CLIENT_CERTIFICATE_PATH: $(Agent.TempDirectory)/test.pem
-  
+        AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
+        AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
+        AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
