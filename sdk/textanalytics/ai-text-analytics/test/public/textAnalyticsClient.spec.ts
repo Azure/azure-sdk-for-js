@@ -927,7 +927,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
       });
 
       describe("#analyze", function() {
-        it.only("single custom entity recognition action", async function() {
+        it("single custom entity recognition action", async function() {
           const docs = [
             {
               id: "1",
@@ -979,7 +979,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it.only("single custom document single category classification action", async function() {
+        it("single custom document single category classification action", async function() {
           const docs = [
             {
               id: "1",
@@ -1030,7 +1030,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it.only("single custom document multiple category classification action", async function() {
+        it("single custom document multiple category classification action", async function() {
           const docs = [
             {
               id: "1",
