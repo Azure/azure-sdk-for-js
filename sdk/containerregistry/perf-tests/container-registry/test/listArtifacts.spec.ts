@@ -15,7 +15,6 @@ export class ArtifactListTest extends ContainerRegistryTest<ContainerRegistryTes
   async runAsync(): Promise<void> {
     const listIterator = this.repository.listManifestProperties();
 
-    // eslint-disable-next-line no-empty
     for await (const manifest of listIterator) {
       this.repository.getArtifact(manifest.digest);
     }
