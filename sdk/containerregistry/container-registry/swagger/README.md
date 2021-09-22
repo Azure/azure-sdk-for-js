@@ -19,6 +19,7 @@ add-credentials: false
 override-client-name: GeneratedClient
 disable-async-iterators: true
 hide-clients: true
+api-version-parameter: choice
 package-version: 1.0.0-beta.6
 ```
 
@@ -73,4 +74,16 @@ directive:
     where: $.definitions.ManifestAttributesBase
     transform: >
       delete $.properties.configMediaType
+```
+
+### Change "parameters.ApiVersionParameter.required" to true
+
+so that the generated client/clientcontext constructors take apiVersion as a parameter.
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.ApiVersionParameter
+    transform: >
+      $.required = true
 ```
