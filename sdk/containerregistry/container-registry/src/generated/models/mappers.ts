@@ -49,7 +49,23 @@ export const AcrErrorInfo: coreClient.CompositeMapper = {
       detail: {
         serializedName: "detail",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const Manifest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Manifest",
+    modelProperties: {
+      schemaVersion: {
+        serializedName: "schemaVersion",
+        type: {
+          name: "Number"
         }
       }
     }
@@ -385,21 +401,6 @@ export const JWKHeader: coreClient.CompositeMapper = {
         serializedName: "y",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const Manifest: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Manifest",
-    modelProperties: {
-      schemaVersion: {
-        serializedName: "schemaVersion",
-        type: {
-          name: "Number"
         }
       }
     }
@@ -1094,48 +1095,6 @@ export const ArtifactManifestProperties: coreClient.CompositeMapper = {
   }
 };
 
-export const Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className:
-      "Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema",
-    modelProperties: {
-      grantType: {
-        serializedName: "grant_type",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      service: {
-        serializedName: "service",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      tenant: {
-        serializedName: "tenant",
-        type: {
-          name: "String"
-        }
-      },
-      refreshToken: {
-        serializedName: "refresh_token",
-        type: {
-          name: "String"
-        }
-      },
-      aadAccessToken: {
-        serializedName: "access_token",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const AcrRefreshToken: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1145,45 +1104,6 @@ export const AcrRefreshToken: coreClient.CompositeMapper = {
         serializedName: "refresh_token",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchema: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className:
-      "PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchema",
-    modelProperties: {
-      service: {
-        serializedName: "service",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      scope: {
-        serializedName: "scope",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      acrRefreshToken: {
-        serializedName: "refresh_token",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      grantType: {
-        serializedName: "grant_type",
-        required: true,
-        type: {
-          name: "Enum",
-          allowedValues: ["refresh_token", "password"]
         }
       }
     }
@@ -1294,6 +1214,87 @@ export const ManifestAttributesManifest: coreClient.CompositeMapper = {
               className: "ArtifactManifestPlatform"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className:
+      "Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema",
+    modelProperties: {
+      grantType: {
+        serializedName: "grant_type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      service: {
+        serializedName: "service",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      tenant: {
+        serializedName: "tenant",
+        type: {
+          name: "String"
+        }
+      },
+      refreshToken: {
+        serializedName: "refresh_token",
+        type: {
+          name: "String"
+        }
+      },
+      aadAccessToken: {
+        serializedName: "access_token",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchema: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className:
+      "PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchema",
+    modelProperties: {
+      service: {
+        serializedName: "service",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      scope: {
+        serializedName: "scope",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      acrRefreshToken: {
+        serializedName: "refresh_token",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      grantType: {
+        serializedName: "grant_type",
+        required: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["refresh_token", "password"]
         }
       }
     }

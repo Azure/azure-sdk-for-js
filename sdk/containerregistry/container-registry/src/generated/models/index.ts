@@ -22,7 +22,13 @@ export interface AcrErrorInfo {
   /** Error message */
   message?: string;
   /** Error details */
-  detail?: any;
+  detail?: Record<string, unknown>;
+}
+
+/** Returns the requested manifest file */
+export interface Manifest {
+  /** Schema version */
+  schemaVersion?: number;
 }
 
 export interface ManifestListAttributes {
@@ -138,12 +144,6 @@ export interface JWKHeader {
   x?: string;
   /** y value */
   y?: string;
-}
-
-/** Returns the requested manifest file */
-export interface Manifest {
-  /** Schema version */
-  schemaVersion?: number;
 }
 
 /** List of repositories */
@@ -460,33 +460,9 @@ export interface ArtifactManifestProperties {
   canRead?: boolean;
 }
 
-export interface Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema {
-  /** Can take a value of access_token_refresh_token, or access_token, or refresh_token */
-  grantType: PostContentSchemaGrantType;
-  /** Indicates the name of your Azure container registry. */
-  service: string;
-  /** AAD tenant associated to the AAD credentials. */
-  tenant?: string;
-  /** AAD refresh token, mandatory when grant_type is access_token_refresh_token or refresh_token */
-  refreshToken?: string;
-  /** AAD access token, mandatory when grant_type is access_token_refresh_token or access_token. */
-  aadAccessToken?: string;
-}
-
 export interface AcrRefreshToken {
   /** The refresh token to be used for generating access tokens */
   refreshToken?: string;
-}
-
-export interface PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchema {
-  /** Indicates the name of your Azure container registry. */
-  service: string;
-  /** Which is expected to be a valid scope, and can be specified more than once for multiple scope requests. You obtained this from the Www-Authenticate response header from the challenge. */
-  scope: string;
-  /** Must be a valid ACR refresh token */
-  acrRefreshToken: string;
-  /** Grant type is expected to be refresh_token */
-  grantType: TokenGrantType;
 }
 
 export interface AcrAccessToken {
@@ -526,6 +502,30 @@ export interface TagAttributesTag {
 export interface ManifestAttributesManifest {
   /** List of manifest attributes details */
   references?: ArtifactManifestPlatform[];
+}
+
+export interface Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema {
+  /** Can take a value of access_token_refresh_token, or access_token, or refresh_token */
+  grantType: PostContentSchemaGrantType;
+  /** Indicates the name of your Azure container registry. */
+  service: string;
+  /** AAD tenant associated to the AAD credentials. */
+  tenant?: string;
+  /** AAD refresh token, mandatory when grant_type is access_token_refresh_token or refresh_token */
+  refreshToken?: string;
+  /** AAD access token, mandatory when grant_type is access_token_refresh_token or access_token. */
+  aadAccessToken?: string;
+}
+
+export interface PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchema {
+  /** Indicates the name of your Azure container registry. */
+  service: string;
+  /** Which is expected to be a valid scope, and can be specified more than once for multiple scope requests. You obtained this from the Www-Authenticate response header from the challenge. */
+  scope: string;
+  /** Must be a valid ACR refresh token */
+  acrRefreshToken: string;
+  /** Grant type is expected to be refresh_token */
+  grantType: TokenGrantType;
 }
 
 /** Returns the requested manifest file */
@@ -739,7 +739,7 @@ export interface ContainerRegistryBlobCheckChunkExistsHeaders {
 }
 
 /** Known values of {@link ArtifactArchitecture} that the service accepts. */
-export const enum KnownArtifactArchitecture {
+export enum KnownArtifactArchitecture {
   /** i386 */
   I386 = "386",
   /** AMD64 */
@@ -790,7 +790,7 @@ export const enum KnownArtifactArchitecture {
 export type ArtifactArchitecture = string;
 
 /** Known values of {@link ArtifactOperatingSystem} that the service accepts. */
-export const enum KnownArtifactOperatingSystem {
+export enum KnownArtifactOperatingSystem {
   Aix = "aix",
   Android = "android",
   Darwin = "darwin",
@@ -830,7 +830,7 @@ export const enum KnownArtifactOperatingSystem {
 export type ArtifactOperatingSystem = string;
 
 /** Known values of {@link PostContentSchemaGrantType} that the service accepts. */
-export const enum KnownPostContentSchemaGrantType {
+export enum KnownPostContentSchemaGrantType {
   AccessTokenRefreshToken = "access_token_refresh_token",
   AccessToken = "access_token",
   RefreshToken = "refresh_token"
@@ -1155,8 +1155,12 @@ export type ContainerRegistryBlobCheckChunkExistsResponse = ContainerRegistryBlo
 /** Optional parameters. */
 export interface AuthenticationExchangeAadAccessTokenForAcrRefreshTokenOptionalParams
   extends coreClient.OperationOptions {
-  /** Can take a value of access_token_refresh_token, or access_token, or refresh_token */
-  grantType?: Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema;
+  /** AAD tenant associated to the AAD credentials. */
+  tenant?: string;
+  /** AAD refresh token, mandatory when grant_type is access_token_refresh_token or refresh_token */
+  refreshToken?: string;
+  /** AAD access token, mandatory when grant_type is access_token_refresh_token or access_token. */
+  accessToken?: string;
 }
 
 /** Contains response data for the exchangeAadAccessTokenForAcrRefreshToken operation. */
@@ -1164,10 +1168,7 @@ export type AuthenticationExchangeAadAccessTokenForAcrRefreshTokenResponse = Acr
 
 /** Optional parameters. */
 export interface AuthenticationExchangeAcrRefreshTokenForAcrAccessTokenOptionalParams
-  extends coreClient.OperationOptions {
-  /** Indicates the name of your Azure container registry. */
-  service?: PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchema;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the exchangeAcrRefreshTokenForAcrAccessToken operation. */
 export type AuthenticationExchangeAcrRefreshTokenForAcrAccessTokenResponse = AcrAccessToken;

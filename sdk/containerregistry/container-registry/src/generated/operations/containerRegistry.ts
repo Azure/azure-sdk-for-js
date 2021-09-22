@@ -47,7 +47,7 @@ import {
   ContainerRegistryGetManifestsNextResponse
 } from "../models";
 
-/** Class representing a ContainerRegistry. */
+/** Class containing ContainerRegistry operations. */
 export class ContainerRegistryImpl implements ContainerRegistry {
   private readonly client: GeneratedClientContext;
 
