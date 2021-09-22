@@ -4,20 +4,21 @@
 import {
   TextDocumentBatchStatistics,
   TextDocumentInput,
-  CustomEntitiesResult
+  CustomMultiClassificationResult
 } from "./generated/models";
 import {
-  CustomRecognizeEntitiesResult,
-  makeCustomRecognizeEntitiesResult,
-  makeCustomRecognizeEntitiesErrorResult
-} from "./customRecognizeEntitiesResult";
+  ClassifyDocumentMultiCategoriesResult,
+  makeClassifyDocumentMultiCategoriesResult,
+  makeClassifyDocumentMultiCategoriesErrorResult
+} from "./classifyDocumentMultiCategoriesResult";
 import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndCustomProjectInfo } from "./textAnalyticsResult";
 
 /**
- * Array of `CustomRecognizeEntitiesResult` objects corresponding to a batch of input documents, and
+ * Array of `CustomClassifyDocumentMultiCategoriesResult` objects corresponding to a batch of input documents, and
  * annotated with information about the batch operation.
  */
-export interface CustomRecognizeEntitiesResultArray extends Array<CustomRecognizeEntitiesResult> {
+export interface ClassifyDocumentMultiCategoriesResultArray
+  extends Array<ClassifyDocumentMultiCategoriesResult> {
   /**
    * Statistics about the input document batch and how it was processed
    * by the service. This property will have a value when includeStatistics is set to true
@@ -39,14 +40,14 @@ export interface CustomRecognizeEntitiesResultArray extends Array<CustomRecogniz
 /**
  * @internal
  */
-export function makeCustomRecognizeEntitiesResultArray(
+export function makeClassifyDocumentMultiCategoriesResultArray(
   input: TextDocumentInput[],
-  response: CustomEntitiesResult
-): CustomRecognizeEntitiesResultArray {
+  response: CustomMultiClassificationResult
+): ClassifyDocumentMultiCategoriesResultArray {
   return combineSuccessfulAndErroneousDocumentsWithStatisticsAndCustomProjectInfo(
     input,
     response,
-    makeCustomRecognizeEntitiesResult,
-    makeCustomRecognizeEntitiesErrorResult
+    makeClassifyDocumentMultiCategoriesResult,
+    makeClassifyDocumentMultiCategoriesErrorResult
   );
 }

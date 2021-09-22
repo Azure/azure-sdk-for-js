@@ -16,16 +16,15 @@ import {
 /**
  * The result of the custom classify document single category operation on a single document.
  */
-export type CustomClassifyDocumentSingleCategoryResult =
-  | CustomClassifyDocumentSingleCategorySuccessResult
-  | CustomClassifyDocumentSingleCategoryErrorResult;
+export type ClassifyDocumentSingleCategoryResult =
+  | ClassifyDocumentSingleCategorySuccessResult
+  | ClassifyDocumentSingleCategoryErrorResult;
 
 /**
  * The result of the custom classify document single category operation on a single document,
  * containing the result of the classification.
  */
-export interface CustomClassifyDocumentSingleCategorySuccessResult
-  extends TextAnalyticsSuccessResult {
+export interface ClassifyDocumentSingleCategorySuccessResult extends TextAnalyticsSuccessResult {
   /**
    * The classification result of the input document.
    */
@@ -40,14 +39,14 @@ export interface DocumentClassification extends ClassificationResult {}
 /**
  * An error result from the custom classify document single category operation on a single document.
  */
-export type CustomClassifyDocumentSingleCategoryErrorResult = TextAnalyticsErrorResult;
+export type ClassifyDocumentSingleCategoryErrorResult = TextAnalyticsErrorResult;
 
 /**
  * @internal
  */
-export function makeCustomClassifyDocumentSingleCategoryResult(
+export function makeClassifyDocumentSingleCategoryResult(
   result: SingleClassificationDocument
-): CustomClassifyDocumentSingleCategorySuccessResult {
+): ClassifyDocumentSingleCategorySuccessResult {
   const { id, warnings, statistics, classification } = result;
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
@@ -58,9 +57,9 @@ export function makeCustomClassifyDocumentSingleCategoryResult(
 /**
  * @internal
  */
-export function makeCustomClassifyDocumentSingleCategoryErrorResult(
+export function makeClassifyDocumentSingleCategoryErrorResult(
   id: string,
   error: TextAnalyticsError
-): CustomClassifyDocumentSingleCategoryErrorResult {
+): ClassifyDocumentSingleCategoryErrorResult {
   return makeTextAnalyticsErrorResult(id, error);
 }
