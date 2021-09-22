@@ -14,6 +14,7 @@ import {
   BaseRequestPolicy
 } from "@azure/core-http";
 import { shaHash, shaHMAC } from "./cryptoUtils";
+var urlModule = require('url');
 
 /**
  * Creates an HTTP pipeline policy to authenticate a request using a `KeyCredential`.
@@ -63,16 +64,25 @@ class CommunicationAccessKeyCredentialPolicy extends BaseRequestPolicy {
 
     const url = URLBuilder.parse(webResource.url);
     const query = url.getQuery();
-    const urlPathAndQuery = query ? `${url.getPath()}?${query}` : url.getPath();
+    let urlPathAndQuery = query ? `${url.getPath()}?${query}` : url.getPath();
     const port = url.getPort();
-    const hostAndPort = port ? `${url.getHost()}:${port}` : url.getHost();
+    let hostAndPort = port ? `${url.getHost()}:${port}` : url.getHost();
+
+    if (isNode && !webResource.headers.get('UriToSignWith')) {
+      webResource.headers.set("Host", hostAndPort || "");
+    }
+
+    if(webResource.headers.get('UriToSignWith')){
+         var uri_to_sign_with = webResource.headers.get('UriToSignWith')
+         var q = urlModule.parse(uri_to_sign_with, true);
+         hostAndPort = q.hostname
+         webResource.headers.set("Host", String(hostAndPort));
+         urlPathAndQuery = q.pathname
+         webResource.headers.remove('UriToSignWith');
+    }
 
     const stringToSign = `${verb}\n${urlPathAndQuery}\n${utcNow};${hostAndPort};${contentHash}`;
     const signature = await shaHMAC(this.accessKey.key, stringToSign);
-
-    if (isNode) {
-      webResource.headers.set("Host", hostAndPort || "");
-    }
 
     webResource.headers.set(dateHeader, utcNow);
     webResource.headers.set("x-ms-content-sha256", contentHash);
@@ -91,7 +101,7 @@ class CommunicationAccessKeyCredentialPolicy extends BaseRequestPolicy {
     if (!webResource) {
       throw new Error("webResource cannot be null or undefined");
     }
-
+    
     return this._nextPolicy.sendRequest(await this.signRequest(webResource));
   }
 }

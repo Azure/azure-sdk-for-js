@@ -7,6 +7,7 @@ import { ServerCall } from ".";
 import { CreateCallConnectionOptions, JoinCallOptions } from "./models";
 import { CallConnections, ServerCalls } from "./generated/src/operations";
 import { CreateCallRequest, JoinCallRequest } from "./generated/src/models";
+import { CallingServerApiClientContext } from "./generated/src/callingServerApiClientContext";
 
 import {
   CommunicationIdentifier,
@@ -29,20 +30,21 @@ import { CallingServerApiClient } from "./generated/src/callingServerApiClient";
 import { SDK_VERSION } from "./constants";
 import { createSpan } from "./tracing";
 import { logger } from "./logger";
+import { ContentDownloader } from "./ContentDownloader";
 
 /**
  * Client options used to configure CallingServer Client API requests.
  */
- export interface CallingServerClientOptions extends PipelineOptions {}
+export interface CallingServerClientOptions extends PipelineOptions { }
 
 
- /**
- * Checks whether the type of a value is CallingServerClientOptions or not.
- *
- * @param options - The value being checked.
- */
+/**
+* Checks whether the type of a value is CallingServerClientOptions or not.
+*
+* @param options - The value being checked.
+*/
 const isCallingServerClientOptions = (options: any): options is CallingServerClientOptions =>
-!!options && !isKeyCredential(options);
+  !!options && !isKeyCredential(options);
 
 /**
  * A CallingServerClient represents a Client to the Azure Communication CallingServer service.
@@ -51,6 +53,7 @@ export class CallingServerClient {
   private readonly callingServerServiceClient: CallingServerApiClient;
   private readonly callConnectionRestClient: CallConnections;
   private readonly serverCallRestClient: ServerCalls;
+  private readonly downloadCallingServerApiClient: CallingServerApiClientContext
 
   /**
    * Initializes a new instance of the CallingServerClient class.
@@ -94,6 +97,7 @@ export class CallingServerClient {
     this.callingServerServiceClient = new CallingServerApiClient(url, pipeline);
     this.callConnectionRestClient = this.callingServerServiceClient.callConnections;
     this.serverCallRestClient = this.callingServerServiceClient.serverCalls;
+    this.downloadCallingServerApiClient = new CallingServerApiClientContext(url, pipeline);
   }
 
   public getCallConnection(callConnectionId: string): CallConnection {
@@ -102,6 +106,10 @@ export class CallingServerClient {
 
   public initializeServerCall(serverCallId: string): ServerCall {
     return new ServerCall(serverCallId, this.serverCallRestClient);
+  }
+
+  public initializeContentDownloader() {
+    return new ContentDownloader(this.downloadCallingServerApiClient);
   }
 
   public async createCallConnection(
@@ -117,7 +125,7 @@ export class CallingServerClient {
       callbackUri: options.callbackUri,
       requestedMediaTypes: options.requestedMediaTypes,
       requestedCallEvents: options.requestedCallEvents,
-      alternateCallerId: options.alternateCallerId == null ? undefined : {value: options.alternateCallerId.phoneNumber},
+      alternateCallerId: options.alternateCallerId == null ? undefined : { value: options.alternateCallerId.phoneNumber },
       subject: options.subject
     };
 
