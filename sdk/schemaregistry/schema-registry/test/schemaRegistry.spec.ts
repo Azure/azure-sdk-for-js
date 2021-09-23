@@ -19,27 +19,6 @@ const options: OperationOptions = {
   }
 };
 
-const schema: SchemaDescription = {
-  name: "azsdk_js_test",
-  groupName: testEnv.SCHEMA_REGISTRY_GROUP,
-  format: "avro",
-  definition: JSON.stringify({
-    type: "record",
-    name: "User",
-    namespace: "com.azure.schemaregistry.samples",
-    fields: [
-      {
-        name: "name",
-        type: "string"
-      },
-      {
-        name: "favoriteNumber",
-        type: "int"
-      }
-    ]
-  })
-};
-
 function assertIsNotNullUndefinedOrEmpty(
   x: SchemaProperties | string | null | undefined
 ): asserts x {
@@ -62,9 +41,30 @@ function assertIsValidSchemaId(
 describe("SchemaRegistryClient", function() {
   let recorder: Recorder;
   let client: SchemaRegistryClient;
+  let schema: SchemaDescription;
 
   beforeEach(function(this: Context) {
     ({ client, recorder } = createRecordedClient(this));
+    schema = {
+      name: "azsdk_js_test",
+      groupName: testEnv.SCHEMA_REGISTRY_GROUP,
+      format: "avro",
+      definition: JSON.stringify({
+        type: "record",
+        name: "User",
+        namespace: "com.azure.schemaregistry.samples",
+        fields: [
+          {
+            name: "name",
+            type: "string"
+          },
+          {
+            name: "favoriteNumber",
+            type: "int"
+          }
+        ]
+      })
+    };
   });
 
   afterEach(async function() {
