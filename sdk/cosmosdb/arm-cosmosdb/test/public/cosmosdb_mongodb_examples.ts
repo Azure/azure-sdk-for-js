@@ -13,7 +13,7 @@ import {
   Recorder
 } from "@azure-tools/test-recorder";
 import * as assert from "assert";
-import { CosmosDBManagementClient } from "../src/cosmosDBManagementClient";
+import { CosmosDBManagementClient } from "../../src/cosmosDBManagementClient";
 import { ClientSecretCredential } from "@azure/identity";
 
 
