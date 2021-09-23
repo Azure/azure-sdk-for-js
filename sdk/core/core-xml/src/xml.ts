@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as parser from "fast-xml-parser";
-import { j2xParser } from "fast-xml-parser";
+import { j2xParser, J2xOptions, validate, parse } from "fast-xml-parser";
 
 import { XmlOptions } from "./xml.common";
 
-const toXMLOptions: Partial<parser.J2xOptions> = {
+const toXMLOptions: Partial<J2xOptions> = {
   attributeNamePrefix: "@_",
   textNodeName: "_",
   ignoreAttributes: false,
@@ -40,20 +39,20 @@ export async function parseXML(str: string, opts: XmlOptions = {}): Promise<any>
     throw new Error("Document is empty");
   }
 
-  const validation = parser.validate(str);
+  const validation = validate(str);
 
   if (validation !== true) {
     throw validation;
   }
 
-  const parsedXml = parser.parse(str, {
+  const parsedXml = parse(str, {
     parseAttributeValue: true,
     ignoreAttributes: false,
     textNodeName: "_"
   });
 
   if (!opts.includeRoot) {
-    for (let key of Object.keys(parsedXml)) {
+    for (const key of Object.keys(parsedXml)) {
       return groupAttributes(parsedXml[key]);
     }
   }
