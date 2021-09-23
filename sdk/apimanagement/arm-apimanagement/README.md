@@ -1,122 +1,94 @@
-## Azure ApiManagementClient SDK for JavaScript
+# Azure ApiManagement client library for JavaScript
 
-This package contains an isomorphic SDK (runs both in Node.js and in browsers) for ApiManagementClient.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure ApiManagement client.
+
+ApiManagement Client
+
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/apimanagement/arm-apimanagement) |
+[Package (NPM)](https://www.npmjs.com/package/@azure/arm-apimanagement) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-apimanagement) |
+[Samples](https://github.com/Azure-Samples/azure-samples-js-management)
+
+## Getting started
 
 ### Currently supported environments
 
 - [LTS versions of Node.js](https://nodejs.org/about/releases/)
-- Latest versions of Safari, Chrome, Edge, and Firefox.
+- Latest versions of Safari, Chrome, Edge and Firefox.
 
 ### Prerequisites
 
-You must have an [Azure subscription](https://azure.microsoft.com/free/).
+- An [Azure subscription][azure_sub].
 
-### How to install
+### Install the `@azure/arm-apimanagement` package
 
-To use this SDK in your project, you will need to install two packages.
-- `@azure/arm-apimanagement` that contains the client.
-- `@azure/identity` that provides different mechanisms for the client to authenticate your requests using Azure Active Directory.
+Install the Azure ApiManagement client library for JavaScript with `npm`:
 
-Install both packages using the below command:
 ```bash
-npm install --save @azure/arm-apimanagement @azure/identity
+npm install @azure/arm-apimanagement
 ```
 
-> **Note**: You may have used either `@azure/ms-rest-nodeauth` or `@azure/ms-rest-browserauth` in the past. These packages are in maintenance mode receiving critical bug fixes, but no new features.
-If you are on a [Node.js that has LTS status](https://nodejs.org/about/releases/), or are writing a client side browser application, we strongly encourage you to upgrade to `@azure/identity` which uses the latest versions of Azure Active Directory and MSAL APIs and provides more authentication options.
+### Create and authenticate a `ApiManagementClient`
 
-### How to use
+To create a client object to access the Azure ApiManagement API, you will need the `endpoint` of your Azure ApiManagement resource and a `credential`. The Azure ApiManagement client can use Azure Active Directory credentials to authenticate.
+You can find the endpoint for your Azure ApiManagement resource in the [Azure Portal][azure_portal].
 
-- If you are writing a client side browser application,
-  - Follow the instructions in the section on Authenticating client side browser applications in [Azure Identity examples](https://aka.ms/azsdk/js/identity/examples) to register your application in the Microsoft identity platform and set the right permissions.
-  - Copy the client ID and tenant ID from the Overview section of your app registration in Azure portal and use it in the browser sample below.
-- If you are writing a server side application,
-  - [Select a credential from `@azure/identity` based on the authentication method of your choice](https://aka.ms/azsdk/js/identity/examples)
-  - Complete the set up steps required by the credential if any.
-  - Use the credential you picked in the place of `DefaultAzureCredential` in the Node.js sample below.
+You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
-In the below samples, we pass the credential and the Azure subscription id to instantiate the client.
-Once the client is created, explore the operations on it either in your favorite editor or in our [API reference documentation](https://docs.microsoft.com/javascript/api) to get started.
+To use the [DefaultAzureCredential][defaultazurecredential] provider shown below, or other credential providers provided with the Azure SDK, please install the `@azure/identity` package:
 
-#### nodejs - Authentication, client creation, and listByService api as an example written in JavaScript.
+```bash
+npm install @azure/identity
+```
 
-##### Sample code
+You will also need to **register a new AAD application and grant access to Azure ApiManagement** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
+
+For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
 ```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
 const { ApiManagementClient } = require("@azure/arm-apimanagement");
-const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
-
-// Use `DefaultAzureCredential` or any other credential of your choice based on https://aka.ms/azsdk/js/identity/examples
-// Please note that you can also use credentials from the `@azure/ms-rest-nodeauth` package instead.
-const creds = new DefaultAzureCredential();
-const client = new ApiManagementClient(creds, subscriptionId);
-const resourceGroupName = "testresourceGroupName";
-const serviceName = "testserviceName";
-const filter = "testfilter";
-const top = 1;
-const skip = 1;
-const tags = "testtags";
-const expandApiVersionSet = true;
-client.api.listByService(resourceGroupName, serviceName, filter, top, skip, tags, expandApiVersionSet).then((result) => {
-  console.log("The result is:");
-  console.log(result);
-}).catch((err) => {
-  console.log("An error occurred:");
-  console.error(err);
-});
+const { DefaultAzureCredential } = require("@azure/identity");
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
+const client = new ApiManagementClient(new DefaultAzureCredential(), subscriptionId);
 ```
 
-#### browser - Authentication, client creation, and listByService api as an example written in JavaScript.
+## Key concepts
 
-In browser applications, we recommend using the `InteractiveBrowserCredential` that interactively authenticates using the default system browser.
-  - See [Single-page application: App registration guide](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) to configure your app registration for the browser.
-  - Note down the client Id from the previous step and use it in the browser sample below.
+### ApiManagementClient
 
-##### Sample code
+`ApiManagementClient` is the primary interface for developers using the Azure ApiManagement client library. Explore the methods on this client object to understand the different features of the Azure ApiManagement service that you can access.
 
-- index.html
+## Troubleshooting
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>@azure/arm-apimanagement sample</title>
-    <script src="node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"></script>
-    <script src="node_modules/@azure/identity/dist/index.js"></script>
-    <script src="node_modules/@azure/arm-apimanagement/dist/arm-apimanagement.js"></script>
-    <script type="text/javascript">
-      const subscriptionId = "<Subscription_Id>";
-      // Create credentials using the `@azure/identity` package.
-      // Please note that you can also use credentials from the `@azure/ms-rest-browserauth` package instead.
-      const credential = new InteractiveBrowserCredential(
-      {
-        clientId: "<client id for your Azure AD app>",
-        tenantId: "<optional tenant for your organization>"
-      });
-      const client = new Azure.ArmApimanagement.ApiManagementClient(creds, subscriptionId);
-      const resourceGroupName = "testresourceGroupName";
-      const serviceName = "testserviceName";
-      const filter = "testfilter";
-      const top = 1;
-      const skip = 1;
-      const tags = "testtags";
-      const expandApiVersionSet = true;
-      client.api.listByService(resourceGroupName, serviceName, filter, top, skip, tags, expandApiVersionSet).then((result) => {
-        console.log("The result is:");
-        console.log(result);
-      }).catch((err) => {
-        console.log("An error occurred:");
-        console.error(err);
-      });
-    </script>
-  </head>
-  <body></body>
-</html>
+### Logging
+
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
+
+```javascript
+const { setLogLevel } = require("@azure/logger");
+setLogLevel("info");
 ```
+
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
+
+## Next steps
+
+Please take a look at the [samples](https://github.com/Azure-Samples/azure-samples-js-management) directory for detailed examples on how to use this library.
+
+## Contributing
+
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ## Related projects
 
-- [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
+- [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/apimanagement/arm-apimanagement/README.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fapimanagement%2Farm-apimanagement%2FREADME.png)
+
+[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_sub]: https://azure.microsoft.com/free/
+[azure_sub]: https://azure.microsoft.com/free/
+[azure_portal]: https://portal.azure.com
+[azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
+[defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
