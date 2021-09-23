@@ -7,5 +7,6 @@ export * from "./purviewCatalog";
 export * from "./models";
 export * from "./parameters";
 export * from "./responses";
+export * from "./pollingHelper";
 
 export default PurviewCatalog;
