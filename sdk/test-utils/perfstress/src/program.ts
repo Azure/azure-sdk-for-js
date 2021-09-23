@@ -105,18 +105,18 @@ export class PerfStressProgram {
       `Completed ${totalOperations.toLocaleString(undefined, {
         maximumFractionDigits: 0
       })} ` +
-        `operations in a weighted-average of ` +
-        `${weightedAverage.toLocaleString(undefined, {
-          maximumFractionDigits: 2,
-          minimumFractionDigits: 2
-        })}s ` +
-        `(${operationsPerSecond.toLocaleString(undefined, {
-          maximumFractionDigits: 2
-        })} ops/s, ` +
-        `${secondsPerOperation.toLocaleString(undefined, {
-          maximumFractionDigits: 3,
-          minimumFractionDigits: 3
-        })} s/op)`
+      `operations in a weighted-average of ` +
+      `${weightedAverage.toLocaleString(undefined, {
+        maximumFractionDigits: 2,
+        minimumFractionDigits: 2
+      })}s ` +
+      `(${operationsPerSecond.toLocaleString(undefined, {
+        maximumFractionDigits: 2
+      })} ops/s, ` +
+      `${secondsPerOperation.toLocaleString(undefined, {
+        maximumFractionDigits: 3,
+        minimumFractionDigits: 3
+      })} s/op)`
     );
   }
 
@@ -186,7 +186,7 @@ export class PerfStressProgram {
     const millisecondsToLog = Number(this.parsedDefaultOptions["milliseconds-to-log"].value);
     console.log(
       `\n=== ${title} mode, iteration ${iterationIndex + 1}. Logs every ${millisecondsToLog /
-        1000}s ===`
+      1000}s ===`
     );
     console.log(`Current\t\tTotal\t\tAverage`);
     let lastCompleted = 0;
@@ -287,7 +287,7 @@ export class PerfStressProgram {
     }
 
     if (this.tests[0].parsedOptions["test-proxy"].value) {
-      await this.recordAndStartPlayback(this.tests[0]);
+      await this.recordAndStartPlaybacks(this.tests);
     }
 
     if (Number(options.warmup.value) > 0) {
@@ -300,7 +300,7 @@ export class PerfStressProgram {
     }
 
     if (this.tests[0].parsedOptions["test-proxy"].value) {
-      await this.stopPlayback(this.tests[0]);
+      await this.stopPlaybacks(this.tests);
     }
 
     if (!options["no-cleanup"].value && this.tests[0].cleanup) {
@@ -320,6 +320,10 @@ export class PerfStressProgram {
         await this.tests[0].globalCleanup();
       }
     }
+  }
+
+  private async recordAndStartPlaybacks(tests: PerfStressTest[]) {
+    await Promise.all(tests.map(test => this.recordAndStartPlayback(test)));
   }
 
   /**
@@ -371,6 +375,10 @@ export class PerfStressProgram {
     await recorder.stopRecording();
     await recorder.startPlayback();
     recorder._mode = "playback";
+  }
+
+  private async stopPlaybacks(tests: PerfStressTest[]) {
+    await Promise.all(tests.map(test => this.stopPlayback(test)));
   }
 
   private async stopPlayback(test: PerfStressTest) {
