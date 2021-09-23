@@ -47,11 +47,7 @@ export function decodeString(value: string): Uint8Array {
 export function uint8ArrayToString(ab: Uint8Array): string {
   return decodeURIComponent(
     escape(
-      Array.from(ab)
-        .map(function(item) {
-          return String.fromCharCode(item);
-        })
-        .join("")
+      Array.from(ab, item => String.fromCharCode(item)).join("")
     )
   );
 }
