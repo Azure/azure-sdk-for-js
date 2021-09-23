@@ -3,7 +3,10 @@
 
 import { GetTokenOptions } from "@azure/core-auth";
 import { AuthorizeRequestOnChallengeOptions } from "@azure/core-rest-pipeline";
+import { createClientLogger } from "@azure/logger";
 import { decodeString, uint8ArrayToString } from "./base64";
+
+const logger = createClientLogger("authorizeRequestOnClaimChallenge");
 
 /**
  * Converts: `Bearer a="b", c="d", Bearer d="e", f="g"`.
@@ -12,16 +15,15 @@ import { decodeString, uint8ArrayToString } from "./base64";
  * @internal
  */
 export function parseCAEChallenge(challenges: string): any[] {
-  return `, ${challenges.trim()}`
-    .split(", Bearer ")
-    .filter((x) => x)
-    .map((challenge) =>
-      `${challenge.trim()}, `
-        .split('", ')
-        .filter((x) => x)
-        .map((keyValue) => (([key, value]) => ({ [key]: value }))(keyValue.trim().split('="')))
-        .reduce((a, b) => ({ ...a, ...b }), {})
+  const bearerChallenges = `, ${challenges.trim()}`.split(", Bearer ").filter((x) => x);
+  return bearerChallenges.map((challenge) => {
+    const challengeParts = `${challenge.trim()}, `.split('", ').filter((x) => x);
+    const keyValuePairs = challengeParts.map((keyValue) =>
+      (([key, value]) => ({ [key]: value }))(keyValue.trim().split('="'))
     );
+    // Key-value pairs to plain object:
+    return keyValuePairs.reduce((a, b) => ({ ...a, ...b }), {});
+  });
 }
 
 /**
@@ -65,7 +67,7 @@ export async function authorizeRequestOnClaimChallenge(
 
   const challenge = response.headers.get("WWW-Authenticate");
   if (!challenge) {
-    console.log(
+    logger.info(
       `The WWW-Authenticate header was missing. Failed to perform the Continuous Access Evaluation authentication flow.`
     );
     return false;
@@ -74,7 +76,7 @@ export async function authorizeRequestOnClaimChallenge(
 
   const parsedChallenge = challenges.find((x) => x.claims);
   if (!parsedChallenge) {
-    console.log(
+    logger.info(
       `The WWW-Authenticate header was missing the necessary "claims" to perform the Continuous Access Evaluation authentication flow.`
     );
     return false;
