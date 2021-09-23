@@ -219,6 +219,7 @@ tasks using Azure Key Vault Keys. The scenarios that are covered here consist of
 - [Getting a key](#getting-a-key).
 - [Creating and updating keys with attributes](#creating-and-updating-keys-with-attributes).
 - [Deleting a key](#deleting-a-key).
+- [Configuring Automatic Key Rotation](#configuring-automatic-key-rotation).
 - [Iterating lists of keys](#iterating-lists-of-keys).
 
 ### Creating a key
