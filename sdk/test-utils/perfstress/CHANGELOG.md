@@ -4,7 +4,7 @@
 
 ### 2021-09-23
 
-- Bug fix - Running the perf framework with `--<option> 0` does not work correctly as it picks the default value. Fixed in [#17829](https://github.com/Azure/azure-sdk-for-js/pull/17829).
+- Bug fix - Running the perf framework with `--<option> 0` does not work correctly as it picks the default value instead. Fixed in [#17829](https://github.com/Azure/azure-sdk-for-js/pull/17829).
 
 ### 2021-08-05
 
