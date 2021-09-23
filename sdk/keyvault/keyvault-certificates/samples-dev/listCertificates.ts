@@ -13,6 +13,8 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 export async function main(): Promise<void> {
+  console.log("listCertificates");
+  console.time("listCertificates");
   // If you're using MSI, DefaultAzureCredential should "just work".
   // Otherwise, DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
@@ -76,6 +78,7 @@ export async function main(): Promise<void> {
   for await (const certificate of client.listDeletedCertificates({ includePending: true })) {
     console.log("Deleted certificate: ", certificate);
   }
+  console.timeEnd("listCertificates");
 }
 
 main().catch((err) => {

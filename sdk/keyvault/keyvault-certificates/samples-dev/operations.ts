@@ -13,6 +13,8 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 export async function main(): Promise<void> {
+  console.log("operations");
+  console.time("operations");
   // If you're using MSI, DefaultAzureCredential should "just work".
   // Otherwise, DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
@@ -60,6 +62,7 @@ export async function main(): Promise<void> {
   // There will be no signs of a pending operation at this point
   const certificateWithoutOperation = await client.getCertificate(certificateName);
   console.log("Certificate without operation:", certificateWithoutOperation);
+  console.timeEnd("operations");
 }
 
 main().catch((err) => {

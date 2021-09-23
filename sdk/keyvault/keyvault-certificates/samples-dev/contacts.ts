@@ -13,6 +13,8 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 export async function main(): Promise<void> {
+  console.log("contacts");
+  console.time("contacts");
   // If you're using MSI, DefaultAzureCredential should "just work".
   // Otherwise, DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
@@ -54,6 +56,7 @@ export async function main(): Promise<void> {
   }
 
   console.log("err: ", error);
+  console.timeEnd("contacts");
 }
 
 main().catch((err) => {

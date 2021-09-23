@@ -16,6 +16,8 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 export async function main(): Promise<void> {
+  console.log("mergeCertificate");
+  console.time("mergeCertificate");
   // If you're using MSI, DefaultAzureCredential should "just work".
   // Otherwise, DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
@@ -67,6 +69,7 @@ ${base64Csr}
 
   // Once we have the response in base64 format, we send it to mergeCertificate
   await client.mergeCertificate(certificateName, [Buffer.from(base64Crt)]);
+  console.timeEnd("mergeCertificate");
 }
 
 main().catch((err) => {
