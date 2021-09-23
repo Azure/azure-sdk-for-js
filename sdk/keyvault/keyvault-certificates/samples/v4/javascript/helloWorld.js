@@ -63,12 +63,6 @@ async function main() {
   });
   certificateWithPolicy = await client.getCertificate(certificateName);
   console.log("updatedCertificate certificate's policy:", certificateWithPolicy.policy);
-
-  const deletePoller = await client.beginDeleteCertificate(certificateName);
-  const deletedCertificate = await deletePoller.pollUntilDone();
-  console.log("Recovery Id: ", deletedCertificate.recoveryId);
-  console.log("Deleted Date: ", deletedCertificate.deletedOn);
-  console.log("Scheduled Purge Date: ", deletedCertificate.scheduledPurgeDate);
 }
 
 main().catch((err) => {

@@ -13,8 +13,6 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 export async function main(): Promise<void> {
-  console.log("helloWorld");
-  console.time("helloWorld");
   // If you're using MSI, DefaultAzureCredential should "just work".
   // Otherwise, DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
@@ -65,13 +63,6 @@ export async function main(): Promise<void> {
   });
   certificateWithPolicy = await client.getCertificate(certificateName);
   console.log("updatedCertificate certificate's policy:", certificateWithPolicy.policy);
-
-  const deletePoller = await client.beginDeleteCertificate(certificateName);
-  const deletedCertificate = await deletePoller.pollUntilDone();
-  console.log("Recovery Id: ", deletedCertificate.recoveryId);
-  console.log("Deleted Date: ", deletedCertificate.deletedOn);
-  console.log("Scheduled Purge Date: ", deletedCertificate.scheduledPurgeDate);
-  console.timeEnd("helloWorld");
 }
 
 main().catch((err) => {

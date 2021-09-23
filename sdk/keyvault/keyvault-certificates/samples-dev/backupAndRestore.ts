@@ -17,8 +17,6 @@ function delay<T>(t: number, value?: T): Promise<T | void> {
 }
 
 export async function main(): Promise<void> {
-  console.log("backupAndRestore");
-  console.time("backupAndRestore");
   // If you're using MSI, DefaultAzureCredential should "just work".
   // Otherwise, DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
@@ -54,7 +52,6 @@ export async function main(): Promise<void> {
   const restoredCertificate = await client.getCertificate(certificateName);
 
   console.log("Restored certificate: ", restoredCertificate);
-  console.timeEnd("backupAndRestore");
 }
 
 main().catch((err) => {
