@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 import { IncomingMessage } from "http";
 import { RequestOptions, request } from "https";
-import { TestProxyHttpClient, TestProxyHttpClientV1 } from "./testProxyHttpClient";
 
 /**
  * Returns the environment variable, throws an error if not defined.
@@ -26,7 +25,7 @@ export function getEnvVar(name: string) {
  */
 export async function drainStream(stream: NodeJS.ReadableStream) {
   return new Promise((resolve, reject) => {
-    stream.on("data", () => { });
+    stream.on("data", () => {});
     stream.on("end", resolve);
     stream.on("error", reject);
   });
@@ -42,12 +41,4 @@ export async function makeRequest(
 
     req.end();
   });
-}
-
-export function getHttpClientV1(url: string): TestProxyHttpClientV1 {
-  return new TestProxyHttpClientV1(url);
-}
-
-export function getHttpClient(url: string): TestProxyHttpClient {
-  return new TestProxyHttpClient(url);
 }
