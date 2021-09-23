@@ -27,6 +27,7 @@ Using the cryptography client available in this library you also have access to:
 > Note: This package cannot be used in the browser due to Azure Key Vault service limitations, please refer to [this document][cors] for guidance.
 
 Key links:
+
 - [Source code][package-gh]
 - [Package (npm)][package-npm]
 - [API Reference Documentation][docs]
@@ -475,6 +476,44 @@ async function main() {
   }
 
   console.log(`The key ${keyName} is fully deleted`);
+}
+
+main();
+```
+
+### Configuring Automatic Key Rotation
+
+Using the KeyClient, you can configure automatic key rotation for a key by specifying the rotation policy.
+In addition, KeyClient provides a method to rotate a key on-demand by creating a new version of the given key.
+
+```javascript
+const { DefaultAzureCredential } = require("@azure/identity");
+const { KeyClient } = require("@azure/keyvault-keys");
+
+const vaultUrl = `https://<YOUR KEYVAULT NAME>.vault.azure.net`;
+const client = new KeyClient(url, new DefaultAzureCredential());
+
+async function main() {
+  const keyName = "MyKeyName";
+
+  // Set the key's automated rotation policy to rotate the key 30 days before expiry.
+  const policy = await client.updateKeyRotationPolicy(key.name, {
+    lifetimeActions: [
+      {
+        action: "Rotate",
+        timeBeforeExpiry: "P30D"
+      }
+    ],
+    // You may also specify the duration after which any newly rotated key will expire.
+    // In this case, any new key versions will expire after 90 days.
+    expiresIn: "P90D"
+  });
+
+  // You can get the current key rotation policy of a given key by calling the getKeyRotationPolicy method.
+  const currentPolicy = await client.getKeyRotationPolicy(key.name);
+
+  // Finally, you can rotate a key on-demand by creating a new version of the given key.
+  const rotatedKey = await client.rotateKey(key.name);
 }
 
 main();

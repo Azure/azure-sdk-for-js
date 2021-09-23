@@ -822,6 +822,11 @@
       "versionPolicyName": "test"
     },
     {
+      "packageName": "@azure-tests/perf-container-registry",
+      "projectFolder": "sdk/containerregistry/perf-tests/container-registry",
+      "versionPolicyName": "test"
+    },
+    {
       "packageName": "@azure-tests/perf-core-rest-pipeline",
       "projectFolder": "sdk/core/perf-tests/core-rest-pipeline",
       "versionPolicyName": "test"
