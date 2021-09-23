@@ -34,7 +34,7 @@ const recorderEnvSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: []
 };
 
-describe("My test", () => {
+describe("Cosmosdb cassandra test", () => {
   let recorder: Recorder;
   let client: CosmosDBManagementClient;
   let subscriptionId: string;
@@ -83,7 +83,7 @@ describe("My test", () => {
       apiProperties: {},
       createMode: "Default"
   });
-    console.log(res);
+    assert.equal(res.name, accountName);
   });
 
   it("cassandraResources create test", async function() {
@@ -96,7 +96,7 @@ describe("My test", () => {
             throughput: 2000
         }
     });
-    console.log(res);
+    assert.equal(res.type, "Microsoft.DocumentDB/databaseAccounts/cassandraKeyspaces");
   });
 
   it("cassandraResources update test", async function() {
@@ -106,32 +106,42 @@ describe("My test", () => {
             throughput: 400
         }
     });
-    console.log(res);
+    assert.equal(res.resource?.throughput,400);
   });
 
   it("cassandraResources get test", async function() {
     const res = await client.cassandraResources.getCassandraKeyspaceThroughput(resourceGroupName,accountName,keyspaceName);
-    console.log(res);
+    assert.equal(res.type, "Microsoft.DocumentDB/databaseAccounts/cassandraKeyspaces");
   });
 
   it("cassandraResources list test", async function() {
+    const resArray = new Array();
     for await (let item of client.cassandraResources.listCassandraKeyspaces(resourceGroupName,accountName)){
-        console.log(item);
+        resArray.push(item);
     }
+    assert.equal(resArray.length,1);
   });
 
   it("cassandraResources MigrateCassandra test", async function() {
     const res = await client.cassandraResources.beginMigrateCassandraKeyspaceToAutoscaleAndWait(resourceGroupName,accountName,keyspaceName);
-    console.log(res);
+    assert.equal(res.type,"Microsoft.DocumentDB/databaseAccounts/cassandraKeyspaces/throughputSettings/migrateToAutoscale")
   });
 
   it("cassandraResources delete test", async function() {
-    const res = await client.cassandraResources.beginDeleteCassandraKeyspaceAndWait(resourceGroupName,accountName,keyspaceName);
-    console.log(res);
+    await client.cassandraResources.beginDeleteCassandraKeyspaceAndWait(resourceGroupName,accountName,keyspaceName);
+    const resArray = new Array();
+    for await (let item of client.cassandraResources.listCassandraKeyspaces(resourceGroupName,accountName)){
+        resArray.push(item);
+    }
+    assert.equal(resArray.length,0);
   });
 
   it("databaseAccounts delete for cassandraResources test", async function() {
-    const res = await client.databaseAccounts.beginDeleteAndWait(resourceGroupName,accountName);
-    console.log(res);
+    await client.databaseAccounts.beginDeleteAndWait(resourceGroupName,accountName);
+    const resArray = new Array();
+    for await (let item of client.databaseAccounts.listByResourceGroup(resourceGroupName)){
+        resArray.push(item);
+    }
+    assert.equal(resArray.length,0);
   });
 });

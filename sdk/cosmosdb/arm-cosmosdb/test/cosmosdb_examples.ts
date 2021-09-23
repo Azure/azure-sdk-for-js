@@ -34,7 +34,7 @@ const recorderEnvSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: []
 };
 
-describe("My test", () => {
+describe("Cosmosdb test", () => {
   let recorder: Recorder;
   let client: CosmosDBManagementClient;
   let subscriptionId: string;
@@ -82,27 +82,33 @@ describe("My test", () => {
         location: location,
         createMode: "Default"
     });
-    console.log(res);
+    assert.equal(res.name, accountName);
   });
 
   it("databaseAccounts get test", async function() {
     const res = await client.databaseAccounts.get(resourceGroupName,accountName);
-    console.log(res);
+    assert.equal(res.name, accountName);
   });
 
   it("databaseAccounts list test", async function() {
+    const resArray = new Array();
     for await (let item of client.databaseAccounts.list()){
-        console.log(item);
+        resArray.push(item);
     }
+    assert.equal(resArray.length,1);
   });
 
   it("databaseAccounts checkNameExists test", async function() {
     const res = await client.databaseAccounts.checkNameExists(accountName);
-    console.log(res);
+    assert.equal(res.body,true);
   });
 
   it("databaseAccounts delete test", async function() {
-    const res = await client.databaseAccounts.beginDeleteAndWait(resourceGroupName,accountName);
-    console.log(res);
+    await client.databaseAccounts.beginDeleteAndWait(resourceGroupName,accountName);
+    const resArray = new Array();
+    for await (let item of client.databaseAccounts.listByResourceGroup(resourceGroupName)){
+        resArray.push(item);
+    }
+    assert.equal(resArray.length,0);
   });
 });

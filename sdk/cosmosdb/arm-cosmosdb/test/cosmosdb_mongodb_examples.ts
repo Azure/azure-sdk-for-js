@@ -34,7 +34,7 @@ const recorderEnvSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: []
 };
 
-describe("My test", () => {
+describe("Cosmosdb mongodb test", () => {
   let recorder: Recorder;
   let client: CosmosDBManagementClient;
   let subscriptionId: string;
@@ -55,8 +55,8 @@ describe("My test", () => {
     client = new CosmosDBManagementClient(credential, subscriptionId);
     location = "eastus";
     resourceGroupName = "myjstest";
-    accountName = "myaccountxxx";
-    databaseName = "mydatabasexxxx3";
+    accountName = "myaccountxxx3";
+    databaseName = "mydatabasexxxx";
   });
 
   afterEach(async function() {
@@ -78,7 +78,8 @@ describe("My test", () => {
         apiProperties: {},
         createMode: "Default"
     });
-    console.log(res);
+    assert.equal(res.name, accountName);
+    assert.equal(res.location, location);
   });
 
   it("mongoDBResources create test", async function() {
@@ -91,7 +92,7 @@ describe("My test", () => {
             throughput: 2000
         }
     });
-    console.log(res);
+    assert.equal(res.type, "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases")
   });
 
   it("mongoDBResources update test", async function() {
@@ -101,32 +102,40 @@ describe("My test", () => {
             throughput: 400
         }
     });
-    console.log(res);
+    assert.equal(res.resource?.throughput, 400);
   });
 
   it("mongoDBResources get test", async function() {
     const res = await client.mongoDBResources.getMongoDBDatabase(resourceGroupName,accountName,databaseName);
-    console.log(res);
+    assert.equal(res.type, "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases");
   });
 
   it("mongoDBResources list test", async function() {
     for await (let item of client.mongoDBResources.listMongoDBDatabases(resourceGroupName,accountName)){
-        console.log(item);
+        assert.equal(item.type, "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases");
     }
   });
 
   it("mongoDBResources migrate test", async function() {
     const res = await client.mongoDBResources.beginMigrateMongoDBDatabaseToAutoscaleAndWait(resourceGroupName,accountName,databaseName);
-    console.log(res);
+    assert.equal(res.type, "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/throughputSettings/migrateToAutoscale");
   });
 
   it("mongoDBResources delete test", async function() {
-    const res = await client.mongoDBResources.beginDeleteMongoDBDatabaseAndWait(resourceGroupName,accountName,databaseName);
-    console.log(res);
+    await client.mongoDBResources.beginDeleteMongoDBDatabaseAndWait(resourceGroupName,accountName,databaseName);
+    const resArray = new Array();
+    for await (let item of client.mongoDBResources.listMongoDBDatabases(resourceGroupName,accountName)){
+        resArray.push(item);
+    }
+    assert.equal(resArray.length,0);
   });
 
   it("databaseAccounts delete for mongoDBResources test", async function() {
-    const res = await client.databaseAccounts.beginDeleteAndWait(resourceGroupName,accountName);
-    console.log(res);
+    await client.databaseAccounts.beginDeleteAndWait(resourceGroupName,accountName);
+    const resArray = new Array();
+    for await (let item of client.databaseAccounts.listByResourceGroup(resourceGroupName)){
+        resArray.push(item);
+    }
+    assert.equal(resArray.length,0);
   });
 });
