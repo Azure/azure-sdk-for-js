@@ -54,7 +54,7 @@ export async function main(): Promise<void> {
     const recoverPoller = await client.beginRecoverDeletedCertificate(certificateName);
     await recoverPoller.pollUntilDone();
   } catch (error) {
-    console.error("Error: ", error.message);
+    console.log("Error (expected): ", error.message);
   }
 }
 
