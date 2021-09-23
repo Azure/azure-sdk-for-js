@@ -35,13 +35,27 @@ export async function main(): Promise<void> {
   const pendingCertificate = createPoller.getResult();
   console.log("Certificate: ", pendingCertificate);
 
-  const deletePoller = await client.beginDeleteCertificate(certificateName);
+  let deletePoller = await client.beginDeleteCertificate(certificateName);
   const deletedCertificate = await deletePoller.pollUntilDone();
   console.log("Deleted certificate: ", deletedCertificate);
 
   const recoverPoller = await client.beginRecoverDeletedCertificate(certificateName);
   const certificateWithPolicy = await recoverPoller.pollUntilDone();
   console.log("Certificate with policy:", certificateWithPolicy);
+
+  // Deleting the certificate permanently
+  deletePoller = await client.beginDeleteCertificate(certificateName);
+  await deletePoller.pollUntilDone();
+  // The certificate is purged from Key Vault and is no longer recoverable.
+  await client.purgeDeletedCertificate(certificateName);
+
+  try {
+    // The certificate is no longer recoverable.
+    const recoverPoller = await client.beginRecoverDeletedCertificate(certificateName);
+    await recoverPoller.pollUntilDone();
+  } catch (error) {
+    console.error("Error: ", error.message);
+  }
 }
 
 main().catch((err) => {

@@ -95,8 +95,7 @@
       "backupAndRestore.js",
       "listCertificates.js",
       "mergeCertificate.js",
-      "contacts.js",
-      "deleteAndRecover.js"
+      "contacts.js"
     ],
     "requiredResources": {
       "Azure Key Vault": "https://docs.microsoft.com/azure/key-vault/quick-create-portal"
