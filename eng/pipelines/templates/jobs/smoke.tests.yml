@@ -130,7 +130,7 @@ jobs:
         displayName: Install dev-tool
 
       - download: current
-        condition: eq(${{ parameters.Daily }}, false)
+        condition: eq($parameters.Daily, 'false')
       - pwsh: |
           $(Build.SourcesDirectory)/eng/common/scripts/Import-AzModules.ps1
 
@@ -158,7 +158,7 @@ jobs:
             }
             $result = $(System.DefaultWorkingDirectory)/eng/scripts/get-npm-tags.ps1 -packageArtifact $packageArtifact -workingDirectory $(System.DefaultWorkingDirectory)/temp
             $packageInfo = Get-Content -Path "$(Pipeline.Workspace)/${{parameters.ArtifactName}}/PackageInfo/${{parameters.Artifact.name}}.json" 
-              | ConvertFrom-Json -AsHashtable)
+              | ConvertFrom-Json -AsHashtable
 
             ./Initialize-SmokeTests.ps1 `
               -CI `
