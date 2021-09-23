@@ -14,6 +14,10 @@ Key links:
 
 ## Getting started
 
+### Migrating from v1 to v2 of @azure/identity
+
+If you are using v1 of `@azure/identity`, please follow our migration guide to update to the latest version: [Migrate from v1 to v2 of @azure/identity](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/migration-v1-v2.md).
+
 ### Currently supported environments
 
 - [LTS versions of Node.js](https://nodejs.org/about/releases/)
