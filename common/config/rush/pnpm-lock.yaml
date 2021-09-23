@@ -10562,7 +10562,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-sgTczJD8/f1/+UWPeOS6mvAYqwyhtAM8a/1AUqlNOwrUHbtruEncMEaDgaLNA3zGie9O2H3akEXYAYzl6X6+iw==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-7/sEYYWDS7Cggbgrtix8TWZS5jyoAdu9Gw3/lNDAGfd1esL6LyEREAyT8PVzTRUd/ax6BleHvxDNB3ZzXt3Qwg==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
@@ -10596,6 +10596,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
       open: 8.2.1
       prettier: 1.19.1
       puppeteer: 10.2.0
