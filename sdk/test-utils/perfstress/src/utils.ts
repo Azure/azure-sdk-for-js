@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { IncomingMessage, RequestOptions, request } from "http";
+import { IncomingMessage, RequestOptions } from "http";
+import https from "https";
+import http from "http";
 import { TestProxyHttpClient, TestProxyHttpClientV1 } from "./testProxyHttpClient";
 
 /**
@@ -34,9 +36,22 @@ export async function makeRequest(
   uri: string,
   requestOptions: RequestOptions
 ): Promise<IncomingMessage> {
+  console.log("make request", uri);
   return new Promise<IncomingMessage>((resolve, reject) => {
-    const req = request(uri, requestOptions, resolve);
-
+    let req: http.ClientRequest;
+    if (uri.startsWith("https")) {
+      console.log("inside if");
+      req = https.request(
+        uri,
+        {
+          ...requestOptions,
+          agent: new https.Agent({ rejectUnauthorized: false, requestCert: true })
+        },
+        resolve
+      );
+    } else {
+      req = http.request(uri, requestOptions, resolve);
+    }
     req.once("error", reject);
 
     req.end();
