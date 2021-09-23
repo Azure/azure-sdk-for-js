@@ -2,12 +2,11 @@
 // Licensed under the MIT License.
 
 /**
- * This sample extracts key phrases, entities, and pii entities from several documents
- *  using a long-running operation. This functionality uses the generic analysis
- * endpoint, which provides a way to group several different Text Analytics actions
- * into a single request.
+ * This sample applies actions for customer-trained models to several documents using
+ * a long-running operation. This functionality uses the generic analysis endpoint,
+ * which provides a way to group several different Text Analytics actions into a single request.
  *
- * @summary applies multiple Text Analytics actions per document
+ * @summary applies multiple Custom Text Analytics actions per document
  */
 
 const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");

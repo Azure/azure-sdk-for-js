@@ -26,7 +26,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [alternativeDocumentInput.js][alternativedocumentinput]                   | uses objects with attached metadata instead of simple strings as inputs for flexibility |
 | [authenticationMethods.js][authenticationmethods]                         | authenticates a service client using both Azure Active Directory and an API key         |
 | [beginAnalyzeActions.js][beginanalyzeactions]                             | applies multiple Text Analytics actions per document                                    |
-| [customText.js][customtext]                                               | applies multiple Text Analytics actions per document                                    |
+| [customText.js][customtext]                                               | applies multiple Custom Text Analytics actions per document                             |
 
 ## Prerequisites
 

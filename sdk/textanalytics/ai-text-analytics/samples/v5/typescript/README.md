@@ -26,7 +26,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [alternativeDocumentInput.ts][alternativedocumentinput]                   | uses objects with attached metadata instead of simple strings as inputs for flexibility |
 | [authenticationMethods.ts][authenticationmethods]                         | authenticates a service client using both Azure Active Directory and an API key         |
 | [beginAnalyzeActions.ts][beginanalyzeactions]                             | applies multiple Text Analytics actions per document                                    |
-| [customText.ts][customtext]                                               | applies multiple Text Analytics actions per document                                    |
+| [customText.ts][customtext]                                               | applies multiple Custom Text Analytics actions per document                             |
 
 ## Prerequisites
 
