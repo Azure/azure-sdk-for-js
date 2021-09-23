@@ -129,12 +129,12 @@ export function parsePerfStressOption<TOptions>(
     const option = options[longName as keyof TOptions];
     const { shortName, defaultValue, required } = option;
     let value: unknown;
-    if (minimistResult[longName] === 0) {
+    if (isDefined(minimistResult[longName])) {
       value = minimistResult[longName];
-    } else if (shortName && minimistResult[shortName] === 0) {
+    } else if (shortName && isDefined(minimistResult[shortName])) {
       value = minimistResult[shortName];
     } else {
-      value = minimistResult[longName] || (shortName && minimistResult[shortName]) || defaultValue;
+      value = defaultValue;
     }
 
     if (required && !isDefined(value)) {
