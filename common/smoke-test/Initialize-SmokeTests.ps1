@@ -153,6 +153,7 @@ function Update-SampleDependencies {
         # For non-daily smoke tests (i.e. release smoke tests), specifically
         # override the package.json tag for the newly released package under test.
         # Tag will be either 'latest' or 'next'
+        Write-Host "xxxxxxxxxxxxxxxx"
         $dependencies[$dep] = $TagOverride
       } else {
         # For non-daily smoke tests and/or non-azure dependencies,
