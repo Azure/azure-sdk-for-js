@@ -130,15 +130,13 @@ jobs:
         displayName: Install dev-tool
 
       - download: current
+        condition: and(succeeded(), eq('${{ $parameters.Daily}}', 'false'))
       - pwsh: |
           $(Build.SourcesDirectory)/eng/common/scripts/Import-AzModules.ps1
 
           $subscriptionConfiguration = @"
             $(SubscriptionConfiguration)
           "@ | ConvertFrom-Json -AsHashtable;
-
-          $packageOverrides = @()
-          $packageOverrides += (dir env: | Where-Object { $_.Name.StartsWith("SMOKE_PACKAGE_") }).Value
 
           if ([System.Convert]::ToBoolean("${{ parameters.Daily }}")) {
             ./Initialize-SmokeTests.ps1 `
@@ -159,13 +157,15 @@ jobs:
               exit 1
             }
             $result = $(System.DefaultWorkingDirectory)/eng/scripts/get-npm-tags.ps1 -packageArtifact $packageArtifact -workingDirectory $(System.DefaultWorkingDirectory)/temp
+            $packageInfo = Get-Content -Path "$(Pipeline.Workspace)/${{parameters.ArtifactName}}/PackageInfo/${{parameters.Artifact.name}}.json" 
+              | ConvertFrom-Json -AsHashtable
 
             ./Initialize-SmokeTests.ps1 `
               -CI `
               -Verbose `
               -Location '$(Location)' `
               -TagOverride $result.Tag `
-              -TagOverridePackages $packageOverrides `
+              -TagOverridePackages $packageInfo.Name `
               -ServiceDirectory ${{ parameters.ServiceDirectory }} `
               @subscriptionConfiguration `
               -AdditionalParameters $(ArmTemplateParameters)
