@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { IncomingMessage } from "http";
-import { RequestOptions, request } from "https";
+import { IncomingMessage, RequestOptions, request } from "http";
 
 /**
  * Returns the environment variable, throws an error if not defined.
