@@ -172,12 +172,6 @@ async function main() {
   );
 
   console.log("importedCertificate", importedCertificate);
-
-  deletePoller = await client.beginDeleteCertificate(importedCertificate.name);
-  deletedCertificate = await deletePoller.pollUntilDone();
-  console.log("Recovery Id: ", deletedCertificate.recoveryId);
-  console.log("Deleted Date: ", deletedCertificate.deletedOn);
-  console.log("Scheduled Purge Date: ", deletedCertificate.scheduledPurgeDate);
 }
 
 main().catch((err) => {
