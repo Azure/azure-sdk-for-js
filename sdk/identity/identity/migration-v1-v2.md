@@ -1,41 +1,41 @@
-# Migrating from v1 to v2 of @azure/identity
+# Migrate from v1 to v2 of @azure/identity
 
-We're pleased to announce our version two ouf our package `@azure/identity`. Version two carries the best parts of version one, plus several improvements across the board. In this document we'll expand on the changes.
+We're pleased to announce version 2 of the `@azure/identity` package. Version 2 carries the best parts of version 1, plus several improvements across the board. In this document, we'll expand upon the changes.
 
 ## Table of contents
 
-- [Node version support](#node-version-support).
-- [Dependency changes](#dependency-changes).
-- [Bug fixes](#bug-fixes).
-- [Errors](#errors).
-- [New credentials](#new-credentials).
-- [Changes to existing credentials](#changes-to-existing-credentials).
-  - [Changes to all credentials in general](#changes-to-all-credentials-ingeneral).
-  - [Changes to the interactive credentials](#changes-to-the-interactive-credentials).
-  - [Changes to ClientSecretCredential and ClientCertificateCredential](#changes-to-ClientSecretCredential-and-ClientCertificateCredential).
-  - [Changes to the ManagedIdentityCredential](#changes-to-the-ManagedIdentityCredential).
-  - [Changes to the InteractiveBrowserCredential](#changes-to-the-InteractiveBrowserCredential).
-  - [Changes to the AzureCliCredential](#changes-to-the-AzureCliCredential).
-  - [Changes to the DeviceCodeCredential](#changes-to-the-AzureCliCredential).
-  - [Changes to the VisualStudioCodeCredential](#changes-to-the-VisualStudioCodeCredential).
-- [Plugins](#plugins).
-  - [Persistence plugin](#persistence-plugin).
-  - [VisualStudioCodeCredential plugin](#VisualStudioCodeCredential-plugin).
-- [Troubleshooting](#troubleshooting).
-- [Provide feedback](#provide-feedback).
-- [Contributing](#contributing).
+- [Node version support](#node-version-support)
+- [Dependency changes](#dependency-changes)
+- [Bug fixes](#bug-fixes)
+- [Errors](#errors)
+- [New credentials](#new-credentials)
+- [Changes to existing credentials](#changes-to-existing-credentials)
+  - [Changes to all credentials in general](#changes-to-all-credentials-ingeneral)
+  - [Changes to the interactive credentials](#changes-to-the-interactive-credentials)
+  - [Changes to ClientSecretCredential and ClientCertificateCredential](#changes-to-ClientSecretCredential-and-ClientCertificateCredential)
+  - [Changes to the ManagedIdentityCredential](#changes-to-the-ManagedIdentityCredential)
+  - [Changes to the InteractiveBrowserCredential](#changes-to-the-InteractiveBrowserCredential)
+  - [Changes to the AzureCliCredential](#changes-to-the-AzureCliCredential)
+  - [Changes to the DeviceCodeCredential](#changes-to-the-AzureCliCredential)
+  - [Changes to the VisualStudioCodeCredential](#changes-to-the-VisualStudioCodeCredential)
+- [Plugins](#plugins)
+  - [Persistent token cache plugin](#persistent-token-cache-plugin)
+  - [VisualStudioCodeCredential plugin](#VisualStudioCodeCredential-plugin)
+- [Troubleshooting](#troubleshooting)
+- [Provide feedback](#provide-feedback)
+- [Contributing](#contributing)
 
 ## Node version support 
 
-While the last `@azure/identity` version to support Node 8 is 1.3.0, we've also decided to update `@types/node` to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+While the last `@azure/identity` version to support Node 8 is 1.3.0, we've also decided to update `@types/node` to version 12. For more details, read the [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md).
 
 ## Dependency changes
 
-The version two of Azure Identity for JavaScript no longer carries any native dependencies (neither ordinary, peer, nor optional dependencies). Previous distributions of `@azure/identity` carried an optional dependency on `keytar`, which caused issues for some users in restrictive environments.
+Version 2 of Azure Identity for JavaScript no longer includes native dependencies (neither ordinary, peer, nor optional dependencies). Previous distributions of `@azure/identity` included an optional dependency on `keytar`, which caused issues for some users in restrictive environments.
 
-Version two of the Azure Identity for JavaScript now also depends on the latest available versions of `@azure/msal-common`, `@azure/msal-node` and `@azure/msal-browser`. Our goal is to always be up to date with the MSAL versions.
+Version 2 of Azure Identity for JavaScript now also depends on the latest available versions of `@azure/msal-common`, `@azure/msal-node`, and `@azure/msal-browser`. Our goal is to always be up-to-date with the MSAL versions.
 
-All of the credentials provided in the version two of our Identity package for Node now make use of the latest `@azure/msal-node`, and our `InteractiveBrowserCredential` now uses the latest `@azure/msal-node` on Node.js, and the latest `@azure/msal-browser` on the browser.
+All credentials provided in version 2 of the Identity package for Node.js now make use of the latest `@azure/msal-node`. `InteractiveBrowserCredential` now uses the latest `@azure/msal-node` on Node.js and the latest `@azure/msal-browser` on the browser.
 
 Relying on the latest versions of MSAL comes with many benefits, but it has some considerations:
 
@@ -44,23 +44,24 @@ Relying on the latest versions of MSAL comes with many benefits, but it has some
 
 ## Bug fixes
 
-As part of our v2 release, we've fixed an issue in which `InteractiveBrowserCredential` on Node would sometimes cause the process to hang if there was no browser available.
+The v2 release fixes the following issues:
 
-We've also fixed an issue in which the `AZURE_AUTHORITY_HOST` environment variable was not properly picked up in Node.js.
+- `InteractiveBrowserCredential` on Node.js sometimes caused the process to hang if there was no browser available.
+- The `AZURE_AUTHORITY_HOST` environment variable wasn't properly picked up in Node.js.
 
-Furthermore, `ClientSecretCredential`, `ClientCertificateCredential` and `UsernamePasswordCredential` now throw if the required parameters are not provided (even in JavaScript).
+Furthermore, `ClientSecretCredential`, `ClientCertificateCredential`, and `UsernamePasswordCredential` now throw if the required parameters aren't provided (even in JavaScript).
 
 ## Errors
 
 For our version two of Identity, we've renamed the error `CredentialUnavailable` to `CredentialUnavailableError`, to align with the naming convention used for error classes in the Azure SDKs in JavaScript.
 
-We've also introduced a new error: `AuthenticationRequiredError`, which will show up when a credential fails to authenticate silently and has the same impact on `ChainedTokenCredential` as the `CredentialUnavailableError` which is to allow the next credential in the chain to be tried.
+We've also introduced a new error, named `AuthenticationRequiredError`. This error will show up when a credential fails to authenticate silently and has the same impact on `ChainedTokenCredential` as the `CredentialUnavailableError`, which is to allow the next credential in the chain to be tried.
 
-Most importantly, errors and logged excpetions may now point to our new troubleshooting guidelines, available here: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/Troubleshooting.md
+Most importantly, errors and logged exceptions may now point to our new troubleshooting guidelines, available here: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/Troubleshooting.md
 
 ## New credentials
 
-Our version two release of the `@azure/identity` package includes three new credentials:
+Version 2 of the `@azure/identity` package includes three new credential types:
 
 - `AzurePowerShellCredential`, which will use the authenticated user session from the `Az.Account` PowerShell module. This credential will attempt to use PowerShell Core by calling `pwsh`, and on Windows it will fall back to Windows PowerShell (`powershell`) if PowerShell Core is not available.
 - `ApplicationCredential`, for use by applications which call into Microsoft Graph APIs and which have issues using `DefaultAzureCredential`. This credential is based on `EnvironmentCredential` and `ManagedIdentityCredential`.
@@ -68,7 +69,7 @@ Our version two release of the `@azure/identity` package includes three new cred
 
 ## Changes to existing credentials
 
-For our version two of the Identity SDK for JavaScript and TypeScript, we've also included several improvements to our existent credentials.
+For our version two of the Identity SDK for JavaScript and TypeScript, we've also included several improvements to our existing credentials.
 
 ### Changes to all credentials in general
 
@@ -173,21 +174,26 @@ For the version two of the Identity package, we have removed the protected metho
 
 ### Changes to the VisualStudioCodeCredential
 
-For the version `2.0.0` of the `@azure/identity` package, we have moved the `VisualStudioCodeCredential` implementation from the public API into its own plugin package. On the public API, we've left only a stub of the original credential, that if used will throw a `CredentialUnavailableError` with information on how to enable it. Moving this credential away from the main package allow us to remove the `keytar` dependency, so now we can provide a main identity package with no binary dependencies. Information on the new plugin package comes in the following section, [plugins](#plugins).
+For the version `2.0.0` of the `@azure/identity` package, we have moved the `VisualStudioCodeCredential` implementation from the public API into its own plugin package. On the public API, we've left only a stub of the original credential, that if used will throw a `CredentialUnavailableError` with information on how to enable it. Moving this credential away from the main package allow us to remove the `keytar` dependency, so now we can provide a main Identity package with no binary dependencies. Information on the new plugin package comes in the following section, [plugins](#plugins).
 
 ## Plugins
 
-As part of our `2.0.0` Identity release, we've released two new packages, `@azure/identity-cache-persistence`, which provides persistent token caching, and `@azure/identity-vscode`, which provides the dependencies of `VisualStudioCodeCredential` and enables it through dependency injection. We're calling these packages _plugins_, and they are meant to extend the public API of the main `@azure/identity` package once they're enabled in your program.
+As part of the Identity 2.0 release, we've released two new packages:
+
+- `@azure/identity-cache-persistence` &mdash; Provides persistent token caching.
+- `@azure/identity-vscode` &mdash; Provides the dependencies of `VisualStudioCodeCredential` and enables it through dependency injection.
+
+These packages are called _plugins_. They're meant to extend the public API of the main `@azure/identity` package, once enabled in your app.
 
 With this release, we've introduced a top-level method `useIdentityPlugin`. The function accepts a "plugin" as an argument, which is a function accepting a `context`. The plugin context is an internal part of the Azure Identity API, so it has an `unknown` type.
 
 Let's explore these two plugins in more detail.
 
-### Persistence plugin
+### Persistent token cache plugin
 
-The new [`@azure/identity-cache-persistence`](https://npmjs.com/package/@azure/identity-cache-persistence) package provides a plugin to the Azure Identity library for JavaScript [`@azure/identity` that enables persistent token caching. Token cache persistence allows the built-in token cache to persist across sessions using a secure storage system provided by the local operating system.
+The new [`@azure/identity-cache-persistence`](https://npmjs.com/package/@azure/identity-cache-persistence) package provides a plugin to the Azure Identity library for JavaScript that enables persistent token caching. Token cache persistence allows the built-in token cache to persist across sessions using a secure storage system provided by the local operating system.
 
-This package exports a plugin object that you must pass as an argument to the top-level `useIdentityPlugin` function from the `@azure/identity` package. Enable token cache persistence in your program as follows:
+This package exports a plugin object that you must pass as an argument to the top-level `useIdentityPlugin` function from the `@azure/identity` package. Enable token cache persistence in your app as follows:
 
 ```javascript
 import { useIdentityPlugin } from "@azure/identity";
@@ -196,7 +202,7 @@ import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
 useIdentityPlugin(cachePersistencePlugin);
 ```
 
-After calling `useIdentityPlugin`, the persistent token cache plugin is registered to the `@azure/identity` package and will be available on all credentials that support persistent token caching (those that have `tokenCachePersistenceOptions` in their constructor options).
+After calling `useIdentityPlugin`, the persistent token cache plugin is registered to the `@azure/identity` package. The plugin will be available on all credentials that support persistent token caching (those that have `tokenCachePersistenceOptions` in their constructor options).
 
 Once the plugin is registered, you can enable token cache persistence by passing `tokenCachePersistenceOptions` with an `enabled` property set to `true` to a credential constructor. In the following example, we use the `DeviceCodeCredential`, since persistent caching of its tokens allows you to skip the interactive device-code authentication flow if a cached token is available.
 
@@ -228,9 +234,9 @@ main().catch((error) => {
 
 ### VisualStudioCodeCredential plugin
 
-The new [`@azure/identity-vscode`](https://npmjs.com/package/@azure/identity-vscode) package enables authentication through the "Azure Account" extension for Visual Studio Code. This plugin provides the dependencies of the `VisualStudioCodeCredential` in `@azure/identity` and allows using the `DefaultAzureCredential` to authenticate with the account used in the Visual Studio Code plugin.
+The new [`@azure/identity-vscode`](https://npmjs.com/package/@azure/identity-vscode) package enables authentication through the [Azure Account](https://marketplace.visualstudio.com/items?itemName=ms-vscode.azure-account) extension for Visual Studio Code. This plugin provides the dependencies of the `VisualStudioCodeCredential` in `@azure/identity` and allows using the `DefaultAzureCredential` to authenticate with the account used in the Visual Studio Code extension.
 
-This package exports a plugin object that you must pass as an argument to the top-level `useIdentityPlugin` function from the `@azure/identity` package. Enable token cache persistence in your program as follows:
+This package exports a plugin object that you must pass as an argument to the top-level `useIdentityPlugin` function from the `@azure/identity` package. Enable token cache persistence in your app as follows:
 
 ```javascript
 import { useIdentityPlugin } from "@azure/identity";
@@ -294,7 +300,7 @@ main().catch((error) => {
 
 As part of our version two release, we're now providing a Troubleshooting Guide. This guide will be improved over time to include solutions to many common problems, as we discover them, and as they get reported to us by our customers. Upon throwing errors and exception logs, we're now pointing users to this troubleshooting guide. This guide is available through the following link: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/Troubleshooting.md
 
-## Provide Feedback
+## Provide feedback
 
 If you encounter bugs or have suggestions, please [open an issue](https://github.com/Azure/azure-sdk-for-js/issues).
 
