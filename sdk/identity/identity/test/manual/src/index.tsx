@@ -4,10 +4,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-import {
-  InteractiveBrowserCredential,
-  BrowserLoginStyle
-} from "@azure/identity";
+import { InteractiveBrowserCredential, BrowserLoginStyle } from "@azure/identity";
 import { ServiceBusClient } from "@azure/service-bus";
 
 interface ClientDetails {
@@ -82,7 +79,7 @@ function getCredential(
     cachedCredential = new InteractiveBrowserCredential({
       tenantId,
       clientId,
-      loginStyle
+      loginStyle,
     });
     lastLoginStyle = clientDetails.loginStyle;
     return cachedCredential;
@@ -95,13 +92,12 @@ function ClientDetailsEditor({ clientDetails, onSetClientDetails }: ClientDetail
     onSetClientDetails(newDetails);
   };
 
-  const setDetail = (name: keyof ClientDetails, changeValue?: (v: string) => any) => (
-    value: string
-  ) =>
-    handleDetailsChange({
-      ...clientDetails,
-      [name]: changeValue ? changeValue(value) : value,
-    });
+  const setDetail =
+    (name: keyof ClientDetails, changeValue?: (v: string) => any) => (value: string) =>
+      handleDetailsChange({
+        ...clientDetails,
+        [name]: changeValue ? changeValue(value) : value,
+      });
 
   return (
     <div>
