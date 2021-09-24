@@ -6,8 +6,6 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "dist-esm/test/setupOpenTelemetry.js": "dist-esm/test/setupOpenTelemetry.browser.js",
-    "dist-esm/test/public/logsQueryClient.spec.js": "dist-esm/test/public/logsQueryClient.browser.spec.js"
   },
   "//metadata": {
     "constantPaths": [

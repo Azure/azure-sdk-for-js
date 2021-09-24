@@ -5,9 +5,43 @@ import { env, record, Recorder, isPlaybackMode } from "@azure-tools/test-recorde
 import * as assert from "assert";
 import { Context } from "mocha";
 import { createClientLogger } from "@azure/logger";
-import { LogsTable } from "../../../src";
+import { LogsTable, LogsQueryClient, MetricsQueryClient } from "../../../src";
 
 export const loggerForTest = createClientLogger("test");
+
+
+export interface RecordedLogsClient {
+  client: LogsQueryClient;
+  recorder: Recorder;
+}
+
+export interface RecordedMetricsClient {
+  client: MetricsQueryClient;
+  recorder: Recorder;
+}
+
+export function createRecordedMetricsClient(
+  context: Context,
+): RecordedAdminClient {
+  const recorder = record(context, environmentSetup);
+  return {
+    client: new MetricsQueryClient(testEnv.METRICS_ADVISOR_ENDPOINT, apiKey),
+    recorder
+  };
+}
+
+export function createRecordedLogsClient(
+  context: Context,
+  retryOptions?: ExponentialRetryPolicyOptions
+): RecordedAdvisorClient {
+  const recorder = record(context, environmentSetup);
+  return {
+    client: new LogsQueryClient(createTestClientSecretCredential(), {
+        retryOptions
+      });,
+    recorder
+  };
+}
 
 /**
  * Declare the client and recorder instances.  We will set them using the
@@ -20,7 +54,7 @@ export function addTestRecorderHooks(): { recorder(): Recorder; isPlaybackMode()
   const replaceableVariables: Record<string, string> = {
     MONITOR_WORKSPACE_ID: "<workspace-id>",
     METRICS_RESOURCE_ID: "<metrics-arm-resource-id>",
-
+    MQ_APPLICATIONINSIGHTS_CONNECTION_STRING: "mq_applicationinsights_connection",
     AZURE_TENANT_ID: "azure_tenant_id",
     AZURE_CLIENT_ID: "azure_client_id",
     AZURE_CLIENT_SECRET: "azure_client_secret"

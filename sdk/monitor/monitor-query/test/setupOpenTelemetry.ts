@@ -5,13 +5,13 @@
 // import { NodeTracerProvider } from "@opentelemetry/node";
 // import { BatchSpanProcessor } from "@opentelemetry/tracing";
 // import { TracerProvider } from "@opentelemetry/api";
-import * as dotenv from "dotenv";
+// import * as dotenv from "dotenv";
 // import { Context } from "mocha";
 // import { getAppInsightsConnectionString } from "./public/shared/testShared";//
 
-dotenv.config();
+// dotenv.config();
 
-export function doNothing() {}
+// export function doNothing() {}
 // export function runWithTelemetry(
 //   mochaContext: Pick<Context, "skip">,
 //   fn: (provider: TracerProvider) => void

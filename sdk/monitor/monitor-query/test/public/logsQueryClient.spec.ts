@@ -7,7 +7,6 @@ import { env } from "process";
 
 import { Durations, LogsQueryClient, QueryBatch } from "../../src";
 // import { runWithTelemetry } from "../setupOpenTelemetry";
-import { doNothing } from "../setupOpenTelemetry";
 
 import {
   assertQueryTable,
@@ -20,13 +19,13 @@ import { ExponentialRetryPolicyOptions, RestError } from "@azure/core-rest-pipel
 
 describe("LogsQueryClient live tests", function() {
   let monitorWorkspaceId: string;
-  let createClient: (retryOptions?: ExponentialRetryPolicyOptions) => LogsQueryClient;
+  let createLogsClient: (retryOptions?: ExponentialRetryPolicyOptions) => LogsQueryClient;
   let testRunId: string;
 
   before(function(this: Context) {
     monitorWorkspaceId = getMonitorWorkspaceId(this);
 
-    createClient = (retryOptions?: ExponentialRetryPolicyOptions) =>
+    createLogsClient = (retryOptions?: ExponentialRetryPolicyOptions) =>
       new LogsQueryClient(createTestClientSecretCredential(), {
         retryOptions
       });
@@ -39,7 +38,7 @@ describe("LogsQueryClient live tests", function() {
     try {
       // TODO: there is an error details in the query, but when I run an invalid query it
       // throws (and ErrorDetails are just present in the exception.)
-      await createClient().queryWorkspace(monitorWorkspaceId, kustoQuery, {
+      await createLogsClient().queryWorkspace(monitorWorkspaceId, kustoQuery, {
         duration: Durations.oneDay
       });
       assert.fail("Should have thrown an exception");
@@ -81,7 +80,11 @@ describe("LogsQueryClient live tests", function() {
   // query has timed out on purpose.
   it("serverTimeoutInSeconds", async () => {
     try {
-      await createClient({ maxRetries: 0, retryDelayInMs: 0, maxRetryDelayInMs: 0 }).queryWorkspace(
+      await createLogsClient({
+        maxRetries: 0,
+        retryDelayInMs: 0,
+        maxRetryDelayInMs: 0
+      }).queryWorkspace(
         monitorWorkspaceId,
         // slow query suggested by Pavel.
         "range x from 1 to 10000000000 step 1 | count",
@@ -124,7 +127,7 @@ describe("LogsQueryClient live tests", function() {
   });
 
   it("includeQueryStatistics", async () => {
-    const results = await createClient().queryWorkspace(
+    const results = await createLogsClient().queryWorkspace(
       monitorWorkspaceId,
       "AppEvents | limit 1",
       {
@@ -142,7 +145,7 @@ describe("LogsQueryClient live tests", function() {
   });
 
   it("includeRender/includeVisualization", async () => {
-    const results = await createClient().queryWorkspace(
+    const results = await createLogsClient().queryWorkspace(
       monitorWorkspaceId,
       `datatable (s: string, i: long) [ "a", 1, "b", 2, "c", 3 ] | render columnchart with (title="the chart title", xtitle="the x axis title")`,
       {
@@ -175,7 +178,7 @@ describe("LogsQueryClient live tests", function() {
           dynamiccolumn=print_6
       `;
 
-    const results = await createClient().queryWorkspace(monitorWorkspaceId, constantsQuery, {
+    const results = await createLogsClient().queryWorkspace(monitorWorkspaceId, constantsQuery, {
       duration: Durations.fiveMinutes
     });
 
@@ -257,7 +260,7 @@ describe("LogsQueryClient live tests", function() {
           dynamiccolumn=print_6
       `;
 
-    const result = await createClient().queryBatch([
+    const result = await createLogsClient().queryBatch([
       {
         workspaceId: monitorWorkspaceId,
         query: constantsQuery,
@@ -353,7 +356,6 @@ describe("LogsQueryClient live tests", function() {
         testRunId = env.TEST_RUN_ID;
       } else {
         testRunId = `ingestedDataTest-${Date.now()}`;
-        doNothing();
         // send some events
         //  await runWithTelemetry(this, (provider) => {
         //    const tracer = provider.getTracer("logsClientTests");
@@ -381,7 +383,7 @@ describe("LogsQueryClient live tests", function() {
     it("queryLogs (last day)", async () => {
       const kustoQuery = `AppDependencies | where Properties['testRunId'] == '${testRunId}'| project Kind=Properties["kind"], Name, Target, TestRunId=Properties['testRunId']`;
 
-      const singleQueryLogsResult = await createClient().queryWorkspace(
+      const singleQueryLogsResult = await createLogsClient().queryWorkspace(
         monitorWorkspaceId,
         kustoQuery,
         {
@@ -419,7 +421,7 @@ describe("LogsQueryClient live tests", function() {
         }
       ];
 
-      const result = await createClient().queryBatch(batchRequest);
+      const result = await createLogsClient().queryBatch(batchRequest);
 
       if ((result as any)["__fixApplied"]) {
         console.log(`TODO: Fix was required to pass`);
@@ -458,7 +460,7 @@ describe("LogsQueryClient live tests", function() {
         `Polling for results to make sure our telemetry has been ingested....\n${query}`
       );
 
-      const client = createClient();
+      const client = createLogsClient();
 
       for (let i = 0; i < args.maxTries; ++i) {
         const result = await client.queryWorkspace(monitorWorkspaceId, query, {
