@@ -41,3 +41,12 @@ export async function makeRequest(
     req.end();
   });
 }
+
+/**
+ * Helper TypeGuard that checks if something is defined or not.
+ * @param thing - Anything
+ * @internal
+ */
+export function isDefined<T>(thing: T | undefined | null): thing is T {
+  return typeof thing !== "undefined" && thing !== null;
+}
