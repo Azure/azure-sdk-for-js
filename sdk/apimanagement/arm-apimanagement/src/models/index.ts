@@ -24,20 +24,20 @@ export interface ApiCollection {
   readonly nextLink?: string;
 }
 
-/** The Resource definition. */
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
-   * Resource ID.
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
-   * Resource name.
+   * The name of the resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * Resource type for API Management resource.
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
@@ -233,7 +233,8 @@ export interface ApiCreateOrUpdateParameter {
    * Type of API to create.
    *  * `http` creates a REST API
    *  * `soap` creates a SOAP pass-through API
-   *  * `websocket` creates websocket API.
+   *  * `websocket` creates websocket API
+   *  * `graphql` creates GraphQL API.
    */
   soapApiType?: SoapApiType;
 }
@@ -453,6 +454,8 @@ export interface RepresentationContract {
   typeName?: string;
   /** Collection of form parameters. Required if 'contentType' value is either 'application/x-www-form-urlencoded' or 'multipart/form-data'.. */
   formParameters?: ParameterContract[];
+  /** Exampled defined for the representation. */
+  examples?: { [propertyName: string]: ParameterExampleContract };
 }
 
 /** Operation response details. */
@@ -1198,14 +1201,18 @@ export interface ResourceSkuCapacity {
 
 /** Parameters supplied to the Backup/Restore of an API Management service operation. */
 export interface ApiManagementServiceBackupRestoreParameters {
-  /** Azure Cloud Storage account (used to place/retrieve the backup) name. */
+  /** The name of the Azure storage account (used to place/retrieve the backup). */
   storageAccount: string;
-  /** Azure Cloud Storage account (used to place/retrieve the backup) access key. */
-  accessKey: string;
-  /** Azure Cloud Storage blob container name used to place/retrieve the backup. */
+  /** The name of the blob container (used to place/retrieve the backup). */
   containerName: string;
-  /** The name of the backup file to create. */
+  /** The name of the backup file to create/retrieve. */
   backupName: string;
+  /** The type of access to be used for the storage account. */
+  accessType?: AccessType;
+  /** Storage account access key. Required only if `accessType` is set to `AccessKey`. */
+  accessKey?: string;
+  /** The Client ID of user assigned managed identity. Required only if `accessType` is set to `UserAssignedManagedIdentity`. */
+  clientId?: string;
 }
 
 /** The Resource definition. */
@@ -1292,6 +1299,8 @@ export interface ApiManagementServiceBaseProperties {
   readonly privateIPAddresses?: string[];
   /** Public Standard SKU IP V4 based IP address to be associated with Virtual Network deployed service in the region. Supported only for Developer and Premium SKU being deployed in Virtual Network. */
   publicIpAddressId?: string;
+  /** Whether or not public endpoint access is allowed for this API Management service.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled' */
+  publicNetworkAccess?: PublicNetworkAccess;
   /** Virtual network configuration of the API Management service. */
   virtualNetworkConfiguration?: VirtualNetworkConfiguration;
   /** Additional datacenter locations of the API Management service. */
@@ -1310,6 +1319,13 @@ export interface ApiManagementServiceBaseProperties {
   apiVersionConstraint?: ApiVersionConstraint;
   /** Undelete Api Management Service if it was previously soft-deleted. If this flag is specified and set to True all other properties will be ignored. */
   restore?: boolean;
+  /** List of Private Endpoint Connections of this service. */
+  privateEndpointConnections?: RemotePrivateEndpointConnectionWrapper[];
+  /**
+   * Compute Platform Version running the service in this location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly platformVersion?: PlatformVersion;
 }
 
 /** Custom hostname configuration. */
@@ -1393,6 +1409,11 @@ export interface AdditionalLocation {
   readonly gatewayRegionalUrl?: string;
   /** Property only valid for an Api Management service deployed in multiple locations. This can be used to disable the gateway in this additional location. */
   disableGateway?: boolean;
+  /**
+   * Compute Platform Version running the service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly platformVersion?: PlatformVersion;
 }
 
 /** API Management service resource SKU properties. */
@@ -1419,6 +1440,46 @@ export interface CertificateConfiguration {
 export interface ApiVersionConstraint {
   /** Limit control plane API calls to API Management service with version equal to or newer than this value. */
   minApiVersion?: string;
+}
+
+/** Remote Private Endpoint Connection resource. */
+export interface RemotePrivateEndpointConnectionWrapper {
+  /** Private Endpoint connection resource id */
+  id?: string;
+  /** Private Endpoint Connection Name */
+  name?: string;
+  /** Private Endpoint Connection Resource Type */
+  type?: string;
+  /** The resource of private end point. */
+  privateEndpoint?: ArmIdWrapper;
+  /** A collection of information about the state of the connection between service consumer and provider. */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  /**
+   * The provisioning state of the private endpoint connection resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /**
+   * All the Group ids.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupIds?: string[];
+}
+
+/** A wrapper for an ARM resource id */
+export interface ArmIdWrapper {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly id?: string;
+}
+
+/** A collection of information about the state of the connection between service consumer and provider. */
+export interface PrivateLinkServiceConnectionState {
+  /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
+  status?: PrivateEndpointServiceConnectionStatus;
+  /** The reason for approval/rejection of the connection. */
+  description?: string;
+  /** A message indicating if changes on the service provider require any updates on the consumer. */
+  actionsRequired?: string;
 }
 
 /** Identity properties of the Api Management service resource. */
@@ -1449,6 +1510,22 @@ export interface UserIdentityProperties {
   principalId?: string;
   /** The client id of user assigned identity. */
   clientId?: string;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
 /** The response of the List API Management services operation. */
@@ -1924,6 +2001,41 @@ export interface OpenidConnectProviderUpdateContract {
   clientSecret?: string;
 }
 
+/** Collection of Outbound Environment Endpoints */
+export interface OutboundEnvironmentEndpointList {
+  /** Collection of resources. */
+  value: OutboundEnvironmentEndpoint[];
+  /**
+   * Link to next page of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Endpoints accessed for a common purpose that the Api Management Service requires outbound network access to. */
+export interface OutboundEnvironmentEndpoint {
+  /** The type of service accessed by the Api Management Service, e.g., Azure Storage, Azure SQL Database, and Azure Active Directory. */
+  category?: string;
+  /** The endpoints that the Api Management Service reaches the service at. */
+  endpoints?: EndpointDependency[];
+}
+
+/** A domain name that a service is reached at. */
+export interface EndpointDependency {
+  /** The domain name of the dependency. */
+  domainName?: string;
+  /** The Ports used when connecting to DomainName. */
+  endpointDetails?: EndpointDetail[];
+}
+
+/** Current TCP connectivity information from the Api Management Service to a single endpoint. */
+export interface EndpointDetail {
+  /** The port an endpoint is connected to. */
+  port?: number;
+  /** The region of the dependency. */
+  region?: string;
+}
+
 /** Descriptions of APIM policies. */
 export interface PolicyDescriptionCollection {
   /** Descriptions of APIM policies. */
@@ -1980,6 +2092,41 @@ export interface TermsOfServiceProperties {
 export interface PortalSettingValidationKeyContract {
   /** This is secret value of the validation key in portal settings. */
   validationKey?: string;
+}
+
+/** List of private endpoint connection associated with the specified storage account */
+export interface PrivateEndpointConnectionListResult {
+  /** Array of private endpoint connections */
+  value?: PrivateEndpointConnection[];
+}
+
+/** The Private Endpoint resource. */
+export interface PrivateEndpoint {
+  /**
+   * The ARM identifier for Private Endpoint
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+}
+
+/** A request to approve or reject a private endpoint connection */
+export interface PrivateEndpointConnectionRequest {
+  /** Private Endpoint Connection Resource Id. */
+  id?: string;
+  /** The connection state of the private endpoint connection. */
+  properties?: PrivateEndpointConnectionRequestProperties;
+}
+
+/** The connection state of the private endpoint connection. */
+export interface PrivateEndpointConnectionRequestProperties {
+  /** A collection of information about the state of the connection between service consumer and provider. */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+}
+
+/** A list of private link resources */
+export interface PrivateLinkResourceListResult {
+  /** Array of private link resources */
+  value?: PrivateLinkResource[];
 }
 
 /** Product Update parameters. */
@@ -2556,32 +2703,6 @@ export interface SaveConfigurationParameter {
   force?: boolean;
 }
 
-/** Result of Tenant Configuration Sync State. */
-export interface TenantConfigurationSyncStateContract {
-  /** The name of Git branch. */
-  branch?: string;
-  /** The latest commit Id. */
-  commitId?: string;
-  /** value indicating if last sync was save (true) or deploy (false) operation. */
-  isExport?: boolean;
-  /** value indicating if last synchronization was later than the configuration change. */
-  isSynced?: boolean;
-  /** value indicating whether Git configuration access is enabled. */
-  isGitEnabled?: boolean;
-  /**
-   * The date of the latest synchronization. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.
-   *
-   */
-  syncDate?: Date;
-  /**
-   * The date of the latest configuration change. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.
-   *
-   */
-  configurationChangeDate?: Date;
-  /** Most recent tenant configuration operation identifier */
-  lastOperationId?: string;
-}
-
 /** User create details. */
 export interface UserCreateParameters {
   /** Account state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active. */
@@ -2653,6 +2774,157 @@ export interface UserTokenParameters {
 export interface UserTokenResult {
   /** Shared Access Authorization token for the User. */
   value?: string;
+}
+
+/** A request to perform the connectivity check operation on a API Management service. */
+export interface ConnectivityCheckRequest {
+  /** Definitions about the connectivity check origin. */
+  source: ConnectivityCheckRequestSource;
+  /** The connectivity check operation destination. */
+  destination: ConnectivityCheckRequestDestination;
+  /** The IP version to be used. Only IPv4 is supported for now. */
+  preferredIPVersion?: PreferredIPVersion;
+  /** The request's protocol. Specific protocol configuration can be available based on this selection. The specified destination address must be coherent with this value. */
+  protocol?: ConnectivityCheckProtocol;
+  /** Protocol-specific configuration. */
+  protocolConfiguration?: ConnectivityCheckRequestProtocolConfiguration;
+}
+
+/** Definitions about the connectivity check origin. */
+export interface ConnectivityCheckRequestSource {
+  /** The API Management service region from where to start the connectivity check operation. */
+  region: string;
+  /** The particular VMSS instance from which to fire the request. */
+  instance?: number;
+}
+
+/** The connectivity check operation destination. */
+export interface ConnectivityCheckRequestDestination {
+  /** Destination address. Can either be an IP address or a FQDN. */
+  address: string;
+  /** Destination port. */
+  port: number;
+}
+
+/** Protocol-specific configuration. */
+export interface ConnectivityCheckRequestProtocolConfiguration {
+  /** Configuration for HTTP or HTTPS requests. */
+  httpConfiguration?: ConnectivityCheckRequestProtocolConfigurationHttpConfiguration;
+}
+
+/** Configuration for HTTP or HTTPS requests. */
+export interface ConnectivityCheckRequestProtocolConfigurationHttpConfiguration {
+  /** The HTTP method to be used. */
+  method?: Method;
+  /** List of HTTP status codes considered valid for the request response. */
+  validStatusCodes?: number[];
+  /** List of headers to be included in the request. */
+  headers?: HttpHeader[];
+}
+
+/** HTTP header and it's value. */
+export interface HttpHeader {
+  /** Header name. */
+  name: string;
+  /** Header value. */
+  value: string;
+}
+
+/** Information on the connectivity status. */
+export interface ConnectivityCheckResponse {
+  /**
+   * List of hops between the source and the destination.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hops?: ConnectivityHop[];
+  /**
+   * The connection status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly connectionStatus?: ConnectionStatus;
+  /**
+   * Average latency in milliseconds.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly avgLatencyInMs?: number;
+  /**
+   * Minimum latency in milliseconds.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly minLatencyInMs?: number;
+  /**
+   * Maximum latency in milliseconds.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maxLatencyInMs?: number;
+  /**
+   * Total number of probes sent.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly probesSent?: number;
+  /**
+   * Number of failed probes.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly probesFailed?: number;
+}
+
+/** Information about a hop between the source and the destination. */
+export interface ConnectivityHop {
+  /**
+   * The type of the hop.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The ID of the hop.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The IP address of the hop.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly address?: string;
+  /**
+   * The ID of the resource corresponding to this hop.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceId?: string;
+  /**
+   * List of next hop identifiers.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextHopIds?: string[];
+  /**
+   * List of issues.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly issues?: ConnectivityIssue[];
+}
+
+/** Information about an issue encountered in the process of checking for connectivity. */
+export interface ConnectivityIssue {
+  /**
+   * The origin of the issue.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly origin?: Origin;
+  /**
+   * The severity of the issue.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly severity?: Severity;
+  /**
+   * The type of issue.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: IssueType;
+  /**
+   * Provides additional context on the issue.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly context?: { [propertyName: string]: string }[];
 }
 
 /** Object used to create an API Revision or Version based on an existing API Revision */
@@ -2798,8 +3070,12 @@ export type ProductContract = Resource & {
 export type SchemaContract = Resource & {
   /** Must be a valid a media type used in a Content-Type header as defined in the RFC 2616. Media type of the schema document (e.g. application/json, application/xml). </br> - `Swagger` Schema use `application/vnd.ms-azure-apim.swagger.definitions+json` </br> - `WSDL` Schema use `application/vnd.ms-azure-apim.xsd+xml` </br> - `OpenApi` Schema use `application/vnd.oai.openapi.components+json` </br> - `WADL Schema` use `application/vnd.ms-azure-apim.wadl.grammars+xml`. */
   contentType?: string;
-  /** Create or update Properties of the Schema Document. */
-  document?: Record<string, unknown>;
+  /** Json escaped string defining the document representing the Schema. Used for schemas other than Swagger/OpenAPI. */
+  value?: string;
+  /** Types definitions. Used for OpenAPI v2 (Swagger) schemas only, null otherwise. */
+  definitions?: Record<string, unknown>;
+  /** Types definitions. Used for OpenAPI v3 schemas only, null otherwise. */
+  components?: Record<string, unknown>;
 };
 
 /** Diagnostic details. */
@@ -3361,6 +3637,35 @@ export type PortalDelegationSettings = Resource & {
   userRegistration?: RegistrationDelegationSettingsProperties;
 };
 
+/** The Private Endpoint Connection resource. */
+export type PrivateEndpointConnection = Resource & {
+  /** The resource of private end point. */
+  privateEndpoint?: PrivateEndpoint;
+  /** A collection of information about the state of the connection between service consumer and provider. */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  /**
+   * The provisioning state of the private endpoint connection resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+};
+
+/** A private link resource */
+export type PrivateLinkResource = Resource & {
+  /**
+   * The private link resource group id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupId?: string;
+  /**
+   * The private link resource required member names.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requiredMembers?: string[];
+  /** The private link resource Private link DNS zone name. */
+  requiredZoneNames?: string[];
+};
+
 /** Subscription details. */
 export type SubscriptionContract = Resource & {
   /** The user resource identifier of the subscription owner. The value is a valid relative URL in the format of /users/{userId} where {userId} is a user identifier. */
@@ -3448,6 +3753,32 @@ export type OperationResultContract = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly actionLog?: OperationResultLogItemContract[];
+};
+
+/** Result of Tenant Configuration Sync State. */
+export type TenantConfigurationSyncStateContract = Resource & {
+  /** The name of Git branch. */
+  branch?: string;
+  /** The latest commit Id. */
+  commitId?: string;
+  /** value indicating if last sync was save (true) or deploy (false) operation. */
+  isExport?: boolean;
+  /** value indicating if last synchronization was later than the configuration change. */
+  isSynced?: boolean;
+  /** value indicating whether Git configuration access is enabled. */
+  isGitEnabled?: boolean;
+  /**
+   * The date of the latest synchronization. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.
+   *
+   */
+  syncDate?: Date;
+  /**
+   * The date of the latest configuration change. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.
+   *
+   */
+  configurationChangeDate?: Date;
+  /** Most recent tenant configuration operation identifier */
+  lastOperationId?: string;
 };
 
 /** API Entity Properties */
@@ -3636,6 +3967,11 @@ export type ApiManagementServiceResource = ApimResource & {
   sku: ApiManagementServiceSkuProperties;
   /** Managed service identity of the Api Management service. */
   identity?: ApiManagementServiceIdentity;
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /** Resource location. */
   location: string;
   /**
@@ -3706,6 +4042,8 @@ export type ApiManagementServiceResource = ApimResource & {
   readonly privateIPAddresses?: string[];
   /** Public Standard SKU IP V4 based IP address to be associated with Virtual Network deployed service in the region. Supported only for Developer and Premium SKU being deployed in Virtual Network. */
   publicIpAddressId?: string;
+  /** Whether or not public endpoint access is allowed for this API Management service.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled' */
+  publicNetworkAccess?: PublicNetworkAccess;
   /** Virtual network configuration of the API Management service. */
   virtualNetworkConfiguration?: VirtualNetworkConfiguration;
   /** Additional datacenter locations of the API Management service. */
@@ -3724,6 +4062,13 @@ export type ApiManagementServiceResource = ApimResource & {
   apiVersionConstraint?: ApiVersionConstraint;
   /** Undelete Api Management Service if it was previously soft-deleted. If this flag is specified and set to True all other properties will be ignored. */
   restore?: boolean;
+  /** List of Private Endpoint Connections of this service. */
+  privateEndpointConnections?: RemotePrivateEndpointConnectionWrapper[];
+  /**
+   * Compute Platform Version running the service in this location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly platformVersion?: PlatformVersion;
   /** Publisher email. */
   publisherEmail: string;
   /** Publisher name. */
@@ -3804,6 +4149,8 @@ export type ApiManagementServiceUpdateParameters = ApimResource & {
   readonly privateIPAddresses?: string[];
   /** Public Standard SKU IP V4 based IP address to be associated with Virtual Network deployed service in the region. Supported only for Developer and Premium SKU being deployed in Virtual Network. */
   publicIpAddressId?: string;
+  /** Whether or not public endpoint access is allowed for this API Management service.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled' */
+  publicNetworkAccess?: PublicNetworkAccess;
   /** Virtual network configuration of the API Management service. */
   virtualNetworkConfiguration?: VirtualNetworkConfiguration;
   /** Additional datacenter locations of the API Management service. */
@@ -3822,6 +4169,13 @@ export type ApiManagementServiceUpdateParameters = ApimResource & {
   apiVersionConstraint?: ApiVersionConstraint;
   /** Undelete Api Management Service if it was previously soft-deleted. If this flag is specified and set to True all other properties will be ignored. */
   restore?: boolean;
+  /** List of Private Endpoint Connections of this service. */
+  privateEndpointConnections?: RemotePrivateEndpointConnectionWrapper[];
+  /**
+   * Compute Platform Version running the service in this location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly platformVersion?: PlatformVersion;
   /** Publisher email. */
   publisherEmail?: string;
   /** Publisher name. */
@@ -3958,7 +4312,8 @@ export type ApiCreateOrUpdateProperties = ApiContractProperties & {
    * Type of API to create.
    *  * `http` creates a REST API
    *  * `soap` creates a SOAP pass-through API
-   *  * `websocket` creates websocket API.
+   *  * `websocket` creates websocket API
+   *  * `graphql` creates GraphQL API.
    */
   soapApiType?: SoapApiType;
 };
@@ -4915,7 +5270,8 @@ export type BearerTokenSendingMethods = string;
 export enum KnownApiType {
   Http = "http",
   Soap = "soap",
-  Websocket = "websocket"
+  Websocket = "websocket",
+  Graphql = "graphql"
 }
 
 /**
@@ -4925,7 +5281,8 @@ export enum KnownApiType {
  * ### Known values supported by the service
  * **http** \
  * **soap** \
- * **websocket**
+ * **websocket** \
+ * **graphql**
  */
 export type ApiType = string;
 
@@ -4988,7 +5345,9 @@ export enum KnownContentFormat {
   /** The OpenAPI 3.0 YAML document is hosted on a publicly accessible internet address. */
   OpenapiLink = "openapi-link",
   /** The OpenAPI 3.0 JSON document is hosted on a publicly accessible internet address. */
-  OpenapiJsonLink = "openapi+json-link"
+  OpenapiJsonLink = "openapi+json-link",
+  /** The GraphQL API endpoint hosted on a publicly accessible internet address. */
+  GraphqlLink = "graphql-link"
 }
 
 /**
@@ -5005,7 +5364,8 @@ export enum KnownContentFormat {
  * **openapi**: The contents are inline and Content Type is a OpenAPI 3.0 YAML Document. \
  * **openapi+json**: The contents are inline and Content Type is a OpenAPI 3.0 JSON Document. \
  * **openapi-link**: The OpenAPI 3.0 YAML document is hosted on a publicly accessible internet address. \
- * **openapi+json-link**: The OpenAPI 3.0 JSON document is hosted on a publicly accessible internet address.
+ * **openapi+json-link**: The OpenAPI 3.0 JSON document is hosted on a publicly accessible internet address. \
+ * **graphql-link**: The GraphQL API endpoint hosted on a publicly accessible internet address.
  */
 export type ContentFormat = string;
 
@@ -5013,10 +5373,12 @@ export type ContentFormat = string;
 export enum KnownSoapApiType {
   /** Imports a SOAP API having a RESTful front end. */
   SoapToRest = "http",
-  /** Imports the Soap API having a SOAP front end. */
+  /** Imports the SOAP API having a SOAP front end. */
   SoapPassThrough = "soap",
-  /** Imports the Soap API having a Websocket front end. */
-  WebSocket = "websocket"
+  /** Imports the API having a Websocket front end. */
+  WebSocket = "websocket",
+  /** Imports the API having a GraphQL front end. */
+  GraphQL = "graphql"
 }
 
 /**
@@ -5025,8 +5387,9 @@ export enum KnownSoapApiType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **http**: Imports a SOAP API having a RESTful front end. \
- * **soap**: Imports the Soap API having a SOAP front end. \
- * **websocket**: Imports the Soap API having a Websocket front end.
+ * **soap**: Imports the SOAP API having a SOAP front end. \
+ * **websocket**: Imports the API having a Websocket front end. \
+ * **graphql**: Imports the API having a GraphQL front end.
  */
 export type SoapApiType = string;
 
@@ -5434,6 +5797,27 @@ export enum KnownResourceSkuCapacityScaleType {
  */
 export type ResourceSkuCapacityScaleType = string;
 
+/** Known values of {@link AccessType} that the service accepts. */
+export enum KnownAccessType {
+  /** Use access key. */
+  AccessKey = "AccessKey",
+  /** Use system assigned managed identity. */
+  SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+  /** Use user assigned managed identity. */
+  UserAssignedManagedIdentity = "UserAssignedManagedIdentity"
+}
+
+/**
+ * Defines values for AccessType. \
+ * {@link KnownAccessType} can be used interchangeably with AccessType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AccessKey**: Use access key. \
+ * **SystemAssignedManagedIdentity**: Use system assigned managed identity. \
+ * **UserAssignedManagedIdentity**: Use user assigned managed identity.
+ */
+export type AccessType = string;
+
 /** Known values of {@link HostnameType} that the service accepts. */
 export enum KnownHostnameType {
   Proxy = "Proxy",
@@ -5494,6 +5878,46 @@ export enum KnownCertificateStatus {
  */
 export type CertificateStatus = string;
 
+/** Known values of {@link PublicNetworkAccess} that the service accepts. */
+export enum KnownPublicNetworkAccess {
+  Enabled = "Enabled",
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for PublicNetworkAccess. \
+ * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type PublicNetworkAccess = string;
+
+/** Known values of {@link PlatformVersion} that the service accepts. */
+export enum KnownPlatformVersion {
+  /** Platform version cannot be determined, as compute platform is not deployed. */
+  Undetermined = "undetermined",
+  /** Platform running the service on Single Tenant V1 platform. */
+  Stv1 = "stv1",
+  /** Platform running the service on Single Tenant V2 platform. */
+  Stv2 = "stv2",
+  /** Platform running the service on Multi Tenant V1 platform. */
+  Mtv1 = "mtv1"
+}
+
+/**
+ * Defines values for PlatformVersion. \
+ * {@link KnownPlatformVersion} can be used interchangeably with PlatformVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **undetermined**: Platform version cannot be determined, as compute platform is not deployed. \
+ * **stv1**: Platform running the service on Single Tenant V1 platform. \
+ * **stv2**: Platform running the service on Single Tenant V2 platform. \
+ * **mtv1**: Platform running the service on Multi Tenant V1 platform.
+ */
+export type PlatformVersion = string;
+
 /** Known values of {@link CertificateConfigurationStoreName} that the service accepts. */
 export enum KnownCertificateConfigurationStoreName {
   CertificateAuthority = "CertificateAuthority",
@@ -5531,6 +5955,24 @@ export enum KnownVirtualNetworkType {
  */
 export type VirtualNetworkType = string;
 
+/** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
+export enum KnownPrivateEndpointServiceConnectionStatus {
+  Pending = "Pending",
+  Approved = "Approved",
+  Rejected = "Rejected"
+}
+
+/**
+ * Defines values for PrivateEndpointServiceConnectionStatus. \
+ * {@link KnownPrivateEndpointServiceConnectionStatus} can be used interchangeably with PrivateEndpointServiceConnectionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pending** \
+ * **Approved** \
+ * **Rejected**
+ */
+export type PrivateEndpointServiceConnectionStatus = string;
+
 /** Known values of {@link ApimIdentityType} that the service accepts. */
 export enum KnownApimIdentityType {
   SystemAssigned = "SystemAssigned",
@@ -5550,6 +5992,26 @@ export enum KnownApimIdentityType {
  * **None**
  */
 export type ApimIdentityType = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  User = "User",
+  Application = "Application",
+  ManagedIdentity = "ManagedIdentity",
+  Key = "Key"
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
 
 /** Known values of {@link TemplateName} that the service accepts. */
 export enum KnownTemplateName {
@@ -5741,6 +6203,26 @@ export enum KnownPortalRevisionStatus {
  */
 export type PortalRevisionStatus = string;
 
+/** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
+export enum KnownPrivateEndpointConnectionProvisioningState {
+  Succeeded = "Succeeded",
+  Creating = "Creating",
+  Deleting = "Deleting",
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for PrivateEndpointConnectionProvisioningState. \
+ * {@link KnownPrivateEndpointConnectionProvisioningState} can be used interchangeably with PrivateEndpointConnectionProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Creating** \
+ * **Deleting** \
+ * **Failed**
+ */
+export type PrivateEndpointConnectionProvisioningState = string;
+
 /** Known values of {@link SettingsTypeName} that the service accepts. */
 export enum KnownSettingsTypeName {
   Public = "public"
@@ -5820,6 +6302,138 @@ export enum KnownConfirmation {
  * **invite**: Send an e-mail inviting the user to sign-up and complete registration.
  */
 export type Confirmation = string;
+
+/** Known values of {@link PreferredIPVersion} that the service accepts. */
+export enum KnownPreferredIPVersion {
+  IPv4 = "IPv4"
+}
+
+/**
+ * Defines values for PreferredIPVersion. \
+ * {@link KnownPreferredIPVersion} can be used interchangeably with PreferredIPVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **IPv4**
+ */
+export type PreferredIPVersion = string;
+
+/** Known values of {@link ConnectivityCheckProtocol} that the service accepts. */
+export enum KnownConnectivityCheckProtocol {
+  TCP = "TCP",
+  Http = "HTTP",
+  Https = "HTTPS"
+}
+
+/**
+ * Defines values for ConnectivityCheckProtocol. \
+ * {@link KnownConnectivityCheckProtocol} can be used interchangeably with ConnectivityCheckProtocol,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **TCP** \
+ * **HTTP** \
+ * **HTTPS**
+ */
+export type ConnectivityCheckProtocol = string;
+
+/** Known values of {@link Method} that the service accepts. */
+export enum KnownMethod {
+  GET = "GET",
+  Post = "POST"
+}
+
+/**
+ * Defines values for Method. \
+ * {@link KnownMethod} can be used interchangeably with Method,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **GET** \
+ * **POST**
+ */
+export type Method = string;
+
+/** Known values of {@link Origin} that the service accepts. */
+export enum KnownOrigin {
+  Local = "Local",
+  Inbound = "Inbound",
+  Outbound = "Outbound"
+}
+
+/**
+ * Defines values for Origin. \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Local** \
+ * **Inbound** \
+ * **Outbound**
+ */
+export type Origin = string;
+
+/** Known values of {@link Severity} that the service accepts. */
+export enum KnownSeverity {
+  Error = "Error",
+  Warning = "Warning"
+}
+
+/**
+ * Defines values for Severity. \
+ * {@link KnownSeverity} can be used interchangeably with Severity,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Error** \
+ * **Warning**
+ */
+export type Severity = string;
+
+/** Known values of {@link IssueType} that the service accepts. */
+export enum KnownIssueType {
+  Unknown = "Unknown",
+  AgentStopped = "AgentStopped",
+  GuestFirewall = "GuestFirewall",
+  DnsResolution = "DnsResolution",
+  SocketBind = "SocketBind",
+  NetworkSecurityRule = "NetworkSecurityRule",
+  UserDefinedRoute = "UserDefinedRoute",
+  PortThrottled = "PortThrottled",
+  Platform = "Platform"
+}
+
+/**
+ * Defines values for IssueType. \
+ * {@link KnownIssueType} can be used interchangeably with IssueType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **AgentStopped** \
+ * **GuestFirewall** \
+ * **DnsResolution** \
+ * **SocketBind** \
+ * **NetworkSecurityRule** \
+ * **UserDefinedRoute** \
+ * **PortThrottled** \
+ * **Platform**
+ */
+export type IssueType = string;
+
+/** Known values of {@link ConnectionStatus} that the service accepts. */
+export enum KnownConnectionStatus {
+  Unknown = "Unknown",
+  Connected = "Connected",
+  Disconnected = "Disconnected",
+  Degraded = "Degraded"
+}
+
+/**
+ * Defines values for ConnectionStatus. \
+ * {@link KnownConnectionStatus} can be used interchangeably with ConnectionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **Connected** \
+ * **Disconnected** \
+ * **Degraded**
+ */
+export type ConnectionStatus = string;
 /** Defines values for ProductState. */
 export type ProductState = "notPublished" | "published";
 /** Defines values for AuthorizationMethod. */
@@ -8414,6 +9028,13 @@ export interface OpenIdConnectProviderListByServiceNextOptionalParams
 export type OpenIdConnectProviderListByServiceNextResponse = OpenIdConnectProviderCollection;
 
 /** Optional parameters. */
+export interface OutboundNetworkDependenciesEndpointsListByServiceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByService operation. */
+export type OutboundNetworkDependenciesEndpointsListByServiceResponse = OutboundEnvironmentEndpointList;
+
+/** Optional parameters. */
 export interface PolicyListByServiceOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -8646,6 +9267,55 @@ export interface DelegationSettingsListSecretsOptionalParams
 
 /** Contains response data for the listSecrets operation. */
 export type DelegationSettingsListSecretsResponse = PortalSettingValidationKeyContract;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionListByServiceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByService operation. */
+export type PrivateEndpointConnectionListByServiceResponse = PrivateEndpointConnectionListResult;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionGetByNameOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getByName operation. */
+export type PrivateEndpointConnectionGetByNameResponse = PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type PrivateEndpointConnectionCreateOrUpdateResponse = PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionListPrivateLinkResourcesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listPrivateLinkResources operation. */
+export type PrivateEndpointConnectionListPrivateLinkResourcesResponse = PrivateLinkResourceListResult;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionGetPrivateLinkResourceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getPrivateLinkResource operation. */
+export type PrivateEndpointConnectionGetPrivateLinkResourceResponse = PrivateLinkResource;
 
 /** Optional parameters. */
 export interface ProductListByServiceOptionalParams
@@ -9621,6 +10291,18 @@ export interface UserConfirmationPasswordSendOptionalParams
   /** Determines the type of application which send the create user request. Default is legacy publisher portal. */
   appType?: AppType;
 }
+
+/** Optional parameters. */
+export interface ApiManagementClientPerformConnectivityCheckAsyncOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the performConnectivityCheckAsync operation. */
+export type ApiManagementClientPerformConnectivityCheckAsyncResponse = ConnectivityCheckResponse;
 
 /** Optional parameters. */
 export interface ApiManagementClientOptionalParams

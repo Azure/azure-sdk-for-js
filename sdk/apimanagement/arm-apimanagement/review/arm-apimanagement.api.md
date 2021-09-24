@@ -50,10 +50,14 @@ export interface AccessInformationUpdateParameters {
 }
 
 // @public
+export type AccessType = string;
+
+// @public
 export interface AdditionalLocation {
     disableGateway?: boolean;
     readonly gatewayRegionalUrl?: string;
     location: string;
+    readonly platformVersion?: PlatformVersion;
     readonly privateIPAddresses?: string[];
     readonly publicIPAddresses?: string[];
     publicIpAddressId?: string;
@@ -670,6 +674,8 @@ export class ApiManagementClient extends ApiManagementClientContext {
     authorizationServer: AuthorizationServer;
     // (undocumented)
     backend: Backend;
+    beginPerformConnectivityCheckAsync(resourceGroupName: string, serviceName: string, connectivityCheckRequestParams: ConnectivityCheckRequest, options?: ApiManagementClientPerformConnectivityCheckAsyncOptionalParams): Promise<PollerLike<PollOperationState<ApiManagementClientPerformConnectivityCheckAsyncResponse>, ApiManagementClientPerformConnectivityCheckAsyncResponse>>;
+    beginPerformConnectivityCheckAsyncAndWait(resourceGroupName: string, serviceName: string, connectivityCheckRequestParams: ConnectivityCheckRequest, options?: ApiManagementClientPerformConnectivityCheckAsyncOptionalParams): Promise<ApiManagementClientPerformConnectivityCheckAsyncResponse>;
     // (undocumented)
     cache: Cache;
     // (undocumented)
@@ -719,6 +725,8 @@ export class ApiManagementClient extends ApiManagementClientContext {
     // (undocumented)
     operationOperations: OperationOperations;
     // (undocumented)
+    outboundNetworkDependenciesEndpoints: OutboundNetworkDependenciesEndpoints;
+    // (undocumented)
     policy: Policy;
     // (undocumented)
     policyDescription: PolicyDescription;
@@ -726,6 +734,8 @@ export class ApiManagementClient extends ApiManagementClientContext {
     portalRevision: PortalRevision;
     // (undocumented)
     portalSettings: PortalSettings;
+    // (undocumented)
+    privateEndpointConnectionOperations: PrivateEndpointConnectionOperations;
     // (undocumented)
     product: Product;
     // (undocumented)
@@ -791,6 +801,15 @@ export interface ApiManagementClientOptionalParams extends coreClient.ServiceCli
     apiVersion?: string;
     endpoint?: string;
 }
+
+// @public
+export interface ApiManagementClientPerformConnectivityCheckAsyncOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ApiManagementClientPerformConnectivityCheckAsyncResponse = ConnectivityCheckResponse;
 
 // @public
 export interface ApiManagementOperations {
@@ -859,8 +878,10 @@ export type ApiManagementServiceBackupResponse = ApiManagementServiceResource;
 
 // @public
 export interface ApiManagementServiceBackupRestoreParameters {
-    accessKey: string;
+    accessKey?: string;
+    accessType?: AccessType;
     backupName: string;
+    clientId?: string;
     containerName: string;
     storageAccount: string;
 }
@@ -882,11 +903,14 @@ export interface ApiManagementServiceBaseProperties {
     hostnameConfigurations?: HostnameConfiguration[];
     readonly managementApiUrl?: string;
     notificationSenderEmail?: string;
+    readonly platformVersion?: PlatformVersion;
     readonly portalUrl?: string;
+    privateEndpointConnections?: RemotePrivateEndpointConnectionWrapper[];
     readonly privateIPAddresses?: string[];
     readonly provisioningState?: string;
     readonly publicIPAddresses?: string[];
     publicIpAddressId?: string;
+    publicNetworkAccess?: PublicNetworkAccess;
     restore?: boolean;
     readonly scmUrl?: string;
     readonly targetProvisioningState?: string;
@@ -1013,6 +1037,7 @@ export type ApiManagementServiceProperties = ApiManagementServiceBaseProperties 
 export type ApiManagementServiceResource = ApimResource & {
     sku: ApiManagementServiceSkuProperties;
     identity?: ApiManagementServiceIdentity;
+    readonly systemData?: SystemData;
     location: string;
     readonly etag?: string;
     zones?: string[];
@@ -1030,6 +1055,7 @@ export type ApiManagementServiceResource = ApimResource & {
     readonly publicIPAddresses?: string[];
     readonly privateIPAddresses?: string[];
     publicIpAddressId?: string;
+    publicNetworkAccess?: PublicNetworkAccess;
     virtualNetworkConfiguration?: VirtualNetworkConfiguration;
     additionalLocations?: AdditionalLocation[];
     customProperties?: {
@@ -1041,6 +1067,8 @@ export type ApiManagementServiceResource = ApimResource & {
     virtualNetworkType?: VirtualNetworkType;
     apiVersionConstraint?: ApiVersionConstraint;
     restore?: boolean;
+    privateEndpointConnections?: RemotePrivateEndpointConnectionWrapper[];
+    readonly platformVersion?: PlatformVersion;
     publisherEmail: string;
     publisherName: string;
 };
@@ -1105,6 +1133,7 @@ export type ApiManagementServiceUpdateParameters = ApimResource & {
     readonly publicIPAddresses?: string[];
     readonly privateIPAddresses?: string[];
     publicIpAddressId?: string;
+    publicNetworkAccess?: PublicNetworkAccess;
     virtualNetworkConfiguration?: VirtualNetworkConfiguration;
     additionalLocations?: AdditionalLocation[];
     customProperties?: {
@@ -1116,6 +1145,8 @@ export type ApiManagementServiceUpdateParameters = ApimResource & {
     virtualNetworkType?: VirtualNetworkType;
     apiVersionConstraint?: ApiVersionConstraint;
     restore?: boolean;
+    privateEndpointConnections?: RemotePrivateEndpointConnectionWrapper[];
+    readonly platformVersion?: PlatformVersion;
     publisherEmail?: string;
     publisherName?: string;
 };
@@ -1957,6 +1988,11 @@ export type ApiVersionSetUpdateResponse = ApiVersionSetUpdateHeaders & ApiVersio
 export type AppType = string;
 
 // @public
+export interface ArmIdWrapper {
+    readonly id?: string;
+}
+
+// @public
 export type AssociationContract = Resource & {
     provisioningState?: "created";
 };
@@ -2618,6 +2654,76 @@ export type ConfigurationIdName = string;
 export type Confirmation = string;
 
 // @public
+export type ConnectionStatus = string;
+
+// @public
+export type ConnectivityCheckProtocol = string;
+
+// @public
+export interface ConnectivityCheckRequest {
+    destination: ConnectivityCheckRequestDestination;
+    preferredIPVersion?: PreferredIPVersion;
+    protocol?: ConnectivityCheckProtocol;
+    protocolConfiguration?: ConnectivityCheckRequestProtocolConfiguration;
+    source: ConnectivityCheckRequestSource;
+}
+
+// @public
+export interface ConnectivityCheckRequestDestination {
+    address: string;
+    port: number;
+}
+
+// @public
+export interface ConnectivityCheckRequestProtocolConfiguration {
+    httpConfiguration?: ConnectivityCheckRequestProtocolConfigurationHttpConfiguration;
+}
+
+// @public
+export interface ConnectivityCheckRequestProtocolConfigurationHttpConfiguration {
+    headers?: HttpHeader[];
+    method?: Method;
+    validStatusCodes?: number[];
+}
+
+// @public
+export interface ConnectivityCheckRequestSource {
+    instance?: number;
+    region: string;
+}
+
+// @public
+export interface ConnectivityCheckResponse {
+    readonly avgLatencyInMs?: number;
+    readonly connectionStatus?: ConnectionStatus;
+    readonly hops?: ConnectivityHop[];
+    readonly maxLatencyInMs?: number;
+    readonly minLatencyInMs?: number;
+    readonly probesFailed?: number;
+    readonly probesSent?: number;
+}
+
+// @public
+export interface ConnectivityHop {
+    readonly address?: string;
+    readonly id?: string;
+    readonly issues?: ConnectivityIssue[];
+    readonly nextHopIds?: string[];
+    readonly resourceId?: string;
+    readonly type?: string;
+}
+
+// @public
+export interface ConnectivityIssue {
+    readonly context?: {
+        [propertyName: string]: string;
+    }[];
+    readonly origin?: Origin;
+    readonly severity?: Severity;
+    readonly type?: IssueType;
+}
+
+// @public
 export interface ConnectivityStatusContract {
     error?: string;
     isOptional: boolean;
@@ -2776,6 +2882,9 @@ export interface ContentTypeListByServiceOptionalParams extends coreClient.Opera
 
 // @public
 export type ContentTypeListByServiceResponse = ContentTypeCollection;
+
+// @public
+export type CreatedByType = string;
 
 // @public (undocumented)
 export interface DataMasking {
@@ -3112,6 +3221,18 @@ export interface EmailTemplateUpdateParameters {
 
 // @public
 export type EmailTemplateUpdateResponse = EmailTemplateUpdateHeaders & EmailTemplateContract;
+
+// @public
+export interface EndpointDependency {
+    domainName?: string;
+    endpointDetails?: EndpointDetail[];
+}
+
+// @public
+export interface EndpointDetail {
+    port?: number;
+    region?: string;
+}
 
 // @public
 export interface ErrorFieldContract {
@@ -3711,6 +3832,12 @@ export type HostnameType = string;
 export type HttpCorrelationProtocol = string;
 
 // @public
+export interface HttpHeader {
+    name: string;
+    value: string;
+}
+
+// @public
 export interface HttpMessageDiagnostic {
     body?: BodyDiagnosticSettings;
     dataMasking?: DataMasking;
@@ -3987,6 +4114,9 @@ export interface IssueListByServiceOptionalParams extends coreClient.OperationOp
 export type IssueListByServiceResponse = IssueCollection;
 
 // @public
+export type IssueType = string;
+
+// @public
 export interface IssueUpdateContract {
     apiId?: string;
     createdDate?: Date;
@@ -4033,6 +4163,13 @@ export enum KnownAccessIdName {
 }
 
 // @public
+export enum KnownAccessType {
+    AccessKey = "AccessKey",
+    SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+    UserAssignedManagedIdentity = "UserAssignedManagedIdentity"
+}
+
+// @public
 export enum KnownAlwaysLog {
     AllErrors = "allErrors"
 }
@@ -4051,6 +4188,8 @@ export enum KnownApimIdentityType {
 
 // @public
 export enum KnownApiType {
+    // (undocumented)
+    Graphql = "graphql",
     // (undocumented)
     Http = "http",
     // (undocumented)
@@ -4144,6 +4283,28 @@ export enum KnownConfirmation {
 }
 
 // @public
+export enum KnownConnectionStatus {
+    // (undocumented)
+    Connected = "Connected",
+    // (undocumented)
+    Degraded = "Degraded",
+    // (undocumented)
+    Disconnected = "Disconnected",
+    // (undocumented)
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownConnectivityCheckProtocol {
+    // (undocumented)
+    Http = "HTTP",
+    // (undocumented)
+    Https = "HTTPS",
+    // (undocumented)
+    TCP = "TCP"
+}
+
+// @public
 export enum KnownConnectivityStatusType {
     // (undocumented)
     Failure = "failure",
@@ -4155,6 +4316,7 @@ export enum KnownConnectivityStatusType {
 
 // @public
 export enum KnownContentFormat {
+    GraphqlLink = "graphql-link",
     Openapi = "openapi",
     OpenapiJson = "openapi+json",
     OpenapiJsonLink = "openapi+json-link",
@@ -4165,6 +4327,18 @@ export enum KnownContentFormat {
     WadlXml = "wadl-xml",
     Wsdl = "wsdl",
     WsdlLink = "wsdl-link"
+}
+
+// @public
+export enum KnownCreatedByType {
+    // (undocumented)
+    Application = "Application",
+    // (undocumented)
+    Key = "Key",
+    // (undocumented)
+    ManagedIdentity = "ManagedIdentity",
+    // (undocumented)
+    User = "User"
 }
 
 // @public
@@ -4236,10 +4410,40 @@ export enum KnownIdentityProviderType {
 }
 
 // @public
+export enum KnownIssueType {
+    // (undocumented)
+    AgentStopped = "AgentStopped",
+    // (undocumented)
+    DnsResolution = "DnsResolution",
+    // (undocumented)
+    GuestFirewall = "GuestFirewall",
+    // (undocumented)
+    NetworkSecurityRule = "NetworkSecurityRule",
+    // (undocumented)
+    Platform = "Platform",
+    // (undocumented)
+    PortThrottled = "PortThrottled",
+    // (undocumented)
+    SocketBind = "SocketBind",
+    // (undocumented)
+    Unknown = "Unknown",
+    // (undocumented)
+    UserDefinedRoute = "UserDefinedRoute"
+}
+
+// @public
 export enum KnownLoggerType {
     ApplicationInsights = "applicationInsights",
     AzureEventHub = "azureEventHub",
     AzureMonitor = "azureMonitor"
+}
+
+// @public
+export enum KnownMethod {
+    // (undocumented)
+    GET = "GET",
+    // (undocumented)
+    Post = "POST"
 }
 
 // @public
@@ -4257,6 +4461,24 @@ export enum KnownNotificationName {
 export enum KnownOperationNameFormat {
     Name = "Name",
     Url = "Url"
+}
+
+// @public
+export enum KnownOrigin {
+    // (undocumented)
+    Inbound = "Inbound",
+    // (undocumented)
+    Local = "Local",
+    // (undocumented)
+    Outbound = "Outbound"
+}
+
+// @public
+export enum KnownPlatformVersion {
+    Mtv1 = "mtv1",
+    Stv1 = "stv1",
+    Stv2 = "stv2",
+    Undetermined = "undetermined"
 }
 
 // @public
@@ -4288,6 +4510,34 @@ export enum KnownPortalRevisionStatus {
 }
 
 // @public
+export enum KnownPreferredIPVersion {
+    // (undocumented)
+    IPv4 = "IPv4"
+}
+
+// @public
+export enum KnownPrivateEndpointConnectionProvisioningState {
+    // (undocumented)
+    Creating = "Creating",
+    // (undocumented)
+    Deleting = "Deleting",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownPrivateEndpointServiceConnectionStatus {
+    // (undocumented)
+    Approved = "Approved",
+    // (undocumented)
+    Pending = "Pending",
+    // (undocumented)
+    Rejected = "Rejected"
+}
+
+// @public
 export enum KnownProtocol {
     // (undocumented)
     Http = "http",
@@ -4297,6 +4547,14 @@ export enum KnownProtocol {
     Ws = "ws",
     // (undocumented)
     Wss = "wss"
+}
+
+// @public
+export enum KnownPublicNetworkAccess {
+    // (undocumented)
+    Disabled = "Disabled",
+    // (undocumented)
+    Enabled = "Enabled"
 }
 
 // @public
@@ -4318,6 +4576,14 @@ export enum KnownSettingsTypeName {
 }
 
 // @public
+export enum KnownSeverity {
+    // (undocumented)
+    Error = "Error",
+    // (undocumented)
+    Warning = "Warning"
+}
+
+// @public
 export enum KnownSkuType {
     Basic = "Basic",
     Consumption = "Consumption",
@@ -4329,6 +4595,7 @@ export enum KnownSkuType {
 
 // @public
 export enum KnownSoapApiType {
+    GraphQL = "graphql",
     SoapPassThrough = "soap",
     SoapToRest = "http",
     WebSocket = "websocket"
@@ -4517,6 +4784,9 @@ export interface LoggerUpdateOptionalParams extends coreClient.OperationOptions 
 
 // @public
 export type LoggerUpdateResponse = LoggerUpdateHeaders & LoggerContract;
+
+// @public
+export type Method = string;
 
 // @public
 export type NameAvailabilityReason = "Valid" | "Invalid" | "AlreadyExists";
@@ -5136,6 +5406,33 @@ export type OperationUpdateContractProperties = OperationEntityBaseContract & {
 };
 
 // @public
+export type Origin = string;
+
+// @public
+export interface OutboundEnvironmentEndpoint {
+    category?: string;
+    endpoints?: EndpointDependency[];
+}
+
+// @public
+export interface OutboundEnvironmentEndpointList {
+    readonly nextLink?: string;
+    value: OutboundEnvironmentEndpoint[];
+}
+
+// @public
+export interface OutboundNetworkDependenciesEndpoints {
+    listByService(resourceGroupName: string, serviceName: string, options?: OutboundNetworkDependenciesEndpointsListByServiceOptionalParams): Promise<OutboundNetworkDependenciesEndpointsListByServiceResponse>;
+}
+
+// @public
+export interface OutboundNetworkDependenciesEndpointsListByServiceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OutboundNetworkDependenciesEndpointsListByServiceResponse = OutboundEnvironmentEndpointList;
+
+// @public
 export interface ParameterContract {
     defaultValue?: string;
     description?: string;
@@ -5163,6 +5460,9 @@ export interface PipelineDiagnosticSettings {
     request?: HttpMessageDiagnostic;
     response?: HttpMessageDiagnostic;
 }
+
+// @public
+export type PlatformVersion = string;
 
 // @public
 export interface Policy {
@@ -5425,6 +5725,117 @@ export type PortalSignupSettings = Resource & {
     enabled?: boolean;
     termsOfService?: TermsOfServiceProperties;
 };
+
+// @public
+export type PreferredIPVersion = string;
+
+// @public
+export interface PrivateEndpoint {
+    readonly id?: string;
+}
+
+// @public
+export type PrivateEndpointConnection = Resource & {
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+};
+
+// @public
+export interface PrivateEndpointConnectionCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PrivateEndpointConnectionCreateOrUpdateResponse = PrivateEndpointConnection;
+
+// @public
+export interface PrivateEndpointConnectionDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PrivateEndpointConnectionGetByNameOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionGetByNameResponse = PrivateEndpointConnection;
+
+// @public
+export interface PrivateEndpointConnectionGetPrivateLinkResourceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionGetPrivateLinkResourceResponse = PrivateLinkResource;
+
+// @public
+export interface PrivateEndpointConnectionListByServiceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionListByServiceResponse = PrivateEndpointConnectionListResult;
+
+// @public
+export interface PrivateEndpointConnectionListPrivateLinkResourcesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionListPrivateLinkResourcesResponse = PrivateLinkResourceListResult;
+
+// @public
+export interface PrivateEndpointConnectionListResult {
+    value?: PrivateEndpointConnection[];
+}
+
+// @public
+export interface PrivateEndpointConnectionOperations {
+    beginCreateOrUpdate(resourceGroupName: string, serviceName: string, privateEndpointConnectionName: string, privateEndpointConnectionRequest: PrivateEndpointConnectionRequest, options?: PrivateEndpointConnectionCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionCreateOrUpdateResponse>, PrivateEndpointConnectionCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, serviceName: string, privateEndpointConnectionName: string, privateEndpointConnectionRequest: PrivateEndpointConnectionRequest, options?: PrivateEndpointConnectionCreateOrUpdateOptionalParams): Promise<PrivateEndpointConnectionCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, serviceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, serviceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams): Promise<void>;
+    getByName(resourceGroupName: string, serviceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionGetByNameOptionalParams): Promise<PrivateEndpointConnectionGetByNameResponse>;
+    getPrivateLinkResource(resourceGroupName: string, serviceName: string, privateLinkSubResourceName: string, options?: PrivateEndpointConnectionGetPrivateLinkResourceOptionalParams): Promise<PrivateEndpointConnectionGetPrivateLinkResourceResponse>;
+    listByService(resourceGroupName: string, serviceName: string, options?: PrivateEndpointConnectionListByServiceOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
+    listPrivateLinkResources(resourceGroupName: string, serviceName: string, options?: PrivateEndpointConnectionListPrivateLinkResourcesOptionalParams): Promise<PrivateEndpointConnectionListPrivateLinkResourcesResponse>;
+}
+
+// @public
+export type PrivateEndpointConnectionProvisioningState = string;
+
+// @public
+export interface PrivateEndpointConnectionRequest {
+    id?: string;
+    properties?: PrivateEndpointConnectionRequestProperties;
+}
+
+// @public
+export interface PrivateEndpointConnectionRequestProperties {
+    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+}
+
+// @public
+export type PrivateEndpointServiceConnectionStatus = string;
+
+// @public
+export type PrivateLinkResource = Resource & {
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
+};
+
+// @public
+export interface PrivateLinkResourceListResult {
+    value?: PrivateLinkResource[];
+}
+
+// @public
+export interface PrivateLinkServiceConnectionState {
+    actionsRequired?: string;
+    description?: string;
+    status?: PrivateEndpointServiceConnectionStatus;
+}
 
 // @public
 export interface Product {
@@ -5778,6 +6189,9 @@ export type ProductUpdateResponse = ProductUpdateHeaders & ProductContract;
 export type Protocol = string;
 
 // @public
+export type PublicNetworkAccess = string;
+
+// @public
 export interface QuotaByCounterKeys {
     listByService(resourceGroupName: string, serviceName: string, quotaCounterKey: string, options?: QuotaByCounterKeysListByServiceOptionalParams): Promise<QuotaByCounterKeysListByServiceResponse>;
     update(resourceGroupName: string, serviceName: string, quotaCounterKey: string, parameters: QuotaCounterValueUpdateContract, options?: QuotaByCounterKeysUpdateOptionalParams): Promise<QuotaByCounterKeysUpdateResponse>;
@@ -5917,6 +6331,17 @@ export interface RegionListResult {
 // @public
 export interface RegistrationDelegationSettingsProperties {
     enabled?: boolean;
+}
+
+// @public
+export interface RemotePrivateEndpointConnectionWrapper {
+    readonly groupIds?: string[];
+    id?: string;
+    name?: string;
+    privateEndpoint?: ArmIdWrapper;
+    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: string;
+    type?: string;
 }
 
 // @public
@@ -6118,6 +6543,9 @@ export type ReportsListByUserResponse = ReportCollection;
 // @public
 export interface RepresentationContract {
     contentType: string;
+    examples?: {
+        [propertyName: string]: ParameterExampleContract;
+    };
     formParameters?: ParameterContract[];
     schemaId?: string;
     typeName?: string;
@@ -6236,11 +6664,16 @@ export interface SchemaCollection {
 // @public
 export type SchemaContract = Resource & {
     contentType?: string;
-    document?: Record<string, unknown>;
+    value?: string;
+    definitions?: Record<string, unknown>;
+    components?: Record<string, unknown>;
 };
 
 // @public
 export type SettingsTypeName = string;
+
+// @public
+export type Severity = string;
 
 // @public
 export interface SignInSettings {
@@ -6516,6 +6949,16 @@ export interface SubscriptionUpdateParameters {
 
 // @public
 export type SubscriptionUpdateResponse = SubscriptionUpdateHeaders & SubscriptionContract;
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
 
 // @public
 export interface Tag {
@@ -7036,16 +7479,16 @@ export interface TenantConfigurationSaveOptionalParams extends coreClient.Operat
 export type TenantConfigurationSaveResponse = OperationResultContract;
 
 // @public
-export interface TenantConfigurationSyncStateContract {
+export type TenantConfigurationSyncStateContract = Resource & {
     branch?: string;
     commitId?: string;
-    configurationChangeDate?: Date;
     isExport?: boolean;
-    isGitEnabled?: boolean;
     isSynced?: boolean;
-    lastOperationId?: string;
+    isGitEnabled?: boolean;
     syncDate?: Date;
-}
+    configurationChangeDate?: Date;
+    lastOperationId?: string;
+};
 
 // @public
 export interface TenantConfigurationValidateOptionalParams extends coreClient.OperationOptions {

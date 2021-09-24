@@ -41,6 +41,7 @@ describe("Apimanagement test", () => {
   let resourceGroupName: string;
   let serviceName: string;
 
+
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
     subscriptionId = env.SUBSCRIPTION_ID;
@@ -53,7 +54,7 @@ describe("Apimanagement test", () => {
     client = new ApiManagementClient(credential, subscriptionId);
     location = "eastus";
     resourceGroupName = "myjstest";
-    serviceName = "myserviceyyy"
+    serviceName = "myserviceyyy1";
   });
 
   afterEach(async function() {
@@ -106,7 +107,7 @@ describe("Apimanagement test", () => {
         assert.equal(res.type,"Microsoft.ApiManagement/service");
         break;
       }else {
-        // The resource is activationg
+        // The resource is activating
         await sleep(300000);
       }
     }
@@ -127,7 +128,7 @@ describe("Apimanagement test", () => {
         assert.equal(resArray.length,0);
         break;
       }else {
-        // The resource is activationg
+        // The resource is activating
         await sleep(300000);
       }
     }

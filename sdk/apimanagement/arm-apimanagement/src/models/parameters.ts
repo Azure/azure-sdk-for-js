@@ -62,6 +62,7 @@ import {
   PortalSigninSettings as PortalSigninSettingsMapper,
   PortalSignupSettings as PortalSignupSettingsMapper,
   PortalDelegationSettings as PortalDelegationSettingsMapper,
+  PrivateEndpointConnectionRequest as PrivateEndpointConnectionRequestMapper,
   ProductContract as ProductContractMapper,
   ProductUpdateParameters as ProductUpdateParametersMapper,
   QuotaCounterValueUpdateContract as QuotaCounterValueUpdateContractMapper,
@@ -73,7 +74,8 @@ import {
   SaveConfigurationParameter as SaveConfigurationParameterMapper,
   UserCreateParameters as UserCreateParametersMapper,
   UserUpdateParameters as UserUpdateParametersMapper,
-  UserTokenParameters as UserTokenParametersMapper
+  UserTokenParameters as UserTokenParametersMapper,
+  ConnectivityCheckRequest as ConnectivityCheckRequestMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -194,7 +196,7 @@ export const expandApiVersionSet: OperationQueryParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-01-01-preview",
+    defaultValue: "2021-04-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -226,19 +228,6 @@ export const apiId: OperationURLParameter = {
     serializedName: "apiId",
     required: true,
     xmlName: "apiId",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const accept1: OperationParameter = {
-  parameterPath: "accept",
-  mapper: {
-    defaultValue:
-      "application/json, application/vnd.swagger.doc+json, application/vnd.oai.openapi+json, application/vnd.sun.wadl+xml, application/wsdl+xml",
-    isConstant: true,
-    serializedName: "Accept",
     type: {
       name: "String"
     }
@@ -467,7 +456,7 @@ export const parameters6: OperationParameter = {
   mapper: TagCreateUpdateParametersMapper
 };
 
-export const accept2: OperationParameter = {
+export const accept1: OperationParameter = {
   parameterPath: "accept",
   mapper: {
     defaultValue:
@@ -1196,6 +1185,35 @@ export const parameters49: OperationParameter = {
   mapper: PortalDelegationSettingsMapper
 };
 
+export const privateEndpointConnectionName: OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    serializedName: "privateEndpointConnectionName",
+    required: true,
+    xmlName: "privateEndpointConnectionName",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const privateEndpointConnectionRequest: OperationParameter = {
+  parameterPath: "privateEndpointConnectionRequest",
+  mapper: PrivateEndpointConnectionRequestMapper
+};
+
+export const privateLinkSubResourceName: OperationURLParameter = {
+  parameterPath: "privateLinkSubResourceName",
+  mapper: {
+    serializedName: "privateLinkSubResourceName",
+    required: true,
+    xmlName: "privateLinkSubResourceName",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const expandGroups: OperationQueryParameter = {
   parameterPath: ["options", "expandGroups"],
   mapper: {
@@ -1420,4 +1438,9 @@ export const parameters60: OperationParameter = {
 export const parameters61: OperationParameter = {
   parameterPath: "parameters",
   mapper: UserTokenParametersMapper
+};
+
+export const connectivityCheckRequestParams: OperationParameter = {
+  parameterPath: "connectivityCheckRequestParams",
+  mapper: ConnectivityCheckRequestMapper
 };

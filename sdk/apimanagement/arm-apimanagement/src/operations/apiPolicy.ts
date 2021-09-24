@@ -224,7 +224,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.apiId,
     Parameters.policyId
   ],
-  headerParameters: [Parameters.accept2],
+  headerParameters: [Parameters.accept1],
   isXML: true,
   serializer: xmlSerializer
 };

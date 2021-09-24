@@ -452,8 +452,6 @@ export class ApiImpl implements Api {
   }
 }
 // Operation Specifications
-const xmlSerializer = coreClient.createSerializer(Mappers, /* isXml */ true);
-
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
@@ -529,9 +527,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.apiId
   ],
-  headerParameters: [Parameters.accept1],
-  isXML: true,
-  serializer: xmlSerializer
+  headerParameters: [Parameters.accept],
+  serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:

@@ -6,7 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import * as coreClient from "@azure/core-client";
 import * as coreAuth from "@azure/core-auth";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "./lroImpl";
 import {
   ApiImpl,
   ApiRevisionImpl,
@@ -52,6 +55,7 @@ import {
   NotificationRecipientUserImpl,
   NotificationRecipientEmailImpl,
   OpenIdConnectProviderImpl,
+  OutboundNetworkDependenciesEndpointsImpl,
   PolicyImpl,
   PolicyDescriptionImpl,
   PortalRevisionImpl,
@@ -59,6 +63,7 @@ import {
   SignInSettingsImpl,
   SignUpSettingsImpl,
   DelegationSettingsImpl,
+  PrivateEndpointConnectionOperationsImpl,
   ProductImpl,
   ProductApiImpl,
   ProductGroupImpl,
@@ -126,6 +131,7 @@ import {
   NotificationRecipientUser,
   NotificationRecipientEmail,
   OpenIdConnectProvider,
+  OutboundNetworkDependenciesEndpoints,
   Policy,
   PolicyDescription,
   PortalRevision,
@@ -133,6 +139,7 @@ import {
   SignInSettings,
   SignUpSettings,
   DelegationSettings,
+  PrivateEndpointConnectionOperations,
   Product,
   ProductApi,
   ProductGroup,
@@ -155,8 +162,15 @@ import {
   UserIdentities,
   UserConfirmationPassword
 } from "./operationsInterfaces";
+import * as Parameters from "./models/parameters";
+import * as Mappers from "./models/mappers";
 import { ApiManagementClientContext } from "./apiManagementClientContext";
-import { ApiManagementClientOptionalParams } from "./models";
+import {
+  ApiManagementClientOptionalParams,
+  ConnectivityCheckRequest,
+  ApiManagementClientPerformConnectivityCheckAsyncOptionalParams,
+  ApiManagementClientPerformConnectivityCheckAsyncResponse
+} from "./models";
 
 export class ApiManagementClient extends ApiManagementClientContext {
   /**
@@ -220,6 +234,9 @@ export class ApiManagementClient extends ApiManagementClientContext {
     this.notificationRecipientUser = new NotificationRecipientUserImpl(this);
     this.notificationRecipientEmail = new NotificationRecipientEmailImpl(this);
     this.openIdConnectProvider = new OpenIdConnectProviderImpl(this);
+    this.outboundNetworkDependenciesEndpoints = new OutboundNetworkDependenciesEndpointsImpl(
+      this
+    );
     this.policy = new PolicyImpl(this);
     this.policyDescription = new PolicyDescriptionImpl(this);
     this.portalRevision = new PortalRevisionImpl(this);
@@ -227,6 +244,9 @@ export class ApiManagementClient extends ApiManagementClientContext {
     this.signInSettings = new SignInSettingsImpl(this);
     this.signUpSettings = new SignUpSettingsImpl(this);
     this.delegationSettings = new DelegationSettingsImpl(this);
+    this.privateEndpointConnectionOperations = new PrivateEndpointConnectionOperationsImpl(
+      this
+    );
     this.product = new ProductImpl(this);
     this.productApi = new ProductApiImpl(this);
     this.productGroup = new ProductGroupImpl(this);
@@ -248,6 +268,106 @@ export class ApiManagementClient extends ApiManagementClientContext {
     this.userSubscription = new UserSubscriptionImpl(this);
     this.userIdentities = new UserIdentitiesImpl(this);
     this.userConfirmationPassword = new UserConfirmationPasswordImpl(this);
+  }
+
+  /**
+   * Performs a connectivity check between the API Management service and a given destination, and
+   * returns metrics for the connection, as well as errors encountered while trying to establish it.
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param connectivityCheckRequestParams Connectivity Check request parameters.
+   * @param options The options parameters.
+   */
+  async beginPerformConnectivityCheckAsync(
+    resourceGroupName: string,
+    serviceName: string,
+    connectivityCheckRequestParams: ConnectivityCheckRequest,
+    options?: ApiManagementClientPerformConnectivityCheckAsyncOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        ApiManagementClientPerformConnectivityCheckAsyncResponse
+      >,
+      ApiManagementClientPerformConnectivityCheckAsyncResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ApiManagementClientPerformConnectivityCheckAsyncResponse> => {
+      return this.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        serviceName,
+        connectivityCheckRequestParams,
+        options
+      },
+      performConnectivityCheckAsyncOperationSpec
+    );
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+  }
+
+  /**
+   * Performs a connectivity check between the API Management service and a given destination, and
+   * returns metrics for the connection, as well as errors encountered while trying to establish it.
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param connectivityCheckRequestParams Connectivity Check request parameters.
+   * @param options The options parameters.
+   */
+  async beginPerformConnectivityCheckAsyncAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    connectivityCheckRequestParams: ConnectivityCheckRequest,
+    options?: ApiManagementClientPerformConnectivityCheckAsyncOptionalParams
+  ): Promise<ApiManagementClientPerformConnectivityCheckAsyncResponse> {
+    const poller = await this.beginPerformConnectivityCheckAsync(
+      resourceGroupName,
+      serviceName,
+      connectivityCheckRequestParams,
+      options
+    );
+    return poller.pollUntilDone();
   }
 
   api: Api;
@@ -294,6 +414,7 @@ export class ApiManagementClient extends ApiManagementClientContext {
   notificationRecipientUser: NotificationRecipientUser;
   notificationRecipientEmail: NotificationRecipientEmail;
   openIdConnectProvider: OpenIdConnectProvider;
+  outboundNetworkDependenciesEndpoints: OutboundNetworkDependenciesEndpoints;
   policy: Policy;
   policyDescription: PolicyDescription;
   portalRevision: PortalRevision;
@@ -301,6 +422,7 @@ export class ApiManagementClient extends ApiManagementClientContext {
   signInSettings: SignInSettings;
   signUpSettings: SignUpSettings;
   delegationSettings: DelegationSettings;
+  privateEndpointConnectionOperations: PrivateEndpointConnectionOperations;
   product: Product;
   productApi: ProductApi;
   productGroup: ProductGroup;
@@ -323,3 +445,39 @@ export class ApiManagementClient extends ApiManagementClientContext {
   userIdentities: UserIdentities;
   userConfirmationPassword: UserConfirmationPassword;
 }
+// Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
+
+const performConnectivityCheckAsyncOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/connectivityCheck",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ConnectivityCheckResponse
+    },
+    201: {
+      bodyMapper: Mappers.ConnectivityCheckResponse
+    },
+    202: {
+      bodyMapper: Mappers.ConnectivityCheckResponse
+    },
+    204: {
+      bodyMapper: Mappers.ConnectivityCheckResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.connectivityCheckRequestParams,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.subscriptionId
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
