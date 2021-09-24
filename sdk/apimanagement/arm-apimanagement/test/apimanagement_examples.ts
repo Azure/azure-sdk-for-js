@@ -54,7 +54,7 @@ describe("Apimanagement test", () => {
     client = new ApiManagementClient(credential, subscriptionId);
     location = "eastus";
     resourceGroupName = "myjstest";
-    serviceName = "myserviceyyy1";
+    serviceName = "myserviceyyy2";
   });
 
   afterEach(async function() {

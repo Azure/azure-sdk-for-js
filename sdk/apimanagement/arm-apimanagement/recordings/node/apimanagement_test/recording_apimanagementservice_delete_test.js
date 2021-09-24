@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "ca10b212da5b0d5cf4f0c9d5619a1ecf";
+module.exports.hash = "c4e1e13024a84cf0e63c50355621f26e";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -23,19 +23,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '511c7ce6-7148-43e3-a56f-8b9787410800',
+  '287c3834-52aa-4874-b1fb-28657dc00800',
   'x-ms-ests-server',
-  '2.1.12071.13 - SEASLR1 ProdSlices',
+  '2.1.12071.13 - SEASLR2 ProdSlices',
   'Set-Cookie',
-  'fpc=AqncyUrxSElCqiimajJiNj4; expires=Sun, 24-Oct-2021 06:50:30 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AtVQmF6Z8l1Gnqt9cptlAIQ; expires=Sun, 24-Oct-2021 09:04:22 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr7LIThtYDrZG_CsCTmf15ceIxtBBnX115YGzK-uE6SFPVSlhrFQOaRIMKve4vdE-MdMZE4Kv0ASXyBUtLXhkImn2NwljAN8el2paLzZIVA-VQB2JdWrbSLGGsJoZDyHJIrD9fmmiNUyczTEXAF_WWJMRWsLQsReFmIW4L1oGI2QsgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevryMmBB2sdCe6wyTc1m_MbULm7sv3Eo0ROE3hIBiXr4LrEz6YLj_ctAtY-4P3Alg20A8R-6iEcM_S8ft4BZIhfqup2eSX__fe7zUgucsstavckVIpwkiBZCWrtun1c7CUAQ6i0zwmxwBpUPR-T_M377OjQorD1Guto7t100LzgGkwgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 24 Sep 2021 06:50:29 GMT',
+  'Fri, 24 Sep 2021 09:04:21 GMT',
   'Content-Length',
   '980'
 ]);
@@ -58,32 +58,30 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '9ba6f45d-c4e8-4eef-b292-a7c2c7090900',
+  '287c3834-52aa-4874-b1fb-286580c00800',
   'x-ms-ests-server',
-  '2.1.12071.13 - KRSLR1 ProdSlices',
+  '2.1.12071.13 - SEASLR2 ProdSlices',
   'Set-Cookie',
-  'fpc=AnhLH_dRUP1KpXJDl8G0bcI; expires=Sun, 24-Oct-2021 06:50:30 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AuSG92YRuSBGls_fs-z-XNQ; expires=Sun, 24-Oct-2021 09:04:22 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrEonYOTPrgL146v8PHK-_1yPrVWoWEAVtphD0AGHnQSiTGHznZRFT2F411Q6gP7ncxgIriWp6gCxt7vKdUUxSj1hm4o3emYjVU1D4IhFG09sHlZpbTBcAWdXKYrNM1ZHIjX76EDuK14G9ZqnzlmtsIJ2cCoVsVxxoZREgqgzKBZUgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrfAlm2sC_-j0If0OCki6z3bViaAFjXlhADLYk5xa0_VjKbJkW2moiFaSAw0_Bp_IXupvVr-6EGfSdTm72Q9cVpPOdnri0CSZtcw0JmKQVLYFlRbvO2bgze9duLKiyD1dvqS7241Q8C12wOi2n5aEXjKgyTiEceplWUStUotycP2AgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 24 Sep 2021 06:50:30 GMT',
+  'Fri, 24 Sep 2021 09:04:22 GMT',
   'Content-Length',
   '1753'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.3.1&x-client-OS=win32&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=82a645b2-3aab-4bd0-9f12-17f9048be3d5&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22CP1%22%5D%7D%7D%7D")
+  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.3.1&x-client-OS=win32&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=a1235147-d77a-457c-bd96-bf03fdcb30f0&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22CP1%22%5D%7D%7D%7D")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '1351',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -95,25 +93,27 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '9ba6f45d-c4e8-4eef-b292-a7c2c8090900',
+  '287c3834-52aa-4874-b1fb-286582c00800',
   'x-ms-ests-server',
-  '2.1.12071.13 - KRSLR1 ProdSlices',
+  '2.1.12071.13 - SEASLR2 ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=Arm7UMedvTVPlOxluaSN5rUWPr5BAQAAADZs39gOAAAA; expires=Sun, 24-Oct-2021 06:50:31 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Aoue5BiqmS1MpyeyhTyymqEWPr5BAQAAAJaL39gOAAAA; expires=Sun, 24-Oct-2021 09:04:22 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 24 Sep 2021 06:50:30 GMT'
+  'Fri, 24 Sep 2021 09:04:22 GMT',
+  'Content-Length',
+  '1351'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2')
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471fdd6dd693665a17abb6a896cddd877be70fefcf0eceb7ef4d3f7db0bdbfbbb7bffd7077fa60fb607abef3603a9b9cefedefdeadf3a65ad7d3fcf3ba5aaf9abb8beb9f6edabc69efaeeaeab298e57573f78b625a574d75de8e8f57c517d932bbc817f9b2bddbe4f56531cde915fdedddbb77f73f1a7db4cc163921d3fdb8bd5ee1e31ba0a16176d17cf4e817ff92d1476535cd30147aed346bdaf4abd7f4754edfd307c7fc3c79f2a2f889cfe853427795d76d91e3d58f56eb495934f3bc3e5d644549adcfabeaf79c56cb967a1e4fab055e304d5e08bad4823e5d566d715e48afaff3258ddf40c856c5e262d16e2fab3a5f95d7bf273e1e5f15cb5975d5643f58d7b9810bba35f47ab1bc78dd662d60bf5e4fa7793ecb67f47d9bd51779fb32d28abe9cd639fd3e3b6ebf6aa7f4c9decedeeef6cec3edbdfd373b9f3edad97f746f6f7cefd3dd7b3bfb3f458d2fa8e95576fd550df4e66dbb6a1edd0d2763cc886d13eae365deba575ee517d475566e78753b2782af9bed9ddd71adad7bd05655dd6e04329616bd1767f9655e62be5ef2f79b20d8a63d200bcb3bc4489b40b8863d18cd74b1e94dfabaf7cabc6a5a70f849b53c2f2ed635b30a31ddf77eb1e1709adb77d7da52992b04db05992fa71531c709f897998f5e59aecb72f4d1dbfcfa27b375d99e9174cb2753d7e865d63457556dbf5ae617c4bdf4c54959d0600370e759d9e4c1dbe6ad597e8e1e5e37e513626662c78f1eb5f59ada92f02fdba2bd1668510c5eb3e6a0f13d591784e492c6e27f4b7cbd26cae0b55ff27d621748dcf4ece5f16c464aa781a47e8f587c7cb04f4c3ddebb7fef2334aa8b4b7a37680500a38fb2d9ac00adb3f2b9aa05fbd56551b7ebac7c91b7448fb7c1cc9826d375d3560b9a1a6225a3259c2afa2e0d9de4f8181313eaa5f1e7840d89ccf8753e5dd7448e31c168ab695536e33765b3bb43a37f06e2d2d8bf0978bbdf203c9ad37b1f8edf49b1222d49d8915d29f3a779b3fbe9c107037d924ddf927af590c5e03f1cd938dc0f276a1fee0711d703437a8194dbb749ffec596864fa42967e239ae545b544579e8c111f0b7fcf8a269b94b97660059e94cc4fd2e491209054346d9d15cb16acbf289684997e2530a85395d095ca9e937995cad3e56c55110482b5cca7102fed9fde6ddeae0118aa913025d95fce32d24d846db6caa644c38f1eed5233a355e4bdd1473fa02119","20ff0fb1a2b8d8c6080000"], [
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471fdd6dd693665a17abb6a896cddd877be70fefcf0eceb7ef4d3f7db0bdbfbbb7bffd7077fa60fb607abef3603a9b9cefedefdeadf3a65ad7d3fcf3ba5aaf9abb8beb9f6edabc69efaeeaeab298e57573f78b625a574d75de8e8f57c517d932bbc817f9b2bddbe4f56531cde915fdedfafa7aefa3d147cb6c911332dd8fdbeb153ebe011a1a6617cd478f7ef12f197d5456d30c43a1d74eb3a64dbf7a4d5fe7f43d7d70cccf93272fee7ef5197d4ae8aef2ba2d72bcfad16a3d298b669ed7a78bac28a9f57955fd9ed36ad952cfe369b5c00ba6c90b41975ad0a7cbaa2dce0be9f575bea4f11b08d9aa585c2cdaed6555e7abf2faf7c4c7e3ab6239abae9aec07eb3a377041b7865e2f9617afdbac05ecd7ebe934cf67f98cbe6fb3fa226f5f465ad197d33aa7df67c7ed57ed943ed9dbd9dbddde79b8bdb7ff66e7e0d1decea37b9f8e0ff6f6eeef3dbcff53d4fa82da5e65d75fd5c06fdeb6abe6d1dd7036c68cd936e13e5ee6ad7be5557e417d67e58657b773a2f8bad9ded91dd7daba076d55d5ed46206369d17b71965fe62526ec257fbf09826dda03b2b0cc439cb409846bd883d14c179bdea4af7bafccaba6058b9f54cbf3e2625d33af10d77def171b16a7c97d77ad2d95bb42b05d90f9725a11779c808199fbe895e5ba2c471fbdcdaf7f325b97ed1989b77c32758d5e664d7355d5f6ab657e41ec4b5f9c94050d3600779e954d1ebc6dde9ae5e7e8e175533e216e267efce8515bafa92d49ffb22dda6b8116c5e035ab0e1adf937541482e692cfeb7c4d86ba20c5efb25df277681c84dcf5e1ecf66a4751a88eaf73ebabf37de3d38183f7838de7df0e023b4aa8b4b7a39680608a38fb2d9ac00b1b3f2b92a06fbd56551b7ebac7c91b74490b7c1d49826d375d3560b9a1be225a3279c32fa2e8d9d24f91833136aa6f1e7840dc9ccf8753e5dd7448f31c168ab695536e33765b3bb43c37f06ead2e0bf0978bbdf203c9ad47b1f8edf49b1223d49d8916529f3a779b3fbe9c107037d924ddf9282f590c5e03f1cd938dc0f276a1fee0711d703438a81b4dbb74901ed596864fc42967e23aae545b544579e90111f0b7fcf8a269b94b97660259eb4cc4fd2e491209054346d9d15cb16acbf289684997e2530a85315d195ca9e137af94291392673d650c71f9d2ed125cc9a4aede972b6aaa807ea6b994f217ed44c2194597b5ed50bdbe5474d7bb98791366fd7c0084a953e25adb19c65a4d56898d92a9b12f13f7ab44bcd8c3e32007f40b4b0d09b6b725b164fb3360328b5a34fa8ed47e7d9fe836cf7decef679767fbabd3f9bec6c3f9c4eef6f4fa69fdedfb93f3dd87fb0ff007d995794d2c7ab150d583488fdf6984817b1caf7c707bbf7f61eeeedc22a9759d37e51cd687a008ddadf1281f0bd28167e939b51f925bf","e4ff01d43eaf38170a0000"], [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -127,65 +127,65 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'ETag',
-  '"AAAAAABBNiQ="',
+  '"AAAAAABBN/U="',
   'Vary',
   'Accept-Encoding',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '9863fd3a-00ea-4922-840b-f71347564c3e',
+  'e2685c8b-1ae5-4146-9c3c-7ca6538f24ff',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4758',
+  '5593',
   'x-ms-correlation-request-id',
-  '44a611f4-3b31-420b-8381-3664fb6d368c',
+  'cd913cb2-bf44-4168-bc5f-305a54a2cd16',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065031Z:44a611f4-3b31-420b-8381-3664fb6d368c',
+  'SOUTHEASTASIA:20210924T090423Z:cd913cb2-bf44-4168-bc5f-305a54a2cd16',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:30 GMT'
+  'Fri, 24 Sep 2021 09:04:22 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .delete('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5')
+  .delete('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2')
   .query(true)
-  .reply(202, {"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5","name":"myservicexxx5","type":"Microsoft.ApiManagement/service","tags":{},"location":"East US","etag":"AAAAAABBNic=","properties":{"publisherEmail":"foo@contoso.com","publisherName":"foo","notificationSenderEmail":"apimgmt-noreply@mail.windowsazure.com","provisioningState":"Succeeded","targetProvisioningState":"Deleting","createdAtUtc":"2021-09-24T06:04:32.361304Z","gatewayUrl":"https://myservicexxx5.azure-api.net","gatewayRegionalUrl":"https://myservicexxx5-eastus-01.regional.azure-api.net","portalUrl":"https://myservicexxx5.portal.azure-api.net","developerPortalUrl":"https://myservicexxx5.developer.azure-api.net","managementApiUrl":"https://myservicexxx5.management.azure-api.net","scmUrl":"https://myservicexxx5.scm.azure-api.net","hostnameConfigurations":[{"type":"Proxy","hostName":"myservicexxx5.azure-api.net","encodedCertificate":null,"keyVaultId":null,"certificatePassword":null,"negotiateClientCertificate":false,"certificate":null,"defaultSslBinding":true,"identityClientId":null,"certificateSource":"BuiltIn","certificateStatus":null}],"publicIPAddresses":["20.84.36.253"],"privateIPAddresses":null,"additionalLocations":null,"virtualNetworkConfiguration":null,"customProperties":{"Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Ssl30":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Ssl30":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2":"False"},"virtualNetworkType":"None","certificates":null,"disableGateway":false,"apiVersionConstraint":{"minApiVersion":null},"publicIpAddressId":null,"privateEndpointConnections":null},"sku":{"name":"Standard","capacity":1},"identity":null,"zones":null}, [
+  .reply(202, {"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2","name":"myserviceyyy2","type":"Microsoft.ApiManagement/service","tags":{},"location":"East US","etag":"AAAAAABBN/Y=","properties":{"publisherEmail":"foo@contoso.com","publisherName":"foo","notificationSenderEmail":"apimgmt-noreply@mail.windowsazure.com","provisioningState":"Succeeded","targetProvisioningState":"Deleting","createdAtUtc":"2021-09-24T08:20:36.8225295Z","gatewayUrl":"https://myserviceyyy2.azure-api.net","gatewayRegionalUrl":"https://myserviceyyy2-eastus-01.regional.azure-api.net","portalUrl":"https://myserviceyyy2.portal.azure-api.net","developerPortalUrl":"https://myserviceyyy2.developer.azure-api.net","managementApiUrl":"https://myserviceyyy2.management.azure-api.net","scmUrl":"https://myserviceyyy2.scm.azure-api.net","hostnameConfigurations":[{"type":"Proxy","hostName":"myserviceyyy2.azure-api.net","encodedCertificate":null,"keyVaultId":null,"certificatePassword":null,"negotiateClientCertificate":false,"certificate":null,"defaultSslBinding":true,"identityClientId":null,"certificateSource":"BuiltIn","certificateStatus":null}],"publicIPAddresses":["52.188.79.177"],"privateIPAddresses":null,"additionalLocations":null,"virtualNetworkConfiguration":null,"customProperties":{"Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Ssl30":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Ssl30":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2":"False"},"virtualNetworkType":"None","certificates":null,"disableGateway":false,"apiVersionConstraint":{"minApiVersion":null},"publicIpAddressId":null,"publicNetworkAccess":"Enabled","privateEndpointConnections":null,"platformVersion":"stv2"},"sku":{"name":"Standard","capacity":1},"identity":null,"zones":null,"systemData":{"createdBy":"azure_client_id","createdByType":"Application","createdAt":"2021-09-24T08:20:35.8132921Z","lastModifiedBy":"azure_client_id","lastModifiedByType":"Application","lastModifiedAt":"2021-09-24T08:20:35.8132921Z"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '2254',
+  '2591',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '24b2f2ec-d24f-4549-a44e-955928d75a32',
+  'a4559024-6a15-4d1b-8fe1-9d04b9ea93d8',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-deletes',
   '14999',
   'x-ms-correlation-request-id',
-  '67c0b15a-03e4-4973-bbd9-3107995f482b',
+  'dc8b0139-c3b8-4ff4-96d4-47a049593522',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065033Z:67c0b15a-03e4-4973-bbd9-3107995f482b',
+  'SOUTHEASTASIA:20210924T090424Z:dc8b0139-c3b8-4ff4-96d4-47a049593522',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:32 GMT'
+  'Fri, 24 Sep 2021 09:04:23 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -195,31 +195,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '0064b462-5be0-41b6-a926-4d35ba86da1f',
+  'fbe5ff7a-abcb-4ef4-afb5-c4067fc790fb',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4757',
+  '5592',
   'x-ms-correlation-request-id',
-  'a1aeb1f6-4bf7-4bb5-b011-3293c6124990',
+  '29d24dc2-e31c-4526-bc7d-0cf2ae022693',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065033Z:a1aeb1f6-4bf7-4bb5-b011-3293c6124990',
+  'SOUTHEASTASIA:20210924T090424Z:29d24dc2-e31c-4526-bc7d-0cf2ae022693',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:32 GMT',
+  'Fri, 24 Sep 2021 09:04:23 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -229,31 +229,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '0fb24504-6603-473a-a7bf-467dc9fd83ce',
+  '5a13bdf9-f3c0-447c-8c66-5ca45b5a3f29',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4756',
+  '5591',
   'x-ms-correlation-request-id',
-  '3eeb2531-e180-43e8-8f38-1a6dab99fe00',
+  'b4aa8a53-c0aa-4357-aa34-72c0a1180a59',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065034Z:3eeb2531-e180-43e8-8f38-1a6dab99fe00',
+  'SOUTHEASTASIA:20210924T090424Z:b4aa8a53-c0aa-4357-aa34-72c0a1180a59',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:33 GMT',
+  'Fri, 24 Sep 2021 09:04:23 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -263,31 +263,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'b429cefc-6d96-4fc3-8476-2b05d6806ecc',
+  '96b24195-a1e8-4bd0-a579-bd045ef9ba97',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4755',
+  '5590',
   'x-ms-correlation-request-id',
-  '1a3962fe-f893-4a89-97bf-3fcd44df7e5b',
+  'dae9bfee-22db-4e78-834a-5014db377b2a',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065034Z:1a3962fe-f893-4a89-97bf-3fcd44df7e5b',
+  'SOUTHEASTASIA:20210924T090425Z:dae9bfee-22db-4e78-834a-5014db377b2a',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:33 GMT',
+  'Fri, 24 Sep 2021 09:04:24 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -297,31 +297,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '6fb16263-09e0-4757-a228-ab9307548209',
+  'a498d63d-a44f-47e4-b2b8-f5b5ab01cbfa',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4754',
+  '5589',
   'x-ms-correlation-request-id',
-  '1c496934-bc2b-4cba-b4f6-b355a8e2b0e2',
+  '915c44d2-ceb6-47bd-9f8e-b4970a5b47d3',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065034Z:1c496934-bc2b-4cba-b4f6-b355a8e2b0e2',
+  'SOUTHEASTASIA:20210924T090425Z:915c44d2-ceb6-47bd-9f8e-b4970a5b47d3',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:34 GMT',
+  'Fri, 24 Sep 2021 09:04:24 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -331,31 +331,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'c072938e-5f53-44b7-9c2a-94320b2c8773',
+  '295ebde8-90c6-43bf-a31f-a360fbcf3852',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4753',
+  '5588',
   'x-ms-correlation-request-id',
-  'c5584d7e-9052-4960-9418-68ffffd9f09b',
+  '44d3806c-4f1a-4d78-ae40-7d2202a910ff',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065035Z:c5584d7e-9052-4960-9418-68ffffd9f09b',
+  'SOUTHEASTASIA:20210924T090425Z:44d3806c-4f1a-4d78-ae40-7d2202a910ff',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:34 GMT',
+  'Fri, 24 Sep 2021 09:04:25 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -365,31 +365,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'db00491d-109a-449c-b426-da3605494a16',
+  '2edebdcf-227a-4212-a5a0-f5cae0d25c33',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4752',
+  '5587',
   'x-ms-correlation-request-id',
-  '339aee55-15c9-40e7-9262-c42e2ba643ef',
+  '531bba7a-b34e-4c9e-a1af-52906ba3276b',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065035Z:339aee55-15c9-40e7-9262-c42e2ba643ef',
+  'SOUTHEASTASIA:20210924T090426Z:531bba7a-b34e-4c9e-a1af-52906ba3276b',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:34 GMT',
+  'Fri, 24 Sep 2021 09:04:25 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -399,31 +399,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '3dde5f5d-3f7e-4ac6-a3b4-2c7d3020772a',
+  'd7ab5948-7ef3-4ab0-93aa-1d2458b1551d',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4751',
+  '5586',
   'x-ms-correlation-request-id',
-  'e09d0a84-abfb-4e8a-a81b-2394d2a3779b',
+  '9229c94b-9f3b-419c-bed7-ec7dbe7d2e10',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065036Z:e09d0a84-abfb-4e8a-a81b-2394d2a3779b',
+  'SOUTHEASTASIA:20210924T090426Z:9229c94b-9f3b-419c-bed7-ec7dbe7d2e10',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:35 GMT',
+  'Fri, 24 Sep 2021 09:04:25 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -433,31 +433,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '7835a481-6313-4905-bf1a-bc181a95499f',
+  '12454d47-f349-4d8b-897b-1e13252cf6b9',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4750',
+  '5585',
   'x-ms-correlation-request-id',
-  '4a8f6bad-7dd5-4071-a73f-b1c4e2169a6c',
+  '023255aa-d555-4828-8092-01069c0862eb',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065036Z:4a8f6bad-7dd5-4071-a73f-b1c4e2169a6c',
+  'SOUTHEASTASIA:20210924T090427Z:023255aa-d555-4828-8092-01069c0862eb',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:35 GMT',
+  'Fri, 24 Sep 2021 09:04:26 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -467,31 +467,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '67d3682e-617a-4cce-bb65-bf3bd136b3e4',
+  '10e4ad1d-db65-489a-850e-92a45a3ffb54',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4749',
+  '5584',
   'x-ms-correlation-request-id',
-  '195e5f65-7616-490b-a4d3-1e5bfaad73bc',
+  'be61ed12-08cf-49d9-8728-3a415328bcb1',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065036Z:195e5f65-7616-490b-a4d3-1e5bfaad73bc',
+  'SOUTHEASTASIA:20210924T090427Z:be61ed12-08cf-49d9-8728-3a415328bcb1',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:36 GMT',
+  'Fri, 24 Sep 2021 09:04:26 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -501,31 +501,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '469eff22-6190-4a2c-b6d9-125a216e7594',
+  'a317965a-a854-4648-94e2-862503f2fb7e',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4748',
+  '5583',
   'x-ms-correlation-request-id',
-  'ac4937bf-cadd-406e-8549-a3dc0c1a0978',
+  '55a940a2-d601-44f7-bf07-82a11a5b9c08',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065037Z:ac4937bf-cadd-406e-8549-a3dc0c1a0978',
+  'SOUTHEASTASIA:20210924T090427Z:55a940a2-d601-44f7-bf07-82a11a5b9c08',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:36 GMT',
+  'Fri, 24 Sep 2021 09:04:27 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -535,31 +535,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '35628ca0-26a6-4eba-99bc-55e92b8105ae',
+  '425112bb-ebbd-4b6b-8604-3197a3cf0ad4',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4747',
+  '5582',
   'x-ms-correlation-request-id',
-  '81fd9e2c-c010-49d6-a3b3-5991386c24da',
+  '1c04ff46-843e-4e0f-a705-f0ba611a2695',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065037Z:81fd9e2c-c010-49d6-a3b3-5991386c24da',
+  'SOUTHEASTASIA:20210924T090428Z:1c04ff46-843e-4e0f-a705-f0ba611a2695',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:36 GMT',
+  'Fri, 24 Sep 2021 09:04:27 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -569,31 +569,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '3f4ead1d-20a0-482a-9bae-2b1b1a2d5409',
+  '1e4200d6-1596-45a3-adcb-d0c79c21d703',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4746',
+  '5581',
   'x-ms-correlation-request-id',
-  'ecfadf87-32d1-4458-bc38-379e47899614',
+  'b8693bb5-ff26-49fb-8939-24188b922b44',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065038Z:ecfadf87-32d1-4458-bc38-379e47899614',
+  'SOUTHEASTASIA:20210924T090428Z:b8693bb5-ff26-49fb-8939-24188b922b44',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:37 GMT',
+  'Fri, 24 Sep 2021 09:04:27 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -603,31 +603,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'c87aee63-a5e2-45f4-8d54-f980a2eb3660',
+  'f9fe4435-d912-48e8-82bf-1cdf5c651970',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4745',
+  '5580',
   'x-ms-correlation-request-id',
-  '0563a923-1f87-4326-b28c-a8baed8f4e17',
+  'e8c52c73-e9f2-4576-838e-443d7f8769fd',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065038Z:0563a923-1f87-4326-b28c-a8baed8f4e17',
+  'SOUTHEASTASIA:20210924T090429Z:e8c52c73-e9f2-4576-838e-443d7f8769fd',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:37 GMT',
+  'Fri, 24 Sep 2021 09:04:28 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -637,31 +637,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '63373cf9-dca8-4026-84ce-8d2f003a99d3',
+  '70c28223-0034-4c10-9173-42c5e24f20ae',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4744',
+  '5579',
   'x-ms-correlation-request-id',
-  '2efe5ae7-50ca-4674-b871-1e8233af838a',
+  'fd43d66b-1c30-4cdc-bdef-28da3e7fd457',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065038Z:2efe5ae7-50ca-4674-b871-1e8233af838a',
+  'SOUTHEASTASIA:20210924T090429Z:fd43d66b-1c30-4cdc-bdef-28da3e7fd457',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:37 GMT',
+  'Fri, 24 Sep 2021 09:04:28 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -671,31 +671,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '454557a3-7d26-4a60-a30b-020b7a6800fb',
+  'c6e6936d-ae2f-45de-befd-af6ec0763164',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4743',
+  '5578',
   'x-ms-correlation-request-id',
-  '0cc230ab-f320-42b9-bc14-964b0d552ff0',
+  '7fe8f916-e1c6-4a89-a8ad-549b78c5dda0',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065039Z:0cc230ab-f320-42b9-bc14-964b0d552ff0',
+  'SOUTHEASTASIA:20210924T090429Z:7fe8f916-e1c6-4a89-a8ad-549b78c5dda0',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:38 GMT',
+  'Fri, 24 Sep 2021 09:04:28 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -705,31 +705,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '228a14ea-7c15-46df-bbe1-60da77eb1335',
+  'c7c83416-08e1-4835-8068-db287103a31a',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4742',
+  '5577',
   'x-ms-correlation-request-id',
-  'e3ee9bca-fe0f-4ecc-8294-ee0f3d175206',
+  'e4f3904d-3912-4b7e-af20-8885be5df6fd',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065039Z:e3ee9bca-fe0f-4ecc-8294-ee0f3d175206',
+  'SOUTHEASTASIA:20210924T090430Z:e4f3904d-3912-4b7e-af20-8885be5df6fd',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:38 GMT',
+  'Fri, 24 Sep 2021 09:04:29 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -739,31 +739,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '509b1443-e715-45ed-aae6-6197df57cd60',
+  '87f92d9a-8c20-46af-9532-40f6c1172004',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4741',
+  '5576',
   'x-ms-correlation-request-id',
-  '72f00104-f356-4a4c-a2d6-733d5488a61e',
+  '63c0b82b-3402-4658-8e90-c420ec89e466',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065040Z:72f00104-f356-4a4c-a2d6-733d5488a61e',
+  'SOUTHEASTASIA:20210924T090430Z:63c0b82b-3402-4658-8e90-c420ec89e466',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:39 GMT',
+  'Fri, 24 Sep 2021 09:04:29 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -773,31 +773,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '1306f9f0-25c8-46a7-a357-fd60d00342ce',
+  'ba245bd0-e247-440d-aa0e-790d04b3484c',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4740',
+  '5575',
   'x-ms-correlation-request-id',
-  '9683aa88-c494-4d80-b8a5-5a7ef35cc34a',
+  '515a4f1a-f9bb-472f-b3c8-ed7bbf5b20a8',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065040Z:9683aa88-c494-4d80-b8a5-5a7ef35cc34a',
+  'SOUTHEASTASIA:20210924T090430Z:515a4f1a-f9bb-472f-b3c8-ed7bbf5b20a8',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:39 GMT',
+  'Fri, 24 Sep 2021 09:04:30 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -807,31 +807,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '18ec5c07-fb19-4830-aae2-8ef4ebdba389',
+  'e35bcd37-dbcb-4114-bfba-848bdc99aa0c',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4739',
+  '5574',
   'x-ms-correlation-request-id',
-  '7491223f-0336-478b-bbb9-48a40fcfb94e',
+  '928b13fd-2eca-4e14-aab5-750d627aa1dd',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065040Z:7491223f-0336-478b-bbb9-48a40fcfb94e',
+  'SOUTHEASTASIA:20210924T090431Z:928b13fd-2eca-4e14-aab5-750d627aa1dd',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:39 GMT',
+  'Fri, 24 Sep 2021 09:04:30 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -841,31 +841,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '820fb7c5-8389-4339-8658-57e3d9e15847',
+  '6fe36604-205e-4d5a-b02d-c85f53c31f41',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4738',
+  '5573',
   'x-ms-correlation-request-id',
-  'de514d26-7665-4492-9702-b4bd95a36fec',
+  '81b9a446-64b0-48fc-bc8d-4565daff482d',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065041Z:de514d26-7665-4492-9702-b4bd95a36fec',
+  'SOUTHEASTASIA:20210924T090431Z:81b9a446-64b0-48fc-bc8d-4565daff482d',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:40 GMT',
+  'Fri, 24 Sep 2021 09:04:30 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -875,31 +875,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '9279b735-f649-4bb5-a07d-ee98d524b0f6',
+  '7e0509be-2c49-4a54-9d65-28e9a062077a',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4737',
+  '5572',
   'x-ms-correlation-request-id',
-  'cc6e8d6c-e4db-4711-aa3d-bc220e1bf5c5',
+  'db64e57f-367e-431a-94ec-3c3973a3df01',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065041Z:cc6e8d6c-e4db-4711-aa3d-bc220e1bf5c5',
+  'SOUTHEASTASIA:20210924T090432Z:db64e57f-367e-431a-94ec-3c3973a3df01',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:40 GMT',
+  'Fri, 24 Sep 2021 09:04:31 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -909,31 +909,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '868a3be4-cf82-4e70-b247-0c55dcbfdc1e',
+  'c7badaa1-edcd-45e0-9cc9-8515d6661cb9',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4736',
+  '5571',
   'x-ms-correlation-request-id',
-  'd900faa5-f5fc-4624-8cc2-281bc1c1a4b0',
+  'b4bfc87c-98b1-4ec6-8779-b552f313563f',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065041Z:d900faa5-f5fc-4624-8cc2-281bc1c1a4b0',
+  'SOUTHEASTASIA:20210924T090432Z:b4bfc87c-98b1-4ec6-8779-b552f313563f',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:41 GMT',
+  'Fri, 24 Sep 2021 09:04:31 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -943,31 +943,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'd676bb64-819c-49b2-b27d-681ad6c9a0d7',
+  '04270a1f-a937-4a98-974b-eef8dc64f41a',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4735',
+  '5570',
   'x-ms-correlation-request-id',
-  '3350869b-24fa-410b-95bc-54358a3c990c',
+  'b01b9d0b-3471-4af3-9f1e-f4333ed02737',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065042Z:3350869b-24fa-410b-95bc-54358a3c990c',
+  'SOUTHEASTASIA:20210924T090432Z:b01b9d0b-3471-4af3-9f1e-f4333ed02737',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:41 GMT',
+  'Fri, 24 Sep 2021 09:04:32 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -977,31 +977,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '7f9dcbec-3b8d-42e3-8e7e-1a825e064a3e',
+  'ab3fa4cc-0a38-4aa5-b90f-e64ac58c6c6f',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4734',
+  '5569',
   'x-ms-correlation-request-id',
-  '50cd1e4c-c083-4ba8-948c-305b5c8a8045',
+  'd4e0e3e2-05f8-4ff0-8181-1a17a7e4f089',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065042Z:50cd1e4c-c083-4ba8-948c-305b5c8a8045',
+  'SOUTHEASTASIA:20210924T090433Z:d4e0e3e2-05f8-4ff0-8181-1a17a7e4f089',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:41 GMT',
+  'Fri, 24 Sep 2021 09:04:32 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -1011,31 +1011,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '881c0a66-d2f7-4312-bd08-2f9ba9a005d6',
+  '342157ff-4e2f-4f0a-8c04-ad82278a864b',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4733',
+  '5568',
   'x-ms-correlation-request-id',
-  'b12f8d0f-7723-4248-b29d-278e2b8fc1bf',
+  'f1989fae-f3f7-436c-a375-1b62c5858231',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065043Z:b12f8d0f-7723-4248-b29d-278e2b8fc1bf',
+  'SOUTHEASTASIA:20210924T090433Z:f1989fae-f3f7-436c-a375-1b62c5858231',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:42 GMT',
+  'Fri, 24 Sep 2021 09:04:32 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -1045,31 +1045,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '377a6176-ca1a-4384-af5a-b213674d98cc',
+  '8ae281f2-04c5-4252-8e27-a4998c7e1d63',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4732',
+  '5567',
   'x-ms-correlation-request-id',
-  '5ab724ff-de19-4dec-bbd9-47073cb1f5c3',
+  'd342be99-098e-434e-a9ab-fb867db48f26',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065043Z:5ab724ff-de19-4dec-bbd9-47073cb1f5c3',
+  'SOUTHEASTASIA:20210924T090434Z:d342be99-098e-434e-a9ab-fb867db48f26',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:42 GMT',
+  'Fri, 24 Sep 2021 09:04:33 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -1079,31 +1079,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'ab8f6023-eacd-4a60-9492-54ec46f3f821',
+  '6f688536-0200-4782-ab6f-21f716be1de7',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4731',
+  '5566',
   'x-ms-correlation-request-id',
-  'c267eed7-b0f6-4c88-b989-2b6a7311e0c9',
+  '36b3bcc5-d6b7-4da0-905c-a0acb91c3e88',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065043Z:c267eed7-b0f6-4c88-b989-2b6a7311e0c9',
+  'SOUTHEASTASIA:20210924T090434Z:36b3bcc5-d6b7-4da0-905c-a0acb91c3e88',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:42 GMT',
+  'Fri, 24 Sep 2021 09:04:33 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -1113,31 +1113,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '4f4da7f0-df81-4717-87e0-82cb7dc9ed81',
+  'bc6167c4-a876-4c95-9655-f1e62a01d0d7',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4730',
+  '5565',
   'x-ms-correlation-request-id',
-  '876a656e-bbb2-4ae4-8cd7-9e330f3c3375',
+  'dedf6564-a3bf-4f87-a7a6-086c2aee0f3b',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065044Z:876a656e-bbb2-4ae4-8cd7-9e330f3c3375',
+  'SOUTHEASTASIA:20210924T090434Z:dedf6564-a3bf-4f87-a7a6-086c2aee0f3b',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:43 GMT',
+  'Fri, 24 Sep 2021 09:04:33 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -1147,31 +1147,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'fd9f28b6-b5f0-4b5d-a2b0-c22f720d699b',
+  '17ced1aa-0129-455a-b463-6a79709db02d',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4729',
+  '5564',
   'x-ms-correlation-request-id',
-  '0b55a0c3-c0d4-4b1f-a215-f88bc8093e86',
+  '81ba31cf-6d89-4385-8a35-4603369fb5ce',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065044Z:0b55a0c3-c0d4-4b1f-a215-f88bc8093e86',
+  'SOUTHEASTASIA:20210924T090435Z:81ba31cf-6d89-4385-8a35-4603369fb5ce',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:43 GMT',
+  'Fri, 24 Sep 2021 09:04:34 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -1181,31 +1181,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'a5ac7eb2-6af4-47de-ae2e-ee40419d7cb6',
+  '4a1b5c9a-3761-4487-a45a-de86730aa174',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4728',
+  '5563',
   'x-ms-correlation-request-id',
-  'f35565f5-da10-491d-a882-8a01774fb00b',
+  'b11c2b28-14be-42c1-8511-497bbcf395db',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065045Z:f35565f5-da10-491d-a882-8a01774fb00b',
+  'SOUTHEASTASIA:20210924T090435Z:b11c2b28-14be-42c1-8511-497bbcf395db',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:44 GMT',
+  'Fri, 24 Sep 2021 09:04:34 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -1215,31 +1215,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '744f5b92-0957-439a-a8f9-4361e7b83f99',
+  '9da7cee7-b6b3-4b54-9a8e-9e8e37a206dc',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4727',
+  '5562',
   'x-ms-correlation-request-id',
-  '6cac0098-2980-4241-91fc-9dbf56f09f7e',
+  '69d01159-3652-454e-afa8-8daba450db9b',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065045Z:6cac0098-2980-4241-91fc-9dbf56f09f7e',
+  'SOUTHEASTASIA:20210924T090436Z:69d01159-3652-454e-afa8-8daba450db9b',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:44 GMT',
+  'Fri, 24 Sep 2021 09:04:35 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -1249,31 +1249,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'd4166106-f5e0-4c79-bafb-21f82bb47642',
+  'b7fb6768-48d6-429e-9799-8282f352e2d9',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4726',
+  '5561',
   'x-ms-correlation-request-id',
-  'ba42bfea-d151-4a58-ae42-7b9157f9e339',
+  'f4e88451-87bd-47dd-96a0-b390b9f18d5a',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065045Z:ba42bfea-d151-4a58-ae42-7b9157f9e339',
+  'SOUTHEASTASIA:20210924T090436Z:f4e88451-87bd-47dd-96a0-b390b9f18d5a',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:44 GMT',
+  'Fri, 24 Sep 2021 09:04:35 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -1283,31 +1283,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '0d96340e-08bb-46cd-ac49-e225a0af9117',
+  '236229ee-d09f-4eda-9875-ad012df963ee',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4725',
+  '5560',
   'x-ms-correlation-request-id',
-  '20c8c6e9-3679-4dc0-a08c-6da2d910b0ef',
+  'de271763-9f7a-480b-b971-4dbff21d8cc3',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065046Z:20c8c6e9-3679-4dc0-a08c-6da2d910b0ef',
+  'SOUTHEASTASIA:20210924T090436Z:de271763-9f7a-480b-b971-4dbff21d8cc3',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:45 GMT',
+  'Fri, 24 Sep 2021 09:04:35 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -1317,31 +1317,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '075b65b3-6cd5-4af6-8693-5dfa71b7b487',
+  '9e47726b-53c8-4352-8f2c-990efaaa6c62',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4724',
+  '5559',
   'x-ms-correlation-request-id',
-  '4b5c9b9d-459a-4972-a796-e237cb073639',
+  '2cb761b4-80f6-4f73-bfa2-70d5c3707d86',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065046Z:4b5c9b9d-459a-4972-a796-e237cb073639',
+  'SOUTHEASTASIA:20210924T090437Z:2cb761b4-80f6-4f73-bfa2-70d5c3707d86',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:45 GMT',
+  'Fri, 24 Sep 2021 09:04:36 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -1351,31 +1351,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '0095e9ea-1eef-478a-9ca3-1715e140e1e7',
+  '7c924cd3-6ee5-4713-b87e-a00ee1b781a6',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4723',
+  '5558',
   'x-ms-correlation-request-id',
-  '846245c3-2771-4ba3-a20c-7344417cd21a',
+  '43ed9e90-9203-4db3-a01c-d1e3c7e82329',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065046Z:846245c3-2771-4ba3-a20c-7344417cd21a',
+  'SOUTHEASTASIA:20210924T090437Z:43ed9e90-9203-4db3-a01c-d1e3c7e82329',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:46 GMT',
+  'Fri, 24 Sep 2021 09:04:36 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -1385,31 +1385,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '2584f4ea-d99f-4f50-aaa6-2bd248530228',
+  '63e003b6-0df1-42f1-b5ad-47c6359f35cf',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4722',
+  '5557',
   'x-ms-correlation-request-id',
-  '19edb705-26ca-42a7-bbc3-aa79fa907311',
+  '58fe2a15-b91b-4408-bbde-629d9726280a',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065047Z:19edb705-26ca-42a7-bbc3-aa79fa907311',
+  'SOUTHEASTASIA:20210924T090438Z:58fe2a15-b91b-4408-bbde-629d9726280a',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:46 GMT',
+  'Fri, 24 Sep 2021 09:04:37 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -1419,31 +1419,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '5409b09f-7e6c-4574-a91b-445c37a6b997',
+  'e6903a97-3359-4292-b731-9d445ccb0a12',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4721',
+  '5556',
   'x-ms-correlation-request-id',
-  '58f0ef3a-4206-4ba7-9639-11173d98b08e',
+  'c470b82d-2b30-4de2-8d43-047759b42cf6',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065047Z:58f0ef3a-4206-4ba7-9639-11173d98b08e',
+  'SOUTHEASTASIA:20210924T090438Z:c470b82d-2b30-4de2-8d43-047759b42cf6',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:46 GMT',
+  'Fri, 24 Sep 2021 09:04:37 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -1453,31 +1453,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '85077198-a4f7-4db8-ade8-5dddc2f810a8',
+  '71c8c6cc-5c6a-4234-b9c8-62729d1c0b4c',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4720',
+  '5555',
   'x-ms-correlation-request-id',
-  'af061dc7-1e20-432f-87ed-aec79e840804',
+  'c18badb6-5e0e-49d5-956e-e5043f22d53a',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065048Z:af061dc7-1e20-432f-87ed-aec79e840804',
+  'SOUTHEASTASIA:20210924T090438Z:c18badb6-5e0e-49d5-956e-e5043f22d53a',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:47 GMT',
+  'Fri, 24 Sep 2021 09:04:37 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -1487,31 +1487,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'f1ca661d-7791-43be-a206-7bb49bbd85c2',
+  '28e2de74-193f-4f63-82fc-55b4f1138f21',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4719',
+  '5554',
   'x-ms-correlation-request-id',
-  'dbbd560f-c2b5-4589-8a68-f241c5b9fe66',
+  '777984e1-3a9c-4772-b1db-6aee4f1aa699',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065048Z:dbbd560f-c2b5-4589-8a68-f241c5b9fe66',
+  'SOUTHEASTASIA:20210924T090439Z:777984e1-3a9c-4772-b1db-6aee4f1aa699',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:47 GMT',
+  'Fri, 24 Sep 2021 09:04:38 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -1521,31 +1521,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'f7cfc9bb-0620-4b5b-bfef-66b7aa4ad6a6',
+  'b05b147d-5a07-4122-9d6b-4b7d265996da',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4718',
+  '5553',
   'x-ms-correlation-request-id',
-  '9c8816e8-ef87-4120-a900-4a46766df98a',
+  '9c2dea24-7710-4932-ade7-7ae46ab134c2',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065049Z:9c8816e8-ef87-4120-a900-4a46766df98a',
+  'SOUTHEASTASIA:20210924T090439Z:9c2dea24-7710-4932-ade7-7ae46ab134c2',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:48 GMT',
+  'Fri, 24 Sep 2021 09:04:38 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -1555,31 +1555,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'a34c117a-5a9d-477a-a8ec-bf4af88b4071',
+  '6b6ff1ca-445d-4388-aa48-7f11c5609f86',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4717',
+  '5552',
   'x-ms-correlation-request-id',
-  '4b067b8f-48af-4083-9aef-78444f018c47',
+  'b81910df-ffd8-472c-820e-3385bb4367c4',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065049Z:4b067b8f-48af-4083-9aef-78444f018c47',
+  'SOUTHEASTASIA:20210924T090440Z:b81910df-ffd8-472c-820e-3385bb4367c4',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:48 GMT',
+  'Fri, 24 Sep 2021 09:04:39 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -1589,31 +1589,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '8ead1f81-abde-4e16-8efa-b9281126ecea',
+  'd23942a8-ec5a-4fc9-8fa3-d3ad746bc4a0',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4716',
+  '5551',
   'x-ms-correlation-request-id',
-  '545d28f9-6ede-4b66-b664-f61303a57a72',
+  '7d6d8062-a7b8-4620-91f5-f3d98ecd1e56',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065049Z:545d28f9-6ede-4b66-b664-f61303a57a72',
+  'SOUTHEASTASIA:20210924T090440Z:7d6d8062-a7b8-4620-91f5-f3d98ecd1e56',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:48 GMT',
+  'Fri, 24 Sep 2021 09:04:39 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -1623,31 +1623,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '10d635c5-2d31-419c-a848-c064c76df356',
+  'dab1d979-e6bb-4dff-9710-92abd0e41b97',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4715',
+  '5550',
   'x-ms-correlation-request-id',
-  '727e2190-114d-41c2-a490-4f53947a4cd4',
+  '841553f3-32a9-47bf-adda-bf61a2ac4dfa',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065050Z:727e2190-114d-41c2-a490-4f53947a4cd4',
+  'SOUTHEASTASIA:20210924T090440Z:841553f3-32a9-47bf-adda-bf61a2ac4dfa',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:49 GMT',
+  'Fri, 24 Sep 2021 09:04:39 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -1657,31 +1657,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'baecf498-1b44-483a-b10f-4ab1b2678a3f',
+  'f36ceb7e-8abd-466a-9cc0-f2e5b762ba16',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4714',
+  '5549',
   'x-ms-correlation-request-id',
-  'bf737342-53b3-4db4-a134-9ea5519d870b',
+  '91af010d-5d8d-4238-8f86-d4e57f6dc6a1',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065050Z:bf737342-53b3-4db4-a134-9ea5519d870b',
+  'SOUTHEASTASIA:20210924T090441Z:91af010d-5d8d-4238-8f86-d4e57f6dc6a1',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:49 GMT',
+  'Fri, 24 Sep 2021 09:04:40 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -1691,31 +1691,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '6d0e1026-d7d1-484b-8788-c13d32114e7c',
+  '837cdbb8-c2e5-455f-80c1-ab7b78bdd8dc',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4713',
+  '5548',
   'x-ms-correlation-request-id',
-  '4c0767ba-2758-4255-ae73-6c390bd7f370',
+  '62ff9b1c-bd2e-490d-b042-d3996d1159a8',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065051Z:4c0767ba-2758-4255-ae73-6c390bd7f370',
+  'SOUTHEASTASIA:20210924T090441Z:62ff9b1c-bd2e-490d-b042-d3996d1159a8',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:50 GMT',
+  'Fri, 24 Sep 2021 09:04:40 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -1725,31 +1725,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '43e9e073-d335-4ba8-ae08-a51318687997',
+  '57319bb8-e418-46f3-a44f-851b269f5800',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4712',
+  '5547',
   'x-ms-correlation-request-id',
-  'b91e77a0-941f-4773-9911-1592fd607319',
+  'f97e5d71-b225-4ec0-b30b-dd6cc9952578',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065051Z:b91e77a0-941f-4773-9911-1592fd607319',
+  'SOUTHEASTASIA:20210924T090441Z:f97e5d71-b225-4ec0-b30b-dd6cc9952578',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:50 GMT',
+  'Fri, 24 Sep 2021 09:04:41 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -1759,31 +1759,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '29b9f5eb-2d6b-48b3-80f5-7e70634b9072',
+  'b40dbe11-799f-430d-b242-0ca6bd27978a',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4711',
+  '5546',
   'x-ms-correlation-request-id',
-  'f1ec8e41-06ec-4529-8bef-b2c907de29f6',
+  '08ddc833-e933-4c2e-9406-a3d19a55ca1f',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065051Z:f1ec8e41-06ec-4529-8bef-b2c907de29f6',
+  'SOUTHEASTASIA:20210924T090442Z:08ddc833-e933-4c2e-9406-a3d19a55ca1f',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:50 GMT',
+  'Fri, 24 Sep 2021 09:04:41 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -1793,31 +1793,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '66da2d30-0d19-4f7a-a57b-1049ec20f412',
+  'ce360ef3-955a-4950-aa61-dca742dea3bd',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4710',
+  '5545',
   'x-ms-correlation-request-id',
-  'ed737f05-f5aa-47a2-9ef7-ece9e27f441b',
+  '739daa5a-f1ad-433c-b798-35dbf1f933a8',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065052Z:ed737f05-f5aa-47a2-9ef7-ece9e27f441b',
+  'SOUTHEASTASIA:20210924T090442Z:739daa5a-f1ad-433c-b798-35dbf1f933a8',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:51 GMT',
+  'Fri, 24 Sep 2021 09:04:41 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -1827,31 +1827,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '4117f51e-700b-4b22-828e-3514c8d1e6e2',
+  'd981a62f-de26-443e-9fa1-b1adf9d857a2',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4709',
+  '5544',
   'x-ms-correlation-request-id',
-  'bdf8c1a4-1865-4414-8987-8259d885144e',
+  '47160023-9e25-4a7c-9968-1ebda02d80e4',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065052Z:bdf8c1a4-1865-4414-8987-8259d885144e',
+  'SOUTHEASTASIA:20210924T090443Z:47160023-9e25-4a7c-9968-1ebda02d80e4',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:51 GMT',
+  'Fri, 24 Sep 2021 09:04:42 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -1861,31 +1861,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '44cc79db-5d79-4dfe-93d2-460e85d2c50f',
+  '55128443-f72b-4065-af0e-dace884f4878',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4708',
+  '5543',
   'x-ms-correlation-request-id',
-  '1986fa4b-4ead-4b09-9063-faff606a3dd7',
+  'cf50517f-7a2b-4b6c-9096-c725336fb832',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065052Z:1986fa4b-4ead-4b09-9063-faff606a3dd7',
+  'SOUTHEASTASIA:20210924T090443Z:cf50517f-7a2b-4b6c-9096-c725336fb832',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:51 GMT',
+  'Fri, 24 Sep 2021 09:04:42 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -1895,31 +1895,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '732d6b5b-1c06-4339-bdee-1453fdbe0a12',
+  'd28e0646-1e50-4450-af21-ac2e83f190ae',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4707',
+  '5542',
   'x-ms-correlation-request-id',
-  '181d6aac-8ad1-4474-bf34-3dbf96814778',
+  '0d7fb3d8-13d4-4187-92fb-f739da3d2f6e',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065053Z:181d6aac-8ad1-4474-bf34-3dbf96814778',
+  'SOUTHEASTASIA:20210924T090443Z:0d7fb3d8-13d4-4187-92fb-f739da3d2f6e',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:52 GMT',
+  'Fri, 24 Sep 2021 09:04:42 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -1929,31 +1929,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '5c8f11ac-627e-4534-937a-4fad407b93d7',
+  '050754d6-8d73-4909-8402-7e7194577ab9',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4706',
+  '5541',
   'x-ms-correlation-request-id',
-  '1319cc09-ce5e-4fcc-96c3-c65a792ec1d4',
+  'ce806748-a83c-4112-8e96-fb54824af397',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065053Z:1319cc09-ce5e-4fcc-96c3-c65a792ec1d4',
+  'SOUTHEASTASIA:20210924T090444Z:ce806748-a83c-4112-8e96-fb54824af397',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:52 GMT',
+  'Fri, 24 Sep 2021 09:04:43 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -1963,31 +1963,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '4b517f73-a968-4145-83fc-f1f9a8f68df1',
+  'bca86911-1a6b-4dca-96fc-fc39fa80deda',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4705',
+  '5540',
   'x-ms-correlation-request-id',
-  '99719320-a368-4079-b082-a0f43d8829e2',
+  '92ec94e9-6e64-4ae4-a655-14bb48dcd827',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065054Z:99719320-a368-4079-b082-a0f43d8829e2',
+  'SOUTHEASTASIA:20210924T090444Z:92ec94e9-6e64-4ae4-a655-14bb48dcd827',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:53 GMT',
+  'Fri, 24 Sep 2021 09:04:43 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -1997,31 +1997,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'd98b49b5-2702-49cf-8840-b1e94a505989',
+  'd7a36dfc-4f8c-4ed9-8798-8d70913526fa',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4704',
+  '5539',
   'x-ms-correlation-request-id',
-  'c476db25-3d92-4937-83cb-72903c22cc78',
+  '8de97362-6dc8-4e6b-8882-55079158e9af',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065054Z:c476db25-3d92-4937-83cb-72903c22cc78',
+  'SOUTHEASTASIA:20210924T090445Z:8de97362-6dc8-4e6b-8882-55079158e9af',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:53 GMT',
+  'Fri, 24 Sep 2021 09:04:45 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -2031,31 +2031,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '23cb08a1-c818-444a-bd6b-197b63201b65',
+  '3bdd8e81-15db-4d26-a0b2-3f9cfa3c5ef7',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4703',
+  '5538',
   'x-ms-correlation-request-id',
-  '1fc66f8d-13cb-4659-86cc-582071718b0c',
+  '516ec2cd-05f6-4b0a-a600-dea1d3a18f14',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065054Z:1fc66f8d-13cb-4659-86cc-582071718b0c',
+  'SOUTHEASTASIA:20210924T090445Z:516ec2cd-05f6-4b0a-a600-dea1d3a18f14',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:53 GMT',
+  'Fri, 24 Sep 2021 09:04:45 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -2065,31 +2065,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '0b67e1c0-c960-44ca-9179-d9608321a39c',
+  'b501bc54-aabb-4e76-8d60-e5c854d0aa75',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4702',
+  '5537',
   'x-ms-correlation-request-id',
-  'be50ff4f-4722-46ec-b8aa-1e29d978f6ff',
+  'd516f794-fcc4-44a5-ac46-651200d3d430',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065055Z:be50ff4f-4722-46ec-b8aa-1e29d978f6ff',
+  'SOUTHEASTASIA:20210924T090445Z:d516f794-fcc4-44a5-ac46-651200d3d430',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:54 GMT',
+  'Fri, 24 Sep 2021 09:04:45 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -2099,31 +2099,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '183e468c-54bc-4874-929f-3e1e31d418b3',
+  '7682f2f5-b0dc-4fb2-870b-343806a6e5c8',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4701',
+  '5536',
   'x-ms-correlation-request-id',
-  '93991a46-8664-44d3-82a0-3723bb566e24',
+  '5c387bb6-afca-4c67-aa8f-614ce6787bc1',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065055Z:93991a46-8664-44d3-82a0-3723bb566e24',
+  'SOUTHEASTASIA:20210924T090446Z:5c387bb6-afca-4c67-aa8f-614ce6787bc1',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:54 GMT',
+  'Fri, 24 Sep 2021 09:04:46 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -2133,31 +2133,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'a2429a47-ea4f-4f59-9107-a5c11452a839',
+  'b35c9afb-08dc-41cf-a8fc-e0956cc1eb6e',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4700',
+  '5535',
   'x-ms-correlation-request-id',
-  '8abb047b-06bb-4e4c-b276-d84fe2511b2a',
+  '215b903a-cc73-4113-a1c0-874e98b11cc1',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065055Z:8abb047b-06bb-4e4c-b276-d84fe2511b2a',
+  'SOUTHEASTASIA:20210924T090446Z:215b903a-cc73-4113-a1c0-874e98b11cc1',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:55 GMT',
+  'Fri, 24 Sep 2021 09:04:46 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -2167,31 +2167,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '0424cc42-94e2-47c0-bf57-10bd7a8d8ad7',
+  '7dd8f5ba-2e18-4105-9dcc-a8661598fd81',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4699',
+  '5534',
   'x-ms-correlation-request-id',
-  '59c90bb9-017f-4f38-b6e7-e2677aa7eca3',
+  '83ea0bf6-c16a-4f37-9c73-91c96bde81d2',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065056Z:59c90bb9-017f-4f38-b6e7-e2677aa7eca3',
+  'SOUTHEASTASIA:20210924T090447Z:83ea0bf6-c16a-4f37-9c73-91c96bde81d2',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:55 GMT',
+  'Fri, 24 Sep 2021 09:04:47 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -2201,31 +2201,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'caec0263-322d-4df1-bc6d-4e954e88dde8',
+  '762b52f7-3252-4be4-84b5-efd60425f316',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4698',
+  '5533',
   'x-ms-correlation-request-id',
-  'b8370a59-6139-4eec-81ae-153d35fa22ed',
+  '87d6363f-582e-438f-9578-653a3fe29f3d',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065056Z:b8370a59-6139-4eec-81ae-153d35fa22ed',
+  'SOUTHEASTASIA:20210924T090447Z:87d6363f-582e-438f-9578-653a3fe29f3d',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:55 GMT',
+  'Fri, 24 Sep 2021 09:04:47 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -2235,31 +2235,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '54f04759-af1c-439f-a72c-40f4456b140f',
+  'a26da3e3-a724-4cde-944a-48f7203a6b49',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4697',
+  '5532',
   'x-ms-correlation-request-id',
-  '5702993a-89c8-4818-8e96-aaed5b44dd93',
+  '66665f6e-cadf-4f08-b8ca-033264f9e566',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065057Z:5702993a-89c8-4818-8e96-aaed5b44dd93',
+  'SOUTHEASTASIA:20210924T090447Z:66665f6e-cadf-4f08-b8ca-033264f9e566',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:56 GMT',
+  'Fri, 24 Sep 2021 09:04:47 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -2269,31 +2269,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'e1163fa9-0222-46d5-b31b-094aa4520a5b',
+  '40611f58-c1da-461e-b1a0-e02993f2144d',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4696',
+  '5531',
   'x-ms-correlation-request-id',
-  '20f36339-e25e-4ac9-8aea-1303f41099e3',
+  'a0550d48-4de2-4fdc-9726-90da62cee7f6',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065057Z:20f36339-e25e-4ac9-8aea-1303f41099e3',
+  'SOUTHEASTASIA:20210924T090448Z:a0550d48-4de2-4fdc-9726-90da62cee7f6',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:56 GMT',
+  'Fri, 24 Sep 2021 09:04:48 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -2303,31 +2303,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '63a97c91-9f5b-446b-8074-de3387bffc84',
+  'a7c5b104-d027-4391-a0eb-9d5bec8e2bed',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4695',
+  '5530',
   'x-ms-correlation-request-id',
-  '3019216d-2e7a-4918-8784-b1a0ad7bedd4',
+  '4ee91cc7-7bdd-4df4-9593-5349aa178c25',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065057Z:3019216d-2e7a-4918-8784-b1a0ad7bedd4',
+  'SOUTHEASTASIA:20210924T090448Z:4ee91cc7-7bdd-4df4-9593-5349aa178c25',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:56 GMT',
+  'Fri, 24 Sep 2021 09:04:48 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -2337,31 +2337,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '81ca50b1-9727-4a06-ab0c-d7b645913c48',
+  'b353b92f-4da5-49cc-a679-6bd563c5b4a0',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4694',
+  '5529',
   'x-ms-correlation-request-id',
-  '23f18f41-d1ab-4471-bcd9-a82f67523b72',
+  'c27ce13d-d16c-423e-920e-c3e283d902ce',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065058Z:23f18f41-d1ab-4471-bcd9-a82f67523b72',
+  'SOUTHEASTASIA:20210924T090449Z:c27ce13d-d16c-423e-920e-c3e283d902ce',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:58 GMT',
+  'Fri, 24 Sep 2021 09:04:49 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -2371,31 +2371,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '6b637e49-fdee-489b-98d8-8b138dd5eb24',
+  'db8b60e8-4532-4978-bff4-ec288d1362c1',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4693',
+  '5528',
   'x-ms-correlation-request-id',
-  '5ec80142-a80e-4999-815b-d4d75ddd0179',
+  '9fc61d48-2143-430d-b713-632c6c127a57',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065058Z:5ec80142-a80e-4999-815b-d4d75ddd0179',
+  'SOUTHEASTASIA:20210924T090449Z:9fc61d48-2143-430d-b713-632c6c127a57',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:58 GMT',
+  'Fri, 24 Sep 2021 09:04:49 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -2405,31 +2405,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '70d4351b-ac17-4cf6-b3bb-68e48f750436',
+  '6dee754b-9ac6-4643-9053-7a073063f0cd',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4692',
+  '5527',
   'x-ms-correlation-request-id',
-  '07a35dee-9dcc-4191-9f93-02f879c0e2b2',
+  '0fbcf4c4-05e3-4379-9757-20804b1687ce',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065059Z:07a35dee-9dcc-4191-9f93-02f879c0e2b2',
+  'SOUTHEASTASIA:20210924T090449Z:0fbcf4c4-05e3-4379-9757-20804b1687ce',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:59 GMT',
+  'Fri, 24 Sep 2021 09:04:49 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -2439,31 +2439,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '3373a35f-d3e9-4ec8-aea5-744411ead893',
+  '119d2b08-fe02-49b9-81e7-0c59dfe6aabb',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4691',
+  '5526',
   'x-ms-correlation-request-id',
-  '21b149f6-738b-4a6a-900d-ca8d1c9165d0',
+  'adfc5eda-5028-4da0-bd52-8a6d65a30051',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065059Z:21b149f6-738b-4a6a-900d-ca8d1c9165d0',
+  'SOUTHEASTASIA:20210924T090450Z:adfc5eda-5028-4da0-bd52-8a6d65a30051',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:59 GMT',
+  'Fri, 24 Sep 2021 09:04:50 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -2473,31 +2473,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '14cb34f5-2906-4569-93cf-d0a52f82ad60',
+  'df3dc573-2af7-47ff-825d-9206f510d248',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4690',
+  '5525',
   'x-ms-correlation-request-id',
-  'cc4360fc-ee80-4d06-a2b5-65883b368451',
+  '06e9b715-c1ab-46c2-8ad7-59d369a0676d',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065059Z:cc4360fc-ee80-4d06-a2b5-65883b368451',
+  'SOUTHEASTASIA:20210924T090450Z:06e9b715-c1ab-46c2-8ad7-59d369a0676d',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:50:59 GMT',
+  'Fri, 24 Sep 2021 09:04:50 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -2507,31 +2507,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '019fecc4-5883-4602-93e2-d63e1d0b7d7a',
+  'e61bdd86-cd53-4c5c-a99f-2ae35985f38c',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4689',
+  '5524',
   'x-ms-correlation-request-id',
-  '61362619-749d-4f7e-a0a4-84223b0a6764',
+  '6e2be27b-52cb-452a-9682-103f61e7670d',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065100Z:61362619-749d-4f7e-a0a4-84223b0a6764',
+  'SOUTHEASTASIA:20210924T090450Z:6e2be27b-52cb-452a-9682-103f61e7670d',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:00 GMT',
+  'Fri, 24 Sep 2021 09:04:50 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -2541,31 +2541,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '2ca519a5-28ed-45ca-9b59-9cfc52ec6660',
+  '43ac2141-67e6-4f29-a284-9b44be3631e6',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4688',
+  '5523',
   'x-ms-correlation-request-id',
-  '653094ce-8be6-4518-a8fd-3a57ddcc70f1',
+  '7febc762-0cc9-492c-b2c7-1bcc9804960d',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065100Z:653094ce-8be6-4518-a8fd-3a57ddcc70f1',
+  'SOUTHEASTASIA:20210924T090451Z:7febc762-0cc9-492c-b2c7-1bcc9804960d',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:00 GMT',
+  'Fri, 24 Sep 2021 09:04:51 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -2575,31 +2575,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '1cfb2b8e-6dde-42a7-b1ee-3170494ed871',
+  'c2e1918a-973e-4bf6-aeb0-a7d9a48cf45a',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4687',
+  '5522',
   'x-ms-correlation-request-id',
-  '25890dcc-b902-4319-8690-4ef29897a12c',
+  '19fd7ffe-d7fa-4616-8282-7b0ae00ab744',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065101Z:25890dcc-b902-4319-8690-4ef29897a12c',
+  'SOUTHEASTASIA:20210924T090451Z:19fd7ffe-d7fa-4616-8282-7b0ae00ab744',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:01 GMT',
+  'Fri, 24 Sep 2021 09:04:51 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -2609,31 +2609,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '9c1338a9-7926-473c-b543-4b83ef224803',
+  '1c31478f-00b0-481e-b769-ed6d56369d4f',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4686',
+  '5521',
   'x-ms-correlation-request-id',
-  '3d9205a2-a9d7-4108-8ecb-84abdb8bf3a8',
+  '750add89-4ec7-4356-8ca3-3396253f5daf',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065101Z:3d9205a2-a9d7-4108-8ecb-84abdb8bf3a8',
+  'SOUTHEASTASIA:20210924T090452Z:750add89-4ec7-4356-8ca3-3396253f5daf',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:01 GMT',
+  'Fri, 24 Sep 2021 09:04:52 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -2643,31 +2643,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '93b4fc6c-99b4-40fa-a2aa-de92d4df0615',
+  '811880c1-8244-4835-94c5-4db4d492941e',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4685',
+  '5520',
   'x-ms-correlation-request-id',
-  'f4daf5b7-9791-4d98-bb74-b3232a07ad47',
+  '484f1910-470f-4679-bcaf-be389c099b0d',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065101Z:f4daf5b7-9791-4d98-bb74-b3232a07ad47',
+  'SOUTHEASTASIA:20210924T090452Z:484f1910-470f-4679-bcaf-be389c099b0d',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:01 GMT',
+  'Fri, 24 Sep 2021 09:04:52 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -2677,31 +2677,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '9817d7a2-a27e-4ba4-9437-b5b748ba0b97',
+  'a764e969-3c81-4995-b427-726aba3c21b3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4684',
+  '5519',
   'x-ms-correlation-request-id',
-  '91741016-96f4-47a7-8525-fbe1cecf0ad6',
+  '6ae35ae1-85f6-4a07-8579-95b526f8b061',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065102Z:91741016-96f4-47a7-8525-fbe1cecf0ad6',
+  'SOUTHEASTASIA:20210924T090452Z:6ae35ae1-85f6-4a07-8579-95b526f8b061',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:02 GMT',
+  'Fri, 24 Sep 2021 09:04:52 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -2711,31 +2711,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'a3188aac-f13d-4bd0-931c-18b186350e2d',
+  '7abf7172-0580-43d7-bf85-5373707ba656',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4683',
+  '5518',
   'x-ms-correlation-request-id',
-  'ae97743a-609a-4446-b0c0-fbf1069de660',
+  '85bcf598-ac0b-4676-adbe-17045e48ece7',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065102Z:ae97743a-609a-4446-b0c0-fbf1069de660',
+  'SOUTHEASTASIA:20210924T090453Z:85bcf598-ac0b-4676-adbe-17045e48ece7',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:02 GMT',
+  'Fri, 24 Sep 2021 09:04:53 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -2745,31 +2745,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '23f897b5-b4e7-4ff1-8963-016b7a1829c7',
+  'cc69fbc0-b0f5-4987-8d88-d8a493a6f2a1',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4682',
+  '5517',
   'x-ms-correlation-request-id',
-  '7425ba33-5e24-4fa6-87a7-69c8c6833dea',
+  '2841126f-d1e2-445f-a573-87c243b107b0',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065102Z:7425ba33-5e24-4fa6-87a7-69c8c6833dea',
+  'SOUTHEASTASIA:20210924T090453Z:2841126f-d1e2-445f-a573-87c243b107b0',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:02 GMT',
+  'Fri, 24 Sep 2021 09:04:53 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -2779,31 +2779,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '5ad78ab1-d236-4c14-9bcf-5a15e8f04baf',
+  'fb4a2028-2e9e-479f-8072-8d92bd451133',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4681',
+  '5516',
   'x-ms-correlation-request-id',
-  'abb8d043-9f09-4bb5-bca3-34b014583f13',
+  '237bdd43-0391-4045-a552-ef484e1c212c',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065103Z:abb8d043-9f09-4bb5-bca3-34b014583f13',
+  'SOUTHEASTASIA:20210924T090454Z:237bdd43-0391-4045-a552-ef484e1c212c',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:03 GMT',
+  'Fri, 24 Sep 2021 09:04:54 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -2813,31 +2813,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'd271028b-94a3-487d-ad7b-62e33fe5bff2',
+  'c1719a4c-ce71-4bd4-abce-afef48012160',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4680',
+  '5515',
   'x-ms-correlation-request-id',
-  '08b85458-5f5c-4811-855b-da6fa8da6f75',
+  '4d7254e0-ce24-4d0b-a5d0-079bf00f937a',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065103Z:08b85458-5f5c-4811-855b-da6fa8da6f75',
+  'SOUTHEASTASIA:20210924T090454Z:4d7254e0-ce24-4d0b-a5d0-079bf00f937a',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:03 GMT',
+  'Fri, 24 Sep 2021 09:04:54 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -2847,31 +2847,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '779cf33a-7ad8-411d-b229-828a2f686960',
+  '4cd9512b-11ae-40c3-abdb-5bcc40d43433',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4679',
+  '5514',
   'x-ms-correlation-request-id',
-  '5b6baada-c0f6-4972-a2da-11cf05516146',
+  '5d43ea3c-74ef-42ca-9428-a3fc143726e0',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065104Z:5b6baada-c0f6-4972-a2da-11cf05516146',
+  'SOUTHEASTASIA:20210924T090454Z:5d43ea3c-74ef-42ca-9428-a3fc143726e0',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:04 GMT',
+  'Fri, 24 Sep 2021 09:04:54 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -2881,31 +2881,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '8bc4c46c-7d02-4188-83ee-dd35598374df',
+  '1875dea6-aba0-4abb-94ee-8ff83ff7624e',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4678',
+  '5513',
   'x-ms-correlation-request-id',
-  '8587f092-b16b-4159-b1dc-00fec3ad0a8d',
+  'd37db3d1-4061-499f-b8ee-7ddc35822669',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065104Z:8587f092-b16b-4159-b1dc-00fec3ad0a8d',
+  'SOUTHEASTASIA:20210924T090455Z:d37db3d1-4061-499f-b8ee-7ddc35822669',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:04 GMT',
+  'Fri, 24 Sep 2021 09:04:55 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -2915,31 +2915,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '650eb30a-13a0-41ea-9d68-bbb91dd61d1e',
+  '69f019ae-87b0-4f4f-ba8e-626a55c7cf5e',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4677',
+  '5512',
   'x-ms-correlation-request-id',
-  'bd3db51b-28fe-4632-8aab-844798fa40a8',
+  '73ee7f28-d4a9-49ff-ad4d-38ea1a0c6e36',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065104Z:bd3db51b-28fe-4632-8aab-844798fa40a8',
+  'SOUTHEASTASIA:20210924T090455Z:73ee7f28-d4a9-49ff-ad4d-38ea1a0c6e36',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:04 GMT',
+  'Fri, 24 Sep 2021 09:04:55 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -2949,31 +2949,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '9b8f3555-64b1-4957-889b-f1760b98a41c',
+  '0d3a6910-9d1f-4cf3-bfe0-7eadf19eeb4a',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4676',
+  '5511',
   'x-ms-correlation-request-id',
-  'fb62dc66-bd73-4e7a-94a9-9cdcfb1a09ee',
+  '59bd2b8d-2382-41c3-9f9f-34d31b4b2469',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065105Z:fb62dc66-bd73-4e7a-94a9-9cdcfb1a09ee',
+  'SOUTHEASTASIA:20210924T090456Z:59bd2b8d-2382-41c3-9f9f-34d31b4b2469',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:05 GMT',
+  'Fri, 24 Sep 2021 09:04:55 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -2983,31 +2983,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '609a5418-f208-4fe4-9cc1-8169337262de',
+  '5f876971-fd63-40f6-bcf3-ed2da6ee7972',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4675',
+  '5510',
   'x-ms-correlation-request-id',
-  '67d0bfaa-9187-4203-9d9a-271789b3b39d',
+  'dffd8e35-f1a0-467e-901c-3a119d0060f5',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065105Z:67d0bfaa-9187-4203-9d9a-271789b3b39d',
+  'SOUTHEASTASIA:20210924T090456Z:dffd8e35-f1a0-467e-901c-3a119d0060f5',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:05 GMT',
+  'Fri, 24 Sep 2021 09:04:56 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -3017,31 +3017,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '22990dea-8dc6-4568-bb56-97a35006e4af',
+  'c6023f8f-5ec3-4c8b-b6a6-4fdcde7ff5af',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4674',
+  '5509',
   'x-ms-correlation-request-id',
-  '249f70d0-18c1-4e82-b18d-5d448c4e6447',
+  'd8b70cd2-82ae-42b5-aed4-bd6800930881',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065106Z:249f70d0-18c1-4e82-b18d-5d448c4e6447',
+  'SOUTHEASTASIA:20210924T090456Z:d8b70cd2-82ae-42b5-aed4-bd6800930881',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:06 GMT',
+  'Fri, 24 Sep 2021 09:04:56 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -3051,31 +3051,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '808a8281-1553-4018-85b9-f26d046169c8',
+  'a69f40a9-ceef-4def-867b-7912bf939088',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4673',
+  '5508',
   'x-ms-correlation-request-id',
-  '1ef7246a-6f66-4253-8da6-9d980593ea3f',
+  'f1295861-9955-4939-8dad-a2ab6950d21f',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065106Z:1ef7246a-6f66-4253-8da6-9d980593ea3f',
+  'SOUTHEASTASIA:20210924T090457Z:f1295861-9955-4939-8dad-a2ab6950d21f',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:06 GMT',
+  'Fri, 24 Sep 2021 09:04:57 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -3085,31 +3085,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'de77fc57-b3a1-46fe-aa92-633f8a2eb75d',
+  'b9a02311-572f-4c79-94ed-02061e38e33e',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4672',
+  '5507',
   'x-ms-correlation-request-id',
-  'ea293003-06de-40f8-b518-8ac0c696ffb8',
+  'b8e68b61-c8f6-4ded-9b4c-a7020f20c33a',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065106Z:ea293003-06de-40f8-b518-8ac0c696ffb8',
+  'SOUTHEASTASIA:20210924T090457Z:b8e68b61-c8f6-4ded-9b4c-a7020f20c33a',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:06 GMT',
+  'Fri, 24 Sep 2021 09:04:57 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -3119,31 +3119,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '40d163e1-0979-4420-8013-4d043833d81f',
+  '813c2b9a-4ac9-4678-9525-1d0c30853461',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4671',
+  '5506',
   'x-ms-correlation-request-id',
-  'f79206d8-86dd-4b84-a86b-4de4566c5a28',
+  '71fe9c64-03e3-45f6-9254-36aa2ea2b4e3',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065107Z:f79206d8-86dd-4b84-a86b-4de4566c5a28',
+  'SOUTHEASTASIA:20210924T090457Z:71fe9c64-03e3-45f6-9254-36aa2ea2b4e3',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:07 GMT',
+  'Fri, 24 Sep 2021 09:04:57 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -3153,31 +3153,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'e4ecfba4-4286-4268-9a05-ad2cd4ede720',
+  '9a02299a-0c53-4bdb-bab9-4053792b1ba5',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4670',
+  '5505',
   'x-ms-correlation-request-id',
-  '48425f31-28e0-44d0-8c61-e4d4aacdb41b',
+  'c96635f4-c7aa-4146-b805-f74d01948638',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065107Z:48425f31-28e0-44d0-8c61-e4d4aacdb41b',
+  'SOUTHEASTASIA:20210924T090458Z:c96635f4-c7aa-4146-b805-f74d01948638',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:07 GMT',
+  'Fri, 24 Sep 2021 09:04:58 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -3187,31 +3187,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '977516ec-89ec-47aa-aedb-348267f80958',
+  'd82e55f8-5ed4-416e-a442-d64509328777',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4669',
+  '5504',
   'x-ms-correlation-request-id',
-  '194c1a12-fd3a-4199-ad43-7473477027ca',
+  '1f377166-7b2d-4b15-953f-ca668e6fe262',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065108Z:194c1a12-fd3a-4199-ad43-7473477027ca',
+  'SOUTHEASTASIA:20210924T090458Z:1f377166-7b2d-4b15-953f-ca668e6fe262',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:07 GMT',
+  'Fri, 24 Sep 2021 09:04:58 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -3221,31 +3221,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '38da307d-8c9c-4996-8cf0-bf2d47ce78eb',
+  '57496127-bb7b-42be-950e-45867576f1b2',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4668',
+  '5503',
   'x-ms-correlation-request-id',
-  '4c157c26-40b6-4334-9b74-b91c4410f1ff',
+  'f82f09e1-4ab2-4ac5-9196-23b7f2b121d7',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065108Z:4c157c26-40b6-4334-9b74-b91c4410f1ff',
+  'SOUTHEASTASIA:20210924T090459Z:f82f09e1-4ab2-4ac5-9196-23b7f2b121d7',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:08 GMT',
+  'Fri, 24 Sep 2021 09:04:59 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -3255,31 +3255,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '27f29b34-ca72-4705-8c27-c704b1f191b6',
+  '769f5be1-f681-403b-9d53-563d0286c3f5',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4667',
+  '5502',
   'x-ms-correlation-request-id',
-  '25acad87-ab30-4380-8cf7-506631fcd134',
+  '7794bf15-9e68-4d49-907d-e02730f88e95',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065108Z:25acad87-ab30-4380-8cf7-506631fcd134',
+  'SOUTHEASTASIA:20210924T090459Z:7794bf15-9e68-4d49-907d-e02730f88e95',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:08 GMT',
+  'Fri, 24 Sep 2021 09:04:59 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -3289,31 +3289,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '56d1106c-b2c2-43a2-9756-3d11a01f7596',
+  '4e1a81c9-b675-40f3-a455-04c833df6dd3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4666',
+  '5501',
   'x-ms-correlation-request-id',
-  '979e3387-bd79-43a0-bfe5-8c3d207521b4',
+  '799eec98-3ce9-4b6c-a52e-f7b23574546c',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065109Z:979e3387-bd79-43a0-bfe5-8c3d207521b4',
+  'SOUTHEASTASIA:20210924T090459Z:799eec98-3ce9-4b6c-a52e-f7b23574546c',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:09 GMT',
+  'Fri, 24 Sep 2021 09:04:59 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -3323,31 +3323,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '09711a61-8671-4bbe-94bd-ba7f5849f918',
+  '64b94c05-c6c4-4986-9f0c-79addb6c7efa',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4665',
+  '5500',
   'x-ms-correlation-request-id',
-  '9a1cae47-fda6-42bc-814b-9956ba3e46b4',
+  '73d32ad5-94b9-4ea0-83e7-e402f5d08ed0',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065109Z:9a1cae47-fda6-42bc-814b-9956ba3e46b4',
+  'SOUTHEASTASIA:20210924T090500Z:73d32ad5-94b9-4ea0-83e7-e402f5d08ed0',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:09 GMT',
+  'Fri, 24 Sep 2021 09:05:00 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -3357,31 +3357,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'e418e540-1641-4e4c-b561-9c1d04e81995',
+  '2fddc10f-7d8a-41d3-b5ad-0b53b4febb14',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4664',
+  '5499',
   'x-ms-correlation-request-id',
-  'a25bf0a3-dc9a-4fe5-afb3-d98e4a21922e',
+  '4dfac893-a5d5-461b-aec5-dd782599811a',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065109Z:a25bf0a3-dc9a-4fe5-afb3-d98e4a21922e',
+  'SOUTHEASTASIA:20210924T090500Z:4dfac893-a5d5-461b-aec5-dd782599811a',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:09 GMT',
+  'Fri, 24 Sep 2021 09:05:00 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -3391,31 +3391,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'ba0e55cf-df2b-48c8-b1ea-2286e28c6c9e',
+  '3700e100-2b4d-4de9-ab05-01086c7c7130',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4663',
+  '5498',
   'x-ms-correlation-request-id',
-  '6405c3d1-1ef2-4438-b810-756292d98cd5',
+  '568d1fce-7881-4073-8c1b-d1e20bdf7b6d',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065110Z:6405c3d1-1ef2-4438-b810-756292d98cd5',
+  'SOUTHEASTASIA:20210924T090501Z:568d1fce-7881-4073-8c1b-d1e20bdf7b6d',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:10 GMT',
+  'Fri, 24 Sep 2021 09:05:01 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -3425,31 +3425,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'f518e51f-adb8-4bcd-af6a-64895f18e57c',
+  'a1bcfcf6-37fd-4c0d-a3ae-46ee85349154',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4662',
+  '5497',
   'x-ms-correlation-request-id',
-  '381f0e03-fcf3-4730-b81f-58021fd04655',
+  '99cae11c-c73c-40e0-a6a3-756c61c76f98',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065110Z:381f0e03-fcf3-4730-b81f-58021fd04655',
+  'SOUTHEASTASIA:20210924T090501Z:99cae11c-c73c-40e0-a6a3-756c61c76f98',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:10 GMT',
+  'Fri, 24 Sep 2021 09:05:01 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -3459,31 +3459,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '4a3ca9cd-9b56-4931-b830-3b34397f5bcd',
+  '0c9075fb-dd5a-4c0e-861e-9eb359df7ac2',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4661',
+  '5496',
   'x-ms-correlation-request-id',
-  'aff1c852-d765-4893-be49-32a4e31213be',
+  'ca745a74-b720-4d41-9455-5226d7c5c6a2',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065111Z:aff1c852-d765-4893-be49-32a4e31213be',
+  'SOUTHEASTASIA:20210924T090502Z:ca745a74-b720-4d41-9455-5226d7c5c6a2',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:11 GMT',
+  'Fri, 24 Sep 2021 09:05:01 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -3493,31 +3493,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '8cdcdda8-cd27-44fa-a8aa-1d3e25b83a83',
+  'ee74504b-5e40-4aaf-8301-36acdfb2cd6b',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4660',
+  '5495',
   'x-ms-correlation-request-id',
-  '3890b4de-5fe9-4cdc-b305-75d7f20c4547',
+  '7f3e3b4d-d821-42bd-8ca4-c52befe2ad49',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065111Z:3890b4de-5fe9-4cdc-b305-75d7f20c4547',
+  'SOUTHEASTASIA:20210924T090502Z:7f3e3b4d-d821-42bd-8ca4-c52befe2ad49',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:11 GMT',
+  'Fri, 24 Sep 2021 09:05:02 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -3527,31 +3527,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '3272ea89-1a77-4f0b-8098-dd75ae2264ae',
+  '1dd47123-e2ab-44be-acc7-d2e3c6f4447e',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4659',
+  '5494',
   'x-ms-correlation-request-id',
-  '8fe2ebfa-c4f1-4087-b42b-a8a83c6f81ba',
+  '915b029a-561b-435a-84df-a7ddc85f06bb',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065111Z:8fe2ebfa-c4f1-4087-b42b-a8a83c6f81ba',
+  'SOUTHEASTASIA:20210924T090502Z:915b029a-561b-435a-84df-a7ddc85f06bb',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:11 GMT',
+  'Fri, 24 Sep 2021 09:05:02 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -3561,31 +3561,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '27c24c4e-77ef-49a3-be5d-20556e4214b6',
+  'b59fa3d7-238e-44a3-9ec1-7488def24da4',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4658',
+  '5493',
   'x-ms-correlation-request-id',
-  'cfeb90e6-a7b1-457e-a31e-b11047572d93',
+  '81b2784a-d3f0-4eb4-bfb2-04f0e944dcf5',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065112Z:cfeb90e6-a7b1-457e-a31e-b11047572d93',
+  'SOUTHEASTASIA:20210924T090503Z:81b2784a-d3f0-4eb4-bfb2-04f0e944dcf5',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:12 GMT',
+  'Fri, 24 Sep 2021 09:05:03 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -3595,31 +3595,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '3ed12b63-6998-40d0-80e5-6936e25fa4f1',
+  'c4fdbcef-7e12-4f7e-9c42-8b4db17b4179',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4657',
+  '5492',
   'x-ms-correlation-request-id',
-  '5b8c09fb-1845-4217-b4d1-42354fedbb71',
+  '79ac6d29-b661-48c9-a098-d9b549cd682e',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065112Z:5b8c09fb-1845-4217-b4d1-42354fedbb71',
+  'SOUTHEASTASIA:20210924T090503Z:79ac6d29-b661-48c9-a098-d9b549cd682e',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:12 GMT',
+  'Fri, 24 Sep 2021 09:05:03 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -3629,31 +3629,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '3154dc9a-4844-48d3-84c2-bf43e4b52ed7',
+  '9155c5c3-8c2a-4b8b-94aa-3331a443fcff',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4656',
+  '5491',
   'x-ms-correlation-request-id',
-  'bbac3ad0-e238-466c-a9c8-20ba69905616',
+  'e86de595-b930-41d7-9f79-9b0d2ee586fe',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065113Z:bbac3ad0-e238-466c-a9c8-20ba69905616',
+  'SOUTHEASTASIA:20210924T090504Z:e86de595-b930-41d7-9f79-9b0d2ee586fe',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:13 GMT',
+  'Fri, 24 Sep 2021 09:05:03 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -3663,31 +3663,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '7029b81d-e750-41c1-8359-44b449d9780a',
+  '7319940c-47cf-4165-846a-fe770cb419c2',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4655',
+  '5490',
   'x-ms-correlation-request-id',
-  '5520ec16-3373-400b-8b28-d0d32d136cd9',
+  '06f9b1e6-305a-466a-bade-0487e5408a2e',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065113Z:5520ec16-3373-400b-8b28-d0d32d136cd9',
+  'SOUTHEASTASIA:20210924T090504Z:06f9b1e6-305a-466a-bade-0487e5408a2e',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:13 GMT',
+  'Fri, 24 Sep 2021 09:05:04 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -3697,31 +3697,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'f0d2a431-bd7d-4002-a512-a379272cd0fa',
+  '13e2d170-e553-45a2-a764-bed69c7fe2d8',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4654',
+  '5489',
   'x-ms-correlation-request-id',
-  '936172ef-a03b-438a-9b6f-5f3248a28da8',
+  '026c2aad-e54e-4b6a-9683-cbf1a539999e',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065113Z:936172ef-a03b-438a-9b6f-5f3248a28da8',
+  'SOUTHEASTASIA:20210924T090504Z:026c2aad-e54e-4b6a-9683-cbf1a539999e',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:13 GMT',
+  'Fri, 24 Sep 2021 09:05:04 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -3731,31 +3731,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '9e97976e-207e-40d1-8a54-b8f444b328d6',
+  '5f538e78-2419-4151-b77c-962c36b05319',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4653',
+  '5488',
   'x-ms-correlation-request-id',
-  '91de1e26-3aad-41fa-992c-4d08c690e6de',
+  '2493abdb-5202-45c5-8b2a-e39f43a99f2b',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065114Z:91de1e26-3aad-41fa-992c-4d08c690e6de',
+  'SOUTHEASTASIA:20210924T090505Z:2493abdb-5202-45c5-8b2a-e39f43a99f2b',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:14 GMT',
+  'Fri, 24 Sep 2021 09:05:05 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -3765,31 +3765,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'ea828257-707d-46dc-822c-01d1f3dc3078',
+  'a90d9dd8-5ab3-4dd9-805e-214e7a169f31',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4652',
+  '5487',
   'x-ms-correlation-request-id',
-  'aa93a07b-df60-4a58-9d7f-a3dac04189e3',
+  '204bbe60-4fcd-437a-b00f-158f04f36a72',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065114Z:aa93a07b-df60-4a58-9d7f-a3dac04189e3',
+  'SOUTHEASTASIA:20210924T090505Z:204bbe60-4fcd-437a-b00f-158f04f36a72',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:14 GMT',
+  'Fri, 24 Sep 2021 09:05:05 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -3799,31 +3799,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '0b3a2321-60d5-4022-9467-88932cd7a921',
+  '78aacd56-d0b1-4718-95b3-40c373e86c8d',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4651',
+  '5486',
   'x-ms-correlation-request-id',
-  'ec805600-7f87-4770-bf6b-494a8bad1be0',
+  '7791f885-26f9-4a9a-9d9a-1182d68f0b70',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065115Z:ec805600-7f87-4770-bf6b-494a8bad1be0',
+  'SOUTHEASTASIA:20210924T090505Z:7791f885-26f9-4a9a-9d9a-1182d68f0b70',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:15 GMT',
+  'Fri, 24 Sep 2021 09:05:05 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -3833,31 +3833,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '4ae73e4c-da0b-413a-acfa-cdbfce1f2db0',
+  '5a47d5eb-a6a3-4c8d-bce7-e9b7c6f5fd46',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4650',
+  '5485',
   'x-ms-correlation-request-id',
-  '5edaa0e9-ee90-4609-9fcc-5a77244cfce9',
+  'c7b806a4-b914-48bd-8c1f-c3fbd4198785',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065115Z:5edaa0e9-ee90-4609-9fcc-5a77244cfce9',
+  'SOUTHEASTASIA:20210924T090506Z:c7b806a4-b914-48bd-8c1f-c3fbd4198785',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:15 GMT',
+  'Fri, 24 Sep 2021 09:05:06 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -3867,31 +3867,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '26eba992-b7ec-4ebf-9f09-4a16971967c0',
+  'a046ba64-44ba-4d21-a4bc-b67dc137e714',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4649',
+  '5484',
   'x-ms-correlation-request-id',
-  '7e0d904e-7aa6-4e1a-b716-bbe4113eea64',
+  'c3dcba2d-46fc-472c-9752-38eda8704a90',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065116Z:7e0d904e-7aa6-4e1a-b716-bbe4113eea64',
+  'SOUTHEASTASIA:20210924T090506Z:c3dcba2d-46fc-472c-9752-38eda8704a90',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:15 GMT',
+  'Fri, 24 Sep 2021 09:05:06 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -3901,31 +3901,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '9c9dda18-f036-4afa-a22a-3666123dd3c4',
+  '96fbf1fc-c346-478f-a83e-ba5b8dd56b9b',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4648',
+  '5483',
   'x-ms-correlation-request-id',
-  '3a09784b-9065-49a3-a900-dcecf5c383ac',
+  '4d2f1a0c-d075-4ece-9803-c2c3435d5835',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065116Z:3a09784b-9065-49a3-a900-dcecf5c383ac',
+  'SOUTHEASTASIA:20210924T090507Z:4d2f1a0c-d075-4ece-9803-c2c3435d5835',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:16 GMT',
+  'Fri, 24 Sep 2021 09:05:06 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -3935,31 +3935,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '375fa428-026b-43a7-a617-4cf08bb1ba25',
+  '95d14914-58f2-4248-b95e-046ddf1f0ee4',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4647',
+  '5482',
   'x-ms-correlation-request-id',
-  '16964779-0abe-462f-91ed-b1c844931835',
+  'a8c23e64-3190-4daf-94c8-ef067a1afe47',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065116Z:16964779-0abe-462f-91ed-b1c844931835',
+  'SOUTHEASTASIA:20210924T090507Z:a8c23e64-3190-4daf-94c8-ef067a1afe47',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:16 GMT',
+  'Fri, 24 Sep 2021 09:05:07 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -3969,31 +3969,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '192251c9-1678-4b2a-a910-4fadceb7b2bd',
+  '1d43368f-61b9-425d-94d4-19883b9e7c0c',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4646',
+  '5481',
   'x-ms-correlation-request-id',
-  'e6080eec-ff17-466f-a799-a5b66f1b7ac3',
+  'd157a9ca-26e8-4d13-a2ac-2cf7ee86cccc',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065117Z:e6080eec-ff17-466f-a799-a5b66f1b7ac3',
+  'SOUTHEASTASIA:20210924T090507Z:d157a9ca-26e8-4d13-a2ac-2cf7ee86cccc',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:17 GMT',
+  'Fri, 24 Sep 2021 09:05:07 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -4003,31 +4003,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'cafff949-bfce-4d0d-b131-74d49cbddf4a',
+  '3dcb16e1-3b66-4a05-8f77-0084e8970eb0',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4645',
+  '5480',
   'x-ms-correlation-request-id',
-  '91f64796-d183-4bf9-b7ba-c669cdaf243a',
+  'f364efcb-9011-4a45-98b4-994133a9ed37',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065117Z:91f64796-d183-4bf9-b7ba-c669cdaf243a',
+  'SOUTHEASTASIA:20210924T090508Z:f364efcb-9011-4a45-98b4-994133a9ed37',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:17 GMT',
+  'Fri, 24 Sep 2021 09:05:08 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -4037,31 +4037,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '8a445689-013c-4b22-8b4b-81ee9ea44da3',
+  '6e03c2dd-0787-4ae3-8726-0d8a04d9298a',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4644',
+  '5479',
   'x-ms-correlation-request-id',
-  '4ac8cba4-2326-4fd4-8c8b-5a264a1bb12e',
+  '2b45ae42-8474-480b-b6b0-4541ca0da44b',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065117Z:4ac8cba4-2326-4fd4-8c8b-5a264a1bb12e',
+  'SOUTHEASTASIA:20210924T090508Z:2b45ae42-8474-480b-b6b0-4541ca0da44b',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:17 GMT',
+  'Fri, 24 Sep 2021 09:05:08 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -4071,31 +4071,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '594c09a6-4d72-43b2-968a-a666971dd210',
+  '48198bfe-6a1b-44d1-9121-2ba1d0a6e864',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4643',
+  '5478',
   'x-ms-correlation-request-id',
-  '8e67bc70-09d9-4392-8a0e-6e00b8f8d6a5',
+  '7e98ab5b-5a09-48de-bef2-ac8149e6dda5',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065119Z:8e67bc70-09d9-4392-8a0e-6e00b8f8d6a5',
+  'SOUTHEASTASIA:20210924T090509Z:7e98ab5b-5a09-48de-bef2-ac8149e6dda5',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:18 GMT',
+  'Fri, 24 Sep 2021 09:05:08 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -4105,31 +4105,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '00fa2a07-c61b-416c-a8fe-c008955193c9',
+  '39d892d1-e9d2-4cd3-aec4-01a9a5117784',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4642',
+  '5477',
   'x-ms-correlation-request-id',
-  '16f3e9e3-9f7f-4b21-9107-ab438df259c2',
+  'e2551427-e9ad-48e6-a125-741249c20215',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065119Z:16f3e9e3-9f7f-4b21-9107-ab438df259c2',
+  'SOUTHEASTASIA:20210924T090509Z:e2551427-e9ad-48e6-a125-741249c20215',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:19 GMT',
+  'Fri, 24 Sep 2021 09:05:09 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -4139,31 +4139,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'f7c58d26-0ae9-4237-8a6d-f44ff680def8',
+  'e774912f-5531-4714-bb73-ce4113964a43',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4641',
+  '5476',
   'x-ms-correlation-request-id',
-  'd8aee2e8-0379-49d8-9afe-df2e7183c250',
+  '8e42d64e-e40e-4395-a3ec-280534b839c6',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065119Z:d8aee2e8-0379-49d8-9afe-df2e7183c250',
+  'SOUTHEASTASIA:20210924T090509Z:8e42d64e-e40e-4395-a3ec-280534b839c6',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:19 GMT',
+  'Fri, 24 Sep 2021 09:05:09 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -4173,31 +4173,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'f42594c6-73f0-4a55-92dc-d5dd52ad7015',
+  '0294fe6c-4586-4272-be58-8fe980fba499',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4640',
+  '5475',
   'x-ms-correlation-request-id',
-  '09bbfcc3-dfa2-4cb7-b74c-b1bbab277a53',
+  'b9e730c9-f8a4-4154-87e3-ee9a77865c1a',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065120Z:09bbfcc3-dfa2-4cb7-b74c-b1bbab277a53',
+  'SOUTHEASTASIA:20210924T090510Z:b9e730c9-f8a4-4154-87e3-ee9a77865c1a',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:20 GMT',
+  'Fri, 24 Sep 2021 09:05:10 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -4207,31 +4207,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'd77d2c19-8a84-4929-8120-a0efdfb324fd',
+  'c435f28a-6a0f-4a52-94fb-2aa18b1f8d3a',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4639',
+  '5474',
   'x-ms-correlation-request-id',
-  'eff30f7a-44f7-4a8c-b2e8-5aed12f84bd3',
+  '23c56a28-74e9-4601-8ccd-6eae93970269',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065120Z:eff30f7a-44f7-4a8c-b2e8-5aed12f84bd3',
+  'SOUTHEASTASIA:20210924T090510Z:23c56a28-74e9-4601-8ccd-6eae93970269',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:20 GMT',
+  'Fri, 24 Sep 2021 09:05:10 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -4241,31 +4241,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '63db8ff6-31a0-44f2-b387-5b70a0c23c89',
+  '4428c794-98d7-4f8e-a371-e2e0e8a412e1',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4638',
+  '5473',
   'x-ms-correlation-request-id',
-  '126955a6-a4ca-4f9e-ae7f-bc27dc28a27c',
+  '74d395d1-9a30-4562-b5c1-b2d0266cc657',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065120Z:126955a6-a4ca-4f9e-ae7f-bc27dc28a27c',
+  'SOUTHEASTASIA:20210924T090511Z:74d395d1-9a30-4562-b5c1-b2d0266cc657',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:20 GMT',
+  'Fri, 24 Sep 2021 09:05:10 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -4275,31 +4275,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'da2cb5a0-3d06-4743-98cf-3264ff50b6c1',
+  'b688680f-7dbc-4e9d-83ce-503f2f4575c9',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4637',
+  '5472',
   'x-ms-correlation-request-id',
-  'dde052f8-79f8-45cc-9a55-d69edc7b5012',
+  '3e1ef833-9090-4715-a03b-a74fc40010a4',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065121Z:dde052f8-79f8-45cc-9a55-d69edc7b5012',
+  'SOUTHEASTASIA:20210924T090511Z:3e1ef833-9090-4715-a03b-a74fc40010a4',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:21 GMT',
+  'Fri, 24 Sep 2021 09:05:11 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -4309,31 +4309,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'b48b8d06-26bf-4597-90d7-5dfab52a31d1',
+  'f54acad0-67db-4104-96e7-28a71529aca9',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4636',
+  '5471',
   'x-ms-correlation-request-id',
-  '0507ab1c-b5a4-4b5f-8ab7-1cca2520330e',
+  '38552b2c-5708-40f0-baaf-5d2f436deeda',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065121Z:0507ab1c-b5a4-4b5f-8ab7-1cca2520330e',
+  'SOUTHEASTASIA:20210924T090511Z:38552b2c-5708-40f0-baaf-5d2f436deeda',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:21 GMT',
+  'Fri, 24 Sep 2021 09:05:11 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -4343,31 +4343,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '8043256b-b006-408c-90ef-a9044560a0ae',
+  'e8d06c27-651c-4f2a-8d09-fde731591da3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4635',
+  '5470',
   'x-ms-correlation-request-id',
-  '73e1cd45-80f8-44a1-b5bf-a7a22837888a',
+  '229ac574-b875-4ba8-a5cb-9cf2279f4c74',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065122Z:73e1cd45-80f8-44a1-b5bf-a7a22837888a',
+  'SOUTHEASTASIA:20210924T090512Z:229ac574-b875-4ba8-a5cb-9cf2279f4c74',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:22 GMT',
+  'Fri, 24 Sep 2021 09:05:11 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -4377,31 +4377,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'c68ddc75-9258-4e58-a072-3bd53c863dcf',
+  'e01de77e-f4ae-4814-9978-389bba0baa63',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4634',
+  '5469',
   'x-ms-correlation-request-id',
-  'a173c9bf-8376-4159-9102-5f69ddbd5ad8',
+  '1269ede6-e166-4126-8e45-a6699ae3fad1',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065122Z:a173c9bf-8376-4159-9102-5f69ddbd5ad8',
+  'SOUTHEASTASIA:20210924T090512Z:1269ede6-e166-4126-8e45-a6699ae3fad1',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:22 GMT',
+  'Fri, 24 Sep 2021 09:05:12 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -4411,31 +4411,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '3c59fc0b-2697-49d8-bd67-2621d4240144',
+  '3ec36770-2cf4-4716-b011-ce97f9b6bf86',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4633',
+  '5468',
   'x-ms-correlation-request-id',
-  '5abef5e8-687c-456a-bd4e-4d086b1e92f5',
+  '465d807f-ecb3-4846-9f4a-a3706a4ef86c',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065123Z:5abef5e8-687c-456a-bd4e-4d086b1e92f5',
+  'SOUTHEASTASIA:20210924T090512Z:465d807f-ecb3-4846-9f4a-a3706a4ef86c',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:22 GMT',
+  'Fri, 24 Sep 2021 09:05:12 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -4445,31 +4445,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '93a51077-605e-46da-9ccf-14a2edaaa702',
+  'c4bfa047-5196-4024-8706-3652c882f636',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4632',
+  '5467',
   'x-ms-correlation-request-id',
-  '2abb6758-13e3-45c5-98f4-13caa226a576',
+  '67497f2e-3fc2-4efc-8816-ec93e9cf2346',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065123Z:2abb6758-13e3-45c5-98f4-13caa226a576',
+  'SOUTHEASTASIA:20210924T090513Z:67497f2e-3fc2-4efc-8816-ec93e9cf2346',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:23 GMT',
+  'Fri, 24 Sep 2021 09:05:13 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -4479,31 +4479,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '9bd8ce30-d549-414e-9381-249c8d1a7595',
+  '64aa91e5-6f4d-409b-b3e0-1d8d803f13f9',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4631',
+  '5466',
   'x-ms-correlation-request-id',
-  'fa75ce16-a4cb-4fcd-9a0b-bb2efc1dd7b8',
+  '81450912-0c9e-4e82-96eb-dea97985b9f8',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065123Z:fa75ce16-a4cb-4fcd-9a0b-bb2efc1dd7b8',
+  'SOUTHEASTASIA:20210924T090513Z:81450912-0c9e-4e82-96eb-dea97985b9f8',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:23 GMT',
+  'Fri, 24 Sep 2021 09:05:13 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -4513,31 +4513,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'b54adaba-c420-4d3d-89d5-90743dbdf9aa',
+  'eaf8c6e7-51a7-44cc-9747-25ce95b4601f',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4630',
+  '5465',
   'x-ms-correlation-request-id',
-  'dbea6022-2645-4253-83d9-2d97d088d2e1',
+  '8f9e334e-7cd4-4e85-8297-17e8989a306e',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065124Z:dbea6022-2645-4253-83d9-2d97d088d2e1',
+  'SOUTHEASTASIA:20210924T090514Z:8f9e334e-7cd4-4e85-8297-17e8989a306e',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:24 GMT',
+  'Fri, 24 Sep 2021 09:05:13 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -4547,31 +4547,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'ee1503e2-37e3-48ed-a95f-ce77599a7b36',
+  'db7cbcd9-464c-4e18-9600-6c9d62dc7ab2',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4629',
+  '5464',
   'x-ms-correlation-request-id',
-  '67ee3647-c3e3-4b1d-bb4e-aa049fa1f91b',
+  '58734ca5-5560-4d3a-a02a-e98135a93435',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065124Z:67ee3647-c3e3-4b1d-bb4e-aa049fa1f91b',
+  'SOUTHEASTASIA:20210924T090514Z:58734ca5-5560-4d3a-a02a-e98135a93435',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:24 GMT',
+  'Fri, 24 Sep 2021 09:05:14 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -4581,31 +4581,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'd5b476b1-a7de-4cea-b2ff-259caab6d41f',
+  '728f7868-4c0d-4105-b538-ce2d6d471691',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4628',
+  '5463',
   'x-ms-correlation-request-id',
-  '497883ea-cd24-46ed-aef0-df0147cfd3f1',
+  '5f659fcc-6d76-4c13-9842-fcdc973da747',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065124Z:497883ea-cd24-46ed-aef0-df0147cfd3f1',
+  'SOUTHEASTASIA:20210924T090514Z:5f659fcc-6d76-4c13-9842-fcdc973da747',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:24 GMT',
+  'Fri, 24 Sep 2021 09:05:14 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -4615,31 +4615,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '415a50df-24a6-407c-b198-39ceaa4c10bd',
+  'b1d1729c-4d84-4fcc-bcbe-a8be0a8d7d02',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4627',
+  '5462',
   'x-ms-correlation-request-id',
-  'f76593a5-38f5-44a1-a29f-912ae61fe083',
+  '65bdd5f6-76c8-4e38-9683-3cfb36e6c8c1',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065125Z:f76593a5-38f5-44a1-a29f-912ae61fe083',
+  'SOUTHEASTASIA:20210924T090515Z:65bdd5f6-76c8-4e38-9683-3cfb36e6c8c1',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:25 GMT',
+  'Fri, 24 Sep 2021 09:05:15 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -4649,31 +4649,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '56315423-2f63-4b16-a516-39b35ed390bd',
+  '6c3e7a0b-2b88-4f74-b8b3-846cb82d29f5',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4626',
+  '5461',
   'x-ms-correlation-request-id',
-  'a1f99502-8a85-4e44-aa29-3b68aed932ef',
+  '7ee38df6-8f66-41a6-9be9-cc606867052d',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065125Z:a1f99502-8a85-4e44-aa29-3b68aed932ef',
+  'SOUTHEASTASIA:20210924T090515Z:7ee38df6-8f66-41a6-9be9-cc606867052d',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:25 GMT',
+  'Fri, 24 Sep 2021 09:05:15 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -4683,31 +4683,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '39d56436-b203-4199-875c-c0fc3b4191a4',
+  '522876d1-9c19-40df-bd40-5a721925a87f',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4625',
+  '5460',
   'x-ms-correlation-request-id',
-  'e39ab80b-42ad-44d8-b7c4-7ed0f0b91506',
+  'e296341e-5664-4153-85f3-1951839883ec',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065126Z:e39ab80b-42ad-44d8-b7c4-7ed0f0b91506',
+  'SOUTHEASTASIA:20210924T090516Z:e296341e-5664-4153-85f3-1951839883ec',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:25 GMT',
+  'Fri, 24 Sep 2021 09:05:15 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -4717,31 +4717,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'f70ba8a3-81d5-4c65-8324-474892c272c8',
+  '6c94abef-c95f-4604-bc4c-ed6c0f13339e',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4624',
+  '5459',
   'x-ms-correlation-request-id',
-  'e9da4318-4bb1-407b-8cc9-6130c483fe41',
+  '2d332c18-17ab-4748-ad33-6b6d63750f6a',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065126Z:e9da4318-4bb1-407b-8cc9-6130c483fe41',
+  'SOUTHEASTASIA:20210924T090516Z:2d332c18-17ab-4748-ad33-6b6d63750f6a',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:26 GMT',
+  'Fri, 24 Sep 2021 09:05:16 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -4751,31 +4751,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '386f20bd-1acd-4178-b8b3-c16973b1f718',
+  '4e1be09f-e896-40c8-a95f-0839c93c903f',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4623',
+  '5458',
   'x-ms-correlation-request-id',
-  'bbf1315d-94e0-425f-a6ae-466e3d305a7a',
+  'a89b1d61-1ae6-4636-9955-8f0b2804f833',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065126Z:bbf1315d-94e0-425f-a6ae-466e3d305a7a',
+  'SOUTHEASTASIA:20210924T090516Z:a89b1d61-1ae6-4636-9955-8f0b2804f833',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:26 GMT',
+  'Fri, 24 Sep 2021 09:05:16 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -4785,31 +4785,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '0b58a451-a2e2-4d0a-95f0-b8ab3319aced',
+  '1738be48-c498-4b5f-a83b-97ae69a0605d',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4622',
+  '5457',
   'x-ms-correlation-request-id',
-  'fb78c309-d4c5-4341-b9f4-3de2c10f7a23',
+  '13a51515-e019-45b7-be50-bd6473d00f29',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065127Z:fb78c309-d4c5-4341-b9f4-3de2c10f7a23',
+  'SOUTHEASTASIA:20210924T090517Z:13a51515-e019-45b7-be50-bd6473d00f29',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:27 GMT',
+  'Fri, 24 Sep 2021 09:05:17 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -4819,31 +4819,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'ffae4ab6-88ba-4b35-a2c2-08782c6490f2',
+  '493cb3b4-5ddd-45a5-bac6-d1eee0c831e3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4621',
+  '5456',
   'x-ms-correlation-request-id',
-  'b031f246-252a-4a96-944e-07116414f797',
+  'c07ec5e0-62fb-4eda-a81f-91c6142d49a3',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065127Z:b031f246-252a-4a96-944e-07116414f797',
+  'SOUTHEASTASIA:20210924T090517Z:c07ec5e0-62fb-4eda-a81f-91c6142d49a3',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:27 GMT',
+  'Fri, 24 Sep 2021 09:05:17 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -4853,31 +4853,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '841a895e-a3b1-4b3d-bd46-be76d6fec879',
+  'b4566041-1bad-4573-863c-426abb788824',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4620',
+  '5455',
   'x-ms-correlation-request-id',
-  '0751f82f-082e-482e-adb5-e24a6152b0b6',
+  'af93f2ce-eedd-4586-ac3a-0f0214e68851',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065128Z:0751f82f-082e-482e-adb5-e24a6152b0b6',
+  'SOUTHEASTASIA:20210924T090518Z:af93f2ce-eedd-4586-ac3a-0f0214e68851',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:27 GMT',
+  'Fri, 24 Sep 2021 09:05:17 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -4887,31 +4887,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'f0c473d4-2afd-4d9d-9e0c-f1285085c1b3',
+  '250757e5-150d-4f70-9e86-abd0032ebfd4',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4619',
+  '5454',
   'x-ms-correlation-request-id',
-  '19193daf-cab7-411e-907d-ae95939c2097',
+  '1b65c25b-6346-4b1c-b507-d21a4a1d05ef',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065128Z:19193daf-cab7-411e-907d-ae95939c2097',
+  'SOUTHEASTASIA:20210924T090518Z:1b65c25b-6346-4b1c-b507-d21a4a1d05ef',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:28 GMT',
+  'Fri, 24 Sep 2021 09:05:18 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -4921,31 +4921,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '7175541f-4dab-4d15-aa0e-d2efe3d44911',
+  'df36e783-00aa-43df-81c3-29955de399b9',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4618',
+  '5453',
   'x-ms-correlation-request-id',
-  'addf67bf-66ac-4dee-bcd6-d5de56507238',
+  'eb817782-155c-4da7-9d96-48718f5c9133',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065128Z:addf67bf-66ac-4dee-bcd6-d5de56507238',
+  'SOUTHEASTASIA:20210924T090518Z:eb817782-155c-4da7-9d96-48718f5c9133',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:28 GMT',
+  'Fri, 24 Sep 2021 09:05:18 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -4955,31 +4955,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '861b25e9-9afc-4e35-b1ce-541b7716cacf',
+  '341ca62e-e63f-43f8-ae2f-a96d3ac5b61e',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4617',
+  '5452',
   'x-ms-correlation-request-id',
-  'ab6bfb5c-5e02-4f90-9a33-6167fa447717',
+  'd910fa95-9fe5-40f6-9430-8b209e1fbb02',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065129Z:ab6bfb5c-5e02-4f90-9a33-6167fa447717',
+  'SOUTHEASTASIA:20210924T090519Z:d910fa95-9fe5-40f6-9430-8b209e1fbb02',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:29 GMT',
+  'Fri, 24 Sep 2021 09:05:18 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -4989,31 +4989,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '74f46cac-f87c-48ff-ae8d-e82cd2f06507',
+  'bdd443ff-7a88-4b38-a5f1-9c5cd9f95531',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4616',
+  '5451',
   'x-ms-correlation-request-id',
-  'f926a58d-a9a5-4893-b672-d5c0323bbcbb',
+  'c5d40e39-259e-4a4f-869c-a71554519d14',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065129Z:f926a58d-a9a5-4893-b672-d5c0323bbcbb',
+  'SOUTHEASTASIA:20210924T090519Z:c5d40e39-259e-4a4f-869c-a71554519d14',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:29 GMT',
+  'Fri, 24 Sep 2021 09:05:19 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -5023,31 +5023,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'b45b149d-14e5-4b69-ab0e-c8fa09d3fb58',
+  '7548dce6-f543-4439-88ef-6a69498b920f',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4615',
+  '5450',
   'x-ms-correlation-request-id',
-  'fc2fad81-936c-427f-87ba-4ab155d5a05d',
+  'b29973eb-9a77-4054-86c5-58f1ffb9c20e',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065130Z:fc2fad81-936c-427f-87ba-4ab155d5a05d',
+  'SOUTHEASTASIA:20210924T090519Z:b29973eb-9a77-4054-86c5-58f1ffb9c20e',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:29 GMT',
+  'Fri, 24 Sep 2021 09:05:19 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -5057,31 +5057,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'c505c582-7105-4313-b60e-7aac7d187527',
+  '119b326f-3cda-4a5c-816e-1e8a447d76de',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4614',
+  '5449',
   'x-ms-correlation-request-id',
-  '71d40702-96d8-441c-8fee-d44ed7d3830f',
+  '6e17a93f-cf1b-499d-bf18-343bc42fe47e',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065130Z:71d40702-96d8-441c-8fee-d44ed7d3830f',
+  'SOUTHEASTASIA:20210924T090520Z:6e17a93f-cf1b-499d-bf18-343bc42fe47e',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:30 GMT',
+  'Fri, 24 Sep 2021 09:05:20 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -5091,31 +5091,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '02236938-fe60-43f5-8a43-8ea3cd475c36',
+  'be00108b-fffa-4f88-ab84-8c8c53e3eb37',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4613',
+  '5448',
   'x-ms-correlation-request-id',
-  'd3d1c45d-e92c-4a4a-aa87-d12c96944809',
+  '107a7a70-305a-4336-ad6e-6717ab92a824',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065130Z:d3d1c45d-e92c-4a4a-aa87-d12c96944809',
+  'SOUTHEASTASIA:20210924T090520Z:107a7a70-305a-4336-ad6e-6717ab92a824',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:30 GMT',
+  'Fri, 24 Sep 2021 09:05:20 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -5125,31 +5125,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '44048ca3-d3ba-41ab-868b-74a3b3814f6f',
+  'f394936a-d10f-4eb2-83b5-34c5e5612aef',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4612',
+  '5447',
   'x-ms-correlation-request-id',
-  '65b06abb-1f84-436e-8b02-32d4f93b6861',
+  'f2b927e8-3fa8-442f-b9d0-0d41274032f4',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065131Z:65b06abb-1f84-436e-8b02-32d4f93b6861',
+  'SOUTHEASTASIA:20210924T090521Z:f2b927e8-3fa8-442f-b9d0-0d41274032f4',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:31 GMT',
+  'Fri, 24 Sep 2021 09:05:21 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -5159,31 +5159,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '4ce75871-13db-492f-8686-8aae617a7820',
+  '3a87ab1b-a504-4729-9280-803fb545f2d4',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4611',
+  '5446',
   'x-ms-correlation-request-id',
-  '3c90366b-624f-4d55-ae3e-5525532ed733',
+  'd8da887d-b773-4ca8-b56c-bb2b81fcb61f',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065131Z:3c90366b-624f-4d55-ae3e-5525532ed733',
+  'SOUTHEASTASIA:20210924T090521Z:d8da887d-b773-4ca8-b56c-bb2b81fcb61f',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:31 GMT',
+  'Fri, 24 Sep 2021 09:05:21 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -5193,31 +5193,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'eaa28a30-4db0-4129-884c-2a119a5164c9',
+  'ee7e0414-7d51-4da5-9160-8a78fb673251',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4610',
+  '5445',
   'x-ms-correlation-request-id',
-  '5033e440-a179-4ab1-bd2e-f15c41e4ff31',
+  '172ba329-e128-4ee9-acac-120bccd13d7a',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065132Z:5033e440-a179-4ab1-bd2e-f15c41e4ff31',
+  'SOUTHEASTASIA:20210924T090522Z:172ba329-e128-4ee9-acac-120bccd13d7a',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:31 GMT',
+  'Fri, 24 Sep 2021 09:05:21 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -5227,31 +5227,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'aa63fb40-cf41-40d6-a3f1-a81066d74ea0',
+  'd14a8d4c-3fbe-4d92-b9ee-26f964d3647b',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4609',
+  '5444',
   'x-ms-correlation-request-id',
-  'c2ff2dde-cd63-43b7-951d-74dec62dc5f5',
+  'c540a37d-2950-485a-82e5-962bd28accdf',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065132Z:c2ff2dde-cd63-43b7-951d-74dec62dc5f5',
+  'SOUTHEASTASIA:20210924T090522Z:c540a37d-2950-485a-82e5-962bd28accdf',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:32 GMT',
+  'Fri, 24 Sep 2021 09:05:22 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -5261,31 +5261,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'df58424c-50ba-4b81-bdcf-a57c80bb3a68',
+  'c1fe03da-e52b-4982-b06c-87612014a083',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4608',
+  '5443',
   'x-ms-correlation-request-id',
-  '5758a9d4-36c6-437d-bd6f-c58ff718579a',
+  '8d606afd-c428-40f6-a766-41415e08449e',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065132Z:5758a9d4-36c6-437d-bd6f-c58ff718579a',
+  'SOUTHEASTASIA:20210924T090522Z:8d606afd-c428-40f6-a766-41415e08449e',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:32 GMT',
+  'Fri, 24 Sep 2021 09:05:22 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -5295,31 +5295,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '48ccba87-56a6-4d38-b946-0f83f399b029',
+  '71da8eaa-92e5-49aa-9d19-e6c8d3b1d6c2',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4607',
+  '5442',
   'x-ms-correlation-request-id',
-  '8b18e678-84b5-486d-8a1a-428552089ed6',
+  'f5f4fa42-b5a6-4a8b-bad0-a33de8c8216e',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065133Z:8b18e678-84b5-486d-8a1a-428552089ed6',
+  'SOUTHEASTASIA:20210924T090523Z:f5f4fa42-b5a6-4a8b-bad0-a33de8c8216e',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:33 GMT',
+  'Fri, 24 Sep 2021 09:05:22 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -5329,31 +5329,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'ee71fcd9-db82-4ba2-b002-372ba58ceee0',
+  '98710e34-a897-4a6d-bb6e-24b1680892ed',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4606',
+  '5441',
   'x-ms-correlation-request-id',
-  '6710e843-987b-4f92-b20c-270e0858facf',
+  'd52f89d2-b80f-48c9-a018-4a4ddca3e891',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065133Z:6710e843-987b-4f92-b20c-270e0858facf',
+  'SOUTHEASTASIA:20210924T090523Z:d52f89d2-b80f-48c9-a018-4a4ddca3e891',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:33 GMT',
+  'Fri, 24 Sep 2021 09:05:23 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -5363,31 +5363,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '4522b198-e2e0-4f68-ac4c-8394e1691a32',
+  '7cbe7b96-2652-481d-821d-cdd1c57f0b0a',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4605',
+  '5440',
   'x-ms-correlation-request-id',
-  'eb0a92ca-8961-4232-94cb-4b0232cccf84',
+  '0d3ba8b9-7b6a-44fe-82f1-6c9ef82000e0',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065134Z:eb0a92ca-8961-4232-94cb-4b0232cccf84',
+  'SOUTHEASTASIA:20210924T090523Z:0d3ba8b9-7b6a-44fe-82f1-6c9ef82000e0',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:33 GMT',
+  'Fri, 24 Sep 2021 09:05:23 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -5397,31 +5397,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '4acb3773-5f0a-44e7-8a30-5861068870e9',
+  'df6bc28d-8edf-4f5e-80e0-1e7c50e7e976',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4604',
+  '5439',
   'x-ms-correlation-request-id',
-  '551acf9b-fae2-4cd3-8932-5e8b88b40d8f',
+  '1f6807d0-12fe-420f-bd70-4c61d7195ae7',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065134Z:551acf9b-fae2-4cd3-8932-5e8b88b40d8f',
+  'SOUTHEASTASIA:20210924T090524Z:1f6807d0-12fe-420f-bd70-4c61d7195ae7',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:34 GMT',
+  'Fri, 24 Sep 2021 09:05:24 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -5431,31 +5431,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'c843223b-ddb6-481c-9ebf-2c3dec487f3c',
+  '86c24426-114d-40a3-8695-36ee4e973008',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4603',
+  '5438',
   'x-ms-correlation-request-id',
-  '8da3aadd-c104-4db8-b127-51adb442ac6c',
+  'da7f09eb-7150-4c3b-bbf2-f0170d303979',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065134Z:8da3aadd-c104-4db8-b127-51adb442ac6c',
+  'SOUTHEASTASIA:20210924T090524Z:da7f09eb-7150-4c3b-bbf2-f0170d303979',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:34 GMT',
+  'Fri, 24 Sep 2021 09:05:24 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -5465,31 +5465,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'd9e51869-8974-4ee8-8962-43b7a8adb64c',
+  '6410a004-7091-4abf-9ea9-46d72d8d90a1',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4602',
+  '5437',
   'x-ms-correlation-request-id',
-  '471db9d2-544b-4b01-baaa-540f0f1fbe40',
+  'fc5de306-0e00-450e-9173-536df9c43642',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065135Z:471db9d2-544b-4b01-baaa-540f0f1fbe40',
+  'SOUTHEASTASIA:20210924T090525Z:fc5de306-0e00-450e-9173-536df9c43642',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:35 GMT',
+  'Fri, 24 Sep 2021 09:05:24 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -5499,31 +5499,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '430cf0e2-ea35-4ec5-8570-9acc9c87624c',
+  '15afe9bf-09c4-417e-8559-348d132f2f16',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4601',
+  '5436',
   'x-ms-correlation-request-id',
-  'fbe8bd49-bedd-430e-936b-fb6075e2aed3',
+  '0181f220-b516-4af4-b75e-ffb81ba8871d',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065135Z:fbe8bd49-bedd-430e-936b-fb6075e2aed3',
+  'SOUTHEASTASIA:20210924T090525Z:0181f220-b516-4af4-b75e-ffb81ba8871d',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:35 GMT',
+  'Fri, 24 Sep 2021 09:05:25 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -5533,31 +5533,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'a35e770b-03a0-4589-9c80-3c8346e221ba',
+  'c995e2ba-bfb7-48f7-8585-955bd0111109',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4600',
+  '5435',
   'x-ms-correlation-request-id',
-  '7e9a0c73-c2a5-49ca-b7e6-2abb8d27e335',
+  'c6aafb9a-84f7-49b6-96e6-ff331153df45',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065135Z:7e9a0c73-c2a5-49ca-b7e6-2abb8d27e335',
+  'SOUTHEASTASIA:20210924T090525Z:c6aafb9a-84f7-49b6-96e6-ff331153df45',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:35 GMT',
+  'Fri, 24 Sep 2021 09:05:25 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -5567,31 +5567,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'a458aa7e-7027-489e-a4fa-55ce55b505c1',
+  '4b9d68ea-8ec7-4d70-8d41-f6683b335bff',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4599',
+  '5434',
   'x-ms-correlation-request-id',
-  'f13c300f-cdf3-4ef6-bf3f-c634bf1b3aae',
+  'e703d606-2fc1-4179-afc3-6357e8f196cc',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065136Z:f13c300f-cdf3-4ef6-bf3f-c634bf1b3aae',
+  'SOUTHEASTASIA:20210924T090526Z:e703d606-2fc1-4179-afc3-6357e8f196cc',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:36 GMT',
+  'Fri, 24 Sep 2021 09:05:26 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -5601,31 +5601,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '16858945-9ff2-4753-ae66-4130292b1747',
+  'd1cd50ef-5d71-4dd1-96bc-6e91568c15cb',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4598',
+  '5433',
   'x-ms-correlation-request-id',
-  '0122a4b7-3aca-4a9c-94a6-10398df53b78',
+  'b0852961-9180-414d-93b5-26f29322ba6e',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065136Z:0122a4b7-3aca-4a9c-94a6-10398df53b78',
+  'SOUTHEASTASIA:20210924T090526Z:b0852961-9180-414d-93b5-26f29322ba6e',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:36 GMT',
+  'Fri, 24 Sep 2021 09:05:26 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -5635,31 +5635,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '14cbad2a-ee72-4df7-a26a-df3547772932',
+  '19187f9c-2c21-41c1-9e7c-bd6ec2b0bbff',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4597',
+  '5432',
   'x-ms-correlation-request-id',
-  '7c456022-8343-41a7-ae93-ea22216f795e',
+  '3d8689a4-95e9-4b69-b619-0cebd6b586a6',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065137Z:7c456022-8343-41a7-ae93-ea22216f795e',
+  'SOUTHEASTASIA:20210924T090527Z:3d8689a4-95e9-4b69-b619-0cebd6b586a6',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:36 GMT',
+  'Fri, 24 Sep 2021 09:05:26 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -5669,31 +5669,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '3a6142e9-8a9c-4149-a8e4-817ae04d1bbf',
+  '287854ed-f8a6-4fed-8a59-a3b2ef3e78d6',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4596',
+  '5431',
   'x-ms-correlation-request-id',
-  'e59a2cab-a8be-4371-a02e-62c0022704d0',
+  'c733f58e-bcbf-439a-84f3-f2bee37afb4f',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065137Z:e59a2cab-a8be-4371-a02e-62c0022704d0',
+  'SOUTHEASTASIA:20210924T090527Z:c733f58e-bcbf-439a-84f3-f2bee37afb4f',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:37 GMT',
+  'Fri, 24 Sep 2021 09:05:27 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -5703,31 +5703,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'f3e726b1-70eb-44bd-808a-4038ea83470d',
+  '9666e046-ae01-4aa6-870b-1901aed01f26',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4595',
+  '5430',
   'x-ms-correlation-request-id',
-  '9bfdfaae-652f-4ba7-9ea1-8f0ba9a72c1d',
+  '596d97f2-b738-4922-8d64-1f79e0d11193',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065138Z:9bfdfaae-652f-4ba7-9ea1-8f0ba9a72c1d',
+  'SOUTHEASTASIA:20210924T090527Z:596d97f2-b738-4922-8d64-1f79e0d11193',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:38 GMT',
+  'Fri, 24 Sep 2021 09:05:27 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -5737,31 +5737,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '35b8c35b-6b12-4f0a-a801-3c5481a1fe76',
+  'd64b1454-4f0f-415f-8412-f950c4dec280',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4594',
+  '5429',
   'x-ms-correlation-request-id',
-  'cb9a9d41-e9f1-4bdd-b19d-2be0185b4883',
+  '1ec8222a-b925-4853-b58c-9b3980e8fb00',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065138Z:cb9a9d41-e9f1-4bdd-b19d-2be0185b4883',
+  'SOUTHEASTASIA:20210924T090528Z:1ec8222a-b925-4853-b58c-9b3980e8fb00',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:38 GMT',
+  'Fri, 24 Sep 2021 09:05:28 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -5771,31 +5771,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '4b70c071-eb9a-4206-9034-4054dfaacec5',
+  '5d14a5a5-0889-4216-ae76-68185b5138ed',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4593',
+  '5428',
   'x-ms-correlation-request-id',
-  'c9a6c081-124c-4fff-bfde-cd8df4df05b9',
+  '83e68d80-5935-44c2-b4a7-192efedab5e3',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065139Z:c9a6c081-124c-4fff-bfde-cd8df4df05b9',
+  'SOUTHEASTASIA:20210924T090528Z:83e68d80-5935-44c2-b4a7-192efedab5e3',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:38 GMT',
+  'Fri, 24 Sep 2021 09:05:28 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -5805,31 +5805,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'e9f30fcd-7f9b-4571-8917-1af679047323',
+  'ac16e309-5018-4611-828e-1af6ba2bfa5d',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4592',
+  '5427',
   'x-ms-correlation-request-id',
-  '40ea4a45-cdaf-484c-abba-a1c84721758d',
+  '68579d60-7b50-40ad-98a9-55a117b0bb45',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065139Z:40ea4a45-cdaf-484c-abba-a1c84721758d',
+  'SOUTHEASTASIA:20210924T090529Z:68579d60-7b50-40ad-98a9-55a117b0bb45',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:39 GMT',
+  'Fri, 24 Sep 2021 09:05:28 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -5839,31 +5839,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '3272127e-7b8c-4fcb-867a-fbbd543d6fbc',
+  'fe0c6157-2494-4624-acb6-05236c39b7a1',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4591',
+  '5426',
   'x-ms-correlation-request-id',
-  'c12d718c-19ec-4629-ad1f-10e0cb3ee0ac',
+  'ac8213ed-6315-480f-9e9e-56be13ea4eb7',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065139Z:c12d718c-19ec-4629-ad1f-10e0cb3ee0ac',
+  'SOUTHEASTASIA:20210924T090529Z:ac8213ed-6315-480f-9e9e-56be13ea4eb7',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:39 GMT',
+  'Fri, 24 Sep 2021 09:05:29 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -5873,31 +5873,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'f9b66b85-1a78-467f-b67c-6c2a8e6856bf',
+  'a5e7616e-5860-46d7-bc27-9dd6b6de0a26',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4590',
+  '5425',
   'x-ms-correlation-request-id',
-  '0d10638e-39bf-48c8-934c-5640176231aa',
+  '20556c9c-bdca-4788-b6e7-68e5a49a3f79',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065140Z:0d10638e-39bf-48c8-934c-5640176231aa',
+  'SOUTHEASTASIA:20210924T090529Z:20556c9c-bdca-4788-b6e7-68e5a49a3f79',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:40 GMT',
+  'Fri, 24 Sep 2021 09:05:29 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -5907,31 +5907,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '85825b3e-5cf6-4f72-94f9-4f2f5d5f5fb7',
+  '8e9149ca-b534-403e-87c5-9d01f1147530',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4589',
+  '5424',
   'x-ms-correlation-request-id',
-  '32c9b12b-6935-40f5-a9fe-b77e9b69fe4d',
+  'e2e5c824-5baf-4a4d-a45f-da8d55190b8b',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065140Z:32c9b12b-6935-40f5-a9fe-b77e9b69fe4d',
+  'SOUTHEASTASIA:20210924T090530Z:e2e5c824-5baf-4a4d-a45f-da8d55190b8b',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:40 GMT',
+  'Fri, 24 Sep 2021 09:05:29 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -5941,31 +5941,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '57a6629b-adaa-4827-9d79-7372a7aa1f6e',
+  'e9867559-d7a9-44a4-82ee-10b3b0d56834',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4588',
+  '5423',
   'x-ms-correlation-request-id',
-  '46720c50-86a1-4bc4-b859-fa6e31d80e68',
+  'ff0ffced-5a3f-4be1-ae07-a9443d0f6d4b',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065141Z:46720c50-86a1-4bc4-b859-fa6e31d80e68',
+  'SOUTHEASTASIA:20210924T090530Z:ff0ffced-5a3f-4be1-ae07-a9443d0f6d4b',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:40 GMT',
+  'Fri, 24 Sep 2021 09:05:30 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -5975,31 +5975,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '6c9a6e2d-9922-4269-97ca-99cd2adf69ae',
+  '29562325-951f-4dfd-8e49-7ed73690f529',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4587',
+  '5422',
   'x-ms-correlation-request-id',
-  'ca91fab5-5e26-4b94-8deb-b60dfe884131',
+  'c641466f-964d-4ace-8318-52796f9df7e3',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065141Z:ca91fab5-5e26-4b94-8deb-b60dfe884131',
+  'SOUTHEASTASIA:20210924T090530Z:c641466f-964d-4ace-8318-52796f9df7e3',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:41 GMT',
+  'Fri, 24 Sep 2021 09:05:30 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -6009,31 +6009,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '5ee53144-7773-4938-adb9-9e6da8aae7ad',
+  'b83a3370-5892-4d55-b05b-3148fb486320',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4586',
+  '5421',
   'x-ms-correlation-request-id',
-  'fbc08814-e02b-46f4-ba14-667804297556',
+  'eb669541-7ea4-4b51-8f13-4358292be6ac',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065141Z:fbc08814-e02b-46f4-ba14-667804297556',
+  'SOUTHEASTASIA:20210924T090531Z:eb669541-7ea4-4b51-8f13-4358292be6ac',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:41 GMT',
+  'Fri, 24 Sep 2021 09:05:31 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -6043,31 +6043,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '89402a9f-949b-4a89-a4ae-6aed3959aa4a',
+  '508a2acd-831d-4201-8f90-5ecb5aac89c5',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4585',
+  '5420',
   'x-ms-correlation-request-id',
-  '517395e4-5d8e-400d-8445-86fa184299a9',
+  'de93dd79-b596-456d-adfb-e8be06dc036a',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065142Z:517395e4-5d8e-400d-8445-86fa184299a9',
+  'SOUTHEASTASIA:20210924T090531Z:de93dd79-b596-456d-adfb-e8be06dc036a',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:41 GMT',
+  'Fri, 24 Sep 2021 09:05:31 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -6077,31 +6077,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '81fbb612-6235-4c3d-8970-cf97e7735fae',
+  '9e71302b-65ad-4a43-92ba-6c73055643e2',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4584',
+  '5419',
   'x-ms-correlation-request-id',
-  'e47a0564-8b9e-4de0-a99a-e948aa96ce61',
+  '5b1fc864-b986-4401-a80c-7989a78a55dd',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065142Z:e47a0564-8b9e-4de0-a99a-e948aa96ce61',
+  'SOUTHEASTASIA:20210924T090532Z:5b1fc864-b986-4401-a80c-7989a78a55dd',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:42 GMT',
+  'Fri, 24 Sep 2021 09:05:31 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -6111,31 +6111,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '9d5e55df-7945-431a-bd2a-e14bd4331444',
+  '5b8ce39d-ef52-476e-ac16-7d4a419038e4',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4583',
+  '5418',
   'x-ms-correlation-request-id',
-  'b13f6589-9b2e-4cf2-8ed2-cb983008983f',
+  '12cafbe9-aeb0-41f9-8321-bc637953081f',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065142Z:b13f6589-9b2e-4cf2-8ed2-cb983008983f',
+  'SOUTHEASTASIA:20210924T090532Z:12cafbe9-aeb0-41f9-8321-bc637953081f',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:42 GMT',
+  'Fri, 24 Sep 2021 09:05:32 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -6145,31 +6145,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'edfed5d0-df3e-4abc-8cd8-7c502a667a4c',
+  'f5c71b03-a7a3-4f34-9d5a-8d4fefb0f077',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4582',
+  '5417',
   'x-ms-correlation-request-id',
-  '3a13264c-7474-4b94-b57f-bdc707aed27b',
+  '10d89360-9284-4505-90ab-e6effab9afe3',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065143Z:3a13264c-7474-4b94-b57f-bdc707aed27b',
+  'SOUTHEASTASIA:20210924T090532Z:10d89360-9284-4505-90ab-e6effab9afe3',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:43 GMT',
+  'Fri, 24 Sep 2021 09:05:32 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -6179,31 +6179,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '443868ee-d9a4-4d30-a405-d81ce79764cc',
+  'dfddd114-9e04-4a96-9501-82b26a38fb38',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4581',
+  '5416',
   'x-ms-correlation-request-id',
-  'b232ecfe-f56a-413c-a2f7-cc7cfa8b6394',
+  'ef169f41-92c8-4ee6-adb1-78cd07b72eee',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065143Z:b232ecfe-f56a-413c-a2f7-cc7cfa8b6394',
+  'SOUTHEASTASIA:20210924T090533Z:ef169f41-92c8-4ee6-adb1-78cd07b72eee',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:43 GMT',
+  'Fri, 24 Sep 2021 09:05:33 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -6213,31 +6213,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '0a831606-4acc-4551-8d9e-5e5d25020eed',
+  '35228106-aa7d-4564-94e3-12b364967cd2',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4580',
+  '5415',
   'x-ms-correlation-request-id',
-  '109a86ac-36be-4c67-8d58-950cf27b809e',
+  'a452cf7a-210d-485e-a76d-5df0ec148215',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065144Z:109a86ac-36be-4c67-8d58-950cf27b809e',
+  'SOUTHEASTASIA:20210924T090533Z:a452cf7a-210d-485e-a76d-5df0ec148215',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:43 GMT',
+  'Fri, 24 Sep 2021 09:05:33 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -6247,31 +6247,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'e88d536f-4c8d-410e-9281-edb828513c39',
+  'a25594c7-8da8-4746-9f2c-9ebb23c8549c',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4579',
+  '5414',
   'x-ms-correlation-request-id',
-  'c07c34b5-4762-47ed-b5f4-2ff380480eb1',
+  '270936cf-0271-4b83-93ac-695679b95aa2',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065144Z:c07c34b5-4762-47ed-b5f4-2ff380480eb1',
+  'SOUTHEASTASIA:20210924T090534Z:270936cf-0271-4b83-93ac-695679b95aa2',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:44 GMT',
+  'Fri, 24 Sep 2021 09:05:33 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -6281,31 +6281,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'a411ca02-8ef8-4e30-addd-e29861d8ca29',
+  'a18dfd4e-21ec-4b71-9b05-21bf30fe78f5',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4578',
+  '5413',
   'x-ms-correlation-request-id',
-  '213f6e73-3998-4c3d-b600-0569366bc3c4',
+  '110a38f4-4c0c-4a5b-a7af-bec1b735e515',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065144Z:213f6e73-3998-4c3d-b600-0569366bc3c4',
+  'SOUTHEASTASIA:20210924T090534Z:110a38f4-4c0c-4a5b-a7af-bec1b735e515',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:44 GMT',
+  'Fri, 24 Sep 2021 09:05:34 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -6315,31 +6315,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '483caf08-a68b-427b-8bbf-e1e9f8b304ad',
+  'a0f3fde3-93e7-4069-86c7-668a84e2d183',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4577',
+  '5412',
   'x-ms-correlation-request-id',
-  'da6ab566-db55-4db1-a7bf-5abe76b83960',
+  '2276a996-9d18-40de-b40d-32405b7698d5',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065145Z:da6ab566-db55-4db1-a7bf-5abe76b83960',
+  'SOUTHEASTASIA:20210924T090534Z:2276a996-9d18-40de-b40d-32405b7698d5',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:45 GMT',
+  'Fri, 24 Sep 2021 09:05:34 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -6349,31 +6349,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'f466d96a-4551-4fd3-8f4c-d21db157169c',
+  '7278ec6d-787c-4497-8e25-9e26e9a1be8c',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4576',
+  '5411',
   'x-ms-correlation-request-id',
-  '730e27d4-da7c-494c-af46-f6a04b2234e1',
+  'e7752e6c-3250-4621-b7e1-9ccd1be8b7b6',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065145Z:730e27d4-da7c-494c-af46-f6a04b2234e1',
+  'SOUTHEASTASIA:20210924T090535Z:e7752e6c-3250-4621-b7e1-9ccd1be8b7b6',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:45 GMT',
+  'Fri, 24 Sep 2021 09:05:35 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -6383,31 +6383,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'bf5e3fa8-fac6-48fb-91dd-b1f8727beee6',
+  'eedb115a-527c-4235-8fdf-a571492373eb',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4575',
+  '5410',
   'x-ms-correlation-request-id',
-  'ba35006c-c4c1-42cf-802e-e7c26d6d9210',
+  'a82e2ec6-b68a-418f-8540-50de0dfef015',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065146Z:ba35006c-c4c1-42cf-802e-e7c26d6d9210',
+  'SOUTHEASTASIA:20210924T090535Z:a82e2ec6-b68a-418f-8540-50de0dfef015',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:45 GMT',
+  'Fri, 24 Sep 2021 09:05:35 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -6417,31 +6417,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '88d17516-513d-4ffc-a5bb-5f00ceb3e257',
+  '28958e6b-ae82-43f8-844b-286cbbc8c04f',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4574',
+  '5409',
   'x-ms-correlation-request-id',
-  '85eeab96-d8e7-4607-b9d5-863cece7a559',
+  '6dbbda48-5686-4c01-84e7-fdaf048bd5ce',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065146Z:85eeab96-d8e7-4607-b9d5-863cece7a559',
+  'SOUTHEASTASIA:20210924T090536Z:6dbbda48-5686-4c01-84e7-fdaf048bd5ce',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:46 GMT',
+  'Fri, 24 Sep 2021 09:05:35 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -6451,31 +6451,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'df8701be-f02b-41ed-b26f-c703a1c20b80',
+  'c8d55ff6-210f-40a0-91fe-a9ca8f2872e6',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4573',
+  '5408',
   'x-ms-correlation-request-id',
-  '00d401b4-d79c-46a7-a7c1-1c510e76e5d0',
+  'f329520a-c0cf-419d-a66a-88bf6c85b6bf',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065146Z:00d401b4-d79c-46a7-a7c1-1c510e76e5d0',
+  'SOUTHEASTASIA:20210924T090536Z:f329520a-c0cf-419d-a66a-88bf6c85b6bf',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:46 GMT',
+  'Fri, 24 Sep 2021 09:05:36 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -6485,31 +6485,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '6d23d3e4-cafc-4a33-8b0b-cb6e441f3dfa',
+  'bb015fab-49eb-4825-847a-43f537a119f0',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4572',
+  '5407',
   'x-ms-correlation-request-id',
-  '06b7d568-a10e-4ef1-8b14-c0992641ec24',
+  '1edc297d-e574-461f-9bdf-c24f6e583234',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065147Z:06b7d568-a10e-4ef1-8b14-c0992641ec24',
+  'SOUTHEASTASIA:20210924T090536Z:1edc297d-e574-461f-9bdf-c24f6e583234',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:47 GMT',
+  'Fri, 24 Sep 2021 09:05:36 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -6519,31 +6519,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'f0ba29b0-1928-4e2d-ad29-b907ba100b28',
+  '7c6f8cbb-c46f-451f-92c1-fc4263c0826a',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4571',
+  '5406',
   'x-ms-correlation-request-id',
-  'b72533e9-1264-4952-b91d-402e73e0e544',
+  'd4ea9259-a5f0-417f-b235-0eaf77c2d9e3',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065147Z:b72533e9-1264-4952-b91d-402e73e0e544',
+  'SOUTHEASTASIA:20210924T090537Z:d4ea9259-a5f0-417f-b235-0eaf77c2d9e3',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:47 GMT',
+  'Fri, 24 Sep 2021 09:05:36 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -6553,31 +6553,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '53c0382b-cd3f-421b-86ff-a3fe1ace113f',
+  '11e01b5a-bcbd-4448-ae92-7048346dd6d8',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4570',
+  '5405',
   'x-ms-correlation-request-id',
-  'cffa10fa-1fcc-4285-bdba-8b5f4727b6a7',
+  '730c8d98-4395-41b8-a911-6395febacdce',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065148Z:cffa10fa-1fcc-4285-bdba-8b5f4727b6a7',
+  'SOUTHEASTASIA:20210924T090537Z:730c8d98-4395-41b8-a911-6395febacdce',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:47 GMT',
+  'Fri, 24 Sep 2021 09:05:37 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -6587,31 +6587,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '40ef721b-de70-4f23-9734-dcc774d22c30',
+  '84ec45f8-d065-4428-b5a2-feaca321d4ad',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4569',
+  '5404',
   'x-ms-correlation-request-id',
-  'a15280df-d984-4b44-b6f0-219ac6368e72',
+  '54c7bd69-412e-483b-966c-fc8da11a741a',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065148Z:a15280df-d984-4b44-b6f0-219ac6368e72',
+  'SOUTHEASTASIA:20210924T090538Z:54c7bd69-412e-483b-966c-fc8da11a741a',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:48 GMT',
+  'Fri, 24 Sep 2021 09:05:37 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -6621,31 +6621,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'ee924c84-3444-4e9b-92fb-10301901aac6',
+  'ad92c499-5ca0-443d-b50f-a840d2a6d41a',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4568',
+  '5403',
   'x-ms-correlation-request-id',
-  '777f3c0b-a36a-455f-95fd-96745f08adba',
+  'e7020bdf-068e-41ca-909c-fbc6e0ccd9d6',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065148Z:777f3c0b-a36a-455f-95fd-96745f08adba',
+  'SOUTHEASTASIA:20210924T090538Z:e7020bdf-068e-41ca-909c-fbc6e0ccd9d6',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:48 GMT',
+  'Fri, 24 Sep 2021 09:05:38 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -6655,31 +6655,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'f38ac9dc-be23-4416-a12c-1edfac46361c',
+  '3a3f8b5c-7fc7-4ccb-ab9e-58420c73a8a0',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4567',
+  '5402',
   'x-ms-correlation-request-id',
-  '680ecdd2-ba7e-4c6c-bf5d-89b19d5976c8',
+  'c9bb8214-8733-439a-89f9-1f73fa35e7a5',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065149Z:680ecdd2-ba7e-4c6c-bf5d-89b19d5976c8',
+  'SOUTHEASTASIA:20210924T090538Z:c9bb8214-8733-439a-89f9-1f73fa35e7a5',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:49 GMT',
+  'Fri, 24 Sep 2021 09:05:38 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -6689,31 +6689,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'c352208e-639a-4990-a7e5-1f63c2a76b87',
+  '38115f35-d495-4b62-a034-54fe38123c6c',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4566',
+  '5401',
   'x-ms-correlation-request-id',
-  '67382e0d-0f14-4d39-a378-dbeff50e31c1',
+  'c0d82b55-619a-434a-ba85-657d4c4e2897',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065149Z:67382e0d-0f14-4d39-a378-dbeff50e31c1',
+  'SOUTHEASTASIA:20210924T090539Z:c0d82b55-619a-434a-ba85-657d4c4e2897',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:49 GMT',
+  'Fri, 24 Sep 2021 09:05:38 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -6723,31 +6723,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'd43f23dc-7042-4ee0-aaee-ea7d4776f4a6',
+  '13b17312-1a1b-4548-be12-70bf206bbd04',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4565',
+  '5400',
   'x-ms-correlation-request-id',
-  'ce5633ee-aae9-45c9-831d-08cf67cc8b78',
+  'a66041b4-3939-4025-acd8-8065f1fe1f26',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065150Z:ce5633ee-aae9-45c9-831d-08cf67cc8b78',
+  'SOUTHEASTASIA:20210924T090539Z:a66041b4-3939-4025-acd8-8065f1fe1f26',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:49 GMT',
+  'Fri, 24 Sep 2021 09:05:39 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -6757,31 +6757,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '5da2456e-680e-41fa-b41b-3f954d684d8d',
+  '703a4a77-ea3a-4d01-8a75-deb18c1a4582',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4564',
+  '5399',
   'x-ms-correlation-request-id',
-  '9533dbb6-3bfc-4946-b3e8-2265cdb1135a',
+  '4818cfdc-23dd-4052-8dc5-41290e8e6306',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065150Z:9533dbb6-3bfc-4946-b3e8-2265cdb1135a',
+  'SOUTHEASTASIA:20210924T090539Z:4818cfdc-23dd-4052-8dc5-41290e8e6306',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:50 GMT',
+  'Fri, 24 Sep 2021 09:05:39 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -6791,31 +6791,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '72ec3423-7eb5-45d6-977e-ad5fc31d5210',
+  'e2d9bbe2-149c-4979-9c11-22903eae3d3e',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4563',
+  '5398',
   'x-ms-correlation-request-id',
-  '7b75f411-b8f4-4ab0-9984-3439c07e6717',
+  'd04940ec-4857-4837-b99e-20e3c1b22ce2',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065150Z:7b75f411-b8f4-4ab0-9984-3439c07e6717',
+  'SOUTHEASTASIA:20210924T090540Z:d04940ec-4857-4837-b99e-20e3c1b22ce2',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:50 GMT',
+  'Fri, 24 Sep 2021 09:05:39 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -6825,31 +6825,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '8982430c-4cb1-486a-b60a-ab1a31e98562',
+  '027c0ebd-6ffc-4f32-9cf9-8666a46fac75',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4562',
+  '5397',
   'x-ms-correlation-request-id',
-  '09245c42-9ca6-48e7-adee-540b3064143b',
+  '9875095c-9e1b-4ac1-9fb4-6ebd7006aeb6',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065151Z:09245c42-9ca6-48e7-adee-540b3064143b',
+  'SOUTHEASTASIA:20210924T090540Z:9875095c-9e1b-4ac1-9fb4-6ebd7006aeb6',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:51 GMT',
+  'Fri, 24 Sep 2021 09:05:40 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -6859,31 +6859,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'e2480ff4-f97a-4b2a-a429-1b9207617653',
+  'fc20b349-ae69-4a5e-af61-e17231315942',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4561',
+  '5396',
   'x-ms-correlation-request-id',
-  '2e4b168f-27c9-4cdb-a9b3-a52097962811',
+  '2f4138e7-08ee-4939-8c9c-97e3f00538a3',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065151Z:2e4b168f-27c9-4cdb-a9b3-a52097962811',
+  'SOUTHEASTASIA:20210924T090541Z:2f4138e7-08ee-4939-8c9c-97e3f00538a3',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:51 GMT',
+  'Fri, 24 Sep 2021 09:05:40 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -6893,31 +6893,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '63528c8c-dde3-45aa-9677-abfaa6851304',
+  'e38080e2-32d1-4831-b9e7-3f325e50d338',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4560',
+  '5395',
   'x-ms-correlation-request-id',
-  'fb2d2927-e385-4d50-abd0-df9911705abf',
+  '40aba694-4b52-4493-a929-aa290d127666',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065152Z:fb2d2927-e385-4d50-abd0-df9911705abf',
+  'SOUTHEASTASIA:20210924T090541Z:40aba694-4b52-4493-a929-aa290d127666',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:51 GMT',
+  'Fri, 24 Sep 2021 09:05:41 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -6927,31 +6927,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'b9342679-cc9f-41cc-a23a-6133f8de1c44',
+  '1c4ce425-a7e2-4edb-b0a2-85c8c6d330c3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4559',
+  '5394',
   'x-ms-correlation-request-id',
-  '89d3f9be-52c4-4315-a23a-8141e239c6b7',
+  '00be99d9-a927-4084-a25f-353b0ae39036',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065152Z:89d3f9be-52c4-4315-a23a-8141e239c6b7',
+  'SOUTHEASTASIA:20210924T090542Z:00be99d9-a927-4084-a25f-353b0ae39036',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:52 GMT',
+  'Fri, 24 Sep 2021 09:05:41 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -6961,31 +6961,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'd2183e93-98c7-4a7d-9c94-1ec21dc4165e',
+  '099db253-2702-4275-bcf8-3200c0047be9',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4558',
+  '5393',
   'x-ms-correlation-request-id',
-  'cd9acdf6-2e8f-437b-972e-2d1d756b3774',
+  'd41f1d14-0cdd-4090-9276-fd4f1a350f2a',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065153Z:cd9acdf6-2e8f-437b-972e-2d1d756b3774',
+  'SOUTHEASTASIA:20210924T090542Z:d41f1d14-0cdd-4090-9276-fd4f1a350f2a',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:52 GMT',
+  'Fri, 24 Sep 2021 09:05:42 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -6995,31 +6995,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'b7a52185-b833-41a5-9638-ad7e734b5b10',
+  '76b26977-6401-49aa-85ee-f38244f2bd08',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4557',
+  '5392',
   'x-ms-correlation-request-id',
-  '821625c5-5d5b-4d7b-8c0b-5e21cda5ae81',
+  '400f5f13-e634-4504-9b0c-6e29955eedbb',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065153Z:821625c5-5d5b-4d7b-8c0b-5e21cda5ae81',
+  'SOUTHEASTASIA:20210924T090543Z:400f5f13-e634-4504-9b0c-6e29955eedbb',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:53 GMT',
+  'Fri, 24 Sep 2021 09:05:42 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -7029,31 +7029,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '96af735f-924e-4ce8-a8c5-35f2aeacb2b7',
+  '352efc7f-dbb8-4eba-8061-d3d62c33b075',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4556',
+  '5391',
   'x-ms-correlation-request-id',
-  '3959cad1-4879-4b90-8805-e5a007728422',
+  'f454a8a2-5ff2-45bc-a4b2-cfa385be71c9',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065153Z:3959cad1-4879-4b90-8805-e5a007728422',
+  'SOUTHEASTASIA:20210924T090543Z:f454a8a2-5ff2-45bc-a4b2-cfa385be71c9',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:53 GMT',
+  'Fri, 24 Sep 2021 09:05:43 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -7063,31 +7063,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '1d3b8301-8ff5-4169-bfaa-500e71818236',
+  'd30b3189-8b5d-4f5c-82f2-a03527850ee6',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4555',
+  '5390',
   'x-ms-correlation-request-id',
-  'e223b227-e450-4b05-9101-093891816947',
+  '6546a027-f8b0-4513-b062-3d545843ac5f',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065154Z:e223b227-e450-4b05-9101-093891816947',
+  'SOUTHEASTASIA:20210924T090543Z:6546a027-f8b0-4513-b062-3d545843ac5f',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:53 GMT',
+  'Fri, 24 Sep 2021 09:05:43 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -7097,31 +7097,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '2d5f7d60-31f9-44c9-9668-7d4516c47eb8',
+  '6ceaebdb-3b79-4237-9974-563576c0ae3a',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4554',
+  '5389',
   'x-ms-correlation-request-id',
-  '32a77d49-b0d4-49b9-bf82-335b47d74ec8',
+  'cbf06488-1cc7-40cc-a002-9a6ed19a2d42',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065154Z:32a77d49-b0d4-49b9-bf82-335b47d74ec8',
+  'SOUTHEASTASIA:20210924T090544Z:cbf06488-1cc7-40cc-a002-9a6ed19a2d42',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:54 GMT',
+  'Fri, 24 Sep 2021 09:05:43 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -7131,31 +7131,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'd4dd58e6-caf9-4672-be3f-1a36d893aefb',
+  '78a9ffd7-562e-4d27-8ead-b9595dc40b8e',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4553',
+  '5388',
   'x-ms-correlation-request-id',
-  '98f403fb-4d1f-49d0-8d75-f8ae6fcf3ca9',
+  '7bf7964c-128b-42a7-8472-997a78ef4da0',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065155Z:98f403fb-4d1f-49d0-8d75-f8ae6fcf3ca9',
+  'SOUTHEASTASIA:20210924T090544Z:7bf7964c-128b-42a7-8472-997a78ef4da0',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:54 GMT',
+  'Fri, 24 Sep 2021 09:05:44 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -7165,31 +7165,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '72ef8a2c-dc83-4ca6-9993-8533b9bdaeec',
+  'd07d9f75-4c3b-4872-b64e-c93d4660ef92',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4552',
+  '5387',
   'x-ms-correlation-request-id',
-  'c5ce6222-667b-4755-a363-0788a63e841a',
+  'a1fd7709-59d5-49e5-948e-af97a7716c2f',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065155Z:c5ce6222-667b-4755-a363-0788a63e841a',
+  'SOUTHEASTASIA:20210924T090544Z:a1fd7709-59d5-49e5-948e-af97a7716c2f',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:55 GMT',
+  'Fri, 24 Sep 2021 09:05:44 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -7199,31 +7199,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'b8108ca7-30fd-44e3-a8a2-b6a42b62ad0d',
+  '068ac8a6-8432-4541-a9b3-24c31064096f',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4551',
+  '5386',
   'x-ms-correlation-request-id',
-  'd0bcfeac-253f-427e-a76d-e760d94bbb3d',
+  'aaf374a4-9581-42f6-9b29-f1e955dc9e3a',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065155Z:d0bcfeac-253f-427e-a76d-e760d94bbb3d',
+  'SOUTHEASTASIA:20210924T090545Z:aaf374a4-9581-42f6-9b29-f1e955dc9e3a',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:55 GMT',
+  'Fri, 24 Sep 2021 09:05:44 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -7233,31 +7233,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'adad94de-ae0e-4c06-a145-0a82aad9270b',
+  '5273e6fe-0d42-4cfb-991f-a258e54c03ed',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4550',
+  '5385',
   'x-ms-correlation-request-id',
-  'c86bb181-122b-4e89-9f7b-af019d433c65',
+  '0ca451af-976a-4da7-9635-8f9b0b951790',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065156Z:c86bb181-122b-4e89-9f7b-af019d433c65',
+  'SOUTHEASTASIA:20210924T090545Z:0ca451af-976a-4da7-9635-8f9b0b951790',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:56 GMT',
+  'Fri, 24 Sep 2021 09:05:45 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -7267,31 +7267,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '6de6b713-4ed9-4455-8944-7fed6af4bbce',
+  '020d1781-1cbc-405a-b588-a1a433845167',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4549',
+  '5384',
   'x-ms-correlation-request-id',
-  'e0b2ee10-e169-416f-b4f5-4496ceb1ec86',
+  '3372c624-ca84-4e8c-97f2-0e5cc7463cc1',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065156Z:e0b2ee10-e169-416f-b4f5-4496ceb1ec86',
+  'SOUTHEASTASIA:20210924T090546Z:3372c624-ca84-4e8c-97f2-0e5cc7463cc1',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:56 GMT',
+  'Fri, 24 Sep 2021 09:05:45 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -7301,31 +7301,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'd6101e4b-c148-450d-a931-220998f9fb5f',
+  'a3f7c0d0-b4be-4d21-a0f2-b041f4026935',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4548',
+  '5383',
   'x-ms-correlation-request-id',
-  'd49bfcf8-718b-481d-adb7-8ed611fa9d89',
+  'ff3da525-5b24-4c33-b31b-3e43549dc918',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065157Z:d49bfcf8-718b-481d-adb7-8ed611fa9d89',
+  'SOUTHEASTASIA:20210924T090546Z:ff3da525-5b24-4c33-b31b-3e43549dc918',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:56 GMT',
+  'Fri, 24 Sep 2021 09:05:46 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -7335,31 +7335,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '18381003-f223-4aec-bd60-200d9f23fec4',
+  '3bbd6a95-8cd4-4f73-acfa-df0c00ebc0f1',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4547',
+  '5382',
   'x-ms-correlation-request-id',
-  'aa5b881f-f444-4ce7-abbd-b2cd4328c345',
+  'f493db16-7399-4b2c-98db-a1b8398b9308',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065157Z:aa5b881f-f444-4ce7-abbd-b2cd4328c345',
+  'SOUTHEASTASIA:20210924T090546Z:f493db16-7399-4b2c-98db-a1b8398b9308',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:57 GMT',
+  'Fri, 24 Sep 2021 09:05:46 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -7369,31 +7369,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '8f3bf70c-ceba-48b6-b065-3bd58fa74995',
+  'cdab28c3-efb1-4361-a036-780f97de4ef4',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4546',
+  '5381',
   'x-ms-correlation-request-id',
-  '9fb6733f-50f2-49e4-bff6-c2852a1aab62',
+  'd5db0c38-8e57-4c52-8c03-15cc4755e9c7',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065157Z:9fb6733f-50f2-49e4-bff6-c2852a1aab62',
+  'SOUTHEASTASIA:20210924T090547Z:d5db0c38-8e57-4c52-8c03-15cc4755e9c7',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:57 GMT',
+  'Fri, 24 Sep 2021 09:05:46 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -7403,31 +7403,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'b109b635-3d7b-4805-8540-974d52919244',
+  '07b4d15a-9380-4fb9-b3a2-4fc0791abed7',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4545',
+  '5380',
   'x-ms-correlation-request-id',
-  '3c997d77-2cb0-4d95-b124-212ae7f86121',
+  '9c63a7bf-0fdd-4399-a91f-49fdf0be1736',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065158Z:3c997d77-2cb0-4d95-b124-212ae7f86121',
+  'SOUTHEASTASIA:20210924T090547Z:9c63a7bf-0fdd-4399-a91f-49fdf0be1736',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:57 GMT',
+  'Fri, 24 Sep 2021 09:05:47 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -7437,31 +7437,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '335c7564-9b58-4bdb-9d6f-3aa7440edc76',
+  'dc533007-801d-4397-be68-31317dd1424d',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4544',
+  '5379',
   'x-ms-correlation-request-id',
-  '6935be77-7fbb-4166-968c-738b87430b71',
+  '6a626cc9-a8e4-4e94-aab0-2aca9c85d995',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065158Z:6935be77-7fbb-4166-968c-738b87430b71',
+  'SOUTHEASTASIA:20210924T090548Z:6a626cc9-a8e4-4e94-aab0-2aca9c85d995',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:58 GMT',
+  'Fri, 24 Sep 2021 09:05:47 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -7471,31 +7471,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '861b13a0-e992-4349-b9e6-1d803a6879c3',
+  '8ad2eb81-ce06-4483-b649-03275bc021fa',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4543',
+  '5378',
   'x-ms-correlation-request-id',
-  '0509d629-1811-45bc-ad84-66881868dd98',
+  '9a8ca2ae-25a6-4ac9-bd00-1dc4990201ce',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065158Z:0509d629-1811-45bc-ad84-66881868dd98',
+  'SOUTHEASTASIA:20210924T090548Z:9a8ca2ae-25a6-4ac9-bd00-1dc4990201ce',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:58 GMT',
+  'Fri, 24 Sep 2021 09:05:48 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -7505,31 +7505,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '4238a5fe-82c6-4cc9-b966-291f44e4055e',
+  '236c567e-ddeb-4049-b80a-c916cba7a04a',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4542',
+  '5377',
   'x-ms-correlation-request-id',
-  '0a14d7c6-90ae-405e-987e-9ec04cf1c1c3',
+  '5c100ffe-76d7-4ee7-8d77-78790fd1c91f',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065159Z:0a14d7c6-90ae-405e-987e-9ec04cf1c1c3',
+  'SOUTHEASTASIA:20210924T090548Z:5c100ffe-76d7-4ee7-8d77-78790fd1c91f',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:59 GMT',
+  'Fri, 24 Sep 2021 09:05:48 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -7539,31 +7539,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'bc627eab-a860-470d-91d0-ff5c870b8779',
+  '56dfff41-1fdf-48d0-9399-beb9a06d0a49',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4541',
+  '5376',
   'x-ms-correlation-request-id',
-  '7dcc8c24-9ddb-4e0a-9b00-57c53959585f',
+  'e4eac2b5-d56a-4dc3-8ea9-3c4fa4f8b962',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065159Z:7dcc8c24-9ddb-4e0a-9b00-57c53959585f',
+  'SOUTHEASTASIA:20210924T090549Z:e4eac2b5-d56a-4dc3-8ea9-3c4fa4f8b962',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:59 GMT',
+  'Fri, 24 Sep 2021 09:05:48 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -7573,31 +7573,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'ce419ce8-cbda-4a2e-9170-51dd7388327d',
+  '0f861864-7468-47c8-9005-2db3457ae91d',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4540',
+  '5375',
   'x-ms-correlation-request-id',
-  'ddb407a9-06ff-4a94-a742-bfbaa997d2ed',
+  '7499f866-fa8f-4d26-b38a-0ade63d708e3',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065200Z:ddb407a9-06ff-4a94-a742-bfbaa997d2ed',
+  'SOUTHEASTASIA:20210924T090549Z:7499f866-fa8f-4d26-b38a-0ade63d708e3',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:51:59 GMT',
+  'Fri, 24 Sep 2021 09:05:49 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -7607,31 +7607,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'f545da35-0f64-402d-9b83-ccad96322454',
+  '04e5b298-4659-4982-9f6f-f7eaf4825932',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4539',
+  '5374',
   'x-ms-correlation-request-id',
-  'd0c70e10-62b3-41cd-8a16-8bb2d84f024d',
+  '133d6739-8049-4148-81a0-3f34f7be8c20',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065200Z:d0c70e10-62b3-41cd-8a16-8bb2d84f024d',
+  'SOUTHEASTASIA:20210924T090549Z:133d6739-8049-4148-81a0-3f34f7be8c20',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:00 GMT',
+  'Fri, 24 Sep 2021 09:05:49 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -7641,31 +7641,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '89ab22fb-1c56-4297-933c-3565d3676742',
+  '6e02cbdc-2b59-4247-b53b-f5806299f00d',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4538',
+  '5373',
   'x-ms-correlation-request-id',
-  'ace6c565-1862-4500-9f67-16288a4c7413',
+  '35858e7a-a9df-46f9-aaec-f73c9b4fb711',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065200Z:ace6c565-1862-4500-9f67-16288a4c7413',
+  'SOUTHEASTASIA:20210924T090550Z:35858e7a-a9df-46f9-aaec-f73c9b4fb711',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:00 GMT',
+  'Fri, 24 Sep 2021 09:05:49 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -7675,31 +7675,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '904d5a71-58d1-426d-8eff-5c938a63397c',
+  '3c0b6cbd-ad51-44c9-829c-b9a3678205f4',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4537',
+  '5372',
   'x-ms-correlation-request-id',
-  '3cab1bfe-92ec-4227-b62a-2b85a2fe9105',
+  '8c375c9c-1f36-47f9-af8a-09076f285385',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065201Z:3cab1bfe-92ec-4227-b62a-2b85a2fe9105',
+  'SOUTHEASTASIA:20210924T090550Z:8c375c9c-1f36-47f9-af8a-09076f285385',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:01 GMT',
+  'Fri, 24 Sep 2021 09:05:50 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -7709,31 +7709,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '016fbca7-b80b-4a9f-8dde-45aa81a91bc9',
+  '5404ba90-0b51-44d3-9723-e13af2f96e73',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4536',
+  '5371',
   'x-ms-correlation-request-id',
-  '3dd1dfe2-a693-4472-bfb3-507524ff5f76',
+  '5b17918f-2917-4816-a168-62c42c84fa48',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065201Z:3dd1dfe2-a693-4472-bfb3-507524ff5f76',
+  'SOUTHEASTASIA:20210924T090551Z:5b17918f-2917-4816-a168-62c42c84fa48',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:01 GMT',
+  'Fri, 24 Sep 2021 09:05:50 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -7743,31 +7743,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '477e8c59-ffac-4e25-8406-c50126209064',
+  '5f7504c8-ba6e-4863-b0ce-375740f37908',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4535',
+  '5370',
   'x-ms-correlation-request-id',
-  '13e67146-8f7e-4da7-a016-3310fbb54c11',
+  '7f819b73-19eb-47f7-9749-c003da19c05b',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065202Z:13e67146-8f7e-4da7-a016-3310fbb54c11',
+  'SOUTHEASTASIA:20210924T090551Z:7f819b73-19eb-47f7-9749-c003da19c05b',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:01 GMT',
+  'Fri, 24 Sep 2021 09:05:51 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -7777,31 +7777,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '5a07e17c-9805-4b7b-a686-399ae65ad28a',
+  '99a3a555-e700-4113-a378-cf7ced22bb82',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4534',
+  '5369',
   'x-ms-correlation-request-id',
-  'b9130fa1-3d00-493b-8fe4-279eea816dd6',
+  '11d4c260-61d4-40b6-9a0b-005aa06b4b2e',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065202Z:b9130fa1-3d00-493b-8fe4-279eea816dd6',
+  'SOUTHEASTASIA:20210924T090551Z:11d4c260-61d4-40b6-9a0b-005aa06b4b2e',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:02 GMT',
+  'Fri, 24 Sep 2021 09:05:51 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -7811,31 +7811,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '18e6ffc9-92f4-4fd7-925c-4e25ab3846fb',
+  '1f444dbe-461f-4e21-b948-751aedcd103e',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4533',
+  '5368',
   'x-ms-correlation-request-id',
-  'd7666c6e-712a-4d93-9665-51442cb6655d',
+  '0583945c-b593-470a-8acc-d512efcc4e71',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065202Z:d7666c6e-712a-4d93-9665-51442cb6655d',
+  'SOUTHEASTASIA:20210924T090552Z:0583945c-b593-470a-8acc-d512efcc4e71',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:02 GMT',
+  'Fri, 24 Sep 2021 09:05:51 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -7845,31 +7845,609 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '7a61329b-6f95-459c-b933-d6137b0ab1ee',
+  '581067de-b482-4d2e-a872-b3df49d1259f',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4532',
+  '5367',
   'x-ms-correlation-request-id',
-  'dbaa4149-5f17-4c75-908a-057091cb66a7',
+  'e1ef4030-930c-4e27-a02f-e47dae342ca7',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065203Z:dbaa4149-5f17-4c75-908a-057091cb66a7',
+  'SOUTHEASTASIA:20210924T090552Z:e1ef4030-930c-4e27-a02f-e47dae342ca7',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:03 GMT',
+  'Fri, 24 Sep 2021 09:05:52 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV9mZjVmMThhMA==')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Location',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  'f6c989a9-6dc7-44cd-8ef9-9a95aa9ccce9',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '5366',
+  'x-ms-correlation-request-id',
+  '8b6a8eac-e7b9-4cd2-8189-6b6312b71da8',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20210924T090553Z:8b6a8eac-e7b9-4cd2-8189-6b6312b71da8',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 24 Sep 2021 09:05:52 GMT',
+  'Content-Length',
+  '0'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Location',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '2a6cca48-d97c-4936-82b6-bf652d1e8ed0',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '5365',
+  'x-ms-correlation-request-id',
+  '62b9f2e0-fe63-4c79-9647-3e74e9207ace',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20210924T090553Z:62b9f2e0-fe63-4c79-9647-3e74e9207ace',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 24 Sep 2021 09:05:53 GMT',
+  'Content-Length',
+  '0'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Location',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '7a85cf54-7c81-4f2d-9e48-832c76853753',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '5364',
+  'x-ms-correlation-request-id',
+  '9e395c36-83e5-477d-9559-2cba67476f06',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20210924T090553Z:9e395c36-83e5-477d-9559-2cba67476f06',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 24 Sep 2021 09:05:53 GMT',
+  'Content-Length',
+  '0'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Location',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '64b6593e-3366-4802-a0d3-6b5588416819',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '5363',
+  'x-ms-correlation-request-id',
+  '2b941d48-722e-459c-ab73-b65402038084',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20210924T090554Z:2b941d48-722e-459c-ab73-b65402038084',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 24 Sep 2021 09:05:53 GMT',
+  'Content-Length',
+  '0'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Location',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '5b581aac-169e-473d-a499-d4f037ef0c80',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '5362',
+  'x-ms-correlation-request-id',
+  'fa4ebc39-e67b-4dfa-94f7-159b4ff9cb13',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20210924T090554Z:fa4ebc39-e67b-4dfa-94f7-159b4ff9cb13',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 24 Sep 2021 09:05:54 GMT',
+  'Content-Length',
+  '0'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Location',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '997c7697-b4b0-4043-b181-8a359ea142ab',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '5361',
+  'x-ms-correlation-request-id',
+  '4e2b2670-60d2-420f-9852-691f60511e5d',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20210924T090555Z:4e2b2670-60d2-420f-9852-691f60511e5d',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 24 Sep 2021 09:05:54 GMT',
+  'Content-Length',
+  '0'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Location',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '6c9b4a27-12b0-426f-9e8e-7c030c7cea3c',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '5360',
+  'x-ms-correlation-request-id',
+  '89774175-3c23-46e0-811f-e92e9e993499',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20210924T090555Z:89774175-3c23-46e0-811f-e92e9e993499',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 24 Sep 2021 09:05:54 GMT',
+  'Content-Length',
+  '0'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Location',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  'b168f6eb-6d67-4d66-a17d-8cfc3e80dddd',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '5359',
+  'x-ms-correlation-request-id',
+  '1fbfd76d-6eae-4215-843d-5a02f1187768',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20210924T090555Z:1fbfd76d-6eae-4215-843d-5a02f1187768',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 24 Sep 2021 09:05:55 GMT',
+  'Content-Length',
+  '0'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Location',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  'd945736c-d2ee-4fab-b7e3-d59ddef6b072',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '5358',
+  'x-ms-correlation-request-id',
+  '75fe239a-9e86-4434-87ed-f49f297a687d',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20210924T090556Z:75fe239a-9e86-4434-87ed-f49f297a687d',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 24 Sep 2021 09:05:55 GMT',
+  'Content-Length',
+  '0'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Location',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  'b7a05e67-c6e3-40bf-920d-091d51e33ae1',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '5357',
+  'x-ms-correlation-request-id',
+  'e52e083c-7170-4cb9-9516-2d431d422fc5',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20210924T090556Z:e52e083c-7170-4cb9-9516-2d431d422fc5',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 24 Sep 2021 09:05:56 GMT',
+  'Content-Length',
+  '0'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Location',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '2e15acfe-5f77-4bff-9f3b-145a81f08d9a',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '5356',
+  'x-ms-correlation-request-id',
+  '5ab69771-9028-43f4-a6e9-841ddc95d717',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20210924T090556Z:5ab69771-9028-43f4-a6e9-841ddc95d717',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 24 Sep 2021 09:05:56 GMT',
+  'Content-Length',
+  '0'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Location',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  'ed9096bc-dc9d-4df9-9de5-2adabbda124c',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '5355',
+  'x-ms-correlation-request-id',
+  '94877e69-6b3d-4a10-9262-92868415355e',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20210924T090557Z:94877e69-6b3d-4a10-9262-92868415355e',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 24 Sep 2021 09:05:56 GMT',
+  'Content-Length',
+  '0'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Location',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '864252a1-82b7-4e70-9450-f763ae5768a4',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '5354',
+  'x-ms-correlation-request-id',
+  'df12cdab-44e5-4ace-9d2c-d4fa8a31c396',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20210924T090557Z:df12cdab-44e5-4ace-9d2c-d4fa8a31c396',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 24 Sep 2021 09:05:57 GMT',
+  'Content-Length',
+  '0'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Location',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '0d825cee-6c1d-4018-8644-328624f7c12a',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '5353',
+  'x-ms-correlation-request-id',
+  'cc75eeb1-0d63-4931-b0ef-b804bed74e59',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20210924T090558Z:cc75eeb1-0d63-4931-b0ef-b804bed74e59',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 24 Sep 2021 09:05:57 GMT',
+  'Content-Length',
+  '0'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Location',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  'af369e14-8659-4ba2-827d-7f2a55566bd1',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '5352',
+  'x-ms-correlation-request-id',
+  'ed7aae55-452e-4025-911a-66c8f35eb7bc',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20210924T090558Z:ed7aae55-452e-4025-911a-66c8f35eb7bc',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 24 Sep 2021 09:05:58 GMT',
+  'Content-Length',
+  '0'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Location',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  'ee096928-a370-44e7-9bd5-88897ecad6dd',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '5351',
+  'x-ms-correlation-request-id',
+  '4c016387-a8ae-4f7a-933b-f73b7f27137e',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20210924T090559Z:4c016387-a8ae-4f7a-933b-f73b7f27137e',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 24 Sep 2021 09:05:58 GMT',
+  'Content-Length',
+  '0'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Location',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==?api-version=2021-04-01-preview',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '1d1e6d98-b4d0-4404-bc61-2aaed32550c6',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '5350',
+  'x-ms-correlation-request-id',
+  '78011690-8578-4150-9d03-42460ea3a4f4',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20210924T090559Z:78011690-8578-4150-9d03-42460ea3a4f4',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 24 Sep 2021 09:05:58 GMT',
+  'Content-Length',
+  '0'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2VmNjljYQ==')
   .query(true)
   .reply(200, "", [
   'Cache-Control',
@@ -7881,27 +8459,27 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '7bd3ad1b-0bbe-4915-b79a-e9388abfe430',
+  '8a69b68c-f11e-40fc-9fd2-0830d1c4025d',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4531',
+  '5349',
   'x-ms-correlation-request-id',
-  '53a1586c-a926-4c4a-829b-9d96c0c9a8a1',
+  'ae3eac49-ad3e-4c45-9361-ace56cf75857',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065203Z:53a1586c-a926-4c4a-829b-9d96c0c9a8a1',
+  'SOUTHEASTASIA:20210924T090559Z:ae3eac49-ad3e-4c45-9361-ace56cf75857',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:03 GMT',
+  'Fri, 24 Sep 2021 09:05:59 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .delete('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5')
+  .delete('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2')
   .query(true)
-  .reply(202, {"id":"/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5","name":"myservicexxx5","type":"Microsoft.ApiManagement/deletedservices","location":"East US","properties":{"serviceId":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myservicexxx5","scheduledPurgeDate":"2021-09-24T06:52:03.9419668Z","deletionDate":"2021-09-24T06:52:02.3924999Z"}}, [
+  .reply(202, {"id":"/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2","name":"myserviceyyy2","type":"Microsoft.ApiManagement/deletedservices","location":"East US","properties":{"serviceId":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2","scheduledPurgeDate":"2021-09-24T09:06:00.0209586Z","deletionDate":"2021-09-24T09:05:57.3632102Z"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -7913,29 +8491,29 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '72527dd6-61bb-4a1a-939e-93ffd0efbc26',
+  '13c7a3ca-a161-473d-95fb-987acc412cce',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-deletes',
   '14998',
   'x-ms-correlation-request-id',
-  'eab9ada4-a14e-4587-a337-651017ec43b5',
+  'd2ead8e7-7c67-4818-bd84-96cdba014018',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065204Z:eab9ada4-a14e-4587-a337-651017ec43b5',
+  'SOUTHEASTASIA:20210924T090600Z:d2ead8e7-7c67-4818-bd84-96cdba014018',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:03 GMT'
+  'Fri, 24 Sep 2021 09:05:59 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -7945,31 +8523,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'ed59c86b-1755-417b-a0e4-6f0c61497e55',
+  '78acb74b-0cf7-4b91-abaf-2b774f41679f',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4530',
+  '5348',
   'x-ms-correlation-request-id',
-  '86519e72-0e6a-4b98-b3ad-26e251ed9f7c',
+  '1d263331-bee1-4299-b90e-59a5c2fbaacc',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065204Z:86519e72-0e6a-4b98-b3ad-26e251ed9f7c',
+  'SOUTHEASTASIA:20210924T090600Z:1d263331-bee1-4299-b90e-59a5c2fbaacc',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:04 GMT',
+  'Fri, 24 Sep 2021 09:06:00 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -7979,31 +8557,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '35d24d28-58ea-4f16-b8b8-23032d39fc09',
+  'b70cd8d6-e377-4126-a7da-27cef6c51c44',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4529',
+  '5347',
   'x-ms-correlation-request-id',
-  '1f929b19-bd05-4737-8435-bda64eef04d3',
+  'f5c1c5bb-9797-48c4-b718-91ba6aba134d',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065204Z:1f929b19-bd05-4737-8435-bda64eef04d3',
+  'SOUTHEASTASIA:20210924T090600Z:f5c1c5bb-9797-48c4-b718-91ba6aba134d',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:04 GMT',
+  'Fri, 24 Sep 2021 09:06:00 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -8013,31 +8591,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'fe5eb078-3319-46fc-a7c6-23305451692e',
+  '6e7a1c2d-247c-49e8-83f6-f21624c6c17e',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4528',
+  '5346',
   'x-ms-correlation-request-id',
-  'a68cc60f-2fe7-4051-b2ab-f8b7a9f2cf51',
+  '1279ac45-e081-4844-a5e9-6040dc68b0bb',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065205Z:a68cc60f-2fe7-4051-b2ab-f8b7a9f2cf51',
+  'SOUTHEASTASIA:20210924T090601Z:1279ac45-e081-4844-a5e9-6040dc68b0bb',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:05 GMT',
+  'Fri, 24 Sep 2021 09:06:00 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -8047,31 +8625,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'd025d7a6-284d-4825-8873-b3c311ff2be0',
+  '6b7dc40f-4300-49f2-829d-9ba5e7643f12',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4527',
+  '5345',
   'x-ms-correlation-request-id',
-  '020673b8-2ddf-4f3e-a3f6-611a80ce46f9',
+  '10198099-f7bc-4816-9ffb-2bd6452957e6',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065205Z:020673b8-2ddf-4f3e-a3f6-611a80ce46f9',
+  'SOUTHEASTASIA:20210924T090601Z:10198099-f7bc-4816-9ffb-2bd6452957e6',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:05 GMT',
+  'Fri, 24 Sep 2021 09:06:01 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -8081,31 +8659,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'dd9528d5-c534-4ba6-b917-016686b0c594',
+  '5940f5c8-e4de-41ba-aa78-a357bc391299',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4526',
+  '5344',
   'x-ms-correlation-request-id',
-  'b0555a2a-bf6e-41a2-a13e-4fcf2200408c',
+  '9cb3941e-f9ca-4433-9353-189ce3e7855f',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065206Z:b0555a2a-bf6e-41a2-a13e-4fcf2200408c',
+  'SOUTHEASTASIA:20210924T090602Z:9cb3941e-f9ca-4433-9353-189ce3e7855f',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:05 GMT',
+  'Fri, 24 Sep 2021 09:06:01 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -8115,31 +8693,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'aa4f9605-cf6d-4be9-9f6d-81b956710239',
+  '3eb90fed-9e74-4094-8fe7-8abc5a780ae6',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4525',
+  '5343',
   'x-ms-correlation-request-id',
-  'a09e2990-d825-45d6-88f0-0a3dbee75042',
+  '93e5dcf7-7837-47c9-a0f5-78dd5d5694a9',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065206Z:a09e2990-d825-45d6-88f0-0a3dbee75042',
+  'SOUTHEASTASIA:20210924T090602Z:93e5dcf7-7837-47c9-a0f5-78dd5d5694a9',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:06 GMT',
+  'Fri, 24 Sep 2021 09:06:02 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -8149,31 +8727,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'c77fa155-e034-4f23-a313-34d3f72e804c',
+  'eb1c6ea7-b769-4a74-a2ee-9f2f18c6019d',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4524',
+  '5342',
   'x-ms-correlation-request-id',
-  '446a2733-7c58-46af-ae93-8ac2d4e26165',
+  '0cce2d8e-af34-4a8f-b78f-57471ca8467a',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065206Z:446a2733-7c58-46af-ae93-8ac2d4e26165',
+  'SOUTHEASTASIA:20210924T090602Z:0cce2d8e-af34-4a8f-b78f-57471ca8467a',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:06 GMT',
+  'Fri, 24 Sep 2021 09:06:02 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -8183,31 +8761,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'c67964a3-6bf5-4b93-9651-947bbdb25e3d',
+  '655899a4-b05c-4b79-a23c-287d7a6d9a6e',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4523',
+  '5341',
   'x-ms-correlation-request-id',
-  '6c36ffb2-80bb-42c2-a6f7-168515fd4f65',
+  'a930eb24-1f6b-4866-8f31-0964c6e2cf93',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065207Z:6c36ffb2-80bb-42c2-a6f7-168515fd4f65',
+  'SOUTHEASTASIA:20210924T090603Z:a930eb24-1f6b-4866-8f31-0964c6e2cf93',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:06 GMT',
+  'Fri, 24 Sep 2021 09:06:02 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -8217,31 +8795,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '126ae4da-79ce-4014-87f2-51e811ad1183',
+  '282d1ae6-3d55-40c5-a637-9ae75153a3c9',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4522',
+  '5340',
   'x-ms-correlation-request-id',
-  'db052241-f32f-458e-bf5e-92d37e8f2565',
+  '1bf7f94c-b2aa-43f9-b0d5-689879182fe3',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065207Z:db052241-f32f-458e-bf5e-92d37e8f2565',
+  'SOUTHEASTASIA:20210924T090603Z:1bf7f94c-b2aa-43f9-b0d5-689879182fe3',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:07 GMT',
+  'Fri, 24 Sep 2021 09:06:03 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -8251,31 +8829,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '69ccadf7-35b5-492b-b8bd-427e2ba2cec8',
+  'fc478689-bcba-463f-b69a-08d0ef6659cb',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4521',
+  '5339',
   'x-ms-correlation-request-id',
-  'c2f6b67c-418c-4d95-a62f-32011c1d5132',
+  '46859243-307a-4499-b225-fbd18aa736be',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065207Z:c2f6b67c-418c-4d95-a62f-32011c1d5132',
+  'SOUTHEASTASIA:20210924T090603Z:46859243-307a-4499-b225-fbd18aa736be',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:07 GMT',
+  'Fri, 24 Sep 2021 09:06:03 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -8285,31 +8863,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '3787e5ac-dfc8-40de-81ed-0a86d8d981da',
+  '14a0500a-452b-41cf-9a92-5c4a59c9fbd0',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4520',
+  '5338',
   'x-ms-correlation-request-id',
-  'e58f4511-09f3-49f8-af4b-54f69d042c06',
+  '7227fb4f-be92-4caa-9f85-ee2a0a22425c',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065208Z:e58f4511-09f3-49f8-af4b-54f69d042c06',
+  'SOUTHEASTASIA:20210924T090604Z:7227fb4f-be92-4caa-9f85-ee2a0a22425c',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:08 GMT',
+  'Fri, 24 Sep 2021 09:06:03 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -8319,31 +8897,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '6bbdd6a1-a5f8-48b9-a0d2-7ac2b03add58',
+  'f0ded683-8df7-4994-98c9-2df7a6965b94',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4519',
+  '5337',
   'x-ms-correlation-request-id',
-  '800b6211-b83d-48ff-a666-204e0334920e',
+  '91fe38c1-137e-49b5-96bd-1aae270a108c',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065208Z:800b6211-b83d-48ff-a666-204e0334920e',
+  'SOUTHEASTASIA:20210924T090604Z:91fe38c1-137e-49b5-96bd-1aae270a108c',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:08 GMT',
+  'Fri, 24 Sep 2021 09:06:04 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -8353,31 +8931,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '89c2bbb5-f1c2-4a60-93ae-ae3105037873',
+  '99ce331b-bc3f-4dfe-9aec-26ce55940cc8',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4518',
+  '5336',
   'x-ms-correlation-request-id',
-  '84281f48-06c5-4ec0-b716-c75a3cc5776b',
+  '0053b022-22d2-4931-9d34-a374e8b0cd02',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065209Z:84281f48-06c5-4ec0-b716-c75a3cc5776b',
+  'SOUTHEASTASIA:20210924T090605Z:0053b022-22d2-4931-9d34-a374e8b0cd02',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:08 GMT',
+  'Fri, 24 Sep 2021 09:06:04 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -8387,31 +8965,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'eddbdd1a-4cd2-46b4-b602-e338a52490b9',
+  '22fd64e9-028b-4d91-87d2-a39794119875',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4517',
+  '5335',
   'x-ms-correlation-request-id',
-  '0a0cfe33-9f60-4cb6-a702-fabde2f8387c',
+  '3da1d254-0865-4e10-9997-302cd0cdc3e5',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065209Z:0a0cfe33-9f60-4cb6-a702-fabde2f8387c',
+  'SOUTHEASTASIA:20210924T090605Z:3da1d254-0865-4e10-9997-302cd0cdc3e5',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:09 GMT',
+  'Fri, 24 Sep 2021 09:06:05 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -8421,31 +8999,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'e976f992-b8e0-4db9-a015-875c1a40764b',
+  '0373a2a5-dbea-4616-b36f-11320cb1579c',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4516',
+  '5334',
   'x-ms-correlation-request-id',
-  '6a9a6ab4-c23b-4a6e-aaa1-ea5370892fe4',
+  'f0ac0af6-9996-4c0c-bf72-dd499038f196',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065209Z:6a9a6ab4-c23b-4a6e-aaa1-ea5370892fe4',
+  'SOUTHEASTASIA:20210924T090605Z:f0ac0af6-9996-4c0c-bf72-dd499038f196',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:09 GMT',
+  'Fri, 24 Sep 2021 09:06:05 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -8455,31 +9033,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '2d023ba9-98c7-4b4b-8322-fa8a663bf9a5',
+  '20ab7bbd-5211-40b9-b915-84f1b9813277',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4515',
+  '5333',
   'x-ms-correlation-request-id',
-  'eccfc1c4-a450-45ea-9158-6f958ae98647',
+  '931d6c42-2df9-433f-9a7e-ec4a31a4c734',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065210Z:eccfc1c4-a450-45ea-9158-6f958ae98647',
+  'SOUTHEASTASIA:20210924T090606Z:931d6c42-2df9-433f-9a7e-ec4a31a4c734',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:09 GMT',
+  'Fri, 24 Sep 2021 09:06:05 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -8489,31 +9067,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'e233d79d-0bb6-4033-a8ad-6ff370c52df0',
+  '9421a0cf-e3eb-498f-a06c-be44892f8c14',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4514',
+  '5332',
   'x-ms-correlation-request-id',
-  'cb09007f-3a5a-4d56-a709-25fe44eb5c25',
+  '0a88b87a-4ecd-45ad-a7d9-98ef312dabc0',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065210Z:cb09007f-3a5a-4d56-a709-25fe44eb5c25',
+  'SOUTHEASTASIA:20210924T090606Z:0a88b87a-4ecd-45ad-a7d9-98ef312dabc0',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:10 GMT',
+  'Fri, 24 Sep 2021 09:06:06 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -8523,31 +9101,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '82b6aa0c-784c-48d3-aa2d-206e8e6da181',
+  '28a5f9de-b8a4-4d3c-92c2-82a9f994c0a6',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4513',
+  '5331',
   'x-ms-correlation-request-id',
-  '9ab90fd6-8063-4dd0-94e9-7c44368e95bd',
+  '55364c68-3e7e-48d3-a2cd-573580a5b67a',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065210Z:9ab90fd6-8063-4dd0-94e9-7c44368e95bd',
+  'SOUTHEASTASIA:20210924T090607Z:55364c68-3e7e-48d3-a2cd-573580a5b67a',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:10 GMT',
+  'Fri, 24 Sep 2021 09:06:06 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -8557,31 +9135,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '9a907aff-2569-4cec-9483-fb1bbd2f3f9b',
+  '4b984f50-8b5c-4fbb-a5d7-79e1e4cbce7b',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4512',
+  '5330',
   'x-ms-correlation-request-id',
-  'b970d2f3-6e44-4c87-b4d4-14d2306b8b84',
+  'ca6e7df0-5795-48d7-b704-3bee1cfa59bc',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065211Z:b970d2f3-6e44-4c87-b4d4-14d2306b8b84',
+  'SOUTHEASTASIA:20210924T090607Z:ca6e7df0-5795-48d7-b704-3bee1cfa59bc',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:10 GMT',
+  'Fri, 24 Sep 2021 09:06:06 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -8591,31 +9169,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '2b3dfbad-e525-4a71-9cc9-03594b81375d',
+  '17788e1b-9c19-42e9-9006-2b8fe4f3d32b',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4511',
+  '5329',
   'x-ms-correlation-request-id',
-  'dab2fafe-fe3f-4634-990c-d02845bd5520',
+  'a5e167fb-e43a-4b2b-bf49-e163dcf4a5d0',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065211Z:dab2fafe-fe3f-4634-990c-d02845bd5520',
+  'SOUTHEASTASIA:20210924T090607Z:a5e167fb-e43a-4b2b-bf49-e163dcf4a5d0',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:11 GMT',
+  'Fri, 24 Sep 2021 09:06:07 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -8625,31 +9203,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '74562934-0936-43e3-9816-6ec94fdc67c7',
+  '2d4a7068-d7e4-4cc7-a312-71eb4297e46a',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4510',
+  '5328',
   'x-ms-correlation-request-id',
-  '0adbd84f-9a75-4592-b801-8c38ed66d80c',
+  '2797c4a7-ea71-42e9-b67f-892f42039089',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065212Z:0adbd84f-9a75-4592-b801-8c38ed66d80c',
+  'SOUTHEASTASIA:20210924T090608Z:2797c4a7-ea71-42e9-b67f-892f42039089',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:11 GMT',
+  'Fri, 24 Sep 2021 09:06:07 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -8659,31 +9237,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '78a1031c-be26-4311-a2be-ac7978181e21',
+  '0156ce21-5a88-4729-910f-ea2fdefd072a',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4509',
+  '5327',
   'x-ms-correlation-request-id',
-  'e0a0b734-be20-4e6a-a623-f569d127bc3c',
+  '4f5ab772-65ee-437a-bff5-ac5e03c672ea',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065212Z:e0a0b734-be20-4e6a-a623-f569d127bc3c',
+  'SOUTHEASTASIA:20210924T090608Z:4f5ab772-65ee-437a-bff5-ac5e03c672ea',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:12 GMT',
+  'Fri, 24 Sep 2021 09:06:08 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -8693,31 +9271,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '304db277-4eb2-485f-9458-f88e0a133993',
+  'fe98c702-221f-4e63-9986-91ee25cff560',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4508',
+  '5326',
   'x-ms-correlation-request-id',
-  '1dcf5fbe-abcb-4891-ab61-0362b61ca8ee',
+  'd57bbcc3-1865-4a05-ab13-979cca36a198',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065212Z:1dcf5fbe-abcb-4891-ab61-0362b61ca8ee',
+  'SOUTHEASTASIA:20210924T090608Z:d57bbcc3-1865-4a05-ab13-979cca36a198',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:12 GMT',
+  'Fri, 24 Sep 2021 09:06:08 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -8727,31 +9305,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'd6b7da20-dd52-4675-adf4-f4d0c96cd747',
+  'c26da8a6-54d5-4bb7-8561-d1348dbec75f',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4507',
+  '5325',
   'x-ms-correlation-request-id',
-  'b7e4a99f-2533-4181-a6f0-a06da6237289',
+  'a816004f-2a5a-44a6-88bd-eef11c212f86',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065213Z:b7e4a99f-2533-4181-a6f0-a06da6237289',
+  'SOUTHEASTASIA:20210924T090609Z:a816004f-2a5a-44a6-88bd-eef11c212f86',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:12 GMT',
+  'Fri, 24 Sep 2021 09:06:08 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -8761,31 +9339,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '0be5270f-0bc2-471e-84c1-b76bf5c416c4',
+  'f8c6b304-6992-42a2-a69b-855a7857f16f',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4506',
+  '5324',
   'x-ms-correlation-request-id',
-  'f3f56bf2-5c36-490c-b330-980146b29b56',
+  'aeb33c5f-fce8-4376-ae89-00e9d0a260a4',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065213Z:f3f56bf2-5c36-490c-b330-980146b29b56',
+  'SOUTHEASTASIA:20210924T090609Z:aeb33c5f-fce8-4376-ae89-00e9d0a260a4',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:13 GMT',
+  'Fri, 24 Sep 2021 09:06:09 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -8795,31 +9373,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '5e964924-aa0f-4d30-89c4-e391466bb664',
+  'ec4d0402-9767-4ff7-83f7-312ed37f44d5',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4505',
+  '5323',
   'x-ms-correlation-request-id',
-  '07e7eceb-8891-406c-aecf-57ed6aebe55c',
+  '22a91d07-14a9-493a-b718-d17c3591488b',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065213Z:07e7eceb-8891-406c-aecf-57ed6aebe55c',
+  'SOUTHEASTASIA:20210924T090610Z:22a91d07-14a9-493a-b718-d17c3591488b',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:13 GMT',
+  'Fri, 24 Sep 2021 09:06:09 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -8829,31 +9407,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '18eadd2a-5932-46b4-937d-a0688cdaf3d3',
+  '469dbbd6-7b21-400b-8467-d6607ab6f651',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4504',
+  '5322',
   'x-ms-correlation-request-id',
-  '40edcafc-978e-4428-bb61-49d1aaf0e929',
+  '64ee2e4e-258e-480e-a2ac-279d6af83667',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065214Z:40edcafc-978e-4428-bb61-49d1aaf0e929',
+  'SOUTHEASTASIA:20210924T090610Z:64ee2e4e-258e-480e-a2ac-279d6af83667',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:13 GMT',
+  'Fri, 24 Sep 2021 09:06:09 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -8863,31 +9441,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'a21ba2f1-b202-4d8a-949e-07c5ab605cc9',
+  'c60c974f-3d47-4948-9d24-7de6d595e8bc',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4503',
+  '5321',
   'x-ms-correlation-request-id',
-  '3784e469-859e-4c4c-a4e7-13e5aed4a548',
+  'a393f0e6-a0a0-4add-96c7-03c2b9c7565c',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065214Z:3784e469-859e-4c4c-a4e7-13e5aed4a548',
+  'SOUTHEASTASIA:20210924T090610Z:a393f0e6-a0a0-4add-96c7-03c2b9c7565c',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:14 GMT',
+  'Fri, 24 Sep 2021 09:06:10 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -8897,31 +9475,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'a4545c73-d5c9-4fe8-82e8-c1bb3ad1ab8d',
+  '9debaf0e-b4eb-4f1c-aee5-1bf83b6de756',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4502',
+  '5320',
   'x-ms-correlation-request-id',
-  '4348818d-0d22-4186-a660-913f413c6e9f',
+  '731ce79a-ad3b-47bf-9a15-de999f68830c',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065215Z:4348818d-0d22-4186-a660-913f413c6e9f',
+  'SOUTHEASTASIA:20210924T090611Z:731ce79a-ad3b-47bf-9a15-de999f68830c',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:14 GMT',
+  'Fri, 24 Sep 2021 09:06:10 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -8931,31 +9509,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '972144ef-2c4e-4853-abdd-07c7c858ca41',
+  '00a5be65-1550-497e-9cfa-5fd8a6e1bc11',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4501',
+  '5319',
   'x-ms-correlation-request-id',
-  '1880e277-c460-44da-ad95-fafc6ae067a0',
+  '472d1b7a-4859-4878-a3e8-0021697fd057',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065215Z:1880e277-c460-44da-ad95-fafc6ae067a0',
+  'SOUTHEASTASIA:20210924T090611Z:472d1b7a-4859-4878-a3e8-0021697fd057',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:15 GMT',
+  'Fri, 24 Sep 2021 09:06:11 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -8965,31 +9543,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '52a54bba-7ad3-4398-a43a-62bb79ff1121',
+  'bece7fe0-a212-4a67-9ee6-dcdbe72f328d',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4500',
+  '5318',
   'x-ms-correlation-request-id',
-  '0514e07a-37e9-4c61-85b9-66ef2fbc05b2',
+  '676c025d-aad4-4323-a494-1236abaf8166',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065215Z:0514e07a-37e9-4c61-85b9-66ef2fbc05b2',
+  'SOUTHEASTASIA:20210924T090612Z:676c025d-aad4-4323-a494-1236abaf8166',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:15 GMT',
+  'Fri, 24 Sep 2021 09:06:11 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -8999,31 +9577,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '463dfa4b-46c1-4036-9da0-75cbbf59a01c',
+  '4725253a-c028-436a-b8ec-1fb45ef4e964',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4499',
+  '5317',
   'x-ms-correlation-request-id',
-  'b7503667-b3c8-4e7f-a31e-6d9401c84e10',
+  '2e4668db-9cc4-45c2-ae01-aa7b3e1c2583',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065216Z:b7503667-b3c8-4e7f-a31e-6d9401c84e10',
+  'SOUTHEASTASIA:20210924T090612Z:2e4668db-9cc4-45c2-ae01-aa7b3e1c2583',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:15 GMT',
+  'Fri, 24 Sep 2021 09:06:11 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -9033,31 +9611,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '0f33ea27-771a-4967-8ece-cb640409415c',
+  '7d11ab96-b980-48dc-a04d-2670b25552c6',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4498',
+  '5316',
   'x-ms-correlation-request-id',
-  'f492fd52-db11-4298-8186-855698d3ce27',
+  '39584e83-8fb4-46ca-9221-599bdd509e4b',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065216Z:f492fd52-db11-4298-8186-855698d3ce27',
+  'SOUTHEASTASIA:20210924T090612Z:39584e83-8fb4-46ca-9221-599bdd509e4b',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:16 GMT',
+  'Fri, 24 Sep 2021 09:06:12 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -9067,31 +9645,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '3020eabe-6283-42b6-8d02-c591c9ea3b47',
+  '05356379-9dba-4087-abdb-79bf65001cc4',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4497',
+  '5315',
   'x-ms-correlation-request-id',
-  '3e411639-a51f-4c40-b992-d6688294ac6a',
+  '150c2b68-e10e-4d49-a38d-5d2199851f9e',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065216Z:3e411639-a51f-4c40-b992-d6688294ac6a',
+  'SOUTHEASTASIA:20210924T090613Z:150c2b68-e10e-4d49-a38d-5d2199851f9e',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:16 GMT',
+  'Fri, 24 Sep 2021 09:06:12 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -9101,31 +9679,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'fcd83b38-77b1-41f5-827a-496675ad0903',
+  'c1784cce-3ee6-4782-b2d3-92b896005608',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4496',
+  '5314',
   'x-ms-correlation-request-id',
-  '6cc5147c-9c95-4f4c-b130-ef218dd346f6',
+  'b55d9d95-74cd-4b04-9e9d-393556c47482',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065217Z:6cc5147c-9c95-4f4c-b130-ef218dd346f6',
+  'SOUTHEASTASIA:20210924T090613Z:b55d9d95-74cd-4b04-9e9d-393556c47482',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:17 GMT',
+  'Fri, 24 Sep 2021 09:06:13 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -9135,31 +9713,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '523ff314-54bf-400c-b614-13830a33013d',
+  'a8cb04c5-83a3-420d-81f5-a74f8f5eef5c',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4495',
+  '5313',
   'x-ms-correlation-request-id',
-  '4e4196d7-8724-4a92-acfc-dc76d85c6bcf',
+  '0f625e82-4a0e-4ae4-b1e1-cfdc5cfc784e',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065217Z:4e4196d7-8724-4a92-acfc-dc76d85c6bcf',
+  'SOUTHEASTASIA:20210924T090613Z:0f625e82-4a0e-4ae4-b1e1-cfdc5cfc784e',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:17 GMT',
+  'Fri, 24 Sep 2021 09:06:13 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -9169,31 +9747,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '75329d64-19eb-43e5-a573-f730368d6100',
+  '0bdcbc52-c1b5-4305-a6e1-5140383ca21d',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4494',
+  '5312',
   'x-ms-correlation-request-id',
-  'b7465abc-50ab-48b7-93fe-cee4fd69f115',
+  '55c66147-d3fe-4976-b32b-6daff78c3920',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065218Z:b7465abc-50ab-48b7-93fe-cee4fd69f115',
+  'SOUTHEASTASIA:20210924T090614Z:55c66147-d3fe-4976-b32b-6daff78c3920',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:17 GMT',
+  'Fri, 24 Sep 2021 09:06:13 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -9203,31 +9781,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'ccbe05b8-e021-42f7-beeb-4b0a10cab514',
+  '993e2397-b53f-4d6d-ac9c-a30d670ad087',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4493',
+  '5311',
   'x-ms-correlation-request-id',
-  '4e18543b-8662-461b-bd83-fc9cd348225b',
+  '74043106-f512-4fca-aeba-1383973e215d',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065218Z:4e18543b-8662-461b-bd83-fc9cd348225b',
+  'SOUTHEASTASIA:20210924T090614Z:74043106-f512-4fca-aeba-1383973e215d',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:18 GMT',
+  'Fri, 24 Sep 2021 09:06:14 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -9237,31 +9815,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '81b24017-bb59-417a-b239-61f424cf4b4d',
+  '72c4f3bd-48ee-42b6-af5e-369df54e7606',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4492',
+  '5310',
   'x-ms-correlation-request-id',
-  '6a15603c-9c1e-410d-9920-aacaf01f39d0',
+  '4d759b7f-e72a-4ee1-8391-b50771f93697',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065218Z:6a15603c-9c1e-410d-9920-aacaf01f39d0',
+  'SOUTHEASTASIA:20210924T090615Z:4d759b7f-e72a-4ee1-8391-b50771f93697',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:18 GMT',
+  'Fri, 24 Sep 2021 09:06:14 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -9271,31 +9849,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '0a73142d-bca1-4b10-aecf-53cf536ffe24',
+  'b19da29b-8543-4f46-8ec9-a746e48a9541',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4491',
+  '5309',
   'x-ms-correlation-request-id',
-  'e49cd325-8b55-4de5-bec4-a906927fcdfb',
+  '6c008e7b-5eee-47ea-9d6d-e343370b7db3',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065219Z:e49cd325-8b55-4de5-bec4-a906927fcdfb',
+  'SOUTHEASTASIA:20210924T090615Z:6c008e7b-5eee-47ea-9d6d-e343370b7db3',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:18 GMT',
+  'Fri, 24 Sep 2021 09:06:15 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -9305,31 +9883,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '8e23479e-7367-4da5-80f3-60d6e63ff202',
+  '37f1d375-ca58-4898-b187-ccb717a135b5',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4490',
+  '5308',
   'x-ms-correlation-request-id',
-  'dd630fda-bb3c-42b4-a34f-8f692cabaed0',
+  'afed2fe7-c18a-4871-98e5-6eba9a5efad3',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065219Z:dd630fda-bb3c-42b4-a34f-8f692cabaed0',
+  'SOUTHEASTASIA:20210924T090615Z:afed2fe7-c18a-4871-98e5-6eba9a5efad3',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:19 GMT',
+  'Fri, 24 Sep 2021 09:06:15 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -9339,31 +9917,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'f50fae30-6008-479c-945c-95ce55417451',
+  '6d722a4c-ada9-4177-bd47-cac9d95726e6',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4489',
+  '5307',
   'x-ms-correlation-request-id',
-  '511d48b7-dac0-40fe-9d14-42ad11ae30f6',
+  '6735c160-6233-4c9c-89b9-5191b833dacd',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065220Z:511d48b7-dac0-40fe-9d14-42ad11ae30f6',
+  'SOUTHEASTASIA:20210924T090616Z:6735c160-6233-4c9c-89b9-5191b833dacd',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:19 GMT',
+  'Fri, 24 Sep 2021 09:06:15 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -9373,31 +9951,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'f485c8dc-40cd-4833-9802-1de8a49962ee',
+  'c5d31772-d59b-4e58-8053-61cbc7b9e6a3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4488',
+  '5306',
   'x-ms-correlation-request-id',
-  '63d8d279-d0b3-4160-ba07-b01e444ae8f5',
+  '36d71fbb-4a26-46ed-a1da-d27f3cbf5389',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065220Z:63d8d279-d0b3-4160-ba07-b01e444ae8f5',
+  'SOUTHEASTASIA:20210924T090616Z:36d71fbb-4a26-46ed-a1da-d27f3cbf5389',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:19 GMT',
+  'Fri, 24 Sep 2021 09:06:16 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -9407,31 +9985,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '2dcd7824-9a2c-48a6-ab61-79b9d99ce139',
+  '1c83e41f-eeca-47b1-b844-a3688d205df6',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4487',
+  '5305',
   'x-ms-correlation-request-id',
-  '4646195a-ca4b-4b50-81eb-f40032849d4e',
+  '382a1fc7-3948-43a6-b6f4-a24e4ed6a942',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065220Z:4646195a-ca4b-4b50-81eb-f40032849d4e',
+  'SOUTHEASTASIA:20210924T090617Z:382a1fc7-3948-43a6-b6f4-a24e4ed6a942',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:20 GMT',
+  'Fri, 24 Sep 2021 09:06:16 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -9441,31 +10019,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'abf1d6fe-4b15-463a-a033-71f2daefe3fc',
+  '83736413-0228-407c-90af-93220b2d0875',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4486',
+  '5304',
   'x-ms-correlation-request-id',
-  '52058c4a-82dc-4784-bd2e-39e22356dce6',
+  '76765414-9482-40f6-a523-7c9ccb830a64',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065221Z:52058c4a-82dc-4784-bd2e-39e22356dce6',
+  'SOUTHEASTASIA:20210924T090617Z:76765414-9482-40f6-a523-7c9ccb830a64',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:20 GMT',
+  'Fri, 24 Sep 2021 09:06:16 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -9475,31 +10053,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'c6f4915c-6830-4b01-b9df-c233fb0719fd',
+  'c90a6333-bd4f-4e5e-806e-8afe43ba827b',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4485',
+  '5303',
   'x-ms-correlation-request-id',
-  '17ffe929-a4e1-40e8-870b-eb8688dc073e',
+  '89efd94a-eb7a-4dfe-b5c3-d18a01d2b166',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065221Z:17ffe929-a4e1-40e8-870b-eb8688dc073e',
+  'SOUTHEASTASIA:20210924T090617Z:89efd94a-eb7a-4dfe-b5c3-d18a01d2b166',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:21 GMT',
+  'Fri, 24 Sep 2021 09:06:17 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -9509,31 +10087,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '2c4655a4-1370-4011-9fe4-e93971df2da1',
+  '33f0945d-3501-40a6-b835-f9457c2760de',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4484',
+  '5302',
   'x-ms-correlation-request-id',
-  'd84e6b88-08de-4a00-b188-aaab95a9176f',
+  '595a155a-ea79-4a36-98da-6a0a1b3e2b01',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065221Z:d84e6b88-08de-4a00-b188-aaab95a9176f',
+  'SOUTHEASTASIA:20210924T090618Z:595a155a-ea79-4a36-98da-6a0a1b3e2b01',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:21 GMT',
+  'Fri, 24 Sep 2021 09:06:17 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -9543,31 +10121,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '4285daf4-f6f6-4864-8f73-785b20b55a0f',
+  '98a9d578-7583-4a90-9fad-4c4bd9868525',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4483',
+  '5301',
   'x-ms-correlation-request-id',
-  '946d08fc-44aa-4d92-bc39-4b416e3bcee1',
+  '9ad48446-cdde-4177-afa0-ee8993848bab',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065222Z:946d08fc-44aa-4d92-bc39-4b416e3bcee1',
+  'SOUTHEASTASIA:20210924T090618Z:9ad48446-cdde-4177-afa0-ee8993848bab',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:21 GMT',
+  'Fri, 24 Sep 2021 09:06:18 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -9577,31 +10155,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'ee5ff04a-a370-447c-9052-68862a7d7b1e',
+  '5eb5b04e-f130-4de3-a3cb-4519c47c8800',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4482',
+  '5300',
   'x-ms-correlation-request-id',
-  'd366124b-83a9-4d0a-863e-10db4b02342f',
+  'b94568a4-eed2-4243-af1b-2f9a72fb5b39',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065222Z:d366124b-83a9-4d0a-863e-10db4b02342f',
+  'SOUTHEASTASIA:20210924T090619Z:b94568a4-eed2-4243-af1b-2f9a72fb5b39',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:22 GMT',
+  'Fri, 24 Sep 2021 09:06:18 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -9611,31 +10189,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '2e3c2891-6874-4ac7-8482-7573c6944dbf',
+  '0e18c311-f85a-4f67-bf2f-3d02802488c8',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4481',
+  '5299',
   'x-ms-correlation-request-id',
-  '0bf338db-c496-4ed3-b8f6-d61c2c58de79',
+  'c1ce83c6-ad0e-4b3a-92ee-0894406f0212',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065223Z:0bf338db-c496-4ed3-b8f6-d61c2c58de79',
+  'SOUTHEASTASIA:20210924T090619Z:c1ce83c6-ad0e-4b3a-92ee-0894406f0212',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:22 GMT',
+  'Fri, 24 Sep 2021 09:06:18 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -9645,31 +10223,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '079eabb9-dfaa-47c6-9500-235428e06c4b',
+  'd24c280b-d6a4-4ba7-a1b1-528a8a83506e',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4480',
+  '5298',
   'x-ms-correlation-request-id',
-  '682093c5-89a0-47a2-b7ee-338e9eb13902',
+  '8c8754e4-38f3-4bb7-8244-9ead6a53f879',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065223Z:682093c5-89a0-47a2-b7ee-338e9eb13902',
+  'SOUTHEASTASIA:20210924T090619Z:8c8754e4-38f3-4bb7-8244-9ead6a53f879',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:23 GMT',
+  'Fri, 24 Sep 2021 09:06:19 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -9679,31 +10257,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'a9fe4a54-320d-4830-98e0-4c9d6828236d',
+  '40ab811f-c2d9-4571-858b-b984723276ea',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4479',
+  '5297',
   'x-ms-correlation-request-id',
-  '7b0ddbf0-4e48-4efc-be7e-d8e02ac8c7fd',
+  'cb56db1c-2e83-4b89-98b9-7cb9b57bd6ae',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065223Z:7b0ddbf0-4e48-4efc-be7e-d8e02ac8c7fd',
+  'SOUTHEASTASIA:20210924T090620Z:cb56db1c-2e83-4b89-98b9-7cb9b57bd6ae',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:23 GMT',
+  'Fri, 24 Sep 2021 09:06:19 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -9713,31 +10291,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '4d30dd02-f34d-48db-a374-10e236d10c61',
+  'e03eaa28-3684-4134-900a-17c202bb5820',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4478',
+  '5296',
   'x-ms-correlation-request-id',
-  '39ca8bf7-a6b7-42a7-b41b-09191ea7fb28',
+  'cdedaa14-9f25-4154-8839-97a1b7de9e4b',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065224Z:39ca8bf7-a6b7-42a7-b41b-09191ea7fb28',
+  'SOUTHEASTASIA:20210924T090620Z:cdedaa14-9f25-4154-8839-97a1b7de9e4b',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:23 GMT',
+  'Fri, 24 Sep 2021 09:06:20 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -9747,31 +10325,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '8e920035-bfa0-45e1-a0dd-b86e9d250f7c',
+  '69fe4027-4642-4290-9dab-47ded5ab5a97',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4477',
+  '5295',
   'x-ms-correlation-request-id',
-  '6cd9dd44-e8e9-4ef1-810d-6ee79988b316',
+  '4185c770-bc40-4ec1-9f5e-8522199c45dd',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065224Z:6cd9dd44-e8e9-4ef1-810d-6ee79988b316',
+  'SOUTHEASTASIA:20210924T090621Z:4185c770-bc40-4ec1-9f5e-8522199c45dd',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:24 GMT',
+  'Fri, 24 Sep 2021 09:06:20 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -9781,31 +10359,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '215951f7-fc99-4206-a676-3c49a32bf88f',
+  '2f1352d0-4f08-4786-b5b9-a5e39d24303b',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4476',
+  '5294',
   'x-ms-correlation-request-id',
-  'df461201-5c14-45b7-97cb-0eacac1d02b2',
+  '25d5ec48-e87a-44c7-b6a1-7f660339a689',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065224Z:df461201-5c14-45b7-97cb-0eacac1d02b2',
+  'SOUTHEASTASIA:20210924T090621Z:25d5ec48-e87a-44c7-b6a1-7f660339a689',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:24 GMT',
+  'Fri, 24 Sep 2021 09:06:20 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -9815,31 +10393,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'd3db3676-7d22-455b-affa-de7e4cc5ebad',
+  '6e8e2b30-60a8-4fd6-81f6-59042b8a8f82',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4475',
+  '5293',
   'x-ms-correlation-request-id',
-  '039d1dc4-0d13-47f6-8cc6-18617df1eeec',
+  '902a106e-d987-45f6-89ca-93b79084d2c5',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065225Z:039d1dc4-0d13-47f6-8cc6-18617df1eeec',
+  'SOUTHEASTASIA:20210924T090621Z:902a106e-d987-45f6-89ca-93b79084d2c5',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:24 GMT',
+  'Fri, 24 Sep 2021 09:06:21 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -9849,31 +10427,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '234b2ef6-1c4b-48c9-9cf0-6760555f88a3',
+  'b339351d-a9d9-40ba-8194-96c309fe8169',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4474',
+  '5292',
   'x-ms-correlation-request-id',
-  '1c84ce2e-6a03-4d9d-a437-d5d8e81b2abf',
+  'cf601300-5559-4da3-ab1a-e6598c6c7555',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065225Z:1c84ce2e-6a03-4d9d-a437-d5d8e81b2abf',
+  'SOUTHEASTASIA:20210924T090622Z:cf601300-5559-4da3-ab1a-e6598c6c7555',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:25 GMT',
+  'Fri, 24 Sep 2021 09:06:21 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -9883,31 +10461,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '74f88030-e540-4139-b1c5-2362becd31a7',
+  '77e6e053-092c-4a08-81ad-63a6a9ea6729',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4473',
+  '5291',
   'x-ms-correlation-request-id',
-  '5751b6a9-5a03-49de-b18e-73fad815476a',
+  'a9269729-7e88-4a7e-9ed8-d21cbad489ec',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065226Z:5751b6a9-5a03-49de-b18e-73fad815476a',
+  'SOUTHEASTASIA:20210924T090622Z:a9269729-7e88-4a7e-9ed8-d21cbad489ec',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:25 GMT',
+  'Fri, 24 Sep 2021 09:06:22 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -9917,31 +10495,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '36af90fd-21ad-46fb-92bc-31608c1868fe',
+  '5912e474-2c38-47db-8394-8a58614f1666',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4472',
+  '5290',
   'x-ms-correlation-request-id',
-  'e47ac2e1-377c-4751-bdb1-dffd13355ac6',
+  '1ae47a2d-e76b-492e-95df-9d9dcbb21d9d',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065226Z:e47ac2e1-377c-4751-bdb1-dffd13355ac6',
+  'SOUTHEASTASIA:20210924T090622Z:1ae47a2d-e76b-492e-95df-9d9dcbb21d9d',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:26 GMT',
+  'Fri, 24 Sep 2021 09:06:22 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -9951,31 +10529,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '9e8e55fc-ad16-47a5-9ef4-769bb086accc',
+  'a79e86a4-e7ea-4b70-b060-74baf5d6fa3b',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4471',
+  '5289',
   'x-ms-correlation-request-id',
-  '7d7f01b9-5524-4935-ac53-1f0f0e5f0de4',
+  'b2c3af47-4eb5-4dba-8ac1-db75175fb8d0',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065226Z:7d7f01b9-5524-4935-ac53-1f0f0e5f0de4',
+  'SOUTHEASTASIA:20210924T090623Z:b2c3af47-4eb5-4dba-8ac1-db75175fb8d0',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:26 GMT',
+  'Fri, 24 Sep 2021 09:06:22 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -9985,31 +10563,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '48fe133d-40ff-4a85-9c69-bd8d31191550',
+  '04d523b4-0f74-42d4-9fb7-ab2aa7c02ddf',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4470',
+  '5288',
   'x-ms-correlation-request-id',
-  '0d726c76-2ec5-4165-a994-876bb12da3db',
+  '5b407410-f876-4f77-96c6-e8567a413e5c',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065227Z:0d726c76-2ec5-4165-a994-876bb12da3db',
+  'SOUTHEASTASIA:20210924T090623Z:5b407410-f876-4f77-96c6-e8567a413e5c',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:26 GMT',
+  'Fri, 24 Sep 2021 09:06:23 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -10019,31 +10597,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '7c7abed3-6a19-4acc-8cab-7e3851a34db1',
+  '450390bc-e6c3-468f-b628-894f666236a0',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4469',
+  '5287',
   'x-ms-correlation-request-id',
-  'e660632a-326c-4013-b2b9-b36b9e690731',
+  'dcbe763b-a927-423c-b580-f43cd3cbaeeb',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065227Z:e660632a-326c-4013-b2b9-b36b9e690731',
+  'SOUTHEASTASIA:20210924T090624Z:dcbe763b-a927-423c-b580-f43cd3cbaeeb',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:27 GMT',
+  'Fri, 24 Sep 2021 09:06:23 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -10053,31 +10631,31 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '24b6ed79-c7ff-45dd-9135-d571fa66da8f',
+  'b4b3ec63-0b69-4174-988a-0cfe5f3ed16a',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4468',
+  '5286',
   'x-ms-correlation-request-id',
-  '7e7eaa88-817b-431b-9d21-8857902c74e2',
+  'bc84201f-d493-4f65-9790-15191cb05802',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065228Z:7e7eaa88-817b-431b-9d21-8857902c74e2',
+  'SOUTHEASTASIA:20210924T090624Z:bc84201f-d493-4f65-9790-15191cb05802',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:27 GMT',
+  'Fri, 24 Sep 2021 09:06:23 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(202, "", [
   'Cache-Control',
@@ -10087,31 +10665,643 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==?api-version=2021-01-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
   'Retry-After',
   '60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  'd79a5090-d594-4138-bcef-0bb2f7487266',
+  'd6ed1550-37bc-4b05-bda5-96ea594f4ada',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4467',
+  '5285',
   'x-ms-correlation-request-id',
-  '60bab2d6-e96b-4fcd-a140-79edb596c8cd',
+  'ad6263e7-8c2f-46fc-96ee-034f65c6dfbf',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065228Z:60bab2d6-e96b-4fcd-a140-79edb596c8cd',
+  'SOUTHEASTASIA:20210924T090624Z:ad6263e7-8c2f-46fc-96ee-034f65c6dfbf',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:27 GMT',
+  'Fri, 24 Sep 2021 09:06:24 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myservicexxx5/operationresults/ZWFzdHVzOm15c2VydmljZXh4eDVfVGVybV81NGQyZDJhZQ==')
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Location',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '9489edb2-3928-4270-b146-b78056eb6efa',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '5284',
+  'x-ms-correlation-request-id',
+  '26d442b6-9239-4989-aeee-f055eb1a8ae7',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20210924T090625Z:26d442b6-9239-4989-aeee-f055eb1a8ae7',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 24 Sep 2021 09:06:24 GMT',
+  'Content-Length',
+  '0'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Location',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '21543837-affb-43bf-aaa8-ac2847bc46a6',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '5283',
+  'x-ms-correlation-request-id',
+  '3e7a7625-4e08-4990-beea-c2f814c9befd',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20210924T090625Z:3e7a7625-4e08-4990-beea-c2f814c9befd',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 24 Sep 2021 09:06:25 GMT',
+  'Content-Length',
+  '0'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Location',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '7fe7e23e-045a-4e7a-8ed5-99f7b6135c72',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '5282',
+  'x-ms-correlation-request-id',
+  '328c46e0-21fe-4075-952a-508f92c67eb7',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20210924T090626Z:328c46e0-21fe-4075-952a-508f92c67eb7',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 24 Sep 2021 09:06:25 GMT',
+  'Content-Length',
+  '0'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Location',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '0394c8f9-b449-4774-8b77-bbd7d5096255',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '5281',
+  'x-ms-correlation-request-id',
+  '50759b62-c0d1-432c-b270-33c51b82fbf1',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20210924T090626Z:50759b62-c0d1-432c-b270-33c51b82fbf1',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 24 Sep 2021 09:06:25 GMT',
+  'Content-Length',
+  '0'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Location',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  'feb7a2eb-19e8-4ed5-9cf1-dc72d4231167',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '5280',
+  'x-ms-correlation-request-id',
+  'a61cc0f8-8102-4bd9-9c5f-2e0ec48a284c',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20210924T090626Z:a61cc0f8-8102-4bd9-9c5f-2e0ec48a284c',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 24 Sep 2021 09:06:26 GMT',
+  'Content-Length',
+  '0'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Location',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '66fdff2a-5a7e-4211-86b1-953d9b334297',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '5279',
+  'x-ms-correlation-request-id',
+  'ca761e75-a022-4873-8259-6a3f07fa8b5e',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20210924T090627Z:ca761e75-a022-4873-8259-6a3f07fa8b5e',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 24 Sep 2021 09:06:26 GMT',
+  'Content-Length',
+  '0'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Location',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  'c9037c64-a49b-4e7f-b54f-d07171678782',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '5278',
+  'x-ms-correlation-request-id',
+  '62094f7c-0e93-47a3-80f4-426d85b0484c',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20210924T090627Z:62094f7c-0e93-47a3-80f4-426d85b0484c',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 24 Sep 2021 09:06:26 GMT',
+  'Content-Length',
+  '0'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Location',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  'e6d2e425-f81b-4197-b20b-a83ec771699e',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '5277',
+  'x-ms-correlation-request-id',
+  'ac3db146-c8f5-41f3-b6c0-4784e92bc6a8',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20210924T090627Z:ac3db146-c8f5-41f3-b6c0-4784e92bc6a8',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 24 Sep 2021 09:06:27 GMT',
+  'Content-Length',
+  '0'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Location',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '10ad99a3-3dc5-46a1-bde8-c7b0ed0a8bc6',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '5276',
+  'x-ms-correlation-request-id',
+  '2b446b8c-9bae-450d-8c63-d80772f18805',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20210924T090628Z:2b446b8c-9bae-450d-8c63-d80772f18805',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 24 Sep 2021 09:06:27 GMT',
+  'Content-Length',
+  '0'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Location',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '654b2121-23d7-4ace-b8cb-ab73e80296d1',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '5275',
+  'x-ms-correlation-request-id',
+  '96e8e741-eebf-44c6-a8de-c5a7821292ab',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20210924T090628Z:96e8e741-eebf-44c6-a8de-c5a7821292ab',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 24 Sep 2021 09:06:28 GMT',
+  'Content-Length',
+  '0'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Location',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '4fd2f859-ecc9-44a5-889e-5409a2267290',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '5274',
+  'x-ms-correlation-request-id',
+  'd8ca3425-0c6a-4d80-9de1-fe8b07b07fd5',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20210924T090629Z:d8ca3425-0c6a-4d80-9de1-fe8b07b07fd5',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 24 Sep 2021 09:06:28 GMT',
+  'Content-Length',
+  '0'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Location',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  'a4ea92ad-7727-4fa2-8568-0b08f1c672a0',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '5273',
+  'x-ms-correlation-request-id',
+  'b6858b8a-be52-49f4-9f45-904106406903',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20210924T090629Z:b6858b8a-be52-49f4-9f45-904106406903',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 24 Sep 2021 09:06:28 GMT',
+  'Content-Length',
+  '0'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Location',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  'ad2012b5-08d6-45b5-9e38-a30df22f1486',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '5272',
+  'x-ms-correlation-request-id',
+  'b5b946ba-5512-4463-92e4-3d280f640cac',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20210924T090629Z:b5b946ba-5512-4463-92e4-3d280f640cac',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 24 Sep 2021 09:06:29 GMT',
+  'Content-Length',
+  '0'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Location',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '062b622a-004b-4ed9-ae80-5aa6b4793681',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '5271',
+  'x-ms-correlation-request-id',
+  'e6ed97ff-3539-4001-8bde-988847f04f94',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20210924T090630Z:e6ed97ff-3539-4001-8bde-988847f04f94',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 24 Sep 2021 09:06:29 GMT',
+  'Content-Length',
+  '0'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Location',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '4f1c75da-f11f-4ecf-b879-708b08285c64',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '5270',
+  'x-ms-correlation-request-id',
+  '36a4f98a-f173-4923-ae01-3a6e3edb5015',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20210924T090630Z:36a4f98a-f173-4923-ae01-3a6e3edb5015',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 24 Sep 2021 09:06:30 GMT',
+  'Content-Length',
+  '0'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Location',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '4293d8b2-9298-44ff-a0ca-3692916f1858',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '5269',
+  'x-ms-correlation-request-id',
+  '22168e30-ba9b-4922-ac12-9c4d1e1cdfb1',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20210924T090630Z:22168e30-ba9b-4922-ac12-9c4d1e1cdfb1',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 24 Sep 2021 09:06:30 GMT',
+  'Content-Length',
+  '0'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Location',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '1c1f9b19-12ef-4bea-97ed-849701fa6ac3',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '5268',
+  'x-ms-correlation-request-id',
+  '4dc3af53-85ab-4cd3-98a7-a5c9dae58344',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20210924T090631Z:4dc3af53-85ab-4cd3-98a7-a5c9dae58344',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 24 Sep 2021 09:06:30 GMT',
+  'Content-Length',
+  '0'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Location',
+  'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==?api-version=2021-04-01-preview',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '745fca15-0324-4050-9ead-b718d7f1f302',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '5267',
+  'x-ms-correlation-request-id',
+  '4548a64a-2027-4cbd-88a4-e870d6cafb9f',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20210924T090631Z:4548a64a-2027-4cbd-88a4-e870d6cafb9f',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 24 Sep 2021 09:06:31 GMT',
+  'Content-Length',
+  '0'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/providers/Microsoft.ApiManagement/locations/eastus/deletedservices/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfVGVybV83Y2E4NTYxOQ==')
   .query(true)
   .reply(200, "", [
   'Cache-Control',
@@ -10123,19 +11313,19 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '9f921955-aaac-4d4c-80fe-b5707aebc168',
+  '10ba2e17-d529-4557-bfab-ad4374e65cb3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4466',
+  '5266',
   'x-ms-correlation-request-id',
-  'b66b7dfa-6415-467c-916b-09e738b3fdc4',
+  '229e501e-8e2e-4de7-9a5b-67a18babc173',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065228Z:b66b7dfa-6415-467c-916b-09e738b3fdc4',
+  'SOUTHEASTASIA:20210924T090632Z:229e501e-8e2e-4de7-9a5b-67a18babc173',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:28 GMT',
+  'Fri, 24 Sep 2021 09:06:31 GMT',
   'Content-Length',
   '0'
 ]);
@@ -10143,7 +11333,7 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service')
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef1479759b9ce3f7af4bd5ffc5131fbe8d147779bf5a499d6c5aa2daa6573f7e1def9c3fbb383f3ed7bd34f1f6cefefeeed6f3fdc9d3ed83e989eef3c98ce26e77bfbbb77ebbca9d6f534ffbcaed6abe6eee2faa79b366fdabbabbaba2c6679dddcfda298d655539db7e3e355f145b6cc2ef245be6cef36797d594c737a457f7bf7eeddfe47a38f96d98270faa8fb717bbdc2c7374043c3eca2f9e8d12ffe25a38fca6a9a6128f4da69d6b4e957afe9eb9cbea70f8ef979f2e4c5fcec33fa94d05de5755be478f5a3d57a5216cd3caf4f17595152ebf3aafa3da7d5b2a59ec7d36a81174c9317822eb5a04f97555b9c17d2ebeb7c49e33710b255b1b858b4dbcbaace57e5f5ef898fc757c572565d35d90fd6756ee0826e0dbd5e2c2f5eb7590bd8afd7d3699ecff2197ddf66f545debe8cb4a22fa7754ebfcf8edbafda297db2b7b3b7bbbdf3707b6fffcdcefd47f7ef3ddabd3fbebfbfb7ff70e7c14f51eb0b6a7b955d7f5503bf79dbae9a4777c3d9183366db84fb7899b7ee9557f905f59d951b5eddce89e2eb667b67775c6beb1eb45555b71b818ca545efc5597e999798b097fcfd2608b6690fc8c2320f71d22610ae610f46335d6c7a93beeebd32af9a162c7e522dcf8b8b75cdbc425c4742a82c4e93fbee5a5b2a778560bb20f3e5b422ee38010333f7d12bcb75598e3e7a9b5fff64b62edb33126ff964ea1abdcc9ae6aaaaed57cbfc82d897be38290b1a6c00ee3c2b9b3c78dbbc35cbcfd1c3eba67c42dc4cfcf8d1a3b65e535b92fe655bb4d7022d8ac16b561d34be27eb82905cd258fc6f89b1d74419bcf64bbe4fec02919b9ebd3c9ecd48eb3410d5ef118f8f0ff6c7f7ee8f77ef7dfa111ad5c525bd1bb40280d147d96c5680d659f95cf582fdeab2a8db7556bec85ba2c7db60664c93e9ba69ab054d0db19251134e177d97864e827c8c890915d3f873c2864466fc3a9fae6b22c79860b4d5b42a9bf19bb2d9dda1d13f037169ecdf04bcdd6f101ecde9bd0fc7efa458919a24ecc8b094f9d3bcd9fdf4e083813ec9a66f49bf7ac862f01f8e6c1cee8713b50ff78388eb8121bd40caeddba47ff62c34b27d214bbf11cdf2a25aa22b4fc6888f85bf6745934dca5c3bb0024f4ae62769f24810482a9ab6ce8a650bd65f144bc24cbf1218d4a94ae84a65cfc9bc4ae5e972b6aa0802c15ae6538897f64fef366fd7000cd5489892ec2f6719e926c2365b6553a2e1478f76a999d12af2dee8a31fd0900c90ef","ff92ff075912a39ad3080000"], [
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef1479759b9ce3f7af4bdefff","92ff0742ea40440c000000"], [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -10161,17 +11351,17 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
-  '03bbb45b-72fb-460a-b0b4-6c97fd7e4fea',
+  '41c541f1-6dd6-4ada-b8d5-784f1ed9efe1',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '4465',
+  '5265',
   'x-ms-correlation-request-id',
-  '3033bd23-6ee3-4b9a-8791-59cb386d7d9d',
+  'ac84000b-752b-45ee-8d8a-81c1c969027d',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20210924T065229Z:3033bd23-6ee3-4b9a-8791-59cb386d7d9d',
+  'SOUTHEASTASIA:20210924T090632Z:ac84000b-752b-45ee-8d8a-81c1c969027d',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 24 Sep 2021 06:52:28 GMT'
+  'Fri, 24 Sep 2021 09:06:31 GMT'
 ]);
