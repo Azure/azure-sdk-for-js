@@ -13,7 +13,7 @@ import {
   Recorder
 } from "@azure-tools/test-recorder";
 import * as assert from "assert";
-import { CosmosDBManagementClient } from "../../src/cosmosDBManagementClient";
+import { CosmosDBManagementClient } from "../src/cosmosDBManagementClient";
 import { ClientSecretCredential } from "@azure/identity";
 
 
@@ -34,7 +34,7 @@ const recorderEnvSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: []
 };
 
-describe("Cosmosdb cassandra test", () => {
+describe("Cosmosdb test", () => {
   let recorder: Recorder;
   let client: CosmosDBManagementClient;
   let subscriptionId: string;
@@ -55,7 +55,7 @@ describe("Cosmosdb cassandra test", () => {
     client = new CosmosDBManagementClient(credential, subscriptionId);
     location = "eastus";
     resourceGroupName = "myjstest";
-    accountName = "myaccountxxx1";
+    accountName = "myaccountxxx4";
     keyspaceName = "mykeyspacexxx";
   });
 
@@ -110,7 +110,7 @@ describe("Cosmosdb cassandra test", () => {
   });
 
   it("cassandraResources get test", async function() {
-    const res = await client.cassandraResources.getCassandraKeyspaceThroughput(resourceGroupName,accountName,keyspaceName);
+    const res = await client.cassandraResources.getCassandraKeyspace(resourceGroupName,accountName,keyspaceName);
     assert.equal(res.type, "Microsoft.DocumentDB/databaseAccounts/cassandraKeyspaces");
   });
 

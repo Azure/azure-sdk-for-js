@@ -13,7 +13,7 @@ import {
   Recorder
 } from "@azure-tools/test-recorder";
 import * as assert from "assert";
-import { CosmosDBManagementClient } from "../../src/cosmosDBManagementClient";
+import { CosmosDBManagementClient } from "../src/cosmosDBManagementClient";
 import { ClientSecretCredential } from "@azure/identity";
 
 
@@ -54,7 +54,7 @@ describe("Cosmosdb test", () => {
     client = new CosmosDBManagementClient(credential, subscriptionId);
     location = "eastus";
     resourceGroupName = "myjstest";
-    accountName = "myaccountxxx2";
+    accountName = "myaccountxxx5";
   });
 
   afterEach(async function() {
@@ -110,5 +110,5 @@ describe("Cosmosdb test", () => {
         resArray.push(item);
     }
     assert.equal(resArray.length,0);
-  });
+  }).timeout(3600000);
 });

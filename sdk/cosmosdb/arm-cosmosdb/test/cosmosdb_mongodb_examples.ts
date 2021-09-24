@@ -13,7 +13,7 @@ import {
   Recorder
 } from "@azure-tools/test-recorder";
 import * as assert from "assert";
-import { CosmosDBManagementClient } from "../../src/cosmosDBManagementClient";
+import { CosmosDBManagementClient } from "../src/cosmosDBManagementClient";
 import { ClientSecretCredential } from "@azure/identity";
 
 
@@ -34,7 +34,7 @@ const recorderEnvSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: []
 };
 
-describe("Cosmosdb mongodb test", () => {
+describe("Cosmosdb test", () => {
   let recorder: Recorder;
   let client: CosmosDBManagementClient;
   let subscriptionId: string;
@@ -55,7 +55,7 @@ describe("Cosmosdb mongodb test", () => {
     client = new CosmosDBManagementClient(credential, subscriptionId);
     location = "eastus";
     resourceGroupName = "myjstest";
-    accountName = "myaccountxxx3";
+    accountName = "myaccountxxx6";
     databaseName = "mydatabasexxxx";
   });
 
@@ -79,7 +79,6 @@ describe("Cosmosdb mongodb test", () => {
         createMode: "Default"
     });
     assert.equal(res.name, accountName);
-    assert.equal(res.location, location);
   });
 
   it("mongoDBResources create test", async function() {
