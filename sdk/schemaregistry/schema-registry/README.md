@@ -73,9 +73,6 @@ schema registry.
 
 ### Register a schema
 
-`registerSchema` sends a request to the service to register a schema, and then keeps
-a copy of the schema and its service ID in a local private cache.
-
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
 const { SchemaRegistryClient } = require("@azure/schema-registry");
@@ -94,8 +91,6 @@ console.log(registered.id);
 ```
 
 ### Get ID of existing schema
-
-`getSchemaId` will send a request to the service only if the local cache did not have the schema.
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -117,8 +112,6 @@ if (found) {
 ```
 
 ### Get content of existing schema by ID
-
-Similarly to `getSchemaId`, `getSchema` will send a request to the service only if the local cache did not have the schema ID.
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
