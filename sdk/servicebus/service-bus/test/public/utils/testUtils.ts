@@ -155,8 +155,14 @@ export async function checkWithTimeout(
   maxWaitTimeInMilliseconds: number = 10000
 ): Promise<boolean> {
   const maxTime = Date.now() + maxWaitTimeInMilliseconds;
+  console.log("11111111111111", Date.now());
+  console.log("22222222222222", maxTime);
   while (Date.now() < maxTime) {
-    if (await predicate()) return true;
+    console.log("3333333333333333");
+    if (await predicate()) {
+      console.log("44444444444444");
+      return true;
+    }
     await delay(delayBetweenRetriesInMilliseconds);
   }
   return false;
