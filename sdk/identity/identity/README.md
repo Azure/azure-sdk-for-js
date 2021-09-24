@@ -14,9 +14,9 @@ Key links:
 
 ## Getting started
 
-### Migrating from v1 to v2 of @azure/identity
+### Migrate from v1 to v2 of @azure/identity
 
-If you are using v1 of `@azure/identity`, please follow our migration guide to update to the latest version: [Migrate from v1 to v2 of @azure/identity](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/migration-v1-v2.md).
+If you're using v1 of `@azure/identity`, see the [migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/migration-v1-v2.md) to update to v2.
 
 ### Currently supported environments
 
