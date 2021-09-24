@@ -68,11 +68,6 @@ steps:
       node eng/tools/rush-runner.js unlink
     displayName: "Unlink dependencies"
 
-  - template: /eng/common/pipelines/templates/steps/create-apireview.yml
-    parameters:
-      Artifacts: ${{ parameters.Artifacts }}
-      ArtifactPath: $(Build.SourcesDirectory)/sdk/${{ parameters.ServiceDirectory }}
-
   - template: ../steps/generate-doc.yml
     parameters:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
@@ -86,6 +81,7 @@ steps:
         New-Item -Type Directory -Name $artifactName -Path $(Build.ArtifactStagingDirectory) > $null
         Copy-Item sdk/${{parameters.ServiceDirectory}}/**/$artifactName-[0-9]*.[0-9]*.[0-9]*.tgz $(Build.ArtifactStagingDirectory)/$artifactName
         Copy-Item sdk/${{parameters.ServiceDirectory}}/**/browser/$artifactName-[0-9]*.[0-9]*.[0-9]*.zip $(Build.ArtifactStagingDirectory)/$artifactName
+        Copy-Item sdk/${{parameters.ServiceDirectory}}/**/temp/*.api.json $(Build.ArtifactStagingDirectory)/$artifactName
         if ($${{ parameters.IncludeRelease }} -eq $true)
         {
           New-Item -Type Directory -Name documentation -Path $(Build.ArtifactStagingDirectory)/$artifactName > $null
@@ -98,3 +94,11 @@ steps:
     parameters:
       ArtifactPath: '$(Build.ArtifactStagingDirectory)'
       ArtifactName: 'packages'
+
+  - template: /eng/common/pipelines/templates/steps/create-apireview.yml
+    parameters:
+      Artifacts: ${{ parameters.Artifacts }}
+
+  - template: /eng/common/pipelines/templates/steps/detect-api-changes.yml
+    parameters:
+      Artifacts: ${{ parameters.Artifacts }}
