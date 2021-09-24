@@ -103,7 +103,7 @@ describe("SchemaRegistryClient", function() {
   });
 
   it("fails to get schema ID when no matching schema exists", async () => {
-    assert.isRejected(client.getSchemaProperties({ ...schema, name: "never-registered" }));
+    await assert.isRejected(client.getSchemaProperties({ ...schema, name: "never-registered" }));
   });
 
   it("gets schema ID", async () => {
@@ -121,7 +121,7 @@ describe("SchemaRegistryClient", function() {
   });
 
   it("fails to get schema when no schema exists with given ID", async () => {
-    assert.isRejected(client.getSchema("ffffffffffffffffffffffffffffffff"));
+    await assert.isRejected(client.getSchema("ffffffffffffffffffffffffffffffff"));
   });
 
   it("gets schema by ID", async () => {

@@ -4,24 +4,24 @@
    "method": "POST",
    "url": "https://login.microsoftonline.com/azuretenantid/oauth2/v2.0/token",
    "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=e6tr%7E1TUr68KL37-09TCkkqa.40G73WOq%7E&scope=https%3A%2F%2Fsanitized%2F",
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-store, no-cache",
     "content-length": "1321",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 17 Sep 2021 22:54:16 GMT",
+    "date": "Fri, 24 Sep 2021 16:46:34 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+bno\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12071.7 - WUS2 ProdSlices",
-    "x-ms-request-id": "81aa2242-549b-47ed-ad65-99dc77fd3c00"
+    "x-ms-ests-server": "2.1.12071.13 - WUS2 ProdSlices",
+    "x-ms-request-id": "4f3214d6-6ecf-48e2-a233-a80bbb063000"
    }
   },
   {
@@ -35,7 +35,7 @@
    "response": "{\"id\":\"e086b25cd8344fad9fc9e1dc3d8363f9\"}",
    "responseHeaders": {
     "content-type": "application/json",
-    "date": "Fri, 17 Sep 2021 22:54:17 GMT",
+    "date": "Fri, 24 Sep 2021 16:46:35 GMT",
     "location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test/versions/1?api-version=2020-09-01-preview",
     "schema-id": "e086b25cd8344fad9fc9e1dc3d8363f9",
     "schema-id-location": "https://endpoint/$schemagroups/getschemabyid/e086b25cd8344fad9fc9e1dc3d8363f9?api-version=2020-09-01-preview",
@@ -58,7 +58,7 @@
    "response": "{\"id\":\"e086b25cd8344fad9fc9e1dc3d8363f9\"}",
    "responseHeaders": {
     "content-type": "application/json",
-    "date": "Fri, 17 Sep 2021 22:54:17 GMT",
+    "date": "Fri, 24 Sep 2021 16:46:36 GMT",
     "location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test/versions/1?api-version=2020-09-01-preview",
     "schema-id": "e086b25cd8344fad9fc9e1dc3d8363f9",
     "schema-id-location": "https://endpoint/$schemagroups/getschemabyid/e086b25cd8344fad9fc9e1dc3d8363f9?api-version=2020-09-01-preview",
@@ -75,5 +75,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "748988e65281cffdda534d5ec169b503"
+ "hash": "e84be933dbd32779d117d4779075b26d"
 }
