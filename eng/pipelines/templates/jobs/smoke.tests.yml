@@ -10,7 +10,7 @@ parameters:
     default: {}
   - name: ArtifactName
     type: string
-    default: 'not-specified'
+    default: ""
 
 jobs:
   - ${{ if and(eq(parameters.Daily, false), ne(variables['Skip.Release'], 'true')) }}:
@@ -129,9 +129,9 @@ jobs:
         workingDirectory: $(Build.SourcesDirectory)/common/tools/dev-tool
         displayName: Install dev-tool
 
-      - download: current
-        artifact: ${{parameters.ArtifactName}}
-        condition: and(succeeded(), ne('{{ $parameters.Daily }}', 'true'))
+      - ${{ if ne('{{ $parameters.Daily }}', 'true') }}:
+          download: current
+          artifact: ${{parameters.ArtifactName}}
       - pwsh: |
           $(Build.SourcesDirectory)/eng/common/scripts/Import-AzModules.ps1
 
