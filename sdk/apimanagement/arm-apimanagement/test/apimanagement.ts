@@ -33,7 +33,7 @@ const recorderEnvSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: []
 };
 
-describe("My test", () => {
+describe("Apimanagement test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: ApiManagementClient;
@@ -53,7 +53,7 @@ describe("My test", () => {
     client = new ApiManagementClient(credential, subscriptionId);
     location = "eastus";
     resourceGroupName = "myjstest";
-    serviceName = "myservicexxx2"
+    serviceName = "myservicexxx5"
   });
 
   afterEach(async function() {
@@ -75,18 +75,20 @@ describe("My test", () => {
         publisherName: "foo",
         
     });
-    console.log(res);
+    assert.equal(res.name,serviceName);
   }).timeout(3600000);
 
   it("apiManagementService get test", async function() {
     const res = await client.apiManagementService.get(resourceGroupName,serviceName);
-    console.log(res);
+    assert.equal(res.name,serviceName);
   });
 
   it("apiManagementService listByResourceGroup test", async function() {
+    const resArray = new Array();
     for await (let item of client.apiManagementService.listByResourceGroup(resourceGroupName)){
-        console.log(item);
+        resArray.push(item);
     }
+    assert.equal(resArray.length,2);
   });
 
   it("apiManagementService update test", async function() {
@@ -101,7 +103,7 @@ describe("My test", () => {
               "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10": "false"
             }
         });
-        console.log(res);
+        assert.equal(res.type,"Microsoft.ApiManagement/service");
         break;
       }else {
         // The resource is activationg
@@ -118,8 +120,11 @@ describe("My test", () => {
       if(res.provisioningState == "Succeeded"){
         const res = await client.apiManagementService.beginDeleteAndWait(resourceGroupName,serviceName);
         const purge_resource = await client.deletedServices.beginPurgeAndWait(serviceName,location);
-        console.log(res);
-        console.log(purge_resource);
+        const resArray = new Array();
+        for await (let item of client.apiManagementService.listByResourceGroup(resourceGroupName)){
+            resArray.push(item);
+        }
+        assert.equal(resArray.length,1);
         break;
       }else {
         // The resource is activationg
