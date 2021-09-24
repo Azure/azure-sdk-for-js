@@ -287,8 +287,8 @@ export class PerfStressProgram {
     }
 
     if (this.tests[0].parsedOptions["test-proxy"].value) {
-      // Records requests(in runAsync method) for all the instantiated PerfStressTest classes, 
-      // and asks the proxy-tool to start playing back for future requests. 
+      // Records requests(in runAsync method) for all the instantiated PerfStressTest classes,
+      // and asks the proxy-tool to start playing back for future requests.
       await Promise.all(this.tests.map((test) => this.recordAndStartPlayback(test)));
     }
 
