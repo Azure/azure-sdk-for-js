@@ -53,7 +53,7 @@ describe("Apimanagement test", () => {
     client = new ApiManagementClient(credential, subscriptionId);
     location = "eastus";
     resourceGroupName = "myjstest";
-    serviceName = "myservicexxx5"
+    serviceName = "myservicexxx6"
   });
 
   afterEach(async function() {
@@ -88,7 +88,7 @@ describe("Apimanagement test", () => {
     for await (let item of client.apiManagementService.listByResourceGroup(resourceGroupName)){
         resArray.push(item);
     }
-    assert.equal(resArray.length,2);
+    assert.equal(resArray.length,1);
   });
 
   it("apiManagementService update test", async function() {
@@ -124,7 +124,7 @@ describe("Apimanagement test", () => {
         for await (let item of client.apiManagementService.listByResourceGroup(resourceGroupName)){
             resArray.push(item);
         }
-        assert.equal(resArray.length,1);
+        assert.equal(resArray.length,0);
         break;
       }else {
         // The resource is activationg
