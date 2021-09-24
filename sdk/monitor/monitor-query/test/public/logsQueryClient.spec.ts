@@ -6,7 +6,7 @@ import { Context } from "mocha";
 import { env } from "process";
 
 import { Durations, LogsQueryClient, QueryBatch } from "../../src";
-import { runWithTelemetry } from "../setupOpenTelemetry";
+// import { runWithTelemetry } from "../setupOpenTelemetry";
 
 import {
   assertQueryTable,
@@ -354,18 +354,18 @@ describe("LogsQueryClient live tests", function() {
         testRunId = `ingestedDataTest-${Date.now()}`;
 
         // send some events
-        await runWithTelemetry(this, (provider) => {
-          const tracer = provider.getTracer("logsClientTests");
-
-          tracer
-            .startSpan("testSpan", {
-              attributes: {
-                testRunId,
-                kind: "now"
-              }
-            })
-            .end();
-        });
+        //  await runWithTelemetry(this, (provider) => {
+        //    const tracer = provider.getTracer("logsClientTests");
+        //
+        //    tracer
+        //      .startSpan("testSpan", {
+        //        attributes: {
+        //          testRunId,
+        //          kind: "now"
+        //        }
+        //      })
+        //      .end();
+        //  });
       }
 
       loggerForTest.info(`testRunId = ${testRunId}`);
