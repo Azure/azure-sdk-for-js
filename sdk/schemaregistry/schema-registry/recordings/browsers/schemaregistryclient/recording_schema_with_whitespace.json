@@ -11,17 +11,17 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1321",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 18 Aug 2021 17:08:14 GMT",
+    "date": "Fri, 24 Sep 2021 16:46:37 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+bno\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11961.8 - SCUS ProdSlices",
-    "x-ms-request-id": "0f27d023-eabb-4fe1-b762-0126305e1701"
+    "x-ms-ests-server": "2.1.12071.13 - WUS2 ProdSlices",
+    "x-ms-request-id": "4f3214d6-6ecf-48e2-a233-a80b4a073000"
    }
   },
   {
@@ -32,13 +32,36 @@
    },
    "requestBody": "{\n  \"type\": \"record\",\n  \"name\": \"Test\",\n  \"fields\": [{ \"name\": \"X\", \"type\": { \"type\": \"string\" } }]\n}\n",
    "status": 200,
-   "response": "{\"id\":\"207b5ecbbff7492d902647dfde854fff\"}",
+   "response": "{\"id\":\"24972ebfc1bf46a1a6e29f1845794f85\"}",
    "responseHeaders": {
     "content-type": "application/json",
-    "date": "Wed, 18 Aug 2021 17:08:15 GMT",
+    "date": "Fri, 24 Sep 2021 16:46:38 GMT",
     "location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test2/versions/1?api-version=2020-09-01-preview",
-    "schema-id": "207b5ecbbff7492d902647dfde854fff",
-    "schema-id-location": "https://endpoint/$schemagroups/getschemabyid/207b5ecbbff7492d902647dfde854fff?api-version=2020-09-01-preview",
+    "schema-id": "24972ebfc1bf46a1a6e29f1845794f85",
+    "schema-id-location": "https://endpoint/$schemagroups/getschemabyid/24972ebfc1bf46a1a6e29f1845794f85?api-version=2020-09-01-preview",
+    "schema-version": "1",
+    "schema-versions-location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test2/versions?api-version=2020-09-01-preview",
+    "serialization-type": "Avro",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000",
+    "transfer-encoding": "chunked"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/$schemagroups/getSchemaById/24972ebfc1bf46a1a6e29f1845794f85",
+   "query": {
+    "api-version": "2020-09-01-preview"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"type\":\"record\",\"name\":\"Test\",\"fields\":[{\"name\":\"X\",\"type\":{\"type\":\"string\"}}]}",
+   "responseHeaders": {
+    "content-type": "application/json",
+    "date": "Fri, 24 Sep 2021 16:46:39 GMT",
+    "location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test2/versions/1?api-version=2020-09-01-preview",
+    "schema-id": "24972ebfc1bf46a1a6e29f1845794f85",
+    "schema-id-location": "https://endpoint/$schemagroups/getschemabyid/24972ebfc1bf46a1a6e29f1845794f85?api-version=2020-09-01-preview",
     "schema-version": "1",
     "schema-versions-location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test2/versions?api-version=2020-09-01-preview",
     "serialization-type": "Avro",
@@ -53,15 +76,15 @@
    "query": {
     "api-version": "2020-09-01-preview"
    },
-   "requestBody": "{\n  \"type\": \"record\",\n  \"name\": \"Test\",\n  \"fields\": [{ \"name\": \"X\", \"type\": { \"type\": \"string\" } }]\n}\n",
+   "requestBody": "{\"type\":\"record\",\"name\":\"Test\",\"fields\":[{\"name\":\"X\",\"type\":{\"type\":\"string\"}}]}",
    "status": 200,
-   "response": "{\"id\":\"207b5ecbbff7492d902647dfde854fff\"}",
+   "response": "{\"id\":\"24972ebfc1bf46a1a6e29f1845794f85\"}",
    "responseHeaders": {
     "content-type": "application/json",
-    "date": "Wed, 18 Aug 2021 17:08:16 GMT",
+    "date": "Fri, 24 Sep 2021 16:46:39 GMT",
     "location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test2/versions/1?api-version=2020-09-01-preview",
-    "schema-id": "207b5ecbbff7492d902647dfde854fff",
-    "schema-id-location": "https://endpoint/$schemagroups/getschemabyid/207b5ecbbff7492d902647dfde854fff?api-version=2020-09-01-preview",
+    "schema-id": "24972ebfc1bf46a1a6e29f1845794f85",
+    "schema-id-location": "https://endpoint/$schemagroups/getschemabyid/24972ebfc1bf46a1a6e29f1845794f85?api-version=2020-09-01-preview",
     "schema-version": "1",
     "schema-versions-location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test2/versions?api-version=2020-09-01-preview",
     "serialization-type": "Avro",
@@ -75,5 +98,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "bb1dc66818b9788bf272a0c69750dba3"
+ "hash": "7f7cb91b3fa3b7beabf10137f17d710f"
 }

@@ -33,9 +33,6 @@ export class SchemaRegistryClient implements SchemaRegistry {
   /** Underlying autorest generated client. */
   private readonly client: GeneratedSchemaRegistryClient;
 
-  private readonly schemaToIdMap: Map<SchemaDescription, SchemaProperties>;
-  private readonly idToSchemaMap: Map<string, Schema>;
-
   /**
    * Creates a new client for Azure Schema Registry service.
    *
@@ -67,13 +64,6 @@ export class SchemaRegistryClient implements SchemaRegistry {
 
     const authPolicy = bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_SCOPE });
     this.client.pipeline.addPolicy(authPolicy);
-    this.schemaToIdMap = new Map();
-    this.idToSchemaMap = new Map();
-  }
-
-  private addToCache(schema: SchemaDescription, id: SchemaProperties): void {
-    this.schemaToIdMap.set(schema, id);
-    this.idToSchemaMap.set(id.id, { ...id, definition: schema.definition });
   }
 
   /**
@@ -90,11 +80,9 @@ export class SchemaRegistryClient implements SchemaRegistry {
     schema: SchemaDescription,
     options?: RegisterSchemaOptions
   ): Promise<SchemaProperties> {
-    const id = await this.client.schema
+    return this.client.schema
       .register(schema.groupName, schema.name, schema.format, schema.definition, options)
       .then(convertSchemaIdResponse);
-    this.addToCache(schema, id);
-    return id;
   }
 
   /**
@@ -108,15 +96,9 @@ export class SchemaRegistryClient implements SchemaRegistry {
     schema: SchemaDescription,
     options?: GetSchemaPropertiesOptions
   ): Promise<SchemaProperties> {
-    const cached = this.schemaToIdMap.get(schema);
-    if (cached !== undefined) {
-      return cached;
-    }
-    const id = await this.client.schema
+    return this.client.schema
       .queryIdByContent(schema.groupName, schema.name, schema.format, schema.definition, options)
       .then(convertSchemaIdResponse);
-    this.addToCache(schema, id);
-    return id;
   }
 
   /**
@@ -126,19 +108,10 @@ export class SchemaRegistryClient implements SchemaRegistry {
    * @returns Schema with given ID or undefined if no schema was found with the given ID.
    */
   async getSchema(id: string, options?: GetSchemaOptions): Promise<Schema> {
-    const cached = this.idToSchemaMap.get(id);
-    if (cached !== undefined) {
-      return cached;
-    }
     const { flatResponse, rawResponse } = await getRawResponse(
       (paramOptions) => this.client.schema.getById(id, paramOptions),
       options || {}
     );
-    const schema = convertSchemaResponse(flatResponse, rawResponse);
-    // the service should send schema's name and group in separate headers so
-    // we can implement the other direction of the bidirectional caching.
-    // see https://github.com/Azure/azure-sdk-for-js/issues/16763
-    this.idToSchemaMap.set(id, schema);
-    return schema;
+    return convertSchemaResponse(flatResponse, rawResponse);
   }
 }
