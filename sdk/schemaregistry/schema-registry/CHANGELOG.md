@@ -17,6 +17,8 @@
 
 ### Other Changes
 
+- remove caching from the client. The customer can rely on the one in the serializer package such as `@azure/schema-registry-avro` or write their own that makes most sense in their application.
+
 ## 1.0.0-beta.2 (2021-08-17)
 
 ### Features Added
