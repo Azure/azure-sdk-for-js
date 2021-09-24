@@ -6,10 +6,9 @@ import * as assert from "assert";
 import { Context } from "mocha";
 import { createClientLogger } from "@azure/logger";
 import { LogsTable } from "../../../src";
-import * as dotenv from "dotenv";
 
 export const loggerForTest = createClientLogger("test");
-dotenv.config();
+
 /**
  * Declare the client and recorder instances.  We will set them using the
  * beforeEach hook.

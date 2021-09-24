@@ -7,6 +7,7 @@ import { env } from "process";
 
 import { Durations, LogsQueryClient, QueryBatch } from "../../src";
 // import { runWithTelemetry } from "../setupOpenTelemetry";
+import { doNothing } from "../setupOpenTelemetry";
 
 import {
   assertQueryTable,
@@ -352,7 +353,7 @@ describe("LogsQueryClient live tests", function() {
         testRunId = env.TEST_RUN_ID;
       } else {
         testRunId = `ingestedDataTest-${Date.now()}`;
-
+        doNothing();
         // send some events
         //  await runWithTelemetry(this, (provider) => {
         //    const tracer = provider.getTracer("logsClientTests");
