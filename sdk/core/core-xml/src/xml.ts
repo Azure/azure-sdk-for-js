@@ -82,19 +82,17 @@ function flattenAttributes(obj: Record<string, any>) {
 }
 
 function groupAttributes(obj: Record<string, any>) {
-  const attributes: Record<string, any> = {};
   for (const [key, value] of Object.entries(obj)) {
     if (key.startsWith("@_")) {
       const attributeName = key.substr(2);
-      attributes[`${attributeName}`] = value;
+      if (!obj["$"]) {
+        obj["$"] = {};
+      }
+      obj["$"][`${attributeName}`] = value;
       delete obj[key];
     } else if (value instanceof Object) {
       obj[key] = groupAttributes(value);
     }
-  }
-
-  if (attributes && Object.keys(attributes).length) {
-    obj["$"] = attributes;
   }
 
   return obj;

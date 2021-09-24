@@ -87,6 +87,32 @@ describe("XML serializer", function() {
       });
     });
 
+    it("with element with nested attribute", async function() {
+      const xml = await parseXML(`<vegetable><fruit healthy="true"></fruit></vegetable>`);
+      assert.deepStrictEqual(xml, {
+        fruit: {
+          $: {
+            healthy: true
+          }
+        }
+      });
+    });
+
+    it("with element with nested attribute and root", async function() {
+      const xml = await parseXML(`<vegetable><fruit healthy="true"></fruit></vegetable>`, {
+        includeRoot: true
+      });
+      assert.deepStrictEqual(xml, {
+        vegetable: {
+          fruit: {
+            $: {
+              healthy: true
+            }
+          }
+        }
+      });
+    });
+
     it("with element with attribute and value", async function() {
       const xml = await parseXML(`<fruit healthy="true">yum</fruit>`);
       assert.deepStrictEqual(xml, {
@@ -301,6 +327,23 @@ describe("XML serializer", function() {
       assert.deepStrictEqual(
         xml,
         `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit healthy="true"></fruit></fruits>`
+      );
+    });
+
+    it("with element with attribute nested", async function() {
+      const xml = stringifyXML({
+        vegetable: {
+          $: { green: false },
+          fruit: {
+            $: {
+              healthy: true
+            }
+          }
+        }
+      });
+      assert.deepStrictEqual(
+        xml,
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><vegetable green="false">  <fruit healthy="true"></fruit></vegetable>`
       );
     });
 
