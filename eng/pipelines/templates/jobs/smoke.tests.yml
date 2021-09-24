@@ -130,6 +130,7 @@ jobs:
         displayName: Install dev-tool
 
       - download: current
+        artifact: ${{parameters.ArtifactName}}
         condition: and(succeeded(), ne('{{ $parameters.Daily }}', 'true'))
       - pwsh: |
           $(Build.SourcesDirectory)/eng/common/scripts/Import-AzModules.ps1
