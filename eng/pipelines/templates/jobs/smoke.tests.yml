@@ -10,7 +10,7 @@ parameters:
     default: {}
   - name: ArtifactName
     type: string
-    default: ""
+    default: 'not-specified'
 
 jobs:
   - ${{ if and(eq(parameters.Daily, false), ne(variables['Skip.Release'], 'true')) }}:
