@@ -287,7 +287,9 @@ export class PerfStressProgram {
     }
 
     if (this.tests[0].parsedOptions["test-proxy"].value) {
-      await this.recordAndStartPlaybacks(this.tests);
+      // Records requests(in runAsync method) for all the instantiated PerfStressTest classes, 
+      // and asks the proxy-tool to start playing back for future requests. 
+      await Promise.all(this.tests.map((test) => this.recordAndStartPlayback(test)));
     }
 
     if (Number(options.warmup.value) > 0) {
@@ -300,7 +302,7 @@ export class PerfStressProgram {
     }
 
     if (this.tests[0].parsedOptions["test-proxy"].value) {
-      await this.stopPlaybacks(this.tests);
+      await Promise.all(this.tests.map((test) => this.stopPlayback(test)));
     }
 
     if (!options["no-cleanup"].value && this.tests[0].cleanup) {
@@ -320,10 +322,6 @@ export class PerfStressProgram {
         await this.tests[0].globalCleanup();
       }
     }
-  }
-
-  private async recordAndStartPlaybacks(tests: PerfStressTest[]) {
-    await Promise.all(tests.map((test) => this.recordAndStartPlayback(test)));
   }
 
   /**
@@ -375,10 +373,6 @@ export class PerfStressProgram {
     await recorder.stopRecording();
     await recorder.startPlayback();
     recorder._mode = "playback";
-  }
-
-  private async stopPlaybacks(tests: PerfStressTest[]) {
-    await Promise.all(tests.map((test) => this.stopPlayback(test)));
   }
 
   private async stopPlayback(test: PerfStressTest) {
