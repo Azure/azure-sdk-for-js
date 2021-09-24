@@ -6,17 +6,17 @@ stages:
       PackageName: "@azure/keyvault-keys"
       ServiceDirectory: keyvault
       TimeoutInMinutes: 90
+      SupportedClouds: 'Public,UsGov,China'
       # KV HSM limitation prevents us from running live tests
       # against multiple platforms in parallel (we're limited to a single
       # instance per region per subscription) so we're only running
       # live tests against a single instance.
-      Location: eastus2
       AdditionalMatrixConfigs:
         - Name: Keyvault_live_test_base
           Path: sdk/keyvault/keyvault-keys/platform-matrix.json
           Selection: sparse
           GenerateVMJobs: true
       EnvVars:
-        AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
-        AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
-        AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
+        AZURE_CLIENT_ID: $(KEYVAULTKEYS_CLIENT_ID)
+        AZURE_TENANT_ID: $(KEYVAULTKEYS_TENANT_ID)
+        AZURE_CLIENT_SECRET: $(KEYVAULTKEYS_CLIENT_SECRET)
