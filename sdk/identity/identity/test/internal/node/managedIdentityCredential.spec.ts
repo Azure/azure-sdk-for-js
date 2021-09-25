@@ -467,7 +467,6 @@ describe("ManagedIdentityCredential", function() {
     });
 
     // Authorization request, which comes after validating again, for now at least.
-    console.log({ authDetails });
     const authRequest = authDetails.requests[0];
 
     const query = new URLSearchParams(authRequest.url.split("?")[1]);
