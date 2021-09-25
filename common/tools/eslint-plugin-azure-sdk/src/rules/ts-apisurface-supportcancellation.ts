@@ -6,7 +6,10 @@
  * @author Arpan Laha
  */
 
-import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
+import {
+  ParserServices,
+  TSESTree,
+} from "@typescript-eslint/experimental-utils";
 import { ParserWeakMapESTreeToTSNode } from "@typescript-eslint/typescript-estree/dist/parser-options";
 import { Rule } from "eslint";
 import { ClassDeclaration, Identifier, MethodDefinition } from "estree";
@@ -39,7 +42,12 @@ const getDefinedType = (type: any): Type => {
  * @returns if the Symbol is or contains AbortSignalLike.
  */
 const isValidSymbol = (symbol: TSSymbol, typeChecker: TypeChecker): boolean => {
-  const type = getDefinedType(typeChecker.getTypeAtLocation(symbol.valueDeclaration));
+  if (!symbol.valueDeclaration) {
+    return false;
+  }
+  const type = getDefinedType(
+    typeChecker.getTypeAtLocation(symbol.valueDeclaration)
+  );
   const typeSymbol = type.getSymbol();
   if (typeSymbol === undefined) {
     return false;
@@ -76,7 +84,10 @@ const isValidParam = (
   }
 
   const typeAnnotation = param.typeAnnotation.typeAnnotation;
-  if (typeAnnotation.type !== "TSTypeReference" || typeAnnotation.typeName.type !== "Identifier") {
+  if (
+    typeAnnotation.type !== "TSTypeReference" ||
+    typeAnnotation.typeName.type !== "Identifier"
+  ) {
     return false;
   }
 
@@ -91,7 +102,9 @@ const isValidParam = (
     /Options$/.test(typeName) &&
     getDefinedType(typeChecker.getTypeAtLocation(converter.get(param)))
       .getProperties()
-      .some((property: TSSymbol): boolean => isValidSymbol(property, typeChecker))
+      .some((property: TSSymbol): boolean =>
+        isValidSymbol(property, typeChecker)
+      )
   );
 };
 
@@ -123,16 +136,17 @@ export = {
           if (
             TSFunction.async &&
             TSFunction.params.every(
-              (param: TSESTree.Parameter): boolean => !isValidParam(param, typeChecker, converter)
+              (param: TSESTree.Parameter): boolean =>
+                !isValidParam(param, typeChecker, converter)
             )
           ) {
             context.report({
               node: method,
-              message: `async method ${key.name} should accept an AbortSignalLike parameter or option`
+              message: `async method ${key.name} should accept an AbortSignalLike parameter or option`,
             });
           }
         });
-      }
+      },
     } as Rule.RuleListener;
-  }
+  },
 };

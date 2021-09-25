@@ -607,7 +607,7 @@ packages:
     resolution: {integrity: sha512-Q71Buur3RMcg6lCnisLL8Im562DBw+ybzgm+YQj/FbAaI8ZNu/zl/5z1fE4k3Q9LSIzYrz6HLRzlhdSBXpydlQ==}
     engines: {node: '>=8.0.0'}
     dependencies:
-      '@azure/core-http': 1.2.3
+      '@azure/core-http': 1.2.6
       '@azure/core-tracing': 1.0.0-preview.9
       '@azure/logger': 1.0.2
       '@azure/msal-node': 1.0.0-beta.6_debug@4.3.2
@@ -1275,12 +1275,12 @@ packages:
       '@rushstack/node-core-library': 3.36.0
     dev: false
 
-  /@microsoft/api-extractor-model/7.13.7:
-    resolution: {integrity: sha512-emwhcaSF/h3WdqBWps4UU0RtGOGzy53IsplxuoLwtCuMAx3namYvJSfUGa5ajGPBao4MCyRYGsMc3EZ6IdR8cQ==}
+  /@microsoft/api-extractor-model/7.13.9:
+    resolution: {integrity: sha512-t/XKTr8MlHRWgDr1fkyCzTQRR5XICf/WzIFs8yw1JLU8Olw99M3by4/dtpOZNskfqoW+J8NwOxovduU2csi4Ww==}
     dependencies:
       '@microsoft/tsdoc': 0.13.2
       '@microsoft/tsdoc-config': 0.15.2
-      '@rushstack/node-core-library': 3.40.2
+      '@rushstack/node-core-library': 3.41.0
     dev: false
 
   /@microsoft/api-extractor-model/7.7.10:
@@ -1307,22 +1307,22 @@ packages:
       typescript: 4.1.6
     dev: false
 
-  /@microsoft/api-extractor/7.18.9:
-    resolution: {integrity: sha512-N+fbG+6SwA1i6EW3iGRp/nAT8vQpRSDvZ1DzBUr8xIS7tNfJ0C75ndPPziUT8EmalhLixRnIw6Ncmur8AFELRg==}
+  /@microsoft/api-extractor/7.18.11:
+    resolution: {integrity: sha512-WfN5MZry4TrF60OOcGadFDsGECF9JNKNT+8P/8crYAumAYQRitI2cUiQRlCWrgmFgCWNezsNZeI/2BggdnUqcg==}
     hasBin: true
     dependencies:
-      '@microsoft/api-extractor-model': 7.13.7
+      '@microsoft/api-extractor-model': 7.13.9
       '@microsoft/tsdoc': 0.13.2
       '@microsoft/tsdoc-config': 0.15.2
-      '@rushstack/node-core-library': 3.40.2
-      '@rushstack/rig-package': 0.3.0
-      '@rushstack/ts-command-line': 4.9.0
+      '@rushstack/node-core-library': 3.41.0
+      '@rushstack/rig-package': 0.3.1
+      '@rushstack/ts-command-line': 4.9.1
       colors: 1.2.5
       lodash: 4.17.21
       resolve: 1.17.0
       semver: 7.3.5
       source-map: 0.6.1
-      typescript: 4.3.5
+      typescript: 4.4.3
     dev: false
 
   /@microsoft/api-extractor/7.7.11:
@@ -1643,10 +1643,10 @@ packages:
       z-schema: 3.18.4
     dev: false
 
-  /@rushstack/node-core-library/3.40.2:
-    resolution: {integrity: sha512-wzcRucwnhOENTfx6hZ2M+CA1Zmp8Dr572mFFtjxmcQzBWTbNFRB1Mi1wLb7DLza+69OUBoSZcHUqydlwL+gvSA==}
+  /@rushstack/node-core-library/3.41.0:
+    resolution: {integrity: sha512-JxdmqR+SHU04jTDaZhltMZL3/XTz2ZZM47DTN+FSPUGUVp6WmxLlvJnT5FoHrOZWUjL/FoIlZUdUPTSXjTjIcg==}
     dependencies:
-      '@types/node': 10.17.13
+      '@types/node': 12.20.24
       colors: 1.2.5
       fs-extra: 7.0.1
       import-lazy: 4.0.0
@@ -1664,8 +1664,8 @@ packages:
       strip-json-comments: 3.1.1
     dev: false
 
-  /@rushstack/rig-package/0.3.0:
-    resolution: {integrity: sha512-Lj6noF7Q4BBm1hKiBDw94e6uZvq1xlBwM/d2cBFaPqXeGdV+G6r3qaCWfRiSXK0pcHpGGpV5Tb2MdfhVcO6G/g==}
+  /@rushstack/rig-package/0.3.1:
+    resolution: {integrity: sha512-DXQmrPWOCNoE2zPzHCShE1y47FlgbAg48wpaY058Qo/yKDzL0GlEGf5Ra2NIt22pMcp0R/HHh+kZGbqTnF4CrA==}
     dependencies:
       resolve: 1.17.0
       strip-json-comments: 3.1.1
@@ -1688,8 +1688,8 @@ packages:
       string-argv: 0.3.1
     dev: false
 
-  /@rushstack/ts-command-line/4.9.0:
-    resolution: {integrity: sha512-kmT8t+JfnvphISF1C5WwY56RefjwgajhSjs9J4ckvAFXZDXR6F5cvF5/RTh7fGCzIomg8esy2PHO/b52zFoZvA==}
+  /@rushstack/ts-command-line/4.9.1:
+    resolution: {integrity: sha512-zzoWB6OqVbMjnxlxbAUqbZqDWITUSHqwFCx7JbH5CVrjR9kcsB4NeWkN1I8GcR92beiOGvO3yPlB2NRo5Ugh+A==}
     dependencies:
       '@types/argparse': 1.0.38
       argparse: 1.0.10
@@ -1937,6 +1937,10 @@ packages:
     resolution: {integrity: sha512-pMCcqU2zT4TjqYFrWtYHKal7Sl30Ims6ulZ4UFXxI4xbtQqK/qqKwkDoBFCfooRqqmRu9vY3xaJRwxSh673aYg==}
     dev: false
 
+  /@types/node/12.20.24:
+    resolution: {integrity: sha512-yxDeaQIAJlMav7fH5AQqPH1u8YIuhYJXYBzxaQ4PifsU0GDO38MSdmEDeRlIxrKbC6NbEaaEHDanWb+y30U8SQ==}
+    dev: false
+
   /@types/node/12.20.25:
     resolution: {integrity: sha512-hcTWqk7DR/HrN9Xe7AlJwuCaL13Vcd9/g/T54YrJz4Q3ESM5mr33YCzW2bOfzSIc3aZMeGBvbLGvgN6mIJ0I5Q==}
     dev: false
@@ -2038,7 +2042,7 @@ packages:
     dev: false
     optional: true
 
-  /@typescript-eslint/eslint-plugin/4.19.0_359354e87b989469ccdce12bde18eddc:
+  /@typescript-eslint/eslint-plugin/4.19.0_4d44bff940222e43a8eb66110e0de81a:
     resolution: {integrity: sha512-CRQNQ0mC2Pa7VLwKFbrGVTArfdVDdefS+gTw0oC98vSI98IX5A8EVH4BzJ2FOB0YlCmm8Im36Elad/Jgtvveaw==}
     engines: {node: ^10.12.0 || >=12.0.0}
     peerDependencies:
@@ -2049,8 +2053,8 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@typescript-eslint/experimental-utils': 4.19.0_eslint@7.32.0+typescript@4.2.4
-      '@typescript-eslint/parser': 4.19.0_eslint@7.32.0+typescript@4.2.4
+      '@typescript-eslint/experimental-utils': 4.19.0_eslint@7.32.0+typescript@4.4.3
+      '@typescript-eslint/parser': 4.19.0_eslint@7.32.0+typescript@4.4.3
       '@typescript-eslint/scope-manager': 4.19.0
       debug: 4.3.2
       eslint: 7.32.0
@@ -2058,13 +2062,13 @@ packages:
       lodash: 4.17.21
       regexpp: 3.2.0
       semver: 7.3.5
-      tsutils: 3.21.0_typescript@4.2.4
-      typescript: 4.2.4
+      tsutils: 3.21.0_typescript@4.4.3
+      typescript: 4.4.3
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  /@typescript-eslint/experimental-utils/4.19.0_eslint@7.32.0+typescript@4.2.4:
+  /@typescript-eslint/experimental-utils/4.19.0_eslint@7.32.0+typescript@4.4.3:
     resolution: {integrity: sha512-9/23F1nnyzbHKuoTqFN1iXwN3bvOm/PRIXSBR3qFAYotK/0LveEOHr5JT1WZSzcD6BESl8kPOG3OoDRKO84bHA==}
     engines: {node: ^10.12.0 || >=12.0.0}
     peerDependencies:
@@ -2073,7 +2077,7 @@ packages:
       '@types/json-schema': 7.0.9
       '@typescript-eslint/scope-manager': 4.19.0
       '@typescript-eslint/types': 4.19.0
-      '@typescript-eslint/typescript-estree': 4.19.0_typescript@4.2.4
+      '@typescript-eslint/typescript-estree': 4.19.0_typescript@4.4.3
       eslint: 7.32.0
       eslint-scope: 5.1.1
       eslint-utils: 2.1.0
@@ -2082,7 +2086,7 @@ packages:
       - typescript
     dev: false
 
-  /@typescript-eslint/parser/4.19.0_eslint@7.32.0+typescript@4.2.4:
+  /@typescript-eslint/parser/4.19.0_eslint@7.32.0+typescript@4.4.3:
     resolution: {integrity: sha512-/uabZjo2ZZhm66rdAu21HA8nQebl3lAIDcybUoOxoI7VbZBYavLIwtOOmykKCJy+Xq6Vw6ugkiwn8Js7D6wieA==}
     engines: {node: ^10.12.0 || >=12.0.0}
     peerDependencies:
@@ -2094,10 +2098,10 @@ packages:
     dependencies:
       '@typescript-eslint/scope-manager': 4.19.0
       '@typescript-eslint/types': 4.19.0
-      '@typescript-eslint/typescript-estree': 4.19.0_typescript@4.2.4
+      '@typescript-eslint/typescript-estree': 4.19.0_typescript@4.4.3
       debug: 4.3.2
       eslint: 7.32.0
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -2115,7 +2119,7 @@ packages:
     engines: {node: ^8.10.0 || ^10.13.0 || >=11.10.1}
     dev: false
 
-  /@typescript-eslint/typescript-estree/4.19.0_typescript@4.2.4:
+  /@typescript-eslint/typescript-estree/4.19.0_typescript@4.4.3:
     resolution: {integrity: sha512-3xqArJ/A62smaQYRv2ZFyTA+XxGGWmlDYrsfZG68zJeNbeqRScnhf81rUVa6QG4UgzHnXw5VnMT5cg75dQGDkA==}
     engines: {node: ^10.12.0 || >=12.0.0}
     peerDependencies:
@@ -2130,8 +2134,8 @@ packages:
       globby: 11.0.4
       is-glob: 4.0.1
       semver: 7.3.5
-      tsutils: 3.21.0_typescript@4.2.4
-      typescript: 4.2.4
+      tsutils: 3.21.0_typescript@4.4.3
+      typescript: 4.4.3
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -3090,7 +3094,7 @@ packages:
     resolution: {integrity: sha512-mel+jf7nrtEl5Pn1Qx46zARXKDpBbvzezse7p7LqINmdoIk8PYP5SySaxEmYv6TZ0JyEKA1hsCId6DIhgITtWQ==}
     deprecated: Debug versions >=3.2.0 <3.2.7 || >=4 <4.3.1 have a low-severity ReDos regression when used in a Node.js environment. It is recommended you upgrade to 3.2.7 or 4.3.1. (https://github.com/visionmedia/debug/issues/797)
     dependencies:
-      ms: 2.1.1
+      ms: 2.1.3
     dev: false
 
   /debug/3.2.7:
@@ -7408,7 +7412,7 @@ packages:
       punycode: 2.1.1
     dev: false
 
-  /ts-node/10.2.1_28b8c6e1d3819914bc52462370225dda:
+  /ts-node/10.2.1_e5039d46efda05641a7ec88dbdc9f221:
     resolution: {integrity: sha512-hCnyOyuGmD5wHleOQX6NIjJtYVIO8bPP8F2acWkB4W06wdlkgyvJtubO/I9NkI88hCFECbsEgoLc0VNkYmcSfw==}
     engines: {node: '>=12.0.0'}
     hasBin: true
@@ -7435,11 +7439,11 @@ packages:
       create-require: 1.1.1
       diff: 4.0.2
       make-error: 1.3.6
-      typescript: 4.2.4
+      typescript: 4.4.3
       yn: 3.1.1
     dev: false
 
-  /ts-node/9.1.1_typescript@4.2.4:
+  /ts-node/9.1.1_typescript@4.4.3:
     resolution: {integrity: sha512-hPlt7ZACERQGf03M253ytLY3dHbGNGrAq9qIHWUY9XHYl1z7wYngSr3OQ5xmui8o2AaxsONxIzjafLUiWBo1Fg==}
     engines: {node: '>=10.0.0'}
     hasBin: true
@@ -7451,7 +7455,7 @@ packages:
       diff: 4.0.2
       make-error: 1.3.6
       source-map-support: 0.5.20
-      typescript: 4.2.4
+      typescript: 4.4.3
       yn: 3.1.1
     dev: false
 
@@ -7472,14 +7476,14 @@ packages:
     resolution: {integrity: sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==}
     dev: false
 
-  /tsutils/3.21.0_typescript@4.2.4:
+  /tsutils/3.21.0_typescript@4.4.3:
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}
     engines: {node: '>= 6'}
     peerDependencies:
       typescript: '>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta'
     dependencies:
       tslib: 1.14.1
-      typescript: 4.2.4
+      typescript: 4.4.3
     dev: false
 
   /tunnel-agent/0.6.0:
@@ -7568,14 +7572,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.2.4:
-    resolution: {integrity: sha512-V+evlYHZnQkaz8TRBuxTA92yZBPotr5H+WhQ7bD3hZUndx5tGOa1fuCgeSjxAzM1RiN5IzvadIXTVefuuwZCRg==}
-    engines: {node: '>=4.2.0'}
-    hasBin: true
-    dev: false
-
-  /typescript/4.3.5:
-    resolution: {integrity: sha512-DqQgihaQ9cUrskJo9kIyW/+g0Vxsk8cDtZ52a3NGh0YNTfpUSArXSohyUGnvbPazEPLu398C0UxmKSOrPumUzA==}
+  /typescript/4.4.3:
+    resolution: {integrity: sha512-4xfscpisVgqqDfPaJo5vkd+Qd/ItkoagnHpufr+i2QCHBsNYp+G7UAoyFl8aPtx879u38wPV65rZ8qbGZijalA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -8007,7 +8005,7 @@ packages:
     dev: false
 
   file:projects/abort-controller.tgz:
-    resolution: {integrity: sha512-eR+UlnZbcpldxjFwjUnWL9mMa99CaJHOHHtgK8IcL2E/hmQXM7E4R5fxhf2s1I3cdDa5pZLu96aV94TfRLDjKg==, tarball: file:projects/abort-controller.tgz}
+    resolution: {integrity: sha512-TMfXQvJ+hLWpyCJqwXfZZ0cWT8/2wrYFMLVwsQtWbXiIpG6mH0XSyruixiyvnyHmPoOMWeH4YeuS0swp0bv1gQ==, tarball: file:projects/abort-controller.tgz}
     name: '@rush-temp/abort-controller'
     version: 0.0.0
     dependencies:
@@ -8037,10 +8035,10 @@ packages:
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -8051,7 +8049,7 @@ packages:
     dev: false
 
   file:projects/agrifood-farming.tgz:
-    resolution: {integrity: sha512-cqKpvpFUi1vmXReL/3Kr/NFHD4h94JoyZFOQ1m+wfBVnwVOuv/43PvlE7u3zvnOf4dPqk+EvhWUWYNBrTPx/tw==, tarball: file:projects/agrifood-farming.tgz}
+    resolution: {integrity: sha512-qIzyTYMpK4K52506/it/dSUl8iHA5fDbTWpic02T1tSOZI4D1VOB06yvRmNgVeuHBFuBUf0twxi02inMcWZmuA==, tarball: file:projects/agrifood-farming.tgz}
     name: '@rush-temp/agrifood-farming'
     version: 0.0.0
     dependencies:
@@ -8089,7 +8087,7 @@ packages:
       source-map-support: 0.5.20
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -8098,7 +8096,7 @@ packages:
     dev: false
 
   file:projects/ai-anomaly-detector.tgz:
-    resolution: {integrity: sha512-8eiHwPfczMiT5YmtQc9kG/TZx5SqySlXAShKgCR1ILFNYndPrk6ngtkx6OmCFzhePZajVB1iQhMA2bXyF5X87A==, tarball: file:projects/ai-anomaly-detector.tgz}
+    resolution: {integrity: sha512-JC4XvK8MdEkIrmmfVKOUyArg35B66MaFzS3cwTuGefere9sDvXRmB24o7x+Qbn+srQWBV/ANQesDFqmsv2ZBsg==, tarball: file:projects/ai-anomaly-detector.tgz}
     name: '@rush-temp/ai-anomaly-detector'
     version: 0.0.0
     dependencies:
@@ -8142,7 +8140,7 @@ packages:
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
     transitivePeerDependencies:
       - bufferutil
@@ -8152,7 +8150,7 @@ packages:
     dev: false
 
   file:projects/ai-document-translator.tgz:
-    resolution: {integrity: sha512-RTnU8NxdkRVFfwo3U+Xeiq7/nhTYqqiMPhh61x4ff25/2pI9x3II0hGAJsMA1hTYKoItr8EDGrZWrVTFx7FRTA==, tarball: file:projects/ai-document-translator.tgz}
+    resolution: {integrity: sha512-IJ/WDVGTvtt6EW52i6o5ljhHPKFVJIhjmVkCb8J55jThcd8ekyHKerNaMkyWGbXicmKwZv98trCXvu+98D5kSg==, tarball: file:projects/ai-document-translator.tgz}
     name: '@rush-temp/ai-document-translator'
     version: 0.0.0
     dependencies:
@@ -8188,7 +8186,7 @@ packages:
       source-map-support: 0.5.20
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -8197,7 +8195,7 @@ packages:
     dev: false
 
   file:projects/ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-YvthO3IXaeYFhgEYtwpgosyRaBw1k6lRXJ1RZKardk2SuNeSKCaIusZS8pHvdb2uWbSYN7dzUIMPCBN1Dro1mA==, tarball: file:projects/ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-RVKYzxuHMHyQ/4Zj7lmfOzq6SHF6XeqHI1od8F2geazeW6JuYBjHbFzqPxnFujUNvHhaGvmEt0pz5Ho4OsiODw==, tarball: file:projects/ai-form-recognizer.tgz}
     name: '@rush-temp/ai-form-recognizer'
     version: 0.0.0
     dependencies:
@@ -8236,7 +8234,7 @@ packages:
       source-map-support: 0.5.20
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -8245,7 +8243,7 @@ packages:
     dev: false
 
   file:projects/ai-metrics-advisor.tgz:
-    resolution: {integrity: sha512-egylYR9c3D3cVW5/T7dfRBrr7Y4Ds0mqOkDD4/P0eKAATclq0w578MYQP/MMLM40tRHmiNXe1ZyxZw2++wterw==, tarball: file:projects/ai-metrics-advisor.tgz}
+    resolution: {integrity: sha512-+AmxrsWwgDucMbguTMY8eQDwooO9cz1y6UwoaJDTEt8CS8y02GQKm0ZgrjlwN35XyaEinvz9zkEBa/RkVHrlwA==, tarball: file:projects/ai-metrics-advisor.tgz}
     name: '@rush-temp/ai-metrics-advisor'
     version: 0.0.0
     dependencies:
@@ -8282,10 +8280,10 @@ packages:
       rollup: 1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.20
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -8296,13 +8294,13 @@ packages:
     dev: false
 
   file:projects/ai-text-analytics.tgz:
-    resolution: {integrity: sha512-ZxFZFGVS8QE7mgdOlzQBb8QoHd1lb+hed1Dp5KojWLWTKmOv7X4WxVPIDiVbIj8ebpPjAd4cHhua0frdwCiSig==, tarball: file:projects/ai-text-analytics.tgz}
+    resolution: {integrity: sha512-497cs+/M2qerh/fJ6YjSo7q1c5RwTb48ysdyXYT9sInr+C8DtVjm14lDNk0lnykJWUUOxRzkAB1SVa5iCVXb9Q==, tarball: file:projects/ai-text-analytics.tgz}
     name: '@rush-temp/ai-text-analytics'
     version: 0.0.0
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.0-beta.6
-      '@microsoft/api-extractor': 7.18.9
+      '@microsoft/api-extractor': 7.18.11
       '@types/chai': 4.2.21
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
@@ -8335,10 +8333,10 @@ packages:
       rollup: 1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.20
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -8349,7 +8347,7 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-/U5KWOuiyI9hrAutHmMPodzoL6WOmKw0+XNTscQv6Wa80Nwz+sYN3MfqyTRLi0TRHdeRXPGptZ4NxXkUU9hB1g==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-HK8ztMn+sU2Q40Xrpl/WDTuvslLvLaQ5Sjf5BPIoNdHbSspOZ97+F5ogI3cCZGRi9NuIc8NrymdP/bwlmiXL2w==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
@@ -8395,10 +8393,10 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       sinon: 9.2.4
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       uglify-js: 3.14.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -8410,7 +8408,7 @@ packages:
     dev: false
 
   file:projects/arm-appservice.tgz:
-    resolution: {integrity: sha512-O5f+BWzGqVFxpvEE9Tgt55OyDt1qgN3vO5dj4MHkff8gcwl9zmYQaQ+MEod9jGYgC2rZkCXlfLl9NmSDyoV54g==, tarball: file:projects/arm-appservice.tgz}
+    resolution: {integrity: sha512-MFuBskAHK3bww7+KuACwiEzgGTBKnIZ67MyfeloiuMNAbi7GJkXV0lS6maYp/L3moZ5N2e5yp854eB2W8LP60Q==, tarball: file:projects/arm-appservice.tgz}
     name: '@rush-temp/arm-appservice'
     version: 0.0.0
     dependencies:
@@ -8424,12 +8422,12 @@ packages:
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
       uglify-js: 3.14.2
     dev: false
 
   file:projects/arm-authorization.tgz:
-    resolution: {integrity: sha512-uEY4hjyOxufuVrMwUbobOnaDrWnQSYJ/w9bvzk6AK0LOLWsRF/Wni7IK1hgVVi67EnCordoSuwTOtFiv+g8B4A==, tarball: file:projects/arm-authorization.tgz}
+    resolution: {integrity: sha512-DcPGKMXCj1DaZ7v9OgJBuTNZ5m6U5qX7bbeNyRQMECbu0PD3pdgpwOlkS/qEcQwT1n5VTEkt/TNw9yTNbnTr8w==, tarball: file:projects/arm-authorization.tgz}
     name: '@rush-temp/arm-authorization'
     version: 0.0.0
     dependencies:
@@ -8442,12 +8440,12 @@ packages:
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
       uglify-js: 3.14.2
     dev: false
 
   file:projects/arm-compute.tgz:
-    resolution: {integrity: sha512-T3UFCbTMY/dds1j8CFcJLUkkyV3oR9pnPcpbK3DvLauxAZGylmQbuZv36iTLpGpMO0cxKIdgGm1G6EdgfgMOPw==, tarball: file:projects/arm-compute.tgz}
+    resolution: {integrity: sha512-v0gBt/SBrjSWdchvnK/ayGcsaK8ZSbacGvIUzFwvlVlK3HY/dDaDc9sASa/D4WRTS6VkT8rHtlFNgq+/XN84lw==, tarball: file:projects/arm-compute.tgz}
     name: '@rush-temp/arm-compute'
     version: 0.0.0
     dependencies:
@@ -8460,12 +8458,12 @@ packages:
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
       uglify-js: 3.14.2
     dev: false
 
   file:projects/arm-eventhub.tgz:
-    resolution: {integrity: sha512-prxNN24vp5ndwaqivPOFLkNF0Id6m0zm5YL0Azqgv6PoZzThFLxEkgaWtsUxFQicLGqXWB7XomzA0EUyPHyDbQ==, tarball: file:projects/arm-eventhub.tgz}
+    resolution: {integrity: sha512-qZ+9lFWP4ZWZdgnMVDj/GxA9D3Ac5HGQJxYoCpe4clQj3DHa9GwxYslj3m8V1jWvMp5u4Zygv/CG9oQsIKZ3dQ==, tarball: file:projects/arm-eventhub.tgz}
     name: '@rush-temp/arm-eventhub'
     version: 0.0.0
     dependencies:
@@ -8478,12 +8476,12 @@ packages:
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
       uglify-js: 3.14.2
     dev: false
 
   file:projects/arm-features.tgz:
-    resolution: {integrity: sha512-Jdqy3BnYfdYfUwQ4L97IVWbg0zwT9HuL1PJ/8JZrmqMo6RZOE1jUDnYcSRA2h7Ke1Rhe8rHi0g80U3EWbWvr9A==, tarball: file:projects/arm-features.tgz}
+    resolution: {integrity: sha512-qPW/LxGJMg6JlHmAId22OrXZ423XASrh5oJ51wVIScrCdxKd61a3ElBtYGcmhvNKwwR+wTobdPStGponnrqLiA==, tarball: file:projects/arm-features.tgz}
     name: '@rush-temp/arm-features'
     version: 0.0.0
     dependencies:
@@ -8497,12 +8495,12 @@ packages:
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
       uglify-js: 3.14.2
     dev: false
 
   file:projects/arm-keyvault.tgz:
-    resolution: {integrity: sha512-v75V6krb8/ZT8DT7FKKuDcto86Imeg9rTTBruOW3WnqxcVWNAdgIe+1ZWZxLeaUxSPLntYlCfreanFYO7952Eg==, tarball: file:projects/arm-keyvault.tgz}
+    resolution: {integrity: sha512-+0BYochPKGCUJn3lTIdJes8DzYcZoBcpMz/ucQ81xNjL2le9yAG6wsLB14sc2cdvCUsT/4qxDixkeodsZq09oQ==, tarball: file:projects/arm-keyvault.tgz}
     name: '@rush-temp/arm-keyvault'
     version: 0.0.0
     dependencies:
@@ -8516,12 +8514,12 @@ packages:
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
       uglify-js: 3.14.2
     dev: false
 
   file:projects/arm-links.tgz:
-    resolution: {integrity: sha512-rp7358CAZYQTk14rux456WPw0drTcb6tLaCbzxS10sUYP18FSZAdXMThbRk6FWXcyGiNdiYWIDg99JUxOoS2hQ==, tarball: file:projects/arm-links.tgz}
+    resolution: {integrity: sha512-Z8uniWgy7rQALJxV6+sNM0ahScVzom9cIhT6kbYgAbjxI7jK9F8NL6Uv1HlFBD71WpC6PJkspnmbqY7aiKX83w==, tarball: file:projects/arm-links.tgz}
     name: '@rush-temp/arm-links'
     version: 0.0.0
     dependencies:
@@ -8535,12 +8533,12 @@ packages:
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
       uglify-js: 3.14.2
     dev: false
 
   file:projects/arm-locks.tgz:
-    resolution: {integrity: sha512-Pbwm7icKOAqRDLs7DB00ERbjwjtOHOCWtyxLuzSvnu14uHgTS7Hdc25em9Zj2kIIn9Fqq2EGPytZkfq4BA2Ayg==, tarball: file:projects/arm-locks.tgz}
+    resolution: {integrity: sha512-uUhje8spJNCsgjo+mxaRYA1wrv+l5IZwrd4ngWdttFQzeKEYILvzBF8qpJLcnKKuOuQZmvMxpqzAt3r/0La8jg==, tarball: file:projects/arm-locks.tgz}
     name: '@rush-temp/arm-locks'
     version: 0.0.0
     dependencies:
@@ -8554,12 +8552,12 @@ packages:
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
       uglify-js: 3.14.2
     dev: false
 
   file:projects/arm-managedapplications.tgz:
-    resolution: {integrity: sha512-rd/IuR0zgpA58pTS328g3AzEcjXlQiUW9hWYUWJXCdYCjKl5u89SJ1rNNMheQXMXs9qUv6hFG6tt8q1ZCDirtQ==, tarball: file:projects/arm-managedapplications.tgz}
+    resolution: {integrity: sha512-tHbXxEVSzzFduA4VQoU1CLl2EcQ1OHFeg0Ffas5S1nn+Vm8kNWpOFX6ad45sOYkO6STsPM1DcrGSgT1MSxpifg==, tarball: file:projects/arm-managedapplications.tgz}
     name: '@rush-temp/arm-managedapplications'
     version: 0.0.0
     dependencies:
@@ -8573,12 +8571,12 @@ packages:
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
       uglify-js: 3.14.2
     dev: false
 
   file:projects/arm-network.tgz:
-    resolution: {integrity: sha512-Q7ixqI/vd+XixRZLhqDeyeSBGkpyEW+1n0wphunRHGVUrcwHddiEGB2rdiWFXJaCP47WG/EngiRCqMGGKTr+lg==, tarball: file:projects/arm-network.tgz}
+    resolution: {integrity: sha512-7n5njVT5c7RVbQvtxY7+72yw1Gz3n8EAg4x1ckF7mnZXtdDlvDvBhXS8Y81w4xMm1XlA66TKaYLvBrEx28s0LQ==, tarball: file:projects/arm-network.tgz}
     name: '@rush-temp/arm-network'
     version: 0.0.0
     dependencies:
@@ -8591,12 +8589,12 @@ packages:
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
       uglify-js: 3.14.2
     dev: false
 
   file:projects/arm-policy.tgz:
-    resolution: {integrity: sha512-1cDd7l+RfNr7rAJxGMqLHW/zYV/F5tRFsA1R6RplSOTGg8yo1foORk8QvIa+oumecW/uYGC/jePfHrx55atGMQ==, tarball: file:projects/arm-policy.tgz}
+    resolution: {integrity: sha512-sAiUhH2n7COUBk5RPvzZEiAb6C3xIB+bbNgWVeGGu78oQ6jb99QhL3d6K26bthlE7a+gDl3JZPyTXhkAgJFK1Q==, tarball: file:projects/arm-policy.tgz}
     name: '@rush-temp/arm-policy'
     version: 0.0.0
     dependencies:
@@ -8610,12 +8608,12 @@ packages:
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
       uglify-js: 3.14.2
     dev: false
 
   file:projects/arm-purview.tgz:
-    resolution: {integrity: sha512-oNNMNU6y5mHqW3Lg2ASVmmohPywUvskEN2oDdwQI+g/cBrpnxoiPRIgSAkPkOzRxWPRXxv7LgQIxl8AaisYCpg==, tarball: file:projects/arm-purview.tgz}
+    resolution: {integrity: sha512-1+cRGB/pyMEhHp38WxBi0zg+DQfk6p7x9lPA6vVRXMQnDa8G4A3ESGngbVYqbbZSP9fjHLps8iOvmtcIn5W0yw==, tarball: file:projects/arm-purview.tgz}
     name: '@rush-temp/arm-purview'
     version: 0.0.0
     dependencies:
@@ -8628,12 +8626,12 @@ packages:
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
       uglify-js: 3.14.2
     dev: false
 
   file:projects/arm-resources-subscriptions.tgz:
-    resolution: {integrity: sha512-6GWFjnVvh/TZyCDi+Fj6ShcBGzmKQ8mvChj7v+n68IPy8QUwXlB08EvQ5zo/7+jii9EwFGCBOQok/5+BISRnJg==, tarball: file:projects/arm-resources-subscriptions.tgz}
+    resolution: {integrity: sha512-5+jgx1cI64IR5QK/YqMIuy2WLXzB8oVHOvK/viap36joV8gx9Zp98phpvhh8lh2IjgKCDe2fWs2uHAHJsYIquw==, tarball: file:projects/arm-resources-subscriptions.tgz}
     name: '@rush-temp/arm-resources-subscriptions'
     version: 0.0.0
     dependencies:
@@ -8647,12 +8645,12 @@ packages:
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
       uglify-js: 3.14.2
     dev: false
 
   file:projects/arm-resources.tgz:
-    resolution: {integrity: sha512-qCoJfklY7j2h5N8EgS7J/9fgg52p1QJminenS8L2y2O8z2mnEc/qr5PqkypeM7GZaQXUf0vK68A0U6fOEuWRxg==, tarball: file:projects/arm-resources.tgz}
+    resolution: {integrity: sha512-3sIDgHv4AW8lgz7kUopQhiIYhpk3tiqpL3VQbxAZ+jJJkOL1rmg84dgB5u2HuZUgsxJaLYNk3R3WYtOKhMirQQ==, tarball: file:projects/arm-resources.tgz}
     name: '@rush-temp/arm-resources'
     version: 0.0.0
     dependencies:
@@ -8666,12 +8664,12 @@ packages:
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
       uglify-js: 3.14.2
     dev: false
 
   file:projects/arm-servicebus.tgz:
-    resolution: {integrity: sha512-q1Mf8xx0bI00+fi1OIqZeMgMxlWfliTjUdbCEdsmFUI9XhB+LZ83NIyXB5uNECvuIiOca9aJr/0rxaop11KKLg==, tarball: file:projects/arm-servicebus.tgz}
+    resolution: {integrity: sha512-FyF36/17FLop73T1d6CzehnGfHgkPk8yxYc0+Hl++92eQTGv2bnuidMbS6kR1B9rjxM3i9GvGKtXr7VoIFcBHA==, tarball: file:projects/arm-servicebus.tgz}
     name: '@rush-temp/arm-servicebus'
     version: 0.0.0
     dependencies:
@@ -8684,12 +8682,12 @@ packages:
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
       uglify-js: 3.14.2
     dev: false
 
   file:projects/arm-sql.tgz:
-    resolution: {integrity: sha512-1nv+fHLm/8KtX6rSVv/pmclEN7WzLAFtJuFqOOGUCSYEH0uK/vjrTWdV9/z5v2hCopmTGrnLM1m1JyQTwEL5aA==, tarball: file:projects/arm-sql.tgz}
+    resolution: {integrity: sha512-FtkHiUmPfT4HgEhvLr29HtCcz8rl5Ok9Arj0qQFVL0Qj+8p/kUHK7AR2pH9Q0+qYSL1umVwKAHywyDoIAoqx+Q==, tarball: file:projects/arm-sql.tgz}
     name: '@rush-temp/arm-sql'
     version: 0.0.0
     dependencies:
@@ -8702,12 +8700,12 @@ packages:
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
       uglify-js: 3.14.2
     dev: false
 
   file:projects/arm-storage.tgz:
-    resolution: {integrity: sha512-qBc4PYovQxo5tZRHGNtgQLmfF7Uq8FVopd9F1Ghu5qcS68wESbBhwZ1px9/EjPWIHpPyrBzazFRMlvT+5gcthA==, tarball: file:projects/arm-storage.tgz}
+    resolution: {integrity: sha512-rjbhaX4L4BAfgJXiIJC6SaUtFaqwtr9odqRFQkztPwAphGou6pV8r10QDsjequpfd78c7h5S1StrBQBO3jx6dA==, tarball: file:projects/arm-storage.tgz}
     name: '@rush-temp/arm-storage'
     version: 0.0.0
     dependencies:
@@ -8721,12 +8719,12 @@ packages:
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
       uglify-js: 3.14.2
     dev: false
 
   file:projects/arm-templatespecs.tgz:
-    resolution: {integrity: sha512-xJ4r+nZre0Bli2nfn7U0n/MX7cbpw0zyG40XetY8XvGX5C07tKzeRa+1ptGSuaw8U3o4BOSWsDVCA6Z/YEZt2g==, tarball: file:projects/arm-templatespecs.tgz}
+    resolution: {integrity: sha512-t0BZ9whoEnmpYMKOf+h1ut1PG5Hj0Ci/QWOCQPcTV158rbkxGkZxUA5TOsxB86xbK+dVpc+k7H4+iI5SYavovw==, tarball: file:projects/arm-templatespecs.tgz}
     name: '@rush-temp/arm-templatespecs'
     version: 0.0.0
     dependencies:
@@ -8740,12 +8738,12 @@ packages:
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
       uglify-js: 3.14.2
     dev: false
 
   file:projects/arm-webpubsub.tgz:
-    resolution: {integrity: sha512-0EU10j+ZIAl/Hj/KR+2LjjS6Ik8nlvNX3xGtR9cxSIl2Wle+EOw+3YtTQt1E4spSlsWnPcvZXJ3WKyV8mvt6vg==, tarball: file:projects/arm-webpubsub.tgz}
+    resolution: {integrity: sha512-iheQAKfzW1ag1XcrFj+fSyKFnDK0XLcJFpsSeH26P3Lta0nNLtauVlPsKKMcdYyiYId8c7zaDdwPv+6p1VJLjg==, tarball: file:projects/arm-webpubsub.tgz}
     name: '@rush-temp/arm-webpubsub'
     version: 0.0.0
     dependencies:
@@ -8759,12 +8757,12 @@ packages:
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
       uglify-js: 3.14.2
     dev: false
 
   file:projects/attestation.tgz:
-    resolution: {integrity: sha512-MWwZlGPsxTbmfdj0axvPY0KVohkpCJZTd40tbKbMYtamWCOp1j/3Xx6XEOBdF9GGfezIpGtJSla5ERFd9Q2hbQ==, tarball: file:projects/attestation.tgz}
+    resolution: {integrity: sha512-R1yQVEMicyzJhb90IMh8gGU9gNj9PKIjy9BIj4i6LDkzXarpwUmiQ1f6B/+SdtNHKe1QDll2YjDDzuA2I+drMQ==, tarball: file:projects/attestation.tgz}
     name: '@rush-temp/attestation'
     version: 0.0.0
     dependencies:
@@ -8807,10 +8805,10 @@ packages:
       rollup: 1.32.1
       safe-buffer: 5.2.1
       source-map-support: 0.5.20
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
     transitivePeerDependencies:
       - '@swc/core'
@@ -8822,7 +8820,7 @@ packages:
     dev: false
 
   file:projects/communication-chat.tgz:
-    resolution: {integrity: sha512-+NrWprQdQDByOujthknzzOHYc1QFEiUfHIeoE3yRoPmS3eX1ghAInV7LBDcm4zm6o2FRMCDxcTJto9iZhigI3Q==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-/4jDfrdPyKm5v5Gy8Pz8UwMmQiqnqXjPFogV6S5ZponngOOFUt25MgwqxMFM/wuuITQjUo8JH1efZb84Rs3Umg==, tarball: file:projects/communication-chat.tgz}
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
@@ -8873,7 +8871,7 @@ packages:
       sinon: 9.2.4
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
       uuid: 8.3.2
     transitivePeerDependencies:
@@ -8884,7 +8882,7 @@ packages:
     dev: false
 
   file:projects/communication-common.tgz:
-    resolution: {integrity: sha512-Y6t2s/oqQpZpz7TOgPeLrg8lQOBAuzUW0jj9j7hl6sa/WgFTXm+4aOeocTsPFGrDKtPxrjOuZmLv7LMtsYfinQ==, tarball: file:projects/communication-common.tgz}
+    resolution: {integrity: sha512-WWG7g2yEHq/nHxvgCWfLhIpVOGI92ULxjSo3Fb/P4W9PtFCzFd3b6UoWW89PokhBiPXAs3wdaohlq5ipJicJ/A==, tarball: file:projects/communication-common.tgz}
     name: '@rush-temp/communication-common'
     version: 0.0.0
     dependencies:
@@ -8932,7 +8930,7 @@ packages:
       sinon: 9.2.4
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
     transitivePeerDependencies:
       - bufferutil
@@ -8942,7 +8940,7 @@ packages:
     dev: false
 
   file:projects/communication-identity.tgz:
-    resolution: {integrity: sha512-hN3srNgjmJdDIoAO1Su+GZsI1qh5b54PAmbyr3spfLMnzejf5ljcxCZWSHAO7gYwvGT+Av4CICtWtUuyFLaQHg==, tarball: file:projects/communication-identity.tgz}
+    resolution: {integrity: sha512-5fjSbVJ79eL4bZl0cxudE+BP9zKGTmp3PjGGBYbIqZWpuLNZp78r0Xt0LyrouthIiKCoQc+LKYVmzUYQ3zlsww==, tarball: file:projects/communication-identity.tgz}
     name: '@rush-temp/communication-identity'
     version: 0.0.0
     dependencies:
@@ -8991,7 +8989,7 @@ packages:
       sinon: 9.2.4
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -9000,7 +8998,7 @@ packages:
     dev: false
 
   file:projects/communication-network-traversal.tgz:
-    resolution: {integrity: sha512-+ULxT3XN8qSsW68KcALoAriUSlCBTR7TU/qXsydwS+BfhMMG2voGPXEjRSKJc7PRMi1mR0Z7tWW4nFNy7EnuYg==, tarball: file:projects/communication-network-traversal.tgz}
+    resolution: {integrity: sha512-fAkLY99NsfDHUdiD5ymMmyB6bfdFaFYz7XQE8uC4IR/+BA0jqzA7zBt9oE3IvVAzDhLmLHLh8ZLdWVvj6DUtLg==, tarball: file:projects/communication-network-traversal.tgz}
     name: '@rush-temp/communication-network-traversal'
     version: 0.0.0
     dependencies:
@@ -9050,7 +9048,7 @@ packages:
       sinon: 9.2.4
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -9059,7 +9057,7 @@ packages:
     dev: false
 
   file:projects/communication-phone-numbers.tgz:
-    resolution: {integrity: sha512-EpHIaOTq9RyLWOVSd9tPraMODTp7u10AlJbZHOsCrWbOhXm9eiJY2h4l7CI9yiQ0KSOJ+KG7sotMSdPh5Grzkw==, tarball: file:projects/communication-phone-numbers.tgz}
+    resolution: {integrity: sha512-kV+GxIrXefandte124h36zmio7Z9hHqm3JBODojjm9GIk98Rprc9YHy9w8NimX2PQzKta4IBchk5sz1PXI41pQ==, tarball: file:projects/communication-phone-numbers.tgz}
     name: '@rush-temp/communication-phone-numbers'
     version: 0.0.0
     dependencies:
@@ -9108,7 +9106,7 @@ packages:
       sinon: 9.2.4
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -9117,7 +9115,7 @@ packages:
     dev: false
 
   file:projects/communication-sms.tgz:
-    resolution: {integrity: sha512-qN1zBX/BCstzeKeHn84XCJTeq/Cs3F+5/xu9fiXVxGnzaQBlZCuWSFTn8vSEKEuK4ZxQu9IXSD9pJmAOP5u6Qg==, tarball: file:projects/communication-sms.tgz}
+    resolution: {integrity: sha512-HRqwebLq01RhWQFhkc8gNtuZYEXAPjIMhVmPReXUg3Y4l/Cw42VFWhhFkzaCH9A3+/7Xb7u2s1UYq3up8HKqWA==, tarball: file:projects/communication-sms.tgz}
     name: '@rush-temp/communication-sms'
     version: 0.0.0
     dependencies:
@@ -9164,7 +9162,7 @@ packages:
       sinon: 9.2.4
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
     transitivePeerDependencies:
       - bufferutil
@@ -9174,7 +9172,7 @@ packages:
     dev: false
 
   file:projects/confidential-ledger.tgz:
-    resolution: {integrity: sha512-lQYlLhA8jsiSwPsCRn0A+03cVkbIds7xTk4dqHv3dUeXmFoKYxUvPd6hBQfnVSMjrLZj6QMiViKnUS8/b5SUkA==, tarball: file:projects/confidential-ledger.tgz}
+    resolution: {integrity: sha512-nHkyIJ6KMHSRpk4dO2WuQOr7TXDSFEoH8qngscHqSOREZzngHSZ75FXdfDySS2Ivqlgku3KkIItYSinqXl3/uA==, tarball: file:projects/confidential-ledger.tgz}
     name: '@rush-temp/confidential-ledger'
     version: 0.0.0
     dependencies:
@@ -9210,7 +9208,7 @@ packages:
       source-map-support: 0.5.20
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -9219,7 +9217,7 @@ packages:
     dev: false
 
   file:projects/container-registry.tgz:
-    resolution: {integrity: sha512-x1+6Vq4/SBsQKlK+DOBTsie+XrqCviHhBTfolK4sxjuP6/0g78eUsUrfsWxBgjUSNgT/A04F6/7PAlecV7sh9Q==, tarball: file:projects/container-registry.tgz}
+    resolution: {integrity: sha512-nUE70wJn424dZ1ILrUVPJgQWwY80Ds75Plov8gzang6QkasxzXcYkIhNQGswR9CL0tXyyh0Nn5kwamYfxFPmEw==, tarball: file:projects/container-registry.tgz}
     name: '@rush-temp/container-registry'
     version: 0.0.0
     dependencies:
@@ -9257,7 +9255,7 @@ packages:
       rollup: 1.32.1
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
     transitivePeerDependencies:
       - bufferutil
@@ -9267,7 +9265,7 @@ packages:
     dev: false
 
   file:projects/core-amqp.tgz:
-    resolution: {integrity: sha512-j8n967+bYNorq6kf5yo+IYaJuXJ0Qd7fcmB8QRkX1GaUdlfJ1Nf/3AMHdK4GQjCHeqKmUqgcC7yv8b2d2SsLmw==, tarball: file:projects/core-amqp.tgz}
+    resolution: {integrity: sha512-44aDplf4JRHFINUYL9OwNFjRsqRRK80dT4oWR8QtGlBfydE2YXt4VAMS9L+/5VgdJZbakFI5nZ6uDyWZ2nkGYw==, tarball: file:projects/core-amqp.tgz}
     name: '@rush-temp/core-amqp'
     version: 0.0.0
     dependencies:
@@ -9310,10 +9308,10 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       sinon: 9.2.4
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       url: 0.11.0
       util: 0.12.4
       ws: 7.5.5
@@ -9326,7 +9324,7 @@ packages:
     dev: false
 
   file:projects/core-asynciterator-polyfill.tgz:
-    resolution: {integrity: sha512-NMQzIXmS6Aw+/UpoOPolEKGWu0ak5sbvZn3jGCttx2gFZqO832WYZuAeNlwxEYUepdypxNQRnAR8EAdx7b7iiw==, tarball: file:projects/core-asynciterator-polyfill.tgz}
+    resolution: {integrity: sha512-TNXEXdFSjUkx/WwEBi140Cxo/9KDDecqanoJuQiLE0BPc6s2OnZmqH5B5dE/Dqn94cIsDs2Sc9sgIQ/6gdskgg==, tarball: file:projects/core-asynciterator-polyfill.tgz}
     name: '@rush-temp/core-asynciterator-polyfill'
     version: 0.0.0
     dependencies:
@@ -9334,13 +9332,13 @@ packages:
       eslint: 7.32.0
       prettier: 1.19.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - supports-color
     dev: false
 
   file:projects/core-auth.tgz:
-    resolution: {integrity: sha512-pdVm8tTyrBXIMYR5CFDSjZLbIDYsKQNbABEICJfRW3c77f0pPGadRdvC34rieD68ZfNxIZ3wtxKEJdma8HPQYQ==, tarball: file:projects/core-auth.tgz}
+    resolution: {integrity: sha512-mZU2koN1CzuGxhQ7I6YQnAMozTlrYe61owHfP+lj0/G7WcHMv/kdfV/rkbyvL1ekpQity9GSP9d2SX2Q/2e3YA==, tarball: file:projects/core-auth.tgz}
     name: '@rush-temp/core-auth'
     version: 0.0.0
     dependencies:
@@ -9360,14 +9358,14 @@ packages:
       rollup: 1.32.1
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
     transitivePeerDependencies:
       - supports-color
     dev: false
 
   file:projects/core-client-1.tgz:
-    resolution: {integrity: sha512-NDupGVfdPfzkzttVKtuqCLAc8YWmDA/4T4AWigniK83WS2b7JyG5G8N2oSpdIBdMsqZxTmInZkuFmeXzAyBUkQ==, tarball: file:projects/core-client-1.tgz}
+    resolution: {integrity: sha512-NwNDQSEXNgEkgvewThRl0nZQDU99lTEKrMCFOUAzODP2NhI6zI3CjjGiJLqUYIWuKEh7qoc9T8iTqgCNy4ZXrw==, tarball: file:projects/core-client-1.tgz}
     name: '@rush-temp/core-client-1'
     version: 0.0.0
     dependencies:
@@ -9399,10 +9397,10 @@ packages:
       rimraf: 3.0.2
       rollup: 1.32.1
       sinon: 9.2.4
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
     transitivePeerDependencies:
       - '@swc/core'
@@ -9414,7 +9412,7 @@ packages:
     dev: false
 
   file:projects/core-client-lro.tgz:
-    resolution: {integrity: sha512-M4evzMVsUDQjqh47XEQtziCB+jT5OhhmOrmpzyI1yE/2vYMM3Bz0kZPBWGq9KZDcBmkFCNNHhjk4uY8oG/BWMA==, tarball: file:projects/core-client-lro.tgz}
+    resolution: {integrity: sha512-ORgxvnvaMc+ETh6GRqdKVzx2pG05koDsxA7GNWOuSy2qikqUvrKJjU5GgfT8FuPGUN8bzSjeGdPyXMGlc8hQPw==, tarball: file:projects/core-client-lro.tgz}
     name: '@rush-temp/core-client-lro'
     version: 0.0.0
     dependencies:
@@ -9445,7 +9443,7 @@ packages:
       sinon: 9.2.4
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
     transitivePeerDependencies:
       - bufferutil
@@ -9455,7 +9453,7 @@ packages:
     dev: false
 
   file:projects/core-client-paging.tgz:
-    resolution: {integrity: sha512-jR9MSynY/6hjmMjyWjs+hFAAwk0VN2zJV0yBg0vH/9dv5ANOkjoAYfk54Vu3V0CHHQ7njmLScWqrFdqcRkqypw==, tarball: file:projects/core-client-paging.tgz}
+    resolution: {integrity: sha512-iQZ0uQ65Q+VYbCKwIaRw2M4FQs0OB+hsJcPA/ZVdI1hp2WfWQ4RV2oAa56miTQyOcXAouH6kTmMnJMi0vmWzAA==, tarball: file:projects/core-client-paging.tgz}
     name: '@rush-temp/core-client-paging'
     version: 0.0.0
     dependencies:
@@ -9486,7 +9484,7 @@ packages:
       sinon: 9.2.4
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
     transitivePeerDependencies:
       - bufferutil
@@ -9496,7 +9494,7 @@ packages:
     dev: false
 
   file:projects/core-client.tgz:
-    resolution: {integrity: sha512-VGDp4uzLU6NL5A31+vMbrE2BUlAtWssXoUiG5q21WDHo/5bdVv5Ksl+r9UzYxzgaEWDeNVr5KxfoBvZo7+xJAw==, tarball: file:projects/core-client.tgz}
+    resolution: {integrity: sha512-AXzFWDGsssaXhvyutV3HPleEOEpPMqSvBfGRqtt3t/bdKgd1J/WnNm5oW0FfcglrlugxYHG5lHy/A5r7kxx8HQ==, tarball: file:projects/core-client.tgz}
     name: '@rush-temp/core-client'
     version: 0.0.0
     dependencies:
@@ -9527,7 +9525,7 @@ packages:
       sinon: 9.2.4
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
     transitivePeerDependencies:
       - bufferutil
@@ -9537,7 +9535,7 @@ packages:
     dev: false
 
   file:projects/core-crypto.tgz:
-    resolution: {integrity: sha512-ZU0iT6qVHE8T+fmuz9RUnJa9PWbee+NOun/0gVTto1le3NyXWX85zwsFpE7//wfKXTJnbqCyHmjdi3spPf3Xxg==, tarball: file:projects/core-crypto.tgz}
+    resolution: {integrity: sha512-HYoWhkqVfoc1ezscEpSMo7oAKmn7gUPSencvXsgBHIXxJXvJdRXZl3fQXtlT8WOrwZt5kS4H0a3tObFOtAxS8Q==, tarball: file:projects/core-crypto.tgz}
     name: '@rush-temp/core-crypto'
     version: 0.0.0
     dependencies:
@@ -9573,7 +9571,7 @@ packages:
       sinon: 9.2.4
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -9582,7 +9580,7 @@ packages:
     dev: false
 
   file:projects/core-http.tgz:
-    resolution: {integrity: sha512-MJUdEy4pMGC01kff4D+AFuhxFi5t1/ScfH0cidXKo84ShEx2+hsMSjBEBYaXhk+8ui17KNlnmUL13kV4COcsgA==, tarball: file:projects/core-http.tgz}
+    resolution: {integrity: sha512-8DZVm0ZKmOZLDtx1x4oeWrDv1CQGXMjju9Ay6TVdXzGKgEzCPjRktagj5A+Xblc84y5pKmYS7/Wgnk1AWXgvWQ==, tarball: file:projects/core-http.tgz}
     name: '@rush-temp/core-http'
     version: 0.0.0
     dependencies:
@@ -9632,11 +9630,11 @@ packages:
       shx: 0.3.3
       sinon: 9.2.4
       tough-cookie: 4.0.0
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
       tunnel: 0.0.6
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       uglify-js: 3.14.2
       uuid: 8.3.2
       xhr-mock: 2.5.1
@@ -9651,7 +9649,7 @@ packages:
     dev: false
 
   file:projects/core-lro.tgz:
-    resolution: {integrity: sha512-z8/722+S5EkVfUX05siniqgWzHf/T9KLJtklWQ4muXkGcZuVuKpzmsdhFPhMIJXcSeJHxLn6B4b0+lNQi4y1hw==, tarball: file:projects/core-lro.tgz}
+    resolution: {integrity: sha512-fhWsYWou/W0CTsS+AGObrMWwRAoKY6CPA00tl5aF6ukt5AVf+UKpgNJHW94eDBVoUnyKOCIjcyxfGuYE60PEpA==, tarball: file:projects/core-lro.tgz}
     name: '@rush-temp/core-lro'
     version: 0.0.0
     dependencies:
@@ -9681,10 +9679,10 @@ packages:
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       uglify-js: 3.14.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -9696,7 +9694,7 @@ packages:
     dev: false
 
   file:projects/core-paging.tgz:
-    resolution: {integrity: sha512-L14f29bGNZ2/Q8Ax9MfR7QWs85WhJsUAlujI+yHvwRdAyKzlVNIPv0Z+y05QO35MeIlIfhyLoYY42kIbFIJaEw==, tarball: file:projects/core-paging.tgz}
+    resolution: {integrity: sha512-QZVsnm4tog6FTUTQWPoEFZ8Cijv2zRLbFpOo0tPfEdzM05shUah4ZxZKQ4FKOp7zEsvJXBu0QYbL1MMjvldVwQ==, tarball: file:projects/core-paging.tgz}
     name: '@rush-temp/core-paging'
     version: 0.0.0
     dependencies:
@@ -9725,7 +9723,7 @@ packages:
       rollup: 1.32.1
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -9734,7 +9732,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-yU0cVnVZqgRpjXEoM7jEqcw6GkcPpv8nNk1dXrmEssR1sql4JIDVpC/PHvt2mK7QHCMwMtKooQS7drskRFB0Eg==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-bJjCbKS8xtuZXAhfWT1HbVHSHdZvVZGw33MkMKKx/RQkMYdsg3IdkkTtRa0chlCIGbeAjdOjUfRlkV0IvTFeLQ==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -9774,7 +9772,7 @@ packages:
       source-map-support: 0.5.20
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
       uuid: 8.3.2
     transitivePeerDependencies:
@@ -9785,7 +9783,7 @@ packages:
     dev: false
 
   file:projects/core-tracing.tgz:
-    resolution: {integrity: sha512-hjSwB3OLU9ukMINsZaZWCTbo94TiJjihe2mLVuIWmd5x1kT9gTL0n9JmcToqc0WKJ1s3Ek8CieRv51HqlEHzFw==, tarball: file:projects/core-tracing.tgz}
+    resolution: {integrity: sha512-pAFp7AEB9sXsDjj/7IEtcSoOsUKQZ9Kz6khbQcuNhD/yySm7/9WqNruPGEBA0KkdsRmQpVQlPGPjFndkdK319A==, tarball: file:projects/core-tracing.tgz}
     name: '@rush-temp/core-tracing'
     version: 0.0.0
     dependencies:
@@ -9819,7 +9817,7 @@ packages:
       sinon: 9.2.4
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
     transitivePeerDependencies:
       - bufferutil
@@ -9829,7 +9827,7 @@ packages:
     dev: false
 
   file:projects/core-util.tgz:
-    resolution: {integrity: sha512-ydQLFeHsAKS+g+FQV69KApmwIDrJ49u3dn/79yNATb5guThjqMlLEHio9p8JX2mO1vdwwZ8122dwdOezxCZolQ==, tarball: file:projects/core-util.tgz}
+    resolution: {integrity: sha512-XFDPxgn05IQSavyYelB8OLemW+1rtjJl4pZWozJPy6GE+9/r+k/c3vfAgdm1B9IoODWeNBINTfe4Km6IcVAeuA==, tarball: file:projects/core-util.tgz}
     name: '@rush-temp/core-util'
     version: 0.0.0
     dependencies:
@@ -9862,7 +9860,7 @@ packages:
       sinon: 9.2.4
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
     transitivePeerDependencies:
       - bufferutil
@@ -9872,7 +9870,7 @@ packages:
     dev: false
 
   file:projects/core-xml.tgz:
-    resolution: {integrity: sha512-7HkopyqzugsgMp7OWJt5PWvGY7w+YPNwbjjmjQFhcuynt1Mho/LlTvo9c9W/TX/Mb4BLRp7bWUfErSqgaYQOKQ==, tarball: file:projects/core-xml.tgz}
+    resolution: {integrity: sha512-jMn5gjVjyB1VpuKqXkuuiekt8eG5rbs8fnZReOTq3aUYAoPV0MTVwUGtFIM44I09x4YU21yMdtXcl9nFVmGdlw==, tarball: file:projects/core-xml.tgz}
     name: '@rush-temp/core-xml'
     version: 0.0.0
     dependencies:
@@ -9906,7 +9904,7 @@ packages:
       sinon: 9.2.4
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
       xml2js: 0.4.23
     transitivePeerDependencies:
@@ -9917,7 +9915,7 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-aX90/ox0j6fweUFec+mWpKjlynQd15yFsiW8Aj9jpVyXWQ9tbi+fwwg4Jn302v1cBhDI+CuI+wN0LkcdawweRA==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-95xNKN7kGpIqUQpWKcX9CXaZjCpPAzDreGMo8nxdCyKatF09pdWVPuYXPRuetZexkEQYMI86fWXZQDdYErNQAg==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
@@ -9955,10 +9953,10 @@ packages:
       sinon: 9.2.4
       snap-shot-it: 7.9.6
       source-map-support: 0.5.20
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       universal-user-agent: 6.0.0
       uuid: 8.3.2
     transitivePeerDependencies:
@@ -9968,7 +9966,7 @@ packages:
     dev: false
 
   file:projects/data-tables.tgz:
-    resolution: {integrity: sha512-5lC14kRDR5gwBUEBKDcVadiXycIhD8S7vqwj2ZU48opjaXppInwQC/PfMG6LcU+r3ABnKb+C8nVOLoFScSb04A==, tarball: file:projects/data-tables.tgz}
+    resolution: {integrity: sha512-B3snaIqgYBryVP9nAVtD5PeCa2sADS8e4Pa84MJXd9ZyOxlS0WezGVXtZhjECj5XK5ELSt3c9W2dzGh1YSKNsw==, tarball: file:projects/data-tables.tgz}
     name: '@rush-temp/data-tables'
     version: 0.0.0
     dependencies:
@@ -10014,10 +10012,10 @@ packages:
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
       uuid: 8.3.2
     transitivePeerDependencies:
@@ -10030,7 +10028,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-eh+3L+ggPYr5duFhCb9/39OAVuxUrkRbQLYQxobVnfjZhASgSBa5CC18cxom7gZ8B5XK+F8xX1Q/cU/4l7MnPA==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-88uEvuABom6N9jceuXkxKLjNwvWdFPpQvEB+D27OFdycBQIift0qrWaav+Ft0ODnHF15ViPR/bJQx3D0Cr3nHA==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -10059,10 +10057,10 @@ packages:
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       yaml: 1.10.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -10071,7 +10069,7 @@ packages:
     dev: false
 
   file:projects/digital-twins-core.tgz:
-    resolution: {integrity: sha512-sQ2dM4V47Cltcn560kx15C1QwQceO8PTBOsRnr5sqphKGbMQhnGp7/3DIFN3KrPuFPRG/pp+GXAdCeD+CNjNLg==, tarball: file:projects/digital-twins-core.tgz}
+    resolution: {integrity: sha512-Zw1g/IEQXcezRxM7i3AjeK1Z0U5VpWTXVOP/io9/bmbeyxtuUewF0EWG03V+hMqmDTZImv6OfpVYKNchOfU06g==, tarball: file:projects/digital-twins-core.tgz}
     name: '@rush-temp/digital-twins-core'
     version: 0.0.0
     dependencies:
@@ -10119,7 +10117,7 @@ packages:
       sinon: 9.2.4
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
       uuid: 8.3.2
     transitivePeerDependencies:
@@ -10130,7 +10128,7 @@ packages:
     dev: false
 
   file:projects/eslint-plugin-azure-sdk.tgz:
-    resolution: {integrity: sha512-J35xOLMjkbGTj6mKWiUneuknJsBuksy6zGWJGZk9Y4Osvu/qLeMKWELZ7UEr2WIpJBSeTqvJihgvgrIJ0VUkUQ==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    resolution: {integrity: sha512-HA64dIFUC3Ffc5KSIIsyLkWGKLPRxy80BXUIHR3QyYhsxlgzqvFGnUHV2zQ3nWiPNGeQlLKaERQ0CJWVsrGpLA==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk'
     version: 0.0.0
     dependencies:
@@ -10141,10 +10139,10 @@ packages:
       '@types/json-schema': 7.0.9
       '@types/mocha': 7.0.2
       '@types/node': 12.20.25
-      '@typescript-eslint/eslint-plugin': 4.19.0_359354e87b989469ccdce12bde18eddc
-      '@typescript-eslint/experimental-utils': 4.19.0_eslint@7.32.0+typescript@4.2.4
-      '@typescript-eslint/parser': 4.19.0_eslint@7.32.0+typescript@4.2.4
-      '@typescript-eslint/typescript-estree': 4.19.0_typescript@4.2.4
+      '@typescript-eslint/eslint-plugin': 4.19.0_4d44bff940222e43a8eb66110e0de81a
+      '@typescript-eslint/experimental-utils': 4.19.0_eslint@7.32.0+typescript@4.4.3
+      '@typescript-eslint/parser': 4.19.0_eslint@7.32.0+typescript@4.4.3
+      '@typescript-eslint/typescript-estree': 4.19.0_typescript@4.4.3
       chai: 4.3.4
       eslint: 7.32.0
       eslint-config-prettier: 7.2.0_eslint@7.32.0
@@ -10161,19 +10159,19 @@ packages:
       source-map-support: 0.5.20
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - supports-color
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-D3tr8uQ85UFSFzCGQBpvzM6AUzjVjad/XlSja8lQeXnHUeHAfx/YH3FRGkXlsYYmVmDHLEOHTrxwBDzVZSuOoA==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-pJmniGuBtSusdQZM1ln3XmC4V7hvis/sI1xns/Z7ALYjQOPNEXY2y47Epglzlm5/ifhT+FGVFbFeC4Y3EZ/gyw==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.0-beta.6_debug@4.3.2
-      '@microsoft/api-extractor': 7.18.9
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-inject': 4.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
@@ -10231,10 +10229,10 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       sinon: 9.2.4
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       uuid: 8.3.2
       ws: 7.5.5
     transitivePeerDependencies:
@@ -10246,7 +10244,7 @@ packages:
     dev: false
 
   file:projects/event-processor-host.tgz:
-    resolution: {integrity: sha512-DBoiJ/Npr6TC+tymF8vFyLfOSLD8+awqx+67/3ew0cAG6w1XPnIgTVUmxmM9RdnCX6KZGMB1tAc9SP7YJeU49g==, tarball: file:projects/event-processor-host.tgz}
+    resolution: {integrity: sha512-5nltPBvzJxGYG+lW0rJpMFTkMHAHyN8Y4XNmjJe1iCElaAdMKofheThCAj5mt05y6MULDZ60HOYCW1lYi+/4vw==, tarball: file:projects/event-processor-host.tgz}
     name: '@rush-temp/event-processor-host'
     version: 0.0.0
     dependencies:
@@ -10286,10 +10284,10 @@ packages:
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       uuid: 8.3.2
       ws: 7.5.5
     transitivePeerDependencies:
@@ -10301,7 +10299,7 @@ packages:
     dev: false
 
   file:projects/eventgrid.tgz:
-    resolution: {integrity: sha512-B/oYQdCdjNKQTyDcJc+21hLvAyjcHSaxLgmQ+MGAKNLw2nkO9UQ7/svM4x+p5o4BiCAJX/fqY5Klw0u2x60OGw==, tarball: file:projects/eventgrid.tgz}
+    resolution: {integrity: sha512-kFJNIqKbt7/920pQdBjsbW3hb8SkGaW1m5+WM0lRw2cuIsDfCjfAk4TpD1DA1x+Igtj814AeOiyFBZhNoa5lNA==, tarball: file:projects/eventgrid.tgz}
     name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:
@@ -10348,10 +10346,10 @@ packages:
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.20
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -10363,7 +10361,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-blob.tgz:
-    resolution: {integrity: sha512-B4QWcYsEpvqsxwP4Vnt+/nt6dFKBBs7yYS7sEF+s9cxcouETF0PB3KtdUW/lj7ixxMrnXtCUumcqMGmIRuexog==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-6uLhiYMtaOWYyLr6aHeU7hIxceQfJw8BQzPzWXeZEcTvZ6+5AH1dE5s9EgAVf/SDwPGb9blU7ARw9Ic5Oo7BsA==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     version: 0.0.0
     dependencies:
@@ -10413,10 +10411,10 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
     transitivePeerDependencies:
       - '@swc/core'
@@ -10427,7 +10425,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-table.tgz:
-    resolution: {integrity: sha512-aRc5dOiDNYOAJkUeHp/h1M6BeiFTbKMG7diR6+6tVFdJI0gvVDvrOK6gtsdO86jsMdqoffmu13SZuLwFHWPFJw==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
+    resolution: {integrity: sha512-oELayZ8AEjiHZIQTJscVq9io72iN15sV+rgs+cLk7YEEkPa15gRVdy/jXJe3LXSgPP3yhFf0AthU/hLQjin40A==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-table'
     version: 0.0.0
     dependencies:
@@ -10476,10 +10474,10 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
     transitivePeerDependencies:
       - '@swc/core'
@@ -10490,7 +10488,7 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-ETCkr+UfX8rXnhq6tZ/jSpZLJdcP/JiXhvq9cpDnVvxcAWyeJdGUhX3WUhOl4va4jD0HyUy5zjwAsrDvfHV1Wg==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-WTDjAj3IQ6/IZbb09KfqbF5c+g0fg68ZW0W7lcXutavuWpjeNCNhonGswYqCl/5F6tRoShe9jXo3YQTCBYsC6w==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
@@ -10517,7 +10515,7 @@ packages:
       sinon: 9.2.4
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
     transitivePeerDependencies:
       - bufferutil
@@ -10527,7 +10525,7 @@ packages:
     dev: false
 
   file:projects/identity-vscode.tgz:
-    resolution: {integrity: sha512-6DB5l5krRBSviDlAKWbX+EWsKUu3GTeDr1QleUWxM/Dz2LPI6sktK/DhGiG/DD5GO/vTScDenqhgtkMPge1lDw==, tarball: file:projects/identity-vscode.tgz}
+    resolution: {integrity: sha512-LqCVMuWwRM8FP9iG7J7n17OkJucbPfgVtNEey48U1hNNUdL5rRzX6xQWibFrZA+qCbr6iEmvMf3H+sgQwUqDeg==, tarball: file:projects/identity-vscode.tgz}
     name: '@rush-temp/identity-vscode'
     version: 0.0.0
     dependencies:
@@ -10553,7 +10551,7 @@ packages:
       sinon: 9.2.4
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
     transitivePeerDependencies:
       - bufferutil
@@ -10562,7 +10560,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-7/sEYYWDS7Cggbgrtix8TWZS5jyoAdu9Gw3/lNDAGfd1esL6LyEREAyT8PVzTRUd/ax6BleHvxDNB3ZzXt3Qwg==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-UyV97zK8bgMmy8LHQgl2iGgqpnAA0uvVoTPEA+VlkbEX0V22M/ONSa9nsCe2yqi9T5T0Bng4AEQdpBkxa4MhRQ==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
@@ -10606,7 +10604,7 @@ packages:
       stoppable: 1.1.0
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
       uuid: 8.3.2
     transitivePeerDependencies:
@@ -10617,7 +10615,7 @@ packages:
     dev: false
 
   file:projects/iot-device-update.tgz:
-    resolution: {integrity: sha512-DOkGgC0zGQZGz5CArpHHsu/0v+XVKygrO/9dRJ8xM2ZKrYzn3xrrUDAjPeqJCvaSIc52FSn8hbb5dFLVSzYj1Q==, tarball: file:projects/iot-device-update.tgz}
+    resolution: {integrity: sha512-UNZzj6UdGMHpka4m+wFtZRtWOuif4aU+O+OIsJa7ObgEj62Qsu94maFuuvVoQAE+ml5KZakKKB7P+rJC5p9Frg==, tarball: file:projects/iot-device-update.tgz}
     name: '@rush-temp/iot-device-update'
     version: 0.0.0
     dependencies:
@@ -10636,7 +10634,7 @@ packages:
       source-map-support: 0.5.20
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       uglify-js: 3.14.2
       uuid: 8.3.2
     transitivePeerDependencies:
@@ -10645,7 +10643,7 @@ packages:
     dev: false
 
   file:projects/iot-modelsrepository.tgz:
-    resolution: {integrity: sha512-v9t60H5+wWyZDwepDik+S7scqG+cqEbjtOQ0gHN5Lc8iU5zTEwyUxEc0loDdt8Ssopx0aipTo0iD259rh6E9kg==, tarball: file:projects/iot-modelsrepository.tgz}
+    resolution: {integrity: sha512-lMw3ewoDx8AwFeuyuaWzSq3K6xqoXzPuFQBSvRmeFsmRjk2xW5T2ZU5En5eGHkvKwZKyU9OcDjKXH2/wAAfy+Q==, tarball: file:projects/iot-modelsrepository.tgz}
     name: '@rush-temp/iot-modelsrepository'
     version: 0.0.0
     dependencies:
@@ -10687,10 +10685,10 @@ packages:
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
     transitivePeerDependencies:
       - '@swc/core'
@@ -10702,7 +10700,7 @@ packages:
     dev: false
 
   file:projects/keyvault-admin.tgz:
-    resolution: {integrity: sha512-sPfcSpG2bj1ZQaEJjRvYdpImotADgwahBhf64pzotWETsYH2v6i79bqaYTEvjJWL8Se5TzXIbzL1PeMzY0V80Q==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-/A/Rt9SF0ELmfqY0scZp7/G+fZKYLAY8Yh22GTC1wnNTsvSzbhWz9nsY5gWGjk//GjPQNc+FeAQj69ROeESbGw==, tarball: file:projects/keyvault-admin.tgz}
     name: '@rush-temp/keyvault-admin'
     version: 0.0.0
     dependencies:
@@ -10741,14 +10739,14 @@ packages:
       source-map-support: 0.5.20
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       uuid: 8.3.2
     transitivePeerDependencies:
       - supports-color
     dev: false
 
   file:projects/keyvault-certificates.tgz:
-    resolution: {integrity: sha512-CtrJZLopz0ZdjSJ67+mjEP0pVr+ahlmdqmuHm8BWe6nHv4Q0LIK8sC67jXUADi0ow3YveCf+4659w3R2RJGBuA==, tarball: file:projects/keyvault-certificates.tgz}
+    resolution: {integrity: sha512-zNLd7z8FmdK6+ZXIRlCdnnZ3C4ORuSrGrxDb9rDIFQCbohtzEXnD3tR7Oum+aJcLvLT/cGd86eJfc3Rm0UFlRA==, tarball: file:projects/keyvault-certificates.tgz}
     name: '@rush-temp/keyvault-certificates'
     version: 0.0.0
     dependencies:
@@ -10798,7 +10796,7 @@ packages:
       source-map-support: 0.5.20
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       url: 0.11.0
     transitivePeerDependencies:
       - bufferutil
@@ -10808,7 +10806,7 @@ packages:
     dev: false
 
   file:projects/keyvault-common.tgz:
-    resolution: {integrity: sha512-nqJYMdkZslJJL2Y7fIMCVXcAtsuKOm8ZMukvR5AW7V+uzqZ6s1nAQ+MCQtJlJsKwr8ittY4DXsM70/n0e/g74A==, tarball: file:projects/keyvault-common.tgz}
+    resolution: {integrity: sha512-x/ffSGF2HxLEZjFc8tJP0Z0hMirD7U4ihd+1x1Jj5pAqTnt3UwqnWu7ZFfZGcda2/RNBmLSpFx+FpeK7FaPsfw==, tarball: file:projects/keyvault-common.tgz}
     name: '@rush-temp/keyvault-common'
     version: 0.0.0
     dependencies:
@@ -10817,13 +10815,13 @@ packages:
       prettier: 1.19.1
       rimraf: 3.0.2
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - supports-color
     dev: false
 
   file:projects/keyvault-keys.tgz:
-    resolution: {integrity: sha512-qyVgXM2CL95HxDi90zOKMHc49d3n43Fuih5xo8wyc88x+NW7ueGD5aC76ZmLivqT+OK/cr+wMYiM4VL5khN7HQ==, tarball: file:projects/keyvault-keys.tgz}
+    resolution: {integrity: sha512-7Ac0Zm9HW/A3O4OPOQBSklFUGd4WGx7fJ9BwvH1PkK/HdilJB9nN7FRJhQTB/96Q+VMlqSIW2yUxr8UeMU1oRA==, tarball: file:projects/keyvault-keys.tgz}
     name: '@rush-temp/keyvault-keys'
     version: 0.0.0
     dependencies:
@@ -10875,7 +10873,7 @@ packages:
       source-map-support: 0.5.20
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       url: 0.11.0
     transitivePeerDependencies:
       - bufferutil
@@ -10885,7 +10883,7 @@ packages:
     dev: false
 
   file:projects/keyvault-secrets.tgz:
-    resolution: {integrity: sha512-ZllwmMvvKcvY7PRn5T9MKqYhzCRNsFJTKBJtAKCToOG94EMxL7nnbBUd0lNx82TEfoXMIoAsJnkOqRXL6ovECQ==, tarball: file:projects/keyvault-secrets.tgz}
+    resolution: {integrity: sha512-I7GuBwqW2YNyNKt+OCuvkzsLEFOEEcgCc+oPel7wZmpvlteEyAp9lE2WQmmYiYCcUA7CPOBdFwICaoMADPN4Hg==, tarball: file:projects/keyvault-secrets.tgz}
     name: '@rush-temp/keyvault-secrets'
     version: 0.0.0
     dependencies:
@@ -10934,7 +10932,7 @@ packages:
       source-map-support: 0.5.20
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       url: 0.11.0
     transitivePeerDependencies:
       - bufferutil
@@ -10944,7 +10942,7 @@ packages:
     dev: false
 
   file:projects/logger.tgz:
-    resolution: {integrity: sha512-nXyObeQKB1ZJEkCCaJWSEvvm9rhW9p6ipMklG3GZA0Q/HYWIFx0aURxjxUQjXdkxklhZuYDBa36nCcRqW4wnyg==, tarball: file:projects/logger.tgz}
+    resolution: {integrity: sha512-lbAmbQQtgnrJ7g1vaBXGSPFpAERJdMWp4vdGYtYMowkNwMzU0RuaNOjCKrKIHDz+RqaMiaxn0TzDe4dS3L/WwQ==, tarball: file:projects/logger.tgz}
     name: '@rush-temp/logger'
     version: 0.0.0
     dependencies:
@@ -10977,10 +10975,10 @@ packages:
       rimraf: 3.0.2
       rollup: 1.32.1
       sinon: 9.2.4
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -10991,7 +10989,7 @@ packages:
     dev: false
 
   file:projects/mixed-reality-authentication.tgz:
-    resolution: {integrity: sha512-ErptpvBcEPQAfndtyGGq9V2o2/LBnk3udcH1KZDWWMrj2P0YCeY4GClQexhIu7uGMqQs3rYlxTbRXXPqXOfaLQ==, tarball: file:projects/mixed-reality-authentication.tgz}
+    resolution: {integrity: sha512-r5LcnUOtWHYURaJRO8drekTjxsViOqNb4V1uWa3DBQDApqU2LIExbjxEw5fiVif4QXyztrCxgK2VCbCplQHusQ==, tarball: file:projects/mixed-reality-authentication.tgz}
     name: '@rush-temp/mixed-reality-authentication'
     version: 0.0.0
     dependencies:
@@ -11028,7 +11026,7 @@ packages:
       rollup: 1.32.1
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
     transitivePeerDependencies:
       - bufferutil
@@ -11038,7 +11036,7 @@ packages:
     dev: false
 
   file:projects/mixed-reality-remote-rendering.tgz:
-    resolution: {integrity: sha512-6lrEwlNs+K79brLQYvizXCb/5II9iFYjZABJT/AX7YS8gzmHbC2iR+M5MbxgxoXYzK9x+GVQLWwqwOZ0fwz/qg==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
+    resolution: {integrity: sha512-mgvi3OVbb9ZfGYsuwCTJRCMSmcArNhqAzxXQMljXNPP0Qt7jblVhkXCRGZBrO1De8L8SgtvReumLDjkroAbG1g==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
     name: '@rush-temp/mixed-reality-remote-rendering'
     version: 0.0.0
     dependencies:
@@ -11076,7 +11074,7 @@ packages:
       rollup: 1.32.1
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
       uuid: 8.3.2
     transitivePeerDependencies:
@@ -11087,7 +11085,7 @@ packages:
     dev: false
 
   file:projects/mock-hub.tgz:
-    resolution: {integrity: sha512-K6rFTLoACIBX5It6x5v3r668Kpt7jjkgCeukzTyZ13cvPrjqJ4M7L9y0oU2ECIigGm59cbHx4sWOX/rHAhELhw==, tarball: file:projects/mock-hub.tgz}
+    resolution: {integrity: sha512-b0IHdEPz0tqUISSupZDpDWBvUAyZo7D+uyztGfZuGGewmENfrJXUybJBv/1IbluBSw+dkEaC8DK02SObK7Ll2Q==, tarball: file:projects/mock-hub.tgz}
     name: '@rush-temp/mock-hub'
     version: 0.0.0
     dependencies:
@@ -11098,13 +11096,13 @@ packages:
       rhea: 2.0.4
       rimraf: 3.0.2
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - supports-color
     dev: false
 
   file:projects/monitor-opentelemetry-exporter.tgz:
-    resolution: {integrity: sha512-xdhJhH/kOB2G0j4C1AUPp762y1L//QDotcRzJcqZxg8s15KL1KQoY7x+1y0sk7UXaQk80YfPb1sdj3ovD8Y5vQ==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-mT7Ajan2UN9Pew3I1rSJrDbrH9njqB5G+a+s09kHubHnJjSvEZtOymLPsQU2xmq2yQoH7mfd03Kkkhk0cQTcVQ==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     name: '@rush-temp/monitor-opentelemetry-exporter'
     version: 0.0.0
     dependencies:
@@ -11130,10 +11128,10 @@ packages:
       rimraf: 3.0.2
       rollup: 1.32.1
       sinon: 9.2.4
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -11141,7 +11139,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-pIaZvhGUj1JGFR945VFkaCNPoKaIMwhXIfz3XmdW55rJfRCmWm8x1ZHYmNjbepyWNK9C58Y1UCXv/P1n1LQqDg==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-yse8idhZvUF2B5lPjISBIJ/ZI+P5wYdx4xjb7g1IQQLAF2HTfBpM1orr7ZGYKD31LrDEA1RN44GoWdvonzVtiA==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
@@ -11184,7 +11182,7 @@ packages:
       source-map-support: 0.5.20
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
     transitivePeerDependencies:
       - bufferutil
@@ -11194,7 +11192,7 @@ packages:
     dev: false
 
   file:projects/perf-ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-NvAj3Og1OfYiQM+8BBr+VbqTrH7eR0nhPEZIHxXkwPNioxV8uBbf+EyN9WPMRVPNx1Fnugr4NnbxZqKBarUvkQ==, tarball: file:projects/perf-ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-ZkqwtrzTMc7d8QvJv6x6AMcznKV+Ocw1dULUW9c6/v8hFbmtl90ux6RBzWc8qMKAEiNCw3XyqQ/9Ru8jV8ZBHg==, tarball: file:projects/perf-ai-form-recognizer.tgz}
     name: '@rush-temp/perf-ai-form-recognizer'
     version: 0.0.0
     dependencies:
@@ -11205,9 +11203,9 @@ packages:
       eslint: 7.32.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -11216,7 +11214,7 @@ packages:
     dev: false
 
   file:projects/perf-ai-metrics-advisor.tgz:
-    resolution: {integrity: sha512-+Bstyqsel7Lr1E0VZpUTGOyaIqVQYgTHMVqzPxAFLQ8ODpxYfwBPbrbyWelQcPVva3nKFMTHYJTth7JhyU93Hw==, tarball: file:projects/perf-ai-metrics-advisor.tgz}
+    resolution: {integrity: sha512-XVCSvColR4zFqCCUDsVQXkZJqIB4Uhi3Fu3qt4/Ou14QcDfnU7QSyAuFcgC+fKQKfi3QTNWhVpZoVQCpRjv0Tg==, tarball: file:projects/perf-ai-metrics-advisor.tgz}
     name: '@rush-temp/perf-ai-metrics-advisor'
     version: 0.0.0
     dependencies:
@@ -11226,9 +11224,9 @@ packages:
       eslint: 7.32.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -11236,7 +11234,7 @@ packages:
     dev: false
 
   file:projects/perf-ai-text-analytics.tgz:
-    resolution: {integrity: sha512-OUvjOGcvUwZAvEh5wQyZoH/6hE7Q6F8hP6swetAbfENX5eeKfobS4oAGIwhr7foFLbSTwK3hIM4/N0HaiUVDpg==, tarball: file:projects/perf-ai-text-analytics.tgz}
+    resolution: {integrity: sha512-u5Mj2BfUbyEVVgaOyhJgdOijdRG6rBUMptFMiAPBVntZTxy4QnXpYZeXqB7cbfEN4AgSZy7F3OCQ2MaIsM2+dQ==, tarball: file:projects/perf-ai-text-analytics.tgz}
     name: '@rush-temp/perf-ai-text-analytics'
     version: 0.0.0
     dependencies:
@@ -11247,9 +11245,9 @@ packages:
       eslint: 7.32.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -11258,7 +11256,7 @@ packages:
     dev: false
 
   file:projects/perf-app-configuration.tgz:
-    resolution: {integrity: sha512-W1FXSR/RtUTDUb8F7HotswZifR5KM1vsmHVq+YADBHmGlV98Kv8P56ex2Tob/tEuatSxKqD9FKcoW0/VB9CuCg==, tarball: file:projects/perf-app-configuration.tgz}
+    resolution: {integrity: sha512-8c4pP5PmmPNvoApE9ootMeOBrlIWTrLXRE1CGCKs4Sn2ifwOAxiJKiPg3QS862YGUsMT51nZLXKXl+OI3rS1fw==, tarball: file:projects/perf-app-configuration.tgz}
     name: '@rush-temp/perf-app-configuration'
     version: 0.0.0
     dependencies:
@@ -11268,9 +11266,9 @@ packages:
       eslint: 7.32.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
       uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -11279,25 +11277,25 @@ packages:
     dev: false
 
   file:projects/perf-container-registry.tgz:
-    resolution: {integrity: sha512-piWyz44lnSEuJJGdSJGruUiWqJWYOwmO/8ce9r4MnUG2NoeIfoDlbd9Wo7GGz2Oq+xZQiiyjGo73rSenGM6eXA==, tarball: file:projects/perf-container-registry.tgz}
+    resolution: {integrity: sha512-r29P96UdUnL/2qwhoe73Mh4Ig42E9oaWJLzHZgUHnPTWTaNR9Py0rEgFzsJGaxtoVsS2Z/iGkiI3PIXuiYFdMQ==, tarball: file:projects/perf-container-registry.tgz}
     name: '@rush-temp/perf-container-registry'
     version: 0.0.0
     dependencies:
       '@azure/container-registry': 1.0.0-beta.4
-      '@types/node': 12.20.24
+      '@types/node': 12.20.25
       dotenv: 8.6.0
       eslint: 7.32.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 9.1.1_typescript@4.2.4
+      ts-node: 9.1.1_typescript@4.4.3
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - supports-color
     dev: false
 
   file:projects/perf-core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-FKFSUVmpQQrlY4VYT11tRhq56LSkZVSdoiFjDZR369DZx2ir/ntEHqEMyuJY9LQEHBvHfpjVBHTDaWsz7pME6Q==, tarball: file:projects/perf-core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-FrrNiklcG+fSvzWA7AO4BhLG/ngXE/8J5wq31Xu11qib30TF0H3PtbEP94+NRzavn01wSAheFVXxumtQSy9V7Q==, tarball: file:projects/perf-core-rest-pipeline.tgz}
     name: '@rush-temp/perf-core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -11307,9 +11305,9 @@ packages:
       eslint: 7.32.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -11317,7 +11315,7 @@ packages:
     dev: false
 
   file:projects/perf-data-tables.tgz:
-    resolution: {integrity: sha512-du9L8noR5FOiExxQY2nC1zHei8i6A2f4Xn9u391M8WDdMps07BGe3QkTDlCJg9SgLG+t0rDTKd7yx19Fs1J7lQ==, tarball: file:projects/perf-data-tables.tgz}
+    resolution: {integrity: sha512-SctLT0eYK/hREAGw8KSckr4642pMtklFEEGLxGK9tMoy2tWy0l9kmsTaG5U+4qD+h32xqirs8h0UOd+RTOoXzQ==, tarball: file:projects/perf-data-tables.tgz}
     name: '@rush-temp/perf-data-tables'
     version: 0.0.0
     dependencies:
@@ -11327,9 +11325,9 @@ packages:
       eslint: 7.32.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
       uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -11338,7 +11336,7 @@ packages:
     dev: false
 
   file:projects/perf-event-hubs.tgz:
-    resolution: {integrity: sha512-VyDyhkjpGLOZYCuXVLDQNgXVKFm7kPTxhn8tcsGDAvcqrxPpkFJkGdSM6wBWPMNZJBbAAOsLGP/90+/TReXeOA==, tarball: file:projects/perf-event-hubs.tgz}
+    resolution: {integrity: sha512-Kwo8Ehb2PTkcPOQrgaGgnkc4obmxSKwc/ec7/hxcBYj7xfcLcg7ZdLE7SP+Djr+8edwxB6bU1atEj69JlSb9Xg==, tarball: file:projects/perf-event-hubs.tgz}
     name: '@rush-temp/perf-event-hubs'
     version: 0.0.0
     dependencies:
@@ -11349,9 +11347,9 @@ packages:
       moment: 2.29.1
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
       uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -11360,7 +11358,7 @@ packages:
     dev: false
 
   file:projects/perf-eventgrid.tgz:
-    resolution: {integrity: sha512-KIfi5p1CleZEJQV6nkwxHxHW/1O5q1ungIjwhbqbyQjvBobiCJi36pNq8fxc/4YOcSFilgUKnQHbbttJ8hMrJw==, tarball: file:projects/perf-eventgrid.tgz}
+    resolution: {integrity: sha512-u5Pb8JwloKVY8GpRJVBn9SNva+11zZClDrKfbKIBUTQbT4jBbgH1ysmWUFsprn0Y/olIW+90hiKdOFTygm7zSA==, tarball: file:projects/perf-eventgrid.tgz}
     name: '@rush-temp/perf-eventgrid'
     version: 0.0.0
     dependencies:
@@ -11369,9 +11367,9 @@ packages:
       eslint: 7.32.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -11379,7 +11377,7 @@ packages:
     dev: false
 
   file:projects/perf-identity.tgz:
-    resolution: {integrity: sha512-mrHkM8YBl9RG5no6KaxkWs0KgGrdBj85WSpjXg/IPoGg+xyAVpXBFWMDNp2m9YfH8h798gvIVOsRbNNENZoxhw==, tarball: file:projects/perf-identity.tgz}
+    resolution: {integrity: sha512-qyIE0qKub0QkPLhDytg0eeFIxUUqJFpdMj+F5WzGgjtjJI/nPdYA0F22Ao7MLENuURFfGq5g+ALXpWHKG7um/A==, tarball: file:projects/perf-identity.tgz}
     name: '@rush-temp/perf-identity'
     version: 0.0.0
     dependencies:
@@ -11389,9 +11387,9 @@ packages:
       eslint: 7.32.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -11399,7 +11397,7 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-certificates.tgz:
-    resolution: {integrity: sha512-9aJ0xpyiMl1E8vsV1spUpkSyXiBTaywRulAG46MKeefYn4KLIpx0Df+qnwuvrKleNtW08X5p1ke137VgT69sAA==, tarball: file:projects/perf-keyvault-certificates.tgz}
+    resolution: {integrity: sha512-RbykZcgJwOGiQaZd6wVluPOGXe/RbrBnl3xJgGkA88+YhbQFYyZXhmb8zm2hpL8KUS7WywlqcruPgaj5rCrP0g==, tarball: file:projects/perf-keyvault-certificates.tgz}
     name: '@rush-temp/perf-keyvault-certificates'
     version: 0.0.0
     dependencies:
@@ -11411,9 +11409,9 @@ packages:
       eslint: 7.32.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
       uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -11423,7 +11421,7 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-keys.tgz:
-    resolution: {integrity: sha512-E70lXSAAAdU9JRCXksCGYaFr7bjsHdn1AP3zSB+HKyLQhhU1FxNL02tPnZLvylS7c+sC42nJTaaBqXIkWaQuKA==, tarball: file:projects/perf-keyvault-keys.tgz}
+    resolution: {integrity: sha512-QOAHlXOg554FA7kJNjHPEbH1KcqU2eXrg2ZUiJDLs8dnVLl2IvqxUqXhghSDlTb600869sUJ3mCiVQdTHRVE8A==, tarball: file:projects/perf-keyvault-keys.tgz}
     name: '@rush-temp/perf-keyvault-keys'
     version: 0.0.0
     dependencies:
@@ -11435,9 +11433,9 @@ packages:
       eslint: 7.32.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
       uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -11447,7 +11445,7 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-secrets.tgz:
-    resolution: {integrity: sha512-U1FlgtAyEEK4Icrk7Vd9UHRktnfvZvVrwTmpOI6URRk8OHfEQmy6n1VHWBGOCQ7yCreYH6S0uLPlXoNPtaPuDQ==, tarball: file:projects/perf-keyvault-secrets.tgz}
+    resolution: {integrity: sha512-Bf4MN5f0rhfjCk64iTGBmk9fBTDP1OCRr69QihwoVL0jKDw7TAwUACK65Sd341gF/SFba7BSU/irAaGDlgUHBw==, tarball: file:projects/perf-keyvault-secrets.tgz}
     name: '@rush-temp/perf-keyvault-secrets'
     version: 0.0.0
     dependencies:
@@ -11459,9 +11457,9 @@ packages:
       eslint: 7.32.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
       uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -11471,7 +11469,7 @@ packages:
     dev: false
 
   file:projects/perf-search-documents.tgz:
-    resolution: {integrity: sha512-jIBagXzEDWliTMSg39K2ol71cRYif21I398rrNyXnlpyjnlo+ApBAEUb0KG7scDPyfd1gH/w3NURLVRje/Qiuw==, tarball: file:projects/perf-search-documents.tgz}
+    resolution: {integrity: sha512-3RGh2N+XW8xDT9ED5Z1wVd7AOw3XW/scEiQleNHE9E10wjA+XJYeuCE6FR+FKmjWEzIxz3At5M9C5UgIZhMslA==, tarball: file:projects/perf-search-documents.tgz}
     name: '@rush-temp/perf-search-documents'
     version: 0.0.0
     dependencies:
@@ -11481,9 +11479,9 @@ packages:
       eslint: 7.32.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -11492,7 +11490,7 @@ packages:
     dev: false
 
   file:projects/perf-service-bus.tgz:
-    resolution: {integrity: sha512-M3kETv0m40YuRP/zOegXkQ56pQECHNG9DjrGZl0xr8fMClhamKX6/eZGcYBkiYIU7MfDONudmhhfsqs9XchzNQ==, tarball: file:projects/perf-service-bus.tgz}
+    resolution: {integrity: sha512-D4ag+q/52gOCKSunY7mHTp8FJ0JfzzpDcWRtGNTIFKrm8L74UzvTK4l9nLKP6bD3bUFAqznt5Mgzxs69H89i4g==, tarball: file:projects/perf-service-bus.tgz}
     name: '@rush-temp/perf-service-bus'
     version: 0.0.0
     dependencies:
@@ -11502,9 +11500,9 @@ packages:
       eslint: 7.32.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
       uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -11513,7 +11511,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-blob.tgz:
-    resolution: {integrity: sha512-A1FPXtOAkfSGlyKk5lOMOrFbs3eQexmAtFhO8na55jMeEKDy4y9J/GGO1rD5REqiIOERo+nvoilkSdCUQVt0GA==, tarball: file:projects/perf-storage-blob.tgz}
+    resolution: {integrity: sha512-bvbORF6/h1O4IXuNcNexeJHih/6hs8YAbw7pneMnxwubBSGY7LibOyJhYLB+Aq2tVGYVq1PuX64PU079AbgDgw==, tarball: file:projects/perf-storage-blob.tgz}
     name: '@rush-temp/perf-storage-blob'
     version: 0.0.0
     dependencies:
@@ -11525,9 +11523,9 @@ packages:
       node-fetch: 2.6.2
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
       uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -11536,7 +11534,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-file-datalake.tgz:
-    resolution: {integrity: sha512-6ufEceJOi1bvgS770BFogmRkci1Y30+1eV2ww3783sy5Z5Lehf2n0P1HSzuXZ+YQHILRIUoPegvkM+HuIpLOsA==, tarball: file:projects/perf-storage-file-datalake.tgz}
+    resolution: {integrity: sha512-Yl8G0ZktcshTqfu1RNCGuCwRYojr8b7zNHTKDQFfrJ4MBOKM8JEwEZqpm3BknIP+fGouDfmLg9VmsPvADL+VJA==, tarball: file:projects/perf-storage-file-datalake.tgz}
     name: '@rush-temp/perf-storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -11546,9 +11544,9 @@ packages:
       eslint: 7.32.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
       uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -11557,7 +11555,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-file-share.tgz:
-    resolution: {integrity: sha512-SiG8mj1jxrvNcBKNXRsWgzo1XPvF3HmWYh/ck2sgMzDSnYMg52QXQ202SVx66kWktcTN/LYCJGsLRBerUK34Hw==, tarball: file:projects/perf-storage-file-share.tgz}
+    resolution: {integrity: sha512-502SYTdq+PTc7JbBTWU/ut0svBiAMju73b80OmQKDoRYKfnWzwLUM3tat3EdsG2hy6dWjYnnWx0wW2Uxn4Ndxg==, tarball: file:projects/perf-storage-file-share.tgz}
     name: '@rush-temp/perf-storage-file-share'
     version: 0.0.0
     dependencies:
@@ -11567,9 +11565,9 @@ packages:
       eslint: 7.32.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
       uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -11578,7 +11576,7 @@ packages:
     dev: false
 
   file:projects/purview-account.tgz:
-    resolution: {integrity: sha512-tc6KFxfVCGUIwZjdgRZ80vPbwro2EwMEy4B3MQahsza/FZ4i3AHouoborKtNJg30pkTh1n2l7xOeaQJr/hQ7wg==, tarball: file:projects/purview-account.tgz}
+    resolution: {integrity: sha512-jXS6oRL3TsEBalyG0/NpKm9IzRpqtEv0fh3PRKARcVlsok/s14j13e8X9O60/UiCPpMxG7d17AylJp9vgf/p3g==, tarball: file:projects/purview-account.tgz}
     name: '@rush-temp/purview-account'
     version: 0.0.0
     dependencies:
@@ -11616,7 +11614,7 @@ packages:
       source-map-support: 0.5.20
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -11625,7 +11623,7 @@ packages:
     dev: false
 
   file:projects/purview-catalog.tgz:
-    resolution: {integrity: sha512-BpZ4lOcV2MTB83zU2HMD+uUDLS9RjPLFiZXEL0RfjELRDVYHW7Mzc8iHm4hh0z0KJ8LgJU6IicmaNvMP/X8LBA==, tarball: file:projects/purview-catalog.tgz}
+    resolution: {integrity: sha512-3iqdaYo1SgFHEv5wz/hUQkbh95q9cE7AQ4+SeO+CWSKoL4Cb2KCAo5VeO4gVFP6AF+VWgEOyT4FvDNRWZIXr0A==, tarball: file:projects/purview-catalog.tgz}
     name: '@rush-temp/purview-catalog'
     version: 0.0.0
     dependencies:
@@ -11662,7 +11660,7 @@ packages:
       source-map-support: 0.5.20
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -11671,7 +11669,7 @@ packages:
     dev: false
 
   file:projects/purview-scanning.tgz:
-    resolution: {integrity: sha512-HX4JV2mB44SB0PkGp9I4CQ/Bu0yYtFOkwu5WHNn9sathdM9wxEbX+GXP/1e9Xh4EpGweOSDprabMN+IGzK+4Tw==, tarball: file:projects/purview-scanning.tgz}
+    resolution: {integrity: sha512-j5/u3h5mMdmW/dPjgZVV9bhylBvl9nmAJesirrK9V24PKJPKv+47gTNF1Fk2ZW0hLTS9xWqDyv3fO4BOe8Fziw==, tarball: file:projects/purview-scanning.tgz}
     name: '@rush-temp/purview-scanning'
     version: 0.0.0
     dependencies:
@@ -11708,7 +11706,7 @@ packages:
       source-map-support: 0.5.20
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -11717,7 +11715,7 @@ packages:
     dev: false
 
   file:projects/quantum-jobs.tgz:
-    resolution: {integrity: sha512-XVXR8wpPwC2WRY092LdqozMHD1gvgjrVSjDF0KKIKPyFUYOgu2O4dnPFZZuMyiEvw/I53IZ91v7ddx5RzgHtqg==, tarball: file:projects/quantum-jobs.tgz}
+    resolution: {integrity: sha512-foQ2Vyc6cCyZGenUR/FOkuLluYNHxj3HPzZCCgHILJAuUgJv7utUsYUGvPJ7lx4b6+6dk12RU0pXgK4HyaQrSA==, tarball: file:projects/quantum-jobs.tgz}
     name: '@rush-temp/quantum-jobs'
     version: 0.0.0
     dependencies:
@@ -11765,7 +11763,7 @@ packages:
       sinon: 9.2.4
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
     transitivePeerDependencies:
       - bufferutil
@@ -11775,12 +11773,12 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: sha512-HjDqcDAbRqLD2/+t/axLJZmLPbrB8hb9uuMIJkgyxd17AIurR/+Lnav4TS602wRdz0dh8z/P5g9C8UwisZzN3A==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-J1K1ca34AtnvzJrgfAGeyx0YGPb+RgWttlyUTerdOGyTCpVMVnj2EyPwP3N9YjHlkRQD8ysTZ1LBYGJVg873gA==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.0.0-beta.6
-      '@microsoft/api-extractor': 7.18.9
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-inject': 4.0.2_rollup@1.32.1
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
@@ -11819,7 +11817,7 @@ packages:
       source-map-support: 0.5.20
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -11828,13 +11826,13 @@ packages:
     dev: false
 
   file:projects/schema-registry.tgz:
-    resolution: {integrity: sha512-3u6zoUWe+USz56Vcbc/CvVDy/roObzFCPl9ijWjt6bq94pPhgakJ4eKVlIFb5iytzPg6HVHcbt2kKMK6UN6OOg==, tarball: file:projects/schema-registry.tgz}
+    resolution: {integrity: sha512-e4nTnke9eRjlaO1NW1ovgtxe7T/iAPEt3QSUXgTcXoWxETXdzZ6ZL6qKBQooCVd5fmlAESUQoJ4sZ9cIc9haJw==, tarball: file:projects/schema-registry.tgz}
     name: '@rush-temp/schema-registry'
     version: 0.0.0
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.0-beta.6
-      '@microsoft/api-extractor': 7.18.9
+      '@microsoft/api-extractor': 7.18.11
       '@types/chai': 4.2.21
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
@@ -11866,7 +11864,7 @@ packages:
       source-map-support: 0.5.20
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -11875,7 +11873,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-Zd+NkUqwflzdPeO2VxTN+gw4TDX4KAHQkJ9RQLde8UouilOdprUfOIpobSfaGWeb0UuxdbZbmumR9MUJQfvBLg==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-x79gCfAy/C+eo/fCswrnd5A069tXdu8Bhl84X+Ow4O6CC1gofjSyRxZPn+3FRXUXEGutGKobK03J0TDcym/vUw==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
@@ -11920,10 +11918,10 @@ packages:
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
     transitivePeerDependencies:
       - '@swc/core'
@@ -11935,7 +11933,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-taRKsIxjmgo9TDFPIs0WoZdV8kXMUQrOAGHo0Xn0+4WCo2dtDWAjTRRznNIQ78QDljnqHOLRdMYtNCLxlysM4g==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-sW4NbYGJMJtho8/jFLg+9dXvbGHLy7rx8+qlNLfQemvOxCMtpkBUtw3pblAqBI3Oh3CfYfVxtJslW7pTy57ToQ==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
@@ -12002,10 +12000,10 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       sinon: 9.2.4
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       ws: 7.5.5
     transitivePeerDependencies:
       - '@swc/core'
@@ -12016,7 +12014,7 @@ packages:
     dev: false
 
   file:projects/storage-blob-changefeed.tgz:
-    resolution: {integrity: sha512-uZenRe2at7wbgePzuFBTf8sohGr7PrBDjkC5Q09SvIdoKlij+/obtyjn4f79xwIrOC71ENNirCfLl1EjWZzY9w==, tarball: file:projects/storage-blob-changefeed.tgz}
+    resolution: {integrity: sha512-EToDLtJrC78JwrhNfw/LWpujLjeo+hkjR1RI/8EFdoo1pwT6g9xiCWcV8m3WVTkPvJI1YYCboruXenPhmlqlhA==, tarball: file:projects/storage-blob-changefeed.tgz}
     name: '@rush-temp/storage-blob-changefeed'
     version: 0.0.0
     dependencies:
@@ -12064,10 +12062,10 @@ packages:
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.20
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
     transitivePeerDependencies:
       - '@swc/core'
@@ -12079,7 +12077,7 @@ packages:
     dev: false
 
   file:projects/storage-blob.tgz:
-    resolution: {integrity: sha512-oG2JiQptBvC9GwPPVrw2Mb7SmWBWG1H/S9Jwkdyuq3pRcRFBe12vvGwvYgI4v3uEvEu7oHaiS2VPVSwhvAXgAg==, tarball: file:projects/storage-blob.tgz}
+    resolution: {integrity: sha512-aj9PnS9BQqco+9TsBHN2NTST8kL2qY4CbOu2UbCrlWhUUrAw6wE/nxOnw2jEIqpkRRaerRKpsphtGsn+sAcGQQ==, tarball: file:projects/storage-blob.tgz}
     name: '@rush-temp/storage-blob'
     version: 0.0.0
     dependencies:
@@ -12129,10 +12127,10 @@ packages:
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       source-map-support: 0.5.20
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
     transitivePeerDependencies:
       - '@swc/core'
@@ -12144,7 +12142,7 @@ packages:
     dev: false
 
   file:projects/storage-file-datalake.tgz:
-    resolution: {integrity: sha512-ZCFFMiB1Ot1bBuotstCNTDgAlXMyyXpJZgkpQ2qGnmKjUP2D/sSiq2WhoaNmIZzTLuZhsbJEL6Mu4zap2c2X8A==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-R1s+bPCYE2I1mKceV082nKMJ0k/EX1NXlu9TWolA1xe6cKSw5+tfnucbZW68PtL31CGdVCWfNt8sEmAHpD9sxQ==, tarball: file:projects/storage-file-datalake.tgz}
     name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -12193,10 +12191,10 @@ packages:
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       source-map-support: 0.5.20
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
     transitivePeerDependencies:
       - '@swc/core'
@@ -12208,7 +12206,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-iK17NEJFe9iwEmfdp9JAJwaSXsF4cWq/GjLWXG1EGUKQ39mrbUzX6xNlTet116MCfEC3nOYUSWGHY6LJbxGGGw==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-Pk3i4ZyPrcG3Mt0tkRZ7qjpEPvQuUI0jo+EOWZML1vn4/aSyA+1FeUb/o4v4AvXR4qdf3GCOIvl9HHgQkfkHMA==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
@@ -12254,10 +12252,10 @@ packages:
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       source-map-support: 0.5.20
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
     transitivePeerDependencies:
       - '@swc/core'
@@ -12269,7 +12267,7 @@ packages:
     dev: false
 
   file:projects/storage-internal-avro.tgz:
-    resolution: {integrity: sha512-iffCllVZwHZmId0hpCngIyOUXYVWkXE+qzcP0xDD/h9WuMVS1Z70+DApW18k2KoSmH1/RkiQM5mybp/f8nUhyQ==, tarball: file:projects/storage-internal-avro.tgz}
+    resolution: {integrity: sha512-xtigVhO/QgID/99G/3FA0Zgktu5a8OHgUHrlO+tgJ5RnzEMlVj0d7U2crgaZ+UE0xA45j5cYWplOt6VbERzGcQ==, tarball: file:projects/storage-internal-avro.tgz}
     name: '@rush-temp/storage-internal-avro'
     version: 0.0.0
     dependencies:
@@ -12312,9 +12310,9 @@ packages:
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       source-map-support: 0.5.20
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
     transitivePeerDependencies:
       - '@swc/core'
@@ -12326,7 +12324,7 @@ packages:
     dev: false
 
   file:projects/storage-queue.tgz:
-    resolution: {integrity: sha512-P8fE8ianJFOaHSuwKFp4zXeYVNG8bA9dsRW8RkH9+Zarg3pSLPhHIM70pSCTJBmaI9lDSsanhJIHacK55/zhaw==, tarball: file:projects/storage-queue.tgz}
+    resolution: {integrity: sha512-UOsw9bQGIYVvAdzsdKT99Y8Z9IfCyKpjBUoSOCzd3zpDvL1oa3vNC3krwFFJzto1648VzUTBWmikzDDG5eoQcw==, tarball: file:projects/storage-queue.tgz}
     name: '@rush-temp/storage-queue'
     version: 0.0.0
     dependencies:
@@ -12372,10 +12370,10 @@ packages:
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       source-map-support: 0.5.20
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
     transitivePeerDependencies:
       - '@swc/core'
@@ -12387,7 +12385,7 @@ packages:
     dev: false
 
   file:projects/synapse-access-control.tgz:
-    resolution: {integrity: sha512-fXpynEKAT+081vxYyKEdqJk2XD4NNHix5UKR2gsKWlCNKerWh1vfMrfInOUUHCsyidVHpzWVMgaK4rcIskiUog==, tarball: file:projects/synapse-access-control.tgz}
+    resolution: {integrity: sha512-Ewa5ElE8gA1iKqmL96/ZQzsDk6VmToBN5hIBS7dSSHd/hCqpZhpgzpDcRJJH73JC8YlDQtXPxiOMVlen9eueFA==, tarball: file:projects/synapse-access-control.tgz}
     name: '@rush-temp/synapse-access-control'
     version: 0.0.0
     dependencies:
@@ -12426,10 +12424,10 @@ packages:
       rollup: 1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.20
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       uglify-js: 3.14.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -12441,7 +12439,7 @@ packages:
     dev: false
 
   file:projects/synapse-artifacts.tgz:
-    resolution: {integrity: sha512-cKJhR8vNTMPT1wzvBfZDQPWhP8/BXsqapXgO6DFd0ab4lHXm/t1bvRA4dhZVcerttsaOuqDwn/7suhy/kK2ntA==, tarball: file:projects/synapse-artifacts.tgz}
+    resolution: {integrity: sha512-4kpEM1JltWiXU6A2WRfStGYmR6pFpwrAkfo/zEWI+V2ofgbG3v7GHUc+H0///6eJekgpw0kmMiZGgA3hH0KF/g==, tarball: file:projects/synapse-artifacts.tgz}
     name: '@rush-temp/synapse-artifacts'
     version: 0.0.0
     dependencies:
@@ -12480,10 +12478,10 @@ packages:
       rollup: 1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.20
-      ts-node: 10.2.1_28b8c6e1d3819914bc52462370225dda
+      ts-node: 10.2.1_e5039d46efda05641a7ec88dbdc9f221
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       uglify-js: 3.14.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -12495,7 +12493,7 @@ packages:
     dev: false
 
   file:projects/synapse-managed-private-endpoints.tgz:
-    resolution: {integrity: sha512-HWoyPUk0hC/+xreznV9W8M/m3PHHO7EPDBgxHbsjroOuYYedMYtd6NO7RY2xWpsIGT0283awU7LpMGhrALxBzw==, tarball: file:projects/synapse-managed-private-endpoints.tgz}
+    resolution: {integrity: sha512-uCayGx30X1wWEfgg1VVycrz3fMsbKWhlVjt/+CGMjqG3T5aqU00tR2I6KYxm0KqtPWIbe/sacEudHCSWCcnwfA==, tarball: file:projects/synapse-managed-private-endpoints.tgz}
     name: '@rush-temp/synapse-managed-private-endpoints'
     version: 0.0.0
     dependencies:
@@ -12532,7 +12530,7 @@ packages:
       rollup: 1.32.1
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       uglify-js: 3.14.2
     transitivePeerDependencies:
       - bufferutil
@@ -12542,7 +12540,7 @@ packages:
     dev: false
 
   file:projects/synapse-monitoring.tgz:
-    resolution: {integrity: sha512-9xAsBYW7D1aeS2rUguFu9kpfkN4cXMYhida3m8TnwxetVkpOPFyIZ02UsUXMOxDPEEerAeYEWVo8E1tS3evR5Q==, tarball: file:projects/synapse-monitoring.tgz}
+    resolution: {integrity: sha512-+bCX/pupSG+IsaQA6m4KGmsrje5sLf8MwuxGCzSKnZjGcLAk8ZUUkPSaKcl2TvZZKm8F9RM3rpkYA5s6z6LH5Q==, tarball: file:projects/synapse-monitoring.tgz}
     name: '@rush-temp/synapse-monitoring'
     version: 0.0.0
     dependencies:
@@ -12556,14 +12554,14 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       uglify-js: 3.14.2
     transitivePeerDependencies:
       - supports-color
     dev: false
 
   file:projects/synapse-spark.tgz:
-    resolution: {integrity: sha512-QZRJ/07S1hSuTRj4VyMM2nwC60FJ5O27eoaePeKPgUa7z4/i7vWpr7la8JSDXu+iYdZUG/2U2FCQuLRmMYoQYA==, tarball: file:projects/synapse-spark.tgz}
+    resolution: {integrity: sha512-pilsEuNgZrasCmcRvUQ4jGQ7D6qBCtGj6ah7bJlREEdGcYyiZGbeU538nwxN1OZcyEwVqNWaI7nBSYeMtla5jw==, tarball: file:projects/synapse-spark.tgz}
     name: '@rush-temp/synapse-spark'
     version: 0.0.0
     dependencies:
@@ -12600,7 +12598,7 @@ packages:
       rollup: 1.32.1
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       uglify-js: 3.14.2
     transitivePeerDependencies:
       - bufferutil
@@ -12610,7 +12608,7 @@ packages:
     dev: false
 
   file:projects/template.tgz:
-    resolution: {integrity: sha512-Lxk07hkq8XQsOcKBYKnoR/mlC3Fb5T5uFvaatoZLvKY5LWsNewhJyq2GG/AexHT5HTYHU45Vquf66pCGmbmlBg==, tarball: file:projects/template.tgz}
+    resolution: {integrity: sha512-w4TyBKObHzepfCCOsAYtBbxJcph8E9y4iKUQcJktr3H6OpCYoblc7F8+9WElV2JUXEjxiDK265JKn8aH1K1ZPA==, tarball: file:projects/template.tgz}
     name: '@rush-temp/template'
     version: 0.0.0
     dependencies:
@@ -12650,7 +12648,7 @@ packages:
       source-map-support: 0.5.20
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
     transitivePeerDependencies:
       - bufferutil
@@ -12660,7 +12658,7 @@ packages:
     dev: false
 
   file:projects/test-recorder-new.tgz:
-    resolution: {integrity: sha512-zXJqZCFgMxSbWc4+R/99M13UE0qy9xNRo/dCa8CIevfOTbLUcNfOrW7iotKcPucJCNEWaEQtlplAaHbazKaz/w==, tarball: file:projects/test-recorder-new.tgz}
+    resolution: {integrity: sha512-GyQg9jFzozG0KeBUjLXClm4Iz9ZHhfgOlUprCf0LAlUXjzyodKRYTQatrbG+lfB+bnsdhWEDdN0sGpnVR0xtGw==, tarball: file:projects/test-recorder-new.tgz}
     name: '@rush-temp/test-recorder-new'
     version: 0.0.0
     dependencies:
@@ -12706,7 +12704,7 @@ packages:
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
       xhr-mock: 2.5.1
     transitivePeerDependencies:
       - bufferutil
@@ -12716,7 +12714,7 @@ packages:
     dev: false
 
   file:projects/test-recorder.tgz:
-    resolution: {integrity: sha512-ZTmRVinXGlpzOv3u/caOIDcTsyhRllsOxfNUm6Q5gWoKWkWGk+YLt3Zs5GjSqc0grmGD6cN2LQqMtfIT51WpRA==, tarball: file:projects/test-recorder.tgz}
+    resolution: {integrity: sha512-Rc6LrWUa0mwek1mjJNv+tvTj6Xbhx98zk5UTsexrzxLa7QeaePq/abiKLbQIU03os2p99XfVmKTYOPiLL7UwiA==, tarball: file:projects/test-recorder.tgz}
     name: '@rush-temp/test-recorder'
     version: 0.0.0
     dependencies:
@@ -12767,7 +12765,7 @@ packages:
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
       xhr-mock: 2.5.1
     transitivePeerDependencies:
       - bufferutil
@@ -12777,7 +12775,7 @@ packages:
     dev: false
 
   file:projects/test-utils-perfstress.tgz:
-    resolution: {integrity: sha512-fTItTYBBwhhtVdOQ5qASInrtqY+mDuDqE9NCvItNO3FH8yp/DP67/q3g6QpEwimVRNVCIMt/EKikSFngBugZXQ==, tarball: file:projects/test-utils-perfstress.tgz}
+    resolution: {integrity: sha512-NXtIZ8g1bWV5cDG3NZxqMznU4CbrRQ0IWeOga/qaFnA+p27jj93AMAd11bpicwB2l4lypbXBUpE3jSZYDxjsLg==, tarball: file:projects/test-utils-perfstress.tgz}
     name: '@rush-temp/test-utils-perfstress'
     version: 0.0.0
     dependencies:
@@ -12794,7 +12792,7 @@ packages:
       prettier: 1.19.1
       rimraf: 3.0.2
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -12803,7 +12801,7 @@ packages:
     dev: false
 
   file:projects/test-utils.tgz:
-    resolution: {integrity: sha512-KYPqGE75cahX+es1MnTMiFT3HkhcVE0xdDnNC2RUsyvwWAxewMbXns2ozRdYuR66khLy6BuVwPK6CqQPAtlqjw==, tarball: file:projects/test-utils.tgz}
+    resolution: {integrity: sha512-I9e/ofV8SbOgRbqSKlXuN/rh/ofpRfamoeNpZgwdOQq63twjXxT5Swn/1yTWeSgFQ3iCO6U/Z/TDOuHfKJcIZw==, tarball: file:projects/test-utils.tgz}
     name: '@rush-temp/test-utils'
     version: 0.0.0
     dependencies:
@@ -12827,7 +12825,7 @@ packages:
       rollup: 1.32.1
       sinon: 9.2.4
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -12836,7 +12834,7 @@ packages:
     dev: false
 
   file:projects/testing-recorder-new.tgz:
-    resolution: {integrity: sha512-aXWcH+zp0ffSDNjWDAAFIQaFBkBRzvWxmFa6D/L8y5EsfIm66bDa6Mu0GcbptpIR8EICXuRI4qsDlcMgHPUWpg==, tarball: file:projects/testing-recorder-new.tgz}
+    resolution: {integrity: sha512-1mAOmeYtfamAka+CiZQcGjjI7MCCr9hSfwhh2y/XVGbrb3EZbNYpySmIUh6Rmic2QF80xH52Ri3oEVjCBHMuAg==, tarball: file:projects/testing-recorder-new.tgz}
     name: '@rush-temp/testing-recorder-new'
     version: 0.0.0
     dependencies:
@@ -12882,7 +12880,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
-      typescript: 4.2.4
+      typescript: 4.4.3
       uuid: 8.3.2
       xhr-mock: 2.5.1
     transitivePeerDependencies:
@@ -12893,7 +12891,7 @@ packages:
     dev: false
 
   file:projects/video-analyzer-edge.tgz:
-    resolution: {integrity: sha512-+wAv6j5J2g+RNNNOSaA5mDBxH0nspdnIyM48CELNP3iwW4ZM3KrZdGqD0BgNgZYpPCzhlI/+artUZs5mf2pS1g==, tarball: file:projects/video-analyzer-edge.tgz}
+    resolution: {integrity: sha512-kQRnYAKkO0J2q+Jb7Ld8yOgL502O0ckIE+1bqOCy0ArVB6aDpFpylINefM+8O+02wT05al0llJTkDe69T2bwhw==, tarball: file:projects/video-analyzer-edge.tgz}
     name: '@rush-temp/video-analyzer-edge'
     version: 0.0.0
     dependencies:
@@ -12930,7 +12928,7 @@ packages:
       rollup: 1.32.1
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
       util: 0.12.4
     transitivePeerDependencies:
       - bufferutil
@@ -12940,7 +12938,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub-express.tgz:
-    resolution: {integrity: sha512-TPhljtupasgCaq4ORSBcoBeEBxj9xq51XZsd0sMD416cqmyf3+p3pk+Zh/9jwiFKbPRUJ/ng77bKmaWzFyIplg==, tarball: file:projects/web-pubsub-express.tgz}
+    resolution: {integrity: sha512-1svA0OoSrU2BnuN1ohiDkefWI9zUDoogDMEWAWaEw0OA/NSXXChtW2aLTYkIo4JamrE51ZzKpztIVSQWHpAlCQ==, tarball: file:projects/web-pubsub-express.tgz}
     name: '@rush-temp/web-pubsub-express'
     version: 0.0.0
     dependencies:
@@ -12992,7 +12990,7 @@ packages:
       source-map-support: 0.5.20
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -13001,7 +12999,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub.tgz:
-    resolution: {integrity: sha512-eBs+8SrQtA8RFex4gaAX5AOUb/EAfnr9xXrRJapyn2DkguDc4KkkcFyHna29FTAJ/+em4SekK8n8BPA4TIIxgg==, tarball: file:projects/web-pubsub.tgz}
+    resolution: {integrity: sha512-lpYUT+LB27DBOHIOnGiSRUttQqWqOacPrhEdaI+hhvT6em+xdSj747tsFGdoaTfbu2GTJWgXKCOB/BLfEAL7hw==, tarball: file:projects/web-pubsub.tgz}
     name: '@rush-temp/web-pubsub'
     version: 0.0.0
     dependencies:
@@ -13052,7 +13050,7 @@ packages:
       source-map-support: 0.5.20
       tslib: 2.3.1
       typedoc: 0.15.2
-      typescript: 4.2.4
+      typescript: 4.4.3
     transitivePeerDependencies:
       - bufferutil
       - debug

@@ -25,7 +25,10 @@ export const commandInfo = makeCommandInfo(
  * @param name the file to run
  * @param accumulatedErrors an array to push truncated errors onto as tuples of [fileName, error]
  */
-async function runSingle(name: string, accumulatedErrors: Array<[string, string]>) {
+async function runSingle(
+  name: string,
+  accumulatedErrors: Array<[string, string]>
+) {
   log("Running", name);
   try {
     if (/.*[\\\/]samples(-dev)?[\\\/].*/.exec(name)) {
@@ -39,7 +42,7 @@ async function runSingle(name: string, accumulatedErrors: Array<[string, string]
       await sampleMain();
     }
   } catch (err) {
-    const truncatedError: string = err
+    const truncatedError: string = (err as string)
       .toString()
       .split("\n")[0]
       .slice(0, 100);
@@ -55,7 +58,9 @@ export default leafCommand(commandInfo, async (options) => {
     return false;
   }
 
-  const { packageJson, path: packageLocation } = await resolveProject(process.cwd());
+  const { packageJson, path: packageLocation } = await resolveProject(
+    process.cwd()
+  );
 
   log.debug("Resolving samples metadata to:", packageLocation);
 
@@ -69,7 +74,9 @@ export default leafCommand(commandInfo, async (options) => {
     log.warn(
       "`skipFolder` is specified in the sample configuration, but it is ignored in this context."
     );
-    log.warn("To skip samples in live tests pipelines, disable them using the package's tests.yml");
+    log.warn(
+      "To skip samples in live tests pipelines, disable them using the package's tests.yml"
+    );
   }
 
   const samples = options.args.map((dir) => path.resolve(dir));
@@ -87,7 +94,7 @@ export default leafCommand(commandInfo, async (options) => {
         (name, entry) => entry.isFile() && /\.[jt]s$/.exec(name) !== null,
         {
           ignore: IGNORE,
-          skips
+          skips,
         }
       )) {
         await runSingle(fileName, errors);

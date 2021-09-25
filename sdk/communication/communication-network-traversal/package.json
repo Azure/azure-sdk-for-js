@@ -129,6 +129,6 @@
     "rollup-plugin-visualizer": "^4.0.4",
     "sinon": "^9.0.2",
     "typedoc": "0.15.2",
-    "typescript": "~4.2.0"
+    "typescript": "~4.4.0"
   }
 }

@@ -6,10 +6,13 @@
  * @author Arpan Laha
  */
 
-import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
+import {
+  ParserServices,
+  TSESTree,
+} from "@typescript-eslint/experimental-utils";
 import {
   ParserWeakMapESTreeToTSNode,
-  ParserWeakMap
+  ParserWeakMap,
 } from "@typescript-eslint/typescript-estree/dist/parser-options";
 import { Rule } from "eslint";
 import {
@@ -17,7 +20,7 @@ import {
   FunctionExpression,
   Identifier,
   MethodDefinition,
-  Pattern
+  Pattern,
 } from "estree";
 import {
   Declaration,
@@ -31,7 +34,7 @@ import {
   TypeReferenceNode,
   TypeReference,
   Modifier,
-  SyntaxKind
+  SyntaxKind,
 } from "typescript";
 import { getRuleMetaData } from "../utils";
 
@@ -84,7 +87,11 @@ const getTypeOfParam = (
  * @param symbols A list of Symbols seen so far
  * @param typeChecker the TypeScript language typechecker
  */
-const addSeenSymbols = (symbol: TSSymbol, symbols: TSSymbol[], typeChecker: TypeChecker): void => {
+const addSeenSymbols = (
+  symbol: TSSymbol,
+  symbols: TSSymbol[],
+  typeChecker: TypeChecker
+): void => {
   let isExternal = false;
   let isOptional = false;
 
@@ -104,15 +111,25 @@ const addSeenSymbols = (symbol: TSSymbol, symbols: TSSymbol[], typeChecker: Type
   typeChecker
     .getPropertiesOfType(typeChecker.getDeclaredTypeOfSymbol(symbol))
     .forEach((element: TSSymbol): void => {
-      const memberType = typeChecker.getTypeAtLocation(element.valueDeclaration);
-      const memberTypeNode = typeChecker.typeToTypeNode(memberType, undefined, undefined);
+      if (!element.valueDeclaration) {
+        return;
+      }
+      const memberType = typeChecker.getTypeAtLocation(
+        element.valueDeclaration
+      );
+      const memberTypeNode = typeChecker.typeToTypeNode(
+        memberType,
+        undefined,
+        undefined
+      );
 
       // extract type of member
       let memberSymbol: TSSymbol | undefined;
 
       // get type from array if parameter is array
       if (memberTypeNode !== undefined && isArrayTypeNode(memberTypeNode)) {
-        const elementTypeReference = memberTypeNode.elementType as TypeReferenceNode;
+        const elementTypeReference =
+          memberTypeNode.elementType as TypeReferenceNode;
         const typeName = elementTypeReference.typeName as any;
         memberSymbol = typeName !== undefined ? typeName.symbol : undefined;
       } else {
@@ -120,7 +137,9 @@ const addSeenSymbols = (symbol: TSSymbol, symbols: TSSymbol[], typeChecker: Type
       }
       if (
         memberSymbol !== undefined &&
-        [SymbolFlags.Class, SymbolFlags.Interface].includes(memberSymbol.getFlags()) &&
+        [SymbolFlags.Class, SymbolFlags.Interface].includes(
+          memberSymbol.getFlags()
+        ) &&
         !symbols.includes(memberSymbol)
       ) {
         addSeenSymbols(memberSymbol, symbols, typeChecker);
@@ -165,7 +184,8 @@ const isValidParam = (
     return true;
   }
   return getSymbolsUsedInParam(param, converter, typeChecker).every(
-    (symbol: TSSymbol): boolean => symbol === undefined || symbol.getFlags() !== SymbolFlags.Class
+    (symbol: TSSymbol): boolean =>
+      symbol === undefined || symbol.getFlags() !== SymbolFlags.Class
   );
 };
 
@@ -222,8 +242,9 @@ const evaluateOverloads = (
     node: identifier,
     message: `type ${typeChecker.typeToString(
       getTypeOfParam(param, converter, typeChecker)
-    )} of parameter ${identifier.name} of function ${name ||
-      "<anonymous>"} is a class or contains a class as a member`
+    )} of parameter ${identifier.name} of function ${
+      name || "<anonymous>"
+    } is a class or contains a class as a member`,
   });
 };
 
@@ -248,20 +269,29 @@ export = {
     }
     const typeChecker = parserServices.program.getTypeChecker();
     const converter = parserServices.esTreeNodeToTSNodeMap;
-    const reverter: ParserWeakMap<TSNode, TSESTree.Node> = parserServices.tsNodeToESTreeNodeMap;
+    const reverter: ParserWeakMap<TSNode, TSESTree.Node> =
+      parserServices.tsNodeToESTreeNodeMap;
 
     const verifiedMethods: string[] = [];
     const verifiedDeclarations: string[] = [];
 
     return /src/.test(context.getFilename())
       ? ({
-          "MethodDefinition > FunctionExpression": (node: FunctionExpression): void => {
-            const parent = context.getAncestors().reverse()[0] as MethodDefinition;
+          "MethodDefinition > FunctionExpression": (
+            node: FunctionExpression
+          ): void => {
+            const parent = context
+              .getAncestors()
+              .reverse()[0] as MethodDefinition;
             const key = parent.key as Identifier;
             const name = key.name;
 
             // ignore if name seen already
-            if (name !== undefined && name !== "" && verifiedMethods.includes(name)) {
+            if (
+              name !== undefined &&
+              name !== "" &&
+              verifiedMethods.includes(name)
+            ) {
               return;
             }
 
@@ -270,7 +300,8 @@ export = {
             if (
               modifiers !== undefined &&
               modifiers.some(
-                (modifier: Modifier): boolean => modifier.kind === SyntaxKind.PrivateKeyword
+                (modifier: Modifier): boolean =>
+                  modifier.kind === SyntaxKind.PrivateKeyword
               )
             ) {
               return;
@@ -283,18 +314,18 @@ export = {
                   .getTypeAtLocation(converter.get(node as TSESTree.Node))
                   .getSymbol();
                 const overloads =
-                  symbol !== undefined
+                  symbol !== undefined && symbol.declarations !== undefined
                     ? symbol.declarations
                         .filter(
                           (declaration: Declaration): boolean =>
                             reverter.get(declaration as TSNode) !== undefined
                         )
-                        .map(
-                          (declaration: Declaration): FunctionExpression => {
-                            const method = reverter.get(declaration as TSNode) as MethodDefinition;
-                            return method.value;
-                          }
-                        )
+                        .map((declaration: Declaration): FunctionExpression => {
+                          const method = reverter.get(
+                            declaration as TSNode
+                          ) as MethodDefinition;
+                          return method.value;
+                        })
                     : [];
                 evaluateOverloads(
                   overloads,
@@ -314,7 +345,11 @@ export = {
             const name = id && id.name;
 
             // ignore if name seen already
-            if (name !== null && name !== "" && verifiedDeclarations.includes(name)) {
+            if (
+              name !== null &&
+              name !== "" &&
+              verifiedDeclarations.includes(name)
+            ) {
               return;
             }
 
@@ -325,10 +360,12 @@ export = {
                   .getTypeAtLocation(converter.get(node as TSESTree.Node))
                   .getSymbol();
                 const overloads =
-                  symbol !== undefined
+                  symbol !== undefined && symbol.declarations !== undefined
                     ? symbol.declarations.map(
                         (declaration: Declaration): FunctionDeclaration =>
-                          reverter.get(declaration as TSNode) as FunctionDeclaration
+                          reverter.get(
+                            declaration as TSNode
+                          ) as FunctionDeclaration
                       )
                     : [];
                 evaluateOverloads(
@@ -342,8 +379,8 @@ export = {
                 );
               }
             });
-          }
+          },
         } as Rule.RuleListener)
       : {};
-  }
+  },
 };
