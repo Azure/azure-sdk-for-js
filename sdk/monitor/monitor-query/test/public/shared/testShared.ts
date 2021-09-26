@@ -1,15 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientSecretCredential } from "@azure/identity";
-import { env, record, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import {
+  env,
+  record,
+  Recorder,
+  isPlaybackMode,
+  RecorderEnvironmentSetup
+} from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import { Context } from "mocha";
 import { createClientLogger } from "@azure/logger";
 import { LogsTable, LogsQueryClient, MetricsQueryClient } from "../../../src";
-
+import { ExponentialRetryPolicyOptions } from "@azure/core-rest-pipeline";
+import "./env";
 export const loggerForTest = createClientLogger("test");
 
-
+const replaceableVariables: Record<string, string> = {
+  MONITOR_WORKSPACE_ID: "<workspace-id>",
+  METRICS_RESOURCE_ID: "<metrics-arm-resource-id>",
+  MQ_APPLICATIONINSIGHTS_CONNECTION_STRING: "mq_applicationinsights_connection",
+  AZURE_TENANT_ID: "azure_tenant_id",
+  AZURE_CLIENT_ID: "azure_client_id",
+  AZURE_CLIENT_SECRET: "azure_client_secret"
+};
 export interface RecordedLogsClient {
   client: LogsQueryClient;
   recorder: Recorder;
@@ -20,12 +34,36 @@ export interface RecordedMetricsClient {
   recorder: Recorder;
 }
 
-export function createRecordedMetricsClient(
-  context: Context,
-): RecordedAdminClient {
+export const testEnv = new Proxy(replaceableVariables, {
+  get: (target, key: string) => {
+    return env[key] || target[key];
+  }
+});
+
+export const environmentSetup: RecorderEnvironmentSetup = {
+  // == Recorder Environment Setup == Add the replaceable variables from
+  // above
+  replaceableVariables,
+
+  // We don't use this in the template, but if we had any query parameters
+  // we wished to discard, we could add them here
+  queryParametersToSkip: [],
+
+  // Finally, we need to remove the AAD `access_token` from any requests.
+  // This is very important, as it cannot be removed using environment
+  // variable or query parameter replacement.  The
+  // `customizationsOnRecordings` field allows us to make arbitrary
+  // replacements within recordings.
+  customizationsOnRecordings: [
+    (recording: any): any =>
+      recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
+  ]
+};
+
+export function createRecordedMetricsClient(context: Context): RecordedMetricsClient {
   const recorder = record(context, environmentSetup);
   return {
-    client: new MetricsQueryClient(testEnv.METRICS_ADVISOR_ENDPOINT, apiKey),
+    client: new MetricsQueryClient(createTestClientSecretCredential()),
     recorder
   };
 }
@@ -33,12 +71,12 @@ export function createRecordedMetricsClient(
 export function createRecordedLogsClient(
   context: Context,
   retryOptions?: ExponentialRetryPolicyOptions
-): RecordedAdvisorClient {
+): RecordedLogsClient {
   const recorder = record(context, environmentSetup);
   return {
     client: new LogsQueryClient(createTestClientSecretCredential(), {
-        retryOptions
-      });,
+      retryOptions
+    }),
     recorder
   };
 }
@@ -51,14 +89,6 @@ export function addTestRecorderHooks(): { recorder(): Recorder; isPlaybackMode()
   // When the recorder observes the values of these environment variables in any
   // recorded HTTP request or response, it will replace them with the values they
   // are mapped to below.
-  const replaceableVariables: Record<string, string> = {
-    MONITOR_WORKSPACE_ID: "<workspace-id>",
-    METRICS_RESOURCE_ID: "<metrics-arm-resource-id>",
-    MQ_APPLICATIONINSIGHTS_CONNECTION_STRING: "mq_applicationinsights_connection",
-    AZURE_TENANT_ID: "azure_tenant_id",
-    AZURE_CLIENT_ID: "azure_client_id",
-    AZURE_CLIENT_SECRET: "azure_client_secret"
-  };
 
   let recorder: Recorder;
 
