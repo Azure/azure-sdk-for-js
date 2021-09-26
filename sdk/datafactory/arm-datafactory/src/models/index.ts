@@ -8365,7 +8365,8 @@ export interface AzureBatchLinkedService {
 export interface SqlAlwaysEncryptedProperties {
   /**
    * Sql always encrypted AKV authentication type. Type: string (or Expression with resultType
-   * string). Possible values include: 'ServicePrincipal', 'ManagedIdentity'
+   * string). Possible values include: 'ServicePrincipal', 'ManagedIdentity',
+   * 'UserAssignedManagedIdentity'
    */
   alwaysEncryptedAkvAuthType: SqlAlwaysEncryptedAkvAuthType;
   /**
@@ -8377,6 +8378,10 @@ export interface SqlAlwaysEncryptedProperties {
    * The key of the service principal used to authenticate against Azure Key Vault.
    */
   servicePrincipalKey?: SecretBaseUnion;
+  /**
+   * The credential reference containing authentication information.
+   */
+  credential?: CredentialReference;
 }
 
 /**
@@ -27560,11 +27565,11 @@ export type CosmosDbConnectionMode = 'Gateway' | 'Direct';
 
 /**
  * Defines values for SqlAlwaysEncryptedAkvAuthType.
- * Possible values include: 'ServicePrincipal', 'ManagedIdentity'
+ * Possible values include: 'ServicePrincipal', 'ManagedIdentity', 'UserAssignedManagedIdentity'
  * @readonly
  * @enum {string}
  */
-export type SqlAlwaysEncryptedAkvAuthType = 'ServicePrincipal' | 'ManagedIdentity';
+export type SqlAlwaysEncryptedAkvAuthType = 'ServicePrincipal' | 'ManagedIdentity' | 'UserAssignedManagedIdentity';
 
 /**
  * Defines values for TumblingWindowFrequency.

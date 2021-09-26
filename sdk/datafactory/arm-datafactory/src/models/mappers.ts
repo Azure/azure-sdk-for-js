@@ -10222,6 +10222,18 @@ export const SqlAlwaysEncryptedProperties: msRest.CompositeMapper = {
           name: "Composite",
           className: "SecretBase"
         }
+      },
+      credential: {
+        serializedName: "credential",
+        type: {
+          name: "Composite",
+          className: "CredentialReference",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
       }
     }
   }
