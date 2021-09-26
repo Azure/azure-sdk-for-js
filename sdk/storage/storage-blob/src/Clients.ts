@@ -622,6 +622,10 @@ export interface BlobSyncCopyFromURLOptions extends CommonOptions {
    * Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source.
    */
   sourceAuthorization?: HttpAuthorization;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to encrypt the data provided in the request. If not specified, encryption is performed with the default account encryption scope.  For more information, see Encryption at Rest for Azure Storage Services.
+   */
+  encryptionScope?: string;
 }
 
 /**
@@ -1801,6 +1805,7 @@ export class BlobClient extends StorageClient {
         immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
         immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
         legalHold: options.legalHold,
+        encryptionScope: options.encryptionScope,
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {

@@ -1521,6 +1521,8 @@ export interface BlobCopyFromURLHeaders {
   contentMD5?: Uint8Array;
   /** This response header is returned so that the client can check for the integrity of the copied content. */
   xMsContentCrc64?: Uint8Array;
+  /** Returns the name of the encryption scope used to encrypt the blob contents and application metadata.  Note that the absence of this header implies use of the default account encryption scope. */
+  encryptionScope?: string;
   /** Error Code */
   errorCode?: string;
 }
@@ -3735,6 +3737,8 @@ export interface BlobCopyFromURLOptionalParams
   immutabilityPolicyExpiry?: Date;
   /** Specifies the immutability policy mode to set on the blob. */
   immutabilityPolicyMode?: BlobImmutabilityPolicyMode;
+  /** Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to encrypt the data provided in the request. If not specified, encryption is performed with the default account encryption scope.  For more information, see Encryption at Rest for Azure Storage Services. */
+  encryptionScope?: string;
   /** Optional. Indicates the tier to be set on the blob. */
   tier?: AccessTier;
   /** Optional.  Used to set blob tags in various blob operations. */

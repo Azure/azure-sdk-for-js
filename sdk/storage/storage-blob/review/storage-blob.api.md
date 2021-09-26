@@ -443,6 +443,7 @@ export interface BlobCopyFromURLHeaders {
     copyId?: string;
     copyStatus?: SyncCopyStatusType;
     date?: Date;
+    encryptionScope?: string;
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
@@ -1346,6 +1347,7 @@ export type BlobStartCopyFromURLResponse = BlobStartCopyFromURLHeaders & {
 export interface BlobSyncCopyFromURLOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: BlobRequestConditions;
+    encryptionScope?: string;
     immutabilityPolicy?: BlobImmutabilityPolicy;
     legalHold?: boolean;
     metadata?: Metadata;
