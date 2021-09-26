@@ -2,11 +2,11 @@
 
 Version 2 of the `@azure/identity` package includes the best parts of version 1, plus several improvements. In this document, we'll expand upon the changes.
 
+For the full set of changes and bug fixes, please refer to our changelog: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/Troubleshooting.md
+
 ## Table of contents
 
-- [Node.js version support](#nodejs-version-support)
 - [Dependency changes](#dependency-changes)
-- [Bug fixes](#bug-fixes)
 - [Errors](#errors)
 - [New credentials](#new-credentials)
 - [Changes to existing credentials](#changes-to-existing-credentials)
@@ -25,35 +25,22 @@ Version 2 of the `@azure/identity` package includes the best parts of version 1,
 - [Provide feedback](#provide-feedback)
 - [Contributing](#contributing)
 
-## Node.js version support 
-
-While the last `@azure/identity` version to support Node.js 8 is 1.3.0, `@types/node` has been updated to version 12. For more details, read the [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md).
-
 ## Dependency changes
 
 Version 2 of Azure Identity for JavaScript no longer includes native dependencies (neither ordinary, peer, nor optional dependencies). Previous distributions of `@azure/identity` included an optional dependency on `keytar`, which caused issues for some users in restrictive environments.
 
 Version 2 of Azure Identity for JavaScript now also depends on the latest available versions of `@azure/msal-common`, `@azure/msal-node`, and `@azure/msal-browser`. Our goal is to always be up-to-date with the MSAL versions.
 
-All credentials provided in version 2 of the Identity package for Node.js now make use of the latest `@azure/msal-node`. `InteractiveBrowserCredential` now uses the latest `@azure/msal-node` on Node.js and the latest `@azure/msal-browser` on the browser.
+Using the latest MSAL changes how credentials behave in the following ways:
 
-Relying on the latest versions of MSAL comes with many benefits, but it has some considerations:
-
-- For every new instance of all of the updated credentials, now they will do a first request to discover relevant endpoint metadata information from Azure.
-- On the browser, the `InteractiveBrowserCredential` will now use the [Auth Code Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow) with [PKCE](https://tools.ietf.org/html/rfc7636) rather than [Implicit Grant Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow) to better support browsers with enhanced security restrictions. Read more on this in our [docs on Interactive Browser Credential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/interactive-browser-credential.md).
-
-## Bug fixes
-
-The v2 release fixes the following issues:
-
-- `InteractiveBrowserCredential` on Node.js sometimes caused the process to hang if there was no browser available.
-- The `AZURE_AUTHORITY_HOST` environment variable wasn't properly picked up in Node.js.
-
-Furthermore, `ClientSecretCredential`, `ClientCertificateCredential`, and `UsernamePasswordCredential` now throw if the required parameters aren't provided (even in JavaScript).
+- The initial authentication attempt in the lifetime of your application will include an additional request to first discover relevant endpoint metadata information from Azure.
+- On the browser, the `InteractiveBrowserCredential` will now use the [Auth Code Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow) with [PKCE](https://tools.ietf.org/html/rfc7636) rather than [Implicit Grant Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow) to better support browsers with enhanced security restrictions.
+  - To migrate to our version 2 of the `InteractiveBrowserCredential`, your Azure Active Directory App Registration needs to change. You can either create a [new app registration](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration#create-the-app-registration), or you can [update your existing app registration to support the Auth Code Flow](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration#redirect-uri-msaljs-20-with-auth-code-flow).
+  - Read more on this in our [docs on Interactive Browser Credential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/interactive-browser-credential.md).
 
 ## Errors
 
-For our version two of Identity, we've renamed the error `CredentialUnavailable` to `CredentialUnavailableError`, to align with the naming convention used for error classes in the Azure SDKs in JavaScript.
+For our version 2 of Identity, we've renamed the error `CredentialUnavailable` to `CredentialUnavailableError`, to align with the naming convention used for error classes in the Azure SDKs in JavaScript.
 
 We've also introduced a new error, named `AuthenticationRequiredError`. This error will show up when a credential fails to authenticate silently and has the same impact on `ChainedTokenCredential` as the `CredentialUnavailableError`, which is to allow the next credential in the chain to be tried.
 
@@ -61,7 +48,7 @@ Most importantly, errors and logged exceptions may now point to the new [trouble
 
 ## New credentials
 
-Version 2 of the `@azure/identity` package includes three new credential types:
+As of October 2021, version 2 of the `@azure/identity` package includes three new credential types. More will be added in the future.
 
 - `AzurePowerShellCredential`, which will use the authenticated user session from the `Az.Account` PowerShell module. This credential will attempt to use PowerShell Core by calling `pwsh`, and on Windows it will fall back to Windows PowerShell (`powershell`) if PowerShell Core is not available.
 - `ApplicationCredential`, for use by applications which call into Microsoft Graph APIs and which have issues using `DefaultAzureCredential`. This credential is based on `EnvironmentCredential` and `ManagedIdentityCredential`.
@@ -69,7 +56,7 @@ Version 2 of the `@azure/identity` package includes three new credential types:
 
 ## Changes to existing credentials
 
-For version 2 of the Identity SDK for JavaScript and TypeScript, we've also included several improvements to our existing credentials.
+For our version 2 of the Identity SDK for JavaScript and TypeScript, we've also included several improvements to our existing credentials.
 
 ### Changes to all credentials in general
 
@@ -84,7 +71,7 @@ For `@azure/identity` version 2.0.0, we've made some changes across credentials 
 
 ### Changes to the interactive credentials
 
-For version 2 of Identity, we've made changes to `InteractiveBrowserCredential`, `DeviceCodeCredential`, and `UsernamePasswordCredential`.
+For our version 2 of Identity, we've made special changes to `InteractiveBrowserCredential`, `DeviceCodeCredential`, and `UsernamePasswordCredential`.
 
 - You can now control when the credential requests user input with the new `disableAutomaticAuthentication` option added to the options you pass to the credential constructors.
   - When enabled, this option stops the `getToken()` method from requesting user input in case the credential is unable to authenticate silently.
@@ -140,13 +127,13 @@ main();
 
 ### Changes to ClientSecretCredential and ClientCertificateCredential
 
-For version 2 of the `@azure/identity` package, we've added regional STS support to the `ClientSecretCredential` and the `ClientCertificateCredential`. First, we've added a new enum type called `RegionalAuthority`, which contains values for all of the possible regions supported by Azure. Then, we've added a new property called `regionalAuthority` to the `ClientSecretCredentialOptions` and the `ClientCertificateCredentialOptions`. However, the Azure region can also be specified through the `AZURE_REGIONAL_AUTHORITY_NAME` environment variable. If instead of a region, `AutoDiscoverRegion` is specified as the value for `regionalAuthority`, MSAL will be used to attempt to discover the region.
+For our version 2 of the `@azure/identity` package, we've added regional STS support to the `ClientSecretCredential` and the `ClientCertificateCredential`. First, we've added a new enum type called `RegionalAuthority`, which contains values for all of the possible regions supported by Azure. Then, we've added a new property called `regionalAuthority` to the `ClientSecretCredentialOptions` and the `ClientCertificateCredentialOptions`, however the Azure region can also be specified through the `AZURE_REGIONAL_AUTHORITY_NAME` environment variable. If instead of a region, `AutoDiscoverRegion` is specified as the value for `regionalAuthority`, MSAL will be used to attempt to discover the region.
 
 For `ClientCertificateCredential` specifically, now the validity of the PEM certificate is evaluated on `getToken` and not on the constructor.
 
 ### Changes to the ManagedIdentityCredential
 
-For version 2 of the Identity package, the `ManagedIdentityCredential` now retries with exponential back-off when a request for a token fails with a 404 status code on environments with available IMDS endpoints.
+For our version 2 of the Identity package, the `ManagedIdentityCredential` now retries with exponential back-off when a request for a token fails with a 404 status code on environments with available IMDS endpoints.
 
 The `ManagedIdentityCredential` now also supports token exchange authentication and Service Fabric environments.
 
@@ -166,11 +153,11 @@ Besides that:
 
 ### Changes to the AzureCliCredential
 
-For version 2 of the Identity package, the `AzureCliCredential` now allows specifying a `tenantId`.
+For the version 2 of the Identity package, the `AzureCliCredential` now allow specifying a `tenantId`.
 
 ### Changes to the DeviceCodeCredential
 
-For version 2 of the Identity package, we have removed the protected method `getAzureCliAccessToken` from the public API of the `AzureCliCredential`. This method was only used internally and is now obsolete.
+For the version 2 of the Identity package, we have removed the protected method `getAzureCliAccessToken` from the public API of the `AzureCliCredential`. This method was only used internally, and is now obsolete.
 
 ### Changes to the VisualStudioCodeCredential
 
@@ -298,7 +285,7 @@ main().catch((error) => {
 
 ## Troubleshooting
 
-As part of the version 2 release, a [troubleshooting guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/Troubleshooting.md) is available. This guide will be improved over time to include solutions to many common problems, as we discover them, and as they're reported by customers. Errors and exception logs now point to this troubleshooting guide.
+As part of our version 2 release, we're now providing a Troubleshooting Guide. This guide will be improved over time to include solutions to many common problems, as we discover them, and as they get reported to us by our customers. Upon throwing errors and exception logs, we're now pointing users to this troubleshooting guide. This guide is available through the following link: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/Troubleshooting.md
 
 ## Provide feedback
 
