@@ -209,7 +209,7 @@ const executeCommandOperationSpec: msRest.OperationSpec = {
 
 const attachOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/containers/{containerName}/attach",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/containers/{containerName}/attach",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
