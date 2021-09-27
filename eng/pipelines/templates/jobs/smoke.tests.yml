@@ -131,7 +131,7 @@ jobs:
 
       - download: current
         artifact: ${{parameters.ArtifactName}}
-        condition: and(succeeded(), ne('{{ $parameters.Daily }}', 'true'))
+        condition: and(succeeded(), ne('${{ parameters.Daily }}', 'true'))
       - pwsh: |
           $(Build.SourcesDirectory)/eng/common/scripts/Import-AzModules.ps1
 
@@ -174,10 +174,6 @@ jobs:
 
         workingDirectory: $(Build.SourcesDirectory)/common/smoke-test
         displayName: Deploy Smoke Test resources and prepare samples
-        env:
-          # Pipelines yaml does not handle transferring non-string parameter types
-          # into script blocks very well, so this is the best available workaround.
-          SMOKE_PACKAGE_${{ parameters.Artifact.safeName }}: "@azure/${{ replace(parameters.Artifact.name, 'azure-', '') }}"
 
       - pwsh: Get-Content ./run-manifest.json
         workingDirectory: $(Build.SourcesDirectory)/common/smoke-test
