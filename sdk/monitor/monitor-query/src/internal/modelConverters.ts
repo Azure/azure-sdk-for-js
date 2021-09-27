@@ -48,7 +48,7 @@ import {
   convertIntervalToTimeIntervalObject,
   convertTimespanToInterval
 } from "../timespanConversion";
-import { ErrorInfo, LogsQueryResult } from "../models/publicLogsModels";
+import { LogsErrorInfo, LogsQueryResult } from "../models/publicLogsModels";
 
 /**
  * @internal
@@ -435,12 +435,17 @@ export function convertBatchQueryResponseHelper(
   }
 }
 
-export function mapError(error?: GeneratedErrorInfo): ErrorInfo | undefined {
+export function mapError(error?: GeneratedErrorInfo): LogsErrorInfo | undefined {
   if (error) {
+    let innermostError = error;
+    while (innermostError.innerError) {
+      innermostError = innermostError.innerError;
+    }
+
     return {
-      ...error,
       name: "Error",
-      innerError: mapError(error.innerError)
+      code: error.code,
+      message: error.message + innermostError.message
     };
   }
   return undefined;

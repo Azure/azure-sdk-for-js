@@ -25,7 +25,7 @@ describe("MetricsClient live tests", function() {
     let metricDefinitionsLength = 0;
     while (!result.done) {
       // you can only query 20 metrics at a time.
-      const resultQuery = await metricsQueryClient.queryWorkspace(
+      const resultQuery = await metricsQueryClient.queryResource(
         resourceId,
         [result.value.name || ""],
         {}
@@ -52,7 +52,7 @@ describe("MetricsClient live tests", function() {
 
       i++;
       if (i % 20 === 0 || i === metricDefinitionsLength) {
-        const newResults = await metricsQueryClient.queryWorkspace(resourceId, definitionNames, {
+        const newResults = await metricsQueryClient.queryResource(resourceId, definitionNames, {
           timespan: {
             duration: Durations.twentyFourHours
           }
@@ -68,7 +68,7 @@ describe("MetricsClient live tests", function() {
     assert.isNotEmpty(firstMetricDefinition.name);
     assert.isNotEmpty(firstMetricDefinition.namespace);
 
-    const individualMetricWithNamespace = metricsQueryClient.queryWorkspace(
+    const individualMetricWithNamespace = metricsQueryClient.queryResource(
       resourceId,
       [firstMetricDefinition.name!],
       {

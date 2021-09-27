@@ -86,10 +86,10 @@ export class MetricsQueryClient {
    * @param options - Options for querying metrics.
    * @returns A response containing metrics.
    */
-  async queryWorkspace(
+  async queryResource(
     resourceUri: string,
     metricNames: string[],
-    options?: MetricsQueryOptions
+    options?: MetricsQueryOptions // eslint-disable-line @azure/azure-sdk/ts-naming-options
   ): Promise<MetricsQueryResult> {
     const response = await this._metricsClient.metrics.list(
       resourceUri,

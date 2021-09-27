@@ -16,7 +16,7 @@ export {
   LogsTable,
   LogsColumn,
   LogsQueryResultStatus,
-  ErrorInfo,
+  LogsErrorInfo,
   BatchError,
   AggregateBatchError
 } from "./models/publicLogsModels";
@@ -45,8 +45,7 @@ export { QueryTimeInterval } from "./models/timeInterval";
 export {
   // TODO: these are the generated model names. We probably want to run them
   // through a manual review to make them consistent with style.
-  LogsColumnType,
-  ErrorDetail
+  LogsColumnType
 } from "./generated/logquery/src";
 
 //

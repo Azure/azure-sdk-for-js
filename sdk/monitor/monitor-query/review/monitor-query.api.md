@@ -11,7 +11,7 @@ import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export class AggregateBatchError extends Error {
-    constructor(errors: ErrorInfo[]);
+    constructor(errors: LogsErrorInfo[]);
     // (undocumented)
     errors: BatchError[];
 }
@@ -20,12 +20,9 @@ export class AggregateBatchError extends Error {
 export type AggregationType = "None" | "Average" | "Count" | "Minimum" | "Maximum" | "Total";
 
 // @public
-export class BatchError extends Error implements ErrorInfo {
-    constructor(errorInfo: ErrorInfo);
-    additionalProperties?: Record<string, unknown>;
+export class BatchError extends Error implements LogsErrorInfo {
+    constructor(errorInfo: LogsErrorInfo);
     code: string;
-    details?: ErrorDetail[];
-    innerError?: ErrorInfo;
     message: string;
 }
 
@@ -42,25 +39,6 @@ export const Durations: {
     readonly thirtyMinutes: "PT30M";
     readonly fiveMinutes: "PT5M";
 };
-
-// @public
-export interface ErrorDetail {
-    additionalProperties?: Record<string, unknown>;
-    code: string;
-    message: string;
-    resources?: string[];
-    target?: string;
-    value?: string;
-}
-
-// @public
-export interface ErrorInfo extends Error {
-    additionalProperties?: Record<string, unknown>;
-    code: string;
-    details?: ErrorDetail[];
-    innerError?: ErrorInfo;
-    message: string;
-}
 
 // @public
 export interface ListMetricDefinitionsOptions extends OperationOptions {
@@ -82,6 +60,12 @@ export interface LogsColumn {
 export type LogsColumnType = string;
 
 // @public
+export interface LogsErrorInfo extends Error {
+    code: string;
+    message: string;
+}
+
+// @public
 export interface LogsQueryBatchOptions extends OperationOptions {
     throwOnAnyFailure?: boolean;
 }
@@ -90,7 +74,7 @@ export interface LogsQueryBatchOptions extends OperationOptions {
 export interface LogsQueryBatchResult {
     results: {
         tables?: LogsTable[];
-        error?: ErrorInfo;
+        error?: LogsErrorInfo;
         status?: LogsQueryResultStatus;
         statistics?: Record<string, unknown>;
         visualization?: Record<string, unknown>;
@@ -123,7 +107,7 @@ export interface LogsQueryOptions extends OperationOptions {
 
 // @public
 export interface LogsQueryResult {
-    error?: ErrorInfo;
+    error?: LogsErrorInfo;
     statistics?: Record<string, unknown>;
     status: LogsQueryResultStatus;
     tables: LogsTable[];
@@ -199,7 +183,7 @@ export class MetricsQueryClient {
     listMetricDefinitions(resourceUri: string, options?: ListMetricDefinitionsOptions): PagedAsyncIterableIterator<MetricDefinition>;
     // Warning: (ae-forgotten-export) The symbol "MetricNamespace" needs to be exported by the entry point index.d.ts
     listMetricNamespaces(resourceUri: string, options?: ListMetricNamespacesOptions): PagedAsyncIterableIterator<MetricNamespace_2>;
-    queryWorkspace(resourceUri: string, metricNames: string[], options?: MetricsQueryOptions): Promise<MetricsQueryResult>;
+    queryResource(resourceUri: string, metricNames: string[], options?: MetricsQueryOptions): Promise<MetricsQueryResult>;
 }
 
 // @public

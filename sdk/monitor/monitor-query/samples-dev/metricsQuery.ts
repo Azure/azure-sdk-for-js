@@ -32,14 +32,10 @@ export async function main() {
 
   if (metricNames.length > 0) {
     console.log(`Picking an example list of metrics to query: ${metricNames}`);
-    const metricsResponse = await metricsQueryClient.queryWorkspace(
-      metricsResourceId,
-      metricNames,
-      {
-        granularity: "PT1M",
-        timespan: { duration: Durations.fiveMinutes }
-      }
-    );
+    const metricsResponse = await metricsQueryClient.queryResource(metricsResourceId, metricNames, {
+      granularity: "PT1M",
+      timespan: { duration: Durations.fiveMinutes }
+    });
 
     console.log(
       `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.granularity}, time span: ${metricsResponse.timespan}`

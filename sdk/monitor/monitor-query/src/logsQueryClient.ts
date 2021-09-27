@@ -12,7 +12,7 @@ import {
   LogsQueryResult,
   AggregateBatchError,
   BatchError,
-  ErrorInfo
+  LogsErrorInfo
 } from "./models/publicLogsModels";
 
 import {
@@ -90,6 +90,7 @@ export class LogsQueryClient {
     workspaceId: string,
     query: string,
     timespan: QueryTimeInterval,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: LogsQueryOptions
   ): Promise<LogsQueryResult> {
     let timeInterval: string = "";
@@ -138,7 +139,7 @@ export class LogsQueryClient {
       }
     }
     if (options?.throwOnAnyFailure && result.status !== "Success") {
-      throw new BatchError(result.error as ErrorInfo);
+      throw new BatchError(result.error as LogsErrorInfo);
     }
     return result;
   }
@@ -164,7 +165,7 @@ export class LogsQueryClient {
       const errorResults = result.results
         .filter((it) => it.status !== "Success")
         .map((x) => x.error);
-      const batchErrorList = errorResults.map((x) => new BatchError(x as ErrorInfo));
+      const batchErrorList = errorResults.map((x) => new BatchError(x as LogsErrorInfo));
       throw new AggregateBatchError(batchErrorList);
     }
     return result;
