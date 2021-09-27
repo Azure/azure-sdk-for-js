@@ -42,7 +42,7 @@ export interface MetricsQueryClientOptions extends CommonClientOptions {
   /**
    * Gets or sets the audience to use for authentication with Azure Active Directory.
    * The authentication scope will be set from this audience.
-   * See {@link KnownMetricsAudience} for known audience values.
+   * Defaults to "https://management.azure.com/.default"
    */
   audience?: string;
 }

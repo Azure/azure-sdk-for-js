@@ -195,17 +195,3 @@ export interface MetricAvailability {
   /** the retention period for the metric at the specified granularity.  Expressed as a duration 'PT1M', 'P1D', etc. */
   retention?: string;
 }
-
-/**
- * Defines known cloud audiences for Azure.
- */
-export enum KnownMetricsAudience {
-  /** Azure China */
-  AzureResourceManagerChina = "https://management.chinacloudapi.cn",
-  /** Azure Gemany */
-  AzureResourceManagerGermany = "https://management.microsoftazure.de",
-  /** Azure Government */
-  AzureResourceManagerGovernment = "https://management.usgovcloudapi.net",
-  /** Azure Public Cloud */
-  AzureResourceManagerPublicCloud = "https://management.azure.com"
-}
