@@ -714,7 +714,7 @@ export function getRandomIntegerInclusive(min: number, max: number): number {
   return offset + min;
 }
 
-export function modifySpanOptions(options: OperationOptions) {
+export function modifySpanOptions(options: OperationOptions): void {
   if (options.tracingOptions) {
     options.tracingOptions.spanOptions = (options.tracingOptions as any)?.spanOptions;
   }
