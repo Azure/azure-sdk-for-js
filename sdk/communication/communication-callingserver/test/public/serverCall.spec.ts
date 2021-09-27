@@ -13,7 +13,6 @@ describe("Server Call", function() {
     //     it("Run all client operations", async function() {
     //         var groupId = Uuid.generateUuid();
     //         var fromUser = (await communicationIdentityClient.createUser()).communicationUserId;
-    //         // var toUser = (await communicationIdentityClient.createUser()).communicationUserId;
     //         var callingServer = new CallingServerClient(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING);
     //         var joinCallOptions = {
     //                 callbackUri: "https://bot.contoso.io/callback",

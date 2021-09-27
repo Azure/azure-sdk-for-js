@@ -90,6 +90,14 @@ export class ServerCall {
       recordingStateCallbackUri: recordingStateCallbackUri
     };
 
+    if(recordingStateCallbackUri == null) {
+      throw new Error('recordingStateCallbackUri cannot be null');
+    }
+    var r = new RegExp('^(?:[a-z]+:)?//', 'i');
+    if(!r.test(recordingStateCallbackUri)) {
+      throw new Error('recordingStateCallbackUri has to be an absolute URI');
+    }
+    
     try {
       const result = await this.serverCallRestClient.startRecording(
         this.serverCallId,
