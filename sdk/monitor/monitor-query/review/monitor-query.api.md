@@ -90,7 +90,7 @@ export class LogsQueryClient {
 
 // @public
 export interface LogsQueryClientOptions extends CommonClientOptions {
-    audience?: string | string[];
+    audience?: string;
     endpoint?: string;
 }
 

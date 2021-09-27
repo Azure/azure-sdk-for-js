@@ -42,7 +42,7 @@ export interface LogsQueryClientOptions extends CommonClientOptions {
    * The authentication scope will be set from this audience.
    * Defaults to 'https://api.loganalytics.io/.default'
    */
-  audience?: string | string[];
+  audience?: string;
   // credentialOptions?: {
   //   credentialScopes?: string | string[];
   // };
