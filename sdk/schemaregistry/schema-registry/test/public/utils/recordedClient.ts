@@ -6,7 +6,7 @@ import { Context } from "mocha";
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 
-import { SchemaRegistryClient } from "../../src/index";
+import { SchemaRegistryClient } from "../../../src";
 
 export interface RecordedClient {
   client: SchemaRegistryClient;
@@ -20,12 +20,6 @@ const replaceableVariables: { [k: string]: string } = {
   SCHEMA_REGISTRY_ENDPOINT: "https://endpoint",
   SCHEMA_REGISTRY_GROUP: "group-1"
 };
-
-export const testEnv = new Proxy(replaceableVariables, {
-  get: (target, key: string) => {
-    return env[key] || target[key];
-  }
-});
 
 const environmentSetup: RecorderEnvironmentSetup = {
   replaceableVariables,
@@ -47,10 +41,10 @@ const environmentSetup: RecorderEnvironmentSetup = {
 export function createRecordedClient(context: Context): RecordedClient {
   const recorder = record(context, environmentSetup);
   const credential = new ClientSecretCredential(
-    testEnv.AZURE_TENANT_ID,
-    testEnv.AZURE_CLIENT_ID,
-    testEnv.AZURE_CLIENT_SECRET
+    env.AZURE_TENANT_ID,
+    env.AZURE_CLIENT_ID,
+    env.AZURE_CLIENT_SECRET
   );
-  const client = new SchemaRegistryClient(testEnv.SCHEMA_REGISTRY_ENDPOINT, credential);
+  const client = new SchemaRegistryClient(env.SCHEMA_REGISTRY_ENDPOINT, credential);
   return { client, recorder };
 }

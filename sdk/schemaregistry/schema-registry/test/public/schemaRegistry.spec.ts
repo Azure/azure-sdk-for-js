@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createRecordedClient, testEnv } from "./utils/recordedClient";
+import { createRecordedClient } from "./utils/recordedClient";
 import { Context } from "mocha";
-import { Recorder } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { assert, use as chaiUse } from "chai";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 import { ClientSecretCredential } from "@azure/identity";
 
-import { SchemaRegistryClient, SchemaDescription, SchemaProperties } from "../src/index";
-import { FullOperationResponse, OperationOptions } from "@azure/core-client";
+import { SchemaRegistryClient, SchemaDescription, SchemaProperties } from "../../src";
 
-const options: OperationOptions = {
-  onResponse: (rawResponse: FullOperationResponse) => {
+const options = {
+  onResponse: (rawResponse: { status: number }) => {
     assert.equal(rawResponse.status, 200);
   }
 };
@@ -46,7 +45,7 @@ describe("SchemaRegistryClient", function() {
     ({ client, recorder } = createRecordedClient(this));
     schema = {
       name: "azsdk_js_test",
-      groupName: testEnv.SCHEMA_REGISTRY_GROUP,
+      groupName: env.SCHEMA_REGISTRY_GROUP,
       format: "avro",
       definition: JSON.stringify({
         type: "record",
@@ -136,7 +135,7 @@ describe("SchemaRegistryClient", function() {
   it("schema with whitespace", async () => {
     const schema2: SchemaDescription = {
       name: "azsdk_js_test2",
-      groupName: testEnv.SCHEMA_REGISTRY_GROUP,
+      groupName: env.SCHEMA_REGISTRY_GROUP,
       format: "avro",
       definition:
         "{\n" +
