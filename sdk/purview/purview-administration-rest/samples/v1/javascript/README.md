@@ -58,7 +58,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [accountcollections]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-administration-rest/samples/v1/javascript/accountCollections.js
 [metadatapolicies]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-administration-rest/samples/v1/javascript/metadataPolicies.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/purview-administration
+[apiref]: https://docs.microsoft.com/azure/purview/tutorial-using-rest-apis
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecognitiveservicesinstance]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-administration-rest/README.md
