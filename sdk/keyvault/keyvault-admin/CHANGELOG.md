@@ -4,13 +4,13 @@
 
 ### Features Added
 
-- Updated the service version to default to 7.3-preview.
-
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+- Updated the latest service version to 7.3.
 
 ## 4.2.0-beta.1 (2021-08-10)
 

@@ -24,7 +24,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a DefaultSecurityRules. */
+/** Class containing DefaultSecurityRules operations. */
 export class DefaultSecurityRulesImpl implements DefaultSecurityRules {
   private readonly client: NetworkManagementClientContext;
 

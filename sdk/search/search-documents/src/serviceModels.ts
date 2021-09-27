@@ -366,6 +366,10 @@ export interface AnalyzeRequest {
    */
   tokenizerName?: string;
   /**
+   * The name of the normalizer to use to normalize the given text.
+   */
+  normalizerName?: LexicalNormalizerName;
+  /**
    * An optional list of token filters to use when breaking the given text. This parameter can only
    * be set when using the tokenizer parameter.
    */

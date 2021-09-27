@@ -32,6 +32,7 @@ export const BulkOperationType: {
     readonly Read: "Read";
     readonly Delete: "Delete";
     readonly Replace: "Replace";
+    readonly Patch: "Patch";
 };
 
 // @public
@@ -39,6 +40,12 @@ export interface BulkOptions {
     // (undocumented)
     continueOnError?: boolean;
 }
+
+// @public (undocumented)
+export type BulkPatchOperation = OperationBase & {
+    operationType: typeof BulkOperationType.Patch;
+    id: string;
+};
 
 // @public
 export class ChangeFeedIterator<T> {
@@ -130,6 +137,15 @@ export class ClientContext {
     partitionKeyDefinitionCache: {
         [containerUrl: string]: any;
     };
+    // (undocumented)
+    patch<T>({ body, path, resourceType, resourceId, options, partitionKey }: {
+        body: any;
+        path: string;
+        resourceType: ResourceType;
+        resourceId: string;
+        options?: RequestOptions;
+        partitionKey?: PartitionKey;
+    }): Promise<Response<T & Resource>>;
     // (undocumented)
     queryFeed<T>({ path, resourceType, resourceId, resultFn, query, options, partitionKeyRangeId, partitionKey }: {
         path: string;
@@ -699,6 +715,13 @@ export interface ErrorResponse extends Error {
 }
 
 // @public (undocumented)
+export type ExistingKeyOperation = {
+    op: keyof typeof PatchOperationType;
+    value: any;
+    path: string;
+};
+
+// @public (undocumented)
 export function extractPartitionKey(document: unknown, partitionKeyDefinition: PartitionKeyDefinition): PartitionKey[];
 
 // @public
@@ -783,6 +806,8 @@ export enum HTTPMethod {
     // (undocumented)
     get = "GET",
     // (undocumented)
+    patch = "PATCH",
+    // (undocumented)
     post = "POST",
     // (undocumented)
     put = "PUT"
@@ -838,6 +863,7 @@ export class Item {
     delete<T extends ItemDefinition = any>(options?: RequestOptions): Promise<ItemResponse<T>>;
     // (undocumented)
     readonly id: string;
+    patch<T extends ItemDefinition = any>(body: PatchRequestBody, options?: RequestOptions): Promise<ItemResponse<T>>;
     read<T extends ItemDefinition = any>(options?: RequestOptions): Promise<ItemResponse<T>>;
     replace(body: ItemDefinition, options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
     replace<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
@@ -970,7 +996,7 @@ export class Offers {
 }
 
 // @public (undocumented)
-export type Operation = CreateOperation | UpsertOperation | ReadOperation | DeleteOperation | ReplaceOperation;
+export type Operation = CreateOperation | UpsertOperation | ReadOperation | DeleteOperation | ReplaceOperation | BulkPatchOperation;
 
 // @public (undocumented)
 export interface OperationBase {
@@ -983,7 +1009,7 @@ export interface OperationBase {
 }
 
 // @public (undocumented)
-export type OperationInput = CreateOperationInput | UpsertOperationInput | ReadOperationInput | DeleteOperationInput | ReplaceOperationInput;
+export type OperationInput = CreateOperationInput | UpsertOperationInput | ReadOperationInput | DeleteOperationInput | ReplaceOperationInput | PatchOperationInput;
 
 // @public (undocumented)
 export interface OperationResponse {
@@ -1007,6 +1033,8 @@ export enum OperationType {
     Delete = "delete",
     // (undocumented)
     Execute = "execute",
+    // (undocumented)
+    Patch = "patch",
     // (undocumented)
     Query = "query",
     // (undocumented)
@@ -1070,6 +1098,40 @@ export interface PartitionKeyRangePropertiesNames {
     // (undocumented)
     MinInclusive: "minInclusive";
 }
+
+// @public (undocumented)
+export type PatchOperation = ExistingKeyOperation | RemoveOperation;
+
+// @public (undocumented)
+export interface PatchOperationInput {
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    ifMatch?: string;
+    // (undocumented)
+    ifNoneMatch?: string;
+    // (undocumented)
+    operationType: typeof BulkOperationType.Patch;
+    // (undocumented)
+    partitionKey?: string | number | null | Record<string, unknown> | undefined;
+    // (undocumented)
+    resourceBody: PatchRequestBody;
+}
+
+// @public (undocumented)
+export const PatchOperationType: {
+    readonly add: "add";
+    readonly replace: "replace";
+    readonly remove: "remove";
+    readonly set: "set";
+    readonly incr: "incr";
+};
+
+// @public (undocumented)
+export type PatchRequestBody = {
+    operations: PatchOperation[];
+    condition?: string;
+} | PatchOperation[];
 
 // @public
 export class Permission {
@@ -1305,6 +1367,12 @@ export interface ReadOperationInput {
     // (undocumented)
     partitionKey?: string | number | boolean | null | Record<string, unknown> | undefined;
 }
+
+// @public (undocumented)
+export type RemoveOperation = {
+    op: "remove";
+    path: string;
+};
 
 // @public (undocumented)
 export type ReplaceOperation = OperationWithItem & {

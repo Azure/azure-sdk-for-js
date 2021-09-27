@@ -9,15 +9,15 @@ import { OperationOptions } from '@azure/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface GetSchemaIdOptions extends OperationOptions {
-}
-
-// @public
 export interface GetSchemaOptions extends OperationOptions {
 }
 
 // @public
-export const enum KnownSerializationType {
+export interface GetSchemaPropertiesOptions extends OperationOptions {
+}
+
+// @public
+export const enum KnownSchemaFormat {
     Avro = "avro"
 }
 
@@ -27,30 +27,28 @@ export interface RegisterSchemaOptions extends OperationOptions {
 
 // @public
 export interface Schema extends SchemaProperties {
-    content: string;
+    definition: string;
 }
 
 // @public
 export interface SchemaDescription {
-    content: string;
+    definition: string;
+    format: string;
     groupName: string;
     name: string;
-    serializationType: string;
 }
 
 // @public
 export interface SchemaProperties {
+    format: string;
     id: string;
-    location: string;
-    locationById: string;
-    serializationType: string;
     version: number;
 }
 
 // @public
 export interface SchemaRegistry {
     getSchema(id: string, options?: GetSchemaOptions): Promise<Schema | undefined>;
-    getSchemaId(schema: SchemaDescription, options?: GetSchemaIdOptions): Promise<SchemaProperties | undefined>;
+    getSchemaProperties(schema: SchemaDescription, options?: GetSchemaPropertiesOptions): Promise<SchemaProperties | undefined>;
     registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaProperties>;
 }
 
@@ -58,15 +56,14 @@ export interface SchemaRegistry {
 export class SchemaRegistryClient implements SchemaRegistry {
     constructor(endpoint: string, credential: TokenCredential, options?: SchemaRegistryClientOptions);
     readonly endpoint: string;
-    getSchema(id: string, options?: GetSchemaOptions): Promise<Schema | undefined>;
-    getSchemaId(schema: SchemaDescription, options?: GetSchemaIdOptions): Promise<SchemaProperties | undefined>;
+    getSchema(id: string, options?: GetSchemaOptions): Promise<Schema>;
+    getSchemaProperties(schema: SchemaDescription, options?: GetSchemaPropertiesOptions): Promise<SchemaProperties>;
     registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaProperties>;
-    }
+}
 
 // @public
 export interface SchemaRegistryClientOptions extends CommonClientOptions {
 }
-
 
 // (No @packageDocumentation comment for this package)
 

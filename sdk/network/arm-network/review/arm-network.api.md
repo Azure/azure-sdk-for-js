@@ -60,6 +60,8 @@ export type ApplicationGateway = Resource & {
     readonly provisioningState?: ProvisioningState;
     customErrorConfigurations?: ApplicationGatewayCustomError[];
     forceFirewallPolicyAssociation?: boolean;
+    loadDistributionPolicies?: ApplicationGatewayLoadDistributionPolicy[];
+    globalConfiguration?: ApplicationGatewayGlobalConfiguration;
 };
 
 // @public
@@ -250,6 +252,12 @@ export type ApplicationGatewayFrontendPort = SubResource & {
 };
 
 // @public
+export interface ApplicationGatewayGlobalConfiguration {
+    enableRequestBuffering?: boolean;
+    enableResponseBuffering?: boolean;
+}
+
+// @public
 export interface ApplicationGatewayHeaderConfiguration {
     headerName?: string;
     headerValue?: string;
@@ -289,6 +297,28 @@ export interface ApplicationGatewayListResult {
 }
 
 // @public
+export type ApplicationGatewayLoadDistributionAlgorithm = string;
+
+// @public
+export type ApplicationGatewayLoadDistributionPolicy = SubResource & {
+    name?: string;
+    readonly etag?: string;
+    readonly type?: string;
+    loadDistributionTargets?: ApplicationGatewayLoadDistributionTarget[];
+    loadDistributionAlgorithm?: ApplicationGatewayLoadDistributionAlgorithm;
+    readonly provisioningState?: ProvisioningState;
+};
+
+// @public
+export type ApplicationGatewayLoadDistributionTarget = SubResource & {
+    name?: string;
+    readonly etag?: string;
+    readonly type?: string;
+    weightPerServer?: number;
+    backendAddressPool?: SubResource;
+};
+
+// @public
 export interface ApplicationGatewayOnDemandProbe {
     backendAddressPool?: SubResource;
     backendHttpSettings?: SubResource;
@@ -313,6 +343,7 @@ export type ApplicationGatewayPathRule = SubResource & {
     backendHttpSettings?: SubResource;
     redirectConfiguration?: SubResource;
     rewriteRuleSet?: SubResource;
+    loadDistributionPolicy?: SubResource;
     readonly provisioningState?: ProvisioningState;
     firewallPolicy?: SubResource;
 };
@@ -494,6 +525,7 @@ export type ApplicationGatewayRequestRoutingRule = SubResource & {
     urlPathMap?: SubResource;
     rewriteRuleSet?: SubResource;
     redirectConfiguration?: SubResource;
+    loadDistributionPolicy?: SubResource;
     readonly provisioningState?: ProvisioningState;
 };
 
@@ -810,6 +842,7 @@ export type ApplicationGatewayUrlPathMap = SubResource & {
     defaultBackendHttpSettings?: SubResource;
     defaultRewriteRuleSet?: SubResource;
     defaultRedirectConfiguration?: SubResource;
+    defaultLoadDistributionPolicy?: SubResource;
     pathRules?: ApplicationGatewayPathRule[];
     readonly provisioningState?: ProvisioningState;
 };
@@ -1526,6 +1559,12 @@ export type BastionHost = Resource & {
     ipConfigurations?: BastionHostIPConfiguration[];
     dnsName?: string;
     readonly provisioningState?: ProvisioningState;
+    scaleUnits?: number;
+    disableCopyPaste?: boolean;
+    enableFileCopy?: boolean;
+    enableIpConnect?: boolean;
+    enableShareableLink?: boolean;
+    enableTunneling?: boolean;
 };
 
 // @public
@@ -1551,6 +1590,8 @@ export interface BastionHosts {
     beginCreateOrUpdateAndWait(resourceGroupName: string, bastionHostName: string, parameters: BastionHost, options?: BastionHostsCreateOrUpdateOptionalParams): Promise<BastionHostsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, bastionHostName: string, options?: BastionHostsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, bastionHostName: string, options?: BastionHostsDeleteOptionalParams): Promise<void>;
+    beginUpdateTags(resourceGroupName: string, bastionHostName: string, parameters: TagsObject, options?: BastionHostsUpdateTagsOptionalParams): Promise<PollerLike<PollOperationState<BastionHostsUpdateTagsResponse>, BastionHostsUpdateTagsResponse>>;
+    beginUpdateTagsAndWait(resourceGroupName: string, bastionHostName: string, parameters: TagsObject, options?: BastionHostsUpdateTagsOptionalParams): Promise<BastionHostsUpdateTagsResponse>;
     get(resourceGroupName: string, bastionHostName: string, options?: BastionHostsGetOptionalParams): Promise<BastionHostsGetResponse>;
     list(options?: BastionHostsListOptionalParams): PagedAsyncIterableIterator<BastionHost>;
     listByResourceGroup(resourceGroupName: string, options?: BastionHostsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<BastionHost>;
@@ -1610,6 +1651,15 @@ export interface BastionHostsListOptionalParams extends coreClient.OperationOpti
 export type BastionHostsListResponse = BastionHostListResult;
 
 // @public
+export interface BastionHostsUpdateTagsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type BastionHostsUpdateTagsResponse = BastionHost;
+
+// @public
 export interface BastionSessionDeleteResult {
     nextLink?: string;
     value?: BastionSessionState[];
@@ -1658,6 +1708,7 @@ export type BgpConnection = SubResource & {
     readonly type?: string;
     peerAsn?: number;
     peerIp?: string;
+    hubVirtualNetworkConnection?: SubResource;
     readonly provisioningState?: ProvisioningState;
     readonly connectionState?: HubBgpConnectionStatus;
 };
@@ -2492,6 +2543,7 @@ export type DscpConfiguration = Resource & {
     sourcePortRanges?: QosPortRange[];
     destinationPortRanges?: QosPortRange[];
     protocol?: ProtocolType;
+    qosDefinitionCollection?: QosDefinition[];
     readonly qosCollectionId?: string;
     readonly associatedNetworkInterfaces?: NetworkInterface[];
     readonly resourceGuid?: string;
@@ -2683,6 +2735,15 @@ export interface EvaluatedNetworkSecurityGroup {
 
 // @public
 export type EvaluationState = string;
+
+// @public
+export interface ExplicitProxySettings {
+    enableExplicitProxy?: boolean;
+    httpPort?: number;
+    httpsPort?: number;
+    pacFile?: string;
+    pacFilePort?: number;
+}
 
 // @public
 export type ExpressRouteCircuit = Resource & {
@@ -3818,7 +3879,9 @@ export type FirewallPolicy = Resource & {
     threatIntelWhitelist?: FirewallPolicyThreatIntelWhitelist;
     insights?: FirewallPolicyInsights;
     snat?: FirewallPolicySnat;
+    sql?: FirewallPolicySQL;
     dnsSettings?: DnsSettings;
+    explicitProxySettings?: ExplicitProxySettings;
     intrusionDetection?: FirewallPolicyIntrusionDetection;
     transportSecurity?: FirewallPolicyTransportSecurity;
     sku?: FirewallPolicySku;
@@ -4032,6 +4095,11 @@ export type FirewallPolicySkuTier = string;
 // @public
 export interface FirewallPolicySnat {
     privateRanges?: string[];
+}
+
+// @public
+export interface FirewallPolicySQL {
+    allowSqlRedirect?: boolean;
 }
 
 // @public
@@ -4431,6 +4499,9 @@ export type InboundNatRule = SubResource & {
     idleTimeoutInMinutes?: number;
     enableFloatingIP?: boolean;
     enableTcpReset?: boolean;
+    frontendPortRangeStart?: number;
+    frontendPortRangeEnd?: number;
+    backendAddressPool?: SubResource;
     readonly provisioningState?: ProvisioningState;
 };
 
@@ -4830,6 +4901,16 @@ export enum KnownApplicationGatewayFirewallMode {
     Detection = "Detection",
     // (undocumented)
     Prevention = "Prevention"
+}
+
+// @public
+export enum KnownApplicationGatewayLoadDistributionAlgorithm {
+    // (undocumented)
+    IpHash = "IpHash",
+    // (undocumented)
+    LeastConnections = "LeastConnections",
+    // (undocumented)
+    RoundRobin = "RoundRobin"
 }
 
 // @public
@@ -7954,6 +8035,8 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
     // (undocumented)
     serviceEndpointPolicyDefinitions: ServiceEndpointPolicyDefinitions;
     // (undocumented)
+    serviceTagInformationOperations: ServiceTagInformationOperations;
+    // (undocumented)
     serviceTags: ServiceTags;
     // (undocumented)
     subnets: Subnets;
@@ -8332,6 +8415,7 @@ export type NetworkVirtualAppliance = Resource & {
     cloudInitConfigurationBlobs?: string[];
     cloudInitConfiguration?: string;
     virtualApplianceAsn?: number;
+    sshPublicKey?: string;
     readonly virtualApplianceNics?: VirtualApplianceNicProperties[];
     readonly virtualApplianceSites?: SubResource[];
     readonly inboundSecurityRules?: SubResource[];
@@ -9243,6 +9327,9 @@ export type PrivateEndpoint = Resource & {
     privateLinkServiceConnections?: PrivateLinkServiceConnection[];
     manualPrivateLinkServiceConnections?: PrivateLinkServiceConnection[];
     customDnsConfigs?: CustomDnsConfigPropertiesFormat[];
+    applicationSecurityGroups?: ApplicationSecurityGroup[];
+    ipConfigurations?: PrivateEndpointIPConfiguration[];
+    customNetworkInterfaceName?: string;
 };
 
 // @public
@@ -9260,6 +9347,16 @@ export type PrivateEndpointConnection = SubResource & {
 export interface PrivateEndpointConnectionListResult {
     readonly nextLink?: string;
     value?: PrivateEndpointConnection[];
+}
+
+// @public
+export interface PrivateEndpointIPConfiguration {
+    readonly etag?: string;
+    groupId?: string;
+    memberName?: string;
+    name?: string;
+    privateIPAddress?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -9902,6 +9999,16 @@ export type PublicIPPrefixSkuName = string;
 
 // @public
 export type PublicIPPrefixSkuTier = string;
+
+// @public
+export interface QosDefinition {
+    destinationIpRanges?: QosIpRange[];
+    destinationPortRanges?: QosPortRange[];
+    markings?: number[];
+    protocol?: ProtocolType;
+    sourceIpRanges?: QosIpRange[];
+    sourcePortRanges?: QosPortRange[];
+}
 
 // @public
 export interface QosIpRange {
@@ -10615,12 +10722,15 @@ export type ServiceEndpointPolicy = Resource & {
     readonly subnets?: Subnet[];
     readonly resourceGuid?: string;
     readonly provisioningState?: ProvisioningState;
+    serviceAlias?: string;
+    contextualServiceEndpointPolicies?: string[];
 };
 
 // @public
 export type ServiceEndpointPolicyDefinition = SubResource & {
     name?: string;
     readonly etag?: string;
+    type?: string;
     description?: string;
     service?: string;
     serviceResources?: string[];
@@ -10700,7 +10810,37 @@ export interface ServiceTagInformation {
     readonly id?: string;
     readonly name?: string;
     readonly properties?: ServiceTagInformationPropertiesFormat;
+    readonly serviceTagChangeNumber?: string;
 }
+
+// @public
+export interface ServiceTagInformationListResult {
+    readonly nextLink?: string;
+    value?: ServiceTagInformation[];
+}
+
+// @public
+export interface ServiceTagInformationOperations {
+    list(location: string, options?: ServiceTagInformationOperationsListOptionalParams): PagedAsyncIterableIterator<ServiceTagInformation>;
+}
+
+// @public
+export interface ServiceTagInformationOperationsListNextOptionalParams extends coreClient.OperationOptions {
+    noAddressPrefixes?: boolean;
+    tagName?: string;
+}
+
+// @public
+export type ServiceTagInformationOperationsListNextResponse = ServiceTagInformationListResult;
+
+// @public
+export interface ServiceTagInformationOperationsListOptionalParams extends coreClient.OperationOptions {
+    noAddressPrefixes?: boolean;
+    tagName?: string;
+}
+
+// @public
+export type ServiceTagInformationOperationsListResponse = ServiceTagInformationListResult;
 
 // @public
 export interface ServiceTagInformationPropertiesFormat {
@@ -11136,6 +11276,7 @@ export type VirtualApplianceSkusListResponse = NetworkVirtualApplianceSkuListRes
 // @public
 export type VirtualHub = Resource & {
     readonly etag?: string;
+    readonly kind?: string;
     virtualWan?: SubResource;
     vpnGateway?: SubResource;
     p2SVpnGateway?: SubResource;
@@ -12600,6 +12741,7 @@ export type Vm = Resource & {};
 
 // @public
 export interface VnetRoute {
+    readonly bgpConnections?: SubResource[];
     staticRoutes?: StaticRoute[];
 }
 
@@ -12820,6 +12962,7 @@ export type VpnGateway = Resource & {
     readonly provisioningState?: ProvisioningState;
     vpnGatewayScaleUnit?: number;
     readonly ipConfigurations?: VpnGatewayIpConfiguration[];
+    enableBgpRouteTranslationForNat?: boolean;
     isRoutingPreferenceInternet?: boolean;
     natRules?: VpnGatewayNatRule[];
 };

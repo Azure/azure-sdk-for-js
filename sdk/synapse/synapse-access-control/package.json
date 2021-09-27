@@ -81,7 +81,7 @@
     "karma-source-map-support": "~1.4.0",
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",
-    "ts-node": "^9.0.0",
+    "ts-node": "^10.0.0",
     "typescript": "~4.2.0",
     "typedoc": "0.15.2"
   },

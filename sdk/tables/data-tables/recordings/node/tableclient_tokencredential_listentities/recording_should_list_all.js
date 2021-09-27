@@ -23,19 +23,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '11d03411-d1b3-4199-a347-771e657e0500',
+  'df337537-15f5-40ec-8222-4c81cf11ee00',
   'x-ms-ests-server',
-  '2.1.11829.8 - NCUS ProdSlices',
+  '2.1.12025.12 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=Am7dTJW8_JpAtBhW6bg0-FLJVDEwAQAAAII3X9gOAAAA; expires=Mon, 19-Jul-2021 00:55:34 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AnpfM_sdZvFKmNOMM5MvIY4; expires=Thu, 07-Oct-2021 16:23:56 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrHK5NNuudjbvIiIAB5qW1LdhYwicCzoSGZYbyAcoRGGgJeqPILlfoDGxBB8VNvPmYFE5HEBQdFYKEwkpcnTT60KiIbbkSvAeKcx3dWKmYIcqq9qSzPwuRtZ5PGeepe2ASP8lFsVX5MOr5N_zcELxaD9pTrS4a9DUjfJiuxE_7RTwgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevro2FI4YxDqn9wZrsLk5E7rHOLNmbR-Mvam_N77ukeoOSB1nghT0jPQz3rSlkXAbnzXmRHnwA0_NVPg4KI4W7H1kIm_DrYSP_2_zZMY71Eq6HoW222JE29_vBQdm_NHMwY6v4aI2mnCBsj89djLvxzwMIACzX2wk030FqN48oXBDUgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Sat, 19 Jun 2021 00:55:34 GMT',
+  'Tue, 07 Sep 2021 16:23:55 GMT',
   'Content-Length',
   '980'
 ]);
@@ -58,25 +58,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '31d461b1-56a4-4911-99ad-6cc01b580400',
+  'cf8bdb5c-193b-458c-942a-2d43e929d200',
   'x-ms-ests-server',
-  '2.1.11829.8 - EUS ProdSlices',
+  '2.1.12025.12 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=Am7dTJW8_JpAtBhW6bg0-FLJVDEwAQAAAII3X9gOAAAA; expires=Mon, 19-Jul-2021 00:55:34 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=ArScNiCWkLpFkGnY_b-Ybn8; expires=Thu, 07-Oct-2021 16:23:56 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrZOlTdi2bzcxuEHWcn-pafRWvEA7GtF4-IvGQTmnjjDwtbF615hSPgxCW5w3ZTYqcGJ0H-17CtG6pl1-DzV8uxpq3vVqS1ibBaqK-ae4uyi751YhkY1aXmWx9IgxXVqgan46N_GIgK1lQGegAUMxAvcjiWVRl0pPjhxDEBTFl6cQgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrMxiws5MVICUjFMqA0s4rYUS3SUF2fXSbeGB5zetXkA5790zWto7laI0JOgnydELVWuYGbO4gGrlzpsikb2TDQe6ZjnpW6beW-P50VWrtOjMn15bSJq2sX1hwTAWwPUdFwBgtOPm3L1uW2oG1qgOOlhCpR1DDU9NQuNftTT1w3asgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Sat, 19 Jun 2021 00:55:34 GMT',
+  'Tue, 07 Sep 2021 16:23:55 GMT',
   'Content-Length',
   '1753'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.1.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=2|771,0|,&x-client-last-telemetry=2|0|||0,0&client-request-id=ceac68f6-34ed-4281-a328-865bfc4934f1&client_secret=azure_client_secret")
+  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.3.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=2cd9f6a0-ea3b-4a8d-aa57-da3e661797d7&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22CP1%22%5D%7D%7D%7D")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -93,19 +93,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'b50a8c45-56e2-453b-9c5c-02e8cc330400',
+  '036a77ca-154e-416a-8bbf-dc162165f400',
   'x-ms-ests-server',
-  '2.1.11829.8 - EUS ProdSlices',
+  '2.1.12025.12 - EUS ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=Am7dTJW8_JpAtBhW6bg0-FLJVDEwAgAAAII3X9gOAAAA; expires=Mon, 19-Jul-2021 00:55:34 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=ApmCzTw9O45Ji2pavzS6bVzJVDEwAQAAABuJydgOAAAA; expires=Thu, 07-Oct-2021 16:23:56 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Sat, 19 Jun 2021 00:55:34 GMT',
+  'Tue, 07 Sep 2021 16:23:55 GMT',
   'Content-Length',
   '1318'
 ]);
@@ -113,7 +113,7 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":true})
   .get('/tableClientTestTokenCredentialnode()')
   .query(true)
-  .reply(200, {"odata.metadata":"https://fakeaccount.table.core.windows.net/$metadata#tableClientTestTokenCredentialnode","value":[{"odata.etag":"W/\"datetime'2021-06-19T00%3A55%3A33.7956301Z'\"","PartitionKey":"listEntitiesTest","RowKey":"0","Timestamp":"2021-06-19T00:55:33.7956301Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-06-19T00%3A55%3A33.838661Z'\"","PartitionKey":"listEntitiesTest","RowKey":"1","Timestamp":"2021-06-19T00:55:33.838661Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-06-19T00%3A55%3A34.1949167Z'\"","PartitionKey":"listEntitiesTest","RowKey":"10","Timestamp":"2021-06-19T00:55:34.1949167Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-06-19T00%3A55%3A34.2349455Z'\"","PartitionKey":"listEntitiesTest","RowKey":"11","Timestamp":"2021-06-19T00:55:34.2349455Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-06-19T00%3A55%3A34.2729723Z'\"","PartitionKey":"listEntitiesTest","RowKey":"12","Timestamp":"2021-06-19T00:55:34.2729723Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-06-19T00%3A55%3A34.3099993Z'\"","PartitionKey":"listEntitiesTest","RowKey":"13","Timestamp":"2021-06-19T00:55:34.3099993Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-06-19T00%3A55%3A34.3500281Z'\"","PartitionKey":"listEntitiesTest","RowKey":"14","Timestamp":"2021-06-19T00:55:34.3500281Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-06-19T00%3A55%3A34.386054Z'\"","PartitionKey":"listEntitiesTest","RowKey":"15","Timestamp":"2021-06-19T00:55:34.386054Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-06-19T00%3A55%3A34.425082Z'\"","PartitionKey":"listEntitiesTest","RowKey":"16","Timestamp":"2021-06-19T00:55:34.425082Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-06-19T00%3A55%3A34.4631097Z'\"","PartitionKey":"listEntitiesTest","RowKey":"17","Timestamp":"2021-06-19T00:55:34.4631097Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-06-19T00%3A55%3A34.5001359Z'\"","PartitionKey":"listEntitiesTest","RowKey":"18","Timestamp":"2021-06-19T00:55:34.5001359Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-06-19T00%3A55%3A34.5371624Z'\"","PartitionKey":"listEntitiesTest","RowKey":"19","Timestamp":"2021-06-19T00:55:34.5371624Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-06-19T00%3A55%3A33.8766883Z'\"","PartitionKey":"listEntitiesTest","RowKey":"2","Timestamp":"2021-06-19T00:55:33.8766883Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-06-19T00%3A55%3A33.9127141Z'\"","PartitionKey":"listEntitiesTest","RowKey":"3","Timestamp":"2021-06-19T00:55:33.9127141Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-06-19T00%3A55%3A33.9507414Z'\"","PartitionKey":"listEntitiesTest","RowKey":"4","Timestamp":"2021-06-19T00:55:33.9507414Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-06-19T00%3A55%3A33.9857666Z'\"","PartitionKey":"listEntitiesTest","RowKey":"5","Timestamp":"2021-06-19T00:55:33.9857666Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-06-19T00%3A55%3A34.0217924Z'\"","PartitionKey":"listEntitiesTest","RowKey":"6","Timestamp":"2021-06-19T00:55:34.0217924Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-06-19T00%3A55%3A34.0628227Z'\"","PartitionKey":"listEntitiesTest","RowKey":"7","Timestamp":"2021-06-19T00:55:34.0628227Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-06-19T00%3A55%3A34.1178614Z'\"","PartitionKey":"listEntitiesTest","RowKey":"8","Timestamp":"2021-06-19T00:55:34.1178614Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-06-19T00%3A55%3A34.1558883Z'\"","PartitionKey":"listEntitiesTest","RowKey":"9","Timestamp":"2021-06-19T00:55:34.1558883Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-06-19T00%3A55%3A33.7385887Z'\"","PartitionKey":"listEntitiesTest","RowKey":"binary1","Timestamp":"2021-06-19T00:55:33.7385887Z","foo@odata.type":"Edm.Binary","foo":"QmFy"}]}, [
+  .reply(200, {"odata.metadata":"https://fakeaccount.table.core.windows.net/$metadata#tableClientTestTokenCredentialnode","value":[{"odata.etag":"W/\"datetime'2021-09-07T16%3A23%3A54.4285549Z'\"","PartitionKey":"listEntitiesTest","RowKey":"0","Timestamp":"2021-09-07T16:23:54.4285549Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A23%3A54.5096122Z'\"","PartitionKey":"listEntitiesTest","RowKey":"1","Timestamp":"2021-09-07T16:23:54.5096122Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A23%3A55.2511401Z'\"","PartitionKey":"listEntitiesTest","RowKey":"10","Timestamp":"2021-09-07T16:23:55.2511401Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A23%3A55.330196Z'\"","PartitionKey":"listEntitiesTest","RowKey":"11","Timestamp":"2021-09-07T16:23:55.330196Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A23%3A55.4052499Z'\"","PartitionKey":"listEntitiesTest","RowKey":"12","Timestamp":"2021-09-07T16:23:55.4052499Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A23%3A55.4783015Z'\"","PartitionKey":"listEntitiesTest","RowKey":"13","Timestamp":"2021-09-07T16:23:55.4783015Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A23%3A55.5543556Z'\"","PartitionKey":"listEntitiesTest","RowKey":"14","Timestamp":"2021-09-07T16:23:55.5543556Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A23%3A55.629409Z'\"","PartitionKey":"listEntitiesTest","RowKey":"15","Timestamp":"2021-09-07T16:23:55.629409Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A23%3A55.7134693Z'\"","PartitionKey":"listEntitiesTest","RowKey":"16","Timestamp":"2021-09-07T16:23:55.7134693Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A23%3A55.8235477Z'\"","PartitionKey":"listEntitiesTest","RowKey":"17","Timestamp":"2021-09-07T16:23:55.8235477Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A23%3A55.9006025Z'\"","PartitionKey":"listEntitiesTest","RowKey":"18","Timestamp":"2021-09-07T16:23:55.9006025Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A23%3A55.9766571Z'\"","PartitionKey":"listEntitiesTest","RowKey":"19","Timestamp":"2021-09-07T16:23:55.9766571Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A23%3A54.5876678Z'\"","PartitionKey":"listEntitiesTest","RowKey":"2","Timestamp":"2021-09-07T16:23:54.5876678Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A23%3A54.6627208Z'\"","PartitionKey":"listEntitiesTest","RowKey":"3","Timestamp":"2021-09-07T16:23:54.6627208Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A23%3A54.7447796Z'\"","PartitionKey":"listEntitiesTest","RowKey":"4","Timestamp":"2021-09-07T16:23:54.7447796Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A23%3A54.8208338Z'\"","PartitionKey":"listEntitiesTest","RowKey":"5","Timestamp":"2021-09-07T16:23:54.8208338Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A23%3A54.8988894Z'\"","PartitionKey":"listEntitiesTest","RowKey":"6","Timestamp":"2021-09-07T16:23:54.8988894Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A23%3A54.9779456Z'\"","PartitionKey":"listEntitiesTest","RowKey":"7","Timestamp":"2021-09-07T16:23:54.9779456Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A23%3A55.0870233Z'\"","PartitionKey":"listEntitiesTest","RowKey":"8","Timestamp":"2021-09-07T16:23:55.0870233Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A23%3A55.1740849Z'\"","PartitionKey":"listEntitiesTest","RowKey":"9","Timestamp":"2021-09-07T16:23:55.1740849Z","foo":"testEntity"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A23%3A54.3514996Z'\"","PartitionKey":"listEntitiesTest","RowKey":"binary1","Timestamp":"2021-09-07T16:23:54.3514996Z","foo@odata.type":"Edm.Binary","foo":"QmFy"}]}, [
   'Cache-Control',
   'no-cache',
   'Transfer-Encoding',
@@ -123,9 +123,9 @@ nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":tru
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '7c52f611-1002-0129-13a5-64b1a8000000',
+  '00764c5a-e002-0038-6004-a4c0e6000000',
   'x-ms-client-request-id',
-  '05545865-470a-40c9-89e1-40551555b6cd',
+  '2a39f325-047e-45cd-a1fc-b1ffc15749ca',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -135,5 +135,5 @@ nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":tru
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Sat, 19 Jun 2021 00:55:34 GMT'
+  'Tue, 07 Sep 2021 16:23:56 GMT'
 ]);

@@ -4,7 +4,8 @@ import assert from "assert";
 import { Suite } from "mocha";
 import { CosmosClient, PermissionMode } from "../../../src";
 import { PermissionDefinition } from "../../../src/";
-import { endpoint, masterKey } from "../common/_testConfig";
+import { endpoint } from "../common/_testConfig";
+import { masterKey } from "../common/_fakeTestSecrets";
 import {
   createOrUpsertPermission,
   getTestContainer,

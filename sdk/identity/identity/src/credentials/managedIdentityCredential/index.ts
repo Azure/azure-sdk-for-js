@@ -9,11 +9,11 @@ import { AuthenticationError, CredentialUnavailableError } from "../../client/er
 import { credentialLogger, formatSuccess, formatError } from "../../util/logging";
 import { appServiceMsi2017 } from "./appServiceMsi2017";
 import { createSpan } from "../../util/tracing";
-import { mapScopesToResource } from "./utils";
 import { cloudShellMsi } from "./cloudShellMsi";
 import { imdsMsi } from "./imdsMsi";
 import { MSI } from "./models";
 import { arcMsi } from "./arcMsi";
+import { tokenExchangeMsi } from "./tokenExchangeMsi";
 
 const logger = credentialLogger("ManagedIdentityCredential");
 
@@ -66,7 +66,7 @@ export class ManagedIdentityCredential implements TokenCredential {
   private cachedMSI: MSI | undefined;
 
   private async cachedAvailableMSI(
-    resource: string,
+    scopes: string | string[],
     clientId?: string,
     getTokenOptions?: GetTokenOptions
   ): Promise<MSI> {
@@ -76,10 +76,10 @@ export class ManagedIdentityCredential implements TokenCredential {
 
     // "fabricMsi" can't be added yet because our HTTPs pipeline doesn't allow skipping the SSL verification step,
     // which is necessary since Service Fabric only provides self-signed certificates on their Identity Endpoint.
-    const MSIs = [appServiceMsi2017, cloudShellMsi, arcMsi, imdsMsi];
+    const MSIs = [appServiceMsi2017, cloudShellMsi, arcMsi, tokenExchangeMsi(), imdsMsi];
 
     for (const msi of MSIs) {
-      if (await msi.isAvailable(this.identityClient, resource, clientId, getTokenOptions)) {
+      if (await msi.isAvailable(scopes, this.identityClient, clientId, getTokenOptions)) {
         this.cachedMSI = msi;
         return msi;
       }
@@ -93,7 +93,6 @@ export class ManagedIdentityCredential implements TokenCredential {
     clientId?: string,
     getTokenOptions?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    const resource = mapScopesToResource(scopes);
     const { span, updatedOptions } = createSpan(
       "ManagedIdentityCredential-authenticateManagedIdentity",
       getTokenOptions
@@ -101,9 +100,16 @@ export class ManagedIdentityCredential implements TokenCredential {
 
     try {
       // Determining the available MSI, and avoiding checking for other MSIs while the program is running.
-      const availableMSI = await this.cachedAvailableMSI(resource, clientId, updatedOptions);
+      const availableMSI = await this.cachedAvailableMSI(scopes, clientId, updatedOptions);
 
-      return availableMSI.getToken(this.identityClient, resource, clientId, updatedOptions);
+      return availableMSI.getToken(
+        {
+          identityClient: this.identityClient,
+          scopes,
+          clientId
+        },
+        updatedOptions
+      );
     } catch (err) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -192,7 +198,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       // we can safely assume the credential is unavailable.
       if (err.code === "ENETUNREACH") {
         const error = new CredentialUnavailableError(
-          "ManagedIdentityCredential is unavailable. Network unreachable."
+          `ManagedIdentityCredential is unavailable. Network unreachable. Message: ${err.message}`
         );
 
         logger.getToken.info(formatError(scopes, error));
@@ -203,7 +209,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       // we can safely assume the credential is unavailable.
       if (err.code === "EHOSTUNREACH") {
         const error = new CredentialUnavailableError(
-          "ManagedIdentityCredential is unavailable. No managed identity endpoint found."
+          `ManagedIdentityCredential is unavailable. No managed identity endpoint found. Message: ${err.message}`
         );
 
         logger.getToken.info(formatError(scopes, error));
@@ -214,7 +220,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       // and it means that the endpoint is working, but that no identity is available.
       if (err.statusCode === 400) {
         throw new CredentialUnavailableError(
-          "The managed identity endpoint is indicating there's no available identity"
+          `ManagedIdentityCredential: The managed identity endpoint is indicating there's no available identity. Message: ${err.message}`
         );
       }
 

@@ -16,7 +16,7 @@ import {
   ServiceAssociationLinksListResponse
 } from "../models";
 
-/** Class representing a ServiceAssociationLinks. */
+/** Class containing ServiceAssociationLinks operations. */
 export class ServiceAssociationLinksImpl implements ServiceAssociationLinks {
   private readonly client: NetworkManagementClientContext;
 

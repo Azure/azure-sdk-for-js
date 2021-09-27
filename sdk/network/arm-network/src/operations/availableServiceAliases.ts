@@ -26,7 +26,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a AvailableServiceAliases. */
+/** Class containing AvailableServiceAliases operations. */
 export class AvailableServiceAliasesImpl implements AvailableServiceAliases {
   private readonly client: NetworkManagementClientContext;
 

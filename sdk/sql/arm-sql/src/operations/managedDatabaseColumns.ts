@@ -28,7 +28,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a ManagedDatabaseColumns. */
+/** Class containing ManagedDatabaseColumns operations. */
 export class ManagedDatabaseColumnsImpl implements ManagedDatabaseColumns {
   private readonly client: SqlManagementClientContext;
 

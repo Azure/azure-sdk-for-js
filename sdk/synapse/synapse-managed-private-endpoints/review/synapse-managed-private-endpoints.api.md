@@ -32,8 +32,11 @@ export interface ManagedPrivateEndpointListResponse {
 // @public
 export interface ManagedPrivateEndpointProperties {
     connectionState?: ManagedPrivateEndpointConnectionState;
+    fqdns?: string[];
     groupId?: string;
+    isCompliant?: boolean;
     readonly isReserved?: boolean;
+    name?: string;
     privateLinkResourceId?: string;
     readonly provisioningState?: string;
 }

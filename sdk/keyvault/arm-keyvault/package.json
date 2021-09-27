@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for KeyVaultManagementClient.",
-  "version": "30.0.0-beta.2",
+  "version": "30.0.0-beta.4",
   "engines": {
     "node": ">=12.0.0"
   },

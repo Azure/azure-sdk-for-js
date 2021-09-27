@@ -42,7 +42,7 @@ export class StorageManagementClientContext extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-storage/30.0.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-storage/30.0.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

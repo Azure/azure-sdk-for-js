@@ -26,7 +26,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a AvailablePrivateEndpointTypes. */
+/** Class containing AvailablePrivateEndpointTypes operations. */
 export class AvailablePrivateEndpointTypesImpl
   implements AvailablePrivateEndpointTypes {
   private readonly client: NetworkManagementClientContext;

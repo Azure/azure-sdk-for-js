@@ -114,8 +114,8 @@ export async function prepareIdentityTests({
   }
 
   if (replaceLogger) {
-    AzureLogger.log = (args) => {
-      logMessages.push(args);
+    AzureLogger.log = (...args) => {
+      logMessages.push(args.join(" "));
     };
   }
 
@@ -126,9 +126,6 @@ export async function prepareIdentityTests({
     sendPromise: () => Promise<T | null>,
     { response }: { response: TestResponse }
   ): Promise<T | null> {
-    if ((https.request as any).restore) {
-      (https.request as any).restore.restore();
-    }
     const request = createRequest();
     sandbox.replace(
       https,
@@ -174,23 +171,29 @@ export async function prepareIdentityTests({
       const providerObject = provider === "http" ? http : https;
       const totalOptions: http.RequestOptions[] = [];
 
-      sandbox.replace(
-        providerObject,
-        "request",
-        (options: string | URL | http.RequestOptions, resolve: any) => {
-          totalOptions.push(options as http.RequestOptions);
+      try {
+        sandbox.replace(
+          providerObject,
+          "request",
+          (options: string | URL | http.RequestOptions, resolve: any) => {
+            totalOptions.push(options as http.RequestOptions);
 
-          const { response, error } = responses.shift()!;
-          if (error) {
-            throw error;
-          } else {
-            resolve(responseToIncomingMessage(response!));
+            const { response, error } = responses.shift()!;
+            if (error) {
+              throw error;
+            } else {
+              resolve(responseToIncomingMessage(response!));
+            }
+            const request = createRequest();
+            spies.push(sandbox.spy(request, "end"));
+            return request;
           }
-          const request = createRequest();
-          spies.push(sandbox.spy(request, "end"));
-          return request;
-        }
-      );
+        );
+      } catch (e) {
+        console.debug(
+          "Failed to replace the request. This might be expected if you're running multiple sendCredentialRequests() calls."
+        );
+      }
 
       return totalOptions;
     };

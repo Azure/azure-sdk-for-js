@@ -27,7 +27,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a ManagedDatabaseSecurityAlertPolicies. */
+/** Class containing ManagedDatabaseSecurityAlertPolicies operations. */
 export class ManagedDatabaseSecurityAlertPoliciesImpl
   implements ManagedDatabaseSecurityAlertPolicies {
   private readonly client: SqlManagementClientContext;

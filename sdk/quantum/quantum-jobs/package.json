@@ -69,7 +69,7 @@
     "tslib": "^2.2.0"
   },
   "devDependencies": {
-    "@azure/storage-blob": "^12.6.0",
+    "@azure/storage-blob": "^12.8.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "2.0.0-beta.6",

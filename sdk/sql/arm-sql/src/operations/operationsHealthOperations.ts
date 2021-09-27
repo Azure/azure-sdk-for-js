@@ -22,7 +22,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a OperationsHealthOperations. */
+/** Class containing OperationsHealthOperations operations. */
 export class OperationsHealthOperationsImpl
   implements OperationsHealthOperations {
   private readonly client: SqlManagementClientContext;

@@ -135,6 +135,23 @@ describe("utils", () => {
       expect(appliedMap).to.equal("default.com/path/HIDDEN_SECRET");
     });
 
+    it("Should not apply unnecessary repeated replacements", () => {
+      const env: NodeJS.ProcessEnv = {
+        AZURE_USERNAME: "username"
+      };
+
+      const replacementMap: ReplacementMap = new Map();
+      replacementMap.set("AZURE_USERNAME", "azure_username");
+
+      const recording = `.post('/tenant/oauth2/v2.0/token', "username=username")`;
+      const appliedMap = applyReplacementMap(env, replacementMap, recording);
+
+      // It could be because the replacement is a superset of the original value,
+      // Or perhaps because other weird occurrences in the file,
+      // in either case, double replacements should not happen.
+      expect(appliedMap.indexOf("azure_azure_username")).to.equal(-1);
+    });
+
     it("Should work with recordings of several lines", () => {
       const env: NodeJS.ProcessEnv = {
         SECRET: "(SECRET)",

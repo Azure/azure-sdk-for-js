@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../tsconfig.package",
+  "compilerOptions": {
+    "module": "commonjs",
+    "noEmit": true
+  },
+  "compileOnSave": true,
+  "exclude": ["node_modules"],
+  "include": ["./test/**/*.ts"]
+}

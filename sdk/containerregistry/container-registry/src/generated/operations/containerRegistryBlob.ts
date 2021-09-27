@@ -36,7 +36,7 @@ import {
   ContainerRegistryBlobCheckChunkExistsResponse
 } from "../models";
 
-/** Class representing a ContainerRegistryBlob. */
+/** Class containing ContainerRegistryBlob operations. */
 export class ContainerRegistryBlobImpl implements ContainerRegistryBlob {
   private readonly client: GeneratedClientContext;
 

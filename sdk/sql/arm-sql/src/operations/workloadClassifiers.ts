@@ -29,7 +29,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a WorkloadClassifiers. */
+/** Class containing WorkloadClassifiers operations. */
 export class WorkloadClassifiersImpl implements WorkloadClassifiers {
   private readonly client: SqlManagementClientContext;
 

@@ -5,7 +5,8 @@
     "declarationDir": "./types",
     "paths": {
       "@azure/schema-registry-avro": ["./src/index"]
-    }
+    },
+    "lib": ["dom"]
   },
   "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }

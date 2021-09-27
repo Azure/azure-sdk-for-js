@@ -48,7 +48,8 @@ module.exports = function(config) {
     envPreprocessor: [
       "EVENTHUB_CONNECTION_STRING",
       "EVENTHUB_NAME",
-      "IOTHUB_EH_COMPATIBLE_CONNECTION_STRING"
+      "IOTHUB_EH_COMPATIBLE_CONNECTION_STRING",
+      "TEST_TARGET"
     ],
 
     // test results reporter to use

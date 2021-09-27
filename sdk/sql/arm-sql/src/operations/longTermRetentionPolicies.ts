@@ -29,7 +29,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a LongTermRetentionPolicies. */
+/** Class containing LongTermRetentionPolicies operations. */
 export class LongTermRetentionPoliciesImpl
   implements LongTermRetentionPolicies {
   private readonly client: SqlManagementClientContext;

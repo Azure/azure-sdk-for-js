@@ -18,7 +18,7 @@ import { EntityStatus, EntityAvailabilityStatus } from "../../src";
 import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./utils/managementUtils";
 import { EntityNames, TestClientType } from "./utils/testUtils";
-import { TestConstants } from "./testConstants";
+import { TestConstants } from "./fakeTestSecrets";
 import { AzureNamedKeyCredential } from "@azure/core-auth";
 import { createServiceBusClientForTests, ServiceBusClientForTests } from "./utils/testutils2";
 

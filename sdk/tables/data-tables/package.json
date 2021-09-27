@@ -134,7 +134,7 @@
     "@azure/test-utils": "^1.0.0",
     "rollup-plugin-shim": "^1.0.0",
     "@rollup/plugin-inject": "^4.0.0",
-    "ts-node": "^9.0.0",
+    "ts-node": "^10.0.0",
     "typedoc": "0.15.2"
   },
   "//sampleConfiguration": {

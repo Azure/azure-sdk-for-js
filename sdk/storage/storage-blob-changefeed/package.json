@@ -93,7 +93,7 @@
     ]
   },
   "dependencies": {
-    "@azure/storage-blob": "^12.8.0-beta.1",
+    "@azure/storage-blob": "^12.8.0",
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-http": "^2.0.0",
     "@azure/core-lro": "^2.2.0",
@@ -149,7 +149,7 @@
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^4.0.4",
     "source-map-support": "^0.5.9",
-    "ts-node": "^9.0.0",
+    "ts-node": "^10.0.0",
     "typedoc": "0.15.2",
     "typescript": "~4.2.0",
     "util": "^0.12.1",

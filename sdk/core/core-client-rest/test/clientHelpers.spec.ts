@@ -14,10 +14,6 @@ describe("clientHelpers", () => {
     const policies = pipeline.getOrderedPolicies();
 
     assert.isDefined(policies, "default pipeline should contain policies");
-    assert.isUndefined(
-      policies.find((p) => p.name === "exponentialRetryPolicy"),
-      "pipeline shouldn't have exponentialRetryPolicy"
-    );
 
     assert.isUndefined(
       policies.find((p) => p.name === bearerTokenAuthenticationPolicyName),
@@ -48,10 +44,6 @@ describe("clientHelpers", () => {
     const policies = pipeline.getOrderedPolicies();
 
     assert.isDefined(policies, "default pipeline should contain policies");
-    assert.isUndefined(
-      policies.find((p) => p.name === "exponentialRetryPolicy"),
-      "pipeline shouldn't have exponentialRetryPolicy"
-    );
 
     assert.isUndefined(
       policies.find((p) => p.name === bearerTokenAuthenticationPolicyName),
@@ -72,10 +64,6 @@ describe("clientHelpers", () => {
     const policies = pipeline.getOrderedPolicies();
 
     assert.isDefined(policies, "default pipeline should contain policies");
-    assert.isUndefined(
-      policies.find((p) => p.name === "exponentialRetryPolicy"),
-      "pipeline shouldn't have exponentialRetryPolicy"
-    );
 
     assert.isDefined(
       policies.find((p) => p.name === bearerTokenAuthenticationPolicyName),

@@ -11,9 +11,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClientContext } from "../networkManagementClientContext";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { LroEngine } from "../lro";
-import { CoreClientLro, shouldDeserializeLro } from "../coreClientLro";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   ExpressRouteGatewaysListBySubscriptionOptionalParams,
   ExpressRouteGatewaysListBySubscriptionResponse,
@@ -30,7 +29,7 @@ import {
   ExpressRouteGatewaysDeleteOptionalParams
 } from "../models";
 
-/** Class representing a ExpressRouteGateways. */
+/** Class containing ExpressRouteGateways operations. */
 export class ExpressRouteGatewaysImpl implements ExpressRouteGateways {
   private readonly client: NetworkManagementClientContext;
 
@@ -128,7 +127,7 @@ export class ExpressRouteGatewaysImpl implements ExpressRouteGateways {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       {
         resourceGroupName,
@@ -136,10 +135,13 @@ export class ExpressRouteGatewaysImpl implements ExpressRouteGateways {
         putExpressRouteGatewayParameters,
         options
       },
-      createOrUpdateOperationSpec,
-      "azure-async-operation"
+      createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
+    });
   }
 
   /**
@@ -223,7 +225,7 @@ export class ExpressRouteGatewaysImpl implements ExpressRouteGateways {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       {
         resourceGroupName,
@@ -231,10 +233,13 @@ export class ExpressRouteGatewaysImpl implements ExpressRouteGateways {
         expressRouteGatewayParameters,
         options
       },
-      updateTagsOperationSpec,
-      "azure-async-operation"
+      updateTagsOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
+    });
   }
 
   /**
@@ -328,13 +333,16 @@ export class ExpressRouteGatewaysImpl implements ExpressRouteGateways {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { resourceGroupName, expressRouteGatewayName, options },
-      deleteOperationSpec,
-      "location"
+      deleteOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
   }
 
   /**

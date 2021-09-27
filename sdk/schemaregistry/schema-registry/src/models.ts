@@ -14,16 +14,10 @@ export interface SchemaProperties {
    * Serialization type of schema.
    * Currently only 'avro' is supported, but this is subject to change.
    */
-  serializationType: string;
+  format: string;
 
   /** Automatically incremented version number of the schema. */
   version: number;
-
-  /** URL of schema by group and name. */
-  location: string;
-
-  /** URL of schema by ID. */
-  locationById: string;
 }
 
 /**
@@ -37,13 +31,13 @@ export interface SchemaDescription {
   name: string;
 
   /**
-   * Serialization type of schema. Must match serialization type of group.
-   * Currently only 'avro' is supported, but this is subject to change.
+   * The format of schema and it must match the serialization type of the schema's group.
+   * Please refer to {@link KnownSerializationType} for possible values.
    */
-  serializationType: string;
+  format: string;
 
   /** String representation of schema. */
-  content: string;
+  definition: string;
 }
 
 /**
@@ -51,7 +45,7 @@ export interface SchemaDescription {
  */
 export interface Schema extends SchemaProperties {
   /** String representation of schema. */
-  content: string;
+  definition: string;
 }
 
 /**
@@ -65,9 +59,9 @@ export interface SchemaRegistryClientOptions extends CommonClientOptions {}
 export interface RegisterSchemaOptions extends OperationOptions {}
 
 /**
- * Options for SchemaRegistryClient.getSchemaId.
+ * Options for SchemaRegistryClient.getSchemaProperties.
  */
-export interface GetSchemaIdOptions extends OperationOptions {}
+export interface GetSchemaPropertiesOptions extends OperationOptions {}
 
 /**
  * Options to configure SchemaRegistryClient.getSchema.
@@ -98,14 +92,14 @@ export interface SchemaRegistry {
 
   /**
    * Gets the ID of an existing schema with matching name, group, type, and
-   * content.
+   * definition.
    *
    * @param schema - Schema to match.
    * @returns Matched schema's ID or undefined if no matching schema was found.
    */
-  getSchemaId(
+  getSchemaProperties(
     schema: SchemaDescription,
-    options?: GetSchemaIdOptions
+    options?: GetSchemaPropertiesOptions
   ): Promise<SchemaProperties | undefined>;
 
   /**

@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { IdentityExtension } from "@azure/identity";
+import { IdentityPlugin } from "@azure/identity";
 
-import { AzureExtensionContext } from "../../identity/src/extensions/provider";
+import { AzurePluginContext } from "../../identity/src/plugins/provider";
 import { createPersistenceCachePlugin } from "./provider";
 
 /**
- * An extension that provides persistent token caching for `@azure/identity`
- * credentials. The extension API is compatible with `@azure/identity` versions
- * 2.0.0 and later. Load this extension using the `useIdentityExtension`
+ * A plugin that provides persistent token caching for `@azure/identity`
+ * credentials. The plugin API is compatible with `@azure/identity` versions
+ * 2.0.0 and later. Load this plugin using the `useIdentityPlugin`
  * function, imported from `@azure/identity`.
  *
  * In order to enable this functionality, you must also pass
@@ -18,12 +18,12 @@ import { createPersistenceCachePlugin } from "./provider";
  *
  * Example:
  *
- * ```typescript
- * import { useIdentityExtension, DeviceCodeCredential } from "@azure/identity";
- * import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
+ * ```javascript
+ * import { useIdentityPlugin, DeviceCodeCredential } from "@azure/identity";
+ * import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
  *
- * // Load the extension
- * useIdentityExtension(cachePersistenceExtension);
+ * // Load the plugin
+ * useIdentityPlugin(cachePersistencePlugin);
  *
  * const credential = new DeviceCodeCredential({
  *   tokenCachePersistenceOptions: {
@@ -33,8 +33,8 @@ import { createPersistenceCachePlugin } from "./provider";
  * ```
  */
 
-export const cachePersistenceExtension: IdentityExtension = (context) => {
-  const { cachePluginControl } = context as AzureExtensionContext;
+export const cachePersistencePlugin: IdentityPlugin = (context) => {
+  const { cachePluginControl } = context as AzurePluginContext;
 
   cachePluginControl.setPersistence(createPersistenceCachePlugin);
 };

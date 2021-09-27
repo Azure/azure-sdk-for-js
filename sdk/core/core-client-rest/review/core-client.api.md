@@ -8,6 +8,8 @@ import { KeyCredential } from '@azure/core-auth';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { PipelineOptions } from '@azure/core-rest-pipeline';
 import { PipelineRequest } from '@azure/core-rest-pipeline';
+import { RawHttpHeaders } from '@azure/core-rest-pipeline';
+import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -72,12 +74,9 @@ export type PathUncheckedResponse = HttpResponse & {
     body: any;
 };
 
-// @public (undocumented)
-export type RawHttpHeaders = Record<string, string | number | boolean>;
-
 // @public
 export type RequestParameters = {
-    headers?: RawHttpHeaders;
+    headers?: RawHttpHeadersInput;
     accept?: string;
     body?: unknown;
     queryParameters?: Record<string, unknown>;

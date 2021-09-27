@@ -70,7 +70,7 @@ export interface KeyVaultError {
    * The key vault server error.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly error?: ErrorModel;
+  readonly error?: ErrorModel | null;
 }
 
 /** The key vault server error. */
@@ -89,7 +89,7 @@ export interface ErrorModel {
    * The key vault server error.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly innerError?: ErrorModel;
+  readonly innerError?: ErrorModel | null;
 }
 
 /** The secret update parameters. */
@@ -214,20 +214,20 @@ export type DeletedSecretItem = SecretItem & {
   readonly deletedDate?: Date;
 };
 
-/** Known values of {@link ApiVersion72Preview} that the service accepts. */
-export const enum KnownApiVersion72Preview {
-  /** Api Version '7.2-preview' */
-  Seven2Preview = "7.2-preview"
+/** Known values of {@link ApiVersion73Preview} that the service accepts. */
+export const enum KnownApiVersion73Preview {
+  /** Api Version '7.3-preview' */
+  Seven3Preview = "7.3-preview"
 }
 
 /**
- * Defines values for ApiVersion72Preview. \
- * {@link KnownApiVersion72Preview} can be used interchangeably with ApiVersion72Preview,
+ * Defines values for ApiVersion73Preview. \
+ * {@link KnownApiVersion73Preview} can be used interchangeably with ApiVersion73Preview,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **7.2-preview**: Api Version '7.2-preview'
+ * **7.3-preview**: Api Version '7.3-preview'
  */
-export type ApiVersion72Preview = string;
+export type ApiVersion73Preview = string;
 
 /** Known values of {@link DeletionRecoveryLevel} that the service accepts. */
 export const enum KnownDeletionRecoveryLevel {

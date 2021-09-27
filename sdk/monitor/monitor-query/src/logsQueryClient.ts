@@ -3,30 +3,35 @@
 
 import { AzureLogAnalytics } from "./generated/logquery/src/azureLogAnalytics";
 import { TokenCredential } from "@azure/core-auth";
-import { PipelineOptions, bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 
 import {
-  QueryLogsBatch,
-  QueryLogsBatchOptions,
-  QueryLogsBatchResult,
-  QueryLogsOptions,
-  QueryLogsResult
+  QueryBatch,
+  LogsQueryBatchOptions,
+  LogsQueryBatchResult,
+  LogsQueryOptions,
+  LogsQueryResult,
+  AggregateBatchError,
+  BatchError,
+  ErrorInfo
 } from "./models/publicLogsModels";
 
 import {
   convertGeneratedTable,
   convertRequestForQueryBatch,
-  convertResponseForQueryBatch
+  convertResponseForQueryBatch,
+  mapError
 } from "./internal/modelConverters";
 import { formatPreferHeader } from "./internal/util";
-import { FullOperationResponse, OperationOptions } from "@azure/core-client";
+import { CommonClientOptions, FullOperationResponse, OperationOptions } from "@azure/core-client";
+import { TimeInterval } from "./models/timeInterval";
+import { convertTimespanToInterval } from "./timespanConversion";
 
 const defaultMonitorScope = "https://api.loganalytics.io/.default";
 
 /**
  * Options for the LogsQueryClient.
  */
-export interface LogsQueryClientOptions extends PipelineOptions {
+export interface LogsQueryClientOptions extends CommonClientOptions {
   /**
    * The host to connect to.
    */
@@ -37,7 +42,9 @@ export interface LogsQueryClientOptions extends PipelineOptions {
    *
    * Defaults to 'https://api.loganalytics.io/.default'
    */
-  scopes?: string | string[];
+  credentialOptions?: {
+    credentialScopes?: string | string[];
+  };
 }
 
 /**
@@ -59,12 +66,14 @@ export class LogsQueryClient {
     this._logAnalytics = new AzureLogAnalytics({
       ...options,
       $host: options?.endpoint,
-      endpoint: options?.endpoint
+      endpoint: options?.endpoint,
+      credentialScopes: options?.credentialOptions?.credentialScopes ?? defaultMonitorScope,
+      credential: tokenCredential
     });
-    const scope = options?.scopes ?? defaultMonitorScope;
-    this._logAnalytics.pipeline.addPolicy(
-      bearerTokenAuthenticationPolicy({ scopes: scope, credential: tokenCredential })
-    );
+    // const scope = options?.scopes ?? defaultMonitorScope;
+    // this._logAnalytics.pipeline.addPolicy(
+    //   bearerTokenAuthenticationPolicy({ scopes: scope, credential: tokenCredential })
+    // );
   }
 
   /**
@@ -77,19 +86,23 @@ export class LogsQueryClient {
    * @param options - Options to adjust various aspects of the request.
    * @returns The result of the query.
    */
-  async queryLogs(
+  async query(
     workspaceId: string,
     query: string,
-    timespan: string,
-    options?: QueryLogsOptions
-  ): Promise<QueryLogsResult> {
+    timespan: TimeInterval,
+    options?: LogsQueryOptions
+  ): Promise<LogsQueryResult> {
+    let timeInterval: string = "";
+    if (timespan) {
+      timeInterval = convertTimespanToInterval(timespan);
+    }
     const { flatResponse, rawResponse } = await getRawResponse(
       (paramOptions) =>
         this._logAnalytics.query.execute(
           workspaceId,
           {
             query,
-            timespan,
+            timespan: timeInterval,
             workspaces: options?.additionalWorkspaces
           },
           paramOptions
@@ -106,11 +119,28 @@ export class LogsQueryClient {
 
     const parsedBody = JSON.parse(rawResponse.bodyAsText!);
     flatResponse.tables = parsedBody.tables;
-    return {
+    const result: LogsQueryResult = {
       tables: flatResponse.tables.map(convertGeneratedTable),
       statistics: flatResponse.statistics,
-      visualization: flatResponse.render
+      visualization: flatResponse.render,
+      error: mapError(flatResponse.error),
+      status: "Success" // Assume success until shown otherwise.
     };
+    if (!result.error) {
+      // if there is no error field, it is success
+      result.status = "Success";
+    } else {
+      // result.tables is always present in single query response, even is there is error
+      if (result.tables.length === 0) {
+        result.status = "Failed";
+      } else {
+        result.status = "Partial";
+      }
+    }
+    if (options?.throwOnAnyFailure && result.status !== "Success") {
+      throw new BatchError(result.error as ErrorInfo);
+    }
+    return result;
   }
 
   /**
@@ -119,16 +149,25 @@ export class LogsQueryClient {
    * @param options - Options for querying logs in a batch.
    * @returns The Logs query results for all the queries.
    */
-  async queryLogsBatch(
-    batch: QueryLogsBatch,
-    options?: QueryLogsBatchOptions
-  ): Promise<QueryLogsBatchResult> {
+  async queryBatch(
+    batch: QueryBatch[],
+    options?: LogsQueryBatchOptions
+  ): Promise<LogsQueryBatchResult> {
     const generatedRequest = convertRequestForQueryBatch(batch);
     const { flatResponse, rawResponse } = await getRawResponse(
       (paramOptions) => this._logAnalytics.query.batch(generatedRequest, paramOptions),
       options || {}
     );
-    return convertResponseForQueryBatch(flatResponse, rawResponse);
+    const result: LogsQueryBatchResult = convertResponseForQueryBatch(flatResponse, rawResponse);
+
+    if (options?.throwOnAnyFailure && result.results.some((it) => it.status !== "Success")) {
+      const errorResults = result.results
+        .filter((it) => it.status !== "Success")
+        .map((x) => x.error);
+      const batchErrorList = errorResults.map((x) => new BatchError(x as ErrorInfo));
+      throw new AggregateBatchError(batchErrorList);
+    }
+    return result;
   }
 }
 

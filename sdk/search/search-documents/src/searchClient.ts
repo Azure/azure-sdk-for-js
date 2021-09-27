@@ -243,9 +243,10 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     nextPageParameters: SearchRequest = {}
   ): Promise<SearchDocumentsPageResult<Pick<T, Fields>>> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
-    const { select, searchFields, orderBy, ...nonFieldOptions } = restOptions;
+    const { select, searchFields, orderBy, semanticFields, ...nonFieldOptions } = restOptions;
     const fullOptions: SearchRequest = {
       searchFields: this.convertSearchFields<Fields>(searchFields),
+      semanticFields: this.convertSemanticFields(semanticFields),
       select: this.convertSelect<Fields>(select),
       orderBy: this.convertOrderBy(orderBy),
       ...nonFieldOptions,
@@ -711,6 +712,13 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       return searchFields.join(",");
     }
     return searchFields;
+  }
+
+  private convertSemanticFields(semanticFields?: string[]): string | undefined {
+    if (semanticFields) {
+      return semanticFields.join(",");
+    }
+    return semanticFields;
   }
 
   private convertOrderBy(orderBy?: string[]): string | undefined {

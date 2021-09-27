@@ -25,30 +25,28 @@ async function main() {
     {
       workspaceId: monitorWorkspaceId,
       query: kqlQuery,
-      timespan: "P1D"
+      timespan: { duration: "P1D" }
     },
     {
       workspaceId: monitorWorkspaceId,
       query: "AzureActivity | summarize count()",
-      timespan: "PT1H"
+      timespan: { duration: "PT1H" }
     },
     {
       workspaceId: monitorWorkspaceId,
       query:
         "AppRequests | take 10 | summarize avgRequestDuration=avg(DurationMs) by bin(TimeGenerated, 10m), _ResourceId",
-      timespan: "PT1H"
+      timespan: { duration: "PT1H" }
     },
     {
       workspaceId: monitorWorkspaceId,
       query: "AppRequests | take 2",
-      timespan: "PT1H",
+      timespan: { duration: "PT1H" },
       includeQueryStatistics: true
     }
   ];
 
-  const result = await logsQueryClient.queryLogsBatch({
-    queries: queriesBatch
-  });
+  const result = await logsQueryClient.queryBatch(queriesBatch);
 
   if (result.results == null) {
     throw new Error("No response for query");
@@ -56,7 +54,7 @@ async function main() {
 
   let i = 0;
   for (const response of result.results) {
-    console.log(`Results for query with id: ${response.id}`);
+    console.log(`Results for query with query: ${queriesBatch[i]}`);
 
     if (response.error) {
       console.log(` Query had errors:`, response.error);
@@ -69,7 +67,7 @@ async function main() {
         );
 
         for (const table of response.tables) {
-          const columnHeaderString = table.columns
+          const columnHeaderString = table.columnDescriptors
             .map((column) => `${column.name}(${column.type}) `)
             .join("| ");
           console.log(columnHeaderString);

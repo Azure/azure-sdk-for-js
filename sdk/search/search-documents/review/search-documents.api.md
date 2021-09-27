@@ -24,6 +24,7 @@ export interface AnalyzedTokenInfo {
 export interface AnalyzeRequest {
     analyzerName?: string;
     charFilters?: string[];
+    normalizerName?: LexicalNormalizerName;
     text: string;
     tokenFilters?: string[];
     tokenizerName?: string;
@@ -2020,6 +2021,7 @@ export interface SearchRequest {
 // @public
 export interface SearchRequestOptions<Fields> {
     answers?: Answers;
+    captions?: Captions;
     facets?: string[];
     filter?: string;
     highlightFields?: string;
@@ -2036,6 +2038,7 @@ export interface SearchRequestOptions<Fields> {
     searchFields?: Fields[];
     searchMode?: SearchMode;
     select?: Fields[];
+    semanticFields?: string[];
     sessionId?: string;
     skip?: number;
     speller?: Speller;

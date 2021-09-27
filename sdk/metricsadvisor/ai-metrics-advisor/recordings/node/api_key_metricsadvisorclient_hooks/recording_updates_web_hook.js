@@ -5,8 +5,8 @@ module.exports.hash = "4538131073c0be8d2c3b7d9323573a49";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .patch('/metricsadvisor/v1.0/hooks/800bcc70-1f2b-4ca9-937c-d19453993b74', {"hookType":"Webhook","hookParameter":{"endpoint":"https://mawebhook.azurewebsites.net/api/HttpTrigger","username":"user1","password":"pass123"}})
-  .reply(200, {"hookId":"800bcc70-1f2b-4ca9-937c-d19453993b74","hookName":"js-test-webHook-162266592635409328","hookType":"Webhook","externalLink":"","description":"description","admins":["kaghiya@microsoft.com"],"hookParameter":{"endpoint":"https://mawebhook.azurewebsites.net/api/HttpTrigger","username":"user1","password":"pass123","headers":{},"certificateKey":"","certificatePassword":""}}, [
+  .patch('/metricsadvisor/v1.0/hooks/800bcc70-1f2b-4ca9-937c-d19453993b74', {"hookType":"Webhook","hookParameter":{"endpoint":"https://mawebhook.azurewebsites.net/api/HttpTrigger","username":"user1","password":"SecretPlaceholder"}})
+  .reply(200, {"hookId":"800bcc70-1f2b-4ca9-937c-d19453993b74","hookName":"js-test-webHook-162266592635409328","hookType":"Webhook","externalLink":"","description":"description","admins":["kaghiya@microsoft.com"],"hookParameter":{"endpoint":"https://mawebhook.azurewebsites.net/api/HttpTrigger","username":"user1","password":"SecretPlaceholder","headers":{},"certificateKey":"","certificatePassword":""}}, [
   'Content-Length',
   '380',
   'Content-Type',
@@ -27,7 +27,7 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/metricsadvisor/v1.0/hooks/800bcc70-1f2b-4ca9-937c-d19453993b74')
-  .reply(200, {"hookId":"800bcc70-1f2b-4ca9-937c-d19453993b74","hookName":"js-test-webHook-162266592635409328","hookType":"Webhook","externalLink":"","description":"description","admins":["kaghiya@microsoft.com"],"hookParameter":{"endpoint":"https://mawebhook.azurewebsites.net/api/HttpTrigger","username":"user1","password":"pass123","headers":{},"certificateKey":"","certificatePassword":""}}, [
+  .reply(200, {"hookId":"800bcc70-1f2b-4ca9-937c-d19453993b74","hookName":"js-test-webHook-162266592635409328","hookType":"Webhook","externalLink":"","description":"description","admins":["kaghiya@microsoft.com"],"hookParameter":{"endpoint":"https://mawebhook.azurewebsites.net/api/HttpTrigger","username":"user1","password":"SecretPlaceholder","headers":{},"certificateKey":"","certificatePassword":""}}, [
   'Content-Length',
   '380',
   'Content-Type',
