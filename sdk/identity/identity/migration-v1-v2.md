@@ -133,9 +133,7 @@ For `ClientCertificateCredential` specifically, now the validity of the PEM cert
 
 ### Changes to the ManagedIdentityCredential
 
-For our version 2 of the Identity package, the `ManagedIdentityCredential` now retries with exponential back-off when a request for a token fails with a 404 status code on environments with available IMDS endpoints.
-
-The `ManagedIdentityCredential` now also supports token exchange authentication and Service Fabric environments.
+For our version 2 of the Identity package, the `ManagedIdentityCredential` now retries with exponential back-off when a request for a token fails with a 404 status code on environments with available IMDS endpoints. Besides that, the `ManagedIdentityCredential` now also supports token exchange authentication.
 
 ### Changes to the InteractiveBrowserCredential
 
