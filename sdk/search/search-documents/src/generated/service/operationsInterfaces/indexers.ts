@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
 import {
   IndexersResetOptionalParams,
   IndexersRunOptionalParams,
@@ -34,16 +33,13 @@ export interface Indexers {
   reset(
     indexerName: string,
     options?: IndexersResetOptionalParams
-  ): Promise<coreHttp.RestResponse>;
+  ): Promise<void>;
   /**
    * Runs an indexer on-demand.
    * @param indexerName The name of the indexer to run.
    * @param options The options parameters.
    */
-  run(
-    indexerName: string,
-    options?: IndexersRunOptionalParams
-  ): Promise<coreHttp.RestResponse>;
+  run(indexerName: string, options?: IndexersRunOptionalParams): Promise<void>;
   /**
    * Creates a new indexer or updates an indexer if it already exists.
    * @param indexerName The name of the indexer to create or update.
@@ -63,7 +59,7 @@ export interface Indexers {
   delete(
     indexerName: string,
     options?: IndexersDeleteOptionalParams
-  ): Promise<coreHttp.RestResponse>;
+  ): Promise<void>;
   /**
    * Retrieves an indexer definition.
    * @param indexerName The name of the indexer to retrieve.

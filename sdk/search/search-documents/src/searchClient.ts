@@ -4,14 +4,11 @@
 /// <reference lib="esnext.asynciterable" />
 
 import {
-  PipelineOptions,
-  InternalPipelineOptions,
-  createPipelineFromOptions,
-  OperationOptions,
-  operationOptionsToRequestOptionsBase,
-  RequestPolicyFactory,
-  bearerTokenAuthenticationPolicy
-} from "@azure/core-http";
+  CommonClientOptions,
+  InternalClientPipelineOptions,
+  OperationOptions
+} from "@azure/core-client";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { SearchClient as GeneratedClient } from "./generated/data/searchClient";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
@@ -45,15 +42,16 @@ import {
   MergeOrUploadDocumentsOptions,
   SearchRequest
 } from "./indexModels";
-import { odataMetadataPolicy } from "./odataMetadataPolicy";
+import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
 import { encode, decode } from "./base64";
 import * as utils from "./serviceUtils";
 import { IndexDocumentsClient } from "./searchIndexingBufferedSender";
+
 /**
  * Client options used to configure Cognitive Search API requests.
  */
-export interface SearchClientOptions extends PipelineOptions {
+export interface SearchClientOptions extends CommonClientOptions {
   /**
    * The API version to use when communicating with the service.
    */
@@ -128,12 +126,12 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       options.userAgentOptions.userAgentPrefix = libInfo;
     }
 
-    const internalPipelineOptions: InternalPipelineOptions = {
+    const internalClientPipelineOptions: InternalClientPipelineOptions = {
       ...options,
       ...{
         loggingOptions: {
           logger: logger.info,
-          allowedHeaderNames: [
+          additionalAllowedHeaderNames: [
             "elapsed-time",
             "Location",
             "OData-MaxVersion",
@@ -145,16 +143,6 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       }
     };
 
-    const requestPolicyFactory: RequestPolicyFactory = isTokenCredential(credential)
-      ? bearerTokenAuthenticationPolicy(credential, utils.DEFAULT_SEARCH_SCOPE)
-      : createSearchApiKeyCredentialPolicy(credential);
-
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, requestPolicyFactory);
-
-    if (Array.isArray(pipeline.requestPolicyFactories)) {
-      pipeline.requestPolicyFactories.unshift(odataMetadataPolicy("none"));
-    }
-
     let apiVersion = this.apiVersion;
 
     if (options.apiVersion) {
@@ -164,7 +152,22 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       apiVersion = options.apiVersion;
     }
 
-    this.client = new GeneratedClient(this.endpoint, this.indexName, apiVersion, pipeline);
+    this.client = new GeneratedClient(
+      this.endpoint,
+      this.indexName,
+      apiVersion,
+      internalClientPipelineOptions
+    );
+
+    if (isTokenCredential(credential)) {
+      this.client.pipeline.addPolicy(
+        bearerTokenAuthenticationPolicy({ credential, scopes: utils.DEFAULT_SEARCH_SCOPE })
+      );
+    } else {
+      this.client.pipeline.addPolicy(createSearchApiKeyCredentialPolicy(credential));
+    }
+
+    this.client.pipeline.addPolicy(createOdataMetadataPolicy("none"));
   }
 
   /**
@@ -173,11 +176,19 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
    */
   public async getDocumentsCount(options: CountDocumentsOptions = {}): Promise<number> {
     const { span, updatedOptions } = createSpan("SearchClient-getDocumentsCount", options);
+    if (updatedOptions.tracingOptions) {
+      updatedOptions.tracingOptions.spanOptions = (updatedOptions.tracingOptions as any)?.spanOptions;
+    }
     try {
-      const result = await this.client.documents.count(
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
-      return Number(result._response.bodyAsText);
+      let documentsCount: number = 0;
+      await this.client.documents.count({
+        ...updatedOptions,
+        onResponse: (response) => {
+          documentsCount = Number(response.bodyAsText);
+        }
+      });
+
+      return documentsCount;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -219,12 +230,12 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     }
 
     const { span, updatedOptions } = createSpan("SearchClient-autocomplete", operationOptions);
+    if (updatedOptions.tracingOptions) {
+      updatedOptions.tracingOptions.spanOptions = (updatedOptions.tracingOptions as any)?.spanOptions;
+    }
 
     try {
-      const result = await this.client.documents.autocompletePost(
-        fullOptions,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      const result = await this.client.documents.autocompletePost(fullOptions, updatedOptions);
       return result;
     } catch (e) {
       span.setStatus({
@@ -254,6 +265,9 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     };
 
     const { span, updatedOptions } = createSpan("SearchClient-searchDocuments", operationOptions);
+    if (updatedOptions.tracingOptions) {
+      updatedOptions.tracingOptions.spanOptions = (updatedOptions.tracingOptions as any)?.spanOptions;
+    }
 
     try {
       const result = await this.client.documents.searchPost(
@@ -262,7 +276,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
           includeTotalResultCount: fullOptions.includeTotalCount,
           searchText: searchText
         },
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
 
       const { results, count, coverage, facets, answers, nextLink } = result;
@@ -419,12 +433,12 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     }
 
     const { span, updatedOptions } = createSpan("SearchClient-suggest", operationOptions);
+    if (updatedOptions.tracingOptions) {
+      updatedOptions.tracingOptions.spanOptions = (updatedOptions.tracingOptions as any)?.spanOptions;
+    }
 
     try {
-      const result = await this.client.documents.suggestPost(
-        fullOptions,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      const result = await this.client.documents.suggestPost(fullOptions, updatedOptions);
 
       const modifiedResult = utils.generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<T>(
         result
@@ -447,16 +461,16 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
    * @param key - The primary key value of the document
    * @param options - Additional options
    */
-  public async getDocument<Fields extends keyof T>(
+  public async getDocument<Fields extends Extract<keyof T, string>>(
     key: string,
     options: GetDocumentOptions<Fields> = {}
   ): Promise<T> {
     const { span, updatedOptions } = createSpan("SearchClient-getDocument", options);
+    if (updatedOptions.tracingOptions) {
+      updatedOptions.tracingOptions.spanOptions = (updatedOptions.tracingOptions as any)?.spanOptions;
+    }
     try {
-      const result = await this.client.documents.get(
-        key,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      const result = await this.client.documents.get(key, updatedOptions);
       return deserialize<T>(result.body);
     } catch (e) {
       span.setStatus({
@@ -485,12 +499,21 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     options: IndexDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
     const { span, updatedOptions } = createSpan("SearchClient-indexDocuments", options);
+    if (updatedOptions.tracingOptions) {
+      updatedOptions.tracingOptions.spanOptions = (updatedOptions.tracingOptions as any)?.spanOptions;
+    }
     try {
+      let status: number = 0;
       const result = await this.client.documents.index(
         { actions: serialize(batch.actions) },
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        {
+          ...updatedOptions,
+          onResponse: (response) => {
+            status = response.status;
+          }
+        }
       );
-      if (options.throwOnAnyFailure && result._response.status === 207) {
+      if (options.throwOnAnyFailure && status === 207) {
         throw result;
       }
       return result;
@@ -686,7 +709,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     obj: T
   ): {
     operationOptions: OperationOptions;
-    restOptions: Pick<T, Exclude<keyof T, keyof OperationOptions>>;
+    restOptions: any;
   } {
     const { abortSignal, requestOptions, tracingOptions, ...restOptions } = obj;
 

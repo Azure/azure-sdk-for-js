@@ -2,14 +2,8 @@
 // Licensed under the MIT license.
 
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import {
-  createPipelineFromOptions,
-  InternalPipelineOptions,
-  operationOptionsToRequestOptionsBase,
-  PipelineOptions,
-  RequestPolicyFactory,
-  bearerTokenAuthenticationPolicy
-} from "@azure/core-http";
+import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { SDK_VERSION } from "./constants";
 import { SearchIndexerStatus } from "./generated/service/models";
@@ -41,12 +35,12 @@ import {
 } from "./serviceModels";
 import * as utils from "./serviceUtils";
 import { createSpan } from "./tracing";
-import { odataMetadataPolicy } from "./odataMetadataPolicy";
+import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
 
 /**
  * Client options used to configure Cognitive Search API requests.
  */
-export interface SearchIndexerClientOptions extends PipelineOptions {
+export interface SearchIndexerClientOptions extends CommonClientOptions {
   /**
    * The API version to use when communicating with the service.
    */
@@ -109,12 +103,12 @@ export class SearchIndexerClient {
       options.userAgentOptions.userAgentPrefix = libInfo;
     }
 
-    const internalPipelineOptions: InternalPipelineOptions = {
+    const internalClientPipelineOptions: InternalClientPipelineOptions = {
       ...options,
       ...{
         loggingOptions: {
           logger: logger.info,
-          allowedHeaderNames: [
+          additionalAllowedHeaderNames: [
             "elapsed-time",
             "Location",
             "OData-MaxVersion",
@@ -126,16 +120,6 @@ export class SearchIndexerClient {
       }
     };
 
-    const requestPolicyFactory: RequestPolicyFactory = isTokenCredential(credential)
-      ? bearerTokenAuthenticationPolicy(credential, utils.DEFAULT_SEARCH_SCOPE)
-      : createSearchApiKeyCredentialPolicy(credential);
-
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, requestPolicyFactory);
-
-    if (Array.isArray(pipeline.requestPolicyFactories)) {
-      pipeline.requestPolicyFactories.unshift(odataMetadataPolicy("minimal"));
-    }
-
     let apiVersion = this.apiVersion;
 
     if (options.apiVersion) {
@@ -145,7 +129,17 @@ export class SearchIndexerClient {
       apiVersion = options.apiVersion;
     }
 
-    this.client = new GeneratedClient(this.endpoint, apiVersion, pipeline);
+    this.client = new GeneratedClient(this.endpoint, apiVersion, internalClientPipelineOptions);
+
+    if (isTokenCredential(credential)) {
+      this.client.pipeline.addPolicy(
+        bearerTokenAuthenticationPolicy({ credential, scopes: utils.DEFAULT_SEARCH_SCOPE })
+      );
+    } else {
+      this.client.pipeline.addPolicy(createSearchApiKeyCredentialPolicy(credential));
+    }
+
+    this.client.pipeline.addPolicy(createOdataMetadataPolicy("minimal"));
   }
 
   /**
@@ -154,10 +148,11 @@ export class SearchIndexerClient {
    */
   public async listIndexers(options: ListIndexersOptions = {}): Promise<Array<SearchIndexer>> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-listIndexers", options);
+    if (updatedOptions.tracingOptions) {
+      updatedOptions.tracingOptions.spanOptions = (updatedOptions.tracingOptions as any)?.spanOptions;
+    }
     try {
-      const result = await this.client.indexers.list(
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      const result = await this.client.indexers.list(updatedOptions);
       return result.indexers.map(utils.generatedSearchIndexerToPublicSearchIndexer);
     } catch (e) {
       span.setStatus({
@@ -176,9 +171,12 @@ export class SearchIndexerClient {
    */
   public async listIndexersNames(options: ListIndexersOptions = {}): Promise<Array<string>> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-listIndexersNames", options);
+    if (updatedOptions.tracingOptions) {
+      updatedOptions.tracingOptions.spanOptions = (updatedOptions.tracingOptions as any)?.spanOptions;
+    }
     try {
       const result = await this.client.indexers.list({
-        ...operationOptionsToRequestOptionsBase(updatedOptions),
+        ...updatedOptions,
         select: "name"
       });
       return result.indexers.map((idx) => idx.name);
@@ -204,10 +202,11 @@ export class SearchIndexerClient {
       "SearchIndexerClient-listDataSourceConnections",
       options
     );
+    if (updatedOptions.tracingOptions) {
+      updatedOptions.tracingOptions.spanOptions = (updatedOptions.tracingOptions as any)?.spanOptions;
+    }
     try {
-      const result = await this.client.dataSources.list(
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      const result = await this.client.dataSources.list(updatedOptions);
       return result.dataSources.map(utils.generatedDataSourceToPublicDataSource);
     } catch (e) {
       span.setStatus({
@@ -231,9 +230,12 @@ export class SearchIndexerClient {
       "SearchIndexerClient-listDataSourceConnectionsNames",
       options
     );
+    if (updatedOptions.tracingOptions) {
+      updatedOptions.tracingOptions.spanOptions = (updatedOptions.tracingOptions as any)?.spanOptions;
+    }
     try {
       const result = await this.client.dataSources.list({
-        ...operationOptionsToRequestOptionsBase(updatedOptions),
+        ...updatedOptions,
         select: "name"
       });
       return result.dataSources.map((ds) => ds.name);
@@ -256,10 +258,11 @@ export class SearchIndexerClient {
     options: ListSkillsetsOptions = {}
   ): Promise<Array<SearchIndexerSkillset>> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-listSkillsets", options);
+    if (updatedOptions.tracingOptions) {
+      updatedOptions.tracingOptions.spanOptions = (updatedOptions.tracingOptions as any)?.spanOptions;
+    }
     try {
-      const result = await this.client.skillsets.list(
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      const result = await this.client.skillsets.list(updatedOptions);
       return result.skillsets.map(utils.generatedSkillsetToPublicSkillset);
     } catch (e) {
       span.setStatus({
@@ -278,9 +281,12 @@ export class SearchIndexerClient {
    */
   public async listSkillsetsNames(options: ListSkillsetsOptions = {}): Promise<Array<string>> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-listSkillsetsNames", options);
+    if (updatedOptions.tracingOptions) {
+      updatedOptions.tracingOptions.spanOptions = (updatedOptions.tracingOptions as any)?.spanOptions;
+    }
     try {
       const result = await this.client.skillsets.list({
-        ...operationOptionsToRequestOptionsBase(updatedOptions),
+        ...updatedOptions,
         select: "name"
       });
       return result.skillsets.map((sks) => sks.name);
@@ -305,11 +311,11 @@ export class SearchIndexerClient {
     options: GetIndexerOptions = {}
   ): Promise<SearchIndexer> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-getIndexer", options);
+    if (updatedOptions.tracingOptions) {
+      updatedOptions.tracingOptions.spanOptions = (updatedOptions.tracingOptions as any)?.spanOptions;
+    }
     try {
-      const result = await this.client.indexers.get(
-        indexerName,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      const result = await this.client.indexers.get(indexerName, updatedOptions);
       return utils.generatedSearchIndexerToPublicSearchIndexer(result);
     } catch (e) {
       span.setStatus({
@@ -335,11 +341,11 @@ export class SearchIndexerClient {
       "SearchIndexerClient-getDataSourceConnection",
       options
     );
+    if (updatedOptions.tracingOptions) {
+      updatedOptions.tracingOptions.spanOptions = (updatedOptions.tracingOptions as any)?.spanOptions;
+    }
     try {
-      const result = await this.client.dataSources.get(
-        dataSourceConnectionName,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      const result = await this.client.dataSources.get(dataSourceConnectionName, updatedOptions);
       return utils.generatedDataSourceToPublicDataSource(result);
     } catch (e) {
       span.setStatus({
@@ -362,11 +368,11 @@ export class SearchIndexerClient {
     options: GetSkillSetOptions = {}
   ): Promise<SearchIndexerSkillset> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-getSkillset", options);
+    if (updatedOptions.tracingOptions) {
+      updatedOptions.tracingOptions.spanOptions = (updatedOptions.tracingOptions as any)?.spanOptions;
+    }
     try {
-      const result = await this.client.skillsets.get(
-        skillsetName,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      const result = await this.client.skillsets.get(skillsetName, updatedOptions);
       return utils.generatedSkillsetToPublicSkillset(result);
     } catch (e) {
       span.setStatus({
@@ -389,10 +395,13 @@ export class SearchIndexerClient {
     options: CreateIndexerOptions = {}
   ): Promise<SearchIndexer> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-createIndexer", options);
+    if (updatedOptions.tracingOptions) {
+      updatedOptions.tracingOptions.spanOptions = (updatedOptions.tracingOptions as any)?.spanOptions;
+    }
     try {
       const result = await this.client.indexers.create(
         utils.publicSearchIndexerToGeneratedSearchIndexer(indexer),
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
       return utils.generatedSearchIndexerToPublicSearchIndexer(result);
     } catch (e) {
@@ -419,10 +428,13 @@ export class SearchIndexerClient {
       "SearchIndexerClient-createDataSourceConnection",
       options
     );
+    if (updatedOptions.tracingOptions) {
+      updatedOptions.tracingOptions.spanOptions = (updatedOptions.tracingOptions as any)?.spanOptions;
+    }
     try {
       const result = await this.client.dataSources.create(
         utils.publicDataSourceToGeneratedDataSource(dataSourceConnection),
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
       return utils.generatedDataSourceToPublicDataSource(result);
     } catch (e) {
@@ -446,10 +458,13 @@ export class SearchIndexerClient {
     options: CreateSkillsetOptions = {}
   ): Promise<SearchIndexerSkillset> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-createSkillset", options);
+    if (updatedOptions.tracingOptions) {
+      updatedOptions.tracingOptions.spanOptions = (updatedOptions.tracingOptions as any)?.spanOptions;
+    }
     try {
       const result = await this.client.skillsets.create(
         utils.publicSkillsetToGeneratedSkillset(skillset),
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
       return utils.generatedSkillsetToPublicSkillset(result);
     } catch (e) {
@@ -476,6 +491,9 @@ export class SearchIndexerClient {
       "SearchIndexerClient-createOrUpdateIndexer",
       options
     );
+    if (updatedOptions.tracingOptions) {
+      updatedOptions.tracingOptions.spanOptions = (updatedOptions.tracingOptions as any)?.spanOptions;
+    }
     try {
       const etag = options.onlyIfUnchanged ? indexer.etag : undefined;
 
@@ -483,7 +501,7 @@ export class SearchIndexerClient {
         indexer.name,
         utils.publicSearchIndexerToGeneratedSearchIndexer(indexer),
         {
-          ...operationOptionsToRequestOptionsBase(updatedOptions),
+          ...updatedOptions,
           ifMatch: etag,
           ignoreResetRequirements: options.ignoreResetRequirements,
           disableCacheReprocessingChangeDetection: options.disableCacheReprocessingChangeDetection
@@ -514,6 +532,9 @@ export class SearchIndexerClient {
       "SearchIndexerClient-createOrUpdateDataSourceConnection",
       options
     );
+    if (updatedOptions.tracingOptions) {
+      updatedOptions.tracingOptions.spanOptions = (updatedOptions.tracingOptions as any)?.spanOptions;
+    }
     try {
       const etag = options.onlyIfUnchanged ? dataSourceConnection.etag : undefined;
 
@@ -521,7 +542,7 @@ export class SearchIndexerClient {
         dataSourceConnection.name,
         utils.publicDataSourceToGeneratedDataSource(dataSourceConnection),
         {
-          ...operationOptionsToRequestOptionsBase(updatedOptions),
+          ...updatedOptions,
           ifMatch: etag,
           ignoreResetRequirements: options.ignoreResetRequirements
         }
@@ -551,6 +572,9 @@ export class SearchIndexerClient {
       "SearchIndexerClient-createOrUpdateSkillset",
       options
     );
+    if (updatedOptions.tracingOptions) {
+      updatedOptions.tracingOptions.spanOptions = (updatedOptions.tracingOptions as any)?.spanOptions;
+    }
     try {
       const etag = options.onlyIfUnchanged ? skillset.etag : undefined;
 
@@ -558,7 +582,7 @@ export class SearchIndexerClient {
         skillset.name,
         utils.publicSkillsetToGeneratedSkillset(skillset),
         {
-          ...operationOptionsToRequestOptionsBase(updatedOptions),
+          ...updatedOptions,
           ifMatch: etag,
           ignoreResetRequirements: options.ignoreResetRequirements,
           disableCacheReprocessingChangeDetection: options.disableCacheReprocessingChangeDetection
@@ -587,6 +611,9 @@ export class SearchIndexerClient {
     options: DeleteIndexerOptions = {}
   ): Promise<void> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-deleteIndexer", options);
+    if (updatedOptions.tracingOptions) {
+      updatedOptions.tracingOptions.spanOptions = (updatedOptions.tracingOptions as any)?.spanOptions;
+    }
     try {
       const indexerName: string = typeof indexer === "string" ? indexer : indexer.name;
       const etag =
@@ -597,7 +624,7 @@ export class SearchIndexerClient {
           : undefined;
 
       await this.client.indexers.delete(indexerName, {
-        ...operationOptionsToRequestOptionsBase(updatedOptions),
+        ...updatedOptions,
         ifMatch: etag
       });
     } catch (e) {
@@ -624,6 +651,9 @@ export class SearchIndexerClient {
       "SearchIndexerClient-deleteDataSourceConnection",
       options
     );
+    if (updatedOptions.tracingOptions) {
+      updatedOptions.tracingOptions.spanOptions = (updatedOptions.tracingOptions as any)?.spanOptions;
+    }
     try {
       const dataSourceConnectionName: string =
         typeof dataSourceConnection === "string" ? dataSourceConnection : dataSourceConnection.name;
@@ -635,7 +665,7 @@ export class SearchIndexerClient {
           : undefined;
 
       await this.client.dataSources.delete(dataSourceConnectionName, {
-        ...operationOptionsToRequestOptionsBase(updatedOptions),
+        ...updatedOptions,
         ifMatch: etag
       });
     } catch (e) {
@@ -659,6 +689,9 @@ export class SearchIndexerClient {
     options: DeleteSkillsetOptions = {}
   ): Promise<void> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-deleteSkillset", options);
+    if (updatedOptions.tracingOptions) {
+      updatedOptions.tracingOptions.spanOptions = (updatedOptions.tracingOptions as any)?.spanOptions;
+    }
     try {
       const skillsetName: string = typeof skillset === "string" ? skillset : skillset.name;
       const etag =
@@ -669,7 +702,7 @@ export class SearchIndexerClient {
           : undefined;
 
       await this.client.skillsets.delete(skillsetName, {
-        ...operationOptionsToRequestOptionsBase(updatedOptions),
+        ...updatedOptions,
         ifMatch: etag
       });
     } catch (e) {
@@ -693,11 +726,11 @@ export class SearchIndexerClient {
     options: GetIndexerStatusOptions = {}
   ): Promise<SearchIndexerStatus> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-getIndexerStatus", options);
+    if (updatedOptions.tracingOptions) {
+      updatedOptions.tracingOptions.spanOptions = (updatedOptions.tracingOptions as any)?.spanOptions;
+    }
     try {
-      const result = await this.client.indexers.getStatus(
-        indexerName,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      const result = await this.client.indexers.getStatus(indexerName, updatedOptions);
       return result;
     } catch (e) {
       span.setStatus({
@@ -717,11 +750,11 @@ export class SearchIndexerClient {
    */
   public async resetIndexer(indexerName: string, options: ResetIndexerOptions = {}): Promise<void> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-resetIndexer", options);
+    if (updatedOptions.tracingOptions) {
+      updatedOptions.tracingOptions.spanOptions = (updatedOptions.tracingOptions as any)?.spanOptions;
+    }
     try {
-      await this.client.indexers.reset(
-        indexerName,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      await this.client.indexers.reset(indexerName, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -740,11 +773,11 @@ export class SearchIndexerClient {
    */
   public async runIndexer(indexerName: string, options: RunIndexerOptions = {}): Promise<void> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-runIndexer", options);
+    if (updatedOptions.tracingOptions) {
+      updatedOptions.tracingOptions.spanOptions = (updatedOptions.tracingOptions as any)?.spanOptions;
+    }
     try {
-      await this.client.indexers.run(
-        indexerName,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      await this.client.indexers.run(indexerName, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

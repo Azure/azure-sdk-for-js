@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
 import {
   SearchIndexerSkillset,
   SkillsetsCreateOrUpdateOptionalParams,
@@ -41,7 +40,7 @@ export interface Skillsets {
   delete(
     skillsetName: string,
     options?: SkillsetsDeleteOptionalParams
-  ): Promise<coreHttp.RestResponse>;
+  ): Promise<void>;
   /**
    * Retrieves a skillset in a search service.
    * @param skillsetName The name of the skillset to retrieve.

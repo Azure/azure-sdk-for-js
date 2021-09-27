@@ -14,12 +14,12 @@ input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/c99fbb9
 add-credentials: false
 title: SearchClient
 use-extension:
-  "@autorest/typescript": "6.0.0-beta.4"
+  "@autorest/typescript": "6.0.0-beta.13"
 disable-async-iterators: true
 api-version-parameter: choice
 v3: true
 hide-clients: true
-use-core-v2: false
+use-core-v2: true
 ```
 
 ## Customizations for Track 2 Generator

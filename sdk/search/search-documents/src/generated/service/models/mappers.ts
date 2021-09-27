@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
-export const SearchIndexerDataSource: coreHttp.CompositeMapper = {
+export const SearchIndexerDataSource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SearchIndexerDataSource",
@@ -85,7 +85,7 @@ export const SearchIndexerDataSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const DataSourceCredentials: coreHttp.CompositeMapper = {
+export const DataSourceCredentials: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DataSourceCredentials",
@@ -100,7 +100,7 @@ export const DataSourceCredentials: coreHttp.CompositeMapper = {
   }
 };
 
-export const SearchIndexerDataContainer: coreHttp.CompositeMapper = {
+export const SearchIndexerDataContainer: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SearchIndexerDataContainer",
@@ -122,7 +122,7 @@ export const SearchIndexerDataContainer: coreHttp.CompositeMapper = {
   }
 };
 
-export const SearchIndexerDataIdentity: coreHttp.CompositeMapper = {
+export const SearchIndexerDataIdentity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SearchIndexerDataIdentity",
@@ -143,7 +143,7 @@ export const SearchIndexerDataIdentity: coreHttp.CompositeMapper = {
   }
 };
 
-export const DataChangeDetectionPolicy: coreHttp.CompositeMapper = {
+export const DataChangeDetectionPolicy: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DataChangeDetectionPolicy",
@@ -164,7 +164,7 @@ export const DataChangeDetectionPolicy: coreHttp.CompositeMapper = {
   }
 };
 
-export const DataDeletionDetectionPolicy: coreHttp.CompositeMapper = {
+export const DataDeletionDetectionPolicy: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DataDeletionDetectionPolicy",
@@ -185,7 +185,7 @@ export const DataDeletionDetectionPolicy: coreHttp.CompositeMapper = {
   }
 };
 
-export const SearchResourceEncryptionKey: coreHttp.CompositeMapper = {
+export const SearchResourceEncryptionKey: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SearchResourceEncryptionKey",
@@ -229,7 +229,7 @@ export const SearchResourceEncryptionKey: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureActiveDirectoryApplicationCredentials: coreHttp.CompositeMapper = {
+export const AzureActiveDirectoryApplicationCredentials: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AzureActiveDirectoryApplicationCredentials",
@@ -251,7 +251,7 @@ export const AzureActiveDirectoryApplicationCredentials: coreHttp.CompositeMappe
   }
 };
 
-export const SearchError: coreHttp.CompositeMapper = {
+export const SearchError: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SearchError",
@@ -288,7 +288,7 @@ export const SearchError: coreHttp.CompositeMapper = {
   }
 };
 
-export const ListDataSourcesResult: coreHttp.CompositeMapper = {
+export const ListDataSourcesResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ListDataSourcesResult",
@@ -311,7 +311,7 @@ export const ListDataSourcesResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const SearchIndexer: coreHttp.CompositeMapper = {
+export const SearchIndexer: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SearchIndexer",
@@ -388,6 +388,7 @@ export const SearchIndexer: coreHttp.CompositeMapper = {
         }
       },
       isDisabled: {
+        defaultValue: false,
         serializedName: "disabled",
         nullable: true,
         type: {
@@ -418,7 +419,7 @@ export const SearchIndexer: coreHttp.CompositeMapper = {
   }
 };
 
-export const IndexingSchedule: coreHttp.CompositeMapper = {
+export const IndexingSchedule: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IndexingSchedule",
@@ -440,7 +441,7 @@ export const IndexingSchedule: coreHttp.CompositeMapper = {
   }
 };
 
-export const IndexingParameters: coreHttp.CompositeMapper = {
+export const IndexingParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IndexingParameters",
@@ -453,6 +454,7 @@ export const IndexingParameters: coreHttp.CompositeMapper = {
         }
       },
       maxFailedItems: {
+        defaultValue: 0,
         serializedName: "maxFailedItems",
         nullable: true,
         type: {
@@ -460,6 +462,7 @@ export const IndexingParameters: coreHttp.CompositeMapper = {
         }
       },
       maxFailedItemsPerBatch: {
+        defaultValue: 0,
         serializedName: "maxFailedItemsPerBatch",
         nullable: true,
         type: {
@@ -477,7 +480,7 @@ export const IndexingParameters: coreHttp.CompositeMapper = {
   }
 };
 
-export const IndexingParametersConfiguration: coreHttp.CompositeMapper = {
+export const IndexingParametersConfiguration: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IndexingParametersConfiguration",
@@ -491,30 +494,35 @@ export const IndexingParametersConfiguration: coreHttp.CompositeMapper = {
         }
       },
       excludedFileNameExtensions: {
+        defaultValue: "",
         serializedName: "excludedFileNameExtensions",
         type: {
           name: "String"
         }
       },
       indexedFileNameExtensions: {
+        defaultValue: "",
         serializedName: "indexedFileNameExtensions",
         type: {
           name: "String"
         }
       },
       failOnUnsupportedContentType: {
+        defaultValue: false,
         serializedName: "failOnUnsupportedContentType",
         type: {
           name: "Boolean"
         }
       },
       failOnUnprocessableDocument: {
+        defaultValue: false,
         serializedName: "failOnUnprocessableDocument",
         type: {
           name: "Boolean"
         }
       },
       indexStorageMetadataOnlyForOversizedDocuments: {
+        defaultValue: false,
         serializedName: "indexStorageMetadataOnlyForOversizedDocuments",
         type: {
           name: "Boolean"
@@ -560,6 +568,7 @@ export const IndexingParametersConfiguration: coreHttp.CompositeMapper = {
         }
       },
       allowSkillsetToReadFileData: {
+        defaultValue: false,
         serializedName: "allowSkillsetToReadFileData",
         type: {
           name: "Boolean"
@@ -590,7 +599,7 @@ export const IndexingParametersConfiguration: coreHttp.CompositeMapper = {
   }
 };
 
-export const FieldMapping: coreHttp.CompositeMapper = {
+export const FieldMapping: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "FieldMapping",
@@ -619,7 +628,7 @@ export const FieldMapping: coreHttp.CompositeMapper = {
   }
 };
 
-export const FieldMappingFunction: coreHttp.CompositeMapper = {
+export const FieldMappingFunction: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "FieldMappingFunction",
@@ -635,14 +644,16 @@ export const FieldMappingFunction: coreHttp.CompositeMapper = {
         serializedName: "parameters",
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
+          value: {
+            type: { name: "Dictionary", value: { type: { name: "any" } } }
+          }
         }
       }
     }
   }
 };
 
-export const SearchIndexerCache: coreHttp.CompositeMapper = {
+export const SearchIndexerCache: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SearchIndexerCache",
@@ -664,7 +675,7 @@ export const SearchIndexerCache: coreHttp.CompositeMapper = {
   }
 };
 
-export const ListIndexersResult: coreHttp.CompositeMapper = {
+export const ListIndexersResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ListIndexersResult",
@@ -687,7 +698,7 @@ export const ListIndexersResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const SearchIndexerStatus: coreHttp.CompositeMapper = {
+export const SearchIndexerStatus: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SearchIndexerStatus",
@@ -733,7 +744,7 @@ export const SearchIndexerStatus: coreHttp.CompositeMapper = {
   }
 };
 
-export const IndexerExecutionResult: coreHttp.CompositeMapper = {
+export const IndexerExecutionResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IndexerExecutionResult",
@@ -831,7 +842,7 @@ export const IndexerExecutionResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const SearchIndexerError: coreHttp.CompositeMapper = {
+export const SearchIndexerError: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SearchIndexerError",
@@ -884,7 +895,7 @@ export const SearchIndexerError: coreHttp.CompositeMapper = {
   }
 };
 
-export const SearchIndexerWarning: coreHttp.CompositeMapper = {
+export const SearchIndexerWarning: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SearchIndexerWarning",
@@ -929,7 +940,7 @@ export const SearchIndexerWarning: coreHttp.CompositeMapper = {
   }
 };
 
-export const SearchIndexerLimits: coreHttp.CompositeMapper = {
+export const SearchIndexerLimits: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SearchIndexerLimits",
@@ -959,7 +970,7 @@ export const SearchIndexerLimits: coreHttp.CompositeMapper = {
   }
 };
 
-export const SearchIndexerSkillset: coreHttp.CompositeMapper = {
+export const SearchIndexerSkillset: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SearchIndexerSkillset",
@@ -1021,7 +1032,7 @@ export const SearchIndexerSkillset: coreHttp.CompositeMapper = {
   }
 };
 
-export const SearchIndexerSkill: coreHttp.CompositeMapper = {
+export const SearchIndexerSkill: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SearchIndexerSkill",
@@ -1086,7 +1097,7 @@ export const SearchIndexerSkill: coreHttp.CompositeMapper = {
   }
 };
 
-export const InputFieldMappingEntry: coreHttp.CompositeMapper = {
+export const InputFieldMappingEntry: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "InputFieldMappingEntry",
@@ -1126,7 +1137,7 @@ export const InputFieldMappingEntry: coreHttp.CompositeMapper = {
   }
 };
 
-export const OutputFieldMappingEntry: coreHttp.CompositeMapper = {
+export const OutputFieldMappingEntry: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "OutputFieldMappingEntry",
@@ -1148,7 +1159,7 @@ export const OutputFieldMappingEntry: coreHttp.CompositeMapper = {
   }
 };
 
-export const CognitiveServicesAccount: coreHttp.CompositeMapper = {
+export const CognitiveServicesAccount: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CognitiveServicesAccount",
@@ -1175,7 +1186,7 @@ export const CognitiveServicesAccount: coreHttp.CompositeMapper = {
   }
 };
 
-export const SearchIndexerKnowledgeStore: coreHttp.CompositeMapper = {
+export const SearchIndexerKnowledgeStore: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SearchIndexerKnowledgeStore",
@@ -1204,7 +1215,7 @@ export const SearchIndexerKnowledgeStore: coreHttp.CompositeMapper = {
   }
 };
 
-export const SearchIndexerKnowledgeStoreProjection: coreHttp.CompositeMapper = {
+export const SearchIndexerKnowledgeStoreProjection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SearchIndexerKnowledgeStoreProjection",
@@ -1249,7 +1260,7 @@ export const SearchIndexerKnowledgeStoreProjection: coreHttp.CompositeMapper = {
   }
 };
 
-export const SearchIndexerKnowledgeStoreProjectionSelector: coreHttp.CompositeMapper = {
+export const SearchIndexerKnowledgeStoreProjectionSelector: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SearchIndexerKnowledgeStoreProjectionSelector",
@@ -1294,7 +1305,7 @@ export const SearchIndexerKnowledgeStoreProjectionSelector: coreHttp.CompositeMa
   }
 };
 
-export const ListSkillsetsResult: coreHttp.CompositeMapper = {
+export const ListSkillsetsResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ListSkillsetsResult",
@@ -1317,7 +1328,7 @@ export const ListSkillsetsResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const SynonymMap: coreHttp.CompositeMapper = {
+export const SynonymMap: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SynonymMap",
@@ -1361,7 +1372,7 @@ export const SynonymMap: coreHttp.CompositeMapper = {
   }
 };
 
-export const ListSynonymMapsResult: coreHttp.CompositeMapper = {
+export const ListSynonymMapsResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ListSynonymMapsResult",
@@ -1384,7 +1395,7 @@ export const ListSynonymMapsResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const SearchIndex: coreHttp.CompositeMapper = {
+export const SearchIndex: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SearchIndex",
@@ -1530,7 +1541,7 @@ export const SearchIndex: coreHttp.CompositeMapper = {
   }
 };
 
-export const SearchField: coreHttp.CompositeMapper = {
+export const SearchField: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SearchField",
@@ -1640,7 +1651,7 @@ export const SearchField: coreHttp.CompositeMapper = {
   }
 };
 
-export const ScoringProfile: coreHttp.CompositeMapper = {
+export const ScoringProfile: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ScoringProfile",
@@ -1688,7 +1699,7 @@ export const ScoringProfile: coreHttp.CompositeMapper = {
   }
 };
 
-export const TextWeights: coreHttp.CompositeMapper = {
+export const TextWeights: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TextWeights",
@@ -1705,7 +1716,7 @@ export const TextWeights: coreHttp.CompositeMapper = {
   }
 };
 
-export const ScoringFunction: coreHttp.CompositeMapper = {
+export const ScoringFunction: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ScoringFunction",
@@ -1747,7 +1758,7 @@ export const ScoringFunction: coreHttp.CompositeMapper = {
   }
 };
 
-export const CorsOptions: coreHttp.CompositeMapper = {
+export const CorsOptions: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CorsOptions",
@@ -1775,7 +1786,7 @@ export const CorsOptions: coreHttp.CompositeMapper = {
   }
 };
 
-export const Suggester: coreHttp.CompositeMapper = {
+export const Suggester: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Suggester",
@@ -1811,7 +1822,7 @@ export const Suggester: coreHttp.CompositeMapper = {
   }
 };
 
-export const LexicalAnalyzer: coreHttp.CompositeMapper = {
+export const LexicalAnalyzer: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LexicalAnalyzer",
@@ -1839,7 +1850,7 @@ export const LexicalAnalyzer: coreHttp.CompositeMapper = {
   }
 };
 
-export const LexicalTokenizer: coreHttp.CompositeMapper = {
+export const LexicalTokenizer: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LexicalTokenizer",
@@ -1867,7 +1878,7 @@ export const LexicalTokenizer: coreHttp.CompositeMapper = {
   }
 };
 
-export const TokenFilter: coreHttp.CompositeMapper = {
+export const TokenFilter: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TokenFilter",
@@ -1895,7 +1906,7 @@ export const TokenFilter: coreHttp.CompositeMapper = {
   }
 };
 
-export const CharFilter: coreHttp.CompositeMapper = {
+export const CharFilter: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CharFilter",
@@ -1923,7 +1934,7 @@ export const CharFilter: coreHttp.CompositeMapper = {
   }
 };
 
-export const LexicalNormalizer: coreHttp.CompositeMapper = {
+export const LexicalNormalizer: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LexicalNormalizer",
@@ -1951,7 +1962,7 @@ export const LexicalNormalizer: coreHttp.CompositeMapper = {
   }
 };
 
-export const Similarity: coreHttp.CompositeMapper = {
+export const Similarity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Similarity",
@@ -1972,7 +1983,7 @@ export const Similarity: coreHttp.CompositeMapper = {
   }
 };
 
-export const ListIndexesResult: coreHttp.CompositeMapper = {
+export const ListIndexesResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ListIndexesResult",
@@ -1995,7 +2006,7 @@ export const ListIndexesResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const GetIndexStatisticsResult: coreHttp.CompositeMapper = {
+export const GetIndexStatisticsResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "GetIndexStatisticsResult",
@@ -2020,7 +2031,7 @@ export const GetIndexStatisticsResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const AnalyzeRequest: coreHttp.CompositeMapper = {
+export const AnalyzeRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AnalyzeRequest",
@@ -2076,7 +2087,7 @@ export const AnalyzeRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const AnalyzeResult: coreHttp.CompositeMapper = {
+export const AnalyzeResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AnalyzeResult",
@@ -2098,7 +2109,7 @@ export const AnalyzeResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const AnalyzedTokenInfo: coreHttp.CompositeMapper = {
+export const AnalyzedTokenInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AnalyzedTokenInfo",
@@ -2139,7 +2150,7 @@ export const AnalyzedTokenInfo: coreHttp.CompositeMapper = {
   }
 };
 
-export const ServiceStatistics: coreHttp.CompositeMapper = {
+export const ServiceStatistics: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ServiceStatistics",
@@ -2162,7 +2173,7 @@ export const ServiceStatistics: coreHttp.CompositeMapper = {
   }
 };
 
-export const ServiceCounters: coreHttp.CompositeMapper = {
+export const ServiceCounters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ServiceCounters",
@@ -2220,7 +2231,7 @@ export const ServiceCounters: coreHttp.CompositeMapper = {
   }
 };
 
-export const ResourceCounter: coreHttp.CompositeMapper = {
+export const ResourceCounter: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ResourceCounter",
@@ -2243,7 +2254,7 @@ export const ResourceCounter: coreHttp.CompositeMapper = {
   }
 };
 
-export const ServiceLimits: coreHttp.CompositeMapper = {
+export const ServiceLimits: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ServiceLimits",
@@ -2280,7 +2291,7 @@ export const ServiceLimits: coreHttp.CompositeMapper = {
   }
 };
 
-export const DistanceScoringParameters: coreHttp.CompositeMapper = {
+export const DistanceScoringParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DistanceScoringParameters",
@@ -2303,7 +2314,7 @@ export const DistanceScoringParameters: coreHttp.CompositeMapper = {
   }
 };
 
-export const FreshnessScoringParameters: coreHttp.CompositeMapper = {
+export const FreshnessScoringParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "FreshnessScoringParameters",
@@ -2319,7 +2330,7 @@ export const FreshnessScoringParameters: coreHttp.CompositeMapper = {
   }
 };
 
-export const MagnitudeScoringParameters: coreHttp.CompositeMapper = {
+export const MagnitudeScoringParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MagnitudeScoringParameters",
@@ -2348,7 +2359,7 @@ export const MagnitudeScoringParameters: coreHttp.CompositeMapper = {
   }
 };
 
-export const TagScoringParameters: coreHttp.CompositeMapper = {
+export const TagScoringParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TagScoringParameters",
@@ -2364,7 +2375,7 @@ export const TagScoringParameters: coreHttp.CompositeMapper = {
   }
 };
 
-export const CustomEntity: coreHttp.CompositeMapper = {
+export const CustomEntity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CustomEntity",
@@ -2463,7 +2474,7 @@ export const CustomEntity: coreHttp.CompositeMapper = {
   }
 };
 
-export const CustomEntityAlias: coreHttp.CompositeMapper = {
+export const CustomEntityAlias: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CustomEntityAlias",
@@ -2500,7 +2511,7 @@ export const CustomEntityAlias: coreHttp.CompositeMapper = {
   }
 };
 
-export const SearchIndexerDataNoneIdentity: coreHttp.CompositeMapper = {
+export const SearchIndexerDataNoneIdentity: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.SearchIndexerDataNoneIdentity",
   type: {
     name: "Composite",
@@ -2514,7 +2525,7 @@ export const SearchIndexerDataNoneIdentity: coreHttp.CompositeMapper = {
   }
 };
 
-export const SearchIndexerDataUserAssignedIdentity: coreHttp.CompositeMapper = {
+export const SearchIndexerDataUserAssignedIdentity: coreClient.CompositeMapper = {
   serializedName:
     "#Microsoft.Azure.Search.SearchIndexerDataUserAssignedIdentity",
   type: {
@@ -2536,7 +2547,7 @@ export const SearchIndexerDataUserAssignedIdentity: coreHttp.CompositeMapper = {
   }
 };
 
-export const HighWaterMarkChangeDetectionPolicy: coreHttp.CompositeMapper = {
+export const HighWaterMarkChangeDetectionPolicy: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy",
   type: {
     name: "Composite",
@@ -2557,7 +2568,7 @@ export const HighWaterMarkChangeDetectionPolicy: coreHttp.CompositeMapper = {
   }
 };
 
-export const SqlIntegratedChangeTrackingPolicy: coreHttp.CompositeMapper = {
+export const SqlIntegratedChangeTrackingPolicy: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.SqlIntegratedChangeTrackingPolicy",
   type: {
     name: "Composite",
@@ -2571,7 +2582,7 @@ export const SqlIntegratedChangeTrackingPolicy: coreHttp.CompositeMapper = {
   }
 };
 
-export const SoftDeleteColumnDeletionDetectionPolicy: coreHttp.CompositeMapper = {
+export const SoftDeleteColumnDeletionDetectionPolicy: coreClient.CompositeMapper = {
   serializedName:
     "#Microsoft.Azure.Search.SoftDeleteColumnDeletionDetectionPolicy",
   type: {
@@ -2598,7 +2609,7 @@ export const SoftDeleteColumnDeletionDetectionPolicy: coreHttp.CompositeMapper =
   }
 };
 
-export const ConditionalSkill: coreHttp.CompositeMapper = {
+export const ConditionalSkill: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Skills.Util.ConditionalSkill",
   type: {
     name: "Composite",
@@ -2611,7 +2622,7 @@ export const ConditionalSkill: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeyPhraseExtractionSkill: coreHttp.CompositeMapper = {
+export const KeyPhraseExtractionSkill: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Skills.Text.KeyPhraseExtractionSkill",
   type: {
     name: "Composite",
@@ -2644,7 +2655,7 @@ export const KeyPhraseExtractionSkill: coreHttp.CompositeMapper = {
   }
 };
 
-export const OcrSkill: coreHttp.CompositeMapper = {
+export const OcrSkill: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Skills.Vision.OcrSkill",
   type: {
     name: "Composite",
@@ -2660,6 +2671,7 @@ export const OcrSkill: coreHttp.CompositeMapper = {
         }
       },
       shouldDetectOrientation: {
+        defaultValue: false,
         serializedName: "detectOrientation",
         type: {
           name: "Boolean"
@@ -2675,7 +2687,7 @@ export const OcrSkill: coreHttp.CompositeMapper = {
   }
 };
 
-export const ImageAnalysisSkill: coreHttp.CompositeMapper = {
+export const ImageAnalysisSkill: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Skills.Vision.ImageAnalysisSkill",
   type: {
     name: "Composite",
@@ -2716,7 +2728,7 @@ export const ImageAnalysisSkill: coreHttp.CompositeMapper = {
   }
 };
 
-export const LanguageDetectionSkill: coreHttp.CompositeMapper = {
+export const LanguageDetectionSkill: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Skills.Text.LanguageDetectionSkill",
   type: {
     name: "Composite",
@@ -2743,7 +2755,7 @@ export const LanguageDetectionSkill: coreHttp.CompositeMapper = {
   }
 };
 
-export const ShaperSkill: coreHttp.CompositeMapper = {
+export const ShaperSkill: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Skills.Util.ShaperSkill",
   type: {
     name: "Composite",
@@ -2756,7 +2768,7 @@ export const ShaperSkill: coreHttp.CompositeMapper = {
   }
 };
 
-export const MergeSkill: coreHttp.CompositeMapper = {
+export const MergeSkill: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Skills.Text.MergeSkill",
   type: {
     name: "Composite",
@@ -2783,7 +2795,7 @@ export const MergeSkill: coreHttp.CompositeMapper = {
   }
 };
 
-export const EntityRecognitionSkill: coreHttp.CompositeMapper = {
+export const EntityRecognitionSkill: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Skills.Text.EntityRecognitionSkill",
   type: {
     name: "Composite",
@@ -2827,7 +2839,7 @@ export const EntityRecognitionSkill: coreHttp.CompositeMapper = {
   }
 };
 
-export const SentimentSkill: coreHttp.CompositeMapper = {
+export const SentimentSkill: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Skills.Text.SentimentSkill",
   type: {
     name: "Composite",
@@ -2846,7 +2858,7 @@ export const SentimentSkill: coreHttp.CompositeMapper = {
   }
 };
 
-export const SentimentSkillV3: coreHttp.CompositeMapper = {
+export const SentimentSkillV3: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Skills.Text.V3.SentimentSkill",
   type: {
     name: "Composite",
@@ -2863,6 +2875,7 @@ export const SentimentSkillV3: coreHttp.CompositeMapper = {
         }
       },
       includeOpinionMining: {
+        defaultValue: false,
         serializedName: "includeOpinionMining",
         type: {
           name: "Boolean"
@@ -2879,7 +2892,7 @@ export const SentimentSkillV3: coreHttp.CompositeMapper = {
   }
 };
 
-export const EntityLinkingSkill: coreHttp.CompositeMapper = {
+export const EntityLinkingSkill: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Skills.Text.V3.EntityLinkingSkill",
   type: {
     name: "Composite",
@@ -2917,7 +2930,7 @@ export const EntityLinkingSkill: coreHttp.CompositeMapper = {
   }
 };
 
-export const EntityRecognitionSkillV3: coreHttp.CompositeMapper = {
+export const EntityRecognitionSkillV3: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Skills.Text.V3.EntityRecognitionSkill",
   type: {
     name: "Composite",
@@ -2966,7 +2979,7 @@ export const EntityRecognitionSkillV3: coreHttp.CompositeMapper = {
   }
 };
 
-export const PIIDetectionSkill: coreHttp.CompositeMapper = {
+export const PIIDetectionSkill: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Skills.Text.PIIDetectionSkill",
   type: {
     name: "Composite",
@@ -3038,7 +3051,7 @@ export const PIIDetectionSkill: coreHttp.CompositeMapper = {
   }
 };
 
-export const SplitSkill: coreHttp.CompositeMapper = {
+export const SplitSkill: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Skills.Text.SplitSkill",
   type: {
     name: "Composite",
@@ -3070,7 +3083,7 @@ export const SplitSkill: coreHttp.CompositeMapper = {
   }
 };
 
-export const CustomEntityLookupSkill: coreHttp.CompositeMapper = {
+export const CustomEntityLookupSkill: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Skills.Text.CustomEntityLookupSkill",
   type: {
     name: "Composite",
@@ -3131,7 +3144,7 @@ export const CustomEntityLookupSkill: coreHttp.CompositeMapper = {
   }
 };
 
-export const TextTranslationSkill: coreHttp.CompositeMapper = {
+export const TextTranslationSkill: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Skills.Text.TranslationSkill",
   type: {
     name: "Composite",
@@ -3164,7 +3177,7 @@ export const TextTranslationSkill: coreHttp.CompositeMapper = {
   }
 };
 
-export const DocumentExtractionSkill: coreHttp.CompositeMapper = {
+export const DocumentExtractionSkill: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Skills.Util.DocumentExtractionSkill",
   type: {
     name: "Composite",
@@ -3192,14 +3205,16 @@ export const DocumentExtractionSkill: coreHttp.CompositeMapper = {
         nullable: true,
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
+          value: {
+            type: { name: "Dictionary", value: { type: { name: "any" } } }
+          }
         }
       }
     }
   }
 };
 
-export const WebApiSkill: coreHttp.CompositeMapper = {
+export const WebApiSkill: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Skills.Custom.WebApiSkill",
   type: {
     name: "Composite",
@@ -3252,7 +3267,7 @@ export const WebApiSkill: coreHttp.CompositeMapper = {
   }
 };
 
-export const DefaultCognitiveServicesAccount: coreHttp.CompositeMapper = {
+export const DefaultCognitiveServicesAccount: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.DefaultCognitiveServices",
   type: {
     name: "Composite",
@@ -3266,7 +3281,7 @@ export const DefaultCognitiveServicesAccount: coreHttp.CompositeMapper = {
   }
 };
 
-export const CognitiveServicesAccountKey: coreHttp.CompositeMapper = {
+export const CognitiveServicesAccountKey: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.CognitiveServicesByKey",
   type: {
     name: "Composite",
@@ -3287,7 +3302,7 @@ export const CognitiveServicesAccountKey: coreHttp.CompositeMapper = {
   }
 };
 
-export const SearchIndexerKnowledgeStoreTableProjectionSelector: coreHttp.CompositeMapper = {
+export const SearchIndexerKnowledgeStoreTableProjectionSelector: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SearchIndexerKnowledgeStoreTableProjectionSelector",
@@ -3304,7 +3319,7 @@ export const SearchIndexerKnowledgeStoreTableProjectionSelector: coreHttp.Compos
   }
 };
 
-export const SearchIndexerKnowledgeStoreBlobProjectionSelector: coreHttp.CompositeMapper = {
+export const SearchIndexerKnowledgeStoreBlobProjectionSelector: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SearchIndexerKnowledgeStoreBlobProjectionSelector",
@@ -3321,7 +3336,7 @@ export const SearchIndexerKnowledgeStoreBlobProjectionSelector: coreHttp.Composi
   }
 };
 
-export const DistanceScoringFunction: coreHttp.CompositeMapper = {
+export const DistanceScoringFunction: coreClient.CompositeMapper = {
   serializedName: "distance",
   type: {
     name: "Composite",
@@ -3341,7 +3356,7 @@ export const DistanceScoringFunction: coreHttp.CompositeMapper = {
   }
 };
 
-export const FreshnessScoringFunction: coreHttp.CompositeMapper = {
+export const FreshnessScoringFunction: coreClient.CompositeMapper = {
   serializedName: "freshness",
   type: {
     name: "Composite",
@@ -3361,7 +3376,7 @@ export const FreshnessScoringFunction: coreHttp.CompositeMapper = {
   }
 };
 
-export const MagnitudeScoringFunction: coreHttp.CompositeMapper = {
+export const MagnitudeScoringFunction: coreClient.CompositeMapper = {
   serializedName: "magnitude",
   type: {
     name: "Composite",
@@ -3381,7 +3396,7 @@ export const MagnitudeScoringFunction: coreHttp.CompositeMapper = {
   }
 };
 
-export const TagScoringFunction: coreHttp.CompositeMapper = {
+export const TagScoringFunction: coreClient.CompositeMapper = {
   serializedName: "tag",
   type: {
     name: "Composite",
@@ -3401,7 +3416,7 @@ export const TagScoringFunction: coreHttp.CompositeMapper = {
   }
 };
 
-export const CustomAnalyzer: coreHttp.CompositeMapper = {
+export const CustomAnalyzer: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.CustomAnalyzer",
   type: {
     name: "Composite",
@@ -3443,7 +3458,7 @@ export const CustomAnalyzer: coreHttp.CompositeMapper = {
   }
 };
 
-export const PatternAnalyzer: coreHttp.CompositeMapper = {
+export const PatternAnalyzer: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.PatternAnalyzer",
   type: {
     name: "Composite",
@@ -3487,7 +3502,7 @@ export const PatternAnalyzer: coreHttp.CompositeMapper = {
   }
 };
 
-export const LuceneStandardAnalyzer: coreHttp.CompositeMapper = {
+export const LuceneStandardAnalyzer: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.StandardAnalyzer",
   type: {
     name: "Composite",
@@ -3521,7 +3536,7 @@ export const LuceneStandardAnalyzer: coreHttp.CompositeMapper = {
   }
 };
 
-export const StopAnalyzer: coreHttp.CompositeMapper = {
+export const StopAnalyzer: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.StopAnalyzer",
   type: {
     name: "Composite",
@@ -3545,7 +3560,7 @@ export const StopAnalyzer: coreHttp.CompositeMapper = {
   }
 };
 
-export const ClassicTokenizer: coreHttp.CompositeMapper = {
+export const ClassicTokenizer: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.ClassicTokenizer",
   type: {
     name: "Composite",
@@ -3568,7 +3583,7 @@ export const ClassicTokenizer: coreHttp.CompositeMapper = {
   }
 };
 
-export const EdgeNGramTokenizer: coreHttp.CompositeMapper = {
+export const EdgeNGramTokenizer: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.EdgeNGramTokenizer",
   type: {
     name: "Composite",
@@ -3619,7 +3634,7 @@ export const EdgeNGramTokenizer: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeywordTokenizer: coreHttp.CompositeMapper = {
+export const KeywordTokenizer: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.KeywordTokenizer",
   type: {
     name: "Composite",
@@ -3639,7 +3654,7 @@ export const KeywordTokenizer: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeywordTokenizerV2: coreHttp.CompositeMapper = {
+export const KeywordTokenizerV2: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.KeywordTokenizerV2",
   type: {
     name: "Composite",
@@ -3662,7 +3677,7 @@ export const KeywordTokenizerV2: coreHttp.CompositeMapper = {
   }
 };
 
-export const MicrosoftLanguageTokenizer: coreHttp.CompositeMapper = {
+export const MicrosoftLanguageTokenizer: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.MicrosoftLanguageTokenizer",
   type: {
     name: "Composite",
@@ -3682,6 +3697,7 @@ export const MicrosoftLanguageTokenizer: coreHttp.CompositeMapper = {
         }
       },
       isSearchTokenizer: {
+        defaultValue: false,
         serializedName: "isSearchTokenizer",
         type: {
           name: "Boolean"
@@ -3741,7 +3757,7 @@ export const MicrosoftLanguageTokenizer: coreHttp.CompositeMapper = {
   }
 };
 
-export const MicrosoftLanguageStemmingTokenizer: coreHttp.CompositeMapper = {
+export const MicrosoftLanguageStemmingTokenizer: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.MicrosoftLanguageStemmingTokenizer",
   type: {
     name: "Composite",
@@ -3761,6 +3777,7 @@ export const MicrosoftLanguageStemmingTokenizer: coreHttp.CompositeMapper = {
         }
       },
       isSearchTokenizer: {
+        defaultValue: false,
         serializedName: "isSearchTokenizer",
         type: {
           name: "Boolean"
@@ -3823,7 +3840,7 @@ export const MicrosoftLanguageStemmingTokenizer: coreHttp.CompositeMapper = {
   }
 };
 
-export const NGramTokenizer: coreHttp.CompositeMapper = {
+export const NGramTokenizer: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.NGramTokenizer",
   type: {
     name: "Composite",
@@ -3874,7 +3891,7 @@ export const NGramTokenizer: coreHttp.CompositeMapper = {
   }
 };
 
-export const PathHierarchyTokenizerV2: coreHttp.CompositeMapper = {
+export const PathHierarchyTokenizerV2: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.PathHierarchyTokenizerV2",
   type: {
     name: "Composite",
@@ -3908,12 +3925,14 @@ export const PathHierarchyTokenizerV2: coreHttp.CompositeMapper = {
         }
       },
       reverseTokenOrder: {
+        defaultValue: false,
         serializedName: "reverse",
         type: {
           name: "Boolean"
         }
       },
       numberOfTokensToSkip: {
+        defaultValue: 0,
         serializedName: "skip",
         type: {
           name: "Number"
@@ -3923,7 +3942,7 @@ export const PathHierarchyTokenizerV2: coreHttp.CompositeMapper = {
   }
 };
 
-export const PatternTokenizer: coreHttp.CompositeMapper = {
+export const PatternTokenizer: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.PatternTokenizer",
   type: {
     name: "Composite",
@@ -3956,7 +3975,7 @@ export const PatternTokenizer: coreHttp.CompositeMapper = {
   }
 };
 
-export const LuceneStandardTokenizer: coreHttp.CompositeMapper = {
+export const LuceneStandardTokenizer: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.StandardTokenizer",
   type: {
     name: "Composite",
@@ -3976,7 +3995,7 @@ export const LuceneStandardTokenizer: coreHttp.CompositeMapper = {
   }
 };
 
-export const LuceneStandardTokenizerV2: coreHttp.CompositeMapper = {
+export const LuceneStandardTokenizerV2: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.StandardTokenizerV2",
   type: {
     name: "Composite",
@@ -3999,7 +4018,7 @@ export const LuceneStandardTokenizerV2: coreHttp.CompositeMapper = {
   }
 };
 
-export const UaxUrlEmailTokenizer: coreHttp.CompositeMapper = {
+export const UaxUrlEmailTokenizer: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.UaxUrlEmailTokenizer",
   type: {
     name: "Composite",
@@ -4022,7 +4041,7 @@ export const UaxUrlEmailTokenizer: coreHttp.CompositeMapper = {
   }
 };
 
-export const AsciiFoldingTokenFilter: coreHttp.CompositeMapper = {
+export const AsciiFoldingTokenFilter: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.AsciiFoldingTokenFilter",
   type: {
     name: "Composite",
@@ -4032,6 +4051,7 @@ export const AsciiFoldingTokenFilter: coreHttp.CompositeMapper = {
     modelProperties: {
       ...TokenFilter.type.modelProperties,
       preserveOriginal: {
+        defaultValue: false,
         serializedName: "preserveOriginal",
         type: {
           name: "Boolean"
@@ -4041,7 +4061,7 @@ export const AsciiFoldingTokenFilter: coreHttp.CompositeMapper = {
   }
 };
 
-export const CjkBigramTokenFilter: coreHttp.CompositeMapper = {
+export const CjkBigramTokenFilter: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.CjkBigramTokenFilter",
   type: {
     name: "Composite",
@@ -4063,6 +4083,7 @@ export const CjkBigramTokenFilter: coreHttp.CompositeMapper = {
         }
       },
       outputUnigrams: {
+        defaultValue: false,
         serializedName: "outputUnigrams",
         type: {
           name: "Boolean"
@@ -4072,7 +4093,7 @@ export const CjkBigramTokenFilter: coreHttp.CompositeMapper = {
   }
 };
 
-export const CommonGramTokenFilter: coreHttp.CompositeMapper = {
+export const CommonGramTokenFilter: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.CommonGramTokenFilter",
   type: {
     name: "Composite",
@@ -4094,12 +4115,14 @@ export const CommonGramTokenFilter: coreHttp.CompositeMapper = {
         }
       },
       ignoreCase: {
+        defaultValue: false,
         serializedName: "ignoreCase",
         type: {
           name: "Boolean"
         }
       },
       useQueryMode: {
+        defaultValue: false,
         serializedName: "queryMode",
         type: {
           name: "Boolean"
@@ -4109,7 +4132,7 @@ export const CommonGramTokenFilter: coreHttp.CompositeMapper = {
   }
 };
 
-export const DictionaryDecompounderTokenFilter: coreHttp.CompositeMapper = {
+export const DictionaryDecompounderTokenFilter: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.DictionaryDecompounderTokenFilter",
   type: {
     name: "Composite",
@@ -4161,6 +4184,7 @@ export const DictionaryDecompounderTokenFilter: coreHttp.CompositeMapper = {
         }
       },
       onlyLongestMatch: {
+        defaultValue: false,
         serializedName: "onlyLongestMatch",
         type: {
           name: "Boolean"
@@ -4170,7 +4194,7 @@ export const DictionaryDecompounderTokenFilter: coreHttp.CompositeMapper = {
   }
 };
 
-export const EdgeNGramTokenFilter: coreHttp.CompositeMapper = {
+export const EdgeNGramTokenFilter: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.EdgeNGramTokenFilter",
   type: {
     name: "Composite",
@@ -4204,7 +4228,7 @@ export const EdgeNGramTokenFilter: coreHttp.CompositeMapper = {
   }
 };
 
-export const EdgeNGramTokenFilterV2: coreHttp.CompositeMapper = {
+export const EdgeNGramTokenFilterV2: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.EdgeNGramTokenFilterV2",
   type: {
     name: "Composite",
@@ -4244,7 +4268,7 @@ export const EdgeNGramTokenFilterV2: coreHttp.CompositeMapper = {
   }
 };
 
-export const ElisionTokenFilter: coreHttp.CompositeMapper = {
+export const ElisionTokenFilter: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.ElisionTokenFilter",
   type: {
     name: "Composite",
@@ -4268,7 +4292,7 @@ export const ElisionTokenFilter: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeepTokenFilter: coreHttp.CompositeMapper = {
+export const KeepTokenFilter: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.KeepTokenFilter",
   type: {
     name: "Composite",
@@ -4290,6 +4314,7 @@ export const KeepTokenFilter: coreHttp.CompositeMapper = {
         }
       },
       lowerCaseKeepWords: {
+        defaultValue: false,
         serializedName: "keepWordsCase",
         type: {
           name: "Boolean"
@@ -4299,7 +4324,7 @@ export const KeepTokenFilter: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeywordMarkerTokenFilter: coreHttp.CompositeMapper = {
+export const KeywordMarkerTokenFilter: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.KeywordMarkerTokenFilter",
   type: {
     name: "Composite",
@@ -4321,6 +4346,7 @@ export const KeywordMarkerTokenFilter: coreHttp.CompositeMapper = {
         }
       },
       ignoreCase: {
+        defaultValue: false,
         serializedName: "ignoreCase",
         type: {
           name: "Boolean"
@@ -4330,7 +4356,7 @@ export const KeywordMarkerTokenFilter: coreHttp.CompositeMapper = {
   }
 };
 
-export const LengthTokenFilter: coreHttp.CompositeMapper = {
+export const LengthTokenFilter: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.LengthTokenFilter",
   type: {
     name: "Composite",
@@ -4340,6 +4366,7 @@ export const LengthTokenFilter: coreHttp.CompositeMapper = {
     modelProperties: {
       ...TokenFilter.type.modelProperties,
       minLength: {
+        defaultValue: 0,
         constraints: {
           InclusiveMaximum: 300
         },
@@ -4362,7 +4389,7 @@ export const LengthTokenFilter: coreHttp.CompositeMapper = {
   }
 };
 
-export const LimitTokenFilter: coreHttp.CompositeMapper = {
+export const LimitTokenFilter: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.LimitTokenFilter",
   type: {
     name: "Composite",
@@ -4379,6 +4406,7 @@ export const LimitTokenFilter: coreHttp.CompositeMapper = {
         }
       },
       consumeAllTokens: {
+        defaultValue: false,
         serializedName: "consumeAllTokens",
         type: {
           name: "Boolean"
@@ -4388,7 +4416,7 @@ export const LimitTokenFilter: coreHttp.CompositeMapper = {
   }
 };
 
-export const NGramTokenFilter: coreHttp.CompositeMapper = {
+export const NGramTokenFilter: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.NGramTokenFilter",
   type: {
     name: "Composite",
@@ -4415,7 +4443,7 @@ export const NGramTokenFilter: coreHttp.CompositeMapper = {
   }
 };
 
-export const NGramTokenFilterV2: coreHttp.CompositeMapper = {
+export const NGramTokenFilterV2: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.NGramTokenFilterV2",
   type: {
     name: "Composite",
@@ -4448,7 +4476,7 @@ export const NGramTokenFilterV2: coreHttp.CompositeMapper = {
   }
 };
 
-export const PatternCaptureTokenFilter: coreHttp.CompositeMapper = {
+export const PatternCaptureTokenFilter: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.PatternCaptureTokenFilter",
   type: {
     name: "Composite",
@@ -4480,7 +4508,7 @@ export const PatternCaptureTokenFilter: coreHttp.CompositeMapper = {
   }
 };
 
-export const PatternReplaceTokenFilter: coreHttp.CompositeMapper = {
+export const PatternReplaceTokenFilter: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.PatternReplaceTokenFilter",
   type: {
     name: "Composite",
@@ -4507,7 +4535,7 @@ export const PatternReplaceTokenFilter: coreHttp.CompositeMapper = {
   }
 };
 
-export const PhoneticTokenFilter: coreHttp.CompositeMapper = {
+export const PhoneticTokenFilter: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.PhoneticTokenFilter",
   type: {
     name: "Composite",
@@ -4546,7 +4574,7 @@ export const PhoneticTokenFilter: coreHttp.CompositeMapper = {
   }
 };
 
-export const ShingleTokenFilter: coreHttp.CompositeMapper = {
+export const ShingleTokenFilter: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.ShingleTokenFilter",
   type: {
     name: "Composite",
@@ -4583,6 +4611,7 @@ export const ShingleTokenFilter: coreHttp.CompositeMapper = {
         }
       },
       outputUnigramsIfNoShingles: {
+        defaultValue: false,
         serializedName: "outputUnigramsIfNoShingles",
         type: {
           name: "Boolean"
@@ -4606,7 +4635,7 @@ export const ShingleTokenFilter: coreHttp.CompositeMapper = {
   }
 };
 
-export const SnowballTokenFilter: coreHttp.CompositeMapper = {
+export const SnowballTokenFilter: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.SnowballTokenFilter",
   type: {
     name: "Composite",
@@ -4650,7 +4679,7 @@ export const SnowballTokenFilter: coreHttp.CompositeMapper = {
   }
 };
 
-export const StemmerTokenFilter: coreHttp.CompositeMapper = {
+export const StemmerTokenFilter: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.StemmerTokenFilter",
   type: {
     name: "Composite",
@@ -4726,7 +4755,7 @@ export const StemmerTokenFilter: coreHttp.CompositeMapper = {
   }
 };
 
-export const StemmerOverrideTokenFilter: coreHttp.CompositeMapper = {
+export const StemmerOverrideTokenFilter: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.StemmerOverrideTokenFilter",
   type: {
     name: "Composite",
@@ -4751,7 +4780,7 @@ export const StemmerOverrideTokenFilter: coreHttp.CompositeMapper = {
   }
 };
 
-export const StopwordsTokenFilter: coreHttp.CompositeMapper = {
+export const StopwordsTokenFilter: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.StopwordsTokenFilter",
   type: {
     name: "Composite",
@@ -4811,6 +4840,7 @@ export const StopwordsTokenFilter: coreHttp.CompositeMapper = {
         }
       },
       ignoreCase: {
+        defaultValue: false,
         serializedName: "ignoreCase",
         type: {
           name: "Boolean"
@@ -4827,7 +4857,7 @@ export const StopwordsTokenFilter: coreHttp.CompositeMapper = {
   }
 };
 
-export const SynonymTokenFilter: coreHttp.CompositeMapper = {
+export const SynonymTokenFilter: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.SynonymTokenFilter",
   type: {
     name: "Composite",
@@ -4849,6 +4879,7 @@ export const SynonymTokenFilter: coreHttp.CompositeMapper = {
         }
       },
       ignoreCase: {
+        defaultValue: false,
         serializedName: "ignoreCase",
         type: {
           name: "Boolean"
@@ -4865,7 +4896,7 @@ export const SynonymTokenFilter: coreHttp.CompositeMapper = {
   }
 };
 
-export const TruncateTokenFilter: coreHttp.CompositeMapper = {
+export const TruncateTokenFilter: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.TruncateTokenFilter",
   type: {
     name: "Composite",
@@ -4888,7 +4919,7 @@ export const TruncateTokenFilter: coreHttp.CompositeMapper = {
   }
 };
 
-export const UniqueTokenFilter: coreHttp.CompositeMapper = {
+export const UniqueTokenFilter: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.UniqueTokenFilter",
   type: {
     name: "Composite",
@@ -4898,6 +4929,7 @@ export const UniqueTokenFilter: coreHttp.CompositeMapper = {
     modelProperties: {
       ...TokenFilter.type.modelProperties,
       onlyOnSamePosition: {
+        defaultValue: false,
         serializedName: "onlyOnSamePosition",
         type: {
           name: "Boolean"
@@ -4907,7 +4939,7 @@ export const UniqueTokenFilter: coreHttp.CompositeMapper = {
   }
 };
 
-export const WordDelimiterTokenFilter: coreHttp.CompositeMapper = {
+export const WordDelimiterTokenFilter: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.WordDelimiterTokenFilter",
   type: {
     name: "Composite",
@@ -4931,18 +4963,21 @@ export const WordDelimiterTokenFilter: coreHttp.CompositeMapper = {
         }
       },
       catenateWords: {
+        defaultValue: false,
         serializedName: "catenateWords",
         type: {
           name: "Boolean"
         }
       },
       catenateNumbers: {
+        defaultValue: false,
         serializedName: "catenateNumbers",
         type: {
           name: "Boolean"
         }
       },
       catenateAll: {
+        defaultValue: false,
         serializedName: "catenateAll",
         type: {
           name: "Boolean"
@@ -4956,6 +4991,7 @@ export const WordDelimiterTokenFilter: coreHttp.CompositeMapper = {
         }
       },
       preserveOriginal: {
+        defaultValue: false,
         serializedName: "preserveOriginal",
         type: {
           name: "Boolean"
@@ -4990,7 +5026,7 @@ export const WordDelimiterTokenFilter: coreHttp.CompositeMapper = {
   }
 };
 
-export const MappingCharFilter: coreHttp.CompositeMapper = {
+export const MappingCharFilter: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.MappingCharFilter",
   type: {
     name: "Composite",
@@ -5015,7 +5051,7 @@ export const MappingCharFilter: coreHttp.CompositeMapper = {
   }
 };
 
-export const PatternReplaceCharFilter: coreHttp.CompositeMapper = {
+export const PatternReplaceCharFilter: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.PatternReplaceCharFilter",
   type: {
     name: "Composite",
@@ -5042,7 +5078,7 @@ export const PatternReplaceCharFilter: coreHttp.CompositeMapper = {
   }
 };
 
-export const CustomNormalizer: coreHttp.CompositeMapper = {
+export const CustomNormalizer: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.CustomNormalizer",
   type: {
     name: "Composite",
@@ -5077,7 +5113,7 @@ export const CustomNormalizer: coreHttp.CompositeMapper = {
   }
 };
 
-export const ClassicSimilarity: coreHttp.CompositeMapper = {
+export const ClassicSimilarity: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.ClassicSimilarity",
   type: {
     name: "Composite",
@@ -5090,7 +5126,7 @@ export const ClassicSimilarity: coreHttp.CompositeMapper = {
   }
 };
 
-export const BM25Similarity: coreHttp.CompositeMapper = {
+export const BM25Similarity: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.BM25Similarity",
   type: {
     name: "Composite",
@@ -5117,7 +5153,7 @@ export const BM25Similarity: coreHttp.CompositeMapper = {
   }
 };
 
-export const SearchIndexerKnowledgeStoreObjectProjectionSelector: coreHttp.CompositeMapper = {
+export const SearchIndexerKnowledgeStoreObjectProjectionSelector: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SearchIndexerKnowledgeStoreObjectProjectionSelector",
@@ -5127,7 +5163,7 @@ export const SearchIndexerKnowledgeStoreObjectProjectionSelector: coreHttp.Compo
   }
 };
 
-export const SearchIndexerKnowledgeStoreFileProjectionSelector: coreHttp.CompositeMapper = {
+export const SearchIndexerKnowledgeStoreFileProjectionSelector: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SearchIndexerKnowledgeStoreFileProjectionSelector",

@@ -5,10 +5,10 @@
 ```ts
 
 import { AzureKeyCredential } from '@azure/core-auth';
+import { CommonClientOptions } from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
-import { OperationOptions } from '@azure/core-http';
+import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PipelineOptions } from '@azure/core-http';
 import { RestError } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -439,7 +439,7 @@ export type DocumentExtractionSkill = BaseSearchIndexerSkill & {
     parsingMode?: string;
     dataToExtract?: string;
     configuration?: {
-        [propertyName: string]: any;
+        [propertyName: string]: Record<string, unknown>;
     };
 };
 
@@ -518,7 +518,7 @@ export interface FieldMapping {
 export interface FieldMappingFunction {
     name: string;
     parameters?: {
-        [propertyName: string]: any;
+        [propertyName: string]: Record<string, unknown>;
     };
 }
 
@@ -837,27 +837,27 @@ export enum KnownAnalyzerNames {
 }
 
 // @public
-export const enum KnownAnswers {
+export enum KnownAnswers {
     Extractive = "extractive",
     None = "none"
 }
 
 // @public
-export const enum KnownBlobIndexerDataToExtract {
+export enum KnownBlobIndexerDataToExtract {
     AllMetadata = "allMetadata",
     ContentAndMetadata = "contentAndMetadata",
     StorageMetadata = "storageMetadata"
 }
 
 // @public
-export const enum KnownBlobIndexerImageAction {
+export enum KnownBlobIndexerImageAction {
     GenerateNormalizedImagePerPage = "generateNormalizedImagePerPage",
     GenerateNormalizedImages = "generateNormalizedImages",
     None = "none"
 }
 
 // @public
-export const enum KnownBlobIndexerParsingMode {
+export enum KnownBlobIndexerParsingMode {
     Default = "default",
     DelimitedText = "delimitedText",
     Json = "json",
@@ -867,13 +867,13 @@ export const enum KnownBlobIndexerParsingMode {
 }
 
 // @public
-export const enum KnownBlobIndexerPDFTextRotationAlgorithm {
+export enum KnownBlobIndexerPDFTextRotationAlgorithm {
     DetectAngles = "detectAngles",
     None = "none"
 }
 
 // @public
-export const enum KnownCharFilterName {
+export enum KnownCharFilterName {
     HtmlStrip = "html_strip"
 }
 
@@ -883,7 +883,7 @@ export enum KnownCharFilterNames {
 }
 
 // @public
-export const enum KnownCustomEntityLookupSkillLanguage {
+export enum KnownCustomEntityLookupSkillLanguage {
     Da = "da",
     De = "de",
     En = "en",
@@ -896,7 +896,7 @@ export const enum KnownCustomEntityLookupSkillLanguage {
 }
 
 // @public
-export const enum KnownEntityCategory {
+export enum KnownEntityCategory {
     Datetime = "datetime",
     Email = "email",
     Location = "location",
@@ -907,7 +907,7 @@ export const enum KnownEntityCategory {
 }
 
 // @public
-export const enum KnownEntityRecognitionSkillLanguage {
+export enum KnownEntityRecognitionSkillLanguage {
     Ar = "ar",
     Cs = "cs",
     Da = "da",
@@ -934,7 +934,7 @@ export const enum KnownEntityRecognitionSkillLanguage {
 }
 
 // @public
-export const enum KnownImageAnalysisSkillLanguage {
+export enum KnownImageAnalysisSkillLanguage {
     En = "en",
     Es = "es",
     Ja = "ja",
@@ -943,13 +943,13 @@ export const enum KnownImageAnalysisSkillLanguage {
 }
 
 // @public
-export const enum KnownImageDetail {
+export enum KnownImageDetail {
     Celebrities = "celebrities",
     Landmarks = "landmarks"
 }
 
 // @public
-export const enum KnownKeyPhraseExtractionSkillLanguage {
+export enum KnownKeyPhraseExtractionSkillLanguage {
     Da = "da",
     De = "de",
     En = "en",
@@ -969,7 +969,7 @@ export const enum KnownKeyPhraseExtractionSkillLanguage {
 }
 
 // @public
-export const enum KnownLexicalAnalyzerName {
+export enum KnownLexicalAnalyzerName {
     ArLucene = "ar.lucene",
     ArMicrosoft = "ar.microsoft",
     BgLucene = "bg.lucene",
@@ -1066,7 +1066,7 @@ export const enum KnownLexicalAnalyzerName {
 }
 
 // @public
-export const enum KnownLexicalNormalizerName {
+export enum KnownLexicalNormalizerName {
     AsciiFolding = "asciifolding",
     Elision = "elision",
     Lowercase = "lowercase",
@@ -1075,7 +1075,7 @@ export const enum KnownLexicalNormalizerName {
 }
 
 // @public
-export const enum KnownLineEnding {
+export enum KnownLineEnding {
     CarriageReturn = "carriageReturn",
     CarriageReturnLineFeed = "carriageReturnLineFeed",
     LineFeed = "lineFeed",
@@ -1083,7 +1083,7 @@ export const enum KnownLineEnding {
 }
 
 // @public
-export const enum KnownOcrSkillLanguage {
+export enum KnownOcrSkillLanguage {
     Ar = "ar",
     Cs = "cs",
     Da = "da",
@@ -1113,19 +1113,19 @@ export const enum KnownOcrSkillLanguage {
 }
 
 // @public
-export const enum KnownPIIDetectionSkillMaskingMode {
+export enum KnownPIIDetectionSkillMaskingMode {
     None = "none",
     Replace = "replace"
 }
 
 // @public
-export const enum KnownQueryLanguage {
+export enum KnownQueryLanguage {
     EnUs = "en-us",
     None = "none"
 }
 
 // @public
-export const enum KnownRegexFlags {
+export enum KnownRegexFlags {
     CanonEq = "CANON_EQ",
     CaseInsensitive = "CASE_INSENSITIVE",
     Comments = "COMMENTS",
@@ -1137,7 +1137,7 @@ export const enum KnownRegexFlags {
 }
 
 // @public
-export const enum KnownSearchIndexerDataSourceType {
+export enum KnownSearchIndexerDataSourceType {
     AdlsGen2 = "adlsgen2",
     AzureBlob = "azureblob",
     AzureSql = "azuresql",
@@ -1147,7 +1147,7 @@ export const enum KnownSearchIndexerDataSourceType {
 }
 
 // @public
-export const enum KnownSentimentSkillLanguage {
+export enum KnownSentimentSkillLanguage {
     Da = "da",
     De = "de",
     El = "el",
@@ -1166,13 +1166,13 @@ export const enum KnownSentimentSkillLanguage {
 }
 
 // @public
-export const enum KnownSpeller {
+export enum KnownSpeller {
     Lexicon = "lexicon",
     None = "none"
 }
 
 // @public
-export const enum KnownSplitSkillLanguage {
+export enum KnownSplitSkillLanguage {
     Da = "da",
     De = "de",
     En = "en",
@@ -1185,13 +1185,13 @@ export const enum KnownSplitSkillLanguage {
 }
 
 // @public
-export const enum KnownTextSplitMode {
+export enum KnownTextSplitMode {
     Pages = "pages",
     Sentences = "sentences"
 }
 
 // @public
-export const enum KnownTextTranslationSkillLanguage {
+export enum KnownTextTranslationSkillLanguage {
     Af = "af",
     Ar = "ar",
     Bg = "bg",
@@ -1267,7 +1267,7 @@ export const enum KnownTextTranslationSkillLanguage {
 }
 
 // @public
-export const enum KnownTokenFilterName {
+export enum KnownTokenFilterName {
     Apostrophe = "apostrophe",
     ArabicNormalization = "arabic_normalization",
     AsciiFolding = "asciifolding",
@@ -1360,7 +1360,7 @@ export enum KnownTokenizerNames {
 }
 
 // @public
-export const enum KnownVisualFeature {
+export enum KnownVisualFeature {
     Adult = "adult",
     Brands = "brands",
     Categories = "categories",
@@ -1657,7 +1657,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     deleteDocuments(documents: T[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     deleteDocuments(keyName: keyof T, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly endpoint: string;
-    getDocument<Fields extends keyof T>(key: string, options?: GetDocumentOptions<Fields>): Promise<T>;
+    getDocument<Fields extends Extract<keyof T, string>>(key: string, options?: GetDocumentOptions<Fields>): Promise<T>;
     getDocumentsCount(options?: CountDocumentsOptions): Promise<number>;
     indexDocuments(batch: IndexDocumentsBatch<T>, options?: IndexDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly indexName: string;
@@ -1669,7 +1669,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
 }
 
 // @public
-export interface SearchClientOptions extends PipelineOptions {
+export interface SearchClientOptions extends CommonClientOptions {
     apiVersion?: string;
 }
 
@@ -1742,7 +1742,7 @@ export class SearchIndexClient {
     }
 
 // @public
-export interface SearchIndexClientOptions extends PipelineOptions {
+export interface SearchIndexClientOptions extends CommonClientOptions {
     apiVersion?: string;
 }
 
@@ -1798,7 +1798,7 @@ export class SearchIndexerClient {
 }
 
 // @public
-export interface SearchIndexerClientOptions extends PipelineOptions {
+export interface SearchIndexerClientOptions extends CommonClientOptions {
     apiVersion?: string;
 }
 

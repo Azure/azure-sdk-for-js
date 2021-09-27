@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
 import {
   LexicalAnalyzerUnion,
   CognitiveServicesAccountKey,
@@ -397,7 +397,7 @@ export function extractOperationOptions<T extends OperationOptions>(
   obj: T
 ): {
   operationOptions: OperationOptions;
-  restOptions: Pick<T, Exclude<keyof T, keyof OperationOptions>>;
+  restOptions: any;
 } {
   const { abortSignal, requestOptions, tracingOptions, ...restOptions } = obj;
 
