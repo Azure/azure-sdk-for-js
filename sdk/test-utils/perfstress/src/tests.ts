@@ -16,7 +16,6 @@ import {
 } from "./testProxyHttpClient";
 import { HttpClient } from "@azure/core-http";
 import { Pipeline } from "@azure/core-rest-pipeline";
-import { getHttpClient, getHttpClientV1 } from "./utils";
 
 /**
  * Defines the behavior of the PerfStressTest constructor, to use the class as a value.
@@ -69,7 +68,9 @@ export abstract class PerfStressTest<TOptions = {}> {
    */
   public configureClientOptionsCoreV1<T>(options: T & { httpClient?: HttpClient }): T {
     if (this.parsedOptions["test-proxy"].value) {
-      this.testProxyHttpClientV1 = getHttpClientV1(this.parsedOptions["test-proxy"].value!);
+      this.testProxyHttpClientV1 = new TestProxyHttpClientV1(
+        this.parsedOptions["test-proxy"].value
+      );
       options.httpClient = this.testProxyHttpClientV1;
     }
     return options;
@@ -85,7 +86,7 @@ export abstract class PerfStressTest<TOptions = {}> {
    */
   public configureClient<T>(client: T & { pipeline: Pipeline }): T {
     if (this.parsedOptions["test-proxy"].value) {
-      this.testProxyHttpClient = getHttpClient(this.parsedOptions["test-proxy"].value!);
+      this.testProxyHttpClient = new TestProxyHttpClient(this.parsedOptions["test-proxy"].value);
       client.pipeline.addPolicy(testProxyHttpPolicy(this.testProxyHttpClient));
     }
     return client;

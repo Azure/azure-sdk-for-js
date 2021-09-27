@@ -2,6 +2,10 @@
 
 ## 1.0.0 (Unreleased)
 
+### 2021-09-24
+
+- Instead of using the cached proxy-clients(to leverage the proxy-tool), we now get a new client for each of the instantiated PerfStressTest classes. [#17832](https://github.com/Azure/azure-sdk-for-js/pull/17832)
+
 ### 2021-09-23
 
 - Bug fix - Running the perf framework with `--<option> 0` does not work correctly as it picks the default value instead. Fixed in [#17829](https://github.com/Azure/azure-sdk-for-js/pull/17829).
