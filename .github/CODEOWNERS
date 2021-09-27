@@ -626,6 +626,9 @@
 # PRLabel: %dev-tool
 /common/tools/dev-tool/ @witemple-msft
 
+# PRLabel: %eslint plugin
+/common/tools/eslint-plugin-azure-sdk/ @deyaaeldeen
+
 ###########
 # Eng Sys
 ###########
