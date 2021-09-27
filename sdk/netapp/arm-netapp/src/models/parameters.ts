@@ -98,6 +98,16 @@ export const poolName: msRest.OperationURLParameter = {
     }
   }
 };
+export const quotaLimitName: msRest.OperationURLParameter = {
+  parameterPath: "quotaLimitName",
+  mapper: {
+    required: true,
+    serializedName: "quotaLimitName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const resourceGroupName: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {

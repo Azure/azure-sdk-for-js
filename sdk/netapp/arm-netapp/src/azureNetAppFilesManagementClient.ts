@@ -19,6 +19,7 @@ class AzureNetAppFilesManagementClient extends AzureNetAppFilesManagementClientC
   // Operation groups
   operations: operations.Operations;
   netAppResource: operations.NetAppResource;
+  netAppResourceQuotaLimits: operations.NetAppResourceQuotaLimits;
   accounts: operations.Accounts;
   pools: operations.Pools;
   volumes: operations.Volumes;
@@ -45,6 +46,7 @@ class AzureNetAppFilesManagementClient extends AzureNetAppFilesManagementClientC
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.netAppResource = new operations.NetAppResource(this);
+    this.netAppResourceQuotaLimits = new operations.NetAppResourceQuotaLimits(this);
     this.accounts = new operations.Accounts(this);
     this.pools = new operations.Pools(this);
     this.volumes = new operations.Volumes(this);

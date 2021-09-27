@@ -80,6 +80,10 @@ export interface MetricSpecification {
    */
   internalMetricName?: string;
   /**
+   * Whether or not the service is using regional MDM accounts.
+   */
+  enableRegionalMdmAccount?: boolean;
+  /**
    * The source MDM account.
    */
   sourceMdmAccount?: string;
@@ -107,6 +111,18 @@ export interface MetricSpecification {
    * Account Resource Id.
    */
   resourceIdDimensionNameOverride?: string;
+  /**
+   * Whether the metric is internal.
+   */
+  isInternal?: boolean;
+}
+
+/**
+ * Log Definition of a single resource metric.
+ */
+export interface LogSpecification {
+  name?: string;
+  displayName?: string;
 }
 
 /**
@@ -117,6 +133,7 @@ export interface ServiceSpecification {
    * Metric specifications of operation.
    */
   metricSpecifications?: MetricSpecification[];
+  logSpecifications?: LogSpecification[];
 }
 
 /**
@@ -220,6 +237,96 @@ export interface QuotaAvailabilityRequest {
    * Resource group name.
    */
   resourceGroup: string;
+}
+
+/**
+ * Metadata pertaining to creation and last modification of the resource.
+ */
+export interface SystemData {
+  /**
+   * The identity that created the resource.
+   */
+  createdBy?: string;
+  /**
+   * The type of identity that created the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  createdByType?: CreatedByType;
+  /**
+   * The timestamp of resource creation (UTC).
+   */
+  createdAt?: Date;
+  /**
+   * The identity that last modified the resource.
+   */
+  lastModifiedBy?: string;
+  /**
+   * The type of identity that last modified the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  lastModifiedByType?: CreatedByType;
+  /**
+   * The timestamp of resource last modification (UTC)
+   */
+  lastModifiedAt?: Date;
+}
+
+/**
+ * Common fields that are returned in the response for all Azure Resource Manager resources
+ * @summary Resource
+ */
+export interface Resource extends BaseResource {
+  /**
+   * Fully qualified resource ID for the resource. Ex -
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+   * "Microsoft.Storage/storageAccounts"
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * The resource model definition for a Azure Resource Manager proxy resource. It will not have tags
+ * and a location
+ * @summary Proxy Resource
+ */
+export interface ProxyResource extends Resource {
+}
+
+/**
+ * Information regarding Subscription Quota Item.
+ */
+export interface SubscriptionQuotaItem extends ProxyResource {
+  /**
+   * Quota Item name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly subscriptionQuotaItemName?: string;
+  /**
+   * The current quota value.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly current?: number;
+  /**
+   * The default quota value.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly default?: number;
+  /**
+   * The system meta data relating to this resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
 }
 
 /**
@@ -329,38 +436,6 @@ export interface AccountEncryption {
    * Encryption Key Source. Possible values are: 'Microsoft.NetApp'.
    */
   keySource?: string;
-}
-
-/**
- * Metadata pertaining to creation and last modification of the resource.
- */
-export interface SystemData {
-  /**
-   * The identity that created the resource.
-   */
-  createdBy?: string;
-  /**
-   * The type of identity that created the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
-   */
-  createdByType?: CreatedByType;
-  /**
-   * The timestamp of resource creation (UTC).
-   */
-  createdAt?: Date;
-  /**
-   * The identity that last modified the resource.
-   */
-  lastModifiedBy?: string;
-  /**
-   * The type of identity that last modified the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
-   */
-  lastModifiedByType?: CreatedByType;
-  /**
-   * The timestamp of resource last modification (UTC)
-   */
-  lastModifiedAt?: Date;
 }
 
 /**
@@ -724,7 +799,7 @@ export interface ReplicationObject {
   /**
    * Schedule. Possible values include: '_10minutely', 'hourly', 'daily'
    */
-  replicationSchedule: ReplicationSchedule;
+  replicationSchedule?: ReplicationSchedule;
   /**
    * The resource ID of the remote volume.
    */
@@ -849,12 +924,30 @@ export interface Volume extends BaseResource {
    */
   subnetId: string;
   /**
+   * Network features. Basic network, or Standard features available to the volume. Possible values
+   * include: 'Basic', 'Standard'. Default value: 'Basic'.
+   */
+  networkFeatures?: NetworkFeatures;
+  /**
+   * Network Sibling Set ID. Network Sibling Set ID for the the group of volumes sharing networking
+   * resources.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly networkSiblingSetId?: string;
+  /**
+   * Storage to Network Proximity. Provides storage to network proximity information for the
+   * volume. Possible values include: 'Default', 'T1', 'T2'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly storageToNetworkProximity?: VolumeStorageToNetworkProximity;
+  /**
    * mountTargets. List of mount targets
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly mountTargets?: MountTargetProperties[];
   /**
-   * What type of volume is this
+   * What type of volume is this. For destination volumes in Cross Region Replication, set type to
+   * DataProtection
    */
   volumeType?: string;
   /**
@@ -1953,6 +2046,34 @@ export interface RestoreStatus {
 }
 
 /**
+ * The resource model definition for an Azure Resource Manager tracked top level resource which has
+ * 'tags' and a 'location'
+ * @summary Tracked Resource
+ */
+export interface TrackedResource extends Resource {
+  /**
+   * Resource tags.
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * The geo-location where the resource lives
+   */
+  location: string;
+}
+
+/**
+ * The resource model definition for an Azure Resource Manager resource with an etag.
+ * @summary Entity Resource
+ */
+export interface AzureEntityResource extends Resource {
+  /**
+   * Resource Etag.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+}
+
+/**
  * Optional Parameters.
  */
 export interface VolumesRevertOptionalParams extends msRest.RequestOptionsBase {
@@ -2048,6 +2169,14 @@ export interface AzureNetAppFilesManagementClientOptions extends AzureServiceCli
  * @extends Array<Operation>
  */
 export interface OperationListResult extends Array<Operation> {
+}
+
+/**
+ * @interface
+ * List of Subscription Quota Items
+ * @extends Array<SubscriptionQuotaItem>
+ */
+export interface SubscriptionQuotaItemList extends Array<SubscriptionQuotaItem> {
 }
 
 /**
@@ -2165,20 +2294,20 @@ export type CheckNameResourceTypes = 'Microsoft.NetApp/netAppAccounts' | 'Micros
 export type CheckQuotaNameResourceTypes = 'Microsoft.NetApp/netAppAccounts' | 'Microsoft.NetApp/netAppAccounts/capacityPools' | 'Microsoft.NetApp/netAppAccounts/capacityPools/volumes' | 'Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots';
 
 /**
- * Defines values for ActiveDirectoryStatus.
- * Possible values include: 'Created', 'InUse', 'Deleted', 'Error', 'Updating'
- * @readonly
- * @enum {string}
- */
-export type ActiveDirectoryStatus = 'Created' | 'InUse' | 'Deleted' | 'Error' | 'Updating';
-
-/**
  * Defines values for CreatedByType.
  * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
  * @readonly
  * @enum {string}
  */
 export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
+
+/**
+ * Defines values for ActiveDirectoryStatus.
+ * Possible values include: 'Created', 'InUse', 'Deleted', 'Error', 'Updating'
+ * @readonly
+ * @enum {string}
+ */
+export type ActiveDirectoryStatus = 'Created' | 'InUse' | 'Deleted' | 'Error' | 'Updating';
 
 /**
  * Defines values for ServiceLevel.
@@ -2211,6 +2340,22 @@ export type EncryptionType = 'Single' | 'Double';
  * @enum {string}
  */
 export type ChownMode = 'Restricted' | 'Unrestricted';
+
+/**
+ * Defines values for NetworkFeatures.
+ * Possible values include: 'Basic', 'Standard'
+ * @readonly
+ * @enum {string}
+ */
+export type NetworkFeatures = 'Basic' | 'Standard';
+
+/**
+ * Defines values for VolumeStorageToNetworkProximity.
+ * Possible values include: 'Default', 'T1', 'T2'
+ * @readonly
+ * @enum {string}
+ */
+export type VolumeStorageToNetworkProximity = 'Default' | 'T1' | 'T2';
 
 /**
  * Defines values for EndpointType.
@@ -2345,6 +2490,46 @@ export type NetAppResourceCheckQuotaAvailabilityResponse = CheckAvailabilityResp
        * The response body as parsed JSON or XML
        */
       parsedBody: CheckAvailabilityResponse;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type NetAppResourceQuotaLimitsListResponse = SubscriptionQuotaItemList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SubscriptionQuotaItemList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type NetAppResourceQuotaLimitsGetResponse = SubscriptionQuotaItem & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SubscriptionQuotaItem;
     };
 };
 
