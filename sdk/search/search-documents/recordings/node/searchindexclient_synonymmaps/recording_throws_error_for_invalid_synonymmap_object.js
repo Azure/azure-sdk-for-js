@@ -5,7 +5,7 @@ module.exports.hash = "1b42fc88e6bfa9105999939d2ce56df4";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/synonymmaps(%27garbxyz%27)')
+  .get(`/synonymmaps('garbxyz')`)
   .query(true)
   .reply(404, {"error":{"code":"","message":"No synonym map with the name 'garbxyz' was found in service 'testsearchcases'."}}, [
   'Cache-Control',
@@ -19,9 +19,9 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'request-id',
-  '2413622c-cf96-4fa1-b4e1-b7013df50980',
+  '97a7653a-79c6-421d-8ffc-3761f6b68fd0',
   'elapsed-time',
-  '7',
+  '66',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -29,7 +29,7 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Thu, 02 Sep 2021 05:57:06 GMT',
+  'Mon, 27 Sep 2021 18:33:51 GMT',
   'Content-Length',
   '112'
 ]);

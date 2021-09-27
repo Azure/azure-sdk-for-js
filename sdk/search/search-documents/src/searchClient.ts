@@ -176,9 +176,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
    */
   public async getDocumentsCount(options: CountDocumentsOptions = {}): Promise<number> {
     const { span, updatedOptions } = createSpan("SearchClient-getDocumentsCount", options);
-    if (updatedOptions.tracingOptions) {
-      updatedOptions.tracingOptions.spanOptions = (updatedOptions.tracingOptions as any)?.spanOptions;
-    }
+    utils.modifySpanOptions(updatedOptions);
     try {
       let documentsCount: number = 0;
       await this.client.documents.count({
@@ -230,9 +228,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     }
 
     const { span, updatedOptions } = createSpan("SearchClient-autocomplete", operationOptions);
-    if (updatedOptions.tracingOptions) {
-      updatedOptions.tracingOptions.spanOptions = (updatedOptions.tracingOptions as any)?.spanOptions;
-    }
+    utils.modifySpanOptions(updatedOptions);
 
     try {
       const result = await this.client.documents.autocompletePost(fullOptions, updatedOptions);
@@ -265,9 +261,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     };
 
     const { span, updatedOptions } = createSpan("SearchClient-searchDocuments", operationOptions);
-    if (updatedOptions.tracingOptions) {
-      updatedOptions.tracingOptions.spanOptions = (updatedOptions.tracingOptions as any)?.spanOptions;
-    }
+    utils.modifySpanOptions(updatedOptions);
 
     try {
       const result = await this.client.documents.searchPost(
@@ -433,9 +427,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     }
 
     const { span, updatedOptions } = createSpan("SearchClient-suggest", operationOptions);
-    if (updatedOptions.tracingOptions) {
-      updatedOptions.tracingOptions.spanOptions = (updatedOptions.tracingOptions as any)?.spanOptions;
-    }
+    utils.modifySpanOptions(updatedOptions);
 
     try {
       const result = await this.client.documents.suggestPost(fullOptions, updatedOptions);
@@ -466,12 +458,10 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     options: GetDocumentOptions<Fields> = {}
   ): Promise<T> {
     const { span, updatedOptions } = createSpan("SearchClient-getDocument", options);
-    if (updatedOptions.tracingOptions) {
-      updatedOptions.tracingOptions.spanOptions = (updatedOptions.tracingOptions as any)?.spanOptions;
-    }
+    utils.modifySpanOptions(updatedOptions);
     try {
       const result = await this.client.documents.get(key, updatedOptions);
-      return deserialize<T>(result.body);
+      return deserialize<T>(result);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -499,9 +489,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     options: IndexDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
     const { span, updatedOptions } = createSpan("SearchClient-indexDocuments", options);
-    if (updatedOptions.tracingOptions) {
-      updatedOptions.tracingOptions.spanOptions = (updatedOptions.tracingOptions as any)?.spanOptions;
-    }
+    utils.modifySpanOptions(updatedOptions);
     try {
       let status: number = 0;
       const result = await this.client.documents.index(

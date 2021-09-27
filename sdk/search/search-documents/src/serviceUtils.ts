@@ -713,3 +713,9 @@ export function getRandomIntegerInclusive(min: number, max: number): number {
   const offset = Math.floor(Math.random() * (max - min + 1));
   return offset + min;
 }
+
+export function modifySpanOptions(options: OperationOptions) {
+  if (options.tracingOptions) {
+    options.tracingOptions.spanOptions = (options.tracingOptions as any)?.spanOptions;
+  }
+}
