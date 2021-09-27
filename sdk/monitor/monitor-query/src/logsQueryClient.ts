@@ -26,7 +26,7 @@ import { CommonClientOptions, FullOperationResponse, OperationOptions } from "@a
 import { QueryTimeInterval } from "./models/timeInterval";
 import { convertTimespanToInterval } from "./timespanConversion";
 
-const defaultMonitorScope = "https://api.loganalytics.io/.default";
+const defaultMonitorScope = "https://api.monitor.azure.com/.default";
 
 /**
  * Options for the LogsQueryClient.
@@ -40,7 +40,7 @@ export interface LogsQueryClientOptions extends CommonClientOptions {
   /**
    * The authentication scopes to use when getting authentication tokens.
    *
-   * Defaults to 'https://api.loganalytics.io/.default'
+   * Defaults to 'https://api.monitor.azure.com/.default'
    */
   credentialOptions?: {
     credentialScopes?: string | string[];
@@ -60,7 +60,7 @@ export class LogsQueryClient {
    * @param options - Options for the LogsClient.
    */
   constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions) {
-    // This client defaults to using 'https://api.loganalytics.io/v1' as the
+    // This client defaults to using 'https://api.monitor.azure.com/v1' as the
     // host.
 
     this._logAnalytics = new AzureLogAnalytics({
