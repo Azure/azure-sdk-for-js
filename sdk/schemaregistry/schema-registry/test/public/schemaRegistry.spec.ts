@@ -9,7 +9,7 @@ import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 import { ClientSecretCredential } from "@azure/identity";
 
-import { SchemaRegistryClient, SchemaDescription, SchemaProperties } from "../../src/index";
+import { SchemaRegistryClient, SchemaDescription, SchemaProperties } from "../../src";
 import { FullOperationResponse, OperationOptions } from "@azure/core-client";
 
 const options: OperationOptions = {

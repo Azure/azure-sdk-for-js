@@ -6,7 +6,7 @@ import { Context } from "mocha";
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 
-import { SchemaRegistryClient } from "../../../src/index";
+import { SchemaRegistryClient } from "../../../src";
 
 export interface RecordedClient {
   client: SchemaRegistryClient;
