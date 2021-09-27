@@ -8,70 +8,113 @@ pr:
     include:
       - eng/pipelines/aggregate-reports.yml
 
-jobs:
-- job: 'ValidateDependencies'
+pool:
+  vmImage: 'windows-2019'
 
-  pool:
-    vmImage: 'windows-2019'
+stages:
+  - stage: AggregateReports
+    displayName: Aggregate Reports
 
-  steps:
-  - task: NodeTool@0
-    displayName: 'Use Node 10.x'
-    inputs:
-      versionSpec: 10.x
-  - template: ../common/pipelines/templates/steps/verify-links.yml
-    parameters:
-      Directory: ""
-      CheckLinkGuidance: $true
-      Condition: succeededOrFailed()
-  - script: 'npm ci'
-    workingDirectory: '$(Build.SourcesDirectory)/eng/tools/analyze-deps'
-    displayName: 'Install tool dependencies'
+    jobs:
+      - job: GenerateReports
+        timeoutInMinutes: 120
+        steps:
+          - task: NodeTool@0
+            displayName: 'Use Node 10.x'
+            inputs:
+              versionSpec: 10.x
 
-  - script: |
-      node index.js --verbose --out "$(Build.ArtifactStagingDirectory)/dependencies.html" --dump "$(Build.ArtifactStagingDirectory)/data.js"
-    workingDirectory: '$(Build.SourcesDirectory)/eng/tools/analyze-deps'
-    displayName: 'Validate dependencies'
+          - template: ../common/pipelines/templates/steps/verify-links.yml
+            parameters:
+              Directory: ""
+              CheckLinkGuidance: $true
+              Condition: succeededOrFailed()
 
-  - pwsh: |
-      copy eng/common/InterdependencyGraph.html $(Build.ArtifactStagingDirectory)
-    displayName: 'Copy static file'
+          - script: 'npm ci'
+            workingDirectory: '$(Build.SourcesDirectory)/eng/tools/analyze-deps'
+            displayName: 'Install tool dependencies'
 
-  - task: AzureFileCopy@3
-    displayName: 'Upload dependency report'
-    inputs:
-      sourcePath: '$(Build.ArtifactStagingDirectory)'
-      azureSubscription: 'Azure SDK Artifacts'
-      destination: AzureBlob
-      storage: azuresdkartifacts
-      containerName: 'azure-sdk-for-js'
-      blobPrefix: dependencies
+          - script: |
+              node index.js --verbose --out "$(Build.ArtifactStagingDirectory)/dependencies.html" --dump "$(Build.ArtifactStagingDirectory)/data.js"
+            workingDirectory: '$(Build.SourcesDirectory)/eng/tools/analyze-deps'
+            displayName: 'Validate dependencies'
 
-  - task: PowerShell@2
-    displayName: "Verify Repository Resource Refs"
-    inputs:
-      pwsh: true
-      workingDirectory: $(Build.SourcesDirectory)
-      filePath: eng/common/scripts/Verify-Resource-Ref.ps1
-      
-  - task: securedevelopmentteam.vss-secure-development-tools.build-task-credscan.CredScan@3
-    displayName: 'Run CredScan'
-    condition: succeededOrFailed()
-    inputs:
-      suppressionsFile: 'eng\CredScanSuppression.json'
-  - task: securedevelopmentteam.vss-secure-development-tools.build-task-postanalysis.PostAnalysis@2
-    displayName: 'Post Analysis'
-    inputs:
-      GdnBreakAllTools: false
-      GdnBreakGdnToolCredScan: true
-      GdnBreakGdnToolCredScanSeverity: Error
-      # Specify baseline file input to scan tool
-      # GdnBreakBaselineFiles: $(Build.SourcesDirectory)\eng\js.gdnbaselines
-      GdnBreakBaselines: baseline  
-      # Used for generating baseline file.
-      # GdnBreakOutputBaselineFile: js
-      # GdnBreakOutputBaseline: baseline
-    continueOnError: true
-  - task: securedevelopmentteam.vss-secure-development-tools.build-task-publishsecurityanalysislogs.PublishSecurityAnalysisLogs@3
-    displayName: 'Publish Security Analysis Logs'
-    condition: succeededOrFailed()
+          - pwsh: |
+              copy eng/common/InterdependencyGraph.html $(Build.ArtifactStagingDirectory)
+            displayName: 'Copy static file'
+
+          - task: AzureFileCopy@3
+            displayName: 'Upload dependency report'
+            inputs:
+              sourcePath: '$(Build.ArtifactStagingDirectory)'
+              azureSubscription: 'Azure SDK Artifacts'
+              destination: AzureBlob
+              storage: azuresdkartifacts
+              containerName: 'azure-sdk-for-js'
+              blobPrefix: dependencies
+
+          - task: PowerShell@2
+            displayName: "Verify Repository Resource Refs"
+            inputs:
+              pwsh: true
+              workingDirectory: $(Build.SourcesDirectory)
+              filePath: eng/common/scripts/Verify-Resource-Ref.ps1
+
+  - stage: ComplianceTools
+    displayName: Compliance Tools
+    dependsOn: []
+
+    jobs:
+      - job: ComplianceTools
+        timeoutInMinutes: 120
+        steps:
+          - pwsh: |
+              azcopy copy "https://azuresdkartifacts.blob.core.windows.net/policheck/JavaScriptPoliCheckExclusion.mdb?$(azuresdk-policheck-blob-SAS)" `
+              "$(Build.BinariesDirectory)"
+            displayName: 'Download PoliCheck Exclusion Database'
+            condition: succeededOrFailed()
+
+          - task: securedevelopmentteam.vss-secure-development-tools.build-task-policheck.PoliCheck@2
+            displayName: 'Run PoliCheck'
+            inputs:
+              targetType: F
+              targetArgument: '$(Build.SourcesDirectory)'
+              result: PoliCheck.sarif
+              optionsFC: 0
+              optionsXS: 1
+              optionsPE: 1|2|3|4
+              optionsRulesDBPath: "$(Build.BinariesDirectory)/JavaScriptPoliCheckExclusion.mdb"
+              optionsUEPATH: "$(Build.SourcesDirectory)/eng/guardian-tools/policheck/PolicheckExclusions.xml"
+            condition: succeededOrFailed()
+
+          - task: securedevelopmentteam.vss-secure-development-tools.build-task-postanalysis.PostAnalysis@2
+            displayName: 'Post Analysis (PoliCheck)'
+            inputs:
+              GdnBreakAllTools: false
+              GdnBreakGdnToolPoliCheck: true
+              GdnBreakGdnToolPoliCheckSeverity: Warning
+            continueOnError: true
+
+          - task: securedevelopmentteam.vss-secure-development-tools.build-task-credscan.CredScan@3
+            displayName: 'Run CredScan'
+            condition: succeededOrFailed()
+            inputs:
+              suppressionsFile: 'eng\CredScanSuppression.json'
+
+          - task: securedevelopmentteam.vss-secure-development-tools.build-task-postanalysis.PostAnalysis@2
+            displayName: 'Post Analysis (CredScan)'
+            inputs:
+              GdnBreakAllTools: false
+              GdnBreakGdnToolCredScan: true
+              GdnBreakGdnToolCredScanSeverity: Error
+              # Specify baseline file input to scan tool
+              # GdnBreakBaselineFiles: $(Build.SourcesDirectory)\eng\js.gdnbaselines
+              GdnBreakBaselines: baseline  
+              # Used for generating baseline file.
+              # GdnBreakOutputBaselineFile: js
+              # GdnBreakOutputBaseline: baseline
+            continueOnError: true
+
+          - task: securedevelopmentteam.vss-secure-development-tools.build-task-publishsecurityanalysislogs.PublishSecurityAnalysisLogs@3
+            displayName: 'Publish Security Analysis Logs'
+            condition: succeededOrFailed()
