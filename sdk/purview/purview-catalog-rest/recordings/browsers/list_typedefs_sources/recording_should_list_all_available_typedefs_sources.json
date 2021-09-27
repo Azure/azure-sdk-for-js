@@ -11,7 +11,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1318",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 27 Sep 2021 04:28:13 GMT",
+    "date": "Mon, 27 Sep 2021 06:15:08 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -20,8 +20,8 @@
     "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+sin\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12071.16 - SEASLR2 ProdSlices",
-    "x-ms-request-id": "9947d624-85c3-4260-a367-148f6aff0a00"
+    "x-ms-ests-server": "2.1.12071.16 - KRSLR2 ProdSlices",
+    "x-ms-request-id": "ba098c41-5e24-43b7-aaf4-4a46841c0c00"
    }
   },
   {
@@ -41,15 +41,15 @@
     "cache-control": "no-store, must-revalidate, no-cache, max-age=0",
     "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 27 Sep 2021 04:28:13 GMT",
+    "date": "Mon, 27 Sep 2021 06:15:09 GMT",
     "expires": "0",
     "pragma": "no-cache",
     "server": "AzurePurview",
     "strict-transport-security": "max-age=31536000 ; includeSubDomains",
     "x-content-type-options": "nosniff, nosniff",
     "x-frame-options": "DENY",
-    "x-ms-correlation-request-id": "c5c600a2-f33d-42f7-9347-974545945bf9",
-    "x-ms-request-id": "aa321c5e-87cb-42e3-b744-df5c28f54efc",
+    "x-ms-correlation-request-id": "f631a613-fde1-4565-9af3-90072d9793a9",
+    "x-ms-request-id": "a6a8615d-cc90-4f85-9e1a-1d3e4aa2cdee",
     "x-xss-protection": "1; mode=block"
    }
   }
@@ -58,5 +58,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "d0f3d7790936bfaa8885fd3022fd10be"
+ "hash": "f9a8d06864b153e1f0b64ef989603aa4"
 }
