@@ -13,6 +13,7 @@ Feature work is being tracked at [#15829](https://github.com/Azure/azure-sdk-for
 Run this command
 
 > `docker run -v /workspaces/azure-sdk-for-js/:/etc/testproxy -p 5001:5001 -p 5000:5000 azsdkengsys.azurecr.io/engsys/testproxy-lin:latest`
+[Provie the root of the repo for the volume mapping for the accurate recordings generation location.]
 
 (Eventually, recorder will trigger this for you!)
 
