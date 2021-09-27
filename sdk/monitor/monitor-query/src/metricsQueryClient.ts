@@ -86,7 +86,7 @@ export class MetricsQueryClient {
    * @param options - Options for querying metrics.
    * @returns A response containing metrics.
    */
-  async query(
+  async queryWorkspace(
     resourceUri: string,
     metricNames: string[],
     options?: MetricsQueryOptions

@@ -3,7 +3,7 @@
 
 import { OperationOptions } from "@azure/core-client";
 import { ErrorDetail, LogsColumnType } from "../generated/logquery/src";
-import { TimeInterval } from "./timeInterval";
+import { QueryTimeInterval } from "./timeInterval";
 
 // https://dev.loganalytics.io/documentation/Using-the-API/RequestOptions
 // https://dev.loganalytics.io/documentation/Using-the-API/Timeouts
@@ -137,7 +137,7 @@ export interface QueryBatch {
   /** The query to execute. */
   query: string;
   /** The timespan over which to query data. This timespan is applied in addition to any that are specified in the query expression. */
-  timespan: TimeInterval;
+  timespan: QueryTimeInterval;
   /**
    * A list of workspaces that are included in the query, except for the one set as the `workspaceId` parameter
    * These may consist of the following identifier formats:
@@ -187,7 +187,7 @@ export interface LogsQueryBatchResult {
  * Represented by "Partial" | "Success" | "Failed".
  * For partially failed queries, users can find data in "tables" attribute
  * and error information in "error" attribute */
-export type LogsQueryResultStatus = "Partial" | "Success" | "Failed";
+export type LogsQueryResultStatus = "PartialFailure" | "Success" | "Failure";
 
 /** Contains the columns and rows for one table in a query response. */
 export interface LogsTable {

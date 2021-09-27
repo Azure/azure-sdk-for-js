@@ -34,13 +34,13 @@ export const Durations: {
     readonly sevenDays: "P7D";
     readonly threeDays: "P3D";
     readonly twoDays: "P2D";
-    readonly OneDay: "P1D";
-    readonly OneHour: "PT1H";
-    readonly FourHours: "PT4H";
-    readonly TwentyFourHours: "P1D";
-    readonly FourtyEightHours: "P2D";
-    readonly ThirtyMinutes: "PT30M";
-    readonly FiveMinutes: "PT5M";
+    readonly oneDay: "P1D";
+    readonly oneHour: "PT1H";
+    readonly fourHours: "PT4H";
+    readonly twentyFourHours: "P1D";
+    readonly fourtyEightHours: "P2D";
+    readonly thirtyMinutes: "PT30M";
+    readonly fiveMinutes: "PT5M";
 };
 
 // @public
@@ -100,8 +100,8 @@ export interface LogsQueryBatchResult {
 // @public
 export class LogsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions);
-    query(workspaceId: string, query: string, timespan: TimeInterval, options?: LogsQueryOptions): Promise<LogsQueryResult>;
     queryBatch(batch: QueryBatch[], options?: LogsQueryBatchOptions): Promise<LogsQueryBatchResult>;
+    queryWorkspace(workspaceId: string, query: string, timespan: QueryTimeInterval, options?: LogsQueryOptions): Promise<LogsQueryResult>;
 }
 
 // @public
@@ -131,7 +131,7 @@ export interface LogsQueryResult {
 }
 
 // @public
-export type LogsQueryResultStatus = "Partial" | "Success" | "Failed";
+export type LogsQueryResultStatus = "PartialFailure" | "Success" | "Failure";
 
 // @public
 export interface LogsTable {
@@ -159,12 +159,6 @@ export interface Metric {
 }
 
 // @public
-export interface MetricAvailability {
-    retention?: string;
-    timeGrain?: string;
-}
-
-// @public
 export type MetricClass = string;
 
 // @public
@@ -174,6 +168,7 @@ export interface MetricDefinition {
     dimensions?: string[];
     id?: string;
     isDimensionRequired?: boolean;
+    // Warning: (ae-forgotten-export) The symbol "MetricAvailability" needs to be exported by the entry point index.d.ts
     metricAvailabilities?: MetricAvailability[];
     metricClass?: MetricClass;
     name?: string;
@@ -204,7 +199,7 @@ export class MetricsQueryClient {
     listMetricDefinitions(resourceUri: string, options?: ListMetricDefinitionsOptions): PagedAsyncIterableIterator<MetricDefinition>;
     // Warning: (ae-forgotten-export) The symbol "MetricNamespace" needs to be exported by the entry point index.d.ts
     listMetricNamespaces(resourceUri: string, options?: ListMetricNamespacesOptions): PagedAsyncIterableIterator<MetricNamespace_2>;
-    query(resourceUri: string, metricNames: string[], options?: MetricsQueryOptions): Promise<MetricsQueryResult>;
+    queryWorkspace(resourceUri: string, metricNames: string[], options?: MetricsQueryOptions): Promise<MetricsQueryResult>;
 }
 
 // @public
@@ -215,7 +210,7 @@ export interface MetricsQueryOptions extends OperationOptions {
     metricNamespace?: string;
     orderBy?: string;
     resultType?: ResultType;
-    timespan?: TimeInterval;
+    timespan?: QueryTimeInterval;
     top?: number;
 }
 
@@ -227,7 +222,7 @@ export interface MetricsQueryResult {
     metrics: Metric[];
     namespace?: string;
     resourceRegion?: string;
-    timespan: TimeInterval;
+    timespan: QueryTimeInterval;
 }
 
 // @public
@@ -253,15 +248,12 @@ export interface QueryBatch {
     includeVisualization?: boolean;
     query: string;
     serverTimeoutInSeconds?: number;
-    timespan: TimeInterval;
+    timespan: QueryTimeInterval;
     workspaceId: string;
 }
 
 // @public
-export type ResultType = "Data" | "Metadata";
-
-// @public
-export type TimeInterval = {
+export type QueryTimeInterval = {
     startTime: Date;
     endTime: Date;
 } | {
@@ -273,6 +265,9 @@ export type TimeInterval = {
 } | {
     duration: string;
 };
+
+// @public
+export type ResultType = "Data" | "Metadata";
 
 // @public
 export interface TimeSeriesElement {

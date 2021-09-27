@@ -23,7 +23,7 @@ import {
 } from "./internal/modelConverters";
 import { formatPreferHeader } from "./internal/util";
 import { CommonClientOptions, FullOperationResponse, OperationOptions } from "@azure/core-client";
-import { TimeInterval } from "./models/timeInterval";
+import { QueryTimeInterval } from "./models/timeInterval";
 import { convertTimespanToInterval } from "./timespanConversion";
 
 const defaultMonitorScope = "https://api.loganalytics.io/.default";
@@ -86,10 +86,10 @@ export class LogsQueryClient {
    * @param options - Options to adjust various aspects of the request.
    * @returns The result of the query.
    */
-  async query(
+  async queryWorkspace(
     workspaceId: string,
     query: string,
-    timespan: TimeInterval,
+    timespan: QueryTimeInterval,
     options?: LogsQueryOptions
   ): Promise<LogsQueryResult> {
     let timeInterval: string = "";
@@ -132,9 +132,9 @@ export class LogsQueryClient {
     } else {
       // result.tables is always present in single query response, even is there is error
       if (result.tables.length === 0) {
-        result.status = "Failed";
+        result.status = "Failure";
       } else {
-        result.status = "Partial";
+        result.status = "PartialFailure";
       }
     }
     if (options?.throwOnAnyFailure && result.status !== "Success") {

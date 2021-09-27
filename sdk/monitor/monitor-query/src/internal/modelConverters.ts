@@ -40,7 +40,8 @@ import {
   Metric,
   MetricDefinition,
   TimeSeriesElement,
-  createMetricsQueryResult
+  createMetricsQueryResult,
+  MetricAvailability
 } from "../models/publicMetricsModels";
 import { FullOperationResponse } from "@azure/core-client";
 import {
@@ -137,11 +138,11 @@ export function convertResponseForQueryBatch(
   for (let i = 0; i < resultsCount; i++) {
     const result = newResponse.results[i];
     if (result.error && result.tables) {
-      result.status = "Partial";
+      result.status = "PartialFailure";
     } else if (result.tables) {
       result.status = "Success";
     } else {
-      result.status = "Failed";
+      result.status = "Failure";
     }
   }
   (newResponse as any)["__fixApplied"] = fixApplied;
@@ -309,7 +310,7 @@ export function convertResponseForMetricsDefinitions(
   generatedResponse: Array<GeneratedMetricDefinition>
 ): Array<MetricDefinition> {
   const definitions: Array<MetricDefinition> = generatedResponse?.map((genDef) => {
-    const { name, dimensions, displayDescription, ...rest } = genDef;
+    const { name, dimensions, displayDescription, metricAvailabilities, ...rest } = genDef;
 
     const response: MetricDefinition = {
       ...rest
@@ -322,6 +323,18 @@ export function convertResponseForMetricsDefinitions(
       response.name = name.value;
     }
 
+    const mappedMetricAvailabilities:
+      | Array<MetricAvailability>
+      | undefined = metricAvailabilities?.map((genMetricAvail) => {
+      return {
+        granularity: genMetricAvail.timeGrain,
+        retention: genMetricAvail.retention
+      };
+    });
+
+    if (mappedMetricAvailabilities) {
+      response.metricAvailabilities = mappedMetricAvailabilities;
+    }
     const mappedDimensions = dimensions?.map((dim) => dim.value);
 
     if (mappedDimensions) {

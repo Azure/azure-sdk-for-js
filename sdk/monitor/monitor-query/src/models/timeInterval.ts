@@ -11,7 +11,7 @@
  * - start time, duration
  * - duration, end time
  */
-export type TimeInterval =
+export type QueryTimeInterval =
   | {
       /**
        * Start time for time interval
