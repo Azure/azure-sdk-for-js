@@ -89,7 +89,7 @@ steps:
       }
     displayName: 'Copy Packages'
 
-  - script: |
+  - pwsh: |
       eng/scripts/stage-api-review-file.ps1 -PackageInfoPath $(Build.ArtifactStagingDirectory)/PackageInfo -StagingDirectory $(Build.ArtifactStagingDirectory)
     displayName: 'Copy API extracted files'
 
