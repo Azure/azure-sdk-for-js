@@ -90,9 +90,7 @@ export class LogsQueryClient {
 
 // @public
 export interface LogsQueryClientOptions extends CommonClientOptions {
-    credentialOptions?: {
-        credentialScopes?: string | string[];
-    };
+    audience?: string | string[];
     endpoint?: string;
 }
 
@@ -174,6 +172,7 @@ export interface MetricNamespace {
 
 // @public
 export interface MetricsClientOptions extends CommonClientOptions {
+    audience?: string;
     endpoint?: string;
 }
 

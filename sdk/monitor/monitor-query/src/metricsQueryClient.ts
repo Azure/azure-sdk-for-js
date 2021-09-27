@@ -39,6 +39,12 @@ import {
 export interface MetricsQueryClientOptions extends CommonClientOptions {
   /** Overrides client endpoint. */
   endpoint?: string;
+  /**
+   * Gets or sets the audience to use for authentication with Azure Active Directory.
+   * The authentication scope will be set from this audience.
+   * See {@link KnownMetricsAudience} for known audience values.
+   */
+  audience?: string;
 }
 
 /**
@@ -59,7 +65,7 @@ export class MetricsQueryClient {
       ...options,
       $host: options?.endpoint,
       endpoint: options?.endpoint,
-      credentialScopes: formatScope(options?.endpoint),
+      credentialScopes: formatScope(options?.audience),
       credential: tokenCredential
     };
 
@@ -272,13 +278,13 @@ export class MetricsQueryClient {
   }
 }
 
-function formatScope(endpoint: string | undefined): string {
-  if (endpoint) {
-    if (endpoint.endsWith("/")) {
-      endpoint += "/";
+function formatScope(audience: string | undefined): string {
+  if (audience) {
+    if (audience.endsWith("/")) {
+      audience += "/";
     }
 
-    return `${endpoint}/.default`;
+    return `${audience}/.default`;
   } else {
     return "https://management.azure.com/.default";
   }

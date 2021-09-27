@@ -26,7 +26,7 @@ import { CommonClientOptions, FullOperationResponse, OperationOptions } from "@a
 import { QueryTimeInterval } from "./models/timeInterval";
 import { convertTimespanToInterval } from "./timespanConversion";
 
-const defaultMonitorScope = "https://api.monitor.azure.com/.default";
+const defaultMonitorScope = "https://api.loganalytics.io/.default";
 
 /**
  * Options for the LogsQueryClient.
@@ -38,13 +38,14 @@ export interface LogsQueryClientOptions extends CommonClientOptions {
   endpoint?: string;
 
   /**
-   * The authentication scopes to use when getting authentication tokens.
-   *
-   * Defaults to 'https://api.monitor.azure.com/.default'
+   * Gets or sets the audience to use for authentication with Azure Active Directory.
+   * The authentication scope will be set from this audience.
+   * Defaults to 'https://api.loganalytics.io/.default'
    */
-  credentialOptions?: {
-    credentialScopes?: string | string[];
-  };
+  audience?: string | string[];
+  // credentialOptions?: {
+  //   credentialScopes?: string | string[];
+  // };
 }
 
 /**
@@ -60,14 +61,16 @@ export class LogsQueryClient {
    * @param options - Options for the LogsClient.
    */
   constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions) {
-    // This client defaults to using 'https://api.monitor.azure.com/v1' as the
+    // This client defaults to using 'https://api.loganalytics.io/' as the
     // host.
-
+    const credentialOptions = {
+      credentialScopes: options?.audience
+    };
     this._logAnalytics = new AzureLogAnalytics({
       ...options,
       $host: options?.endpoint,
       endpoint: options?.endpoint,
-      credentialScopes: options?.credentialOptions?.credentialScopes ?? defaultMonitorScope,
+      credentialScopes: credentialOptions?.credentialScopes ?? defaultMonitorScope,
       credential: tokenCredential
     });
     // const scope = options?.scopes ?? defaultMonitorScope;

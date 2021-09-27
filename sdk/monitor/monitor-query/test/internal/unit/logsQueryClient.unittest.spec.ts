@@ -30,9 +30,7 @@ describe("LogsQueryClient unit tests", () => {
 
     const client = new LogsQueryClient(tokenCredential, {
       endpoint: "https://customEndpoint1",
-      credentialOptions: {
-        credentialScopes: "https://customscopes1/"
-      }
+      audience: "https://customscopes1/"
     });
 
     assert.equal(client["_logAnalytics"].$host, "https://customEndpoint1");
