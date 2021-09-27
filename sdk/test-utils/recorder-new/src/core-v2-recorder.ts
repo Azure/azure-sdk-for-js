@@ -33,21 +33,24 @@ const paths = {
 export class TestProxyHttpClient {
   private url = "http://localhost:5000";
   public recordingId?: string;
-  public mode: string;
-  public httpClient: HttpClient;
+  public mode!: string;
+  public httpClient!: HttpClient;
   private stateManager = new RecordingStateManager();
-  private playback: boolean;
-  private sessionFile: string;
+  private playback!: boolean;
+  private sessionFile!: string;
 
   constructor(private testContext?: Test | undefined) {
-    if (!this.testContext) {
-      // throw error in record and playback modes saying that file path is undetermined
-      throw new Error("");
-    } else {
-      this.sessionFile = sessionFilePath(this.testContext);
-      this.mode = env.TEST_MODE;
-      this.playback = isPlaybackMode();
-      this.httpClient = createDefaultHttpClient();
+    if (isRecordMode() || isPlaybackMode()) {
+      if (!this.testContext) {
+        throw new Error(
+          "Unable to determine the recording file path, testContext provided is not defined."
+        );
+      } else {
+        this.sessionFile = sessionFilePath(this.testContext);
+        this.mode = env.TEST_MODE;
+        this.playback = isPlaybackMode();
+        this.httpClient = createDefaultHttpClient();
+      }
     }
   }
 
