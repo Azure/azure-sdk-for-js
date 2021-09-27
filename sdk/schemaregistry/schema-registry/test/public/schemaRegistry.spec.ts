@@ -10,10 +10,9 @@ chaiUse(chaiPromises);
 import { ClientSecretCredential } from "@azure/identity";
 
 import { SchemaRegistryClient, SchemaDescription, SchemaProperties } from "../../src";
-import { FullOperationResponse, OperationOptions } from "@azure/core-client";
 
-const options: OperationOptions = {
-  onResponse: (rawResponse: FullOperationResponse) => {
+const options = {
+  onResponse: (rawResponse: { status: number }) => {
     assert.equal(rawResponse.status, 200);
   }
 };
