@@ -139,7 +139,9 @@ export class SearchIndexerClient {
       this.client.pipeline.addPolicy(createSearchApiKeyCredentialPolicy(credential));
     }
 
-    this.client.pipeline.addPolicy(createOdataMetadataPolicy("minimal"));
+    if(this.client.pipeline.getOrderedPolicies().length > 1) {
+      this.client.pipeline.addPolicy(createOdataMetadataPolicy("minimal"));
+    }    
   }
 
   /**

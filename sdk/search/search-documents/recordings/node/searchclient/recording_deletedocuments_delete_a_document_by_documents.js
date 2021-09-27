@@ -21,9 +21,9 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Vary',
   'Accept-Encoding',
   'request-id',
-  'e9c604e4-1ac5-4953-9ae1-0b533ba530fd',
+  'a828a82e-3f08-4d51-a35f-21a0bff485ae',
   'elapsed-time',
-  '14',
+  '11',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -31,13 +31,13 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Mon, 27 Sep 2021 20:47:32 GMT',
+  'Mon, 27 Sep 2021 21:16:29 GMT',
   'Content-Length',
   '499'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/indexes('hotel-live-test1')/docs/search.index', {"value":[{"@search.action":"delete","@odata.context":"https://endpoint/indexes('hotel-live-test1')/$metadata#docs(*)/$entity","hotelId":"8","hotelName":null,"description":"Has some road noise and is next to the very police station. Bathrooms had morel coverings.","descriptionFr":"Il y a du bruit de la route et se trouve à côté de la station de police. Les salles de bain avaient des revêtements de morilles.","category":null,"tags":[],"parkingIncluded":null,"smokingAllowed":null,"lastRenovationDate":null,"rating":null,"location":null,"address":null,"rooms":[]}]})
+  .post('/indexes(%27hotel-live-test1%27)/docs/search.index', {"value":[{"@search.action":"delete","@odata.context":"https://endpoint/indexes('hotel-live-test1')/$metadata#docs(*)/$entity","hotelId":"8","hotelName":null,"description":"Has some road noise and is next to the very police station. Bathrooms had morel coverings.","descriptionFr":"Il y a du bruit de la route et se trouve à côté de la station de police. Les salles de bain avaient des revêtements de morilles.","category":null,"tags":[],"parkingIncluded":null,"smokingAllowed":null,"lastRenovationDate":null,"rating":null,"location":null,"address":null,"rooms":[]}]})
   .query(true)
   .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6ed5dfa357f97375b1fcfab362fb7cbe232dfc66bbb1fdfb9fbbb2df23603e81f3fa9ca329fb645b5dcfaa298d655539db7e3e31faceb7cfc5a60fee4decedeceefbff3e9ef7f6fe7f77f59e797457e353e03ec5779b32edb3b1f8d3ebaccca75fed1a3effde28fdee6d784e5017dd6b459bb6e3e7ad4d6eb7cf4515ed755fd45de34d905355caecbd2b438a966f4c9decece2ff9fe2ff97f00ab50ff57f1000000"], [
   'Cache-Control',
@@ -53,9 +53,9 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Vary',
   'Accept-Encoding',
   'request-id',
-  'd75af5d4-3a67-48fa-ab82-8e1852d5aeab',
+  '7866b950-921a-43c7-a8ae-bf6816371420',
   'elapsed-time',
-  '24',
+  '28',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -63,7 +63,7 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Mon, 27 Sep 2021 20:47:32 GMT',
+  'Mon, 27 Sep 2021 21:16:29 GMT',
   'Content-Length',
   '320'
 ]);
@@ -85,9 +85,9 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Vary',
   'Accept-Encoding',
   'request-id',
-  'b7757eca-8e7c-43d7-a0b6-5e6f5b03e531',
+  '0a0f04ee-800d-4eb5-b697-16280c58bc34',
   'elapsed-time',
-  '4',
+  '6',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -95,7 +95,7 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Mon, 27 Sep 2021 20:47:36 GMT',
+  'Mon, 27 Sep 2021 21:16:33 GMT',
   'Content-Length',
   '126'
 ]);

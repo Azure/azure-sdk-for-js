@@ -5,7 +5,7 @@ module.exports.hash = "a3afa85ce21eed540bb82e8d7f6865ed";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/indexes('hotel-live-test1')/docs/search.index', {"value":[{"@search.action":"upload","hotelId":"11","description":"New Hotel Description","lastRenovationDate":null}]})
+  .post('/indexes(%27hotel-live-test1%27)/docs/search.index', {"value":[{"@search.action":"upload","hotelId":"11","description":"New Hotel Description","lastRenovationDate":null}]})
   .query(true)
   .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6ed5dfa357f97375b1fcfab362fb7cbe232dfc66bbb1fdfb9fbbb2df23603e81f3fa9ca329fb645b5dcfaa298d655539db7e3e31faceb7cfc5a60fee4decedeceefbff3e9ef7f6fe7f77f59e797457e353e03ec5779b32edb3b1f8d3ebaccca75fed1a3effde28fdee6d784e5ee2e7dd8b459bb6e3e7ad4d6eb7cf4515ed755fd45de34d905b55caecbd2b438a966f4c9deceee2ff9fe2ff97f00b15bf226f2000000"], [
   'Cache-Control',
@@ -21,9 +21,9 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Vary',
   'Accept-Encoding',
   'request-id',
-  'b088ef44-5e81-4333-a842-f84f5625667b',
+  'af0fa59d-3392-4971-93cb-f74a569bc2d4',
   'elapsed-time',
-  '29',
+  '35',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -31,7 +31,7 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Mon, 27 Sep 2021 20:49:40 GMT',
+  'Mon, 27 Sep 2021 21:18:37 GMT',
   'Content-Length',
   '321'
 ]);
@@ -53,9 +53,9 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Vary',
   'Accept-Encoding',
   'request-id',
-  '0c209feb-946e-4856-97a1-0ecb29ed2479',
+  '1a7c6111-81d2-4c3e-9cb1-a5fe68f63d8b',
   'elapsed-time',
-  '4',
+  '3',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -63,7 +63,7 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Mon, 27 Sep 2021 20:49:44 GMT',
+  'Mon, 27 Sep 2021 21:18:40 GMT',
   'Content-Length',
   '127'
 ]);

@@ -21,9 +21,9 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Vary',
   'Accept-Encoding',
   'request-id',
-  '67c5df63-74c6-4f64-a844-20988dd235a0',
+  'babaf5d6-4a10-4c87-8812-98ef9de637b0',
   'elapsed-time',
-  '10',
+  '11',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -31,13 +31,13 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Mon, 27 Sep 2021 20:48:15 GMT',
+  'Mon, 27 Sep 2021 21:17:12 GMT',
   'Content-Length',
   '388'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/indexes('hotel-live-test1')/docs/search.index', {"value":[{"@search.action":"mergeOrUpload","@odata.context":"https://endpoint/indexes('hotel-live-test1')/$metadata#docs(*)/$entity","hotelId":"6","hotelName":null,"description":"Modified Description","descriptionFr":null,"category":null,"tags":[],"parkingIncluded":null,"smokingAllowed":null,"lastRenovationDate":null,"rating":null,"location":null,"address":null,"rooms":[]}]})
+  .post('/indexes(%27hotel-live-test1%27)/docs/search.index', {"value":[{"@search.action":"mergeOrUpload","@odata.context":"https://endpoint/indexes('hotel-live-test1')/$metadata#docs(*)/$entity","hotelId":"6","hotelName":null,"description":"Modified Description","descriptionFr":null,"category":null,"tags":[],"parkingIncluded":null,"smokingAllowed":null,"lastRenovationDate":null,"rating":null,"location":null,"address":null,"rooms":[]}]})
   .query(true)
   .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6ed5dfa357f97375b1fcfab362fb7cbe232dfc66bbb1fdfb9fbbb2df23603e81f3fa9ca329fb645b5dcfaa298d655539db7e3e31faceb7cfc5a60fee4decedeceefbff3e9ef7f6fe7f77f59e797457e353e03ec5779b32edb3b1f8d3ebaccca75fed1a3effde28fdee6d784e5a7f459d366edbaf9e8515baff3d147795d57f51779d36417d470b92e4bd3e2a49ad1277b3b3bbfe4fbbfe4ff01e1a629f6f1000000"], [
   'Cache-Control',
@@ -53,9 +53,9 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Vary',
   'Accept-Encoding',
   'request-id',
-  '466289ba-9921-4d14-8d56-5a4f72ba4c66',
+  '563157d5-0560-4706-afed-5a613790e9b7',
   'elapsed-time',
-  '27',
+  '26',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -63,7 +63,7 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Mon, 27 Sep 2021 20:48:15 GMT',
+  'Mon, 27 Sep 2021 21:17:12 GMT',
   'Content-Length',
   '320'
 ]);
@@ -85,9 +85,9 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Vary',
   'Accept-Encoding',
   'request-id',
-  '7f2aff74-3eff-4c06-bd91-b6eae3451888',
+  '5004f73a-4ddf-4f74-91b9-638948028342',
   'elapsed-time',
-  '7',
+  '79',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -95,7 +95,7 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Mon, 27 Sep 2021 20:48:19 GMT',
+  'Mon, 27 Sep 2021 21:17:15 GMT',
   'Content-Length',
   '353'
 ]);

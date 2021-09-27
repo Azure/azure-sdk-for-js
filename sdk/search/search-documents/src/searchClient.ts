@@ -167,7 +167,9 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       this.client.pipeline.addPolicy(createSearchApiKeyCredentialPolicy(credential));
     }
 
-    this.client.pipeline.addPolicy(createOdataMetadataPolicy("none"));
+    if(this.client.pipeline.getOrderedPolicies().length > 1) {
+      this.client.pipeline.addPolicy(createOdataMetadataPolicy("none"));
+    }    
   }
 
   /**
