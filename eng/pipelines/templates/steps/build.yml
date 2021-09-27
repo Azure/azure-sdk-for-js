@@ -81,7 +81,6 @@ steps:
         New-Item -Type Directory -Name $artifactName -Path $(Build.ArtifactStagingDirectory) > $null
         Copy-Item sdk/${{parameters.ServiceDirectory}}/**/$artifactName-[0-9]*.[0-9]*.[0-9]*.tgz $(Build.ArtifactStagingDirectory)/$artifactName
         Copy-Item sdk/${{parameters.ServiceDirectory}}/**/browser/$artifactName-[0-9]*.[0-9]*.[0-9]*.zip $(Build.ArtifactStagingDirectory)/$artifactName
-        Copy-Item sdk/${{parameters.ServiceDirectory}}/**/temp/*.api.json $(Build.ArtifactStagingDirectory)/$artifactName
         if ($${{ parameters.IncludeRelease }} -eq $true)
         {
           New-Item -Type Directory -Name documentation -Path $(Build.ArtifactStagingDirectory)/$artifactName > $null
@@ -89,6 +88,10 @@ steps:
         }
       }
     displayName: 'Copy Packages'
+
+  - script: |
+      eng/scripts/stage-api-review-file.ps1 -PackageInfoPath $(Build.ArtifactStagingDirectory)/PackageInfo -StagingDirectory $(Build.ArtifactStagingDirectory)
+    displayName: 'Copy API extracted files'
 
   - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
     parameters:
