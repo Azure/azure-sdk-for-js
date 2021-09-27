@@ -25,239 +25,7 @@ interface AccessKeys {
 }
 
 // @public (undocumented)
-export namespace Account {
-    // (undocumented)
-    export type AccessKeyOptions = models.AccessKeyOptions;
-    // (undocumented)
-    export type AccessKeys = models.AccessKeys;
-    // Warning: (ae-forgotten-export) The symbol "models" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    export type Account = models.Account;
-    // (undocumented)
-    export type AccountEndpoints = models.AccountEndpoints;
-    // (undocumented)
-    export type AccountProperties = models.AccountProperties;
-    // (undocumented)
-    export type AccountPropertiesEndpoints = models.AccountPropertiesEndpoints;
-    // (undocumented)
-    export type AccountPropertiesManagedResources = models.AccountPropertiesManagedResources;
-    // (undocumented)
-    export type AccountsGetAccessKeys = purviewAccount.AccountsGetAccessKeys;
-    // (undocumented)
-    export type AccountsGetAccessKeys200Response = responses.AccountsGetAccessKeys200Response;
-    // (undocumented)
-    export type AccountsGetAccessKeysdefaultResponse = responses.AccountsGetAccessKeysdefaultResponse;
-    // (undocumented)
-    export type AccountsGetAccessKeysParameters = parameters.AccountsGetAccessKeysParameters;
-    // (undocumented)
-    export type AccountsGetAccountProperties = purviewAccount.AccountsGetAccountProperties;
-    // Warning: (ae-forgotten-export) The symbol "responses" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    export type AccountsGetAccountProperties200Response = responses.AccountsGetAccountProperties200Response;
-    // (undocumented)
-    export type AccountsGetAccountPropertiesdefaultResponse = responses.AccountsGetAccountPropertiesdefaultResponse;
-    // Warning: (ae-forgotten-export) The symbol "parameters" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    export type AccountsGetAccountPropertiesParameters = parameters.AccountsGetAccountPropertiesParameters;
-    // (undocumented)
-    export type AccountSku = models.AccountSku;
-    // (undocumented)
-    export type AccountsRegenerateAccessKey = purviewAccount.AccountsRegenerateAccessKey;
-    // (undocumented)
-    export type AccountsRegenerateAccessKey200Response = responses.AccountsRegenerateAccessKey200Response;
-    // (undocumented)
-    export type AccountsRegenerateAccessKeyBodyParam = parameters.AccountsRegenerateAccessKeyBodyParam;
-    // (undocumented)
-    export type AccountsRegenerateAccessKeydefaultResponse = responses.AccountsRegenerateAccessKeydefaultResponse;
-    // (undocumented)
-    export type AccountsRegenerateAccessKeyParameters = parameters.AccountsRegenerateAccessKeyParameters;
-    // (undocumented)
-    export type AccountsUpdateAccountProperties200Response = responses.AccountsUpdateAccountProperties200Response;
-    // (undocumented)
-    export type AccountsUpdateAccountPropertiesBodyParam = parameters.AccountsUpdateAccountPropertiesBodyParam;
-    // (undocumented)
-    export type AccountsUpdateAccountPropertiesdefaultResponse = responses.AccountsUpdateAccountPropertiesdefaultResponse;
-    // (undocumented)
-    export type AccountsUpdateAccountPropertiesParameters = parameters.AccountsUpdateAccountPropertiesParameters;
-    // (undocumented)
-    export type AccountSystemData = models.AccountSystemData;
-    // (undocumented)
-    export type AdvancedResourceSet = models.AdvancedResourceSet;
-    // (undocumented)
-    export type CloudConnectors = models.CloudConnectors;
-    // (undocumented)
-    export type Collection = models.Collection;
-    // (undocumented)
-    export type CollectionList = models.CollectionList;
-    // (undocumented)
-    export type CollectionNameResponse = models.CollectionNameResponse;
-    // (undocumented)
-    export type CollectionNameResponseList = models.CollectionNameResponseList;
-    // (undocumented)
-    export type CollectionPathResponse = models.CollectionPathResponse;
-    // (undocumented)
-    export type CollectionReference = models.CollectionReference;
-    // (undocumented)
-    export type CollectionsCreateOrUpdateCollection200Response = responses.CollectionsCreateOrUpdateCollection200Response;
-    // (undocumented)
-    export type CollectionsCreateOrUpdateCollectionBodyParam = parameters.CollectionsCreateOrUpdateCollectionBodyParam;
-    // (undocumented)
-    export type CollectionsCreateOrUpdateCollectiondefaultResponse = responses.CollectionsCreateOrUpdateCollectiondefaultResponse;
-    // (undocumented)
-    export type CollectionsCreateOrUpdateCollectionParameters = parameters.CollectionsCreateOrUpdateCollectionParameters;
-    // (undocumented)
-    export type CollectionsDeleteCollection204Response = responses.CollectionsDeleteCollection204Response;
-    // (undocumented)
-    export type CollectionsDeleteCollectiondefaultResponse = responses.CollectionsDeleteCollectiondefaultResponse;
-    // (undocumented)
-    export type CollectionsDeleteCollectionParameters = parameters.CollectionsDeleteCollectionParameters;
-    // (undocumented)
-    export type CollectionsGetCollection = purviewAccount.CollectionsGetCollection;
-    // (undocumented)
-    export type CollectionsGetCollection200Response = responses.CollectionsGetCollection200Response;
-    const // (undocumented)
-    paginate: typeof paginateHelper.paginate;
-    // (undocumented)
-    export type CollectionsGetCollectiondefaultResponse = responses.CollectionsGetCollectiondefaultResponse;
-    // (undocumented)
-    export type CollectionsGetCollectionParameters = parameters.CollectionsGetCollectionParameters;
-    // (undocumented)
-    export type CollectionsGetCollectionPath = purviewAccount.CollectionsGetCollectionPath;
-    // (undocumented)
-    export type CollectionsGetCollectionPath200Response = responses.CollectionsGetCollectionPath200Response;
-    // (undocumented)
-    export type CollectionsGetCollectionPathdefaultResponse = responses.CollectionsGetCollectionPathdefaultResponse;
-    // (undocumented)
-    export type CollectionsGetCollectionPathParameters = parameters.CollectionsGetCollectionPathParameters;
-    // (undocumented)
-    export type CollectionsListChildCollectionNames = purviewAccount.CollectionsListChildCollectionNames;
-    // (undocumented)
-    export type CollectionsListChildCollectionNames200Response = responses.CollectionsListChildCollectionNames200Response;
-    // (undocumented)
-    export type CollectionsListChildCollectionNamesdefaultResponse = responses.CollectionsListChildCollectionNamesdefaultResponse;
-    // (undocumented)
-    export type CollectionsListChildCollectionNamesParameters = parameters.CollectionsListChildCollectionNamesParameters;
-    // (undocumented)
-    export type CollectionsListChildCollectionNamesQueryParam = parameters.CollectionsListChildCollectionNamesQueryParam;
-    // (undocumented)
-    export type CollectionsListChildCollectionNamesQueryParamProperties = parameters.CollectionsListChildCollectionNamesQueryParamProperties;
-    // (undocumented)
-    export type CollectionsListCollections = purviewAccount.CollectionsListCollections;
-    // (undocumented)
-    export type CollectionsListCollections200Response = responses.CollectionsListCollections200Response;
-    // (undocumented)
-    export type CollectionsListCollectionsdefaultResponse = responses.CollectionsListCollectionsdefaultResponse;
-    // (undocumented)
-    export type CollectionsListCollectionsParameters = parameters.CollectionsListCollectionsParameters;
-    // (undocumented)
-    export type CollectionsListCollectionsQueryParam = parameters.CollectionsListCollectionsQueryParam;
-    // (undocumented)
-    export type CollectionsListCollectionsQueryParamProperties = parameters.CollectionsListCollectionsQueryParamProperties;
-    // (undocumented)
-    export type CollectionSystemData = models.CollectionSystemData;
-    // (undocumented)
-    export type ComplexReplacerConfig = models.ComplexReplacerConfig;
-    // (undocumented)
-    export type DataPlaneAccountUpdateParameters = models.DataPlaneAccountUpdateParameters;
-    // (undocumented)
-    export type ErrorModel = models.ErrorModel;
-    // (undocumented)
-    export type ErrorResponseModel = models.ErrorResponseModel;
-    // (undocumented)
-    export type ErrorResponseModelError = models.ErrorResponseModelError;
-    const // Warning: (ae-forgotten-export) The symbol "purviewAccount" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    PurviewAccountClient: typeof purviewAccount.PurviewAccount;
-    // (undocumented)
-    export type FastRegex = models.FastRegex;
-    // (undocumented)
-    export type Filter = models.Filter;
-    // Warning: (ae-forgotten-export) The symbol "paginateHelper" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    export type GetArrayType<T> = paginateHelper.GetArrayType<T>;
-    // (undocumented)
-    export type GetPage<T> = paginateHelper.GetPage<T>;
-    // (undocumented)
-    export type Identity = models.Identity;
-    // (undocumented)
-    export type ManagedResources = models.ManagedResources;
-    // (undocumented)
-    export type NormalizationRule = models.NormalizationRule;
-    // (undocumented)
-    export type PaginateReturn<T> = paginateHelper.PaginateReturn<T>;
-    // (undocumented)
-    export type PagingOptions<T> = paginateHelper.PagingOptions<T>;
-    // (undocumented)
-    export type PathPatternExtractorConfig = models.PathPatternExtractorConfig;
-    // (undocumented)
-    export type PrivateEndpoint = models.PrivateEndpoint;
-    // (undocumented)
-    export type PrivateEndpointConnection = models.PrivateEndpointConnection;
-    // (undocumented)
-    export type PrivateEndpointConnectionProperties = models.PrivateEndpointConnectionProperties;
-    // (undocumented)
-    export type PrivateLinkServiceConnectionState = models.PrivateLinkServiceConnectionState;
-    // (undocumented)
-    export type PurviewAccountClientLike = purviewAccount.PurviewAccountRestClient;
-    // (undocumented)
-    export type RegexReplacer = models.RegexReplacer;
-    // (undocumented)
-    export type ResourceSetRuleConfig = models.ResourceSetRuleConfig;
-    // (undocumented)
-    export type ResourceSetRuleConfigList = models.ResourceSetRuleConfigList;
-    // (undocumented)
-    export type ResourceSetRulesCreateOrUpdateResourceSetRule200Response = responses.ResourceSetRulesCreateOrUpdateResourceSetRule200Response;
-    // (undocumented)
-    export type ResourceSetRulesCreateOrUpdateResourceSetRuleBodyParam = parameters.ResourceSetRulesCreateOrUpdateResourceSetRuleBodyParam;
-    // (undocumented)
-    export type ResourceSetRulesCreateOrUpdateResourceSetRuledefaultResponse = responses.ResourceSetRulesCreateOrUpdateResourceSetRuledefaultResponse;
-    // (undocumented)
-    export type ResourceSetRulesCreateOrUpdateResourceSetRuleParameters = parameters.ResourceSetRulesCreateOrUpdateResourceSetRuleParameters;
-    // (undocumented)
-    export type ResourceSetRulesDeleteResourceSetRule200Response = responses.ResourceSetRulesDeleteResourceSetRule200Response;
-    // (undocumented)
-    export type ResourceSetRulesDeleteResourceSetRule204Response = responses.ResourceSetRulesDeleteResourceSetRule204Response;
-    // (undocumented)
-    export type ResourceSetRulesDeleteResourceSetRuledefaultResponse = responses.ResourceSetRulesDeleteResourceSetRuledefaultResponse;
-    // (undocumented)
-    export type ResourceSetRulesDeleteResourceSetRuleParameters = parameters.ResourceSetRulesDeleteResourceSetRuleParameters;
-    // (undocumented)
-    export type ResourceSetRulesGetResourceSetRule = purviewAccount.ResourceSetRulesGetResourceSetRule;
-    // (undocumented)
-    export type ResourceSetRulesGetResourceSetRule200Response = responses.ResourceSetRulesGetResourceSetRule200Response;
-    // (undocumented)
-    export type ResourceSetRulesGetResourceSetRuledefaultResponse = responses.ResourceSetRulesGetResourceSetRuledefaultResponse;
-    // (undocumented)
-    export type ResourceSetRulesGetResourceSetRuleParameters = parameters.ResourceSetRulesGetResourceSetRuleParameters;
-    // (undocumented)
-    export type ResourceSetRulesListResourceSetRules = purviewAccount.ResourceSetRulesListResourceSetRules;
-    // (undocumented)
-    export type ResourceSetRulesListResourceSetRules200Response = responses.ResourceSetRulesListResourceSetRules200Response;
-    // (undocumented)
-    export type ResourceSetRulesListResourceSetRulesdefaultResponse = responses.ResourceSetRulesListResourceSetRulesdefaultResponse;
-    // (undocumented)
-    export type ResourceSetRulesListResourceSetRulesParameters = parameters.ResourceSetRulesListResourceSetRulesParameters;
-    // (undocumented)
-    export type ResourceSetRulesListResourceSetRulesQueryParam = parameters.ResourceSetRulesListResourceSetRulesQueryParam;
-    // (undocumented)
-    export type ResourceSetRulesListResourceSetRulesQueryParamProperties = parameters.ResourceSetRulesListResourceSetRulesQueryParamProperties;
-    // (undocumented)
-    export type Routes = purviewAccount.Routes;
-    // (undocumented)
-    export type Rule = models.Rule;
-    // (undocumented)
-    export type ScopedRule = models.ScopedRule;
-    // (undocumented)
-    export type SystemData = models.SystemData;
-}
-
-// @public (undocumented)
-interface Account_2 {
+interface Account {
     id?: string;
     identity?: Identity;
     location?: string;
@@ -332,7 +100,7 @@ interface AccountsGetAccountProperties {
 // @public
 interface AccountsGetAccountProperties200Response extends HttpResponse {
     // (undocumented)
-    body: Account_2;
+    body: Account;
     // (undocumented)
     status: "200";
 }
@@ -387,7 +155,7 @@ type AccountsRegenerateAccessKeyParameters = AccountsRegenerateAccessKeyBodyPara
 // @public
 interface AccountsUpdateAccountProperties200Response extends HttpResponse {
     // (undocumented)
-    body: Account_2;
+    body: Account;
     // (undocumented)
     status: "200";
 }
@@ -434,6 +202,32 @@ interface AttributeRule {
     id?: string;
     kind?: "decisionrule" | "attributerule";
     name?: string;
+}
+
+declare namespace Client_2 {
+    export {
+        AccountsGetAccountProperties,
+        AccountsGetAccessKeys,
+        AccountsRegenerateAccessKey,
+        CollectionsGetCollection,
+        CollectionsListCollections,
+        CollectionsListChildCollectionNames,
+        CollectionsGetCollectionPath,
+        ResourceSetRulesGetResourceSetRule,
+        ResourceSetRulesListResourceSetRules,
+        Routes,
+        PurviewAccountRestClient
+    }
+}
+
+declare namespace Client_3 {
+    export {
+        MetadataRolesList,
+        MetadataPolicyListAll,
+        MetadataPolicyUpdate,
+        Routes_2 as Routes,
+        PurviewMetadataPoliciesRestClient
+    }
 }
 
 // @public (undocumented)
@@ -796,104 +590,6 @@ interface ManagedResources {
 }
 
 // @public (undocumented)
-export namespace MetadataPolicies {
-    const // Warning: (ae-forgotten-export) The symbol "purviewMetadataPolicies" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    PurviewMetadataPoliciesClient: typeof purviewMetadataPolicies.PurviewMetadataPolicies;
-    // (undocumented)
-    export type AttributeMatcher = models_2.AttributeMatcher;
-    // (undocumented)
-    export type AttributeRule = models_2.AttributeRule;
-    // (undocumented)
-    export type CollectionReference = models_2.CollectionReference;
-    // (undocumented)
-    export type DecisionRule = models_2.DecisionRule;
-    // (undocumented)
-    export type ErrorModel = models_2.ErrorModel;
-    // (undocumented)
-    export type ErrorResponseModel = models_2.ErrorResponseModel;
-    // (undocumented)
-    export type GetArrayType<T> = paginateHelper_2.GetArrayType<T>;
-    // (undocumented)
-    export type GetPage<T> = paginateHelper_2.GetPage<T>;
-    // (undocumented)
-    export type MetadataPolicy = models_2.MetadataPolicy;
-    // (undocumented)
-    export type MetadataPolicyGet200Response = responses_2.MetadataPolicyGet200Response;
-    // (undocumented)
-    export type MetadataPolicyGetdefaultHeaders = responses_2.MetadataPolicyGetdefaultHeaders;
-    // (undocumented)
-    export type MetadataPolicyGetdefaultResponse = responses_2.MetadataPolicyGetdefaultResponse;
-    // (undocumented)
-    export type MetadataPolicyGetParameters = parameters_2.MetadataPolicyGetParameters;
-    const // Warning: (ae-forgotten-export) The symbol "paginateHelper" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    paginate: typeof paginateHelper_2.paginate;
-    // (undocumented)
-    export type MetadataPolicyList = models_2.MetadataPolicyList;
-    // (undocumented)
-    export type MetadataPolicyListAll = purviewMetadataPolicies.MetadataPolicyListAll;
-    // (undocumented)
-    export type MetadataPolicyListAll200Response = responses_2.MetadataPolicyListAll200Response;
-    // (undocumented)
-    export type MetadataPolicyListAlldefaultHeaders = responses_2.MetadataPolicyListAlldefaultHeaders;
-    // (undocumented)
-    export type MetadataPolicyListAlldefaultResponse = responses_2.MetadataPolicyListAlldefaultResponse;
-    // (undocumented)
-    export type MetadataPolicyListAllParameters = parameters_2.MetadataPolicyListAllParameters;
-    // (undocumented)
-    export type MetadataPolicyListAllQueryParam = parameters_2.MetadataPolicyListAllQueryParam;
-    // (undocumented)
-    export type MetadataPolicyListAllQueryParamProperties = parameters_2.MetadataPolicyListAllQueryParamProperties;
-    // (undocumented)
-    export type MetadataPolicyProperties = models_2.MetadataPolicyProperties;
-    // (undocumented)
-    export type MetadataPolicyUpdate = purviewMetadataPolicies.MetadataPolicyUpdate;
-    // (undocumented)
-    export type MetadataPolicyUpdate200Response = responses_2.MetadataPolicyUpdate200Response;
-    // (undocumented)
-    export type MetadataPolicyUpdateBodyParam = parameters_2.MetadataPolicyUpdateBodyParam;
-    // (undocumented)
-    export type MetadataPolicyUpdatedefaultHeaders = responses_2.MetadataPolicyUpdatedefaultHeaders;
-    // (undocumented)
-    export type MetadataPolicyUpdatedefaultResponse = responses_2.MetadataPolicyUpdatedefaultResponse;
-    // (undocumented)
-    export type MetadataPolicyUpdateParameters = parameters_2.MetadataPolicyUpdateParameters;
-    // (undocumented)
-    export type MetadataRole = models_2.MetadataRole;
-    // Warning: (ae-forgotten-export) The symbol "models" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    export type MetadataRoleList = models_2.MetadataRoleList;
-    // (undocumented)
-    export type MetadataRoleProperties = models_2.MetadataRoleProperties;
-    // (undocumented)
-    export type MetadataRolesList = purviewMetadataPolicies.MetadataRolesList;
-    // Warning: (ae-forgotten-export) The symbol "responses" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    export type MetadataRolesList200Response = responses_2.MetadataRolesList200Response;
-    // (undocumented)
-    export type MetadataRolesListdefaultHeaders = responses_2.MetadataRolesListdefaultHeaders;
-    // (undocumented)
-    export type MetadataRolesListdefaultResponse = responses_2.MetadataRolesListdefaultResponse;
-    // Warning: (ae-forgotten-export) The symbol "parameters" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    export type MetadataRolesListParameters = parameters_2.MetadataRolesListParameters;
-    // (undocumented)
-    export type PaginateReturn<T> = paginateHelper_2.PaginateReturn<T>;
-    // (undocumented)
-    export type PagingOptions<T> = paginateHelper_2.PagingOptions<T>;
-    // (undocumented)
-    export type PurviewMetadataPoliciesClientLike = purviewMetadataPolicies.PurviewMetadataPoliciesRestClient;
-    // (undocumented)
-    export type Routes = purviewMetadataPolicies.Routes;
-}
-
-// @public (undocumented)
 interface MetadataPolicy {
     id?: string;
     name?: string;
@@ -1083,6 +779,67 @@ interface MetadataRolesListdefaultResponse extends HttpResponse {
 // @public (undocumented)
 type MetadataRolesListParameters = RequestParameters;
 
+declare namespace Models {
+    export {
+        Account,
+        Identity,
+        AccountProperties,
+        CloudConnectors,
+        AccountEndpoints,
+        AccountPropertiesEndpoints,
+        ManagedResources,
+        AccountPropertiesManagedResources,
+        PrivateEndpointConnection,
+        PrivateEndpointConnectionProperties,
+        PrivateEndpoint,
+        PrivateLinkServiceConnectionState,
+        AccountSku,
+        SystemData,
+        AccountSystemData,
+        ErrorResponseModel,
+        ErrorModel,
+        ErrorResponseModelError,
+        DataPlaneAccountUpdateParameters,
+        AccessKeys,
+        AccessKeyOptions,
+        Collection,
+        CollectionReference,
+        CollectionSystemData,
+        CollectionList,
+        CollectionNameResponseList,
+        CollectionNameResponse,
+        CollectionPathResponse,
+        ResourceSetRuleConfig,
+        AdvancedResourceSet,
+        PathPatternExtractorConfig,
+        Filter,
+        ComplexReplacerConfig,
+        NormalizationRule,
+        FastRegex,
+        RegexReplacer,
+        ScopedRule,
+        Rule,
+        ResourceSetRuleConfigList
+    }
+}
+
+declare namespace Models_2 {
+    export {
+        MetadataRoleList,
+        MetadataRole,
+        MetadataRoleProperties,
+        AttributeMatcher,
+        ErrorResponseModel_2 as ErrorResponseModel,
+        ErrorModel_2 as ErrorModel,
+        MetadataPolicyList,
+        MetadataPolicy,
+        MetadataPolicyProperties,
+        DecisionRule,
+        AttributeRule,
+        CollectionReference_2 as CollectionReference
+    }
+}
+
 // @public (undocumented)
 interface NormalizationRule {
     // (undocumented)
@@ -1129,6 +886,26 @@ type PaginateReturn_2<TResult> = TResult extends {
     };
 } ? GetArrayType_2<TPage> : Array<unknown>;
 
+declare namespace Pagination {
+    export {
+        paginate,
+        GetArrayType,
+        GetPage,
+        PagingOptions,
+        PaginateReturn
+    }
+}
+
+declare namespace Pagination_2 {
+    export {
+        paginate_2 as paginate,
+        GetArrayType_2 as GetArrayType,
+        GetPage_2 as GetPage,
+        PagingOptions_2 as PagingOptions,
+        PaginateReturn_2 as PaginateReturn
+    }
+}
+
 // @public
 interface PagingOptions<TResponse> {
     customGetPage?: GetPage<PaginateReturn<TResponse>[]>;
@@ -1137,6 +914,47 @@ interface PagingOptions<TResponse> {
 // @public
 interface PagingOptions_2<TResponse> {
     customGetPage?: GetPage_2<PaginateReturn_2<TResponse>[]>;
+}
+
+declare namespace Parameters_2 {
+    export {
+        AccountsGetAccountPropertiesParameters,
+        AccountsUpdateAccountPropertiesBodyParam,
+        AccountsUpdateAccountPropertiesParameters,
+        AccountsGetAccessKeysParameters,
+        AccountsRegenerateAccessKeyBodyParam,
+        AccountsRegenerateAccessKeyParameters,
+        CollectionsGetCollectionParameters,
+        CollectionsCreateOrUpdateCollectionBodyParam,
+        CollectionsCreateOrUpdateCollectionParameters,
+        CollectionsDeleteCollectionParameters,
+        CollectionsListCollectionsQueryParamProperties,
+        CollectionsListCollectionsQueryParam,
+        CollectionsListCollectionsParameters,
+        CollectionsListChildCollectionNamesQueryParamProperties,
+        CollectionsListChildCollectionNamesQueryParam,
+        CollectionsListChildCollectionNamesParameters,
+        CollectionsGetCollectionPathParameters,
+        ResourceSetRulesGetResourceSetRuleParameters,
+        ResourceSetRulesCreateOrUpdateResourceSetRuleBodyParam,
+        ResourceSetRulesCreateOrUpdateResourceSetRuleParameters,
+        ResourceSetRulesDeleteResourceSetRuleParameters,
+        ResourceSetRulesListResourceSetRulesQueryParamProperties,
+        ResourceSetRulesListResourceSetRulesQueryParam,
+        ResourceSetRulesListResourceSetRulesParameters
+    }
+}
+
+declare namespace Parameters_3 {
+    export {
+        MetadataRolesListParameters,
+        MetadataPolicyListAllQueryParamProperties,
+        MetadataPolicyListAllQueryParam,
+        MetadataPolicyListAllParameters,
+        MetadataPolicyUpdateBodyParam,
+        MetadataPolicyUpdateParameters,
+        MetadataPolicyGetParameters
+    }
 }
 
 // @public (undocumented)
@@ -1192,16 +1010,40 @@ interface PrivateLinkServiceConnectionState {
     status?: "Unknown" | "Pending" | "Approved" | "Rejected" | "Disconnected";
 }
 
+declare namespace PurviewAccount {
+    export {
+        Models,
+        Pagination,
+        Parameters_2 as Parameters,
+        Client_2 as Client,
+        Responses,
+        PurviewAccountClient
+    }
+}
+export { PurviewAccount }
+
 // @public (undocumented)
-function PurviewAccount(endpoint: string, credentials: TokenCredential, options?: ClientOptions): PurviewAccountRestClient;
+export function PurviewAccountClient(endpoint: string, credentials: TokenCredential, options?: ClientOptions): PurviewAccountRestClient;
 
 // @public (undocumented)
 type PurviewAccountRestClient = Client & {
     path: Routes;
 };
 
+declare namespace PurviewMetadataPolicies {
+    export {
+        PurviewMetadataPoliciesClient,
+        Models_2 as Models,
+        Pagination_2 as Pagination,
+        Parameters_3 as Parameters,
+        Client_3 as Client,
+        Responses_2 as Responses
+    }
+}
+export { PurviewMetadataPolicies }
+
 // @public (undocumented)
-function PurviewMetadataPolicies(Endpoint: string, credentials: TokenCredential, options?: ClientOptions): PurviewMetadataPoliciesRestClient;
+export function PurviewMetadataPoliciesClient(Endpoint: string, credentials: TokenCredential, options?: ClientOptions): PurviewMetadataPoliciesRestClient;
 
 // @public (undocumented)
 type PurviewMetadataPoliciesRestClient = Client & {
@@ -1360,6 +1202,57 @@ interface ResourceSetRulesListResourceSetRulesQueryParam {
 interface ResourceSetRulesListResourceSetRulesQueryParamProperties {
     // (undocumented)
     $skipToken?: string;
+}
+
+declare namespace Responses {
+    export {
+        AccountsGetAccountProperties200Response,
+        AccountsGetAccountPropertiesdefaultResponse,
+        AccountsUpdateAccountProperties200Response,
+        AccountsUpdateAccountPropertiesdefaultResponse,
+        AccountsGetAccessKeys200Response,
+        AccountsGetAccessKeysdefaultResponse,
+        AccountsRegenerateAccessKey200Response,
+        AccountsRegenerateAccessKeydefaultResponse,
+        CollectionsGetCollection200Response,
+        CollectionsGetCollectiondefaultResponse,
+        CollectionsCreateOrUpdateCollection200Response,
+        CollectionsCreateOrUpdateCollectiondefaultResponse,
+        CollectionsDeleteCollection204Response,
+        CollectionsDeleteCollectiondefaultResponse,
+        CollectionsListCollections200Response,
+        CollectionsListCollectionsdefaultResponse,
+        CollectionsListChildCollectionNames200Response,
+        CollectionsListChildCollectionNamesdefaultResponse,
+        CollectionsGetCollectionPath200Response,
+        CollectionsGetCollectionPathdefaultResponse,
+        ResourceSetRulesGetResourceSetRule200Response,
+        ResourceSetRulesGetResourceSetRuledefaultResponse,
+        ResourceSetRulesCreateOrUpdateResourceSetRule200Response,
+        ResourceSetRulesCreateOrUpdateResourceSetRuledefaultResponse,
+        ResourceSetRulesDeleteResourceSetRule200Response,
+        ResourceSetRulesDeleteResourceSetRule204Response,
+        ResourceSetRulesDeleteResourceSetRuledefaultResponse,
+        ResourceSetRulesListResourceSetRules200Response,
+        ResourceSetRulesListResourceSetRulesdefaultResponse
+    }
+}
+
+declare namespace Responses_2 {
+    export {
+        MetadataRolesList200Response,
+        MetadataRolesListdefaultHeaders,
+        MetadataRolesListdefaultResponse,
+        MetadataPolicyListAll200Response,
+        MetadataPolicyListAlldefaultHeaders,
+        MetadataPolicyListAlldefaultResponse,
+        MetadataPolicyUpdate200Response,
+        MetadataPolicyUpdatedefaultHeaders,
+        MetadataPolicyUpdatedefaultResponse,
+        MetadataPolicyGet200Response,
+        MetadataPolicyGetdefaultHeaders,
+        MetadataPolicyGetdefaultResponse
+    }
 }
 
 // @public (undocumented)

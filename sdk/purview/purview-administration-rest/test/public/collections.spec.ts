@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { Account } from "../../src";
+import { PurviewAccount } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
 
 import { assert } from "chai";
@@ -9,7 +9,7 @@ import { Context } from "mocha";
 
 describe("List collections", () => {
   let recorder: Recorder;
-  let client: Account.PurviewAccountClientLike;
+  let client: PurviewAccount.Client.PurviewAccountRestClient;
 
   beforeEach(function (this: Context) {
     recorder = createRecorder(this);
@@ -23,12 +23,10 @@ describe("List collections", () => {
   it("should list all available collections", async () => {
     const result = await client.path("/collections").get();
 
-    console.log(result);
     if (result.status !== "200") {
       assert.fail(`GET "/collections" failed with ${result.status}`);
     }
 
     assert.isDefined(result.body.count);
-    // assert(client);
   });
 });

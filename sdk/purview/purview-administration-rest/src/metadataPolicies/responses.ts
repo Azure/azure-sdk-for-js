@@ -3,7 +3,7 @@
 
 import { HttpResponse } from "@azure-rest/core-client";
 import { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import { MetadataRoleList, ErrorResponseModel, MetadataPolicyList, MetadataPolicy } from "./models";
+import { ErrorResponseModel, MetadataPolicy, MetadataPolicyList, MetadataRoleList } from "./models";
 
 /** Lists roles for Purview Account */
 export interface MetadataRolesList200Response extends HttpResponse {

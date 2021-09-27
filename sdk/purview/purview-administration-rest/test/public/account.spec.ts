@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { Account } from "../../src";
+import { PurviewAccount } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
 
 import { assert } from "chai";
@@ -9,7 +9,7 @@ import { Context } from "mocha";
 
 describe("Get account info", () => {
   let recorder: Recorder;
-  let client: Account.PurviewAccountClientLike;
+  let client: PurviewAccount.Client.PurviewAccountRestClient;
 
   beforeEach(function (this: Context) {
     recorder = createRecorder(this);
@@ -23,7 +23,6 @@ describe("Get account info", () => {
   it("should get the account info", async () => {
     const result = await client.path("/").get();
 
-    console.log(result);
     if (result.status !== "200") {
       assert.fail(`GET "/" failed with ${result.status}`);
     }

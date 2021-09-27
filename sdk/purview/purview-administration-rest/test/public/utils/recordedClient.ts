@@ -6,7 +6,7 @@
 import { Context } from "mocha";
 
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
-import { Account } from "../../../src";
+import { PurviewAccount, PurviewAccountClient } from "../../../src";
 import { ClientSecretCredential } from "@azure/identity";
 
 import "./env";
@@ -36,13 +36,15 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: [],
 };
 
-export function createClient(options?: ClientOptions): Account.PurviewAccountClientLike {
+export function createClient(
+  options?: ClientOptions
+): PurviewAccount.Client.PurviewAccountRestClient {
   const credential = new ClientSecretCredential(
     env.AZURE_TENANT_ID,
     env.AZURE_CLIENT_ID,
     env.AZURE_CLIENT_SECRET
   );
-  return Account.PurviewAccountClient(env.ENDPOINT, credential, options);
+  return PurviewAccountClient(env.ENDPOINT, credential, options);
 }
 
 /**
