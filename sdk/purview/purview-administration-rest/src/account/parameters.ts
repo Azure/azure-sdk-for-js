@@ -6,7 +6,7 @@ import {
   DataPlaneAccountUpdateParameters,
   AccessKeyOptions,
   Collection,
-  ResourceSetRuleConfig
+  ResourceSetRuleConfig,
 } from "./models";
 
 export type AccountsGetAccountPropertiesParameters = RequestParameters;
