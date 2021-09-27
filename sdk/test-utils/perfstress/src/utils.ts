@@ -44,10 +44,24 @@ export async function makeRequest(
   });
 }
 
+const _cachedProxyClients: {
+  v1: TestProxyHttpClientV1 | undefined;
+  v2: TestProxyHttpClient | undefined;
+} = {
+  v1: undefined,
+  v2: undefined
+};
+
 export function getHttpClientV1(url: string): TestProxyHttpClientV1 {
-  return new TestProxyHttpClientV1(url);
+  if (!_cachedProxyClients.v1) {
+    _cachedProxyClients.v1 = new TestProxyHttpClientV1(url);
+  }
+  return _cachedProxyClients.v1;
 }
 
 export function getHttpClient(url: string): TestProxyHttpClient {
-  return new TestProxyHttpClient(url);
+  if (!_cachedProxyClients.v2) {
+    _cachedProxyClients.v2 = new TestProxyHttpClient(url);
+  }
+  return _cachedProxyClients.v2;
 }
