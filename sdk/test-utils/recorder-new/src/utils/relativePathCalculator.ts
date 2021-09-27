@@ -71,7 +71,6 @@ function findRecordingsFolderPath(filePath: string): string {
   // File/folder path of a closest child of `currentPath` in the folder hierarchy of `filePath`
   let lastPath = filePath;
   try {
-    console.log(currentPath, path.resolve(currentPath, "package.json"));
     // While loop to find the entry point of the SDK
     while (
       !(
@@ -82,16 +81,6 @@ function findRecordingsFolderPath(filePath: string): string {
     ) {
       lastPath = currentPath;
       currentPath = path.resolve(currentPath, "..");
-      console.log(
-        currentPath,
-        path.resolve(currentPath, "package.json"),
-        path.resolve(currentPath, "..", "..", "..", "sdk/"),
-        path.resolve(currentPath, "..", "..", "..", "rush.json"),
-        fs.existsSync(path.resolve(currentPath, "package.json")) &&
-          fs.existsSync(path.resolve(currentPath, "..", "..", "..", "sdk/")) &&
-          fs.existsSync(path.resolve(currentPath, "..", "..", "..", "rush.json"))
-      );
-
       if (lastPath === currentPath) {
         throw new Error(
           `'package.json' is not found at ${currentPath} (reached the root directory)`
