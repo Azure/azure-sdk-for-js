@@ -1,0 +1,29 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "http://127.0.0.1:8080/sample_response",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "User-Agent": "core-rest-pipeline/1.2.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1055-azure)",
+        "x-ms-client-request-id": "9e38049a-a5a7-4f1b-ad2a-d7f285a06929"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Connection": "keep-alive",
+        "Content-Length": "13",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 27 Sep 2021 21:07:17 GMT",
+        "ETag": "W/\u0022d-czUS2Z\u002BsJhg6pgcf9QrBJC871f4\u0022",
+        "Keep-Alive": "timeout=5",
+        "X-Powered-By": "Express"
+      },
+      "ResponseBody": {
+        "abc": "def"
+      }
+    }
+  ],
+  "Variables": {}
+}
