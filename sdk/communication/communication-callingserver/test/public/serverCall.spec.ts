@@ -1,21 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CallingServerClient, ServerCall } from "@azure/communication-callingserver"
+import { env } from "@azure/test-utils-recorder";
+// import { Uuid } from "../../src/uuid"
+// import { CommunicationIdentityClient } from "@azure/communication-identity";
+// import { CallingServerClient, MediaType, EventSubscriptionType } from "../../src";
 
-describe("ServerCall", function() {
-    let callingServerClient: CallingServerClient;
+describe("Server Call", function() {
+    // let communicationIdentityClient = new CommunicationIdentityClient(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING);
 
-    describe("Recording", function() {
-        it("Start recording with relative url fails", function() {
-            let server_call: ServerCall;
+    // describe("Recording Operations", function() {
+    //     it("Run all client operations", async function() {
+    //         var groupId = Uuid.generateUuid();
+    //         var fromUser = (await communicationIdentityClient.createUser()).communicationUserId;
+    //         // var toUser = (await communicationIdentityClient.createUser()).communicationUserId;
+    //         var callingServer = new CallingServerClient(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING);
+    //         var joinCallOptions = {
+    //                 callbackUri: "https://bot.contoso.io/callback",
+    //                 requestedMediaTypes: [MediaType.Audio],
+    //                 requestedCallEvents: [EventSubscriptionType.ParticipantsUpdated]
+    //             };
 
-            const connectionString = "endpoint=https://REDACTED.communication.azure.com/;accesskey=eyJhbG==";
-            const serverCallId = "aHR0cHM6Ly9jb252LXVzd2UtMDguY29udi5za3lwZS5jb20vY29udi8tby1FWjVpMHJrS3RFTDBNd0FST1J3P2k9ODgmZT02Mzc1Nzc0MTY4MDc4MjQyOTM";
-            callingServerClient = new CallingServerClient(connectionString);
-            server_call = callingServerClient.initializeServerCall(serverCallId);
+    //         var fromCallConnection = await callingServer.joinCall(groupId, {id: fromUser}, joinCallOptions);
+    //         await fromCallConnection.hangUp();
+    //     })
+    // })
 
-            server_call.startRecording("/not/absolute/uri");
-        })
+    it("testing env", function() {
+        console.log("Hola!!: " + JSON.stringify(env, null, 4));
     })
 })
