@@ -49,8 +49,15 @@ export interface JsonWebKey {
   /**
    * Json web key operations. For more
    * information on possible key operations, see KeyOperation.
+   *
+   * @deprecated Use {@link key_ops} instead. keyOps will be removed in version 5.x of `@azure/keyvault-keys`.
    */
   keyOps?: KeyOperation[];
+  /**
+   * Json web key operations. For more
+   * information on possible key operations, see KeyOperation.
+   */
+  key_ops?: KeyOperation[];
   /**
    * RSA modulus.
    */
