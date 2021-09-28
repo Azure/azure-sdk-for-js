@@ -12,10 +12,11 @@ import { createReadStream, ReadStream } from "fs";
 import { DefaultHttpClient } from "../src/defaultHttpClient";
 import { WebResource, TransferProgressEvent } from "../src/webResource";
 import { getHttpMock, HttpMockFacade } from "./mockHttp";
-import { PassThrough } from "stream";
+import { PassThrough, Readable, pipeline } from "stream";
 import { ReportTransform, CommonResponse } from "../src/fetchHttpClient";
 import { CompositeMapper, Serializer } from "../src/serializer";
 import { OperationSpec } from "../src/operationSpec";
+import { AbortController } from "@azure/abort-controller";
 
 describe("defaultHttpClient (node)", function() {
   let httpMock: HttpMockFacade;
@@ -426,6 +427,52 @@ describe("defaultHttpClient (node)", function() {
       requestInit1.agent.proxyOptions.proxyAuth,
       requestInit2.agent.proxyOptions.proxyAuth
     );
+  });
+
+  it("should abort connection when download stream is closed", async function() {
+    const payload = new PassThrough();
+    const b = new PassThrough();
+    b.pipe(payload, { end: false });
+    b.write("hello");
+    const localPort = 32293;
+    const errorHandler = function(err: any) {
+      if (err) {
+        assert.strictEqual(err.message, "Premature close");
+      }
+    };
+
+    const localServer = http
+      .createServer(function(_req, res) {
+        pipeline(payload, res, errorHandler);
+        res.writeHead(200, { "Content-Type": "text/html" });
+      })
+      .listen(localPort);
+
+    httpMock.passThrough();
+    const ac = new AbortController();
+    const request = new WebResource(
+      `http://127.0.0.1:${localPort}`,
+      "GET",
+      undefined,
+      undefined,
+      undefined,
+      true /* streaming response */
+    );
+    request.abortSignal = ac.signal;
+    const httpClient = new DefaultHttpClient();
+
+    const response = await httpClient.sendRequest(request);
+
+    try {
+      const stream = response.readableStreamBody as Readable;
+      stream.destroy();
+    } catch (e) {
+      console.log(e as Error);
+    } finally {
+      // Clean up
+      localServer.close();
+      httpMock.teardown();
+    }
   });
 });
 
