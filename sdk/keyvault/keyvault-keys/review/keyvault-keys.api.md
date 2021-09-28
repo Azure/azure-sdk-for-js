@@ -211,6 +211,8 @@ export interface JsonWebKey {
     dq?: Uint8Array;
     e?: Uint8Array;
     k?: Uint8Array;
+    key_ops?: KeyOperation[];
+    // @deprecated
     keyOps?: KeyOperation[];
     kid?: string;
     kty?: KeyType;
