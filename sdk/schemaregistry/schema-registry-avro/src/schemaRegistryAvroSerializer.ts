@@ -54,6 +54,11 @@ export interface SchemaRegistryAvroSerializerOptions {
    * Automatic schema registration is NOT recommended for production scenarios.
    */
   autoRegisterSchemas?: boolean;
+  /**
+   * The group name to be used when registering/looking up a schema. Must be specified
+   * if you will be calling `serialize`.
+   */
+  groupName?: string;
 }
 
 /**
@@ -66,21 +71,14 @@ export class SchemaRegistryAvroSerializer {
    *
    * @param client - Schema Registry where schemas are registered and obtained.
    *                 Usually this is a SchemaRegistryClient instance.
-   *
-   * @param groupName - The schema group to use when making requests to the
-   *                    registry.
    */
-  constructor(
-    client: SchemaRegistry,
-    groupName: string,
-    options?: SchemaRegistryAvroSerializerOptions
-  ) {
+  constructor(client: SchemaRegistry, options?: SchemaRegistryAvroSerializerOptions) {
     this.registry = client;
-    this.schemaGroup = groupName;
+    this.schemaGroup = options?.groupName;
     this.autoRegisterSchemas = options?.autoRegisterSchemas ?? false;
   }
 
-  private readonly schemaGroup: string;
+  private readonly schemaGroup?: string;
   private readonly registry: SchemaRegistry;
   private readonly autoRegisterSchemas: boolean;
 
@@ -188,6 +186,12 @@ export class SchemaRegistryAvroSerializer {
     const avroType = this.getAvroTypeForSchema(schema);
     if (!avroType.name) {
       throw new Error("Schema must have a name.");
+    }
+
+    if (!this.schemaGroup) {
+      throw new Error(
+        "Schema group must have been specified in the constructor options when the client was created."
+      );
     }
 
     const description: SchemaDescription = {

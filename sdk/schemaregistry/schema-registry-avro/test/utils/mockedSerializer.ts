@@ -13,7 +13,7 @@ export async function createTestSerializer(
   if (!autoRegisterSchemas) {
     await registerTestSchema(registry);
   }
-  return new SchemaRegistryAvroSerializer(registry, testGroup, { autoRegisterSchemas });
+  return new SchemaRegistryAvroSerializer(registry, { autoRegisterSchemas, groupName: testGroup });
 }
 
 export async function registerTestSchema(registry: SchemaRegistry): Promise<string> {
