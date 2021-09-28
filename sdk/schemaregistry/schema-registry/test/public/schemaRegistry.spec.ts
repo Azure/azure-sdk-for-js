@@ -69,12 +69,12 @@ describe("SchemaRegistryClient", function() {
     await recorder.stop();
   });
 
-  it("sets endpoint in constructor", () => {
-    const endpoint = "https://example.com/schemaregistry/";
+  it("sets fully qualified name space in constructor", () => {
+    const fullyQualifiedNamespace = "https://example.com/schemaregistry/";
     const credential = new ClientSecretCredential("x", "y", "z");
 
-    const customClient = new SchemaRegistryClient(endpoint, credential);
-    assert.equal(customClient.endpoint, endpoint);
+    const customClient = new SchemaRegistryClient(fullyQualifiedNamespace, credential);
+    assert.equal(customClient.fullyQualifiedNamespace, fullyQualifiedNamespace);
   });
 
   it("rejects schema registration with invalid args", async () => {

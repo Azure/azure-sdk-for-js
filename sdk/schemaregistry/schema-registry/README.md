@@ -32,7 +32,7 @@ npm install @azure/schema-registry
 ### Create and authenticate a `SchemaRegistryClient`
 
 To create a client object to access the Schema Registry API, you will need the
-`endpoint` of your Schema Registry resource and a `credential`. The Schema
+fully qualified namespace of your Schema Registry resource and a `credential`. The Schema
 Registry client uses Azure Active Directory credentials to authenticate.
 
 You can authenticate with Azure Active Directory using the [Azure Identity
@@ -53,7 +53,7 @@ application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`,
 const { DefaultAzureCredential } = require("@azure/identity");
 const { SchemaRegistryClient } = require("@azure/schema-registry");
 
-const client = new SchemaRegistryClient("<endpoint>", new DefaultAzureCredential());
+const client = new SchemaRegistryClient("<fullyQualifiedNamespace>", new DefaultAzureCredential());
 ```
 
 ## Key concepts
@@ -77,7 +77,7 @@ schema registry.
 const { DefaultAzureCredential } = require("@azure/identity");
 const { SchemaRegistryClient } = require("@azure/schema-registry");
 
-const client = new SchemaRegistryClient("<endpoint>", new DefaultAzureCredential());
+const client = new SchemaRegistryClient("<fullyQualifiedNamespace>", new DefaultAzureCredential());
 
 const description = {
   name: "<name>",
@@ -96,7 +96,7 @@ console.log(registered.id);
 const { DefaultAzureCredential } = require("@azure/identity");
 const { SchemaRegistryClient } = require("@azure/schema-registry");
 
-const client = new SchemaRegistryClient("<endpoint>", new DefaultAzureCredential());
+const client = new SchemaRegistryClient("<fullyQualifiedNamespace>", new DefaultAzureCredential());
 
 const description = {
   name: "<name>",
@@ -117,7 +117,7 @@ if (found) {
 const { DefaultAzureCredential } = require("@azure/identity");
 const { SchemaRegistryClient } = require("@azure/schema-registry");
 
-const client = new SchemaRegistryClient("<endpoint>", new DefaultAzureCredential());
+const client = new SchemaRegistryClient("<fullyQualifiedNamespace>", new DefaultAzureCredential());
 const foundSchema = await client.getSchema("<id>");
 if (foundSchema) {
   console.log(`Got schema content=${foundSchema.content}`);

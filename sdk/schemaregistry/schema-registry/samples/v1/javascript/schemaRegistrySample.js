@@ -13,7 +13,8 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 // Set these environment variables or edit the following values
-const endpoint = process.env["SCHEMA_REGISTRY_ENDPOINT"] || "<endpoint>";
+const fullyQualifiedNamespace =
+  process.env["SCHEMA_REGISTRY_ENDPOINT"] || "<fullyQualifiedNamespace>";
 const group = process.env["SCHEMA_REGISTRY_GROUP"] || "AzureSdkSampleGroup";
 
 // Sample Avro Schema for user with first and last names
@@ -43,7 +44,7 @@ const schemaDescription = {
 
 async function main() {
   // Create a new client
-  const client = new SchemaRegistryClient(endpoint, new DefaultAzureCredential());
+  const client = new SchemaRegistryClient(fullyQualifiedNamespace, new DefaultAzureCredential());
 
   // Register a schema and get back its ID.
   const registered = await client.registerSchema(schemaDescription);

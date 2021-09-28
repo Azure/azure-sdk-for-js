@@ -27,8 +27,8 @@ import { getRawResponse } from "./utils";
  * Client for Azure Schema Registry service.
  */
 export class SchemaRegistryClient implements SchemaRegistry {
-  /** The Schema Registry service endpoint URL. */
-  readonly endpoint: string;
+  /** The Schema Registry service fully qualified namespace URL. */
+  readonly fullyQualifiedNamespace: string;
 
   /** Underlying autorest generated client. */
   private readonly client: GeneratedSchemaRegistryClient;
@@ -46,7 +46,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
     credential: TokenCredential,
     options: SchemaRegistryClientOptions = {}
   ) {
-    this.endpoint = fullyQualifiedNamespace;
+    this.fullyQualifiedNamespace = fullyQualifiedNamespace;
 
     const internalPipelineOptions: InternalPipelineOptions = {
       ...options,
@@ -57,8 +57,8 @@ export class SchemaRegistryClient implements SchemaRegistry {
       }
     };
 
-    this.client = new GeneratedSchemaRegistryClient(this.endpoint, {
-      endpoint: this.endpoint,
+    this.client = new GeneratedSchemaRegistryClient(this.fullyQualifiedNamespace, {
+      endpoint: this.fullyQualifiedNamespace,
       ...internalPipelineOptions
     });
 
