@@ -7,7 +7,10 @@
  * @summary gets a list of metadata policies
  */
 
-import { MetadataPolicies } from "@azure-rest/purview-administration";
+import {
+  PurviewMetadataPolicies,
+  PurviewMetadataPoliciesClient,
+} from "@azure-rest/purview-administration";
 import { DefaultAzureCredential } from "@azure/identity";
 import dotenv from "dotenv";
 
@@ -17,10 +20,7 @@ const endpoint = process.env["ENDPOINT"] || "";
 
 async function main() {
   console.log("== List metadata policies sample ==");
-  const client = MetadataPolicies.PurviewMetadataPoliciesClient(
-    endpoint,
-    new DefaultAzureCredential()
-  );
+  const client = PurviewMetadataPoliciesClient(endpoint, new DefaultAzureCredential());
 
   const response = await client.path("/metadataPolicies").get();
 
@@ -30,7 +30,7 @@ async function main() {
     throw new Error(error);
   }
 
-  const policies = MetadataPolicies.paginate(client, response);
+  const policies = PurviewMetadataPolicies.Pagination.paginate(client, response);
 
   for await (const policy of policies) {
     console.log(policy.name);

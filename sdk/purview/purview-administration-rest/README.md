@@ -9,6 +9,7 @@ Azure Purview Account is a fully managed cloud service whose users can discover 
 **Please rely heavily on the [service's documentation][account_product_documentation] and our [REST client docs][rest_client] to use this library**
 
 Key links:
+
 - [Source code][source_code]
 - [Package (NPM)][account_npm]
 - [API reference documentation][account_ref_docs]
@@ -98,7 +99,6 @@ async function main() {
 }
 
 main().catch(console.error);
-
 ```
 
 ## Troubleshooting
@@ -134,7 +134,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 [account_ref_docs]: https://azure.github.io/azure-sdk-for-js
 [azure_subscription]: https://azure.microsoft.com/free/
 [purview_resource]: https://docs.microsoft.com/azure/purview/create-catalog-portal
-[authenticate_with_token]: https://docs.microsoft.com/azure/cognitive-services/authentication?tabs=powershell#authenticate-with-an-authentication-token
+[authenticate_with_token]: https://docs.microsoft.com/en-us/azure/purview/tutorial-using-rest-apis#create-a-service-principal-application
 [azure_identity_credentials]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials
 [azure_identity_npm]: https://www.npmjs.com/package/@azure/identity
 [enable_aad]: https://docs.microsoft.com/azure/purview/create-catalog-portal#add-a-security-principal-to-a-data-plane-role

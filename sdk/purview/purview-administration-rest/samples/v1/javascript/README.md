@@ -22,7 +22,7 @@ The sample programs are compatible with [LTS versions of Node.js](https://nodejs
 
 You need [an Azure subscription][freesub] and the following Azure resources to run these sample programs:
 
-- [Azure Cognitive Services instance][createinstance_azurecognitiveservicesinstance]
+- [Azure Purview instance][createinstance_azurepurviewinstance]
 
 Samples retrieve credentials to access the service endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
 
@@ -60,5 +60,5 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [metadatapolicies]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-administration-rest/samples/v1/javascript/metadataPolicies.js
 [apiref]: https://docs.microsoft.com/azure/purview/tutorial-using-rest-apis
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurecognitiveservicesinstance]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
+[createinstance_azurepurviewinstance]: https://docs.microsoft.com/en-us/azure/purview/create-catalog-portal
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-administration-rest/README.md

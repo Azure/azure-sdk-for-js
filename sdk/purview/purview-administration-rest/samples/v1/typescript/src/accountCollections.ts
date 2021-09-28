@@ -7,7 +7,7 @@
  * @summary gets a list of collections
  */
 
-import { Account } from "@azure-rest/purview-administration";
+import { PurviewAccount, PurviewAccountClient } from "@azure-rest/purview-administration";
 import { DefaultAzureCredential } from "@azure/identity";
 import dotenv from "dotenv";
 
@@ -17,7 +17,7 @@ const endpoint = process.env["ENDPOINT"] || "";
 
 async function main() {
   console.log("== List collections sample ==");
-  const client = Account.PurviewAccountClient(endpoint, new DefaultAzureCredential());
+  const client = PurviewAccountClient(endpoint, new DefaultAzureCredential());
 
   const response = await client.path("/collections").get();
 
@@ -25,7 +25,7 @@ async function main() {
     console.log(`GET "/collections" failed with ${response.status}`);
   }
 
-  const dataSources = Account.paginate(client, response);
+  const dataSources = PurviewAccount.Pagination.paginate(client, response);
 
   for await (const dataSource of dataSources) {
     console.log(dataSource);

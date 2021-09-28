@@ -29,7 +29,7 @@
     "LICENSE"
   ],
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=14.0.0"
   },
   "//metadata": {
     "constantPaths": [
@@ -45,7 +45,7 @@
       "azure"
     ],
     "requiredResources": {
-      "Azure Cognitive Services instance": "https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"
+      "Azure Purview instance": "https://docs.microsoft.com/en-us/azure/purview/create-catalog-portal"
     }
   },
   "browser": {
