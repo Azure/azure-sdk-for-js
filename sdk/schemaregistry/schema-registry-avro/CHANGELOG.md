@@ -6,6 +6,8 @@
 
 ### Breaking Changes
 
+- `schemaGroup` is no longer a constructor parameter and has been moved to the constructor options.
+
 ### Bugs Fixed
 
 ### Other Changes
