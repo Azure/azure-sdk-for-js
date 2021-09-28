@@ -72,10 +72,7 @@ module.exports = function(config) {
     coverageReporter: {
       // specify a common output directory
       dir: "coverage-browser/",
-      reporters: [{ type: "json", subdir: ".", file: "coverage.json" },
-      { type: "lcovonly", subdir: ".", file: "lcov.info" },
-      { type: "html", subdir: "html" },
-      { type: "cobertura", subdir: ".", file: "cobertura-coverage.xml" }]
+      reporters: [{ type: "cobertura", subdir: ".", file: "cobertura-coverage.xml" }]
     },
 
     junitReporter: {
