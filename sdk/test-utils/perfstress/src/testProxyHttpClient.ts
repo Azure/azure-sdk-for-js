@@ -10,8 +10,7 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import { RequestOptions } from "http";
-import { makeRequest } from "./utils";
-import https from "https";
+import { httpsAgent, makeRequest } from "./utils";
 
 const paths = {
   playback: "/playback",
@@ -115,7 +114,6 @@ export class TestProxyHttpClient {
   async modifyRequest(request: PipelineRequest): Promise<PipelineRequest> {
     if (this._recordingId && (this._mode === "record" || this._mode === "playback")) {
       request = this.redirectRequest(request, this._recordingId);
-      request.allowInsecureConnection = true;
     }
 
     return request;
@@ -220,13 +218,7 @@ export function testProxyHttpPolicy(
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       const modifiedRequest = await testProxyHttpClient.modifyRequest(request);
       if (isHttps) {
-        modifiedRequest.agent = new https.Agent({
-          rejectUnauthorized: false
-          // pfx: require("fs").readFileSync(
-          //   "/workspaces/azure-sdk-for-js/eng/common/testproxy/dotnet-devcert.pfx"
-          // ),
-          // passphrase: "password"
-        });
+        modifiedRequest.agent = httpsAgent;
       }
       return next(modifiedRequest);
     }
@@ -237,7 +229,7 @@ export class TestProxyHttpClientV1 extends TestProxyHttpClient {
   public _httpClient: HttpClient;
   constructor(uri: string) {
     super(uri);
-    this._httpClient = new DefaultHttpClient();
+    this._httpClient = new DefaultHttpClientCoreV1(uri.startsWith("https"));
   }
 
   async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
@@ -246,5 +238,22 @@ export class TestProxyHttpClientV1 extends TestProxyHttpClient {
     }
     const res = await this._httpClient.sendRequest(request);
     return res;
+  }
+}
+
+class DefaultHttpClientCoreV1 extends DefaultHttpClient {
+  constructor(private isHttps: boolean) {
+    super();
+  }
+
+  async prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>> {
+    const req: Partial<RequestInit & {
+      agent?: any;
+      compress?: boolean;
+    }> = await super.prepareRequest(httpRequest);
+    if (this.isHttps) {
+      req.agent = httpsAgent;
+    }
+    return req;
   }
 }

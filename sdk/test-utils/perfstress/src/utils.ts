@@ -18,6 +18,14 @@ export function getEnvVar(name: string) {
   return val;
 }
 
+export const httpsAgent = new https.Agent({
+  rejectUnauthorized: false
+  // pfx: require("fs").readFileSync(
+  //   "/workspaces/azure-sdk-for-js/eng/common/testproxy/dotnet-devcert.pfx"
+  // ),
+  // passphrase: "password"
+});
+
 /**
  * Reads a readable stream. Doesn't save to a buffer.
  *
@@ -42,13 +50,7 @@ export async function makeRequest(
         uri,
         {
           ...requestOptions,
-          agent: new https.Agent({
-            rejectUnauthorized: false
-            // pfx: require("fs").readFileSync(
-            //   "/workspaces/azure-sdk-for-js/eng/common/testproxy/dotnet-devcert.pfx"
-            // ),
-            // passphrase: "password"
-          })
+          agent: httpsAgent
         },
         resolve
       );
