@@ -7,7 +7,6 @@ import { Context } from "mocha";
 import { createClientLogger } from "@azure/logger";
 import { LogsTable, LogsQueryClient, MetricsQueryClient } from "../../../src";
 import { ExponentialRetryPolicyOptions } from "@azure/core-rest-pipeline";
-import "./env";
 export const loggerForTest = createClientLogger("test");
 
 const replaceableVariables: Record<string, string> = {
