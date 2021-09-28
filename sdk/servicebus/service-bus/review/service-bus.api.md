@@ -4,11 +4,13 @@
 
 ```ts
 
+/// <reference types="node" />
+
 import { AmqpAnnotatedMessage } from '@azure/core-amqp';
 import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
 import { HttpResponse } from '@azure/core-http';
-import Long from 'long';
+import { default as Long_2 } from 'long';
 import { MessagingError } from '@azure/core-amqp';
 import { NamedKeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
@@ -171,7 +173,7 @@ export function parseServiceBusConnectionString(connectionString: string): Servi
 
 // @public
 export interface PeekMessagesOptions extends OperationOptionsBase {
-    fromSequenceNumber?: Long;
+    fromSequenceNumber?: Long_2;
 }
 
 // @public
@@ -311,66 +313,66 @@ export class ServiceBusError extends MessagingError {
     constructor(message: string, code: ServiceBusErrorCode);
     constructor(messagingError: MessagingError);
     code: ServiceBusErrorCode;
-    }
+}
 
 // @public
 export type ServiceBusErrorCode =
 /**
- * The exception was the result of a general error within the client library.
- */
+* The exception was the result of a general error within the client library.
+*/
 "GeneralError"
 /**
- * A Service Bus resource cannot be found by the Service Bus service.
- */
- | "MessagingEntityNotFound"
+* A Service Bus resource cannot be found by the Service Bus service.
+*/
+| "MessagingEntityNotFound"
 /**
- * The lock on the message is lost. Callers should attempt to receive and process the message again.
- */
- | "MessageLockLost"
+* The lock on the message is lost. Callers should attempt to receive and process the message again.
+*/
+| "MessageLockLost"
 /**
- * The requested message was not found.
- */
- | "MessageNotFound"
+* The requested message was not found.
+*/
+| "MessageNotFound"
 /**
- * A message is larger than the maximum size allowed for its transport.
- */
- | "MessageSizeExceeded"
+* A message is larger than the maximum size allowed for its transport.
+*/
+| "MessageSizeExceeded"
 /**
- * An entity with the same name exists under the same namespace.
- */
- | "MessagingEntityAlreadyExists"
+* An entity with the same name exists under the same namespace.
+*/
+| "MessagingEntityAlreadyExists"
 /**
- * The Messaging Entity is disabled. Enable the entity again using Portal.
- */
- | "MessagingEntityDisabled"
+* The Messaging Entity is disabled. Enable the entity again using Portal.
+*/
+| "MessagingEntityDisabled"
 /**
- * The quota applied to an Service Bus resource has been exceeded while interacting with the Azure Service Bus service.
- */
- | "QuotaExceeded"
+* The quota applied to an Service Bus resource has been exceeded while interacting with the Azure Service Bus service.
+*/
+| "QuotaExceeded"
 /**
- * The Azure Service Bus service reports that it is busy in response to a client request to perform an operation.
- */
- | "ServiceBusy"
+* The Azure Service Bus service reports that it is busy in response to a client request to perform an operation.
+*/
+| "ServiceBusy"
 /**
- * An operation or other request timed out while interacting with the Azure Service Bus service.
- */
- | "ServiceTimeout"
+* An operation or other request timed out while interacting with the Azure Service Bus service.
+*/
+| "ServiceTimeout"
 /**
- * There was a general communications error encountered when interacting with the Azure Service Bus service.
- */
- | "ServiceCommunicationProblem"
+* There was a general communications error encountered when interacting with the Azure Service Bus service.
+*/
+| "ServiceCommunicationProblem"
 /**
- * The requested session cannot be locked.
- */
- | "SessionCannotBeLocked"
+* The requested session cannot be locked.
+*/
+| "SessionCannotBeLocked"
 /**
- * The lock on the session has expired. Callers should request the session again.
- */
- | "SessionLockLost"
+* The lock on the session has expired. Callers should request the session again.
+*/
+| "SessionLockLost"
 /**
- * The user doesn't have access to the entity.
- */
- | "UnauthorizedAccess";
+* The user doesn't have access to the entity.
+*/
+| "UnauthorizedAccess";
 
 // @public
 export interface ServiceBusMessage {
@@ -415,7 +417,7 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
     lockedUntilUtc?: Date;
     readonly lockToken?: string;
     readonly _rawAmqpMessage: AmqpAnnotatedMessage;
-    readonly sequenceNumber?: Long;
+    readonly sequenceNumber?: Long_2;
 }
 
 // @public
@@ -435,7 +437,7 @@ export interface ServiceBusReceiver {
     getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ServiceBusReceivedMessage>;
     isClosed: boolean;
     peekMessages(maxMessageCount: number, options?: PeekMessagesOptions): Promise<ServiceBusReceivedMessage[]>;
-    receiveDeferredMessages(sequenceNumbers: Long | Long[], options?: OperationOptionsBase): Promise<ServiceBusReceivedMessage[]>;
+    receiveDeferredMessages(sequenceNumbers: Long_2 | Long_2[], options?: OperationOptionsBase): Promise<ServiceBusReceivedMessage[]>;
     receiveMessages(maxMessageCount: number, options?: ReceiveMessagesOptions): Promise<ServiceBusReceivedMessage[]>;
     receiveMode: "peekLock" | "receiveAndDelete";
     renewMessageLock(message: ServiceBusReceivedMessage): Promise<Date>;
@@ -453,12 +455,12 @@ export interface ServiceBusReceiverOptions {
 
 // @public
 export interface ServiceBusSender {
-    cancelScheduledMessages(sequenceNumbers: Long | Long[], options?: OperationOptionsBase): Promise<void>;
+    cancelScheduledMessages(sequenceNumbers: Long_2 | Long_2[], options?: OperationOptionsBase): Promise<void>;
     close(): Promise<void>;
     createMessageBatch(options?: CreateMessageBatchOptions): Promise<ServiceBusMessageBatch>;
     entityPath: string;
     isClosed: boolean;
-    scheduleMessages(messages: ServiceBusMessage | ServiceBusMessage[] | AmqpAnnotatedMessage | AmqpAnnotatedMessage[], scheduledEnqueueTimeUtc: Date, options?: OperationOptionsBase): Promise<Long[]>;
+    scheduleMessages(messages: ServiceBusMessage | ServiceBusMessage[] | AmqpAnnotatedMessage | AmqpAnnotatedMessage[], scheduledEnqueueTimeUtc: Date, options?: OperationOptionsBase): Promise<Long_2[]>;
     sendMessages(messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch | AmqpAnnotatedMessage | AmqpAnnotatedMessage[], options?: OperationOptionsBase): Promise<void>;
 }
 
@@ -583,7 +585,6 @@ export { WebSocketOptions }
 export type WithResponse<T extends object> = T & {
     _response: HttpResponse;
 };
-
 
 // (No @packageDocumentation comment for this package)
 

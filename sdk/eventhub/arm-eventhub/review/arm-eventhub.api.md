@@ -604,7 +604,8 @@ export interface IpFilterRuleListResult {
 }
 
 // @public
-export type KeyType = "PrimaryKey" | "SecondaryKey";
+type KeyType_2 = "PrimaryKey" | "SecondaryKey";
+export { KeyType_2 as KeyType }
 
 // @public
 export interface KeyVaultProperties {
@@ -1088,7 +1089,7 @@ export type ProvisioningStateDR = "Accepted" | "Succeeded" | "Failed";
 // @public
 export interface RegenerateAccessKeyParameters {
     key?: string;
-    keyType: KeyType;
+    keyType: KeyType_2;
 }
 
 // @public
@@ -1159,7 +1160,6 @@ export interface VirtualNetworkRuleListResult {
     nextLink?: string;
     value?: VirtualNetworkRule[];
 }
-
 
 // (No @packageDocumentation comment for this package)
 
