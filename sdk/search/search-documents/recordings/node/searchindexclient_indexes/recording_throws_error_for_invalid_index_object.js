@@ -5,7 +5,7 @@ module.exports.hash = "7277123b629a210f8b3110ebefec5e9d";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get(`/indexes('garbxyz')`)
+  .get('/indexes(%27garbxyz%27)')
   .query(true)
   .reply(404, {"error":{"code":"","message":"No index with the name 'garbxyz' was found in the service 'testsearchcases'."}}, [
   'Cache-Control',

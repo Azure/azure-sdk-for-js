@@ -5,7 +5,7 @@ module.exports.hash = "3b953c0f7d0010ddeb3db30cf99affa3";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get(`/indexes('hotel-live-test1')/docs('garbxyz')`)
+  .get('/indexes(%27hotel-live-test1%27)/docs(%27garbxyz%27)')
   .query(true)
   .reply(404, "", [
   'Cache-Control',

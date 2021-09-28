@@ -5,7 +5,7 @@ module.exports.hash = "1b42fc88e6bfa9105999939d2ce56df4";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get(`/synonymmaps('garbxyz')`)
+  .get('/synonymmaps(%27garbxyz%27)')
   .query(true)
   .reply(404, {"error":{"code":"","message":"No synonym map with the name 'garbxyz' was found in service 'testsearchcases'."}}, [
   'Cache-Control',

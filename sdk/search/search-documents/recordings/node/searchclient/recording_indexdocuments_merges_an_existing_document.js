@@ -37,7 +37,7 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get(`/indexes('hotel-live-test1')/docs('8')`)
+  .get('/indexes(%27hotel-live-test1%27)/docs(%278%27)')
   .query(true)
   .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6ed5dfa357f97375b1fcfab362fb7cbe232dfc66bbb1fdfb9fbbb2df23603e81f9f55d366eb5bf449be6c8bf6faa3d147dcfc6c469d1d98bf5e648bfca347cb75598e3e9ae5cdb42e566d512da9c917d5ac382ff259fad4fb3868f4aca66667657a9d66e96c9d4eea75d1a6b33c2db3b4aed66d9ee66ddae4694b7f5ce6e9efbbded9c977d2297e9eefb7f8913fd4e64d9b0120fe5a556531cdc7e9f3bc499bac2ce9077d3ac98a659a5d66058d85fe6ed23abf6408599b2fe8336eb4a8ea022f8c09cd297d7151d5d7666c6d76d17cf4e87bdf1f7db4caeab7c5f2e26c392dd7b39c88210d9a45858f8fcbb2ba729f9659d3beca97d525e3f794809a6f6afa647961fe2a2bea905a98bfb3d9acce1bea51feacab6a417f7ceffbbfe4ff01ec3a66fdf9010000"], [
   'Cache-Control',
