@@ -16,7 +16,7 @@ import { Test } from "mocha";
  */
 export class TestProxyHttpClientCoreV1 extends TestProxyHttpClient {
   public httpClientCoreV1: HttpClient;
-  constructor(testContext?: Test | undefined) {
+  constructor(testContext?: Test) {
     super(testContext);
     this.httpClientCoreV1 = new DefaultHttpClient();
   }

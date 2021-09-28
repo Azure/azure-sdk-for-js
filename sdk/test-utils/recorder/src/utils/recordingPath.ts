@@ -31,6 +31,6 @@ export function generateTestRecordingFilePath(
   // File Extension
   // nock recordings for node tests - .js extension
   // recordings are saved in json format for browser tests - .json extension
-  const ext = !extension ? (platform === "node" ? "js" : "json") : extension;
+  const ext = extension ?? (platform === "node" ? "js" : "json");
   return `${platform}/${formatPath(testSuiteTitle)}/recording_${formatPath(testTitle)}.${ext}`;
 }
