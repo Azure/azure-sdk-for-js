@@ -4,13 +4,8 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 import { env } from "process";
-import {
-  createRecorderAndLogsClient,
-  // createTestClientSecretCredential,
-  RecordedLogsClient
-} from "./shared/testShared";
+import { createRecorderAndLogsClient, RecorderAndLogsClient } from "./shared/testShared";
 import { Recorder } from "@azure-tools/test-recorder";
-import "./shared/env";
 import { Durations, LogsQueryClient, QueryBatch } from "../../src";
 // import { runWithTelemetry } from "../setupOpenTelemetry";
 
@@ -23,12 +18,11 @@ describe("LogsQueryClient live tests", function() {
   let logsClient: LogsQueryClient;
   let recorder: Recorder;
 
-  // let createLogsClient: (retryOptions?: ExponentialRetryPolicyOptions) => LogsQueryClient;
   let testRunId: string;
 
   beforeEach(function(this: Context) {
     loggerForTest.verbose(`Recorder: starting...`);
-    let recordedClient: RecordedLogsClient = createRecorderAndLogsClient(this);
+    let recordedClient: RecorderAndLogsClient = createRecorderAndLogsClient(this);
     monitorWorkspaceId = getMonitorWorkspaceId(this);
     logsClient = recordedClient.client;
     recorder = recordedClient.recorder;
@@ -454,7 +448,7 @@ describe("LogsQueryClient live tests - server timeout", function() {
 
   beforeEach(function(this: Context) {
     loggerForTest.verbose(`Recorder: starting...`);
-    let recordedClient: RecordedLogsClient = createRecorderAndLogsClient(this, {
+    let recordedClient: RecorderAndLogsClient = createRecorderAndLogsClient(this, {
       maxRetries: 0,
       retryDelayInMs: 0,
       maxRetryDelayInMs: 0

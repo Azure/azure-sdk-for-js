@@ -1,13 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientSecretCredential } from "@azure/identity";
-import {
-  env,
-  record,
-  Recorder,
-  isPlaybackMode,
-  RecorderEnvironmentSetup
-} from "@azure-tools/test-recorder";
+import { env, record, Recorder, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import { Context } from "mocha";
 import { createClientLogger } from "@azure/logger";
@@ -24,12 +18,12 @@ const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret"
 };
-export interface RecordedLogsClient {
+export interface RecorderAndLogsClient {
   client: LogsQueryClient;
   recorder: Recorder;
 }
 
-export interface RecordedMetricsClient {
+export interface RecorderAndMetricsClient {
   client: MetricsQueryClient;
   recorder: Recorder;
 }
@@ -60,7 +54,7 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   ]
 };
 
-export function createRecordedMetricsClient(context: Context): RecordedMetricsClient {
+export function createRecorderAndMetricsClient(context: Context): RecorderAndMetricsClient {
   const recorder = record(context, environmentSetup);
   return {
     client: new MetricsQueryClient(createTestClientSecretCredential()),
@@ -71,65 +65,13 @@ export function createRecordedMetricsClient(context: Context): RecordedMetricsCl
 export function createRecorderAndLogsClient(
   context: Context,
   retryOptions?: ExponentialRetryPolicyOptions
-): RecordedLogsClient {
+): RecorderAndLogsClient {
   const recorder = record(context, environmentSetup);
   return {
     client: new LogsQueryClient(createTestClientSecretCredential(), {
       retryOptions
     }),
     recorder
-  };
-}
-
-/**
- * Declare the client and recorder instances.  We will set them using the
- * beforeEach hook.
- */
-export function addTestRecorderHooks(): { recorder(): Recorder; isPlaybackMode(): boolean } {
-  // When the recorder observes the values of these environment variables in any
-  // recorded HTTP request or response, it will replace them with the values they
-  // are mapped to below.
-
-  let recorder: Recorder;
-
-  // NOTE: use of "function" and not ES6 arrow-style functions with the
-  // beforeEach hook is IMPORTANT due to the use of `this` in the function
-  // body.
-  beforeEach(function(this: Context) {
-    loggerForTest.verbose(`Recorder: starting...`);
-    // The recorder has some convenience methods, and we need to store a
-    // reference to it so that we can `stop()` the recorder later in the
-    // `afterEach` hook.
-    recorder = record(this, {
-      // == Recorder Environment Setup == Add the replaceable variables from
-      // above
-      replaceableVariables,
-
-      // We don't use this in the template, but if we had any query parameters
-      // we wished to discard, we could add them here
-      queryParametersToSkip: [],
-
-      // Finally, we need to remove the AAD `access_token` from any requests.
-      // This is very important, as it cannot be removed using environment
-      // variable or query parameter replacement.  The
-      // `customizationsOnRecordings` field allows us to make arbitrary
-      // replacements within recordings.
-      customizationsOnRecordings: [
-        (recording: any): any =>
-          recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
-      ]
-    });
-  });
-
-  // After each test, we need to stop the recording.
-  afterEach(async function() {
-    loggerForTest.verbose("Recorder: stopping");
-    await recorder.stop();
-  });
-
-  return {
-    recorder: () => recorder,
-    isPlaybackMode: () => isPlaybackMode()
   };
 }
 

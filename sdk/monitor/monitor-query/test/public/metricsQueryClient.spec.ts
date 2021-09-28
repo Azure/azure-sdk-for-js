@@ -5,15 +5,31 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import { Durations, MetricsQueryClient } from "../../src";
 
-import { createTestClientSecretCredential, getMetricsArmResourceId } from "./shared/testShared";
-
+import {
+  createRecorderAndMetricsClient,
+  getMetricsArmResourceId,
+  loggerForTest,
+  RecorderAndMetricsClient
+} from "./shared/testShared";
+import { Recorder } from "@azure-tools/test-recorder";
 describe("MetricsClient live tests", function() {
   let resourceId: string;
   let metricsQueryClient: MetricsQueryClient;
+  let recorder: Recorder;
 
   beforeEach(function(this: Context) {
+    loggerForTest.verbose(`Recorder: starting...`);
+    let recordedClient: RecorderAndMetricsClient = createRecorderAndMetricsClient(this);
     ({ resourceId } = getMetricsArmResourceId(this));
-    metricsQueryClient = new MetricsQueryClient(createTestClientSecretCredential());
+    metricsQueryClient = recordedClient.client;
+    recorder = recordedClient.recorder;
+  });
+
+  afterEach(async function() {
+    if (recorder) {
+      loggerForTest.verbose("Recorder: stopping");
+      await recorder.stop();
+    }
   });
 
   it("getMetricDefinitions -> queryMetrics", async () => {
