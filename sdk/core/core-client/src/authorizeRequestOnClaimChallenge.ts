@@ -4,7 +4,7 @@
 import { GetTokenOptions } from "@azure/core-auth";
 import { AuthorizeRequestOnChallengeOptions } from "@azure/core-rest-pipeline";
 import { createClientLogger } from "@azure/logger";
-import { decodeString, uint8ArrayToString } from "./base64";
+import { decodeStringToString } from "./base64";
 
 const logger = createClientLogger("authorizeRequestOnClaimChallenge");
 
@@ -85,7 +85,7 @@ export async function authorizeRequestOnClaimChallenge(
   const accessToken = await onChallengeOptions.getAccessToken(
     parsedChallenge.scope ? [parsedChallenge.scope] : scopes,
     {
-      claims: uint8ArrayToString(decodeString(parsedChallenge.claims))
+      claims: decodeStringToString(parsedChallenge.claims)
     } as GetTokenOptions
   );
 

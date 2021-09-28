@@ -32,8 +32,9 @@ export function decodeString(value: string): Uint8Array {
 }
 
 /**
- * Converts a uint8Array to a string.
+ * Decodes a base64 string into a string.
+ * @param value - the base64 string to decode
  */
-export function uint8ArrayToString(ab: Uint8Array): string {
-  return ab.toString();
+export function decodeStringToString(value: string): string {
+  return Buffer.from(value, "base64").toString();
 }
