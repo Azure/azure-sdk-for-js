@@ -9,7 +9,8 @@ import {
   ListMetricNamespacesOptions,
   MetricsQueryOptions,
   MetricsQueryResult,
-  MetricDefinition
+  MetricDefinition,
+  MetricNamespace
 } from "./models/publicMetricsModels";
 
 import {
@@ -22,7 +23,6 @@ import {
 } from "./generated/metricsdefinitions/src";
 import {
   KnownApiVersion20171201Preview as MetricNamespacesApiVersion,
-  MetricNamespace,
   MonitorManagementClient as GeneratedMetricsNamespacesClient
 } from "./generated/metricsnamespaces/src";
 import {
