@@ -13,7 +13,7 @@ const replaceableVariables: Record<string, string> = {
   MONITOR_WORKSPACE_ID: "<workspace-id>",
   METRICS_RESOURCE_ID: "<metrics-arm-resource-id>",
   MQ_APPLICATIONINSIGHTS_CONNECTION_STRING: "mq_applicationinsights_connection",
-  AZURE_TENANT_ID: "azure_tenant_id",
+  AZURE_TENANT_ID: "98123456-7614-3456-5678-789980112547",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret"
 };
