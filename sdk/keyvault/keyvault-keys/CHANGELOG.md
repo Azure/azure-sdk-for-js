@@ -9,6 +9,7 @@
 - Added support for automated key rotation in Azure Key Vault.
   - Added `KeyClient.rotateKey` to rotate a key on-demand.
   - Added `KeyClient.updateKeyRotationPolicy` to update a key's automated rotation policy.
+- Added `JsonWebKey.key_ops` property to `JsonWebKey` in addition to the existing `JsonWebKey.keyOps` property in order to comply with the JSON Web Key spec.
 
 ### Breaking Changes
 
