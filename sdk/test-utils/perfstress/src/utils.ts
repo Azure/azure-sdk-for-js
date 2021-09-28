@@ -35,16 +35,20 @@ export async function makeRequest(
   uri: string,
   requestOptions: RequestOptions
 ): Promise<IncomingMessage> {
-  console.log("make request", uri);
   return new Promise<IncomingMessage>((resolve, reject) => {
     let req: http.ClientRequest;
     if (uri.startsWith("https")) {
-      console.log("inside if");
       req = https.request(
         uri,
         {
           ...requestOptions,
-          agent: new https.Agent({ rejectUnauthorized: false, requestCert: true })
+          agent: new https.Agent({
+            rejectUnauthorized: false
+            // pfx: require("fs").readFileSync(
+            //   "/workspaces/azure-sdk-for-js/eng/common/testproxy/dotnet-devcert.pfx"
+            // ),
+            // passphrase: "password"
+          })
         },
         resolve
       );

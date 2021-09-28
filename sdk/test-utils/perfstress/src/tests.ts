@@ -85,9 +85,12 @@ export abstract class PerfStressTest<TOptions = {}> {
    * Note: Client must expose the pipeline property which is required for the perf framework to add its policies correctly
    */
   public configureClient<T>(client: T & { pipeline: Pipeline }): T {
-    if (this.parsedOptions["test-proxy"].value) {
-      this.testProxyHttpClient = new TestProxyHttpClient(this.parsedOptions["test-proxy"].value);
-      client.pipeline.addPolicy(testProxyHttpPolicy(this.testProxyHttpClient));
+    const url = this.parsedOptions["test-proxy"].value;
+    if (url) {
+      this.testProxyHttpClient = new TestProxyHttpClient(url);
+      client.pipeline.addPolicy(
+        testProxyHttpPolicy(this.testProxyHttpClient, url.startsWith("https"))
+      );
     }
     return client;
   }

@@ -11,6 +11,7 @@ import {
 } from "@azure/core-rest-pipeline";
 import { RequestOptions } from "http";
 import { makeRequest } from "./utils";
+import https from "https";
 
 const paths = {
   playback: "/playback",
@@ -210,11 +211,23 @@ export class TestProxyHttpClient {
   }
 }
 
-export function testProxyHttpPolicy(testProxyHttpClient: TestProxyHttpClient): PipelinePolicy {
+export function testProxyHttpPolicy(
+  testProxyHttpClient: TestProxyHttpClient,
+  isHttps: boolean
+): PipelinePolicy {
   return {
     name: "recording policy",
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       const modifiedRequest = await testProxyHttpClient.modifyRequest(request);
+      if (isHttps) {
+        modifiedRequest.agent = new https.Agent({
+          rejectUnauthorized: false
+          // pfx: require("fs").readFileSync(
+          //   "/workspaces/azure-sdk-for-js/eng/common/testproxy/dotnet-devcert.pfx"
+          // ),
+          // passphrase: "password"
+        });
+      }
       return next(modifiedRequest);
     }
   };
