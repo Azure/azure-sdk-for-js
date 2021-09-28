@@ -23,7 +23,6 @@ export type AggregationType = "None" | "Average" | "Count" | "Minimum" | "Maximu
 export class BatchError extends Error implements LogsErrorInfo {
     constructor(errorInfo: LogsErrorInfo);
     code: string;
-    message: string;
 }
 
 // @public
@@ -62,7 +61,6 @@ export type LogsColumnType = string;
 // @public
 export interface LogsErrorInfo extends Error {
     code: string;
-    message: string;
 }
 
 // @public
@@ -141,6 +139,12 @@ export interface Metric {
 }
 
 // @public
+export interface MetricAvailability {
+    granularity?: string;
+    retention?: string;
+}
+
+// @public
 export type MetricClass = string;
 
 // @public
@@ -150,7 +154,6 @@ export interface MetricDefinition {
     dimensions?: string[];
     id?: string;
     isDimensionRequired?: boolean;
-    // Warning: (ae-forgotten-export) The symbol "MetricAvailability" needs to be exported by the entry point index.d.ts
     metricAvailabilities?: MetricAvailability[];
     metricClass?: MetricClass;
     name?: string;
