@@ -54,7 +54,7 @@ export interface SchemaRegistry {
 
 // @public
 export class SchemaRegistryClient implements SchemaRegistry {
-    constructor(endpoint: string, credential: TokenCredential, options?: SchemaRegistryClientOptions);
+    constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: SchemaRegistryClientOptions);
     readonly endpoint: string;
     getSchema(id: string, options?: GetSchemaOptions): Promise<Schema>;
     getSchemaProperties(schema: SchemaDescription, options?: GetSchemaPropertiesOptions): Promise<SchemaProperties>;

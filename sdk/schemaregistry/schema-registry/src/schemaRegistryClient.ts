@@ -36,17 +36,17 @@ export class SchemaRegistryClient implements SchemaRegistry {
   /**
    * Creates a new client for Azure Schema Registry service.
    *
-   * @param endpoint - The Schema Registry service endpoint URL, for example
-   *                   https://mynamespace.servicebus.windows.net.
+   * @param fullyQualifiedNamespace - The Schema Registry service qualified namespace URL, for example
+   *                                  https://mynamespace.servicebus.windows.net.
    * @param credential - Credential to authenticate requests to the service.
    * @param options - Options to configure API requests to the service.
    */
   constructor(
-    endpoint: string,
+    fullyQualifiedNamespace: string,
     credential: TokenCredential,
     options: SchemaRegistryClientOptions = {}
   ) {
-    this.endpoint = endpoint;
+    this.endpoint = fullyQualifiedNamespace;
 
     const internalPipelineOptions: InternalPipelineOptions = {
       ...options,
