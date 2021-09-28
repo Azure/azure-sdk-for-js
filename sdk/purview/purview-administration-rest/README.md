@@ -134,7 +134,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 [account_ref_docs]: https://azure.github.io/azure-sdk-for-js
 [azure_subscription]: https://azure.microsoft.com/free/
 [purview_resource]: https://docs.microsoft.com/azure/purview/create-catalog-portal
-[authenticate_with_token]: https://docs.microsoft.com/en-us/azure/purview/tutorial-using-rest-apis#create-a-service-principal-application
+[authenticate_with_token]: https://docs.microsoft.com/azure/purview/tutorial-using-rest-apis#create-a-service-principal-application
 [azure_identity_credentials]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials
 [azure_identity_npm]: https://www.npmjs.com/package/@azure/identity
 [enable_aad]: https://docs.microsoft.com/azure/purview/create-catalog-portal#add-a-security-principal-to-a-data-plane-role

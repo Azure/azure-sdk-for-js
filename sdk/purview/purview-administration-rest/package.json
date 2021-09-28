@@ -45,7 +45,7 @@
       "azure"
     ],
     "requiredResources": {
-      "Azure Purview instance": "https://docs.microsoft.com/en-us/azure/purview/create-catalog-portal"
+      "Azure Purview instance": "https://docs.microsoft.com/azure/purview/create-catalog-portal"
     }
   },
   "browser": {

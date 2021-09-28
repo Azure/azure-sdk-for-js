@@ -72,6 +72,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [metadatapolicies]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-administration-rest/samples/v1/typescript/src/metadataPolicies.ts
 [apiref]: https://docs.microsoft.com/azure/purview/tutorial-using-rest-apis
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurepurviewinstance]: https://docs.microsoft.com/en-us/azure/purview/create-catalog-portal
+[createinstance_azurepurviewinstance]: https://docs.microsoft.com/azure/purview/create-catalog-portal
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-administration-rest/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
