@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import {
-  multiTenantErrorMessage,
+  multiTenantADFSErrorMessage,
   processMultiTenantRequest
 } from "../../src/util/validateMultiTenant";
 
@@ -28,7 +28,7 @@ describe("Identity utilities", function() {
         error,
         "validateMultiTenantRequest should throw if a tenant is provided through getTokenoptions and the original tenant Id is 'asdf'"
       );
-      assert.equal(error!.message, multiTenantErrorMessage);
+      assert.equal(error!.message, multiTenantADFSErrorMessage);
     });
 
     it("it shouldn't throw if the tenant received is the same as the tenant we already had", async function() {

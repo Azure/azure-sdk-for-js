@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import {
-  multiTenantErrorMessage,
+  multiTenantDisabledErrorMessage,
   processMultiTenantRequest
 } from "../../../src/util/validateMultiTenant";
 
@@ -34,7 +34,7 @@ describe("Identity utilities (Node.js only)", function() {
         error,
         "validateMultiTenantRequest should throw if multi-tenant authentication is disabled"
       );
-      assert.equal(error!.message, multiTenantErrorMessage);
+      assert.equal(error!.message, multiTenantDisabledErrorMessage);
     });
   });
 });
