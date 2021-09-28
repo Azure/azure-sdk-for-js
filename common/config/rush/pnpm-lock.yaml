@@ -22,6 +22,7 @@ specifiers:
   '@rush-temp/arm-network': file:./projects/arm-network.tgz
   '@rush-temp/arm-policy': file:./projects/arm-policy.tgz
   '@rush-temp/arm-purview': file:./projects/arm-purview.tgz
+  '@rush-temp/arm-rediscache': file:./projects/arm-rediscache.tgz
   '@rush-temp/arm-resources': file:./projects/arm-resources.tgz
   '@rush-temp/arm-resources-subscriptions': file:./projects/arm-resources-subscriptions.tgz
   '@rush-temp/arm-servicebus': file:./projects/arm-servicebus.tgz
@@ -148,6 +149,7 @@ dependencies:
   '@rush-temp/arm-network': file:projects/arm-network.tgz
   '@rush-temp/arm-policy': file:projects/arm-policy.tgz
   '@rush-temp/arm-purview': file:projects/arm-purview.tgz
+  '@rush-temp/arm-rediscache': file:projects/arm-rediscache.tgz
   '@rush-temp/arm-resources': file:projects/arm-resources.tgz
   '@rush-temp/arm-resources-subscriptions': file:projects/arm-resources-subscriptions.tgz
   '@rush-temp/arm-servicebus': file:projects/arm-servicebus.tgz
@@ -1906,6 +1908,10 @@ packages:
 
   /@types/mocha/7.0.2:
     resolution: {integrity: sha512-ZvO2tAcjmMi8V/5Z3JsyofMe3hasRcaw88cto5etSVMwVQfeivGAlEYmaQgceUSVYFofVjT+ioHsATjdWcFt1w==}
+    dev: false
+
+  /@types/mocha/9.0.0:
+    resolution: {integrity: sha512-scN0hAWyLVAvLR9AyW7HoFF5sJZglyBsbPuHO4fv7JRvfmPBMfp1ozWqOf/e4wwPNxezBZXRfWzMb6iFLgEVRA==}
     dev: false
 
   /@types/mock-fs/4.10.0:
@@ -8658,6 +8664,31 @@ packages:
       uglify-js: 3.14.2
     dev: false
 
+  file:projects/arm-rediscache.tgz:
+    resolution: {integrity: sha512-DSbduDETskYhfa2K5waHdzrCEYnE7h44WFXqFBJhF50ZReOVWxATIEPuKFxhadHyZPFPUZmMn1cm0djUrIIcFA==, tarball: file:projects/arm-rediscache.tgz}
+    name: '@rush-temp/arm-rediscache'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.0.0-beta.6
+      '@microsoft/api-extractor': 7.7.11
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@types/mocha': 9.0.0
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.2
+    transitivePeerDependencies:
+      - debug
+      - supports-color
+    dev: false
+
   file:projects/arm-resources-subscriptions.tgz:
     resolution: {integrity: sha512-6GWFjnVvh/TZyCDi+Fj6ShcBGzmKQ8mvChj7v+n68IPy8QUwXlB08EvQ5zo/7+jii9EwFGCBOQok/5+BISRnJg==, tarball: file:projects/arm-resources-subscriptions.tgz}
     name: '@rush-temp/arm-resources-subscriptions'
@@ -11310,7 +11341,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/container-registry': 1.0.0-beta.4
-      '@types/node': 12.20.24
+      '@types/node': 12.20.25
       dotenv: 8.6.0
       eslint: 7.32.0
       prettier: 1.19.1
@@ -11854,7 +11885,7 @@ packages:
     dev: false
 
   file:projects/schema-registry.tgz:
-    resolution: {integrity: sha512-3u6zoUWe+USz56Vcbc/CvVDy/roObzFCPl9ijWjt6bq94pPhgakJ4eKVlIFb5iytzPg6HVHcbt2kKMK6UN6OOg==, tarball: file:projects/schema-registry.tgz}
+    resolution: {integrity: sha512-CK90yKC6T3N9W5ztNkzNudrnx6OqMsx/a2V555nwfw9YElcaIirssUSY9zp8Rjs4TqN+XCIrBJ9kzgdiGLqsOQ==, tarball: file:projects/schema-registry.tgz}
     name: '@rush-temp/schema-registry'
     version: 0.0.0
     dependencies:

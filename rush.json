@@ -940,6 +940,11 @@
       "packageName": "@azure/arm-apimanagement",
       "projectFolder": "sdk/apimanagement/arm-apimanagement",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-rediscache",
+      "projectFolder": "sdk/redis/arm-rediscache",
+      "versionPolicyName": "management"
     }
   ]
 }
