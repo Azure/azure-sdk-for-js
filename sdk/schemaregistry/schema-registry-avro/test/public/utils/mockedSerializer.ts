@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { SchemaRegistry } from "@azure/schema-registry";
-import { SchemaRegistryAvroSerializer } from "../../src/schemaRegistryAvroSerializer";
+import { SchemaRegistryAvroSerializer } from "../../../src";
 import { testGroup, testSchema, testSchemaObject } from "./dummies";
 import { createTestRegistry } from "./mockedRegistryClient";
 
