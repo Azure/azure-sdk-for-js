@@ -466,8 +466,6 @@ describe("defaultHttpClient (node)", function() {
     try {
       const stream = response.readableStreamBody as Readable;
       stream.destroy();
-    } catch (e) {
-      console.log(e as Error);
     } finally {
       // Clean up
       localServer.close();
