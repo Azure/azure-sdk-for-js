@@ -445,7 +445,7 @@ export function mapError(error?: GeneratedErrorInfo): LogsErrorInfo | undefined 
     return {
       name: "Error",
       code: error.code,
-      message: error.message + innermostError.message
+      message: `${error.message}.  ${innermostError.message}`
     };
   }
   return undefined;

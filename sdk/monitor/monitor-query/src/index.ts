@@ -33,7 +33,8 @@ export {
   MetricsQueryOptions,
   MetricsQueryResult,
   TimeSeriesElement,
-  MetricNamespace
+  MetricNamespace,
+  MetricAvailability
 } from "./models/publicMetricsModels";
 
 export { Durations } from "./models/constants";

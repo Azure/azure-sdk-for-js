@@ -56,16 +56,12 @@ export interface QueryStatistics {
 export interface LogsErrorInfo extends Error {
   /** A machine readable error code. */
   code: string;
-  /** A human readable error message. */
-  message: string;
 }
 
 /** Batch Error class for type of each error item in the {@link AggregateBatchError} list returned in logs query batch API */
 export class BatchError extends Error implements LogsErrorInfo {
   /** A machine readable error code. */
   code: string;
-  /** A human readable error message. */
-  message: string;
 
   constructor(errorInfo: LogsErrorInfo) {
     super();

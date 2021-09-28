@@ -43,9 +43,6 @@ export interface LogsQueryClientOptions extends CommonClientOptions {
    * Defaults to 'https://api.loganalytics.io/.default'
    */
   audience?: string;
-  // credentialOptions?: {
-  //   credentialScopes?: string | string[];
-  // };
 }
 
 /**
@@ -73,10 +70,6 @@ export class LogsQueryClient {
       credentialScopes: credentialOptions?.credentialScopes ?? defaultMonitorScope,
       credential: tokenCredential
     });
-    // const scope = options?.scopes ?? defaultMonitorScope;
-    // this._logAnalytics.pipeline.addPolicy(
-    //   bearerTokenAuthenticationPolicy({ scopes: scope, credential: tokenCredential })
-    // );
   }
 
   /**
