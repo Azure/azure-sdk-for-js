@@ -950,6 +950,11 @@
       "packageName": "@azure/arm-eventgrid",
       "projectFolder": "sdk/eventgrid/arm-eventgrid",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-quota",
+      "projectFolder": "sdk/quota/arm-quota",
+      "versionPolicyName": "management"
     }
   ]
 }
