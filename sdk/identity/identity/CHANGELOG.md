@@ -35,9 +35,10 @@ In this changelog entry, we will showcase the changes we've made. For a full gui
   - First, we've added a new enum type called `RegionalAuthority`, which contains values for all of the possible regions supported by Azure.
   - Then, we've added a new property called `regionalAuthority` to the `ClientSecretCredentialOptions` and the `ClientCertificateCredentialOptions`, however the Azure region can also be specified through the `AZURE_REGIONAL_AUTHORITY_NAME` environment variable. If instead of a region, `AutoDiscoverRegion` is specified as the value for `regionalAuthority`, MSAL will be used to attempt to discover the region.
 - For `ClientCertificateCredential` specifically, now the validity of the PEM certificate is evaluated on `getToken` and not on the constructor.
-- For the `ManagedIdentityCredential`:
+- Specifically for the `ManagedIdentityCredential`:
   - It now supports Bridge to Kubernetes local development authentication.
   - It now retries with exponential back-off when a request for a token fails with a 404 status code on environments with available IMDS endpoints. Besides that, the `ManagedIdentityCredential` now also supports token exchange authentication.
+  - Azure Service Fabric support hasn't been added on the initial version 2 of Identity. It will be added shortly after. You can follow our development of this feature through this issue: https://github.com/Azure/azure-sdk-for-js/issues/12420
 - For `InteractiveBrowserCredential`:
   - On Node.js, we've enabled [Proof Key for Code Exchange (PKCE)](https://datatracker.ietf.org/doc/html/rfc7636). This is a security feature that mitigates authentication code interception attacks.
   - We've also added `LoginHint` property to `InteractiveBrowserCredentialOptions` which allows a user name to be pre-selected for interactive logins. Setting this option skips the account selection prompt and immediately attempts to log in with the specified account.
