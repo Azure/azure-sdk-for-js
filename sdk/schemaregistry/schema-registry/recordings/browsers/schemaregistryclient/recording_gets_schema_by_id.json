@@ -11,17 +11,17 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1321",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 04 Aug 2021 20:29:31 GMT",
+    "date": "Fri, 24 Sep 2021 16:46:36 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+bno\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11898.12 - EUS ProdSlices",
-    "x-ms-request-id": "9d06237c-bcba-42ab-a8ec-d1a792ac7a01"
+    "x-ms-ests-server": "2.1.12071.13 - NCUS ProdSlices",
+    "x-ms-request-id": "5a334757-2c34-4548-8abe-f088bf872700"
    }
   },
   {
@@ -32,13 +32,36 @@
    },
    "requestBody": "{\"type\":\"record\",\"name\":\"User\",\"namespace\":\"com.azure.schemaregistry.samples\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"favoriteNumber\",\"type\":\"int\"}]}",
    "status": 200,
-   "response": "{\"id\":\"9f5e37429ed34806bc442f39fdfce97e\"}",
+   "response": "{\"id\":\"e086b25cd8344fad9fc9e1dc3d8363f9\"}",
    "responseHeaders": {
     "content-type": "application/json",
-    "date": "Wed, 04 Aug 2021 20:29:32 GMT",
+    "date": "Fri, 24 Sep 2021 16:46:37 GMT",
     "location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test/versions/1?api-version=2020-09-01-preview",
-    "schema-id": "9f5e37429ed34806bc442f39fdfce97e",
-    "schema-id-location": "https://endpoint/$schemagroups/getschemabyid/9f5e37429ed34806bc442f39fdfce97e?api-version=2020-09-01-preview",
+    "schema-id": "e086b25cd8344fad9fc9e1dc3d8363f9",
+    "schema-id-location": "https://endpoint/$schemagroups/getschemabyid/e086b25cd8344fad9fc9e1dc3d8363f9?api-version=2020-09-01-preview",
+    "schema-version": "1",
+    "schema-versions-location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test/versions?api-version=2020-09-01-preview",
+    "serialization-type": "Avro",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000",
+    "transfer-encoding": "chunked"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/$schemagroups/getSchemaById/e086b25cd8344fad9fc9e1dc3d8363f9",
+   "query": {
+    "api-version": "2020-09-01-preview"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"type\":\"record\",\"name\":\"User\",\"namespace\":\"com.azure.schemaregistry.samples\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"favoriteNumber\",\"type\":\"int\"}]}",
+   "responseHeaders": {
+    "content-type": "application/json",
+    "date": "Fri, 24 Sep 2021 16:46:37 GMT",
+    "location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test/versions/1?api-version=2020-09-01-preview",
+    "schema-id": "e086b25cd8344fad9fc9e1dc3d8363f9",
+    "schema-id-location": "https://endpoint/$schemagroups/getschemabyid/e086b25cd8344fad9fc9e1dc3d8363f9?api-version=2020-09-01-preview",
     "schema-version": "1",
     "schema-versions-location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test/versions?api-version=2020-09-01-preview",
     "serialization-type": "Avro",
@@ -52,5 +75,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "32845d57203f28248f74ca34ea8c7072"
+ "hash": "0e0c5aa207dfb211d60f8de4f6465010"
 }

@@ -6,7 +6,7 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { Durations, Metric, MetricsQueryClient, MetricDefinition } from "@azure/monitor-query";
+import { Durations, Metric, MetricsQueryClient } from "@azure/monitor-query";
 import * as dotenv from "dotenv";
 
 dotenv.config();
@@ -22,28 +22,32 @@ export async function main() {
   }
 
   const iterator = metricsQueryClient.listMetricDefinitions(metricsResourceId);
-  let result = await iterator.next();
-  const firstMetric: MetricDefinition = result.value;
-
-  while (!result.done) {
-    console.log(` metricDefinitions - ${result.value.id}, ${result.value.name}`);
-    result = await iterator.next();
+  let metricNames: string[] = [];
+  for await (const result of iterator) {
+    console.log(` metricDefinitions - ${result.id}, ${result.name}`);
+    if (result.name) {
+      metricNames.push(result.name);
+    }
   }
-  console.log(`First Metric Definition = ${firstMetric.name}`);
 
-  console.log(`Picking an example metric to query: ${firstMetric.name!}`);
+  if (metricNames.length > 0) {
+    console.log(`Picking an example list of metrics to query: ${metricNames}`);
+    const metricsResponse = await metricsQueryClient.query(metricsResourceId, metricNames, {
+      granularity: "PT1M",
+      timespan: { duration: Durations.FiveMinutes }
+    });
 
-  const metricsResponse = await metricsQueryClient.query(metricsResourceId, [firstMetric.name!], {
-    granularity: "PT1M",
-    timespan: { duration: Durations.FiveMinutes }
-  });
+    console.log(
+      `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.granularity}, time span: ${metricsResponse.timespan}`
+    );
 
-  console.log(
-    `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.granularity}, time span: ${metricsResponse.timespan}`
-  );
-
-  const metrics: Metric[] = metricsResponse.metrics;
-  console.log(`Metrics:`, JSON.stringify(metrics, undefined, 2));
+    const metrics: Metric[] = metricsResponse.metrics;
+    console.log(`Metrics:`, JSON.stringify(metrics, undefined, 2));
+    const metric = metricsResponse.getMetricByName(metricNames[0]);
+    console.log(`Selected Metric: ${metricNames[0]}`, JSON.stringify(metric, undefined, 2));
+  } else {
+    console.error(`Metric names are not defined - ${metricNames}`);
+  }
 }
 
 main().catch((err) => {

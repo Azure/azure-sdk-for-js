@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { MonitorManagementClientContext } from "../monitorManagementClientContext";
 import { MetricsListOptionalParams, MetricsListResponse } from "../models";
 
-/** Class representing a Metrics. */
+/** Class containing Metrics operations. */
 export class MetricsImpl implements Metrics {
   private readonly client: MonitorManagementClientContext;
 

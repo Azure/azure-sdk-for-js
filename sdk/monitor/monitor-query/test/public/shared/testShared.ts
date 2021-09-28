@@ -126,7 +126,9 @@ function getRequiredEnvVar(mochaContext: Pick<Context, "skip">, variableName: st
 
 export function printLogQueryTables(tables: LogsTable[]): void {
   for (const table of tables) {
-    const columnHeaderString = table.columns.map((c) => `${c.name}(${c.type}) `).join("| ");
+    const columnHeaderString = table.columnDescriptors
+      .map((c) => `${c.name}(${c.type}) `)
+      .join("| ");
     console.log(columnHeaderString);
 
     for (const row of table.rows) {
@@ -153,7 +155,7 @@ export function assertQueryTable(
     {
       name: table.name,
       rows: table.rows,
-      columns: table.columns.map((c) => c.name)
+      columns: table.columnDescriptors.map((c) => c.name)
     },
     expectedTable,
     `${message}: tables weren't equal`

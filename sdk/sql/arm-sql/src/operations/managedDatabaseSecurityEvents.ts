@@ -22,7 +22,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a ManagedDatabaseSecurityEvents. */
+/** Class containing ManagedDatabaseSecurityEvents operations. */
 export class ManagedDatabaseSecurityEventsImpl
   implements ManagedDatabaseSecurityEvents {
   private readonly client: SqlManagementClientContext;

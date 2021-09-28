@@ -16,7 +16,7 @@ import {
   MaintenanceWindowOptionsOperationsGetResponse
 } from "../models";
 
-/** Class representing a MaintenanceWindowOptionsOperations. */
+/** Class containing MaintenanceWindowOptionsOperations operations. */
 export class MaintenanceWindowOptionsOperationsImpl
   implements MaintenanceWindowOptionsOperations {
   private readonly client: SqlManagementClientContext;

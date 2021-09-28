@@ -24,7 +24,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a DatabaseTables. */
+/** Class containing DatabaseTables operations. */
 export class DatabaseTablesImpl implements DatabaseTables {
   private readonly client: SqlManagementClientContext;
 

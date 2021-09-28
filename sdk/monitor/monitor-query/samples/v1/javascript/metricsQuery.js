@@ -21,31 +21,33 @@ async function main() {
     throw new Error("METRICS_RESOURCE_ID must be set in the environment for this sample");
   }
 
-  const result = await metricsQueryClient.getMetricDefinitions(metricsResourceId);
-
-  for (const definition of result.definitions) {
-    console.log(`Definition = ${definition.name}`);
+  const iterator = metricsQueryClient.listMetricDefinitions(metricsResourceId);
+  let metricNames = [];
+  for await (const result of iterator) {
+    console.log(` metricDefinitions - ${result.id}, ${result.name}`);
+    if (result.name) {
+      metricNames.push(result.name);
+    }
   }
 
-  const firstMetric = result.definitions[0];
+  if (metricNames.length > 0) {
+    console.log(`Picking an example list of metrics to query: ${metricNames}`);
+    const metricsResponse = await metricsQueryClient.query(metricsResourceId, metricNames, {
+      granularity: "PT1M",
+      timespan: { duration: Durations.FiveMinutes }
+    });
 
-  console.log(`Picking an example metric to query: ${firstMetric.name}`);
+    console.log(
+      `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.granularity}, time span: ${metricsResponse.timespan}`
+    );
 
-  const metricsResponse = await metricsQueryClient.queryMetrics(
-    metricsResourceId,
-    Durations.last5Minutes,
-    {
-      metricNames: [firstMetric.name],
-      interval: "PT1M"
-    }
-  );
-
-  console.log(
-    `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.interval}, time span: ${metricsResponse.timespan}`
-  );
-
-  const metrics = metricsResponse.metrics;
-  console.log(`Metrics:`, JSON.stringify(metrics, undefined, 2));
+    const metrics = metricsResponse.metrics;
+    console.log(`Metrics:`, JSON.stringify(metrics, undefined, 2));
+    const metric = metricsResponse.getMetricByName(metricNames[0]);
+    console.log(`Selected Metric: ${metricNames[0]}`, JSON.stringify(metric, undefined, 2));
+  } else {
+    console.error(`Metric names are not defined - ${metricNames}`);
+  }
 }
 
 main().catch((err) => {

@@ -3,7 +3,8 @@
 import { Container } from "../../../src";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 import { Constants, CosmosClient, PluginOn, CosmosClientOptions, PluginConfig } from "../../../src";
-import { masterKey, endpoint } from "../common/_testConfig";
+import { endpoint } from "../common/_testConfig";
+import { masterKey } from "../common/_fakeTestSecrets";
 import { SubStatusCodes } from "../../../src/common";
 import assert from "assert";
 

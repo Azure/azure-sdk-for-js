@@ -53,6 +53,15 @@ export const environmentSetup: RecorderEnvironmentSetup = {
 };
 
 export function createClients<IndexModel>(indexName: string): Clients<IndexModel> {
+  switch (testEnv.AZURE_AUTHORITY_HOST) {
+    case "https://login.microsoftonline.us":
+      process.env.ENDPOINT = process.env.ENDPOINT!.toString().replace(".windows.net", ".azure.us");
+      break;
+    case "https://login.chinacloudapi.cn":
+      process.env.ENDPOINT = process.env.ENDPOINT!.toString().replace(".windows.net", ".azure.cn");
+      break;
+  }
+
   const credential = new AzureKeyCredential(testEnv.SEARCH_API_ADMIN_KEY);
   const searchClient = new SearchClient<IndexModel>(testEnv.ENDPOINT, indexName, credential);
   const indexClient = new SearchIndexClient(testEnv.ENDPOINT, credential);

@@ -21,6 +21,22 @@ export function convertTimespanToInterval(timespan: TimeInterval): string {
   throw new TypeError("Invalid Timespan - no valid fields assigned.");
 }
 
+export function convertIntervalToTimeIntervalObject(timespan: string): TimeInterval {
+  if (timespan.includes("/")) {
+    const intervalUnits: string[] = timespan.split("/");
+    if (Date.parse(intervalUnits[0]) && Date.parse(intervalUnits[2])) {
+      return { startTime: new Date(intervalUnits[0]), endTime: new Date(intervalUnits[2]) };
+    } else if (Date.parse(intervalUnits[0]) && !Date.parse(intervalUnits[2])) {
+      return { startTime: new Date(intervalUnits[0]), duration: intervalUnits[2] };
+    } else if (!Date.parse(intervalUnits[0]) && Date.parse(intervalUnits[2])) {
+      return { duration: intervalUnits[0], endTime: new Date(intervalUnits[2]) };
+    } else {
+      return { duration: timespan };
+    }
+  } else {
+    return { duration: timespan };
+  }
+}
 /**
  * Helper TypeGuard that checks if the input is an object with the specified property.
  * Note: The property may be inherited.

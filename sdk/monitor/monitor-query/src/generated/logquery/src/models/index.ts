@@ -47,7 +47,7 @@ export interface ErrorInfo {
   /** error details. */
   details?: ErrorDetail[];
   /** Inner error details if they exist. */
-  innererror?: ErrorInfo;
+  innerError?: ErrorInfo;
   /** Additional properties that can be provided on the error info object */
   additionalProperties?: Record<string, unknown>;
 }

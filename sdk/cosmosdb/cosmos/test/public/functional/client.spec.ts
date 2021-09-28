@@ -4,7 +4,8 @@ import assert from "assert";
 import { Suite } from "mocha";
 import { Agent } from "http";
 import { CosmosClient } from "../../../src";
-import { endpoint, masterKey } from "../common/_testConfig";
+import { endpoint } from "../common/_testConfig";
+import { masterKey } from "../common/_fakeTestSecrets";
 import {
   getTestDatabase,
   getTestContainer,

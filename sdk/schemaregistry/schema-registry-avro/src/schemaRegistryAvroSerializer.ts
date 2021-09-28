@@ -113,7 +113,7 @@ export class SchemaRegistryAvroSerializer {
    * @param schema - The Avro schema to use.
    * @returns A new buffer with the serialized value
    */
-  async serialize(value: unknown, schema: string): Promise<Buffer> {
+  async serialize(value: unknown, schema: string): Promise<Uint8Array> {
     const entry = await this.getSchemaByContent(schema);
     const payload = entry.type.toBuffer(value);
     const buffer = Buffer.alloc(PAYLOAD_OFFSET + payload.length);
@@ -121,7 +121,11 @@ export class SchemaRegistryAvroSerializer {
     buffer.writeUInt32BE(FORMAT_INDICATOR, 0);
     buffer.write(entry.id, SCHEMA_ID_OFFSET, SCHEMA_ID_LENGTH, "utf-8");
     payload.copy(buffer, PAYLOAD_OFFSET);
-    return buffer;
+    return new Uint8Array(
+      buffer.buffer,
+      buffer.byteOffset,
+      buffer.byteLength / Uint8Array.BYTES_PER_ELEMENT
+    );
   }
 
   // REVIEW: signature. See serialize and s/serialize into/deserialize from/.
@@ -165,14 +169,14 @@ export class SchemaRegistryAvroSerializer {
       throw new Error(`Schema with ID '${schemaId}' not found.`);
     }
 
-    if (!schemaResponse.serializationType.match(/^avro$/i)) {
+    if (!schemaResponse.format.match(/^avro$/i)) {
       throw new Error(
-        `Schema with ID '${schemaResponse.id}' has serialization type '${schemaResponse.serializationType}', not 'avro'.`
+        `Schema with ID '${schemaResponse.id}' has format '${schemaResponse.format}', not 'avro'.`
       );
     }
 
-    const avroType = this.getAvroTypeForSchema(schemaResponse.content);
-    return this.cache(schemaId, schemaResponse.content, avroType);
+    const avroType = this.getAvroTypeForSchema(schemaResponse.definition);
+    return this.cache(schemaId, schemaResponse.definition, avroType);
   }
 
   private async getSchemaByContent(schema: string): Promise<CacheEntry> {
@@ -189,8 +193,8 @@ export class SchemaRegistryAvroSerializer {
     const description = {
       groupName: this.schemaGroup,
       name: avroType.name,
-      serializationType: "avro",
-      content: schema
+      format: "avro",
+      definition: schema
     };
 
     let id: string;

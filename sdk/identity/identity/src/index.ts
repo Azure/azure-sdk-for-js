@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export * from "./extensions/consumer";
+export * from "./plugins/consumer";
 
-export { IdentityExtension } from "./extensions/provider";
+export { IdentityPlugin } from "./plugins/provider";
 
 import { TokenCredential } from "@azure/core-auth";
 import { DefaultAzureCredential } from "./credentials/defaultAzureCredential";

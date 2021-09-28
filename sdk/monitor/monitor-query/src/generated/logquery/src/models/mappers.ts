@@ -150,7 +150,7 @@ export const ErrorInfo: coreClient.CompositeMapper = {
           }
         }
       },
-      innererror: {
+      innerError: {
         serializedName: "innererror",
         type: {
           name: "Composite",

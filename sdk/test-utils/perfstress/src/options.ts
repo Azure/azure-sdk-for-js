@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { default as minimist, ParsedArgs as MinimistParsedArgs } from "minimist";
+import { isDefined } from "./utils";
 
 /**
  * The structure of a PerfStress option. They represent command line parameters.
@@ -121,19 +122,26 @@ export function parsePerfStressOption<TOptions>(
   options: PerfStressOptionDictionary<TOptions>
 ): Required<PerfStressOptionDictionary<TOptions>> {
   const minimistResult: MinimistParsedArgs = minimist(process.argv);
-  const result = {};
+  const result: Partial<PerfStressOptionDictionary<TOptions>> = {};
 
   for (const longName of Object.keys(options)) {
     // This cast is needed since we're picking up options from process.argv
-    const option = (options as any)[longName];
+    const option = options[longName as keyof TOptions];
     const { shortName, defaultValue, required } = option;
-    const value =
-      minimistResult[longName] || (shortName && minimistResult[shortName]) || defaultValue;
-    if (required && !value) {
+    let value: unknown;
+    if (isDefined(minimistResult[longName])) {
+      value = minimistResult[longName];
+    } else if (shortName && isDefined(minimistResult[shortName])) {
+      value = minimistResult[shortName];
+    } else {
+      value = defaultValue;
+    }
+
+    if (required && !isDefined(value)) {
       throw new Error(`Option ${longName} is required`);
     }
     // Options don't need to define longName, it can be derived from the properties PerfStressOptionDictionary.
-    (result as any)[longName] = {
+    result[longName as keyof TOptions] = {
       ...option,
       longName,
       value

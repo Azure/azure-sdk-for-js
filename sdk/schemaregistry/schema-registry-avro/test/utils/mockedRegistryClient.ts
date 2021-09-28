@@ -35,15 +35,15 @@ export function createTestRegistry(neverLive = false): SchemaRegistry {
     schema: SchemaDescription,
     _options?: RegisterSchemaOptions
   ): Promise<SchemaProperties> {
-    let result = mapByContent.get(schema.content);
+    let result = mapByContent.get(schema.definition);
     if (!result) {
       result = {
         id: newId(),
-        content: schema.content,
+        definition: schema.definition,
         version: 1,
-        serializationType: schema.serializationType
+        format: schema.format
       };
-      mapByContent.set(result.content, result);
+      mapByContent.set(result.definition, result);
       mapById.set(result.id, result);
     }
     return result;
@@ -62,7 +62,7 @@ export function createTestRegistry(neverLive = false): SchemaRegistry {
     schema: SchemaDescription,
     _options?: GetSchemaPropertiesOptions
   ): Promise<SchemaProperties | undefined> {
-    return mapByContent.get(schema.content);
+    return mapByContent.get(schema.definition);
   }
 
   async function getSchema(id: string, _options?: GetSchemaOptions): Promise<Schema | undefined> {

@@ -78,18 +78,15 @@ export const defaultCredentials: DefaultCredentialConstructor[] = [
  *
  * Consult the documentation of these credential types for more information
  * on how they attempt authentication.
- *
- * **Note**: `VisualStudioCodeCredential` is provided by an extension package:
- * `@azure/identity-vscode`. If this package is not installed and registered
- * using the extension API (`useIdentityExtension`), then authentication using
- * `VisualStudioCodeCredential` will not be available.
- *
- * Azure Identity extensions may add credential types to the default credential
- * stack.
  */
 export class DefaultAzureCredential extends ChainedTokenCredential {
   /**
    * Creates an instance of the DefaultAzureCredential class.
+   *
+   * **Note**: `VisualStudioCodeCredential` is provided by a plugin package:
+   * `@azure/identity-vscode`. If this package is not installed and registered
+   * using the plugin API (`useIdentityPlugin`), then authentication using
+   * `VisualStudioCodeCredential` will not be available.
    *
    * @param options - Optional parameters. See {@link DefaultAzureCredentialOptions}.
    */

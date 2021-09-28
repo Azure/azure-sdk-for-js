@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 import assert from "assert";
 import { CosmosClient } from "../../../dist-esm/";
-import { endpoint, masterKey } from "../../public/common/_testConfig";
+import { endpoint } from "../../public/common/_testConfig";
+import { masterKey, userSasTokenKey } from "../../public/common/_fakeTestSecrets";
 import { SasTokenPermissionKind } from "../../../dist-esm/common";
 import { createAuthorizationSasToken } from "../../../dist-esm/utils/SasToken";
 import { SasTokenProperties } from "../../../dist-esm/client/SasToken/SasTokenProperties";
@@ -53,8 +54,6 @@ describe.skip("SAS Token Authorization", function() {
   });
 
   it("should connect when a user set sas token", async function() {
-    const userSasTokenKey =
-      "type=sas&ver=1.0&sig=pCgZFxV9JQN1i3vzYNTfQldW1No7I+MSgN628TZcJAI=;dXNlcjEKCi9kYnMvZGIxL2NvbGxzL2NvbGwxLwoKNUZFRTY2MDEKNjIxM0I3MDEKMAo2MAowCkZGRkZGRkZGCjAK";
     const sasTokenClient = new CosmosClient({
       endpoint,
       key: userSasTokenKey,

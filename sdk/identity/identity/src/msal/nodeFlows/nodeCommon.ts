@@ -94,7 +94,12 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
       this.createCachePlugin = () => persistenceProvider!(options.tokenCachePersistenceOptions);
     } else if (options.tokenCachePersistenceOptions?.enabled) {
       throw new Error(
-        "Persistent token caching was requested, but no persistence provider was configured (do you need to use the `@azure/identity-cache-persistence` package?)"
+        [
+          "Persistent token caching was requested, but no persistence provider was configured.",
+          "You must install the identity-cache-persistence plugin package (`npm install --save @azure/identity-cache-persistence`)",
+          "and enable it by importing `useIdentityPlugin` from `@azure/identity` and calling",
+          "`useIdentityPlugin(cachePersistencePlugin)` before using `tokenCachePersistenceOptions`."
+        ].join(" ")
       );
     }
 

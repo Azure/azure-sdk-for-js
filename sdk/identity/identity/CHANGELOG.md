@@ -1,5 +1,15 @@
 # Release History
 
+## 2.0.0-beta.7 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 2.0.0-beta.6 (2021-09-09)
 
 ### Features Added
@@ -14,6 +24,8 @@
 #### Breaking Changes from 2.0.0-beta.5
 
 - The property named `selectedCredential` that was added to `ChainedTokenCredential` and `DefaultAzureCredential` has been removed, since customers reported that logging was enough.
+- Changed the name of the "extension" API to the "plugin" API to reduce confusion between this package and VS Code extensions. The function `useIdentityExtension` was renamed to `useIdentityPlugin`, and "extension packages" are now known as "plugin packages".
+- Renamed the `allowUnencryptedStorage` property of `TokenCachePersistenceOptions` to `unsafeAllowUnencryptedStorage` to make it clear that enabling the unencrypted storage feature is not generally safe for production use.
 
 ### Bugs Fixed
 
@@ -92,7 +104,7 @@
 
 ### Key Bugs Fixed
 
-- Fixed an issue in which `InteractiveBrowserCredential` on Node would sometimes cause the process to hang if there was no browser available.
+- Fixed an issue in which `InteractiveBrowserCredential` on Node would sometimes cause the process to not respond if there was no browser available.
 - Fixed an issue in which the `AZURE_AUTHORITY_HOST` environment variable was not properly picked up in Node.js.
 
 ## 2.0.0-beta.3 (2021-05-12)

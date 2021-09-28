@@ -19,7 +19,7 @@ import {
   DataMaskingPoliciesGetResponse
 } from "../models";
 
-/** Class representing a DataMaskingPolicies. */
+/** Class containing DataMaskingPolicies operations. */
 export class DataMaskingPoliciesImpl implements DataMaskingPolicies {
   private readonly client: SqlManagementClientContext;
 

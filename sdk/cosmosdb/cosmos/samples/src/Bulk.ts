@@ -7,7 +7,8 @@ import { BulkOperationType } from "../../src";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { CosmosClient } from "../dist";
-import { endpoint, masterKey } from "../../test/public/common/_testConfig";
+import { endpoint } from "../../test/public/common/_testConfig";
+import { masterKey } from "../../test/public/common/_fakeTestSecrets";
 
 async function run() {
   const containerId = "bulkContainerV2";

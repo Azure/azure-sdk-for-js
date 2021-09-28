@@ -14,7 +14,11 @@ export {
   // TODO: design issues around this still pending.
   // QueryStatistics,
   LogsTable,
-  LogsColumn
+  LogsColumn,
+  LogsQueryResultStatus,
+  ErrorInfo,
+  BatchError,
+  AggregateBatchError
 } from "./models/publicLogsModels";
 export {
   MetricsQueryClient,
@@ -42,8 +46,7 @@ export {
   // TODO: these are the generated model names. We probably want to run them
   // through a manual review to make them consistent with style.
   LogsColumnType,
-  ErrorDetail,
-  ErrorInfo
+  ErrorDetail
 } from "./generated/logquery/src";
 
 //

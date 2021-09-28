@@ -1,7 +1,7 @@
 {
   "name": "@azure/identity",
   "sdk-type": "client",
-  "version": "2.0.0-beta.6",
+  "version": "2.0.0-beta.7",
   "description": "Provides credential implementations for Azure SDK libraries that can authenticate with Azure Active Directory",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -25,7 +25,7 @@
     "./dist-esm/src/credentials/onBehalfOfCredential.js": "./dist-esm/src/credentials/onBehalfOfCredential.browser.js",
     "./dist-esm/src/util/authHostEnv.js": "./dist-esm/src/util/authHostEnv.browser.js",
     "./dist-esm/src/tokenCache/TokenCachePersistence.js": "./dist-esm/src/tokenCache/TokenCachePersistence.browser.js",
-    "./dist-esm/src/extensions/consumer.js": "./dist-esm/src/extensions/consumer.browser.js",
+    "./dist-esm/src/plugins/consumer.js": "./dist-esm/src/plugins/consumer.browser.js",
     "./dist-esm/test/httpRequests.js": "./dist-esm/test/httpRequests.browser.js"
   },
   "scripts": {
@@ -39,7 +39,7 @@
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\" \"samples/**/*.{js,json}\"",
     "integration-test:browser": "echo skipped",
-    "integration-test:node": "echo skipped",
+    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace \"dist-esm/test/public/node/*.spec.js\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json api-extractor.json src test --ext .ts",
@@ -104,7 +104,7 @@
     "@types/stoppable": "^1.1.0",
     "events": "^3.0.0",
     "jws": "^4.0.0",
-    "open": "^7.0.0",
+    "open": "^8.0.0",
     "stoppable": "^1.1.0",
     "tslib": "^2.2.0",
     "uuid": "^8.3.0"
@@ -136,6 +136,7 @@
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^1.18.0",
+    "nyc": "^14.0.0",
     "prettier": "^1.16.4",
     "puppeteer": "^10.2.0",
     "rimraf": "^3.0.0",

@@ -4,7 +4,8 @@
 import assert from "assert";
 import { Container, CosmosClient } from "../../../src";
 import { addEntropy, removeAllDatabases } from "../common/TestHelpers";
-import { endpoint, masterKey } from "../common/_testConfig";
+import { endpoint } from "../common/_testConfig";
+import { masterKey } from "../common/_fakeTestSecrets";
 
 describe("Timeout", function() {
   beforeEach(async function() {

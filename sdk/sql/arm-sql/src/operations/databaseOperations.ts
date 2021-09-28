@@ -23,7 +23,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a DatabaseOperations. */
+/** Class containing DatabaseOperations operations. */
 export class DatabaseOperationsImpl implements DatabaseOperations {
   private readonly client: SqlManagementClientContext;
 
