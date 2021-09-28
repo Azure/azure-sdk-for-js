@@ -38,7 +38,7 @@ const schemaDescription: SchemaDescription = {
   name: `${schemaObject.namespace}.${schemaObject.name}`,
   groupName: group,
   format: "avro",
-  definition: JSON.stringify(schemaObject)
+  schemaDefinition: JSON.stringify(schemaObject)
 };
 
 export async function main() {
@@ -59,7 +59,7 @@ export async function main() {
   // Get content of existing schema by its ID
   const foundSchema = await client.getSchema(registered.id);
   if (foundSchema) {
-    console.log(`Got schema content=${foundSchema.definition}`);
+    console.log(`Got schema content=${foundSchema.schemaDefinition}`);
   }
 }
 

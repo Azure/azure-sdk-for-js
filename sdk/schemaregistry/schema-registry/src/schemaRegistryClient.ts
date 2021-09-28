@@ -81,7 +81,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
     options?: RegisterSchemaOptions
   ): Promise<SchemaProperties> {
     return this.client.schema
-      .register(schema.groupName, schema.name, schema.format, schema.definition, options)
+      .register(schema.groupName, schema.name, schema.format, schema.schemaDefinition, options)
       .then(convertSchemaIdResponse);
   }
 
@@ -97,7 +97,13 @@ export class SchemaRegistryClient implements SchemaRegistry {
     options?: GetSchemaPropertiesOptions
   ): Promise<SchemaProperties> {
     return this.client.schema
-      .queryIdByContent(schema.groupName, schema.name, schema.format, schema.definition, options)
+      .queryIdByContent(
+        schema.groupName,
+        schema.name,
+        schema.format,
+        schema.schemaDefinition,
+        options
+      )
       .then(convertSchemaIdResponse);
   }
 

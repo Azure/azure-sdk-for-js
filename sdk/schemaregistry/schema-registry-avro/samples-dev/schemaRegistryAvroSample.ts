@@ -47,7 +47,7 @@ const schemaDescription: SchemaDescription = {
   name: `${schemaObject.namespace}.${schemaObject.name}`,
   groupName,
   format: "avro",
-  definition: schema
+  schemaDefinition: schema
 };
 
 export async function main() {

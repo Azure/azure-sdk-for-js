@@ -37,7 +37,7 @@ export interface SchemaDescription {
   format: string;
 
   /** String representation of schema. */
-  definition: string;
+  schemaDefinition: string;
 }
 
 /**
@@ -45,7 +45,7 @@ export interface SchemaDescription {
  */
 export interface Schema extends SchemaProperties {
   /** String representation of schema. */
-  definition: string;
+  schemaDefinition: string;
 }
 
 /**

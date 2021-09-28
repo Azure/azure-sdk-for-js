@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SchemaRegistry } from "@azure/schema-registry";
+import { SchemaDescription, SchemaRegistry } from "@azure/schema-registry";
 import * as avro from "avsc";
 import { toUint8Array } from "./utils/buffer";
 
@@ -175,8 +175,8 @@ export class SchemaRegistryAvroSerializer {
       );
     }
 
-    const avroType = this.getAvroTypeForSchema(schemaResponse.definition);
-    return this.cache(schemaId, schemaResponse.definition, avroType);
+    const avroType = this.getAvroTypeForSchema(schemaResponse.schemaDefinition);
+    return this.cache(schemaId, schemaResponse.schemaDefinition, avroType);
   }
 
   private async getSchemaByContent(schema: string): Promise<CacheEntry> {
@@ -190,11 +190,11 @@ export class SchemaRegistryAvroSerializer {
       throw new Error("Schema must have a name.");
     }
 
-    const description = {
+    const description: SchemaDescription = {
       groupName: this.schemaGroup,
       name: avroType.name,
       format: "avro",
-      definition: schema
+      schemaDefinition: schema
     };
 
     let id: string;

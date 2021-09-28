@@ -27,15 +27,15 @@ export interface RegisterSchemaOptions extends OperationOptions {
 
 // @public
 export interface Schema extends SchemaProperties {
-    definition: string;
+    schemaDefinition: string;
 }
 
 // @public
 export interface SchemaDescription {
-    definition: string;
     format: string;
     groupName: string;
     name: string;
+    schemaDefinition: string;
 }
 
 // @public
