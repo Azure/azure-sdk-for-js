@@ -33,7 +33,7 @@ describe("SchemaRegistryAvroSerializer", function() {
     const serializer = await createTestSerializer(false, registry);
     const schema = await registry.registerSchema({
       name: "_",
-      definition: "_",
+      schemaDefinition: "_",
       format: "NotAvro",
       groupName: testGroup
     });

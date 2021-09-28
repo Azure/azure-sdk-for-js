@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SchemaRegistry } from "@azure/schema-registry";
+import { SchemaDescription, SchemaRegistry } from "@azure/schema-registry";
 import * as avro from "avsc";
 import { toUint8Array } from "./utils/buffer";
 
@@ -114,7 +114,7 @@ export class SchemaRegistryAvroSerializer {
    * @returns A new buffer with the serialized value
    */
   async serialize(value: unknown, schema: string): Promise<Uint8Array> {
-    const entry = await this.getSchemaByContent(schema);
+    const entry = await this.getSchemaByDefinition(schema);
     const payload = entry.type.toBuffer(value);
     const buffer = Buffer.alloc(PAYLOAD_OFFSET + payload.length);
 
@@ -155,7 +155,7 @@ export class SchemaRegistryAvroSerializer {
     return schema.type.fromBuffer(payloadBuffer);
   }
 
-  private readonly cacheByContent = new Map<string, CacheEntry>();
+  private readonly cacheBySchemaDefinition = new Map<string, CacheEntry>();
   private readonly cacheById = new Map<string, CacheEntry>();
 
   private async getSchema(schemaId: string): Promise<CacheEntry> {
@@ -175,12 +175,12 @@ export class SchemaRegistryAvroSerializer {
       );
     }
 
-    const avroType = this.getAvroTypeForSchema(schemaResponse.definition);
-    return this.cache(schemaId, schemaResponse.definition, avroType);
+    const avroType = this.getAvroTypeForSchema(schemaResponse.schemaDefinition);
+    return this.cache(schemaId, schemaResponse.schemaDefinition, avroType);
   }
 
-  private async getSchemaByContent(schema: string): Promise<CacheEntry> {
-    const cached = this.cacheByContent.get(schema);
+  private async getSchemaByDefinition(schema: string): Promise<CacheEntry> {
+    const cached = this.cacheBySchemaDefinition.get(schema);
     if (cached) {
       return cached;
     }
@@ -190,11 +190,11 @@ export class SchemaRegistryAvroSerializer {
       throw new Error("Schema must have a name.");
     }
 
-    const description = {
+    const description: SchemaDescription = {
       groupName: this.schemaGroup,
       name: avroType.name,
       format: "avro",
-      definition: schema
+      schemaDefinition: schema
     };
 
     let id: string;
@@ -204,7 +204,7 @@ export class SchemaRegistryAvroSerializer {
       const response = await this.registry.getSchemaProperties(description);
       if (!response) {
         throw new Error(
-          `Schema '${description.name}' not found in registry group '${description.groupName}', or not found to have matching content.`
+          `Schema '${description.name}' not found in registry group '${description.groupName}', or not found to have matching definition.`
         );
       }
       id = response.id;
@@ -215,7 +215,7 @@ export class SchemaRegistryAvroSerializer {
 
   private cache(id: string, schema: string, type: avro.Type): CacheEntry {
     const entry = { id, type };
-    this.cacheByContent.set(schema, entry);
+    this.cacheBySchemaDefinition.set(schema, entry);
     this.cacheById.set(id, entry);
     return entry;
   }

@@ -36,7 +36,7 @@ npm install @azure/schema-registry-avro
 Provides API to serialize to and deserialize from Avro Binary Encoding plus a
 header with schema ID. Uses
 `SchemaRegistryClient` from the [@azure/schema-registry](https://www.npmjs.com/package/@azure/schema-registry) package
-to get schema IDs from schema content or vice versa. The provided API has internal cache to avoid calling the schema registry service when possible.
+to get schema IDs from schema definition or vice versa. The provided API has internal cache to avoid calling the schema registry service when possible.
 
 ### Message format
 
