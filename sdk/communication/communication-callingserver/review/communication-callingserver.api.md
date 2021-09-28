@@ -173,6 +173,14 @@ export interface JoinCallOptions extends OperationOptions {
     subject?: string;
 }
 
+// @public (undocumented)
+export class JoinCallRequestConverter {
+    // Warning: (ae-forgotten-export) The symbol "JoinCallRequest" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    static convert(source: CommunicationIdentifier, options: JoinCallOptions): JoinCallRequest;
+}
+
 // @public
 export const enum KnownCallConnectionState {
     // (undocumented)
@@ -296,6 +304,8 @@ export class ServerCall {
     removeParticipant(participantId: string, options?: OperationOptions): Promise<RestResponse>;
     // (undocumented)
     resumeRecording(recordingId: string, options?: OperationOptions): Promise<RestResponse>;
+    // (undocumented)
+    get serverCallId(): string;
     // Warning: (ae-forgotten-export) The symbol "StartCallRecordingResult" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)

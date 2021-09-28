@@ -3,10 +3,10 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { CallConnection } from ".";
-import { ServerCall } from ".";
+import { ServerCall, JoinCallRequestConverter } from ".";
 import { CreateCallConnectionOptions, JoinCallOptions } from "./models";
 import { CallConnections, ServerCalls } from "./generated/src/operations";
-import { CreateCallRequest, JoinCallRequest } from "./generated/src/models";
+import { CreateCallRequest } from "./generated/src/models";
 import { CallingServerApiClientContext } from "./generated/src/callingServerApiClientContext";
 
 import {
@@ -158,14 +158,7 @@ export class CallingServerClient {
   ): Promise<CallConnection> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-JoinCall", options);
 
-    const request: JoinCallRequest = {
-      source: serializeCommunicationIdentifier(source),
-      callbackUri: options.callbackUri,
-      requestedMediaTypes: options.requestedMediaTypes,
-      requestedCallEvents: options.requestedCallEvents,
-      subject: undefined
-    };
-
+    const request = JoinCallRequestConverter.convert(source, updatedOptions);
 
     try {
       const response = await this.serverCallRestClient.joinCall(

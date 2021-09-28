@@ -34,15 +34,19 @@ import {
  * The client to do call connection operations
  */
 export class ServerCall {
-  private readonly serverCallId: string;
-  private readonly serverCallRestClient: ServerCalls;
+  private readonly _serverCallId: string;
+  private readonly _serverCallRestClient: ServerCalls;
 
   constructor(
     serverCallId: string,
     serverCallRestClient: ServerCalls,
   ) {
-    this.serverCallId = serverCallId;
-    this.serverCallRestClient = serverCallRestClient;
+    this._serverCallId = serverCallId;
+    this._serverCallRestClient = serverCallRestClient;
+  }
+
+  public get serverCallId() {
+    return this._serverCallId;
   }
 
   public async playAudio(
@@ -62,8 +66,8 @@ export class ServerCall {
     };
 
     try {
-      const result = await this.serverCallRestClient.playAudio(
-        this.serverCallId,
+      const result = await this._serverCallRestClient.playAudio(
+        this._serverCallId,
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
@@ -99,8 +103,8 @@ export class ServerCall {
     }
     
     try {
-      const result = await this.serverCallRestClient.startRecording(
-        this.serverCallId,
+      const result = await this._serverCallRestClient.startRecording(
+        this._serverCallId,
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
@@ -124,8 +128,8 @@ export class ServerCall {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-PauseRecording", options);
 
     try {
-      var res = await this.serverCallRestClient.pauseRecording(
-        this.serverCallId,
+      var res = await this._serverCallRestClient.pauseRecording(
+        this._serverCallId,
         recordingId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
@@ -150,8 +154,8 @@ export class ServerCall {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-ResumeRecording", options);
 
     try {
-      const result = await this.serverCallRestClient.resumeRecording(
-        this.serverCallId,
+      const result = await this._serverCallRestClient.resumeRecording(
+        this._serverCallId,
         recordingId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
@@ -174,8 +178,8 @@ export class ServerCall {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-StopRecording", options);
 
     try {
-      const result = await this.serverCallRestClient.stopRecording(
-        this.serverCallId,
+      const result = await this._serverCallRestClient.stopRecording(
+        this._serverCallId,
         recordingId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
@@ -199,8 +203,8 @@ export class ServerCall {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-Recording", options);
 
     try {
-      const result = await this.serverCallRestClient.getRecordingProperties(
-        this.serverCallId,
+      const result = await this._serverCallRestClient.getRecordingProperties(
+        this._serverCallId,
         recordingId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
@@ -234,8 +238,8 @@ export class ServerCall {
     };
 
     try {
-      return await this.serverCallRestClient.addParticipant(
-        this.serverCallId,
+      return await this._serverCallRestClient.addParticipant(
+        this._serverCallId,
         addParticipantRequest,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
@@ -257,8 +261,8 @@ export class ServerCall {
     const { span, updatedOptions } = createSpan("CallConnectionRestClient-removeParticipant", options);
 
     try {
-      return await this.serverCallRestClient.removeParticipant(
-        this.serverCallId,
+      return await this._serverCallRestClient.removeParticipant(
+        this._serverCallId,
         participantId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
@@ -292,8 +296,8 @@ export class ServerCall {
     }
 
     try {
-      return await this.serverCallRestClient.joinCall(
-        this.serverCallId,
+      return await this._serverCallRestClient.joinCall(
+        this._serverCallId,
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );

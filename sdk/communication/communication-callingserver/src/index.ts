@@ -2,5 +2,6 @@
 // Licensed under the MIT license.
 export * from "./models";
 export * from "./callingServerClient";
+export * from "./converters";
 export * from "./callConnection";
 export * from "./serverCall";
