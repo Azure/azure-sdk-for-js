@@ -21,9 +21,7 @@ export function createOdataMetadataPolicy(metadataLevel: MetadataLevel): Pipelin
   return {
     name: odataMetadataPolicy,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      if (!request.headers.has(AcceptHeaderName)) {
-        request.headers.set(AcceptHeaderName, `application/json;odata.metadata=${metadataLevel}`);
-      }
+      request.headers.set(AcceptHeaderName, `application/json;odata.metadata=${metadataLevel}`);
       return next(request);
     }
   };
