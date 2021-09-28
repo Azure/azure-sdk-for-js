@@ -22,10 +22,8 @@ export function processMultiTenantRequest(
   if (
     // Only if a getTokenOptions.tenantId was received
     getTokenOptions?.tenantId &&
-    // Disabled if the AZURE_IDENTITY_DISABLE_MULTITENANTAUTH environment variable is set.
-    (process.env.AZURE_IDENTITY_DISABLE_MULTITENANTAUTH ||
-      // Disabled if the credential has been configured with `adfs` as the tenant Id.
-      tenantId === "adfs")
+    // Disabled if the credential has been configured with `adfs` as the tenant Id.
+    tenantId === "adfs"
   ) {
     throw new Error(multiTenantErrorMessage);
   }
