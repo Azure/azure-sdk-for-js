@@ -244,9 +244,7 @@ export class TestProxyHttpClientV1 extends TestProxyHttpClient {
     if (this._recordingId && (this._mode === "record" || this._mode === "playback")) {
       request = this.redirectRequest(request, this._recordingId);
     }
-    console.log("send request");
     const res = await this._httpClient.sendRequest(request);
-    console.log("send request ends");
     return res;
   }
 }
