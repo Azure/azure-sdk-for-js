@@ -13,7 +13,8 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // Set these environment variables or edit the following values
-const fullyQualifiedNamespace = process.env["SCHEMA_REGISTRY_ENDPOINT"] || "<fullyQualifiedNamespace>";
+const fullyQualifiedNamespace =
+  process.env["SCHEMA_REGISTRY_ENDPOINT"] || "<fullyQualifiedNamespace>";
 const group = process.env["SCHEMA_REGISTRY_GROUP"] || "AzureSdkSampleGroup";
 
 // Sample Avro Schema for user with first and last names
@@ -56,10 +57,10 @@ export async function main() {
     console.log(`Got schema ID=${found.id}`);
   }
 
-  // Get content of existing schema by its ID
+  // Get definition of existing schema by its ID
   const foundSchema = await client.getSchema(registered.id);
   if (foundSchema) {
-    console.log(`Got schema content=${foundSchema.schemaDefinition}`);
+    console.log(`Got schema definition=${foundSchema.schemaDefinition}`);
   }
 }
 

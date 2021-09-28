@@ -56,10 +56,10 @@ export async function main() {
     console.log(`Got schema ID=${found.id}`);
   }
 
-  // Get content of existing schema by its ID
+  // Get definition of existing schema by its ID
   const foundSchema = await client.getSchema(registered.id);
   if (foundSchema) {
-    console.log(`Got schema content=${foundSchema.schemaDefinition}`);
+    console.log(`Got schema definition=${foundSchema.schemaDefinition}`);
   }
 }
 

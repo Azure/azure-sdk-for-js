@@ -82,8 +82,8 @@ const client = new SchemaRegistryClient("<fullyQualifiedNamespace>", new Default
 const description = {
   name: "<name>",
   groupName: "<group name>",
-  serializationType: "<serialization type>"
-  content: "<schema content>"
+  format: "<schema format>"
+  schemaDefinition: "<schema definition>"
 }
 
 const registered = await client.registerSchema(description);
@@ -101,8 +101,8 @@ const client = new SchemaRegistryClient("<fullyQualifiedNamespace>", new Default
 const description = {
   name: "<name>",
   groupName: "<group name>",
-  serializationType: "<serialization type>"
-  content: "<schema content>"
+  format: "<schema format>"
+  schemaDefinition: "<schema definition>"
 }
 
 const found = await client.getSchemaId(description);
@@ -111,7 +111,7 @@ if (found) {
 }
 ```
 
-### Get content of existing schema by ID
+### Get definition of existing schema by ID
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -120,7 +120,7 @@ const { SchemaRegistryClient } = require("@azure/schema-registry");
 const client = new SchemaRegistryClient("<fullyQualifiedNamespace>", new DefaultAzureCredential());
 const foundSchema = await client.getSchema("<id>");
 if (foundSchema) {
-  console.log(`Got schema content=${foundSchema.content}`);
+  console.log(`Got schema definition=${foundSchema.schemaDefinition}`);
 }
 ```
 

@@ -157,7 +157,7 @@ describe("SchemaRegistryClient", function() {
     assert.equal(foundSchema.schemaDefinition, schema2.schemaDefinition.replace(/\s/g, ""));
 
     const foundId = await client.getSchemaProperties({
-      // content that comes from the service does not have whitespaces
+      // definition that comes from the service does not have whitespaces
       schemaDefinition: foundSchema.schemaDefinition,
       groupName: schema2.groupName,
       name: schema2.name,
