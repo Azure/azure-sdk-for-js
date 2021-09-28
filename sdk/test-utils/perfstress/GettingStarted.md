@@ -287,7 +287,7 @@ To be able to leverage the powers of playing back the requests using the test pr
 
 Run this command
 
-- `docker run -p 5000:5000 azsdkengsys.azurecr.io/engsys/ubuntu_testproxy_server:latest`
+- `docker run -p 5000:5000 -p 5001:5001 azsdkengsys.azurecr.io/engsys/ubuntu_testproxy_server:latest`
 
 Reference: https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/Azure.Sdk.Tools.TestProxy#via-docker-image
 
@@ -299,9 +299,13 @@ Sample command(using storage-blob perf tests as example (Core-v1)!)
 
 > npm run perf-test:node -- StorageBlobDownloadTest --warmup 2 --duration 7 --iterations 2 --parallel 2 --test-proxy http://localhost:5000
 
+> npm run perf-test:node -- StorageBlobDownloadTest --warmup 2 --duration 7 --iterations 2 --parallel 2 --test-proxy https://localhost:5001
+
 Sample command(using data-tables perf tests as example (Core-v2)!)
 
 > npm run perf-test:node -- ListComplexEntitiesTest --duration 7 --iterations 2 --parallel 2 --test-proxy http://localhost:5000
+
+> npm run perf-test:node -- ListComplexEntitiesTest --duration 7 --iterations 2 --parallel 2 --test-proxy https://localhost:5001
 
 > npm run perf-test:node -- ListComplexEntitiesTest --duration 7 --iterations 2 --parallel 2
 
