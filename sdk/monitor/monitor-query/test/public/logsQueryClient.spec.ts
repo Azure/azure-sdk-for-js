@@ -4,31 +4,40 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 import { env } from "process";
-
+import {
+  createRecorderAndLogsClient,
+  // createTestClientSecretCredential,
+  RecordedLogsClient
+} from "./shared/testShared";
+import { Recorder } from "@azure-tools/test-recorder";
+import "./shared/env";
 import { Durations, LogsQueryClient, QueryBatch } from "../../src";
 // import { runWithTelemetry } from "../setupOpenTelemetry";
 
-import {
-  assertQueryTable,
-  createTestClientSecretCredential,
-  getMonitorWorkspaceId,
-  loggerForTest
-} from "./shared/testShared";
+import { assertQueryTable, getMonitorWorkspaceId, loggerForTest } from "./shared/testShared";
 import { ErrorInfo } from "../../src/generated/logquery/src";
-import { ExponentialRetryPolicyOptions, RestError } from "@azure/core-rest-pipeline";
+import { RestError } from "@azure/core-rest-pipeline";
 
 describe("LogsQueryClient live tests", function() {
   let monitorWorkspaceId: string;
-  let createLogsClient: (retryOptions?: ExponentialRetryPolicyOptions) => LogsQueryClient;
+  let logsClient: LogsQueryClient;
+  let recorder: Recorder;
+
+  // let createLogsClient: (retryOptions?: ExponentialRetryPolicyOptions) => LogsQueryClient;
   let testRunId: string;
 
-  before(function(this: Context) {
+  beforeEach(function(this: Context) {
+    loggerForTest.verbose(`Recorder: starting...`);
+    let recordedClient: RecordedLogsClient = createRecorderAndLogsClient(this);
     monitorWorkspaceId = getMonitorWorkspaceId(this);
-
-    createLogsClient = (retryOptions?: ExponentialRetryPolicyOptions) =>
-      new LogsQueryClient(createTestClientSecretCredential(), {
-        retryOptions
-      });
+    logsClient = recordedClient.client;
+    recorder = recordedClient.recorder;
+  });
+  afterEach(async function() {
+    if (recorder) {
+      loggerForTest.verbose("Recorder: stopping");
+      await recorder.stop();
+    }
   });
 
   it("queryLogs (bad query)", async () => {
@@ -38,13 +47,14 @@ describe("LogsQueryClient live tests", function() {
     try {
       // TODO: there is an error details in the query, but when I run an invalid query it
       // throws (and ErrorDetails are just present in the exception.)
-      await createLogsClient().queryWorkspace(monitorWorkspaceId, kustoQuery, {
+
+      await logsClient.queryWorkspace(monitorWorkspaceId, kustoQuery, {
         duration: Durations.oneDay
       });
       assert.fail("Should have thrown an exception");
     } catch (err) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars -- eslint doesn't recognize that the extracted variables are prefixed with '_' and are purposefully unused.
-      const { request: _request, response: _response, ...stringizableError } = err;
+      const { request: _request, response: _response, ...stringizableError }: any = err;
       const innermostError = getInnermostErrorDetails(err);
 
       if (innermostError == null) {
@@ -76,58 +86,8 @@ describe("LogsQueryClient live tests", function() {
     }
   });
 
-  // disabling http retries otherwise we'll waste retries to realize that the
-  // query has timed out on purpose.
-  it("serverTimeoutInSeconds", async () => {
-    try {
-      await createLogsClient({
-        maxRetries: 0,
-        retryDelayInMs: 0,
-        maxRetryDelayInMs: 0
-      }).queryWorkspace(
-        monitorWorkspaceId,
-        // slow query suggested by Pavel.
-        "range x from 1 to 10000000000 step 1 | count",
-        {
-          duration: Durations.twentyFourHours
-        },
-        {
-          // the query above easily takes longer than 1 second.
-          serverTimeoutInSeconds: 1
-        }
-      );
-
-      assert.fail("Should have thrown a RestError for a GatewayTimeout");
-    } catch (err) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars -- eslint doesn't recognize that the extracted variables are prefixed with '_' and are purposefully unused.
-      const { request: _request, response: _response, ...stringizableError } = err;
-      const innermostError = getInnermostErrorDetails(err);
-
-      assert.deepNestedInclude(
-        err as RestError,
-        {
-          name: "RestError",
-          statusCode: 504
-        },
-        `Query should throw a RestError. Message: ${JSON.stringify(stringizableError)}`
-      );
-
-      assert.deepNestedInclude(
-        innermostError,
-        {
-          code: "GatewayTimeout"
-          // other fields that are not stable, but are interesting:
-          // "message":"Kusto query timed out"
-        },
-        `Should get a code indicating the query timed out. Innermost error: ${JSON.stringify(
-          innermostError
-        )}`
-      );
-    }
-  });
-
   it("includeQueryStatistics", async () => {
-    const results = await createLogsClient().queryWorkspace(
+    const results = await logsClient.queryWorkspace(
       monitorWorkspaceId,
       "AppEvents | limit 1",
       {
@@ -145,7 +105,7 @@ describe("LogsQueryClient live tests", function() {
   });
 
   it("includeRender/includeVisualization", async () => {
-    const results = await createLogsClient().queryWorkspace(
+    const results = await logsClient.queryWorkspace(
       monitorWorkspaceId,
       `datatable (s: string, i: long) [ "a", 1, "b", 2, "c", 3 ] | render columnchart with (title="the chart title", xtitle="the x axis title")`,
       {
@@ -178,7 +138,7 @@ describe("LogsQueryClient live tests", function() {
           dynamiccolumn=print_6
       `;
 
-    const results = await createLogsClient().queryWorkspace(monitorWorkspaceId, constantsQuery, {
+    const results = await logsClient.queryWorkspace(monitorWorkspaceId, constantsQuery, {
       duration: Durations.fiveMinutes
     });
 
@@ -260,7 +220,7 @@ describe("LogsQueryClient live tests", function() {
           dynamiccolumn=print_6
       `;
 
-    const result = await createLogsClient().queryBatch([
+    const result = await logsClient.queryBatch([
       {
         workspaceId: monitorWorkspaceId,
         query: constantsQuery,
@@ -383,7 +343,7 @@ describe("LogsQueryClient live tests", function() {
     it("queryLogs (last day)", async () => {
       const kustoQuery = `AppDependencies | where Properties['testRunId'] == '${testRunId}'| project Kind=Properties["kind"], Name, Target, TestRunId=Properties['testRunId']`;
 
-      const singleQueryLogsResult = await createLogsClient().queryWorkspace(
+      const singleQueryLogsResult = await logsClient.queryWorkspace(
         monitorWorkspaceId,
         kustoQuery,
         {
@@ -421,7 +381,7 @@ describe("LogsQueryClient live tests", function() {
         }
       ];
 
-      const result = await createLogsClient().queryBatch(batchRequest);
+      const result = await logsClient.queryBatch(batchRequest);
 
       if ((result as any)["__fixApplied"]) {
         console.log(`TODO: Fix was required to pass`);
@@ -460,10 +420,8 @@ describe("LogsQueryClient live tests", function() {
         `Polling for results to make sure our telemetry has been ingested....\n${query}`
       );
 
-      const client = createLogsClient();
-
       for (let i = 0; i < args.maxTries; ++i) {
-        const result = await client.queryWorkspace(monitorWorkspaceId, query, {
+        const result = await logsClient.queryWorkspace(monitorWorkspaceId, query, {
           duration: Durations.twentyFourHours
         });
 
@@ -485,6 +443,74 @@ describe("LogsQueryClient live tests", function() {
       }
 
       throw new Error(`All retries exhausted - no data returned for query '${query}'`);
+    }
+  });
+});
+
+describe("LogsQueryClient live tests - server timeout", function() {
+  let monitorWorkspaceId: string;
+  let logsClient: LogsQueryClient;
+  let recorder: Recorder;
+
+  beforeEach(function(this: Context) {
+    loggerForTest.verbose(`Recorder: starting...`);
+    let recordedClient: RecordedLogsClient = createRecorderAndLogsClient(this, {
+      maxRetries: 0,
+      retryDelayInMs: 0,
+      maxRetryDelayInMs: 0
+    });
+    logsClient = recordedClient.client;
+    recorder = recordedClient.recorder;
+    monitorWorkspaceId = getMonitorWorkspaceId(this);
+  });
+  afterEach(async function() {
+    if (recorder) {
+      loggerForTest.verbose("Recorder: stopping");
+      await recorder.stop();
+    }
+  });
+  // disabling http retries otherwise we'll waste retries to realize that the
+  // query has timed out on purpose.
+  it("serverTimeoutInSeconds", async function(this: Context) {
+    try {
+      await logsClient.queryWorkspace(
+        monitorWorkspaceId,
+        // slow query suggested by Pavel.
+        "range x from 1 to 10000000000 step 1 | count",
+        {
+          duration: Durations.twentyFourHours
+        },
+        {
+          // the query above easily takes longer than 1 second.
+          serverTimeoutInSeconds: 1
+        }
+      );
+      assert.fail("Should have thrown a RestError for a GatewayTimeout");
+    } catch (err) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars -- eslint doesn't recognize that the extracted variables are prefixed with '_' and are purposefully unused.
+      const { request: _request, response: _response, ...stringizableError }: any = err;
+      const innermostError = getInnermostErrorDetails(err);
+
+      assert.deepNestedInclude(
+        err as RestError,
+        {
+          name: "RestError",
+          statusCode: 504
+        },
+        `Query should throw a RestError. Message: ${JSON.stringify(stringizableError)}`
+      );
+
+      assert.deepNestedInclude(
+        innermostError,
+        {
+          code: "GatewayTimeout"
+          // other fields that are not stable, but are interesting:
+          // "message":"Kusto query timed out"
+        },
+        `Should get a code indicating the query timed out. Innermost error: ${JSON.stringify(
+          innermostError
+        )}`
+      );
     }
   });
 });

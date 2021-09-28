@@ -68,7 +68,7 @@ export function createRecordedMetricsClient(context: Context): RecordedMetricsCl
   };
 }
 
-export function createRecordedLogsClient(
+export function createRecorderAndLogsClient(
   context: Context,
   retryOptions?: ExponentialRetryPolicyOptions
 ): RecordedLogsClient {
