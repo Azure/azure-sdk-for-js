@@ -67,7 +67,7 @@ export async function computeSha256Hash(
   encoding: "base64" | "hex"
 ): Promise<string> {
   const contentBytes = utf8ToBytes(content);
-  const digest = await getCrypto().digest("SHA-256", contentBytes);
+  const digest = await getCrypto().digest({ name: "SHA-256" }, contentBytes);
 
   switch (encoding) {
     case "base64":

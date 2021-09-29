@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Updates package to work with the react native bundler. Browser APIs may still need to be pollyfilled for this package to run in react native. [PR #17783](https://github.com/Azure/azure-sdk-for-js/pull/17783)
+
 ## 1.3.0 (2021-08-04)
 
 ### Features Added
