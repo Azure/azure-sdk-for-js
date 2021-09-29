@@ -125,7 +125,7 @@ class SerializerImpl implements Serializer {
       payload = [];
     }
 
-    if (mapper.isConstant) {
+    if (mapper.isConstant && mapper.required) {
       object = mapper.defaultValue;
     }
 
@@ -312,7 +312,7 @@ class SerializerImpl implements Serializer {
       }
     }
 
-    if (mapper.isConstant) {
+    if (mapper.isConstant && mapper.required) {
       payload = mapper.defaultValue;
     }
 

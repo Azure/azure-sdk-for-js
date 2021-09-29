@@ -1117,6 +1117,81 @@ describe("Serializer", function() {
       );
     });
 
+    it("should correctly deserialize the constant optional parameter", function() {
+      const mapper: Mapper = {
+        type: {
+          name: "Composite",
+          className: "SimpleProduct",
+          modelProperties: {
+            capacity: {
+              isConstant: true,
+              serializedName: "details.max_product_capacity",
+              type: {
+                name: "String"
+              }
+            },
+            description: {
+              serializedName: "base_product_description",
+              type: {
+                name: "String"
+              }
+            },
+            genericValue: {
+              serializedName: "details.max_product_image.generic_value",
+              type: {
+                name: "String"
+              }
+            },
+            maxProductDisplayName: {
+              serializedName: "details.max_product_display_name",
+              type: {
+                name: "String"
+              }
+            },
+            odataValue: {
+              serializedName: "details.max_product_image.@odata\\.value",
+              type: {
+                name: "String"
+              }
+            },
+            productId: {
+              required: true,
+              serializedName: "base_product_id",
+              type: {
+                name: "String"
+              }
+            }
+          }
+        }
+      };
+      const responseBody = {
+        base_product_description: "product description",
+        base_product_id: "123",
+        details: {
+          max_product_capacity: "Large",
+          max_product_display_name: "max name",
+          max_product_image: {
+            "@odata.value": "http://foo",
+            generic_value: "https://generic"
+          }
+        }
+      };
+
+      const parsedResponse = Serializer.deserialize(
+        mapper,
+        responseBody,
+        "operationRes.parsedBody"
+      );
+      assert.deepEqual(parsedResponse, {
+        capacity: "Large",
+        description: "product description",
+        genericValue: "https://generic",
+        maxProductDisplayName: "max name",
+        odataValue: "http://foo",
+        productId: "123"
+      });
+    });
+
     it("should correctly deserialize an array of array of object types", function() {
       const mapper: Mapper = {
         serializedName: "arrayObj",

@@ -874,6 +874,169 @@ describe("serializationPolicy", function() {
       assert.strictEqual(httpRequest.body, "body value");
     });
 
+    it("serialize the optional constant value correctly", () => {
+      const httpRequest = createPipelineRequest({ url: "https://example.com" });
+      serializeRequestBody(
+        httpRequest,
+        {
+          flattenParameterGroup: {
+            productId: "123",
+            description: "product description",
+            maxProductDisplayName: "max name",
+            capacity: "Large",
+            odataValue: "http://foo",
+            name: "groupproduct"
+          },
+          options: undefined
+        },
+        {
+          httpMethod: "PUT",
+          mediaType: "json",
+          responses: {
+            200: {
+              bodyMapper: {
+                type: {
+                  name: "Composite",
+                  className: "SimpleProduct",
+                  modelProperties: {
+                    productId: {
+                      serializedName: "base_product_id",
+                      required: true,
+                      type: {
+                        name: "String"
+                      }
+                    },
+                    description: {
+                      serializedName: "base_product_description",
+                      type: {
+                        name: "String"
+                      }
+                    },
+                    maxProductDisplayName: {
+                      serializedName: "details.max_product_display_name",
+                      type: {
+                        name: "String"
+                      }
+                    },
+                    capacity: {
+                      isConstant: true,
+                      serializedName: "details.max_product_capacity",
+                      type: {
+                        name: "String"
+                      }
+                    },
+                    genericValue: {
+                      serializedName: "details.max_product_image.generic_value",
+                      type: {
+                        name: "String"
+                      }
+                    },
+                    odataValue: {
+                      serializedName: "details.max_product_image.@odata\\.value",
+                      type: {
+                        name: "String"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            default: {
+              bodyMapper: {
+                type: {
+                  name: "Composite",
+                  className: "ErrorModel",
+                  modelProperties: {
+                    status: {
+                      serializedName: "status",
+                      type: {
+                        name: "Number"
+                      }
+                    },
+                    message: {
+                      serializedName: "message",
+                      type: {
+                        name: "String"
+                      }
+                    },
+                    parentError: {
+                      serializedName: "parentError",
+                      type: {
+                        name: "Composite",
+                        className: "ErrorModel"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          requestBody: {
+            parameterPath: {
+              productId: ["flattenParameterGroup", "productId"],
+              description: ["flattenParameterGroup", "description"],
+              maxProductDisplayName: ["flattenParameterGroup", "maxProductDisplayName"],
+              capacity: ["flattenParameterGroup", "capacity"],
+              genericValue: ["flattenParameterGroup", "genericValue"],
+              odataValue: ["flattenParameterGroup", "odataValue"]
+            },
+            mapper: {
+              required: true,
+              type: {
+                name: "Composite",
+                className: "SimpleProduct",
+                modelProperties: {
+                  productId: {
+                    serializedName: "base_product_id",
+                    required: true,
+                    type: {
+                      name: "String"
+                    }
+                  },
+                  description: {
+                    serializedName: "base_product_description",
+                    type: {
+                      name: "String"
+                    }
+                  },
+                  maxProductDisplayName: {
+                    serializedName: "details.max_product_display_name",
+                    type: {
+                      name: "String"
+                    }
+                  },
+                  capacity: {
+                    isConstant: true,
+                    serializedName: "details.max_product_capacity",
+                    type: {
+                      name: "String"
+                    }
+                  },
+                  genericValue: {
+                    serializedName: "details.max_product_image.generic_value",
+                    type: {
+                      name: "String"
+                    }
+                  },
+                  odataValue: {
+                    serializedName: "details.max_product_image.@odata\\.value",
+                    type: {
+                      name: "String"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          serializer: createSerializer()
+        }
+      );
+      assert.strictEqual(
+        httpRequest.body,
+        `{"base_product_id":"123","base_product_description":"product description","details":{"max_product_display_name":"max name","max_product_capacity":"Large","max_product_image":{"@odata.value":"http://foo"}}}`
+      );
+    });
+
     it("should serialize a string send with the mediaType 'text' as just a string", () => {
       const httpRequest = createPipelineRequest({ url: "https://example.com" });
       serializeRequestBody(
