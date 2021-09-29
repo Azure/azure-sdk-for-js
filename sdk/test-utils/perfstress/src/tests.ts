@@ -69,7 +69,8 @@ export abstract class PerfStressTest<TOptions = {}> {
   public configureClientOptionsCoreV1<T>(options: T & { httpClient?: HttpClient }): T {
     if (this.parsedOptions["test-proxy"].value) {
       this.testProxyHttpClientV1 = new TestProxyHttpClientV1(
-        this.parsedOptions["test-proxy"].value
+        this.parsedOptions["test-proxy"].value,
+        this.parsedOptions["insecure"].value!
       );
       options.httpClient = this.testProxyHttpClientV1;
     }
@@ -87,9 +88,16 @@ export abstract class PerfStressTest<TOptions = {}> {
   public configureClient<T>(client: T & { pipeline: Pipeline }): T {
     const url = this.parsedOptions["test-proxy"].value;
     if (url) {
-      this.testProxyHttpClient = new TestProxyHttpClient(url);
+      this.testProxyHttpClient = new TestProxyHttpClient(
+        url,
+        this.parsedOptions["insecure"].value!
+      );
       client.pipeline.addPolicy(
-        testProxyHttpPolicy(this.testProxyHttpClient, url.startsWith("https"))
+        testProxyHttpPolicy(
+          this.testProxyHttpClient,
+          url.startsWith("https"),
+          this.parsedOptions["insecure"].value!
+        )
       );
     }
     return client;

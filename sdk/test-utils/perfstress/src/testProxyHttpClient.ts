@@ -10,7 +10,7 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import { RequestOptions } from "http";
-import { httpsAgent, makeRequest } from "./utils";
+import { getCachedHttpsAgent, makeRequest } from "./utils";
 
 const paths = {
   playback: "/playback",
@@ -85,9 +85,11 @@ export class TestProxyHttpClient {
   public _recordingId?: string;
   public _mode!: string;
   private stateManager: RecordingStateManager = new RecordingStateManager();
+  public insecure: boolean;
 
-  constructor(uri: string) {
+  constructor(uri: string, insecure: boolean) {
     this._uri = uri;
+    this.insecure = insecure;
   }
   // For core-v1
   redirectRequest(request: WebResourceLike, recordingId: string): WebResourceLike;
@@ -114,6 +116,7 @@ export class TestProxyHttpClient {
   async modifyRequest(request: PipelineRequest): Promise<PipelineRequest> {
     if (this._recordingId && (this._mode === "record" || this._mode === "playback")) {
       request = this.redirectRequest(request, this._recordingId);
+      request.allowInsecureConnection = this._uri.startsWith("http") || this.insecure;
     }
 
     return request;
@@ -124,7 +127,7 @@ export class TestProxyHttpClient {
     const options = this._createRecordingRequestOptions({
       path: paths.record + paths.start
     });
-    const rsp = await makeRequest(this._uri, options);
+    const rsp = await makeRequest(this._uri, options, this.insecure);
     if (rsp.statusCode !== 200) {
       throw new Error("Start request failed.");
     }
@@ -151,7 +154,7 @@ export class TestProxyHttpClient {
       ...options.headers,
       "x-recording-id": this._recordingId
     };
-    await makeRequest(this._uri, options);
+    await makeRequest(this._uri, options, this.insecure);
     this.stateManager.setState("stopped-recording");
   }
 
@@ -164,7 +167,7 @@ export class TestProxyHttpClient {
       ...options.headers,
       "x-recording-id": this._recordingId
     };
-    const rsp = await makeRequest(this._uri, options);
+    const rsp = await makeRequest(this._uri, options, this.insecure);
     if (rsp.statusCode !== 200) {
       throw new Error("Start request failed.");
     }
@@ -192,7 +195,7 @@ export class TestProxyHttpClient {
       "x-recording-id": this._recordingId,
       "x-purge-inmemory-recording": "true"
     };
-    await makeRequest(this._uri, options);
+    await makeRequest(this._uri, options, this.insecure);
     this._mode = "live";
     this._recordingId = undefined;
     this.stateManager.setState("stopped-playback");
@@ -211,14 +214,15 @@ export class TestProxyHttpClient {
 
 export function testProxyHttpPolicy(
   testProxyHttpClient: TestProxyHttpClient,
-  isHttps: boolean
+  isHttps: boolean,
+  insecure: boolean
 ): PipelinePolicy {
   return {
     name: "recording policy",
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       const modifiedRequest = await testProxyHttpClient.modifyRequest(request);
       if (isHttps) {
-        modifiedRequest.agent = httpsAgent;
+        modifiedRequest.agent = getCachedHttpsAgent(insecure);
       }
       return next(modifiedRequest);
     }
@@ -227,9 +231,9 @@ export function testProxyHttpPolicy(
 
 export class TestProxyHttpClientV1 extends TestProxyHttpClient {
   public _httpClient: HttpClient;
-  constructor(uri: string) {
-    super(uri);
-    this._httpClient = new DefaultHttpClientCoreV1(uri.startsWith("https"));
+  constructor(uri: string, insecure: boolean) {
+    super(uri, insecure);
+    this._httpClient = new DefaultHttpClientCoreV1(uri.startsWith("https"), insecure);
   }
 
   async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
@@ -241,7 +245,7 @@ export class TestProxyHttpClientV1 extends TestProxyHttpClient {
 }
 
 class DefaultHttpClientCoreV1 extends DefaultHttpClient {
-  constructor(private isHttps: boolean) {
+  constructor(private isHttps: boolean, private insecure: boolean) {
     super();
   }
 
@@ -251,7 +255,7 @@ class DefaultHttpClientCoreV1 extends DefaultHttpClient {
       compress?: boolean;
     }> = await super.prepareRequest(httpRequest);
     if (this.isHttps) {
-      req.agent = httpsAgent;
+      req.agent = getCachedHttpsAgent(this.insecure);
     }
     return req;
   }

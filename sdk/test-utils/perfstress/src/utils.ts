@@ -18,13 +18,26 @@ export function getEnvVar(name: string) {
   return val;
 }
 
-export const httpsAgent = new https.Agent({
-  rejectUnauthorized: false
-  // pfx: require("fs").readFileSync(
-  //   "/workspaces/azure-sdk-for-js/eng/common/testproxy/dotnet-devcert.pfx"
-  // ),
-  // passphrase: "password"
-});
+let cachedHttpsAgent: https.Agent;
+/**
+ * Returns https Agent to allow connecting to the proxy tool with "https" protocol.
+ *
+ * @export
+ * @param {string} name
+ */
+export const getCachedHttpsAgent = (insecure: boolean) => {
+  if (!cachedHttpsAgent) {
+    cachedHttpsAgent = new https.Agent({
+      rejectUnauthorized: !insecure
+      // TODO: Doesn't work currently
+      // pfx: require("fs").readFileSync(
+      //   "/workspaces/azure-sdk-for-js/eng/common/testproxy/dotnet-devcert.pfx"
+      // ),
+      // passphrase: "password"}
+    });
+  }
+  return cachedHttpsAgent;
+};
 
 /**
  * Reads a readable stream. Doesn't save to a buffer.
@@ -41,7 +54,8 @@ export async function drainStream(stream: NodeJS.ReadableStream) {
 }
 export async function makeRequest(
   uri: string,
-  requestOptions: RequestOptions
+  requestOptions: RequestOptions,
+  insecure: boolean
 ): Promise<IncomingMessage> {
   return new Promise<IncomingMessage>((resolve, reject) => {
     let req: http.ClientRequest;
@@ -50,7 +64,7 @@ export async function makeRequest(
         uri,
         {
           ...requestOptions,
-          agent: httpsAgent
+          agent: getCachedHttpsAgent(insecure)
         },
         resolve
       );
