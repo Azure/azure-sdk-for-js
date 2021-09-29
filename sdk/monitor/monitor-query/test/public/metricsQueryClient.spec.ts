@@ -84,7 +84,7 @@ describe("MetricsClient live tests", function() {
     assert.isNotEmpty(firstMetricDefinition.name);
     assert.isNotEmpty(firstMetricDefinition.namespace);
 
-    const individualMetricWithNamespace = metricsQueryClient.queryResource(
+    const individualMetricWithNamespace = await metricsQueryClient.queryResource(
       resourceId,
       [firstMetricDefinition.name!],
       {
