@@ -87,6 +87,7 @@ describe("serializationPolicy", function() {
               isConstant: true,
               serializedName: "nullBody",
               nullable: true,
+              required: true,
               type: {
                 name: "String"
               }

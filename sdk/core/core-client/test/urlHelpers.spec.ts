@@ -95,6 +95,7 @@ describe("getRequestUrl", function() {
       mapper: {
         defaultValue: "",
         isConstant: true,
+        required: true,
         serializedName: "stringQuery",
         type: {
           name: "String"

@@ -42,7 +42,8 @@ describe("Serializer", function() {
         {
           id: 1,
           name: "testProduct",
-          maxProductDisplayName: "MaxDisplayName"
+          maxProductDisplayName: "MaxDisplayName",
+          capacity: "Large"
         },
         "SimpleProduct"
       );
@@ -65,7 +66,8 @@ describe("Serializer", function() {
         {
           id: 1,
           name: "testProduct",
-          maxProductDisplayName: "MaxDisplayName"
+          maxProductDisplayName: "MaxDisplayName",
+          capacity: "Large"
         },
         "SimpleProduct"
       );

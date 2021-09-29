@@ -727,6 +727,7 @@ describe("ServiceClient", function() {
       const parameterMapper: Mapper = {
         serializedName: "my-parameter",
         isConstant: true,
+        required: true,
         defaultValue: 1,
         type: {
           name: MapperTypeNames.Number
@@ -754,6 +755,7 @@ describe("ServiceClient", function() {
         serializedName: "my-parameter",
         isConstant: true,
         defaultValue: 4,
+        required: true,
         type: {
           name: MapperTypeNames.Number
         }

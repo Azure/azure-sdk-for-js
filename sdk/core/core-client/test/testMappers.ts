@@ -292,7 +292,6 @@ internalMappers.SimpleProduct = {
         }
       },
       capacity: {
-        defaultValue: "Large",
         isConstant: true,
         serializedName: "details.max_product_capacity",
         type: {
@@ -324,7 +323,6 @@ internalMappers.SimpleProductConstFirst = {
         }
       },
       capacity: {
-        defaultValue: "Large",
         isConstant: true,
         serializedName: "details.max_product_capacity",
         type: {
