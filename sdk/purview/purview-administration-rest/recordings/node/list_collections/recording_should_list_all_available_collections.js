@@ -22,17 +22,17 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '251fb273-6f10-4e7e-8933-399a29b71c00',
+  '3bbf0f5f-c50f-432d-a12e-05abb7240600',
   'x-ms-ests-server',
-  '2.1.12071.23 - WUS2 ProdSlices',
+  '2.1.12071.23 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AlIearvlynxPuBxmjqqWrff__1r8AQAAAEuy5tgOAAAA; expires=Fri, 29-Oct-2021 19:15:24 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Ap5X-pE32ltKgODv9RJHp7E; expires=Fri, 29-Oct-2021 19:25:53 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 29 Sep 2021 19:15:24 GMT',
+  'Wed, 29 Sep 2021 19:25:52 GMT',
   'Content-Length',
   '1318'
 ]);
@@ -42,7 +42,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
   .query(true)
   .reply(200, {"value":[{"name":"newpurviewllc","friendlyName":"newpurviewllc","description":"The root collection.","systemData":{"createdBy":"35ac9d32-a8ca-4324-9393-d4000746f07c","createdByType":"User","createdAt":"2021-09-29T18:35:18.4761382Z","lastModifiedBy":"35ac9d32-a8ca-4324-9393-d4000746f07c","lastModifiedByType":"User","lastModifiedAt":"2021-09-29T18:35:18.4761382Z"},"collectionProvisioningState":"Succeeded"},{"name":"la7eio","friendlyName":"Foo","description":"Test foo","parentCollection":{"type":"CollectionReference","referenceName":"newpurviewllc"},"systemData":{"createdBy":"35ac9d32-a8ca-4324-9393-d4000746f07c","createdByType":"User","createdAt":"2021-09-29T18:40:02.8364266Z","lastModifiedBy":"35ac9d32-a8ca-4324-9393-d4000746f07c","lastModifiedByType":"User","lastModifiedAt":"2021-09-29T18:40:02.8364266Z"},"collectionProvisioningState":"Succeeded"}],"count":2}, [
   'Date',
-  'Wed, 29 Sep 2021 19:15:24 GMT',
+  'Wed, 29 Sep 2021 19:25:52 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Server',
@@ -52,5 +52,5 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-correlation-request-id',
-  '267daafe-4f05-4c87-914c-4ac432d034ff'
+  '681c41a4-33f0-4c7d-8f92-6e43044d4732'
 ]);

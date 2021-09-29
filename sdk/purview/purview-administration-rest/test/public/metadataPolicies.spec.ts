@@ -7,7 +7,7 @@ import { assert } from "chai";
 import { createMetadataClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 
-describe("List collections", () => {
+describe("List Metadata", () => {
   let recorder: Recorder;
   let client: PurviewMetadataPolicies.Client.PurviewMetadataPoliciesRestClient;
 
@@ -21,7 +21,7 @@ describe("List collections", () => {
   });
 
   it("should list all available metdataPolicies", async () => {
-    const result = await client.path("/metadataRoles").get();
+    const result = await client.path("/metadataPolicies").get();
 
     if (result.status !== "200") {
       console.log(result.request.url);
