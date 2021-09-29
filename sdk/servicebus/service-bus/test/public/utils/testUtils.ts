@@ -158,13 +158,18 @@ export async function checkWithTimeout(
   console.log("11111111111111", Date.now());
   console.log("22222222222222", maxTime);
   while (Date.now() < maxTime) {
-    console.log("3333333333333333");
-    if (await predicate()) {
+    const aa = await predicate();
+    console.log("3333333333333333", aa);
+    console.log("3434343434", Date.now());
+    if (aa) {
       console.log("44444444444444");
       return true;
     }
+    console.log("171717171717");
     await delay(delayBetweenRetriesInMilliseconds);
+    console.log("181818181818");
   }
+  console.log("191919191919");
   return false;
 }
 
