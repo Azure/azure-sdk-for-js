@@ -118,10 +118,8 @@ function isSqlDB(dbSystem: string) {
     dbSystem === DbSystemValues.DB2 ||
     dbSystem === DbSystemValues.DERBY ||
     dbSystem === DbSystemValues.MARIADB ||
-    dbSystem === DbSystemValues.MYSQL ||
     dbSystem === DbSystemValues.MSSQL ||
     dbSystem === DbSystemValues.ORACLE ||
-    dbSystem === DbSystemValues.POSTGRESQL ||
     dbSystem === DbSystemValues.SQLITE ||
     dbSystem === DbSystemValues.OTHER_SQL ||
     dbSystem === DbSystemValues.HSQLDB ||
@@ -230,7 +228,16 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
   }
   // DB Dependency
   else if (dbSystem) {
-    if (isSqlDB(String(dbSystem))) {
+    // TODO: Remove special logic when Azure UX supports OpenTelemetry dbSystem
+    if (String(dbSystem) === DbSystemValues.MYSQL) {
+      remoteDependencyData.type = "mysql";
+    } else if (String(dbSystem) === DbSystemValues.POSTGRESQL) {
+      remoteDependencyData.type = "postgresql";
+    } else if (String(dbSystem) === DbSystemValues.MONGODB) {
+      remoteDependencyData.type = "mongodb";
+    } else if (String(dbSystem) === DbSystemValues.REDIS) {
+      remoteDependencyData.type = "redis";
+    } else if (isSqlDB(String(dbSystem))) {
       remoteDependencyData.type = "SQL";
     } else {
       remoteDependencyData.type = String(dbSystem);
@@ -266,7 +273,6 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
 
 function createRequestData(span: ReadableSpan): RequestData {
   const requestData: RequestData = {
-    name: span.name,
     id: `${span.spanContext().spanId}`,
     success: span.status.code != SpanStatusCode.ERROR,
     responseCode: "0",
@@ -315,6 +321,7 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
       name = "Microsoft.ApplicationInsights.Request";
       baseType = "RequestData";
       baseData = createRequestData(span);
+      baseData.name = tags[KnownContextTagKeys.AiOperationName];
       break;
     default:
       // never

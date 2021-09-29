@@ -17,7 +17,7 @@ export interface GetSchemaPropertiesOptions extends OperationOptions {
 }
 
 // @public
-export const enum KnownSerializationType {
+export const enum KnownSchemaFormat {
     Avro = "avro"
 }
 
@@ -27,21 +27,21 @@ export interface RegisterSchemaOptions extends OperationOptions {
 
 // @public
 export interface Schema extends SchemaProperties {
-    content: string;
+    schemaDefinition: string;
 }
 
 // @public
 export interface SchemaDescription {
-    content: string;
+    format: string;
     groupName: string;
     name: string;
-    serializationType: string;
+    schemaDefinition: string;
 }
 
 // @public
 export interface SchemaProperties {
+    format: string;
     id: string;
-    serializationType: string;
     version: number;
 }
 
@@ -54,8 +54,8 @@ export interface SchemaRegistry {
 
 // @public
 export class SchemaRegistryClient implements SchemaRegistry {
-    constructor(endpoint: string, credential: TokenCredential, options?: SchemaRegistryClientOptions);
-    readonly endpoint: string;
+    constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: SchemaRegistryClientOptions);
+    readonly fullyQualifiedNamespace: string;
     getSchema(id: string, options?: GetSchemaOptions): Promise<Schema>;
     getSchemaProperties(schema: SchemaDescription, options?: GetSchemaPropertiesOptions): Promise<SchemaProperties>;
     registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaProperties>;

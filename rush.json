@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */ {
+ */{
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -822,6 +822,11 @@
       "versionPolicyName": "test"
     },
     {
+      "packageName": "@azure-tests/perf-container-registry",
+      "projectFolder": "sdk/containerregistry/perf-tests/container-registry",
+      "versionPolicyName": "test"
+    },
+    {
       "packageName": "@azure-tests/perf-core-rest-pipeline",
       "projectFolder": "sdk/core/perf-tests/core-rest-pipeline",
       "versionPolicyName": "test"
@@ -929,6 +934,21 @@
     {
       "packageName": "@azure/arm-servicebus",
       "projectFolder": "sdk/servicebus/arm-servicebus",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-apimanagement",
+      "projectFolder": "sdk/apimanagement/arm-apimanagement",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-rediscache",
+      "projectFolder": "sdk/redis/arm-rediscache",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-eventgrid",
+      "projectFolder": "sdk/eventgrid/arm-eventgrid",
       "versionPolicyName": "management"
     }
   ]

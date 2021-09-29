@@ -153,7 +153,6 @@
     "chai-exclude": "^2.0.2",
     "cross-env": "^7.0.2",
     "debug": "^4.1.1",
-    "delay": "^4.2.0",
     "dotenv": "^8.2.0",
     "downlevel-dts": "~0.4.0",
     "eslint": "^7.15.0",

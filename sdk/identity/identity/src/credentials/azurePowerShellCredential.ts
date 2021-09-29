@@ -165,7 +165,7 @@ export class AzurePowerShellCredential implements TokenCredential {
   public async getToken(
     scopes: string | string[],
     options: GetTokenOptions = {}
-  ): Promise<AccessToken | null> {
+  ): Promise<AccessToken> {
     return trace(`${this.constructor.name}.getToken`, options, async () => {
       const tenantId = processMultiTenantRequest(
         this.tenantId,

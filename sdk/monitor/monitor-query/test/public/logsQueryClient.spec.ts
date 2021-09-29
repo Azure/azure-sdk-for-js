@@ -38,8 +38,8 @@ describe("LogsQueryClient live tests", function() {
     try {
       // TODO: there is an error details in the query, but when I run an invalid query it
       // throws (and ErrorDetails are just present in the exception.)
-      await createClient().query(monitorWorkspaceId, kustoQuery, {
-        duration: Durations.OneDay
+      await createClient().queryWorkspace(monitorWorkspaceId, kustoQuery, {
+        duration: Durations.oneDay
       });
       assert.fail("Should have thrown an exception");
     } catch (err) {
@@ -80,12 +80,12 @@ describe("LogsQueryClient live tests", function() {
   // query has timed out on purpose.
   it("serverTimeoutInSeconds", async () => {
     try {
-      await createClient({ maxRetries: 0, retryDelayInMs: 0, maxRetryDelayInMs: 0 }).query(
+      await createClient({ maxRetries: 0, retryDelayInMs: 0, maxRetryDelayInMs: 0 }).queryWorkspace(
         monitorWorkspaceId,
         // slow query suggested by Pavel.
         "range x from 1 to 10000000000 step 1 | count",
         {
-          duration: Durations.TwentyFourHours
+          duration: Durations.twentyFourHours
         },
         {
           // the query above easily takes longer than 1 second.
@@ -123,11 +123,11 @@ describe("LogsQueryClient live tests", function() {
   });
 
   it("includeQueryStatistics", async () => {
-    const results = await createClient().query(
+    const results = await createClient().queryWorkspace(
       monitorWorkspaceId,
       "AppEvents | limit 1",
       {
-        duration: Durations.TwentyFourHours
+        duration: Durations.twentyFourHours
       },
       {
         includeQueryStatistics: true
@@ -141,11 +141,11 @@ describe("LogsQueryClient live tests", function() {
   });
 
   it("includeRender/includeVisualization", async () => {
-    const results = await createClient().query(
+    const results = await createClient().queryWorkspace(
       monitorWorkspaceId,
       `datatable (s: string, i: long) [ "a", 1, "b", 2, "c", 3 ] | render columnchart with (title="the chart title", xtitle="the x axis title")`,
       {
-        duration: Durations.TwentyFourHours
+        duration: Durations.twentyFourHours
       },
       {
         includeVisualization: true
@@ -174,8 +174,8 @@ describe("LogsQueryClient live tests", function() {
           dynamiccolumn=print_6
       `;
 
-    const results = await createClient().query(monitorWorkspaceId, constantsQuery, {
-      duration: Durations.FiveMinutes
+    const results = await createClient().queryWorkspace(monitorWorkspaceId, constantsQuery, {
+      duration: Durations.fiveMinutes
     });
 
     const table = results.tables[0];
@@ -260,7 +260,7 @@ describe("LogsQueryClient live tests", function() {
       {
         workspaceId: monitorWorkspaceId,
         query: constantsQuery,
-        timespan: { duration: Durations.FiveMinutes }
+        timespan: { duration: Durations.fiveMinutes }
       }
     ]);
 
@@ -275,7 +275,7 @@ describe("LogsQueryClient live tests", function() {
       throw new Error(JSON.stringify(result.results?.[0].error));
     }
 
-    if (result.results?.[0].status === "Partial") {
+    if (result.results?.[0].status === "PartialFailure") {
       throw new Error(
         JSON.stringify({ ...result.results?.[0].error, ...result.results?.[0].tables })
       );
@@ -380,9 +380,13 @@ describe("LogsQueryClient live tests", function() {
     it("queryLogs (last day)", async () => {
       const kustoQuery = `AppDependencies | where Properties['testRunId'] == '${testRunId}'| project Kind=Properties["kind"], Name, Target, TestRunId=Properties['testRunId']`;
 
-      const singleQueryLogsResult = await createClient().query(monitorWorkspaceId, kustoQuery, {
-        duration: Durations.OneDay
-      });
+      const singleQueryLogsResult = await createClient().queryWorkspace(
+        monitorWorkspaceId,
+        kustoQuery,
+        {
+          duration: Durations.oneDay
+        }
+      );
 
       // TODO: the actual types aren't being deserialized (everything is coming back as 'string')
       // this is incorrect, it'll be updated.
@@ -403,12 +407,12 @@ describe("LogsQueryClient live tests", function() {
         {
           workspaceId: monitorWorkspaceId,
           query: `AppDependencies | where Properties['testRunId'] == '${testRunId}'| project Kind=Properties["kind"], Name, Target, TestRunId=Properties['testRunId']`,
-          timespan: { duration: Durations.TwentyFourHours }
+          timespan: { duration: Durations.twentyFourHours }
         },
         {
           workspaceId: monitorWorkspaceId,
           query: `AppDependencies | where Properties['testRunId'] == '${testRunId}' | count`,
-          timespan: { duration: Durations.TwentyFourHours },
+          timespan: { duration: Durations.twentyFourHours },
           includeQueryStatistics: true,
           serverTimeoutInSeconds: 60 * 10
         }
@@ -456,8 +460,8 @@ describe("LogsQueryClient live tests", function() {
       const client = createClient();
 
       for (let i = 0; i < args.maxTries; ++i) {
-        const result = await client.query(monitorWorkspaceId, query, {
-          duration: Durations.TwentyFourHours
+        const result = await client.queryWorkspace(monitorWorkspaceId, query, {
+          duration: Durations.twentyFourHours
         });
 
         const numRows = result.tables?.[0].rows?.length;

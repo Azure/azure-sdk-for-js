@@ -58,41 +58,6 @@ describe("BearerTokenAuthenticationPolicy", function() {
     assert.strictEqual(request.headers.get("Authorization"), `Bearer ${mockToken}`);
   });
 
-  it("correctly adds an Authentication header with the Bearer token when using allowInsecureConnection", async function() {
-    const mockToken = "token";
-    const tokenScopes = ["scope1", "scope2"];
-    const fakeGetToken = sinon.fake.returns(
-      Promise.resolve({ token: mockToken, expiresOn: new Date() })
-    );
-    const mockCredential: TokenCredential = {
-      getToken: fakeGetToken
-    };
-
-    const request = createPipelineRequest({
-      url: "http://example.com",
-      allowInsecureConnection: true
-    });
-    const successResponse: PipelineResponse = {
-      headers: createHttpHeaders(),
-      request,
-      status: 200
-    };
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(successResponse);
-
-    const bearerTokenAuthPolicy = createBearerTokenPolicy(tokenScopes, mockCredential);
-    await bearerTokenAuthPolicy.sendRequest(request, next);
-
-    assert(
-      fakeGetToken.calledWith(tokenScopes, {
-        abortSignal: undefined,
-        tracingOptions: undefined
-      }),
-      "fakeGetToken called incorrectly."
-    );
-    assert.strictEqual(request.headers.get("Authorization"), `Bearer ${mockToken}`);
-  });
-
   it("refreshes the token on initial request", async () => {
     const expiresOn = Date.now() + 1000 * 60; // One minute later.
     const credential = new MockRefreshAzureCredential(expiresOn);

@@ -36,9 +36,9 @@
 # PRLabel: %Communication
 /sdk/communication/communication-identity/ @Azure/acs-identity-sdk 
 /sdk/communication/communication-chat/ @LuChen-Microsoft
-/sdk/communication/communication-phone-numbers/ @miguhern
+/sdk/communication/communication-phone-numbers/ @miguhern @danielav7 @whisper6284 @AlonsoMondal
 /sdk/communication/communication-network-traversal/ @AriZavala2
-/sdk/communication/communication-sms/ @RoyHerrod
+/sdk/communication/communication-sms/ @RoyHerrod @arifibrahim4
 /sdk/communication/communication-common/ @Azure/acs-identity-sdk
 
 # PRLabel: %Container Registry
@@ -48,7 +48,7 @@
 /sdk/cosmosdb/ @kushagraThapar @simorenoh @simplynaveen20 @xinlian12 @moderakh 
 
 # PRLabel: %Digital Twins
-/sdk/digitaltwins/ @vishnureddy17
+/sdk/digitaltwins/ @johngallardo
 
 # PRLabel: %Event Grid
 /sdk/eventgrid/ @xirzec @ellismg
@@ -118,14 +118,20 @@
 /sdk/cognitiveservices/cognitiveservices-qnamaker-runtime/ @bingisbestest @nerajput1607
 /sdk/cognitiveservices/cognitiveservices-qnamaker/ @bingisbestest @nerajput1607
 
+# PRLabel: %Mixed Reality
+/sdk/mixedreality/ @craigktreasure 
+
+# PRLabel: %Remote Rendering
+/sdk/remoterendering/ @MalcolmTyrrell
+
 # Smoke Tests
 /common/smoke-test/ @ramya-rao-a @chradek @jonathandturner @sadasant @jeremymeng @southpolesteve
 
 # API review files
 /sdk/**/review/*api.md @bterlson @xirzec @chradek
 
-# Management Plane
 
+# Management Plane
 # PRLabel: %Mgmt
 /sdk/advisor/arm-advisor @qiaozha @dw511214992
 
@@ -619,6 +625,9 @@
 
 # PRLabel: %dev-tool
 /common/tools/dev-tool/ @witemple-msft
+
+# PRLabel: %eslint plugin
+/common/tools/eslint-plugin-azure-sdk/ @deyaaeldeen
 
 ###########
 # Eng Sys
