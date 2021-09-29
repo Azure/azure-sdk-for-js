@@ -19,12 +19,6 @@ describe("Keys client - restore keys and recover backups", () => {
   let recorder: Recorder;
 
   beforeEach(async function(this: Context) {
-    console.log("----------------------");
-    var aa = process.env["AZURE_TENANT_ID"]!.toString();
-    for (var i = 0; i < aa.length; i++) {
-        console.log(aa[i]);
-    }
-    console.log("----------------------");
     const authentication = await authenticate(this, getServiceVersion());
     keySuffix = authentication.keySuffix;
     client = authentication.client;
