@@ -99,8 +99,8 @@ const logsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
 
 async function run() {
   const kustoQuery = "AppEvents | limit 1";
-  const result = await logsQueryClient.query(azureLogAnalyticsWorkspaceId, kustoQuery, {
-    duration: Durations.TwentyFourHours
+  const result = await logsQueryClient.queryWorkspace(azureLogAnalyticsWorkspaceId, kustoQuery, {
+    duration: Durations.twentyFourHours
   });
   const tablesFromResult = result.tables;
 
@@ -128,14 +128,14 @@ run().catch((err) => console.log("ERROR:", err));
 
 #### Handle logs query response
 
-The `query` function of `LogsQueryClient` returns the `LogsQueryResult`. Here's a hierarchy of the response:
+The `queryWorkspace` function of `LogsQueryClient` returns the `LogsQueryResult`. Here's a hierarchy of the response:
 
 ```
 LogsQueryResult
 |---statistics
 |---visualization
 |---error
-|---status ("Partial" | "Success" | "Failed")
+|---status ("PartialFailure" | "Success" | "Failure")
 |---tables (list of `LogsTable` objects)
     |---name
     |---rows
@@ -252,7 +252,7 @@ LogsQueryBatchResult
     |---statistics
     |---visualization
     |---error
-    |---status ("Partial" | "Success" | "Failed")
+    |---status ("PartialFailure" | "Success" | "Failure")
     |---tables (list of `LogsTable` objects)
         |---name
         |---rows
@@ -313,10 +313,10 @@ const queryLogsOptions: LogsQueryOptions = {
   serverTimeoutInSeconds: 60
 };
 
-const result = await logsQueryClient.query(
+const result = await logsQueryClient.queryWorkspace(
   azureLogAnalyticsWorkspaceId,
   kustoQuery,
-  { duration: Durations.TwentyFourHours },
+  { duration: Durations.twentyFourHours },
   queryLogsOptions
 );
 
@@ -341,10 +341,10 @@ const queryLogsOptions: LogsQueryOptions = {
 };
 
 const kustoQuery = "AppEvents | limit 10";
-const result = await logsQueryClient.queryLogs(
+const result = await logsQueryClient.queryWorkspace(
   azureLogAnalyticsWorkspaceId,
   kustoQuery,
-  { duration: Durations.TwentyFourHours },
+  { duration: Durations.twentyFourHours },
   queryLogsOptions
 );
 ```
@@ -406,12 +406,12 @@ export async function main() {
   const secondMetricName = metricNames[1];
   if (firstMetricName && secondMetricName) {
     console.log(`Picking an example metric to query: ${firstMetricName} and ${secondMetricName}`);
-    const metricsResponse = await metricsQueryClient.query(
+    const metricsResponse = await metricsQueryClient.queryResource(
       metricsResourceId,
       [firstMetricName, secondMetricName],
       {
         granularity: "PT1M",
-        timespan: { duration: Durations.FiveMinutes }
+        timespan: { duration: Durations.fiveMinutes }
       }
     );
 
@@ -434,16 +434,16 @@ main().catch((err) => {
 });
 ```
 
-In the preceding sample, metric results in `metricsResponse` are ordered according to the order in which the user specifies the metric names in the `metricNames` array argument for the `query` function. If the user specifies `[firstMetricName,secondMetricName]`, the result for `firstMetricName` will appear before the result for `secondMetricName` in the `metricResponse`.
+In the preceding sample, metric results in `metricsResponse` are ordered according to the order in which the user specifies the metric names in the `metricNames` array argument for the `queryResource` function. If the user specifies `[firstMetricName, secondMetricName]`, the result for `firstMetricName` will appear before the result for `secondMetricName` in the `metricResponse`.
 
 #### Handle metrics query response
 
-The metrics `query` function returns a `QueryMetricsResult` object. The `QueryMetricsResult` object contains properties such as a list of `Metric`-typed objects, `interval`, `namespace`, and `timespan`. The `Metric` objects list can be accessed using the `metrics` property. Each `Metric` object in this list contains a list of `TimeSeriesElement` objects. Each `TimeSeriesElement` contains `data` and `metadataValues` properties. In visual form, the object hierarchy of the response resembles the following structure:
+The metrics `queryResource` function returns a `QueryMetricsResult` object. The `QueryMetricsResult` object contains properties such as a list of `Metric`-typed objects, `interval`, `namespace`, and `timespan`. The `Metric` objects list can be accessed using the `metrics` property. Each `Metric` object in this list contains a list of `TimeSeriesElement` objects. Each `TimeSeriesElement` contains `data` and `metadataValues` properties. In visual form, the object hierarchy of the response resembles the following structure:
 
 ```
 QueryMetricsResult
 |---cost
-|---timespan (of type `TimeInterval`)
+|---timespan (of type `QueryTimeInterval`)
 |---granularity
 |---namespace
 |---resourceRegion
@@ -485,9 +485,9 @@ export async function main() {
 
   console.log(`Picking an example metric to query: ${firstMetricName}`);
 
-  const metricsResponse = await metricsQueryClient.queryMetrics(
+  const metricsResponse = await metricsQueryClient.queryResource(
     metricsResourceId,
-    { duration: Durations.FiveMinutes },
+    { duration: Durations.fiveMinutes },
     {
       metricNames: ["MatchedEventCount"],
       interval: "PT1M",
