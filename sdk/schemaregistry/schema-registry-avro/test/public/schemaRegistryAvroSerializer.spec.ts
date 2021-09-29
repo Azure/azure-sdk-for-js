@@ -54,7 +54,7 @@ describe("SchemaRegistryAvroSerializer", function() {
       namespace: "my.example",
       fields: [{ name: "count", type: "int" }]
     });
-    await assert.isRejected(serializer.serialize({ count: 42 }, schema), /not found/);
+    await assert.isRejected(serializer.serialize({ count: 42 }, schema), /does not exist/);
   });
 
   it("rejects deserialization when schema is not found", async () => {
@@ -63,7 +63,7 @@ describe("SchemaRegistryAvroSerializer", function() {
     const buffer = Buffer.alloc(36 + payload.length);
     buffer.write(testSchemaIds[1], 4, 32, "utf-8");
     payload.copy(buffer, 36);
-    await assert.isRejected(serializer.deserialize(buffer), /not found/);
+    await assert.isRejected(serializer.deserialize(buffer), /does not exist/);
   });
 
   it("serializes to the expected format", async () => {
