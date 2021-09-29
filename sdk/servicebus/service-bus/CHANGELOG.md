@@ -4,6 +4,9 @@
 
 ### Features Added
 
+- Adds new get/set property maxMessageSizeInKilobytes to QueueProperties, TopicProperties, CreateQueueOptions, and CreateTopicOptions. Only applicable
+  for premium namespaces. Added in [#17953](https://github.com/Azure/azure-sdk-for-js/pull/17953)
+
 ### Breaking Changes
 
 ### Bugs Fixed
