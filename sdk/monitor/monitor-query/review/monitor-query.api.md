@@ -12,7 +12,6 @@ import { TokenCredential } from '@azure/core-auth';
 // @public
 export class AggregateBatchError extends Error {
     constructor(errors: LogsErrorInfo[]);
-    // (undocumented)
     errors: BatchError[];
 }
 
