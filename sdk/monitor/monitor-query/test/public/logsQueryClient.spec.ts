@@ -22,7 +22,7 @@ describe("LogsQueryClient live tests", function() {
 
   beforeEach(function(this: Context) {
     loggerForTest.verbose(`Recorder: starting...`);
-    let recordedClient: RecorderAndLogsClient = createRecorderAndLogsClient(this);
+    const recordedClient: RecorderAndLogsClient = createRecorderAndLogsClient(this);
     monitorWorkspaceId = getMonitorWorkspaceId(this);
     logsClient = recordedClient.client;
     recorder = recordedClient.recorder;
@@ -448,7 +448,7 @@ describe("LogsQueryClient live tests - server timeout", function() {
 
   beforeEach(function(this: Context) {
     loggerForTest.verbose(`Recorder: starting...`);
-    let recordedClient: RecorderAndLogsClient = createRecorderAndLogsClient(this, {
+    const recordedClient: RecorderAndLogsClient = createRecorderAndLogsClient(this, {
       maxRetries: 0,
       retryDelayInMs: 0,
       maxRetryDelayInMs: 0

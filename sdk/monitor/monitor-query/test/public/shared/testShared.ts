@@ -48,7 +48,7 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   // `customizationsOnRecordings` field allows us to make arbitrary
   // replacements within recordings.
   customizationsOnRecordings: [
-    (recording: any): any =>
+    (recording: string): any =>
       recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
   ]
 };

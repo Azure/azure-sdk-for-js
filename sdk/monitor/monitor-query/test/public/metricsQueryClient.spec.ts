@@ -19,7 +19,7 @@ describe("MetricsClient live tests", function() {
 
   beforeEach(function(this: Context) {
     loggerForTest.verbose(`Recorder: starting...`);
-    let recordedClient: RecorderAndMetricsClient = createRecorderAndMetricsClient(this);
+    const recordedClient: RecorderAndMetricsClient = createRecorderAndMetricsClient(this);
     ({ resourceId } = getMetricsArmResourceId(this));
     metricsQueryClient = recordedClient.client;
     recorder = recordedClient.recorder;
