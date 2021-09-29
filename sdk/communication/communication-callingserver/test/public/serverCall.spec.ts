@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { record, Recorder, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
-import { env } from "@azure/test-utils-recorder";
-// import { Uuid } from "../../src/uuid"
+import { env, isLiveMode, isRecordMode } from "@azure/test-utils-recorder";
+import { v4 as uuidv4, v5 as uuidv5 } from "uuid";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 import { CallingServerClient, MediaType, EventSubscriptionType } from "../../src";
 import assert from "assert";
@@ -31,6 +31,20 @@ describe("Server Call", function() {
         function delay(ms: number) {
             return new Promise( resolve => setTimeout(resolve, ms) );
         }
+        
+        async function getUserId(userName: string) {
+          if (isLiveMode()){
+            return (await communicationIdentityClient.createUser()).communicationUserId;
+          }
+        
+          return "8:acs:" + env.AZURE_TENANT_ID + "_" + uuidv5(userName, "6ba7b812-9dad-11d1-80b4-00c04fd430c8");
+        }
+
+        async function delayIfLive() {
+          if (isLiveMode() || isRecordMode()) {
+            await delay(10000);
+          }
+        }
 
         beforeEach(async function() {
             recorder = record(this, environmentSetup);
@@ -42,12 +56,18 @@ describe("Server Call", function() {
         await recorder.stop();
         });
 
-        it("Run all client operations", async function() {
+        it("Run all client recording operations", async function() {
             this.timeout(0);
-            // var groupId = Uuid.generateUuid();
-            var groupId = "dcaa70b7-372d-42d2-b20d-0cddae2548f2";
-            var toUser = (await communicationIdentityClient.createUser()).communicationUserId;
-            var fromUser = (await communicationIdentityClient.createUser()).communicationUserId;
+            var groupId;
+            if (isLiveMode()) {
+              groupId = uuidv4();
+            } else {
+              groupId = uuidv5("Run all client recording operations", "6ba7b812-9dad-11d1-80b4-00c04fd430c8");
+            }
+            var fromUser = await getUserId("fromUser");
+            var toUser = await getUserId("toUser");
+            // var fromUser = "8:acs:016a7064-0581-40b9-be73-6dde64d69d72_f30d3598-6a48-4390-9324-6f14ffbf33c8";
+            // var toUser = "8:acs:016a7064-0581-40b9-be73-6dde64d69d72_b8cec067-f0b8-4ada-8987-25286a303880";
             var callingServer = new CallingServerClient(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING);
             var joinCallOptions = {
                     callbackUri: "https://bot.contoso.io/callback",
@@ -55,32 +75,47 @@ describe("Server Call", function() {
                     requestedCallEvents: [EventSubscriptionType.ParticipantsUpdated]
                 };
 
-            var fromCallConnection = await callingServer.joinCall(groupId, {communicationUserId: fromUser}, joinCallOptions);
-            var toCallConnection = await callingServer.joinCall(groupId, {communicationUserId: toUser}, joinCallOptions);
-            
-            var serverCall = callingServer.initializeServerCall(groupId);
-            var startCallRecordingResult = await serverCall.startRecording("https://bot.contoso.io/callback");
-            var recordingId = startCallRecordingResult.recordingId;
-            assert.notStrictEqual(serverCall.serverCallId, undefined);
-            assert.notStrictEqual(recordingId, undefined);
-            await delay(10000);
-            var recordingState = await serverCall.getRecordingState(recordingId!);
-            assert.strictEqual(recordingState.recordingState, "active");
-            
-            await serverCall.pauseRecording(recordingId!);
-            await delay(10000);
-            var recordingState = await serverCall.getRecordingState(recordingId!);
-            assert.strictEqual(recordingState.recordingState, "inactive");
+            var connections = [];
+            var recordingId = "";
+            var serverCall = null;
 
-            await serverCall.resumeRecording(recordingId!);
-            await delay(10000);
-            var recordingState = await serverCall.getRecordingState(recordingId!);
-            assert.strictEqual(recordingState.recordingState, "active");
+            try {
+              connections.push(await callingServer.joinCall(groupId, {communicationUserId: fromUser}, joinCallOptions));
+              connections.push(await callingServer.joinCall(groupId, {communicationUserId: toUser}, joinCallOptions));
+              
+              serverCall = callingServer.initializeServerCall(groupId);
+              var startCallRecordingResult = await serverCall.startRecording("https://bot.contoso.io/callback");
+              recordingId = startCallRecordingResult.recordingId!;
+              assert.notStrictEqual(serverCall.serverCallId, undefined);
+              await delayIfLive();
+              var recordingState = await serverCall.getRecordingState(recordingId!);
+              assert.strictEqual(recordingState.recordingState, "active");
+              
+              await serverCall.pauseRecording(recordingId!);
+              await delayIfLive();
+              var recordingState = await serverCall.getRecordingState(recordingId!);
+              assert.strictEqual(recordingState.recordingState, "inactive");
 
-            await serverCall.stopRecording(recordingId!);
+              await serverCall.resumeRecording(recordingId!);
+              await delayIfLive();
+              var recordingState = await serverCall.getRecordingState(recordingId!);
+              assert.strictEqual(recordingState.recordingState, "active");
+
+              await serverCall.stopRecording(recordingId!);  
+            }
+            finally {
+              if (serverCall != null) {
+                try {
+                  await serverCall.stopRecording(recordingId);
+                } catch (e) {
+                  console.error("Error stopping recording (" + recordingId + "): " + e);
+                }
+              }
+            }
             
-            await fromCallConnection.hangUp();
-            await toCallConnection.hangUp();
+            connections.forEach(async (connection) => {
+              await connection.hangUp();
+            });
         })
     })
 })
