@@ -2965,10 +2965,9 @@ describe("ATOM APIs", () => {
     });
 
     function setEntityNameWithMaxSize(type: EntityType.QUEUE | EntityType.TOPIC, maxSize?: number) {
-      maxSize = !maxSize ? Math.ceil(1024 + Math.random() * (102400 - 1024)) : maxSize; // If not provided, we'll give one that follows - "> 1024" & "< 102400"
       entityNameWithmaxSize = {
         entityName: `${type}-${maxSize}`,
-        maxSize
+        maxSize: !maxSize ? Math.ceil(1024 + Math.random() * (102400 - 1024)) : maxSize // If not provided, we'll give one that follows - "> 1024" & "< 102400"
       };
     }
 
