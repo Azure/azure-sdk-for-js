@@ -6,12 +6,6 @@ import { GetTokenOptions } from "@azure/core-auth";
 /**
  * @internal
  */
-export const multiTenantDisabledErrorMessage =
-  "A getToken request was attempted with a tenant different than the tenant configured at the initialization of the credential, but multi-tenant authentication has been disabled by the environment variable AZURE_IDENTITY_DISABLE_MULTITENANTAUTH.";
-
-/**
- * @internal
- */
 export const multiTenantADFSErrorMessage =
   "A new tenant Id can't be assigned through the GetTokenOptions when a credential has been originally configured to use the tenant `adfs`.";
 
@@ -27,9 +21,6 @@ export function processMultiTenantRequest(
 ): string | undefined {
   if (!getTokenOptions?.tenantId) {
     return tenantId;
-  }
-  if (process.env.AZURE_IDENTITY_DISABLE_MULTITENANTAUTH) {
-    throw new Error(multiTenantDisabledErrorMessage);
   }
   if (tenantId === "adfs") {
     throw new Error(multiTenantADFSErrorMessage);
