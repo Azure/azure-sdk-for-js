@@ -72,6 +72,7 @@ export class BatchError extends Error implements LogsErrorInfo {
 }
 /** AggregateBatchError type for errors returned in logs query batch API*/
 export class AggregateBatchError extends Error {
+  /** Represents list of errors if thrown for the queries executed in the queryBatch operation */
   errors: BatchError[];
   constructor(errors: LogsErrorInfo[]) {
     super();
