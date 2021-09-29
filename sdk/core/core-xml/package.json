@@ -8,9 +8,6 @@
   "browser": {
     "./dist-esm/src/xml.js": "./dist-esm/src/xml.browser.js"
   },
-  "react-native": {
-    "./dist/index.js": "./dist-esm/src/index.js"
-  },
   "types": "types/latest/core-xml.d.ts",
   "typesVersions": {
     "<3.6": {
