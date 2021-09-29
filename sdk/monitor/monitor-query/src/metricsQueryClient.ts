@@ -33,6 +33,8 @@ import {
   convertResponseForMetricsDefinitions
 } from "./internal/modelConverters";
 
+const defaultMetricsScope = "https://management.azure.com/.default";
+
 /**
  * Options for the MetricsQueryClient.
  */
@@ -61,11 +63,15 @@ export class MetricsQueryClient {
    * @param options - Options for the client like controlling request retries.
    */
   constructor(tokenCredential: TokenCredential, options?: MetricsQueryClientOptions) {
+    const credentialOptions = {
+      credentialScopes: options?.audience
+    };
+
     const serviceClientOptions = {
       ...options,
       $host: options?.endpoint,
       endpoint: options?.endpoint,
-      credentialScopes: formatScope(options?.audience),
+      credentialScopes: credentialOptions?.credentialScopes ?? defaultMetricsScope,
       credential: tokenCredential
     };
 
@@ -275,17 +281,5 @@ export class MetricsQueryClient {
         return this.listSegmentOfMetricNamespaces(resourceUri, options);
       }
     };
-  }
-}
-
-function formatScope(audience: string | undefined): string {
-  if (audience) {
-    if (audience.endsWith("/")) {
-      audience += "/";
-    }
-
-    return `${audience}/.default`;
-  } else {
-    return "https://management.azure.com/.default";
   }
 }
