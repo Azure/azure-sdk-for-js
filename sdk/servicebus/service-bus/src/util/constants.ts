@@ -173,7 +173,7 @@ export const USER_METADATA = "UserMetadata";
  */
 export const MAX_SIZE_IN_MEGABYTES = "MaxSizeInMegabytes";
 /**
- * The maximum size in megabytes.
+ * The maximum size in kilobytes.
  *
  * @internal
  */
