@@ -34,7 +34,7 @@ describe("Model unit tests", () => {
         {
           query: "the kusto query",
           workspaceId: "the primary workspace id",
-          timespan: { duration: Durations.TwentyFourHours }
+          timespan: { duration: Durations.twentyFourHours }
         }
       ]);
 
@@ -46,7 +46,7 @@ describe("Model unit tests", () => {
             headers: undefined,
             body: {
               query: "the kusto query",
-              timespan: Durations.TwentyFourHours
+              timespan: Durations.twentyFourHours
             }
           }
         ]
@@ -58,11 +58,11 @@ describe("Model unit tests", () => {
         {
           query: "<placeholder>",
           workspaceId: "<placeholder>",
-          timespan: { duration: Durations.TwentyFourHours }
+          timespan: { duration: Durations.twentyFourHours }
         },
         {
           query: "the kusto query",
-          timespan: { duration: Durations.FiveMinutes },
+          timespan: { duration: Durations.fiveMinutes },
           workspaceId: "the primary workspace id",
           includeQueryStatistics: true,
           serverTimeoutInSeconds: 100,
