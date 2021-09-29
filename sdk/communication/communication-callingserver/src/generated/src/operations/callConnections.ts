@@ -11,14 +11,40 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CallingServerApiClientContext } from "../callingServerApiClientContext";
 import {
+  Enum0,
+  CallConnectionsGetAudioRoutingGroupsResponse,
+  Enum2,
+  AudioRoutingGroupRequest,
+  Enum3,
   CreateCallRequest,
   CallConnectionsCreateCallResponse,
+  CallConnectionsGetCallResponse,
   PlayAudioRequest,
   CallConnectionsPlayAudioResponse,
   CancelAllMediaOperationsRequest,
   CallConnectionsCancelAllMediaOperationsResponse,
+  TransferCallRequest,
+  CallConnectionsGetParticipantsResponse,
   AddParticipantRequest,
-  CallConnectionsAddParticipantResponse
+  CallConnectionsAddParticipantResponse,
+  RemoveParticipantRequest,
+  GetParticipantRequest,
+  CallConnectionsGetParticipantResponse,
+  StartHoldMusicRequest,
+  CallConnectionsStartHoldMusicResponse,
+  StopHoldMusicRequest,
+  CallConnectionsStopHoldMusicResponse,
+  PlayAudioToParticipantRequest,
+  CallConnectionsParticipantPlayAudioResponse,
+  CancelParticipantMediaOperationRequest,
+  MuteParticipantRequest,
+  UnmuteParticipantRequest,
+  HoldMeetingAudioRequest,
+  ResumeMeetingAudioRequest,
+  AnswerCallRequest,
+  CallConnectionsAnswerResponse,
+  RejectCallRequest,
+  RedirectCallRequest
 } from "../models";
 
 /** Class representing a CallConnections. */
@@ -31,6 +57,75 @@ export class CallConnections {
    */
   constructor(client: CallingServerApiClientContext) {
     this.client = client;
+  }
+
+  /**
+   * Get audio routing groups from a call.
+   * @param callConnectionId The call connection id.
+   * @param audioRoutingMode The audio routing mode.
+   * @param options The options parameters.
+   */
+  getAudioRoutingGroups(
+    callConnectionId: string,
+    audioRoutingMode: Enum0,
+    options?: coreHttp.OperationOptions
+  ): Promise<CallConnectionsGetAudioRoutingGroupsResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      callConnectionId,
+      audioRoutingMode,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      getAudioRoutingGroupsOperationSpec
+    ) as Promise<CallConnectionsGetAudioRoutingGroupsResponse>;
+  }
+
+  /**
+   * Delete audio routing group from a call.
+   * @param callConnectionId The call connection id.
+   * @param audioRoutingMode The audio routing mode.
+   * @param options The options parameters.
+   */
+  deleteAudioRoutingGroup(
+    callConnectionId: string,
+    audioRoutingMode: Enum2,
+    options?: coreHttp.OperationOptions
+  ): Promise<coreHttp.RestResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      callConnectionId,
+      audioRoutingMode,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      deleteAudioRoutingGroupOperationSpec
+    ) as Promise<coreHttp.RestResponse>;
+  }
+
+  /**
+   * Update audio routing group from a call.
+   * @param callConnectionId The call connection id.
+   * @param audioRoutingMode The audio routing mode.
+   * @param audioRoutingGroupRequest The audio routing group request.
+   * @param options The options parameters.
+   */
+  updateAudioRoutingGroup(
+    callConnectionId: string,
+    audioRoutingMode: Enum3,
+    audioRoutingGroupRequest: AudioRoutingGroupRequest,
+    options?: coreHttp.OperationOptions
+  ): Promise<coreHttp.RestResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      callConnectionId,
+      audioRoutingMode,
+      audioRoutingGroupRequest,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      updateAudioRoutingGroupOperationSpec
+    ) as Promise<coreHttp.RestResponse>;
   }
 
   /**
@@ -50,6 +145,44 @@ export class CallConnections {
       operationArguments,
       createCallOperationSpec
     ) as Promise<CallConnectionsCreateCallResponse>;
+  }
+
+  /**
+   * Get call connection.
+   * @param callConnectionId The call connection id.
+   * @param options The options parameters.
+   */
+  getCall(
+    callConnectionId: string,
+    options?: coreHttp.OperationOptions
+  ): Promise<CallConnectionsGetCallResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      callConnectionId,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      getCallOperationSpec
+    ) as Promise<CallConnectionsGetCallResponse>;
+  }
+
+  /**
+   * Delete the call.
+   * @param callConnectionId The call connection id.
+   * @param options The options parameters.
+   */
+  deleteCall(
+    callConnectionId: string,
+    options?: coreHttp.OperationOptions
+  ): Promise<coreHttp.RestResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      callConnectionId,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      deleteCallOperationSpec
+    ) as Promise<coreHttp.RestResponse>;
   }
 
   /**
@@ -116,6 +249,88 @@ export class CallConnections {
   }
 
   /**
+   * Keep the call alive.
+   * @param callConnectionId The call connection id.
+   * @param options The options parameters.
+   */
+  keepAlive(
+    callConnectionId: string,
+    options?: coreHttp.OperationOptions
+  ): Promise<coreHttp.RestResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      callConnectionId,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      keepAliveOperationSpec
+    ) as Promise<coreHttp.RestResponse>;
+  }
+
+  /**
+   * Transfer the call to a participant or to another call.
+   * @param callConnectionId The call connection id.
+   * @param transferCallRequest The transfer call request.
+   * @param options The options parameters.
+   */
+  transfer(
+    callConnectionId: string,
+    transferCallRequest: TransferCallRequest,
+    options?: coreHttp.OperationOptions
+  ): Promise<coreHttp.RestResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      callConnectionId,
+      transferCallRequest,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      transferOperationSpec
+    ) as Promise<coreHttp.RestResponse>;
+  }
+
+  /**
+   * Create audio routing groups from a call.
+   * @param callConnectionId The call connection id.
+   * @param audioRoutingGroupRequest The audio routing group request.
+   * @param options The options parameters.
+   */
+  createAudioRoutingGroup(
+    callConnectionId: string,
+    audioRoutingGroupRequest: AudioRoutingGroupRequest,
+    options?: coreHttp.OperationOptions
+  ): Promise<coreHttp.RestResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      callConnectionId,
+      audioRoutingGroupRequest,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      createAudioRoutingGroupOperationSpec
+    ) as Promise<coreHttp.RestResponse>;
+  }
+
+  /**
+   * Get participants from a call.
+   * @param callConnectionId The call connection id.
+   * @param options The options parameters.
+   */
+  getParticipants(
+    callConnectionId: string,
+    options?: coreHttp.OperationOptions
+  ): Promise<CallConnectionsGetParticipantsResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      callConnectionId,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      getParticipantsOperationSpec
+    ) as Promise<CallConnectionsGetParticipantsResponse>;
+  }
+
+  /**
    * Add a participant to the call.
    * @param callConnectionId The call connection id.
    * @param addParticipantRequest Add participant request.
@@ -138,19 +353,19 @@ export class CallConnections {
   }
 
   /**
-   * Remove a participant from the call.
+   * Remove participant from the call using identifier.
    * @param callConnectionId The call connection id.
-   * @param participantId The participant id.
+   * @param removeParticipantRequest The identifier of the participant to be removed from the call.
    * @param options The options parameters.
    */
   removeParticipant(
     callConnectionId: string,
-    participantId: string,
+    removeParticipantRequest: RemoveParticipantRequest,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       callConnectionId,
-      participantId,
+      removeParticipantRequest,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
@@ -158,10 +373,382 @@ export class CallConnections {
       removeParticipantOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
+
+  /**
+   * Get participant from the call using identifier.
+   * @param callConnectionId The call connection id.
+   * @param getParticipantRequest The identifier of the participant to get from the call.
+   * @param options The options parameters.
+   */
+  getParticipant(
+    callConnectionId: string,
+    getParticipantRequest: GetParticipantRequest,
+    options?: coreHttp.OperationOptions
+  ): Promise<CallConnectionsGetParticipantResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      callConnectionId,
+      getParticipantRequest,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      getParticipantOperationSpec
+    ) as Promise<CallConnectionsGetParticipantResponse>;
+  }
+
+  /**
+   * Play hold music to a participant.
+   * @param callConnectionId The callConnectionId.
+   * @param request The start hold music request.
+   * @param options The options parameters.
+   */
+  startHoldMusic(
+    callConnectionId: string,
+    request: StartHoldMusicRequest,
+    options?: coreHttp.OperationOptions
+  ): Promise<CallConnectionsStartHoldMusicResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      callConnectionId,
+      request,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      startHoldMusicOperationSpec
+    ) as Promise<CallConnectionsStartHoldMusicResponse>;
+  }
+
+  /**
+   * Stop hold music to a participant.
+   * @param callConnectionId The callConnectionId.
+   * @param stopHoldMusicRequest The stop hold music request.
+   * @param options The options parameters.
+   */
+  stopHoldMusic(
+    callConnectionId: string,
+    stopHoldMusicRequest: StopHoldMusicRequest,
+    options?: coreHttp.OperationOptions
+  ): Promise<CallConnectionsStopHoldMusicResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      callConnectionId,
+      stopHoldMusicRequest,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      stopHoldMusicOperationSpec
+    ) as Promise<CallConnectionsStopHoldMusicResponse>;
+  }
+
+  /**
+   * Play audio to a participant.
+   * @param callConnectionId The callConnectionId.
+   * @param playAudioToParticipantRequest The play audio to participant request.
+   * @param options The options parameters.
+   */
+  participantPlayAudio(
+    callConnectionId: string,
+    playAudioToParticipantRequest: PlayAudioToParticipantRequest,
+    options?: coreHttp.OperationOptions
+  ): Promise<CallConnectionsParticipantPlayAudioResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      callConnectionId,
+      playAudioToParticipantRequest,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      participantPlayAudioOperationSpec
+    ) as Promise<CallConnectionsParticipantPlayAudioResponse>;
+  }
+
+  /**
+   * Cancel media operation for a participant.
+   * @param callConnectionId The callConnectionId.
+   * @param cancelMediaOperationRequest The cancel media operation for participant request.
+   * @param options The options parameters.
+   */
+  cancelParticipantMediaOperation(
+    callConnectionId: string,
+    cancelMediaOperationRequest: CancelParticipantMediaOperationRequest,
+    options?: coreHttp.OperationOptions
+  ): Promise<coreHttp.RestResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      callConnectionId,
+      cancelMediaOperationRequest,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      cancelParticipantMediaOperationOperationSpec
+    ) as Promise<coreHttp.RestResponse>;
+  }
+
+  /**
+   * Mute participant in the call
+   * @param callConnectionId The call connection id.
+   * @param muteParticipantRequest The identifier of the participant to mute in the call.
+   * @param options The options parameters.
+   */
+  muteParticipant(
+    callConnectionId: string,
+    muteParticipantRequest: MuteParticipantRequest,
+    options?: coreHttp.OperationOptions
+  ): Promise<coreHttp.RestResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      callConnectionId,
+      muteParticipantRequest,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      muteParticipantOperationSpec
+    ) as Promise<coreHttp.RestResponse>;
+  }
+
+  /**
+   * Unmute participant in the call
+   * @param callConnectionId The call connection id.
+   * @param unmuteParticipantRequest The identifier of the participant to unmute in the call.
+   * @param options The options parameters.
+   */
+  unmuteParticipant(
+    callConnectionId: string,
+    unmuteParticipantRequest: UnmuteParticipantRequest,
+    options?: coreHttp.OperationOptions
+  ): Promise<coreHttp.RestResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      callConnectionId,
+      unmuteParticipantRequest,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      unmuteParticipantOperationSpec
+    ) as Promise<coreHttp.RestResponse>;
+  }
+
+  /**
+   * Hold meeting audio of a participant in the call.
+   * @param callConnectionId The call connection id.
+   * @param holdMeetingAudioRequest The request payload for holding meeting audio for a participant.
+   * @param options The options parameters.
+   */
+  holdParticipantMeetingAudio(
+    callConnectionId: string,
+    holdMeetingAudioRequest: HoldMeetingAudioRequest,
+    options?: coreHttp.OperationOptions
+  ): Promise<coreHttp.RestResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      callConnectionId,
+      holdMeetingAudioRequest,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      holdParticipantMeetingAudioOperationSpec
+    ) as Promise<coreHttp.RestResponse>;
+  }
+
+  /**
+   * Resume meeting audio of a participant in the call.
+   * @param callConnectionId The call connection id.
+   * @param resumeMeetingAudioRequest The request payload for resuming meeting audio for a participant.
+   * @param options The options parameters.
+   */
+  resumeParticipantMeetingAudio(
+    callConnectionId: string,
+    resumeMeetingAudioRequest: ResumeMeetingAudioRequest,
+    options?: coreHttp.OperationOptions
+  ): Promise<coreHttp.RestResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      callConnectionId,
+      resumeMeetingAudioRequest,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      resumeParticipantMeetingAudioOperationSpec
+    ) as Promise<coreHttp.RestResponse>;
+  }
+
+  /**
+   * Answer the call.
+   * @param answerCallRequest The answer call request.
+   * @param options The options parameters.
+   */
+  answer(
+    answerCallRequest: AnswerCallRequest,
+    options?: coreHttp.OperationOptions
+  ): Promise<CallConnectionsAnswerResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      answerCallRequest,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      answerOperationSpec
+    ) as Promise<CallConnectionsAnswerResponse>;
+  }
+
+  /**
+   * Reject the call.
+   * @param rejectCallRequest The reject call request.
+   * @param options The options parameters.
+   */
+  reject(
+    rejectCallRequest: RejectCallRequest,
+    options?: coreHttp.OperationOptions
+  ): Promise<coreHttp.RestResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      rejectCallRequest,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      rejectOperationSpec
+    ) as Promise<coreHttp.RestResponse>;
+  }
+
+  /**
+   * Redirect the call.
+   * @param redirectCallRequest The redirect call request.
+   * @param options The options parameters.
+   */
+  redirect(
+    redirectCallRequest: RedirectCallRequest,
+    options?: coreHttp.OperationOptions
+  ): Promise<coreHttp.RestResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      redirectCallRequest,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      redirectOperationSpec
+    ) as Promise<coreHttp.RestResponse>;
+  }
 }
 // Operation Specifications
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
+const getAudioRoutingGroupsOperationSpec: coreHttp.OperationSpec = {
+  path:
+    "/calling/callConnections/{callConnectionId}/audioRoutingGroups/{audioRoutingMode}",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: { type: { name: "Composite", className: "CallParticipant" } }
+        }
+      }
+    },
+    400: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    401: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    403: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    404: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.callConnectionId,
+    Parameters.audioRoutingMode
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const deleteAudioRoutingGroupOperationSpec: coreHttp.OperationSpec = {
+  path:
+    "/calling/callConnections/{callConnectionId}/audioRoutingGroups/{audioRoutingMode}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    400: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    401: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    403: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    404: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.callConnectionId,
+    Parameters.audioRoutingMode1
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const updateAudioRoutingGroupOperationSpec: coreHttp.OperationSpec = {
+  path:
+    "/calling/callConnections/{callConnectionId}/audioRoutingGroups/{audioRoutingMode}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {},
+    400: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    401: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    403: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    404: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    }
+  },
+  requestBody: Parameters.audioRoutingGroupRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.callConnectionId,
+    Parameters.audioRoutingMode2
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const createCallOperationSpec: coreHttp.OperationSpec = {
   path: "/calling/callConnections",
   httpMethod: "POST",
@@ -189,8 +776,72 @@ const createCallOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.callRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const getCallOperationSpec: coreHttp.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CallConnectionProperties
+    },
+    400: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    401: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    403: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    404: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const deleteCallOperationSpec: coreHttp.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}",
+  httpMethod: "DELETE",
+  responses: {
+    202: {},
+    400: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    401: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    403: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    404: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const hangupCallOperationSpec: coreHttp.OperationSpec = {
@@ -255,7 +906,7 @@ const playAudioOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.request,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -290,8 +941,143 @@ const cancelAllMediaOperationsOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.cancelAllMediaOperationRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const keepAliveOperationSpec: coreHttp.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}/:keepAlive",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    400: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    401: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    403: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    404: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const transferOperationSpec: coreHttp.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}/:transfer",
+  httpMethod: "POST",
+  responses: {
+    202: {},
+    400: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    401: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    403: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    404: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    }
+  },
+  requestBody: Parameters.transferCallRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const createAudioRoutingGroupOperationSpec: coreHttp.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}/:createAudioRoutingGroup",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    400: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    401: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    403: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    404: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    }
+  },
+  requestBody: Parameters.audioRoutingGroupRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const getParticipantsOperationSpec: coreHttp.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}/participants",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: { type: { name: "Composite", className: "CallParticipant" } }
+        }
+      }
+    },
+    400: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    401: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    403: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    404: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const addParticipantOperationSpec: coreHttp.OperationSpec = {
@@ -325,14 +1111,13 @@ const addParticipantOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.addParticipantRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
 const removeParticipantOperationSpec: coreHttp.OperationSpec = {
-  path:
-    "/calling/callConnections/{callConnectionId}/participants/{participantId}",
-  httpMethod: "DELETE",
+  path: "/calling/callConnections/{callConnectionId}/participants:remove",
+  httpMethod: "POST",
   responses: {
     202: {},
     400: {
@@ -356,12 +1141,426 @@ const removeParticipantOperationSpec: coreHttp.OperationSpec = {
       isError: true
     }
   },
+  requestBody: Parameters.removeParticipantRequest,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.callConnectionId,
-    Parameters.participantId
-  ],
-  headerParameters: [Parameters.accept],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const getParticipantOperationSpec: coreHttp.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}/participants:get",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: { type: { name: "Composite", className: "CallParticipant" } }
+        }
+      }
+    },
+    400: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    401: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    403: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    404: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    }
+  },
+  requestBody: Parameters.getParticipantRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const startHoldMusicOperationSpec: coreHttp.OperationSpec = {
+  path:
+    "/calling/callConnections/{callConnectionId}/participants:startHoldMusic",
+  httpMethod: "POST",
+  responses: {
+    202: {
+      bodyMapper: Mappers.StartHoldMusicResult
+    },
+    400: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    401: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    403: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    404: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    }
+  },
+  requestBody: Parameters.request1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const stopHoldMusicOperationSpec: coreHttp.OperationSpec = {
+  path:
+    "/calling/callConnections/{callConnectionId}/participants:stopHoldMusic",
+  httpMethod: "POST",
+  responses: {
+    202: {
+      bodyMapper: Mappers.StopHoldMusicResult
+    },
+    400: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    401: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    403: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    404: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    }
+  },
+  requestBody: Parameters.stopHoldMusicRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const participantPlayAudioOperationSpec: coreHttp.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}/participants:playAudio",
+  httpMethod: "POST",
+  responses: {
+    202: {
+      bodyMapper: Mappers.PlayAudioResult
+    },
+    400: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    401: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    403: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    404: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    }
+  },
+  requestBody: Parameters.playAudioToParticipantRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const cancelParticipantMediaOperationOperationSpec: coreHttp.OperationSpec = {
+  path:
+    "/calling/callConnections/{callConnectionId}/participants:cancelMediaOperation",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    400: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    401: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    403: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    404: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    }
+  },
+  requestBody: Parameters.cancelMediaOperationRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const muteParticipantOperationSpec: coreHttp.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}/participants:mute",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    400: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    401: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    403: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    404: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    }
+  },
+  requestBody: Parameters.muteParticipantRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const unmuteParticipantOperationSpec: coreHttp.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}/participants:unmute",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    400: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    401: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    403: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    404: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    }
+  },
+  requestBody: Parameters.unmuteParticipantRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const holdParticipantMeetingAudioOperationSpec: coreHttp.OperationSpec = {
+  path:
+    "/calling/callConnections/{callConnectionId}/participants:holdMeetingAudio",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    400: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    401: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    403: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    404: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    }
+  },
+  requestBody: Parameters.holdMeetingAudioRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const resumeParticipantMeetingAudioOperationSpec: coreHttp.OperationSpec = {
+  path:
+    "/calling/callConnections/{callConnectionId}/participants:resumeMeetingAudio",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    400: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    401: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    403: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    404: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    }
+  },
+  requestBody: Parameters.resumeMeetingAudioRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const answerOperationSpec: coreHttp.OperationSpec = {
+  path: "/calling:answer",
+  httpMethod: "POST",
+  responses: {
+    201: {
+      bodyMapper: Mappers.AnswerCallResult
+    },
+    400: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    401: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    403: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    404: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    }
+  },
+  requestBody: Parameters.answerCallRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const rejectOperationSpec: coreHttp.OperationSpec = {
+  path: "/calling:reject",
+  httpMethod: "POST",
+  responses: {
+    202: {},
+    400: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    401: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    403: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    404: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    }
+  },
+  requestBody: Parameters.rejectCallRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const redirectOperationSpec: coreHttp.OperationSpec = {
+  path: "/calling:redirect",
+  httpMethod: "POST",
+  responses: {
+    202: {},
+    400: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    401: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    403: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    404: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    }
+  },
+  requestBody: Parameters.redirectCallRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };

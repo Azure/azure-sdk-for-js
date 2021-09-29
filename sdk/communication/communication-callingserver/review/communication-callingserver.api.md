@@ -9,26 +9,39 @@ import * as coreHttp from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { PhoneNumberIdentifier } from '@azure/communication-common';
 import { PipelineOptions } from '@azure/core-http';
+import { TokenCredential } from '@azure/core-auth';
+
+// @public
+export type AddParticipantOptions = OperationOptions;
 
 // @public
 export class CallConnection {
     // Warning: (ae-forgotten-export) The symbol "CallConnections" needs to be exported by the entry point index.d.ts
     constructor(callConnectionId: string, callConnectionRestClient: CallConnections);
-    // (undocumented)
+    // Warning: (ae-forgotten-export) The symbol "AddParticipantResult" needs to be exported by the entry point index.d.ts
+    addParticipant(participant: CommunicationIdentifier, alternateCallerId?: string, operationContext?: string, options?: AddParticipantOptions): Promise<AddParticipantResult>;
+    cancelAllMediaOperations(operationContext?: string, options?: CancelAllMediaOperationsOptions): Promise<void>;
+    cancelParticipantMediaOperation(participant: CommunicationIdentifier, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
     hangUp(options?: HangUpOptions): Promise<void>;
+    playAudio(audioFileUri: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
+    playAudioToParticipant(participant: CommunicationIdentifier, audioFileUri: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
+    removeParticipant(participant: CommunicationIdentifier, options?: RemoveParticipantOptions): Promise<void>;
+    transferCall(targetParticipant: CommunicationIdentifier, userToUserInformation: string, options?: TransferCallOptions): Promise<void>;
 }
 
 // @public
 export class CallingServerClient {
     constructor(connectionString: string, options?: CallingServerClientOptions);
-    // (undocumented)
-    createCallConnection(source: CommunicationIdentifier, targets: CommunicationIdentifier[], options: CreateCallConnectionOptions): Promise<CallConnection>;
-    // (undocumented)
+    constructor(endpoint: string, credential: TokenCredential, options?: CallingServerClientOptions);
+    addParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, callbackUri: string, alternateCallerId?: string, operationContext?: string, options?: AddParticipantOptions): Promise<AddParticipantResult>;
+    cancelMediaOperation(callLocator: CallLocator, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
+    cancelParticipantMediaOperation(callLocator: CallLocator, participant: CommunicationIdentifier, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
+    createCallConnection(source: CommunicationIdentifier, targets: CommunicationIdentifier[], options: CreateCallOptions): Promise<CallConnection>;
     getCallConnection(callConnectionId: string): CallConnection;
-    // (undocumented)
-    initializeServerCall(serverCallId: string): ServerCall;
-    // (undocumented)
-    joinCall(serverCallId: string, source: CommunicationIdentifier, options: JoinCallOptions): Promise<CallConnection>;
+    joinCall(callLocator: CallLocator, source: CommunicationIdentifier, options: JoinCallOptions): Promise<CallConnection>;
+    playAudio(callLocator: CallLocator, audioFileUri: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
+    playAudioToParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, audioFileUri: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
+    removeParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, options?: RemoveParticipantOptions): Promise<void>;
     }
 
 // @public
@@ -36,7 +49,19 @@ export interface CallingServerClientOptions extends PipelineOptions {
 }
 
 // @public
-export interface CreateCallConnectionOptions extends OperationOptions {
+export type CallLocator = GroupCallLocator | ServerCallLocator;
+
+// @public
+export type CallLocatorKind = GroupCallLocatorKind | ServerCallLocatorKind;
+
+// @public
+export type CancelAllMediaOperationsOptions = OperationOptions;
+
+// @public
+export type CancelMediaOperationOptions = OperationOptions;
+
+// @public
+export interface CreateCallOptions extends OperationOptions {
     alternateCallerId?: PhoneNumberIdentifier;
     callbackUri: string;
     requestedCallEvents: EventSubscriptionType[];
@@ -53,7 +78,26 @@ export const enum EventSubscriptionType {
 }
 
 // @public
+export const getLocatorKind: (locator: CallLocator) => CallLocatorKind;
+
+// @public
+export interface GroupCallLocator {
+    groupCallId: string;
+}
+
+// @public
+export interface GroupCallLocatorKind extends GroupCallLocator {
+    kind: "groupCall";
+}
+
+// @public
 export type HangUpOptions = OperationOptions;
+
+// @public
+export const isGroupCallLocator: (locator: CallLocator) => locator is GroupCallLocator;
+
+// @public
+export const isServerCallLocator: (locator: CallLocator) => locator is ServerCallLocator;
 
 // @public
 export interface JoinCallOptions extends OperationOptions {
@@ -71,8 +115,13 @@ export const enum MediaType {
     Video = "video"
 }
 
-// @public
-export type PlayAudioOptions = OperationOptions;
+// @public (undocumented)
+export interface PlayAudioOptions extends OperationOptions {
+    audioFileId: string;
+    callbackUri: string;
+    loop: boolean;
+    operationContext: string;
+}
 
 // @public
 export interface PlayAudioResult {
@@ -85,12 +134,20 @@ export interface PlayAudioResult {
 }
 
 // @public
-export class ServerCall {
-    // Warning: (ae-forgotten-export) The symbol "ServerCalls" needs to be exported by the entry point index.d.ts
-    constructor(serverCallId: string, serverCallRestClient: ServerCalls);
-    // (undocumented)
-    playAudio(audioFileUri: string, audioFileId: string, callbackUri: string, operationContext?: string, options?: PlayAudioOptions): Promise<PlayAudioResult>;
-    }
+export type RemoveParticipantOptions = OperationOptions;
+
+// @public
+export interface ServerCallLocator {
+    serverCallId: string;
+}
+
+// @public
+export interface ServerCallLocatorKind extends ServerCallLocator {
+    kind: "serverCall";
+}
+
+// @public
+export type TransferCallOptions = OperationOptions;
 
 
 // (No @packageDocumentation comment for this package)

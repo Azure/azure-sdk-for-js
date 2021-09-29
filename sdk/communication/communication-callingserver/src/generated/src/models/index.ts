@@ -8,28 +8,14 @@
 
 import * as coreHttp from "@azure/core-http";
 
-/** The request payload for create call. */
-export interface CreateCallRequest {
-  /** The alternate identity of the source of the call if dialing out to a pstn number */
-  alternateCallerId?: PhoneNumberIdentifierModel;
-  /** The targets of the call. */
-  targets: CommunicationIdentifierModel[];
-  /** The source of the call. */
-  source: CommunicationIdentifierModel;
-  /** The subject. */
-  subject?: string;
-  /** The callback URI. */
-  callbackUri: string;
-  /** The requested modalities. */
-  requestedMediaTypes?: MediaType[];
-  /** The requested call events to subscribe to. */
-  requestedCallEvents?: EventSubscriptionType[];
-}
-
-/** A phone number. */
-export interface PhoneNumberIdentifierModel {
-  /** The phone number in E.164 format. */
-  value: string;
+/** A participant in a call. */
+export interface CallParticipant {
+  /** Communication identifier of the participant */
+  identifier: CommunicationIdentifierModel;
+  /** Participant id */
+  participantId?: string;
+  /** Is participant muted */
+  isMuted: boolean;
 }
 
 /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set. */
@@ -50,6 +36,12 @@ export interface CommunicationUserIdentifierModel {
   id: string;
 }
 
+/** A phone number. */
+export interface PhoneNumberIdentifierModel {
+  /** The phone number in E.164 format. */
+  value: string;
+}
+
 /** A Microsoft Teams user. */
 export interface MicrosoftTeamsUserIdentifierModel {
   /** The Id of the Microsoft Teams user. If not anonymous, this is the AAD object Id of the user. */
@@ -58,12 +50,6 @@ export interface MicrosoftTeamsUserIdentifierModel {
   isAnonymous?: boolean;
   /** The cloud that the Microsoft Teams user belongs to. By default 'public' if missing. */
   cloud?: CommunicationCloudEnvironmentModel;
-}
-
-/** The response payload of the create call operation. */
-export interface CreateCallResult {
-  /** The call connection id. */
-  callConnectionId?: string;
 }
 
 /** The Communication Services error. */
@@ -95,6 +81,71 @@ export interface CommunicationError {
   readonly innerError?: CommunicationError;
 }
 
+/** The audio routing group request. */
+export interface AudioRoutingGroupRequest {
+  /** The audio routing mode. */
+  audioRoutingMode?: AudioRoutingMode;
+  /** The target identities that would be receivers in the audio routing group. */
+  targets?: CommunicationIdentifierModel[];
+}
+
+/** The request payload for create call. */
+export interface CreateCallRequest {
+  /** The alternate identity of the source of the call if dialing out to a pstn number */
+  alternateCallerId?: PhoneNumberIdentifierModel;
+  /** The targets of the call. */
+  targets: CommunicationIdentifierModel[];
+  /** The source of the call. */
+  source: CommunicationIdentifierModel;
+  /** The subject. */
+  subject?: string;
+  /** The callback URI. */
+  callbackUri: string;
+  /** The requested modalities. */
+  requestedMediaTypes?: MediaType[];
+  /** The requested call events to subscribe to. */
+  requestedCallEvents?: EventSubscriptionType[];
+}
+
+/** The response payload of the create call operation. */
+export interface CreateCallResult {
+  /** The call connection id. */
+  callConnectionId?: string;
+}
+
+export interface CallConnectionProperties {
+  /** The call connection id. */
+  callConnectionId?: string;
+  /** The source of the call. */
+  source?: CommunicationIdentifierModel;
+  /** The alternate identity of the source of the call if dialing out to a pstn number */
+  alternateCallerId?: PhoneNumberIdentifierModel;
+  /** The targets of the call. */
+  targets?: CommunicationIdentifierModel[];
+  /** The state of the call connection. */
+  callConnectionState?: CallConnectionState;
+  /** The subject. */
+  subject?: string;
+  /** The callback URI. */
+  callbackUri?: string;
+  /** The requested modalities. */
+  requestedMediaTypes?: MediaType[];
+  /** The requested call events to subscribe to. */
+  requestedCallEvents?: EventSubscriptionType[];
+  /** The locator used for joining or taking action on a call. */
+  callLocator?: CallLocatorModel;
+}
+
+/** The locator used for joining or taking action on a call. */
+export interface CallLocatorModel {
+  /** The group call id */
+  groupCallId?: string;
+  /** The server call id. */
+  serverCallId?: string;
+  /** The call locator kind. */
+  kind?: CallLocatorKindModel;
+}
+
 /** The request payload for playing audio. */
 export interface PlayAudioRequest {
   /**
@@ -105,7 +156,7 @@ export interface PlayAudioRequest {
    */
   audioFileUri?: string;
   /** The flag indicating whether audio file needs to be played in loop or not. */
-  loop?: boolean;
+  loop: boolean;
   /** The value to identify context of the operation. */
   operationContext?: string;
   /** An id for the media in the AudioFileUri, using which we cache the media resource. */
@@ -130,7 +181,10 @@ export interface PlayAudioResult {
 export interface ResultInfo {
   /** The result code associated with the operation. */
   code: number;
-  /** The subcode that further classifies the result. */
+  /**
+   * The subcode that further classifies the result.
+   * The subcode further classifies a failure. For example.
+   */
   subcode: number;
   /** The message is a detail explanation of subcode. */
   message?: string;
@@ -154,6 +208,28 @@ export interface CancelAllMediaOperationsResult {
   resultInfo?: ResultInfo;
 }
 
+/** The transfer call request. */
+export interface TransferCallRequest {
+  /** The identity of the target where call should be transfer to. */
+  targetParticipant: CommunicationIdentifierModel;
+  /** The user to user information. */
+  userToUserInformation?: string;
+}
+
+/** The request payload for get all participants. */
+export interface GetAllParticipantsWithCallLocatorRequest {
+  /** The call locator. */
+  callLocator: CallLocatorModel;
+}
+
+/** The add participant request with call locator. */
+export interface AddParticipantWithCallLocatorRequest {
+  /** The call locator. */
+  callLocator: CallLocatorModel;
+  /** The add participant request. */
+  addParticipantRequest: AddParticipantRequest;
+}
+
 /** The add participant request. */
 export interface AddParticipantRequest {
   /** The alternate identity of source participant. */
@@ -172,10 +248,220 @@ export interface AddParticipantResult {
   participantId?: string;
 }
 
+/** The remove participant by identifier request. */
+export interface RemoveParticipantWithCallLocatorRequest {
+  /** The call locator. */
+  callLocator: CallLocatorModel;
+  /** The remove participant by identifier request. */
+  removeParticipantRequest: RemoveParticipantRequest;
+}
+
+/** The remove participant by identifier request. */
+export interface RemoveParticipantRequest {
+  /** The identifier of the participant to be removed from the call. */
+  identifier: CommunicationIdentifierModel;
+}
+
+/** The get participant by identifier request using call locator. */
+export interface GetParticipantWithCallLocatorRequest {
+  /** The call locator. */
+  callLocator: CallLocatorModel;
+  /** The get participant by identifier request. */
+  getParticipantRequest: GetParticipantRequest;
+}
+
+/** The get participant by identifier request. */
+export interface GetParticipantRequest {
+  /** The identifier of the participant. */
+  identifier: CommunicationIdentifierModel;
+}
+
+/** The request payload for playing hold music for a participant with call locator. */
+export interface StartHoldMusicWithCallLocatorRequest {
+  /** The call locator. */
+  callLocator: CallLocatorModel;
+  /** The request payload for playing hold music for a participant. */
+  startHoldMusicRequest: StartHoldMusicRequest;
+}
+
+/** The request payload for playing hold music for a participant. */
+export interface StartHoldMusicRequest {
+  /** The identifier of the participant. */
+  identifier: CommunicationIdentifierModel;
+  /**
+   * The media resource uri of the hold music request.
+   * Currently only Wave file (.wav) format audio prompts are supported.
+   * More specifically, the audio content in the wave file must be mono (single-channel),
+   * 16-bit samples with a 16,000 (16KHz) sampling rate.
+   */
+  audioFileUri?: string;
+  /** An id for the media in the AudioFileUri, using which we cache the media resource. */
+  audioFileId?: string;
+  /** The callback URI. */
+  callbackUri?: string;
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+}
+
+/** The response payload for start hold music operation. */
+export interface StartHoldMusicResult {
+  /** The operation id. */
+  operationId?: string;
+  /** The status of the operation */
+  status: OperationStatus;
+  /** The operation context provided by client. */
+  operationContext?: string;
+  /** The result info for the operation. */
+  resultInfo?: ResultInfo;
+}
+
+/** The request payload for removing participant from hold using call locator. */
+export interface StopHoldMusicWithCallLocatorRequest {
+  /** The call locator. */
+  callLocator: CallLocatorModel;
+  /** The identifier of the participant. */
+  identifier: CommunicationIdentifierModel;
+  /** The operationId of the StartHoldMusicOperation to stop */
+  startHoldMusicOperationId: string;
+}
+
+/** The response payload for start hold music operation. */
+export interface StopHoldMusicResult {
+  /** The operation id. */
+  operationId?: string;
+  /** The status of the operation */
+  status: OperationStatus;
+  /** The operation context provided by client. */
+  operationContext?: string;
+  /** The result info for the operation. */
+  resultInfo?: ResultInfo;
+}
+
+/** The request payload for playing audio with call locator to participant. */
+export interface PlayAudioToParticipantWithCallLocatorRequest {
+  /** The call locator. */
+  callLocator: CallLocatorModel;
+  /** The play audio to participant request. */
+  playAudioToParticipantRequest?: PlayAudioToParticipantRequest;
+}
+
+/** The request payload for playing audio to participant. */
+export interface PlayAudioToParticipantRequest {
+  /** The identifier of the participant to play audio to. */
+  identifier: CommunicationIdentifierModel;
+  /**
+   * The media resource uri of the play audio request.
+   * Currently only Wave file (.wav) format audio prompts are supported.
+   * More specifically, the audio content in the wave file must be mono (single-channel),
+   * 16-bit samples with a 16,000 (16KHz) sampling rate.
+   */
+  audioFileUri?: string;
+  /** The flag indicating whether audio file needs to be played in loop or not. */
+  loop: boolean;
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+  /** An id for the media in the AudioFileUri, using which we cache the media resource. */
+  audioFileId?: string;
+  /** The callback Uri to receive PlayAudio status notifications. */
+  callbackUri?: string;
+}
+
+/** The request payload for stopping a media operation for a participant with call locator. */
+export interface CancelParticipantMediaOperationWithCallLocatorRequest {
+  /** The call locator. */
+  callLocator: CallLocatorModel;
+  /** The request payload for stopping a media operation. */
+  cancelParticipantMediaOperationRequest: CancelParticipantMediaOperationRequest;
+}
+
+/** The request payload for stopping a media operation for a participant. */
+export interface CancelParticipantMediaOperationRequest {
+  /** The identifier of the participant. */
+  identifier: CommunicationIdentifierModel;
+  /** The operationId of the media operation to cancel */
+  mediaOperationId: string;
+}
+
+/** The request payload for muting any participant using call locator. */
+export interface MuteParticipantWithCallLocatorRequest {
+  /** The call locator. */
+  callLocator: CallLocatorModel;
+  /** The identifier of the participant to be muted in the call. */
+  identifier: CommunicationIdentifierModel;
+}
+
+/** The request payload for unmuting any participant */
+export interface UnmuteParticipantWithCallLocatorRequest {
+  /** The call locator. */
+  callLocator: CallLocatorModel;
+  /** The identifier of the participant to be unmuted in the call. */
+  identifier: CommunicationIdentifierModel;
+}
+
+/** The request payload for holding meeting audio for a participant. */
+export interface HoldMeetingAudioWithCallLocatorRequest {
+  /** The call locator. */
+  callLocator: CallLocatorModel;
+  /** The identifier of the participant. */
+  identifier: CommunicationIdentifierModel;
+}
+
+/** The request payload for resuming meeting audio for a participant. */
+export interface ResumeMeetingAudioWithCallLocatorRequest {
+  /** The call locator. */
+  callLocator: CallLocatorModel;
+  /** The identifier of the participant. */
+  identifier: CommunicationIdentifierModel;
+}
+
+/** The request payload for removing participant from hold. */
+export interface StopHoldMusicRequest {
+  /** The identifier of the participant. */
+  identifier: CommunicationIdentifierModel;
+}
+
+/** The request payload for muting any participant */
+export interface MuteParticipantRequest {
+  /** The identifier of the participant to be muted in the call. */
+  identifier: CommunicationIdentifierModel;
+}
+
+/** The request payload for unmuting any participant */
+export interface UnmuteParticipantRequest {
+  /** The identifier of the participant to be unmuted in the call. */
+  identifier: CommunicationIdentifierModel;
+}
+
+/** The request payload for holding meeting audio for a participant. */
+export interface HoldMeetingAudioRequest {
+  /** The identifier of the participant. */
+  identifier: CommunicationIdentifierModel;
+}
+
+/** The request payload for resuming meeting audio for a participant. */
+export interface ResumeMeetingAudioRequest {
+  /** The identifier of the participant. */
+  identifier: CommunicationIdentifierModel;
+}
+
+/** The request payload start for call recording operation with call locator. */
+export interface StartCallRecordingWithCallLocatorRequest {
+  /** The call locator. */
+  callLocator: CallLocatorModel;
+  /** The request payload for start call recording operation. */
+  startCallRecordingRequest: StartCallRecordingRequest;
+}
+
 /** The request payload start call recording operation. */
 export interface StartCallRecordingRequest {
   /** The uri to send notifications to. */
   recordingStateCallbackUri?: string;
+  /** Content type of call recording. */
+  recordingContentType?: RecordingContentType;
+  /** Channel type of call recording. */
+  recordingChannelType?: RecordingChannelType;
+  /** Format type of call recording. */
+  recordingFormatType?: RecordingFormatType;
 }
 
 /** The response payload of start call recording operation. */
@@ -192,6 +478,8 @@ export interface CallRecordingProperties {
 
 /** The request payload for join call. */
 export interface JoinCallRequest {
+  /** The call locator. */
+  callLocator?: CallLocatorModel;
   /** The source of the call. */
   source: CommunicationIdentifierModel;
   /** The subject. */
@@ -210,13 +498,77 @@ export interface JoinCallResult {
   callConnectionId?: string;
 }
 
+/** The request payload for playing audio with call locator. */
+export interface PlayAudioWithCallLocatorRequest {
+  /** The call locator. */
+  callLocator: CallLocatorModel;
+  /** The request payload for playing audio. */
+  playAudioRequest: PlayAudioRequest;
+}
+
+/** The request payload for stopping a media operation for a participant with call locator. */
+export interface CancelMediaOperationWithCallLocatorRequest {
+  /** The call locator. */
+  callLocator: CallLocatorModel;
+  /** The request payload for stopping a media operation. */
+  cancelMediaOperationRequest: CancelMediaOperationRequest;
+}
+
+/** The request payload for stopping a media operation for a participant. */
+export interface CancelMediaOperationRequest {
+  /** The operationId of the media operation to cancel */
+  mediaOperationId: string;
+}
+
+/** The request payload for answering the call. */
+export interface AnswerCallRequest {
+  /** The context associated with the call. */
+  incomingCallContext?: string;
+  /** The number of participant that the application can handle for the call. */
+  participantCapacity?: number;
+  /** The callback url. */
+  callbackUrl: string;
+  /** The requested modalities. */
+  requestedMediaTypes?: MediaType[];
+  /** The requested call events to subscribe to. */
+  requestedCallEvents?: EventSubscriptionType[];
+}
+
+/** The response payload of the answer call operation. */
+export interface AnswerCallResult {
+  /** The call connection id. */
+  callConnectionId?: string;
+}
+
+/** The request payload for rejecting the call. */
+export interface RejectCallRequest {
+  /** The context associated with the call. */
+  incomingCallContext: string;
+  /** The rejection reason. */
+  callRejectReason?: CallRejectReason;
+  /** The callback url. */
+  callbackUrl: string;
+}
+
+/** The request payload for redirecting the call. */
+export interface RedirectCallRequest {
+  /** The context associated with the call. */
+  incomingCallContext: string;
+  /** The target identity to redirect the call to. */
+  targets: CommunicationIdentifierModel[];
+  /** The callback url. */
+  callbackUrl: string;
+  /** The timeout for the redirect in seconds. */
+  timeout?: number;
+}
+
 /** The call connection state changed event. */
 export interface CallConnectionStateChangedEvent {
   /** The server call.id. */
   serverCallId?: string;
   /** The call connection id. */
   callConnectionId?: string;
-  /** The call connection state. */
+  /** The state of the call connection. */
   callConnectionState: CallConnectionState;
 }
 
@@ -249,16 +601,6 @@ export interface ParticipantsUpdatedEvent {
   participants?: CallParticipant[];
 }
 
-/** A participant in a call. */
-export interface CallParticipant {
-  /** Communication identifier of the participant */
-  identifier?: CommunicationIdentifierModel;
-  /** Participant id */
-  participantId?: string;
-  /** Is participant muted */
-  isMuted: boolean;
-}
-
 /** The play audio result event. */
 export interface PlayAudioResultEvent {
   /** The result details. */
@@ -285,6 +627,22 @@ export interface ToneInfo {
   tone: ToneValue;
 }
 
+/** Known values of {@link Enum0} that the service accepts. */
+export const enum KnownEnum0 {
+  OneToOne = "oneToOne",
+  Multicast = "multicast"
+}
+
+/**
+ * Defines values for Enum0. \
+ * {@link KnownEnum0} can be used interchangeably with Enum0,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **oneToOne** \
+ * **multicast**
+ */
+export type Enum0 = string;
+
 /** Known values of {@link CommunicationCloudEnvironmentModel} that the service accepts. */
 export const enum KnownCommunicationCloudEnvironmentModel {
   Public = "public",
@@ -302,6 +660,54 @@ export const enum KnownCommunicationCloudEnvironmentModel {
  * **gcch**
  */
 export type CommunicationCloudEnvironmentModel = string;
+
+/** Known values of {@link Enum2} that the service accepts. */
+export const enum KnownEnum2 {
+  OneToOne = "oneToOne",
+  Multicast = "multicast"
+}
+
+/**
+ * Defines values for Enum2. \
+ * {@link KnownEnum2} can be used interchangeably with Enum2,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **oneToOne** \
+ * **multicast**
+ */
+export type Enum2 = string;
+
+/** Known values of {@link Enum3} that the service accepts. */
+export const enum KnownEnum3 {
+  OneToOne = "oneToOne",
+  Multicast = "multicast"
+}
+
+/**
+ * Defines values for Enum3. \
+ * {@link KnownEnum3} can be used interchangeably with Enum3,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **oneToOne** \
+ * **multicast**
+ */
+export type Enum3 = string;
+
+/** Known values of {@link AudioRoutingMode} that the service accepts. */
+export const enum KnownAudioRoutingMode {
+  OneToOne = "oneToOne",
+  Multicast = "multicast"
+}
+
+/**
+ * Defines values for AudioRoutingMode. \
+ * {@link KnownAudioRoutingMode} can be used interchangeably with AudioRoutingMode,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **oneToOne** \
+ * **multicast**
+ */
+export type AudioRoutingMode = string;
 
 /** Known values of {@link MediaType} that the service accepts. */
 export const enum KnownMediaType {
@@ -335,6 +741,46 @@ export const enum KnownEventSubscriptionType {
  */
 export type EventSubscriptionType = string;
 
+/** Known values of {@link CallConnectionState} that the service accepts. */
+export const enum KnownCallConnectionState {
+  Connecting = "connecting",
+  Connected = "connected",
+  Transferring = "transferring",
+  TransferAccepted = "transferAccepted",
+  Disconnecting = "disconnecting",
+  Disconnected = "disconnected"
+}
+
+/**
+ * Defines values for CallConnectionState. \
+ * {@link KnownCallConnectionState} can be used interchangeably with CallConnectionState,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **connecting** \
+ * **connected** \
+ * **transferring** \
+ * **transferAccepted** \
+ * **disconnecting** \
+ * **disconnected**
+ */
+export type CallConnectionState = string;
+
+/** Known values of {@link CallLocatorKindModel} that the service accepts. */
+export const enum KnownCallLocatorKindModel {
+  GroupCallLocator = "groupCallLocator",
+  ServerCallLocator = "serverCallLocator"
+}
+
+/**
+ * Defines values for CallLocatorKindModel. \
+ * {@link KnownCallLocatorKindModel} can be used interchangeably with CallLocatorKindModel,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **groupCallLocator** \
+ * **serverCallLocator**
+ */
+export type CallLocatorKindModel = string;
+
 /** Known values of {@link OperationStatus} that the service accepts. */
 export const enum KnownOperationStatus {
   NotStarted = "notStarted",
@@ -355,6 +801,56 @@ export const enum KnownOperationStatus {
  */
 export type OperationStatus = string;
 
+/** Known values of {@link RecordingContentType} that the service accepts. */
+export const enum KnownRecordingContentType {
+  Audio = "audio",
+  AudioVideo = "audioVideo"
+}
+
+/**
+ * Defines values for RecordingContentType. \
+ * {@link KnownRecordingContentType} can be used interchangeably with RecordingContentType,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **audio** \
+ * **audioVideo**
+ */
+export type RecordingContentType = string;
+
+/** Known values of {@link RecordingChannelType} that the service accepts. */
+export const enum KnownRecordingChannelType {
+  Mixed = "mixed",
+  Unmixed = "unmixed"
+}
+
+/**
+ * Defines values for RecordingChannelType. \
+ * {@link KnownRecordingChannelType} can be used interchangeably with RecordingChannelType,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **mixed** \
+ * **unmixed**
+ */
+export type RecordingChannelType = string;
+
+/** Known values of {@link RecordingFormatType} that the service accepts. */
+export const enum KnownRecordingFormatType {
+  Wav = "wav",
+  Mp3 = "mp3",
+  Mp4 = "mp4"
+}
+
+/**
+ * Defines values for RecordingFormatType. \
+ * {@link KnownRecordingFormatType} can be used interchangeably with RecordingFormatType,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **wav** \
+ * **mp3** \
+ * **mp4**
+ */
+export type RecordingFormatType = string;
+
 /** Known values of {@link CallRecordingState} that the service accepts. */
 export const enum KnownCallRecordingState {
   Active = "active",
@@ -371,27 +867,23 @@ export const enum KnownCallRecordingState {
  */
 export type CallRecordingState = string;
 
-/** Known values of {@link CallConnectionState} that the service accepts. */
-export const enum KnownCallConnectionState {
-  Incoming = "incoming",
-  Connecting = "connecting",
-  Connected = "connected",
-  Disconnecting = "disconnecting",
-  Disconnected = "disconnected"
+/** Known values of {@link CallRejectReason} that the service accepts. */
+export const enum KnownCallRejectReason {
+  None = "none",
+  Busy = "busy",
+  Forbidden = "forbidden"
 }
 
 /**
- * Defines values for CallConnectionState. \
- * {@link KnownCallConnectionState} can be used interchangeably with CallConnectionState,
+ * Defines values for CallRejectReason. \
+ * {@link KnownCallRejectReason} can be used interchangeably with CallRejectReason,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **incoming** \
- * **connecting** \
- * **connected** \
- * **disconnecting** \
- * **disconnected**
+ * **none** \
+ * **busy** \
+ * **forbidden**
  */
-export type CallConnectionState = string;
+export type CallRejectReason = string;
 
 /** Known values of {@link ToneValue} that the service accepts. */
 export const enum KnownToneValue {
@@ -439,6 +931,18 @@ export const enum KnownToneValue {
  */
 export type ToneValue = string;
 
+/** Contains response data for the getAudioRoutingGroups operation. */
+export type CallConnectionsGetAudioRoutingGroupsResponse = CallParticipant[] & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: CallParticipant[];
+  };
+};
+
 /** Contains response data for the createCall operation. */
 export type CallConnectionsCreateCallResponse = CreateCallResult & {
   /** The underlying HTTP response. */
@@ -448,6 +952,18 @@ export type CallConnectionsCreateCallResponse = CreateCallResult & {
 
     /** The response body as parsed JSON or XML */
     parsedBody: CreateCallResult;
+  };
+};
+
+/** Contains response data for the getCall operation. */
+export type CallConnectionsGetCallResponse = CallConnectionProperties & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: CallConnectionProperties;
   };
 };
 
@@ -475,6 +991,18 @@ export type CallConnectionsCancelAllMediaOperationsResponse = CancelAllMediaOper
   };
 };
 
+/** Contains response data for the getParticipants operation. */
+export type CallConnectionsGetParticipantsResponse = CallParticipant[] & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: CallParticipant[];
+  };
+};
+
 /** Contains response data for the addParticipant operation. */
 export type CallConnectionsAddParticipantResponse = AddParticipantResult & {
   /** The underlying HTTP response. */
@@ -487,6 +1015,78 @@ export type CallConnectionsAddParticipantResponse = AddParticipantResult & {
   };
 };
 
+/** Contains response data for the getParticipant operation. */
+export type CallConnectionsGetParticipantResponse = CallParticipant[] & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: CallParticipant[];
+  };
+};
+
+/** Contains response data for the startHoldMusic operation. */
+export type CallConnectionsStartHoldMusicResponse = StartHoldMusicResult & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: StartHoldMusicResult;
+  };
+};
+
+/** Contains response data for the stopHoldMusic operation. */
+export type CallConnectionsStopHoldMusicResponse = StopHoldMusicResult & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: StopHoldMusicResult;
+  };
+};
+
+/** Contains response data for the participantPlayAudio operation. */
+export type CallConnectionsParticipantPlayAudioResponse = PlayAudioResult & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: PlayAudioResult;
+  };
+};
+
+/** Contains response data for the answer operation. */
+export type CallConnectionsAnswerResponse = AnswerCallResult & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: AnswerCallResult;
+  };
+};
+
+/** Contains response data for the getParticipants operation. */
+export type ServerCallsGetParticipantsResponse = CallParticipant[] & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: CallParticipant[];
+  };
+};
+
 /** Contains response data for the addParticipant operation. */
 export type ServerCallsAddParticipantResponse = AddParticipantResult & {
   /** The underlying HTTP response. */
@@ -496,6 +1096,54 @@ export type ServerCallsAddParticipantResponse = AddParticipantResult & {
 
     /** The response body as parsed JSON or XML */
     parsedBody: AddParticipantResult;
+  };
+};
+
+/** Contains response data for the getParticipant operation. */
+export type ServerCallsGetParticipantResponse = CallParticipant[] & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: CallParticipant[];
+  };
+};
+
+/** Contains response data for the startHoldMusic operation. */
+export type ServerCallsStartHoldMusicResponse = StartHoldMusicResult & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: StartHoldMusicResult;
+  };
+};
+
+/** Contains response data for the stopHoldMusic operation. */
+export type ServerCallsStopHoldMusicResponse = StopHoldMusicResult & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: StopHoldMusicResult;
+  };
+};
+
+/** Contains response data for the participantPlayAudio operation. */
+export type ServerCallsParticipantPlayAudioResponse = PlayAudioResult & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: PlayAudioResult;
   };
 };
 

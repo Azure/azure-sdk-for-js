@@ -12,30 +12,42 @@ import {
   OperationQueryParameter
 } from "@azure/core-http";
 import {
+  AudioRoutingGroupRequest as AudioRoutingGroupRequestMapper,
   CreateCallRequest as CreateCallRequestMapper,
   PlayAudioRequest as PlayAudioRequestMapper,
   CancelAllMediaOperationsRequest as CancelAllMediaOperationsRequestMapper,
+  TransferCallRequest as TransferCallRequestMapper,
   AddParticipantRequest as AddParticipantRequestMapper,
-  StartCallRecordingRequest as StartCallRecordingRequestMapper,
-  JoinCallRequest as JoinCallRequestMapper
+  RemoveParticipantRequest as RemoveParticipantRequestMapper,
+  GetParticipantRequest as GetParticipantRequestMapper,
+  StartHoldMusicRequest as StartHoldMusicRequestMapper,
+  StopHoldMusicRequest as StopHoldMusicRequestMapper,
+  PlayAudioToParticipantRequest as PlayAudioToParticipantRequestMapper,
+  CancelParticipantMediaOperationRequest as CancelParticipantMediaOperationRequestMapper,
+  MuteParticipantRequest as MuteParticipantRequestMapper,
+  UnmuteParticipantRequest as UnmuteParticipantRequestMapper,
+  HoldMeetingAudioRequest as HoldMeetingAudioRequestMapper,
+  ResumeMeetingAudioRequest as ResumeMeetingAudioRequestMapper,
+  AnswerCallRequest as AnswerCallRequestMapper,
+  RejectCallRequest as RejectCallRequestMapper,
+  RedirectCallRequest as RedirectCallRequestMapper,
+  GetAllParticipantsWithCallLocatorRequest as GetAllParticipantsWithCallLocatorRequestMapper,
+  AddParticipantWithCallLocatorRequest as AddParticipantWithCallLocatorRequestMapper,
+  RemoveParticipantWithCallLocatorRequest as RemoveParticipantWithCallLocatorRequestMapper,
+  GetParticipantWithCallLocatorRequest as GetParticipantWithCallLocatorRequestMapper,
+  StartHoldMusicWithCallLocatorRequest as StartHoldMusicWithCallLocatorRequestMapper,
+  StopHoldMusicWithCallLocatorRequest as StopHoldMusicWithCallLocatorRequestMapper,
+  PlayAudioToParticipantWithCallLocatorRequest as PlayAudioToParticipantWithCallLocatorRequestMapper,
+  CancelParticipantMediaOperationWithCallLocatorRequest as CancelParticipantMediaOperationWithCallLocatorRequestMapper,
+  MuteParticipantWithCallLocatorRequest as MuteParticipantWithCallLocatorRequestMapper,
+  UnmuteParticipantWithCallLocatorRequest as UnmuteParticipantWithCallLocatorRequestMapper,
+  HoldMeetingAudioWithCallLocatorRequest as HoldMeetingAudioWithCallLocatorRequestMapper,
+  ResumeMeetingAudioWithCallLocatorRequest as ResumeMeetingAudioWithCallLocatorRequestMapper,
+  StartCallRecordingWithCallLocatorRequest as StartCallRecordingWithCallLocatorRequestMapper,
+  JoinCallRequest as JoinCallRequestMapper,
+  PlayAudioWithCallLocatorRequest as PlayAudioWithCallLocatorRequestMapper,
+  CancelMediaOperationWithCallLocatorRequest as CancelMediaOperationWithCallLocatorRequestMapper
 } from "../models/mappers";
-
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const callRequest: OperationParameter = {
-  parameterPath: "callRequest",
-  mapper: CreateCallRequestMapper
-};
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -61,18 +73,6 @@ export const endpoint: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2021-06-15-preview",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const callConnectionId: OperationURLParameter = {
   parameterPath: "callConnectionId",
   mapper: {
@@ -82,6 +82,73 @@ export const callConnectionId: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const audioRoutingMode: OperationURLParameter = {
+  parameterPath: "audioRoutingMode",
+  mapper: {
+    serializedName: "audioRoutingMode",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2021-11-15-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const audioRoutingMode1: OperationURLParameter = {
+  parameterPath: "audioRoutingMode",
+  mapper: {
+    serializedName: "audioRoutingMode",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const audioRoutingGroupRequest: OperationParameter = {
+  parameterPath: "audioRoutingGroupRequest",
+  mapper: AudioRoutingGroupRequestMapper
+};
+
+export const audioRoutingMode2: OperationURLParameter = {
+  parameterPath: "audioRoutingMode",
+  mapper: {
+    serializedName: "audioRoutingMode",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const callRequest: OperationParameter = {
+  parameterPath: "callRequest",
+  mapper: CreateCallRequestMapper
 };
 
 export const request: OperationParameter = {
@@ -94,36 +161,144 @@ export const cancelAllMediaOperationRequest: OperationParameter = {
   mapper: CancelAllMediaOperationsRequestMapper
 };
 
+export const transferCallRequest: OperationParameter = {
+  parameterPath: "transferCallRequest",
+  mapper: TransferCallRequestMapper
+};
+
 export const addParticipantRequest: OperationParameter = {
   parameterPath: "addParticipantRequest",
   mapper: AddParticipantRequestMapper
 };
 
-export const participantId: OperationURLParameter = {
-  parameterPath: "participantId",
-  mapper: {
-    serializedName: "participantId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+export const removeParticipantRequest: OperationParameter = {
+  parameterPath: "removeParticipantRequest",
+  mapper: RemoveParticipantRequestMapper
 };
 
-export const serverCallId: OperationURLParameter = {
-  parameterPath: "serverCallId",
-  mapper: {
-    serializedName: "serverCallId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+export const getParticipantRequest: OperationParameter = {
+  parameterPath: "getParticipantRequest",
+  mapper: GetParticipantRequestMapper
 };
 
 export const request1: OperationParameter = {
   parameterPath: "request",
-  mapper: StartCallRecordingRequestMapper
+  mapper: StartHoldMusicRequestMapper
+};
+
+export const stopHoldMusicRequest: OperationParameter = {
+  parameterPath: "stopHoldMusicRequest",
+  mapper: StopHoldMusicRequestMapper
+};
+
+export const playAudioToParticipantRequest: OperationParameter = {
+  parameterPath: "playAudioToParticipantRequest",
+  mapper: PlayAudioToParticipantRequestMapper
+};
+
+export const cancelMediaOperationRequest: OperationParameter = {
+  parameterPath: "cancelMediaOperationRequest",
+  mapper: CancelParticipantMediaOperationRequestMapper
+};
+
+export const muteParticipantRequest: OperationParameter = {
+  parameterPath: "muteParticipantRequest",
+  mapper: MuteParticipantRequestMapper
+};
+
+export const unmuteParticipantRequest: OperationParameter = {
+  parameterPath: "unmuteParticipantRequest",
+  mapper: UnmuteParticipantRequestMapper
+};
+
+export const holdMeetingAudioRequest: OperationParameter = {
+  parameterPath: "holdMeetingAudioRequest",
+  mapper: HoldMeetingAudioRequestMapper
+};
+
+export const resumeMeetingAudioRequest: OperationParameter = {
+  parameterPath: "resumeMeetingAudioRequest",
+  mapper: ResumeMeetingAudioRequestMapper
+};
+
+export const answerCallRequest: OperationParameter = {
+  parameterPath: "answerCallRequest",
+  mapper: AnswerCallRequestMapper
+};
+
+export const rejectCallRequest: OperationParameter = {
+  parameterPath: "rejectCallRequest",
+  mapper: RejectCallRequestMapper
+};
+
+export const redirectCallRequest: OperationParameter = {
+  parameterPath: "redirectCallRequest",
+  mapper: RedirectCallRequestMapper
+};
+
+export const getAllParticipantsWithCallLocatorRequest: OperationParameter = {
+  parameterPath: "getAllParticipantsWithCallLocatorRequest",
+  mapper: GetAllParticipantsWithCallLocatorRequestMapper
+};
+
+export const addParticipantWithCallLocatorRequest: OperationParameter = {
+  parameterPath: "addParticipantWithCallLocatorRequest",
+  mapper: AddParticipantWithCallLocatorRequestMapper
+};
+
+export const removeParticipantWithCallLocatorRequest: OperationParameter = {
+  parameterPath: "removeParticipantWithCallLocatorRequest",
+  mapper: RemoveParticipantWithCallLocatorRequestMapper
+};
+
+export const getParticipantWithCallLocatorRequest: OperationParameter = {
+  parameterPath: "getParticipantWithCallLocatorRequest",
+  mapper: GetParticipantWithCallLocatorRequestMapper
+};
+
+export const startHoldMusicRequest: OperationParameter = {
+  parameterPath: "startHoldMusicRequest",
+  mapper: StartHoldMusicWithCallLocatorRequestMapper
+};
+
+export const stopHoldMusicRequest1: OperationParameter = {
+  parameterPath: "stopHoldMusicRequest",
+  mapper: StopHoldMusicWithCallLocatorRequestMapper
+};
+
+export const playAudioToParticipantRequest1: OperationParameter = {
+  parameterPath: "playAudioToParticipantRequest",
+  mapper: PlayAudioToParticipantWithCallLocatorRequestMapper
+};
+
+export const cancelParticipantMediaOperationRequest: OperationParameter = {
+  parameterPath: "cancelParticipantMediaOperationRequest",
+  mapper: CancelParticipantMediaOperationWithCallLocatorRequestMapper
+};
+
+export const muteParticipantWithCallLocatorRequest: OperationParameter = {
+  parameterPath: "muteParticipantWithCallLocatorRequest",
+  mapper: MuteParticipantWithCallLocatorRequestMapper
+};
+
+export const unmuteParticipantWithCallLocatorRequest: OperationParameter = {
+  parameterPath: "unmuteParticipantWithCallLocatorRequest",
+  mapper: UnmuteParticipantWithCallLocatorRequestMapper
+};
+
+export const holdMeetingAudioWithCallLocatorRequest: OperationParameter = {
+  parameterPath: "holdMeetingAudioWithCallLocatorRequest",
+  mapper: HoldMeetingAudioWithCallLocatorRequestMapper
+};
+
+export const resumeMeetingAudioWithCallLocatorRequest: OperationParameter = {
+  parameterPath: "resumeMeetingAudioWithCallLocatorRequest",
+  mapper: ResumeMeetingAudioWithCallLocatorRequestMapper
+};
+
+export const startCallRecordingWithCallLocatorRequest: OperationParameter = {
+  parameterPath: "startCallRecordingWithCallLocatorRequest",
+  mapper: StartCallRecordingWithCallLocatorRequestMapper
 };
 
 export const recordingId: OperationURLParameter = {
@@ -140,4 +315,14 @@ export const recordingId: OperationURLParameter = {
 export const callRequest1: OperationParameter = {
   parameterPath: "callRequest",
   mapper: JoinCallRequestMapper
+};
+
+export const playAudioRequest: OperationParameter = {
+  parameterPath: "playAudioRequest",
+  mapper: PlayAudioWithCallLocatorRequestMapper
+};
+
+export const cancelMediaOperationRequest1: OperationParameter = {
+  parameterPath: "cancelMediaOperationRequest",
+  mapper: CancelMediaOperationWithCallLocatorRequestMapper
 };
