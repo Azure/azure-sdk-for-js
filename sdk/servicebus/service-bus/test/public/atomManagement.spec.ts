@@ -3076,7 +3076,6 @@ describe("ATOM APIs", () => {
             atomClient
           );
         } catch (err) {
-          console.log(err);
           error = err;
         }
         assert.include(
