@@ -1,14 +1,32 @@
 # Release History
 
-## 3.2.1 (Unreleased)
-
-### Features Added
+## 4.0.0-beta.1 (2021-10-05)
 
 ### Breaking Changes
 
-### Bugs Fixed
+- This new major version beta introduces a full redesign of the Azure Form Recognizer client library. To leverage features of the newest Form Recognizer service API (version "2021-09-30-preview" and newer), the new SDK is required, and application code must be changed to use the new clients. Please see the [Migration Guide](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/MIGRATION-v3_v4.md) for detailed instructions on how to update application code from version 3.x of the Form Recognizer SDK to the new version (4.x). Additionally, the [CHANGELOG](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/CHANGELOG.md) for more detailed information.
+- This package targets Azure Form Recognizer service API version `2021-09-30-preview` and newer. It _is not_ compatible with the older Form Recognizer service API versions (2.0 and 2.1). To continue to use Form Recognizer API version 2.1, please use major version 3 of the client package (`@azure/ai-form-recognizer@^3.2.0`).
+- `FormRecognizerClient` has been replaced by `DocumentAnalysisClient`.
+  - The new `beginExtractLayout` method replaces the previous `beginRecognizeContent` method and its `-FromUrl` counterpart. Rather than an array of pages, the new method produces an object that has properties for `pages`, `tables`, and `styles`.
+  - The new `beginAnalyzeDocuments` method replaces the form recognition methods of the previous client. It provides a single method that can analyze documents using any model ID, including prebuilt models. It replaces `beginRecognizeCustomForms`, `beginRecognizeReceipts`, `beginRecognizeBusinessCards`, `beginRecognizeInvoices`, and `beginRecognizeIdentityDocuments`, as well as all of their -`FromUrl` counterparts. Rather than an array of forms, the new method produces an `AnalyzeResult` (an object with several fields, described below).
+  - Analysis using models trained without labeled training data is no longer supported by this package.
+- `FormTrainingClient` has been replaced by `DocumentModelAdministrationClient`.
+  - The new `beginBuildModel` method replaces the previous `beginTraining` method. The new method and underlying service API do not support training a model using unlabeled training data. Labeled data are required to build a custom document model using the new SDK and service API.
+  - The new `beginComposeModel` method replaces the `beginCreateComposedModel` method.
+  - Custom models no longer have a name that is distinct from the model ID (more accurately, the model ID and name have been unified).
+  - You must now specify a model ID to create a model (whether composed, copied, or built). Previously, the Form Recognizer service would generate a GUID for the newly-created model. Now, the model ID may be any text (so long as it does not start with "prebuilt-"), and it must be provided when the model is created.
+  - Creating a model no longer produces `trainingDocuments` (metadata information about the documents used to create the document model).
+- The structure of many output types has changed. The full list of changes is extensive and discussed in depth in [the migration guide](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/MIGRATION-v3_v4.md). The following are some of the changes:
+  - When analyzing a document, the output is no longer an array of `RecognizedForm`s. All analysis methods&mdash;including custom/prebuilt model analysis, layout, and the generic document model&mdash;produce an `AnalyzeResult` or a subset thereof. The `AnalyzeResult` has fields for `pages`, `tables`, `styles`, `entities`, `keyValuePairs`, and `documents`. The `beginExtractLayout` and `beginExtractGenericDocument` methods produce subtypes (`LayoutResult` and `GenericDocumentResult` respectively) of `AnalyzeResult` that contain only those fields that are produced by that model.
+  - The new type `AnalyzedDocument` replaces `RecognizedForm`. It does not contain a `pages` property, as `pages` are now a top-level property of the `AnalyzeResult`.
+  - The new type `DocumentPage` replaces `FormPage`. It does not have a `tables` property, as `tables` are now a top-level property of the `AnalyzeResult`.
 
-### Other Changes
+### New Features
+
+- Added support for a new generic document prebuilt model. The `beginExtractGenericDocument` method of `DocumentAnalysisClient` utilizes this new model, or it may be used with `beginAnalyzeDocuments` by its model ID: "prebuilt-document". This model produces all of the same basic layout information as the prebuilt layout model, but also extracts entities (along with their categories/subcategories) and key-value pairs (associations from one document element, such as a label, to another).
+- There are now strong result types for the four prebuilt models (receipts, business cards, invoices, and identity documents) built in to the SDK. To utilize these new result types, the `DocumentModel` data structure corresponding to the prebuilt model must be provided to `beginAnalyzeDocuments` (rather than providing a simple string model ID). These `DocumentModel` data structures are part of `PrebuiltModels` (for example, `PrebuiltModels.Receipt`), which can be imported from this package.
+- An extracted table may now span multiple pages.
+- A page may now contain multiple `AnalyzedDocument`s (previously `RecognizedForm`s).
 
 ## 3.2.0 (2021-08-11)
 
