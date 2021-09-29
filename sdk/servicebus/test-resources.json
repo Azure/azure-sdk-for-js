@@ -20,7 +20,9 @@
     "apiVersion": "2017-04-01",
     "location": "[resourceGroup().location]",
     "authorizationRuleName": "[concat(parameters('baseName'), '/RootManageSharedAccessKey')]",
-    "serviceBusDataOwnerRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/090c5cfd-751d-490a-894a-3ce6f1109419')]"
+    "serviceBusDataOwnerRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/090c5cfd-751d-490a-894a-3ce6f1109419')]",
+    "baseNamePremium":"[concat(parameters('baseName'), 'premium')]",
+    "authorizationRuleNamePremium": "[concat(parameters('baseName'), 'premium', '/RootManageSharedAccessKey')]"
   },
   "resources": [
     {
@@ -34,6 +36,35 @@
       },
       "properties": {
         "zoneRedundant": false
+      }
+    },
+    {
+      "type": "Microsoft.ServiceBus/namespaces",
+      "apiVersion": "2018-01-01-preview",
+      "name": "[variables('baseNamePremium')]",
+      "location": "[variables('location')]",
+      "sku": {
+        "name": "Premium",
+        "tier": "Premium"
+      },
+      "properties": {
+        "zoneRedundant": false
+      }
+    },
+    {
+      "type": "Microsoft.ServiceBus/namespaces/AuthorizationRules",
+      "apiVersion": "2015-08-01",
+      "name": "[variables('authorizationRuleNamePremium')]",
+      "location": "[variables('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ServiceBus/namespaces', variables('baseNamePremium'))]"
+      ],
+      "properties": {
+        "rights": [
+          "Listen",
+          "Manage",
+          "Send"
+        ]
       }
     },
     {
@@ -111,6 +142,10 @@
     "SERVICEBUS_CONNECTION_STRING": {
       "type": "string",
       "value": "[listKeys(resourceId('Microsoft.ServiceBus/namespaces/authorizationRules', parameters('baseName'), 'RootManageSharedAccessKey'), variables('apiVersion')).primaryConnectionString]"
+    },
+    "SERVICEBUS_CONNECTION_STRING_PREMIUM": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.ServiceBus/namespaces/authorizationRules', variables('baseNamePremium'), 'RootManageSharedAccessKey'), variables('apiVersion')).primaryConnectionString]"
     },
     "SERVICEBUS_ENDPOINT": {
       "type": "string",
