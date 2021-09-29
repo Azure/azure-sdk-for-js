@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "8474700a548e1a5cdba75fba89caa13c";
+module.exports.hash = "a47c9da37783992c50b69300fbc277f4";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -11,8 +11,6 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '1318',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -24,25 +22,27 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '6660c322-61ee-4331-94a2-4c8e10781600',
+  '251fb273-6f10-4e7e-8933-399a29b71c00',
   'x-ms-ests-server',
-  '2.1.11961.8 - SEASLR1 ProdSlices',
+  '2.1.12071.23 - WUS2 ProdSlices',
   'Set-Cookie',
-  'fpc=AtDw3-AOXglAm0wYV8Q9qh6qGAkBAQAAAPRirdgOAAAA; expires=Thu, 16-Sep-2021 07:57:41 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AlIearvlynxPuBxmjqqWrff__1r8AQAAAEuy5tgOAAAA; expires=Fri, 29-Oct-2021 19:15:24 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 17 Aug 2021 07:57:40 GMT'
+  'Wed, 29 Sep 2021 19:15:24 GMT',
+  'Content-Length',
+  '1318'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
   .get('/collections')
   .query(true)
-  .reply(200, {"value":[{"name":"qiaozhatest","friendlyName":"qiaozhatest","description":"The root collection.","systemData":{"createdBy":"e0f63e9f-e67d-46b9-a50d-c5846cc99ed2","createdByType":"User","createdAt":"2021-08-11T09:24:28.626038Z","lastModifiedBy":"e0f63e9f-e67d-46b9-a50d-c5846cc99ed2","lastModifiedByType":"User","lastModifiedAt":"2021-08-11T09:24:28.626038Z"},"collectionProvisioningState":"Succeeded"}],"count":1}, [
+  .reply(200, {"value":[{"name":"newpurviewllc","friendlyName":"newpurviewllc","description":"The root collection.","systemData":{"createdBy":"35ac9d32-a8ca-4324-9393-d4000746f07c","createdByType":"User","createdAt":"2021-09-29T18:35:18.4761382Z","lastModifiedBy":"35ac9d32-a8ca-4324-9393-d4000746f07c","lastModifiedByType":"User","lastModifiedAt":"2021-09-29T18:35:18.4761382Z"},"collectionProvisioningState":"Succeeded"},{"name":"la7eio","friendlyName":"Foo","description":"Test foo","parentCollection":{"type":"CollectionReference","referenceName":"newpurviewllc"},"systemData":{"createdBy":"35ac9d32-a8ca-4324-9393-d4000746f07c","createdByType":"User","createdAt":"2021-09-29T18:40:02.8364266Z","lastModifiedBy":"35ac9d32-a8ca-4324-9393-d4000746f07c","lastModifiedByType":"User","lastModifiedAt":"2021-09-29T18:40:02.8364266Z"},"collectionProvisioningState":"Succeeded"}],"count":2}, [
   'Date',
-  'Tue, 17 Aug 2021 07:57:41 GMT',
+  'Wed, 29 Sep 2021 19:15:24 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Server',
@@ -52,5 +52,5 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-correlation-request-id',
-  '320523ad-ce0b-4d1d-9b90-6e9c29d26585'
+  '267daafe-4f05-4c87-914c-4ac432d034ff'
 ]);

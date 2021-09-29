@@ -4,7 +4,7 @@ import { PurviewAccount } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
 
 import { assert } from "chai";
-import { createClient, createRecorder } from "./utils/recordedClient";
+import { createAccountClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 
 describe("List collections", () => {
@@ -13,7 +13,7 @@ describe("List collections", () => {
 
   beforeEach(function (this: Context) {
     recorder = createRecorder(this);
-    client = createClient();
+    client = createAccountClient();
   });
 
   afterEach(async function () {
@@ -27,6 +27,6 @@ describe("List collections", () => {
       assert.fail(`GET "/collections" failed with ${result.status}`);
     }
 
-    assert.isDefined(result.body.count);
+    assert.isDefined(result.body);
   });
 });

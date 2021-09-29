@@ -4,7 +4,7 @@ import { PurviewAccount } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
 
 import { assert } from "chai";
-import { createClient, createRecorder } from "./utils/recordedClient";
+import { createAccountClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 
 describe("Get account info", () => {
@@ -13,7 +13,7 @@ describe("Get account info", () => {
 
   beforeEach(function (this: Context) {
     recorder = createRecorder(this);
-    client = createClient();
+    client = createAccountClient();
   });
 
   afterEach(async function () {

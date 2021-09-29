@@ -6,7 +6,12 @@
 import { Context } from "mocha";
 
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
-import { PurviewAccount, PurviewAccountClient } from "../../../src";
+import {
+  PurviewAccount,
+  PurviewAccountClient,
+  PurviewMetadataPolicies,
+  PurviewMetadataPoliciesClient,
+} from "../../../src";
 import { ClientSecretCredential } from "@azure/identity";
 
 import "./env";
@@ -36,7 +41,7 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: [],
 };
 
-export function createClient(
+export function createAccountClient(
   options?: ClientOptions
 ): PurviewAccount.Client.PurviewAccountRestClient {
   const credential = new ClientSecretCredential(
@@ -45,6 +50,17 @@ export function createClient(
     env.AZURE_CLIENT_SECRET
   );
   return PurviewAccountClient(env.ENDPOINT, credential, options);
+}
+
+export function createMetadataClient(
+  options?: ClientOptions
+): PurviewMetadataPolicies.Client.PurviewMetadataPoliciesRestClient {
+  const credential = new ClientSecretCredential(
+    env.AZURE_TENANT_ID,
+    env.AZURE_CLIENT_ID,
+    env.AZURE_CLIENT_SECRET
+  );
+  return PurviewMetadataPoliciesClient(env.ENDPOINT, credential, options);
 }
 
 /**
