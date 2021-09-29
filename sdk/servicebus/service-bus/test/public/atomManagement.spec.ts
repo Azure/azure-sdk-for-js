@@ -2542,7 +2542,8 @@ describe("ATOM APIs", () => {
     queueOptions?: Omit<CreateQueueOptions, "name">,
     topicOptions?: Omit<CreateTopicOptions, "name">,
     subscriptionOptions?: Omit<CreateSubscriptionOptions, "topicName" | "subscriptionName">,
-    ruleOptions?: Omit<Required<CreateSubscriptionOptions>["defaultRuleOptions"], "name">
+    ruleOptions?: Omit<Required<CreateSubscriptionOptions>["defaultRuleOptions"], "name">,
+    atomClient: ServiceBusAdministrationClient = serviceBusAtomManagementClient
   ): Promise<any> {
     if (!overrideOptions) {
       if (queueOptions === undefined) {
@@ -2585,13 +2586,13 @@ describe("ATOM APIs", () => {
 
     switch (testEntityType) {
       case EntityType.QUEUE: {
-        const queueResponse = await serviceBusAtomManagementClient.createQueue(entityPath, {
+        const queueResponse = await atomClient.createQueue(entityPath, {
           ...queueOptions
         });
         return queueResponse;
       }
       case EntityType.TOPIC: {
-        const topicResponse = await serviceBusAtomManagementClient.createTopic(entityPath, {
+        const topicResponse = await atomClient.createTopic(entityPath, {
           ...topicOptions
         });
         return topicResponse;
@@ -2602,13 +2603,9 @@ describe("ATOM APIs", () => {
             "TestError: Topic path must be passed when invoking tests on subscriptions"
           );
         }
-        const subscriptionResponse = await serviceBusAtomManagementClient.createSubscription(
-          topicPath,
-          entityPath,
-          {
-            ...subscriptionOptions
-          }
-        );
+        const subscriptionResponse = await atomClient.createSubscription(topicPath, entityPath, {
+          ...subscriptionOptions
+        });
         return subscriptionResponse;
       }
       case EntityType.RULE: {
@@ -2617,7 +2614,7 @@ describe("ATOM APIs", () => {
             "TestError: Topic path AND subscription path must be passed when invoking tests on rules"
           );
         }
-        const ruleResponse = await serviceBusAtomManagementClient.createRule(
+        const ruleResponse = await atomClient.createRule(
           topicPath,
           subscriptionPath,
           entityPath,
@@ -2634,15 +2631,16 @@ describe("ATOM APIs", () => {
     testEntityType: EntityType,
     entityPath: string,
     topicPath?: string,
-    subscriptionPath?: string
+    subscriptionPath?: string,
+    atomClient: ServiceBusAdministrationClient = serviceBusAtomManagementClient
   ): Promise<any> {
     switch (testEntityType) {
       case EntityType.QUEUE: {
-        const queueResponse = await serviceBusAtomManagementClient.getQueue(entityPath);
+        const queueResponse = await atomClient.getQueue(entityPath);
         return queueResponse;
       }
       case EntityType.TOPIC: {
-        const topicResponse = await serviceBusAtomManagementClient.getTopic(entityPath);
+        const topicResponse = await atomClient.getTopic(entityPath);
         return topicResponse;
       }
       case EntityType.SUBSCRIPTION: {
@@ -2651,10 +2649,7 @@ describe("ATOM APIs", () => {
             "TestError: Topic path must be passed when invoking tests on subscriptions"
           );
         }
-        const subscriptionResponse = await serviceBusAtomManagementClient.getSubscription(
-          topicPath,
-          entityPath
-        );
+        const subscriptionResponse = await atomClient.getSubscription(topicPath, entityPath);
         return subscriptionResponse;
       }
       case EntityType.RULE: {
@@ -2663,11 +2658,7 @@ describe("ATOM APIs", () => {
             "TestError: Topic path AND subscription path must be passed when invoking tests on rules"
           );
         }
-        const ruleResponse = await serviceBusAtomManagementClient.getRule(
-          topicPath,
-          subscriptionPath,
-          entityPath
-        );
+        const ruleResponse = await atomClient.getRule(topicPath, subscriptionPath, entityPath);
         return ruleResponse;
       }
     }
@@ -2783,7 +2774,8 @@ describe("ATOM APIs", () => {
     queueOptions?: Omit<CreateQueueOptions, "name">,
     topicOptions?: Omit<CreateTopicOptions, "name">,
     subscriptionOptions?: Omit<CreateSubscriptionOptions, "topicName" | "subscriptionName">,
-    ruleOptions?: Omit<RuleProperties, "name">
+    ruleOptions?: Omit<RuleProperties, "name">,
+    atomClient: ServiceBusAdministrationClient = serviceBusAtomManagementClient
   ): Promise<any> {
     if (!overrideOptions) {
       if (queueOptions === undefined) {
@@ -2829,16 +2821,16 @@ describe("ATOM APIs", () => {
 
     switch (testEntityType) {
       case EntityType.QUEUE: {
-        const getQueueResponse = await serviceBusAtomManagementClient.getQueue(entityPath);
-        const queueResponse = await serviceBusAtomManagementClient.updateQueue({
+        const getQueueResponse = await atomClient.getQueue(entityPath);
+        const queueResponse = await atomClient.updateQueue({
           ...getQueueResponse,
           ...queueOptions
         });
         return queueResponse;
       }
       case EntityType.TOPIC: {
-        const getTopicResponse = await serviceBusAtomManagementClient.getTopic(entityPath);
-        const topicResponse = await serviceBusAtomManagementClient.updateTopic({
+        const getTopicResponse = await atomClient.getTopic(entityPath);
+        const topicResponse = await atomClient.updateTopic({
           ...getTopicResponse,
           ...topicOptions
         });
@@ -2850,11 +2842,8 @@ describe("ATOM APIs", () => {
             "TestError: Topic path must be passed when invoking tests on subscriptions"
           );
         }
-        const getSubscriptionResponse = await serviceBusAtomManagementClient.getSubscription(
-          topicPath,
-          entityPath
-        );
-        const subscriptionResponse = await serviceBusAtomManagementClient.updateSubscription({
+        const getSubscriptionResponse = await atomClient.getSubscription(topicPath, entityPath);
+        const subscriptionResponse = await atomClient.updateSubscription({
           ...getSubscriptionResponse,
           ...subscriptionOptions
         });
@@ -2866,19 +2855,11 @@ describe("ATOM APIs", () => {
             "TestError: Topic path AND subscription path must be passed when invoking tests on rules"
           );
         }
-        const getRuleResponse = await serviceBusAtomManagementClient.getRule(
-          topicPath,
-          subscriptionPath,
-          entityPath
-        );
-        const ruleResponse = await serviceBusAtomManagementClient.updateRule(
-          topicPath,
-          subscriptionPath,
-          {
-            ...getRuleResponse,
-            ...ruleOptions
-          }
-        );
+        const getRuleResponse = await atomClient.getRule(topicPath, subscriptionPath, entityPath);
+        const ruleResponse = await atomClient.updateRule(topicPath, subscriptionPath, {
+          ...getRuleResponse,
+          ...ruleOptions
+        });
         return ruleResponse;
       }
     }
@@ -2972,9 +2953,10 @@ describe("ATOM APIs", () => {
     throw new Error("TestError: Unrecognized EntityType");
   }
 
-  describe.only("Premium Namespaces", () => {
+  describe("Premium Namespaces", () => {
     const premiumConnectionString = getEnvVarValue("SERVICEBUS_CONNECTION_STRING_PREMIUM");
     let atomClient: ServiceBusAdministrationClient;
+    let entityNameWithmaxSize: { entityName: string; maxSize: number };
     before(function() {
       if (!premiumConnectionString) {
         this.skip();
@@ -2982,28 +2964,127 @@ describe("ATOM APIs", () => {
       atomClient = new ServiceBusAdministrationClient(premiumConnectionString);
     });
 
-    it("MaxMessageSizeInKilobytes - create and get queue", async () => {
-      const sizeInKB = Math.ceil(10000 + Math.random() * 100000);
-      const queueName = "queue" + sizeInKB;
+    function setEntityNameWithMaxSize(type: EntityType.QUEUE | EntityType.TOPIC, maxSize?: number) {
+      maxSize = !maxSize ? Math.ceil(1024 + Math.random() * (102400 - 1024)) : maxSize; // If not provided, we'll give one that follows - "> 1024" & "< 102400"
+      entityNameWithmaxSize = {
+        entityName: `${type}-${maxSize}`,
+        maxSize
+      };
+    }
+
+    function getRandomEntityType(): EntityType.QUEUE | EntityType.TOPIC {
+      return Math.random() > 0.5 ? EntityType.QUEUE : EntityType.TOPIC;
+    }
+
+    async function verifyAndDeleteEntity(type: EntityType.QUEUE | EntityType.TOPIC) {
       assert.equal(
-        (
-          await atomClient.createQueue(queueName, {
-            maxMessageSizeInKilobytes: sizeInKB
-          })
-        ).maxMessageSizeInKilobytes,
-        sizeInKB,
-        "Unexpected size returned"
+        (await getEntity(type, entityNameWithmaxSize.entityName, undefined, undefined, atomClient))
+          .maxMessageSizeInKilobytes,
+        entityNameWithmaxSize.maxSize,
+        "Unexpected size returned with getEntity"
       );
-      assert.equal(
-        (await atomClient.getQueue(EntityNames.QUEUE_NAME)).maxMessageSizeInKilobytes,
-        sizeInKB,
-        "Unexpected size returned with getQueue"
-      );
-      await deleteEntity(EntityType.QUEUE, queueName, undefined, undefined, atomClient);
-      102400;
+      await deleteEntity(type, entityNameWithmaxSize.entityName, undefined, undefined, atomClient);
+    }
+
+    [getRandomEntityType()].forEach((type) => {
+      it(`MaxMessageSizeInKilobytes - create and get ${type}`, async () => {
+        setEntityNameWithMaxSize(type);
+        const options: CreateQueueOptions | CreateTopicOptions = {
+          maxMessageSizeInKilobytes: entityNameWithmaxSize.maxSize
+        };
+        assert.equal(
+          (
+            await createEntity(
+              type,
+              entityNameWithmaxSize.entityName,
+              undefined,
+              undefined,
+              true,
+              options,
+              options,
+              undefined,
+              undefined,
+              atomClient
+            )
+          ).maxMessageSizeInKilobytes,
+          options.maxMessageSizeInKilobytes,
+          "Unexpected size returned with createEntity"
+        );
+        await verifyAndDeleteEntity(type);
+      });
+
+      it(`MaxMessageSizeInKilobytes - create and update ${type}`, async () => {
+        setEntityNameWithMaxSize(type);
+        const options: CreateQueueOptions | CreateTopicOptions = {
+          maxMessageSizeInKilobytes: entityNameWithmaxSize.maxSize
+        };
+        await createEntity(
+          type,
+          entityNameWithmaxSize.entityName,
+          undefined,
+          undefined,
+          false,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          atomClient
+        );
+        assert.equal(
+          (
+            await updateEntity(
+              type,
+              entityNameWithmaxSize.entityName,
+              undefined,
+              undefined,
+              true,
+              options,
+              options,
+              undefined,
+              undefined,
+              atomClient
+            )
+          ).maxMessageSizeInKilobytes,
+          options.maxMessageSizeInKilobytes,
+          "Unexpected size returned with updateEntity"
+        );
+        await verifyAndDeleteEntity(type);
+      });
+
+      it(`MaxMessageSizeInKilobytes - create ${type} (size < 1024) or (size > 102400) throws error`, async () => {
+        setEntityNameWithMaxSize(
+          type,
+          Math.random() > 0.5
+            ? Math.ceil(Math.random() * 1023) // < 1024
+            : Math.ceil(102400 + Math.random() * 1024) // > 102400
+        );
+        const options: CreateQueueOptions | CreateTopicOptions = {
+          maxMessageSizeInKilobytes: entityNameWithmaxSize.maxSize
+        };
+        let error;
+        try {
+          await createEntity(
+            type,
+            entityNameWithmaxSize.entityName,
+            undefined,
+            undefined,
+            true,
+            options,
+            options,
+            undefined,
+            undefined,
+            atomClient
+          );
+        } catch (err) {
+          console.log(err);
+          error = err;
+        }
+        assert.include(
+          error.message,
+          "value for 'MaxMessageSizeInKilobytes' must be between 1024 and 102400",
+          "Did not get the error message that says 'MaxMessageSizeInKilobytes' must be between 1024 and 102400"
+        );
+      });
     });
-    it("MaxMessageSizeInKilobytes - update queue", () => {});
-    it("MaxMessageSizeInKilobytes - create topic", () => {});
-    it("MaxMessageSizeInKilobytes - update topic", () => {});
   });
 });
