@@ -72,6 +72,7 @@ export interface CreateQueueOptions extends OperationOptions {
     forwardTo?: string;
     lockDuration?: string;
     maxDeliveryCount?: number;
+    maxMessageSizeInKilobytes?: number;
     maxSizeInMegabytes?: number;
     requiresDuplicateDetection?: boolean;
     requiresSession?: boolean;
@@ -111,6 +112,7 @@ export interface CreateTopicOptions extends OperationOptions {
     enableBatchedOperations?: boolean;
     enableExpress?: boolean;
     enablePartitioning?: boolean;
+    maxMessageSizeInKilobytes?: number;
     maxSizeInMegabytes?: number;
     requiresDuplicateDetection?: boolean;
     status?: EntityStatus;
@@ -197,6 +199,7 @@ export interface QueueProperties {
     forwardTo?: string;
     lockDuration: string;
     maxDeliveryCount: number;
+    maxMessageSizeInKilobytes?: number;
     maxSizeInMegabytes: number;
     readonly name: string;
     readonly requiresDuplicateDetection: boolean;
@@ -549,6 +552,7 @@ export interface TopicProperties {
     enableBatchedOperations: boolean;
     readonly enableExpress: boolean;
     readonly enablePartitioning: boolean;
+    maxMessageSizeInKilobytes?: number;
     maxSizeInMegabytes: number;
     readonly name: string;
     readonly requiresDuplicateDetection: boolean;
