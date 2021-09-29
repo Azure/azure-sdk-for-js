@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CryptographyOptions, KeyVaultKey } from "./keysModels";
+import { CryptographyOptions, KeyVaultKey, JsonWebKey } from "./keysModels";
 
 import {
-  JsonWebKey,
   JsonWebKeyCurveName as KeyCurveName,
   KnownJsonWebKeyCurveName as KnownKeyCurveNames,
   JsonWebKeyEncryptionAlgorithm as EncryptionAlgorithm,

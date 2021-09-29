@@ -27,8 +27,8 @@ export class TextModeration {
   }
 
   /**
-   * Detects profanity in more than 100 languages and match against custom and shared blacklists.
-   * @summary Detect profanity and match against custom and shared blacklists
+   * Detects profanity in more than 100 languages and match against custom and shared blocklists.
+   * @summary Detect profanity and match against custom and shared blocklists
    * @param textContentType The content type. Possible values include: 'text/plain', 'text/html',
    * 'text/xml', 'text/markdown'
    * @param textContent Content to screen.

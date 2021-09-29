@@ -6,7 +6,8 @@
   "scripts": {
     "build": "webpack --config webpack.config.js",
     "start": "webpack-dev-server",
-    "format": "prettier --write \"src/**/*.tsx\""
+    "check-format": "prettier --list-different --config ../../../../../.prettierrc.json --ignore-path ../../../../../.prettierignore \"src/**/*.tsx\"",
+    "format": "prettier --write --config ../../../../../.prettierrc.json --ignore-path ../../../../../.prettierignore \"src/**/*.tsx\""
   },
   "author": "Microsoft Corporation",
   "license": "MIT",
