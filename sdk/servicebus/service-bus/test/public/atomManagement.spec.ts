@@ -2953,7 +2953,7 @@ describe("ATOM APIs", () => {
     throw new Error("TestError: Unrecognized EntityType");
   }
 
-  describe("Premium Namespaces", () => {
+  describe.only("Premium Namespaces", () => {
     const premiumConnectionString = getEnvVarValue("SERVICEBUS_CONNECTION_STRING_PREMIUM");
     let atomClient: ServiceBusAdministrationClient;
     let entityNameWithmaxSize: { entityName: string; maxSize: number };
