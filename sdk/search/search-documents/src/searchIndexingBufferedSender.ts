@@ -17,8 +17,9 @@ import { OperationOptions } from "@azure/core-client";
 import EventEmitter from "events";
 import { createSpan } from "./tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
-import { delay, RestError } from "@azure/core-http";
+import { delay } from "@azure/core-http";
 import { getRandomIntegerInclusive } from "./serviceUtils";
+import { RestError } from "@azure/core-rest-pipeline";
 
 /**
  * Index Documents Client
