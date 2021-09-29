@@ -229,9 +229,9 @@ export interface ContainerExec {
 }
 
 /**
- * The HTTP headers.
+ * The HTTP header.
  */
-export interface HttpHeaders {
+export interface HttpHeader {
   /**
    * The header name.
    */
@@ -261,7 +261,7 @@ export interface ContainerHttpGet {
   /**
    * The HTTP headers.
    */
-  httpHeaders?: HttpHeaders;
+  httpHeaders?: HttpHeader[];
 }
 
 /**
@@ -476,6 +476,14 @@ export interface ImageRegistryCredential {
    * The password for the private registry.
    */
   password?: string;
+  /**
+   * The identity for the private registry.
+   */
+  identity?: string;
+  /**
+   * The identity URL for the private registry.
+   */
+  identityUrl?: string;
 }
 
 /**
@@ -559,7 +567,7 @@ export interface LogAnalytics {
   /**
    * The workspace resource id for log analytics
    */
-  workspaceResourceId?: { [propertyName: string]: string };
+  workspaceResourceId?: string;
 }
 
 /**
@@ -573,13 +581,17 @@ export interface ContainerGroupDiagnostics {
 }
 
 /**
- * Container group network profile information.
+ * Container group subnet information.
  */
-export interface ContainerGroupNetworkProfile {
+export interface ContainerGroupSubnetId {
   /**
-   * The identifier for a network profile.
+   * Resource ID of virtual network and subnet.
    */
   id: string;
+  /**
+   * Friendly name for the subnet.
+   */
+  name?: string;
 }
 
 /**
@@ -756,9 +768,9 @@ export interface ContainerGroup extends Resource {
    */
   diagnostics?: ContainerGroupDiagnostics;
   /**
-   * The network profile information for a container group.
+   * The subnet resource IDs for a container group.
    */
-  networkProfile?: ContainerGroupNetworkProfile;
+  subnetIds?: ContainerGroupSubnetId[];
   /**
    * The DNS config information for a container group.
    */
@@ -1286,6 +1298,26 @@ export type ContainerGroupsDeleteMethodResponse = ContainerGroup & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ContainerGroup;
+    };
+};
+
+/**
+ * Contains response data for the getOutboundNetworkDependenciesEndpoints operation.
+ */
+export type ContainerGroupsGetOutboundNetworkDependenciesEndpointsResponse = Array<string> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: string[];
     };
 };
 

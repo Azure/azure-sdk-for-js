@@ -247,6 +247,40 @@ export class ContainerGroups {
   }
 
   /**
+   * Gets all the network dependencies for this container group to allow complete control of network
+   * setting and configuration. For container groups, this will always be an empty list.
+   * @summary Get all network dependencies for container group.
+   * @param resourceGroupName The name of the resource group.
+   * @param containerGroupName The name of the container group.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ContainerGroupsGetOutboundNetworkDependenciesEndpointsResponse>
+   */
+  getOutboundNetworkDependenciesEndpoints(resourceGroupName: string, containerGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ContainerGroupsGetOutboundNetworkDependenciesEndpointsResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param containerGroupName The name of the container group.
+   * @param callback The callback
+   */
+  getOutboundNetworkDependenciesEndpoints(resourceGroupName: string, containerGroupName: string, callback: msRest.ServiceCallback<string[]>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param containerGroupName The name of the container group.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getOutboundNetworkDependenciesEndpoints(resourceGroupName: string, containerGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string[]>): void;
+  getOutboundNetworkDependenciesEndpoints(resourceGroupName: string, containerGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string[]>, callback?: msRest.ServiceCallback<string[]>): Promise<Models.ContainerGroupsGetOutboundNetworkDependenciesEndpointsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        containerGroupName,
+        options
+      },
+      getOutboundNetworkDependenciesEndpointsOperationSpec,
+      callback) as Promise<Models.ContainerGroupsGetOutboundNetworkDependenciesEndpointsResponse>;
+  }
+
+  /**
    * Create or update container groups with specified configurations.
    * @summary Create or update container groups.
    * @param resourceGroupName The name of the resource group.
@@ -512,6 +546,41 @@ const stopOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const getOutboundNetworkDependenciesEndpointsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/outboundNetworkDependenciesEndpoints",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.containerGroupName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }

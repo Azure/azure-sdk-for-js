@@ -367,11 +367,11 @@ export const ContainerExec: msRest.CompositeMapper = {
   }
 };
 
-export const HttpHeaders: msRest.CompositeMapper = {
-  serializedName: "HttpHeaders",
+export const HttpHeader: msRest.CompositeMapper = {
+  serializedName: "HttpHeader",
   type: {
     name: "Composite",
-    className: "HttpHeaders",
+    className: "HttpHeader",
     modelProperties: {
       name: {
         serializedName: "name",
@@ -417,8 +417,13 @@ export const ContainerHttpGet: msRest.CompositeMapper = {
       httpHeaders: {
         serializedName: "httpHeaders",
         type: {
-          name: "Composite",
-          className: "HttpHeaders"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "HttpHeader"
+            }
+          }
         }
       }
     }
@@ -790,6 +795,18 @@ export const ImageRegistryCredential: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "String"
+        }
+      },
+      identityUrl: {
+        serializedName: "identityUrl",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -937,12 +954,7 @@ export const LogAnalytics: msRest.CompositeMapper = {
       workspaceResourceId: {
         serializedName: "workspaceResourceId",
         type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "String"
-            }
-          }
+          name: "String"
         }
       }
     }
@@ -966,15 +978,21 @@ export const ContainerGroupDiagnostics: msRest.CompositeMapper = {
   }
 };
 
-export const ContainerGroupNetworkProfile: msRest.CompositeMapper = {
-  serializedName: "ContainerGroupNetworkProfile",
+export const ContainerGroupSubnetId: msRest.CompositeMapper = {
+  serializedName: "ContainerGroupSubnetId",
   type: {
     name: "Composite",
-    className: "ContainerGroupNetworkProfile",
+    className: "ContainerGroupSubnetId",
     modelProperties: {
       id: {
         required: true,
         serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
         type: {
           name: "String"
         }
@@ -1301,11 +1319,16 @@ export const ContainerGroup: msRest.CompositeMapper = {
           className: "ContainerGroupDiagnostics"
         }
       },
-      networkProfile: {
-        serializedName: "properties.networkProfile",
+      subnetIds: {
+        serializedName: "properties.subnetIds",
         type: {
-          name: "Composite",
-          className: "ContainerGroupNetworkProfile"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ContainerGroupSubnetId"
+            }
+          }
         }
       },
       dnsConfig: {
