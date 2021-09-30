@@ -342,6 +342,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/purview-administration",
+      "projectFolder": "sdk/purview/purview-administration-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/purview-catalog",
       "projectFolder": "sdk/purview/purview-catalog-rest",
       "versionPolicyName": "client"
