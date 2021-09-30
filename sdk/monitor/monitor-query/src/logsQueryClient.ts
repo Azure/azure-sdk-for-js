@@ -63,12 +63,20 @@ export class LogsQueryClient {
     const credentialOptions = {
       credentialScopes: options?.audience
     };
+    const packageDetails = `azsdk-js-monitor-query/1.0.0-beta.6`;
+    const userAgentPrefix =
+      options?.userAgentOptions && options?.userAgentOptions.userAgentPrefix
+        ? `${options?.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
     this._logAnalytics = new AzureLogAnalytics({
       ...options,
       $host: options?.endpoint,
       endpoint: options?.endpoint,
       credentialScopes: credentialOptions?.credentialScopes ?? defaultMonitorScope,
-      credential: tokenCredential
+      credential: tokenCredential,
+      userAgentOptions: {
+        userAgentPrefix
+      }
     });
   }
 
