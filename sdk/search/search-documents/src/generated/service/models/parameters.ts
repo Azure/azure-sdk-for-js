@@ -13,10 +13,10 @@ import {
 } from "@azure/core-client";
 import {
   SearchIndexerDataSource as SearchIndexerDataSourceMapper,
-  Paths1Cj7DxmIndexersIndexernameSearchResetdocsPostRequestbodyContentApplicationJsonSchema as Paths1Cj7DxmIndexersIndexernameSearchResetdocsPostRequestbodyContentApplicationJsonSchemaMapper,
+  DocumentKeysOrIds as DocumentKeysOrIdsMapper,
   SearchIndexer as SearchIndexerMapper,
   SearchIndexerSkillset as SearchIndexerSkillsetMapper,
-  Paths1Ju2XepSkillsetsSkillsetnameSearchResetskillsPostRequestbodyContentApplicationJsonSchema as Paths1Ju2XepSkillsetsSkillsetnameSearchResetskillsPostRequestbodyContentApplicationJsonSchemaMapper,
+  SkillNames as SkillNamesMapper,
   SynonymMap as SynonymMapMapper,
   SearchIndex as SearchIndexMapper,
   AnalyzeRequest as AnalyzeRequestMapper
@@ -160,7 +160,7 @@ export const indexerName: OperationURLParameter = {
 
 export const keysOrIds: OperationParameter = {
   parameterPath: ["options", "keysOrIds"],
-  mapper: Paths1Cj7DxmIndexersIndexernameSearchResetdocsPostRequestbodyContentApplicationJsonSchemaMapper
+  mapper: DocumentKeysOrIdsMapper
 };
 
 export const overwrite: OperationQueryParameter = {
@@ -207,7 +207,7 @@ export const skillsetName: OperationURLParameter = {
 
 export const skillNames: OperationParameter = {
   parameterPath: "skillNames",
-  mapper: Paths1Ju2XepSkillsetsSkillsetnameSearchResetskillsPostRequestbodyContentApplicationJsonSchemaMapper
+  mapper: SkillNamesMapper
 };
 
 export const synonymMap: OperationParameter = {

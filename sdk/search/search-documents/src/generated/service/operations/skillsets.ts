@@ -22,7 +22,7 @@ import {
   SkillsetsListResponse,
   SkillsetsCreateOptionalParams,
   SkillsetsCreateResponse,
-  Paths1Ju2XepSkillsetsSkillsetnameSearchResetskillsPostRequestbodyContentApplicationJsonSchema,
+  SkillNames,
   SkillsetsResetSkillsOptionalParams
 } from "../models";
 
@@ -116,7 +116,7 @@ export class SkillsetsImpl implements Skillsets {
    */
   resetSkills(
     skillsetName: string,
-    skillNames: Paths1Ju2XepSkillsetsSkillsetnameSearchResetskillsPostRequestbodyContentApplicationJsonSchema,
+    skillNames: SkillNames,
     options?: SkillsetsResetSkillsOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(

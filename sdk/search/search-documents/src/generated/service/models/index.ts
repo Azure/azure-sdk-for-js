@@ -213,7 +213,7 @@ export interface ListDataSourcesResult {
   readonly dataSources: SearchIndexerDataSource[];
 }
 
-export interface Paths1Cj7DxmIndexersIndexernameSearchResetdocsPostRequestbodyContentApplicationJsonSchema {
+export interface DocumentKeysOrIds {
   /** document keys to be reset */
   documentKeys?: string[];
   /** datasource document identifiers to be reset */
@@ -673,7 +673,7 @@ export interface ListSkillsetsResult {
   readonly skillsets: SearchIndexerSkillset[];
 }
 
-export interface Paths1Ju2XepSkillsetsSkillsetnameSearchResetskillsPostRequestbodyContentApplicationJsonSchema {
+export interface SkillNames {
   /** the names of skills to be reset. */
   skillNames?: string[];
 }
@@ -3768,7 +3768,7 @@ export interface IndexersResetDocsOptionalParams
   extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
-  keysOrIds?: Paths1Cj7DxmIndexersIndexernameSearchResetdocsPostRequestbodyContentApplicationJsonSchema;
+  keysOrIds?: DocumentKeysOrIds;
   /** If false, keys or ids will be appended to existing ones. If true, only the keys or ids in this payload will be queued to be re-ingested. */
   overwrite?: boolean;
 }

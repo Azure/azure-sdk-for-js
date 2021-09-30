@@ -311,11 +311,10 @@ export const ListDataSourcesResult: coreClient.CompositeMapper = {
   }
 };
 
-export const Paths1Cj7DxmIndexersIndexernameSearchResetdocsPostRequestbodyContentApplicationJsonSchema: coreClient.CompositeMapper = {
+export const DocumentKeysOrIds: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className:
-      "Paths1Cj7DxmIndexersIndexernameSearchResetdocsPostRequestbodyContentApplicationJsonSchema",
+    className: "DocumentKeysOrIds",
     modelProperties: {
       documentKeys: {
         serializedName: "documentKeys",
@@ -1443,11 +1442,10 @@ export const ListSkillsetsResult: coreClient.CompositeMapper = {
   }
 };
 
-export const Paths1Ju2XepSkillsetsSkillsetnameSearchResetskillsPostRequestbodyContentApplicationJsonSchema: coreClient.CompositeMapper = {
+export const SkillNames: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className:
-      "Paths1Ju2XepSkillsetsSkillsetnameSearchResetskillsPostRequestbodyContentApplicationJsonSchema",
+    className: "SkillNames",
     modelProperties: {
       skillNames: {
         serializedName: "skillNames",
