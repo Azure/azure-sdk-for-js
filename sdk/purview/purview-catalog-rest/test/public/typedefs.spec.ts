@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { 
-  // getLongRunningPoller, 
-  PurviewCatalogRestClient } from "../../src";
+import {
+  // getLongRunningPoller,
+  PurviewCatalogRestClient,
+} from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
 
 import { assert } from "chai";
