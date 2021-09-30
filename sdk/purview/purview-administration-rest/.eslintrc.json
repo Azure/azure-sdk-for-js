@@ -2,6 +2,9 @@
   "plugins": ["@azure/azure-sdk"],
   "extends": ["plugin:@azure/azure-sdk/azure-sdk-base"],
   "rules": {
-    "@azure/azure-sdk/ts-package-json-engine-is-present": ["error",{"nodeVersionOverride": ">=14.0.0"}]
+    "@azure/azure-sdk/ts-package-json-engine-is-present": [
+      "error",
+      { "nodeVersionOverride": ">=14.0.0" }
+    ]
   }
 }
