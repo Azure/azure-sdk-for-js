@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0 (2021-10-05)
+## 2.0.0 (2021-10-12)
 
 We're proud to announce the first GA release of the version 2 of our `@azure/identity` package. Version 2 includes the best parts of version 1, plus several improvements.
 
@@ -8,41 +8,96 @@ In this changelog entry, we will showcase the changes we've made. For a full gui
 
 ### Features Added
 
-- We're releasing in general availability our plugin API through a top-level method `useIdentityPlugin`. The function accepts a "plugin" as an argument, which is a function accepting a `context`. The plugin context is an internal part of the Azure Identity API, so it has an `unknown` type. Two new packages are designed to be used with this API:
+- We're releasing in general availability our plugin API through a top-level method `useIdentityPlugin`. Two new packages are designed to be used with this API:
   - [`@azure/identity-vscode`](https://www.npmjs.com/package/@azure/identity-vscode), which provides the dependencies of `VisualStudioCodeCredential` and enables it.
   - [`@azure/identity-cache-persistence`](https://www.npmjs.com/package/@azure/identity-cache-persistence), which provides persistent token caching.
 - `VisualStudioCodeCredential` still exists in the public API of the Identity package. However, if the `@azure/identity-vscode` plugin is not used, then it will throw a `CredentialUnavailableError` (similar to how it previously behaved if the `keytar` package was not installed). The plugin package now provides the underlying implementation of `VisualStudioCodeCredential` through dependency injection.
-- We're also introducing a `TokenCachePersistenceOptions` property on most credential constructor options. This property must be present with an `enabled` property set to true to enable persistent token caching for a credential instance. Credentials that do not support persistent token caching do not have this property.
-- We're releasing three new credential types:
-  - `AzurePowerShellCredential`, which will use the authenticated user session from the `Az.Account` PowerShell module. This credential will attempt to use PowerShell Core by calling `pwsh`, and on Windows it will fall back to Windows PowerShell (`powershell`) if PowerShell Core is not available.
-  - `ApplicationCredential`, for use by applications which call into Microsoft Graph APIs and which have issues using `DefaultAzureCredential`. This credential is based on `EnvironmentCredential` and `ManagedIdentityCredential`.
+- We're also introducing a `tokenCachePersistenceOptions` property on the constructors of most credentials. If this property is assigned as `tokenCachePersistenceOptions: { enabled: true }`, it will enable persistent token caching on that credential instance. Credentials that do not support persistent token caching do not have this option.
+- We're also releasing three new credential types:
+  - `AzurePowerShellCredential`, which uses the previously authenticated user session from the `Az.Account` PowerShell module, if present.
+  - `ApplicationCredential`, which can be used by applications which call into Microsoft Graph APIs and which have issues using `DefaultAzureCredential`. This credential is based on `EnvironmentCredential` and `ManagedIdentityCredential`.
   - `OnBehalfOfCredential`, which allows users to authenticate through the [On-Behalf-Of authentication flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow).
-- On errors:
-  - We're introducing a new error, named `AuthenticationRequiredError`. This error will show up when a credential fails to authenticate silently and has the same impact on `ChainedTokenCredential` as the `CredentialUnavailableError`, which is to allow the next credential in the chain to be tried.
-  - Errors and logged exceptions may now point to the new [troubleshooting guidelines](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/Troubleshooting.md).
 - Changes to all of the credentials:
-  - We've added CP1 client capabilities by default, enabling all credentials to respond to claims challenges that occur due to insufficient claims. Claims challenges, for example, can occur due to requirements of [Continuous Access Enforcement (CAE)](https://docs.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) and [Conditional Access authentication context](https://techcommunity.microsoft.com/t5/azure-active-directory-identity/granular-conditional-access-for-sensitive-data-and-actions/ba-p/1751775). You may optionally disable this behavior by setting the environment variable `AZURE_IDENTITY_DISABLE_CP1` (to any value). You can read more about client capabilities, CAE, and Conditional Access on [the Microsoft Documentation](https://docs.microsoft.com/azure/active-directory/develop/claims-challenge).
-  - All credentials except `ManagedIdentityCredential` support enabling multitenant authentication via the `allowMultiTenantAuthentication` option. If this option is set to `true` on any of the relevant credentials constructor, credentials will allow swapping the tenant ID originally specified in the constructor for a tenant ID received in the `GetTokenOptions`. For more about multitenancy, see [Identity management in multitenant applications](https://docs.microsoft.com/azure/architecture/multitenant-identity/).
-- We've also made special changes to `InteractiveBrowserCredential`, `DeviceCodeCredential`, and `UsernamePasswordCredential`.
+  - We have added CP1 client capabilities by default, enabling all credentials to respond to claims challenges that may occur due to requirements of [Continuous Access Enforcement (CAE)](https://docs.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) and [Conditional Access authentication context](https://techcommunity.microsoft.com/t5/azure-active-directory-identity/granular-conditional-access-for-sensitive-data-and-actions/ba-p/1751775). You may optionally disable this behavior by setting the environment variable `AZURE_IDENTITY_DISABLE_CP1` (to any value). You can read more about client capabilities, CAE, and Conditional Access on [the Microsoft Documentation](https://docs.microsoft.com/azure/active-directory/develop/claims-challenge).
+  - All credentials except `ManagedIdentityCredential` now support enabling multitenant authentication via the `allowMultiTenantAuthentication` option. If this option is set to `true` on the constructor of any of the relevant credentials, if a `tenantId` is provided on the options of any of their `getToken()` calls, they will use the new tenant Id instead of the original provided through the constructor. For more about multitenancy, see [Identity management in multitenant applications](https://docs.microsoft.com/azure/architecture/multitenant-identity/).
+- We've also made special changes to `InteractiveBrowserCredential` and `DeviceCodeCredential`.
   - You can now control when the credential requests user input with the new `disableAutomaticAuthentication` option added to the options you pass to the credential constructors.
-    - When enabled, this option stops the `getToken()` method from requesting user input in case the credential is unable to authenticate silently.
-    - If `getToken()` fails to authenticate without user interaction, and `disableAutomaticAuthentication` has been set to `true`, a new `AuthenticationRequired` error will be thrown. You may use this error to identify scenarios when manual authentication needs to be triggered (with `authenticate()`, as described in the next point).
-  - A new method `authenticate()` is added to these credentials, which is similar to `getToken()`, but it doesn't read the `disableAutomaticAuthentication` option described above.
-    - Use this to get an `AuthenticationRecord` which you can then use to create new credentials that will reuse the token information.
-    - `authenticate()` might succeed and still return `undefined` if we're unable to pick just one account record from the cache. This might happen if the cache is being used by more than one credential, or if multiple users have authenticated using the same Client ID and Tenant ID. To ensure consistency on a program with many users, keep track of the `AuthenticationRecord` and provide them in the constructors of the credentials on initialization.
-  - We've also provided two new methods: `serializeAuthenticationRecord` and `deserializeAuthenticationRecord`. They allow an authenticated account retrieved by the `authenticate()` method to be stored as a string and reused in another credential at any time.
-- For the credentials `ClientSecretCredential` and `ClientCertificateCredential`, we've added regional STS support.
-  - First, we've added a new enum type called `RegionalAuthority`, which contains values for all of the possible regions supported by Azure.
-  - Then, we've added a new property called `regionalAuthority` to the `ClientSecretCredentialOptions` and the `ClientCertificateCredentialOptions`, however the Azure region can also be specified through the `AZURE_REGIONAL_AUTHORITY_NAME` environment variable. If instead of a region, `AutoDiscoverRegion` is specified as the value for `regionalAuthority`, MSAL will be used to attempt to discover the region.
+    - When `disableAutomaticAuthentication` is set to true, if a `getToken()` call is unable to authenticate silently, it will throw a new error called `AuthenticationRequiredError`, and developers will be required to call to the `authenticate()` method to prompt their end-users to authenticate again.
+    - If `getToken()` fails to authenticate without user interaction, and `disableAutomaticAuthentication` has been set to `true`, a new `AuthenticationRequiredError` error will be thrown. You may use this error to identify scenarios when manual authentication needs to be triggered (with `authenticate()`, as described in the next point).
+  - A new method `authenticate()` is added to these credentials.
+    - This method tries to retrieve a token, similar to `getToken`, but it will always prompt for user interaction, therefore ignoring the `disableAutomaticAuthentication` option passed through the constructor.
+    - A successful call to `authenticate()` will return an `AuthenticationRecord`, which can be used on new instances of these credentials (`InteractiveBrowserCredential` and `DeviceCodeCredential`) to reuse previously obtained access tokens, avoiding user interaction for the subsequent authentications.
+      - For this to work, new instances of these credentials will need to use `tokenCachePersistenceOptions` to properly retrieve the account information from the shared cache. More information at the end of this changelog entry.
+    - `authenticate()` might succeed and still return `undefined` if we're unable to pick just one account record from the cache. This might happen if the cache is being used by more than one credential, or if multiple users have authenticated using the same Client ID and Tenant ID. To ensure consistency on a program with many users, keep track of the `AuthenticationRecord` and provide it through the new `authenticationRecord` option in the constructor options of these credentials (`InteractiveBrowserCredential` and `DeviceCodeCredential`).
+  - We're also providing two new methods: `serializeAuthenticationRecord` and `deserializeAuthenticationRecord`. They allow an `AuthenticationRecord` to be stored as a string and reused in another credential at any time.
+- For the credentials `ClientSecretCredential` and `ClientCertificateCredential`, we've added better support for regional endpoints.
+  - First, we're exposing a new `enum` type called `RegionalAuthority`, which contains values for all of the possible regions supported by Azure.
+  - Then, we have added a new property called `regionalAuthority` to the `ClientSecretCredentialOptions` and the `ClientCertificateCredentialOptions`, however the Azure region can also be specified through the `AZURE_REGIONAL_AUTHORITY_NAME` environment variable. If instead of a region, `AutoDiscoverRegion` is specified as the value for `regionalAuthority`, MSAL will be used to attempt to discover the region.
 - For `ClientCertificateCredential` specifically, now the validity of the PEM certificate is evaluated on `getToken` and not on the constructor.
-- Specifically for the `ManagedIdentityCredential`:
-  - It now supports Bridge to Kubernetes local development authentication.
-  - It now retries with exponential back-off when a request for a token fails with a 404 status code on environments with available IMDS endpoints. Besides that, the `ManagedIdentityCredential` now also supports token exchange authentication.
+- For the `ManagedIdentityCredential` specifically:
+  - It now supports Bridge to Kubernetes local development authentication and token exchange authentication.
+  - It now retries with exponential back-off when a request for a token fails with a 404 status code on environments with available IMDS endpoints.
   - Azure Service Fabric support hasn't been added on the initial version 2 of Identity. It will be added shortly after. You can follow our development of this feature through this issue: https://github.com/Azure/azure-sdk-for-js/issues/12420
 - For `InteractiveBrowserCredential`:
   - On Node.js, we've enabled [Proof Key for Code Exchange (PKCE)](https://datatracker.ietf.org/doc/html/rfc7636). This is a security feature that mitigates authentication code interception attacks.
-  - We've also added `LoginHint` property to `InteractiveBrowserCredentialOptions` which allows a user name to be pre-selected for interactive logins. Setting this option skips the account selection prompt and immediately attempts to log in with the specified account.
+  - We've also added a new `LoginHint` property to `InteractiveBrowserCredentialOptions` which allows a user name to be pre-selected for interactive logins. Setting this option skips the account selection prompt and immediately attempts to log in with the specified account.
 - For the `AzureCliCredential`, we now allow specifying a `tenantId` in the parameters through the `AzureCliCredentialOptions`.
+- Updates on our provided errors:
+  - We're introducing a new error, named `AuthenticationRequiredError`. This error will show up when a credential fails to authenticate silently. Users can now catch this error to know when to call to the new `authenticate()` method if any of the interactive credentials (`DeviceCodeCredential`, and `InteractiveBrowserCredential`) were initialized with `disableAutomaticAuthentication` constructor option set to true.
+  - Errors and logged exceptions may now point to the new [troubleshooting guidelines](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/Troubleshooting.md).
+
+The following example shows how to use the `DeviceCodeCredential` with the new `@azure/identity-cache-persistence` plugin. We are setting the `disableAutomaticAuthentication` option on the `DeviceCodeCredential` to manually trigger the user interaction. Then, we're using the new `@azure/identity-cache-persistence` plugin to enable sharing the same persistence cache between credential instances, and finally we're sharing the resulting `authenticationRecord` from a first `authenticate()` call with a new instance of the same credential to skip further user interactions on the next `getToken()` call.
+
+```ts
+import { DeviceCodeCredential, serializeAuthenticationRecord,  deserializeAuthenticationRecord, useIdentityPlugin } from "@azure/identity";
+import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
+
+useIdentityPlugin(cachePersistencePlugin);
+
+// An in-memory example of how the account information can be saved in a serialized way.
+let accountCache: string;
+
+async function main() {
+  // First we need to configure our shared persistence layer
+  const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
+    enabled: true,
+    name: "my-shared-persistence"
+  };
+
+ const firstCredential = new DeviceCodeCredential({
+    // To prevent getToken from requesting user interaction:
+    disableAutomaticAuthentication: true,
+    // To be able to re-use the account, the Token Cache must also have been provided.
+    tokenCachePersistenceOptions
+  });
+
+  // Because automatic authentication has been disabled,
+  // calls to firstCredential.getToken() will throw the `AuthenticationRequiredError`.
+  // // await firstCredential.getToken(`https://servicebus.azure.net/.default`);
+
+  const account = await firstCredential.authenticate(`https://servicebus.azure.net/.default`);
+
+  // This is only relevant to show how one would store the account information as a string.
+  accountCache = serializeAuthenticationRecord(account);
+
+  // The `account` variable could be used directly, but to showcase the serialization, we will deserialize the `accountCache` string variable.
+
+  const secondCredential = new DeviceCodeCredential({
+    // To prevent getToken from requesting user interaction:
+    disableAutomaticAuthentication: true,
+    // authenticationRecord: account // could also be used
+    authenticationRecord: deserializeAuthenticationRecord(accountCache),
+    // To be able to re-use the account, the Token Cache must also have been provided.
+    tokenCachePersistenceOptions
+  });
+
+  // This getToken call won't fail, since it will use the already retrieved credential from the shared cache.
+  const accessToken = await secondCredential.getToken(`https://servicebus.azure.net/.default`)
+  console.log({ accessToken });
+}
+
+main();
+```
 
 ### Breaking Changes
 
