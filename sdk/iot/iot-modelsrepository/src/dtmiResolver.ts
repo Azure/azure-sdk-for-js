@@ -32,7 +32,7 @@ export class DtmiResolver {
     const dtdlPromises = dtmis.map(async (dtmi) => {
       const dtdlPath = convertDtmiToPath(dtmi, expandedModel);
       logger.info(`Model ${dtmi} located in repository at ${dtdlPath}`);
-      const dtdl = await this._fetcher.fetch(dtdlPath, options);
+      const dtdl = await this._fetcher.fetch<DTDL | DTDL[]>(dtdlPath, options);
       if (expandedModel) {
         if (Array.isArray(dtdl)) {
           const modelIds: string[] = (dtdl as DTDL[]).map((model: DTDL) => model["@id"]);

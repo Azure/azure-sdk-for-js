@@ -7,14 +7,12 @@ import {
   DEFAULT_USER_AGENT,
   DEPENDENCY_MODE_DISABLED,
   DEPENDENCY_MODE_ENABLED,
-  DEPENDENCY_MODE_TRY_FROM_EXPANDED
 } from "./utils/constants";
 import { createClientPipeline, InternalClientPipelineOptions } from "@azure/core-client";
 import { Fetcher } from "./fetcherAbstract";
 import { URL } from "./utils/url";
 import { isLocalPath, normalize } from "./utils/path";
 import { FilesystemFetcher } from "./fetcherFilesystem";
-import { dependencyResolutionType } from "./dependencyResolutionType";
 import { DtmiResolver } from "./dtmiResolver";
 import { PseudoParser } from "./psuedoParser";
 import { ModelsRepositoryClientOptions } from "./interfaces/modelsRepositoryClientOptions";
@@ -23,13 +21,13 @@ import { IoTModelsRepositoryServiceClient } from "./modelsRepositoryServiceClien
 import { HttpFetcher } from "./fetcherHTTP";
 import { GetModelsOptions } from "./interfaces/getModelsOptions";
 import { DTDL } from "./psuedoDtdl";
+import { RepositoryMetadata } from "./interfaces/repositoryMetadata";
 
 /**
  * Initializes a new instance of the IoT Models Repository Client.
  */
 export class ModelsRepositoryClient {
   private _repositoryLocation: string;
-  private _dependencyResolution: dependencyResolutionType;
   private _apiVersion: string;
   private _fetcher: Fetcher;
   private _resolver: DtmiResolver;
@@ -42,10 +40,6 @@ export class ModelsRepositoryClient {
   constructor(options: ModelsRepositoryClientOptions = {}) {
     this._repositoryLocation = options.repositoryLocation || DEFAULT_REPOSITORY_LOCATION;
     logger.info(`Client configured for repository location ${this._repositoryLocation}`);
-    this._dependencyResolution =
-      options.dependencyResolution ||
-      this._checkDefaultDependencyResolution(!!options.repositoryLocation);
-    logger.info(`Client configured for dependency mode: ${this._dependencyResolution}`);
     this._fetcher = this._createFetcher(this._repositoryLocation, options);
     this._resolver = new DtmiResolver(this._fetcher);
     this._pseudoParser = new PseudoParser(this._resolver);
@@ -54,17 +48,6 @@ export class ModelsRepositoryClient {
     this._apiVersion = options.apiVersion || DEFAULT_API_VERSION;
   }
 
-  /**
-   * improves the readability of the constructor.
-   * based on a boolean returns the proper dependency resolution setting string.
-   */
-  private _checkDefaultDependencyResolution(customRepository: boolean): dependencyResolutionType {
-    if (customRepository) {
-      return "enabled";
-    } else {
-      return "tryFromExpanded";
-    }
-  }
 
   /**
    * Though currently not relevant, can specify API Version for communicating with
@@ -81,12 +64,6 @@ export class ModelsRepositoryClient {
     return this._repositoryLocation;
   }
 
-  /**
-   * Configured type of dependency resolution for this instance. Dictates how the client deals with model dependencies.
-   */
-  get dependencyResolution(): dependencyResolutionType {
-    return this._dependencyResolution;
-  }
 
   /**
    * Because of the local / remote optionality of this client, the service client
@@ -184,35 +161,31 @@ export class ModelsRepositoryClient {
       dtmis = [dtmis];
     }
 
-    const dependencyResolution = options?.dependencyResolution || this._dependencyResolution;
+    // Default dependency mode is `enabled` unless one is specified in the options.
+    const dependencyResolution = options?.dependencyResolution ?? DEPENDENCY_MODE_ENABLED;
 
     if (dependencyResolution === DEPENDENCY_MODE_DISABLED) {
       logger.info("Getting models w/ dependency resolution mode: disabled");
       logger.info(`Retreiving model(s): ${dtmis}...`);
       modelMap = await this._resolver.resolve(dtmis, false, options);
     } else if (dependencyResolution === DEPENDENCY_MODE_ENABLED) {
-      logger.info(`Getting models w/ dependency resolution mode: enabled`);
-      logger.info(`Retreiving model(s): ${dtmis}...`);
-      const baseModelMap = await this._resolver.resolve(dtmis, false, options);
-      const baseModelList = Object.keys(baseModelMap).map((key) => baseModelMap[key]);
-      logger.info(`Retreiving model dependencies for ${dtmis}...`);
-      modelMap = await this._pseudoParser.expand(baseModelList, false);
-    } else if (dependencyResolution === DEPENDENCY_MODE_TRY_FROM_EXPANDED) {
-      logger.info(`Getting models w/ dependency resolution mode: tryFromExpanded`);
+
       try {
-        logger.info(`Retreiving expanded model(s): ${dtmis}...`);
-        modelMap = await this._resolver.resolve(dtmis, true, options);
+        logger.info(`Attempting to retrieve metadata from repository`);
+        const metadata = await this._fetcher.fetch<RepositoryMetadata>('metadata.json', options);
+        if (metadata?.features?.expanded) {
+          logger.info(`Repository metadata supports expanded models.`);
+          logger.info(`Retreiving expanded model(s): ${dtmis}...`);
+          modelMap = await this._resolver.resolve(dtmis, true, options);
+        }
+        else {
+          logger.info(`Repository metadata does not exist, or does not support expanded models`);
+          modelMap = await this._ExpandModels(dtmis, options);
+        }
       } catch (e) {
         if (e.name === "RestError" && e.code === "ResouceNotFound") {
           logger.info("Could not retrieve model(s) from expanded model DTDL - ");
-          const baseModelMap: { [dtmi: string]: unknown } = await this._resolver.resolve(
-            dtmis,
-            false,
-            options
-          );
-          const baseModelList = Object.keys(baseModelMap).map((key) => baseModelMap[key]);
-          logger.info(`Retreiving model dependencies for ${dtmis}...`);
-          modelMap = await this._pseudoParser.expand(baseModelList as DTDL[], true);
+          modelMap = await this._ExpandModels(dtmis, options);
         } else {
           throw e;
         }
@@ -223,4 +196,18 @@ export class ModelsRepositoryClient {
 
     return modelMap;
   }
+  /**
+   * Retrieve unexpanded models, and manually expand them by retrieving dependencies.
+   * @param dtmis dtmi strings in an array
+   * @param options options to govern behavior of model getter
+   * @returns 
+   */
+  private async _ExpandModels(dtmis: string[], options?: GetModelsOptions): Promise<{ [dtmi: string]: unknown }> {
+    logger.info(`Getting unexpanded model(s): ${dtmis}...`);
+    const baseModelMap = await this._resolver.resolve(dtmis, false, options);
+    const baseModelList = Object.keys(baseModelMap).map((key) => baseModelMap[key]);
+    logger.info(`Retreiving model dependencies for ${dtmis}...`);
+    return await this._pseudoParser.expand(baseModelList as DTDL[], true);
+  }
 }
+

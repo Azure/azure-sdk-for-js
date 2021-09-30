@@ -11,7 +11,7 @@ describe("resolver -  browser", () => {
       const endpoint = "https://devicemodels.azure.com";
       const client = new ModelsRepositoryClient({ repositoryLocation: endpoint });
       const actualOutput: { [x: string]: any } = await client.getModels(dtmi, {
-        dependencyResolution: "tryFromExpanded"
+        dependencyResolution: "enabled"
       });
       expect(actualOutput["dtmi:azure:DeviceManagement:DeviceInformation;1"]).to.not.equal(
         undefined

@@ -6,7 +6,6 @@ import * as path from "path";
 import { RestError, RestErrorOptions } from "@azure/core-rest-pipeline";
 import { Fetcher } from "./fetcherAbstract";
 import { logger } from "./logger";
-import { DTDL } from "./psuedoDtdl";
 
 function readFilePromise(filePath: string): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -23,7 +22,7 @@ function readFilePromise(filePath: string): Promise<string> {
 
 /**
  * The Filesystem Fetcher implements the generic Fetcher interface
- * so that models are fetched from a filesystem endpoint.
+ * so that data is fetched from a filesystem endpoint.
  *
  * @internal
  */
@@ -34,7 +33,7 @@ export class FilesystemFetcher implements Fetcher {
     this._baseFilePath = baseFilePath;
   }
 
-  async fetch(filePath: string): Promise<DTDL | DTDL[]> {
+  async fetch<T>(filePath: string): Promise<T> {
     logger.info(`Fetching ${filePath} from local filesystem`);
     const absolutePath = path.join(this._baseFilePath, filePath);
     if (absolutePath.indexOf(this._baseFilePath) !== 0) {
@@ -43,9 +42,9 @@ export class FilesystemFetcher implements Fetcher {
 
     try {
       logger.info(`File open on ${absolutePath}`);
-      const dtdlFile = await readFilePromise(absolutePath);
-      const parsedDtdl: DTDL | DTDL[] = JSON.parse(dtdlFile);
-      return parsedDtdl;
+      const body = await readFilePromise(absolutePath);
+      const parsed: T = JSON.parse(body);
+      return parsed;
     } catch (e) {
       const options: RestErrorOptions = {
         code: "ResourceNotFound",

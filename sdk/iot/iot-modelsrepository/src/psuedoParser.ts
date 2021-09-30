@@ -11,7 +11,7 @@ import { RestError } from "@azure/core-rest-pipeline";
  * codebase works in tandem with a Digital Twins Parser, which simultaneously
  * defines the DTDL structure and validates models match the correct DTDL format.
  * In lieu of using that Parser as a dependency (for a complex network of reasons),
- * we implement this class, which kind of parses. Because it uses the resovler too,
+ * we implement this class, which kind of parses. Because it uses the resolver too,
  * we can, during psuedo-parsing, identify any times we should resolve a dependency,
  * and then resolve the dependencies until the dependency tree is fully resolved.
  *
@@ -24,7 +24,7 @@ export class PseudoParser {
     this._resolver = resolver;
   }
 
-  async expand(models: DTDL[], tryFromExpanded: boolean): Promise<{ [dtmi: string]: DTDL }> {
+  async expand(models: DTDL[], expanded: boolean): Promise<{ [dtmi: string]: DTDL }> {
     const expandedMap: { [dtmi: string]: DTDL } = {};
     for (let i = 0; i < models.length; i++) {
       const model: DTDL = models[i];
@@ -33,7 +33,7 @@ export class PseudoParser {
       } else {
         throw Error(`model ${model} does not contain @id member`);
       }
-      await this._expand(model, expandedMap, tryFromExpanded);
+      await this._expand(model, expandedMap, expanded);
     }
     return expandedMap;
   }
@@ -41,7 +41,7 @@ export class PseudoParser {
   private async _expand(
     model: DTDL,
     modelMap: { [dtmi: string]: DTDL },
-    tryFromExpanded: boolean
+    expanded: boolean
   ): Promise<void> {
     logger.info(`Expanding model: ${model["@id"]}`);
     const dependencies = this._getModelDependencies(model);
@@ -54,7 +54,7 @@ export class PseudoParser {
       try {
         resolvedDependenciesMap = await this._resolver.resolve(
           dependenciesToResolve,
-          tryFromExpanded
+          expanded
         );
       } catch (e) {
         if (e instanceof RestError) {
@@ -68,7 +68,7 @@ export class PseudoParser {
       });
       const promiseList: Promise<void>[] = [];
       Object.values(resolvedDependenciesMap).forEach((dependencyModel) => {
-        promiseList.push(this._expand(dependencyModel as DTDL, modelMap, tryFromExpanded));
+        promiseList.push(this._expand(dependencyModel as DTDL, modelMap, expanded));
       });
       await Promise.all(promiseList);
     }

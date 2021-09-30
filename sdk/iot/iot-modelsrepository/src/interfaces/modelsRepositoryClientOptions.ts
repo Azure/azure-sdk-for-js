@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { CommonClientOptions } from "@azure/core-client";
-import { dependencyResolutionType } from "../dependencyResolutionType";
 
 /**
  * Options for creating a Pipeline to use with ModelsRepositoryClient.
@@ -20,10 +19,4 @@ export interface ModelsRepositoryClientOptions extends CommonClientOptions {
    */
   apiVersion?: string;
 
-  /**
-   * This is the format of dependency resolution (no dependency resolution, standard dependency
-   * resolution, resolution using the expanded json format) that will be used when retrieving
-   * models.
-   */
-  dependencyResolution?: dependencyResolutionType;
 }

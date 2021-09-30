@@ -23,7 +23,7 @@
  *
  * async function main() {
  *   const client = new ModelsRepositoryClient({repositoryLocation: repositoryEndpoint});
- *   const result = await client.getModels(dtmi, {dependencyResolution: 'tryFromExpanded'});
+ *   const result = await client.getModels(dtmi, {dependencyResolution: 'enabled'});
  *   console.log(result);
  * }
  *
@@ -39,6 +39,7 @@
 export { ModelsRepositoryClient } from "./modelsRepositoryClient";
 export { GetModelsOptions } from "./interfaces/getModelsOptions";
 export { ModelsRepositoryClientOptions } from "./interfaces/modelsRepositoryClientOptions";
+export { RepositoryMetadata } from "./interfaces/repositoryMetadata";
 export { dependencyResolutionType } from "./dependencyResolutionType";
 export { ModelError } from "./exceptions";
 export { getModelUri, isValidDtmi } from "./dtmiConventions";
