@@ -90,7 +90,7 @@ function Set-EnvironmentVariables {
 
 function New-DeployManifest {
   Write-Verbose "Detecting samples..."
-  $packageDir = Get-ChildItem -Directory -Path "$repoRoot/sdk/$ServiceDirectory/*"
+  $packageDir = Get-ChildItem -Directory -Path "$repoRoot/sdk/$ServiceDirectory/*" | Where-Object { Test-Path "$_/samples/*/javascript/package.json" }
 
   $javascriptSamples = @()
   $packageDir.ForEach{

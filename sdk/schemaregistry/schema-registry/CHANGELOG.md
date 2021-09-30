@@ -11,11 +11,13 @@
 - renames `getSchemaById` to `getSchema`
 - renames `GetSchemaByIdOptions` to `GetSchemaOptions`
 - `getSchema` and `getSchemaProperties` no longer return `undefined` if the schema was not registered
-- renames `content` to `definition`, `serializationType` to `format`, and `KnownSerializationType` to `KnownSchemaFormat`
+- renames `content` to `schemaDefinition`, `serializationType` to `format`, and `KnownSerializationType` to `KnownSchemaFormat`
 
 ### Bugs Fixed
 
 ### Other Changes
+
+- remove caching from the client. The customer can rely on the one in the serializer package such as `@azure/schema-registry-avro` or write their own that makes most sense in their application.
 
 ## 1.0.0-beta.2 (2021-08-17)
 

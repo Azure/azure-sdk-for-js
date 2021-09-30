@@ -307,7 +307,7 @@ describe("spanUtils.ts", () => {
         const expectedTags: Tags = {};
         expectedTags[KnownContextTagKeys.AiOperationId] = "traceid";
         expectedTags[KnownContextTagKeys.AiOperationParentId] = "parentSpanId";
-        expectedTags[KnownContextTagKeys.AiOperationName] = "GET parent span";
+        expectedTags[KnownContextTagKeys.AiOperationName] = "GET /api/example";
 
         const expectedProperties = {
           "extra.attribute": "foo"
@@ -319,7 +319,7 @@ describe("spanUtils.ts", () => {
           success: true,
           responseCode: "200",
           url: "https://example.com/api/example",
-          name: `GET parent span`,
+          name: expectedTags[KnownContextTagKeys.AiOperationName],
           version: 2,
           source: undefined,
           properties: expectedProperties,
@@ -372,7 +372,7 @@ describe("spanUtils.ts", () => {
           type: "Http",
           target: "https://someotherexample.com/api/example",
           data: "https://example.com/api/example",
-          name: `parent span`,
+          name: `GET /api/example`,
           version: 2,
           properties: expectedProperties,
           measurements: {}

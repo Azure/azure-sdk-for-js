@@ -63,7 +63,7 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@microsoft/api-extractor": "7.7.11",
+    "@microsoft/api-extractor": "^7.18.11",
     "@opentelemetry/api": "^1.0.1",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",

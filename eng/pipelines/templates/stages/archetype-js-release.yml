@@ -234,7 +234,7 @@ stages:
     - job: PublishPackages
       # Run Integration job only if SetDevVersion is set to true or ( SetDevVersion is empty and job is a scheduled CI run)
       # If SetDevVersion is set to false then we should skip integration job even for scheduled runs.
-      condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['SetDevVersion'], ''), eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal')))
+      condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal')))
       displayName: Publish package to daily feed
       pool:
         name: azsdk-pool-mms-ubuntu-2004-general
@@ -275,7 +275,8 @@ stages:
                 arguments: '-pathToArtifacts $(Package.Archive) -accessLevel "public" -tag "dev" -registry "$(Registry)" -npmToken "$(NpmToken)"'
 
     - job: PublishDocsToNightlyBranch
-      condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['SetDevVersion'], ''), eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal')))
+      condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal')))
+      dependsOn: PublishPackages
       pool:
         name: azsdk-pool-mms-ubuntu-2004-general
         vmImage: MMSUbuntu20.04

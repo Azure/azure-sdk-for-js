@@ -4,13 +4,14 @@
 
 ```ts
 
+import { AzureLogger } from '@azure/logger';
 import { Checkpoint } from '@azure/event-hubs';
 import { CheckpointStore } from '@azure/event-hubs';
 import { PartitionOwnership } from '@azure/event-hubs';
 import { TableClient } from '@azure/data-tables';
 
 // @public
-export const logger: import("@azure/logger").AzureLogger;
+export const logger: AzureLogger;
 
 // @public
 export class TableCheckpointStore implements CheckpointStore {
@@ -20,7 +21,6 @@ export class TableCheckpointStore implements CheckpointStore {
     listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<PartitionOwnership[]>;
     updateCheckpoint(checkpoint: Checkpoint): Promise<void>;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

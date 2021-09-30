@@ -15,12 +15,7 @@ class FakeResponse extends PassThrough {
   public headers?: IncomingHttpHeaders;
 }
 
-class FakeRequest extends PassThrough {
-  public finished?: boolean;
-  public abort(): void {
-    this.finished = true;
-  }
-}
+class FakeRequest extends PassThrough {}
 
 /**
  * Generic NodeJS streams accept typed arrays just fine,
@@ -53,7 +48,6 @@ function createResponse(statusCode: number, body = ""): IncomingMessage {
 
 function createRequest(): ClientRequest {
   const request = new FakeRequest();
-  request.finished = false;
   return (request as unknown) as ClientRequest;
 }
 
@@ -333,5 +327,41 @@ describe("NodeHttpClient", function() {
     stubbedHttpsRequest.yield(createResponse(200));
     const response = await promise;
     assert.strictEqual(response.status, 200);
+  });
+
+  it("should return an AbortError when aborted while reading the HTTP response", async function() {
+    clock.restore();
+    const client = createDefaultHttpClient();
+    const controller = new AbortController();
+
+    const clientRequest = createRequest();
+    stubbedHttpsRequest.returns(clientRequest);
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      abortSignal: controller.signal
+    });
+    const promise = client.sendRequest(request);
+
+    const streamResponse = new FakeResponse();
+
+    clientRequest.destroy = function(this: FakeRequest, e: Error) {
+      // give it some time to attach listeners and read from the stream
+      setTimeout(() => {
+        streamResponse.destroy(e);
+      }, 0);
+    };
+    streamResponse.headers = {};
+    streamResponse.statusCode = 200;
+    const buffer = Buffer.from("The start of an HTTP body");
+    streamResponse.write(buffer);
+    stubbedHttpsRequest.yield(streamResponse);
+    controller.abort();
+
+    try {
+      await promise;
+      assert.fail("Expected await to throw");
+    } catch (e) {
+      assert.strictEqual(e.name, "AbortError");
+    }
   });
 });

@@ -4,6 +4,8 @@
 
 ```ts
 
+/// <reference lib="esnext.asynciterable" />
+
 import { AzureKeyCredential } from '@azure/core-auth';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
@@ -1739,7 +1741,7 @@ export class SearchIndexClient {
     listIndexesNames(options?: ListIndexesOptions): IndexNameIterator;
     listSynonymMaps(options?: ListSynonymMapsOptions): Promise<Array<SynonymMap>>;
     listSynonymMapsNames(options?: ListSynonymMapsOptions): Promise<Array<string>>;
-    }
+}
 
 // @public
 export interface SearchIndexClientOptions extends PipelineOptions {
@@ -2360,7 +2362,6 @@ export type WordDelimiterTokenFilter = BaseTokenFilter & {
     stemEnglishPossessive?: boolean;
     protectedWords?: string[];
 };
-
 
 // (No @packageDocumentation comment for this package)
 

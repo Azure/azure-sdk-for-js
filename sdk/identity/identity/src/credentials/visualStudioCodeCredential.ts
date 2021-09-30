@@ -103,7 +103,6 @@ export class VisualStudioCodeCredential implements TokenCredential {
   private identityClient: IdentityClient;
   private tenantId: string;
   private cloudName: VSCodeCloudNames;
-  private allowMultiTenantAuthentication?: boolean;
 
   /**
    * Creates an instance of VisualStudioCodeCredential to use for automatically authenticating via VSCode.
@@ -134,7 +133,6 @@ export class VisualStudioCodeCredential implements TokenCredential {
     } else {
       this.tenantId = CommonTenantId;
     }
-    this.allowMultiTenantAuthentication = options?.allowMultiTenantAuthentication;
 
     checkUnsupportedTenant(this.tenantId);
   }
@@ -180,9 +178,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
   ): Promise<AccessToken> {
     await this.prepareOnce();
 
-    const tenantId =
-      processMultiTenantRequest(this.tenantId, this.allowMultiTenantAuthentication, options) ||
-      this.tenantId;
+    const tenantId = processMultiTenantRequest(this.tenantId, options) || this.tenantId;
 
     if (findCredentials === undefined) {
       throw new CredentialUnavailableError(

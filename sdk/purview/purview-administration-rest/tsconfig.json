@@ -1,0 +1,11 @@
+{
+  "extends": "../../../tsconfig.package",
+  "compilerOptions": {
+    "outDir": "./dist-esm",
+    "declarationDir": "./types",
+    "paths": {
+      "@azure-rest/purview-administration": ["./src/index"]
+    }
+  },
+  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
+}
