@@ -21,7 +21,9 @@ import {
   SkillsetsListOptionalParams,
   SkillsetsListResponse,
   SkillsetsCreateOptionalParams,
-  SkillsetsCreateResponse
+  SkillsetsCreateResponse,
+  Paths1Ju2XepSkillsetsSkillsetnameSearchResetskillsPostRequestbodyContentApplicationJsonSchema,
+  SkillsetsResetSkillsOptionalParams
 } from "../models";
 
 /** Class containing Skillsets operations. */
@@ -105,6 +107,23 @@ export class SkillsetsImpl implements Skillsets {
       createOperationSpec
     );
   }
+
+  /**
+   * Reset an existing skillset in a search service.
+   * @param skillsetName The name of the skillset to reset.
+   * @param skillNames The names of skills to reset.
+   * @param options The options parameters.
+   */
+  resetSkills(
+    skillsetName: string,
+    skillNames: Paths1Ju2XepSkillsetsSkillsetnameSearchResetskillsPostRequestbodyContentApplicationJsonSchema,
+    options?: SkillsetsResetSkillsOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { skillsetName, skillNames, options },
+      resetSkillsOperationSpec
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -126,7 +145,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.skillset,
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.ignoreResetRequirements,
+    Parameters.skipIndexerResetRequirementForCache,
     Parameters.disableCacheReprocessingChangeDetection
   ],
   urlParameters: [Parameters.endpoint, Parameters.skillsetName],
@@ -207,6 +226,26 @@ const createOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.skillset,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.xMsClientRequestId
+  ],
+  mediaType: "json",
+  serializer
+};
+const resetSkillsOperationSpec: coreClient.OperationSpec = {
+  path: "/skillsets('{skillsetName}')/search.resetskills",
+  httpMethod: "POST",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.SearchError
+    }
+  },
+  requestBody: Parameters.skillNames,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.skillsetName],
   headerParameters: [
     Parameters.contentType,
     Parameters.accept,

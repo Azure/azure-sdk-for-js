@@ -271,15 +271,15 @@ export type CreateIndexOptions = OperationOptions;
 
 // @public
 export interface CreateorUpdateDataSourceConnectionOptions extends OperationOptions {
-    ignoreResetRequirements?: boolean;
     onlyIfUnchanged?: boolean;
+    skipIndexerResetRequirementForCache?: boolean;
 }
 
 // @public
 export interface CreateorUpdateIndexerOptions extends OperationOptions {
     disableCacheReprocessingChangeDetection?: boolean;
-    ignoreResetRequirements?: boolean;
     onlyIfUnchanged?: boolean;
+    skipIndexerResetRequirementForCache?: boolean;
 }
 
 // @public
@@ -291,8 +291,8 @@ export interface CreateOrUpdateIndexOptions extends OperationOptions {
 // @public
 export interface CreateOrUpdateSkillsetOptions extends OperationOptions {
     disableCacheReprocessingChangeDetection?: boolean;
-    ignoreResetRequirements?: boolean;
     onlyIfUnchanged?: boolean;
+    skipIndexerResetRequirementForCache?: boolean;
 }
 
 // @public
@@ -628,10 +628,22 @@ export interface IndexDocumentsResult {
 }
 
 // @public
+export interface IndexerCurrentState {
+    readonly allDocsFinalChangeTrackingState?: string;
+    readonly allDocsInitialChangeTrackingState?: string;
+    readonly mode?: IndexingMode;
+    readonly resetDatasourceDocumentIds?: string[];
+    readonly resetDocsFinalChangeTrackingState?: string;
+    readonly resetDocsInitialChangeTrackingState?: string;
+    readonly resetDocumentKeys?: string[];
+}
+
+// @public
 export type IndexerExecutionEnvironment = string;
 
 // @public
 export interface IndexerExecutionResult {
+    readonly currentState?: IndexerCurrentState;
     readonly endTime?: Date;
     readonly errorMessage?: string;
     readonly errors: SearchIndexerError[];
@@ -641,6 +653,7 @@ export interface IndexerExecutionResult {
     readonly itemCount: number;
     readonly startTime?: Date;
     readonly status: IndexerExecutionStatus;
+    readonly statusDetail?: IndexerExecutionStatusDetail;
     readonly warnings: SearchIndexerWarning[];
 }
 
@@ -648,7 +661,13 @@ export interface IndexerExecutionResult {
 export type IndexerExecutionStatus = "transientFailure" | "success" | "inProgress" | "reset";
 
 // @public
+export type IndexerExecutionStatusDetail = string;
+
+// @public
 export type IndexerStatus = "unknown" | "error" | "running";
+
+// @public
+export type IndexingMode = string;
 
 // @public
 export interface IndexingParameters {
@@ -949,6 +968,17 @@ export enum KnownImageDetail {
 }
 
 // @public
+export enum KnownIndexerExecutionStatusDetail {
+    ResetDocs = "resetDocs"
+}
+
+// @public
+export enum KnownIndexingMode {
+    IndexingAllDocs = "indexingAllDocs",
+    IndexingResetDocs = "indexingResetDocs"
+}
+
+// @public
 export enum KnownKeyPhraseExtractionSkillLanguage {
     Da = "da",
     De = "de",
@@ -1119,8 +1149,26 @@ export enum KnownPIIDetectionSkillMaskingMode {
 }
 
 // @public
+export enum KnownQueryAnswerType {
+    Extractive = "extractive",
+    None = "none"
+}
+
+// @public
+export enum KnownQueryCaptionType {
+    Extractive = "extractive",
+    None = "none"
+}
+
+// @public
 export enum KnownQueryLanguage {
     EnUs = "en-us",
+    None = "none"
+}
+
+// @public
+export enum KnownQuerySpellerType {
+    Lexicon = "lexicon",
     None = "none"
 }
 
@@ -1609,7 +1657,16 @@ export type PIIDetectionSkill = BaseSearchIndexerSkill & {
 export type PIIDetectionSkillMaskingMode = string;
 
 // @public
+export type QueryAnswerType = string;
+
+// @public
+export type QueryCaptionType = string;
+
+// @public
 export type QueryLanguage = string;
+
+// @public
+export type QuerySpellerType = string;
 
 // @public
 export type QueryType = "simple" | "full" | "semantic";
@@ -1618,7 +1675,17 @@ export type QueryType = "simple" | "full" | "semantic";
 export type RegexFlags = string;
 
 // @public
+export interface ResetDocsOptions extends OperationOptions {
+    datasourceDocumentIds?: string[];
+    documentKeys?: string[];
+    overwrite?: boolean;
+}
+
+// @public
 export type ResetIndexerOptions = OperationOptions;
+
+// @public
+export type ResetSkillsOptions = OperationOptions;
 
 // @public
 export interface ResourceCounter {
@@ -1793,7 +1860,9 @@ export class SearchIndexerClient {
     listIndexersNames(options?: ListIndexersOptions): Promise<Array<string>>;
     listSkillsets(options?: ListSkillsetsOptions): Promise<Array<SearchIndexerSkillset>>;
     listSkillsetsNames(options?: ListSkillsetsOptions): Promise<Array<string>>;
+    resetDocs(indexerName: string, options?: ResetDocsOptions): Promise<void>;
     resetIndexer(indexerName: string, options?: ResetIndexerOptions): Promise<void>;
+    resetSkills(skillsetName: string, skillNames: string[], options?: ResetSkillsOptions): Promise<void>;
     runIndexer(indexerName: string, options?: RunIndexerOptions): Promise<void>;
 }
 
@@ -1992,8 +2061,8 @@ export type SearchOptions<Fields> = OperationOptions & SearchRequestOptions<Fiel
 
 // @public
 export interface SearchRequest {
-    answers?: Answers;
-    captions?: Captions;
+    answers?: QueryAnswerType;
+    captions?: QueryCaptionType;
     facets?: string[];
     filter?: string;
     highlightFields?: string;
@@ -2014,7 +2083,7 @@ export interface SearchRequest {
     semanticFields?: string;
     sessionId?: string;
     skip?: number;
-    speller?: Speller;
+    speller?: QuerySpellerType;
     top?: number;
 }
 

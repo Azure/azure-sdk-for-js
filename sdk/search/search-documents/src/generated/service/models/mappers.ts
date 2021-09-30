@@ -311,6 +311,38 @@ export const ListDataSourcesResult: coreClient.CompositeMapper = {
   }
 };
 
+export const Paths1Cj7DxmIndexersIndexernameSearchResetdocsPostRequestbodyContentApplicationJsonSchema: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className:
+      "Paths1Cj7DxmIndexersIndexernameSearchResetdocsPostRequestbodyContentApplicationJsonSchema",
+    modelProperties: {
+      documentKeys: {
+        serializedName: "documentKeys",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      datasourceDocumentIds: {
+        serializedName: "datasourceDocumentIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const SearchIndexer: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -642,6 +674,7 @@ export const FieldMappingFunction: coreClient.CompositeMapper = {
       },
       parameters: {
         serializedName: "parameters",
+        nullable: true,
         type: {
           name: "Dictionary",
           value: {
@@ -758,6 +791,20 @@ export const IndexerExecutionResult: coreClient.CompositeMapper = {
           allowedValues: ["transientFailure", "success", "inProgress", "reset"]
         }
       },
+      statusDetail: {
+        serializedName: "statusDetail",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      currentState: {
+        serializedName: "currentState",
+        type: {
+          name: "Composite",
+          className: "IndexerCurrentState"
+        }
+      },
       errorMessage: {
         serializedName: "errorMessage",
         readOnly: true,
@@ -836,6 +883,74 @@ export const IndexerExecutionResult: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const IndexerCurrentState: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IndexerCurrentState",
+    modelProperties: {
+      mode: {
+        serializedName: "mode",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      allDocsInitialChangeTrackingState: {
+        serializedName: "allDocsInitialChangeTrackingState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      allDocsFinalChangeTrackingState: {
+        serializedName: "allDocsFinalChangeTrackingState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      resetDocsInitialChangeTrackingState: {
+        serializedName: "resetDocsInitialChangeTrackingState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      resetDocsFinalChangeTrackingState: {
+        serializedName: "resetDocsFinalChangeTrackingState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      resetDocumentKeys: {
+        serializedName: "resetDocumentKeys",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      resetDatasourceDocumentIds: {
+        serializedName: "resetDatasourceDocumentIds",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -1320,6 +1435,27 @@ export const ListSkillsetsResult: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "SearchIndexerSkillset"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const Paths1Ju2XepSkillsetsSkillsetnameSearchResetskillsPostRequestbodyContentApplicationJsonSchema: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className:
+      "Paths1Ju2XepSkillsetsSkillsetnameSearchResetskillsPostRequestbodyContentApplicationJsonSchema",
+    modelProperties: {
+      skillNames: {
+        serializedName: "skillNames",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
             }
           }
         }

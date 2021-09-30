@@ -8,6 +8,7 @@
 
 import {
   IndexersResetOptionalParams,
+  IndexersResetDocsOptionalParams,
   IndexersRunOptionalParams,
   SearchIndexer,
   IndexersCreateOrUpdateOptionalParams,
@@ -33,6 +34,15 @@ export interface Indexers {
   reset(
     indexerName: string,
     options?: IndexersResetOptionalParams
+  ): Promise<void>;
+  /**
+   * Resets specific documents in the datasource to be selectively re-ingested by the indexer.
+   * @param indexerName The name of the indexer to reset documents for.
+   * @param options The options parameters.
+   */
+  resetDocs(
+    indexerName: string,
+    options?: IndexersResetDocsOptionalParams
   ): Promise<void>;
   /**
    * Runs an indexer on-demand.

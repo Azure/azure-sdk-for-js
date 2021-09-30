@@ -31,7 +31,9 @@ import {
   CreateDataSourceConnectionOptions,
   DeleteDataSourceConnectionOptions,
   GetDataSourceConnectionOptions,
-  CreateorUpdateDataSourceConnectionOptions
+  CreateorUpdateDataSourceConnectionOptions,
+  ResetDocsOptions,
+  ResetSkillsOptions
 } from "./serviceModels";
 import * as utils from "./serviceUtils";
 import { createSpan } from "./tracing";
@@ -139,9 +141,7 @@ export class SearchIndexerClient {
       this.client.pipeline.addPolicy(createSearchApiKeyCredentialPolicy(credential));
     }
 
-    if (this.client.pipeline.getOrderedPolicies().length > 1) {
-      this.client.pipeline.addPolicy(createOdataMetadataPolicy("minimal"));
-    }
+    this.client.pipeline.addPolicy(createOdataMetadataPolicy("minimal"));
   }
 
   /**
@@ -479,7 +479,7 @@ export class SearchIndexerClient {
         {
           ...updatedOptions,
           ifMatch: etag,
-          ignoreResetRequirements: options.ignoreResetRequirements,
+          skipIndexerResetRequirementForCache: options.skipIndexerResetRequirementForCache,
           disableCacheReprocessingChangeDetection: options.disableCacheReprocessingChangeDetection
         }
       );
@@ -518,7 +518,7 @@ export class SearchIndexerClient {
         {
           ...updatedOptions,
           ifMatch: etag,
-          ignoreResetRequirements: options.ignoreResetRequirements
+          skipIndexerResetRequirementForCache: options.skipIndexerResetRequirementForCache
         }
       );
       return utils.generatedDataSourceToPublicDataSource(result);
@@ -556,7 +556,7 @@ export class SearchIndexerClient {
         {
           ...updatedOptions,
           ifMatch: etag,
-          ignoreResetRequirements: options.ignoreResetRequirements,
+          skipIndexerResetRequirementForCache: options.skipIndexerResetRequirementForCache,
           disableCacheReprocessingChangeDetection: options.disableCacheReprocessingChangeDetection
         }
       );
@@ -738,6 +738,59 @@ export class SearchIndexerClient {
     utils.modifySpanOptions(updatedOptions);
     try {
       await this.client.indexers.run(indexerName, updatedOptions);
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Resets specific documents in the datasource to be selectively re-ingested by the indexer.
+   * @param indexerName - The name of the indexer to reset documents for.
+   * @param options - Additional optional arguments.
+   */
+  public async resetDocs(indexerName: string, options: ResetDocsOptions = {}): Promise<void> {
+    const { span, updatedOptions } = createSpan("SearchIndexerClient-resetDocs", options);
+    utils.modifySpanOptions(updatedOptions);
+    try {
+      await this.client.indexers.resetDocs(indexerName, {
+        ...updatedOptions,
+        keysOrIds: {
+          documentKeys: updatedOptions.documentKeys,
+          datasourceDocumentIds: updatedOptions.datasourceDocumentIds
+        }
+      });
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Reset an existing skillset in a search service.
+   * @param skillsetName - The name of the skillset to reset.
+   * @param skillNames - The names of skills to reset.
+   * @param options - The options parameters.
+   */
+  public async resetSkills(
+    skillsetName: string,
+    skillNames: string[],
+    options: ResetSkillsOptions = {}
+  ): Promise<void> {
+    const { span, updatedOptions } = createSpan("SearchIndexerClient-resetSkills", options);
+    utils.modifySpanOptions(updatedOptions);
+    try {
+      await this.client.skillsets.resetSkills(skillsetName, { skillNames }, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

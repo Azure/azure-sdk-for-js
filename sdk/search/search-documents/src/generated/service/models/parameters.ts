@@ -13,8 +13,10 @@ import {
 } from "@azure/core-client";
 import {
   SearchIndexerDataSource as SearchIndexerDataSourceMapper,
+  Paths1Cj7DxmIndexersIndexernameSearchResetdocsPostRequestbodyContentApplicationJsonSchema as Paths1Cj7DxmIndexersIndexernameSearchResetdocsPostRequestbodyContentApplicationJsonSchemaMapper,
   SearchIndexer as SearchIndexerMapper,
   SearchIndexerSkillset as SearchIndexerSkillsetMapper,
+  Paths1Ju2XepSkillsetsSkillsetnameSearchResetskillsPostRequestbodyContentApplicationJsonSchema as Paths1Ju2XepSkillsetsSkillsetnameSearchResetskillsPostRequestbodyContentApplicationJsonSchemaMapper,
   SynonymMap as SynonymMapMapper,
   SearchIndex as SearchIndexMapper,
   AnalyzeRequest as AnalyzeRequestMapper
@@ -125,8 +127,8 @@ export const apiVersion: OperationQueryParameter = {
   }
 };
 
-export const ignoreResetRequirements: OperationQueryParameter = {
-  parameterPath: ["options", "ignoreResetRequirements"],
+export const skipIndexerResetRequirementForCache: OperationQueryParameter = {
+  parameterPath: ["options", "skipIndexerResetRequirementForCache"],
   mapper: {
     serializedName: "ignoreResetRequirements",
     type: {
@@ -152,6 +154,22 @@ export const indexerName: OperationURLParameter = {
     required: true,
     type: {
       name: "String"
+    }
+  }
+};
+
+export const keysOrIds: OperationParameter = {
+  parameterPath: ["options", "keysOrIds"],
+  mapper: Paths1Cj7DxmIndexersIndexernameSearchResetdocsPostRequestbodyContentApplicationJsonSchemaMapper
+};
+
+export const overwrite: OperationQueryParameter = {
+  parameterPath: ["options", "overwrite"],
+  mapper: {
+    defaultValue: false,
+    serializedName: "overwrite",
+    type: {
+      name: "Boolean"
     }
   }
 };
@@ -185,6 +203,11 @@ export const skillsetName: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const skillNames: OperationParameter = {
+  parameterPath: "skillNames",
+  mapper: Paths1Ju2XepSkillsetsSkillsetnameSearchResetskillsPostRequestbodyContentApplicationJsonSchemaMapper
 };
 
 export const synonymMap: OperationParameter = {

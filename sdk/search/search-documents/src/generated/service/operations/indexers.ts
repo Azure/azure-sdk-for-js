@@ -13,6 +13,7 @@ import * as Parameters from "../models/parameters";
 import { SearchServiceClientContext } from "../searchServiceClientContext";
 import {
   IndexersResetOptionalParams,
+  IndexersResetDocsOptionalParams,
   IndexersRunOptionalParams,
   SearchIndexer,
   IndexersCreateOrUpdateOptionalParams,
@@ -52,6 +53,21 @@ export class IndexersImpl implements Indexers {
     return this.client.sendOperationRequest(
       { indexerName, options },
       resetOperationSpec
+    );
+  }
+
+  /**
+   * Resets specific documents in the datasource to be selectively re-ingested by the indexer.
+   * @param indexerName The name of the indexer to reset documents for.
+   * @param options The options parameters.
+   */
+  resetDocs(
+    indexerName: string,
+    options?: IndexersResetDocsOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { indexerName, options },
+      resetDocsOperationSpec
     );
   }
 
@@ -169,6 +185,26 @@ const resetOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept, Parameters.xMsClientRequestId],
   serializer
 };
+const resetDocsOperationSpec: coreClient.OperationSpec = {
+  path: "/indexers('{indexerName}')/search.resetdocs",
+  httpMethod: "POST",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.SearchError
+    }
+  },
+  requestBody: Parameters.keysOrIds,
+  queryParameters: [Parameters.apiVersion, Parameters.overwrite],
+  urlParameters: [Parameters.endpoint, Parameters.indexerName],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.xMsClientRequestId
+  ],
+  mediaType: "json",
+  serializer
+};
 const runOperationSpec: coreClient.OperationSpec = {
   path: "/indexers('{indexerName}')/search.run",
   httpMethod: "POST",
@@ -200,7 +236,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.indexer,
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.ignoreResetRequirements,
+    Parameters.skipIndexerResetRequirementForCache,
     Parameters.disableCacheReprocessingChangeDetection
   ],
   urlParameters: [Parameters.endpoint, Parameters.indexerName],

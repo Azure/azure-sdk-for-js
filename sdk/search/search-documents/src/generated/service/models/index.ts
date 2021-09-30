@@ -213,6 +213,13 @@ export interface ListDataSourcesResult {
   readonly dataSources: SearchIndexerDataSource[];
 }
 
+export interface Paths1Cj7DxmIndexersIndexernameSearchResetdocsPostRequestbodyContentApplicationJsonSchema {
+  /** document keys to be reset */
+  documentKeys?: string[];
+  /** datasource document identifiers to be reset */
+  datasourceDocumentIds?: string[];
+}
+
 /** Represents an indexer. */
 export interface SearchIndexer {
   /** The name of the indexer. */
@@ -367,6 +374,16 @@ export interface IndexerExecutionResult {
    */
   readonly status: IndexerExecutionStatus;
   /**
+   * The outcome of this indexer execution.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly statusDetail?: IndexerExecutionStatusDetail;
+  /**
+   * All of the state that defines and dictates the indexer's current execution.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly currentState?: IndexerCurrentState;
+  /**
    * The error message indicating the top-level error, if any.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -411,6 +428,45 @@ export interface IndexerExecutionResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly finalTrackingState?: string;
+}
+
+/** Represents all of the state that defines and dictates the indexer's current execution. */
+export interface IndexerCurrentState {
+  /**
+   * The mode the indexer is running in.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly mode?: IndexingMode;
+  /**
+   * Change tracking state used when indexing starts on all documents in the datasource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly allDocsInitialChangeTrackingState?: string;
+  /**
+   * Change tracking state value when indexing finishes on all documents in the datasource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly allDocsFinalChangeTrackingState?: string;
+  /**
+   * Change tracking state used when indexing starts on select, reset documents in the datasource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resetDocsInitialChangeTrackingState?: string;
+  /**
+   * Change tracking state value when indexing finishes on select, reset documents in the datasource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resetDocsFinalChangeTrackingState?: string;
+  /**
+   * The list of document keys that have been reset. The document key is the document's unique identifier for the data in the search index. The indexer will prioritize selectively re-ingesting these keys.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resetDocumentKeys?: string[];
+  /**
+   * The list of datasource document ids that have been reset. The datasource document id is the unique identifier for the data in the datasource. The indexer will prioritize selectively re-ingesting these ids.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resetDatasourceDocumentIds?: string[];
 }
 
 /** Represents an item- or document-level indexing error. */
@@ -615,6 +671,11 @@ export interface ListSkillsetsResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly skillsets: SearchIndexerSkillset[];
+}
+
+export interface Paths1Ju2XepSkillsetsSkillsetnameSearchResetskillsPostRequestbodyContentApplicationJsonSchema {
+  /** the names of skills to be reset. */
+  skillNames?: string[];
 }
 
 /** Represents a synonym map definition. */
@@ -1998,6 +2059,39 @@ export enum KnownIndexerExecutionEnvironment {
  * **private**: Indicates that the indexer should run with the environment provisioned specifically for the search service. This should only be specified as the execution environment if the indexer needs to access resources securely over shared private link resources.
  */
 export type IndexerExecutionEnvironment = string;
+
+/** Known values of {@link IndexerExecutionStatusDetail} that the service accepts. */
+export enum KnownIndexerExecutionStatusDetail {
+  /** Indicates that the reset that occurred was for a call to ResetDocs. */
+  ResetDocs = "resetDocs"
+}
+
+/**
+ * Defines values for IndexerExecutionStatusDetail. \
+ * {@link KnownIndexerExecutionStatusDetail} can be used interchangeably with IndexerExecutionStatusDetail,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **resetDocs**: Indicates that the reset that occurred was for a call to ResetDocs.
+ */
+export type IndexerExecutionStatusDetail = string;
+
+/** Known values of {@link IndexingMode} that the service accepts. */
+export enum KnownIndexingMode {
+  /** The indexer is indexing all documents in the datasource. */
+  IndexingAllDocs = "indexingAllDocs",
+  /** The indexer is indexing selective, reset documents in the datasource. The documents being indexed are defined on indexer status. */
+  IndexingResetDocs = "indexingResetDocs"
+}
+
+/**
+ * Defines values for IndexingMode. \
+ * {@link KnownIndexingMode} can be used interchangeably with IndexingMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **indexingAllDocs**: The indexer is indexing all documents in the datasource. \
+ * **indexingResetDocs**: The indexer is indexing selective, reset documents in the datasource. The documents being indexed are defined on indexer status.
+ */
+export type IndexingMode = string;
 
 /** Known values of {@link SearchFieldDataType} that the service accepts. */
 export enum KnownSearchFieldDataType {
@@ -3613,7 +3707,7 @@ export interface DataSourcesCreateOrUpdateOptionalParams
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
   ifNoneMatch?: string;
   /** Ignores cache reset requirements. */
-  ignoreResetRequirements?: boolean;
+  skipIndexerResetRequirementForCache?: boolean;
 }
 
 /** Contains response data for the createOrUpdate operation. */
@@ -3670,6 +3764,16 @@ export interface IndexersResetOptionalParams
 }
 
 /** Optional parameters. */
+export interface IndexersResetDocsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Parameter group */
+  requestOptionsParam?: RequestOptions;
+  keysOrIds?: Paths1Cj7DxmIndexersIndexernameSearchResetdocsPostRequestbodyContentApplicationJsonSchema;
+  /** If false, keys or ids will be appended to existing ones. If true, only the keys or ids in this payload will be queued to be re-ingested. */
+  overwrite?: boolean;
+}
+
+/** Optional parameters. */
 export interface IndexersRunOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
@@ -3685,7 +3789,7 @@ export interface IndexersCreateOrUpdateOptionalParams
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
   ifNoneMatch?: string;
   /** Ignores cache reset requirements. */
-  ignoreResetRequirements?: boolean;
+  skipIndexerResetRequirementForCache?: boolean;
   /** Disables cache reprocessing change detection. */
   disableCacheReprocessingChangeDetection?: boolean;
 }
@@ -3755,7 +3859,7 @@ export interface SkillsetsCreateOrUpdateOptionalParams
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
   ifNoneMatch?: string;
   /** Ignores cache reset requirements. */
-  ignoreResetRequirements?: boolean;
+  skipIndexerResetRequirementForCache?: boolean;
   /** Disables cache reprocessing change detection. */
   disableCacheReprocessingChangeDetection?: boolean;
 }
@@ -3805,6 +3909,13 @@ export interface SkillsetsCreateOptionalParams
 
 /** Contains response data for the create operation. */
 export type SkillsetsCreateResponse = SearchIndexerSkillset;
+
+/** Optional parameters. */
+export interface SkillsetsResetSkillsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Parameter group */
+  requestOptionsParam?: RequestOptions;
+}
 
 /** Optional parameters. */
 export interface SynonymMapsCreateOrUpdateOptionalParams

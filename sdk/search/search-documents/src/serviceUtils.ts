@@ -393,24 +393,6 @@ export function convertSimilarityToPublic(
   }
 }
 
-export function extractOperationOptions<T extends OperationOptions>(
-  obj: T
-): {
-  operationOptions: OperationOptions;
-  restOptions: any;
-} {
-  const { abortSignal, requestOptions, tracingOptions, ...restOptions } = obj;
-
-  return {
-    operationOptions: {
-      abortSignal,
-      requestOptions,
-      tracingOptions
-    },
-    restOptions
-  };
-}
-
 export function convertEncryptionKeyToPublic(
   encryptionKey?: GeneratedSearchResourceEncryptionKey
 ): SearchResourceEncryptionKey | undefined {

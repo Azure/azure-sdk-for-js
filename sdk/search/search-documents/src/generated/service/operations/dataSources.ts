@@ -126,7 +126,10 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.dataSource,
-  queryParameters: [Parameters.apiVersion, Parameters.ignoreResetRequirements],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.skipIndexerResetRequirementForCache
+  ],
   urlParameters: [Parameters.endpoint, Parameters.dataSourceName],
   headerParameters: [
     Parameters.contentType,

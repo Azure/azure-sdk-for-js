@@ -140,9 +140,9 @@ export interface SearchRequest {
   /** A value that specifies the language of the search query. */
   queryLanguage?: QueryLanguage;
   /** A value that specified the type of the speller to use to spell-correct individual search query terms. */
-  speller?: Speller;
+  speller?: QuerySpellerType;
   /** A value that specifies whether answers should be returned as part of the search response. */
-  answers?: Answers;
+  answers?: QueryAnswerType;
   /** The comma-separated list of fields to retrieve. If unspecified, all fields marked as retrievable in the schema are included. */
   select?: string;
   /** The number of search results to skip. This value cannot be greater than 100,000. If you need to scan documents in sequence, but cannot use skip due to this limitation, consider using orderby on a totally-ordered key and filter with a range query instead. */
@@ -150,7 +150,7 @@ export interface SearchRequest {
   /** The number of search results to retrieve. This can be used in conjunction with $skip to implement client-side paging of search results. If results are truncated due to server-side paging, the response will include a continuation token that can be used to issue another Search request for the next page of results. */
   top?: number;
   /** A value that specifies whether captions should be returned as part of the search response. */
-  captions?: Captions;
+  captions?: QueryCaptionType;
   /** The comma-separated list of field names used for semantic search. */
   semanticFields?: string;
 }
@@ -531,6 +531,60 @@ export enum KnownCaptions {
  * **extractive**: Extracts captions from the matching documents that contain passages relevant to the search query.
  */
 export type Captions = string;
+
+/** Known values of {@link QuerySpellerType} that the service accepts. */
+export enum KnownQuerySpellerType {
+  /** Speller not enabled. */
+  None = "none",
+  /** Speller corrects individual query terms using a static lexicon for the language specified by the queryLanguage parameter. */
+  Lexicon = "lexicon"
+}
+
+/**
+ * Defines values for QuerySpellerType. \
+ * {@link KnownQuerySpellerType} can be used interchangeably with QuerySpellerType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **none**: Speller not enabled. \
+ * **lexicon**: Speller corrects individual query terms using a static lexicon for the language specified by the queryLanguage parameter.
+ */
+export type QuerySpellerType = string;
+
+/** Known values of {@link QueryAnswerType} that the service accepts. */
+export enum KnownQueryAnswerType {
+  /** Do not return answers for the query. */
+  None = "none",
+  /** Extracts answer candidates from the contents of the documents returned in response to a query expressed as a question in natural language. */
+  Extractive = "extractive"
+}
+
+/**
+ * Defines values for QueryAnswerType. \
+ * {@link KnownQueryAnswerType} can be used interchangeably with QueryAnswerType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **none**: Do not return answers for the query. \
+ * **extractive**: Extracts answer candidates from the contents of the documents returned in response to a query expressed as a question in natural language.
+ */
+export type QueryAnswerType = string;
+
+/** Known values of {@link QueryCaptionType} that the service accepts. */
+export enum KnownQueryCaptionType {
+  /** Do not return captions for the query. */
+  None = "none",
+  /** Extracts captions from the matching documents that contain passages relevant to the search query. */
+  Extractive = "extractive"
+}
+
+/**
+ * Defines values for QueryCaptionType. \
+ * {@link KnownQueryCaptionType} can be used interchangeably with QueryCaptionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **none**: Do not return captions for the query. \
+ * **extractive**: Extracts captions from the matching documents that contain passages relevant to the search query.
+ */
+export type QueryCaptionType = string;
 /** Defines values for QueryType. */
 export type QueryType = "simple" | "full" | "semantic";
 /** Defines values for SearchMode. */

@@ -152,9 +152,7 @@ export class SearchIndexClient {
       this.client.pipeline.addPolicy(createSearchApiKeyCredentialPolicy(credential));
     }
 
-    if (this.client.pipeline.getOrderedPolicies().length > 1) {
-      this.client.pipeline.addPolicy(createOdataMetadataPolicy("minimal"));
-    }
+    this.client.pipeline.addPolicy(createOdataMetadataPolicy("minimal"));
   }
 
   private async *listIndexesPage(
@@ -574,7 +572,12 @@ export class SearchIndexClient {
    * @param options - Additional arguments
    */
   public async analyzeText(indexName: string, options: AnalyzeTextOptions): Promise<AnalyzeResult> {
-    const { operationOptions, restOptions } = utils.extractOperationOptions(options);
+    const { abortSignal, requestOptions, tracingOptions, ...restOptions } = options;
+    const operationOptions = {
+      abortSignal,
+      requestOptions,
+      tracingOptions
+    };
 
     const { span, updatedOptions } = createSpan("SearchIndexClient-analyzeText", operationOptions);
     utils.modifySpanOptions(updatedOptions);
