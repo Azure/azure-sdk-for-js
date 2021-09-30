@@ -67,9 +67,9 @@ export async function main() {
     processTables(tablesFromResult);
   } else {
     console.log(`Error processing the query '${kustoQuery}' - ${result.partialError}`);
-    if (result.incompleteTables.length > 0) {
+    if (result.partialTables.length > 0) {
       console.log(`This query has also returned partial data in the following table(s) - `);
-      processTables(result.incompleteTables);
+      processTables(result.partialTables);
     }
   }
 }

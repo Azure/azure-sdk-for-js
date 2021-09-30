@@ -10,19 +10,7 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export class AggregateBatchError extends Error {
-    constructor(errors: LogsErrorInfo[]);
-    errors: BatchError[];
-}
-
-// @public
 export type AggregationType = "None" | "Average" | "Count" | "Minimum" | "Maximum" | "Total";
-
-// @public
-export class BatchError extends Error implements LogsErrorInfo {
-    constructor(errorInfo: LogsErrorInfo);
-    code: string;
-}
 
 // @public
 export const Durations: {
@@ -64,7 +52,6 @@ export interface LogsErrorInfo extends Error {
 
 // @public
 export interface LogsQueryBatchOptions extends OperationOptions {
-    throwOnAnyFailure?: boolean;
 }
 
 // @public
@@ -95,13 +82,12 @@ export interface LogsQueryOptions extends OperationOptions {
     includeQueryStatistics?: boolean;
     includeVisualization?: boolean;
     serverTimeoutInSeconds?: number;
-    throwOnAnyFailure?: boolean;
 }
 
 // @public
 export interface LogsQueryPartialResult {
-    incompleteTables: LogsTable[];
     partialError: LogsErrorInfo;
+    partialTables: LogsTable[];
     statistics?: Record<string, unknown>;
     status: LogsQueryResultStatus.PartialFailure;
     visualization?: Record<string, unknown>;

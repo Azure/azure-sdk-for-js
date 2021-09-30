@@ -32,9 +32,9 @@ async function main() {
 
   if (metricNames.length > 0) {
     console.log(`Picking an example list of metrics to query: ${metricNames}`);
-    const metricsResponse = await metricsQueryClient.query(metricsResourceId, metricNames, {
+    const metricsResponse = await metricsQueryClient.queryResource(metricsResourceId, metricNames, {
       granularity: "PT1M",
-      timespan: { duration: Durations.FiveMinutes }
+      timespan: { duration: Durations.fiveMinutes }
     });
 
     console.log(

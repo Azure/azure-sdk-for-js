@@ -17,9 +17,7 @@ export {
   LogsTable,
   LogsColumn,
   LogsQueryResultStatus,
-  LogsErrorInfo,
-  BatchError,
-  AggregateBatchError
+  LogsErrorInfo
 } from "./models/publicLogsModels";
 export {
   MetricsQueryClient,

@@ -6,13 +6,7 @@ import { Context } from "mocha";
 import { env } from "process";
 import { createRecorderAndLogsClient, RecorderAndLogsClient } from "./shared/testShared";
 import { Recorder } from "@azure-tools/test-recorder";
-import {
-  BatchError,
-  Durations,
-  LogsQueryClient,
-  LogsQueryResultStatus,
-  QueryBatch
-} from "../../src";
+import { Durations, LogsQueryClient, LogsQueryResultStatus, QueryBatch } from "../../src";
 // import { runWithTelemetry } from "../setupOpenTelemetry";
 
 import { assertQueryTable, getMonitorWorkspaceId, loggerForTest } from "./shared/testShared";
@@ -300,10 +294,10 @@ describe("LogsQueryClient live tests", function() {
       });
     }
     if (result[0].status === LogsQueryResultStatus.PartialFailure) {
-      throw new Error(JSON.stringify({ ...result[0].partialError, ...result[0].incompleteTables }));
+      throw new Error(JSON.stringify({ ...result[0].partialError, ...result[0].partialTables }));
     }
     if (result[0].status === LogsQueryResultStatus.Failure) {
-      throw new BatchError(result[0]);
+      throw new Error(JSON.stringify({ ...result[0] }));
     }
   });
 
@@ -436,7 +430,7 @@ describe("LogsQueryClient live tests", function() {
             return;
           }
         } else if (result.status === LogsQueryResultStatus.PartialFailure) {
-          const numRows = result.incompleteTables?.[0].rows?.length;
+          const numRows = result.partialTables?.[0].rows?.length;
 
           if (numRows != null && numRows > 0) {
             loggerForTest.verbose(

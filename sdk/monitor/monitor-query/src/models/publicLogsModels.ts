@@ -35,10 +35,6 @@ export interface LogsQueryOptions extends OperationOptions {
    * Results will also include visualization information, in JSON format.
    */
   includeVisualization?: boolean;
-  /**
-   * If true, will cause this operation to throw if query operation did not succeed. default to "False"
-   */
-  throwOnAnyFailure?: boolean;
 }
 
 /**
@@ -58,27 +54,6 @@ export interface LogsErrorInfo extends Error {
   code: string;
 }
 
-/** Batch Error class for type of each error item in the {@link AggregateBatchError} list returned in logs query batch API */
-export class BatchError extends Error implements LogsErrorInfo {
-  /** A machine readable error code. */
-  code: string;
-
-  constructor(errorInfo: LogsErrorInfo) {
-    super();
-    this.name = "Error";
-    this.code = errorInfo.code;
-    this.message = errorInfo.message;
-  }
-}
-/** AggregateBatchError type for errors returned in logs query batch API*/
-export class AggregateBatchError extends Error {
-  /** Represents list of errors if thrown for the queries executed in the queryBatch operation */
-  errors: BatchError[];
-  constructor(errors: LogsErrorInfo[]) {
-    super();
-    this.errors = errors.map((x) => new BatchError(x));
-  }
-}
 /**
  * Tables and statistic results from a logs query.
  */
@@ -112,7 +87,7 @@ export interface LogsQuerySuccessfulResult {
 /** Result type for Partial Failure Scenario for logs queryWorkspace and queryBatch operations. */
 export interface LogsQueryPartialResult {
   /** Populated results from the query. */
-  incompleteTables: LogsTable[];
+  partialTables: LogsTable[];
   /** error information for partial errors or failed queries */
   partialError: LogsErrorInfo;
   /** Indicates that the query partially failed.*/
@@ -131,13 +106,8 @@ export interface LogsQueryError extends Error {
   status: LogsQueryResultStatus.Failure;
 }
 
-/** Configurable HTTP request settings and `throwOnAnyFailure` setting for the Logs query batch operation. */
-export interface LogsQueryBatchOptions extends OperationOptions {
-  /**
-   * If true, will cause the batch operation to throw if any query operations in the batch did not succeed.
-   */
-  throwOnAnyFailure?: boolean;
-}
+/** Configurable HTTP request settings for the Logs query batch operation. */
+export interface LogsQueryBatchOptions extends OperationOptions {}
 
 /** The Analytics query. Learn more about the [Analytics query syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/) */
 // NOTE: 'id' is added automatically by our LogsQueryClient.

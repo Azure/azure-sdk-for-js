@@ -433,7 +433,7 @@ export function computeResultType(
         visualization: generatedResponse.render,
         status: LogsQueryResultStatus.PartialFailure,
         statistics: generatedResponse.statistics,
-        incompleteTables: generatedResponse.tables?.map((table: GeneratedTable) =>
+        partialTables: generatedResponse.tables?.map((table: GeneratedTable) =>
           convertGeneratedTable(table)
         ),
         partialError: mapError(generatedResponse.error)

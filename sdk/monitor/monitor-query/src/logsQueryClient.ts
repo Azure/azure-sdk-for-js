@@ -10,12 +10,9 @@ import {
   LogsQueryBatchResult,
   LogsQueryOptions,
   LogsQueryResult,
-  AggregateBatchError,
-  BatchError,
   LogsQueryResultStatus,
   LogsQuerySuccessfulResult,
-  LogsQueryPartialResult,
-  LogsQueryError
+  LogsQueryPartialResult
 } from "./models/publicLogsModels";
 
 import {
@@ -136,11 +133,8 @@ export class LogsQueryClient {
       };
       return result;
     } else {
-      if (options?.throwOnAnyFailure) {
-        throw new BatchError(mapError(flatResponse.error));
-      }
       const result: LogsQueryPartialResult = {
-        incompleteTables: res.tables,
+        partialTables: res.tables,
         status: LogsQueryResultStatus.PartialFailure,
         partialError: mapError(flatResponse.error),
         statistics: res.statistics,
@@ -166,20 +160,6 @@ export class LogsQueryClient {
       options || {}
     );
     const result: LogsQueryBatchResult = convertResponseForQueryBatch(flatResponse, rawResponse);
-
-    if (
-      options?.throwOnAnyFailure &&
-      result.some((it) => it.status !== LogsQueryResultStatus.Success)
-    ) {
-      const errorResults = result
-        .filter((it) => it.status !== LogsQueryResultStatus.Success)
-        .map(
-          (x) => (x as Omit<LogsQueryError, "status">) || (x as LogsQueryPartialResult).partialError
-        );
-
-      const batchErrorList = errorResults.map((x) => new BatchError(x));
-      throw new AggregateBatchError(batchErrorList);
-    }
     return result;
   }
 }

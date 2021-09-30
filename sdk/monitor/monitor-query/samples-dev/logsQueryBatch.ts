@@ -63,7 +63,7 @@ export async function main() {
       console.log(
         `Printing Partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
       );
-      processTables(response.incompleteTables);
+      processTables(response.partialTables);
       console.log(
         ` Query had errors:${response.partialError.message} with code ${response.partialError.code}`
       );
