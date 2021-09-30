@@ -4,6 +4,9 @@
 
 ```ts
 
+/// <reference lib="esnext.asynciterable" />
+
+import { AzureLogger } from '@azure/logger';
 import * as coreHttp from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
@@ -92,7 +95,7 @@ export interface CreateRsaKeyOptions extends CreateKeyOptions {
 // @public
 export class CryptographyClient {
     constructor(key: string | KeyVaultKey, credential: TokenCredential, pipelineOptions?: CryptographyClientOptions);
-    constructor(key: JsonWebKey);
+    constructor(key: JsonWebKey_2);
     decrypt(decryptParameters: DecryptParameters, options?: DecryptOptions): Promise<DecryptResult>;
     // @deprecated
     decrypt(algorithm: EncryptionAlgorithm, ciphertext: Uint8Array, options?: DecryptOptions): Promise<DecryptResult>;
@@ -134,9 +137,9 @@ export interface DecryptResult {
 // @public
 export interface DeletedKey {
     id?: string;
-    key?: JsonWebKey;
+    key?: JsonWebKey_2;
     keyOperations?: KeyOperation[];
-    keyType?: KeyType;
+    keyType?: KeyType_2;
     name: string;
     properties: KeyProperties & {
         readonly recoveryId?: string;
@@ -204,16 +207,18 @@ export interface ImportKeyOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export interface JsonWebKey {
+interface JsonWebKey_2 {
     crv?: KeyCurveName;
     d?: Uint8Array;
     dp?: Uint8Array;
     dq?: Uint8Array;
     e?: Uint8Array;
     k?: Uint8Array;
+    key_ops?: KeyOperation[];
+    // @deprecated
     keyOps?: KeyOperation[];
     kid?: string;
-    kty?: KeyType;
+    kty?: KeyType_2;
     n?: Uint8Array;
     p?: Uint8Array;
     q?: Uint8Array;
@@ -222,6 +227,7 @@ export interface JsonWebKey {
     x?: Uint8Array;
     y?: Uint8Array;
 }
+export { JsonWebKey_2 as JsonWebKey }
 
 // @public
 export class KeyClient {
@@ -230,7 +236,7 @@ export class KeyClient {
     beginDeleteKey(name: string, options?: BeginDeleteKeyOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
     beginRecoverDeletedKey(name: string, options?: BeginRecoverDeletedKeyOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
     createEcKey(name: string, options?: CreateEcKeyOptions): Promise<KeyVaultKey>;
-    createKey(name: string, keyType: KeyType, options?: CreateKeyOptions): Promise<KeyVaultKey>;
+    createKey(name: string, keyType: KeyType_2, options?: CreateKeyOptions): Promise<KeyVaultKey>;
     createOctKey(name: string, options?: CreateOctKeyOptions): Promise<KeyVaultKey>;
     createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<KeyVaultKey>;
     getCryptographyClient(keyName: string, options?: GetCryptographyClientOptions): CryptographyClient;
@@ -238,7 +244,7 @@ export class KeyClient {
     getKey(name: string, options?: GetKeyOptions): Promise<KeyVaultKey>;
     getKeyRotationPolicy(name: string, options?: GetKeyRotationPolicyOptions): Promise<KeyRotationPolicy>;
     getRandomBytes(count: number, options?: GetRandomBytesOptions): Promise<RandomBytes>;
-    importKey(name: string, key: JsonWebKey, options?: ImportKeyOptions): Promise<KeyVaultKey>;
+    importKey(name: string, key: JsonWebKey_2, options?: ImportKeyOptions): Promise<KeyVaultKey>;
     listDeletedKeys(options?: ListDeletedKeysOptions): PagedAsyncIterableIterator<DeletedKey>;
     listPropertiesOfKeys(options?: ListPropertiesOfKeysOptions): PagedAsyncIterableIterator<KeyProperties>;
     listPropertiesOfKeyVersions(name: string, options?: ListPropertiesOfKeyVersionsOptions): PagedAsyncIterableIterator<KeyProperties>;
@@ -323,14 +329,15 @@ export interface KeyRotationPolicyProperties {
 }
 
 // @public
-export type KeyType = string;
+type KeyType_2 = string;
+export { KeyType_2 as KeyType }
 
 // @public
 export interface KeyVaultKey {
     id?: string;
-    key?: JsonWebKey;
+    key?: JsonWebKey_2;
     keyOperations?: KeyOperation[];
-    keyType?: KeyType;
+    keyType?: KeyType_2;
     name: string;
     properties: KeyProperties;
 }
@@ -433,7 +440,7 @@ export interface ListPropertiesOfKeyVersionsOptions extends coreHttp.OperationOp
 }
 
 // @public
-export const logger: import("@azure/logger").AzureLogger;
+export const logger: AzureLogger;
 
 export { PagedAsyncIterableIterator }
 
@@ -557,7 +564,6 @@ export interface WrapResult {
     keyID?: string;
     result: Uint8Array;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

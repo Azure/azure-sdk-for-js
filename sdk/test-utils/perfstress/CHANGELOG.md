@@ -2,6 +2,13 @@
 
 ## 1.0.0 (Unreleased)
 
+### 2021-09-29
+
+- Allows connecting to the proxy-tool with https with the "insecure" boolean option.
+  [#17898](https://github.com/Azure/azure-sdk-for-js/pull/17898)
+
+- [Bug Fix] Fixes [#17954](https://github.com/Azure/azure-sdk-for-js/issues/17954), boolean options parsed incorrectly as strings is rectified.
+
 ### 2021-09-24
 
 - Instead of using the cached proxy-clients(to leverage the proxy-tool), we now get a new client for each of the instantiated PerfStressTest classes. [#17832](https://github.com/Azure/azure-sdk-for-js/pull/17832)

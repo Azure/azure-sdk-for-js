@@ -33,7 +33,6 @@ import { processMultiTenantRequest } from "../../util/validateMultiTenant";
 export interface MsalNodeOptions extends MsalFlowOptions {
   tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
   tokenCredentialOptions: TokenCredentialOptions;
-  allowMultiTenantAuthentication?: boolean;
   /**
    * Specifies a regional authority. Please refer to the {@link RegionalAuthority} type for the accepted values.
    * If {@link RegionalAuthority.AutoDiscoverRegion} is specified, we will try to discover the regional authority endpoint.
@@ -75,7 +74,6 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   protected msalConfig: msalNode.Configuration;
   protected clientId: string;
   protected tenantId: string;
-  protected allowMultiTenantAuthentication?: boolean;
   protected authorityHost?: string;
   protected identityClient?: IdentityClient;
   protected requiresConfidential: boolean = false;
@@ -86,7 +84,6 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     super(options);
     this.msalConfig = this.defaultNodeMsalConfig(options);
     this.tenantId = resolveTenantId(options.logger, options.tenantId, options.clientId);
-    this.allowMultiTenantAuthentication = options?.allowMultiTenantAuthentication;
     this.clientId = this.msalConfig.auth.clientId;
 
     // If persistence has been configured
@@ -280,9 +277,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     scopes: string[],
     options: CredentialFlowGetTokenOptions = {}
   ): Promise<AccessToken> {
-    const tenantId =
-      processMultiTenantRequest(this.tenantId, this.allowMultiTenantAuthentication, options) ||
-      this.tenantId;
+    const tenantId = processMultiTenantRequest(this.tenantId, options) || this.tenantId;
 
     options.authority = getAuthority(tenantId, this.authorityHost);
 

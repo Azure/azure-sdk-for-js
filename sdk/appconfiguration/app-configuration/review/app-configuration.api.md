@@ -4,6 +4,8 @@
 
 ```ts
 
+/// <reference lib="esnext.asynciterable" />
+
 import { HttpResponse } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
@@ -217,7 +219,6 @@ export interface SetReadOnlyResponse extends ConfigurationSetting, SyncTokenHead
 export interface SyncTokenHeaderField {
     syncToken?: string;
 }
-
 
 // (No @packageDocumentation comment for this package)
 
