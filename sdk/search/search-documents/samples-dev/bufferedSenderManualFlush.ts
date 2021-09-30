@@ -14,7 +14,7 @@ import {
 } from "@azure/search-documents";
 import { createIndex, documentKeyRetriever, WAIT_TIME } from "./setup";
 import { Hotel } from "./interfaces";
-import { delay } from "@azure/core-http";
+import { delay } from "../src/serviceUtils";
 import * as dotenv from "dotenv";
 dotenv.config();
 

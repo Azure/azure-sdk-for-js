@@ -4,7 +4,6 @@
 import * as dotenv from "dotenv";
 
 import { env, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
-import { isNode } from "@azure/core-http";
 
 import {
   AzureKeyCredential,
@@ -12,6 +11,12 @@ import {
   SearchIndexerClient,
   SearchIndexClient
 } from "../../../src";
+
+const isNode =
+  typeof process !== "undefined" &&
+  !!process.version &&
+  !!process.versions &&
+  !!process.versions.node;
 
 if (isNode) {
   dotenv.config();

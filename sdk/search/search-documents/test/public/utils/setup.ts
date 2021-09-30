@@ -10,7 +10,7 @@ import {
   KnownAnalyzerNames
 } from "../../../src";
 import { Hotel } from "./interfaces";
-import { delay } from "@azure/core-http";
+import { delay } from "../../../src/serviceUtils";
 import { assert } from "chai";
 
 export const WAIT_TIME = 4000;
