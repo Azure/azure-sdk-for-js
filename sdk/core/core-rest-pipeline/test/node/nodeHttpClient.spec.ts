@@ -335,12 +335,6 @@ describe("NodeHttpClient", function() {
     const controller = new AbortController();
 
     const clientRequest = createRequest();
-    clientRequest.destroy = function(this: FakeRequest, e: Error) {
-      // give it some time to attach listeners and read from the stream
-      setTimeout(() => {
-        streamResponse.destroy(e);
-      }, 100);
-    };
     stubbedHttpsRequest.returns(clientRequest);
     const request = createPipelineRequest({
       url: "https://example.com",
@@ -349,6 +343,13 @@ describe("NodeHttpClient", function() {
     const promise = client.sendRequest(request);
 
     const streamResponse = new FakeResponse();
+
+    clientRequest.destroy = function(this: FakeRequest, e: Error) {
+      // give it some time to attach listeners and read from the stream
+      setTimeout(() => {
+        streamResponse.destroy(e);
+      }, 100);
+    };
     streamResponse.headers = {};
     streamResponse.statusCode = 200;
     const buffer = Buffer.from("The start of an HTTP body");
