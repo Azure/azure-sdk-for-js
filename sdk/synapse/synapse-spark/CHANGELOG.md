@@ -1,14 +1,10 @@
 # Release History
 
-## 1.0.0-beta.4 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.0.0-beta.4 (2021-10-05)
 
 ### Other Changes
+
+- Re-generate with latest release tag `package-spark-2020-12-01`
 
 ## 1.0.0-beta.3 (2021-08-10)
 
