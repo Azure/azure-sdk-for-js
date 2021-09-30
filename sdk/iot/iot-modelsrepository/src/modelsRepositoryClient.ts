@@ -183,7 +183,7 @@ export class ModelsRepositoryClient {
           modelMap = await this._ExpandModels(dtmis, options);
         }
       } catch (e) {
-        if (e.name === "RestError" && e.code === "ResouceNotFound") {
+        if (e.name === "RestError" && e.code === "ResourceNotFound") {
           logger.info("Could not retrieve model(s) from expanded model DTDL - ");
           modelMap = await this._ExpandModels(dtmis, options);
         } else {
