@@ -1,6 +1,6 @@
 # Release History
 
-## 4.4.0-beta.2 (Unreleased)
+## 4.4.0-beta.2 (2021-10-05)
 
 ### Features Added
 
@@ -10,12 +10,6 @@
   - Added `KeyClient.rotateKey` to rotate a key on-demand.
   - Added `KeyClient.updateKeyRotationPolicy` to update a key's automated rotation policy.
 - Added `JsonWebKey.key_ops` property to `JsonWebKey` in addition to the existing `JsonWebKey.keyOps` property in order to comply with the JSON Web Key spec.
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 4.4.0-beta.1 (2021-08-10)
 
