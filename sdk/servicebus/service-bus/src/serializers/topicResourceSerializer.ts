@@ -149,7 +149,9 @@ export interface CreateTopicOptions extends OperationOptions {
   maxSizeInMegabytes?: number;
 
   /**
-   * The maximum message size in kilobytes for messages sent to this queue/topic.
+   * The maximum message size in kilobytes for messages sent to this topic.
+   *
+   * (Configurable only for Premium Tier Service Bus namespace.)
    */
   maxMessageSizeInKilobytes?: number;
 
