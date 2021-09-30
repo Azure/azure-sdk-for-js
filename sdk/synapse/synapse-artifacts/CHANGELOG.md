@@ -1,14 +1,10 @@
 # Release History
 
-## 1.0.0-beta.6 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.0.0-beta.6 (2021-10-05)
 
 ### Other Changes
+
+- Re-generate with swagger `package-artifacts-composite-v1`
 
 ## 1.0.0-beta.5 (2021-08-10)
 
