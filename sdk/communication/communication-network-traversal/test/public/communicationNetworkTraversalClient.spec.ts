@@ -32,12 +32,30 @@ matrix([[true, false]], async function(useAad) {
       }
     });
 
-    it("successfully gets a turn credential", async function() {
+    it("successfully gets a turn credential providing a user identity", async function() {
       const connectionString = env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING;
       const identityClient = new CommunicationIdentityClient(connectionString);
       const user: CommunicationUserIdentifier = await identityClient.createUser();
 
       const turnCredentialResponse = await client.getRelayConfiguration(user);
+      assert.isNotNull(turnCredentialResponse);
+
+      const turnTokenExpiresOn = turnCredentialResponse.expiresOn;
+      assert.isNotNull(turnTokenExpiresOn);
+
+      const turnServers = turnCredentialResponse.iceServers;
+
+      for (const iceServer of turnServers) {
+        for (const url of iceServer.urls) {
+          assert.isNotNull(url);
+        }
+        assert.isNotNull(iceServer.username);
+        assert.isNotNull(iceServer.credential);
+      }
+    }).timeout(5000);
+    it("successfully gets a turn credential without providing a user identity", async function() {
+      
+      const turnCredentialResponse = await client.getRelayConfiguration();
       assert.isNotNull(turnCredentialResponse);
 
       const turnTokenExpiresOn = turnCredentialResponse.expiresOn;
