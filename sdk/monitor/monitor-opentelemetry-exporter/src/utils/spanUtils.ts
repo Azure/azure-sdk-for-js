@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import os from "os";
+import { URL } from "url";
 import { ReadableSpan } from "@opentelemetry/tracing";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { diag, SpanKind, SpanStatusCode, Link } from "@opentelemetry/api";
@@ -56,10 +57,22 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
   }
   if (span.kind === SpanKind.SERVER) {
     const httpMethod = span.attributes[SemanticAttributes.HTTP_METHOD];
-    let httpClientIp = span.attributes[SemanticAttributes.HTTP_CLIENT_IP];
-    let netPeerIp = span.attributes[SemanticAttributes.NET_PEER_IP];
+    const httpClientIp = span.attributes[SemanticAttributes.HTTP_CLIENT_IP];
+    const netPeerIp = span.attributes[SemanticAttributes.NET_PEER_IP];
     if (httpMethod) {
-      tags[KnownContextTagKeys.AiOperationName] = `${httpMethod as string} ${span.name as string}`;
+      const httpRoute = span.attributes[SemanticAttributes.HTTP_ROUTE];
+      const httpUrl = span.attributes[SemanticAttributes.HTTP_URL];
+      tags[KnownContextTagKeys.AiOperationName] = span.name; // Default
+      if (httpRoute) {
+        tags[
+          KnownContextTagKeys.AiOperationName
+        ] = `${httpMethod as string} ${httpRoute as string}`;
+      } else if (httpUrl) {
+        try {
+          let url = new URL(String(httpUrl));
+          tags[KnownContextTagKeys.AiOperationName] = `${httpMethod} ${url.pathname}`;
+        } catch (ex) {}
+      }
       if (httpClientIp) {
         tags[KnownContextTagKeys.AiLocationIp] = String(httpClientIp);
       } else if (netPeerIp) {
@@ -182,7 +195,7 @@ function getDependencyTarget(span: ReadableSpan): string {
 
 function createDependencyData(span: ReadableSpan): RemoteDependencyData {
   const remoteDependencyData: RemoteDependencyData = {
-    name: span.name,
+    name: span.name, //Default
     id: `${span.spanContext().spanId}`,
     success: span.status.code != SpanStatusCode.ERROR,
     resultCode: "0",
@@ -202,6 +215,13 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
   const rpcSystem = span.attributes[SemanticAttributes.RPC_SYSTEM];
   // HTTP Dependency
   if (httpMethod) {
+    const httpUrl = span.attributes[SemanticAttributes.HTTP_URL];
+    if (httpUrl) {
+      try {
+        let dependencyUrl = new URL(String(httpUrl));
+        remoteDependencyData.name = `${httpMethod} ${dependencyUrl.pathname}`;
+      } catch (ex) {}
+    }
     remoteDependencyData.type = DependencyTypes.Http;
     remoteDependencyData.data = getUrl(span);
     const httpStatusCode = span.attributes[SemanticAttributes.HTTP_STATUS_CODE];
@@ -243,13 +263,16 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
       remoteDependencyData.type = String(dbSystem);
     }
     const dbStatement = span.attributes[SemanticAttributes.DB_STATEMENT];
+    const dbOperation = span.attributes[SemanticAttributes.DB_OPERATION];
     if (dbStatement) {
       remoteDependencyData.data = String(dbStatement);
+    } else if (dbOperation) {
+      remoteDependencyData.data = String(dbOperation);
     }
     let target = getDependencyTarget(span);
     const dbName = span.attributes[SemanticAttributes.DB_NAME];
     if (target) {
-      remoteDependencyData.target = dbName ? `${target}/${dbName}` : `${target}`;
+      remoteDependencyData.target = dbName ? `${target}|${dbName}` : `${target}`;
     } else {
       remoteDependencyData.target = dbName ? `${dbName}` : `${dbSystem}`;
     }
