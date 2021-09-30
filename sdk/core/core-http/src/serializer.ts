@@ -108,7 +108,7 @@ export class Serializer {
       payload = [];
     }
 
-    if (mapper.isConstant) {
+    if (mapper.isConstant && mapper.required) {
       object = mapper.defaultValue;
     }
 
@@ -293,7 +293,7 @@ export class Serializer {
       }
     }
 
-    if (mapper.isConstant) {
+    if (mapper.isConstant && mapper.required) {
       payload = mapper.defaultValue;
     }
 

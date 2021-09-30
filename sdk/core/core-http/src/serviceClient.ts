@@ -887,7 +887,7 @@ export function getOperationArgumentValueFromParameterPath(
   const serializerOptions = operationArguments.options?.serializerOptions;
   if (Array.isArray(parameterPath)) {
     if (parameterPath.length > 0) {
-      if (parameterMapper.isConstant) {
+      if (parameterMapper.isConstant && parameterMapper.required) {
         value = parameterMapper.defaultValue;
       } else {
         let propertySearchResult: PropertySearchResult = getPropertyFromParameterPath(
