@@ -98,7 +98,7 @@ export interface LogsQueryOptions extends OperationOptions {
     throwOnAnyFailure?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface LogsQueryPartialResult {
     incompleteTables: LogsTable[];
     partialError: LogsErrorInfo;
@@ -112,15 +112,12 @@ export type LogsQueryResult = LogsQuerySuccessfulResult | LogsQueryPartialResult
 
 // @public
 export enum LogsQueryResultStatus {
-    // (undocumented)
     Failure = "Failure",
-    // (undocumented)
     PartialFailure = "PartialFailure",
-    // (undocumented)
     Success = "Success"
 }
 
-// @public (undocumented)
+// @public
 export interface LogsQuerySuccessfulResult {
     statistics?: Record<string, unknown>;
     status: LogsQueryResultStatus.Success;
