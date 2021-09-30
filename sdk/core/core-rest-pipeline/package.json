@@ -14,6 +14,10 @@
     "./dist-esm/src/util/url.js": "./dist-esm/src/util/url.browser.js",
     "./dist-esm/src/util/userAgentPlatform.js": "./dist-esm/src/util/userAgentPlatform.browser.js"
   },
+  "react-native": {
+    "./dist/index.js": "./dist-esm/src/index.js",
+    "./dist-esm/src/util/userAgentPlatform.js": "./dist-esm/src/util/userAgentPlatform.native.js"
+  },
   "types": "core-rest-pipeline.shims.d.ts",
   "typesVersions": {
     "<3.6": {
@@ -93,7 +97,7 @@
     "uuid": "^8.3.0"
   },
   "devDependencies": {
-    "@microsoft/api-extractor": "7.7.11",
+    "@microsoft/api-extractor": "^7.18.11",
     "@opentelemetry/api": "^1.0.1",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",

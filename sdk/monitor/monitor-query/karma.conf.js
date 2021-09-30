@@ -58,6 +58,7 @@ module.exports = function(config) {
       "MONITOR_WORKSPACE_ID",
       "METRICS_RESOURCE_ID",
       "MONITOR_SECONDARY_WORKSPACE_ID",
+      "MQ_APPLICATIONINSIGHTS_CONNECTION_STRING",
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
       "AZURE_TENANT_ID"
@@ -71,7 +72,7 @@ module.exports = function(config) {
     coverageReporter: {
       // specify a common output directory
       dir: "coverage-browser/",
-      reporters: [{ type: "json", subdir: ".", file: "coverage.json" }]
+      reporters: [{ type: "cobertura", subdir: ".", file: "cobertura-coverage.xml" }]
     },
 
     junitReporter: {

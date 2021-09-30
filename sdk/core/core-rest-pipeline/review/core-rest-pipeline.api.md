@@ -4,6 +4,8 @@
 
 ```ts
 
+/// <reference types="node" />
+
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
 import { Debugger } from '@azure/logger';
@@ -346,7 +348,6 @@ export const userAgentPolicyName = "userAgentPolicy";
 export interface UserAgentPolicyOptions {
     userAgentPrefix?: string;
 }
-
 
 // (No @packageDocumentation comment for this package)
 
