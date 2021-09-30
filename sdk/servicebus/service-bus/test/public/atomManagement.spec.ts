@@ -1435,7 +1435,8 @@ describe("ATOM APIs", () => {
           "_response",
           "createdAt",
           "modifiedAt",
-          "accessedAt"
+          "accessedAt",
+          "maxMessageSizeInKilobytes"
         ]);
       });
     });
@@ -1765,7 +1766,8 @@ describe("ATOM APIs", () => {
           "_response",
           "createdAt",
           "modifiedAt",
-          "accessedAt"
+          "accessedAt",
+          "maxMessageSizeInKilobytes"
         ]);
       });
     });
@@ -2101,7 +2103,8 @@ describe("ATOM APIs", () => {
             "_response",
             "createdAt",
             "modifiedAt",
-            "accessedAt"
+            "accessedAt",
+            "maxMessageSizeInKilobytes"
           ]);
         } catch (err) {
           checkForValidErrorScenario(err, testCase.output);
@@ -2225,6 +2228,7 @@ describe("ATOM APIs", () => {
         autoDeleteOnIdle: "PT2H",
         supportOrdering: true,
         maxSizeInMegabytes: 3072,
+        maxMessageSizeInKilobytes: 1036,
         availabilityStatus: "Available" as EntityAvailabilityStatus
       },
       output: {
@@ -2269,7 +2273,8 @@ describe("ATOM APIs", () => {
             "_response",
             "createdAt",
             "modifiedAt",
-            "accessedAt"
+            "accessedAt",
+            "maxMessageSizeInKilobytes"
           ]);
         } catch (err) {
           checkForValidErrorScenario(err, testCase.output);
