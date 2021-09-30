@@ -201,7 +201,7 @@ export interface QueueProperties {
     forwardTo?: string;
     lockDuration: string;
     maxDeliveryCount: number;
-    maxMessageSizeInKilobytes?: number;
+    maxMessageSizeInKilobytes: number;
     maxSizeInMegabytes: number;
     readonly name: string;
     readonly requiresDuplicateDetection: boolean;
@@ -554,7 +554,7 @@ export interface TopicProperties {
     enableBatchedOperations: boolean;
     readonly enableExpress: boolean;
     readonly enablePartitioning: boolean;
-    maxMessageSizeInKilobytes?: number;
+    maxMessageSizeInKilobytes: number;
     maxSizeInMegabytes: number;
     readonly name: string;
     readonly requiresDuplicateDetection: boolean;
