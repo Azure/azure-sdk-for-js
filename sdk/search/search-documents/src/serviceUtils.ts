@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "@azure/core-client";
 import {
   LexicalAnalyzerUnion,
   CognitiveServicesAccountKey,
@@ -694,10 +693,4 @@ export function getRandomIntegerInclusive(min: number, max: number): number {
   // in order to be inclusive of the maximum value after we take the floor.
   const offset = Math.floor(Math.random() * (max - min + 1));
   return offset + min;
-}
-
-export function modifySpanOptions(options: OperationOptions): void {
-  if (options.tracingOptions) {
-    options.tracingOptions.spanOptions = (options.tracingOptions as any)?.spanOptions;
-  }
 }

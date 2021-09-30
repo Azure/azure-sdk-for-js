@@ -159,7 +159,6 @@ export class SearchIndexClient {
     options: ListIndexesOptions = {}
   ): AsyncIterableIterator<SearchIndex[]> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-listIndexesPage", options);
-    utils.modifySpanOptions(updatedOptions);
     try {
       const result = await this.client.indexes.list(updatedOptions);
       const mapped = result.indexes.map(utils.generatedIndexToPublicIndex);
@@ -207,7 +206,6 @@ export class SearchIndexClient {
     options: ListIndexesOptions = {}
   ): AsyncIterableIterator<string[]> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-listIndexesNamesPage", options);
-    utils.modifySpanOptions(updatedOptions);
     try {
       const result = await this.client.indexes.list({
         ...updatedOptions,
@@ -260,7 +258,6 @@ export class SearchIndexClient {
    */
   public async listSynonymMaps(options: ListSynonymMapsOptions = {}): Promise<Array<SynonymMap>> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-listSynonymMaps", options);
-    utils.modifySpanOptions(updatedOptions);
     try {
       const result = await this.client.synonymMaps.list(updatedOptions);
       return result.synonymMaps.map(utils.generatedSynonymMapToPublicSynonymMap);
@@ -281,7 +278,6 @@ export class SearchIndexClient {
    */
   public async listSynonymMapsNames(options: ListSynonymMapsOptions = {}): Promise<Array<string>> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-listSynonymMapsNames", options);
-    utils.modifySpanOptions(updatedOptions);
     try {
       const result = await this.client.synonymMaps.list({
         ...updatedOptions,
@@ -306,7 +302,6 @@ export class SearchIndexClient {
    */
   public async getIndex(indexName: string, options: GetIndexOptions = {}): Promise<SearchIndex> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-getIndex", options);
-    utils.modifySpanOptions(updatedOptions);
     try {
       const result = await this.client.indexes.get(indexName, updatedOptions);
       return utils.generatedIndexToPublicIndex(result);
@@ -331,7 +326,6 @@ export class SearchIndexClient {
     options: GetSynonymMapsOptions = {}
   ): Promise<SynonymMap> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-getSynonymMaps", options);
-    utils.modifySpanOptions(updatedOptions);
     try {
       const result = await this.client.synonymMaps.get(synonymMapName, updatedOptions);
       return utils.generatedSynonymMapToPublicSynonymMap(result);
@@ -356,7 +350,6 @@ export class SearchIndexClient {
     options: CreateIndexOptions = {}
   ): Promise<SearchIndex> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-createIndex", options);
-    utils.modifySpanOptions(updatedOptions);
     try {
       const result = await this.client.indexes.create(
         utils.publicIndexToGeneratedIndex(index),
@@ -384,7 +377,6 @@ export class SearchIndexClient {
     options: CreateSynonymMapOptions = {}
   ): Promise<SynonymMap> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-createSynonymMaps", options);
-    utils.modifySpanOptions(updatedOptions);
     try {
       const result = await this.client.synonymMaps.create(
         utils.publicSynonymMapToGeneratedSynonymMap(synonymMap),
@@ -412,7 +404,6 @@ export class SearchIndexClient {
     options: CreateOrUpdateIndexOptions = {}
   ): Promise<SearchIndex> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-createOrUpdateIndex", options);
-    utils.modifySpanOptions(updatedOptions);
     try {
       const etag = options.onlyIfUnchanged ? index.etag : undefined;
 
@@ -449,7 +440,6 @@ export class SearchIndexClient {
       "SearchIndexClient-createOrUpdateSynonymMap",
       options
     );
-    utils.modifySpanOptions(updatedOptions);
     try {
       const etag = options.onlyIfUnchanged ? synonymMap.etag : undefined;
 
@@ -483,7 +473,6 @@ export class SearchIndexClient {
     options: DeleteIndexOptions = {}
   ): Promise<void> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-deleteIndex", options);
-    utils.modifySpanOptions(updatedOptions);
     try {
       const indexName: string = typeof index === "string" ? index : index.name;
       const etag =
@@ -514,7 +503,6 @@ export class SearchIndexClient {
     options: DeleteSynonymMapOptions = {}
   ): Promise<void> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-deleteSynonymMap", options);
-    utils.modifySpanOptions(updatedOptions);
     try {
       const synonymMapName: string = typeof synonymMap === "string" ? synonymMap : synonymMap.name;
       const etag =
@@ -550,7 +538,6 @@ export class SearchIndexClient {
     options: GetIndexStatisticsOptions = {}
   ): Promise<SearchIndexStatistics> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-getIndexStatistics", options);
-    utils.modifySpanOptions(updatedOptions);
     try {
       const result = await this.client.indexes.getStatistics(indexName, updatedOptions);
       return result;
@@ -580,7 +567,6 @@ export class SearchIndexClient {
     };
 
     const { span, updatedOptions } = createSpan("SearchIndexClient-analyzeText", operationOptions);
-    utils.modifySpanOptions(updatedOptions);
     try {
       const result = await this.client.indexes.analyze(
         indexName,
@@ -612,7 +598,6 @@ export class SearchIndexClient {
     options: GetServiceStatisticsOptions = {}
   ): Promise<SearchServiceStatistics> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-getServiceStatistics", options);
-    utils.modifySpanOptions(updatedOptions);
     try {
       const result = await this.client.getServiceStatistics(updatedOptions);
       return result;

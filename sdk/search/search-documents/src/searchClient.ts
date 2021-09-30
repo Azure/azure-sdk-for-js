@@ -176,7 +176,6 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
    */
   public async getDocumentsCount(options: CountDocumentsOptions = {}): Promise<number> {
     const { span, updatedOptions } = createSpan("SearchClient-getDocumentsCount", options);
-    utils.modifySpanOptions(updatedOptions);
     try {
       let documentsCount: number = 0;
       await this.client.documents.count({
@@ -228,7 +227,6 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     }
 
     const { span, updatedOptions } = createSpan("SearchClient-autocomplete", operationOptions);
-    utils.modifySpanOptions(updatedOptions);
 
     try {
       const result = await this.client.documents.autocompletePost(fullOptions, updatedOptions);
@@ -261,7 +259,6 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     };
 
     const { span, updatedOptions } = createSpan("SearchClient-searchDocuments", operationOptions);
-    utils.modifySpanOptions(updatedOptions);
 
     try {
       const result = await this.client.documents.searchPost(
@@ -427,7 +424,6 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     }
 
     const { span, updatedOptions } = createSpan("SearchClient-suggest", operationOptions);
-    utils.modifySpanOptions(updatedOptions);
 
     try {
       const result = await this.client.documents.suggestPost(fullOptions, updatedOptions);
@@ -458,7 +454,6 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     options: GetDocumentOptions<Fields> = {}
   ): Promise<T> {
     const { span, updatedOptions } = createSpan("SearchClient-getDocument", options);
-    utils.modifySpanOptions(updatedOptions);
     try {
       const result = await this.client.documents.get(key, updatedOptions);
       return deserialize<T>(result);
@@ -489,7 +484,6 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     options: IndexDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
     const { span, updatedOptions } = createSpan("SearchClient-indexDocuments", options);
-    utils.modifySpanOptions(updatedOptions);
     try {
       let status: number = 0;
       const result = await this.client.documents.index(
