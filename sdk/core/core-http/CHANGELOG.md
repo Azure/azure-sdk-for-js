@@ -1,14 +1,10 @@
 # Release History
 
-## 2.2.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 2.2.1 (2021-09-30)
 
 ### Bugs Fixed
 
-### Other Changes
+- Fix incorrect caching of proxy agents [PR #17546](https://github.com/Azure/azure-sdk-for-js/pull/17546)
 
 ## 2.2.0 (2021-09-02)
 

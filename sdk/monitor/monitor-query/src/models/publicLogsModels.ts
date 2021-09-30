@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-client";
-import { ErrorDetail, LogsColumnType } from "../generated/logquery/src";
-import { TimeInterval } from "./timeInterval";
+import { LogsColumnType } from "../generated/logquery/src";
+import { QueryTimeInterval } from "./timeInterval";
 
 // https://dev.loganalytics.io/documentation/Using-the-API/RequestOptions
 // https://dev.loganalytics.io/documentation/Using-the-API/Timeouts
@@ -53,46 +53,28 @@ export interface QueryStatistics {
 }
 
 /** The code and message for an error. */
-export interface ErrorInfo extends Error {
+export interface LogsErrorInfo extends Error {
   /** A machine readable error code. */
   code: string;
-  /** A human readable error message. */
-  message: string;
-  /** error details. */
-  details?: ErrorDetail[];
-  /** Inner error details if they exist. */
-  innerError?: ErrorInfo;
-  /** Additional properties that can be provided on the error info object */
-  additionalProperties?: Record<string, unknown>;
 }
 
 /** Batch Error class for type of each error item in the {@link AggregateBatchError} list returned in logs query batch API */
-export class BatchError extends Error implements ErrorInfo {
+export class BatchError extends Error implements LogsErrorInfo {
   /** A machine readable error code. */
   code: string;
-  /** A human readable error message. */
-  message: string;
-  /** error details. */
-  details?: ErrorDetail[];
-  /** Inner error details if they exist. */
-  innerError?: ErrorInfo;
-  /** Additional properties that can be provided on the error info object */
-  additionalProperties?: Record<string, unknown>;
 
-  constructor(errorInfo: ErrorInfo) {
+  constructor(errorInfo: LogsErrorInfo) {
     super();
     this.name = "Error";
     this.code = errorInfo.code;
     this.message = errorInfo.message;
-    this.details = errorInfo.details;
-    this.innerError = errorInfo.innerError;
-    this.additionalProperties = errorInfo.additionalProperties;
   }
 }
 /** AggregateBatchError type for errors returned in logs query batch API*/
 export class AggregateBatchError extends Error {
+  /** Represents list of errors if thrown for the queries executed in the queryBatch operation */
   errors: BatchError[];
-  constructor(errors: ErrorInfo[]) {
+  constructor(errors: LogsErrorInfo[]) {
     super();
     this.errors = errors.map((x) => new BatchError(x));
   }
@@ -105,7 +87,7 @@ export interface LogsQueryResult {
   /** Populated results from the query. */
   tables: LogsTable[];
   /** error information for partial errors or failed queries */
-  error?: ErrorInfo;
+  error?: LogsErrorInfo;
   /** Indicates if a query succeeded or failed or partially failed.
    * Represented by "Partial" | "Success" | "Failed".
    * For partially failed queries, users can find data in "tables" attribute
@@ -137,7 +119,7 @@ export interface QueryBatch {
   /** The query to execute. */
   query: string;
   /** The timespan over which to query data. This timespan is applied in addition to any that are specified in the query expression. */
-  timespan: TimeInterval;
+  timespan: QueryTimeInterval;
   /**
    * A list of workspaces that are included in the query, except for the one set as the `workspaceId` parameter
    * These may consist of the following identifier formats:
@@ -170,7 +152,7 @@ export interface LogsQueryBatchResult {
     /** Populated results from the query */
     tables?: LogsTable[];
     /** error information for partial errors or failed queries */
-    error?: ErrorInfo;
+    error?: LogsErrorInfo;
     /** Indicates if a query succeeded or failed or partially failed.
      * Represented by "Partial" | "Success" | "Failed".
      * For partially failed queries, users can find data in "tables" attribute
@@ -187,7 +169,7 @@ export interface LogsQueryBatchResult {
  * Represented by "Partial" | "Success" | "Failed".
  * For partially failed queries, users can find data in "tables" attribute
  * and error information in "error" attribute */
-export type LogsQueryResultStatus = "Partial" | "Success" | "Failed";
+export type LogsQueryResultStatus = "PartialFailure" | "Success" | "Failure";
 
 /** Contains the columns and rows for one table in a query response. */
 export interface LogsTable {

@@ -27,15 +27,15 @@ export interface RegisterSchemaOptions extends OperationOptions {
 
 // @public
 export interface Schema extends SchemaProperties {
-    definition: string;
+    schemaDefinition: string;
 }
 
 // @public
 export interface SchemaDescription {
-    definition: string;
     format: string;
     groupName: string;
     name: string;
+    schemaDefinition: string;
 }
 
 // @public
@@ -54,8 +54,8 @@ export interface SchemaRegistry {
 
 // @public
 export class SchemaRegistryClient implements SchemaRegistry {
-    constructor(endpoint: string, credential: TokenCredential, options?: SchemaRegistryClientOptions);
-    readonly endpoint: string;
+    constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: SchemaRegistryClientOptions);
+    readonly fullyQualifiedNamespace: string;
     getSchema(id: string, options?: GetSchemaOptions): Promise<Schema>;
     getSchemaProperties(schema: SchemaDescription, options?: GetSchemaPropertiesOptions): Promise<SchemaProperties>;
     registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaProperties>;

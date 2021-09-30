@@ -13,6 +13,8 @@
 
 ### Other Changes
 
+- Updates package to work with the react native bundler. [PR #17783](https://github.com/Azure/azure-sdk-for-js/pull/17783)
+
 ## 1.0.0-preview.13 (2021-07-15)
 
 ### Features Added

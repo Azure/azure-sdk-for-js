@@ -27,8 +27,8 @@ import { getRawResponse } from "./utils";
  * Client for Azure Schema Registry service.
  */
 export class SchemaRegistryClient implements SchemaRegistry {
-  /** The Schema Registry service endpoint URL. */
-  readonly endpoint: string;
+  /** The Schema Registry service fully qualified namespace URL. */
+  readonly fullyQualifiedNamespace: string;
 
   /** Underlying autorest generated client. */
   private readonly client: GeneratedSchemaRegistryClient;
@@ -36,17 +36,17 @@ export class SchemaRegistryClient implements SchemaRegistry {
   /**
    * Creates a new client for Azure Schema Registry service.
    *
-   * @param endpoint - The Schema Registry service endpoint URL, for example
-   *                   https://mynamespace.servicebus.windows.net.
+   * @param fullyQualifiedNamespace - The Schema Registry service qualified namespace URL, for example
+   *                                  https://mynamespace.servicebus.windows.net.
    * @param credential - Credential to authenticate requests to the service.
    * @param options - Options to configure API requests to the service.
    */
   constructor(
-    endpoint: string,
+    fullyQualifiedNamespace: string,
     credential: TokenCredential,
     options: SchemaRegistryClientOptions = {}
   ) {
-    this.endpoint = endpoint;
+    this.fullyQualifiedNamespace = fullyQualifiedNamespace;
 
     const internalPipelineOptions: InternalPipelineOptions = {
       ...options,
@@ -57,8 +57,8 @@ export class SchemaRegistryClient implements SchemaRegistry {
       }
     };
 
-    this.client = new GeneratedSchemaRegistryClient(this.endpoint, {
-      endpoint: this.endpoint,
+    this.client = new GeneratedSchemaRegistryClient(this.fullyQualifiedNamespace, {
+      endpoint: this.fullyQualifiedNamespace,
       ...internalPipelineOptions
     });
 
@@ -81,7 +81,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
     options?: RegisterSchemaOptions
   ): Promise<SchemaProperties> {
     return this.client.schema
-      .register(schema.groupName, schema.name, schema.format, schema.definition, options)
+      .register(schema.groupName, schema.name, schema.format, schema.schemaDefinition, options)
       .then(convertSchemaIdResponse);
   }
 
@@ -97,7 +97,13 @@ export class SchemaRegistryClient implements SchemaRegistry {
     options?: GetSchemaPropertiesOptions
   ): Promise<SchemaProperties> {
     return this.client.schema
-      .queryIdByContent(schema.groupName, schema.name, schema.format, schema.definition, options)
+      .queryIdByContent(
+        schema.groupName,
+        schema.name,
+        schema.format,
+        schema.schemaDefinition,
+        options
+      )
       .then(convertSchemaIdResponse);
   }
 
