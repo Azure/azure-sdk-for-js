@@ -348,7 +348,7 @@ describe("NodeHttpClient", function() {
       // give it some time to attach listeners and read from the stream
       setTimeout(() => {
         streamResponse.destroy(e);
-      }, 100);
+      }, 0);
     };
     streamResponse.headers = {};
     streamResponse.statusCode = 200;
@@ -361,7 +361,6 @@ describe("NodeHttpClient", function() {
       await promise;
       assert.fail("Expected await to throw");
     } catch (e) {
-      console.log(e);
       assert.strictEqual(e.name, "AbortError");
     }
   });
