@@ -12,7 +12,10 @@ import {
   LogsQueryResult,
   AggregateBatchError,
   BatchError,
-  LogsErrorInfo
+  LogsQueryResultStatus,
+  LogsQuerySuccessfulResult,
+  LogsQueryPartialResult,
+  LogsQueryError
 } from "./models/publicLogsModels";
 
 import {
@@ -116,28 +119,35 @@ export class LogsQueryClient {
 
     const parsedBody = JSON.parse(rawResponse.bodyAsText!);
     flatResponse.tables = parsedBody.tables;
-    const result: LogsQueryResult = {
+
+    const res = {
       tables: flatResponse.tables.map(convertGeneratedTable),
       statistics: flatResponse.statistics,
-      visualization: flatResponse.render,
-      error: mapError(flatResponse.error),
-      status: "Success" // Assume success until shown otherwise.
+      visualization: flatResponse.render
     };
-    if (!result.error) {
+
+    if (!flatResponse.error) {
       // if there is no error field, it is success
-      result.status = "Success";
+      const result: LogsQuerySuccessfulResult = {
+        tables: res.tables,
+        statistics: res.statistics,
+        visualization: res.visualization,
+        status: LogsQueryResultStatus.Success
+      };
+      return result;
     } else {
-      // result.tables is always present in single query response, even is there is error
-      if (result.tables.length === 0) {
-        result.status = "Failure";
-      } else {
-        result.status = "PartialFailure";
+      if (options?.throwOnAnyFailure) {
+        throw new BatchError(mapError(flatResponse.error));
       }
+      const result: LogsQueryPartialResult = {
+        incompleteTables: res.tables,
+        status: LogsQueryResultStatus.PartialFailure,
+        partialError: mapError(flatResponse.error),
+        statistics: res.statistics,
+        visualization: res.visualization
+      };
+      return result;
     }
-    if (options?.throwOnAnyFailure && result.status !== "Success") {
-      throw new BatchError(result.error as LogsErrorInfo);
-    }
-    return result;
   }
 
   /**
@@ -157,11 +167,17 @@ export class LogsQueryClient {
     );
     const result: LogsQueryBatchResult = convertResponseForQueryBatch(flatResponse, rawResponse);
 
-    if (options?.throwOnAnyFailure && result.results.some((it) => it.status !== "Success")) {
-      const errorResults = result.results
-        .filter((it) => it.status !== "Success")
-        .map((x) => x.error);
-      const batchErrorList = errorResults.map((x) => new BatchError(x as LogsErrorInfo));
+    if (
+      options?.throwOnAnyFailure &&
+      result.some((it) => it.status !== LogsQueryResultStatus.Success)
+    ) {
+      const errorResults = result
+        .filter((it) => it.status !== LogsQueryResultStatus.Success)
+        .map(
+          (x) => (x as Omit<LogsQueryError, "status">) || (x as LogsQueryPartialResult).partialError
+        );
+
+      const batchErrorList = errorResults.map((x) => new BatchError(x));
       throw new AggregateBatchError(batchErrorList);
     }
     return result;

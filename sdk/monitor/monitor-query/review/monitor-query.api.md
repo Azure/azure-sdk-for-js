@@ -68,15 +68,7 @@ export interface LogsQueryBatchOptions extends OperationOptions {
 }
 
 // @public
-export interface LogsQueryBatchResult {
-    results: {
-        tables?: LogsTable[];
-        error?: LogsErrorInfo;
-        status?: LogsQueryResultStatus;
-        statistics?: Record<string, unknown>;
-        visualization?: Record<string, unknown>;
-    }[];
-}
+export type LogsQueryBatchResult = Array<LogsQueryPartialResult | LogsQuerySuccessfulResult | LogsQueryError>;
 
 // @public
 export class LogsQueryClient {
@@ -92,6 +84,12 @@ export interface LogsQueryClientOptions extends CommonClientOptions {
 }
 
 // @public
+export interface LogsQueryError extends Error {
+    code: string;
+    status: LogsQueryResultStatus.Failure;
+}
+
+// @public
 export interface LogsQueryOptions extends OperationOptions {
     additionalWorkspaces?: string[];
     includeQueryStatistics?: boolean;
@@ -100,17 +98,35 @@ export interface LogsQueryOptions extends OperationOptions {
     throwOnAnyFailure?: boolean;
 }
 
-// @public
-export interface LogsQueryResult {
-    error?: LogsErrorInfo;
+// @public (undocumented)
+export interface LogsQueryPartialResult {
+    incompleteTables: LogsTable[];
+    partialError: LogsErrorInfo;
     statistics?: Record<string, unknown>;
-    status: LogsQueryResultStatus;
-    tables: LogsTable[];
+    status: LogsQueryResultStatus.PartialFailure;
     visualization?: Record<string, unknown>;
 }
 
 // @public
-export type LogsQueryResultStatus = "PartialFailure" | "Success" | "Failure";
+export type LogsQueryResult = LogsQuerySuccessfulResult | LogsQueryPartialResult;
+
+// @public
+export enum LogsQueryResultStatus {
+    // (undocumented)
+    Failure = "Failure",
+    // (undocumented)
+    PartialFailure = "PartialFailure",
+    // (undocumented)
+    Success = "Success"
+}
+
+// @public (undocumented)
+export interface LogsQuerySuccessfulResult {
+    statistics?: Record<string, unknown>;
+    status: LogsQueryResultStatus.Success;
+    tables: LogsTable[];
+    visualization?: Record<string, unknown>;
+}
 
 // @public
 export interface LogsTable {

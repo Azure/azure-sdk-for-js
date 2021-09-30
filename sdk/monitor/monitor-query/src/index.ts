@@ -11,8 +11,9 @@ export {
   LogsQueryBatchResult,
   LogsQueryOptions,
   LogsQueryResult,
-  // TODO: design issues around this still pending.
-  // QueryStatistics,
+  LogsQueryError,
+  LogsQueryPartialResult,
+  LogsQuerySuccessfulResult,
   LogsTable,
   LogsColumn,
   LogsQueryResultStatus,

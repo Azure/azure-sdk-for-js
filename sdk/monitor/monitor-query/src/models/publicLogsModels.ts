@@ -36,7 +36,7 @@ export interface LogsQueryOptions extends OperationOptions {
    */
   includeVisualization?: boolean;
   /**
-   * If true, will cause this operation to throw if query operation did not succeed.
+   * If true, will cause this operation to throw if query operation did not succeed. default to "False"
    */
   throwOnAnyFailure?: boolean;
 }
@@ -83,22 +83,57 @@ export class AggregateBatchError extends Error {
  * Tables and statistic results from a logs query.
  */
 
-export interface LogsQueryResult {
+export type LogsQueryResult = LogsQuerySuccessfulResult | LogsQueryPartialResult;
+
+/** Indicates if a query succeeded or failed or partially failed.
+ * Represented by "Partial" | "Success" | "Failed".
+ * For partially failed queries, users can find data in "tables" attribute
+ * and error information in "error" attribute */
+export enum LogsQueryResultStatus {
+  PartialFailure = "PartialFailure",
+  Failure = "Failure",
+  Success = "Success"
+}
+export interface LogsQuerySuccessfulResult {
   /** Populated results from the query. */
   tables: LogsTable[];
-  /** error information for partial errors or failed queries */
-  error?: LogsErrorInfo;
   /** Indicates if a query succeeded or failed or partially failed.
    * Represented by "Partial" | "Success" | "Failed".
    * For partially failed queries, users can find data in "tables" attribute
    * and error information in "error" attribute */
-  status: LogsQueryResultStatus;
+  status: LogsQueryResultStatus.Success;
   /** Statistics represented in JSON format. */
   statistics?: Record<string, unknown>;
   /** Visualization data in JSON format. */
   visualization?: Record<string, unknown>;
 }
 
+export interface LogsQueryPartialResult {
+  /** Populated results from the query. */
+  incompleteTables: LogsTable[];
+  /** error information for partial errors or failed queries */
+  partialError: LogsErrorInfo;
+  /** Indicates if a query succeeded or failed or partially failed.
+   * Represented by "Partial" | "Success" | "Failed".
+   * For partially failed queries, users can find data in "tables" attribute
+   * and error information in "error" attribute */
+  status: LogsQueryResultStatus.PartialFailure;
+  /** Statistics represented in JSON format. */
+  statistics?: Record<string, unknown>;
+  /** Visualization data in JSON format. */
+  visualization?: Record<string, unknown>;
+}
+
+/** The code and message for an error. */
+export interface LogsQueryError extends Error {
+  /** A machine readable error code. */
+  code: string;
+  /** Indicates if a query succeeded or failed or partially failed.
+   * Represented by "Partial" | "Success" | "Failed".
+   * For partially failed queries, users can find data in "tables" attribute
+   * and error information in "error" attribute */
+  status: LogsQueryResultStatus.Failure;
+}
 /** Configurable HTTP request settings and `throwOnAnyFailure` setting for the Logs query batch operation. */
 export interface LogsQueryBatchOptions extends OperationOptions {
   /**
@@ -146,30 +181,38 @@ export interface QueryBatch {
 }
 
 /** Results for a batch query. */
-export interface LogsQueryBatchResult {
-  /** An array of responses corresponding to each individual request in a batch. */
-  results: {
-    /** Populated results from the query */
-    tables?: LogsTable[];
-    /** error information for partial errors or failed queries */
-    error?: LogsErrorInfo;
-    /** Indicates if a query succeeded or failed or partially failed.
-     * Represented by "Partial" | "Success" | "Failed".
-     * For partially failed queries, users can find data in "tables" attribute
-     * and error information in "error" attribute */
-    status?: LogsQueryResultStatus;
-    /** Statistics represented in JSON format. */
-    statistics?: Record<string, unknown>;
-    /** Visualization data in JSON format. */
-    visualization?: Record<string, unknown>;
-  }[];
-}
+// export interface LogsQueryBatchResult {
+//   /** An array of responses corresponding to each individual request in a batch. */
+//   results: {
+//     /** Populated results from the query */
+//     tables?: LogsTable[];
+//     /** error information for partial errors or failed queries */
+//     error?: LogsErrorInfo;
+//     /** Indicates if a query succeeded or failed or partially failed.
+//      * Represented by "Partial" | "Success" | "Failed".
+//      * For partially failed queries, users can find data in "tables" attribute
+//      * and error information in "error" attribute */
+//     status?: LogsQueryResultStatus;
+//     /** Statistics represented in JSON format. */
+//     statistics?: Record<string, unknown>;
+//     /** Visualization data in JSON format. */
+//     visualization?: Record<string, unknown>;
+//   }[];
+// }
 
+/** Results for a batch query. */
+export type LogsQueryBatchResult = Array<
+  LogsQueryPartialResult | LogsQuerySuccessfulResult | LogsQueryError
+>;
+// export interface LogsQueryBatchResult {
+//   /** An array of responses corresponding to each individual request in a batch. */
+//   results: LogsQuerySuccessfulResult[] | LogsQueryPartialResult[] | LogsQueryError[];
+// }
 /** Indicates if a query succeeded or failed or partially failed.
  * Represented by "Partial" | "Success" | "Failed".
  * For partially failed queries, users can find data in "tables" attribute
  * and error information in "error" attribute */
-export type LogsQueryResultStatus = "PartialFailure" | "Success" | "Failure";
+//export type LogsQueryResultStatus = "PartialFailure" | "Success" | "Failure";
 
 /** Contains the columns and rows for one table in a query response. */
 export interface LogsTable {
