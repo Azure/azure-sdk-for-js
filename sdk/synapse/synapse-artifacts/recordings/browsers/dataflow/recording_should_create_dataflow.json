@@ -11,47 +11,46 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1322",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 11 Jun 2021 18:40:59 GMT",
+    "date": "Thu, 30 Sep 2021 16:03:07 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11829.4 - EUS ProdSlices",
-    "x-ms-request-id": "90b9ae11-bc0c-4bc4-81d2-aebdb0ca1800"
+    "x-ms-ests-server": "2.1.12071.23 - NCUS ProdSlices",
+    "x-ms-request-id": "d26eea8f-465c-4b9f-b163-a4a1226a3400"
    }
   },
   {
    "method": "PUT",
    "url": "https://testaccount.dev.azuresynapse.net/dataflows/testdataflow",
    "query": {
-    "api-version": "2019-06-01-preview"
+    "api-version": "2020-12-01"
    },
    "requestBody": "{\"properties\":{\"type\":\"MappingDataFlow\"}}",
    "status": 202,
-   "response": "{\"id\":\"/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/xiangyan/providers/Microsoft.Synapse/workspaces/xysynapsetest/dataflows/testdataflow\",\"recordId\":1884920,\"state\":\"Creating\",\"created\":\"2021-06-11T18:41:00.0466667Z\",\"changed\":\"2021-06-11T18:41:00.0466667Z\",\"type\":\"DataFlow\",\"name\":\"testdataflow\",\"operationId\":\"31a301d6-71fc-4e6d-b13f-db4d423d69f8\",\"artifactId\":\"7CF65782-66E7-4CA9-8EDE-ABDB9769838B\"}",
+   "response": "{\"id\":\"/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/xiangyan/providers/Microsoft.Synapse/workspaces/synapse-test-vnet/dataflows/testdataflow\",\"recordId\":2647238,\"state\":\"Creating\",\"created\":\"2021-09-30T16:03:08.0766667Z\",\"changed\":\"2021-09-30T16:03:08.0766667Z\",\"type\":\"DataFlow\",\"name\":\"testdataflow\",\"operationId\":\"7a52adfb-73c7-4371-9975-fb3fc255f7cc\",\"artifactId\":\"8DED5C55-ABC1-4109-B4B5-E2200A193B02\"}",
    "responseHeaders": {
     "access-control-allow-headers": "Location, Retry-After",
     "access-control-expose-headers": "Location, Retry-After",
-    "content-length": "425",
+    "content-length": "429",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 11 Jun 2021 18:40:59 GMT",
-    "location": "https://testaccount.dev.azuresynapse.net/operationResults/31a301d6-71fc-4e6d-b13f-db4d423d69f8?api-version=2019-06-01-preview",
+    "date": "Thu, 30 Sep 2021 16:03:07 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
     "retry-after": "10",
     "server": "Microsoft-HTTPAPI/2.0",
-    "status": "202",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-request-id": "1c6cd174-b7ec-4a2e-bbdc-5c2c89fab25c"
+    "x-ms-request-id": "fa60d7ef-b374-4728-8adc-85a7e79282f2"
    }
   },
   {
    "method": "GET",
-   "url": "https://testaccount.dev.azuresynapse.net/operationResults/31a301d6-71fc-4e6d-b13f-db4d423d69f8",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
    "query": {
-    "api-version": "2019-06-01-preview"
+    "api-version": "2020-12-01"
    },
    "requestBody": null,
    "status": 202,
@@ -61,20 +60,19 @@
     "access-control-expose-headers": "Location, Retry-After",
     "content-length": "23",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 11 Jun 2021 18:40:59 GMT",
-    "location": "https://testaccount.dev.azuresynapse.net/operationResults/31a301d6-71fc-4e6d-b13f-db4d423d69f8?api-version=2019-06-01-preview",
+    "date": "Thu, 30 Sep 2021 16:03:07 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
     "retry-after": "10",
     "server": "Microsoft-HTTPAPI/2.0",
-    "status": "202",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-request-id": "4f73eecc-498a-4d92-a728-205dbb72a375"
+    "x-ms-request-id": "0a4d1b98-facc-45bf-8249-85349820f8c1"
    }
   },
   {
    "method": "GET",
-   "url": "https://testaccount.dev.azuresynapse.net/operationResults/31a301d6-71fc-4e6d-b13f-db4d423d69f8",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
    "query": {
-    "api-version": "2019-06-01-preview"
+    "api-version": "2020-12-01"
    },
    "requestBody": null,
    "status": 202,
@@ -84,20 +82,19 @@
     "access-control-expose-headers": "Location, Retry-After",
     "content-length": "23",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 11 Jun 2021 18:41:01 GMT",
-    "location": "https://testaccount.dev.azuresynapse.net/operationResults/31a301d6-71fc-4e6d-b13f-db4d423d69f8?api-version=2019-06-01-preview",
+    "date": "Thu, 30 Sep 2021 16:03:07 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
     "retry-after": "10",
     "server": "Microsoft-HTTPAPI/2.0",
-    "status": "202",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-request-id": "8b6b8fb3-7d0c-4acd-a49d-ea80877386a5"
+    "x-ms-request-id": "63189fc0-5eb2-47ab-a6ff-6edd739e47b2"
    }
   },
   {
    "method": "GET",
-   "url": "https://testaccount.dev.azuresynapse.net/operationResults/31a301d6-71fc-4e6d-b13f-db4d423d69f8",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
    "query": {
-    "api-version": "2019-06-01-preview"
+    "api-version": "2020-12-01"
    },
    "requestBody": null,
    "status": 202,
@@ -107,20 +104,19 @@
     "access-control-expose-headers": "Location, Retry-After",
     "content-length": "23",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 11 Jun 2021 18:41:04 GMT",
-    "location": "https://testaccount.dev.azuresynapse.net/operationResults/31a301d6-71fc-4e6d-b13f-db4d423d69f8?api-version=2019-06-01-preview",
+    "date": "Thu, 30 Sep 2021 16:03:08 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
     "retry-after": "10",
     "server": "Microsoft-HTTPAPI/2.0",
-    "status": "202",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-request-id": "6f739593-bac1-41b2-915a-c807345ade9b"
+    "x-ms-request-id": "5f1d6e31-93ba-4e83-8f01-56bee4739056"
    }
   },
   {
    "method": "GET",
-   "url": "https://testaccount.dev.azuresynapse.net/operationResults/31a301d6-71fc-4e6d-b13f-db4d423d69f8",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
    "query": {
-    "api-version": "2019-06-01-preview"
+    "api-version": "2020-12-01"
    },
    "requestBody": null,
    "status": 202,
@@ -130,37 +126,1003 @@
     "access-control-expose-headers": "Location, Retry-After",
     "content-length": "23",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 11 Jun 2021 18:41:05 GMT",
-    "location": "https://testaccount.dev.azuresynapse.net/operationResults/31a301d6-71fc-4e6d-b13f-db4d423d69f8?api-version=2019-06-01-preview",
+    "date": "Thu, 30 Sep 2021 16:03:08 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
     "retry-after": "10",
     "server": "Microsoft-HTTPAPI/2.0",
-    "status": "202",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-request-id": "bd3956e9-e8bd-4681-a8f7-00b07ff6bbec"
+    "x-ms-request-id": "541ecb15-64ef-44f8-afb6-1e9dab6a9836"
    }
   },
   {
    "method": "GET",
-   "url": "https://testaccount.dev.azuresynapse.net/operationResults/31a301d6-71fc-4e6d-b13f-db4d423d69f8",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
    "query": {
-    "api-version": "2019-06-01-preview"
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:08 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "ad3c51af-8b40-45a0-acd6-683ccae3931f"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:08 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "d1f59d46-0264-44d1-832a-f409ffdf46f2"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:08 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "2635b0ad-eee0-4553-8d1c-81573dea929c"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:08 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "d6a1e899-4c65-41e7-8f81-8cee84705530"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:08 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "0d7604ac-e374-415b-9066-8793b3c37cfd"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:08 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "be84aaeb-4984-4b4e-b9e0-34f208334d36"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:08 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "ec7112d9-5d72-4676-87d6-6765e033116c"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:08 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "ceac1bdf-cc9b-4aab-8055-3ded9705568d"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:09 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "4fdabbea-625e-4652-8e1d-f81e3f106720"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:09 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "9fb79aca-3a09-4ab7-a91b-bdf7c1a86321"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:09 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "33e715d4-6304-4abd-b23d-c7e5e376279c"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:09 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "6f6e9ba1-b6fb-45b4-a455-c1705afacd93"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:09 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "db004967-8457-45e6-8403-0f627d864f62"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:09 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "6c282086-edf6-49c4-86e4-4ce2ee0768c0"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:09 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "8cc86889-e12b-47f8-bcef-aed66f275f71"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:09 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "4c9d18a7-8767-4320-9481-9a813883a2e1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:09 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "76d3035c-30c4-4fcd-9f0b-e0416b48314f"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:10 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "9c5a34a7-8a03-4bce-9b44-ea634c4984a1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:10 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "b7dfca4a-1eb4-4f03-8ae2-219061cc3e47"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:10 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "93de6ac7-b553-4349-900b-bf4725fee9e4"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:10 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "74d8cb82-2178-4de5-a265-ace7311a0d09"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:10 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "54c64c9b-bd7a-4096-834e-712e80d9a8b6"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:10 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "0b292a5c-85f6-4e70-b1b0-01bf02cc66e2"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:10 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "e6a062c9-a3a6-445c-bd9f-e6ae23045b46"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:10 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "1ca9b183-e422-4c4b-824a-4c430b0686e5"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:10 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "cc4b644c-b357-42d5-b301-bb0ee33f2671"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:10 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "5264074b-3f1c-4bd3-82b1-72c5546f8b38"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:11 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "1e508bf9-50ca-4dc7-a3cf-9c615bfd364b"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:11 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "c91976fb-02d6-4f4a-8658-0d7452dd4432"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:11 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "3fe35126-4244-40f3-99cb-71a5f96d4233"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:11 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "68de3c59-3afc-4813-ac36-83746b7caba2"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:11 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "c63a9a39-21e4-4946-983e-1d7fbdc9f50a"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:11 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "6833f52e-8e95-40e4-9b4f-741cc662d1dd"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:11 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "002d298e-c881-4b64-98c1-4ca3a5de7343"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:11 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "1ce30933-f03c-4105-aabe-969e340b6250"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:11 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "3f4cc285-b179-48d6-b83f-2ab5d96ed05b"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:12 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "2bcab294-ff78-443b-b337-57c4a6fc293b"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:12 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "39d134a0-5deb-4453-ab65-29e06d559025"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:12 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "b9fe07e4-9afe-4544-a106-2e87029e66d4"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:12 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "5c283e91-607e-4b88-8622-3c2d464ceae9"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:12 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "150840a3-1d71-4e2f-8c5c-df50376168cb"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:12 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "4d85bda6-fc47-4b94-8901-da7b87cba0b8"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:12 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "44097364-0210-4f53-a796-ea1dfac1d385"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "{\"status\":\"InProgress\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "Location, Retry-After",
+    "access-control-expose-headers": "Location, Retry-After",
+    "content-length": "23",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 30 Sep 2021 16:03:12 GMT",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc?api-version=2020-12-01",
+    "retry-after": "10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "8d78975d-8309-467d-a649-0e0f776a03ef"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/operationResults/7a52adfb-73c7-4371-9975-fb3fc255f7cc",
+   "query": {
+    "api-version": "2020-12-01"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/xiangyan/providers/Microsoft.Synapse/workspaces/xysynapsetest/dataflows/testdataflow\",\"name\":\"testdataflow\",\"type\":\"Microsoft.Synapse/workspaces/dataflows\",\"properties\":{\"type\":\"MappingDataFlow\"},\"etag\":\"4f0029e7-0000-0800-0000-60c3ae420000\"}",
+   "response": "{\"id\":\"/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/xiangyan/providers/Microsoft.Synapse/workspaces/synapse-test-vnet/dataflows/testdataflow\",\"name\":\"testdataflow\",\"type\":\"Microsoft.Synapse/workspaces/dataflows\",\"properties\":{\"type\":\"MappingDataFlow\"},\"etag\":\"e402b882-0000-0800-0000-6155dfc10000\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "316",
+    "content-length": "320",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 11 Jun 2021 18:41:07 GMT",
+    "date": "Thu, 30 Sep 2021 16:03:13 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
-    "status": "200",
     "strict-transport-security": "max-age=15724800; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-correlation-request-id": "5357541f-46df-4a25-bbc2-fa00b11ab737",
-    "x-ms-request-id": "a13b82b4-3332-423c-919b-dd184725aa6a",
+    "x-ms-correlation-request-id": "7ded8c33-558e-4202-8b24-d7de03a0ecec",
+    "x-ms-request-id": "5887177d-625d-45a4-a4aa-482f63ef4259",
     "x-powered-by": "ASP.NET"
    }
   }
@@ -169,5 +1131,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "c446fd789bba8943154fc27cc55a965c"
+ "hash": "a0c3875ad10ae142acf4a1439500b68d"
 }

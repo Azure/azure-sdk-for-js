@@ -8,13 +8,13 @@
 
 import {
   RunFilterParameters,
-  PipelineRunOperationsQueryPipelineRunsByWorkspaceOptionalParams,
-  PipelineRunOperationsQueryPipelineRunsByWorkspaceResponse,
-  PipelineRunOperationsGetPipelineRunOptionalParams,
-  PipelineRunOperationsGetPipelineRunResponse,
-  PipelineRunOperationsQueryActivityRunsOptionalParams,
-  PipelineRunOperationsQueryActivityRunsResponse,
-  PipelineRunOperationsCancelPipelineRunOptionalParams
+  PipelineRunQueryPipelineRunsByWorkspaceOptionalParams,
+  PipelineRunQueryPipelineRunsByWorkspaceResponse,
+  PipelineRunGetPipelineRunOptionalParams,
+  PipelineRunGetPipelineRunResponse,
+  PipelineRunQueryActivityRunsOptionalParams,
+  PipelineRunQueryActivityRunsResponse,
+  PipelineRunCancelPipelineRunOptionalParams
 } from "../models";
 
 /** Interface representing a PipelineRunOperations. */
@@ -26,8 +26,8 @@ export interface PipelineRunOperations {
    */
   queryPipelineRunsByWorkspace(
     filterParameters: RunFilterParameters,
-    options?: PipelineRunOperationsQueryPipelineRunsByWorkspaceOptionalParams
-  ): Promise<PipelineRunOperationsQueryPipelineRunsByWorkspaceResponse>;
+    options?: PipelineRunQueryPipelineRunsByWorkspaceOptionalParams
+  ): Promise<PipelineRunQueryPipelineRunsByWorkspaceResponse>;
   /**
    * Get a pipeline run by its run ID.
    * @param runId The pipeline run identifier.
@@ -35,8 +35,8 @@ export interface PipelineRunOperations {
    */
   getPipelineRun(
     runId: string,
-    options?: PipelineRunOperationsGetPipelineRunOptionalParams
-  ): Promise<PipelineRunOperationsGetPipelineRunResponse>;
+    options?: PipelineRunGetPipelineRunOptionalParams
+  ): Promise<PipelineRunGetPipelineRunResponse>;
   /**
    * Query activity runs based on input filter conditions.
    * @param pipelineName The pipeline name.
@@ -48,8 +48,8 @@ export interface PipelineRunOperations {
     pipelineName: string,
     runId: string,
     filterParameters: RunFilterParameters,
-    options?: PipelineRunOperationsQueryActivityRunsOptionalParams
-  ): Promise<PipelineRunOperationsQueryActivityRunsResponse>;
+    options?: PipelineRunQueryActivityRunsOptionalParams
+  ): Promise<PipelineRunQueryActivityRunsResponse>;
   /**
    * Cancel a pipeline run by its run ID.
    * @param runId The pipeline run identifier.
@@ -57,6 +57,6 @@ export interface PipelineRunOperations {
    */
   cancelPipelineRun(
     runId: string,
-    options?: PipelineRunOperationsCancelPipelineRunOptionalParams
+    options?: PipelineRunCancelPipelineRunOptionalParams
   ): Promise<void>;
 }

@@ -7,11 +7,11 @@
  */
 
 import {
-  TriggerRunOperationsRerunTriggerInstanceOptionalParams,
-  TriggerRunOperationsCancelTriggerInstanceOptionalParams,
+  TriggerRunRerunTriggerInstanceOptionalParams,
+  TriggerRunCancelTriggerInstanceOptionalParams,
   RunFilterParameters,
-  TriggerRunOperationsQueryTriggerRunsByWorkspaceOptionalParams,
-  TriggerRunOperationsQueryTriggerRunsByWorkspaceResponse
+  TriggerRunQueryTriggerRunsByWorkspaceOptionalParams,
+  TriggerRunQueryTriggerRunsByWorkspaceResponse
 } from "../models";
 
 /** Interface representing a TriggerRunOperations. */
@@ -25,7 +25,7 @@ export interface TriggerRunOperations {
   rerunTriggerInstance(
     triggerName: string,
     runId: string,
-    options?: TriggerRunOperationsRerunTriggerInstanceOptionalParams
+    options?: TriggerRunRerunTriggerInstanceOptionalParams
   ): Promise<void>;
   /**
    * Cancel single trigger instance by runId.
@@ -36,7 +36,7 @@ export interface TriggerRunOperations {
   cancelTriggerInstance(
     triggerName: string,
     runId: string,
-    options?: TriggerRunOperationsCancelTriggerInstanceOptionalParams
+    options?: TriggerRunCancelTriggerInstanceOptionalParams
   ): Promise<void>;
   /**
    * Query trigger runs.
@@ -45,6 +45,6 @@ export interface TriggerRunOperations {
    */
   queryTriggerRunsByWorkspace(
     filterParameters: RunFilterParameters,
-    options?: TriggerRunOperationsQueryTriggerRunsByWorkspaceOptionalParams
-  ): Promise<TriggerRunOperationsQueryTriggerRunsByWorkspaceResponse>;
+    options?: TriggerRunQueryTriggerRunsByWorkspaceOptionalParams
+  ): Promise<TriggerRunQueryTriggerRunsByWorkspaceResponse>;
 }

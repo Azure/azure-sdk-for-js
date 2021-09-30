@@ -11,41 +11,40 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1322",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 11 Jun 2021 18:41:37 GMT",
+    "date": "Thu, 30 Sep 2021 16:03:26 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11829.4 - WUS2 ProdSlices",
-    "x-ms-request-id": "d460f1b2-71cd-4271-a6c8-f4d24b352a00"
+    "x-ms-ests-server": "2.1.12071.23 - NCUS ProdSlices",
+    "x-ms-request-id": "a92b24d5-c323-4e97-9e4d-dc24d77c3000"
    }
   },
   {
    "method": "GET",
    "url": "https://testaccount.dev.azuresynapse.net/integrationRuntimes",
    "query": {
-    "api-version": "2019-06-01-preview"
+    "api-version": "2020-12-01"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[{\"id\":\"/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/xiangyan/providers/Microsoft.Synapse/workspaces/xysynapsetest/integrationruntimes/AutoResolveIntegrationRuntime\",\"name\":\"AutoResolveIntegrationRuntime\",\"type\":\"Microsoft.Synapse/workspaces/integrationruntimes\",\"properties\":{\"type\":\"Managed\",\"typeProperties\":{\"computeProperties\":{\"location\":\"AutoResolve\"}},\"provisioningState\":null},\"etag\":\"3801cded-0000-0800-0000-5fa34e1b0000\"}]}",
+   "response": "{\"value\":[{\"id\":\"/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/xiangyan/providers/Microsoft.Synapse/workspaces/synapse-test-vnet/integrationruntimes/AutoResolveIntegrationRuntime\",\"name\":\"AutoResolveIntegrationRuntime\",\"type\":\"Microsoft.Synapse/workspaces/integrationruntimes\",\"properties\":{\"type\":\"Managed\",\"typeProperties\":{\"computeProperties\":{\"location\":\"AutoResolve\"}},\"provisioningState\":null,\"managedVirtualNetwork\":{\"referenceName\":\"default\",\"type\":\"ManagedVirtualNetworkReference\",\"id\":\"4a08901b-f06c-4405-8119-999babd4ac36\"}},\"etag\":\"5706ec34-0000-0800-0000-5fd3e89b0000\"}]}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "465",
+    "content-length": "605",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 11 Jun 2021 18:41:37 GMT",
+    "date": "Thu, 30 Sep 2021 16:03:27 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0 Microsoft-HTTPAPI/2.0",
-    "status": "200",
     "strict-transport-security": "max-age=15724800; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-correlation-request-id": "36756f6e-8914-4e28-bc8c-8702c278ac97",
-    "x-ms-request-id": "260b559d-9c4c-443f-ab72-9dc7a4bc2bcd",
+    "x-ms-correlation-request-id": "0f207883-32ea-4bf0-a0fc-abcfe154d264",
+    "x-ms-request-id": "5051f2f4-1177-4a58-b406-3b674e4d8285",
     "x-powered-by": "ASP.NET"
    }
   }
