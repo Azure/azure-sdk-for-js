@@ -4,6 +4,9 @@
 
 ```ts
 
+/// <reference types="node" />
+/// <reference lib="esnext.asynciterable" />
+
 import { AzureKeyCredential } from '@azure/core-auth';
 import * as coreHttp from '@azure/core-http';
 import { KeyCredential } from '@azure/core-auth';
@@ -286,7 +289,7 @@ export class FormRecognizerClient {
     beginRecognizeReceipts(receipt: FormRecognizerRequestBody, options?: BeginRecognizeReceiptsOptions): Promise<FormPollerLike>;
     beginRecognizeReceiptsFromUrl(receiptUrl: string, options?: BeginRecognizeReceiptsOptions): Promise<FormPollerLike>;
     readonly endpointUrl: string;
-    }
+}
 
 // @public
 export interface FormRecognizerClientOptions extends PipelineOptions {
@@ -367,7 +370,7 @@ export class FormTrainingClient {
     getCustomModel(modelId: string, options?: GetModelOptions): Promise<FormModelResponse>;
     getFormRecognizerClient(): FormRecognizerClient;
     listCustomModels(options?: ListModelsOptions): PagedAsyncIterableIterator<CustomFormModelInfo, ListCustomModelsResponse>;
-    }
+}
 
 // @public
 export interface FormTrainingPollOperationOptions<TState extends PollOperationState<unknown>> {
@@ -628,9 +631,7 @@ export interface ModelsSummary {
 
 // @public
 type ModelStatus = "creating" | "ready" | "invalid";
-
 export { ModelStatus as CustomFormModelStatus }
-
 export { ModelStatus }
 
 // @public
@@ -715,7 +716,6 @@ export interface TrainResult {
     fields?: FormFieldsReport[];
     trainingDocuments: TrainingDocumentInfo[];
 }
-
 
 // (No @packageDocumentation comment for this package)
 

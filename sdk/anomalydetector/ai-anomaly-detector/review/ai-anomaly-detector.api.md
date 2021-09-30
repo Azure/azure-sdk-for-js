@@ -4,6 +4,8 @@
 
 ```ts
 
+/// <reference types="node" />
+
 import * as coreHttp from '@azure/core-http';
 import { KeyCredential } from '@azure/core-auth';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
@@ -363,7 +365,6 @@ export interface TimeSeriesPoint {
     timestamp?: Date;
     value: number;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

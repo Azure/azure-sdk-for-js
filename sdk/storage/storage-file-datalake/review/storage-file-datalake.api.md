@@ -4,7 +4,10 @@
 
 ```ts
 
+/// <reference types="node" />
+
 import { AbortSignalLike } from '@azure/abort-controller';
+import { AzureLogger } from '@azure/logger';
 import { BaseRequestPolicy } from '@azure/core-http';
 import { BlobLeaseClient } from '@azure/storage-blob';
 import { BlobQueryArrowConfiguration } from '@azure/storage-blob';
@@ -126,7 +129,7 @@ export interface AccountSASSignatureValues {
 }
 
 // @public
-export class AnonymousCredential extends Credential {
+export class AnonymousCredential extends Credential_2 {
     create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): AnonymousCredentialPolicy;
 }
 
@@ -252,9 +255,10 @@ export interface CommonOptions {
 export type CopyStatusType = "pending" | "success" | "aborted" | "failed";
 
 // @public
-export abstract class Credential implements RequestPolicyFactory {
+abstract class Credential_2 implements RequestPolicyFactory {
     create(_nextPolicy: RequestPolicy, _options: RequestPolicyOptions): RequestPolicy;
 }
+export { Credential_2 as Credential }
 
 // @public
 export abstract class CredentialPolicy extends BaseRequestPolicy {
@@ -1182,7 +1186,7 @@ export type ListPathsSegmentResponse = FileSystemListPathsHeaders & PathListMode
 };
 
 // @public
-export const logger: import("@azure/logger").AzureLogger;
+export const logger: AzureLogger;
 
 // @public
 export interface Metadata {
@@ -1384,9 +1388,7 @@ type PathFlushDataResponse = PathFlushDataHeaders & {
         parsedHeaders: PathFlushDataHeaders;
     };
 };
-
 export { PathFlushDataResponse as FileFlushResponse }
-
 export { PathFlushDataResponse as FileUploadResponse }
 
 // @public (undocumented)
@@ -1694,9 +1696,7 @@ type PathSetAccessControlResponse = PathSetAccessControlHeaders & {
         parsedHeaders: PathSetAccessControlHeaders;
     };
 };
-
 export { PathSetAccessControlResponse }
-
 export { PathSetAccessControlResponse as PathSetPermissionsResponse }
 
 // @public (undocumented)
@@ -2050,7 +2050,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
 export class StorageRetryPolicyFactory implements RequestPolicyFactory {
     constructor(retryOptions?: StorageRetryOptions);
     create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageRetryPolicy;
-    }
+}
 
 // @public
 export enum StorageRetryPolicyType {
@@ -2059,7 +2059,7 @@ export enum StorageRetryPolicyType {
 }
 
 // @public
-export class StorageSharedKeyCredential extends Credential {
+export class StorageSharedKeyCredential extends Credential_2 {
     constructor(accountName: string, accountKey: string);
     readonly accountName: string;
     computeHMACSHA256(stringToSign: string): string;
@@ -2099,7 +2099,6 @@ export interface UserDelegationKey {
 export { UserDelegationKeyModel }
 
 export { WebResource }
-
 
 // (No @packageDocumentation comment for this package)
 
