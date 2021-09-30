@@ -315,7 +315,7 @@ export interface QueueProperties {
   /**
    * The maximum message size in kilobytes for messages sent to this queue.
    */
-  maxMessageSizeInKilobytes?: number;
+  maxMessageSizeInKilobytes: number;
 
   /**
    * If enabled, the topic will detect duplicate messages within the time
