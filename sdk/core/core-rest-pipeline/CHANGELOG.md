@@ -2,6 +2,10 @@
 
 ## 1.3.1 (2021-09-30)
 
+### Bugs Fixed
+
+- Addressed an issue on Node where aborting a request while its response body was still be processed would cause the HttpClient to emit a `RestError` rather than the appropriate `AbortError`. [PR #17956](https://github.com/Azure/azure-sdk-for-js/pull/17956)
+
 ### Other Changes
 
 - Updates package to work with the react native bundler. Browser APIs such as `URL` will still need to be pollyfilled for this package to run in react native. [PR #17783](https://github.com/Azure/azure-sdk-for-js/pull/17783)
