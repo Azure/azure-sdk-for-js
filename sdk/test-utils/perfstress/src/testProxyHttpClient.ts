@@ -116,7 +116,7 @@ export class TestProxyHttpClient {
   async modifyRequest(request: PipelineRequest): Promise<PipelineRequest> {
     if (this._recordingId && (this._mode === "record" || this._mode === "playback")) {
       request = this.redirectRequest(request, this._recordingId);
-      request.allowInsecureConnection = this._uri.startsWith("http") || this.insecure;
+      request.allowInsecureConnection = this._uri.startsWith("http:");
     }
 
     return request;
