@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 // Ensure you have a .env file in the same directory with something similar to:
 //
 //   AZURE_CLIENT_ID="value"
+//   AZURE_TENANT_ID="value"
 //   AZURE_CLIENT_SECRET="value"
 //   SERVICE_BUS_ENDPOINT="value"
 //   QUEUE_NAME="value"
