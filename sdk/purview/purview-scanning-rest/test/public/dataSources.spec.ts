@@ -22,15 +22,15 @@ describe("List data sources", () => {
 
   it("should list all available data sources", async () => {
     const result = await client.path("/datasources").get();
-          const iter = paginate(client, result);
+    const iter = paginate(client, result);
 
-          let items = [];
+    let items = [];
 
-          for await (const item of iter) {
-            items.push(item);
-          }
+    for await (const item of iter) {
+      items.push(item);
+    }
 
-          assert.strictEqual(items.length, 2);
+    assert.strictEqual(items.length, 2);
 
     if (result.status !== "200") {
       assert.fail(`GET "/datasources" failed with ${result.status}`);
