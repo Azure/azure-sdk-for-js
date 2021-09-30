@@ -9,6 +9,9 @@
     "./dist-esm/src/log.js": "./dist-esm/src/log.browser.js",
     "process": false
   },
+  "react-native": {
+    "./dist/index.js": "./dist-esm/src/index.js"
+  },
   "engines": {
     "node": ">=12.0.0"
   },

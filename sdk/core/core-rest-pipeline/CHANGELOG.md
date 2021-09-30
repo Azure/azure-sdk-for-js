@@ -1,14 +1,10 @@
 # Release History
 
-## 1.3.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.3.1 (2021-09-30)
 
 ### Other Changes
+
+- Updates package to work with the react native bundler. Browser APIs such as `URL` will still need to be pollyfilled for this package to run in react native. [PR #17783](https://github.com/Azure/azure-sdk-for-js/pull/17783)
 
 ## 1.3.0 (2021-09-02)
 

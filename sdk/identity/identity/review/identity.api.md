@@ -346,7 +346,6 @@ export { TokenCredential }
 
 // @public
 export interface TokenCredentialOptions extends CommonClientOptions {
-    allowMultiTenantAuthentication?: boolean;
     authorityHost?: string;
 }
 

@@ -8,6 +8,9 @@
   "browser": {
     "./dist-esm/src/base64.js": "./dist-esm/src/base64.browser.js"
   },
+  "react-native": {
+    "./dist/index.js": "./dist-esm/src/index.js"
+  },
   "types": "types/latest/core-client.d.ts",
   "typesVersions": {
     "<3.6": {

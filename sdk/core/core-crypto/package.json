@@ -8,6 +8,9 @@
   "browser": {
     "./dist-esm/src/sha256.js": "./dist-esm/src/sha256.browser.js"
   },
+  "react-native": {
+    "./dist/index.js": "./dist-esm/src/index.js"
+  },
   "types": "types/latest/core-crypto.d.ts",
   "typesVersions": {
     "<3.6": {
