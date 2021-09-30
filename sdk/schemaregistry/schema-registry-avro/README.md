@@ -71,7 +71,7 @@ const { SchemaRegistryClient } = require("@azure/schema-registry");
 const { SchemaRegistryAvroSerializer } = require("@azure/schema-registry-avro");
 
 const client = new SchemaRegistryClient("<endpoint>", new DefaultAzureCredential());
-const serializer = new SchemaRegistryAvroSerializer(client, "<group>");
+const serializer = new SchemaRegistryAvroSerializer(client, { groupName: "<group>" });
 
 // Example Avro schema
 const schema = JSON.stringify({
