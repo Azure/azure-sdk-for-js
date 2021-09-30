@@ -4,7 +4,7 @@ Version 2 of the `@azure/identity` package includes the best parts of version 1,
 
 If you're moving from version 1 to version 2, you're in the right place. In this document we will show you what needs to be updated.
 
-For the full set of changes and bug fixes, please refer to our changelog: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/CHANGELOG.md#200-2021-10-12
+For the full set of changes and bug fixes, please refer to our [changelog](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/CHANGELOG.md#200-2021-10-12)
 
 ## Table of contents
 
