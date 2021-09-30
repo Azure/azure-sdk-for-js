@@ -8,6 +8,9 @@
   "browser": {
     "./dist-esm/src/sha256.js": "./dist-esm/src/sha256.browser.js"
   },
+  "react-native": {
+    "./dist/index.js": "./dist-esm/src/index.js"
+  },
   "types": "types/latest/core-crypto.d.ts",
   "typesVersions": {
     "<3.6": {
@@ -71,7 +74,7 @@
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
-    "@microsoft/api-extractor": "7.7.11",
+    "@microsoft/api-extractor": "^7.18.11",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-node-resolve": "^8.0.0",
     "@rollup/plugin-replace": "^2.2.0",

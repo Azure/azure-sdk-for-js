@@ -82,7 +82,6 @@ const logger = credentialLogger("AzureCliCredential");
  */
 export class AzureCliCredential implements TokenCredential {
   private tenantId?: string;
-  private allowMultiTenantAuthentication?: boolean;
 
   /**
    * Creates an instance of the {@link AzureCliCredential}.
@@ -91,7 +90,6 @@ export class AzureCliCredential implements TokenCredential {
    */
   constructor(options?: AzureCliCredentialOptions) {
     this.tenantId = options?.tenantId;
-    this.allowMultiTenantAuthentication = options?.allowMultiTenantAuthentication;
   }
 
   /**
@@ -106,11 +104,7 @@ export class AzureCliCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken> {
-    const tenantId = processMultiTenantRequest(
-      this.tenantId,
-      this.allowMultiTenantAuthentication,
-      options
-    );
+    const tenantId = processMultiTenantRequest(this.tenantId, options);
     if (tenantId) {
       checkTenantId(logger, tenantId);
     }

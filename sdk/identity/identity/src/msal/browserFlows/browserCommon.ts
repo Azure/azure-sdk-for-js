@@ -23,7 +23,6 @@ import { processMultiTenantRequest } from "../../util/validateMultiTenant";
 export interface MsalBrowserFlowOptions extends MsalFlowOptions {
   redirectUri?: string;
   loginStyle: BrowserLoginStyle;
-  allowMultiTenantAuthentication?: boolean;
   loginHint?: string;
 }
 
@@ -71,7 +70,6 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
   protected loginStyle: BrowserLoginStyle;
   protected clientId: string;
   protected tenantId: string;
-  protected allowMultiTenantAuthentication?: boolean;
   protected authorityHost?: string;
   protected account: AuthenticationRecord | undefined;
   protected msalConfig: msalBrowser.Configuration;
@@ -87,7 +85,6 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
     }
     this.clientId = options.clientId;
     this.tenantId = resolveTenantId(this.logger, options.tenantId, options.clientId);
-    this.allowMultiTenantAuthentication = options?.allowMultiTenantAuthentication;
     this.authorityHost = options.authorityHost;
     this.msalConfig = defaultBrowserMsalConfig(options);
     this.disableAutomaticAuthentication = options.disableAutomaticAuthentication;
@@ -146,9 +143,7 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
     scopes: string[],
     options: CredentialFlowGetTokenOptions = {}
   ): Promise<AccessToken> {
-    const tenantId =
-      processMultiTenantRequest(this.tenantId, this.allowMultiTenantAuthentication, options) ||
-      this.tenantId;
+    const tenantId = processMultiTenantRequest(this.tenantId, options) || this.tenantId;
 
     if (!options.authority) {
       options.authority = getAuthority(tenantId, this.authorityHost);
