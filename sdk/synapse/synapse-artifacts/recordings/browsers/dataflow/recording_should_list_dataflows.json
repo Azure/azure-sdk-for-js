@@ -11,35 +11,36 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1322",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Sep 2021 16:03:13 GMT",
+    "date": "Fri, 11 Jun 2021 18:41:12 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12071.23 - SCUS ProdSlices",
-    "x-ms-request-id": "03ab4d18-5d4a-4da7-895d-812240d34000"
+    "x-ms-ests-server": "2.1.11829.4 - WUS2 ProdSlices",
+    "x-ms-request-id": "d460f1b2-71cd-4271-a6c8-f4d2c5302a00"
    }
   },
   {
    "method": "GET",
    "url": "https://testaccount.dev.azuresynapse.net/dataflows",
    "query": {
-    "api-version": "2020-12-01"
+    "api-version": "2019-06-01-preview"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[{\"id\":\"/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/xiangyan/providers/Microsoft.Synapse/workspaces/synapse-test-vnet/dataflows/testdataflow\",\"name\":\"testdataflow\",\"type\":\"Microsoft.Synapse/workspaces/dataflows\",\"etag\":\"e402b882-0000-0800-0000-6155dfc10000\",\"properties\":{\"type\":\"MappingDataFlow\"}}]}",
+   "response": "{\"value\":[{\"id\":\"/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/xiangyan/providers/Microsoft.Synapse/workspaces/xysynapsetest/dataflows/testdataflow\",\"name\":\"testdataflow\",\"type\":\"Microsoft.Synapse/workspaces/dataflows\",\"etag\":\"4f0029e7-0000-0800-0000-60c3ae420000\",\"properties\":{\"type\":\"MappingDataFlow\"}}]}",
    "responseHeaders": {
-    "content-length": "332",
+    "content-length": "328",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Sep 2021 16:03:13 GMT",
+    "date": "Fri, 11 Jun 2021 18:41:11 GMT",
     "server": "Microsoft-HTTPAPI/2.0",
+    "status": "200",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-request-id": "037d22ae-f1fa-4e12-b620-4b6733ae6086"
+    "x-ms-request-id": "6decd8ca-2079-42d1-bf29-55d0ed599686"
    }
   }
  ],
@@ -47,5 +48,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "bcaac87d59d8fe10deb3776ad8257080"
+ "hash": "1352d707f054182c3ed762040d9f9a76"
 }
