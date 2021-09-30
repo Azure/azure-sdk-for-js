@@ -25,6 +25,7 @@ import { formatPreferHeader } from "./internal/util";
 import { CommonClientOptions, FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { QueryTimeInterval } from "./models/timeInterval";
 import { convertTimespanToInterval } from "./timespanConversion";
+import { SDK_VERSION } from "./constants";
 
 const defaultMonitorScope = "https://api.loganalytics.io/.default";
 
@@ -63,7 +64,7 @@ export class LogsQueryClient {
     const credentialOptions = {
       credentialScopes: options?.audience
     };
-    const packageDetails = `azsdk-js-monitor-query/1.0.0-beta.6`;
+    const packageDetails = `azsdk-js-monitor-query/${SDK_VERSION}`;
     const userAgentPrefix =
       options?.userAgentOptions && options?.userAgentOptions.userAgentPrefix
         ? `${options?.userAgentOptions.userAgentPrefix} ${packageDetails}`
