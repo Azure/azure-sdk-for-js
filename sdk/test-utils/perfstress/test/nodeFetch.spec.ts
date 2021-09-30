@@ -15,25 +15,19 @@ export class NodeFetchTest extends PerfStressTest<NodeFetchOptions> {
     agent: new http.Agent({ keepAlive: true })
   };
 
-  private url: string = "";
-
   public options: PerfStressOptionDictionary<NodeFetchOptions> = {
     url: {
       required: true,
       description: "Required option",
       shortName: "u",
       longName: "url",
-      defaultValue: "http://bing.com",
-      value: "http://bing.com"
+      defaultValue: "http://www.example.org",
+      value: "http://www.example.org"
     }
   };
 
-  public setup() {
-    this.url = this.options.url.value as string;
-  }
-
   async runAsync(): Promise<void> {
-    const response = await fetch(this.url, NodeFetchTest.fetchOptions);
+    const response = await fetch(this.parsedOptions.url.value as string, NodeFetchTest.fetchOptions);
     await response.text();
   }
 }
