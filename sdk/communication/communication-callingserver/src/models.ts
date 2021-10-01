@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { OperationOptions } from "@azure/core-http";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { OperationOptions, TransferProgressEvent } from "@azure/core-http";
 import { PhoneNumberIdentifier } from "@azure/communication-common";
 import { AddParticipantResult, CallConnectionState, CancelAllMediaOperationsResult, MicrosoftTeamsUserIdentifierModel, OperationStatus, PlayAudioResult, ResultInfo, ToneValue } from "./generated/src";
 
@@ -252,16 +253,41 @@ export type StopRecordingOptions = OperationOptions;
 /**
  * Options to download content.
  */
-export type DownloadContentOptions = OperationOptions;
+export interface DownloadContentOptions extends OperationOptions {
+   /** Return only the bytes of the blob in the specified range. */
+   range?: string;
+}
 /**
  * Options to get recording file.
  */
 export type GetRecordingFileOptions = OperationOptions;
 /**
- * Options to get blob SAS uri.
- */
-export type GetBlobSasUriOptions = OperationOptions;
-/**
  * Options  to get recording state.
  */
 export type GetRecordingStateOptions = OperationOptions;
+
+export interface ContentDownloadOptions extends OperationOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Call back to receive events on the progress of download operation.
+   */
+  onProgress?: (progress: TransferProgressEvent) => void;
+
+  /**
+   * Optional. ONLY AVAILABLE IN NODE.JS.
+   *
+   * How many retries will perform when original body download stream unexpected ends.
+   * Above kind of ends will not trigger retry policy defined in a pipeline,
+   * because they doesn't emit network errors.
+   *
+   * With this option, every additional retry means an additional `FileClient.download()` request will be made
+   * from the broken point, until the requested range has been successfully downloaded or maxRetryRequests is reached.
+   *
+   * Default value is 5, please set a larger value when loading large files in poor network.
+   */
+  maxRetryRequests?: number;
+}
