@@ -76,7 +76,7 @@ class CommunicationAccessKeyCredentialPolicy extends BaseRequestPolicy {
          var uri_to_sign_with = webResource.headers.get('UriToSignWith')
          var q = urlModule.parse(uri_to_sign_with, true);
          hostAndPort = q.hostname
-         webResource.headers.set("Host", String(hostAndPort));
+         webResource.headers.set("x-ms-host", String(hostAndPort));
          urlPathAndQuery = q.pathname
          webResource.headers.remove('UriToSignWith');
     }

@@ -116,8 +116,8 @@ function getDownloadContentOperationSpec(url: string, stringToSign: string): cor
         isError: true
       }
     },
-    requestBody: Parameters.request,
-    queryParameters: [Parameters.apiVersion],
+    requestBody: undefined,
+    queryParameters: [],
     urlParameters: [],
     headerParameters: [Parameters.contentType, Parameters.accept, stringToSignHeader],
     mediaType: "json",

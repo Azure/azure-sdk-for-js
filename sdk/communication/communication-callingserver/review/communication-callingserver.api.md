@@ -4,12 +4,14 @@
 
 ```ts
 
+import { AbortSignalLike } from '@azure/abort-controller';
 import { CommunicationIdentifier } from '@azure/communication-common';
 import * as coreHttp from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { PhoneNumberIdentifier } from '@azure/communication-common';
 import { PipelineOptions } from '@azure/core-http';
 import { RestResponse } from '@azure/core-http';
+import { TransferProgressEvent } from '@azure/core-http';
 
 // @public (undocumented)
 export interface AddParticipantResultEvent {
@@ -93,6 +95,7 @@ export class CallingServerClient {
     constructor(connectionString: string, options?: CallingServerClientOptions);
     // (undocumented)
     createCallConnection(source: CommunicationIdentifier, targets: CommunicationIdentifier[], options: CreateCallConnectionOptions): Promise<CallConnection>;
+    download(uri: string, offset?: number, count?: number, options?: ContentDownloadOptions): Promise<RestResponse>;
     // (undocumented)
     getCallConnection(callConnectionId: string): CallConnection;
     // Warning: (ae-forgotten-export) The symbol "ContentDownloader" needs to be exported by the entry point index.d.ts
@@ -133,6 +136,13 @@ export interface CommunicationUserIdentifierModel {
     id: string;
 }
 
+// @public (undocumented)
+export interface ContentDownloadOptions extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    maxRetryRequests?: number;
+    onProgress?: (progress: TransferProgressEvent) => void;
+}
+
 // @public
 export interface CreateCallConnectionOptions extends OperationOptions {
     alternateCallerId?: PhoneNumberIdentifier;
@@ -143,7 +153,9 @@ export interface CreateCallConnectionOptions extends OperationOptions {
 }
 
 // @public
-export type DownloadContentOptions = OperationOptions;
+export interface DownloadContentOptions extends OperationOptions {
+    range?: string;
+}
 
 // @public
 export const enum EventSubscriptionType {
@@ -152,9 +164,6 @@ export const enum EventSubscriptionType {
     // (undocumented)
     ParticipantsUpdated = "participantsUpdated"
 }
-
-// @public
-export type GetBlobSasUriOptions = OperationOptions;
 
 // @public
 export type GetRecordingFileOptions = OperationOptions;

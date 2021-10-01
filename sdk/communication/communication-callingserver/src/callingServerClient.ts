@@ -33,8 +33,9 @@ import { SDK_VERSION } from "./constants";
 import { convertTracingToRequestOptionsBase, createSpan } from "./tracing";
 import { logger } from "./logger";
 import { ContentDownloader } from "./ContentDownloader";
-import { Readable } from "stream";
+// import { Readable } from "stream";
 import { rangeToString } from "./Range";
+import { Readable } from "stream";
 
 /**
  * Client options used to configure CallingServer Client API requests.
@@ -251,8 +252,9 @@ export class CallingServerClient {
     offset: number = 0,
     count?: number,
     options: ContentDownloadOptions = {}
-  ): Promise<RestResponse> {
+  ): Promise<Readable> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-download", options);
+    const DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS = 3;
     let contentDownloader = this.initializeContentDownloader();
     try {
       const res = await contentDownloader.downloadContent(uri,{
@@ -264,77 +266,72 @@ export class CallingServerClient {
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
 
-      return res; // https://us-storage.asm.skype.com/v1/objects/0-eus-d16-4d30207fd28f8fe681e1d5523b1ba242/content/acsmetadata
-      // const wrappedRes = {
-      //   ...res,
-      //   _response: res._response, // _response is made non-enumerable
-      // };
-      // // Return browser response immediately
+      const wrappedRes = {
+        ...res,
+        _response: res._response, // _response is made non-enumerable
+      };
+      // Return browser response immediately
       // if (!isNode) {
       //   return wrappedRes;
       // }
 
-      // // We support retrying when download stream unexpected ends in Node.js runtime
-      // // Following code shouldn't be bundled into browser build, however some
-      // // bundlers may try to bundle following code and "FileReadResponse.ts".
-      // // In this case, "FileDownloadResponse.browser.ts" will be used as a shim of "FileDownloadResponse.ts"
-      // // The config is in package.json "browser" field
-      // if (options.maxRetryRequests === undefined || options.maxRetryRequests < 0) {
-      //   // TODO: Default value or make it a required parameter?
-      //   options.maxRetryRequests = DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS;
-      // }
+      // We support retrying when download stream unexpected ends in Node.js runtime
+      // Following code shouldn't be bundled into browser build, however some
+      // bundlers may try to bundle following code and "FileReadResponse.ts".
+      // In this case, "FileDownloadResponse.browser.ts" will be used as a shim of "FileDownloadResponse.ts"
+      // The config is in package.json "browser" field
+      if (options.maxRetryRequests === undefined || options.maxRetryRequests < 0) {
+        // TODO: Default value or make it a required parameter?
+        options.maxRetryRequests = DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS;
+      }
 
-      // if (res.contentLength === undefined) {
-      //   throw new RangeError(`File download response doesn't contain valid content length header`);
-      // }
+      if (res.contentLength === undefined) {
+        throw new RangeError(`File download response doesn't contain valid content length header`);
+      }
 
-      // if (!res.etag) {
-      //   throw new RangeError(`File download response doesn't contain valid etag header`);
-      // }
+      return new BlobDownloadResponse(
+        wrappedRes,
+        async (start: number): Promise<NodeJS.ReadableStream> => {
+          const updatedOptions: BlobDownloadOptionalParams = {
+            leaseAccessConditions: options.conditions,
+            modifiedAccessConditions: {
+              ifMatch: options.conditions!.ifMatch || res.etag,
+              ifModifiedSince: options.conditions!.ifModifiedSince,
+              ifNoneMatch: options.conditions!.ifNoneMatch,
+              ifUnmodifiedSince: options.conditions!.ifUnmodifiedSince,
+              ifTags: options.conditions?.tagConditions
+            },
+            range: rangeToString({
+              count: offset + res.contentLength! - start,
+              offset: start
+            }),
+            rangeGetContentMD5: options.rangeGetContentMD5,
+            rangeGetContentCRC64: options.rangeGetContentCrc64,
+            snapshot: options.snapshot,
+            cpkInfo: options.customerProvidedKey
+          };
 
-      // return new BlobDownloadResponse(
-      //   wrappedRes,
-      //   async (start: number): Promise<NodeJS.ReadableStream> => {
-      //     const updatedOptions: BlobDownloadOptionalParams = {
-      //       leaseAccessConditions: options.conditions,
-      //       modifiedAccessConditions: {
-      //         ifMatch: options.conditions!.ifMatch || res.etag,
-      //         ifModifiedSince: options.conditions!.ifModifiedSince,
-      //         ifNoneMatch: options.conditions!.ifNoneMatch,
-      //         ifUnmodifiedSince: options.conditions!.ifUnmodifiedSince,
-      //         ifTags: options.conditions?.tagConditions
-      //       },
-      //       range: rangeToString({
-      //         count: offset + res.contentLength! - start,
-      //         offset: start
-      //       }),
-      //       rangeGetContentMD5: options.rangeGetContentMD5,
-      //       rangeGetContentCRC64: options.rangeGetContentCrc64,
-      //       snapshot: options.snapshot,
-      //       cpkInfo: options.customerProvidedKey
-      //     };
+          // Debug purpose only
+          // console.log(
+          //   `Read from internal stream, range: ${
+          //     updatedOptions.range
+          //   }, options: ${JSON.stringify(updatedOptions)}`
+          // );
 
-      //     // Debug purpose only
-      //     // console.log(
-      //     //   `Read from internal stream, range: ${
-      //     //     updatedOptions.range
-      //     //   }, options: ${JSON.stringify(updatedOptions)}`
-      //     // );
-
-      //     return (
-      //       await this.blobContext.download({
-      //         abortSignal: options.abortSignal,
-      //         ...updatedOptions
-      //       })
-      //     ).readableStreamBody!;
-      //   },
-      //   offset,
-      //   res.contentLength!,
-      //   {
-      //     maxRetryRequests: options.maxRetryRequests,
-      //     onProgress: options.onProgress
-      //   }
-      // );
+          return (
+            await this.blobContext.download({
+              abortSignal: options.abortSignal,
+              ...updatedOptions
+            })
+          ).readableStreamBody!;
+        },
+        offset,
+        res.contentLength!,
+        {
+          maxRetryRequests: options.maxRetryRequests,
+          onProgress: options.onProgress
+        }
+      );
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
