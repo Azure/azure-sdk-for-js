@@ -26,7 +26,9 @@ export class ServiceClientGetTest extends PerfStressTest<ServiceClientGetOptions
     super();
     this.client = this.configureClient(new ServiceClient());
     this.request = createPipelineRequest({
-      url: this.options.url.value as string
+      allowInsecureConnection: true,
+      streamResponseStatusCodes: new Set([200]),
+      url: this.parsedOptions.url.value as string
     });
   }
 
