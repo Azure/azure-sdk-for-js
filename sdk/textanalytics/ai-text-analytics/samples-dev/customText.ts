@@ -90,7 +90,7 @@ export async function main() {
         }
       }
       console.log("Action statistics: ");
-      console.log(JSON.stringify(customEntitiesAction.results.statistics));
+      console.log(JSON.stringify(customEntitiesAction.results.statistics, null, 2));
     }
 
     const singleCatClassificationAction = page.classifyDocumentSingleCategoryResults[0];
