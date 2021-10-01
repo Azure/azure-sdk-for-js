@@ -109,7 +109,7 @@ export interface LogsQueryError extends Error {
 /** Configurable HTTP request settings for the Logs query batch operation. */
 export interface LogsQueryBatchOptions extends OperationOptions {}
 
-/** The Analytics query. Learn more about the [Analytics query syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/) */
+/** The Kusto query. For more information about Kusto, see [Kusto query overview](https://docs.microsoft.com/azure/data-explorer/kusto/query). */
 // NOTE: 'id' is added automatically by our LogsQueryClient.
 export interface QueryBatch {
   /** The workspace for this query. */
