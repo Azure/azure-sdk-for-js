@@ -48,7 +48,7 @@ A successful call to `authenticate()` will return an `AuthenticationRecord`, whi
 
 #### Client credentials
 
-Identity v2 adds better support for regional endpoints on the `ClientSecretCredential` and `ClientCertificateCredential` credentials. A new `regionalAuthority` optional constructor property for specifying the Azure region, and a new `enum` with all of the Azure regions is available as `RegionalAuthority`.
+Identity v2 adds better support for regional endpoints on the `ClientSecretCredential` and `ClientCertificateCredential` credentials. These credentials have a new `regionalAuthority` optional property on their constructors. Additionally, a new `enum` type with all of the Azure regions is available as `RegionalAuthority`.
 
 The Azure region can also be specified through the `AZURE_REGIONAL_AUTHORITY_NAME` environment variable. If instead of a region, `AutoDiscoverRegion` is specified as the value for `regionalAuthority`, MSAL will be used to attempt to discover the region.
 
