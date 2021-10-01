@@ -91,14 +91,14 @@ export interface EnqueueEventOptions extends SendBatchOptions {}
 /**
  * The `EventHubBufferedProducerClient`is used to publish events to a specific Event Hub.
  *
- * Depending on the options specified when events are enqueued, they may be
- * automatically assigned to a partition, grouped according to the specified partition key,
- * or assigned a specifically requested partition.
- *
  * The `EventHubBufferedProducerClient` does not publish events immediately.
  * Instead, events are buffered so they can be efficiently batched and published
  * when the batch is full or the `maxWaitTimeInMs` has elapsed with no new events
  * enqueued.
+ *
+ * Depending on the options specified when events are enqueued, they may be
+ * automatically assigned to a partition, grouped according to the specified partition key,
+ * or assigned a specifically requested partition.
  */
 export class EventHubBufferedProducerClient {
   /**
