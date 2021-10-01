@@ -334,7 +334,7 @@ async function processBatchResult(result: LogsQueryBatchResult) {
       processTables(response.tables);
     } else if (response.status === LogsQueryResultStatus.PartialFailure) {
       console.log(
-        `Printing Partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
+        `Printing partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
       );
       processTables(response.partialTables);
       console.log(
