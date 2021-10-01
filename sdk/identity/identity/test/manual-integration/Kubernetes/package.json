@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc -p ."
   },
   "author": "",
   "license": "ISC",
@@ -13,5 +14,8 @@
     "@types/yargs": "15.0.3",
     "@azure/identity": "2.0.0-beta.6",
     "@azure/keyvault-secrets": "^4.0.2"
+  },
+  "devDependencies": {
+    "typescript": "^4.4.3"
   }
 }
