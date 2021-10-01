@@ -14,13 +14,13 @@ Run this command
 
 > `docker run -v /workspaces/azure-sdk-for-js/:/etc/testproxy -p 5001:5001 -p 5000:5000 azsdkengsys.azurecr.io/engsys/testproxy-lin:latest`
 
-[Provide the root of the repo for the volume mapping for the accurate location while generating recordings.]
+[Map the root directory of the azure-sdk-for-js repo to `/etc/testproxy` inside the container for an accurate location while generating recordings.]
 
 (Eventually, recorder will trigger this for you!)
 
 [Note: Update `temp-location` in the command to your desired location.]
 
-Add `--net=host` to let the Docker container access the localhost on host network.
+Add `--net=host` to disable network sandboxing and let the test proxy container access the host's network (for example, to access `localhost`).
 
 If the above command doesn't work directly, try [Troubleshooting Access to Public Container Registry](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/docker#troubleshooting-access-to-public-container-registry).
 
