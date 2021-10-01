@@ -366,10 +366,6 @@ export class PerfStressProgram {
       );
     }
 
-    // Make one call to runAsync() before starting recording, to avoid recording one-time setup
-    // like authorization headers.
-    await test.runAsync!();
-
     await recorder.startRecording();
     recorder._mode = "record";
     await test.runAsync!();
