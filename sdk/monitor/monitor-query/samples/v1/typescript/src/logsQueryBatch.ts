@@ -68,7 +68,7 @@ export async function main() {
         ` Query had errors:${response.partialError.message} with code ${response.partialError.code}`
       );
     } else {
-      console.log(`Printing Errors from query '${queriesBatch[i].query}'`);
+      console.log(`Printing errors from query '${queriesBatch[i].query}'`);
       console.log(` Query had errors:${response.message} with code ${response.code}`);
     }
     // next query
