@@ -17,12 +17,14 @@ export abstract class SecretTest<TOptions = Record<string, unknown>> extends Per
   }
 
   async deleteAndPurgeSecrets(...names: string[]) {
-    await Promise.all(names.map(async (name) => {
-      const poller = await this.secretClient.beginDeleteSecret(name);
-      const deletedSecret = await poller.pollUntilDone();
-      if (deletedSecret.recoveryId) {
-        await this.secretClient.purgeDeletedSecret(name);
-      }
-    }));
+    await Promise.all(
+      names.map(async (name) => {
+        const poller = await this.secretClient.beginDeleteSecret(name);
+        const deletedSecret = await poller.pollUntilDone();
+        if (deletedSecret.recoveryId) {
+          await this.secretClient.purgeDeletedSecret(name);
+        }
+      })
+    );
   }
 }
