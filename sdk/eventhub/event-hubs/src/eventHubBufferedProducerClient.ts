@@ -13,7 +13,7 @@ import {
   GetPartitionPropertiesOptions,
   SendBatchOptions
 } from "./models/public";
-import { isCredential } from "./util/typeGuards";
+import { isCredential, isDefined } from "./util/typeGuards";
 
 /**
  * Contains the events that were successfully sent to the Event Hub,
@@ -78,7 +78,7 @@ export interface BufferedCloseOptions extends OperationOptions {
   /**
    * When `true`, all buffered events that are pending should be sent before closing.
    * When `false`, abandon all buffered events and close immediately.
-   * Defaults to `false`.
+   * Defaults to `true`.
    */
   flush?: boolean;
 }
@@ -219,7 +219,7 @@ export class EventHubBufferedProducerClient {
    * @throws Error if the underlying connection encounters an error while closing.
    */
   async close(options: BufferedCloseOptions = {}): Promise<void> {
-    if (options.flush) {
+    if (!isDefined(options.flush) || options.flush === true) {
       await this.flush(options);
     }
     return this._context.close();
