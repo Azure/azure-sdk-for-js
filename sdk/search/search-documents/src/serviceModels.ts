@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
 import {
   LuceneStandardAnalyzer,
   StopAnalyzer,
@@ -238,6 +238,23 @@ export interface CreateOrUpdateIndexOptions extends OperationOptions {
 }
 
 /**
+ * Options for reset docs operation.
+ */
+export interface ResetDocsOptions extends OperationOptions {
+  /** document keys to be reset */
+  documentKeys?: string[];
+  /** datasource document identifiers to be reset */
+  datasourceDocumentIds?: string[];
+  /** If false, keys or ids will be appended to existing ones. If true, only the keys or ids in this payload will be queued to be re-ingested. */
+  overwrite?: boolean;
+}
+
+/**
+ * Options for reset skills operation.
+ */
+export type ResetSkillsOptions = OperationOptions;
+
+/**
  * Options for create/update skillset operation.
  */
 export interface CreateOrUpdateSkillsetOptions extends OperationOptions {
@@ -248,7 +265,7 @@ export interface CreateOrUpdateSkillsetOptions extends OperationOptions {
   /**
    * Ignores cache reset requirements.
    */
-  ignoreResetRequirements?: boolean;
+  skipIndexerResetRequirementForCache?: boolean;
   /**
    * Disables cache reprocessing change detection.
    */
@@ -274,7 +291,7 @@ export interface CreateorUpdateIndexerOptions extends OperationOptions {
    */
   onlyIfUnchanged?: boolean;
   /** Ignores cache reset requirements. */
-  ignoreResetRequirements?: boolean;
+  skipIndexerResetRequirementForCache?: boolean;
   /** Disables cache reprocessing change detection. */
   disableCacheReprocessingChangeDetection?: boolean;
 }
@@ -290,7 +307,7 @@ export interface CreateorUpdateDataSourceConnectionOptions extends OperationOpti
   /**
    * Ignores cache reset requirements.
    */
-  ignoreResetRequirements?: boolean;
+  skipIndexerResetRequirementForCache?: boolean;
 }
 
 /**
