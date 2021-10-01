@@ -72,7 +72,7 @@ This document talks about the roadmap for the `@azure-tools/test-recorder-new` t
   - 🔒 to be able to start the proxy-tool in parallel too
 - ✅ Unit Tests
 - 🔒 Corner cases - Example: Is it ok to start twice without calling stop?
-- 🔒 To make sure it works with our core-v1 and core-v2 packages all the way, start a standalone testing project which uses core-v1 and core-v2 sample SDKs and show how to leveage the recorder
+- ✅ To make sure it works with our core-v1 and core-v2 packages all the way, start a standalone testing project which uses core-v1 and core-v2 sample SDKs and show how to leverage the recorder
 
 ## Merging with `@azure-tool/test-recorder` package
 
