@@ -1,3 +1,4 @@
+// import { assert } from "chai";
 import { assert } from "chai";
 import { CallingServerClient } from "../../src"
 
@@ -7,6 +8,9 @@ describe ("Download Content", function() {
         const uri = "https://us-storage.asm.skype.com/v1/objects/0-eus-d16-4d30207fd28f8fe681e1d5523b1ba242/content/acsmetadata";
         let callingServerServiceClient = new CallingServerClient(connectionString);
         var something = await callingServerServiceClient.download(uri);
-        assert.isTrue(something._response.bodyAsText!.includes("0-eus-d16-4d30207fd28f8fe681e1d5523b1ba242"));
+        something.readableStreamBody!.on('data', (chunk) => {
+            assert.isTrue(chunk.includes("0-eus-d16-4d30207fd28f8fe681e1d5523b1ba242"));
+         });
+        // 
     })
 })

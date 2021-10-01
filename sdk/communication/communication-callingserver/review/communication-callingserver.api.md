@@ -7,6 +7,7 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 import { CommunicationIdentifier } from '@azure/communication-common';
 import * as coreHttp from '@azure/core-http';
+import { HttpResponse } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { PhoneNumberIdentifier } from '@azure/communication-common';
 import { PipelineOptions } from '@azure/core-http';
@@ -95,7 +96,7 @@ export class CallingServerClient {
     constructor(connectionString: string, options?: CallingServerClientOptions);
     // (undocumented)
     createCallConnection(source: CommunicationIdentifier, targets: CommunicationIdentifier[], options: CreateCallConnectionOptions): Promise<CallConnection>;
-    download(uri: string, offset?: number, count?: number, options?: ContentDownloadOptions): Promise<RestResponse>;
+    download(uri: string, offset?: number, count?: number, options?: ContentDownloadOptions): Promise<ContentDownloadResponse>;
     // (undocumented)
     getCallConnection(callConnectionId: string): CallConnection;
     // Warning: (ae-forgotten-export) The symbol "ContentDownloader" needs to be exported by the entry point index.d.ts
@@ -136,12 +137,30 @@ export interface CommunicationUserIdentifierModel {
     id: string;
 }
 
+// @public
+export interface ContentDownloadHeaders {
+    contentLength?: number;
+    contentRange?: string;
+    contentType?: string;
+    date?: Date;
+    errorCode?: string;
+}
+
 // @public (undocumented)
 export interface ContentDownloadOptions extends OperationOptions {
     abortSignal?: AbortSignalLike;
     maxRetryRequests?: number;
     onProgress?: (progress: TransferProgressEvent) => void;
 }
+
+// @public
+export type ContentDownloadResponse = ContentDownloadHeaders & {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeJS.ReadableStream;
+    _response: HttpResponse & {
+        parsedHeaders: ContentDownloadHeaders;
+    };
+};
 
 // @public
 export interface CreateCallConnectionOptions extends OperationOptions {

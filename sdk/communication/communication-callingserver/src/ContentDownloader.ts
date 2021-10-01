@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
-import * as coreHttp from "@azure/core-http";
 import { DownloadContentOptions } from "./models";
 import * as Mappers from "./generated/src/models/mappers"
+import * as ExtraMappers from "./mappers"
 import * as Parameters from "./generated/src/models/parameters";
 import { CallingServerApiClientContext } from "./generated/src/callingServerApiClientContext";
 var urlModule = require('url');
@@ -12,9 +12,14 @@ import { OperationQueryParameter } from "@azure/core-http";
 
 import { createSpan } from "./tracing";
 import {
-  operationOptionsToRequestOptionsBase
+  operationOptionsToRequestOptionsBase,
+  OperationOptions,
+  OperationArguments,
+  Serializer,
+  OperationSpec
 } from "@azure/core-http";
 import { SpanStatusCode } from "@azure/core-tracing";
+import { ContentDownloadResponse } from ".";
 
 
 export class ContentDownloader {
@@ -25,7 +30,7 @@ export class ContentDownloader {
 
   public async downloadContent(contentUri: string,
     options: DownloadContentOptions = {}
-  ): Promise<coreHttp.RestResponse> {
+  ): Promise<ContentDownloadResponse> {
     const { span, updatedOptions } = createSpan("ContentDownloaderRestClient-Recording", options);
 
     try {
@@ -54,10 +59,10 @@ export class ContentDownloader {
 */
   download_content(
     contentUri: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<coreHttp.RestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    options?: OperationOptions
+  ): Promise<ContentDownloadResponse> {
+    const operationArguments: OperationArguments = {
+      options: operationOptionsToRequestOptionsBase(options || {})
     };
 
     var q = urlModule.parse(contentUri, true);
@@ -67,15 +72,15 @@ export class ContentDownloader {
     return this.client.sendOperationRequest(
       operationArguments,
       getDownloadContentOperationSpec(contentUri, stringToSign)
-    ) as Promise<coreHttp.RestResponse>;
+    ) as Promise<ContentDownloadResponse>;
   }
 }
 
 
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = new Serializer(Mappers, /* isXml */ false);
 
-function getDownloadContentOperationSpec(url: string, stringToSign: string): coreHttp.OperationSpec {
+function getDownloadContentOperationSpec(url: string, stringToSign: string): OperationSpec {
 
   const stringToSignHeader: OperationQueryParameter = {
     parameterPath: "UriToSignWith",
@@ -89,12 +94,18 @@ function getDownloadContentOperationSpec(url: string, stringToSign: string): cor
     }
   };
 
-  const downloadContentOperationSpec: coreHttp.OperationSpec = {
+  const downloadContentOperationSpec: OperationSpec = {
     path: '',
     baseUrl: url,
     httpMethod: "GET",
     responses: {
-      200: {},
+      200: {
+        bodyMapper: {
+          type: { name: "Stream" },
+          serializedName: "parsedResponse"
+        },
+        headersMapper: ExtraMappers.ContentDownloadHeaders
+      },
       400: {
         bodyMapper: Mappers.CommunicationErrorResponse,
         isError: true

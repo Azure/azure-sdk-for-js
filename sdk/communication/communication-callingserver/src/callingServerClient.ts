@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
-import { CallConnection } from ".";
+import { CallConnection, ContentDownloadResponse, DownloadContentOptions } from ".";
 import { ServerCall, JoinCallRequestConverter } from ".";
 import { CreateCallConnectionOptions, JoinCallOptions, ContentDownloadOptions } from "./models";
 import { CallConnections, ServerCalls } from "./generated/src/operations";
@@ -21,11 +21,10 @@ import {
 } from "@azure/communication-common";
 import {
   PipelineOptions,
-  RestResponse,
   InternalPipelineOptions,
   createPipelineFromOptions,
   isNode,
-  operationOptionsToRequestOptionsBase
+  operationOptionsToRequestOptionsBase,
 } from "@azure/core-http";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { CallingServerApiClient } from "./generated/src/callingServerApiClient";
@@ -35,7 +34,7 @@ import { logger } from "./logger";
 import { ContentDownloader } from "./ContentDownloader";
 // import { Readable } from "stream";
 import { rangeToString } from "./Range";
-import { Readable } from "stream";
+import { RepeatableContentDownloadResponse } from "./RepeatableContentDownloadResponse";
 
 /**
  * Client options used to configure CallingServer Client API requests.
@@ -252,7 +251,7 @@ export class CallingServerClient {
     offset: number = 0,
     count?: number,
     options: ContentDownloadOptions = {}
-  ): Promise<Readable> {
+  ): Promise<ContentDownloadResponse> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-download", options);
     const DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS = 3;
     let contentDownloader = this.initializeContentDownloader();
@@ -265,15 +264,11 @@ export class CallingServerClient {
         range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
-
-      const wrappedRes = {
-        ...res,
-        _response: res._response, // _response is made non-enumerable
-      };
+      
       // Return browser response immediately
-      // if (!isNode) {
-      //   return wrappedRes;
-      // }
+      if (!isNode) {
+        return res;
+      }
 
       // We support retrying when download stream unexpected ends in Node.js runtime
       // Following code shouldn't be bundled into browser build, however some
@@ -289,26 +284,14 @@ export class CallingServerClient {
         throw new RangeError(`File download response doesn't contain valid content length header`);
       }
 
-      return new BlobDownloadResponse(
-        wrappedRes,
+      return new RepeatableContentDownloadResponse(
+        res,
         async (start: number): Promise<NodeJS.ReadableStream> => {
-          const updatedOptions: BlobDownloadOptionalParams = {
-            leaseAccessConditions: options.conditions,
-            modifiedAccessConditions: {
-              ifMatch: options.conditions!.ifMatch || res.etag,
-              ifModifiedSince: options.conditions!.ifModifiedSince,
-              ifNoneMatch: options.conditions!.ifNoneMatch,
-              ifUnmodifiedSince: options.conditions!.ifUnmodifiedSince,
-              ifTags: options.conditions?.tagConditions
-            },
+          const updatedOptions: DownloadContentOptions = {
             range: rangeToString({
               count: offset + res.contentLength! - start,
               offset: start
-            }),
-            rangeGetContentMD5: options.rangeGetContentMD5,
-            rangeGetContentCRC64: options.rangeGetContentCrc64,
-            snapshot: options.snapshot,
-            cpkInfo: options.customerProvidedKey
+            })
           };
 
           // Debug purpose only
@@ -319,7 +302,8 @@ export class CallingServerClient {
           // );
 
           return (
-            await this.blobContext.download({
+            await contentDownloader.downloadContent(
+              uri, {
               abortSignal: options.abortSignal,
               ...updatedOptions
             })
