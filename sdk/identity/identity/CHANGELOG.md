@@ -2,7 +2,7 @@
 
 ## 2.0.0 (2021-10-12)
 
-We're proud to announce the first GA release of the version 2 of our `@azure/identity` package. Version 2 includes the best parts of version 1, plus several improvements.
+We're proud to announce the first GA release of the `@azure/identity` v2 package. The v2 package includes the best parts of v1, plus several improvements.
 
 This changelog entry showcases the changes that have been made. For a v1-to-v2 migration guide, see the [migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/migration-v1-v2.md).
 
@@ -12,8 +12,8 @@ This changelog entry showcases the changes that have been made. For a v1-to-v2 m
 
 Identity v2 provides a top-level `useIdentityPlugin` method, which allows using two new plugin packages:
 
-- [`@azure/identity-vscode`](https://www.npmjs.com/package/@azure/identity-vscode), which provides the dependencies of `VisualStudioCodeCredential` and enables it.
-- [`@azure/identity-cache-persistence`](https://www.npmjs.com/package/@azure/identity-cache-persistence), which provides persistent token caching.
+- [@azure/identity-vscode](https://www.npmjs.com/package/@azure/identity-vscode), which provides the dependencies of `VisualStudioCodeCredential` and enables it.
+- [@azure/identity-cache-persistence](https://www.npmjs.com/package/@azure/identity-cache-persistence), which provides persistent token caching.
 - If the `@azure/identity-vscode` plugin isn't used through the `useIdentityPlugin` function, the `VisualStudioCodeCredential` exposed by Identity v2 will throw a `CredentialUnavailableError`.
 
 Most credentials on Identity v2 now include a constructor option called `tokenCachePersistenceOptions`. If set to `tokenCachePersistenceOptions: { enabled: true }`, it will enable persistent token caching on that credential instance.

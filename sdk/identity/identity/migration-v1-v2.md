@@ -1,11 +1,11 @@
 # Migrate from v1 to v2 of @azure/identity
 
 [v2changelog]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/CHANGELOG.md#200-2021-10-12
-[plugins]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/CHANGELOG.md#200-2021-10-12#new-plugins-api
+[plugins]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/CHANGELOG.md#200-2021-10-12#plugin-api
 [npm-keytar]: https://www.npmjs.com/package/keytar
 [npm-vscode]: https://www.npmjs.com/package/@azure/identity-vscode
 
-Version 2 of the `@azure/identity` package includes the best parts of version 1, plus several improvements. This document outlines the steps needed to migrate from version 1 to version 2. For the full set of changes and bug fixes, refer to our [changelog][v2changelog].
+The `@azure/identity` v2 package includes the best parts of v1, plus several improvements. This document outlines the steps needed to migrate from v1 to v2. For the full set of changes and bug fixes, refer to the [changelog][v2changelog].
 
 ## Table of contents
 
