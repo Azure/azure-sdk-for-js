@@ -19,10 +19,10 @@ export function sessionFilePath(testContext: Mocha.Test) {
  *  `{node|browsers}/<describe-block-title>/recording_<test-title>.json`
  */
 export function recordingFilePath(testContext: Mocha.Test) {
-  return `${generateTestRecordingFilePath(
+  return generateTestRecordingFilePath(
     isNode ? "node" : "browsers",
     testContext.parent!.fullTitle(),
     testContext.title!,
     "json"
-  )}`;
+  );
 }
