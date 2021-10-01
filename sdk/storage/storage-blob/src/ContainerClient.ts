@@ -1614,7 +1614,7 @@ export class ContainerClient extends StorageClient {
    *   if (item.kind === "prefix") {
    *     console.log(`\tBlobPrefix: ${item.name}`);
    *   } else {
-   *     console.log(`\tBlobItem: name - ${item.name}, last modified - ${item.properties.lastModified}`);
+   *     console.log(`\tBlobItem: name - ${item.name}`);
    *   }
    * }
    * ```
@@ -1629,7 +1629,7 @@ export class ContainerClient extends StorageClient {
    *   if (item.kind === "prefix") {
    *     console.log(`\tBlobPrefix: ${item.name}`);
    *   } else {
-   *     console.log(`\tBlobItem: name - ${item.name}, last modified - ${item.properties.lastModified}`);
+   *     console.log(`\tBlobItem: name - ${item.name}`);
    *   }
    *   entity = await iter.next();
    * }
@@ -1647,7 +1647,7 @@ export class ContainerClient extends StorageClient {
    *     }
    *   }
    *   for (const blob of response.segment.blobItems) {
-   *     console.log(`\tBlobItem: name - ${blob.name}, last modified - ${blob.properties.lastModified}`);
+   *     console.log(`\tBlobItem: name - ${blob.name}`);
    *   }
    * }
    * ```
@@ -1658,7 +1658,9 @@ export class ContainerClient extends StorageClient {
    * console.log("Listing blobs by hierarchy by page, specifying a prefix and a max page size");
    *
    * let i = 1;
-   * for await (const response of containerClient.listBlobsByHierarchy("/", { prefix: "prefix2/sub1/"}).byPage({ maxPageSize: 2 })) {
+   * for await (const response of containerClient
+   *   .listBlobsByHierarchy("/", { prefix: "prefix2/sub1/" })
+   *   .byPage({ maxPageSize: 2 })) {
    *   console.log(`Page ${i++}`);
    *   const segment = response.segment;
    *
@@ -1669,7 +1671,7 @@ export class ContainerClient extends StorageClient {
    *   }
    *
    *   for (const blob of response.segment.blobItems) {
-   *     console.log(`\tBlobItem: name - ${blob.name}, last modified - ${blob.properties.lastModified}`);
+   *     console.log(`\tBlobItem: name - ${blob.name}`);
    *   }
    * }
    * ```
