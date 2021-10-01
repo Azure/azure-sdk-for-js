@@ -8,7 +8,6 @@ export {
   DocumentPhoneNumberField,
   DocumentDateField,
   DocumentNumberField,
-  DocumentCurrencyField,
   DocumentTimeField,
   DocumentArrayField,
   DocumentObjectField,

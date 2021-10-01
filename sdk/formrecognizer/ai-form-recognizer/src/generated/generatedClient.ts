@@ -254,7 +254,7 @@ export class GeneratedClient extends GeneratedClientContext {
 
   /**
    * Creates a new model from document types of existing models.
-   * @param composeRequest Request body to create a composed model from component models.
+   * @param composeRequest Compose request parameters.
    * @param options The options parameters.
    */
   composeDocumentModel(
@@ -270,7 +270,7 @@ export class GeneratedClient extends GeneratedClientContext {
   /**
    * Generates authorization to copy a model to this location with specified modelId and optional
    * description.
-   * @param authorizeCopyRequest Request body to authorize model copy.
+   * @param authorizeCopyRequest Authorize copy request parameters.
    * @param options The options parameters.
    */
   authorizeCopyDocumentModel(
@@ -286,7 +286,7 @@ export class GeneratedClient extends GeneratedClientContext {
   /**
    * Copies model to the target resource, region, and modelId.
    * @param modelId Unique model name.
-   * @param copyToRequest Authorization to copy a model to the specified target resource and modelId.
+   * @param copyToRequest Copy to request parameters.
    * @param options The options parameters.
    */
   copyDocumentModelTo(

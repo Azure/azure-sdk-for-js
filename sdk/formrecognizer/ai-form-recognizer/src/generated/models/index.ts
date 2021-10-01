@@ -276,8 +276,6 @@ export interface DocumentField {
   valueSignature?: DocumentSignatureType;
   /** 3-letter country code value (ISO 3166-1 alpha-3). */
   valueCountryRegion?: string;
-  /** 3-letter currency code value (ISO 4217). */
-  valueCurrency?: string;
   /** Array of field values. */
   valueArray?: DocumentField[];
   /** Dictionary of named field values. */
@@ -371,7 +369,7 @@ export interface OperationInfo {
   /** Date and time (UTC) when the status was last updated. */
   lastUpdatedDateTime: Date;
   /** Type of operation. */
-  kind?: OperationKind;
+  kind: OperationKind;
   /** URL of the resource targeted by this operation. */
   resourceLocation: string;
 }
@@ -399,7 +397,7 @@ export interface DocTypeInfo {
 /** Description of the field semantic schema using a JSON Schema style syntax. */
 export interface DocumentFieldSchema {
   /** Semantic data type of the field value. */
-  type?: DocumentFieldType;
+  type: DocumentFieldType;
   /** Field description. */
   description?: string;
   /** Example field content. */
@@ -410,6 +408,7 @@ export interface DocumentFieldSchema {
   properties?: { [propertyName: string]: DocumentFieldSchema };
 }
 
+/** List Models response object. */
 export interface GetModelsResponse {
   /** List of models. */
   value: ModelSummary[];
@@ -565,7 +564,6 @@ export enum KnownDocumentFieldType {
   Integer = "integer",
   SelectionMark = "selectionMark",
   CountryRegion = "countryRegion",
-  Currency = "currency",
   Signature = "signature",
   Array = "array",
   Object = "object"
@@ -584,7 +582,6 @@ export enum KnownDocumentFieldType {
  * **integer** \
  * **selectionMark** \
  * **countryRegion** \
- * **currency** \
  * **signature** \
  * **array** \
  * **object**
@@ -652,7 +649,7 @@ export interface GeneratedClientAnalyzeDocument$binaryOptionalParams
   /** Analyze request parameters. */
   analyzeRequest?: coreRestPipeline.RequestBodyType;
   /** List of 1-based page numbers to analyze.  Ex. "1-3,5,7-9" */
-  pages?: string[];
+  pages?: string;
   /** Locale hint for text recognition and document analysis.  Value may contain only the language code (ex. "en", "fr") or BCP 47 language tag (ex. "en-US"). */
   locale?: string;
 }
@@ -663,7 +660,7 @@ export interface GeneratedClientAnalyzeDocument$jsonOptionalParams
   /** Analyze request parameters. */
   analyzeRequest?: AnalyzeDocumentRequest;
   /** List of 1-based page numbers to analyze.  Ex. "1-3,5,7-9" */
-  pages?: string[];
+  pages?: string;
   /** Locale hint for text recognition and document analysis.  Value may contain only the language code (ex. "en", "fr") or BCP 47 language tag (ex. "en-US"). */
   locale?: string;
 }

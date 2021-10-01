@@ -4,7 +4,6 @@
 import {
   DocumentArrayField,
   DocumentCountryRegionField,
-  DocumentCurrencyField,
   DocumentDateField,
   DocumentIntegerField,
   DocumentNumberField,
@@ -50,7 +49,7 @@ export type FieldSchema =
  * @hidden
  */
 export interface StringLikeFieldSchema<
-  Type extends "string" | "currency" | "countryRegion" = "string" | "currency" | "countryRegion"
+  Type extends "string" | "countryRegion" = "string" | "countryRegion"
 > {
   readonly type: Type;
   readonly enum?: readonly string[];
@@ -141,7 +140,6 @@ export type ReifyFieldSchema<Schema extends Readonly<FieldSchema>> =
         string: Schema extends { enum: string[] }
           ? DocumentStringField & { value?: Schema["enum"][number] }
           : DocumentStringField;
-        currency: DocumentCurrencyField;
         countryRegion: DocumentCountryRegionField;
       }[Type]
     : Schema extends NumberFieldSchema<infer Type>

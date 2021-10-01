@@ -26,9 +26,9 @@ export interface AnalyzeDocumentsOptions<Result = AnalyzeResult<AnalyzedDocument
    */
   locale?: string;
   /**
-   * A list of page ranges (1-indexed) within the input document to analyze.
+   * A list of page ranges (1-indexed) within the input document to analyze, separated by commas
    *
-   * Examples: ["1", "3-5"]
+   * Examples: "1", "3-5", "1,3-5"
    */
-  pages?: string[];
+  pages?: string;
 }

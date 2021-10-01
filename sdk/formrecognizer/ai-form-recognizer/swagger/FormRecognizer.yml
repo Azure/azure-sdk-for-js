@@ -15,7 +15,7 @@ security:
   - apim_key: []
 
 x-ms-parameterized-host:
-  hostTemplate: "{endpoint}/formrecognizer/"
+  hostTemplate: "{endpoint}/formrecognizer"
   useSchemePrefix: false
   parameters:
     - $ref: "#/parameters/Endpoint"
@@ -86,17 +86,12 @@ paths:
         #   description: Transient error.
         #   schema:
         #     $ref: "#/definitions/ErrorResponse"
-      # CHANGED
       x-ms-long-running-operation: false
       x-ms-examples:
-        Analyze Prebuilt Layout:
-          $ref: "examples/analyzeDocument-PrebuiltLayout.yml"
-        Analyze Prebuilt Document:
-          $ref: "examples/analyzeDocument-PrebuiltDocument.yml"
-        Analyze Prebuilt Invoice:
-          $ref: "examples/analyzeDocument-PrebuiltInvoice.yml"
-        Analyze Custom Model:
-          $ref: "examples/analyzeDocument-Custom.yml"
+        AnalyzeDocument_Url:
+          $ref: ./examples/AnalyzeDocument_Url.json
+        AnalyzeDocument_Base64:
+          $ref: ./examples/AnalyzeDocument_Base64.json
 
   "/documentModels/{modelId}/analyzeResults/{resultId}":
     get:
@@ -146,8 +141,8 @@ paths:
         #   schema:
         #     $ref: "#/definitions/ErrorResponse"
       x-ms-examples:
-        Get Analyze Result:
-          $ref: "examples/analyzeDocumentResult.json"
+        GetAnalyzeDocumentResult:
+          $ref: ./examples/GetAnalyzeDocumentResult.json
 
   "/documentModels:build":
     post:
@@ -187,8 +182,10 @@ paths:
         #   description: Internal server error.
         #   schema:
         #     $ref: "#/definitions/ErrorResponse"
-      # CHANGED
       x-ms-long-running-operation: false
+      x-ms-examples:
+        BuildDocumentModel:
+          $ref: ./examples/BuildDocumentModel.json
 
   "/documentModels:compose":
     post:
@@ -204,6 +201,7 @@ paths:
       parameters:
         - $ref: "#/parameters/QueryApiVersion"
         - name: composeRequest
+          description: Compose request parameters.
           in: body
           required: true
           schema:
@@ -227,8 +225,10 @@ paths:
         #   description: Internal server error.
         #   schema:
         #     $ref: "#/definitions/ErrorResponse"
-      # CHANGED
       x-ms-long-running-operation: false
+      x-ms-examples:
+        ComposeDocumentModel:
+          $ref: ./examples/ComposeDocumentModel.json
 
   "/documentModels:authorizeCopy":
     post:
@@ -244,6 +244,7 @@ paths:
       parameters:
         - $ref: "#/parameters/QueryApiVersion"
         - name: authorizeCopyRequest
+          description: Authorize copy request parameters.
           in: body
           required: true
           schema:
@@ -269,6 +270,9 @@ paths:
         #   description: Transient error.
         #   schema:
         #     $ref: "#/definitions/ErrorResponse"
+      x-ms-examples:
+        AuthorizeCopyDocumentModel:
+          $ref: ./examples/AuthorizeCopyDocumentModel.json
 
   "/documentModels/{modelId}:copyTo":
     post:
@@ -285,6 +289,7 @@ paths:
         - $ref: "#/parameters/PathModelId"
         - $ref: "#/parameters/QueryApiVersion"
         - name: copyToRequest
+          description: Copy to request parameters.
           in: body
           required: true
           schema:
@@ -320,8 +325,10 @@ paths:
         #   description: Transient error.
         #   schema:
         #     $ref: "#/definitions/ErrorResponse"
-      # CHANGED
       x-ms-long-running-operation: false
+      x-ms-examples:
+        CopyDocumentModelTo:
+          $ref: ./examples/CopyDocumentModelTo.json
 
   "/operations":
     get:
@@ -351,6 +358,9 @@ paths:
       x-ms-pageable:
         nextLinkName: nextLink
         itemName: value
+      x-ms-examples:
+        GetOperations:
+          $ref: ./examples/GetOperations.json
 
   "/operations/{operationId}":
     get:
@@ -382,6 +392,9 @@ paths:
         #   description: Internal server error.
         #   schema:
         #     $ref: "#/definitions/ErrorResponse"
+      x-ms-examples:
+        GetOperation:
+          $ref: ./examples/GetOperation.json
 
   # [preview.2+]
   # "/operations/{operationId}:cancel":
@@ -439,6 +452,9 @@ paths:
       x-ms-pageable:
         nextLinkName: nextLink
         itemName: value
+      x-ms-examples:
+        GetModels:
+          $ref: ./examples/GetModels.json
 
   "/documentModels/{modelId}":
     get:
@@ -470,6 +486,11 @@ paths:
         #   description: Internal server error.
         #   schema:
         #     $ref: "#/definitions/ErrorResponse"
+      x-ms-examples:
+        GetModel_Prebuilt:
+          $ref: ./examples/GetModel_Prebuilt.json
+        GetModel_Custom:
+          $ref: ./examples/GetModel_Custom.json
 
     delete:
       summary: Delete model
@@ -494,6 +515,9 @@ paths:
         #   description: Internal server error.
         #   schema:
         #     $ref: "#/definitions/ErrorResponse"
+      x-ms-examples:
+        DeleteModel:
+          $ref: ./examples/DeleteModel.json
 
   "/info":
     get:
@@ -520,6 +544,9 @@ paths:
         #   description: Internal server error.
         #   schema:
         #     $ref: "#/definitions/ErrorResponse"
+      x-ms-examples:
+        GetInfo:
+          $ref: ./examples/GetInfo.json
 
 definitions:
   AnalyzeDocumentRequest:
@@ -625,6 +652,7 @@ definitions:
             $ref: "#/definitions/ModelInfo"
 
   GetModelsResponse:
+    description: List Models response object.
     type: object
     required: [value]
     properties:
@@ -653,9 +681,11 @@ definitions:
       count:
         description: Number of custom models in the current resource.
         type: integer
+        format: int32
       limit:
         description: Maximum number of custom models supported in the current resource.
         type: integer
+        format: int32
 
   ApiVersion:
     description: API version.
@@ -770,7 +800,7 @@ definitions:
   OperationInfo:
     description: Operation info.
     type: object
-    required: [operationId, status, createdDateTime, lastUpdatedDateTime, resourceLocation]
+    required: [operationId, status, createdDateTime, lastUpdatedDateTime, kind, resourceLocation]
     properties:
       operationId:
         description: Operation ID
@@ -834,13 +864,12 @@ definitions:
     type: object
     allOf:
       - $ref: "#/definitions/ModelSummary"
-      - type: object
-        properties:
-          docTypes:
-            description: Supported document types.
-            type: object
-            additionalProperties:
-              $ref: "#/definitions/DocTypeInfo"
+    properties:
+      docTypes:
+        description: Supported document types.
+        type: object
+        additionalProperties:
+          $ref: "#/definitions/DocTypeInfo"
 
   DocTypeInfo:
     description: Document type info.
@@ -874,6 +903,7 @@ definitions:
   DocumentFieldSchema:
     description: Description of the field semantic schema using a JSON Schema style syntax.
     type: object
+    required: [type]
     properties:
       type:
         $ref: "#/definitions/DocumentFieldType"
@@ -987,6 +1017,7 @@ definitions:
       pageNumber:
         description: 1-based page number in the input document.
         type: integer
+        format: int32
         minimum: 1
       angle:
         description: The general orientation of the content in clockwise direction, measured in degrees between (-180, 180].
@@ -1179,10 +1210,12 @@ definitions:
       rowCount:
         description: Number of rows in the table.
         type: integer
+        format: int32
         minimum: 1
       columnCount:
         description: Number of columns in the table.
         type: integer
+        format: int32
         minimum: 1
       cells:
         description: Cells contained within the table.
@@ -1219,17 +1252,21 @@ definitions:
       rowIndex:
         description: Row index of the cell.
         type: integer
+        format: int32
       columnIndex:
         description: Column index of the cell.
         type: integer
+        format: int32
       rowSpan:
         description: Number of rows spanned by this cell.
         type: integer
+        format: int32
         minimum: 1
         default: 1
       columnSpan:
         description: Number of columns spanned by this cell.
         type: integer
+        format: int32
         minimum: 1
         default: 1
       content:
@@ -1420,6 +1457,7 @@ definitions:
       valueInteger:
         description: Integer value.
         type: integer
+        format: int64
       valueSelectionMark:
         description: Selection mark value.
         $ref: "#/definitions/DocumentSelectionMarkState"
@@ -1434,9 +1472,6 @@ definitions:
           modelAsString: true
       valueCountryRegion:
         description: 3-letter country code value (ISO 3166-1 alpha-3).
-        type: string
-      valueCurrency:
-        description: 3-letter currency code value (ISO 4217).
         type: string
       valueArray:
         description: Array of field values.
@@ -1478,7 +1513,6 @@ definitions:
         integer,
         selectionMark,
         countryRegion,
-        currency,
         signature,
         array,
         object,
@@ -1490,7 +1524,7 @@ definitions:
   ModelId:
     description: Unique model name.
     type: string
-    format: "[a-zA-Z0-9][a-zA-Z0-9._~-]{1,63}"
+    pattern: "[a-zA-Z0-9][a-zA-Z0-9._~-]{1,63}"
 
   ModelDescription:
     description: Model description.
@@ -1530,6 +1564,7 @@ definitions:
       pageNumber:
         description: 1-based page number of page containing the bounding region.
         type: integer
+        format: int32
         minimum: 1
       boundingBox:
         description: Bounding box on the page, or the entire page if not specified.
@@ -1549,10 +1584,12 @@ definitions:
       offset:
         description: Zero-based index of the content represented by the span.
         type: integer
+        format: int32
         minimum: 0
       length:
         description: Number of characters in the content represented by the span.
         type: integer
+        format: int32
         minimum: 0
 
   StringIndexType:
@@ -1600,7 +1637,7 @@ parameters:
     description: Unique model name.
     required: true
     type: string
-    format: "[a-zA-Z0-9][a-zA-Z0-9._~-]{1,63}"
+    pattern: "[a-zA-Z0-9][a-zA-Z0-9._~-]{1,63}"
     in: path
     x-ms-parameter-location: method
   PathOperationId:
@@ -1621,11 +1658,9 @@ parameters:
     name: pages
     description: List of 1-based page numbers to analyze.  Ex. "1-3,5,7-9"
     required: false
-    type: array
+    type: string
     in: query
-    items:
-      type: string
-      pattern: "(^[0-9]+-[0-9]+$)|(^[0-9]+$)"
+    pattern: ^(\d+(-\d+)?)(,\s*(\d+(-\d+)?))*$
     x-ms-parameter-location: method
   QueryLocale:
     name: locale

@@ -32,7 +32,7 @@ export interface AnalyzedDocument {
 // @public
 export interface AnalyzeDocumentsOptions<Result = AnalyzeResult<AnalyzedDocument>> extends OperationOptions, PollerOptions<DocumentAnalysisPollOperationState<Result>> {
     locale?: string;
-    pages?: string[];
+    pages?: string;
 }
 
 // @public
@@ -276,13 +276,6 @@ export interface DocumentCountryRegionField extends DocumentFieldCommon {
 }
 
 // @public
-export interface DocumentCurrencyField extends DocumentFieldCommon {
-    // (undocumented)
-    kind: "currency";
-    value?: string;
-}
-
-// @public
 export interface DocumentDateField extends DocumentValueField<Date> {
     // (undocumented)
     kind: "date";
@@ -299,7 +292,7 @@ export interface DocumentEntity {
 }
 
 // @public
-export type DocumentField = DocumentStringField | DocumentDateField | DocumentTimeField | DocumentPhoneNumberField | DocumentNumberField | DocumentIntegerField | DocumentSelectionMarkField | DocumentCountryRegionField | DocumentCurrencyField | DocumentSignatureField | DocumentArrayField | DocumentObjectField;
+export type DocumentField = DocumentStringField | DocumentDateField | DocumentTimeField | DocumentPhoneNumberField | DocumentNumberField | DocumentIntegerField | DocumentSelectionMarkField | DocumentCountryRegionField | DocumentSignatureField | DocumentArrayField | DocumentObjectField;
 
 // @public
 export interface DocumentFieldCommon {
@@ -317,7 +310,7 @@ export interface DocumentFieldSchema {
     properties?: {
         [propertyName: string]: DocumentFieldSchema;
     };
-    type?: DocumentFieldType;
+    type: DocumentFieldType;
 }
 
 // @public
@@ -536,7 +529,6 @@ export interface GeneratedDocumentField {
     type: DocumentFieldType;
     valueArray?: GeneratedDocumentField[];
     valueCountryRegion?: string;
-    valueCurrency?: string;
     valueDate?: Date;
     valueInteger?: number;
     valueNumber?: number;
@@ -972,7 +964,7 @@ export interface ObjectFieldSchema<Properties extends {
 // @public
 export interface OperationInfo {
     createdDateTime: Date;
-    kind?: OperationKind;
+    kind: OperationKind;
     lastUpdatedDateTime: Date;
     operationId: string;
     percentCompleted?: number;
@@ -1081,7 +1073,7 @@ export const PrebuiltModels: {
             tip?: DocumentNumberField | undefined;
             arrivalDate?: DocumentDateField | undefined;
             departureDate?: DocumentDateField | undefined;
-            currency?: DocumentCurrencyField | undefined;
+            currency?: DocumentStringField | undefined;
             merchantAliases?: DocumentArrayField<DocumentStringField> | undefined;
         };
     }>;
@@ -1167,7 +1159,7 @@ export const ReceiptSchema: {
                     readonly example: "28Mar21";
                 };
                 readonly Currency: {
-                    readonly type: "currency";
+                    readonly type: "string";
                     readonly enum: readonly ["MIXED", "USD", "AUD", "CAD", "INR", "GBP", "EUR"];
                     readonly description: "Currency unit of receipt amounts, or 'MIXED' if multiple values are found";
                     readonly example: "USD";
@@ -1241,7 +1233,6 @@ export type ReifyFieldSchema<Schema extends Readonly<FieldSchema>> = Schema exte
     } ? DocumentStringField & {
         value?: Schema["enum"][number];
     } : DocumentStringField;
-    currency: DocumentCurrencyField;
     countryRegion: DocumentCountryRegionField;
 }[Type] : Schema extends NumberFieldSchema<infer Type> ? {
     number: DocumentNumberField;
@@ -1273,7 +1264,7 @@ export const StringIndexType: {
 };
 
 // @public
-export interface StringLikeFieldSchema<Type extends "string" | "currency" | "countryRegion" = "string" | "currency" | "countryRegion"> {
+export interface StringLikeFieldSchema<Type extends "string" | "countryRegion" = "string" | "countryRegion"> {
     // (undocumented)
     readonly enum?: readonly string[];
     // (undocumented)

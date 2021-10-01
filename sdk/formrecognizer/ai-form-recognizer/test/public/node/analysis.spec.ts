@@ -186,7 +186,7 @@ matrix([[false]] as const, async (useAad) => {
 
         // Just make sure that this doesn't throw
         const poller = await client.beginExtractLayout(url, {
-          pages: ["1"],
+          pages: "1",
           ...testPollingOptions,
         });
 
@@ -199,7 +199,7 @@ matrix([[false]] as const, async (useAad) => {
         try {
           const poller = await client.beginExtractLayout(url, {
             // No page 2 in document
-            pages: ["2"],
+            pages: "2",
             ...testPollingOptions,
           });
 

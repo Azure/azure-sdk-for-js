@@ -89,7 +89,7 @@ export const ReceiptSchema = {
           example: "28Mar21",
         },
         Currency: {
-          type: "currency",
+          type: "string",
           enum: ["MIXED", "USD", "AUD", "CAD", "INR", "GBP", "EUR"],
           description: "Currency unit of receipt amounts, or 'MIXED' if multiple values are found",
           example: "USD",

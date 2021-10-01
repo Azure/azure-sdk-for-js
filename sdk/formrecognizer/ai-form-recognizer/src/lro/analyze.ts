@@ -79,7 +79,8 @@ export function toAnalyzedDocumentFromGenerated(document: GeneratedDocument): An
 }
 
 /**
- * The result of an analysis operation. The type of the
+ * The result of an analysis operation. The type of the Document may be determined by the model used to perform the
+ * analysis.
  */
 export interface AnalyzeResult<Document = AnalyzedDocument> {
   /**
@@ -100,7 +101,9 @@ export interface AnalyzeResult<Document = AnalyzedDocument> {
    */
   content: string;
 
-  /** Analyzed pages. */
+  /**
+   * Extracted pages.
+   */
   pages: DocumentPage[];
 
   /**
@@ -124,8 +127,7 @@ export interface AnalyzeResult<Document = AnalyzedDocument> {
   styles: DocumentStyle[];
 
   /**
-   * Extracted documents (instances of any of the model's document types and corresponding field schemas) that were
-   * extracted from the input.
+   * Extracted documents (instances of any of the model's document types and corresponding field schemas).
    */
   documents: Document[];
 }

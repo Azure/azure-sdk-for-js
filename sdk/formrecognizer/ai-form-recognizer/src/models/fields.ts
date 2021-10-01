@@ -53,7 +53,6 @@ export type DocumentField =
   | DocumentIntegerField
   | DocumentSelectionMarkField
   | DocumentCountryRegionField
-  | DocumentCurrencyField
   | DocumentSignatureField
   | DocumentArrayField
   | DocumentObjectField;
@@ -141,17 +140,6 @@ export interface DocumentCountryRegionField extends DocumentFieldCommon {
 }
 
 /**
- * A DocumentField that has a value indicating a national/regional currency, represented as a string.
- */
-export interface DocumentCurrencyField extends DocumentFieldCommon {
-  kind: "currency";
-  /**
-   * The 3-letter currency code (ISO 4217).
-   */
-  value?: string;
-}
-
-/**
  * A DocumentField that indicates the state of a signature, represented as a string.
  */
 export interface DocumentSignatureField extends DocumentFieldCommon {
@@ -222,7 +210,6 @@ export function toDocumentField(field: GeneratedDocumentField): DocumentField {
       case "integer":
       case "selectionMark":
       case "countryRegion":
-      case "currency":
       case "signature":
         return {
           value:

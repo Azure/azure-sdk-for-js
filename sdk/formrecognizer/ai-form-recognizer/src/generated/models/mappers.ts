@@ -180,6 +180,9 @@ export const AnalyzeResult: coreClient.CompositeMapper = {
         }
       },
       modelId: {
+        constraints: {
+          Pattern: new RegExp("[a-zA-Z0-9][a-zA-Z0-9._~-]{1,63}")
+        },
         serializedName: "modelId",
         required: true,
         type: {
@@ -1061,12 +1064,6 @@ export const DocumentField: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      valueCurrency: {
-        serializedName: "valueCurrency",
-        type: {
-          name: "String"
-        }
-      },
       valueArray: {
         serializedName: "valueArray",
         type: {
@@ -1136,6 +1133,9 @@ export const BuildDocumentModelRequest: coreClient.CompositeMapper = {
     className: "BuildDocumentModelRequest",
     modelProperties: {
       modelId: {
+        constraints: {
+          Pattern: new RegExp("[a-zA-Z0-9][a-zA-Z0-9._~-]{1,63}")
+        },
         serializedName: "modelId",
         required: true,
         type: {
@@ -1190,6 +1190,9 @@ export const ComposeDocumentModelRequest: coreClient.CompositeMapper = {
     className: "ComposeDocumentModelRequest",
     modelProperties: {
       modelId: {
+        constraints: {
+          Pattern: new RegExp("[a-zA-Z0-9][a-zA-Z0-9._~-]{1,63}")
+        },
         serializedName: "modelId",
         required: true,
         type: {
@@ -1231,6 +1234,9 @@ export const ComponentModelInfo: coreClient.CompositeMapper = {
     className: "ComponentModelInfo",
     modelProperties: {
       modelId: {
+        constraints: {
+          Pattern: new RegExp("[a-zA-Z0-9][a-zA-Z0-9._~-]{1,63}")
+        },
         serializedName: "modelId",
         required: true,
         type: {
@@ -1247,6 +1253,9 @@ export const AuthorizeCopyRequest: coreClient.CompositeMapper = {
     className: "AuthorizeCopyRequest",
     modelProperties: {
       modelId: {
+        constraints: {
+          Pattern: new RegExp("[a-zA-Z0-9][a-zA-Z0-9._~-]{1,63}")
+        },
         serializedName: "modelId",
         required: true,
         type: {
@@ -1286,6 +1295,9 @@ export const CopyAuthorization: coreClient.CompositeMapper = {
         }
       },
       targetModelId: {
+        constraints: {
+          Pattern: new RegExp("[a-zA-Z0-9][a-zA-Z0-9._~-]{1,63}")
+        },
         serializedName: "targetModelId",
         required: true,
         type: {
@@ -1397,6 +1409,7 @@ export const OperationInfo: coreClient.CompositeMapper = {
       },
       kind: {
         serializedName: "kind",
+        required: true,
         type: {
           name: "String"
         }
@@ -1418,6 +1431,9 @@ export const ModelSummary: coreClient.CompositeMapper = {
     className: "ModelSummary",
     modelProperties: {
       modelId: {
+        constraints: {
+          Pattern: new RegExp("[a-zA-Z0-9][a-zA-Z0-9._~-]{1,63}")
+        },
         serializedName: "modelId",
         required: true,
         type: {
@@ -1489,6 +1505,7 @@ export const DocumentFieldSchema: coreClient.CompositeMapper = {
     modelProperties: {
       type: {
         serializedName: "type",
+        required: true,
         type: {
           name: "String"
         }
