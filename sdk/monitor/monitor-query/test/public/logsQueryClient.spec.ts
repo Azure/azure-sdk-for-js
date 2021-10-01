@@ -6,7 +6,7 @@ import { Context } from "mocha";
 import { env } from "process";
 import { createRecorderAndLogsClient, RecorderAndLogsClient } from "./shared/testShared";
 import { Recorder } from "@azure-tools/test-recorder";
-import { Durations, LogsQueryClient, QueryBatch } from "../../src";
+import { Durations, LogsQueryClient, LogsQueryResultStatus, QueryBatch } from "../../src";
 // import { runWithTelemetry } from "../setupOpenTelemetry";
 
 import { assertQueryTable, getMonitorWorkspaceId, loggerForTest } from "./shared/testShared";
@@ -135,71 +135,72 @@ describe("LogsQueryClient live tests", function() {
     const results = await logsClient.queryWorkspace(monitorWorkspaceId, constantsQuery, {
       duration: Durations.fiveMinutes
     });
+    if (results.status === LogsQueryResultStatus.Success) {
+      const table = results.tables[0];
 
-    const table = results.tables[0];
+      // check the column types all match what we expect.
+      assert.deepEqual(
+        [
+          {
+            name: "stringcolumn",
+            type: "string"
+          },
+          {
+            name: "boolcolumn",
+            type: "bool"
+          },
+          {
+            name: "datecolumn",
+            type: "datetime"
+          },
+          {
+            name: "intcolumn",
+            type: "int"
+          },
+          {
+            name: "longcolumn",
+            type: "long"
+          },
+          {
+            name: "realcolumn",
+            type: "real"
+          },
+          {
+            name: "dynamiccolumn",
+            type: "dynamic"
+          }
+        ],
+        table.columnDescriptors
+      );
 
-    // check the column types all match what we expect.
-    assert.deepEqual(
-      [
-        {
-          name: "stringcolumn",
-          type: "string"
-        },
-        {
-          name: "boolcolumn",
-          type: "bool"
-        },
-        {
-          name: "datecolumn",
-          type: "datetime"
-        },
-        {
-          name: "intcolumn",
-          type: "int"
-        },
-        {
-          name: "longcolumn",
-          type: "long"
-        },
-        {
-          name: "realcolumn",
-          type: "real"
-        },
-        {
-          name: "dynamiccolumn",
-          type: "dynamic"
-        }
-      ],
-      table.columnDescriptors
-    );
+      table.rows.map((rowValues) => {
+        const [
+          stringColumn,
+          boolColumn,
+          dateColumn,
+          intColumn,
+          longColumn,
+          realColumn,
+          dynamicColumn,
+          ...rest
+        ] = rowValues;
 
-    table.rows.map((rowValues) => {
-      const [
-        stringColumn,
-        boolColumn,
-        dateColumn,
-        intColumn,
-        longColumn,
-        realColumn,
-        dynamicColumn,
-        ...rest
-      ] = rowValues;
+        assert.strictEqual(stringColumn, "hello");
+        assert.equal((dateColumn as Date).valueOf(), new Date("2000-01-02 03:04:05Z").valueOf());
+        assert.strictEqual(boolColumn, true);
 
-      assert.strictEqual(stringColumn, "hello");
-      assert.equal((dateColumn as Date).valueOf(), new Date("2000-01-02 03:04:05Z").valueOf());
-      assert.strictEqual(boolColumn, true);
+        // all the number types (real, int, long) are all represented using `number`
+        assert.strictEqual(intColumn, 100);
+        assert.strictEqual(longColumn, 101);
+        assert.strictEqual(realColumn, 102.1);
 
-      // all the number types (real, int, long) are all represented using `number`
-      assert.strictEqual(intColumn, 100);
-      assert.strictEqual(longColumn, 101);
-      assert.strictEqual(realColumn, 102.1);
+        assert.deepEqual(dynamicColumn, {
+          hello: "world"
+        });
 
-      assert.deepEqual(dynamicColumn, {
-        hello: "world"
+        assert.isEmpty(rest);
       });
-
-      assert.isEmpty(rest);
-    });
+    }
   });
 
   it("queryLogsBatch with types", async () => {
@@ -225,82 +226,79 @@ describe("LogsQueryClient live tests", function() {
     if ((result as any)["__fixApplied"]) {
       console.log(`TODO: Fix was required to pass`);
     }
+    if (result[0].status === LogsQueryResultStatus.Success) {
+      const table = result[0].tables[0];
+      console.log(JSON.stringify(result[0].tables));
 
-    const table = result.results?.[0].tables?.[0];
-    console.log(JSON.stringify(result.results?.[0].tables));
-
-    if (table == null) {
-      throw new Error(JSON.stringify(result.results?.[0].error));
-    }
-
-    if (result.results?.[0].status === "PartialFailure") {
-      throw new Error(
-        JSON.stringify({ ...result.results?.[0].error, ...result.results?.[0].tables })
+      // check the column types all match what we expect.
+      assert.deepEqual(
+        [
+          {
+            name: "stringcolumn",
+            type: "string"
+          },
+          {
+            name: "boolcolumn",
+            type: "bool"
+          },
+          {
+            name: "datecolumn",
+            type: "datetime"
+          },
+          {
+            name: "intcolumn",
+            type: "int"
+          },
+          {
+            name: "longcolumn",
+            type: "long"
+          },
+          {
+            name: "realcolumn",
+            type: "real"
+          },
+          {
+            name: "dynamiccolumn",
+            type: "dynamic"
+          }
+        ],
+        table.columnDescriptors
       );
-    }
 
-    // check the column types all match what we expect.
-    assert.deepEqual(
-      [
-        {
-          name: "stringcolumn",
-          type: "string"
-        },
-        {
-          name: "boolcolumn",
-          type: "bool"
-        },
-        {
-          name: "datecolumn",
-          type: "datetime"
-        },
-        {
-          name: "intcolumn",
-          type: "int"
-        },
-        {
-          name: "longcolumn",
-          type: "long"
-        },
-        {
-          name: "realcolumn",
-          type: "real"
-        },
-        {
-          name: "dynamiccolumn",
-          type: "dynamic"
-        }
-      ],
-      table.columnDescriptors
-    );
+      table.rows.map((rowValues) => {
+        const [
+          stringColumn,
+          boolColumn,
+          dateColumn,
+          intColumn,
+          longColumn,
+          realColumn,
+          dynamicColumn,
+          ...rest
+        ] = rowValues;
 
-    table.rows.map((rowValues) => {
-      const [
-        stringColumn,
-        boolColumn,
-        dateColumn,
-        intColumn,
-        longColumn,
-        realColumn,
-        dynamicColumn,
-        ...rest
-      ] = rowValues;
+        assert.strictEqual(stringColumn, "hello");
+        assert.equal((dateColumn as Date).valueOf(), new Date("2000-01-02 03:04:05Z").valueOf());
+        assert.strictEqual(boolColumn, true);
 
-      assert.strictEqual(stringColumn, "hello");
-      assert.equal((dateColumn as Date).valueOf(), new Date("2000-01-02 03:04:05Z").valueOf());
-      assert.strictEqual(boolColumn, true);
+        // all the number types (real, int, long) are all represented using `number`
+        assert.strictEqual(intColumn, 100);
+        assert.strictEqual(longColumn, 101);
+        assert.strictEqual(realColumn, 102.1);
 
-      // all the number types (real, int, long) are all represented using `number`
-      assert.strictEqual(intColumn, 100);
-      assert.strictEqual(longColumn, 101);
-      assert.strictEqual(realColumn, 102.1);
+        assert.deepEqual(dynamicColumn, {
+          hello: "world"
+        });
 
-      assert.deepEqual(dynamicColumn, {
-        hello: "world"
+        assert.isEmpty(rest);
       });
-
-      assert.isEmpty(rest);
-    });
+    }
+    if (result[0].status === LogsQueryResultStatus.PartialFailure) {
+      throw new Error(JSON.stringify({ ...result[0].partialError, ...result[0].partialTables }));
+    }
+    if (result[0].status === LogsQueryResultStatus.Failure) {
+      throw new Error(JSON.stringify({ ...result[0] }));
+    }
   });
 
   describe.skip("Ingested data tests (can be slow due to loading times)", () => {
@@ -347,16 +345,17 @@ describe("LogsQueryClient live tests", function() {
 
       // TODO: the actual types aren't being deserialized (everything is coming back as 'string')
       // this is incorrect, it'll be updated.
-
-      assertQueryTable(
-        singleQueryLogsResult.tables?.[0],
-        {
-          name: "PrimaryResult",
-          columns: ["Kind", "Name", "Target", "TestRunId"],
-          rows: [["now", "testSpan", "testSpan", testRunId.toString()]]
-        },
-        "Query for the last day"
-      );
+      if (singleQueryLogsResult.status === LogsQueryResultStatus.Success) {
+        assertQueryTable(
+          singleQueryLogsResult.tables?.[0],
+          {
+            name: "PrimaryResult",
+            columns: ["Kind", "Name", "Target", "TestRunId"],
+            rows: [["now", "testSpan", "testSpan", testRunId.toString()]]
+          },
+          "Query for the last day"
+        );
+      }
     });
 
     it("queryLogsBatch", async () => {
@@ -380,26 +379,28 @@ describe("LogsQueryClient live tests", function() {
       if ((result as any)["__fixApplied"]) {
         console.log(`TODO: Fix was required to pass`);
       }
-
-      assertQueryTable(
-        result.results?.[0].tables?.[0],
-        {
-          name: "PrimaryResult",
-          columns: ["Kind", "Name", "Target", "TestRunId"],
-          rows: [["now", "testSpan", "testSpan", testRunId.toString()]]
-        },
-        "Standard results"
-      );
-
-      assertQueryTable(
-        result.results?.[1].tables?.[0],
-        {
-          name: "PrimaryResult",
-          columns: ["Count"],
-          rows: [["1"]]
-        },
-        "count table"
-      );
+      if (result[0].status === LogsQueryResultStatus.Success) {
+        assertQueryTable(
+          result[0].tables?.[0],
+          {
+            name: "PrimaryResult",
+            columns: ["Kind", "Name", "Target", "TestRunId"],
+            rows: [["now", "testSpan", "testSpan", testRunId.toString()]]
+          },
+          "Standard results"
+        );
+      }
+      if (result[1].status === LogsQueryResultStatus.Success) {
+        assertQueryTable(
+          result[1].tables?.[0],
+          {
+            name: "PrimaryResult",
+            columns: ["Count"],
+            rows: [["1"]]
+          },
+          "count table"
+        );
+      }
     });
 
     async function checkLogsHaveBeenIngested(args: {
@@ -419,13 +420,24 @@ describe("LogsQueryClient live tests", function() {
           duration: Durations.twentyFourHours
         });
 
-        const numRows = result.tables?.[0].rows?.length;
+        if (result.status === LogsQueryResultStatus.Success) {
+          const numRows = result.tables?.[0].rows?.length;
 
-        if (numRows != null && numRows > 0) {
-          loggerForTest.verbose(
-            `[Attempt: ${i}/${args.maxTries}] Results came back, done waiting.`
-          );
-          return;
+          if (numRows != null && numRows > 0) {
+            loggerForTest.verbose(
+              `[Attempt: ${i}/${args.maxTries}] Results came back, done waiting.`
+            );
+            return;
+          }
+        } else if (result.status === LogsQueryResultStatus.PartialFailure) {
+          const numRows = result.partialTables?.[0].rows?.length;
+
+          if (numRows != null && numRows > 0) {
+            loggerForTest.verbose(
+              `[Attempt: ${i}/${args.maxTries}] Partial Results came back, done waiting.`
+            );
+            return;
+          }
         }
 
         loggerForTest.verbose(
