@@ -3,7 +3,7 @@
 [![latest npm badge](https://img.shields.io/npm/v/%40azure%2Fcosmos/latest.svg)][npm]
 [![Build Status](https://dev.azure.com/azure-sdk/public/_apis/build/status/js/js%20-%20cosmosdb%20-%20ci?branchName=main)](https://dev.azure.com/azure-sdk/public/_build/latest?definitionId=850&branchName=main)
 
-Azure Cosmos DB is a globally distributed, multi-model database service that supports document, key-value, wide-column, and graph databases. This package is intended for JavaScript/Typescript applications to interact with **SQL API** databases and the JSON documents they contain:
+Azure Cosmos DB is a globally distributed, multi-model database service that supports document, key-value, wide-column, and graph databases. This package is intended for JavaScript/TypeScript applications to interact with **SQL API** databases and the JSON documents they contain:
 
 - Create Cosmos DB databases and modify their settings
 - Create and modify containers to store collections of JSON documents
