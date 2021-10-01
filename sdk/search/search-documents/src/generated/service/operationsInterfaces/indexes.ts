@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
 import {
   SearchIndex,
   IndexesCreateOptionalParams,
@@ -62,7 +61,7 @@ export interface Indexes {
   delete(
     indexName: string,
     options?: IndexesDeleteOptionalParams
-  ): Promise<coreHttp.RestResponse>;
+  ): Promise<void>;
   /**
    * Retrieves an index definition.
    * @param indexName The name of the index to retrieve.

@@ -67,6 +67,7 @@ export interface DefaultPerfStressOptions {
   "no-cleanup": boolean;
   "milliseconds-to-log": number;
   "test-proxy": string;
+  insecure: boolean;
 }
 
 /**
@@ -104,6 +105,12 @@ export const defaultPerfStressOptions: PerfStressOptionDictionary<DefaultPerfStr
     description: "URI of TestProxy server",
     defaultValue: undefined
   },
+  insecure: {
+    description:
+      "Applied when test-proxy option is defined, connects with https(insecurely by disabling SSL validation)",
+    shortName: "ins",
+    defaultValue: false
+  },
   "milliseconds-to-log": {
     description: "Log frequency in milliseconds",
     shortName: "mtl",
@@ -121,7 +128,10 @@ export const defaultPerfStressOptions: PerfStressOptionDictionary<DefaultPerfStr
 export function parsePerfStressOption<TOptions>(
   options: PerfStressOptionDictionary<TOptions>
 ): Required<PerfStressOptionDictionary<TOptions>> {
-  const minimistResult: MinimistParsedArgs = minimist(process.argv);
+  const minimistResult: MinimistParsedArgs = minimist(
+    process.argv,
+    getBooleanOptionDetails(options)
+  );
   const result: Partial<PerfStressOptionDictionary<TOptions>> = {};
 
   for (const longName of Object.keys(options)) {
@@ -149,4 +159,20 @@ export function parsePerfStressOption<TOptions>(
   }
 
   return result as Required<PerfStressOptionDictionary<TOptions>>;
+}
+
+function getBooleanOptionDetails<TOptions>(options: PerfStressOptionDictionary<TOptions>) {
+  let booleanProps: { boolean: string[]; default: { [key: string]: boolean } } = {
+    boolean: [],
+    default: {}
+  };
+
+  for (const key in options) {
+    const defaultValue = options[key].defaultValue;
+    if (typeof defaultValue === "boolean") {
+      booleanProps.boolean.push(key);
+      booleanProps.default[key] = defaultValue;
+    }
+  }
+  return booleanProps;
 }

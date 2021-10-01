@@ -6,7 +6,7 @@
  */
 export const packageJsonInfo = {
   name: "@azure/service-bus",
-  version: "7.3.1"
+  version: "7.3.1-beta.1"
 };
 
 /**
@@ -172,7 +172,12 @@ export const USER_METADATA = "UserMetadata";
  * @internal
  */
 export const MAX_SIZE_IN_MEGABYTES = "MaxSizeInMegabytes";
-
+/**
+ * The maximum size in kilobytes.
+ *
+ * @internal
+ */
+export const MAX_MESSAGE_SIZE_IN_KILOBYTES = "MaxMessageSizeInKilobytes";
 /**
  * The default message time to live.
  * This is specified in ISO-8601 duration format such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
@@ -273,7 +278,7 @@ export const API_VERSION_QUERY_KEY = "api-version";
  *
  * @internal
  */
-export const CURRENT_API_VERSION = "2017-04";
+export const CURRENT_API_VERSION = "2021-05";
 
 /**
  * Constant representing the Odata Error 'message' property

@@ -22,7 +22,7 @@
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json api-extractor.json src test --ext .ts -f html -o webpubsub-express-lintReport.html || exit 0",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts",
     "pack": "npm pack 2>&1",
     "test:browser": "echo \"Browser is not supported.\" && exit 0",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
