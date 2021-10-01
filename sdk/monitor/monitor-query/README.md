@@ -156,7 +156,6 @@ LogsQuerySuccessfulResult
         |---name
         |---type
 
-
 LogsQueryPartialResult
 |---statistics
 |---visualization
