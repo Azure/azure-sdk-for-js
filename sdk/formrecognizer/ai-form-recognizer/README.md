@@ -1,11 +1,11 @@
 # Azure Form Recognizer client library for JavaScript
 
-Azure Cognitive Services [Form Recognizer](https://azure.microsoft.com/services/cognitive-services/form-recognizer/) uses cloud-based machine learning to extract structured data from documents. Its features include:
+Azure Cognitive Services [Form Recognizer](https://azure.microsoft.com/services/cognitive-services/form-recognizer/) is a cloud service that uses machine learning to analyze text and structured data from your documents. It includes the following main features:
 
-- Custom Document Models: Create machine learning models to extract structured data such as field values and object data structures from documents. The models' document types are trained on your own data, so they're tailored to your documents' structures. Then, use the custom models to extract fields and content from more documents that have the same structure. Use the SDK to manage your models by building, listing, deleting, and copying models;
-- Prebuilt Models: Extract data from certain types of common documents (such as receipts, invoices, business cards, or identity documents) using models developed by the Azure Form Recognizer team.
-- Layout Model: Extract raw document elements&mdash;such as pages (with text words/lines and selection marks), tables, and text styles&mdash;and their bounding regions from input documents.
-- Generic Document Model: Extract entities (categorized text elements) and key-value pairs (associations from one text element, such as a label, to another text element) in addition to the information produced by the prebuilt layout model.
+- Layout - Extract text, table structures, and selection marks, along with their bounding region coordinates, from documents.
+- Document - Analyze entities, key-value pairs, tables, and selection marks from documents using the general prebuilt document model.
+- Prebuilt - Analyze data from certain types of common documents (such as receipts, invoices, business cards, or identity documents) using prebuilt models.
+- Custom - Build custom models to extract text, field values, selection marks, and table data from documents. Custom models are built with your own data, so they're tailored to your documents.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/ai-form-recognizer) |
@@ -22,7 +22,7 @@ In version 4.0.0-beta.1, this package introduces a full redesign of the Azure Fo
 Install the Azure Form Recognizer client library for JavaScript with `npm`:
 
 ```bash
-npm install @azure/ai-form-recognizer
+npm install @azure/ai-form-recognizer@4.0.0-beta.1
 ```
 
 ## Getting Started
@@ -143,7 +143,7 @@ const client = new DocumentAnalysisClient("<endpoint>", new DefaultAzureCredenti
 
 `DocumentModelAdministrationClient` provides operations for managing (creating, reading, listing, and deleting) models in the Form Recognizer resource:
 
-- `beginBuildModel` starts an operation to create a new document model from your own training data set. The created model can extract fields according to a custom schema. The training data are expected to be located in an Azure Storage container and organized according to a particular convention. See the [service's documentation on model training][fr-train-with-labels] for a more detailed explanation of applying labels to a training data set.
+- `beginBuildModel` starts an operation to create a new document model from your own training data set. The created model can extract fields according to a custom schema. The training data are expected to be located in an Azure Storage container and organized according to a particular convention. See the [service's documentation on creating a training data set][fr-build-training-set] for a more detailed explanation of applying labels to a training data set.
 - `beginComposeModel` starts an operation to compose multiple models into a single model. When used for custom form recognition, the new composed model will first perform a classification of the input documents to determine which of its submodels is most appropriate.
 - `beginCopyModel` starts an operation to copy a custom model from one Form Recognizer resource to another (or even to the same Form Recognizer resource). It requires a `CopyAuthorization` from the target Form Recognizer resource, which can be generated using the `getCopyAuthorization` method.
 - `getInfo` retrieves information about the resource's limits, such as the number of custom models and the maximum number of models the resource can support.
@@ -233,7 +233,7 @@ As an alternative to providing a readable stream, a publicly-accessible URL can 
 The `beginExtractLayout` method extracts only the basic elements of the document, such as pages, (which consist of text words/lines and selection marks), tables, and visual text styles along with their bounding regions and spans within the text content of the input documents.
 
 ```javascript
-const { DocumentAnalysisClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
+import { DocumentAnalysisClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
 
 const fs = require("fs");
 
@@ -278,7 +278,7 @@ The `beginAnalyzeDocuments` method also supports extracting fields from certain 
 For example, the following code shows how to use `PrebuiltModels.Receipt` to extract a strongly-typed receipt object from an input.
 
 ```javascript
-const { DocumentAnalysisClient, PrebuiltModels, AzureKeyCredential } = require("@azure/ai-form-recognizer");
+import { DocumentAnalysisClient, PrebuiltModels, AzureKeyCredential } from "@azure/ai-form-recognizer";
 
 const fs = require("fs");
 
@@ -336,24 +336,21 @@ Alternatively, as mentioned above, instead of using `PrebuiltDocuments.Receipt`,
 
 You are not limited to receipts! There are a few prebuilt models to choose from, with more on the way. Each prebuilt model has its own set of supported fields:
 
-- Receipts, using `PrebuiltModels.Receipt` or the prebuilt receipt model ID `"prebuilt-receipt"` (see [the supported fields of the receipt model](https://aka.ms/formrecognizer/receiptfields)).
-- Business cards, using `PrebuiltModels.BusinessCard` or its model ID `"prebuilt-businessCard"` (see [the supported fields of the business card model](https://aka.ms/formrecognizer/businesscardfields)).
-- Invoices, using `PrebuiltModels.Invoice` or its model ID `"prebuilt-invoice"` (see [the supported fields of the invoice model](https://aka.ms/formrecognizer/invoicefields)).
-- Identity Documents (such as driver licenses and passports), using `PrebuiltModels.IdentityDocument` or its model ID `"prebuilt-idDocument"` (see [the supported fields of the identity document model](https://aka.ms/formrecognizer/iddocumentfields)).
+- Receipts, using `PrebuiltModels.Receipt` or the prebuilt receipt model ID `"prebuilt-receipt"` (see [the supported fields of the receipt model](https://aka.ms/azsdk/formrecognizer/receiptfieldschema)).
+- Business cards, using `PrebuiltModels.BusinessCard` or its model ID `"prebuilt-businessCard"` (see [the supported fields of the business card model](https://aka.ms/azsdk/formrecognizer/businesscardfieldschema)).
+- Invoices, using `PrebuiltModels.Invoice` or its model ID `"prebuilt-invoice"` (see [the supported fields of the invoice model](https://aka.ms/azsdk/formrecognizer/invoicefieldschema)).
+- Identity Documents (such as driver licenses and passports), using `PrebuiltModels.IdentityDocument` or its model ID `"prebuilt-idDocument"` (see [the supported fields of the identity document model](https://aka.ms/azsdk/formrecognizer/iddocumentfieldschema)).
 
 The fields of all prebuilt document models may also be accessed programmatically using the `getModel` method (by their model IDs) of `DocumentModelAdministrationClient` and inspecting the `docTypes` field in the result.
 
 ### Build a Model
 
-The SDK also supports creating models, using `DocumentModelAdministrationClient`. Building a model from labeled training data creates a new model that is trained on your own documents, and the resulting model will be able to recognize values from the structures of those documents. The model building operation accepts a SAS-encoded URL to an Azure Storage Blob container that holds the training documents. The Form Recognizer service's infrastructure will read the files in the container and create a model based on their contents. For more details on how to create and structure a training data container, see the [Form Recognizer service's quickstart documentation][quickstart_training]. The Form Recognizer service team has created a tool to assist in the labeling and creation of models, please see [the documentation of the labeling tool][fr-labeling-tool] for more information.
+The SDK also supports creating models, using `DocumentModelAdministrationClient`. Building a model from labeled training data creates a new model that is trained on your own documents, and the resulting model will be able to recognize values from the structures of those documents. The model building operation accepts a SAS-encoded URL to an Azure Storage Blob container that holds the training documents. The Form Recognizer service's infrastructure will read the files in the container and create a model based on their contents. For more details on how to create and structure a training data container, see the [Form Recognizer service's documentation for building a model][fr-build-model]. The Form Recognizer service team has created a tool to assist in the labeling and creation of models, please see [the documentation of the labeling tool][fr-labeling-tool] for more information.
 
 For example, the following program builds a custom document model using a SAS-encoded URL to a pre-existing Azure Storage container:
 
 ```javascript
-const {
-  DocumentModelAdministrationClient,
-  AzureKeyCredential,
-} = require("@azure/ai-form-recognizer");
+import { DocumentModelAdministrationClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
 
 async function main() {
   const endpoint = "<cognitive services endpoint>";
@@ -410,10 +407,7 @@ main().catch((err) => {
 `DocumentModelAdministrationClient` also provides several methods for managing models. The following example shows how to iterate through the models in a Form Recognizer resource (this will include both custom models in the resource as well as prebuilt models that are common to all resources).
 
 ```javascript
-const {
-  DocumentModelAdministrationClient,
-  AzureKeyCredential,
-} = require("@azure/ai-form-recognizer");
+import { DocumentModelAdministrationClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
 
 async function main() {
   const endpoint = "<cognitive services endpoint>";
@@ -474,10 +468,10 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
 [register_aad_app]: https://docs.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
-[quickstart_training]: https://docs.microsoft.com/azure/cognitive-services/form-recognizer/quickstarts/curl-train-extract#train-a-form-recognizer-model
-[labeled_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/trainLabeledModel.ts
+[fr-build-model]: https://aka.ms/azsdk/formrecognizer/buildmodel
+[build_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/buildModel.ts
 [multi_and_single_service]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account?tabs=multiservice%2Cwindows
 [azure_portal_create_fr_resource]: https://ms.portal.azure.com/#create/Microsoft.CognitiveServicesFormRecognizer
 [azure_cli_create_fr_resource]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account-cli?tabs=windows
-[fr-labeling-tool]: https://docs.microsoft.com/azure/cognitive-services/form-recognizer/label-tool?tabs=v2-1
-[fr-train-with-labels]: https://docs.microsoft.com/azure/cognitive-services/form-recognizer/overview#train-with-labels
+[fr-labeling-tool]: https://aka.ms/azsdk/formrecognizer/labelingtool
+[fr-build-training-set]: https://aka.ms/azsdk/formrecognizer/buildtrainingset

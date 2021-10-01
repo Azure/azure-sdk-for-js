@@ -10,21 +10,9 @@
         "wdlabcd"
     ],
     "cSpell.words": [
-        "APIM",
         "LROs",
-        "azsdk",
         "cognitiveservices",
-        "include",
-        "innererror",
-        "paddington",
-        "prebuiltmodels",
-        "quickstart",
-        "sastoken",
-        "streamable",
-        "subfolders",
-        "submodel",
         "submodels",
-        "trainingdata",
         "westus"
     ]
 }
