@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
 import {
   SearchIndexerDataSource,
   DataSourcesCreateOrUpdateOptionalParams,
@@ -41,7 +40,7 @@ export interface DataSources {
   delete(
     dataSourceName: string,
     options?: DataSourcesDeleteOptionalParams
-  ): Promise<coreHttp.RestResponse>;
+  ): Promise<void>;
   /**
    * Retrieves a datasource definition.
    * @param dataSourceName The name of the datasource to retrieve.
