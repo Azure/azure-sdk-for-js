@@ -55,8 +55,8 @@ export const cliCredentialInternals = {
             "--output",
             "json",
             "--resource",
-            ...tenantSection,
-            resource
+            resource,
+            ...tenantSection
           ],
           { cwd: cliCredentialInternals.getSafeWorkingDir() },
           (error, stdout, stderr) => {
@@ -77,14 +77,15 @@ const logger = credentialLogger("AzureCliCredential");
  * via the Azure CLI ('az') commandline tool.
  * To do so, it will read the user access token and expire time
  * with Azure CLI command "az account get-access-token".
- * To be able to use this credential, ensure that you have already logged
- * in via the 'az' tool using the command "az login" from the commandline.
  */
 export class AzureCliCredential implements TokenCredential {
   private tenantId?: string;
 
   /**
    * Creates an instance of the {@link AzureCliCredential}.
+   *
+   * To use this credential, ensure that you have already logged
+   * in via the 'az' tool using the command "az login" from the commandline.
    *
    * @param options - Options, to optionally allow multi-tenant requests.
    */

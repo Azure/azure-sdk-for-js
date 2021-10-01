@@ -13,6 +13,8 @@
 
 ### Bugs Fixed
 
+- Fixed a bug that caused `AzureCliCredential` to fail when a custom tenant ID was provided.
+
 ### Other Changes
 
 ## 2.0.0-beta.6 (2021-09-09)
