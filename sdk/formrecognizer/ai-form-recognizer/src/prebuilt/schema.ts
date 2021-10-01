@@ -110,6 +110,7 @@ export interface ObjectFieldSchema<
 
 /**
  * Converts the type of a model schema into the type of the corresponding document result.
+ * @hidden
  */
 export type ReifyPrebuiltSchema<Schema extends Readonly<ModelSchema>> = {
   [DocType in keyof Schema["docTypes"]]: {
@@ -125,6 +126,7 @@ export type ReifyPrebuiltSchema<Schema extends Readonly<ModelSchema>> = {
 
 /**
  * Converts the type of a field schema into the type of the field in the document result.
+ * @hidden
  */
 export type ReifyFieldSchema<Schema extends Readonly<FieldSchema>> =
   // Structured strings are just represented as strings

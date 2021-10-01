@@ -196,8 +196,10 @@ export function toAnalyzeResultFromGenerated<
 ): AnalyzeResult<Mapper extends (...args: never) => infer Document ? Document : never> {
   type Document = Mapper extends (...args: never) => infer ThisDocument ? ThisDocument : never;
   return {
-    ...result,
     apiVersion: result.apiVersion as FormRecognizerApiVersion,
+    modelId: result.modelId,
+    content: result.content,
+    pages: result.pages,
     tables: result.tables ?? [],
     keyValuePairs: result.keyValuePairs ?? [],
     entities: result.entities ?? [],
