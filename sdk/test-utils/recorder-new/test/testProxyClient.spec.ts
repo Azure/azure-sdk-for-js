@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createHttpHeaders, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
+import {
+  createHttpHeaders,
+  HttpClient,
+  PipelineRequest,
+  PipelineResponse
+} from "@azure/core-rest-pipeline";
 import { env } from "@azure-tools/test-recorder";
 import { expect } from "chai";
 import { TestProxyHttpClient } from "../src";
@@ -9,9 +14,11 @@ import { RecorderError, RecordingStateManager } from "../src/utils/utils";
 
 describe("TestProxyClient functions", () => {
   let client: TestProxyHttpClient;
+  let clientHttpClient: HttpClient;
   let testContext: Mocha.Test;
   beforeEach(function() {
     client = new TestProxyHttpClient(this.currentTest);
+    clientHttpClient = client.httpClient as HttpClient;
     testContext = this.currentTest!;
   });
 
@@ -71,7 +78,7 @@ describe("TestProxyClient functions", () => {
   describe("start method", () => {
     it("nothing happens if not playback or record modes", async function() {
       env.TEST_MODE = "live";
-      client.httpClient.sendRequest = (): Promise<PipelineResponse> => {
+      clientHttpClient.sendRequest = (): Promise<PipelineResponse> => {
         throw new Error("should not have reached here");
       };
       await client.start();
@@ -83,7 +90,7 @@ describe("TestProxyClient functions", () => {
         async function() {
           env.TEST_MODE = testMode;
           const recordingId = "dummy-recording-id";
-          client.httpClient.sendRequest = (): Promise<PipelineResponse> => {
+          clientHttpClient.sendRequest = (): Promise<PipelineResponse> => {
             return Promise.resolve({
               status: 200,
               headers: createHttpHeaders({ "x-recording-id": recordingId }),
@@ -98,7 +105,7 @@ describe("TestProxyClient functions", () => {
       it("throws if not received a 200 status code", async function() {
         env.TEST_MODE = testMode;
         const recordingId = "dummy-recording-id";
-        client.httpClient.sendRequest = (): Promise<PipelineResponse> => {
+        clientHttpClient.sendRequest = (): Promise<PipelineResponse> => {
           return Promise.resolve({
             status: 404,
             headers: createHttpHeaders({ "x-recording-id": recordingId }),
@@ -116,7 +123,7 @@ describe("TestProxyClient functions", () => {
 
       it("throws if not received a recording id upon 200 status code", async function() {
         env.TEST_MODE = testMode;
-        client.httpClient.sendRequest = (): Promise<PipelineResponse> => {
+        clientHttpClient.sendRequest = (): Promise<PipelineResponse> => {
           return Promise.resolve({
             status: 200,
             headers: createHttpHeaders({}),
@@ -139,7 +146,7 @@ describe("TestProxyClient functions", () => {
   describe("stop method", () => {
     it("nothing happens if not playback or record modes", async function() {
       env.TEST_MODE = "live";
-      client.httpClient.sendRequest = (): Promise<PipelineResponse> => {
+      clientHttpClient.sendRequest = (): Promise<PipelineResponse> => {
         throw new Error("should not have reached here");
       };
       await client.stop();
@@ -150,7 +157,7 @@ describe("TestProxyClient functions", () => {
         `${testMode} mode: ` + "fails in playback or record modes if no recordingId",
         async function() {
           env.TEST_MODE = testMode;
-          client.httpClient.sendRequest = (): Promise<PipelineResponse> => {
+          clientHttpClient.sendRequest = (): Promise<PipelineResponse> => {
             return Promise.resolve({
               status: 200,
               headers: createHttpHeaders(),
@@ -172,7 +179,7 @@ describe("TestProxyClient functions", () => {
 
       it("throws if status code is not 200", async function() {
         env.TEST_MODE = testMode;
-        client.httpClient.sendRequest = (): Promise<PipelineResponse> => {
+        clientHttpClient.sendRequest = (): Promise<PipelineResponse> => {
           return Promise.resolve({
             status: 401,
             headers: createHttpHeaders(),
@@ -192,7 +199,7 @@ describe("TestProxyClient functions", () => {
 
       it("succeeds in playback or record modes", async function() {
         env.TEST_MODE = testMode;
-        client.httpClient.sendRequest = (): Promise<PipelineResponse> => {
+        clientHttpClient.sendRequest = (): Promise<PipelineResponse> => {
           return Promise.resolve({
             status: 200,
             headers: createHttpHeaders(),
