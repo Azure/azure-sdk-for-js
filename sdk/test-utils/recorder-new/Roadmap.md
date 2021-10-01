@@ -6,11 +6,11 @@
 
 This document talks about the roadmap for the `@azure-tools/test-recorder-new` tool.
 
-|     |     |                |
-| --- | --- | -------------- |
-| ✅  |     | Done           |
-| 🔒  |     | To be Unlocked |
-|     |     |                |
+| ICON | STATUS         |
+| ---- | -------------- |
+| ✅   | Done           |
+| 🔒   | To be Unlocked |
+|      |                |
 
 ## Initial steps
 
