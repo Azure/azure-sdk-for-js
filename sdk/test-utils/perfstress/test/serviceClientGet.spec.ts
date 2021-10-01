@@ -25,13 +25,20 @@ export class ServiceClientGetTest extends PerfStressTest<ServiceClientGetOptions
 
   constructor() {
     super();
+
+    const url = this.parsedOptions.url.value as string;
+    const insecure = this.parsedOptions.insecure.value as boolean;
+
     this.client = this.configureClient(new ServiceClient());
     this.request = createPipelineRequest({
       allowInsecureConnection: true,
       streamResponseStatusCodes: new Set([200]),
-      url: this.parsedOptions.url.value as string
+      url: url
     });
-    this.request.agent = getCachedHttpsAgent(this.parsedOptions.insecure.value as boolean);
+
+    if (insecure && url.toLowerCase().startsWith("https:")) {
+      this.request.agent = getCachedHttpsAgent(true);
+    }
   }
 
   async runAsync(): Promise<void> {
