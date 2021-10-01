@@ -74,9 +74,9 @@ This document talks about the roadmap for the `@azure-tools/test-recorder-new` t
 - 🔒 Corner cases - Example: Is it ok to start twice without calling stop?
 - ✅ To make sure it works with our core-v1 and core-v2 packages all the way, start a standalone testing project which uses core-v1 and core-v2 sample SDKs and show how to leverage the recorder
 
-## Merging with `@azure-tool/test-recorder` package
+## Merging with `@azure-tools/test-recorder` package
 
-- 🔒 Instead of publishing a new package altogether, we'll merge this into the already published `@azure-tool/test-recorder` and release it again.
+- 🔒 Instead of publishing a new package altogether, we'll merge this into the already published `@azure-tools/test-recorder` and release it again.
 
 ## Documentation & Ready to use
 
