@@ -7,7 +7,7 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 
-import { CredentialUnavailableError } from "../client/errors";
+import { CredentialUnavailableError } from "../errors";
 import { IdentityClient, TokenCredentialOptions } from "../client/identityClient";
 import { AzureAuthorityHosts } from "../constants";
 import { checkTenantId } from "../util/checkTenantId";

@@ -3,7 +3,7 @@
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 
-import { CredentialUnavailableError } from "../client/errors";
+import { CredentialUnavailableError } from "../errors";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import { trace } from "../util/tracing";
 import { ensureValidScope, getScopeResource } from "../util/scopeUtils";

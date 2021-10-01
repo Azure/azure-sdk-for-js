@@ -10,9 +10,9 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { DeveloperSignOnClientId } from "../../constants";
 import { IdentityClient, TokenCredentialOptions } from "../../client/identityClient";
 import { resolveTenantId } from "../../util/resolveTenantId";
+import { AuthenticationRequiredError } from "../../errors";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 import { MsalFlow, MsalFlowOptions } from "../flows";
-import { AuthenticationRequiredError } from "../errors";
 import { AuthenticationRecord } from "../types";
 import {
   defaultLoggerCallback,
@@ -242,7 +242,11 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
   ): Promise<AccessToken> {
     await this.getActiveAccount();
     if (!this.account) {
-      throw new AuthenticationRequiredError(scopes, options);
+      throw new AuthenticationRequiredError(scopes, {
+        getTokenOptions: options,
+        message:
+          "Silent authentication failed. We couldn't retrieve an active account from the cache."
+      });
     }
 
     const silentRequest: msalNode.SilentFlowRequest = {
@@ -291,11 +295,11 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         throw err;
       }
       if (options?.disableAutomaticAuthentication) {
-        throw new AuthenticationRequiredError(
-          scopes,
-          options,
-          "Automatic authentication has been disabled. You may call the authentication() method."
-        );
+        throw new AuthenticationRequiredError(scopes, {
+          getTokenOptions: options,
+          message:
+            "Automatic authentication has been disabled. You may call the authentication() method."
+        });
       }
       this.logger.info(`Silent authentication failed, falling back to interactive method.`);
       return this.doGetToken(scopes, options);

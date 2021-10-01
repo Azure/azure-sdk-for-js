@@ -5,7 +5,7 @@ import { SpanStatusCode } from "@azure/core-tracing";
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 
 import { IdentityClient, TokenCredentialOptions } from "../../client/identityClient";
-import { AuthenticationError, CredentialUnavailableError } from "../../client/errors";
+import { AuthenticationError, CredentialUnavailableError } from "../../errors";
 import { credentialLogger, formatSuccess, formatError } from "../../util/logging";
 import { appServiceMsi2017 } from "./appServiceMsi2017";
 import { createSpan } from "../../util/tracing";

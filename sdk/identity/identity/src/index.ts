@@ -8,8 +8,18 @@ export { IdentityPlugin } from "./plugins/provider";
 import { TokenCredential } from "@azure/core-auth";
 import { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
 
+export {
+  AuthenticationError,
+  ErrorResponse,
+  AggregateAuthenticationError,
+  AuthenticationErrorName,
+  AggregateAuthenticationErrorName,
+  CredentialUnavailableError,
+  CredentialUnavailableErrorName,
+  AuthenticationRequiredError
+} from "./errors";
+
 export { AuthenticationRecord } from "./msal/types";
-export { AuthenticationRequiredError } from "./msal/errors";
 export { serializeAuthenticationRecord, deserializeAuthenticationRecord } from "./msal/utils";
 export { TokenCredentialOptions } from "./client/identityClient";
 
@@ -70,16 +80,6 @@ export {
 } from "./credentials/onBehalfOfCredentialOptions";
 
 export { TokenCachePersistenceOptions } from "./msal/nodeFlows/tokenCachePersistenceOptions";
-
-export {
-  AuthenticationError,
-  ErrorResponse,
-  AggregateAuthenticationError,
-  AuthenticationErrorName,
-  AggregateAuthenticationErrorName,
-  CredentialUnavailableError,
-  CredentialUnavailableErrorName
-} from "./client/errors";
 
 export { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 export { logger } from "./util/logging";
