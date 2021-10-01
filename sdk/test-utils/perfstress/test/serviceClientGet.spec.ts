@@ -18,9 +18,10 @@ export class ServiceClientGetTest extends PerfStressTest<ServiceClientGetOptions
 
   public options: PerfStressOptionDictionary<ServiceClientGetOptions> = {
     "first-run-extra-requests": {
-      description: "Extra requests to send on first run.  " +
+      description:
+        "Extra requests to send on first run.  " +
         "Simulates SDKs which require extra requests (like authentication) on first API call.",
-      defaultValue: 0,
+      defaultValue: 0
     },
     url: {
       required: true,
