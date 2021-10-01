@@ -7,17 +7,24 @@ import { PerfStressTest, PerfStressOptionDictionary, drainStream } from "../src"
 import { getCachedHttpsAgent } from "../src/utils";
 
 interface ServiceClientGetOptions {
-    url: string;
+  "first-run-extra-requests": number;
+  url: string;
 }
 
 export class ServiceClientGetTest extends PerfStressTest<ServiceClientGetOptions> {
   client: ServiceClient;
   request: PipelineRequest;
+  firstRun: boolean = true;
 
   public options: PerfStressOptionDictionary<ServiceClientGetOptions> = {
+    "first-run-extra-requests": {
+      description: "Extra requests to send on first run.  " +
+        "Simulates SDKs which require extra requests (like authentication) on first API call.",
+      defaultValue: 0,
+    },
     url: {
       required: true,
-      description: "Required option",
+      description: "URL to retrieve",
       shortName: "u",
       longName: "url"
     }
@@ -42,7 +49,18 @@ export class ServiceClientGetTest extends PerfStressTest<ServiceClientGetOptions
   }
 
   async runAsync(): Promise<void> {
-    const response = await this.client.sendRequest(this.request);
+    var response;
+
+    if (this.firstRun) {
+      const extraRequests = this.parsedOptions["first-run-extra-requests"].value as number;
+      for (var i = 0; i < extraRequests; i++) {
+        response = await this.client.sendRequest(this.request);
+        await drainStream(response.readableStreamBody!);
+      }
+      this.firstRun = false;
+    }
+
+    response = await this.client.sendRequest(this.request);
     await drainStream(response.readableStreamBody!);
   }
 }
