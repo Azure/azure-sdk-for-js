@@ -284,7 +284,6 @@ The `queryBatch` function of `LogsQueryClient` returns a `LogsQueryBatchResult` 
 > Here's a hierarchy of the response:
 
 ```
-LogsQueryBatchResult (list of objects of `LogsQueryPartialResult` or `LogsQuerySuccessfulResult` or `LogsQueryError`)
 
 LogsQuerySuccessfulResult
 |---statistics
