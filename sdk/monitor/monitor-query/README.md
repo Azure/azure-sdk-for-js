@@ -320,7 +320,7 @@ LogsQueryError
 |--status ("Failure")
 ```
 
-For example, to handle a batch logs query response, you can refer the following code snippet and :
+For example, the following code handles a batch logs query response:
 
 ```ts
 async function processBatchResult(result: LogsQueryBatchResult) {
