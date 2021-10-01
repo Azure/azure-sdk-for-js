@@ -210,10 +210,10 @@ export class AuthenticationRequiredError extends Error {
     /**
      * Optional parameters. A message can be specified. The {@link GetTokenOptions} of the request can also be specified to more easily associate the error with the received parameters.
      */
-    options?: AuthenticationRequiredErrorOptions
+    options: AuthenticationRequiredErrorOptions = {}
   ) {
-    super(options?.message);
-    this.getTokenOptions = options?.getTokenOptions;
+    super(options.message);
+    this.getTokenOptions = options.getTokenOptions;
     this.name = "AuthenticationRequiredError";
   }
 }
