@@ -85,7 +85,7 @@ async function main(): Promise<void> {
     `image.repository=${argv.repository},image.name=${argv["image-name"]},image.tag=${argv["image-tag"]}`
   ];
 
-  runCommand(helm_install);
+  await runCommand(helm_install);
 
   // get the name of the test pod
   let podName = await runCommand([
