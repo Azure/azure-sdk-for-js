@@ -366,6 +366,9 @@ export class PerfStressProgram {
       );
     }
 
+    // Call Run() once before starting recording, to avoid capturing one-time setup like authorization requests.
+    await test.runAsync!();
+
     await recorder.startRecording();
     recorder._mode = "record";
     await test.runAsync!();
