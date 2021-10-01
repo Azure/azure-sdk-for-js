@@ -278,10 +278,13 @@ async function processTables(tablesFromResult: LogsTable[]) {
 
 #### Handle logs batch query response
 
-The `queryBatch` function of `LogsQueryClient` returns a `LogsQueryBatchResult` object. LogsQueryBatchResult is a list of objects of either of these types -
-`LogsQueryPartialResult` or `LogsQuerySuccessfulResult` or `LogsQueryError`.
+The `queryBatch` function of `LogsQueryClient` returns a `LogsQueryBatchResult` object. `LogsQueryBatchResult` contains a list of objects with the following possible types:
 
-> Here's a hierarchy of the response:
+- `LogsQueryPartialResult`
+- `LogsQuerySuccessfulResult`
+- `LogsQueryError`
+
+Here's a hierarchy of the response:
 
 ```
 
