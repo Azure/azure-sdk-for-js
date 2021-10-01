@@ -186,6 +186,14 @@ function convertOAuthErrorResponseToErrorResponse(errorBody: OAuthErrorResponse)
 }
 
 /**
+ * Optional parameters to the {@link AuthenticationRequiredError}
+ */
+export interface AuthenticationRequiredErrorOptions {
+  getTokenOptions?: GetTokenOptions;
+  message?: string;
+}
+
+/**
  * Error used to enforce authentication after trying to retrieve a token silently.
  */
 export class AuthenticationRequiredError extends Error {
@@ -202,10 +210,7 @@ export class AuthenticationRequiredError extends Error {
     /**
      * Optional parameters. A message can be specified. The {@link GetTokenOptions} of the request can also be specified to more easily associate the error with the received parameters.
      */
-    options: {
-      getTokenOptions?: GetTokenOptions;
-      message?: string;
-    }
+    options?: AuthenticationRequiredErrorOptions
   ) {
     super(options?.message);
     this.getTokenOptions = options?.getTokenOptions;

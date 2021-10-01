@@ -54,12 +54,17 @@ export interface AuthenticationRecord {
 export class AuthenticationRequiredError extends Error {
     constructor(
     scopes: string[],
-    options: {
-        getTokenOptions?: GetTokenOptions;
-        message?: string;
-    });
+    options?: AuthenticationRequiredErrorOptions);
     getTokenOptions?: GetTokenOptions;
     scopes: string[];
+}
+
+// @public
+export interface AuthenticationRequiredErrorOptions {
+    // (undocumented)
+    getTokenOptions?: GetTokenOptions;
+    // (undocumented)
+    message?: string;
 }
 
 // @public

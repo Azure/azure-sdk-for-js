@@ -16,7 +16,8 @@ export {
   AggregateAuthenticationErrorName,
   CredentialUnavailableError,
   CredentialUnavailableErrorName,
-  AuthenticationRequiredError
+  AuthenticationRequiredError,
+  AuthenticationRequiredErrorOptions
 } from "./errors";
 
 export { AuthenticationRecord } from "./msal/types";
