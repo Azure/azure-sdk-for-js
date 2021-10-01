@@ -12,7 +12,7 @@ import {
   LogsQueryResult,
   AggregateBatchError,
   BatchError,
-  ErrorInfo
+  LogsErrorInfo
 } from "./models/publicLogsModels";
 
 import {
@@ -23,7 +23,7 @@ import {
 } from "./internal/modelConverters";
 import { formatPreferHeader } from "./internal/util";
 import { CommonClientOptions, FullOperationResponse, OperationOptions } from "@azure/core-client";
-import { TimeInterval } from "./models/timeInterval";
+import { QueryTimeInterval } from "./models/timeInterval";
 import { convertTimespanToInterval } from "./timespanConversion";
 
 const defaultMonitorScope = "https://api.loganalytics.io/.default";
@@ -38,13 +38,11 @@ export interface LogsQueryClientOptions extends CommonClientOptions {
   endpoint?: string;
 
   /**
-   * The authentication scopes to use when getting authentication tokens.
-   *
+   * Gets or sets the audience to use for authentication with Azure Active Directory.
+   * The authentication scope will be set from this audience.
    * Defaults to 'https://api.loganalytics.io/.default'
    */
-  credentialOptions?: {
-    credentialScopes?: string | string[];
-  };
+  audience?: string;
 }
 
 /**
@@ -60,20 +58,18 @@ export class LogsQueryClient {
    * @param options - Options for the LogsClient.
    */
   constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions) {
-    // This client defaults to using 'https://api.loganalytics.io/v1' as the
+    // This client defaults to using 'https://api.loganalytics.io/' as the
     // host.
-
+    const credentialOptions = {
+      credentialScopes: options?.audience
+    };
     this._logAnalytics = new AzureLogAnalytics({
       ...options,
       $host: options?.endpoint,
       endpoint: options?.endpoint,
-      credentialScopes: options?.credentialOptions?.credentialScopes ?? defaultMonitorScope,
+      credentialScopes: credentialOptions?.credentialScopes ?? defaultMonitorScope,
       credential: tokenCredential
     });
-    // const scope = options?.scopes ?? defaultMonitorScope;
-    // this._logAnalytics.pipeline.addPolicy(
-    //   bearerTokenAuthenticationPolicy({ scopes: scope, credential: tokenCredential })
-    // );
   }
 
   /**
@@ -86,10 +82,11 @@ export class LogsQueryClient {
    * @param options - Options to adjust various aspects of the request.
    * @returns The result of the query.
    */
-  async query(
+  async queryWorkspace(
     workspaceId: string,
     query: string,
-    timespan: TimeInterval,
+    timespan: QueryTimeInterval,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: LogsQueryOptions
   ): Promise<LogsQueryResult> {
     let timeInterval: string = "";
@@ -132,13 +129,13 @@ export class LogsQueryClient {
     } else {
       // result.tables is always present in single query response, even is there is error
       if (result.tables.length === 0) {
-        result.status = "Failed";
+        result.status = "Failure";
       } else {
-        result.status = "Partial";
+        result.status = "PartialFailure";
       }
     }
     if (options?.throwOnAnyFailure && result.status !== "Success") {
-      throw new BatchError(result.error as ErrorInfo);
+      throw new BatchError(result.error as LogsErrorInfo);
     }
     return result;
   }
@@ -164,7 +161,7 @@ export class LogsQueryClient {
       const errorResults = result.results
         .filter((it) => it.status !== "Success")
         .map((x) => x.error);
-      const batchErrorList = errorResults.map((x) => new BatchError(x as ErrorInfo));
+      const batchErrorList = errorResults.map((x) => new BatchError(x as LogsErrorInfo));
       throw new AggregateBatchError(batchErrorList);
     }
     return result;

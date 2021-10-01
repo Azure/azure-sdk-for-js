@@ -4,6 +4,7 @@
 
 ```ts
 
+import { AzureLogger } from '@azure/logger';
 import { Checkpoint } from '@azure/event-hubs';
 import { CheckpointStore } from '@azure/event-hubs';
 import { ContainerClient } from '@azure/storage-blob';
@@ -20,8 +21,7 @@ export class BlobCheckpointStore implements CheckpointStore {
 }
 
 // @public
-export const logger: import("@azure/logger").AzureLogger;
-
+export const logger: AzureLogger;
 
 // (No @packageDocumentation comment for this package)
 

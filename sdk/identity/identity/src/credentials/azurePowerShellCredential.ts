@@ -96,7 +96,6 @@ if (isWindows) {
  */
 export class AzurePowerShellCredential implements TokenCredential {
   private tenantId?: string;
-  private allowMultiTenantAuthentication?: boolean;
 
   /**
    * Creates an instance of the {@link AzurePowershellCredential}.
@@ -105,7 +104,6 @@ export class AzurePowerShellCredential implements TokenCredential {
    */
   constructor(options?: AzurePowerShellCredentialOptions) {
     this.tenantId = options?.tenantId;
-    this.allowMultiTenantAuthentication = options?.allowMultiTenantAuthentication;
   }
 
   /**
@@ -165,13 +163,9 @@ export class AzurePowerShellCredential implements TokenCredential {
   public async getToken(
     scopes: string | string[],
     options: GetTokenOptions = {}
-  ): Promise<AccessToken | null> {
+  ): Promise<AccessToken> {
     return trace(`${this.constructor.name}.getToken`, options, async () => {
-      const tenantId = processMultiTenantRequest(
-        this.tenantId,
-        this.allowMultiTenantAuthentication,
-        options
-      );
+      const tenantId = processMultiTenantRequest(this.tenantId, options);
       if (tenantId) {
         checkTenantId(logger, tenantId);
       }

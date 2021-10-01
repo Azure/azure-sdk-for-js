@@ -60,13 +60,7 @@ For examples of Logs and Metrics queries, see the [Examples](#examples) section.
 
 ### Logs query rate limits and throttling
 
-Each Azure Active Directory user is able to make up to 200 requests per 30 seconds, with no cap on the total calls per day. If requests are made at a rate higher than this, these requests will receive HTTP status code 429 (Too Many Requests) along with the `Retry-After: <delta-seconds>` header. The header indicates the number of seconds until requests to this app are likely to be accepted.
-
-In addition to call rate limits and daily quota caps, there are limits on queries themselves. Queries cannot:
-
-- Return more than 500,000 rows.
-- Return more than 64,000,000 bytes (~61 MiB total data).
-- Run longer than 10 minutes by default. See this for details.
+The Log Analytics service applies throttling when the request rate is too high. Limits, such as the maximum number of rows returned, are also applied on the Kusto queries. For more information, see [Rate and query limits](https://dev.loganalytics.io/documentation/Using-the-API/Limits).
 
 ### Metrics data structure
 
@@ -105,8 +99,8 @@ const logsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
 
 async function run() {
   const kustoQuery = "AppEvents | limit 1";
-  const result = await logsQueryClient.query(azureLogAnalyticsWorkspaceId, kustoQuery, {
-    duration: Durations.TwentyFourHours
+  const result = await logsQueryClient.queryWorkspace(azureLogAnalyticsWorkspaceId, kustoQuery, {
+    duration: Durations.twentyFourHours
   });
   const tablesFromResult = result.tables;
 
@@ -134,14 +128,14 @@ run().catch((err) => console.log("ERROR:", err));
 
 #### Handle logs query response
 
-The `query` function of `LogsQueryClient` returns the `LogsQueryResult`. Here's a hierarchy of the response:
+The `queryWorkspace` function of `LogsQueryClient` returns the `LogsQueryResult`. Here's a hierarchy of the response:
 
 ```
 LogsQueryResult
 |---statistics
 |---visualization
 |---error
-|---status ("Partial" | "Success" | "Failed")
+|---status ("PartialFailure" | "Success" | "Failure")
 |---tables (list of `LogsTable` objects)
     |---name
     |---rows
@@ -258,7 +252,7 @@ LogsQueryBatchResult
     |---statistics
     |---visualization
     |---error
-    |---status ("Partial" | "Success" | "Failed")
+    |---status ("PartialFailure" | "Success" | "Failure")
     |---tables (list of `LogsTable` objects)
         |---name
         |---rows
@@ -319,10 +313,10 @@ const queryLogsOptions: LogsQueryOptions = {
   serverTimeoutInSeconds: 60
 };
 
-const result = await logsQueryClient.query(
+const result = await logsQueryClient.queryWorkspace(
   azureLogAnalyticsWorkspaceId,
   kustoQuery,
-  { duration: Durations.TwentyFourHours },
+  { duration: Durations.twentyFourHours },
   queryLogsOptions
 );
 
@@ -347,10 +341,10 @@ const queryLogsOptions: LogsQueryOptions = {
 };
 
 const kustoQuery = "AppEvents | limit 10";
-const result = await logsQueryClient.queryLogs(
+const result = await logsQueryClient.queryWorkspace(
   azureLogAnalyticsWorkspaceId,
   kustoQuery,
-  { duration: Durations.TwentyFourHours },
+  { duration: Durations.twentyFourHours },
   queryLogsOptions
 );
 ```
@@ -412,12 +406,12 @@ export async function main() {
   const secondMetricName = metricNames[1];
   if (firstMetricName && secondMetricName) {
     console.log(`Picking an example metric to query: ${firstMetricName} and ${secondMetricName}`);
-    const metricsResponse = await metricsQueryClient.query(
+    const metricsResponse = await metricsQueryClient.queryResource(
       metricsResourceId,
       [firstMetricName, secondMetricName],
       {
         granularity: "PT1M",
-        timespan: { duration: Durations.FiveMinutes }
+        timespan: { duration: Durations.fiveMinutes }
       }
     );
 
@@ -440,16 +434,16 @@ main().catch((err) => {
 });
 ```
 
-In the preceding sample, metric results in `metricsResponse` are ordered according to the order in which the user specifies the metric names in the `metricNames` array argument for the `query` function. If the user specifies `[firstMetricName,secondMetricName]`, the result for `firstMetricName` will appear before the result for `secondMetricName` in the `metricResponse`.
+In the preceding sample, metric results in `metricsResponse` are ordered according to the order in which the user specifies the metric names in the `metricNames` array argument for the `queryResource` function. If the user specifies `[firstMetricName, secondMetricName]`, the result for `firstMetricName` will appear before the result for `secondMetricName` in the `metricResponse`.
 
 #### Handle metrics query response
 
-The metrics `query` function returns a `QueryMetricsResult` object. The `QueryMetricsResult` object contains properties such as a list of `Metric`-typed objects, `interval`, `namespace`, and `timespan`. The `Metric` objects list can be accessed using the `metrics` property. Each `Metric` object in this list contains a list of `TimeSeriesElement` objects. Each `TimeSeriesElement` contains `data` and `metadataValues` properties. In visual form, the object hierarchy of the response resembles the following structure:
+The metrics `queryResource` function returns a `QueryMetricsResult` object. The `QueryMetricsResult` object contains properties such as a list of `Metric`-typed objects, `interval`, `namespace`, and `timespan`. The `Metric` objects list can be accessed using the `metrics` property. Each `Metric` object in this list contains a list of `TimeSeriesElement` objects. Each `TimeSeriesElement` contains `data` and `metadataValues` properties. In visual form, the object hierarchy of the response resembles the following structure:
 
 ```
 QueryMetricsResult
 |---cost
-|---timespan (of type `TimeInterval`)
+|---timespan (of type `QueryTimeInterval`)
 |---granularity
 |---namespace
 |---resourceRegion
@@ -491,9 +485,9 @@ export async function main() {
 
   console.log(`Picking an example metric to query: ${firstMetricName}`);
 
-  const metricsResponse = await metricsQueryClient.queryMetrics(
+  const metricsResponse = await metricsQueryClient.queryResource(
     metricsResourceId,
-    { duration: Durations.FiveMinutes },
+    { duration: Durations.fiveMinutes },
     {
       metricNames: ["MatchedEventCount"],
       interval: "PT1M",

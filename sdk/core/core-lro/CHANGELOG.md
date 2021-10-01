@@ -1,6 +1,6 @@
 # Release History
 
-## 2.2.1 (Unreleased)
+## 2.2.2 (Unreleased)
 
 ### Features Added
 
@@ -8,9 +8,17 @@
 
 ### Bugs Fixed
 
+### Other Changes
+
+## 2.2.1 (2021-09-30)
+
+### Bugs Fixed
+
 - Check for string type before calling toLowerCase(). [PR #17573](https://github.com/Azure/azure-sdk-for-js/pull/17573)
 
 ### Other Changes
+
+- Updates package to work with the react native bundler. [PR #17783](https://github.com/Azure/azure-sdk-for-js/pull/17783)
 
 ## 2.2.0 (2021-08-05)
 

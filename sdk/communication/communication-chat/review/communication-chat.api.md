@@ -4,6 +4,8 @@
 
 ```ts
 
+/// <reference lib="esnext.asynciterable" />
+
 import { ChatMessageDeletedEvent } from '@azure/communication-signaling';
 import { ChatMessageEditedEvent } from '@azure/communication-signaling';
 import { ChatMessageReceivedEvent } from '@azure/communication-signaling';
@@ -64,7 +66,7 @@ export class ChatClient {
     on(event: "participantsRemoved", listener: (e: ParticipantsRemovedEvent) => void): void;
     startRealtimeNotifications(): Promise<void>;
     stopRealtimeNotifications(): Promise<void>;
-    }
+}
 
 // @public
 export interface ChatClientOptions extends CommonClientOptions {
@@ -271,7 +273,6 @@ export interface UpdateMessageOptions extends OperationOptions {
 // @public
 export interface UpdateTopicOptions extends OperationOptions {
 }
-
 
 // (No @packageDocumentation comment for this package)
 

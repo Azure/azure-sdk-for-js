@@ -9,7 +9,8 @@ import {
   ListMetricNamespacesOptions,
   MetricsQueryOptions,
   MetricsQueryResult,
-  MetricDefinition
+  MetricDefinition,
+  MetricNamespace
 } from "./models/publicMetricsModels";
 
 import {
@@ -22,7 +23,6 @@ import {
 } from "./generated/metricsdefinitions/src";
 import {
   KnownApiVersion20171201Preview as MetricNamespacesApiVersion,
-  MetricNamespace,
   MonitorManagementClient as GeneratedMetricsNamespacesClient
 } from "./generated/metricsnamespaces/src";
 import {
@@ -33,12 +33,20 @@ import {
   convertResponseForMetricsDefinitions
 } from "./internal/modelConverters";
 
+const defaultMetricsScope = "https://management.azure.com/.default";
+
 /**
  * Options for the MetricsQueryClient.
  */
 export interface MetricsQueryClientOptions extends CommonClientOptions {
   /** Overrides client endpoint. */
   endpoint?: string;
+  /**
+   * Gets or sets the audience to use for authentication with Azure Active Directory.
+   * The authentication scope will be set from this audience.
+   * Defaults to "https://management.azure.com/.default"
+   */
+  audience?: string;
 }
 
 /**
@@ -55,11 +63,15 @@ export class MetricsQueryClient {
    * @param options - Options for the client like controlling request retries.
    */
   constructor(tokenCredential: TokenCredential, options?: MetricsQueryClientOptions) {
+    const credentialOptions = {
+      credentialScopes: options?.audience
+    };
+
     const serviceClientOptions = {
       ...options,
       $host: options?.endpoint,
       endpoint: options?.endpoint,
-      credentialScopes: formatScope(options?.endpoint),
+      credentialScopes: credentialOptions?.credentialScopes ?? defaultMetricsScope,
       credential: tokenCredential
     };
 
@@ -86,10 +98,10 @@ export class MetricsQueryClient {
    * @param options - Options for querying metrics.
    * @returns A response containing metrics.
    */
-  async query(
+  async queryResource(
     resourceUri: string,
     metricNames: string[],
-    options?: MetricsQueryOptions
+    options?: MetricsQueryOptions // eslint-disable-line @azure/azure-sdk/ts-naming-options
   ): Promise<MetricsQueryResult> {
     const response = await this._metricsClient.metrics.list(
       resourceUri,
@@ -269,17 +281,5 @@ export class MetricsQueryClient {
         return this.listSegmentOfMetricNamespaces(resourceUri, options);
       }
     };
-  }
-}
-
-function formatScope(endpoint: string | undefined): string {
-  if (endpoint) {
-    if (endpoint.endsWith("/")) {
-      endpoint += "/";
-    }
-
-    return `${endpoint}/.default`;
-  } else {
-    return "https://management.azure.com/.default";
   }
 }

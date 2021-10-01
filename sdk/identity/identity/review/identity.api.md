@@ -88,7 +88,7 @@ export interface AzureCliCredentialOptions extends TokenCredentialOptions {
 // @public
 export class AzurePowerShellCredential implements TokenCredential {
     constructor(options?: AzurePowerShellCredentialOptions);
-    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
     }
 
 // @public
@@ -346,7 +346,6 @@ export { TokenCredential }
 
 // @public
 export interface TokenCredentialOptions extends CommonClientOptions {
-    allowMultiTenantAuthentication?: boolean;
     authorityHost?: string;
 }
 

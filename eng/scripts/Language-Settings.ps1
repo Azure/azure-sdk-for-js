@@ -258,8 +258,6 @@ $PackageExclusions = @{
   '@azure/identity-cache-persistence'   = 'Fails typedoc2fx execution https://github.com/Azure/azure-sdk-for-js/issues/16310';
   '@azure-rest/core-client-paging'      = 'Cannot find types/latest/core-client-paging-rest.d.ts https://github.com/Azure/azure-sdk-for-js/issues/16677';
   '@azure/core-asynciterator-polyfill'  = 'Docs CI fails https://github.com/Azure/azure-sdk-for-js/issues/16675';
-  '@azure/arm-keyvault'                 = 'Docs CI fails https://github.com/Azure/azure-sdk-for-js/issues/16988';
-  '@azure/arm-sql'                      = 'Docs CI fails https://github.com/Azure/azure-sdk-for-js/issues/16989';
 }
 
 function Update-javascript-DocsMsPackages($DocsRepoLocation, $DocsMetadata) {
@@ -406,26 +404,23 @@ Removed $($package.name) because of docs package validation failure on $(Get-Dat
 }
 
 # function is used to auto generate API View
-function Find-javascript-Artifacts-For-Apireview($artifactDir, $packageName = "")
+function Find-javascript-Artifacts-For-Apireview($artifactDir, $packageName)
 {
-  # Find api.json file in service temp directory
-  [regex]$pattern = "azure-"
-  $pkgName = $pattern.replace($packageName, "", 1)
-  $packageDir = Join-Path $artifactDir $pkgName "temp"
-  if (Test-Path $packageDir)
+  $artifactPath = Join-Path $artifactDir $packageName
+  if (Test-Path $artifactPath)
   {
-    Write-Host "Searching for *.api.json in path $($packageDir)"
-    $files = Get-ChildItem "${packageDir}" | Where-Object -FilterScript { $_.Name.EndsWith(".api.json") }
+    Write-Host "Searching for *.api.json in path $($artifactPath)"
+    $files = Get-ChildItem "${artifactPath}" | Where-Object -FilterScript { $_.Name.EndsWith(".api.json") }
     if (!$files)
     {
-      Write-Host "$($packageDir) does not have api review json for package"
+      Write-Host "$($packageName) does not have api review json"
       Write-Host "API Extractor must be enabled for $($packageName). Please ensure api-extractor.json is present in package directory and api extract script included in build script"
       return $null
     }
     elseif ($files.Count -ne 1)
     {
-      Write-Host "$($packageDir) should contain only one api review for $($packageName)"
-      Write-Host "No of Packages $($files.Count)"
+      Write-Host "$($artifactPath) should contain only one api review for $($packageName)"
+      Write-Host "No of files $($files.Count)"
       return $null
     }
   }
@@ -433,8 +428,7 @@ function Find-javascript-Artifacts-For-Apireview($artifactDir, $packageName = ""
   {
     Write-Host "$($pkgName) does not have api review json"
     return $null
-  }  
-
+  } 
   $packages = @{
     $files[0].Name = $files[0].FullName
   }

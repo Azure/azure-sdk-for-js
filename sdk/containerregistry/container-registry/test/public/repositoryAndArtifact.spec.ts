@@ -126,14 +126,12 @@ describe("Repository and artifact tests", function() {
         canList: false,
         canRead: false,
         canWrite: false
-        // teleportEnabled: true
       });
 
       assert.strictEqual(updated.canDelete, false);
       assert.strictEqual(updated.canList, false);
       assert.strictEqual(updated.canRead, false);
       assert.strictEqual(updated.canWrite, false);
-      // assert.strictEqual(updated.teleportEnabled, true);
     } finally {
       await repository.updateProperties(original);
     }

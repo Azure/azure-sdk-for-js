@@ -678,7 +678,7 @@ export enum KnownKeyEncryptionAlgorithm {
  */
 export type KeyEncryptionAlgorithm = string;
 /** Defines values for ActionType. */
-export type ActionType = "rotate" | "notify";
+export type ActionType = "Rotate" | "Notify";
 
 /** Optional parameters. */
 export interface KeyVaultClientCreateKeyOptionalParams

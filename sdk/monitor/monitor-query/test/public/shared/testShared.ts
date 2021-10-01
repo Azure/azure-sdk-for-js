@@ -1,71 +1,76 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientSecretCredential } from "@azure/identity";
-import { env, record, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { env, record, Recorder, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import { Context } from "mocha";
 import { createClientLogger } from "@azure/logger";
-import { LogsTable } from "../../../src";
-
+import { LogsTable, LogsQueryClient, MetricsQueryClient } from "../../../src";
+import { ExponentialRetryPolicyOptions } from "@azure/core-rest-pipeline";
 export const loggerForTest = createClientLogger("test");
 
-/**
- * Declare the client and recorder instances.  We will set them using the
- * beforeEach hook.
- */
-export function addTestRecorderHooks(): { recorder(): Recorder; isPlaybackMode(): boolean } {
-  // When the recorder observes the values of these environment variables in any
-  // recorded HTTP request or response, it will replace them with the values they
-  // are mapped to below.
-  const replaceableVariables: Record<string, string> = {
-    MONITOR_WORKSPACE_ID: "<workspace-id>",
-    METRICS_RESOURCE_ID: "<metrics-arm-resource-id>",
+const replaceableVariables: Record<string, string> = {
+  MONITOR_WORKSPACE_ID: "workspace-id",
+  METRICS_RESOURCE_ID: "metrics-arm-resource-id",
+  MQ_APPLICATIONINSIGHTS_CONNECTION_STRING: "mq_applicationinsights_connection",
+  AZURE_TENANT_ID: "98123456-7614-3456-5678-789980112547",
+  AZURE_CLIENT_ID: "azure_client_id",
+  AZURE_CLIENT_SECRET: "azure_client_secret"
+};
+export interface RecorderAndLogsClient {
+  client: LogsQueryClient;
+  recorder: Recorder;
+}
 
-    AZURE_TENANT_ID: "azure_tenant_id",
-    AZURE_CLIENT_ID: "azure_client_id",
-    AZURE_CLIENT_SECRET: "azure_client_secret"
-  };
+export interface RecorderAndMetricsClient {
+  client: MetricsQueryClient;
+  recorder: Recorder;
+}
 
-  let recorder: Recorder;
+export const testEnv = new Proxy(replaceableVariables, {
+  get: (target, key: string) => {
+    return env[key] || target[key];
+  }
+});
 
-  // NOTE: use of "function" and not ES6 arrow-style functions with the
-  // beforeEach hook is IMPORTANT due to the use of `this` in the function
-  // body.
-  beforeEach(function(this: Context) {
-    loggerForTest.verbose(`Recorder: starting...`);
-    // The recorder has some convenience methods, and we need to store a
-    // reference to it so that we can `stop()` the recorder later in the
-    // `afterEach` hook.
-    recorder = record(this, {
-      // == Recorder Environment Setup == Add the replaceable variables from
-      // above
-      replaceableVariables,
+export const environmentSetup: RecorderEnvironmentSetup = {
+  // == Recorder Environment Setup == Add the replaceable variables from
+  // above
+  replaceableVariables,
 
-      // We don't use this in the template, but if we had any query parameters
-      // we wished to discard, we could add them here
-      queryParametersToSkip: [],
+  // We don't use this in the template, but if we had any query parameters
+  // we wished to discard, we could add them here
+  queryParametersToSkip: [],
 
-      // Finally, we need to remove the AAD `access_token` from any requests.
-      // This is very important, as it cannot be removed using environment
-      // variable or query parameter replacement.  The
-      // `customizationsOnRecordings` field allows us to make arbitrary
-      // replacements within recordings.
-      customizationsOnRecordings: [
-        (recording: any): any =>
-          recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
-      ]
-    });
-  });
+  // Finally, we need to remove the AAD `access_token` from any requests.
+  // This is very important, as it cannot be removed using environment
+  // variable or query parameter replacement.  The
+  // `customizationsOnRecordings` field allows us to make arbitrary
+  // replacements within recordings.
+  customizationsOnRecordings: [
+    (recording: string): any =>
+      recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
+  ]
+};
 
-  // After each test, we need to stop the recording.
-  afterEach(async function() {
-    loggerForTest.verbose("Recorder: stopping");
-    await recorder.stop();
-  });
-
+export function createRecorderAndMetricsClient(context: Context): RecorderAndMetricsClient {
+  const recorder = record(context, environmentSetup);
   return {
-    recorder: () => recorder,
-    isPlaybackMode: () => isPlaybackMode()
+    client: new MetricsQueryClient(createTestClientSecretCredential()),
+    recorder
+  };
+}
+
+export function createRecorderAndLogsClient(
+  context: Context,
+  retryOptions?: ExponentialRetryPolicyOptions
+): RecorderAndLogsClient {
+  const recorder = record(context, environmentSetup);
+  return {
+    client: new LogsQueryClient(createTestClientSecretCredential(), {
+      retryOptions
+    }),
+    recorder
   };
 }
 

@@ -42,7 +42,7 @@ const examplePackageGood = `{
   },
   "types": "./typings/service-bus.d.ts",
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=12.0.0"
   },
   "dependencies": {
     "@azure/amqp-common": "^1.0.0-preview.5",
@@ -66,7 +66,7 @@ const examplePackageGood = `{
     "@types/debug": "^0.0.31",
     "@types/dotenv": "^6.1.0",
     "@types/mocha": "^5.2.5",
-    "@types/node": "^8.0.0",
+    "@types/node": "^12.0.0",
     "@types/ws": "^6.0.1",
     "@typescript-eslint/eslint-plugin": "~1.9.0",
     "@typescript-eslint/parser": "^1.7.0",
@@ -155,7 +155,7 @@ const examplePackageBad = `{
   },
   "types": "./typings/service-bus.d.ts",
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=8.0.0"
   },
   "dependencies": {
     "@azure/amqp-common": "^1.0.0-preview.5",
@@ -179,7 +179,7 @@ const examplePackageBad = `{
     "@types/debug": "^0.0.31",
     "@types/dotenv": "^6.1.0",
     "@types/mocha": "^5.2.5",
-    "@types/node": "^8.0.0",
+    "@types/node": "^12.0.0",
     "@types/ws": "^6.0.1",
     "@typescript-eslint/eslint-plugin": "~1.9.0",
     "@typescript-eslint/parser": "^1.7.0",
@@ -249,8 +249,8 @@ const ruleTester = new RuleTester({
   parser: require.resolve("@typescript-eslint/parser"),
   parserOptions: {
     createDefaultProgram: true,
-    project: "./tsconfig.json"
-  }
+    project: "./tsconfig.json",
+  },
 });
 
 ruleTester.run("ts-package-json-engine-is-present", rule, {
@@ -258,28 +258,28 @@ ruleTester.run("ts-package-json-engine-is-present", rule, {
     {
       // only the fields we care about
       code: '{"engines": { "node": ">=12.0.0" }}',
-      filename: "package.json"
+      filename: "package.json",
     },
     {
       // a full example package.json (taken from https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/package.json)
       code: examplePackageGood,
-      filename: "package.json"
+      filename: "package.json",
     },
     {
       // incorrect format but in a file we don't care about
-      code: '{"engines": { "node": ">=6.0.0" }}',
-      filename: "not_package.json"
+      code: '{"engines": { "node": ">=8.0.0" }}',
+      filename: "not_package.json",
     },
     {
       // different than the default but with an override
-      code: '{"engines": { "node": ">=8.5.0" }}',
+      code: '{"engines": { "node": ">=14.0.0" }}',
       filename: "package.json",
       options: [
         {
-          nodeVersionOverride: ">=8.5.0"
-        }
-      ]
-    }
+          nodeVersionOverride: ">=14.0.0",
+        },
+      ],
+    },
   ],
   invalid: [
     {
@@ -287,19 +287,19 @@ ruleTester.run("ts-package-json-engine-is-present", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "engines does not exist at the outermost level"
-        }
-      ]
+          message: "engines does not exist at the outermost level",
+        },
+      ],
     },
     {
       // engines is in a nested object
-      code: '{"outer": {"engines": { "node": ">=8.0.0" }}}',
+      code: '{"outer": {"engines": { "node": ">=12.0.0" }}}',
       filename: "package.json",
       errors: [
         {
-          message: "engines does not exist at the outermost level"
-        }
-      ]
+          message: "engines does not exist at the outermost level",
+        },
+      ],
     },
     {
       // engines does not contain node
@@ -307,47 +307,50 @@ ruleTester.run("ts-package-json-engine-is-present", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "node is not a member of engines"
-        }
-      ]
+          message: "node is not a member of engines",
+        },
+      ],
     },
     {
       // only the fields we care about
-      code: '{"engines": { "node": ">=6.0.0" }}',
-      filename: "package.json",
-      errors: [
-        {
-          message: "engines.node is set to >=6.0.0 when it should be set to >=8.0.0"
-        }
-      ],
-      output: '{"engines": { "node": ">=8.0.0" }}'
-    },
-    {
-      // example file with engines.node set to >=6.0.0
-      code: examplePackageBad,
-      filename: "package.json",
-      errors: [
-        {
-          message: "engines.node is set to >=6.0.0 when it should be set to >=8.0.0"
-        }
-      ],
-      output: examplePackageGood
-    },
-    {
-      // override was provided but the version does not match
       code: '{"engines": { "node": ">=8.0.0" }}',
       filename: "package.json",
       errors: [
         {
-          message: "engines.node is set to >=8.0.0 when it should be set to >=6.5.0"
-        }
+          message:
+            "engines.node is set to >=8.0.0 when it should be set to >=12.0.0",
+        },
+      ],
+      output: '{"engines": { "node": ">=12.0.0" }}',
+    },
+    {
+      // example file with engines.node set to >=8.0.0
+      code: examplePackageBad,
+      filename: "package.json",
+      errors: [
+        {
+          message:
+            "engines.node is set to >=8.0.0 when it should be set to >=12.0.0",
+        },
+      ],
+      output: examplePackageGood,
+    },
+    {
+      // override was provided but the version does not match
+      code: '{"engines": { "node": ">=15.0.0" }}',
+      filename: "package.json",
+      errors: [
+        {
+          message:
+            "engines.node is set to >=15.0.0 when it should be set to >=14.0.0",
+        },
       ],
       options: [
         {
-          nodeVersionOverride: ">=6.5.0"
-        }
+          nodeVersionOverride: ">=14.0.0",
+        },
       ],
-      output: '{"engines": { "node": ">=6.5.0" }}'
-    }
-  ]
+      output: '{"engines": { "node": ">=14.0.0" }}',
+    },
+  ],
 });
