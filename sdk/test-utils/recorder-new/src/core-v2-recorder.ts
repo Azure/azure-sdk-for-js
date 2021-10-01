@@ -33,23 +33,21 @@ const paths = {
 export class TestProxyHttpClient {
   private url = "http://localhost:5000";
   public recordingId?: string;
-  public mode!: string;
-  public httpClient!: HttpClient;
+  public mode: string;
   private stateManager = new RecordingStateManager();
-  private playback!: boolean;
-  private sessionFile!: string;
+  public httpClient: HttpClient | undefined = undefined;
+  private sessionFile: string | undefined = undefined;
 
   constructor(private testContext?: Test | undefined) {
+    this.mode = env.TEST_MODE;
     if (isRecordMode() || isPlaybackMode()) {
-      if (!this.testContext) {
+      if (this.testContext) {
+        this.sessionFile = sessionFilePath(this.testContext);
+        this.httpClient = createDefaultHttpClient();
+      } else {
         throw new Error(
           "Unable to determine the recording file path, testContext provided is not defined."
         );
-      } else {
-        this.sessionFile = sessionFilePath(this.testContext);
-        this.mode = env.TEST_MODE;
-        this.playback = isPlaybackMode();
-        this.httpClient = createDefaultHttpClient();
       }
     }
   }
@@ -110,10 +108,15 @@ export class TestProxyHttpClient {
     if (isPlaybackMode() || isRecordMode()) {
       this.stateManager.state = "started";
       if (this.recordingId === undefined) {
-        const startUri = `${this.url}${this.playback ? paths.playback : paths.record}${
+        const startUri = `${this.url}${isPlaybackMode() ? paths.playback : paths.record}${
           paths.start
         }`;
         const req = this._createRecordingRequest(startUri);
+        if (!this.httpClient) {
+          throw new RecorderError(
+            `Something went wrong, TestProxyHttpClient.httpClient should not have been undefined in ${this.mode} mode.`
+          );
+        }
         const rsp = await this.httpClient.sendRequest({
           ...req,
           allowInsecureConnection: true
@@ -137,10 +140,17 @@ export class TestProxyHttpClient {
     if (isPlaybackMode() || isRecordMode()) {
       this.stateManager.state = "stopped";
       if (this.recordingId !== undefined) {
-        const stopUri = `${this.url}${this.playback ? paths.playback : paths.record}${paths.stop}`;
+        const stopUri = `${this.url}${isPlaybackMode() ? paths.playback : paths.record}${
+          paths.stop
+        }`;
         const req = this._createRecordingRequest(stopUri);
         req.headers.set("x-recording-save", "true");
 
+        if (!this.httpClient) {
+          throw new RecorderError(
+            `Something went wrong, TestProxyHttpClient.httpClient should not have been undefined in ${this.mode} mode.`
+          );
+        }
         const rsp = await this.httpClient.sendRequest({
           ...req,
           allowInsecureConnection: true
@@ -163,6 +173,11 @@ export class TestProxyHttpClient {
    */
   private _createRecordingRequest(url: string) {
     const req = createPipelineRequest({ url: url, method: "POST" });
+    if (!this.sessionFile) {
+      throw new RecorderError(
+        `Something went wrong, TestProxyHttpClient.sessionFile should not have been undefined in ${this.mode} mode.`
+      );
+    }
     req.headers.set("x-recording-file", this.sessionFile);
     if (this.recordingId !== undefined) {
       req.headers.set("x-recording-id", this.recordingId);
