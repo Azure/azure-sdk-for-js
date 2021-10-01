@@ -48,10 +48,10 @@ A successful call to `authenticate()` will return an `AuthenticationRecord`, whi
 
 #### Client credentials
 
-The following things have been added in the `ClientSecretCredential` and `ClientCertificateCredential` credentials:
+The following features have been added in the `ClientSecretCredential` and `ClientCertificateCredential` credentials:
 
-- Better support for regional endpoints
-- A new `regionalAuthority` property for specifying the Azure region
+- Better support for regional endpoints.
+- A new `regionalAuthority` optional constructor property for specifying the Azure region.
 
 Identity v2 includes a new `enum` type called `RegionalAuthority`, which contains values for all of the Azure regions.
 
