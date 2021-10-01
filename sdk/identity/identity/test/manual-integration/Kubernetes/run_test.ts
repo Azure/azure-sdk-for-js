@@ -48,7 +48,7 @@ const argv = yargs
   .help()
   .alias("help", "h").argv;
 
-async function runCommand(command: string[], exitOnError = true): Promise<string | unknown> {
+async function runCommand(command: string[], exitOnError = true): Promise<unknown> {
   try {
     if (argv.verbose) {
       console.log(command);
