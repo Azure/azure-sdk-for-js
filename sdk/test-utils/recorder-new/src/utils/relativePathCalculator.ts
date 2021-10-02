@@ -54,7 +54,10 @@ export function relativeRecordingsPath() {
   if (!(rootPath === undefined || expectedProjectPath === undefined)) {
     // <root>/
     // <root>/sdk/service/project/
-    return path.join(path.relative(rootPath, expectedProjectPath), "recordings");
+    return path
+      .join(path.relative(rootPath, expectedProjectPath), "recordings")
+      .split(path.sep)
+      .join(path.posix.sep); // Converting "\" to "/" (needed for windows) so that the path.sep("\") is not treated as an escape character in the browsers
     // => sdk/service/project/recordings
   } else {
     throw new RecorderError(

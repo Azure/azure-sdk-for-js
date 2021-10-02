@@ -15,7 +15,8 @@ const setTestMode = (
   return mode as "record" | "playback" | undefined;
 };
 
-const TEST_SERVER_URL = `http://127.0.0.1:8080`;
+// const TEST_SERVER_URL = `http://127.0.0.1:8080`;
+const TEST_SERVER_URL = `http://host.docker.internal:8080`;
 
 // These tests require the following to be running in parallel
 // - utils/server.ts (to serve requests to act as a service)
