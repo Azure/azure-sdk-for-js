@@ -11735,7 +11735,7 @@ packages:
     dev: false
 
   file:projects/perf-search-documents.tgz:
-    resolution: {integrity: sha512-jIBagXzEDWliTMSg39K2ol71cRYif21I398rrNyXnlpyjnlo+ApBAEUb0KG7scDPyfd1gH/w3NURLVRje/Qiuw==, tarball: file:projects/perf-search-documents.tgz}
+    resolution: {integrity: sha512-JzZnuFWDzadcVL5Ch79lQLH2bLQbEGlh4m4RjmcE2FQMSUpyEeD6RsgRZjvdp9S1snhJgUHCnjNg8C/k/2GJzg==, tarball: file:projects/perf-search-documents.tgz}
     name: '@rush-temp/perf-search-documents'
     version: 0.0.0
     dependencies:
@@ -12198,7 +12198,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-eeR62qM3z5Dlp84mV4//oBv8+IssnkMf2EJotuSAmu9nerY0YcpaD9ehkQIo2DthheWlte7ah55M3+0OZPmb2A==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-1vVVrXpDsNF6D0jfxy6e4EIJz1anhCYtCki2uiP6bMX171TGLMFWCNpKk0Xxw2FMeJqAIVt4/UcoOpOy0dby1w==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
@@ -12983,7 +12983,7 @@ packages:
     dev: false
 
   file:projects/test-recorder-new.tgz:
-    resolution: {integrity: sha512-5afi6luiuZKagFZAPmjGmw1UyxrgJXucLVQgsm8W62OYcR00MYWm9xukFJWoqRkCr0xFnLgVKyNzR8+SdONs2w==, tarball: file:projects/test-recorder-new.tgz}
+    resolution: {integrity: sha512-QA/q5jYVt08XyM/xekZCFi7B0C8Ltj/kp29ZYLRFbrH3zlPzoJ0A7Vkx37pfCyaTz/mbRnQE4n/qKWYCKuCIKg==, tarball: file:projects/test-recorder-new.tgz}
     name: '@rush-temp/test-recorder-new'
     version: 0.0.0
     dependencies:
@@ -13002,6 +13002,7 @@ packages:
       '@types/node': 12.20.24
       chai: 4.3.4
       concurrently: 6.2.1
+      cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
       express: 4.17.1
