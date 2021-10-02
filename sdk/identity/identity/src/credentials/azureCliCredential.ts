@@ -7,7 +7,7 @@ import { createSpan } from "../util/tracing";
 import { CredentialUnavailableError } from "../client/errors";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
-import * as child_process from "child_process";
+import child_process from "child_process";
 import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
 import { AzureCliCredentialOptions } from "./azureCliCredentialOptions";
 import { processMultiTenantRequest } from "../util/validateMultiTenant";
