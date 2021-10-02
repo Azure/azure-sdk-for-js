@@ -5,92 +5,60 @@ import path from "path";
 import fs from "fs";
 import { RecorderError } from "./utils";
 
-export function relativeRecordingsPathForNode(testContext: Mocha.Test) {
-  const testAbsolutePath = testContext.file;
-  if (!testAbsolutePath) {
-    throw new RecorderError("Unable to grab the file path from the test run");
-  }
-
-  const recordingsPath = findRecordingsFolderPath(testAbsolutePath);
-  const recordingsFolder = path.basename(recordingsPath);
-  const projectFolder = path.basename(path.resolve(recordingsPath, ".."));
-  const serviceFolder = path.basename(path.resolve(recordingsPath, "..", ".."));
-  const sdk = path.basename(path.resolve(recordingsPath, "..", "..", ".."));
-  if (sdk !== "sdk") {
-    throw new Error("Unexpected location for recordings, please fix the location.");
-  }
-  return path
-    .join(sdk, serviceFolder, projectFolder, recordingsFolder)
-    .split(path.sep)
-    .join(path.posix.sep);
-}
-
-export function relativeRecordingsPathForBrowser() {
-  const pathFormatted = process.cwd();
-  const projectFolder = path.basename(pathFormatted);
-  const serviceFolder = path.basename(path.resolve(pathFormatted, ".."));
-  const sdk = path.basename(path.resolve(pathFormatted, "..", ".."));
-  if (sdk !== "sdk") {
-    throw new Error("Unexpected location for recordings, please fix the location.");
-  }
-  return path
-    .join(sdk, serviceFolder, projectFolder, "recordings")
-    .split(path.sep)
-    .join(path.posix.sep);
-}
-
 /**
  * ONLY WORKS IN THE NODE.JS ENVIRONMENT
  *
- * 1. Takes the test filePath as argument.
- * 2. Looks for the potential `recordings` folder in its hierarchical path.
- * 3. Returns the full path of the `recordings` folder
+ * Returns the potential `recordings` folder(relative path) for the project using `process.cwd()`.
  *
- * While running the tests, `filePath` can vary depending on location of the test files, examples below
+ * Note for browser tests:
+ *    1. Supposed to be called from karma.conf.js in the package for which the testing is being done.
+ *    2. Set this `RECORDINGS_RELATIVE_PATH` as an env variable
+ *      ```js
+ *        const { relativeRecordingsPathForBrowser } = require("@azure-tools/test-recorder-new");
+ *        process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPathForBrowser();
+ *      ```
+ *    3. Add "RECORDINGS_RELATIVE_PATH" in the `envPreprocessor` array to let this be loaded in the browser environment.
+ *      ```
+ *        envPreprocessor: ["RECORDINGS_RELATIVE_PATH"],
+ *      ```
  *
- * 1. If roll-up generated bundle files are being leveraged to run the tests
- *    filePath = `<base path>\azure-sdk-for-js\sdk\storage\storage-blob\dist-test\index.node.js`
- * 2. If ts complied dist-esm files are being used to run the tests
- *    filePath = `<base path>\azure-sdk-for-js\sdk\storage\storage-blob\dist-esm\test\utils.spec.js`
- *    filePath = `<base path>\azure-sdk-for-js\sdk\storage\storage-blob\dist-esm\test\node\utils.spec.js`
- * 3. If `.spec.ts` test files are being used directly
- *    filePath = `<base path>\azure-sdk-for-js\sdk\storage\storage-blob\test\utils.spec.ts`
- *    filePath = `<base path>\azure-sdk-for-js\sdk\storage\storage-blob\test\node\utils.spec.ts`
- * In the above examples, no matter where the test files are,
- *    the recordings are located at `<base path>\azure-sdk-for-js\sdk\storage\storage-blob\recordings\`.
- * In order to playback the tests, exact location of the recordings is to be found,
- *    this is done by checking the parent(s) folders until the `recordings` folder is found.
+ * `RECORDINGS_RELATIVE_PATH` in the browser environment is used in the recorder to tell the proxy-tool about the location to generate the browser recordings at.
  *
  * @export
- * @param {string} filePath
- * @returns {string} location of the `recordings` folder
+ * @returns {string} location of the relative `recordings` folder path - `sdk/storage/storage-blob/recordings/` example
  */
-function findRecordingsFolderPath(filePath: string): string {
-  // Stripping away the file name
-  let currentPath = path.resolve(filePath, "..");
-  // File/folder path of a closest child of `currentPath` in the folder hierarchy of `filePath`
-  let lastPath = filePath;
-  try {
-    // While loop to find the entry point of the SDK
-    while (
-      !(
-        fs.existsSync(path.resolve(currentPath, "package.json")) &&
-        fs.existsSync(path.resolve(currentPath, "..", "..", "..", "sdk/")) &&
-        fs.existsSync(path.resolve(currentPath, "..", "..", "..", "rush.json"))
-      )
-    ) {
-      lastPath = currentPath;
-      currentPath = path.resolve(currentPath, "..");
-      if (lastPath === currentPath) {
-        throw new Error(
-          `'package.json' is not found at ${currentPath} (reached the root directory)`
-        );
+export function relativeRecordingsPath() {
+  let currentPath = process.cwd();
+  console.log(currentPath);
+
+  let rootPath = undefined;
+  let expectedProjectPath = undefined;
+
+  if (fs.existsSync(path.join(currentPath, "package.json"))) {
+    // <root>/sdk/service/project/package.json
+    if (fs.existsSync(path.join(currentPath, "package.json"))) {
+      expectedProjectPath = currentPath; // <root>/sdk/service/project/
+      const expectedRootPath = path.join(currentPath, "..", "..", ".."); // <root>/
+      if (
+        fs.existsSync(path.join(expectedRootPath, "sdk/")) && // <root>/sdk
+        fs.existsSync(path.join(expectedRootPath, "rush.json")) // <root>/rush.json
+      ) {
+        // reached root path
+        rootPath = expectedRootPath;
       }
     }
-    return path.resolve(currentPath, "recordings/");
-  } catch (error) {
-    throw new Error(
-      `Unable to locate the 'recordings' folder anywhere in the hierarchy of the file path ${filePath}\n ${error}`
+  } else {
+    throw new RecorderError(`'package.json' is not found at ${currentPath}`);
+  }
+
+  if (!(rootPath === undefined || expectedProjectPath === undefined)) {
+    // <root>/
+    // <root>/sdk/service/project/
+    return path.join(path.relative(rootPath, expectedProjectPath), "recordings");
+    // => sdk/service/project/recordings
+  } else {
+    throw new RecorderError(
+      "rootPath or expectedProjectPath could not be calculated properly from process.cwd()"
     );
   }
 }

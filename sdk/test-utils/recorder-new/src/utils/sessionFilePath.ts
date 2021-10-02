@@ -3,14 +3,12 @@
 
 import { env, generateTestRecordingFilePath } from "@azure-tools/test-recorder";
 import { isNode } from "@azure/test-utils";
-import { relativeRecordingsPathForNode } from "./relativePathCalculator";
+import { relativeRecordingsPath } from "./relativePathCalculator";
 
 export function sessionFilePath(testContext: Mocha.Test) {
-  if (!isNode) {
-    return `${env.RECORDINGS_RELATIVE_PATH}/${recordingFilePath(testContext)}`;
-  } else {
-    return `${relativeRecordingsPathForNode(testContext)}/${recordingFilePath(testContext)}`;
-  }
+  const recordingsFolder = !isNode ? env.RECORDINGS_RELATIVE_PATH : relativeRecordingsPath(); // sdk/service/project/recordings
+  return `${recordingsFolder}/${recordingFilePath(testContext)}`;
+  // sdk/service/project/recordings/{node|browsers}/<describe-block-title>/recording_<test-title>.json
 }
 
 /**
