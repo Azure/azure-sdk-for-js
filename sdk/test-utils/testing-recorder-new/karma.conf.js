@@ -1,9 +1,9 @@
 // https://github.com/karma-runner/karma-chrome-launcher
-const { relativeRecordingsPathForBrowser } = require("@azure-tools/test-recorder-new");
+const { relativeRecordingsPath } = require("@azure-tools/test-recorder-new");
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config({ path: "./.env" });
 
-process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPathForBrowser();
+process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
 
 module.exports = function(config) {
   config.set({
