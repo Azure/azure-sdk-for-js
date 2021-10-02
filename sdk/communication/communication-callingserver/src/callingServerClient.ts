@@ -256,6 +256,7 @@ export class CallingServerClient {
     const DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS = 3;
     let contentDownloader = this.initializeContentDownloader();
     try {
+      console.log("before download");
       const res = await contentDownloader.downloadContent(uri,{
         abortSignal: options.abortSignal,
         requestOptions: {
@@ -264,7 +265,7 @@ export class CallingServerClient {
         range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
-      
+      console.log("after download");
       // Return browser response immediately
       if (!isNode) {
         return res;
@@ -283,7 +284,7 @@ export class CallingServerClient {
       if (res.contentLength === undefined) {
         throw new RangeError(`File download response doesn't contain valid content length header`);
       }
-
+      console.log("before returning");
       return new RepeatableContentDownloadResponse(
         res,
         async (start: number): Promise<NodeJS.ReadableStream> => {

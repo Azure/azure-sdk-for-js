@@ -10,7 +10,7 @@ import { CallingServerApiClientContext } from "./generated/src/callingServerApiC
 var urlModule = require('url');
 import { OperationQueryParameter } from "@azure/core-http";
 
-import { createSpan } from "./tracing";
+// import { createSpan } from "./tracing";
 import {
   operationOptionsToRequestOptionsBase,
   OperationOptions,
@@ -18,7 +18,7 @@ import {
   Serializer,
   OperationSpec
 } from "@azure/core-http";
-import { SpanStatusCode } from "@azure/core-tracing";
+// import { SpanStatusCode } from "@azure/core-tracing";
 import { ContentDownloadResponse } from ".";
 
 
@@ -31,25 +31,30 @@ export class ContentDownloader {
   public async downloadContent(contentUri: string,
     options: DownloadContentOptions = {}
   ): Promise<ContentDownloadResponse> {
-    const { span, updatedOptions } = createSpan("ContentDownloaderRestClient-Recording", options);
+    // const { span, updatedOptions } = createSpan("ContentDownloaderRestClient-Recording", options);
 
-    try {
-      const result = await this.download_content(
+    // try {
+    //   const result = await this.download_content(
+    //     contentUri,
+    //     operationOptionsToRequestOptionsBase(updatedOptions)
+    //   );
+
+    //   return result;
+
+    // } catch (e) {
+    //   span.setStatus({
+    //     code: SpanStatusCode.ERROR,
+    //     message: e.message
+    //   });
+    //   throw e;
+    // } finally {
+    //   span.end();
+    // }
+
+    return await this.download_content(
         contentUri,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        operationOptionsToRequestOptionsBase(options)
       );
-
-      return result;
-
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -68,7 +73,6 @@ export class ContentDownloader {
     var q = urlModule.parse(contentUri, true);
     var formattedUrl = q.pathname.startsWith('/') ? q.pathname.substr(1) : q.pathname
     var stringToSign = this.client.endpoint + formattedUrl;
-
     return this.client.sendOperationRequest(
       operationArguments,
       getDownloadContentOperationSpec(contentUri, stringToSign)
@@ -106,25 +110,8 @@ function getDownloadContentOperationSpec(url: string, stringToSign: string): Ope
         },
         headersMapper: ExtraMappers.ContentDownloadHeaders
       },
-      400: {
-        bodyMapper: Mappers.CommunicationErrorResponse,
-        isError: true
-      },
-      401: {
-        bodyMapper: Mappers.CommunicationErrorResponse,
-        isError: true
-      },
-      403: {
-        bodyMapper: Mappers.CommunicationErrorResponse,
-        isError: true
-      },
-      404: {
-        bodyMapper: Mappers.CommunicationErrorResponse,
-        isError: true
-      },
-      500: {
-        bodyMapper: Mappers.CommunicationErrorResponse,
-        isError: true
+      default: {
+        bodyMapper: Mappers.CommunicationErrorResponse
       }
     },
     requestBody: undefined,
