@@ -236,7 +236,6 @@ export interface DocTypeInfo {
 export class DocumentAnalysisClient {
     constructor(endpoint: string, credential: TokenCredential, options?: DocumentAnalysisClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: DocumentAnalysisClientOptions);
-    // @internal
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: DocumentAnalysisClientOptions);
     beginAnalyzeDocuments(modelId: string, input: string | FormRecognizerRequestBody, options?: AnalyzeDocumentsOptions): Promise<AnalysisPoller>;
     beginAnalyzeDocuments<Document>(model: DocumentModel<Document>, input: string | FormRecognizerRequestBody, options?: AnalyzeDocumentsOptions<AnalyzeResult<Document>>): Promise<AnalysisPoller<AnalyzeResult<Document>>>;
@@ -348,7 +347,6 @@ export interface DocumentModel<Result> {
 export class DocumentModelAdministrationClient {
     constructor(endpoint: string, credential: TokenCredential, options?: DocumentModelAdministrationClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: DocumentModelAdministrationClientOptions);
-    // @internal
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: DocumentModelAdministrationClientOptions);
     beginBuildModel(modelId: string, containerUrl: string, options?: BuildModelOptions): Promise<TrainingPoller>;
     beginComposeModel(modelId: string, componentModels: Iterable<string>, options?: BuildModelOptions): Promise<TrainingPoller>;
