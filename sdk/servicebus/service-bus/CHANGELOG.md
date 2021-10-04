@@ -1,6 +1,6 @@
 # Release History
 
-## 7.3.1-beta.1 (2021-10-04)
+## 7.4.0-beta.1 (2021-10-04)
 
 ### Features Added
 
