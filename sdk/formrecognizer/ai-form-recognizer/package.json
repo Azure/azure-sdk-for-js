@@ -133,15 +133,11 @@
   },
   "//sampleConfiguration": {
     "skip": [
-      "customModelManagement.js",
-      "createComposedModel.js",
-      "differentiateLabeledUnlabeled.js",
-      "getBoundingBoxes.js",
-      "recognizeCustomForm.js",
-      "trainLabeledModel.js",
-      "trainUnlabeledModel.js",
+      "analyzeWithCustomModel.js",
+      "buildModel.js",
+      "composeModel.js",
       "copyModel.js",
-      "deleteAllModels.js"
+      "getModel.js"
     ],
     "productName": "Azure Form Recognizer",
     "productSlugs": [
