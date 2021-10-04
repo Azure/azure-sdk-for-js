@@ -1,16 +1,10 @@
 # Release History
 
-## 7.3.1-beta.1 (Unreleased)
+## 7.3.1-beta.1 (2021-10-04)
 
 ### Features Added
 
 - Adds new get/set property `maxMessageSizeInKilobytes` to `QueueProperties`, `TopicProperties`, `CreateQueueOptions`, and `CreateTopicOptions`. Only applicable for premium namespaces. Use this when creating or updating queues and topics. Added in [#17953](https://github.com/Azure/azure-sdk-for-js/pull/17953)
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 7.3.0 (2021-07-07)
 
