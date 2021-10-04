@@ -14,7 +14,7 @@ Run this command
 
 > `docker run -v /workspaces/azure-sdk-for-js/:/etc/testproxy -p 5001:5001 -p 5000:5000 azsdkengsys.azurecr.io/engsys/testproxy-lin:latest`
 
-[Map the root directory of the azure-sdk-for-js repo to `/etc/testproxy` inside the container for an accurate location while generating recordings.]
+Map the root directory of the azure-sdk-for-js repo to `/etc/testproxy` inside the container for an accurate location while generating recordings.
 
 (Eventually, recorder will trigger this for you!)
 
