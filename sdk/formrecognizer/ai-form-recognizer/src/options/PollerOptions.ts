@@ -17,7 +17,8 @@ export interface PollerOptions<TState extends PollOperationState<unknown>> {
    */
   resumeFrom?: string;
   /**
-   * An optional progress handler that will be called when the poller state updates.
+   * An optional initial progress handler that will be called when the poller state updates. This handler will be called
+   * once immediately after the poller state is initialized.
    */
   onProgress?: (state: TState) => void;
 }
