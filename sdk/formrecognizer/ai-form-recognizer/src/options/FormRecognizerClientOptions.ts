@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { PipelineOptions } from "@azure/core-rest-pipeline";
+import { GeneratedClientOptionalParams } from "../generated";
 
 /**
  * Valid values of the Form Recognizer service REST API version.
@@ -50,7 +51,7 @@ export const StringIndexType = {
  *
  * @internal
  */
-export const DEFAULT_GENERATED_CLIENT_OPTIONS: CommonClientOptions = {
+export const DEFAULT_GENERATED_CLIENT_OPTIONS: GeneratedClientOptionalParams = {
   stringIndexType: StringIndexType.Utf16CodeUnit,
   apiVersion: FormRecognizerApiVersion.Latest,
 };
@@ -59,7 +60,7 @@ export const DEFAULT_GENERATED_CLIENT_OPTIONS: CommonClientOptions = {
  * Configurable options for the Form Recognizer service clients (DocumentAnalysisClient and
  * DocumentModelAdministrationClient).
  */
-export interface CommonClientOptions extends PipelineOptions {
+export interface FormRecognizerCommonClientOptions extends PipelineOptions {
   /**
    * The version of the Form Recognizer REST API to call. Service versions 2.1 and lower (non-date-based versions) are
    * not supported by this client. To use API version 2.1, please use version 3 of the Azure Form Recognizer SDK for
@@ -68,6 +69,12 @@ export interface CommonClientOptions extends PipelineOptions {
    * Default: FormRecognizerApiVersion.Latest ("2021-09-30-preview")
    */
   apiVersion?: FormRecognizerApiVersion;
+}
+
+/**
+ * Configurable options for DocumentAnalysisClient.
+ */
+export interface DocumentAnalysisClientOptions extends FormRecognizerCommonClientOptions {
   /**
    * The unit of string offset/length values that the service returns.
    *
@@ -80,11 +87,7 @@ export interface CommonClientOptions extends PipelineOptions {
 }
 
 /**
- * Configurable options for DocumentAnalysisClient.
- */
-export interface DocumentAnalysisClientOptions extends CommonClientOptions {}
-
-/**
  * Configurable options for DocumentModelAdministrationClient.
  */
-export interface DocumentModelAdministrationClientOptions extends CommonClientOptions {}
+export interface DocumentModelAdministrationClientOptions
+  extends FormRecognizerCommonClientOptions {}

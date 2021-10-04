@@ -189,12 +189,6 @@ export const BusinessCardSchema: {
 };
 
 // @public
-export interface CommonClientOptions extends PipelineOptions {
-    apiVersion?: FormRecognizerApiVersion;
-    stringIndexType?: StringIndexType;
-}
-
-// @public
 export type ContentType = "application/octet-stream" | "application/pdf" | "image/bmp" | "image/jpeg" | "image/png" | "image/tiff";
 
 // @public
@@ -251,7 +245,8 @@ export class DocumentAnalysisClient {
 }
 
 // @public
-export interface DocumentAnalysisClientOptions extends CommonClientOptions {
+export interface DocumentAnalysisClientOptions extends FormRecognizerCommonClientOptions {
+    stringIndexType?: StringIndexType;
 }
 
 // @public
@@ -345,7 +340,6 @@ export interface DocumentLine {
 
 // @public
 export interface DocumentModel<Result> {
-    // @internal
     [fromDocument]: (input: GeneratedDocument) => Result;
     modelId: string;
 }
@@ -369,7 +363,7 @@ export class DocumentModelAdministrationClient {
 }
 
 // @public
-export interface DocumentModelAdministrationClientOptions extends CommonClientOptions {
+export interface DocumentModelAdministrationClientOptions extends FormRecognizerCommonClientOptions {
 }
 
 // @public
@@ -505,6 +499,11 @@ export const FormRecognizerApiVersion: {
     readonly Latest: "2021-09-30-preview";
     readonly Preview: "2021-09-30-preview";
 };
+
+// @public
+export interface FormRecognizerCommonClientOptions extends PipelineOptions {
+    apiVersion?: FormRecognizerApiVersion;
+}
 
 // @public
 export type FormRecognizerRequestBody = NodeJS.ReadableStream | Blob | ArrayBuffer | ArrayBufferView;

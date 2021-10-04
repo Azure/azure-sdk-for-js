@@ -7,7 +7,7 @@ import { CopyModelOptions } from "./CopyModelOptions";
 import { DeleteModelOptions } from "./DeleteModelOptions";
 import {
   FormRecognizerApiVersion,
-  CommonClientOptions,
+  FormRecognizerCommonClientOptions,
   StringIndexType,
   DocumentAnalysisClientOptions,
   DocumentModelAdministrationClientOptions,
@@ -24,7 +24,7 @@ export {
   AnalyzeDocumentsOptions,
   BuildModelOptions,
   CopyModelOptions,
-  CommonClientOptions,
+  FormRecognizerCommonClientOptions,
   DocumentAnalysisClientOptions,
   DocumentModelAdministrationClientOptions,
   GetCopyAuthorizationOptions,

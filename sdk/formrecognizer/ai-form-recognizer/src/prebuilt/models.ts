@@ -28,7 +28,6 @@ export interface DocumentModel<Result> {
   modelId: string;
   /**
    * An associated transformation that is used to convert the base (weak) Document type to the strong Result type.
-   * @internal
    * @hidden
    */
   [fromDocument]: (input: Document) => Result;

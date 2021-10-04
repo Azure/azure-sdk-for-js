@@ -3,10 +3,9 @@
 
 import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { CommonClientOptions } from ".";
 import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 import { DEFAULT_COGNITIVE_SCOPE } from "./constants";
-import { GeneratedClient } from "./generated";
+import { GeneratedClient, GeneratedClientOptionalParams } from "./generated";
 import { DEFAULT_GENERATED_CLIENT_OPTIONS } from "./options/FormRecognizerClientOptions";
 
 /** @internal */
@@ -40,7 +39,7 @@ export const maybemap = <T1, T2>(value: T1 | undefined, f: (v: T1) => T2): T2 | 
 export function makeServiceClient(
   endpoint: string,
   credential: KeyCredential | TokenCredential,
-  options: CommonClientOptions
+  options: GeneratedClientOptionalParams
 ): GeneratedClient {
   const client = new GeneratedClient(endpoint?.replace(/\/$/, ""), {
     ...DEFAULT_GENERATED_CLIENT_OPTIONS,
