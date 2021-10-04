@@ -140,7 +140,7 @@ export class EventHubBufferedProducerClient {
    * - `webSocketOptions`: Configures the channelling of the AMQP connection over Web Sockets.
    * - `userAgent`      : A string to append to the built in user agent string that is passed to the service.
    */
-  constructor(connectionString: string, options: EventHubBufferedProducerClientOptions); // eslint-disable-line @azure/azure-sdk/ts-naming-options
+  constructor(connectionString: string, options: EventHubBufferedProducerClientOptions);
   /**
    * The `EventHubBufferedProducerClient` class is used to send events to an Event Hub.
    * Use the `options` parmeter to configure retry policy or proxy settings.
@@ -158,7 +158,7 @@ export class EventHubBufferedProducerClient {
     connectionString: string,
     eventHubName: string,
     options: EventHubBufferedProducerClientOptions
-  ); // eslint-disable-line @azure/azure-sdk/ts-naming-options
+  );
   /**
    * The `EventHubBufferedProducerClient` class is used to send events to an Event Hub.
    * Use the `options` parmeter to configure retry policy or proxy settings.
@@ -183,7 +183,7 @@ export class EventHubBufferedProducerClient {
     fullyQualifiedNamespace: string,
     eventHubName: string,
     credential: TokenCredential | NamedKeyCredential | SASCredential,
-    options: EventHubBufferedProducerClientOptions // eslint-disable-line @azure/azure-sdk/ts-naming-options
+    options: EventHubBufferedProducerClientOptions
   );
   constructor(
     fullyQualifiedNamespaceOrConnectionString1: string,
@@ -193,7 +193,7 @@ export class EventHubBufferedProducerClient {
       | NamedKeyCredential
       | SASCredential
       | EventHubBufferedProducerClientOptions,
-    options4?: EventHubBufferedProducerClientOptions // eslint-disable-line @azure/azure-sdk/ts-naming-options
+    options4?: EventHubBufferedProducerClientOptions
   ) {
     this._context = createConnectionContext(
       fullyQualifiedNamespaceOrConnectionString1,
