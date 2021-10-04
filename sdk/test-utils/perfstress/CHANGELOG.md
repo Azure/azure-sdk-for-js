@@ -2,6 +2,11 @@
 
 ## 1.0.0 (Unreleased)
 
+### 2021-10-01
+
+- Calls runAsync() once before starting recording, to avoid capturing one-time setup like authorization requests.
+  [#17993](https://github.com/Azure/azure-sdk-for-js/pull/17993)
+
 ### 2021-09-29
 
 - Allows connecting to the proxy-tool with https with the "insecure" boolean option.
