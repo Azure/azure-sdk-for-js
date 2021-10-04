@@ -2248,7 +2248,7 @@ describe("ATOM APIs", () => {
       }
     }
   ].forEach((testCase) => {
-    describe.only(`updateTopic() using different variations to the input parameter "topicOptions"`, function(): void {
+    describe(`updateTopic() using different variations to the input parameter "topicOptions"`, function(): void {
       beforeEach(async () => {
         await recreateTopic(managementTopic1);
       });
