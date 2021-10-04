@@ -199,10 +199,16 @@ async function processSources(
         if (summary === undefined) {
           for (const tag of tags) {
             log.debug(`File ${relativeSourcePath} has tag ${tag.tagName.text}`);
+
+            // New TS introduced comment: NodeArray, so we join the text if it is made of many nodes.
+            const comment = Array.isArray(tag.comment)
+              ? tag.comment.map((node: ts.JSDocText) => node.text ?? " ").join(" ")
+              : (tag.comment as string | undefined);
+
             if (tag.tagName.text === "summary") {
               log.debug("Found summary tag on node:", node.getText(sourceFile));
               // Replace is required due to multi-line splitting messing with table formatting
-              summary = tag.comment?.replace(/\s*\r?\n\s*/g, " ");
+              summary = comment?.replace(/\s*\r?\n\s*/g, " ");
             } else if (tag.tagName.text.startsWith(`${AZSDK_META_TAG_PREFIX}`)) {
               // We ran into an `azsdk` directive in the metadata
               const metaTag = tag.tagName.text.replace(
@@ -211,11 +217,13 @@ async function processSources(
               ) as keyof AzSdkMetaTags;
               log.debug(`File ${relativeSourcePath} has azsdk tag ${tag.tagName.text}`);
               if (VALID_AZSDK_META_TAGS.includes(metaTag)) {
-                const comment = tag.comment?.trim();
+                const trimmedComment = comment?.trim();
                 // If there was _no_ comment, then we can assume it is a boolean tag
                 // and so being specified at all is an indication that we should use
                 // `true`
-                azSdkTags[metaTag as keyof AzSdkMetaTags] = comment ? JSON.parse(comment) : true;
+                azSdkTags[metaTag as keyof AzSdkMetaTags] = trimmedComment
+                  ? JSON.parse(trimmedComment)
+                  : true;
               } else {
                 log.warn(
                   `Invalid azsdk tag ${metaTag}. Valid tags include ${VALID_AZSDK_META_TAGS}`
@@ -578,7 +586,7 @@ export default leafCommand(commandInfo, async (options) => {
       return factory(basePath);
     });
   } catch (ex) {
-    log.error(ex.message);
+    log.error((ex as Error).message);
     return false;
   }
 
