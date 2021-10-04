@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * This sample shows how to analyze a document using a model with a given ID. The model ID may refer to any model,
+ * whether custom, prebuilt, composed, etc.
+ *
+ * @summary analyze a document using a model by ID
+ */
+
 import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
 
 import * as dotenv from "dotenv";

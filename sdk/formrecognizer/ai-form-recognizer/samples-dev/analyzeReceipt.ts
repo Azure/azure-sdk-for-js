@@ -1,6 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * This sample shows how to extract elements of a receipt from a URL to a file using the prebuilt receipt model.
+ *
+ * The prebuilt receipt model can return several fields. For a detailed list of the fields supported by the receipt
+ * model, see the `Receipt` type in the documentation, or refer to the following link:
+ *
+ * https://aka.ms/azsdk/formrecognizer/receiptfieldschema
+ *
+ * @summary extract data from a receipt document
+ */
+
 import {
   AzureKeyCredential,
   DocumentAnalysisClient,

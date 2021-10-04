@@ -1,6 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * This sample shows how to extract elements of a receipt from a URL to a file using the prebuilt receipt model. Rather
+ * than using the `PrebuiltModels.Receipt` document model, this sample shows the use of the prebuilt model by ID,
+ * resulting in a weaker type that exactly mirrors the model's field schema at runtime.
+ *
+ * The prebuilt receipt model can return several fields. For a detailed list of the fields supported by the
+ * receipt model, see the `Receipt` type in the documentation, or refer to the following link:
+ *
+ * https://aka.ms/azsdk/formrecognizer/receiptfieldschema
+ *
+ * @summary use the "prebuilt-receipt" model ID to extract data from a receipt document (weakly-typed)
+ */
+
 import {
   AzureKeyCredential,
   DocumentAnalysisClient,
@@ -32,14 +45,14 @@ async function main() {
   if (result) {
     const receipt = result.fields;
     console.log("=== Receipt Information ===");
-    console.log("Type:", (receipt.ReceiptType as DocumentStringField).value);
-    console.log("Merchant:", (receipt.MerchantName as DocumentStringField).value);
+    console.log("Type:", (receipt["ReceiptType"] as DocumentStringField).value);
+    console.log("Merchant:", (receipt["MerchantName"] as DocumentStringField).value);
     console.log("Items:");
-    for (const { properties: item } of ((receipt.Items as DocumentArrayField).values ??
+    for (const { properties: item } of ((receipt["Items"] as DocumentArrayField).values ??
       []) as DocumentObjectField[]) {
-      console.log("-", (item.Name as DocumentStringField).value ?? "<undefined>");
+      console.log("-", (item["Name"] as DocumentStringField).value ?? "<undefined>");
       //console.log("  Price:", item?.price);
-      console.log("  Total Price:", (item.TotalPrice as DocumentStringField).value);
+      console.log("  Total Price:", (item["TotalPrice"] as DocumentStringField).value);
     }
   } else {
     throw new Error("Expected at least one receipt in the result.");

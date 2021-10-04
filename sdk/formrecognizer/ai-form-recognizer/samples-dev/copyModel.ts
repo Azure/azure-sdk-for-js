@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * This sample shows how to copy a model from one resource to another. The model is created with a new model ID (and
+ * optionally a new description) in the destination resource, but will have the same document types as the source model.
+ *
+ * @summary copy a model from one resource to another
+ */
+
 import { AzureKeyCredential, DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
 
 async function main() {

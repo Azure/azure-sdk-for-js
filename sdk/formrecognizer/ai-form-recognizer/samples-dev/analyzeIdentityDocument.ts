@@ -1,6 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * This sample shows how to extract elements of an identity document (such as a driver license or passport) from a URL
+ * to a file using the prebuilt identity document model.
+ *
+ * The prebuilt identity document model can return several fields. For a detailed list of the fields supported by the
+ * identity document model, see the `IdentityDocument` type in the documentation, or refer to the following link:
+ *
+ * https://aka.ms/azsdk/formrecognizer/iddocumentfieldschema
+ *
+ * @summary extract data from an identity document
+ */
+
 import {
   AzureKeyCredential,
   DocumentAnalysisClient,

@@ -1,6 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * This sample shows how to extract elements of an invoice from a URL to a file using the prebuilt invoice model.
+ *
+ * The prebuilt invoice model can return several fields. For a detailed list of the fields supported by the invoice
+ * model, see the `Invoice` type in the documentation, or refer to the following link:
+ *
+ * https://aka.ms/azsdk/formrecognizer/invoicefieldschema
+ *
+ * @summary extract data from an invoice document
+ */
+
 import {
   AzureKeyCredential,
   DocumentAnalysisClient,
@@ -18,7 +29,7 @@ async function main() {
 
   const poller = await client.beginAnalyzeDocuments(
     PrebuiltModels.Invoice,
-    // The form recognizer service will access the following URL to a receipt image and extract data from it
+    // The form recognizer service will access the following URL to an invoice image and extract data from it
     "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/invoice/sample_invoice.jpg"
   );
 

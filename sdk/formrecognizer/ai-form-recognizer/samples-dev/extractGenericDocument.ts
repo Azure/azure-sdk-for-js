@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * This sample shows how to extract data from a generic document using the `beginExtractGenericDocument` method. This
+ * model produces key-value pairs and entities in addition to the basic layout information.
+ *
+ * @summary use the prebuilt (generic) document model to extract key-value pairs and entities
+ */
+
 import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
 
 import * as dotenv from "dotenv";

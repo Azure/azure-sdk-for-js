@@ -5,6 +5,8 @@
  * This sample demonstrates how to create a composed model from several individual labeled models.
  *
  * We build all of the component models used in the composition operation and then finally create the composed model.
+ * The resulting composed model will have all of the document types of its component submodels. When used for analysis,
+ * it will first classify the input as belonging to one of the document types.zzs
  *
  * @summary create a composed model from several individual labeled models
  * @azsdk-weight 60

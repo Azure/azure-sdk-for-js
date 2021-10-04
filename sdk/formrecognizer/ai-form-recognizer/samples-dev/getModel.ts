@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * This sample shows how to get the full information about a custom model by its model ID, including information about
+ * the document types in the model and their field schemas.
+ *
+ * @summary get information about a model by its ID
+ */
+
 import { AzureKeyCredential, DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
 
 import * as dotenv from "dotenv";

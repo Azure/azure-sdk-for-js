@@ -1,6 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * This sample shows how to programmatically build a model with a single document type using a training data set.
+ *
+ * The Form Recognizer service expects the training data to be organized and labeled according to a particular
+ * convention and stored in an Azure Storage container. For more information about creating a training data set, please
+ * see the information at the following link to the service's documentation:
+ *
+ * https://aka.ms/azsdk/formrecognizer/buildtrainingset
+ *
+ * @summary build a model with a single document type from a training data set
+ */
+
 import { AzureKeyCredential, DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
 
 async function main() {

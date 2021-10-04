@@ -1,6 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * This sample shows how to extract only the basic layout information from a document using the `beginExtractLayout`
+ * method. Layout information consists of the arrangement of basic OCR elements, such as pages (including their contents
+ * such as lines, words, and selection marks), tables, and text font styles.
+ *
+ * @summary use the prebuilt layout model to extract basic document elements only
+ */
+
 import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
 
 import * as dotenv from "dotenv";
