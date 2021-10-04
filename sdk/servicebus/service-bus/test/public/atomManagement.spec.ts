@@ -2228,7 +2228,6 @@ describe("ATOM APIs", () => {
         autoDeleteOnIdle: "PT2H",
         supportOrdering: true,
         maxSizeInMegabytes: 3072,
-        maxMessageSizeInKilobytes: 1036,
         availabilityStatus: "Available" as EntityAvailabilityStatus
       },
       output: {
@@ -2249,7 +2248,7 @@ describe("ATOM APIs", () => {
       }
     }
   ].forEach((testCase) => {
-    describe(`updateTopic() using different variations to the input parameter "topicOptions"`, function(): void {
+    describe.only(`updateTopic() using different variations to the input parameter "topicOptions"`, function(): void {
       beforeEach(async () => {
         await recreateTopic(managementTopic1);
       });
