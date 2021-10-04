@@ -82,7 +82,7 @@ const client = new SchemaRegistryClient("<fullyQualifiedNamespace>", new Default
 const description = {
   name: "<name>",
   groupName: "<group name>",
-  format: "<schema format>"
+  format: "<schema format>",
   schemaDefinition: "<schema definition>"
 }
 
