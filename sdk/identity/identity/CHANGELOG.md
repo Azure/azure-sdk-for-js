@@ -9,6 +9,7 @@
 #### Breaking Changes from 2.0.0-beta.4
 
 - Removed the `allowMultiTenantAuthentication` option from all of the credentials. Multi-tenant authentication is now enabled by default. On Node.js, it can be disabled with the `AZURE_IDENTITY_DISABLE_MULTITENANTAUTH` environment variable.
+- Removed rdded regional support from client credential types. Also removed support for the `AZURE_REGIONAL_AUTHORITY_NAME` environment variable.
 
 
 ### Bugs Fixed

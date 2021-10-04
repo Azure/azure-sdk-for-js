@@ -7,7 +7,7 @@ import { assert } from "chai";
 import { env, delay, isRecordMode } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
 import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
-import { ClientSecretCredential, RegionalAuthority } from "../../../src";
+import { ClientSecretCredential } from "../../../src";
 import { Context } from "mocha";
 
 describe("ClientSecretCredential", function() {
@@ -81,7 +81,8 @@ describe("ClientSecretCredential", function() {
     })
   );
 
-  it("supports specifying the regional authority", async function(this: Context) {
+  // TODO: Enable again once we're ready to release this feature.
+  it.skip("supports specifying the regional authority", async function(this: Context) {
     // This test is extremely slow. Let's skip it for now.
     // I've tried Sinon's clock and it doesn't affect it.
     // We have internal tests that check that the parameters are properly sent to MSAL, which should be enough from the perspective of the SDK.
@@ -94,7 +95,8 @@ describe("ClientSecretCredential", function() {
       env.AZURE_CLIENT_ID,
       env.AZURE_CLIENT_SECRET,
       {
-        regionalAuthority: RegionalAuthority.AutoDiscoverRegion
+        // TODO: Uncomment again once we're ready to release this feature.
+        // regionalAuthority: RegionalAuthority.AutoDiscoverRegion
       }
     );
 

@@ -23,7 +23,6 @@ import {
   publicToMsal
 } from "../utils";
 import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
-import { RegionalAuthority } from "../../regionalAuthority";
 import { processMultiTenantRequest } from "../../util/validateMultiTenant";
 
 /**
@@ -100,10 +99,11 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
       );
     }
 
-    this.azureRegion = options.regionalAuthority ?? process.env.AZURE_REGIONAL_AUTHORITY_NAME;
-    if (this.azureRegion === RegionalAuthority.AutoDiscoverRegion) {
-      this.azureRegion = "AUTO_DISCOVER";
-    }
+    // TODO: Uncomment once we're ready to release this feature.
+    // this.azureRegion = options.regionalAuthority ?? process.env.AZURE_REGIONAL_AUTHORITY_NAME;
+    // if (this.azureRegion === RegionalAuthority.AutoDiscoverRegion) {
+    //   this.azureRegion = "AUTO_DISCOVER";
+    // }
   }
 
   /**

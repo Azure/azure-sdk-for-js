@@ -9,7 +9,7 @@ import * as path from "path";
 import { AbortController } from "@azure/abort-controller";
 import { env, isPlaybackMode, delay } from "@azure-tools/test-recorder";
 import { ConfidentialClientApplication } from "@azure/msal-node";
-import { ClientCertificateCredential, RegionalAuthority } from "../../../src";
+import { ClientCertificateCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { MsalNode } from "../../../src/msal/nodeFlows/nodeCommon";
 import { Context } from "mocha";
@@ -121,13 +121,15 @@ describe("ClientCertificateCredential (internal)", function() {
     assert.equal(doGetTokenSpy.callCount, 2);
   });
 
-  it("supports specifying the regional authority", async function() {
+  // TODO: Enable again once we're ready to release this feature.
+  it.skip("supports specifying the regional authority", async function() {
     const credential = new ClientCertificateCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
       certificatePath,
       {
-        regionalAuthority: RegionalAuthority.AutoDiscoverRegion
+        // TODO: Uncomment once we're ready to release this feature.
+        // regionalAuthority: RegionalAuthority.AutoDiscoverRegion
       }
     );
 
