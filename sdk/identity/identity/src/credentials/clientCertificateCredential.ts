@@ -55,6 +55,7 @@ export class ClientCertificateCredential implements TokenCredential {
    * @param tenantId - The Azure Active Directory tenant (directory) ID.
    * @param clientId - The client (application) ID of an App Registration in the tenant.
    * @param configuration - Other parameters required, including the PEM-encoded certificate as a string, or as a path on the filesystem.
+   *                        If the type is ignored, we will throw if both the value of the PEM certificate and the path to a PEM certificate are provided at the same time.
    * @param options - Options for configuring the client which makes the authentication request.
    */
   constructor(
@@ -69,6 +70,11 @@ export class ClientCertificateCredential implements TokenCredential {
     if (!configuration || !(configuration.certificate || configuration.certificatePath)) {
       throw new Error(
         `${credentialName}: Provide either a PEM certificate in string form, or the path to that certificate in the filesystem.`
+      );
+    }
+    if (configuration.certificate && configuration.certificatePath) {
+      throw new Error(
+        `${credentialName}: To avoid unexpected behaviors, providing both the contents of a PEM certificate and the path to a PEM certificate is forbidden. Please provide either of both.`
       );
     }
     this.msalFlow = new MsalClientCertificate({

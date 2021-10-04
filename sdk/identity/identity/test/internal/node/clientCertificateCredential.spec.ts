@@ -89,6 +89,22 @@ describe("ClientCertificateCredential (internal)", function() {
         "ClientCertificateCredential: Provide either a PEM certificate in string form, or the path to that certificate in the filesystem."
       );
     });
+
+    let error: Error | undefined | unknown;
+    try {
+      // If both values are provided. Relevant for JavaScript.
+      new ClientCertificateCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, {
+        certificatePath: "some/path",
+        certificate: "certificate-value"
+      } as any);
+    } catch (e) {
+      error = e;
+    }
+    assert.ok(error);
+    assert.equal(
+      (error as Error).message,
+      "ClientCertificateCredential: To avoid unexpected behaviors, providing both the contents of a PEM certificate and the path to a PEM certificate is forbidden. Please provide either of both."
+    );
   });
 
   it("throws when given a file that doesn't contain a PEM-formatted certificate", async function(this: Context) {
