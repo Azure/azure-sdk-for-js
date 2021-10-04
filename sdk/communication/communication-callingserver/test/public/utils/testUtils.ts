@@ -6,6 +6,7 @@ import { v4 as uuidv4, v5 as uuidv5 } from "uuid";
 import { CallingServerClient, MediaType, EventSubscriptionType, CallConnection } from "../../../src";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 import  * as Constants from "../utils/constants";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
 
 export class TestUtils {
     private static delay(ms: number) {
@@ -14,11 +15,11 @@ export class TestUtils {
     
     public static async getUserId(userName: string) {
       var communicationIdentityClient = new CommunicationIdentityClient(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING);
-      if (isLiveMode()){
-        return (await communicationIdentityClient.createUser()).communicationUserId;
+      if (isPlaybackMode()){
+        return "8:acs:" + env.AZURE_TENANT_ID + "_" + uuidv5(userName, Constants.NAMESPACE_UUID);
       }
-    
-      return "8:acs:" + env.AZURE_TENANT_ID + "_" + uuidv5(userName, Constants.NAMESPACE_UUID);
+      
+      return (await communicationIdentityClient.createUser()).communicationUserId;
     }
 
     public static getGroupId(testName: string) {
