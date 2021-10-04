@@ -20,6 +20,10 @@ function unwrap(error: ErrorModel | InnerError): ErrorModel {
 
 /**
  * A class representing an Error from the Form Recognizer Service.
+ *
+ * For information about the error codes the service produces, refer to the service's error documentation:
+ *
+ * https://aka.ms/azsdk/formrecognizer/errors
  */
 export class FormRecognizerError extends Error {
   /**
