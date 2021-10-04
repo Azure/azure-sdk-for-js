@@ -41,27 +41,18 @@ describe("ClientCertificateCredential (internal)", function() {
   const scope = "https://vault.azure.net/.default";
 
   it("Should throw if the parameteres are not correctly specified", async function() {
-    const errors: Error[] = [];
+    let errors: Error[] = [];
     try {
-      new ClientCertificateCredential(
-        undefined as any,
-        env.AZURE_CLIENT_ID,
-        env.AZURE_CLIENT_CERTIFICATE_PATH
-      );
+      new ClientCertificateCredential(undefined as any, env.AZURE_CLIENT_ID, {
+        certificatePath: env.AZURE_CLIENT_CERTIFICATE_PATH
+      });
     } catch (e) {
       errors.push(e);
     }
     try {
-      new ClientCertificateCredential(
-        env.AZURE_TENANT_ID,
-        undefined as any,
-        env.AZURE_CLIENT_CERTIFICATE_PATH
-      );
-    } catch (e) {
-      errors.push(e);
-    }
-    try {
-      new ClientCertificateCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, undefined as any);
+      new ClientCertificateCredential(env.AZURE_TENANT_ID, undefined as any, {
+        certificatePath: env.AZURE_CLIENT_CERTIFICATE_PATH
+      });
     } catch (e) {
       errors.push(e);
     }
@@ -70,18 +61,41 @@ describe("ClientCertificateCredential (internal)", function() {
     } catch (e) {
       errors.push(e);
     }
-    assert.equal(errors.length, 4);
+    assert.equal(errors.length, 3);
     errors.forEach((e) => {
       assert.equal(
         e.message,
-        "ClientCertificateCredential: tenantId, clientId, and certificatePath are required parameters."
+        "ClientCertificateCredential: tenantId and clientId are required parameters."
+      );
+    });
+
+    errors = [];
+    try {
+      // If configuration object is undefined. Relevant for JavaScript.
+      new ClientCertificateCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, undefined as any);
+    } catch (e) {
+      errors.push(e);
+    }
+    try {
+      // If configuration object is empty.
+      new ClientCertificateCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, {} as any);
+    } catch (e) {
+      errors.push(e);
+    }
+    assert.equal(errors.length, 2);
+    errors.forEach((e) => {
+      assert.equal(
+        e.message,
+        "ClientCertificateCredential: Provide either a PEM certificate in string form, or the path to that certificate in the filesystem."
       );
     });
   });
 
   it("throws when given a file that doesn't contain a PEM-formatted certificate", async function(this: Context) {
     const fullPath = path.resolve(__dirname, "../src/index.ts");
-    const credential = new ClientCertificateCredential("tenant", "client", fullPath);
+    const credential = new ClientCertificateCredential("tenant", "client", {
+      certificatePath: fullPath
+    });
 
     let error: Error | undefined;
     try {
@@ -94,6 +108,25 @@ describe("ClientCertificateCredential (internal)", function() {
     assert.deepEqual(error?.message, `ENOENT: no such file or directory, open '${fullPath}'`);
   });
 
+  it("throws when given a certificate that isn't PEM-formatted", async function(this: Context) {
+    const credential = new ClientCertificateCredential("tenant", "client", {
+      certificate: "not-pem-formatted"
+    });
+
+    let error: Error | undefined;
+    try {
+      await credential.getToken(scope);
+    } catch (_error) {
+      error = _error;
+    }
+
+    assert.ok(error);
+    assert.deepEqual(
+      error?.message,
+      `The file at the specified path does not contain a PEM-encoded certificate.`
+    );
+  });
+
   it("Authenticates silently after the initial request", async function(this: Context) {
     if (isPlaybackMode()) {
       // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
@@ -102,11 +135,9 @@ describe("ClientCertificateCredential (internal)", function() {
       this.skip();
     }
 
-    const credential = new ClientCertificateCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
+    const credential = new ClientCertificateCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, {
       certificatePath
-    );
+    });
 
     await credential.getToken(scope);
     assert.equal(getTokenSilentSpy.callCount, 1);
@@ -125,7 +156,7 @@ describe("ClientCertificateCredential (internal)", function() {
     const credential = new ClientCertificateCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
-      certificatePath,
+      { certificatePath },
       {
         regionalAuthority: RegionalAuthority.AutoDiscoverRegion
       }

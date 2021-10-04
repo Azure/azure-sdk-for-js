@@ -9,7 +9,33 @@ import { trace } from "../util/tracing";
 import { MsalFlow } from "../msal/flows";
 import { ClientCertificateCredentialOptions } from "./clientCertificateCredentialOptions";
 
-const logger = credentialLogger("ClientCertificateCredential");
+const credentialName = "ClientCertificateCredential";
+const logger = credentialLogger(credentialName);
+
+/**
+ * Required configuration options for the {@link ClientCertificateCredential}, with either the string contents of a PEM certificate, or the path to a PEM certificate.
+ */
+export type ClientCertificateCredentialPEMConfiguration =
+  | {
+      /**
+       * The PEM-encoded public/private key certificate on the filesystem.
+       */
+      certificate: string;
+      /**
+       * The PEM-encoded public/private key certificate on the filesystem     should not be provided if `certificate` is provided.
+       */
+      certificatePath?: never;
+    }
+  | {
+      /**
+       * The PEM-encoded public/private key certificate on the filesystem should not be provided if `certificatePath` is provided.
+       */
+      certificate?: never;
+      /**
+       * The path to the PEM-encoded public/private key certificate on the filesystem.
+       */
+      certificatePath: string;
+    };
 
 /**
  * Enables authentication to Azure Active Directory using a PEM-encoded
@@ -28,23 +54,26 @@ export class ClientCertificateCredential implements TokenCredential {
    *
    * @param tenantId - The Azure Active Directory tenant (directory) ID.
    * @param clientId - The client (application) ID of an App Registration in the tenant.
-   * @param certificatePath - The path to a PEM-encoded public/private key certificate on the filesystem.
+   * @param configuration - Other parameters required, including the PEM-encoded certificate as a string, or as a path on the filesystem.
    * @param options - Options for configuring the client which makes the authentication request.
    */
   constructor(
     tenantId: string,
     clientId: string,
-    certificatePath: string,
+    configuration: ClientCertificateCredentialPEMConfiguration,
     options: ClientCertificateCredentialOptions = {}
   ) {
-    if (!tenantId || !clientId || !certificatePath) {
+    if (!tenantId || !clientId) {
+      throw new Error(`${credentialName}: tenantId and clientId are required parameters.`);
+    }
+    if (!configuration || !(configuration.certificate || configuration.certificatePath)) {
       throw new Error(
-        "ClientCertificateCredential: tenantId, clientId, and certificatePath are required parameters."
+        `${credentialName}: Provide either a PEM certificate in string form, or the path to that certificate in the filesystem.`
       );
     }
     this.msalFlow = new MsalClientCertificate({
       ...options,
-      certificatePath,
+      configuration,
       logger,
       clientId,
       tenantId,
@@ -62,7 +91,7 @@ export class ClientCertificateCredential implements TokenCredential {
    *                TokenCredential implementation might make.
    */
   async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
-    return trace(`${this.constructor.name}.getToken`, options, async (newOptions) => {
+    return trace(`${credentialName}.getToken`, options, async (newOptions) => {
       const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
       return this.msalFlow.getToken(arrayScopes, newOptions);
     });

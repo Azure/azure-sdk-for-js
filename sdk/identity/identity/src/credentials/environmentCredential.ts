@@ -114,7 +114,7 @@ export class EnvironmentCredential implements TokenCredential {
       this._credential = new ClientCertificateCredential(
         tenantId,
         clientId,
-        certificatePath,
+        { certificatePath },
         options
       );
       return;

@@ -4,7 +4,13 @@
 
 ### Features Added
 
+- `ClientCertificateCredential` now accepts the string contents of the PEM certificate besides the path to the PEM certificate through the new type `ClientCertificateCredentialPEMConfiguration`.
+
 ### Breaking Changes
+
+#### Breaking changes from 2.0.0-beta.6 and 1.5.2
+
+- `ClientCertificateCredential` now won't accept a PEM certificate path as its third parameter. It will accept an object with the type `ClientCertificateCredentialPEMConfiguration` containing either a property named `certificate` with the string contents of the PEM certificate, or a property named `certificatePath`, with the path to the PEM certificate.
 
 #### Breaking Changes from 2.0.0-beta.4
 
