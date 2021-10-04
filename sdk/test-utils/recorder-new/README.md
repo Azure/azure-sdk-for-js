@@ -18,9 +18,8 @@ Run this command
 
 (Eventually, recorder will trigger this for you!)
 
-[Note: Update `temp-location` in the command to your desired location.]
-
-Add `--net=host` to disable network sandboxing and let the test proxy container access the host's network (for example, to access `localhost`).
+Add `--add-host host.docker.internal:host-gateway` for linux to access host's network(to access `localhost`) through `host.docker.internal`.
+Docker for Windows and Mac support `host.docker.internal` as a functioning alias for localhost.
 
 If the above command doesn't work directly, try [Troubleshooting Access to Public Container Registry](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/docker#troubleshooting-access-to-public-container-registry).
 
