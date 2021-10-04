@@ -541,7 +541,7 @@ QueryMetricsResult
 
 ```ts
 import { DefaultAzureCredential } from "@azure/identity";
-import { Durations, Metric, MetricsQueryClient } from "@azure/monitor-query";
+import { Durations, Metric, MetricsQueryClient } from "../src/index";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -560,16 +560,18 @@ export async function main() {
 
   const metricsResponse = await metricsQueryClient.queryResource(
     metricsResourceId,
-    { duration: Durations.fiveMinutes },
+    ["MatchedEventCount"],
     {
-      metricNames: ["MatchedEventCount"],
-      interval: "PT1M",
-      aggregations: [AggregationType.Count]
+      timespan: {
+        duration: Durations.fiveMinutes
+      },
+      granularity: "PT1M",
+      aggregations: ["Count"]
     }
   );
 
   console.log(
-    `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.interval}, time span: ${metricsResponse.timespan}`
+    `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.granularity}, time span: ${metricsResponse.timespan}`
   );
 
   const metrics: Metric[] = metricsResponse.metrics;
