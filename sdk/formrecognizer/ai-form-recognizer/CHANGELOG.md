@@ -10,9 +10,10 @@ This new major version beta introduces a full redesign of the Azure Form Recogni
 - `FormRecognizerClient` has been replaced by `DocumentAnalysisClient`.
   - The new `beginExtractLayout` method replaces the previous `beginRecognizeContent` method and its `-FromUrl` counterpart. Rather than a `FormPageArray`, the new method produces an object that has properties for `pages`, `tables`, and `styles`.
   - The new `beginAnalyzeDocuments` method replaces the form recognition methods of the previous client. It provides a single method that can analyze documents using any model ID, including prebuilt models. It replaces `beginRecognizeCustomForms`, `beginRecognizeReceipts`, `beginRecognizeBusinessCards`, `beginRecognizeInvoices`, and `beginRecognizeIdentityDocuments`, as well as all of their -`FromUrl` counterparts. Rather than an array of forms, the new method produces an `AnalyzeResult` (an object with several fields, described below).
-  - Analysis using models trained without labeled training data is no longer supported by this package.
+  - Analysis using models trained without labeled training data is no longer supported by this package. This use-case is now provided by the prebuilt (generic) document model (see "New Features" below).
   - The `language` option has been renamed to `locale`, and it accepts a wider variety of locale codes (such as "en-US" for United States English) as well as two-letter language codes (such as "fr" for French).
   - The `pages` option is now a single `string` instead of an array of strings. Multiple page ranges may be specified by separating them with commas.
+  - In many output types, `boundingBox` has been replaced by a list of `boundingRegions`, which may contain a bounding box and page number. This is useful for objects that may span multiple pages.
 - `FormTrainingClient` has been replaced by `DocumentModelAdministrationClient`.
   - The new `beginBuildModel` method replaces the previous `beginTraining` method. The new method and underlying service API do not support training a model using unlabeled training data. Labeled data are required to build a custom document model using the new SDK and service API.
   - The new `beginComposeModel` method replaces the `beginCreateComposedModel` method.
@@ -31,9 +32,8 @@ This new major version beta introduces a full redesign of the Azure Form Recogni
 
 - Added support for a new generic document prebuilt model. The `beginExtractGenericDocument` method of `DocumentAnalysisClient` utilizes this new model, or it may be used with `beginAnalyzeDocuments` by its model ID: "prebuilt-document". This model produces all of the same basic layout information as the prebuilt layout model, but also extracts entities (along with their categories/subcategories) and key-value pairs (associations from one document element, such as a label, to another).
 - There are now strong result types for the four prebuilt models (receipts, business cards, invoices, and identity documents) built in to the SDK. To utilize these new result types, the `DocumentModel` data structure corresponding to the prebuilt model must be provided to `beginAnalyzeDocuments` (rather than providing a simple string model ID). These `DocumentModel` data structures are part of `PrebuiltModels` (for example, `PrebuiltModels.Receipt`), which can be imported from this package.
-- An extracted table may now span multiple pages.
+- An extracted table may now span multiple pages. As a result, tables now have multiple bounding regions to describe their locations on multiple pages.
 - Models may now have an optional `description` (part of the options bag when building a model, composing a model, or creating a model copy authorization).
-- A page may now contain multiple `AnalyzedDocument`s (previously `RecognizedForm`s).
 - Introduced `listOperations` and `getOperation` methods. These methods access model creation operations (including operations that failed to create a model). Operations are retained for 24 hours, after which point they are deleted.
 
 ## 3.2.0 (2021-08-11)
