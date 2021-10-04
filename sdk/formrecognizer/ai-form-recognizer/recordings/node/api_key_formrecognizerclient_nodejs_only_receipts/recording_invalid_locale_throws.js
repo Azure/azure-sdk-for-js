@@ -13,13 +13,13 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '467',
+  '95',
   'apim-request-id',
-  'e5f79b82-919e-4d79-83bf-a553e6b04e29',
+  '3900bf19-23b7-46fb-83c6-37ae473ca631',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 21 Sep 2021 21:30:25 GMT'
+  'Mon, 04 Oct 2021 18:23:06 GMT'
 ]);

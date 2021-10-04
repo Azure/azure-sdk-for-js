@@ -18,7 +18,7 @@ const containerSasUrl = (): string => env.FORM_RECOGNIZER_TRAINING_CONTAINER_SAS
 /*
  * Run the entire battery of tests using both AAD and API Key.
  */
-matrix([[false]] as const, async (useAad) => {
+matrix([[true, false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}] model management`, () => {
     let recorder: Recorder;
 
