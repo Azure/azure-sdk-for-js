@@ -551,10 +551,12 @@ export async function main() {
   const metricsQueryClient = new MetricsQueryClient(tokenCredential);
 
   if (!metricsResourceId) {
-    throw new Error("METRICS_RESOURCE_ID must be set in the environment for this sample");
+    throw new Error(
+      "METRICS_RESOURCE_ID for an Azure Metrics Advisor subscription must be set in the environment for this sample"
+    );
   }
 
-  console.log(`Picking an example metric to query: ${firstMetricName}`);
+  console.log(`Picking an example metric to query: MatchedEventCount`);
 
   const metricsResponse = await metricsQueryClient.queryResource(
     metricsResourceId,
