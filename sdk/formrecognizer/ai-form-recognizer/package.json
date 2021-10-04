@@ -133,7 +133,7 @@
   },
   "//sampleConfiguration": {
     "skip": [
-      "analyzeWithCustomModel.js",
+      "analyzeDocumentByModelId.js",
       "buildModel.js",
       "composeModel.js",
       "copyModel.js",
