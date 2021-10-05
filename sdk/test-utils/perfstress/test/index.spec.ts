@@ -12,6 +12,7 @@ import { Exception } from "./exception.spec";
 import { PerfStressPolicyTest } from "./perfStressPolicy.spec";
 import { SleepTest } from "./sleep.spec";
 import { NodeFetchTest } from "./nodeFetch.spec";
+import { ServiceClientGetTest } from "./serviceClientGet.spec";
 
 console.log("=== Starting the perfStress test ===");
 
@@ -24,7 +25,8 @@ const perfStressProgram = new PerfStressProgram(
     Exception,
     PerfStressPolicyTest,
     SleepTest,
-    NodeFetchTest
+    NodeFetchTest,
+    ServiceClientGetTest
   ])
 );
 

@@ -1,6 +1,9 @@
 // https://github.com/karma-runner/karma-chrome-launcher
+const { relativeRecordingsPath } = require("@azure-tools/test-recorder-new");
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config({ path: "./.env" });
+
+process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
 
 module.exports = function(config) {
   config.set({
@@ -51,7 +54,8 @@ module.exports = function(config) {
       "TEST_MODE",
       "STORAGE_CONNECTION_STRING",
       "STORAGE_SAS_URL",
-      "TABLES_SAS_CONNECTION_STRING"
+      "TABLES_SAS_CONNECTION_STRING",
+      "RECORDINGS_RELATIVE_PATH"
     ],
 
     // test results reporter to use

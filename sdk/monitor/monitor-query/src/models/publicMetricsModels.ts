@@ -8,10 +8,9 @@ import {
   MetricUnit,
   MetricClass,
   AggregationType,
-  MetricAvailability,
   NamespaceClassification
 } from "..";
-import { TimeInterval } from "./timeInterval";
+import { QueryTimeInterval } from "./timeInterval";
 
 /**
  * Options used when querying metrics.
@@ -31,7 +30,7 @@ export interface MetricsQueryOptions extends OperationOptions {
    */
   granularity?: string;
   /** The enclosing timespan for metrics. */
-  timespan?: TimeInterval;
+  timespan?: QueryTimeInterval;
   /** The list of aggregation types (comma separated) to retrieve. */
   aggregations?: AggregationType[];
   /**
@@ -102,7 +101,7 @@ export interface MetricsQueryResult {
   /** The integer value representing the cost of the query, for data case. */
   cost?: number;
   /** The timespan for which the data was retrieved. Its value consists of two datetimes concatenated, separated by '/'.  This may be adjusted in the future and returned back from what was originally requested. */
-  timespan: TimeInterval;
+  timespan: QueryTimeInterval;
   /** The interval (window size) for which the metric data was returned in.  This may be adjusted in the future and returned back from what was originally requested.  This is not present if a metadata request was made. */
   granularity?: string;
   /** The namespace of the metrics been queried */
@@ -187,4 +186,12 @@ export interface MetricDefinition {
   id?: string;
   /** the name and the display name of the dimension, i.e. it is a localizable string. */
   dimensions?: string[];
+}
+
+/** Metric availability specifies the time grain (aggregation interval or frequency) and the retention period for that time grain. */
+export interface MetricAvailability {
+  /** the time grain specifies the aggregation interval for the metric. Expressed as a duration 'PT1M', 'P1D', etc. */
+  granularity?: string;
+  /** the retention period for the metric at the specified granularity.  Expressed as a duration 'PT1M', 'P1D', etc. */
+  retention?: string;
 }

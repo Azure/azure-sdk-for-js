@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { default as minimist, ParsedArgs as MinimistParsedArgs } from "minimist";
+import { isDefined } from "./utils";
 
 /**
  * The structure of a PerfStress option. They represent command line parameters.
@@ -66,6 +67,7 @@ export interface DefaultPerfStressOptions {
   "no-cleanup": boolean;
   "milliseconds-to-log": number;
   "test-proxy": string;
+  insecure: boolean;
 }
 
 /**
@@ -103,6 +105,12 @@ export const defaultPerfStressOptions: PerfStressOptionDictionary<DefaultPerfStr
     description: "URI of TestProxy server",
     defaultValue: undefined
   },
+  insecure: {
+    description:
+      "Applied when test-proxy option is defined, connects with https(insecurely by disabling SSL validation)",
+    shortName: "ins",
+    defaultValue: false
+  },
   "milliseconds-to-log": {
     description: "Log frequency in milliseconds",
     shortName: "mtl",
@@ -120,20 +128,30 @@ export const defaultPerfStressOptions: PerfStressOptionDictionary<DefaultPerfStr
 export function parsePerfStressOption<TOptions>(
   options: PerfStressOptionDictionary<TOptions>
 ): Required<PerfStressOptionDictionary<TOptions>> {
-  const minimistResult: MinimistParsedArgs = minimist(process.argv);
-  const result = {};
+  const minimistResult: MinimistParsedArgs = minimist(
+    process.argv,
+    getBooleanOptionDetails(options)
+  );
+  const result: Partial<PerfStressOptionDictionary<TOptions>> = {};
 
   for (const longName of Object.keys(options)) {
     // This cast is needed since we're picking up options from process.argv
-    const option = (options as any)[longName];
+    const option = options[longName as keyof TOptions];
     const { shortName, defaultValue, required } = option;
-    const value =
-      minimistResult[longName] || (shortName && minimistResult[shortName]) || defaultValue;
-    if (required && !value) {
+    let value: unknown;
+    if (isDefined(minimistResult[longName])) {
+      value = minimistResult[longName];
+    } else if (shortName && isDefined(minimistResult[shortName])) {
+      value = minimistResult[shortName];
+    } else {
+      value = defaultValue;
+    }
+
+    if (required && !isDefined(value)) {
       throw new Error(`Option ${longName} is required`);
     }
     // Options don't need to define longName, it can be derived from the properties PerfStressOptionDictionary.
-    (result as any)[longName] = {
+    result[longName as keyof TOptions] = {
       ...option,
       longName,
       value
@@ -141,4 +159,20 @@ export function parsePerfStressOption<TOptions>(
   }
 
   return result as Required<PerfStressOptionDictionary<TOptions>>;
+}
+
+function getBooleanOptionDetails<TOptions>(options: PerfStressOptionDictionary<TOptions>) {
+  let booleanProps: { boolean: string[]; default: { [key: string]: boolean } } = {
+    boolean: [],
+    default: {}
+  };
+
+  for (const key in options) {
+    const defaultValue = options[key].defaultValue;
+    if (typeof defaultValue === "boolean") {
+      booleanProps.boolean.push(key);
+      booleanProps.default[key] = defaultValue;
+    }
+  }
+  return booleanProps;
 }

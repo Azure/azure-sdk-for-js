@@ -47,7 +47,6 @@ parameters:
         Location: 'centraluseuap'
         MatrixFilters:
           - OSVmImage=.*Ubuntu.*
-          - NodeTestVersion=10.x
           - DependencyVersion=^$
       UsGov:
         SubscriptionConfiguration: $(sub-config-gov-test-resources)

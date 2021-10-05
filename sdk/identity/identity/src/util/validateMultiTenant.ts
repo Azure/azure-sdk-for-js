@@ -6,29 +6,33 @@ import { GetTokenOptions } from "@azure/core-auth";
 /**
  * @internal
  */
-export const multiTenantErrorMessage =
-  "A getToken request was attempted with a tenant different than the tenant configured at the initialization of the credential, but multi-tenant authentication was not enabled in this credential instance.";
+export const multiTenantDisabledErrorMessage =
+  "A getToken request was attempted with a tenant different than the tenant configured at the initialization of the credential, but multi-tenant authentication has been disabled by the environment variable AZURE_IDENTITY_DISABLE_MULTITENANTAUTH.";
 
 /**
- * Verifies whether locally assigned tenants are equal to tenants received through getToken.
- * Returns the appropriate tenant.
+ * @internal
+ */
+export const multiTenantADFSErrorMessage =
+  "A new tenant Id can't be assigned through the GetTokenOptions when a credential has been originally configured to use the tenant `adfs`.";
+
+/**
+ * Of getToken contains a tenantId, this functions allows picking this tenantId as the appropriate for authentication,
+ * unless multitenant authentication has been disabled through the AZURE_IDENTITY_DISABLE_MULTITENANTAUTH (on Node.js),
+ * or unless the original tenant Id is `adfs`.
  * @internal
  */
 export function processMultiTenantRequest(
   tenantId?: string,
-  allowMultiTenantAuthentication?: boolean,
   getTokenOptions?: GetTokenOptions
 ): string | undefined {
-  if (
-    !allowMultiTenantAuthentication &&
-    getTokenOptions?.tenantId &&
-    tenantId &&
-    getTokenOptions.tenantId !== tenantId
-  ) {
-    throw new Error(multiTenantErrorMessage);
+  if (!getTokenOptions?.tenantId) {
+    return tenantId;
   }
-  if (allowMultiTenantAuthentication && getTokenOptions?.tenantId) {
-    return getTokenOptions.tenantId;
+  if (process.env.AZURE_IDENTITY_DISABLE_MULTITENANTAUTH) {
+    throw new Error(multiTenantDisabledErrorMessage);
   }
-  return tenantId;
+  if (tenantId === "adfs") {
+    throw new Error(multiTenantADFSErrorMessage);
+  }
+  return getTokenOptions?.tenantId;
 }

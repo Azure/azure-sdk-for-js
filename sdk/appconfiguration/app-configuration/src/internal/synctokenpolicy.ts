@@ -12,7 +12,7 @@ import {
 
 /**
  * The sync token header, as described here:
- * https://github.com/Azure/AppConfiguration/blob/master/docs/REST/consistency.md
+ * https://docs.microsoft.com/azure/azure-app-configuration/rest-api-consistency
  * @internal
  */
 export const SyncTokenHeaderName = "sync-token";
@@ -57,7 +57,7 @@ class SyncTokenPolicy extends BaseRequestPolicy {
  * caching and load balancing within App Configuration).
  *
  * (protocol and format described here)
- * https://github.com/Azure/AppConfiguration/blob/master/docs/REST/consistency.md
+ * https://docs.microsoft.com/azure/azure-app-configuration/rest-api-consistency
  *
  * @internal
  */

@@ -10,7 +10,7 @@ import { SchemaRegistry } from '@azure/schema-registry';
 
 // @public
 export class SchemaRegistryAvroSerializer {
-    constructor(client: SchemaRegistry, groupName: string, options?: SchemaRegistryAvroSerializerOptions);
+    constructor(client: SchemaRegistry, options?: SchemaRegistryAvroSerializerOptions);
     deserialize(input: Buffer | Blob | Uint8Array): Promise<unknown>;
     serialize(value: unknown, schema: string): Promise<Uint8Array>;
 }
@@ -18,6 +18,7 @@ export class SchemaRegistryAvroSerializer {
 // @public
 export interface SchemaRegistryAvroSerializerOptions {
     autoRegisterSchemas?: boolean;
+    groupName?: string;
 }
 
 // (No @packageDocumentation comment for this package)

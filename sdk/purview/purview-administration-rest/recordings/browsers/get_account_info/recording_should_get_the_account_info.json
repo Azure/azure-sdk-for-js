@@ -1,0 +1,51 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1318",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 29 Sep 2021 19:26:00 GMT",
+    "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+dms\"}]}",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.12071.23 - EUS ProdSlices",
+    "x-ms-request-id": "53e1e5e1-6704-4abf-a639-db5fd91d0400"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/",
+   "query": {
+    "api-version": "2019-11-01-preview"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"sku\":{\"name\":\"Standard\",\"capacity\":1},\"properties\":{\"cloudConnectors\":{\"awsExternalId\":\"2c7d73eb-7327-4166-b30c-96167c7b7271\"},\"friendlyName\":\"newpurviewllc\",\"createdBy\":\"joheredi@microsoft.com\",\"createdByObjectId\":\"35ac9d32-a8ca-4324-9393-d4000746f07c\",\"createdAt\":\"2021-09-29T18:35:18.4761382Z\",\"endpoints\":{\"catalog\":\"https://endpoint/catalog\",\"scan\":\"https://endpoint/scan\",\"guardian\":\"https://endpoint/guardian\"},\"provisioningState\":\"Succeeded\",\"privateEndpointConnections\":[],\"managedResources\":{\"resourceGroup\":\"/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/managed-rg-newpurviewllc\",\"storageAccount\":\"/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/managed-rg-newpurviewllc/providers/Microsoft.Storage/storageAccounts/scaneastusopeznna\",\"eventHubNamespace\":\"/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/managed-rg-newpurviewllc/providers/Microsoft.EventHub/namespaces/Atlas-169658be-bf24-44f9-9873-fd914892a4f6\"},\"publicNetworkAccess\":\"Enabled\",\"managedResourceGroupName\":\"managed-rg-newpurviewllc\"},\"id\":\"/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/joheredi-test/providers/Microsoft.Purview/accounts/newpurviewllc\",\"name\":\"newpurviewllc\",\"type\":\"Microsoft.Purview/accounts\",\"location\":\"eastus\",\"identity\":{\"type\":\"SystemAssigned\",\"principalId\":\"cb046a1b-cf5b-4a43-b188-322568afb9d4\",\"tenantId\":\"88888888-8888-8888-8888-888888888888\"},\"tags\":{},\"systemData\":{\"createdBy\":\"joheredi@microsoft.com\",\"createdByType\":\"User\",\"createdAt\":\"2021-09-29T18:35:18.4761382Z\",\"lastModifiedBy\":\"joheredi@microsoft.com\",\"lastModifiedByType\":\"User\",\"lastModifiedAt\":\"2021-09-29T18:35:18.4761382Z\"}}",
+   "responseHeaders": {
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 29 Sep 2021 19:26:01 GMT",
+    "server": "Kestrel",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-account-status": "Succeeded",
+    "x-ms-correlation-request-id": "8bb375f2-df12-4674-b0e9-85439f56d9cf"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "03d082a1f2749c5f4c764dde8022fba8"
+}
