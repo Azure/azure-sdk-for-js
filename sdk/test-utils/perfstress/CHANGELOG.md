@@ -2,6 +2,10 @@
 
 ## 1.0.0 (Unreleased)
 
+### 2021-10-04
+
+- [Improvement] `parsedOptions` was calculated each time it is accessed, cached it in [#18030](https://github.com/Azure/azure-sdk-for-js/pull/18030) instead.
+
 ### 2021-09-24
 
 - Instead of using the cached proxy-clients(to leverage the proxy-tool), we now get a new client for each of the instantiated PerfStressTest classes. [#17832](https://github.com/Azure/azure-sdk-for-js/pull/17832)
