@@ -2,6 +2,10 @@
 
 ## 1.0.0 (Unreleased)
 
+### 2021-10-05
+
+- Support multiple test proxies
+
 ### 2021-10-01
 
 - Calls runAsync() once before starting recording, to avoid capturing one-time setup like authorization requests.
