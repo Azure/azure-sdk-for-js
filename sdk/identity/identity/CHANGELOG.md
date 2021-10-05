@@ -15,6 +15,7 @@
 ### Bugs Fixed
 
 - Fixed a bug that caused `AzureCliCredential` to fail when a custom tenant ID was provided.
+- Caught up with the bug fixes for Azure POD Identity that were implemented on version 1.5.1.
 
 ### Other Changes
 
