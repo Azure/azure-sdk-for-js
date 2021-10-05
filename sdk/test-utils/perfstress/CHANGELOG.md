@@ -5,6 +5,7 @@
 ### 2021-10-05
 
 - Support multiple test proxies
+  [#18031](https://github.com/Azure/azure-sdk-for-js/pull/18031)
 
 ### 2021-10-01
 
