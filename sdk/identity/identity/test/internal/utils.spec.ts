@@ -3,16 +3,22 @@
 
 import { assert } from "chai";
 import {
-  multiTenantErrorMessage,
+  multiTenantADFSErrorMessage,
   processMultiTenantRequest
 } from "../../src/util/validateMultiTenant";
 
 describe("Identity utilities", function() {
   describe("validateMultiTenantRequest", function() {
-    it("throws if multi-tenant authentication is disallowed, and the tenants don't match", async function() {
+    it("returns the original tenant if getTokenOptions does not have a tenantId", async function() {
+      const originalTenant = "credential-options-tenant-id";
+      const resultingTenant = processMultiTenantRequest(originalTenant);
+      assert.equal(resultingTenant, originalTenant);
+    });
+
+    it("throws if a tenant is provided through getTokenoptions and the original tenant Id is 'asdf'", async function() {
       let error: Error | undefined;
       try {
-        processMultiTenantRequest("credential-options-tenant-id", false, {
+        processMultiTenantRequest("adfs", {
           tenantId: "get-token-options-tenant-id"
         });
       } catch (e) {
@@ -20,64 +26,26 @@ describe("Identity utilities", function() {
       }
       assert.ok(
         error,
-        "validateMultiTenantRequest should throw if multi-tenant is disallowed and the tenants don't match"
+        "validateMultiTenantRequest should throw if a tenant is provided through getTokenoptions and the original tenant Id is 'asdf'"
       );
-      assert.equal(error!.message, multiTenantErrorMessage);
+      assert.equal(error!.message, multiTenantADFSErrorMessage);
     });
 
-    it("throws if multi-tenant authentication is undefined, and the tenants don't match", async function() {
-      let error: Error | undefined;
-      try {
-        processMultiTenantRequest("credential-options-tenant-id", undefined, {
-          tenantId: "get-token-options-tenant-id"
-        });
-      } catch (e) {
-        error = e;
-      }
-      assert.ok(
-        error,
-        "validateMultiTenantRequest should throw if multi-tenant is disallowed and the tenants don't match"
-      );
-      assert.equal(error!.message, multiTenantErrorMessage);
-    });
-
-    it("If allowMultiTenantAuthentication is disallowed, it shouldn't throw if the tenant received is the same as the tenant we already had, that same tenant should be returned", async function() {
+    it("it shouldn't throw if the tenant received is the same as the tenant we already had", async function() {
       assert.equal(
-        processMultiTenantRequest("same-tenant", false, {
-          tenantId: "same-tenant"
-        }),
-        "same-tenant"
-      );
-      assert.equal(
-        processMultiTenantRequest("same-tenant", undefined, {
+        processMultiTenantRequest("same-tenant", {
           tenantId: "same-tenant"
         }),
         "same-tenant"
       );
     });
 
-    it("If we had a tenant and the options have another tenant, we pick the tenant from the options", async function() {
+    it("should pick the tenant from the options", async function() {
       assert.equal(
-        processMultiTenantRequest("credential-options-tenant-id", true, {
+        processMultiTenantRequest("credential-options-tenant-id", {
           tenantId: "get-token-options-tenant-id"
         }),
         "get-token-options-tenant-id"
-      );
-    });
-
-    it("If we had a tenant and there is no tenant in the options, we pick the tenant we already had", async function() {
-      assert.equal(
-        processMultiTenantRequest("credential-options-tenant-id", true, {}),
-        "credential-options-tenant-id"
-      );
-    });
-
-    it("If the tenant received is the same as the tenant we already had, that same tenant should be returned", async function() {
-      assert.equal(
-        processMultiTenantRequest("same-tenant", true, {
-          tenantId: "same-tenant"
-        }),
-        "same-tenant"
       );
     });
   });

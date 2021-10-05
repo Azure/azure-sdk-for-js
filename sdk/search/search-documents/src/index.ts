@@ -112,7 +112,9 @@ export {
   SearchServiceStatistics,
   SearchIndexer,
   LexicalNormalizer,
-  SearchIndexerDataIdentity
+  SearchIndexerDataIdentity,
+  ResetDocsOptions,
+  ResetSkillsOptions
 } from "./serviceModels";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";
@@ -136,7 +138,13 @@ export {
   KnownSpeller,
   CaptionResult,
   AnswerResult,
-  Captions
+  Captions,
+  QueryAnswerType,
+  QueryCaptionType,
+  QuerySpellerType,
+  KnownQuerySpellerType,
+  KnownQueryAnswerType,
+  KnownQueryCaptionType
 } from "./generated/data/models";
 export {
   RegexFlags,
@@ -312,7 +320,12 @@ export {
   LineEnding,
   KnownLineEnding,
   SearchIndexerDataIdentity as BaseSearchIndexerDataIdentity,
-  SearchIndexerCache
+  SearchIndexerCache,
+  IndexerCurrentState,
+  IndexerExecutionStatusDetail,
+  KnownIndexerExecutionStatusDetail,
+  IndexingMode,
+  KnownIndexingMode
 } from "./generated/service/models";
 export { AzureKeyCredential } from "@azure/core-auth";
 export { createSynonymMapFromFile } from "./synonymMapHelper";

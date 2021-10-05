@@ -4,6 +4,8 @@
 
 ```ts
 
+/// <reference lib="esnext.asynciterable" />
+
 import { Client } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
@@ -18,6 +20,5 @@ export interface PaginateOptions {
 
 // @public
 export function paginateResponse<TElement>(client: Client, initialResponse: HttpResponse, options?: PaginateOptions): PagedAsyncIterableIterator<TElement>;
-
 
 ```

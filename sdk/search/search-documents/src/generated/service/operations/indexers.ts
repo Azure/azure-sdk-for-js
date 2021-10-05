@@ -7,12 +7,13 @@
  */
 
 import { Indexers } from "../operationsInterfaces";
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SearchServiceClientContext } from "../searchServiceClientContext";
 import {
   IndexersResetOptionalParams,
+  IndexersResetDocsOptionalParams,
   IndexersRunOptionalParams,
   SearchIndexer,
   IndexersCreateOrUpdateOptionalParams,
@@ -28,7 +29,7 @@ import {
   IndexersGetStatusResponse
 } from "../models";
 
-/** Class representing a Indexers. */
+/** Class containing Indexers operations. */
 export class IndexersImpl implements Indexers {
   private readonly client: SearchServiceClientContext;
 
@@ -48,15 +49,26 @@ export class IndexersImpl implements Indexers {
   reset(
     indexerName: string,
     options?: IndexersResetOptionalParams
-  ): Promise<coreHttp.RestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      indexerName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      operationArguments,
+      { indexerName, options },
       resetOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    );
+  }
+
+  /**
+   * Resets specific documents in the datasource to be selectively re-ingested by the indexer.
+   * @param indexerName The name of the indexer to reset documents for.
+   * @param options The options parameters.
+   */
+  resetDocs(
+    indexerName: string,
+    options?: IndexersResetDocsOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { indexerName, options },
+      resetDocsOperationSpec
+    );
   }
 
   /**
@@ -64,18 +76,11 @@ export class IndexersImpl implements Indexers {
    * @param indexerName The name of the indexer to run.
    * @param options The options parameters.
    */
-  run(
-    indexerName: string,
-    options?: IndexersRunOptionalParams
-  ): Promise<coreHttp.RestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      indexerName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+  run(indexerName: string, options?: IndexersRunOptionalParams): Promise<void> {
     return this.client.sendOperationRequest(
-      operationArguments,
+      { indexerName, options },
       runOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    );
   }
 
   /**
@@ -89,15 +94,10 @@ export class IndexersImpl implements Indexers {
     indexer: SearchIndexer,
     options?: IndexersCreateOrUpdateOptionalParams
   ): Promise<IndexersCreateOrUpdateResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      indexerName,
-      indexer,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { indexerName, indexer, options },
       createOrUpdateOperationSpec
-    ) as Promise<IndexersCreateOrUpdateResponse>;
+    );
   }
 
   /**
@@ -108,15 +108,11 @@ export class IndexersImpl implements Indexers {
   delete(
     indexerName: string,
     options?: IndexersDeleteOptionalParams
-  ): Promise<coreHttp.RestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      indexerName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      operationArguments,
+      { indexerName, options },
       deleteOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    );
   }
 
   /**
@@ -128,14 +124,10 @@ export class IndexersImpl implements Indexers {
     indexerName: string,
     options?: IndexersGetOptionalParams
   ): Promise<IndexersGetResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      indexerName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { indexerName, options },
       getOperationSpec
-    ) as Promise<IndexersGetResponse>;
+    );
   }
 
   /**
@@ -143,13 +135,7 @@ export class IndexersImpl implements Indexers {
    * @param options The options parameters.
    */
   list(options?: IndexersListOptionalParams): Promise<IndexersListResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      listOperationSpec
-    ) as Promise<IndexersListResponse>;
+    return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
@@ -161,14 +147,10 @@ export class IndexersImpl implements Indexers {
     indexer: SearchIndexer,
     options?: IndexersCreateOptionalParams
   ): Promise<IndexersCreateResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      indexer,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { indexer, options },
       createOperationSpec
-    ) as Promise<IndexersCreateResponse>;
+    );
   }
 
   /**
@@ -180,20 +162,16 @@ export class IndexersImpl implements Indexers {
     indexerName: string,
     options?: IndexersGetStatusOptionalParams
   ): Promise<IndexersGetStatusResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      indexerName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { indexerName, options },
       getStatusOperationSpec
-    ) as Promise<IndexersGetStatusResponse>;
+    );
   }
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const resetOperationSpec: coreHttp.OperationSpec = {
+const resetOperationSpec: coreClient.OperationSpec = {
   path: "/indexers('{indexerName}')/search.reset",
   httpMethod: "POST",
   responses: {
@@ -207,7 +185,27 @@ const resetOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept, Parameters.xMsClientRequestId],
   serializer
 };
-const runOperationSpec: coreHttp.OperationSpec = {
+const resetDocsOperationSpec: coreClient.OperationSpec = {
+  path: "/indexers('{indexerName}')/search.resetdocs",
+  httpMethod: "POST",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.SearchError
+    }
+  },
+  requestBody: Parameters.keysOrIds,
+  queryParameters: [Parameters.apiVersion, Parameters.overwrite],
+  urlParameters: [Parameters.endpoint, Parameters.indexerName],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.xMsClientRequestId
+  ],
+  mediaType: "json",
+  serializer
+};
+const runOperationSpec: coreClient.OperationSpec = {
   path: "/indexers('{indexerName}')/search.run",
   httpMethod: "POST",
   responses: {
@@ -221,7 +219,7 @@ const runOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept, Parameters.xMsClientRequestId],
   serializer
 };
-const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/indexers('{indexerName}')",
   httpMethod: "PUT",
   responses: {
@@ -238,7 +236,7 @@ const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.indexer,
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.ignoreResetRequirements,
+    Parameters.skipIndexerResetRequirementForCache,
     Parameters.disableCacheReprocessingChangeDetection
   ],
   urlParameters: [Parameters.endpoint, Parameters.indexerName],
@@ -253,7 +251,7 @@ const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const deleteOperationSpec: coreHttp.OperationSpec = {
+const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/indexers('{indexerName}')",
   httpMethod: "DELETE",
   responses: {
@@ -273,7 +271,7 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
   ],
   serializer
 };
-const getOperationSpec: coreHttp.OperationSpec = {
+const getOperationSpec: coreClient.OperationSpec = {
   path: "/indexers('{indexerName}')",
   httpMethod: "GET",
   responses: {
@@ -289,7 +287,7 @@ const getOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept, Parameters.xMsClientRequestId],
   serializer
 };
-const listOperationSpec: coreHttp.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
   path: "/indexers",
   httpMethod: "GET",
   responses: {
@@ -305,7 +303,7 @@ const listOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept, Parameters.xMsClientRequestId],
   serializer
 };
-const createOperationSpec: coreHttp.OperationSpec = {
+const createOperationSpec: coreClient.OperationSpec = {
   path: "/indexers",
   httpMethod: "POST",
   responses: {
@@ -327,7 +325,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const getStatusOperationSpec: coreHttp.OperationSpec = {
+const getStatusOperationSpec: coreClient.OperationSpec = {
   path: "/indexers('{indexerName}')/search.status",
   httpMethod: "GET",
   responses: {

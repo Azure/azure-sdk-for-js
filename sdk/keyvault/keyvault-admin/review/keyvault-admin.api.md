@@ -4,6 +4,8 @@
 
 ```ts
 
+/// <reference lib="esnext.asynciterable" />
+
 import { CommonClientOptions } from '@azure/core-client';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
@@ -241,7 +243,6 @@ export interface SetRoleDefinitionOptions extends OperationOptions {
 
 // @public
 export type SUPPORTED_API_VERSIONS = "7.2" | "7.3-preview";
-
 
 // (No @packageDocumentation comment for this package)
 

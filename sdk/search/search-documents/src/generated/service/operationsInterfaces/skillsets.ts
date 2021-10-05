@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
 import {
   SearchIndexerSkillset,
   SkillsetsCreateOrUpdateOptionalParams,
@@ -17,7 +16,9 @@ import {
   SkillsetsListOptionalParams,
   SkillsetsListResponse,
   SkillsetsCreateOptionalParams,
-  SkillsetsCreateResponse
+  SkillsetsCreateResponse,
+  SkillNames,
+  SkillsetsResetSkillsOptionalParams
 } from "../models";
 
 /** Interface representing a Skillsets. */
@@ -41,7 +42,7 @@ export interface Skillsets {
   delete(
     skillsetName: string,
     options?: SkillsetsDeleteOptionalParams
-  ): Promise<coreHttp.RestResponse>;
+  ): Promise<void>;
   /**
    * Retrieves a skillset in a search service.
    * @param skillsetName The name of the skillset to retrieve.
@@ -65,4 +66,15 @@ export interface Skillsets {
     skillset: SearchIndexerSkillset,
     options?: SkillsetsCreateOptionalParams
   ): Promise<SkillsetsCreateResponse>;
+  /**
+   * Reset an existing skillset in a search service.
+   * @param skillsetName The name of the skillset to reset.
+   * @param skillNames The names of skills to reset.
+   * @param options The options parameters.
+   */
+  resetSkills(
+    skillsetName: string,
+    skillNames: SkillNames,
+    options?: SkillsetsResetSkillsOptionalParams
+  ): Promise<void>;
 }

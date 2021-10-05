@@ -60,7 +60,7 @@ export async function main() {
   await client.registerSchema(schemaDescription);
 
   // Create a new serializer backed by the client
-  const serializer = new SchemaRegistryAvroSerializer(client, groupName);
+  const serializer = new SchemaRegistryAvroSerializer(client, { groupName });
 
   // serialize an object that matches the schema
   const value: User = { firstName: "Jane", lastName: "Doe" };

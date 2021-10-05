@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "@azure/core-http";
 import {
   LexicalAnalyzerUnion,
   CognitiveServicesAccountKey,
@@ -393,24 +392,6 @@ export function convertSimilarityToPublic(
   }
 }
 
-export function extractOperationOptions<T extends OperationOptions>(
-  obj: T
-): {
-  operationOptions: OperationOptions;
-  restOptions: Pick<T, Exclude<keyof T, keyof OperationOptions>>;
-} {
-  const { abortSignal, requestOptions, tracingOptions, ...restOptions } = obj;
-
-  return {
-    operationOptions: {
-      abortSignal,
-      requestOptions,
-      tracingOptions
-    },
-    restOptions
-  };
-}
-
 export function convertEncryptionKeyToPublic(
   encryptionKey?: GeneratedSearchResourceEncryptionKey
 ): SearchResourceEncryptionKey | undefined {
@@ -712,4 +693,13 @@ export function getRandomIntegerInclusive(min: number, max: number): number {
   // in order to be inclusive of the maximum value after we take the floor.
   const offset = Math.floor(Math.random() * (max - min + 1));
   return offset + min;
+}
+
+/**
+ * A wrapper for setTimeout that resolves a promise after timeInMs milliseconds.
+ * @param timeInMs - The number of milliseconds to be delayed.
+ * @returns Promise that is resolved after timeInMs
+ */
+export function delay(timeInMs: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(() => resolve(), timeInMs));
 }

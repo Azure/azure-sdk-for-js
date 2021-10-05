@@ -24,6 +24,7 @@
     "./dist-esm/src/credentials/applicationCredential.js": "./dist-esm/src/credentials/applicationCredential.browser.js",
     "./dist-esm/src/credentials/onBehalfOfCredential.js": "./dist-esm/src/credentials/onBehalfOfCredential.browser.js",
     "./dist-esm/src/util/authHostEnv.js": "./dist-esm/src/util/authHostEnv.browser.js",
+    "./dist-esm/src/util/validateMultiTenant.js": "./dist-esm/src/util/validateMultiTenant.browser.js",
     "./dist-esm/src/tokenCache/TokenCachePersistence.js": "./dist-esm/src/tokenCache/TokenCachePersistence.browser.js",
     "./dist-esm/src/plugins/consumer.js": "./dist-esm/src/plugins/consumer.browser.js",
     "./dist-esm/test/httpRequests.js": "./dist-esm/test/httpRequests.browser.js"
@@ -114,7 +115,7 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/test-utils": "^1.0.0",
     "@azure-tools/test-recorder": "^1.0.0",
-    "@microsoft/api-extractor": "7.7.11",
+    "@microsoft/api-extractor": "^7.18.11",
     "@types/jws": "^3.2.2",
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",

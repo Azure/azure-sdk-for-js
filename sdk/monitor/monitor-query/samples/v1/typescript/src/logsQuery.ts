@@ -6,7 +6,13 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { Durations, LogsQueryClient, LogsTable, LogsQueryOptions } from "@azure/monitor-query";
+import {
+  Durations,
+  LogsQueryClient,
+  LogsTable,
+  LogsQueryOptions,
+  LogsQueryResultStatus
+} from "@azure/monitor-query";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -32,23 +38,15 @@ export async function main() {
     includeQueryStatistics: true
   };
 
-  const result = await logsQueryClient.query(
+  const result = await logsQueryClient.queryWorkspace(
     monitorWorkspaceId,
     kustoQuery,
     // The timespan is an ISO8601 formatted time (or interval). Some common aliases
     // are available (like OneDay, OneHour, FoutyEightHours, etc..) but any properly formatted ISO8601
     // value is valid.
-    { duration: Durations.OneHour },
+    { duration: Durations.oneHour },
     queryLogsOptions
   );
-
-  const tablesFromResult: LogsTable[] | undefined = result.tables;
-
-  if (tablesFromResult == null) {
-    console.log(`No results for query '${kustoQuery}'`);
-    return;
-  }
-
   const executionTime =
     result.statistics && result.statistics.query && (result.statistics.query as any).executionTime;
 
@@ -58,6 +56,25 @@ export async function main() {
     }`
   );
 
+  if (result.status === LogsQueryResultStatus.Success) {
+    const tablesFromResult: LogsTable[] = result.tables;
+
+    if (tablesFromResult.length === 0) {
+      console.log(`No results for query '${kustoQuery}'`);
+      return;
+    }
+    console.log(`This query has returned table(s) - `);
+    processTables(tablesFromResult);
+  } else {
+    console.log(`Error processing the query '${kustoQuery}' - ${result.partialError}`);
+    if (result.partialTables.length > 0) {
+      console.log(`This query has also returned partial data in the following table(s) - `);
+      processTables(result.partialTables);
+    }
+  }
+}
+
+async function processTables(tablesFromResult: LogsTable[]) {
   for (const table of tablesFromResult) {
     const columnHeaderString = table.columnDescriptors
       .map((column) => `${column.name}(${column.type}) `)

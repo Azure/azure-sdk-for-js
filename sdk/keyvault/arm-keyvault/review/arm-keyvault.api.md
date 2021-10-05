@@ -14,7 +14,7 @@ import { PollOperationState } from '@azure/core-lro';
 export interface AccessPolicyEntry {
     applicationId?: string;
     objectId: string;
-    permissions: Permissions;
+    permissions: Permissions_2;
     tenantId: string;
 }
 
@@ -984,12 +984,13 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public
-export interface Permissions {
+interface Permissions_2 {
     certificates?: CertificatePermissions[];
     keys?: KeyPermissions[];
     secrets?: SecretPermissions[];
     storage?: StoragePermissions[];
 }
+export { Permissions_2 as Permissions }
 
 // @public
 export interface PrivateEndpoint {
@@ -1513,7 +1514,6 @@ export interface VirtualNetworkRule {
     id: string;
     ignoreMissingVnetServiceEndpoint?: boolean;
 }
-
 
 // (No @packageDocumentation comment for this package)
 
