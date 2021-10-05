@@ -80,12 +80,12 @@ Azure Service Fabric support hasn't been added on the initial version 2 of Ident
 - In `AzureCliCredential`, we allow specifying a `tenantId` in the parameters through the `AzureCliCredentialOptions`.
 - A new error, named `AuthenticationRequiredError`, has been added. This error shows up when a credential fails to authenticate silently.
 - Errors and logged exceptions may point to the new [troubleshooting guidelines](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/Troubleshooting.md).
+- On all of the credentials we're providing, the initial authentication attempt in the lifetime of your app will include an additional request to first discover relevant endpoint metadata information from Azure.
 
 ### Breaking changes
 
 #### Breaking changes from v1
 
-- On all of the credentials we're providing, the initial authentication attempt in the lifetime of your app will include an additional request to first discover relevant endpoint metadata information from Azure.
 - For `ClientCertificateCredential` specifically, the validity of the PEM certificate is evaluated on `getToken` and not on the constructor.
 - We have also renamed the error `CredentialUnavailable` to `CredentialUnavailableError`, to align with the naming convention used for error classes in the Azure SDKs in JavaScript.
 - In v1 of Identity some `getToken` calls could resolve with `null` in the case the authentication request succeeded with a malformed output. In v2, issues with the `getToken` method will always throw errors.
