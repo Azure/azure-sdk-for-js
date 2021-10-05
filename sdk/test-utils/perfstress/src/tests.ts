@@ -4,10 +4,11 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { default as minimist, ParsedArgs as MinimistParsedArgs } from "minimist";
 import {
-  PerfStressOptionDictionary,
-  parsePerfStressOption,
   DefaultPerfStressOptions,
-  defaultPerfStressOptions
+  defaultPerfStressOptions,
+  parsePerfStressOption,
+  PerfOptions,
+  PerfStressOptionDictionary
 } from "./options";
 import {
   TestProxyHttpClient,
@@ -24,7 +25,13 @@ export interface PerfStressTestConstructor<TOptions extends {} = {}> {
   new (): PerfStressTest<TOptions>;
 }
 
-let _cachedParsedOptions = {};
+/**
+ * Options provided for the test run.
+ * Includes both the default options as well as the custom options provided as part of the test.
+ */
+let _cachedParsedOptions:
+  | PerfStressOptionDictionary<DefaultPerfStressOptions>
+  | undefined = undefined;
 
 /**
  * Conveys the structure of any PerfStress test.
@@ -38,21 +45,10 @@ let _cachedParsedOptions = {};
 export abstract class PerfStressTest<TOptions = {}> {
   public testProxyHttpClient!: TestProxyHttpClient;
   public testProxyHttpClientV1!: TestProxyHttpClientV1;
-  public abstract options: PerfStressOptionDictionary<TOptions>;
-
-  public get parsedOptions(): PerfStressOptionDictionary<TOptions & DefaultPerfStressOptions> {
-    if (!_cachedParsedOptions) {
-      _cachedParsedOptions = parsePerfStressOption({
-        ...this.options,
-        ...defaultPerfStressOptions
-      });
-    }
-    // This cast is needed because TS thinks
-    //   PerfStressOptionDictionary<TOptions & DefaultPerfStressOptions>
-    //   is different from
-    //   PerfStressOptionDictionary<TOptions> & PerfStressOptionDictionary<DefaultPerfStressOptions>
-    return _cachedParsedOptions as PerfStressOptionDictionary<TOptions & DefaultPerfStressOptions>;
-  }
+  public abstract options: PerfOptions<TOptions>;
+  private testProxyUrl: string | undefined = parsePerfStressOption(defaultPerfStressOptions)[
+    "test-proxy"
+  ]?.value;
 
   // Before and after running a bunch of the same test.
   public globalSetup?(): void | Promise<void>;
@@ -64,6 +60,22 @@ export abstract class PerfStressTest<TOptions = {}> {
   public async runAsync?(abortSignal?: AbortSignalLike): Promise<void>;
 
   /**
+   * Takes the details of the custom options of the test. (Includes shortName, longName, defaultValue, etc.)
+   *
+   * Parses the command line options and returns both the default options as well as the custom options 
+   * that are provided as part of the test along with all the details.
+   */
+  public getParsedOptions(options: PerfStressOptionDictionary<TOptions>): PerfOptions<TOptions> {
+    if (_cachedParsedOptions === undefined) {
+      _cachedParsedOptions = parsePerfStressOption({
+        ...options,
+        ...defaultPerfStressOptions
+      });
+    }
+    return _cachedParsedOptions as PerfOptions<TOptions>;
+  }
+
+  /**
    * configureClientOptionsCoreV1
    *
    * For core-v1 - libraries depending on core-http
@@ -72,10 +84,8 @@ export abstract class PerfStressTest<TOptions = {}> {
    * Note: httpClient must be part of the options bag, it is required for the perf framework to update the underlying client properly
    */
   public configureClientOptionsCoreV1<T>(options: T & { httpClient?: HttpClient }): T {
-    if (this.parsedOptions["test-proxy"].value) {
-      this.testProxyHttpClientV1 = new TestProxyHttpClientV1(
-        this.parsedOptions["test-proxy"].value
-      );
+    if (this.testProxyUrl) {
+      this.testProxyHttpClientV1 = new TestProxyHttpClientV1(this.testProxyUrl);
       options.httpClient = this.testProxyHttpClientV1;
     }
     return options;
@@ -90,8 +100,8 @@ export abstract class PerfStressTest<TOptions = {}> {
    * Note: Client must expose the pipeline property which is required for the perf framework to add its policies correctly
    */
   public configureClient<T>(client: T & { pipeline: Pipeline }): T {
-    if (this.parsedOptions["test-proxy"].value) {
-      this.testProxyHttpClient = new TestProxyHttpClient(this.parsedOptions["test-proxy"].value);
+    if (this.testProxyUrl) {
+      this.testProxyHttpClient = new TestProxyHttpClient(this.testProxyUrl);
       client.pipeline.addPolicy(testProxyHttpPolicy(this.testProxyHttpClient));
     }
     return client;

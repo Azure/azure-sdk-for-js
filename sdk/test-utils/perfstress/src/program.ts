@@ -5,9 +5,9 @@ import { AbortController } from "@azure/abort-controller";
 import { PerfStressTest, PerfStressTestConstructor } from "./tests";
 import {
   PerfStressOptionDictionary,
-  parsePerfStressOption,
   defaultPerfStressOptions,
-  DefaultPerfStressOptions
+  DefaultPerfStressOptions,
+  parsePerfStressOption
 } from "./options";
 import { PerfStressParallel } from "./parallel";
 import { TestProxyHttpClientV1, TestProxyHttpClient } from "./testProxyHttpClient";
@@ -263,11 +263,11 @@ export class PerfStressProgram {
     // --help, or -h
     if (this.parsedDefaultOptions.help.value) {
       console.log(`=== Help: Options that can be sent to ${this.testName} ===`);
-      console.table(this.tests[0].parsedOptions);
+      console.table(this.tests[0].options);
       return;
     }
 
-    const options = this.tests[0].parsedOptions;
+    const options = this.tests[0].options;
     console.log("=== Parsed options ===");
     console.table(options);
 
@@ -286,7 +286,7 @@ export class PerfStressProgram {
       }
     }
 
-    if (this.tests[0].parsedOptions["test-proxy"].value) {
+    if (this.tests[0].options["test-proxy"]?.value) {
       // Records requests(in runAsync method) for all the instantiated PerfStressTest classes,
       // and asks the proxy-tool to start playing back for future requests.
       await Promise.all(this.tests.map((test) => this.recordAndStartPlayback(test)));
@@ -301,7 +301,7 @@ export class PerfStressProgram {
       await this.runTest(i, Number(options.duration.value), "test");
     }
 
-    if (this.tests[0].parsedOptions["test-proxy"].value) {
+    if (this.tests[0].options["test-proxy"]?.value) {
       await Promise.all(this.tests.map((test) => this.stopPlayback(test)));
     }
 

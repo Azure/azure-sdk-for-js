@@ -54,6 +54,15 @@ export type PerfStressOptionDictionary<TOptions = {}> = {
 };
 
 /**
+ * Type that can come handy when dealing with both the default options and the custom options provided in the test.
+ *
+ * Expands to `PerfStressOptionDictionary<TOptions> & PerfStressOptionDictionary<DefaultPerfStressOptions>`
+ */
+export type PerfOptions<TOptions = {}> = PerfStressOptionDictionary<
+  TOptions & DefaultPerfStressOptions
+>;
+
+/**
  * These represent the default options the tests can assume.
  *
  * @interface DefaultPerfStressOptions
