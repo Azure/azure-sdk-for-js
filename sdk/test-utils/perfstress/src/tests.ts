@@ -39,7 +39,7 @@ export abstract class PerfStressTest<TOptions = {}> {
   public testProxyHttpClientV1!: TestProxyHttpClientV1;
   public abstract options: PerfStressOptionDictionary<TOptions>;
 
-  private static globalParallelIndex: number;
+  private static globalParallelIndex: number = 0;
   protected readonly parallelIndex: number;
 
   public constructor() {
