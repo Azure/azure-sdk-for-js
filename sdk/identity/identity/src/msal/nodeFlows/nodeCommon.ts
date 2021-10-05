@@ -24,6 +24,7 @@ import {
 } from "../utils";
 import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
 import { processMultiTenantRequest } from "../../util/validateMultiTenant";
+import { RegionalAuthority } from "../../regionalAuthority";
 
 /**
  * Union of the constructor parameters that all MSAL flow types for Node.
@@ -99,11 +100,10 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
       );
     }
 
-    // TODO: Uncomment once we're ready to release this feature.
-    // this.azureRegion = options.regionalAuthority ?? process.env.AZURE_REGIONAL_AUTHORITY_NAME;
-    // if (this.azureRegion === RegionalAuthority.AutoDiscoverRegion) {
-    //   this.azureRegion = "AUTO_DISCOVER";
-    // }
+    this.azureRegion = options.regionalAuthority ?? process.env.AZURE_REGIONAL_AUTHORITY_NAME;
+    if (this.azureRegion === RegionalAuthority.AutoDiscoverRegion) {
+      this.azureRegion = "AUTO_DISCOVER";
+    }
   }
 
   /**
