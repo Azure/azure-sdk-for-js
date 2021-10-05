@@ -7,7 +7,7 @@
  */
 
 import { SynonymMaps } from "../operationsInterfaces";
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SearchServiceClientContext } from "../searchServiceClientContext";
@@ -24,7 +24,7 @@ import {
   SynonymMapsCreateResponse
 } from "../models";
 
-/** Class representing a SynonymMaps. */
+/** Class containing SynonymMaps operations. */
 export class SynonymMapsImpl implements SynonymMaps {
   private readonly client: SearchServiceClientContext;
 
@@ -47,15 +47,10 @@ export class SynonymMapsImpl implements SynonymMaps {
     synonymMap: SynonymMap,
     options?: SynonymMapsCreateOrUpdateOptionalParams
   ): Promise<SynonymMapsCreateOrUpdateResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      synonymMapName,
-      synonymMap,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { synonymMapName, synonymMap, options },
       createOrUpdateOperationSpec
-    ) as Promise<SynonymMapsCreateOrUpdateResponse>;
+    );
   }
 
   /**
@@ -66,15 +61,11 @@ export class SynonymMapsImpl implements SynonymMaps {
   delete(
     synonymMapName: string,
     options?: SynonymMapsDeleteOptionalParams
-  ): Promise<coreHttp.RestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      synonymMapName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      operationArguments,
+      { synonymMapName, options },
       deleteOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    );
   }
 
   /**
@@ -86,14 +77,10 @@ export class SynonymMapsImpl implements SynonymMaps {
     synonymMapName: string,
     options?: SynonymMapsGetOptionalParams
   ): Promise<SynonymMapsGetResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      synonymMapName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { synonymMapName, options },
       getOperationSpec
-    ) as Promise<SynonymMapsGetResponse>;
+    );
   }
 
   /**
@@ -103,13 +90,7 @@ export class SynonymMapsImpl implements SynonymMaps {
   list(
     options?: SynonymMapsListOptionalParams
   ): Promise<SynonymMapsListResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      listOperationSpec
-    ) as Promise<SynonymMapsListResponse>;
+    return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
@@ -121,20 +102,16 @@ export class SynonymMapsImpl implements SynonymMaps {
     synonymMap: SynonymMap,
     options?: SynonymMapsCreateOptionalParams
   ): Promise<SynonymMapsCreateResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      synonymMap,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { synonymMap, options },
       createOperationSpec
-    ) as Promise<SynonymMapsCreateResponse>;
+    );
   }
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/synonymmaps('{synonymMapName}')",
   httpMethod: "PUT",
   responses: {
@@ -162,7 +139,7 @@ const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const deleteOperationSpec: coreHttp.OperationSpec = {
+const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/synonymmaps('{synonymMapName}')",
   httpMethod: "DELETE",
   responses: {
@@ -182,7 +159,7 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
   ],
   serializer
 };
-const getOperationSpec: coreHttp.OperationSpec = {
+const getOperationSpec: coreClient.OperationSpec = {
   path: "/synonymmaps('{synonymMapName}')",
   httpMethod: "GET",
   responses: {
@@ -198,7 +175,7 @@ const getOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept, Parameters.xMsClientRequestId],
   serializer
 };
-const listOperationSpec: coreHttp.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
   path: "/synonymmaps",
   httpMethod: "GET",
   responses: {
@@ -214,7 +191,7 @@ const listOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept, Parameters.xMsClientRequestId],
   serializer
 };
-const createOperationSpec: coreHttp.OperationSpec = {
+const createOperationSpec: coreClient.OperationSpec = {
   path: "/synonymmaps",
   httpMethod: "POST",
   responses: {

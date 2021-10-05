@@ -1,14 +1,34 @@
 # Release History
 
-## 1.0.0-beta.6 (Unreleased)
+## 1.0.0-beta.6 (2021-10-05)
 
 ### Features Added
 
+- Added `audience` property in `MetricsClientOptions`
+- Enabled browser support
+- Added different result objects `LogsQueryPartialResult`, `LogsQuerySuccessfulResult` or `LogsQueryError` based on the success scenarios for log queries.
+
 ### Breaking Changes
+
+- Renamed `ErrorInfo` to `LogsErrorInfo`, which now extends the `Error` class and `code` as an additional property. Removed all the other properties.
+- `query` method in `LogsQueryClient` renamed to `queryWorkspace`
+- `query` method in `MetricsQueryClient` renamed to `queryResource`
+- Renamed `credentialOptions.credentialScopes` property in `LogsQueryClientOptions` to `audience`
+- Renamed the status types in `LogsQueryResultStatus`. `Partial` to `PartialFailure` and `Failed` to `Failure`.
+- Renamed `timeGrain` in `MetricAvailability` to `granularity`
+- Renamed `TimeInterval` to `QueryTimeInterval`
+- Updated constants in `Durations` to camel-case.
+- Removed `throwOnAnyError` flag from `LogsQueryOptions` and `LogsQueryBatchOptions`
+- Removed the error classes `BatchError` and `AggregateBatchError`
+- Updated `LogsQueryBatchResult` object to be a list of objects with the following possible types:
+  - `LogsQueryPartialResult`
+  - `LogsQuerySuccessfulResult`
+  - `LogsQueryError`
+- Updated `LogsQueryResult` object to be of type `LogsQuerySuccessfulResult` or `LogsQueryPartialResult`
 
 ### Bugs Fixed
 
-### Other Changes
+- Updated `listMetricNamespaces` signature to return the list of appropriate `MetricsNamespaces` object type
 
 ## 1.0.0-beta.5 (2021-09-09)
 

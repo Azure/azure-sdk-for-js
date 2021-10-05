@@ -17,8 +17,6 @@ const logger = credentialLogger("UsernamePasswordCredential");
  * trust so you should only use it when other, more secure credential
  * types can't be used.
  */
-// We'll be using InteractiveCredential as the base of this class, which requires us to support authenticate(),
-// to reduce the number of times we send the password over the network.
 export class UsernamePasswordCredential implements TokenCredential {
   private msalFlow: MsalFlow;
 

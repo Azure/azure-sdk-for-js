@@ -104,6 +104,7 @@ Azure Service Fabric support hasn't been added on the initial version 2 of Ident
 ### Bugs Fixed
 
 `ClientSecretCredential`, `ClientCertificateCredential`, and `UsernamePasswordCredential` throw if the required parameters aren't provided (even in JavaScript).
+- Fixed a bug that caused `AzureCliCredential` to fail when a custom tenant ID was provided.
 
 ### Other Changes
 

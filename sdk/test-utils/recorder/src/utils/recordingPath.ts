@@ -25,11 +25,12 @@ export function formatPath(path: string): string {
 export function generateTestRecordingFilePath(
   platform: "node" | "browsers",
   testSuiteTitle: string,
-  testTitle: string
+  testTitle: string,
+  extension?: "js" | "json"
 ): string {
   // File Extension
   // nock recordings for node tests - .js extension
   // recordings are saved in json format for browser tests - .json extension
-  const ext = platform === "node" ? "js" : "json";
+  const ext = extension ?? (platform === "node" ? "js" : "json");
   return `${platform}/${formatPath(testSuiteTitle)}/recording_${formatPath(testTitle)}.${ext}`;
 }

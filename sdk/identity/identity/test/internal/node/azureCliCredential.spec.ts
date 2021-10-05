@@ -1,29 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import child_process from "child_process";
 import { assert } from "chai";
 import Sinon, { createSandbox } from "sinon";
-import {
-  AzureCliCredential,
-  cliCredentialInternals
-} from "../../../src/credentials/azureCliCredential";
+import { AzureCliCredential } from "../../../src/credentials/azureCliCredential";
 
 describe("AzureCliCredential (internal)", function() {
   let sandbox: Sinon.SinonSandbox | undefined;
   let stdout: string = "";
   let stderr: string = "";
+  let azParams: string[][] = [];
 
   beforeEach(async function() {
     sandbox = createSandbox();
-    sandbox
-      .stub(cliCredentialInternals, "getAzureCliAccessToken")
-      .callsFake(async function(
-        _resource: string
-      ): Promise<{ stdout: string; stderr: string; error: Error | null }> {
-        return new Promise((resolve) => {
-          resolve({ stdout, stderr, error: null });
-        });
-      });
+    azParams = [];
+    sandbox.stub(child_process, "execFile").callsFake(
+      (_file, args, _options, callback): child_process.ChildProcess => {
+        azParams.push(args as string[]);
+        if (callback) {
+          callback(null, stdout, stderr);
+        }
+        // Bypassing the type check. We don't use this return value in our code.
+        return {} as child_process.ChildProcess;
+      }
+    );
   });
 
   afterEach(async function() {
@@ -36,6 +37,31 @@ describe("AzureCliCredential (internal)", function() {
     const credential = new AzureCliCredential();
     const actualToken = await credential.getToken("https://service/.default");
     assert.equal(actualToken!.token, "token");
+    assert.deepEqual(azParams, [
+      ["account", "get-access-token", "--output", "json", "--resource", "https://service"]
+    ]);
+  });
+
+  it("get access token with custom tenantId without error", async function() {
+    stdout = '{"accessToken": "token","expiresOn": "01/01/1900 00:00:00 +00:00"}';
+    stderr = "";
+    const credential = new AzureCliCredential({
+      tenantId: "tenantId"
+    });
+    const actualToken = await credential.getToken("https://service/.default");
+    assert.equal(actualToken!.token, "token");
+    assert.deepEqual(azParams, [
+      [
+        "account",
+        "get-access-token",
+        "--output",
+        "json",
+        "--resource",
+        "https://service",
+        "--tenant",
+        "tenantId"
+      ]
+    ]);
   });
 
   it("get access token when azure cli not installed", async () => {

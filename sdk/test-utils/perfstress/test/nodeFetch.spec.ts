@@ -23,8 +23,8 @@ export class NodeFetchTest extends PerfStressTest<NodeFetchOptions> {
       description: "Required option",
       shortName: "u",
       longName: "url",
-      defaultValue: "http://bing.com",
-      value: "http://bing.com"
+      defaultValue: "http://www.example.org",
+      value: "http://www.example.org"
     }
   };
 
