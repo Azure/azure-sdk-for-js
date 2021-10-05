@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { default as minimist, ParsedArgs as MinimistParsedArgs } from "minimist";
-import { PerfStressTest, PerfStressOptionDictionary } from "../src";
+import { PerfStressTest } from "../src";
 
 interface OptionsTestOptions {
   "non-req": string;
@@ -17,7 +17,7 @@ interface OptionsTestOptions {
  * Showcases and verifies some of the expected behaviors of the PerfStress options
  */
 export class OptionsTest extends PerfStressTest<OptionsTestOptions> {
-  public options: PerfStressOptionDictionary<OptionsTestOptions> = {
+  public options = this.getParsedOptions({
     "non-req": {
       description: "Non-required option"
     },
@@ -41,7 +41,8 @@ export class OptionsTest extends PerfStressTest<OptionsTestOptions> {
       description: "Required option with default value",
       defaultValue: 10
     }
-  };
+  });
+
   public minimistResult: MinimistParsedArgs;
 
   constructor() {

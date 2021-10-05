@@ -36,7 +36,7 @@ export class Delay500ms extends PerfStressTest {
   /**
    * This test doesn't receive command line parameters.
    */
-  public options = {};
+  public options = this.getParsedOptions({});
 
   /**
    * Waits 500 milliseconds.

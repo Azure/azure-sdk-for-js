@@ -9,7 +9,7 @@ export class SleepTest extends PerfStressTest {
   private static instanceCount: number = 0;
   private secondsPerOperation: number = 0;
 
-  public options = {};
+  public options = this.getParsedOptions({});
 
   constructor() {
     super();

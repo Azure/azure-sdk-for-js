@@ -9,7 +9,7 @@ import { PerfStressTest } from "../src";
  * Otherwise, errors thrown on every test call, where the test being called is a function returning a promise (an asynchronous function).
  */
 export class Exception extends PerfStressTest {
-  public options = {};
+  public options = this.getParsedOptions({});
 
   async runAsync(): Promise<void> {
     try {

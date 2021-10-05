@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressTest, PerfStressOptionDictionary } from "../src";
+import { PerfStressTest } from "../src";
 
 import fetch from "node-fetch";
 import * as http from "http";
@@ -17,7 +17,7 @@ export class NodeFetchTest extends PerfStressTest<NodeFetchOptions> {
 
   private url: string = "";
 
-  public options: PerfStressOptionDictionary<NodeFetchOptions> = {
+  public options = this.getParsedOptions({
     url: {
       required: true,
       description: "Required option",
@@ -26,7 +26,7 @@ export class NodeFetchTest extends PerfStressTest<NodeFetchOptions> {
       defaultValue: "http://bing.com",
       value: "http://bing.com"
     }
-  };
+  });
 
   public setup() {
     this.url = this.options.url.value as string;

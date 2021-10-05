@@ -7,7 +7,7 @@ import { PerfStressTest } from "../src";
  * Should test the raw performance impact of the PerfStress framework for both synchronous and asynchronous tests.
  */
 export class NoOp extends PerfStressTest {
-  public options = {};
+  public options = this.getParsedOptions({});
 
   async runAsync(): Promise<void> {}
 }
