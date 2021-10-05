@@ -3,6 +3,7 @@
 ## 1.0.0-beta.5 (2021-10-05)
 
 - Updated mapping for Azure Monitor according to latest specs.
+### Bugs Fixed
 - Fixed issue with SDK version field not being populated correctly.
 
 ## 1.0.0-beta.4 (2021-07-07)
