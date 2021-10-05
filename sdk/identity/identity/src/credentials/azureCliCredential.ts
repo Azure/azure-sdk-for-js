@@ -7,7 +7,7 @@ import { createSpan } from "../util/tracing";
 import { CredentialUnavailableError } from "../client/errors";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
-import * as child_process from "child_process";
+import child_process from "child_process";
 import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
 import { AzureCliCredentialOptions } from "./azureCliCredentialOptions";
 import { processMultiTenantRequest } from "../util/validateMultiTenant";
@@ -55,8 +55,8 @@ export const cliCredentialInternals = {
             "--output",
             "json",
             "--resource",
-            ...tenantSection,
-            resource
+            resource,
+            ...tenantSection
           ],
           { cwd: cliCredentialInternals.getSafeWorkingDir() },
           (error, stdout, stderr) => {
@@ -77,14 +77,15 @@ const logger = credentialLogger("AzureCliCredential");
  * via the Azure CLI ('az') commandline tool.
  * To do so, it will read the user access token and expire time
  * with Azure CLI command "az account get-access-token".
- * To be able to use this credential, ensure that you have already logged
- * in via the 'az' tool using the command "az login" from the commandline.
  */
 export class AzureCliCredential implements TokenCredential {
   private tenantId?: string;
 
   /**
    * Creates an instance of the {@link AzureCliCredential}.
+   *
+   * To use this credential, ensure that you have already logged
+   * in via the 'az' tool using the command "az login" from the commandline.
    *
    * @param options - Options, to optionally allow multi-tenant requests.
    */

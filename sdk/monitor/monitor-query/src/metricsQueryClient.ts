@@ -32,7 +32,7 @@ import {
   convertResponseForMetrics,
   convertResponseForMetricsDefinitions
 } from "./internal/modelConverters";
-
+import { SDK_VERSION } from "./constants";
 const defaultMetricsScope = "https://management.azure.com/.default";
 
 /**
@@ -66,13 +66,20 @@ export class MetricsQueryClient {
     const credentialOptions = {
       credentialScopes: options?.audience
     };
-
+    const packageDetails = `azsdk-js-monitor-query/${SDK_VERSION}`;
+    const userAgentPrefix =
+      options?.userAgentOptions && options?.userAgentOptions.userAgentPrefix
+        ? `${options?.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
     const serviceClientOptions = {
       ...options,
       $host: options?.endpoint,
       endpoint: options?.endpoint,
       credentialScopes: credentialOptions?.credentialScopes ?? defaultMetricsScope,
-      credential: tokenCredential
+      credential: tokenCredential,
+      userAgentOptions: {
+        userAgentPrefix
+      }
     };
 
     this._metricsClient = new GeneratedMetricsClient(

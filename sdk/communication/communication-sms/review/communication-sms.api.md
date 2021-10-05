@@ -4,6 +4,8 @@
 
 ```ts
 
+/// <reference lib="esnext.asynciterable" />
+
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
@@ -42,7 +44,6 @@ export interface SmsSendResult {
     successful: boolean;
     to: string;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

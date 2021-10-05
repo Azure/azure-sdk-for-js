@@ -95,7 +95,7 @@ export interface VisualStudioCodeCredentialOptions extends TokenCredentialOption
 }
 
 /**
- * Connect to Azure using the credential provided by the VSCode extension 'Azure Account'.
+ * Connects to Azure using the credential provided by the VSCode extension 'Azure Account'.
  * Once the user has logged in via the extension, this credential can share the same refresh token
  * that is cached by the extension.
  */

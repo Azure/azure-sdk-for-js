@@ -10,9 +10,9 @@ import {
   LogsQueryBatchResult,
   LogsQueryOptions,
   LogsQueryResult,
-  AggregateBatchError,
-  BatchError,
-  LogsErrorInfo
+  LogsQueryResultStatus,
+  LogsQuerySuccessfulResult,
+  LogsQueryPartialResult
 } from "./models/publicLogsModels";
 
 import {
@@ -25,6 +25,7 @@ import { formatPreferHeader } from "./internal/util";
 import { CommonClientOptions, FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { QueryTimeInterval } from "./models/timeInterval";
 import { convertTimespanToInterval } from "./timespanConversion";
+import { SDK_VERSION } from "./constants";
 
 const defaultMonitorScope = "https://api.loganalytics.io/.default";
 
@@ -63,12 +64,20 @@ export class LogsQueryClient {
     const credentialOptions = {
       credentialScopes: options?.audience
     };
+    const packageDetails = `azsdk-js-monitor-query/${SDK_VERSION}`;
+    const userAgentPrefix =
+      options?.userAgentOptions && options?.userAgentOptions.userAgentPrefix
+        ? `${options?.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
     this._logAnalytics = new AzureLogAnalytics({
       ...options,
       $host: options?.endpoint,
       endpoint: options?.endpoint,
       credentialScopes: credentialOptions?.credentialScopes ?? defaultMonitorScope,
-      credential: tokenCredential
+      credential: tokenCredential,
+      userAgentOptions: {
+        userAgentPrefix
+      }
     });
   }
 
@@ -116,28 +125,32 @@ export class LogsQueryClient {
 
     const parsedBody = JSON.parse(rawResponse.bodyAsText!);
     flatResponse.tables = parsedBody.tables;
-    const result: LogsQueryResult = {
+
+    const res = {
       tables: flatResponse.tables.map(convertGeneratedTable),
       statistics: flatResponse.statistics,
-      visualization: flatResponse.render,
-      error: mapError(flatResponse.error),
-      status: "Success" // Assume success until shown otherwise.
+      visualization: flatResponse.render
     };
-    if (!result.error) {
+
+    if (!flatResponse.error) {
       // if there is no error field, it is success
-      result.status = "Success";
+      const result: LogsQuerySuccessfulResult = {
+        tables: res.tables,
+        statistics: res.statistics,
+        visualization: res.visualization,
+        status: LogsQueryResultStatus.Success
+      };
+      return result;
     } else {
-      // result.tables is always present in single query response, even is there is error
-      if (result.tables.length === 0) {
-        result.status = "Failure";
-      } else {
-        result.status = "PartialFailure";
-      }
+      const result: LogsQueryPartialResult = {
+        partialTables: res.tables,
+        status: LogsQueryResultStatus.PartialFailure,
+        partialError: mapError(flatResponse.error),
+        statistics: res.statistics,
+        visualization: res.visualization
+      };
+      return result;
     }
-    if (options?.throwOnAnyFailure && result.status !== "Success") {
-      throw new BatchError(result.error as LogsErrorInfo);
-    }
-    return result;
   }
 
   /**
@@ -156,14 +169,6 @@ export class LogsQueryClient {
       options || {}
     );
     const result: LogsQueryBatchResult = convertResponseForQueryBatch(flatResponse, rawResponse);
-
-    if (options?.throwOnAnyFailure && result.results.some((it) => it.status !== "Success")) {
-      const errorResults = result.results
-        .filter((it) => it.status !== "Success")
-        .map((x) => x.error);
-      const batchErrorList = errorResults.map((x) => new BatchError(x as LogsErrorInfo));
-      throw new AggregateBatchError(batchErrorList);
-    }
     return result;
   }
 }

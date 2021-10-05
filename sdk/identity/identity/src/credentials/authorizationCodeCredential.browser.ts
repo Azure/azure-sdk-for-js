@@ -12,6 +12,9 @@ const BrowserNotSupportedError = new Error(
 const logger = credentialLogger("AuthorizationCodeCredential");
 
 export class AuthorizationCodeCredential implements TokenCredential {
+  /**
+   * Only available in Node.js
+   */
   constructor(
     tenantId: string | "common",
     clientId: string,

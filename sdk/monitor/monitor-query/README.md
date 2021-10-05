@@ -102,15 +102,26 @@ async function run() {
   const result = await logsQueryClient.queryWorkspace(azureLogAnalyticsWorkspaceId, kustoQuery, {
     duration: Durations.twentyFourHours
   });
-  const tablesFromResult = result.tables;
 
-  if (tablesFromResult == null) {
-    console.log(`No results for query '${kustoQuery}'`);
-    return;
+  if (result.status === LogsQueryResultStatus.Success) {
+    const tablesFromResult: LogsTable[] = result.tables;
+
+    if (tablesFromResult.length === 0) {
+      console.log(`No results for query '${kustoQuery}'`);
+      return;
+    }
+    console.log(`This query has returned table(s) - `);
+    processTables(tablesFromResult);
+  } else {
+    console.log(`Error processing the query '${kustoQuery}' - ${result.partialError}`);
+    if (result.partialTables.length > 0) {
+      console.log(`This query has also returned partial data in the following table(s) - `);
+      processTables(result.partialTables);
+    }
   }
+}
 
-  console.log(`Results for query '${kustoQuery}'`);
-
+async function processTables(tablesFromResult: LogsTable[]) {
   for (const table of tablesFromResult) {
     const columnHeaderString = table.columnDescriptors
       .map((column) => `${column.name}(${column.type}) `)
@@ -123,20 +134,36 @@ async function run() {
     }
   }
 }
+
 run().catch((err) => console.log("ERROR:", err));
 ```
 
 #### Handle logs query response
 
-The `queryWorkspace` function of `LogsQueryClient` returns the `LogsQueryResult`. Here's a hierarchy of the response:
+The `queryWorkspace` function of `LogsQueryClient` returns a `LogsQueryResult` object. The object type can be `LogsQuerySuccessfulResult` or `LogsQueryPartialResult`. Here's a hierarchy of the response:
 
 ```
-LogsQueryResult
+LogsQuerySuccessfulResult
 |---statistics
 |---visualization
-|---error
-|---status ("PartialFailure" | "Success" | "Failure")
+|---status ("Success")
 |---tables (list of `LogsTable` objects)
+    |---name
+    |---rows
+    |---columnDescriptors (list of `LogsColumn` objects)
+        |---name
+        |---type
+
+LogsQueryPartialResult
+|---statistics
+|---visualization
+|---status ("PartialFailure")
+|---partialError
+    |--name
+    |--code
+    |--message
+    |--stack
+|---partialTables (list of `LogsTable` objects)
     |---name
     |---rows
     |---columnDescriptors (list of `LogsColumn` objects)
@@ -147,17 +174,17 @@ LogsQueryResult
 For example, to handle a response with tables:
 
 ```ts
-const tablesFromResult = result.tables;
+async function processTables(tablesFromResult: LogsTable[]) {
+  for (const table of tablesFromResult) {
+    const columnHeaderString = table.columnDescriptors
+      .map((column) => `${column.name}(${column.type}) `)
+      .join("| ");
+    console.log("| " + columnHeaderString);
 
-for (const table of tablesFromResult) {
-  const columnHeaderString = table.columnDescriptors
-    .map((column) => `${column.name}(${column.type}) `)
-    .join("| ");
-  console.log("| " + columnHeaderString);
-
-  for (const row of table.rows) {
-    const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
-    console.log("| " + columnValuesString);
+    for (const row of table.rows) {
+      const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
+      console.log("| " + columnValuesString);
+    }
   }
 }
 ```
@@ -210,89 +237,133 @@ export async function main() {
   }
 
   let i = 0;
-  for (const response of result.results) {
+  for (const response of result) {
     console.log(`Results for query with query: ${queriesBatch[i]}`);
-
-    if (response.error) {
-      console.log(` Query had errors:`, response.error);
+    if (response.status === LogsQueryResultStatus.Success) {
+      console.log(
+        `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
+      );
+      processTables(response.tables);
+    } else if (response.status === LogsQueryResultStatus.PartialFailure) {
+      console.log(
+        `Printing partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
+      );
+      processTables(response.partialTables);
+      console.log(
+        ` Query had errors:${response.partialError.message} with code ${response.partialError.code}`
+      );
     } else {
-      if (response.tables == null) {
-        console.log(`No results for query`);
-      } else {
-        console.log(
-          `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
-        );
-
-        for (const table of response.tables) {
-          const columnHeaderString = table.columnDescriptors
-            .map((column) => `${column.name}(${column.type}) `)
-            .join("| ");
-          console.log(columnHeaderString);
-
-          for (const row of table.rows) {
-            const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
-            console.log(columnValuesString);
-          }
-        }
-      }
+      console.log(`Printing errors from query '${queriesBatch[i].query}'`);
+      console.log(` Query had errors:${response.message} with code ${response.code}`);
     }
     // next query
     i++;
+  }
+}
+
+async function processTables(tablesFromResult: LogsTable[]) {
+  for (const table of tablesFromResult) {
+    const columnHeaderString = table.columnDescriptors
+      .map((column) => `${column.name}(${column.type}) `)
+      .join("| ");
+    console.log("| " + columnHeaderString);
+
+    for (const row of table.rows) {
+      const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
+      console.log("| " + columnValuesString);
+    }
   }
 }
 ```
 
 #### Handle logs batch query response
 
-The `queryBatch` function of `LogsQueryClient` returns a `LogsQueryBatchResult` object. Here's a hierarchy of the response:
+The `queryBatch` function of `LogsQueryClient` returns a `LogsQueryBatchResult` object. `LogsQueryBatchResult` contains a list of objects with the following possible types:
+
+- `LogsQueryPartialResult`
+- `LogsQuerySuccessfulResult`
+- `LogsQueryError`
+
+Here's a hierarchy of the response:
 
 ```
-LogsQueryBatchResult
-|---results (list of following objects)
-    |---statistics
-    |---visualization
-    |---error
-    |---status ("PartialFailure" | "Success" | "Failure")
-    |---tables (list of `LogsTable` objects)
+
+LogsQuerySuccessfulResult
+|---statistics
+|---visualization
+|---status ("Success")
+|---tables (list of `LogsTable` objects)
+    |---name
+    |---rows
+    |---columnDescriptors (list of `LogsColumn` objects)
         |---name
-        |---rows
-        |---columnDescriptors (list of `LogsColumn` objects)
-            |---name
-            |---type
+        |---type
+
+LogsQueryPartialResult
+|---statistics
+|---visualization
+|---status ("PartialFailure")
+|---partialError
+    |--name
+    |--code
+    |--message
+    |--stack
+|---partialTables (list of `LogsTable` objects)
+    |---name
+    |---rows
+    |---columnDescriptors (list of `LogsColumn` objects)
+        |---name
+        |---type
+
+LogsQueryError
+|--name
+|--code
+|--message
+|--stack
+|--status ("Failure")
 ```
 
-For example, to handle a batch logs query response:
+For example, the following code handles a batch logs query response:
 
 ```ts
-let i = 0;
-for (const response of result.results) {
-  console.log(`Results for query with query: ${queriesBatch[i]}`);
-
-  if (response.error) {
-    console.log(` Query had errors:`, response.error);
-  } else {
-    if (response.tables == null) {
-      console.log(`No results for query`);
-    } else {
+async function processBatchResult(result: LogsQueryBatchResult) {
+  let i = 0;
+  for (const response of result) {
+    console.log(`Results for query with query: ${queriesBatch[i]}`);
+    if (response.status === LogsQueryResultStatus.Success) {
       console.log(
         `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
       );
+      processTables(response.tables);
+    } else if (response.status === LogsQueryResultStatus.PartialFailure) {
+      console.log(
+        `Printing partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
+      );
+      processTables(response.partialTables);
+      console.log(
+        ` Query had errors:${response.partialError.message} with code ${response.partialError.code}`
+      );
+    } else {
+      console.log(`Printing errors from query '${queriesBatch[i].query}'`);
+      console.log(` Query had errors:${response.message} with code ${response.code}`);
+    }
+    // next query
+    i++;
+  }
+}
 
-      for (const table of response.tables) {
-        const columnHeaderString = table.columnDescriptors
-          .map((column) => `${column.name}(${column.type}) `)
-          .join("| ");
-        console.log(columnHeaderString);
+async function processTables(tablesFromResult: LogsTable[]) {
+  for (const table of tablesFromResult) {
+    const columnHeaderString = table.columnDescriptors
+      .map((column) => `${column.name}(${column.type}) `)
+      .join("| ");
+    console.log("| " + columnHeaderString);
 
-        for (const row of table.rows) {
-          const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
-          console.log(columnValuesString);
-        }
-      }
+    for (const row of table.rows) {
+      const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
+      console.log("| " + columnValuesString);
     }
   }
-  // next query
-  i++;
 }
 ```
 

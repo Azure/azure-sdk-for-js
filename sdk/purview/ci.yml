@@ -31,5 +31,7 @@ extends:
         safeName: azurerestpurviewscanning
       - name: azure-rest-purview-account
         safeName: azurerestpurviewaccount
+      - name: azure-rest-purview-administration
+        safeName: azurerestpurviewadministration
       - name: azure-arm-purview
         safeName: azurearmpurview
