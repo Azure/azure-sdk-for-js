@@ -21,7 +21,7 @@ import { IoTModelsRepositoryServiceClient } from "./modelsRepositoryServiceClien
 import { HttpFetcher } from "./fetcherHTTP";
 import { GetModelsOptions } from "./interfaces/getModelsOptions";
 import { DTDL } from "./psuedoDtdl";
-import { RepositoryMetadata } from "./interfaces/repositoryMetadata";
+import { ModelsRepositoryMetadata } from "./interfaces/modelsRepositoryMetadata";
 
 /**
  * Initializes a new instance of the IoT Models Repository Client.
@@ -172,7 +172,7 @@ export class ModelsRepositoryClient {
 
       try {
         logger.info(`Attempting to retrieve metadata from repository`);
-        const metadata = await this._fetcher.fetch<RepositoryMetadata>('metadata.json', options);
+        const metadata = await this._fetcher.fetch<ModelsRepositoryMetadata>('metadata.json', options);
         if (metadata?.features?.expanded) {
           logger.info(`Repository metadata supports expanded models.`);
           logger.info(`Retreiving expanded model(s): ${dtmis}...`);
@@ -198,8 +198,8 @@ export class ModelsRepositoryClient {
   }
   /**
    * Retrieve unexpanded models, and manually expand them by retrieving dependencies.
-   * @param dtmis dtmi strings in an array
-   * @param options options to govern behavior of model getter
+   * @param dtmis - dtmi strings in an array
+   * @param options - options to govern behavior of model getter
    * @returns 
    */
   private async _ExpandModels(dtmis: string[], options?: GetModelsOptions): Promise<{ [dtmi: string]: unknown }> {
@@ -207,7 +207,6 @@ export class ModelsRepositoryClient {
     const baseModelMap = await this._resolver.resolve(dtmis, false, options);
     const baseModelList = Object.keys(baseModelMap).map((key) => baseModelMap[key]);
     logger.info(`Retreiving model dependencies for ${dtmis}...`);
-    return await this._pseudoParser.expand(baseModelList as DTDL[], true);
+    return this._pseudoParser.expand(baseModelList as DTDL[], true);
   }
 }
-

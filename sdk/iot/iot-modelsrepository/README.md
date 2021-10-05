@@ -37,8 +37,7 @@ npm install @azure/iot-modelsrepository
 
 ```ts
 // When no URI is provided for instantiation, the Azure IoT Models Repository global endpoint
-// https://devicemodels.azure.com/ is used and the model dependency resolution
-// configuration is set to TryFromExpanded.
+// https://devicemodels.azure.com/ is used.
 const { ModelsRepositoryClient } = require("@azure/iot-modelsrepository");
 
 const client = new ModelsRepositoryClient();
@@ -67,7 +66,7 @@ const client = new ModelsRepositoryClient();
 // If the model dependency resolution configuration is not disabled, then models in which the
 // target dtmi depends on will also be included in the returned object (mapping dtmis to model objects).
 const dtmi = "dtmi:com:example:TemperatureController;1";
-const models = await client.getModels(dtmi, {dependencyResolution: 'tryFromExpanded'});
+const models = await client.getModels(dtmi, {dependencyResolution: 'enabled'});
 
 // In this case the above dtmi has 2 model dependencies.
 // dtmi:com:example:Thermostat;1 and dtmi:azure:DeviceManagement:DeviceInformation;1

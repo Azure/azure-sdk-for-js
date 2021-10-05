@@ -8,7 +8,7 @@ import { CommonClientOptions } from '@azure/core-client';
 import { OperationOptions } from '@azure/core-client';
 
 // @public
-export type dependencyResolutionType = "disabled" | "enabled" | "tryFromExpanded";
+export type dependencyResolutionType = "disabled" | "enabled";
 
 // @public
 export interface GetModelsOptions extends OperationOptions {
@@ -30,7 +30,6 @@ export class ModelError extends Error {
 export class ModelsRepositoryClient {
     constructor(options?: ModelsRepositoryClientOptions);
     get apiVersion(): string;
-    get dependencyResolution(): dependencyResolutionType;
     getModels(dtmis: string, options?: GetModelsOptions): Promise<{
         [dtmi: string]: unknown;
     }>;
@@ -43,7 +42,6 @@ export class ModelsRepositoryClient {
 // @public
 export interface ModelsRepositoryClientOptions extends CommonClientOptions {
     apiVersion?: string;
-    dependencyResolution?: dependencyResolutionType;
     repositoryLocation?: string;
 }
 

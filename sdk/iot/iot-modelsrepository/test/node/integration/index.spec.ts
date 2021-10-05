@@ -6,7 +6,6 @@ import {
   dependencyResolutionType,
   ModelsRepositoryClient,
   ModelsRepositoryClientOptions,
-  RepositoryMetadata
 } from "../../../src";
 
 import { assert, expect } from "chai";
@@ -15,6 +14,7 @@ import * as sinon from "sinon";
 import { ServiceClient } from "@azure/core-client";
 import { PipelineRequest } from "@azure/core-rest-pipeline";
 import { DEPENDENCY_MODE_DISABLED, DEPENDENCY_MODE_ENABLED } from "../../../src/utils/constants";
+import { ModelsRepositoryMetadata } from "../../../src/interfaces/modelsRepositoryMetadata";
 
 interface RemoteResolutionScenario {
   name: string;
@@ -30,12 +30,12 @@ interface RemoteResolutionScenario {
     mockedResponse: unknown;
     expectedOutputJson: unknown;
   }[];
-  metadata?: RepositoryMetadata;
+  metadata?: ModelsRepositoryMetadata;
 }
 
 const remoteRepositoryLocation = "https://www.devicemodels.contoso.com";
 
-const metadataBodyWithExpanded: RepositoryMetadata = {
+const metadataBodyWithExpanded: ModelsRepositoryMetadata = {
   commitId: "test",
   features: {
     expanded: true,
@@ -46,7 +46,7 @@ const metadataBodyWithExpanded: RepositoryMetadata = {
   totalModelCount: 1337
 };
 
-const metadataBodyWithoutExpanded: RepositoryMetadata = {
+const metadataBodyWithoutExpanded: ModelsRepositoryMetadata = {
   commitId: "test",
   features: {
     expanded: false,
@@ -272,14 +272,14 @@ const resolveRepositoryMetadata = (scenario: RemoteResolutionScenario) => {
   };
 };
 
-describe("resolver - node", function() {
-  afterEach(function() {
+describe("resolver - node", function () {
+  afterEach(function () {
     sinon.restore();
   });
 
-  describe("remote URL resolution", function() {
+  describe("remote URL resolution", function () {
     remoteResolutionScenarios.forEach((scenario: RemoteResolutionScenario) => {
-      it(scenario.name, async function() {
+      it(scenario.name, async function () {
         console.log(scenario.name);
         const myStub = sinon.stub(ServiceClient.prototype, "sendRequest");
         let calls = 0;

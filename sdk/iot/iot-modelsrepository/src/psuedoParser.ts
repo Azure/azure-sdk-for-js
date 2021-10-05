@@ -74,7 +74,7 @@ export class PseudoParser {
     }
   }
 
-  private _getModelDependencies(model: DTDL) {
+  private _getModelDependencies(model: DTDL): string[] {
     const dependencies = [];
 
     if (model.contents !== undefined) {

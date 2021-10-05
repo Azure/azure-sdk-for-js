@@ -15,9 +15,9 @@ console.log(repositoryEndpoint, dtmi);
 async function main() {
   // When no URI is provided for instantiation, the Azure IoT Models Repository global endpoint
   // https://devicemodels.azure.com/ is used and the model dependency resolution
-  // configuration is set to TryFromExpanded.
+  // configuration is explicitly enabled.
   const client = new ModelsRepositoryClient({ repositoryLocation: repositoryEndpoint });
-  const result = await client.getModels(dtmi, { dependencyResolution: "tryFromExpanded" });
+  const result = await client.getModels(dtmi, { dependencyResolution: "enabled" });
   Object.keys(result).forEach((fetchedDtmi) => {
     const currentDtdl = result[fetchedDtmi];
     console.log("------------------------------------------------");
