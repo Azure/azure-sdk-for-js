@@ -97,6 +97,7 @@ export class EventHubBufferedProducerClient {
     constructor(connectionString: string, eventHubName: string, options: EventHubBufferedProducerClientOptions);
     constructor(fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential | NamedKeyCredential | SASCredential, options: EventHubBufferedProducerClientOptions);
     close(options?: BufferedCloseOptions): Promise<void>;
+    enqueueEvent(event: EventData | AmqpAnnotatedMessage, options?: EnqueueEventOptions): Promise<number>;
     enqueueEvents(events: EventData[] | AmqpAnnotatedMessage[], options?: EnqueueEventOptions): Promise<number>;
     get eventHubName(): string;
     flush(options?: OperationOptions): Promise<void>;
