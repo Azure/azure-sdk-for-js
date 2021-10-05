@@ -2,9 +2,9 @@
 
 ## 2.0.0 (2021-10-12)
 
-We're proud to announce the first GA release of the `@azure/identity` v2 package. The v2 package includes the best parts of v1, plus several improvements.
+After multiple beta releases over the past year, we're proud to announce the general availability of version 2 of the `@azure/identity` v2 package. This version includes the best parts of v1, plus several improvements.
 
-This changelog entry showcases the changes that have been made. For a v1-to-v2 migration guide, see the [migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/migration-v1-v2.md).
+This changelog entry showcases the changes that have been made from version 1 of this package. See the [v1-to-v2 migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/migration-v1-v2.md) for details on how to upgrade your application to use the version 2 of `@azure/identity`.
 
 ### Features Added
 
@@ -56,7 +56,7 @@ The Azure region can also be specified through the `AZURE_REGIONAL_AUTHORITY_NAM
 
 In Identity v2, the `ManagedIdentityCredential` retries with exponential back-off when a request for a token fails with a 404 status code. This change only applies to environments with available IMDS endpoints.
 
-Azure Service Fabric support hasn't been added on the initial version 2 of Identity. Follow the development of this feature through [this GitHub issue](https://github.com/Azure/azure-sdk-for-js/issues/12420).
+Azure Service Fabric support hasn't been added on the initial version 2 of Identity. Subscribe to [issue #12420](https://github.com/Azure/azure-sdk-for-js/issues/12420) for updates on this feature.
 
 #### Other changes
 
