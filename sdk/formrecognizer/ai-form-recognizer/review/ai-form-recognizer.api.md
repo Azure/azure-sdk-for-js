@@ -5,718 +5,1283 @@
 ```ts
 
 /// <reference types="node" />
-/// <reference lib="esnext.asynciterable" />
 
 import { AzureKeyCredential } from '@azure/core-auth';
-import * as coreHttp from '@azure/core-http';
 import { KeyCredential } from '@azure/core-auth';
-import { OperationOptions } from '@azure/core-http';
+import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PipelineOptions } from '@azure/core-http';
+import { PipelineOptions } from '@azure/core-rest-pipeline';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
-import { RestResponse } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AccountProperties {
-    customModelCount: number;
-    customModelLimit: number;
+export type AnalysisPoller<Result = AnalyzeResult<AnalyzedDocument>> = PollerLike<DocumentAnalysisPollOperationState<Result>, Result>;
+
+// @public
+export interface AnalyzedDocument {
+    boundingRegions?: BoundingRegion[];
+    confidence: number;
+    docType: string;
+    fields: {
+        [field: string]: DocumentField;
+    };
+    spans: DocumentSpan[];
+}
+
+// @public
+export interface AnalyzeDocumentsOptions<Result = AnalyzeResult<AnalyzedDocument>> extends OperationOptions, PollerOptions<DocumentAnalysisPollOperationState<Result>> {
+    locale?: string;
+    pages?: string;
+}
+
+// @public
+export interface AnalyzeResult<Document = AnalyzedDocument> {
+    apiVersion: FormRecognizerApiVersion;
+    content: string;
+    documents: Document[];
+    entities: DocumentEntity[];
+    keyValuePairs: DocumentKeyValuePair[];
+    modelId: string;
+    pages: DocumentPage[];
+    styles: DocumentStyle[];
+    tables: DocumentTable[];
+}
+
+// @public
+export type AnalyzeResultOperationStatus = "notStarted" | "running" | "failed" | "succeeded";
+
+// @public
+export interface ArrayFieldSchema<Item extends Readonly<FieldSchema> = Readonly<FieldSchema>> {
+    readonly items: Item;
+    // (undocumented)
+    readonly type: "array";
 }
 
 export { AzureKeyCredential }
 
 // @public
-export type BeginCopyModelOptions = FormRecognizerOperationOptions & FormTrainingPollOperationOptions<CopyModelOperationState>;
-
-// @public
-export type BeginCreateComposedModelOptions = FormRecognizerOperationOptions & FormTrainingPollOperationOptions<TrainingOperationState> & {
-    modelName?: string;
-};
-
-// @public
-export type BeginRecognizeBusinessCardsOptions = BeginRecognizePrebuiltOptions;
-
-// @public
-export type BeginRecognizeContentOptions = RecognizeContentOptions & {
-    updateIntervalInMs?: number;
-    onProgress?: (state: RecognizeContentOperationState) => void;
-    resumeFrom?: string;
-    contentType?: FormContentType;
-    language?: string;
-    readingOrder?: FormReadingOrder;
-    pages?: string[];
-};
-
-// @public
-export interface BeginRecognizeCustomFormsOptions extends BeginRecognizeFormsOptions {
-}
-
-// @public
-export interface BeginRecognizeFormsOptions extends RecognizeFormsOptions {
-    contentType?: FormContentType;
-    onProgress?: (state: RecognizeFormsOperationState) => void;
-    pages?: string[];
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type BeginRecognizeIdentityDocumentsOptions = BeginRecognizePrebuiltOptions;
-
-// @public
-export type BeginRecognizeInvoicesOptions = BeginRecognizePrebuiltOptions;
-
-// @public
-export interface BeginRecognizePrebuiltOptions extends BeginRecognizeFormsOptions {
-    locale?: string;
-}
-
-// @public
-export type BeginRecognizeReceiptsOptions = BeginRecognizePrebuiltOptions;
-
-// @public
-export type BeginTrainingOptions = TrainingFileFilter & FormTrainingPollOperationOptions<TrainingOperationState> & {
-    modelName?: string;
-};
-
-// @public
-export interface CommonFieldValue {
-    boundingBox?: Point2D[];
-    confidence?: number;
-    fieldElements?: FormElement[];
-    pageNumber?: number;
-    text?: string;
-}
-
-// @public
-export type ContentPollerLike = PollerLike<PollOperationState<FormPageArray>, FormPageArray>;
-
-// @public
-export interface CopyAuthorization {
-    accessToken: string;
-    expiresOn: Date;
-    modelId: string;
-    resourceId: string;
-    resourceRegion: string;
-}
-
-// @public
-export type CopyModelOperationState = PollOperationState<CustomFormModel> & {
-    status: OperationStatus;
-};
-
-// @public
-export type CopyModelOptions = FormRecognizerOperationOptions;
-
-// @public
-export interface CustomFormModel extends CustomFormModelInfo {
-    errors?: FormRecognizerError[];
-    submodels?: CustomFormSubmodel[];
-    trainingDocuments?: TrainingDocumentInfo[];
-}
-
-// @public
-export interface CustomFormModelField {
-    accuracy?: number;
-    label: string | null;
-    name: string;
-}
-
-// @public
-export interface CustomFormModelInfo {
-    modelId: string;
-    modelName?: string;
-    properties?: CustomFormModelProperties;
-    status: ModelStatus;
-    trainingCompletedOn: Date;
-    trainingStartedOn: Date;
-}
-
-// @public
-export interface CustomFormModelProperties {
-    isComposedModel?: boolean;
-}
-
-// @public
-export interface CustomFormSubmodel {
-    accuracy?: number;
-    fields: Record<string, CustomFormModelField>;
-    formType: string;
-    modelId?: string;
-}
-
-// @public
-export type DeleteModelOptions = FormRecognizerOperationOptions;
-
-// @public
-export interface FieldData {
-    boundingBox?: Point2D[];
-    fieldElements?: FormElement[];
+export interface BoundingRegion {
+    boundingBox: number[];
     pageNumber: number;
-    text?: string;
 }
 
 // @public
-export interface FormArrayField extends FormFieldCommon {
-    value?: FormField[];
-    valueType: "array";
+export interface BuildModelOptions extends OperationOptions, PollerOptions<TrainingPollOperationState> {
+    description?: string;
 }
 
 // @public
-export type FormContentType = "application/pdf" | "image/jpeg" | "image/png" | "image/tiff" | "image/bmp";
+export type BusinessCard = ReifyPrebuiltSchema<typeof BusinessCardSchema>;
 
 // @public
-export interface FormCountryRegionField extends FormFieldCommon {
-    value?: string;
-    valueType: "countryRegion";
-}
-
-// @public
-export interface FormDateField extends FormFieldCommon {
-    value?: Date;
-    valueType: "date";
-}
-
-// @public
-export type FormElement = FormWord | FormLine | FormSelectionMark;
-
-// @public
-export interface FormElementCommon {
-    boundingBox: Point2D[];
-    pageNumber: number;
-    text?: string;
-}
-
-// @public
-export type FormField = FormUnknownField | FormStringField | FormNumberField | FormDateField | FormTimeField | FormPhoneNumberField | FormIntegerField | FormSelectionMarkField | FormArrayField | FormObjectField | FormCountryRegionField;
-
-// @public
-export interface FormFieldCommon {
-    confidence?: number;
-    labelData?: FieldData;
-    name?: string;
-    valueData?: FieldData;
-}
-
-// @public
-export interface FormFieldsReport {
-    accuracy: number;
-    fieldName: string;
-}
-
-// @public
-export interface FormIntegerField extends FormFieldCommon {
-    value?: number;
-    valueType: "integer";
-}
-
-// @public
-export interface FormLine extends FormElementCommon {
-    appearance?: TextAppearance;
-    kind: "line";
-    text: string;
-    words: FormWord[];
-}
-
-// @public
-export type FormModelResponse = CustomFormModel & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: Model;
+export const BusinessCardSchema: {
+    readonly modelId: "prebuilt-businessCard";
+    readonly description: "Prebuilt model to extract key information from English business cards, including personal contact info, company name, job title, and more.";
+    readonly createdDateTime: "2021-07-30T00:00:00Z";
+    readonly docTypes: {
+        readonly "prebuilt:businesscard": {
+            readonly description: "Business Card";
+            readonly fieldSchema: {
+                readonly ContactNames: {
+                    readonly type: "array";
+                    readonly items: {
+                        readonly type: "object";
+                        readonly description: "Contact name";
+                        readonly example: "Chris Smith";
+                        readonly properties: {
+                            readonly FirstName: {
+                                readonly type: "string";
+                                readonly description: "First (given) name of contact";
+                                readonly example: "Chris";
+                            };
+                            readonly LastName: {
+                                readonly type: "string";
+                                readonly description: "Last (family) name of contact";
+                                readonly example: "Smith";
+                            };
+                        };
+                    };
+                };
+                readonly CompanyNames: {
+                    readonly type: "array";
+                    readonly items: {
+                        readonly type: "string";
+                        readonly description: "Company name";
+                        readonly example: "CONTOSO";
+                    };
+                };
+                readonly JobTitles: {
+                    readonly type: "array";
+                    readonly items: {
+                        readonly type: "string";
+                        readonly description: "Job title";
+                        readonly example: "Senior Researcher";
+                    };
+                };
+                readonly Departments: {
+                    readonly type: "array";
+                    readonly items: {
+                        readonly type: "string";
+                        readonly description: "Department or organization";
+                        readonly example: "Cloud & Al Department";
+                    };
+                };
+                readonly Addresses: {
+                    readonly type: "array";
+                    readonly items: {
+                        readonly type: "string";
+                        readonly description: "Address";
+                        readonly example: "4001 1st Ave NE Redmond, WA 98052";
+                    };
+                };
+                readonly WorkPhones: {
+                    readonly type: "array";
+                    readonly items: {
+                        readonly type: "phoneNumber";
+                        readonly description: "Work phone number";
+                        readonly example: "+1 (987) 213-5674";
+                    };
+                };
+                readonly MobilePhones: {
+                    readonly type: "array";
+                    readonly items: {
+                        readonly type: "phoneNumber";
+                        readonly description: "Mobile phone number";
+                        readonly example: "+1 (987) 123-4567";
+                    };
+                };
+                readonly Faxes: {
+                    readonly type: "array";
+                    readonly items: {
+                        readonly type: "phoneNumber";
+                        readonly description: "Fax number";
+                        readonly example: "+1 (987) 312-6745";
+                    };
+                };
+                readonly OtherPhones: {
+                    readonly type: "array";
+                    readonly items: {
+                        readonly type: "phoneNumber";
+                        readonly description: "Other phone number";
+                        readonly example: "+1 (987) 213-5673";
+                    };
+                };
+                readonly Emails: {
+                    readonly type: "array";
+                    readonly items: {
+                        readonly type: "string";
+                        readonly description: "Contact email";
+                        readonly example: "chris.smith@contoso.com";
+                    };
+                };
+                readonly Websites: {
+                    readonly type: "array";
+                    readonly items: {
+                        readonly type: "string";
+                        readonly description: "Website";
+                        readonly example: "https://www.contoso.com";
+                    };
+                };
+            };
+        };
     };
 };
 
 // @public
-export interface FormNumberField extends FormFieldCommon {
-    value?: number;
-    valueType: "number";
+export type ContentType = "application/octet-stream" | "application/pdf" | "image/bmp" | "image/jpeg" | "image/png" | "image/tiff";
+
+// @public
+export interface CopyAuthorization {
+    accessToken: string;
+    expirationDateTime: Date;
+    targetModelId: string;
+    targetModelLocation: string;
+    targetResourceId: string;
+    targetResourceRegion: string;
 }
 
 // @public
-export interface FormObjectField extends FormFieldCommon {
-    value?: Record<string, FormField>;
-    valueType: "object";
+export interface CopyModelOptions extends OperationOptions, PollerOptions<TrainingPollOperationState> {
 }
 
 // @public
-export interface FormPage {
+export interface CustomDocumentModelsInfo {
+    count: number;
+    limit: number;
+}
+
+// @public
+export interface DateFieldSchema {
+    // (undocumented)
+    readonly type: "date";
+}
+
+// @public
+export interface DeleteModelOptions extends OperationOptions {
+}
+
+// @public
+export interface DocTypeInfo {
+    description?: string;
+    fieldConfidence?: {
+        [propertyName: string]: number;
+    };
+    fieldSchema: {
+        [propertyName: string]: DocumentFieldSchema;
+    };
+}
+
+// @public
+export class DocumentAnalysisClient {
+    constructor(endpoint: string, credential: TokenCredential, options?: DocumentAnalysisClientOptions);
+    constructor(endpoint: string, credential: KeyCredential, options?: DocumentAnalysisClientOptions);
+    constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: DocumentAnalysisClientOptions);
+    beginAnalyzeDocuments(modelId: string, input: string | FormRecognizerRequestBody, options?: AnalyzeDocumentsOptions): Promise<AnalysisPoller>;
+    beginAnalyzeDocuments<Document>(model: DocumentModel<Document>, input: string | FormRecognizerRequestBody, options?: AnalyzeDocumentsOptions<AnalyzeResult<Document>>): Promise<AnalysisPoller<AnalyzeResult<Document>>>;
+    beginExtractGenericDocument(input: string | FormRecognizerRequestBody, options?: AnalyzeDocumentsOptions<GenericDocumentResult>): Promise<AnalysisPoller<GenericDocumentResult>>;
+    beginExtractLayout(input: string | FormRecognizerRequestBody, options?: AnalyzeDocumentsOptions<LayoutResult>): Promise<AnalysisPoller<LayoutResult>>;
+}
+
+// @public
+export interface DocumentAnalysisClientOptions extends FormRecognizerCommonClientOptions {
+    stringIndexType?: StringIndexType;
+}
+
+// @public
+export interface DocumentAnalysisPollOperationState<Result = AnalyzeResult<AnalyzedDocument>> extends PollOperationState<Result> {
+    modelId: string;
+    operationId: string;
+    status: AnalyzeResultOperationStatus;
+}
+
+// @public
+export interface DocumentArrayField<T = DocumentField> extends DocumentFieldCommon {
+    // (undocumented)
+    kind: "array";
+    values: T[];
+}
+
+// @public
+export interface DocumentCountryRegionField extends DocumentFieldCommon {
+    // (undocumented)
+    kind: "countryRegion";
+    value?: string;
+}
+
+// @public
+export interface DocumentDateField extends DocumentValueField<Date> {
+    // (undocumented)
+    kind: "date";
+}
+
+// @public
+export interface DocumentEntity {
+    boundingRegions?: BoundingRegion[];
+    category: string;
+    confidence: number;
+    content: string;
+    spans: DocumentSpan[];
+    subCategory?: string;
+}
+
+// @public
+export type DocumentField = DocumentStringField | DocumentDateField | DocumentTimeField | DocumentPhoneNumberField | DocumentNumberField | DocumentIntegerField | DocumentSelectionMarkField | DocumentCountryRegionField | DocumentSignatureField | DocumentArrayField | DocumentObjectField;
+
+// @public
+export interface DocumentFieldCommon {
+    boundingRegions?: BoundingRegion[];
+    confidence?: number;
+    content?: string;
+    spans?: DocumentSpan[];
+}
+
+// @public
+export interface DocumentFieldSchema {
+    description?: string;
+    example?: string;
+    items?: DocumentFieldSchema;
+    properties?: {
+        [propertyName: string]: DocumentFieldSchema;
+    };
+    type: DocumentFieldType;
+}
+
+// @public
+export type DocumentFieldType = string;
+
+// @public
+export interface DocumentIntegerField extends DocumentValueField<number> {
+    // (undocumented)
+    kind: "integer";
+}
+
+// @public
+export interface DocumentKeyValueElement {
+    boundingRegions?: BoundingRegion[];
+    content: string;
+    spans: DocumentSpan[];
+}
+
+// @public
+export interface DocumentKeyValuePair {
+    confidence: number;
+    key: DocumentKeyValueElement;
+    value?: DocumentKeyValueElement;
+}
+
+// @public
+export interface DocumentLine {
+    boundingBox?: number[];
+    content: string;
+    spans: DocumentSpan[];
+}
+
+// @public
+export interface DocumentModel<Result> {
+    [fromDocument]: (input: GeneratedDocument) => Result;
+    modelId: string;
+}
+
+// @public
+export class DocumentModelAdministrationClient {
+    constructor(endpoint: string, credential: TokenCredential, options?: DocumentModelAdministrationClientOptions);
+    constructor(endpoint: string, credential: KeyCredential, options?: DocumentModelAdministrationClientOptions);
+    constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: DocumentModelAdministrationClientOptions);
+    beginBuildModel(modelId: string, containerUrl: string, options?: BuildModelOptions): Promise<TrainingPoller>;
+    beginComposeModel(modelId: string, componentModels: Iterable<string>, options?: BuildModelOptions): Promise<TrainingPoller>;
+    beginCopyModel(sourceModelId: string, authorization: CopyAuthorization, options?: CopyModelOptions): Promise<TrainingPoller>;
+    deleteModel(modelId: string, options?: DeleteModelOptions): Promise<void>;
+    getCopyAuthorization(destinationModelId: string, options?: GetCopyAuthorizationOptions): Promise<CopyAuthorization>;
+    getInfo(options?: GetInfoOptions): Promise<GetInfoResponse>;
+    getModel(modelId: string, options?: GetModelOptions): Promise<ModelInfo>;
+    getOperation(operationId: string, options?: GetOperationOptions): Promise<OperationInfo>;
+    listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<ModelSummary>;
+    listOperations(options?: ListOperationsOptions): PagedAsyncIterableIterator<OperationInfo>;
+}
+
+// @public
+export interface DocumentModelAdministrationClientOptions extends FormRecognizerCommonClientOptions {
+}
+
+// @public
+export interface DocumentNumberField extends DocumentValueField<number> {
+    // (undocumented)
+    kind: "number";
+}
+
+// @public
+export interface DocumentObjectField<Properties = {
+    [k: string]: DocumentField | undefined;
+}> extends DocumentFieldCommon {
+    // (undocumented)
+    kind: "object";
+    properties: Properties;
+}
+
+// @public
+export interface DocumentPage {
+    angle: number;
     height: number;
-    lines?: FormLine[];
+    lines: DocumentLine[];
     pageNumber: number;
-    selectionMarks?: FormSelectionMark[];
-    tables?: FormTable[];
-    textAngle: number;
+    selectionMarks?: DocumentSelectionMark[];
+    spans: DocumentSpan[];
     unit: LengthUnit;
     width: number;
+    words: DocumentWord[];
 }
 
 // @public
-export interface FormPageArray extends Array<FormPage> {
-}
-
-// @public
-export interface FormPageRange {
-    firstPageNumber: number;
-    lastPageNumber: number;
-}
-
-// @public
-export interface FormPhoneNumberField extends FormFieldCommon {
+export interface DocumentPhoneNumberField extends DocumentFieldCommon {
+    // (undocumented)
+    kind: "phoneNumber";
     value?: string;
-    valueType: "phoneNumber";
 }
 
 // @public
-export type FormPollerLike = PollerLike<RecognizeFormsOperationState, RecognizedFormArray>;
-
-// @public
-export type FormReadingOrder = "basic" | "natural";
-
-// @public
-export class FormRecognizerClient {
-    constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: FormRecognizerClientOptions);
-    beginRecognizeBusinessCards(businessCard: FormRecognizerRequestBody, options?: BeginRecognizeBusinessCardsOptions): Promise<FormPollerLike>;
-    beginRecognizeBusinessCardsFromUrl(businessCardUrl: string, options?: BeginRecognizeBusinessCardsOptions): Promise<FormPollerLike>;
-    beginRecognizeContent(form: FormRecognizerRequestBody, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
-    beginRecognizeContentFromUrl(formUrl: string, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
-    beginRecognizeCustomForms(modelId: string, form: FormRecognizerRequestBody, options?: BeginRecognizeCustomFormsOptions): Promise<FormPollerLike>;
-    beginRecognizeCustomFormsFromUrl(modelId: string, formUrl: string, options?: BeginRecognizeCustomFormsOptions): Promise<FormPollerLike>;
-    beginRecognizeIdentityDocuments(identityDocument: FormRecognizerRequestBody, options?: BeginRecognizeIdentityDocumentsOptions): Promise<FormPollerLike>;
-    beginRecognizeIdentityDocumentsFromUrl(identityDocumentUrl: string, options?: BeginRecognizeIdentityDocumentsOptions): Promise<FormPollerLike>;
-    beginRecognizeInvoices(invoice: FormRecognizerRequestBody, options?: BeginRecognizeInvoicesOptions): Promise<FormPollerLike>;
-    beginRecognizeInvoicesFromUrl(invoiceUrl: string, options?: BeginRecognizeInvoicesOptions): Promise<FormPollerLike>;
-    beginRecognizeReceipts(receipt: FormRecognizerRequestBody, options?: BeginRecognizeReceiptsOptions): Promise<FormPollerLike>;
-    beginRecognizeReceiptsFromUrl(receiptUrl: string, options?: BeginRecognizeReceiptsOptions): Promise<FormPollerLike>;
-    readonly endpointUrl: string;
-}
-
-// @public
-export interface FormRecognizerClientOptions extends PipelineOptions {
-}
-
-// @public
-export interface FormRecognizerError {
-    code: string;
-    message: string;
-}
-
-// @public
-export interface FormRecognizerOperationOptions extends OperationOptions {
-}
-
-// @public
-export type FormRecognizerRequestBody = Blob | ArrayBuffer | ArrayBufferView | NodeJS.ReadableStream;
-
-// @public
-export interface FormSelectionMark extends FormElementCommon {
-    confidence?: number;
-    kind: "selectionMark";
-    state: "selected" | "unselected";
-}
-
-// @public
-export interface FormSelectionMarkField extends FormFieldCommon {
-    value?: "selected" | "unselected";
-    valueType: "selectionMark";
-}
-
-// @public
-export interface FormStringField extends FormFieldCommon {
-    value?: string;
-    valueType: "string";
-}
-
-// @public
-export interface FormTable {
-    boundingBox?: Point2D[];
-    cells: FormTableCell[];
-    columnCount: number;
-    pageNumber: number;
-    rowCount: number;
-}
-
-// @public
-export interface FormTableCell {
-    boundingBox: Point2D[];
-    columnIndex: number;
-    columnSpan: number;
+export interface DocumentSelectionMark {
+    boundingBox?: number[];
     confidence: number;
-    fieldElements?: FormElement[];
-    isFooter: boolean;
-    isHeader: boolean;
-    pageNumber: number;
-    rowIndex: number;
-    rowSpan: number;
-    text: string;
+    span: DocumentSpan;
+    state: SelectionMarkState;
 }
 
 // @public
-export interface FormTimeField extends FormFieldCommon {
+export interface DocumentSelectionMarkField extends DocumentFieldCommon {
+    // (undocumented)
+    kind: "selectionMark";
     value?: string;
-    valueType: "time";
 }
 
 // @public
-export class FormTrainingClient {
-    constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: FormRecognizerClientOptions);
-    beginCopyModel(modelId: string, target: CopyAuthorization, options?: BeginCopyModelOptions): Promise<PollerLike<CopyModelOperationState, CustomFormModelInfo>>;
-    beginCreateComposedModel(modelIds: string[], options: BeginCreateComposedModelOptions): Promise<PollerLike<TrainingOperationState, CustomFormModel>>;
-    beginTraining(trainingFilesUrl: string, useTrainingLabels: boolean, options?: BeginTrainingOptions): Promise<PollerLike<TrainingOperationState, CustomFormModel>>;
-    deleteModel(modelId: string, options?: DeleteModelOptions): Promise<RestResponse>;
-    readonly endpointUrl: string;
-    getAccountProperties(options?: GetAccountPropertiesOptions): Promise<AccountProperties>;
-    getCopyAuthorization(resourceId: string, resourceRegion: string, options?: GetCopyAuthorizationOptions): Promise<CopyAuthorization>;
-    getCustomModel(modelId: string, options?: GetModelOptions): Promise<FormModelResponse>;
-    getFormRecognizerClient(): FormRecognizerClient;
-    listCustomModels(options?: ListModelsOptions): PagedAsyncIterableIterator<CustomFormModelInfo, ListCustomModelsResponse>;
+export interface DocumentSignatureField extends DocumentFieldCommon {
+    // (undocumented)
+    kind: "signature";
 }
 
 // @public
-export interface FormTrainingPollOperationOptions<TState extends PollOperationState<unknown>> {
+export type DocumentSignatureType = string;
+
+// @public
+export interface DocumentSpan {
+    length: number;
+    offset: number;
+}
+
+// @public
+export interface DocumentStringField extends DocumentValueField<string> {
+    // (undocumented)
+    kind: "string";
+}
+
+// @public
+export interface DocumentStyle {
+    confidence: number;
+    isHandwritten?: boolean;
+    spans: DocumentSpan[];
+}
+
+// @public
+export interface DocumentTable {
+    boundingRegions?: BoundingRegion[];
+    cells: DocumentTableCell[];
+    columnCount: number;
+    rowCount: number;
+    spans: DocumentSpan[];
+}
+
+// @public
+export interface DocumentTableCell {
+    boundingRegions?: BoundingRegion[];
+    columnIndex: number;
+    columnSpan?: number;
+    content: string;
+    kind?: DocumentTableCellKind;
+    rowIndex: number;
+    rowSpan?: number;
+    spans: DocumentSpan[];
+}
+
+// @public
+export type DocumentTableCellKind = string;
+
+// @public
+export interface DocumentTimeField extends DocumentFieldCommon {
+    // (undocumented)
+    kind: "time";
+    value?: string;
+}
+
+// @public
+export interface DocumentValueField<T> extends DocumentFieldCommon {
+    value?: T;
+}
+
+// @public
+export interface DocumentWord {
+    boundingBox?: number[];
+    confidence: number;
+    content: string;
+    span: DocumentSpan;
+}
+
+// @public
+export type FieldSchema = StringLikeFieldSchema | NumberFieldSchema | DateFieldSchema | ArrayFieldSchema | ObjectFieldSchema | StructuredStringFieldSchema;
+
+// @public
+export type FormRecognizerApiVersion = "2021-09-30-preview";
+
+// @public
+export const FormRecognizerApiVersion: {
+    readonly Latest: "2021-09-30-preview";
+    readonly Preview: "2021-09-30-preview";
+};
+
+// @public
+export interface FormRecognizerCommonClientOptions extends PipelineOptions {
+    apiVersion?: FormRecognizerApiVersion;
+}
+
+// @public
+export type FormRecognizerRequestBody = NodeJS.ReadableStream | Blob | ArrayBuffer | ArrayBufferView;
+
+// @public
+export interface GeneratedDocument {
+    boundingRegions?: BoundingRegion[];
+    confidence: number;
+    docType: string;
+    fields: {
+        [propertyName: string]: GeneratedDocumentField;
+    };
+    spans: DocumentSpan[];
+}
+
+// @public
+export interface GeneratedDocumentField {
+    boundingRegions?: BoundingRegion[];
+    confidence?: number;
+    content?: string;
+    spans?: DocumentSpan[];
+    type: DocumentFieldType;
+    valueArray?: GeneratedDocumentField[];
+    valueCountryRegion?: string;
+    valueDate?: Date;
+    valueInteger?: number;
+    valueNumber?: number;
+    valueObject?: {
+        [propertyName: string]: GeneratedDocumentField;
+    };
+    valuePhoneNumber?: string;
+    valueSelectionMark?: SelectionMarkState;
+    valueSignature?: DocumentSignatureType;
+    valueString?: string;
+    valueTime?: string;
+}
+
+// @public
+export interface GenericDocumentResult extends LayoutResult {
+    entities: DocumentEntity[];
+    keyValuePairs: DocumentKeyValuePair[];
+}
+
+// @public
+export interface GetCopyAuthorizationOptions extends OperationOptions {
+    description?: string;
+}
+
+// @public
+export interface GetInfoOptions extends OperationOptions {
+}
+
+// @public
+export interface GetInfoResponse {
+    customDocumentModels: CustomDocumentModelsInfo;
+}
+
+// @public
+export interface GetModelOptions extends OperationOptions {
+}
+
+// @public
+export interface GetOperationOptions extends OperationOptions {
+}
+
+// @public
+export type IdentityDocument = ReifyPrebuiltSchema<typeof IdentityDocumentSchema>;
+
+// @public
+export const IdentityDocumentSchema: {
+    readonly modelId: "prebuilt-idDocument";
+    readonly description: "Prebuilt model to extract key information from US driver licenses and international passports.";
+    readonly createdDateTime: "2021-07-30T00:00:00Z";
+    readonly docTypes: {
+        readonly "prebuilt:idDocument:driverLicense": {
+            readonly description: "Driver License - Currently, only US driver licenses are supported.";
+            readonly fieldSchema: {
+                readonly CountryRegion: {
+                    readonly type: "countryRegion";
+                    readonly description: "Country or region code";
+                    readonly example: "USA";
+                };
+                readonly Region: {
+                    readonly type: "string";
+                    readonly description: "State or province";
+                    readonly example: "Washington";
+                };
+                readonly DocumentNumber: {
+                    readonly type: "string";
+                    readonly description: "Driver license number";
+                    readonly example: "WDLABCD456DG";
+                };
+                readonly FirstName: {
+                    readonly type: "string";
+                    readonly description: "Given name and middle initial if applicable";
+                    readonly example: "LIAM R.";
+                };
+                readonly LastName: {
+                    readonly type: "string";
+                    readonly description: "Surname";
+                    readonly example: "TALBOT";
+                };
+                readonly Address: {
+                    readonly type: "string";
+                    readonly description: "Address";
+                    readonly example: "123 STREET ADDRESS YOUR CITY WA 99999-1234";
+                };
+                readonly DateOfBirth: {
+                    readonly type: "date";
+                    readonly description: "Date of birth (DOB)";
+                    readonly example: "01/06/1958";
+                };
+                readonly DateOfExpiration: {
+                    readonly type: "date";
+                    readonly description: "Date of expiration (EXP)";
+                    readonly example: "08/12/2020";
+                };
+                readonly Sex: {
+                    readonly type: "string";
+                    readonly enum: readonly ["M", "F", "X"];
+                    readonly description: "Sex";
+                    readonly example: "M";
+                };
+                readonly Endorsements: {
+                    readonly type: "string";
+                    readonly description: "Endorsements";
+                    readonly example: "L";
+                };
+                readonly Restrictions: {
+                    readonly type: "string";
+                    readonly description: "Restrictions";
+                    readonly example: "B";
+                };
+                readonly VehicleClassifications: {
+                    readonly type: "string";
+                    readonly description: "Vehicle classification";
+                    readonly example: "D";
+                };
+            };
+        };
+        readonly "prebuilt:idDocument:passport": {
+            readonly description: "Passport";
+            readonly fieldSchema: {
+                readonly MachineReadableZone: {
+                    readonly type: "object";
+                    readonly description: "Machine readable zone (MRZ)";
+                    readonly example: "P<USABROOKS<<JENNIFER<<<<<<<<<<<<<<<<<<<<<<< 3400200135USA8001014F1905054710000307<715816";
+                    readonly properties: {
+                        readonly FirstName: {
+                            readonly type: "string";
+                            readonly description: "Given name and middle initial if applicable";
+                            readonly example: "JENNIFER";
+                        };
+                        readonly LastName: {
+                            readonly type: "string";
+                            readonly description: "Surname";
+                            readonly example: "BROOKS";
+                        };
+                        readonly DocumentNumber: {
+                            readonly type: "string";
+                            readonly description: "Passport number";
+                            readonly example: "340020013";
+                        };
+                        readonly CountryRegion: {
+                            readonly type: "countryRegion";
+                            readonly description: "Issuing country or organization";
+                            readonly example: "USA";
+                        };
+                        readonly Nationality: {
+                            readonly type: "countryRegion";
+                            readonly description: "Nationality";
+                            readonly example: "USA";
+                        };
+                        readonly DateOfBirth: {
+                            readonly type: "date";
+                            readonly description: "Date of birth";
+                            readonly example: "1980-01-01";
+                        };
+                        readonly DateOfExpiration: {
+                            readonly type: "date";
+                            readonly description: "Date of expiration";
+                            readonly example: "201-05-05";
+                        };
+                        readonly Sex: {
+                            readonly type: "string";
+                            readonly enum: readonly ["M", "F", "X"];
+                            readonly description: "Sex";
+                            readonly example: "F";
+                        };
+                    };
+                };
+            };
+        };
+    };
+};
+
+// @public
+export type Invoice = ReifyPrebuiltSchema<typeof InvoiceSchema>;
+
+// @public
+export const InvoiceSchema: {
+    readonly modelId: "prebuilt-invoice";
+    readonly description: "Prebuilt model to extract key information from English invoices, including customer, vendor, invoice ID, due date, total, and more.";
+    readonly createdDateTime: "2021-07-30T00:00:00Z";
+    readonly docTypes: {
+        readonly "prebuilt:invoice": {
+            readonly description: "Invoice";
+            readonly fieldSchema: {
+                readonly CustomerName: {
+                    readonly type: "string";
+                    readonly description: "Customer being invoiced";
+                    readonly example: "Microsoft Corp";
+                };
+                readonly CustomerId: {
+                    readonly type: "string";
+                    readonly description: "Reference ID for the customer";
+                    readonly example: "CID-12345";
+                };
+                readonly PurchaseOrder: {
+                    readonly type: "string";
+                    readonly description: "A purchase order reference number";
+                    readonly example: "PO-3333";
+                };
+                readonly InvoiceId: {
+                    readonly type: "string";
+                    readonly description: "ID for this specific invoice (often 'Invoice Number')";
+                    readonly example: "INV-100";
+                };
+                readonly InvoiceDate: {
+                    readonly type: "date";
+                    readonly description: "Date the invoice was issued";
+                    readonly example: "11/15/2019";
+                };
+                readonly DueDate: {
+                    readonly type: "date";
+                    readonly description: "Date payment for this invoice is due";
+                    readonly example: "12/15/2019";
+                };
+                readonly VendorName: {
+                    readonly type: "string";
+                    readonly description: "Vendor who has created this invoice";
+                    readonly example: "CONTOSO LTD.";
+                };
+                readonly VendorAddress: {
+                    readonly type: "string";
+                    readonly description: "Mailing address for the Vendor";
+                    readonly example: "123 456th St New York, NY, 10001";
+                };
+                readonly VendorAddressRecipient: {
+                    readonly type: "string";
+                    readonly description: "Name associated with the VendorAddress";
+                    readonly example: "Contoso Headquarters";
+                };
+                readonly CustomerAddress: {
+                    readonly type: "string";
+                    readonly description: "Mailing address for the Customer";
+                    readonly example: "123 Other St, Redmond WA, 98052";
+                };
+                readonly CustomerAddressRecipient: {
+                    readonly type: "string";
+                    readonly description: "Name associated with the CustomerAddress";
+                    readonly example: "Microsoft Corp";
+                };
+                readonly BillingAddress: {
+                    readonly type: "string";
+                    readonly description: "Explicit billing address for the customer";
+                    readonly example: "123 Bill St, Redmond WA, 98052";
+                };
+                readonly BillingAddressRecipient: {
+                    readonly type: "string";
+                    readonly description: "Name associated with the BillingAddress";
+                    readonly example: "Microsoft Services";
+                };
+                readonly ShippingAddress: {
+                    readonly type: "string";
+                    readonly description: "Explicit shipping address for the customer";
+                    readonly example: "123 Ship St, Redmond WA, 98052";
+                };
+                readonly ShippingAddressRecipient: {
+                    readonly type: "string";
+                    readonly description: "Name associated with the ShippingAddress";
+                    readonly example: "Microsoft Delivery";
+                };
+                readonly SubTotal: {
+                    readonly type: "number";
+                    readonly description: "Subtotal field identified on this invoice";
+                    readonly example: "$100.00";
+                };
+                readonly TotalTax: {
+                    readonly type: "number";
+                    readonly description: "Total tax field identified on this invoice";
+                    readonly example: "$10.00";
+                };
+                readonly InvoiceTotal: {
+                    readonly type: "number";
+                    readonly description: "Total new charges associated with this invoice";
+                    readonly example: "$110.00";
+                };
+                readonly AmountDue: {
+                    readonly type: "number";
+                    readonly description: "Total Amount Due to the vendor";
+                    readonly example: "$610.00";
+                };
+                readonly PreviousUnpaidBalance: {
+                    readonly type: "number";
+                    readonly description: "Explicit previously unpaid balance";
+                    readonly example: "$500.00";
+                };
+                readonly RemittanceAddress: {
+                    readonly type: "string";
+                    readonly description: "Explicit remittance or payment address for the customer";
+                    readonly example: "123 Remit St New York, NY, 10001";
+                };
+                readonly RemittanceAddressRecipient: {
+                    readonly type: "string";
+                    readonly description: "Name associated with the RemittanceAddress";
+                    readonly example: "Contoso Billing";
+                };
+                readonly ServiceAddress: {
+                    readonly type: "string";
+                    readonly description: "Explicit service address or property address for the customer";
+                    readonly example: "123 Service St, Redmond WA, 98052";
+                };
+                readonly ServiceAddressRecipient: {
+                    readonly type: "string";
+                    readonly description: "Name associated with the ServiceAddress";
+                    readonly example: "Microsoft Services";
+                };
+                readonly ServiceStartDate: {
+                    readonly type: "date";
+                    readonly description: "First date for the service period (for example, a utility bill service period)";
+                    readonly example: "10/14/2019";
+                };
+                readonly ServiceEndDate: {
+                    readonly type: "date";
+                    readonly description: "End date for the service period (for example, a utility bill service period)";
+                    readonly example: "11/14/2019";
+                };
+                readonly Items: {
+                    readonly type: "array";
+                    readonly description: "List of line items";
+                    readonly items: {
+                        readonly type: "object";
+                        readonly description: "A single line item";
+                        readonly example: "3/4/2021\nA123\nConsulting Services\b2 hours\n$30.00\n10%\n$60.00";
+                        readonly properties: {
+                            readonly Amount: {
+                                readonly type: "number";
+                                readonly description: "The amount of the line item";
+                                readonly example: "$60.00";
+                            };
+                            readonly Date: {
+                                readonly type: "date";
+                                readonly description: "Date corresponding to each line item. Often it is a date the line item was shipped";
+                                readonly example: "3/4/2021";
+                            };
+                            readonly Description: {
+                                readonly type: "string";
+                                readonly description: "The text description for the invoice line item";
+                                readonly example: "Consulting service";
+                            };
+                            readonly Quantity: {
+                                readonly type: "number";
+                                readonly description: "The quantity for this invoice line item";
+                                readonly example: "2";
+                            };
+                            readonly ProductCode: {
+                                readonly type: "string";
+                                readonly description: "Product code, product number, or SKU associated with the specific line item";
+                                readonly example: "A123";
+                            };
+                            readonly Tax: {
+                                readonly type: "number";
+                                readonly description: "Tax associated with each line item. Possible values include tax amount, tax %, and tax Y/N";
+                                readonly example: "10%";
+                            };
+                            readonly Unit: {
+                                readonly type: "string";
+                                readonly description: "The unit of the line item, e.g, kg, lb etc.";
+                                readonly example: "hours";
+                            };
+                            readonly UnitPrice: {
+                                readonly type: "number";
+                                readonly description: "The net or gross price (depending on the gross invoice setting of the invoice) of one unit of this item";
+                                readonly example: "$30.00";
+                            };
+                        };
+                    };
+                };
+            };
+        };
+    };
+};
+
+// @public
+export interface LayoutResult {
+    // (undocumented)
+    pages: DocumentPage[];
+    styles: DocumentStyle[];
+    tables: DocumentTable[];
+}
+
+// @public
+export type LengthUnit = string;
+
+// @public
+export interface ListModelsOptions extends OperationOptions {
+}
+
+// @public
+export interface ListOperationsOptions extends OperationOptions {
+}
+
+// @public
+export type ModelInfo = ModelSummary & {
+    docTypes?: {
+        [propertyName: string]: DocTypeInfo;
+    };
+};
+
+// @public
+export interface ModelSchema {
+    docTypes: {
+        [type: string]: {
+            fieldSchema: {
+                [k: string]: FieldSchema;
+            };
+        };
+    };
+    modelId: string;
+}
+
+// @public
+export interface ModelSummary {
+    createdDateTime: Date;
+    description?: string;
+    modelId: string;
+}
+
+// @public
+export interface NumberFieldSchema<Type extends "number" | "integer" = "number" | "integer"> {
+    // (undocumented)
+    readonly type: Type;
+}
+
+// @public
+export interface ObjectFieldSchema<Properties extends {
+    readonly [k: string]: FieldSchema;
+} = {
+    readonly [k: string]: FieldSchema;
+}> {
+    readonly properties: Properties;
+    // (undocumented)
+    readonly type: "object";
+}
+
+// @public
+export interface OperationInfo {
+    createdDateTime: Date;
+    kind: OperationKind;
+    lastUpdatedDateTime: Date;
+    operationId: string;
+    percentCompleted?: number;
+    resourceLocation: string;
+    status: OperationStatus;
+}
+
+// @public
+export type OperationKind = string;
+
+// @public
+export type OperationStatus = "notStarted" | "running" | "failed" | "succeeded" | "canceled";
+
+// @public
+export interface PollerOptions<TState extends PollOperationState<unknown>> {
     onProgress?: (state: TState) => void;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface FormUnknownField extends FormFieldCommon {
-    value?: unknown;
-    valueType?: undefined;
-}
+export const PrebuiltModels: {
+    BusinessCard: DocumentModel<{
+        docType: "prebuilt:businesscard";
+        fields: {
+            contactNames?: DocumentArrayField<DocumentObjectField<    {
+            firstName?: DocumentStringField | undefined;
+            lastName?: DocumentStringField | undefined;
+            }>> | undefined;
+            companyNames?: DocumentArrayField<DocumentStringField> | undefined;
+            jobTitles?: DocumentArrayField<DocumentStringField> | undefined;
+            departments?: DocumentArrayField<DocumentStringField> | undefined;
+            addresses?: DocumentArrayField<DocumentStringField> | undefined;
+            workPhones?: DocumentArrayField<DocumentPhoneNumberField> | undefined;
+            mobilePhones?: DocumentArrayField<DocumentPhoneNumberField> | undefined;
+            faxes?: DocumentArrayField<DocumentPhoneNumberField> | undefined;
+            otherPhones?: DocumentArrayField<DocumentPhoneNumberField> | undefined;
+            emails?: DocumentArrayField<DocumentStringField> | undefined;
+            websites?: DocumentArrayField<DocumentStringField> | undefined;
+        };
+    }>;
+    IdentityDocument: DocumentModel<IdentityDocument>;
+    Invoice: DocumentModel<{
+        docType: "prebuilt:invoice";
+        fields: {
+            customerName?: DocumentStringField | undefined;
+            customerId?: DocumentStringField | undefined;
+            purchaseOrder?: DocumentStringField | undefined;
+            invoiceId?: DocumentStringField | undefined;
+            invoiceDate?: DocumentDateField | undefined;
+            dueDate?: DocumentDateField | undefined;
+            vendorName?: DocumentStringField | undefined;
+            vendorAddress?: DocumentStringField | undefined;
+            vendorAddressRecipient?: DocumentStringField | undefined;
+            customerAddress?: DocumentStringField | undefined;
+            customerAddressRecipient?: DocumentStringField | undefined;
+            billingAddress?: DocumentStringField | undefined;
+            billingAddressRecipient?: DocumentStringField | undefined;
+            shippingAddress?: DocumentStringField | undefined;
+            shippingAddressRecipient?: DocumentStringField | undefined;
+            subTotal?: DocumentNumberField | undefined;
+            totalTax?: DocumentNumberField | undefined;
+            invoiceTotal?: DocumentNumberField | undefined;
+            amountDue?: DocumentNumberField | undefined;
+            previousUnpaidBalance?: DocumentNumberField | undefined;
+            remittanceAddress?: DocumentStringField | undefined;
+            remittanceAddressRecipient?: DocumentStringField | undefined;
+            serviceAddress?: DocumentStringField | undefined;
+            serviceAddressRecipient?: DocumentStringField | undefined;
+            serviceStartDate?: DocumentDateField | undefined;
+            serviceEndDate?: DocumentDateField | undefined;
+            items?: DocumentArrayField<DocumentObjectField<    {
+            date?: DocumentDateField | undefined;
+            amount?: DocumentNumberField | undefined;
+            description?: DocumentStringField | undefined;
+            quantity?: DocumentNumberField | undefined;
+            productCode?: DocumentStringField | undefined;
+            tax?: DocumentNumberField | undefined;
+            unit?: DocumentStringField | undefined;
+            unitPrice?: DocumentNumberField | undefined;
+            }>> | undefined;
+        };
+    }>;
+    Receipt: DocumentModel<{
+        docType: "prebuilt:receipt";
+        fields: {
+            items?: DocumentArrayField<DocumentObjectField<    {
+            date?: DocumentDateField | undefined;
+            description?: DocumentStringField | undefined;
+            quantity?: DocumentNumberField | undefined;
+            totalPrice?: DocumentNumberField | undefined;
+            name?: DocumentStringField | undefined;
+            price?: DocumentNumberField | undefined;
+            category?: DocumentStringField | undefined;
+            }>> | undefined;
+            tax?: DocumentNumberField | undefined;
+            locale?: DocumentStringField | undefined;
+            receiptType?: DocumentStringField | undefined;
+            merchantName?: DocumentStringField | undefined;
+            merchantPhoneNumber?: DocumentPhoneNumberField | undefined;
+            merchantAddress?: DocumentStringField | undefined;
+            total?: DocumentNumberField | undefined;
+            transactionDate?: DocumentDateField | undefined;
+            transactionTime?: DocumentTimeField | undefined;
+            subtotal?: DocumentNumberField | undefined;
+            tip?: DocumentNumberField | undefined;
+            arrivalDate?: DocumentDateField | undefined;
+            departureDate?: DocumentDateField | undefined;
+            currency?: DocumentStringField | undefined;
+            merchantAliases?: DocumentArrayField<DocumentStringField> | undefined;
+        };
+    }>;
+};
 
 // @public
-export interface FormWord extends FormElementCommon {
-    confidence?: number;
-    kind: "word";
-    text: string;
-}
+export type Receipt = ReifyPrebuiltSchema<typeof ReceiptSchema>;
 
 // @public
-export type GetAccountPropertiesOptions = FormRecognizerOperationOptions;
-
-// @public
-export type GetCopyAuthorizationOptions = FormRecognizerOperationOptions;
-
-// @public
-export type GetCopyModelResultOptions = FormRecognizerOperationOptions;
-
-// @public
-export type GetModelOptions = FormRecognizerOperationOptions;
-
-// @public
-export interface KeysResult {
-    clusters: {
-        [propertyName: string]: string[];
+export const ReceiptSchema: {
+    readonly modelId: "prebuilt-receipt";
+    readonly description: "Prebuilt model to extract key information from English receipts, including merchant name, transaction date, transaction total, and more.";
+    readonly createdDateTime: "2021-07-30T00:00:00Z";
+    readonly docTypes: {
+        readonly "prebuilt:receipt": {
+            readonly description: "Receipt";
+            readonly fieldSchema: {
+                readonly ReceiptType: {
+                    readonly type: "string";
+                    readonly enum: readonly ["Hotel", "CreditCard", "Itemized", "Gas", "Parking", "Other"];
+                    readonly description: "Type of receipt";
+                    readonly example: "Itemized";
+                };
+                readonly Locale: {
+                    readonly type: "string";
+                    readonly enum: readonly ["en-AU", "en-CA", "en-GB", "en-IN", "en-US"];
+                    readonly description: "Locale";
+                    readonly example: "en-US";
+                };
+                readonly MerchantName: {
+                    readonly type: "string";
+                    readonly description: "Name of the merchant issuing the receipt";
+                    readonly example: "Contoso";
+                };
+                readonly MerchantPhoneNumber: {
+                    readonly type: "phoneNumber";
+                    readonly description: "Listed phone number of merchant";
+                    readonly example: "987-654-3210";
+                };
+                readonly MerchantAddress: {
+                    readonly type: "string";
+                    readonly description: "Listed address of merchant";
+                    readonly example: "123 Main St Redmond WA 98052";
+                };
+                readonly Total: {
+                    readonly type: "number";
+                    readonly description: "Full transaction total of receipt";
+                    readonly example: "$14.34";
+                };
+                readonly TransactionDate: {
+                    readonly type: "date";
+                    readonly description: "Date the receipt was issued";
+                    readonly example: "June 06, 2019";
+                };
+                readonly TransactionTime: {
+                    readonly type: "time";
+                    readonly description: "Time the receipt was issued";
+                    readonly example: "4:49 PM";
+                };
+                readonly Subtotal: {
+                    readonly type: "number";
+                    readonly description: "Subtotal of receipt, often before taxes are applied";
+                    readonly example: "$12.34";
+                };
+                readonly Tax: {
+                    readonly type: "number";
+                    readonly description: "Tax on receipt, often sales tax or equivalent";
+                    readonly example: "$2.00";
+                };
+                readonly Tip: {
+                    readonly type: "number";
+                    readonly description: "Tip included by buyer";
+                    readonly example: "$1.00";
+                };
+                readonly ArrivalDate: {
+                    readonly type: "date";
+                    readonly description: "Date of arrival";
+                    readonly example: "27Mar21";
+                };
+                readonly DepartureDate: {
+                    readonly type: "date";
+                    readonly description: "Date of departure";
+                    readonly example: "28Mar21";
+                };
+                readonly Currency: {
+                    readonly type: "string";
+                    readonly enum: readonly ["MIXED", "USD", "AUD", "CAD", "INR", "GBP", "EUR"];
+                    readonly description: "Currency unit of receipt amounts, or 'MIXED' if multiple values are found";
+                    readonly example: "USD";
+                };
+                readonly MerchantAliases: {
+                    readonly type: "array";
+                    readonly items: {
+                        readonly type: "string";
+                        readonly description: "Alternative name of merchant";
+                        readonly example: "Contoso (R)";
+                    };
+                };
+                readonly Items: {
+                    readonly type: "array";
+                    readonly items: {
+                        readonly type: "object";
+                        readonly description: "Extracted line item";
+                        readonly example: "1\nSurface Pro 6\n$999.00\n$999.00";
+                        readonly properties: {
+                            readonly TotalPrice: {
+                                readonly type: "number";
+                                readonly description: "Total price of line item";
+                                readonly example: "$999.00";
+                            };
+                            readonly Name: {
+                                readonly type: "string";
+                                readonly description: "Item name";
+                                readonly example: "Surface Pro 6";
+                            };
+                            readonly Quantity: {
+                                readonly type: "number";
+                                readonly description: "Quantity of each item";
+                                readonly example: "1";
+                            };
+                            readonly Price: {
+                                readonly type: "number";
+                                readonly description: "Individual price of each item unit";
+                                readonly example: "$999.00";
+                            };
+                            readonly Description: {
+                                readonly type: "string";
+                                readonly description: "Item description";
+                                readonly example: "Room Charge";
+                            };
+                            readonly Date: {
+                                readonly type: "date";
+                                readonly description: "Item date";
+                                readonly example: "27Mar21";
+                            };
+                            readonly Category: {
+                                readonly type: "string";
+                                readonly enum: readonly ["Room", "Meals", "Tax", "Deposit", "Credit", "Other"];
+                                readonly description: "Item category";
+                                readonly example: "Room";
+                            };
+                        };
+                    };
+                };
+            };
+        };
     };
-}
+};
 
 // @public
-export interface KeyValueElementModel {
-    boundingBox?: number[];
-    elements?: string[];
-    text: string;
-    type?: KeyValueType;
-}
+export type ReifyFieldSchema<Schema extends Readonly<FieldSchema>> = Schema extends StructuredStringFieldSchema<infer Type> ? {
+    time: DocumentTimeField;
+    phoneNumber: DocumentPhoneNumberField;
+}[Type] : Schema extends StringLikeFieldSchema<infer Type> ? {
+    string: Schema extends {
+        enum: string[];
+    } ? DocumentStringField & {
+        value?: Schema["enum"][number];
+    } : DocumentStringField;
+    countryRegion: DocumentCountryRegionField;
+}[Type] : Schema extends NumberFieldSchema<infer Type> ? {
+    number: DocumentNumberField;
+    integer: DocumentIntegerField;
+}[Type] : Schema extends DateFieldSchema ? DocumentDateField : Schema extends ArrayFieldSchema<infer Item> ? DocumentArrayField<ReifyFieldSchema<Item>> : Schema extends ObjectFieldSchema<infer Properties> ? DocumentObjectField<{
+    [K in Extract<keyof Properties, string> as Uncapitalize<K>]?: ReifyFieldSchema<Properties[K]>;
+}> : never;
 
 // @public
-export interface KeyValuePairModel {
-    confidence: number;
-    key: KeyValueElementModel;
-    label?: string;
-    value: KeyValueElementModel;
-}
-
-// @public
-export type KeyValueType = string;
-
-// @public
-export const enum KnownFormLanguage {
-    // (undocumented)
-    Af = "af",
-    // (undocumented)
-    Ast = "ast",
-    // (undocumented)
-    Bi = "bi",
-    // (undocumented)
-    Br = "br",
-    // (undocumented)
-    Ca = "ca",
-    // (undocumented)
-    Ceb = "ceb",
-    // (undocumented)
-    Ch = "ch",
-    // (undocumented)
-    Co = "co",
-    // (undocumented)
-    Crh = "crh",
-    // (undocumented)
-    Cs = "cs",
-    // (undocumented)
-    Csb = "csb",
-    // (undocumented)
-    Da = "da",
-    // (undocumented)
-    De = "de",
-    // (undocumented)
-    En = "en",
-    // (undocumented)
-    Es = "es",
-    // (undocumented)
-    Et = "et",
-    // (undocumented)
-    Eu = "eu",
-    // (undocumented)
-    Fi = "fi",
-    // (undocumented)
-    Fil = "fil",
-    // (undocumented)
-    Fj = "fj",
-    // (undocumented)
-    Fr = "fr",
-    // (undocumented)
-    Fur = "fur",
-    // (undocumented)
-    Fy = "fy",
-    // (undocumented)
-    Ga = "ga",
-    // (undocumented)
-    Gd = "gd",
-    // (undocumented)
-    Gil = "gil",
-    // (undocumented)
-    Gl = "gl",
-    // (undocumented)
-    Gv = "gv",
-    // (undocumented)
-    Hni = "hni",
-    // (undocumented)
-    Hsb = "hsb",
-    // (undocumented)
-    Ht = "ht",
-    // (undocumented)
-    Hu = "hu",
-    // (undocumented)
-    Ia = "ia",
-    // (undocumented)
-    Id = "id",
-    // (undocumented)
-    It = "it",
-    // (undocumented)
-    Iu = "iu",
-    // (undocumented)
-    Ja = "ja",
-    // (undocumented)
-    Jv = "jv",
-    // (undocumented)
-    Kaa = "kaa",
-    // (undocumented)
-    Kac = "kac",
-    // (undocumented)
-    Kea = "kea",
-    // (undocumented)
-    Kha = "kha",
-    // (undocumented)
-    Kl = "kl",
-    // (undocumented)
-    Ko = "ko",
-    // (undocumented)
-    Ku = "ku",
-    // (undocumented)
-    Kw = "kw",
-    // (undocumented)
-    Lb = "lb",
-    // (undocumented)
-    Ms = "ms",
-    // (undocumented)
-    Mww = "mww",
-    // (undocumented)
-    Nap = "nap",
-    // (undocumented)
-    Nl = "nl",
-    // (undocumented)
-    No = "no",
-    // (undocumented)
-    Oc = "oc",
-    // (undocumented)
-    Pl = "pl",
-    // (undocumented)
-    Pt = "pt",
-    // (undocumented)
-    Quc = "quc",
-    // (undocumented)
-    Rm = "rm",
-    // (undocumented)
-    Sco = "sco",
-    // (undocumented)
-    Sl = "sl",
-    // (undocumented)
-    Sq = "sq",
-    // (undocumented)
-    Sv = "sv",
-    // (undocumented)
-    Sw = "sw",
-    // (undocumented)
-    Tet = "tet",
-    // (undocumented)
-    Tr = "tr",
-    // (undocumented)
-    Tt = "tt",
-    // (undocumented)
-    Uz = "uz",
-    // (undocumented)
-    Vo = "vo",
-    // (undocumented)
-    Wae = "wae",
-    // (undocumented)
-    Yua = "yua",
-    // (undocumented)
-    Za = "za",
-    // (undocumented)
-    ZhHans = "zh-Hans",
-    // (undocumented)
-    ZhHant = "zh-Hant",
-    // (undocumented)
-    Zu = "zu"
-}
-
-// @public
-export const enum KnownFormLocale {
-    // (undocumented)
-    EnAU = "en-AU",
-    // (undocumented)
-    EnCA = "en-CA",
-    // (undocumented)
-    EnGB = "en-GB",
-    // (undocumented)
-    EnIN = "en-IN",
-    // (undocumented)
-    EnUS = "en-US"
-}
-
-// @public
-export type LengthUnit = "pixel" | "inch";
-
-// @public
-export type ListCustomModelsResponse = Models & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: Models;
+export type ReifyPrebuiltSchema<Schema extends Readonly<ModelSchema>> = {
+    [DocType in keyof Schema["docTypes"]]: {
+        docType: DocType;
+        fields: {
+            [K in Extract<keyof Schema["docTypes"][DocType]["fieldSchema"], string> as Uncapitalize<K>]?: ReifyFieldSchema<Schema["docTypes"][DocType]["fieldSchema"][K]>;
+        };
     };
+}[keyof Schema["docTypes"]];
+
+// @public
+export type SelectionMarkState = string;
+
+// @public
+export type StringIndexType = typeof StringIndexType[keyof typeof StringIndexType];
+
+// @public
+export const StringIndexType: {
+    readonly Utf16CodeUnit: "utf16CodeUnit";
+    readonly UnicodeCodePoint: "unicodeCodePoint";
 };
 
 // @public
-export type ListModelsOptions = FormRecognizerOperationOptions;
-
-// @public
-export interface Model {
-    keys?: KeysResult;
-    modelInfo: CustomFormModelInfo;
-    trainResult?: TrainResult;
+export interface StringLikeFieldSchema<Type extends "string" | "countryRegion" = "string" | "countryRegion"> {
+    // (undocumented)
+    readonly enum?: readonly string[];
+    // (undocumented)
+    readonly type: Type;
 }
 
 // @public
-export interface Models {
-    modelList?: CustomFormModelInfo[];
-    nextLink?: string;
-    summary?: ModelsSummary;
+export interface StructuredStringFieldSchema<Type extends "time" | "phoneNumber" = "time" | "phoneNumber"> {
+    // (undocumented)
+    readonly type: Type;
 }
 
 // @public
-export interface ModelsSummary {
-    count: number;
-    lastModified: Date;
-    limit: number;
-}
+export type TrainingPoller = PollerLike<TrainingPollOperationState, ModelInfo>;
 
 // @public
-type ModelStatus = "creating" | "ready" | "invalid";
-export { ModelStatus as CustomFormModelStatus }
-export { ModelStatus }
-
-// @public
-export type OperationStatus = "notStarted" | "running" | "succeeded" | "failed";
-
-// @public
-export interface Point2D {
-    x: number;
-    y: number;
-}
-
-// @public
-export type RecognizeContentOperationState = PollOperationState<FormPageArray> & {
-    status: OperationStatus;
-};
-
-// @public
-export type RecognizeContentOptions = FormRecognizerOperationOptions;
-
-// @public
-export interface RecognizedForm {
-    fields: Record<string, FormField>;
-    formType: string;
-    formTypeConfidence?: number;
-    modelId?: string;
-    pageRange: FormPageRange;
-    pages: FormPage[];
-}
-
-// @public
-export interface RecognizedFormArray extends Array<RecognizedForm> {
-}
-
-// @public
-export interface RecognizeFormsOperationState extends PollOperationState<RecognizedFormArray> {
-    expectedDocType?: string;
-    modelId?: string;
-    resultId?: string;
+export interface TrainingPollOperationState extends PollOperationState<ModelInfo> {
+    operationId: string;
+    percentCompleted: number;
     status: OperationStatus;
 }
-
-// @public
-export interface RecognizeFormsOptions extends FormRecognizerOperationOptions {
-    includeFieldElements?: boolean;
-}
-
-export { RestResponse }
-
-// @public
-export interface TextAppearance {
-    styleConfidence: number;
-    styleName: "handwriting" | "other";
-}
-
-// @public
-export interface TrainingDocumentInfo {
-    errors: FormRecognizerError[];
-    modelId?: string;
-    name: string;
-    pageCount: number;
-    status: TrainingStatus;
-}
-
-// @public
-export type TrainingFileFilter = FormRecognizerOperationOptions & {
-    prefix?: string;
-    includeSubfolders?: boolean;
-};
-
-// @public
-export type TrainingOperationState = PollOperationState<CustomFormModelInfo> & {
-    status: ModelStatus;
-};
-
-// @public
-export type TrainingStatus = "succeeded" | "partiallySucceeded" | "failed";
-
-// @public
-export interface TrainResult {
-    averageModelAccuracy?: number;
-    errors?: FormRecognizerError[];
-    fields?: FormFieldsReport[];
-    trainingDocuments: TrainingDocumentInfo[];
-}
-
-// (No @packageDocumentation comment for this package)
 
 ```
