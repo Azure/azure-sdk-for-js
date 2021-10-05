@@ -4,7 +4,12 @@
 
 ### Other Changes
 
-- Re-generate with swagger `package-artifacts-composite-v1`
+- Upgrade to [package-artifacts-composite-v1](https://github.com/Azure/azure-rest-api-specs/blob/bee724836ffdeb5458274037dc75f4d43576b5e3/specification/synapse/data-plane/readme.md#tag-package-artifacts-composite-v1)
+
+- Added `SparkConfiguration`, `KqlScripts` and associated support types.
+- Update type of many modles from string to object
+- `SparkJobDefinition`, `Notebook` and `SqlScript` now has a folder property
+- `SqlConnection` now has poolName and databaseName properties
 
 ## 1.0.0-beta.5 (2021-08-10)
 
