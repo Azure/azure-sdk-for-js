@@ -10,7 +10,7 @@
     "build:samples": "echo Obsolete",
     "build:test": "tsc -p . && rollup -c 2>&1",
     "build:types": "downlevel-dts types/src types/3.1",
-    "build": "npm run clean && tsc -p . && rollup -c 2>&1 && npm run build:types",
+    "build": "npm run clean && tsc -p . && rollup -c 2>&1 && api-extractor run --local && npm run build:types",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src",
