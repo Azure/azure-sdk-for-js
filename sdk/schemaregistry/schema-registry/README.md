@@ -105,7 +105,7 @@ const description = {
   schemaDefinition: "<schema definition>"
 }
 
-const found = await client.getSchemaId(description);
+const found = await client.getSchemaProperties(description);
 if (found) {
   console.log(`Got schema ID=${found.id}`);
 }
