@@ -4,9 +4,12 @@
 
 ```ts
 
+/// <reference types="node" />
+
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
 import { AmqpError } from 'rhea-promise';
+import { AzureLogger } from '@azure/logger';
 import { Connection } from 'rhea-promise';
 import { Message } from 'rhea-promise';
 import { MessageHeader } from 'rhea-promise';
@@ -427,7 +430,7 @@ export function isSasTokenProvider(thing: unknown): thing is SasTokenProvider;
 export function isSystemError(err: unknown): err is NetworkSystemError;
 
 // @public
-export const logger: import("@azure/logger").AzureLogger;
+export const logger: AzureLogger;
 
 // @public
 export class MessagingError extends Error {
@@ -600,7 +603,6 @@ export interface WebSocketOptions {
     webSocket?: WebSocketImpl;
     webSocketConstructorOptions?: any;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

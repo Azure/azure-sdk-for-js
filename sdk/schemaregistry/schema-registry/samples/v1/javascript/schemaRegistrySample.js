@@ -36,9 +36,9 @@ const schemaObject = {
 // Description of the schema for registration
 const schemaDescription = {
   name: `${schemaObject.namespace}.${schemaObject.name}`,
-  group,
-  serializationType: "avro",
-  content: JSON.stringify(schemaObject)
+  groupName: group,
+  format: "avro",
+  definition: JSON.stringify(schemaObject)
 };
 
 async function main() {
@@ -51,7 +51,7 @@ async function main() {
 
   // Get ID for existing schema by its description.
   // Note that this would throw if it had not been previously registered.
-  const found = await client.getSchemaId(schemaDescription);
+  const found = await client.getSchemaProperties(schemaDescription);
   if (found) {
     console.log(`Got schema ID=${found.id}`);
   }
@@ -59,7 +59,7 @@ async function main() {
   // Get content of existing schema by its ID
   const foundSchema = await client.getSchema(registered.id);
   if (foundSchema) {
-    console.log(`Got schema content=${foundSchema.content}`);
+    console.log(`Got schema content=${foundSchema.definition}`);
   }
 }
 

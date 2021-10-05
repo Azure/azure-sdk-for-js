@@ -69,7 +69,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a VirtualMachines. */
+/** Class containing VirtualMachines operations. */
 export class VirtualMachinesImpl implements VirtualMachines {
   private readonly client: ComputeManagementClientContext;
 
@@ -1986,7 +1986,7 @@ const deallocateOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/deallocate",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {} },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.hibernate],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

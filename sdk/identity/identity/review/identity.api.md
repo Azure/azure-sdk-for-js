@@ -88,7 +88,7 @@ export interface AzureCliCredentialOptions extends TokenCredentialOptions {
 // @public
 export class AzurePowerShellCredential implements TokenCredential {
     constructor(options?: AzurePowerShellCredentialOptions);
-    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
     }
 
 // @public
@@ -103,7 +103,6 @@ export type BrowserLoginStyle = "redirect" | "popup";
 export class ChainedTokenCredential implements TokenCredential {
     constructor(...sources: TokenCredential[]);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
-    selectedCredential?: TokenCredential;
     protected UnavailableMessage: string;
 }
 
@@ -115,7 +114,6 @@ export class ClientCertificateCredential implements TokenCredential {
 
 // @public
 export interface ClientCertificateCredentialOptions extends TokenCredentialOptions, CredentialPersistenceOptions {
-    regionalAuthority?: string;
     sendCertificateChain?: boolean;
 }
 
@@ -127,7 +125,6 @@ export class ClientSecretCredential implements TokenCredential {
 
 // @public
 export interface ClientSecretCredentialOptions extends TokenCredentialOptions, CredentialPersistenceOptions {
-    regionalAuthority?: string;
 }
 
 // @public
@@ -207,7 +204,7 @@ export function getDefaultAzureCredential(): TokenCredential;
 export { GetTokenOptions }
 
 // @public
-export type IdentityExtension = (context: unknown) => void;
+export type IdentityPlugin = (context: unknown) => void;
 
 // @public
 export class InteractiveBrowserCredential implements TokenCredential {
@@ -250,60 +247,30 @@ export class ManagedIdentityCredential implements TokenCredential {
     }
 
 // @public
-export enum RegionalAuthority {
-    AsiaEast = "eastasia",
-    AsiaSouthEast = "southeastasia",
-    AustraliaCentral = "australiacentral",
-    AustraliaCentral2 = "australiacentral2",
-    AustraliaEast = "australiaeast",
-    AustraliaSouthEast = "australiasoutheast",
-    AutoDiscoverRegion = "AutoDiscoverRegion",
-    BrazilSouth = "brazilsouth",
-    CanadaCentral = "canadacentral",
-    CanadaEast = "canadaeast",
-    ChinaEast = "chinaeast",
-    ChinaEast2 = "chinaeast2",
-    ChinaNorth = "chinanorth",
-    ChinaNorth2 = "chinanorth2",
-    EuropeNorth = "northeurope",
-    EuropeWest = "westeurope",
-    FranceCentral = "francecentral",
-    FranceSouth = "francesouth",
-    GermanyCentral = "germanycentral",
-    GermanyNorth = "germanynorth",
-    GermanyNorthEast = "germanynortheast",
-    GermanyWestCentral = "germanywestcentral",
-    GovernmentUSArizona = "usgovarizona",
-    GovernmentUSDodCentral = "usdodcentral",
-    GovernmentUSDodEast = "usdodeast",
-    GovernmentUSIowa = "usgoviowa",
-    GovernmentUSTexas = "usgovtexas",
-    GovernmentUSVirginia = "usgovvirginia",
-    IndiaCentral = "centralindia",
-    IndiaSouth = "southindia",
-    IndiaWest = "westindia",
-    JapanEast = "japaneast",
-    JapanWest = "japanwest",
-    KoreaCentral = "koreacentral",
-    KoreaSouth = "koreasouth",
-    NorwayEast = "norwayeast",
-    NorwayWest = "norwaywest",
-    SouthAfricaNorth = "southafricanorth",
-    SouthAfricaWest = "southafricawest",
-    SwitzerlandNorth = "switzerlandnorth",
-    SwitzerlandWest = "switzerlandwest",
-    UAECentral = "uaecentral",
-    UAENorth = "uaenorth",
-    UKSouth = "uksouth",
-    UKWest = "ukwest",
-    USCentral = "centralus",
-    USEast = "eastus",
-    USEast2 = "eastus2",
-    USNorthCentral = "northcentralus",
-    USSouthCentral = "southcentralus",
-    USWest = "westus",
-    USWest2 = "westus2",
-    USWestCentral = "westcentralus"
+export class OnBehalfOfCredential implements TokenCredential {
+    constructor(configuration: OnBehalfOfCredentialSecretConfiguration | OnBehalfOfCredentialCertificateConfiguration, options?: OnBehalfOfCredentialOptions);
+    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
+    }
+
+// @public
+export interface OnBehalfOfCredentialCertificateConfiguration {
+    certificatePath: string;
+    clientId: string;
+    sendCertificateChain?: boolean;
+    tenantId: string;
+    userAssertionToken: string;
+}
+
+// @public
+export interface OnBehalfOfCredentialOptions extends TokenCredentialOptions, CredentialPersistenceOptions {
+}
+
+// @public
+export interface OnBehalfOfCredentialSecretConfiguration {
+    clientId: string;
+    clientSecret: string;
+    tenantId: string;
+    userAssertionToken: string;
 }
 
 // @public
@@ -311,21 +278,20 @@ export function serializeAuthenticationRecord(record: AuthenticationRecord): str
 
 // @public
 export interface TokenCachePersistenceOptions {
-    allowUnencryptedStorage?: boolean;
     enabled: boolean;
     name?: string;
+    unsafeAllowUnencryptedStorage?: boolean;
 }
 
 export { TokenCredential }
 
 // @public
 export interface TokenCredentialOptions extends CommonClientOptions {
-    allowMultiTenantAuthentication?: boolean;
     authorityHost?: string;
 }
 
 // @public
-export function useIdentityExtension(extension: IdentityExtension): void;
+export function useIdentityPlugin(plugin: IdentityPlugin): void;
 
 // @public
 export class UsernamePasswordCredential implements TokenCredential {

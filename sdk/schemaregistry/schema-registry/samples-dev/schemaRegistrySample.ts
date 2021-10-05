@@ -13,7 +13,8 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // Set these environment variables or edit the following values
-const endpoint = process.env["SCHEMA_REGISTRY_ENDPOINT"] || "<endpoint>";
+const fullyQualifiedNamespace =
+  process.env["SCHEMA_REGISTRY_ENDPOINT"] || "<fullyQualifiedNamespace>";
 const group = process.env["SCHEMA_REGISTRY_GROUP"] || "AzureSdkSampleGroup";
 
 // Sample Avro Schema for user with first and last names
@@ -37,13 +38,13 @@ const schemaObject = {
 const schemaDescription: SchemaDescription = {
   name: `${schemaObject.namespace}.${schemaObject.name}`,
   groupName: group,
-  serializationType: "avro",
-  content: JSON.stringify(schemaObject)
+  format: "avro",
+  schemaDefinition: JSON.stringify(schemaObject)
 };
 
 export async function main() {
   // Create a new client
-  const client = new SchemaRegistryClient(endpoint, new DefaultAzureCredential());
+  const client = new SchemaRegistryClient(fullyQualifiedNamespace, new DefaultAzureCredential());
 
   // Register a schema and get back its ID.
   const registered = await client.registerSchema(schemaDescription);
@@ -51,15 +52,15 @@ export async function main() {
 
   // Get ID for existing schema by its description.
   // Note that this would throw if it had not been previously registered.
-  const found = await client.getSchemaId(schemaDescription);
+  const found = await client.getSchemaProperties(schemaDescription);
   if (found) {
     console.log(`Got schema ID=${found.id}`);
   }
 
-  // Get content of existing schema by its ID
+  // Get definition of existing schema by its ID
   const foundSchema = await client.getSchema(registered.id);
   if (foundSchema) {
-    console.log(`Got schema content=${foundSchema.content}`);
+    console.log(`Got schema definition=${foundSchema.schemaDefinition}`);
   }
 }
 

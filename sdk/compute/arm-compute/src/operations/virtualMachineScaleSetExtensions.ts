@@ -32,7 +32,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a VirtualMachineScaleSetExtensions. */
+/** Class containing VirtualMachineScaleSetExtensions operations. */
 export class VirtualMachineScaleSetExtensionsImpl
   implements VirtualMachineScaleSetExtensions {
   private readonly client: ComputeManagementClientContext;

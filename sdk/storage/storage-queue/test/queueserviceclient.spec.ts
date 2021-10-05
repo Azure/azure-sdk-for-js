@@ -7,12 +7,13 @@ import { QueueServiceClient } from "../src/QueueServiceClient";
 import { getAlternateQSU, getQSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { record, delay, Recorder } from "@azure-tools/test-recorder";
 import { recorderEnvSetup } from "./utils/index.browser";
+import { Context } from "mocha";
 dotenv.config();
 
 describe("QueueServiceClient", () => {
   let recorder: Recorder;
 
-  beforeEach(function() {
+  beforeEach(function(this: Context) {
     recorder = record(this, recorderEnvSetup);
   });
 
@@ -330,6 +331,7 @@ describe("QueueServiceClient", () => {
       .then((result) => {
         assert.ok(result.geoReplication!.lastSyncOn);
         done();
+        return;
       })
       .catch(done);
   });

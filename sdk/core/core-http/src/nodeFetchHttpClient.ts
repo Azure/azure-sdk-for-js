@@ -29,7 +29,8 @@ function getCachedAgent(
 }
 
 export class NodeFetchHttpClient extends FetchHttpClient {
-  private proxyAgents: AgentCache = {};
+  // a mapping of proxy settings string `${host}:${port}:${username}:${password}` to agent
+  private proxyAgentMap: Map<string, AgentCache> = new Map();
   private keepAliveAgents: AgentCache = {};
 
   private readonly cookieJar = new tough.CookieJar(undefined, { looseMode: true });
@@ -41,7 +42,11 @@ export class NodeFetchHttpClient extends FetchHttpClient {
     // exclusive because the 'tunnel' library currently lacks the
     // ability to create a proxy with keepAlive turned on.
     if (httpRequest.proxySettings) {
-      let agent = getCachedAgent(isHttps, this.proxyAgents);
+      const { host, port, username, password } = httpRequest.proxySettings;
+      const key = `${host}:${port}:${username}:${password}`;
+      const proxyAgents = this.proxyAgentMap.get(key) ?? {};
+
+      let agent = getCachedAgent(isHttps, proxyAgents);
       if (agent) {
         return agent;
       }
@@ -54,10 +59,11 @@ export class NodeFetchHttpClient extends FetchHttpClient {
 
       agent = tunnel.agent;
       if (tunnel.isHttps) {
-        this.proxyAgents.httpsAgent = tunnel.agent as https.Agent;
+        proxyAgents.httpsAgent = tunnel.agent as https.Agent;
       } else {
-        this.proxyAgents.httpAgent = tunnel.agent;
+        proxyAgents.httpAgent = tunnel.agent;
       }
+      this.proxyAgentMap.set(key, proxyAgents);
 
       return agent;
     } else if (httpRequest.keepAlive) {

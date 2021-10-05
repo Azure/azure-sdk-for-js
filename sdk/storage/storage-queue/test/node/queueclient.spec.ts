@@ -8,6 +8,7 @@ import { newPipeline, QueueClient, StorageSharedKeyCredential } from "../../src"
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { recorderEnvSetup } from "../utils/testutils.common";
+import { Context } from "mocha";
 
 describe("QueueClient Node.js only", () => {
   let queueName: string;
@@ -15,7 +16,7 @@ describe("QueueClient Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     const queueServiceClient = getQSU();
     queueName = recorder.getUniqueName("queue");

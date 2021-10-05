@@ -23,7 +23,7 @@ import {
   SyncGroupsListHubSchemasNextOptionalParams,
   SyncGroupsListHubSchemasOptionalParams,
   SyncGroupLogProperties,
-  Enum77,
+  Enum76,
   SyncGroupsListLogsNextOptionalParams,
   SyncGroupsListLogsOptionalParams,
   SyncGroup,
@@ -50,7 +50,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a SyncGroups. */
+/** Class containing SyncGroups operations. */
 export class SyncGroupsImpl implements SyncGroups {
   private readonly client: SqlManagementClientContext;
 
@@ -224,7 +224,7 @@ export class SyncGroupsImpl implements SyncGroups {
     syncGroupName: string,
     startTime: string,
     endTime: string,
-    typeParam: Enum77,
+    typeParam: Enum76,
     options?: SyncGroupsListLogsOptionalParams
   ): PagedAsyncIterableIterator<SyncGroupLogProperties> {
     const iter = this.listLogsPagingAll(
@@ -266,7 +266,7 @@ export class SyncGroupsImpl implements SyncGroups {
     syncGroupName: string,
     startTime: string,
     endTime: string,
-    typeParam: Enum77,
+    typeParam: Enum76,
     options?: SyncGroupsListLogsOptionalParams
   ): AsyncIterableIterator<SyncGroupLogProperties[]> {
     let result = await this._listLogs(
@@ -305,7 +305,7 @@ export class SyncGroupsImpl implements SyncGroups {
     syncGroupName: string,
     startTime: string,
     endTime: string,
-    typeParam: Enum77,
+    typeParam: Enum76,
     options?: SyncGroupsListLogsOptionalParams
   ): AsyncIterableIterator<SyncGroupLogProperties> {
     for await (const page of this.listLogsPagingPage(
@@ -551,7 +551,7 @@ export class SyncGroupsImpl implements SyncGroups {
     syncGroupName: string,
     startTime: string,
     endTime: string,
-    typeParam: Enum77,
+    typeParam: Enum76,
     options?: SyncGroupsListLogsOptionalParams
   ): Promise<SyncGroupsListLogsResponse> {
     return this.client.sendOperationRequest(
@@ -1034,7 +1034,7 @@ export class SyncGroupsImpl implements SyncGroups {
     startTime: string,
     endTime: string,
     nextLink: string,
-    typeParam: Enum77,
+    typeParam: Enum76,
     options?: SyncGroupsListLogsNextOptionalParams
   ): Promise<SyncGroupsListLogsNextResponse> {
     return this.client.sendOperationRequest(

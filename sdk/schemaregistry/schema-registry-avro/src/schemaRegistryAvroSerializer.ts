@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SchemaRegistry } from "@azure/schema-registry";
+import { SchemaDescription, SchemaRegistry } from "@azure/schema-registry";
 import * as avro from "avsc";
+import { toUint8Array } from "./utils/buffer";
 
 // REVIEW: This should go in to a shared doc somewhere that all of the different
 //         language serializer's docs can reference.
@@ -53,6 +54,11 @@ export interface SchemaRegistryAvroSerializerOptions {
    * Automatic schema registration is NOT recommended for production scenarios.
    */
   autoRegisterSchemas?: boolean;
+  /**
+   * The group name to be used when registering/looking up a schema. Must be specified
+   * if you will be calling `serialize`.
+   */
+  groupName?: string;
 }
 
 /**
@@ -63,23 +69,16 @@ export class SchemaRegistryAvroSerializer {
   /**
    * Creates a new serializer.
    *
-   * @param registry - Schema Registry where schemas are registered and obtained.
+   * @param client - Schema Registry where schemas are registered and obtained.
    *                 Usually this is a SchemaRegistryClient instance.
-   *
-   * @param schemaGroup - The schema group to use when making requests to the
-   *                    registry.
    */
-  constructor(
-    registry: SchemaRegistry,
-    schemaGroup: string,
-    options?: SchemaRegistryAvroSerializerOptions
-  ) {
-    this.registry = registry;
-    this.schemaGroup = schemaGroup;
+  constructor(client: SchemaRegistry, options?: SchemaRegistryAvroSerializerOptions) {
+    this.registry = client;
+    this.schemaGroup = options?.groupName;
     this.autoRegisterSchemas = options?.autoRegisterSchemas ?? false;
   }
 
-  private readonly schemaGroup: string;
+  private readonly schemaGroup?: string;
   private readonly registry: SchemaRegistry;
   private readonly autoRegisterSchemas: boolean;
 
@@ -112,15 +111,19 @@ export class SchemaRegistryAvroSerializer {
    * @param schema - The Avro schema to use.
    * @returns A new buffer with the serialized value
    */
-  async serialize(value: unknown, schema: string): Promise<Buffer> {
-    const entry = await this.getSchemaByContent(schema);
+  async serialize(value: unknown, schema: string): Promise<Uint8Array> {
+    const entry = await this.getSchemaByDefinition(schema);
     const payload = entry.type.toBuffer(value);
     const buffer = Buffer.alloc(PAYLOAD_OFFSET + payload.length);
 
     buffer.writeUInt32BE(FORMAT_INDICATOR, 0);
     buffer.write(entry.id, SCHEMA_ID_OFFSET, SCHEMA_ID_LENGTH, "utf-8");
     payload.copy(buffer, PAYLOAD_OFFSET);
-    return buffer;
+    return new Uint8Array(
+      buffer.buffer,
+      buffer.byteOffset,
+      buffer.byteLength / Uint8Array.BYTES_PER_ELEMENT
+    );
   }
 
   // REVIEW: signature. See serialize and s/serialize into/deserialize from/.
@@ -130,7 +133,9 @@ export class SchemaRegistryAvroSerializer {
    * @param buffer - The buffer with the serialized value.
    * @returns The deserialized value.
    */
-  async deserialize<T>(buffer: Buffer): Promise<T> {
+  async deserialize(input: Buffer | Blob | Uint8Array): Promise<unknown> {
+    const arr8 = await toUint8Array(input);
+    const buffer = Buffer.isBuffer(arr8) ? arr8 : Buffer.from(arr8);
     if (buffer.length < PAYLOAD_OFFSET) {
       throw new RangeError("Buffer is too small to have the correct format.");
     }
@@ -148,7 +153,7 @@ export class SchemaRegistryAvroSerializer {
     return schema.type.fromBuffer(payloadBuffer);
   }
 
-  private readonly cacheByContent = new Map<string, CacheEntry>();
+  private readonly cacheBySchemaDefinition = new Map<string, CacheEntry>();
   private readonly cacheById = new Map<string, CacheEntry>();
 
   private async getSchema(schemaId: string): Promise<CacheEntry> {
@@ -162,18 +167,18 @@ export class SchemaRegistryAvroSerializer {
       throw new Error(`Schema with ID '${schemaId}' not found.`);
     }
 
-    if (!schemaResponse.serializationType.match(/^avro$/i)) {
+    if (!schemaResponse.format.match(/^avro$/i)) {
       throw new Error(
-        `Schema with ID '${schemaResponse.id}' has serialization type '${schemaResponse.serializationType}', not 'avro'.`
+        `Schema with ID '${schemaResponse.id}' has format '${schemaResponse.format}', not 'avro'.`
       );
     }
 
-    const avroType = this.getAvroTypeForSchema(schemaResponse.content);
-    return this.cache(schemaId, schemaResponse.content, avroType);
+    const avroType = this.getAvroTypeForSchema(schemaResponse.schemaDefinition);
+    return this.cache(schemaId, schemaResponse.schemaDefinition, avroType);
   }
 
-  private async getSchemaByContent(schema: string): Promise<CacheEntry> {
-    const cached = this.cacheByContent.get(schema);
+  private async getSchemaByDefinition(schema: string): Promise<CacheEntry> {
+    const cached = this.cacheBySchemaDefinition.get(schema);
     if (cached) {
       return cached;
     }
@@ -183,21 +188,27 @@ export class SchemaRegistryAvroSerializer {
       throw new Error("Schema must have a name.");
     }
 
-    const description = {
+    if (!this.schemaGroup) {
+      throw new Error(
+        "Schema group must have been specified in the constructor options when the client was created in order to serialize."
+      );
+    }
+
+    const description: SchemaDescription = {
       groupName: this.schemaGroup,
       name: avroType.name,
-      serializationType: "avro",
-      content: schema
+      format: "avro",
+      schemaDefinition: schema
     };
 
     let id: string;
     if (this.autoRegisterSchemas) {
       id = (await this.registry.registerSchema(description)).id;
     } else {
-      const response = await this.registry.getSchemaId(description);
+      const response = await this.registry.getSchemaProperties(description);
       if (!response) {
         throw new Error(
-          `Schema '${description.name}' not found in registry group '${description.groupName}', or not found to have matching content.`
+          `Schema '${description.name}' not found in registry group '${description.groupName}', or not found to have matching definition.`
         );
       }
       id = response.id;
@@ -208,7 +219,7 @@ export class SchemaRegistryAvroSerializer {
 
   private cache(id: string, schema: string, type: avro.Type): CacheEntry {
     const entry = { id, type };
-    this.cacheByContent.set(schema, entry);
+    this.cacheBySchemaDefinition.set(schema, entry);
     this.cacheById.set(id, entry);
     return entry;
   }

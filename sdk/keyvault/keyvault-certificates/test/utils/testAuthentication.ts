@@ -19,10 +19,14 @@ export async function authenticate(that: Context): Promise<any> {
       KEYVAULT_URI: "https://keyvault_name.vault.azure.net/"
     },
     customizationsOnRecordings: [
-      (recording: any): any =>
+      (recording: string): string =>
         recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
-      (recording: any): any =>
-        suffix === "" ? recording : recording.replace(new RegExp(suffix, "g"), "")
+      (recording: string): string =>
+        suffix === "" ? recording : recording.replace(new RegExp(suffix, "g"), ""),
+      (recording: string): string => {
+        // replace pkcs12 certificate value with base64 encoding of "base64_placeholder"
+        return recording.replace(/"value":"MII[^"]+"/g, `"value":"YmFzZTY0X3BsYWNlaG9sZGVy"`);
+      }
     ],
     queryParametersToSkip: []
   };

@@ -1,14 +1,26 @@
 # Release History
 
-## 11.3.0-beta.3 (Unreleased)
+## 11.3.0-beta.4 (2021-10-05)
 
 ### Features Added
 
+- Added properties `currentState` & `statusDetail` to the `IndexerExecutionResult` object.
+- Added operations `resetDocs` & `resetSkills` to the `SearchIndexerClient` class.
+
 ### Breaking Changes
 
-### Bugs Fixed
+- Changed property `ignoreResetRequirements` to `skipIndexerResetRequirementForCache` in `CreateorUpdateDataSourceConnectionOptions`, `CreateorUpdateIndexerOptions` & `CreateOrUpdateSkillsetOptions` objects.
+- Changed the type of `answers` property from `Answers` to `QueryAnswerType`, in the `SearchRequest` object.
+- Changed the type of `captions` property from `Captions` to `QueryCaptionType`, in the `SearchRequest` object.
+- Changed the type of `speller` property from `Speller` to `QuerySpellerType`, in the `SearchRequest` object.
+- Changed the underlying dependency of the SDK from `core-http` to `core-rest-pipeline` package.
 
-### Other Changes
+## 11.3.0-beta.3 (2021-09-07)
+
+### Features Added
+
+- Added a new property `normalizerName` to the `AnalyzeRequest` object.
+- Added 2 new properties `captions` & `semanticFields` to the `SearchRequestOptions` object.
 
 ## 11.3.0-beta.2 (2021-08-10)
 

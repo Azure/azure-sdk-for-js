@@ -9,7 +9,7 @@ import * as path from "path";
 import { AbortController } from "@azure/abort-controller";
 import { env, isPlaybackMode, delay } from "@azure-tools/test-recorder";
 import { ConfidentialClientApplication } from "@azure/msal-node";
-import { ClientCertificateCredential, RegionalAuthority } from "../../../src";
+import { ClientCertificateCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { MsalNode } from "../../../src/msal/nodeFlows/nodeCommon";
 import { Context } from "mocha";
@@ -79,14 +79,19 @@ describe("ClientCertificateCredential (internal)", function() {
     });
   });
 
-  it("throws when given a file that doesn't contain a PEM-formatted certificate", () => {
-    assert.throws(() => {
-      new ClientCertificateCredential(
-        "tenant",
-        "client",
-        path.resolve(__dirname, "../src/index.ts")
-      );
-    });
+  it("throws when given a file that doesn't contain a PEM-formatted certificate", async function(this: Context) {
+    const fullPath = path.resolve(__dirname, "../src/index.ts");
+    const credential = new ClientCertificateCredential("tenant", "client", fullPath);
+
+    let error: Error | undefined;
+    try {
+      await credential.getToken(scope);
+    } catch (_error) {
+      error = _error;
+    }
+
+    assert.ok(error);
+    assert.deepEqual(error?.message, `ENOENT: no such file or directory, open '${fullPath}'`);
   });
 
   it("Authenticates silently after the initial request", async function(this: Context) {
@@ -116,13 +121,15 @@ describe("ClientCertificateCredential (internal)", function() {
     assert.equal(doGetTokenSpy.callCount, 2);
   });
 
-  it("supports specifying the regional authority", async function() {
+  // TODO: Enable again once we're ready to release this feature.
+  it.skip("supports specifying the regional authority", async function() {
     const credential = new ClientCertificateCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
       certificatePath,
       {
-        regionalAuthority: RegionalAuthority.AutoDiscoverRegion
+        // TODO: Uncomment once we're ready to release this feature.
+        // regionalAuthority: RegionalAuthority.AutoDiscoverRegion
       }
     );
 

@@ -299,7 +299,7 @@ describe("syncUploadFromURL", () => {
       {
         sourceAuthorization: {
           scheme: "Bearer",
-          parameter: accessToken!.token
+          value: accessToken!.token
         }
       }
     );
@@ -312,7 +312,7 @@ describe("syncUploadFromURL", () => {
       {
         sourceAuthorization: {
           scheme: "Bearer",
-          parameter: accessToken!.token
+          value: accessToken!.token
         }
       }
     );
@@ -352,7 +352,7 @@ describe("syncUploadFromURL", () => {
       {
         sourceAuthorization: {
           scheme: "Bearer",
-          parameter: accessToken!.token
+          value: accessToken!.token
         }
       }
     );
@@ -365,7 +365,7 @@ describe("syncUploadFromURL", () => {
       {
         sourceAuthorization: {
           scheme: "Bearer",
-          parameter: accessToken!.token
+          value: accessToken!.token
         }
       }
     );
@@ -415,7 +415,7 @@ describe("syncUploadFromURL", () => {
     await newBlockBlobClient.syncUploadFromURL(blockBlobClient.url, {
       sourceAuthorization: {
         scheme: "Bearer",
-        parameter: accessToken!.token
+        value: accessToken!.token
       }
     });
 
@@ -446,7 +446,7 @@ describe("syncUploadFromURL", () => {
     await tokenNewBlockBlobClient.syncUploadFromURL(blockBlobClient.url, {
       sourceAuthorization: {
         scheme: "Bearer",
-        parameter: accessToken!.token
+        value: accessToken!.token
       }
     });
 

@@ -4,6 +4,8 @@
 
 ```ts
 
+/// <reference types="node" />
+
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
 import { Debugger } from '@azure/logger';
@@ -69,7 +71,7 @@ export function createDefaultHttpClient(): HttpClient;
 export function createEmptyPipeline(): Pipeline;
 
 // @public
-export function createHttpHeaders(rawHeaders?: RawHttpHeaders): HttpHeaders;
+export function createHttpHeaders(rawHeaders?: RawHttpHeadersInput): HttpHeaders;
 
 // @public
 export function createPipelineFromOptions(options: InternalPipelineOptions): Pipeline;
@@ -123,7 +125,7 @@ export interface HttpHeaders extends Iterable<[string, string]> {
     delete(name: string): void;
     get(name: string): string | undefined;
     has(name: string): boolean;
-    set(name: string, value: string | number): void;
+    set(name: string, value: string | number | boolean): void;
     toJSON(): RawHttpHeaders;
 }
 
@@ -256,6 +258,9 @@ export type RawHttpHeaders = {
 };
 
 // @public
+export type RawHttpHeadersInput = Record<string, string | number | boolean>;
+
+// @public
 export function redirectPolicy(options?: RedirectPolicyOptions): PipelinePolicy;
 
 // @public
@@ -343,7 +348,6 @@ export const userAgentPolicyName = "userAgentPolicy";
 export interface UserAgentPolicyOptions {
     userAgentPrefix?: string;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

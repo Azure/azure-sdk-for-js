@@ -309,5 +309,5 @@ export interface HttpAuthorization {
   /**
    * the credentials containing the authentication information of the user agent for the resource being requested.
    */
-  parameter: string;
+  value: string;
 }

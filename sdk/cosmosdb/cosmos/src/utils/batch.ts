@@ -5,6 +5,7 @@ import { JSONObject } from "../queryExecutionContext";
 import { extractPartitionKey } from "../extractPartitionKey";
 import { PartitionKeyDefinition } from "../documents";
 import { RequestOptions } from "..";
+import { PatchRequestBody } from "./patch";
 import { v4 } from "uuid";
 const uuid = v4;
 
@@ -13,7 +14,8 @@ export type Operation =
   | UpsertOperation
   | ReadOperation
   | DeleteOperation
-  | ReplaceOperation;
+  | ReplaceOperation
+  | BulkPatchOperation;
 
 export interface Batch {
   min: string;
@@ -55,7 +57,8 @@ export const BulkOperationType = {
   Upsert: "Upsert",
   Read: "Read",
   Delete: "Delete",
-  Replace: "Replace"
+  Replace: "Replace",
+  Patch: "Patch"
 } as const;
 
 export type OperationInput =
@@ -63,7 +66,8 @@ export type OperationInput =
   | UpsertOperationInput
   | ReadOperationInput
   | DeleteOperationInput
-  | ReplaceOperationInput;
+  | ReplaceOperationInput
+  | PatchOperationInput;
 
 export interface CreateOperationInput {
   partitionKey?: string | number | null | Record<string, unknown> | undefined;
@@ -102,6 +106,15 @@ export interface ReplaceOperationInput {
   id: string;
 }
 
+export interface PatchOperationInput {
+  partitionKey?: string | number | null | Record<string, unknown> | undefined;
+  ifMatch?: string;
+  ifNoneMatch?: string;
+  operationType: typeof BulkOperationType.Patch;
+  resourceBody: PatchRequestBody;
+  id: string;
+}
+
 export type OperationWithItem = OperationBase & {
   resourceBody: JSONObject;
 };
@@ -129,10 +142,18 @@ export type ReplaceOperation = OperationWithItem & {
   id: string;
 };
 
+export type BulkPatchOperation = OperationBase & {
+  operationType: typeof BulkOperationType.Patch;
+  id: string;
+};
+
 export function hasResource(
   operation: Operation
 ): operation is CreateOperation | UpsertOperation | ReplaceOperation {
-  return (operation as OperationWithItem).resourceBody !== undefined;
+  return (
+    operation.operationType !== "Patch" &&
+    (operation as OperationWithItem).resourceBody !== undefined
+  );
 }
 
 export function getPartitionKeyToHash(operation: Operation, partitionProperty: string): any {

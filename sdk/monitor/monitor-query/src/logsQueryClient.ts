@@ -3,41 +3,47 @@
 
 import { AzureLogAnalytics } from "./generated/logquery/src/azureLogAnalytics";
 import { TokenCredential } from "@azure/core-auth";
-import { PipelineOptions, bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 
 import {
-  QueryLogsBatch,
-  QueryLogsBatchOptions,
-  QueryLogsBatchResult,
-  QueryLogsOptions,
-  QueryLogsResult
+  QueryBatch,
+  LogsQueryBatchOptions,
+  LogsQueryBatchResult,
+  LogsQueryOptions,
+  LogsQueryResult,
+  LogsQueryResultStatus,
+  LogsQuerySuccessfulResult,
+  LogsQueryPartialResult
 } from "./models/publicLogsModels";
 
 import {
   convertGeneratedTable,
   convertRequestForQueryBatch,
-  convertResponseForQueryBatch
+  convertResponseForQueryBatch,
+  mapError
 } from "./internal/modelConverters";
 import { formatPreferHeader } from "./internal/util";
-import { FullOperationResponse, OperationOptions } from "@azure/core-client";
+import { CommonClientOptions, FullOperationResponse, OperationOptions } from "@azure/core-client";
+import { QueryTimeInterval } from "./models/timeInterval";
+import { convertTimespanToInterval } from "./timespanConversion";
+import { SDK_VERSION } from "./constants";
 
 const defaultMonitorScope = "https://api.loganalytics.io/.default";
 
 /**
  * Options for the LogsQueryClient.
  */
-export interface LogsQueryClientOptions extends PipelineOptions {
+export interface LogsQueryClientOptions extends CommonClientOptions {
   /**
    * The host to connect to.
    */
   endpoint?: string;
 
   /**
-   * The authentication scopes to use when getting authentication tokens.
-   *
+   * Gets or sets the audience to use for authentication with Azure Active Directory.
+   * The authentication scope will be set from this audience.
    * Defaults to 'https://api.loganalytics.io/.default'
    */
-  scopes?: string | string[];
+  audience?: string;
 }
 
 /**
@@ -53,43 +59,56 @@ export class LogsQueryClient {
    * @param options - Options for the LogsClient.
    */
   constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions) {
-    // This client defaults to using 'https://api.loganalytics.io/v1' as the
+    // This client defaults to using 'https://api.loganalytics.io/' as the
     // host.
-
+    const credentialOptions = {
+      credentialScopes: options?.audience
+    };
+    const packageDetails = `azsdk-js-monitor-query/${SDK_VERSION}`;
+    const userAgentPrefix =
+      options?.userAgentOptions && options?.userAgentOptions.userAgentPrefix
+        ? `${options?.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
     this._logAnalytics = new AzureLogAnalytics({
       ...options,
       $host: options?.endpoint,
-      endpoint: options?.endpoint
+      endpoint: options?.endpoint,
+      credentialScopes: credentialOptions?.credentialScopes ?? defaultMonitorScope,
+      credential: tokenCredential,
+      userAgentOptions: {
+        userAgentPrefix
+      }
     });
-    const scope = options?.scopes ?? defaultMonitorScope;
-    this._logAnalytics.pipeline.addPolicy(
-      bearerTokenAuthenticationPolicy({ scopes: scope, credential: tokenCredential })
-    );
   }
 
   /**
    * Queries logs in a Log Analytics Workspace.
    *
    * @param workspaceId - The 'Workspace Id' for the Log Analytics Workspace
-   * @param query - A Log Analytics Query
-   * @param timespan - The timespan over which to query data. This is an ISO8601 time period value.  This timespan is applied in addition to any that are specified in the query expression.
+   * @param query - A Kusto query.
+   * @param timespan - The timespan over which to query data. This is an ISO8601 time period value. This timespan is applied in addition to any that are specified in the query expression.
    *  Some common durations can be found in the `Durations` object.
    * @param options - Options to adjust various aspects of the request.
    * @returns The result of the query.
    */
-  async queryLogs(
+  async queryWorkspace(
     workspaceId: string,
     query: string,
-    timespan: string,
-    options?: QueryLogsOptions
-  ): Promise<QueryLogsResult> {
+    timespan: QueryTimeInterval,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+    options?: LogsQueryOptions
+  ): Promise<LogsQueryResult> {
+    let timeInterval: string = "";
+    if (timespan) {
+      timeInterval = convertTimespanToInterval(timespan);
+    }
     const { flatResponse, rawResponse } = await getRawResponse(
       (paramOptions) =>
         this._logAnalytics.query.execute(
           workspaceId,
           {
             query,
-            timespan,
+            timespan: timeInterval,
             workspaces: options?.additionalWorkspaces
           },
           paramOptions
@@ -106,29 +125,51 @@ export class LogsQueryClient {
 
     const parsedBody = JSON.parse(rawResponse.bodyAsText!);
     flatResponse.tables = parsedBody.tables;
-    return {
+
+    const res = {
       tables: flatResponse.tables.map(convertGeneratedTable),
       statistics: flatResponse.statistics,
       visualization: flatResponse.render
     };
+
+    if (!flatResponse.error) {
+      // if there is no error field, it is success
+      const result: LogsQuerySuccessfulResult = {
+        tables: res.tables,
+        statistics: res.statistics,
+        visualization: res.visualization,
+        status: LogsQueryResultStatus.Success
+      };
+      return result;
+    } else {
+      const result: LogsQueryPartialResult = {
+        partialTables: res.tables,
+        status: LogsQueryResultStatus.PartialFailure,
+        partialError: mapError(flatResponse.error),
+        statistics: res.statistics,
+        visualization: res.visualization
+      };
+      return result;
+    }
   }
 
   /**
-   * Query logs with multiple queries, in a batch.
-   * @param batch - A batch of queries to run. Each query can be configured to run against separate workspaces.
+   * Query Logs with multiple queries, in a batch.
+   * @param batch - A batch of Kusto queries to execute. Each query can be configured to run against separate workspaces.
    * @param options - Options for querying logs in a batch.
-   * @returns The log query results for all the queries.
+   * @returns The Logs query results for all the queries.
    */
-  async queryLogsBatch(
-    batch: QueryLogsBatch,
-    options?: QueryLogsBatchOptions
-  ): Promise<QueryLogsBatchResult> {
+  async queryBatch(
+    batch: QueryBatch[],
+    options?: LogsQueryBatchOptions
+  ): Promise<LogsQueryBatchResult> {
     const generatedRequest = convertRequestForQueryBatch(batch);
     const { flatResponse, rawResponse } = await getRawResponse(
       (paramOptions) => this._logAnalytics.query.batch(generatedRequest, paramOptions),
       options || {}
     );
-    return convertResponseForQueryBatch(flatResponse, rawResponse);
+    const result: LogsQueryBatchResult = convertResponseForQueryBatch(flatResponse, rawResponse);
+    return result;
   }
 }
 

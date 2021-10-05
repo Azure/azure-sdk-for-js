@@ -4,7 +4,10 @@
 
 ```ts
 
-import { AbortSignal } from 'node-abort-controller';
+/// <reference lib="dom" />
+/// <reference lib="esnext.asynciterable" />
+
+import { AbortSignal as AbortSignal_2 } from 'node-abort-controller';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -32,6 +35,7 @@ export const BulkOperationType: {
     readonly Read: "Read";
     readonly Delete: "Delete";
     readonly Replace: "Replace";
+    readonly Patch: "Patch";
 };
 
 // @public
@@ -40,12 +44,18 @@ export interface BulkOptions {
     continueOnError?: boolean;
 }
 
+// @public (undocumented)
+export type BulkPatchOperation = OperationBase & {
+    operationType: typeof BulkOperationType.Patch;
+    id: string;
+};
+
 // @public
 export class ChangeFeedIterator<T> {
     fetchNext(): Promise<ChangeFeedResponse<Array<T & Resource>>>;
     getAsyncIterator(): AsyncIterable<ChangeFeedResponse<Array<T & Resource>>>;
     get hasMoreResults(): boolean;
-    }
+}
 
 // @public
 export interface ChangeFeedOptions {
@@ -79,7 +89,7 @@ export class ClientContext {
         partitionKey: string;
         resourceId: string;
         options?: RequestOptions;
-    }): Promise<Response<any>>;
+    }): Promise<Response_2<any>>;
     // (undocumented)
     bulk<T>({ body, path, partitionKeyRangeId, resourceId, bulkOptions, options }: {
         body: T;
@@ -88,7 +98,7 @@ export class ClientContext {
         resourceId: string;
         bulkOptions?: BulkOptions;
         options?: RequestOptions;
-    }): Promise<Response<any>>;
+    }): Promise<Response_2<any>>;
     // (undocumented)
     clearSessionToken(path: string): void;
     // (undocumented)
@@ -99,7 +109,7 @@ export class ClientContext {
         resourceId: string;
         options?: RequestOptions;
         partitionKey?: PartitionKey;
-    }): Promise<Response<T & U & Resource>>;
+    }): Promise<Response_2<T & U & Resource>>;
     // (undocumented)
     delete<T>({ path, resourceType, resourceId, options, partitionKey }: {
         path: string;
@@ -107,17 +117,17 @@ export class ClientContext {
         resourceId: string;
         options?: RequestOptions;
         partitionKey?: PartitionKey;
-    }): Promise<Response<T & Resource>>;
+    }): Promise<Response_2<T & Resource>>;
     // (undocumented)
     execute<T>({ sprocLink, params, options, partitionKey }: {
         sprocLink: string;
         params?: any[];
         options?: RequestOptions;
         partitionKey?: PartitionKey;
-    }): Promise<Response<T>>;
-    getDatabaseAccount(options?: RequestOptions): Promise<Response<DatabaseAccount>>;
+    }): Promise<Response_2<T>>;
+    getDatabaseAccount(options?: RequestOptions): Promise<Response_2<DatabaseAccount>>;
     // (undocumented)
-    getQueryPlan(path: string, resourceType: ResourceType, resourceId: string, query: SqlQuerySpec | string, options?: FeedOptions): Promise<Response<PartitionedQueryExecutionInfo>>;
+    getQueryPlan(path: string, resourceType: ResourceType, resourceId: string, query: SqlQuerySpec | string, options?: FeedOptions): Promise<Response_2<PartitionedQueryExecutionInfo>>;
     // (undocumented)
     getReadEndpoint(): Promise<string>;
     // (undocumented)
@@ -131,6 +141,15 @@ export class ClientContext {
         [containerUrl: string]: any;
     };
     // (undocumented)
+    patch<T>({ body, path, resourceType, resourceId, options, partitionKey }: {
+        body: any;
+        path: string;
+        resourceType: ResourceType;
+        resourceId: string;
+        options?: RequestOptions;
+        partitionKey?: PartitionKey;
+    }): Promise<Response_2<T & Resource>>;
+    // (undocumented)
     queryFeed<T>({ path, resourceType, resourceId, resultFn, query, options, partitionKeyRangeId, partitionKey }: {
         path: string;
         resourceType: ResourceType;
@@ -142,7 +161,7 @@ export class ClientContext {
         options: FeedOptions;
         partitionKeyRangeId?: string;
         partitionKey?: PartitionKey;
-    }): Promise<Response<T & Resource>>;
+    }): Promise<Response_2<T & Resource>>;
     // (undocumented)
     queryPartitionKeyRanges(collectionLink: string, query?: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<PartitionKeyRange>;
     // (undocumented)
@@ -152,7 +171,7 @@ export class ClientContext {
         resourceId: string;
         options?: RequestOptions;
         partitionKey?: PartitionKey;
-    }): Promise<Response<T & Resource>>;
+    }): Promise<Response_2<T & Resource>>;
     // (undocumented)
     replace<T>({ body, path, resourceType, resourceId, options, partitionKey }: {
         body: any;
@@ -161,7 +180,7 @@ export class ClientContext {
         resourceId: string;
         options?: RequestOptions;
         partitionKey?: PartitionKey;
-    }): Promise<Response<T & Resource>>;
+    }): Promise<Response_2<T & Resource>>;
     // (undocumented)
     upsert<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey }: {
         body: T;
@@ -170,7 +189,7 @@ export class ClientContext {
         resourceId: string;
         options?: RequestOptions;
         partitionKey?: PartitionKey;
-    }): Promise<Response<T & U & Resource>>;
+    }): Promise<Response_2<T & U & Resource>>;
 }
 
 // @public (undocumented)
@@ -435,7 +454,7 @@ export class Container {
     // @deprecated
     getPartitionKeyDefinition(): Promise<ResourceResponse<PartitionKeyDefinition>>;
     // (undocumented)
-    getQueryPlan(query: string | SqlQuerySpec): Promise<Response<PartitionedQueryExecutionInfo>>;
+    getQueryPlan(query: string | SqlQuerySpec): Promise<Response_2<PartitionedQueryExecutionInfo>>;
     // (undocumented)
     readonly id: string;
     item(id: string, partitionKeyValue?: PartitionKey): Item;
@@ -599,8 +618,8 @@ export class DatabaseAccount {
     // @deprecated
     get MediaLink(): string;
     readonly mediaLink: string;
-    readonly readableLocations: Location[];
-    readonly writableLocations: Location[];
+    readonly readableLocations: Location_2[];
+    readonly writableLocations: Location_2[];
 }
 
 // @public (undocumented)
@@ -699,6 +718,13 @@ export interface ErrorResponse extends Error {
 }
 
 // @public (undocumented)
+export type ExistingKeyOperation = {
+    op: keyof typeof PatchOperationType;
+    value: any;
+    path: string;
+};
+
+// @public (undocumented)
 export function extractPartitionKey(document: unknown, partitionKeyDefinition: PartitionKeyDefinition): PartitionKey[];
 
 // @public
@@ -765,7 +791,7 @@ export class GlobalEndpointManager {
     refreshEndpointList(): Promise<void>;
     // (undocumented)
     resolveServiceEndpoint(resourceType: ResourceType, operationType: OperationType): Promise<string>;
-    }
+}
 
 // @public (undocumented)
 export interface GroupByAliasToAggregateType {
@@ -782,6 +808,8 @@ export enum HTTPMethod {
     delete = "DELETE",
     // (undocumented)
     get = "GET",
+    // (undocumented)
+    patch = "PATCH",
     // (undocumented)
     post = "POST",
     // (undocumented)
@@ -838,6 +866,7 @@ export class Item {
     delete<T extends ItemDefinition = any>(options?: RequestOptions): Promise<ItemResponse<T>>;
     // (undocumented)
     readonly id: string;
+    patch<T extends ItemDefinition = any>(body: PatchRequestBody, options?: RequestOptions): Promise<ItemResponse<T>>;
     read<T extends ItemDefinition = any>(options?: RequestOptions): Promise<ItemResponse<T>>;
     replace(body: ItemDefinition, options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
     replace<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
@@ -861,7 +890,7 @@ export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T &
 // @public
 export class Items {
     constructor(container: Container, clientContext: ClientContext);
-    batch(operations: OperationInput[], partitionKey?: string, options?: RequestOptions): Promise<Response<any>>;
+    batch(operations: OperationInput[], partitionKey?: string, options?: RequestOptions): Promise<Response_2<any>>;
     bulk(operations: OperationInput[], bulkOptions?: BulkOptions, options?: RequestOptions): Promise<OperationResponse[]>;
     changeFeed(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     changeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
@@ -900,7 +929,7 @@ export interface JSONObject {
 export type JSONValue = boolean | number | string | null | JSONArray | JSONObject;
 
 // @public
-export interface Location {
+interface Location_2 {
     // (undocumented)
     databaseAccountEndpoint: string;
     // (undocumented)
@@ -908,9 +937,10 @@ export interface Location {
     // (undocumented)
     unavailable?: boolean;
 }
+export { Location_2 as Location }
 
 // @public
-export type Next<T> = (context: RequestContext) => Promise<Response<T>>;
+export type Next<T> = (context: RequestContext) => Promise<Response_2<T>>;
 
 // @public
 export class Offer {
@@ -970,7 +1000,7 @@ export class Offers {
 }
 
 // @public (undocumented)
-export type Operation = CreateOperation | UpsertOperation | ReadOperation | DeleteOperation | ReplaceOperation;
+export type Operation = CreateOperation | UpsertOperation | ReadOperation | DeleteOperation | ReplaceOperation | BulkPatchOperation;
 
 // @public (undocumented)
 export interface OperationBase {
@@ -983,7 +1013,7 @@ export interface OperationBase {
 }
 
 // @public (undocumented)
-export type OperationInput = CreateOperationInput | UpsertOperationInput | ReadOperationInput | DeleteOperationInput | ReplaceOperationInput;
+export type OperationInput = CreateOperationInput | UpsertOperationInput | ReadOperationInput | DeleteOperationInput | ReplaceOperationInput | PatchOperationInput;
 
 // @public (undocumented)
 export interface OperationResponse {
@@ -1007,6 +1037,8 @@ export enum OperationType {
     Delete = "delete",
     // (undocumented)
     Execute = "execute",
+    // (undocumented)
+    Patch = "patch",
     // (undocumented)
     Query = "query",
     // (undocumented)
@@ -1071,6 +1103,40 @@ export interface PartitionKeyRangePropertiesNames {
     MinInclusive: "minInclusive";
 }
 
+// @public (undocumented)
+export type PatchOperation = ExistingKeyOperation | RemoveOperation;
+
+// @public (undocumented)
+export interface PatchOperationInput {
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    ifMatch?: string;
+    // (undocumented)
+    ifNoneMatch?: string;
+    // (undocumented)
+    operationType: typeof BulkOperationType.Patch;
+    // (undocumented)
+    partitionKey?: string | number | null | Record<string, unknown> | undefined;
+    // (undocumented)
+    resourceBody: PatchRequestBody;
+}
+
+// @public (undocumented)
+export const PatchOperationType: {
+    readonly add: "add";
+    readonly replace: "replace";
+    readonly remove: "remove";
+    readonly set: "set";
+    readonly incr: "incr";
+};
+
+// @public (undocumented)
+export type PatchRequestBody = {
+    operations: PatchOperation[];
+    condition?: string;
+} | PatchOperation[];
+
 // @public
 export class Permission {
     constructor(user: User, id: string, clientContext: ClientContext);
@@ -1112,7 +1178,7 @@ export class PermissionResponse extends ResourceResponse<PermissionDefinition & 
 }
 
 // @public
-export class Permissions {
+class Permissions_2 {
     constructor(user: User, clientContext: ClientContext);
     create(body: PermissionDefinition, options?: RequestOptions): Promise<PermissionResponse>;
     query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
@@ -1122,14 +1188,16 @@ export class Permissions {
     // (undocumented)
     readonly user: User;
 }
+export { Permissions_2 as Permissions }
 
 // @public
-export type Plugin<T> = (context: RequestContext, next: Next<T>) => Promise<Response<T>>;
+type Plugin_2<T> = (context: RequestContext, next: Next<T>) => Promise<Response_2<T>>;
+export { Plugin_2 as Plugin }
 
 // @public
 export interface PluginConfig {
     on: keyof typeof PluginOn;
-    plugin: Plugin<any>;
+    plugin: Plugin_2<any>;
 }
 
 // @public
@@ -1173,7 +1241,7 @@ export class QueryIterator<T> {
     getAsyncIterator(): AsyncIterable<FeedResponse<T>>;
     hasMoreResults(): boolean;
     reset(): void;
-    }
+}
 
 // @public (undocumented)
 export class QueryMetrics {
@@ -1307,6 +1375,12 @@ export interface ReadOperationInput {
 }
 
 // @public (undocumented)
+export type RemoveOperation = {
+    op: "remove";
+    path: string;
+};
+
+// @public (undocumented)
 export type ReplaceOperation = OperationWithItem & {
     operationType: typeof BulkOperationType.Replace;
     id: string;
@@ -1369,7 +1443,7 @@ export interface RequestContext {
 }
 
 // @public (undocumented)
-export interface RequestInfo {
+interface RequestInfo_2 {
     // (undocumented)
     headers: CosmosHeaders;
     // (undocumented)
@@ -1381,6 +1455,7 @@ export interface RequestInfo {
     // (undocumented)
     verb: HTTPMethod;
 }
+export { RequestInfo_2 as RequestInfo }
 
 // @public
 export interface RequestOptions extends SharedOptions {
@@ -1459,7 +1534,7 @@ export enum ResourceType {
 }
 
 // @public (undocumented)
-export interface Response<T> {
+interface Response_2<T> {
     // (undocumented)
     code?: number;
     // (undocumented)
@@ -1469,6 +1544,7 @@ export interface Response<T> {
     // (undocumented)
     substatus?: number;
 }
+export { Response_2 as Response }
 
 // @public
 export interface RetryOptions {
@@ -1512,7 +1588,7 @@ export function setAuthorizationTokenHeaderUsingMasterKey(verb: HTTPMethod, reso
 
 // @public
 export interface SharedOptions {
-    abortSignal?: AbortSignal;
+    abortSignal?: AbortSignal_2;
     initialHeaders?: CosmosHeaders;
     sessionToken?: string;
 }
@@ -1713,7 +1789,7 @@ export class TimeSpan {
 }
 
 // @public (undocumented)
-export type TokenProvider = (requestInfo: RequestInfo) => Promise<string>;
+export type TokenProvider = (requestInfo: RequestInfo_2) => Promise<string>;
 
 // @public
 export class Trigger {
@@ -1808,7 +1884,7 @@ export class User {
     // (undocumented)
     readonly id: string;
     permission(id: string): Permission;
-    readonly permissions: Permissions;
+    readonly permissions: Permissions_2;
     read(options?: RequestOptions): Promise<UserResponse>;
     replace(body: UserDefinition, options?: RequestOptions): Promise<UserResponse>;
     get url(): string;
@@ -1878,7 +1954,6 @@ export class Users {
     readAll(options?: FeedOptions): QueryIterator<UserDefinition & Resource>;
     upsert(body: UserDefinition, options?: RequestOptions): Promise<UserResponse>;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

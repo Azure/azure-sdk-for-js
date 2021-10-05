@@ -4,12 +4,14 @@
 
 ```ts
 
+/// <reference lib="esnext.asynciterable" />
+
 import { AzureKeyCredential } from '@azure/core-auth';
+import { CommonClientOptions } from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
-import { OperationOptions } from '@azure/core-http';
+import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PipelineOptions } from '@azure/core-http';
-import { RestError } from '@azure/core-http';
+import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -24,6 +26,7 @@ export interface AnalyzedTokenInfo {
 export interface AnalyzeRequest {
     analyzerName?: string;
     charFilters?: string[];
+    normalizerName?: LexicalNormalizerName;
     text: string;
     tokenFilters?: string[];
     tokenizerName?: string;
@@ -270,15 +273,15 @@ export type CreateIndexOptions = OperationOptions;
 
 // @public
 export interface CreateorUpdateDataSourceConnectionOptions extends OperationOptions {
-    ignoreResetRequirements?: boolean;
     onlyIfUnchanged?: boolean;
+    skipIndexerResetRequirementForCache?: boolean;
 }
 
 // @public
 export interface CreateorUpdateIndexerOptions extends OperationOptions {
     disableCacheReprocessingChangeDetection?: boolean;
-    ignoreResetRequirements?: boolean;
     onlyIfUnchanged?: boolean;
+    skipIndexerResetRequirementForCache?: boolean;
 }
 
 // @public
@@ -290,8 +293,8 @@ export interface CreateOrUpdateIndexOptions extends OperationOptions {
 // @public
 export interface CreateOrUpdateSkillsetOptions extends OperationOptions {
     disableCacheReprocessingChangeDetection?: boolean;
-    ignoreResetRequirements?: boolean;
     onlyIfUnchanged?: boolean;
+    skipIndexerResetRequirementForCache?: boolean;
 }
 
 // @public
@@ -438,7 +441,7 @@ export type DocumentExtractionSkill = BaseSearchIndexerSkill & {
     parsingMode?: string;
     dataToExtract?: string;
     configuration?: {
-        [propertyName: string]: any;
+        [propertyName: string]: Record<string, unknown>;
     };
 };
 
@@ -517,7 +520,7 @@ export interface FieldMapping {
 export interface FieldMappingFunction {
     name: string;
     parameters?: {
-        [propertyName: string]: any;
+        [propertyName: string]: Record<string, unknown>;
     };
 }
 
@@ -627,10 +630,22 @@ export interface IndexDocumentsResult {
 }
 
 // @public
+export interface IndexerCurrentState {
+    readonly allDocsFinalChangeTrackingState?: string;
+    readonly allDocsInitialChangeTrackingState?: string;
+    readonly mode?: IndexingMode;
+    readonly resetDatasourceDocumentIds?: string[];
+    readonly resetDocsFinalChangeTrackingState?: string;
+    readonly resetDocsInitialChangeTrackingState?: string;
+    readonly resetDocumentKeys?: string[];
+}
+
+// @public
 export type IndexerExecutionEnvironment = string;
 
 // @public
 export interface IndexerExecutionResult {
+    readonly currentState?: IndexerCurrentState;
     readonly endTime?: Date;
     readonly errorMessage?: string;
     readonly errors: SearchIndexerError[];
@@ -640,6 +655,7 @@ export interface IndexerExecutionResult {
     readonly itemCount: number;
     readonly startTime?: Date;
     readonly status: IndexerExecutionStatus;
+    readonly statusDetail?: IndexerExecutionStatusDetail;
     readonly warnings: SearchIndexerWarning[];
 }
 
@@ -647,7 +663,13 @@ export interface IndexerExecutionResult {
 export type IndexerExecutionStatus = "transientFailure" | "success" | "inProgress" | "reset";
 
 // @public
+export type IndexerExecutionStatusDetail = string;
+
+// @public
 export type IndexerStatus = "unknown" | "error" | "running";
+
+// @public
+export type IndexingMode = string;
 
 // @public
 export interface IndexingParameters {
@@ -836,27 +858,27 @@ export enum KnownAnalyzerNames {
 }
 
 // @public
-export const enum KnownAnswers {
+export enum KnownAnswers {
     Extractive = "extractive",
     None = "none"
 }
 
 // @public
-export const enum KnownBlobIndexerDataToExtract {
+export enum KnownBlobIndexerDataToExtract {
     AllMetadata = "allMetadata",
     ContentAndMetadata = "contentAndMetadata",
     StorageMetadata = "storageMetadata"
 }
 
 // @public
-export const enum KnownBlobIndexerImageAction {
+export enum KnownBlobIndexerImageAction {
     GenerateNormalizedImagePerPage = "generateNormalizedImagePerPage",
     GenerateNormalizedImages = "generateNormalizedImages",
     None = "none"
 }
 
 // @public
-export const enum KnownBlobIndexerParsingMode {
+export enum KnownBlobIndexerParsingMode {
     Default = "default",
     DelimitedText = "delimitedText",
     Json = "json",
@@ -866,13 +888,13 @@ export const enum KnownBlobIndexerParsingMode {
 }
 
 // @public
-export const enum KnownBlobIndexerPDFTextRotationAlgorithm {
+export enum KnownBlobIndexerPDFTextRotationAlgorithm {
     DetectAngles = "detectAngles",
     None = "none"
 }
 
 // @public
-export const enum KnownCharFilterName {
+export enum KnownCharFilterName {
     HtmlStrip = "html_strip"
 }
 
@@ -882,7 +904,7 @@ export enum KnownCharFilterNames {
 }
 
 // @public
-export const enum KnownCustomEntityLookupSkillLanguage {
+export enum KnownCustomEntityLookupSkillLanguage {
     Da = "da",
     De = "de",
     En = "en",
@@ -895,7 +917,7 @@ export const enum KnownCustomEntityLookupSkillLanguage {
 }
 
 // @public
-export const enum KnownEntityCategory {
+export enum KnownEntityCategory {
     Datetime = "datetime",
     Email = "email",
     Location = "location",
@@ -906,7 +928,7 @@ export const enum KnownEntityCategory {
 }
 
 // @public
-export const enum KnownEntityRecognitionSkillLanguage {
+export enum KnownEntityRecognitionSkillLanguage {
     Ar = "ar",
     Cs = "cs",
     Da = "da",
@@ -933,7 +955,7 @@ export const enum KnownEntityRecognitionSkillLanguage {
 }
 
 // @public
-export const enum KnownImageAnalysisSkillLanguage {
+export enum KnownImageAnalysisSkillLanguage {
     En = "en",
     Es = "es",
     Ja = "ja",
@@ -942,13 +964,24 @@ export const enum KnownImageAnalysisSkillLanguage {
 }
 
 // @public
-export const enum KnownImageDetail {
+export enum KnownImageDetail {
     Celebrities = "celebrities",
     Landmarks = "landmarks"
 }
 
 // @public
-export const enum KnownKeyPhraseExtractionSkillLanguage {
+export enum KnownIndexerExecutionStatusDetail {
+    ResetDocs = "resetDocs"
+}
+
+// @public
+export enum KnownIndexingMode {
+    IndexingAllDocs = "indexingAllDocs",
+    IndexingResetDocs = "indexingResetDocs"
+}
+
+// @public
+export enum KnownKeyPhraseExtractionSkillLanguage {
     Da = "da",
     De = "de",
     En = "en",
@@ -968,7 +1001,7 @@ export const enum KnownKeyPhraseExtractionSkillLanguage {
 }
 
 // @public
-export const enum KnownLexicalAnalyzerName {
+export enum KnownLexicalAnalyzerName {
     ArLucene = "ar.lucene",
     ArMicrosoft = "ar.microsoft",
     BgLucene = "bg.lucene",
@@ -1065,7 +1098,7 @@ export const enum KnownLexicalAnalyzerName {
 }
 
 // @public
-export const enum KnownLexicalNormalizerName {
+export enum KnownLexicalNormalizerName {
     AsciiFolding = "asciifolding",
     Elision = "elision",
     Lowercase = "lowercase",
@@ -1074,7 +1107,7 @@ export const enum KnownLexicalNormalizerName {
 }
 
 // @public
-export const enum KnownLineEnding {
+export enum KnownLineEnding {
     CarriageReturn = "carriageReturn",
     CarriageReturnLineFeed = "carriageReturnLineFeed",
     LineFeed = "lineFeed",
@@ -1082,7 +1115,7 @@ export const enum KnownLineEnding {
 }
 
 // @public
-export const enum KnownOcrSkillLanguage {
+export enum KnownOcrSkillLanguage {
     Ar = "ar",
     Cs = "cs",
     Da = "da",
@@ -1112,19 +1145,37 @@ export const enum KnownOcrSkillLanguage {
 }
 
 // @public
-export const enum KnownPIIDetectionSkillMaskingMode {
+export enum KnownPIIDetectionSkillMaskingMode {
     None = "none",
     Replace = "replace"
 }
 
 // @public
-export const enum KnownQueryLanguage {
+export enum KnownQueryAnswerType {
+    Extractive = "extractive",
+    None = "none"
+}
+
+// @public
+export enum KnownQueryCaptionType {
+    Extractive = "extractive",
+    None = "none"
+}
+
+// @public
+export enum KnownQueryLanguage {
     EnUs = "en-us",
     None = "none"
 }
 
 // @public
-export const enum KnownRegexFlags {
+export enum KnownQuerySpellerType {
+    Lexicon = "lexicon",
+    None = "none"
+}
+
+// @public
+export enum KnownRegexFlags {
     CanonEq = "CANON_EQ",
     CaseInsensitive = "CASE_INSENSITIVE",
     Comments = "COMMENTS",
@@ -1136,7 +1187,7 @@ export const enum KnownRegexFlags {
 }
 
 // @public
-export const enum KnownSearchIndexerDataSourceType {
+export enum KnownSearchIndexerDataSourceType {
     AdlsGen2 = "adlsgen2",
     AzureBlob = "azureblob",
     AzureSql = "azuresql",
@@ -1146,7 +1197,7 @@ export const enum KnownSearchIndexerDataSourceType {
 }
 
 // @public
-export const enum KnownSentimentSkillLanguage {
+export enum KnownSentimentSkillLanguage {
     Da = "da",
     De = "de",
     El = "el",
@@ -1165,13 +1216,13 @@ export const enum KnownSentimentSkillLanguage {
 }
 
 // @public
-export const enum KnownSpeller {
+export enum KnownSpeller {
     Lexicon = "lexicon",
     None = "none"
 }
 
 // @public
-export const enum KnownSplitSkillLanguage {
+export enum KnownSplitSkillLanguage {
     Da = "da",
     De = "de",
     En = "en",
@@ -1184,13 +1235,13 @@ export const enum KnownSplitSkillLanguage {
 }
 
 // @public
-export const enum KnownTextSplitMode {
+export enum KnownTextSplitMode {
     Pages = "pages",
     Sentences = "sentences"
 }
 
 // @public
-export const enum KnownTextTranslationSkillLanguage {
+export enum KnownTextTranslationSkillLanguage {
     Af = "af",
     Ar = "ar",
     Bg = "bg",
@@ -1266,7 +1317,7 @@ export const enum KnownTextTranslationSkillLanguage {
 }
 
 // @public
-export const enum KnownTokenFilterName {
+export enum KnownTokenFilterName {
     Apostrophe = "apostrophe",
     ArabicNormalization = "arabic_normalization",
     AsciiFolding = "asciifolding",
@@ -1359,7 +1410,7 @@ export enum KnownTokenizerNames {
 }
 
 // @public
-export const enum KnownVisualFeature {
+export enum KnownVisualFeature {
     Adult = "adult",
     Brands = "brands",
     Categories = "categories",
@@ -1608,7 +1659,16 @@ export type PIIDetectionSkill = BaseSearchIndexerSkill & {
 export type PIIDetectionSkillMaskingMode = string;
 
 // @public
+export type QueryAnswerType = string;
+
+// @public
+export type QueryCaptionType = string;
+
+// @public
 export type QueryLanguage = string;
+
+// @public
+export type QuerySpellerType = string;
 
 // @public
 export type QueryType = "simple" | "full" | "semantic";
@@ -1617,7 +1677,17 @@ export type QueryType = "simple" | "full" | "semantic";
 export type RegexFlags = string;
 
 // @public
+export interface ResetDocsOptions extends OperationOptions {
+    datasourceDocumentIds?: string[];
+    documentKeys?: string[];
+    overwrite?: boolean;
+}
+
+// @public
 export type ResetIndexerOptions = OperationOptions;
+
+// @public
+export type ResetSkillsOptions = OperationOptions;
 
 // @public
 export interface ResourceCounter {
@@ -1656,7 +1726,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     deleteDocuments(documents: T[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     deleteDocuments(keyName: keyof T, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly endpoint: string;
-    getDocument<Fields extends keyof T>(key: string, options?: GetDocumentOptions<Fields>): Promise<T>;
+    getDocument<Fields extends Extract<keyof T, string>>(key: string, options?: GetDocumentOptions<Fields>): Promise<T>;
     getDocumentsCount(options?: CountDocumentsOptions): Promise<number>;
     indexDocuments(batch: IndexDocumentsBatch<T>, options?: IndexDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly indexName: string;
@@ -1668,7 +1738,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
 }
 
 // @public
-export interface SearchClientOptions extends PipelineOptions {
+export interface SearchClientOptions extends CommonClientOptions {
     apiVersion?: string;
 }
 
@@ -1738,10 +1808,10 @@ export class SearchIndexClient {
     listIndexesNames(options?: ListIndexesOptions): IndexNameIterator;
     listSynonymMaps(options?: ListSynonymMapsOptions): Promise<Array<SynonymMap>>;
     listSynonymMapsNames(options?: ListSynonymMapsOptions): Promise<Array<string>>;
-    }
+}
 
 // @public
-export interface SearchIndexClientOptions extends PipelineOptions {
+export interface SearchIndexClientOptions extends CommonClientOptions {
     apiVersion?: string;
 }
 
@@ -1792,12 +1862,14 @@ export class SearchIndexerClient {
     listIndexersNames(options?: ListIndexersOptions): Promise<Array<string>>;
     listSkillsets(options?: ListSkillsetsOptions): Promise<Array<SearchIndexerSkillset>>;
     listSkillsetsNames(options?: ListSkillsetsOptions): Promise<Array<string>>;
+    resetDocs(indexerName: string, options?: ResetDocsOptions): Promise<void>;
     resetIndexer(indexerName: string, options?: ResetIndexerOptions): Promise<void>;
+    resetSkills(skillsetName: string, skillNames: string[], options?: ResetSkillsOptions): Promise<void>;
     runIndexer(indexerName: string, options?: RunIndexerOptions): Promise<void>;
 }
 
 // @public
-export interface SearchIndexerClientOptions extends PipelineOptions {
+export interface SearchIndexerClientOptions extends CommonClientOptions {
     apiVersion?: string;
 }
 
@@ -1991,8 +2063,8 @@ export type SearchOptions<Fields> = OperationOptions & SearchRequestOptions<Fiel
 
 // @public
 export interface SearchRequest {
-    answers?: Answers;
-    captions?: Captions;
+    answers?: QueryAnswerType;
+    captions?: QueryCaptionType;
     facets?: string[];
     filter?: string;
     highlightFields?: string;
@@ -2013,13 +2085,14 @@ export interface SearchRequest {
     semanticFields?: string;
     sessionId?: string;
     skip?: number;
-    speller?: Speller;
+    speller?: QuerySpellerType;
     top?: number;
 }
 
 // @public
 export interface SearchRequestOptions<Fields> {
     answers?: Answers;
+    captions?: Captions;
     facets?: string[];
     filter?: string;
     highlightFields?: string;
@@ -2036,6 +2109,7 @@ export interface SearchRequestOptions<Fields> {
     searchFields?: Fields[];
     searchMode?: SearchMode;
     select?: Fields[];
+    semanticFields?: string[];
     sessionId?: string;
     skip?: number;
     speller?: Speller;
@@ -2357,7 +2431,6 @@ export type WordDelimiterTokenFilter = BaseTokenFilter & {
     stemEnglishPossessive?: boolean;
     protectedWords?: string[];
 };
-
 
 // (No @packageDocumentation comment for this package)
 

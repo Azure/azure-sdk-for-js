@@ -464,6 +464,7 @@ export type PiiEntityCategory = string;
 
 // @public
 export enum PiiEntityDomain {
+    // (undocumented)
     PROTECTED_HEALTH_INFORMATION = "PHI"
 }
 

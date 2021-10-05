@@ -8,6 +8,7 @@ import { record, Recorder } from "@azure-tools/test-recorder";
 import * as dotenv from "dotenv";
 import { extractConnectionStringParts } from "../src/utils/utils.common";
 import { recorderEnvSetup } from "./utils/testutils.common";
+import { Context } from "mocha";
 dotenv.config();
 
 describe("QueueClient message methods", () => {
@@ -17,7 +18,7 @@ describe("QueueClient message methods", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     const queueServiceClient = getQSU();
     queueName = recorder.getUniqueName("queue");
@@ -231,9 +232,9 @@ describe("QueueClient message methods", () => {
   });
 
   it("enqueue, peek, dequeue with 64KB characters size which is computed after encoding", async () => {
-    const messageContent = new Array(64 * 1024 + 1).join("a");
+    const newMessageContent = new Array(64 * 1024 + 1).join("a");
 
-    const eResult = await queueClient.sendMessage(messageContent, {
+    const eResult = await queueClient.sendMessage(newMessageContent, {
       messageTimeToLive: 40,
       visibilityTimeout: 0
     });
@@ -251,7 +252,7 @@ describe("QueueClient message methods", () => {
     assert.ok(pResult.requestId);
     assert.ok(pResult.version);
     assert.deepStrictEqual(pResult.peekedMessageItems.length, 1);
-    assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, messageContent);
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, newMessageContent);
     assert.deepStrictEqual(pResult.peekedMessageItems[0].dequeueCount, 0);
     assert.deepStrictEqual(pResult.peekedMessageItems[0].messageId, eResult.messageId);
     assert.deepStrictEqual(pResult.peekedMessageItems[0].insertedOn, eResult.insertedOn);
@@ -265,7 +266,7 @@ describe("QueueClient message methods", () => {
     assert.ok(dResult.requestId);
     assert.ok(dResult.version);
     assert.deepStrictEqual(dResult.receivedMessageItems.length, 1);
-    assert.deepStrictEqual(dResult.receivedMessageItems[0].messageText, messageContent);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].messageText, newMessageContent);
     assert.deepStrictEqual(dResult.receivedMessageItems[0].dequeueCount, 1);
     assert.deepStrictEqual(dResult.receivedMessageItems[0].messageId, eResult.messageId);
     assert.deepStrictEqual(dResult.receivedMessageItems[0].insertedOn, eResult.insertedOn);
@@ -325,11 +326,11 @@ describe("QueueClient message methods", () => {
   });
 
   it("enqueue negative with 65537B(64KB+1B) characters size which is computed after encoding", async () => {
-    const messageContent = new Array(64 * 1024 + 2).join("a");
+    const newMessageContent = new Array(64 * 1024 + 2).join("a");
 
     let error;
     try {
-      await queueClient.sendMessage(messageContent, {});
+      await queueClient.sendMessage(newMessageContent, {});
     } catch (err) {
       error = err;
     }
@@ -369,7 +370,6 @@ describe("QueueClient message methods", () => {
 
   it("throws error if constructor queueName parameter is empty", async () => {
     try {
-      // tslint:disable-next-line: no-unused-expression
       new QueueClient(getSASConnectionStringFromEnvironment(), "");
       assert.fail("Expecting an thrown error but didn't get one.");
     } catch (error) {

@@ -18,7 +18,7 @@ import {
   ManagedInstanceTdeCertificatesCreateOptionalParams
 } from "../models";
 
-/** Class representing a ManagedInstanceTdeCertificates. */
+/** Class containing ManagedInstanceTdeCertificates operations. */
 export class ManagedInstanceTdeCertificatesImpl
   implements ManagedInstanceTdeCertificates {
   private readonly client: SqlManagementClientContext;

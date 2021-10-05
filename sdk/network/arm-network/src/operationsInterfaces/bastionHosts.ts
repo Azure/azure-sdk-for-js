@@ -17,7 +17,10 @@ import {
   BastionHostsGetOptionalParams,
   BastionHostsGetResponse,
   BastionHostsCreateOrUpdateOptionalParams,
-  BastionHostsCreateOrUpdateResponse
+  BastionHostsCreateOrUpdateResponse,
+  TagsObject,
+  BastionHostsUpdateTagsOptionalParams,
+  BastionHostsUpdateTagsResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -103,4 +106,35 @@ export interface BastionHosts {
     parameters: BastionHost,
     options?: BastionHostsCreateOrUpdateOptionalParams
   ): Promise<BastionHostsCreateOrUpdateResponse>;
+  /**
+   * Updates Tags for BastionHost resource
+   * @param resourceGroupName The name of the resource group.
+   * @param bastionHostName The name of the Bastion Host.
+   * @param parameters Parameters supplied to update BastionHost tags.
+   * @param options The options parameters.
+   */
+  beginUpdateTags(
+    resourceGroupName: string,
+    bastionHostName: string,
+    parameters: TagsObject,
+    options?: BastionHostsUpdateTagsOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<BastionHostsUpdateTagsResponse>,
+      BastionHostsUpdateTagsResponse
+    >
+  >;
+  /**
+   * Updates Tags for BastionHost resource
+   * @param resourceGroupName The name of the resource group.
+   * @param bastionHostName The name of the Bastion Host.
+   * @param parameters Parameters supplied to update BastionHost tags.
+   * @param options The options parameters.
+   */
+  beginUpdateTagsAndWait(
+    resourceGroupName: string,
+    bastionHostName: string,
+    parameters: TagsObject,
+    options?: BastionHostsUpdateTagsOptionalParams
+  ): Promise<BastionHostsUpdateTagsResponse>;
 }

@@ -3,9 +3,9 @@
 
 /* eslint-disable @typescript-eslint/no-require-imports */
 
-// We need to set up the extension for the tests!
+// We need to set up the plugin for the tests!
 
-import { useIdentityExtension } from "../../../../identity/src";
+import { useIdentityPlugin } from "../../../../identity/src";
 
 // The persistence tests have to run on the same version of Node that's used to
 // install dependencies, currently 14.
@@ -19,7 +19,7 @@ if (!process.versions.node.startsWith("14")) {
   process.exit(0);
 }
 
-// This shim is required to defer loading of msal-node-extensions in environments where
+// This shim is required to defer loading of @azure/msal-node-extensions in environments where
 // it will crash CI with an invalid Node API version.
 export const createPersistence: typeof import("../../../src/provider").createPersistence = (
   ...args
@@ -29,5 +29,5 @@ export const createPersistence: typeof import("../../../src/provider").createPer
 };
 
 before(function() {
-  useIdentityExtension(require("../../../src").cachePersistenceExtension);
+  useIdentityPlugin(require("../../../src").cachePersistencePlugin);
 });

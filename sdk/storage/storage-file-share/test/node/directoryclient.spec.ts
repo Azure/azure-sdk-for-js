@@ -11,6 +11,7 @@ import {
   ShareClient
 } from "../../src";
 import { record, Recorder } from "@azure-tools/test-recorder";
+import { Context } from "mocha";
 dotenv.config();
 
 describe("DirectoryClient Node.js only", () => {
@@ -21,7 +22,7 @@ describe("DirectoryClient Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");

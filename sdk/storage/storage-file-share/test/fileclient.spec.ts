@@ -18,6 +18,7 @@ import { bodyToString, compareBodyWithUint8Array, getBSU, recorderEnvSetup } fro
 import { MockPolicyFactory } from "./utils/MockPolicyFactory";
 import { FILE_MAX_SIZE_BYTES } from "../src/utils/constants";
 import { setSpan, context } from "@azure/core-tracing";
+import { Context } from "mocha";
 
 dotenv.config();
 
@@ -45,7 +46,7 @@ describe("FileClient", () => {
   fullFileAttributes.notContentIndexed = true;
   fullFileAttributes.noScrubData = true;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
@@ -61,7 +62,7 @@ describe("FileClient", () => {
     fileClient = dirClient.getFileClient(fileName);
   });
 
-  afterEach(async function() {
+  afterEach(async function(this: Context) {
     if (!this.currentTest?.isPending()) {
       await shareClient.delete({ deleteSnapshots: "include" });
       await recorder.stop();
@@ -587,7 +588,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(result.rangeList[0], { start: 512, end: 512 });
   });
 
-  it("getRangeListDiff", async function() {
+  it("getRangeListDiff", async function(this: Context) {
     if (isLiveMode()) {
       // Skipped for now as the result is not stable.
       this.skip();
@@ -611,7 +612,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
   });
 
-  it("getRangeListDiff with share snapshot", async function() {
+  it("getRangeListDiff with share snapshot", async function(this: Context) {
     if (isLiveMode()) {
       // Skipped for now as the result is not stable.
       this.skip();
@@ -675,7 +676,9 @@ describe("FileClient", () => {
     await fileClient.create(content.length);
     await fileClient.uploadRange(content, 0, content.length);
     const result = await fileClient.download(0, undefined, {
-      onProgress: () => {}
+      onProgress: () => {
+        /* empty */
+      }
     });
     assert.deepStrictEqual(await bodyToString(result), content);
   });
@@ -711,8 +714,9 @@ describe("FileClient", () => {
           // Receiving data...
           const rs = result.readableStreamBody!;
 
-          // tslint:disable-next-line:no-empty
-          rs.on("data", () => {});
+          rs.on("data", () => {
+            /* empty */
+          });
           rs.on("end", resolve);
           rs.on("error", reject);
         } else {
@@ -721,7 +725,6 @@ describe("FileClient", () => {
       });
 
       assert.fail();
-      // tslint:disable-next-line:no-empty
     } catch (err) {
       assert.equal(err.name, "AbortError");
     }

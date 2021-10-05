@@ -22,7 +22,7 @@ import {
   RestorePointsGetResponse
 } from "../models";
 
-/** Class representing a RestorePoints. */
+/** Class containing RestorePoints operations. */
 export class RestorePointsImpl implements RestorePoints {
   private readonly client: ComputeManagementClientContext;
 

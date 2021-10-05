@@ -6,6 +6,7 @@ import * as dotenv from "dotenv";
 import { getBSU, getSASConnectionStringFromEnvironment, recorderEnvSetup } from "./utils";
 import { ShareClient, ShareServiceClient } from "../src";
 import { record, Recorder } from "@azure-tools/test-recorder";
+import { Context } from "mocha";
 dotenv.config();
 
 describe("ShareClient", () => {
@@ -15,7 +16,7 @@ describe("ShareClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
@@ -200,7 +201,6 @@ describe("ShareClient", () => {
 
   it("throws error if constructor shareName parameter is empty", async () => {
     try {
-      // tslint:disable-next-line: no-unused-expression
       new ShareClient(getSASConnectionStringFromEnvironment(), "");
       assert.fail("Expecting an thrown error but didn't get one.");
     } catch (error) {

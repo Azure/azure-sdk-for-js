@@ -1,10 +1,14 @@
 const identity = require("@azure/identity");
 const serviceBus = require("@azure/service-bus");
 const dotenv = require("dotenv");
+const { cachePersistencePlugin } = require("@azure/identity-cache-persistence");
+
+identity.useIdentityPlugin(cachePersistencePlugin);
 
 // Ensure you have a .env file in the same directory with something similar to:
 //
 //   AZURE_CLIENT_ID="value"
+//   AZURE_TENANT_ID="value"
 //   AZURE_CLIENT_SECRET="value"
 //   SERVICE_BUS_ENDPOINT="value"
 //   QUEUE_NAME="value"
@@ -17,7 +21,7 @@ const credential1 = new identity.InteractiveBrowserCredential({
   clientId: process.env.AZURE_CLIENT_ID,
   tokenCachePersistenceOptions: {
     name: "nodeTestSilent",
-    allowUnencryptedStorage: true
+    unsafeAllowUnencryptedStorage: true
   }
 });
 
@@ -35,7 +39,7 @@ const credential1 = new identity.InteractiveBrowserCredential({
     // TODO: Perhaps make the account parameter part of the tokenCachePersistenceOptions?
     tokenCachePersistenceOptions: {
       name: "nodeTestSilent",
-      allowUnencryptedStorage: true
+      unsafeAllowUnencryptedStorage: true
     }
   });
 

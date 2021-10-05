@@ -42,7 +42,7 @@ export class ManagedPrivateEndpointsClientContext extends coreClient.ServiceClie
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-synapse-managed-private-endpointss/1.0.0-beta.4`;
+    const packageDetails = `azsdk-js-synapse-managed-private-endpointss/1.0.0-beta.5`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -64,6 +64,6 @@ export class ManagedPrivateEndpointsClientContext extends coreClient.ServiceClie
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2019-06-01-preview";
+    this.apiVersion = options.apiVersion || "2020-12-01";
   }
 }

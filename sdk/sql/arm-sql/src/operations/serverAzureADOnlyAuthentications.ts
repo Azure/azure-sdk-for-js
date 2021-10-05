@@ -30,7 +30,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a ServerAzureADOnlyAuthentications. */
+/** Class containing ServerAzureADOnlyAuthentications operations. */
 export class ServerAzureADOnlyAuthenticationsImpl
   implements ServerAzureADOnlyAuthentications {
   private readonly client: SqlManagementClientContext;

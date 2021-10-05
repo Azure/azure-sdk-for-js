@@ -20,7 +20,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a VirtualMachineSizes. */
+/** Class containing VirtualMachineSizes operations. */
 export class VirtualMachineSizesImpl implements VirtualMachineSizes {
   private readonly client: ComputeManagementClientContext;
 

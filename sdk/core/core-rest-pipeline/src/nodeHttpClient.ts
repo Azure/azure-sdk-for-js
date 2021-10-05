@@ -210,12 +210,16 @@ class NodeHttpClient implements HttpClient {
     return new Promise<http.IncomingMessage>((resolve, reject) => {
       const req = isInsecure ? http.request(options, resolve) : https.request(options, resolve);
 
-      req.once("error", (err) => {
-        reject(new RestError(err.message, { code: RestError.REQUEST_SEND_ERROR, request }));
+      req.once("error", (err: Error & { code?: string }) => {
+        reject(
+          new RestError(err.message, { code: err.code ?? RestError.REQUEST_SEND_ERROR, request })
+        );
       });
+
       abortController.signal.addEventListener("abort", () => {
-        req.abort();
-        reject(new AbortError("The operation was aborted."));
+        const abortError = new AbortError("The operation was aborted.");
+        req.destroy(abortError);
+        reject(abortError);
       });
       if (body && isReadableStream(body)) {
         body.pipe(req);
@@ -226,7 +230,7 @@ class NodeHttpClient implements HttpClient {
           req.end(ArrayBuffer.isView(body) ? Buffer.from(body.buffer) : Buffer.from(body));
         } else {
           logger.error("Unrecognized body type", body);
-          throw new RestError("Unrecognized body type");
+          reject(new RestError("Unrecognized body type"));
         }
       } else {
         // streams don't like "undefined" being passed as data
@@ -310,11 +314,15 @@ function streamToText(stream: NodeJS.ReadableStream): Promise<string> {
       resolve(Buffer.concat(buffer).toString("utf8"));
     });
     stream.on("error", (e) => {
-      reject(
-        new RestError(`Error reading response as text: ${e.message}`, {
-          code: RestError.PARSE_ERROR
-        })
-      );
+      if (e && e?.name === "AbortError") {
+        reject(e);
+      } else {
+        reject(
+          new RestError(`Error reading response as text: ${e.message}`, {
+            code: RestError.PARSE_ERROR
+          })
+        );
+      }
     });
   });
 }

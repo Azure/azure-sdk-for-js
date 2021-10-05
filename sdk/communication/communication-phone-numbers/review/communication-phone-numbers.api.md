@@ -4,6 +4,8 @@
 
 ```ts
 
+/// <reference lib="esnext.asynciterable" />
+
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
@@ -124,7 +126,6 @@ export interface ReleasePhoneNumberResult {
 export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchRequest {
     countryCode: string;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

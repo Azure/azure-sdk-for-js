@@ -4,6 +4,7 @@
 import { UserDelegationKey } from "@azure/storage-blob";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import * as assert from "assert";
+import { Context } from "mocha";
 
 import {
   AccountSASPermissions,
@@ -37,7 +38,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let recorder: Recorder;
   let serviceClient: DataLakeServiceClient;
 
-  beforeEach(function() {
+  beforeEach(function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     serviceClient = getDataLakeServiceClient();
   });
@@ -216,12 +217,13 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       newPipeline(new AnonymousCredential())
     );
 
-    (
+    const result = (
       await fileSystemClientwithSAS
         .listPaths()
         .byPage()
         .next()
     ).value;
+    assert.deepStrictEqual(result.pathItems.length, 0);
     await fileSystemClient.delete();
   });
 
@@ -516,13 +518,15 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await fileSystemClient.delete();
   });
 
-  it("GenerateUserDelegationSAS should work for filesystem with all configurations", async function() {
+  it("GenerateUserDelegationSAS should work for filesystem with all configurations", async function(this: Context) {
     // Try to get DataLakeServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variable is set
     let serviceClientWithToken: DataLakeServiceClient | undefined;
     try {
       serviceClientWithToken = getDataLakeServiceClientWithDefaultCredential();
-    } catch {}
+    } catch {
+      this.skip();
+    }
 
     // Requires bearer token for this case which cannot be generated in the runtime
     // Make sure this case passed in sanity test
@@ -565,22 +569,25 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       newPipeline(new AnonymousCredential())
     );
 
-    (
+    const result = (
       await fileSystemClientwithSAS
         .listPaths()
         .byPage()
         .next()
     ).value;
+    assert.deepStrictEqual(result.pathItems.length, 0);
     await fileSystemClient.delete();
   });
 
-  it("GenerateUserDelegationSAS should work for filesystem with minimum parameters", async function() {
+  it("GenerateUserDelegationSAS should work for filesystem with minimum parameters", async function(this: Context) {
     // Try to get DataLakeServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variable is set
     let serviceClientWithToken: DataLakeServiceClient | undefined;
     try {
       serviceClientWithToken = getDataLakeServiceClientWithDefaultCredential();
-    } catch {}
+    } catch {
+      this.skip();
+    }
 
     // Requires bearer token for this case which cannot be generated in the runtime
     // Make sure this case passed in sanity test
@@ -619,22 +626,25 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       newPipeline(new AnonymousCredential())
     );
 
-    (
+    const result = (
       await fileSystemClientwithSAS
         .listPaths()
         .byPage()
         .next()
     ).value;
+    assert.deepStrictEqual(result.pathItems.length, 0);
     await fileSystemClient.delete();
   });
 
-  it("GenerateUserDelegationSAS should work for file", async function() {
+  it("GenerateUserDelegationSAS should work for file", async function(this: Context) {
     // Try to get serviceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variable is set
     let serviceClientWithToken: DataLakeServiceClient | undefined;
     try {
       serviceClientWithToken = getDataLakeServiceClientWithDefaultCredential();
-    } catch {}
+    } catch {
+      this.skip();
+    }
 
     // Requires bearer token for this case which cannot be generated in the runtime
     // Make sure this case passed in sanity test
@@ -700,13 +710,15 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await fileSystemClient.delete();
   });
 
-  it("GenerateUserDelegationSAS should work for file for 2019-12-12", async function() {
+  it("GenerateUserDelegationSAS should work for file for 2019-12-12", async function(this: Context) {
     // Try to get serviceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variable is set
     let serviceClientWithToken: DataLakeServiceClient | undefined;
     try {
       serviceClientWithToken = getDataLakeServiceClientWithDefaultCredential();
-    } catch {}
+    } catch {
+      this.skip();
+    }
 
     // Requires bearer token for this case which cannot be generated in the runtime
     // Make sure this case passed in sanity test
@@ -934,7 +946,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
     }
   };
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     serviceClient = getDataLakeServiceClient();
 
@@ -1248,7 +1260,7 @@ describe("SAS generation Node.js only for delegation SAS", () => {
     }
   };
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     accountName = process.env["DFS_ACCOUNT_NAME"] || "";
     try {

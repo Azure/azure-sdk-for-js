@@ -12,6 +12,7 @@ import { SDK_VERSION } from "../src/utils/constants";
 import { setSpan, context } from "@azure/core-tracing";
 
 import * as dotenv from "dotenv";
+import { Context } from "mocha";
 dotenv.config();
 
 const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;
@@ -20,13 +21,13 @@ describe("BlobChangeFeedClient", async () => {
   let recorder: Recorder;
   let changeFeedClient: BlobChangeFeedClient;
 
-  before(async function() {
+  before(async function(this: Context) {
     if (process.env.CHANGE_FEED_ENABLED !== "1" && !isPlaybackMode()) {
       this.skip();
     }
   });
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     changeFeedClient = getBlobChangeFeedClient();
   });
@@ -179,13 +180,13 @@ describe("BlobChangeFeedClient: Change Feed not configured", async () => {
   let recorder: Recorder;
   let changeFeedClient: BlobChangeFeedClient;
 
-  before(async function() {
+  before(async function(this: Context) {
     if (process.env.CHANGE_FEED_ENABLED === "1" && !isPlaybackMode()) {
       this.skip();
     }
   });
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     changeFeedClient = getBlobChangeFeedClient();
   });

@@ -28,6 +28,7 @@ import {
   getTokenCredential,
   recorderEnvSetup
 } from "../utils";
+import { Context } from "mocha";
 
 describe("FileClient Node.js only", () => {
   let shareName: string;
@@ -41,7 +42,7 @@ describe("FileClient Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
@@ -56,7 +57,7 @@ describe("FileClient Node.js only", () => {
     fileClient = dirClient.getFileClient(fileName);
   });
 
-  afterEach(async function() {
+  afterEach(async function(this: Context) {
     if (!this.currentTest?.isPending()) {
       await shareClient.delete();
       await recorder.stop();
@@ -199,8 +200,8 @@ describe("FileClient Node.js only", () => {
   it("uploadRangeFromURL", async () => {
     await fileClient.create(1024);
 
-    const content = "a".repeat(512) + "b".repeat(512);
-    await fileClient.uploadRange(content, 0, content.length);
+    const fileContent = "a".repeat(512) + "b".repeat(512);
+    await fileClient.uploadRange(fileContent, 0, fileContent.length);
 
     // Get a SAS for fileURL
     const factories = (fileClient as any).pipeline.factories;
@@ -232,7 +233,7 @@ describe("FileClient Node.js only", () => {
     assert.equal(await bodyToString(range2, 512), "b".repeat(512));
   });
 
-  it("uploadRangeFromURL - source bearer token", async function() {
+  it("uploadRangeFromURL - source bearer token", async function(this: Context) {
     if (!isPlaybackMode()) {
       // Enable this case, when the STG78 feature is enabled in production.
       this.skip();
@@ -244,9 +245,9 @@ describe("FileClient Node.js only", () => {
     await containerClient.create();
     const blockBlob = containerClient.getBlockBlobClient(recorder.getUniqueName("blockBlob"));
 
-    const content = "a".repeat(512) + "b".repeat(512);
+    const blobContent = "a".repeat(512) + "b".repeat(512);
 
-    await blockBlob.upload(content, content.length);
+    await blockBlob.upload(blobContent, blobContent.length);
 
     const fileName2 = recorder.getUniqueName("file2");
     const tokenCredential = getTokenCredential();
@@ -258,14 +259,14 @@ describe("FileClient Node.js only", () => {
     await fileURL2.uploadRangeFromURL(blockBlob.url, 0, 0, 512, {
       sourceAuthorization: {
         scheme: "Bearer",
-        parameter: accessToken!.token
+        value: accessToken!.token
       }
     });
 
     await fileURL2.uploadRangeFromURL(blockBlob.url, 512, 512, 512, {
       sourceAuthorization: {
         scheme: "Bearer",
-        parameter: accessToken!.token
+        value: accessToken!.token
       }
     });
 

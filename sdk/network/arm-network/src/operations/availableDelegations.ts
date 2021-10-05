@@ -22,7 +22,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a AvailableDelegations. */
+/** Class containing AvailableDelegations operations. */
 export class AvailableDelegationsImpl implements AvailableDelegations {
   private readonly client: NetworkManagementClientContext;
 

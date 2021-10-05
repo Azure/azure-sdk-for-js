@@ -16,7 +16,7 @@ import {
   CapabilitiesListByLocationResponse
 } from "../models";
 
-/** Class representing a Capabilities. */
+/** Class containing Capabilities operations. */
 export class CapabilitiesImpl implements Capabilities {
   private readonly client: SqlManagementClientContext;
 

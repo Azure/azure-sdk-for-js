@@ -103,7 +103,7 @@ export function getValueInConnString(
     | "DefaultEndpointsProtocol"
     | "EndpointSuffix"
     | "SharedAccessSignature"
-) {
+): string {
   const elements = connectionString.split(";");
   for (const element of elements) {
     if (element.trim().startsWith(argument)) {
@@ -333,7 +333,7 @@ export function getURLPathAndQuery(url: string): string | undefined {
 
   let queryString = urlParsed.getQuery() || "";
   queryString = queryString.trim();
-  if (queryString != "") {
+  if (queryString !== "") {
     queryString = queryString.startsWith("?") ? queryString : `?${queryString}`; // Ensure query string start with '?'
   }
 
@@ -450,7 +450,7 @@ export function generateBlockID(blockIDPrefix: string, blockIndex: number): stri
   }
   const res =
     blockIDPrefix +
-    padStart(blockIndex.toString(), maxSourceStringLength - blockIDPrefix.length, "0");
+    blockIndex.toString().padStart(maxSourceStringLength - blockIDPrefix.length, "0");
   return base64encode(res);
 }
 
@@ -461,8 +461,13 @@ export function generateBlockID(blockIDPrefix: string, blockIndex: number): stri
  * @param aborter -
  * @param abortError -
  */
-export async function delay(timeInMs: number, aborter?: AbortSignalLike, abortError?: Error) {
+export async function delay(
+  timeInMs: number,
+  aborter?: AbortSignalLike,
+  abortError?: Error
+): Promise<void> {
   return new Promise<void>((resolve, reject) => {
+    /* eslint-disable-next-line prefer-const*/
     let timeout: any;
 
     const abortHandler = () => {
@@ -484,36 +489,6 @@ export async function delay(timeInMs: number, aborter?: AbortSignalLike, abortEr
       aborter.addEventListener("abort", abortHandler);
     }
   });
-}
-
-/**
- * String.prototype.padStart()
- *
- * @param currentString -
- * @param targetLength -
- * @param padString -
- */
-export function padStart(
-  currentString: string,
-  targetLength: number,
-  padString: string = " "
-): string {
-  // TS doesn't know this code needs to run downlevel sometimes.
-  // @ts-expect-error
-  if (String.prototype.padStart) {
-    return currentString.padStart(targetLength, padString);
-  }
-
-  padString = padString || " ";
-  if (currentString.length > targetLength) {
-    return currentString;
-  } else {
-    targetLength = targetLength - currentString.length;
-    if (targetLength > padString.length) {
-      padString += padString.repeat(targetLength / padString.length);
-    }
-    return padString.slice(0, targetLength) + currentString;
-  }
 }
 
 export function sanitizeURL(url: string): string {
@@ -578,12 +553,12 @@ export function getAccountNameFromUrl(blobEndpointUrl: string): string {
 }
 
 export function isIpEndpointStyle(parsedUrl: URLBuilder): boolean {
-  if (parsedUrl.getHost() == undefined) {
+  if (parsedUrl.getHost() === undefined) {
     return false;
   }
 
   const host =
-    parsedUrl.getHost()! + (parsedUrl.getPort() == undefined ? "" : ":" + parsedUrl.getPort());
+    parsedUrl.getHost()! + (parsedUrl.getPort() === undefined ? "" : ":" + parsedUrl.getPort());
 
   // Case 1: Ipv6, use a broad regex to find out candidates whose host contains two ':'.
   // Case 2: localhost(:port), use broad regex to match port part.

@@ -24,7 +24,7 @@ import {
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { record, delay, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
-import { Test_CPK_INFO } from "../utils/constants";
+import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
 import { Context } from "mocha";
 
 describe("PageBlobClient Node.js only", () => {
@@ -238,14 +238,14 @@ describe("PageBlobClient Node.js only", () => {
     await pageBlobClient.uploadPagesFromURL(blockBlobClient.url, 0, 0, 512, {
       sourceAuthorization: {
         scheme: "Bearer",
-        parameter: accessToken!.token
+        value: accessToken!.token
       }
     });
 
     await pageBlobClient.uploadPagesFromURL(blockBlobClient.url, 512, 512, 512, {
       sourceAuthorization: {
         scheme: "Bearer",
-        parameter: accessToken!.token
+        value: accessToken!.token
       }
     });
 

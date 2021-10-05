@@ -7,7 +7,6 @@ import { Server } from "http";
 import { AuthorizationCodeCredential } from "../../src/credentials/authorizationCodeCredential";
 
 // You will need to install these external dependencies with NPM:
-import qs from "qs";
 import open from "open";
 import express from "express";
 import { config } from "dotenv";
@@ -44,14 +43,14 @@ if (tenantId === undefined || clientId === undefined) {
 }
 
 function getAuthorizeUrl(tenantId: string, clientId: string, scopes: string): string {
-  const queryParams = qs.stringify({
+  const params = new URLSearchParams({
     client_id: clientId,
     response_type: "code",
     redirect_uri: redirectUri,
     scope: scopes
   });
-
-  return `${authorityHost}/${tenantId}/oauth2/v2.0/authorize?${queryParams}`;
+  const query = params.toString();
+  return `${authorityHost}/${tenantId}/oauth2/v2.0/authorize?${query}`;
 }
 
 async function getCredential(): Promise<AuthorizationCodeCredential> {

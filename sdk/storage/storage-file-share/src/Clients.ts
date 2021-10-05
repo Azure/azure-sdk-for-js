@@ -113,7 +113,7 @@ import { ShareSASPermissions } from "./ShareSASPermissions";
 import { SASProtocol } from "./SASQueryParameters";
 import { SasIPRange } from "./SasIPRange";
 import { FileSASPermissions } from "./FileSASPermissions";
-import { ListFilesIncludeType } from "./generatedModels";
+import { ListFilesIncludeType } from "./generated/src";
 
 /**
  * Options to configure the {@link ShareClient.create} operation.
@@ -540,6 +540,8 @@ export class ShareClient extends StorageClient {
    * @param name - Share name.
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
+  // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
   constructor(connectionString: string, name: string, options?: StoragePipelineOptions);
   /**
    * Creates an instance of ShareClient.
@@ -552,6 +554,8 @@ export class ShareClient extends StorageClient {
    *                                  If not specified, AnonymousCredential is used.
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
+  // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
   constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
   /**
    * Creates an instance of ShareClient.
@@ -567,6 +571,8 @@ export class ShareClient extends StorageClient {
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrShareName?: Credential | Pipeline | string,
+    // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: StoragePipelineOptions
   ) {
     let pipeline: Pipeline;
@@ -711,6 +717,9 @@ export class ShareClient extends StorageClient {
    * @param directoryName - A directory name
    * @returns The ShareDirectoryClient object for the given directory name.
    */
+
+  // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-subclients */
   public getDirectoryClient(directoryName: string): ShareDirectoryClient {
     return new ShareDirectoryClient(
       appendToURLPath(this.url, encodeURIComponent(directoryName)),
@@ -724,6 +733,8 @@ export class ShareClient extends StorageClient {
    *
    * @readonly A new ShareDirectoryClient object for the root directory.
    */
+  // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-subclients */
   public get rootDirectoryClient(): ShareDirectoryClient {
     return this.getDirectoryClient("");
   }
@@ -1685,6 +1696,8 @@ export class ShareDirectoryClient extends StorageClient {
    *                                  If not specified, AnonymousCredential is used.
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
+  // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
   constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
   /**
    * Creates an instance of DirectoryClient.
@@ -2014,6 +2027,8 @@ export class ShareDirectoryClient extends StorageClient {
    * console.log("Updated file successfully!")
    * ```
    */
+  // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-subclients */
   public getFileClient(fileName: string): ShareFileClient {
     return new ShareFileClient(
       appendToURLPath(this.url, encodeURIComponent(fileName)),
@@ -2680,8 +2695,12 @@ export class ShareDirectoryClient extends StorageClient {
           updatedOptions
         );
         marker = response.marker;
-        response.closedHandlesCount && (handlesClosed += response.closedHandlesCount);
-        response.closeFailureCount && (numberOfHandlesFailedToClose += response.closeFailureCount);
+        if (response.closedHandlesCount) {
+          handlesClosed += response.closedHandlesCount;
+        }
+        if (response.closeFailureCount) {
+          numberOfHandlesFailedToClose += response.closeFailureCount;
+        }
       } while (marker);
 
       return { closedHandlesCount: handlesClosed, closeFailureCount: numberOfHandlesFailedToClose };
@@ -3389,6 +3408,8 @@ export class ShareFileClient extends StorageClient {
    *                                  If not specified, AnonymousCredential is used.
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
+  // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
   constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
   /**
    * Creates an instance of ShareFileClient.
@@ -3408,6 +3429,8 @@ export class ShareFileClient extends StorageClient {
   constructor(
     url: string,
     credentialOrPipeline?: Credential | Pipeline,
+    // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: StoragePipelineOptions
   ) {
     let pipeline: Pipeline;
@@ -3618,7 +3641,7 @@ export class ShareFileClient extends StorageClient {
       return new FileDownloadResponse(
         res,
         async (start: number): Promise<NodeJS.ReadableStream> => {
-          const updatedOptions: FileDownloadOptionalParams = {
+          const updatedDownloadOptions: FileDownloadOptionalParams = {
             range: rangeToString({
               count: offset + res.contentLength! - start,
               offset: start
@@ -3628,15 +3651,15 @@ export class ShareFileClient extends StorageClient {
           // Debug purpose only
           // console.log(
           //   `Read from internal stream, range: ${
-          //     updatedOptions.range
-          //   }, options: ${JSON.stringify(updatedOptions)}`
+          //     chunkDownloadOptions.range
+          //   }, options: ${JSON.stringify(chunkDownloadOptions)}`
           // );
 
           const downloadRes = await this.context.download({
             abortSignal: options.abortSignal,
             leaseAccessConditions: options.leaseAccessConditions,
-            ...updatedOptions,
-            ...convertTracingToRequestOptionsBase(updatedOptions)
+            ...updatedDownloadOptions,
+            ...convertTracingToRequestOptionsBase(updatedDownloadOptions)
           });
 
           if (!(downloadRes.etag === res.etag)) {
@@ -4993,8 +5016,12 @@ export class ShareFileClient extends StorageClient {
           { tracingOptions: updatedOptions.tracingOptions }
         );
         marker = response.marker;
-        response.closedHandlesCount && (handlesClosed += response.closedHandlesCount);
-        response.closeFailureCount && (numberOfHandlesFailedToClose += response.closeFailureCount);
+        if (response.closedHandlesCount) {
+          handlesClosed += response.closedHandlesCount;
+        }
+        if (response.closeFailureCount) {
+          numberOfHandlesFailedToClose += response.closeFailureCount;
+        }
       } while (marker);
 
       return {
@@ -5057,7 +5084,7 @@ export class ShareFileClient extends StorageClient {
    * @param proposeLeaseId - Initial proposed lease Id.
    * @returns A new ShareLeaseClient object for managing leases on the file.
    */
-  public getShareLeaseClient(proposeLeaseId?: string) {
+  public getShareLeaseClient(proposeLeaseId?: string): ShareLeaseClient {
     return new ShareLeaseClient(this, proposeLeaseId);
   }
 

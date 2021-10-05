@@ -13,12 +13,18 @@ const logger = credentialLogger("VisualStudioCodeCredential");
 export const vsCodeCredentialControl = {
   set vsCodeCredentialFinder(_finder: never) {
     throw new Error(
-      "Attempted to register a VisualStudioCodeCredential provider extension in the browser. This environment is not supported by VisualStudioCodeCredential."
+      "Attempted to register a VisualStudioCodeCredential provider plugin in the browser. This environment is not supported by VisualStudioCodeCredential."
     );
   }
 };
 
+/**
+ * Connects to Azure using the credential provided by the VSCode extension 'Azure Account'.
+ */
 export class VisualStudioCodeCredential implements TokenCredential {
+  /**
+   * Only available in Node.js
+   */
   constructor() {
     logger.info(formatError("", BrowserNotSupportedError));
     throw BrowserNotSupportedError;

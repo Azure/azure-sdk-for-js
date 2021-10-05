@@ -22,7 +22,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a AvailableEndpointServices. */
+/** Class containing AvailableEndpointServices operations. */
 export class AvailableEndpointServicesImpl
   implements AvailableEndpointServices {
   private readonly client: NetworkManagementClientContext;

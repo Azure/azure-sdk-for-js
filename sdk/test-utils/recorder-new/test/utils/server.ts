@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import express from "express";
 const app = express();
 const port = 8080;
@@ -7,7 +10,7 @@ app.get("/", (_, res) => {
   res.send("Hello world!");
 });
 
-app.get("/secret/ultimate_secret", (_, res) => {
+app.get("/sample_response", (_, res) => {
   res.send({ abc: "def" });
 });
 

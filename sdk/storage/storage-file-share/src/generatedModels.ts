@@ -78,7 +78,6 @@ export {
   FileUploadRangeHeaders,
   FileType,
   ServiceGetPropertiesHeaders,
-  ListFilesIncludeType,
   ListSharesResponse as ListSharesResponseModel,
   RetentionPolicy,
   ServiceListSharesSegmentHeaders,

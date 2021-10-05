@@ -4,8 +4,11 @@
 
 ```ts
 
+/// <reference types="node" />
+
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AmqpAnnotatedMessage } from '@azure/core-amqp';
+import { AzureLogger } from '@azure/logger';
 import { MessagingError } from '@azure/core-amqp';
 import { NamedKeyCredential } from '@azure/core-auth';
 import { OperationTracingOptions } from '@azure/core-tracing';
@@ -114,7 +117,7 @@ export class EventHubConsumerClient {
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
     subscribe(handlers: SubscriptionEventHandlers, options?: SubscribeOptions): Subscription;
     subscribe(partitionId: string, handlers: SubscriptionEventHandlers, options?: SubscribeOptions): Subscription;
-    }
+}
 
 // @public
 export interface EventHubConsumerClientOptions extends EventHubClientOptions {
@@ -135,7 +138,7 @@ export class EventHubProducerClient {
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
     sendBatch(batch: EventData[] | AmqpAnnotatedMessage[], options?: SendBatchOptions): Promise<void>;
     sendBatch(batch: EventDataBatch, options?: OperationOptions): Promise<void>;
-    }
+}
 
 // @public
 export interface EventHubProperties {
@@ -183,7 +186,7 @@ export interface LoadBalancingOptions {
 }
 
 // @public
-export const logger: import("@azure/logger").AzureLogger;
+export const logger: AzureLogger;
 
 export { MessagingError }
 
@@ -307,7 +310,6 @@ export interface TryAddOptions {
 export { WebSocketImpl }
 
 export { WebSocketOptions }
-
 
 // (No @packageDocumentation comment for this package)
 

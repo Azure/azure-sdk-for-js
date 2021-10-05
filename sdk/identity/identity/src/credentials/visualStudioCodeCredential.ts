@@ -13,7 +13,7 @@ import { AzureAuthorityHosts } from "../constants";
 import { checkTenantId } from "../util/checkTenantId";
 import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 import { processMultiTenantRequest } from "../util/validateMultiTenant";
-import { VSCodeCredentialFinder } from "./visualStudioCodeCredentialExtension";
+import { VSCodeCredentialFinder } from "./visualStudioCodeCredentialPlugin";
 
 const CommonTenantId = "common";
 const AzureAccountClientId = "aebc6443-996d-45c2-90f0-388ff96faa56"; // VSC: 'aebc6443-996d-45c2-90f0-388ff96faa56'
@@ -95,7 +95,7 @@ export interface VisualStudioCodeCredentialOptions extends TokenCredentialOption
 }
 
 /**
- * Connect to Azure using the credential provided by the VSCode extension 'Azure Account'.
+ * Connects to Azure using the credential provided by the VSCode extension 'Azure Account'.
  * Once the user has logged in via the extension, this credential can share the same refresh token
  * that is cached by the extension.
  */
@@ -103,10 +103,14 @@ export class VisualStudioCodeCredential implements TokenCredential {
   private identityClient: IdentityClient;
   private tenantId: string;
   private cloudName: VSCodeCloudNames;
-  private allowMultiTenantAuthentication?: boolean;
 
   /**
    * Creates an instance of VisualStudioCodeCredential to use for automatically authenticating via VSCode.
+   *
+   * **Note**: `VisualStudioCodeCredential` is provided by a plugin package:
+   * `@azure/identity-vscode`. If this package is not installed and registered
+   * using the plugin API (`useIdentityPlugin`), then authentication using
+   * `VisualStudioCodeCredential` will not be available.
    *
    * @param options - Options for configuring the client which makes the authentication request.
    */
@@ -129,7 +133,6 @@ export class VisualStudioCodeCredential implements TokenCredential {
     } else {
       this.tenantId = CommonTenantId;
     }
-    this.allowMultiTenantAuthentication = options?.allowMultiTenantAuthentication;
 
     checkUnsupportedTenant(this.tenantId);
   }
@@ -175,13 +178,16 @@ export class VisualStudioCodeCredential implements TokenCredential {
   ): Promise<AccessToken> {
     await this.prepareOnce();
 
-    const tenantId =
-      processMultiTenantRequest(this.tenantId, this.allowMultiTenantAuthentication, options) ||
-      this.tenantId;
+    const tenantId = processMultiTenantRequest(this.tenantId, options) || this.tenantId;
 
     if (findCredentials === undefined) {
       throw new CredentialUnavailableError(
-        "No implementation of VisualStudioCodeCredential is available (do you need to install and use the `@azure/identity-vscode` extension package?)"
+        [
+          "No implementation of `VisualStudioCodeCredential` is available.",
+          "You must install the identity-vscode plugin package (`npm install --save-dev @azure/identity-vscode`)",
+          "and enable it by importing `useIdentityPlugin` from `@azure/identity` and calling",
+          "`useIdentityPlugin(vsCodePlugin)` before creating a `VisualStudioCodeCredential`."
+        ].join(" ")
       );
     }
 

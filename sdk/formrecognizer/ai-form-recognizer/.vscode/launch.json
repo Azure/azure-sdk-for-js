@@ -8,14 +8,13 @@
       "type": "node",
       "request": "launch",
       "name": "Current JS file",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["--nolazy", "-r", "@azure/dev-tool/register"],
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "program": "${file}",
-      "cwd": "${fileDirname}",
-      "outFiles": [
-        "${workspaceFolder}/dist/**/*.js"
-      ]
+      "args": ["${file}"],
+      "internalConsoleOptions": "openOnSessionStart"
     }
   ]
 }

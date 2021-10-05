@@ -1,7 +1,7 @@
 {
   "name": "@azure/storage-file-share",
   "sdk-type": "client",
-  "version": "12.8.0-beta.1",
+  "version": "12.8.1",
   "description": "Microsoft Azure Storage SDK for JavaScript - File",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
@@ -47,7 +47,7 @@
     "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace -t 300000  \"dist-esm/test/*.spec.js\" \"dist-esm/test/node/*.spec.js\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix",
-    "lint": "eslint package.json api-extractor.json src test --ext .ts -f html -o storage-file-share-lintReport.html || exit 0",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts",
     "pack": "npm pack 2>&1",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
@@ -122,13 +122,13 @@
     "tslib": "^2.2.0"
   },
   "devDependencies": {
-    "@azure/storage-blob": "^12.8.0-beta.1",
+    "@azure/storage-blob": "^12.8.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/test-utils": "^1.0.0",
     "@azure-tools/test-recorder": "^1.0.0",
     "@azure/test-utils-perfstress": "^1.0.0",
-    "@microsoft/api-extractor": "7.7.11",
+    "@microsoft/api-extractor": "^7.18.11",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-multi-entry": "^3.0.0",
     "@rollup/plugin-node-resolve": "^8.0.0",
@@ -168,7 +168,7 @@
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^4.0.4",
     "source-map-support": "^0.5.9",
-    "ts-node": "^9.0.0",
+    "ts-node": "^10.0.0",
     "typedoc": "0.15.2",
     "typescript": "~4.2.0",
     "util": "^0.12.1"

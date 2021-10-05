@@ -19,7 +19,7 @@ import {
   GallerySharingProfileUpdateResponse
 } from "../models";
 
-/** Class representing a GallerySharingProfile. */
+/** Class containing GallerySharingProfile operations. */
 export class GallerySharingProfileImpl implements GallerySharingProfile {
   private readonly client: ComputeManagementClientContext;
 
@@ -146,7 +146,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.sharingUpdate,
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

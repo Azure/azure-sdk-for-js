@@ -1,10 +1,49 @@
 # Release History
 
-## 4.5.0 (Unreleased)
+## 4.5.1 (Unreleased)
 
 ### Features Added
 
-- Added new System Event: `Microsoft.ContainerService.NewKubernetesVersionAvailable`
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 4.5.0 (2021-10-05)
+
+### Features Added
+
+- Added new properties for the `Microsoft.Media.LiveEventIngestHeartbeat` System Event:
+
+  - `ingestDriftValue`
+  - `lastFragmentArrivalTime`
+  - `transcriptionLanguage`
+  - `transcriptionState`
+
+- Added new System Events:
+  - API Management:
+    - `Microsoft.ApiManagement.APICreated`
+    - `Microsoft.ApiManagement.APIDeleted`
+    - `Microsoft.ApiManagement.APIReleaseCreated`
+    - `Microsoft.ApiManagement.APIReleaseDeleted`
+    - `Microsoft.ApiManagement.APIReleaseUpdated`
+    - `Microsoft.ApiManagement.APIUpdated`
+    - `Microsoft.ApiManagement.ProductCreated`
+    - `Microsoft.ApiManagement.ProductDeleted`
+    - `Microsoft.ApiManagement.ProductUpdated`
+    - `Microsoft.ApiManagement.SubscriptionCreated`
+    - `Microsoft.ApiManagement.SubscriptionDeleted`
+    - `Microsoft.ApiManagement.SubscriptionUpdated`
+    - `Microsoft.ApiManagement.UserCreated`
+    - `Microsoft.ApiManagement.UserDeleted`
+    - `Microsoft.ApiManagement.UserUpdated`
+  - Container Service:
+    - `Microsoft.ContainerService.NewKubernetesVersionAvailable`
+  - Communication:
+    - `Microsoft.Communication.UserDisconnected`
+  - Media Streaming:
+    - `Microsoft.Media.LiveEventChannelArchiveHeartbeat`
 
 ## 4.4.0 (2021-07-19)
 

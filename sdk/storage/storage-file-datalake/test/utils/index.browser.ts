@@ -11,15 +11,14 @@ import { SimpleTokenCredential } from "./testutils.common";
 export * from "./testutils.common";
 
 export function getGenericCredential(accountType: string): AnonymousCredential {
-  accountType = accountType; // bypass compiling error
+  const _accountType = accountType; // bypass compiling error
+  accountType = _accountType;
   return new AnonymousCredential();
 }
 
 export function getTokenCredential(): TokenCredential {
   const accountTokenEnvVar = `DFS_ACCOUNT_TOKEN`;
-  let accountToken: string | undefined;
-
-  accountToken = (self as any).__env__[accountTokenEnvVar];
+  const accountToken = (self as any).__env__[accountTokenEnvVar];
 
   if (!accountToken || accountToken === "") {
     throw new Error(`${accountTokenEnvVar} environment variables not specified.`);
@@ -35,9 +34,9 @@ export function getGenericDataLakeServiceClient(
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
 
-  let accountName: string | undefined;
+  const accountName = (self as any).__env__[accountNameEnvVar];
+
   let accountSAS: string | undefined;
-  accountName = (self as any).__env__[accountNameEnvVar];
   accountSAS = (self as any).__env__[accountSASEnvVar];
 
   if (!accountName || !accountSAS || accountName === "" || accountSAS === "") {
@@ -61,10 +60,7 @@ export function getGenericDataLakeServiceClient(
 
 export function getTokenDataLakeServiceClient(): DataLakeServiceClient {
   const accountNameEnvVar = `DFS_ACCOUNT_NAME`;
-
-  let accountName: string | undefined;
-
-  accountName = (self as any).__env__[accountNameEnvVar];
+  const accountName = (self as any).__env__[accountNameEnvVar];
 
   if (!accountName || accountName === "") {
     throw new Error(`${accountNameEnvVar} environment variables not specified.`);
@@ -99,7 +95,6 @@ export async function bodyToString(
     readableStreamBody?: NodeJS.ReadableStream;
     contentAsBlob?: Promise<Blob>;
   },
-  // tslint:disable-next-line:variable-name
   _length?: number
 ): Promise<string> {
   const blob = await response.contentAsBlob!;

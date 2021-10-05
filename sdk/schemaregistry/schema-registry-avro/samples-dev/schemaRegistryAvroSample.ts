@@ -46,8 +46,8 @@ const schema = JSON.stringify(schemaObject);
 const schemaDescription: SchemaDescription = {
   name: `${schemaObject.namespace}.${schemaObject.name}`,
   groupName,
-  serializationType: "avro",
-  content: schema
+  format: "avro",
+  schemaDefinition: schema
 };
 
 export async function main() {
@@ -60,7 +60,7 @@ export async function main() {
   await client.registerSchema(schemaDescription);
 
   // Create a new serializer backed by the client
-  const serializer = new SchemaRegistryAvroSerializer(client, groupName);
+  const serializer = new SchemaRegistryAvroSerializer(client, { groupName });
 
   // serialize an object that matches the schema
   const value: User = { firstName: "Jane", lastName: "Doe" };
@@ -69,7 +69,7 @@ export async function main() {
   console.log(buffer);
 
   // deserialize the result back to an object
-  const deserializedValue = await serializer.deserialize<User>(buffer);
+  const deserializedValue = (await serializer.deserialize(buffer)) as User;
   console.log("Deserialized:");
   console.log(`${deserializedValue.firstName} ${deserializedValue.lastName}`);
 }

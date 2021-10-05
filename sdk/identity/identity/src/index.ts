@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export * from "./extensions/consumer";
+export * from "./plugins/consumer";
 
-export { IdentityExtension } from "./extensions/provider";
+export { IdentityPlugin } from "./plugins/provider";
 
 import { TokenCredential } from "@azure/core-auth";
 import { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
@@ -12,7 +12,10 @@ export { AuthenticationRecord } from "./msal/types";
 export { AuthenticationRequiredError } from "./msal/errors";
 export { serializeAuthenticationRecord, deserializeAuthenticationRecord } from "./msal/utils";
 export { TokenCredentialOptions } from "./client/identityClient";
-export { RegionalAuthority } from "./regionalAuthority";
+
+// TODO: Export again once we're ready to release this feature.
+// export { RegionalAuthority } from "./regionalAuthority";
+
 export { InteractiveCredentialOptions } from "./credentials/interactiveCredentialOptions";
 
 export { ChainedTokenCredential } from "./credentials/chainedTokenCredential";
@@ -58,6 +61,13 @@ export {
   VisualStudioCodeCredential,
   VisualStudioCodeCredentialOptions
 } from "./credentials/visualStudioCodeCredential";
+
+export {
+  OnBehalfOfCredential,
+  OnBehalfOfCredentialSecretConfiguration,
+  OnBehalfOfCredentialCertificateConfiguration
+} from "./credentials/onBehalfOfCredential";
+export { OnBehalfOfCredentialOptions } from "./credentials/onBehalfOfCredentialOptions";
 
 export { TokenCachePersistenceOptions } from "./msal/nodeFlows/tokenCachePersistenceOptions";
 

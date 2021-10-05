@@ -38,7 +38,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a ManagedDatabases. */
+/** Class containing ManagedDatabases operations. */
 export class ManagedDatabasesImpl implements ManagedDatabases {
   private readonly client: SqlManagementClientContext;
 

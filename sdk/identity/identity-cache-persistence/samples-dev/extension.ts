@@ -3,8 +3,8 @@
 
 /**
  * This sample shows how to add a persistent token cache to `@azure/identity`
- * using the persistence extension. Once the persistence extension is added
- * through `useIdentityExtension`, some credentials, such as
+ * using the persistence plugin. Once the persistence plugin is added
+ * through `useIdentityPlugin`, some credentials, such as
  * `DeviceCodeCredential`, will be able to retrieve tokens from the cache rather
  * than requesting new tokens from the Azure Active Directory token endpoint.
  *
@@ -12,13 +12,13 @@
  * be set to `true` within `tokenCachePersistenceOptions` in the credential's
  * options.
  *
- * @summary import and use the persistence extension
+ * @summary import and use the persistence plugin
  */
 
-import { useIdentityExtension, DeviceCodeCredential } from "@azure/identity";
+import { useIdentityPlugin, DeviceCodeCredential } from "@azure/identity";
 
-import { cachePersistenceExtension } from "@azure/identity-cache-persistence";
-useIdentityExtension(cachePersistenceExtension);
+import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
+useIdentityPlugin(cachePersistencePlugin);
 
 import dotenv from "dotenv";
 dotenv.config();

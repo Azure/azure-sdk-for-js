@@ -60,7 +60,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a LongTermRetentionBackups. */
+/** Class containing LongTermRetentionBackups operations. */
 export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
   private readonly client: SqlManagementClientContext;
 

@@ -34,7 +34,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a ProximityPlacementGroups. */
+/** Class containing ProximityPlacementGroups operations. */
 export class ProximityPlacementGroupsImpl implements ProximityPlacementGroups {
   private readonly client: ComputeManagementClientContext;
 

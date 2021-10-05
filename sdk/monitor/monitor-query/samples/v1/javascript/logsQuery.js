@@ -6,7 +6,7 @@
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
-const { Durations, LogsQueryClient } = require("@azure/monitor-query");
+const { Durations, LogsQueryClient, LogsQueryResultStatus } = require("@azure/monitor-query");
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -23,7 +23,7 @@ async function main() {
   const kustoQuery =
     "AppEvents | project TimeGenerated, Name, AppRoleInstance | order by TimeGenerated asc | limit 10";
 
-  console.log(`Running '${kustoQuery}' over the last 5 minutes`);
+  console.log(`Running '${kustoQuery}' over the last One Hour`);
   const queryLogsOptions = {
     // explicitly control the amount of time the server can spend processing the query.
     serverTimeoutInSeconds: 60,
@@ -32,23 +32,15 @@ async function main() {
     includeQueryStatistics: true
   };
 
-  const result = await logsQueryClient.queryLogs(
+  const result = await logsQueryClient.queryWorkspace(
     monitorWorkspaceId,
     kustoQuery,
     // The timespan is an ISO8601 formatted time (or interval). Some common aliases
-    // are available (like lastDay, lastHour, last48Hours, etc..) but any properly formatted ISO8601
+    // are available (like OneDay, OneHour, FoutyEightHours, etc..) but any properly formatted ISO8601
     // value is valid.
-    Durations.lastHour,
+    { duration: Durations.oneHour },
     queryLogsOptions
   );
-
-  const tablesFromResult = result.tables;
-
-  if (tablesFromResult == null) {
-    console.log(`No results for query '${kustoQuery}'`);
-    return;
-  }
-
   const executionTime =
     result.statistics && result.statistics.query && result.statistics.query.executionTime;
 
@@ -58,8 +50,27 @@ async function main() {
     }`
   );
 
+  if (result.status === LogsQueryResultStatus.Success) {
+    const tablesFromResult = result.tables;
+
+    if (tablesFromResult.length === 0) {
+      console.log(`No results for query '${kustoQuery}'`);
+      return;
+    }
+    console.log(`This query has returned table(s) - `);
+    processTables(tablesFromResult);
+  } else {
+    console.log(`Error processing the query '${kustoQuery}' - ${result.partialError}`);
+    if (result.partialTables.length > 0) {
+      console.log(`This query has also returned partial data in the following table(s) - `);
+      processTables(result.partialTables);
+    }
+  }
+}
+
+async function processTables(tablesFromResult) {
   for (const table of tablesFromResult) {
-    const columnHeaderString = table.columns
+    const columnHeaderString = table.columnDescriptors
       .map((column) => `${column.name}(${column.type}) `)
       .join("| ");
     console.log("| " + columnHeaderString);

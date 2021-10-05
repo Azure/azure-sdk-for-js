@@ -50,6 +50,6 @@ export class ChatApiClientContext extends coreClient.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2021-04-05-preview6";
+    this.apiVersion = options.apiVersion || "2021-09-07";
   }
 }

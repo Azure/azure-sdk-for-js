@@ -13,6 +13,7 @@ import { URLBuilder } from "@azure/core-http";
 import { MockPolicyFactory } from "./utils/MockPolicyFactory";
 import { Pipeline } from "../src/Pipeline";
 import { setSpan, context } from "@azure/core-tracing";
+import { Context } from "mocha";
 dotenv.config();
 
 describe("DirectoryClient", () => {
@@ -32,7 +33,7 @@ describe("DirectoryClient", () => {
   fullDirAttributes.notContentIndexed = true;
   fullDirAttributes.noScrubData = true;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
@@ -521,7 +522,7 @@ describe("DirectoryClient", () => {
 
     for await (const entity of rootDirClient.listFilesAndDirectories({ prefix })) {
       assert.ok(entity.name.startsWith(prefix));
-      if (entity.kind == "file") {
+      if (entity.kind === "file") {
         assert.deepEqual(entity.properties.contentLength, 1024);
       }
     }
@@ -564,13 +565,13 @@ describe("DirectoryClient", () => {
     const iter = rootDirClient.listFilesAndDirectories({ prefix });
     let entity = (await iter.next()).value;
     assert.ok(entity.name.startsWith(prefix));
-    if (entity.kind == "file") {
+    if (entity.kind === "file") {
       assert.deepEqual(entity.properties.contentLength, 1024);
     }
 
     entity = (await iter.next()).value;
     assert.ok(entity.name.startsWith(prefix));
-    if (entity.kind == "file") {
+    if (entity.kind === "file") {
       assert.deepEqual(entity.properties.contentLength, 1024);
     }
 

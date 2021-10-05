@@ -21,7 +21,7 @@ import {
   DatabaseAdvisorsUpdateResponse
 } from "../models";
 
-/** Class representing a DatabaseAdvisors. */
+/** Class containing DatabaseAdvisors operations. */
 export class DatabaseAdvisorsImpl implements DatabaseAdvisors {
   private readonly client: SqlManagementClientContext;
 

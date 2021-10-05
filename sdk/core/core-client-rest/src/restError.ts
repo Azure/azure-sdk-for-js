@@ -3,7 +3,6 @@
 
 import { PathUncheckedResponse } from "./getClient";
 import { RestError, PipelineResponse, createHttpHeaders } from "@azure/core-rest-pipeline";
-import { toCoreRawHeaders } from "./headersHelper";
 
 /**
  * Creates a rest error from a PathUnchecked response
@@ -17,9 +16,8 @@ export function createRestError(message: string, response: PathUncheckedResponse
 }
 
 function toPipelineResponse(response: PathUncheckedResponse): PipelineResponse {
-  const headers = toCoreRawHeaders(response.headers);
   return {
-    headers: createHttpHeaders(headers),
+    headers: createHttpHeaders(response.headers),
     request: response.request,
     status: statusCodeToNumber(response.status) ?? -1,
   };

@@ -24,7 +24,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a SharedGalleryImageVersions. */
+/** Class containing SharedGalleryImageVersions operations. */
 export class SharedGalleryImageVersionsImpl
   implements SharedGalleryImageVersions {
   private readonly client: ComputeManagementClientContext;
@@ -205,7 +205,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3, Parameters.sharedTo],
+  queryParameters: [Parameters.apiVersion, Parameters.sharedTo],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -228,7 +228,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -251,7 +251,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3, Parameters.sharedTo],
+  queryParameters: [Parameters.apiVersion, Parameters.sharedTo],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

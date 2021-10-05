@@ -11,6 +11,9 @@ import { MsalNodeOptions, MsalNode } from "./nodeCommon";
  * @internal
  */
 export interface MSALClientSecretOptions extends MsalNodeOptions {
+  /**
+   * A client secret that was generated for the App Registration.
+   */
   clientSecret: string;
 }
 

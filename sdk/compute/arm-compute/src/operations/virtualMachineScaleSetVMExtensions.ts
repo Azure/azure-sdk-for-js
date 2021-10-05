@@ -27,7 +27,7 @@ import {
   VirtualMachineScaleSetVMExtensionsListResponse
 } from "../models";
 
-/** Class representing a VirtualMachineScaleSetVMExtensions. */
+/** Class containing VirtualMachineScaleSetVMExtensions operations. */
 export class VirtualMachineScaleSetVMExtensionsImpl
   implements VirtualMachineScaleSetVMExtensions {
   private readonly client: ComputeManagementClientContext;

@@ -24,7 +24,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a TimeZones. */
+/** Class containing TimeZones operations. */
 export class TimeZonesImpl implements TimeZones {
   private readonly client: SqlManagementClientContext;
 

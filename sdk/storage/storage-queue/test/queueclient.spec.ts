@@ -10,6 +10,7 @@ import { SpanGraph, setTracer } from "@azure/test-utils";
 import { URLBuilder, RestError } from "@azure/core-http";
 import { Recorder, record } from "@azure-tools/test-recorder";
 import { recorderEnvSetup } from "./utils/testutils.common";
+import { Context } from "mocha";
 dotenv.config();
 
 describe("QueueClient", () => {
@@ -19,7 +20,7 @@ describe("QueueClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     queueServiceClient = getQSU();
     queueName = recorder.getUniqueName("queue");
@@ -185,7 +186,6 @@ describe("QueueClient", () => {
 
   it("throws error if constructor queueName parameter is empty", async () => {
     try {
-      // tslint:disable-next-line: no-unused-expression
       new QueueClient(getSASConnectionStringFromEnvironment(), "");
       assert.fail("Expecting an thrown error but didn't get one.");
     } catch (error) {
@@ -241,12 +241,12 @@ describe("QueueClient - Verify Name Properties", () => {
   const queueName = "queueName";
   const accountName = "myAccount";
 
-  function verifyNameProperties(url: string, accountName: string, queueName: string) {
+  function verifyNameProperties(url: string, inputAccountName: string, inputQueueName: string) {
     const newClient = new QueueClient(url);
-    assert.equal(newClient.name, queueName, "Queue name is not the same as the one provided.");
+    assert.equal(newClient.name, inputQueueName, "Queue name is not the same as the one provided.");
     assert.equal(
       newClient.accountName,
-      accountName,
+      inputAccountName,
       "Account name is not the same as the one provided."
     );
   }

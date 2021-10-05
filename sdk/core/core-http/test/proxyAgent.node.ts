@@ -69,14 +69,14 @@ describe("proxyAgent", () => {
         host: "http://proxy.microsoft.com",
         port: 8080,
         username: "username",
-        password: "pass123"
+        password: "SecretPlaceholder"
       };
 
       const proxyAgent = createProxyAgent("http://example.com", proxySettings);
 
       const agent = proxyAgent.agent as HttpsAgent;
       should().exist(agent.options.proxy.proxyAuth);
-      agent.options.proxy.proxyAuth!.should.equal("username:pass123");
+      agent.options.proxy.proxyAuth!.should.equal("username:SecretPlaceholder");
       done();
     });
 

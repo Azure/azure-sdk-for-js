@@ -4,7 +4,6 @@
 import * as dotenv from "dotenv";
 
 import { env, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
-import { isNode } from "@azure/core-http";
 
 import {
   AzureKeyCredential,
@@ -12,6 +11,12 @@ import {
   SearchIndexerClient,
   SearchIndexClient
 } from "../../../src";
+
+const isNode =
+  typeof process !== "undefined" &&
+  !!process.version &&
+  !!process.versions &&
+  !!process.versions.node;
 
 if (isNode) {
   dotenv.config();
@@ -53,6 +58,15 @@ export const environmentSetup: RecorderEnvironmentSetup = {
 };
 
 export function createClients<IndexModel>(indexName: string): Clients<IndexModel> {
+  switch (testEnv.AZURE_AUTHORITY_HOST) {
+    case "https://login.microsoftonline.us":
+      process.env.ENDPOINT = process.env.ENDPOINT!.toString().replace(".windows.net", ".azure.us");
+      break;
+    case "https://login.chinacloudapi.cn":
+      process.env.ENDPOINT = process.env.ENDPOINT!.toString().replace(".windows.net", ".azure.cn");
+      break;
+  }
+
   const credential = new AzureKeyCredential(testEnv.SEARCH_API_ADMIN_KEY);
   const searchClient = new SearchClient<IndexModel>(testEnv.ENDPOINT, indexName, credential);
   const indexClient = new SearchIndexClient(testEnv.ENDPOINT, credential);

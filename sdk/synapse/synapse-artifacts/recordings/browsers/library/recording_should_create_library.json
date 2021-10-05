@@ -28,7 +28,7 @@
    "method": "PUT",
    "url": "https://testaccount.dev.azuresynapse.net/libraries/testLibraryName.jar",
    "query": {
-    "api-version": "2019-06-01-preview"
+    "api-version": "2020-12-01"
    },
    "requestBody": null,
    "status": 202,
@@ -39,7 +39,7 @@
     "content-length": "436",
     "content-type": "application/json; charset=utf-8",
     "date": "Fri, 11 Jun 2021 18:41:37 GMT",
-    "location": "https://testaccount.dev.azuresynapse.net/libraryOperationResults/606a995d-b95a-410a-95c6-8a929c5e3c72?api-version=2019-06-01-preview",
+    "location": "https://testaccount.dev.azuresynapse.net/libraryOperationResults/606a995d-b95a-410a-95c6-8a929c5e3c72?api-version=2020-12-01",
     "retry-after": "10",
     "server": "Microsoft-HTTPAPI/2.0",
     "status": "202",
@@ -51,7 +51,7 @@
    "method": "GET",
    "url": "https://testaccount.dev.azuresynapse.net/libraryOperationResults/606a995d-b95a-410a-95c6-8a929c5e3c72",
    "query": {
-    "api-version": "2019-06-01-preview"
+    "api-version": "2020-12-01"
    },
    "requestBody": null,
    "status": 202,
@@ -62,7 +62,7 @@
     "content-length": "23",
     "content-type": "application/json; charset=utf-8",
     "date": "Fri, 11 Jun 2021 18:41:37 GMT",
-    "location": "https://testaccount.dev.azuresynapse.net/libraryOperationResults/606a995d-b95a-410a-95c6-8a929c5e3c72?api-version=2019-06-01-preview",
+    "location": "https://testaccount.dev.azuresynapse.net/libraryOperationResults/606a995d-b95a-410a-95c6-8a929c5e3c72?api-version=2020-12-01",
     "retry-after": "10",
     "server": "Microsoft-HTTPAPI/2.0",
     "status": "202",
@@ -74,7 +74,7 @@
    "method": "GET",
    "url": "https://testaccount.dev.azuresynapse.net/libraryOperationResults/606a995d-b95a-410a-95c6-8a929c5e3c72",
    "query": {
-    "api-version": "2019-06-01-preview"
+    "api-version": "2020-12-01"
    },
    "requestBody": null,
    "status": 202,
@@ -85,7 +85,7 @@
     "content-length": "23",
     "content-type": "application/json; charset=utf-8",
     "date": "Fri, 11 Jun 2021 18:41:40 GMT",
-    "location": "https://testaccount.dev.azuresynapse.net/libraryOperationResults/606a995d-b95a-410a-95c6-8a929c5e3c72?api-version=2019-06-01-preview",
+    "location": "https://testaccount.dev.azuresynapse.net/libraryOperationResults/606a995d-b95a-410a-95c6-8a929c5e3c72?api-version=2020-12-01",
     "retry-after": "10",
     "server": "Microsoft-HTTPAPI/2.0",
     "status": "202",
@@ -97,7 +97,7 @@
    "method": "GET",
    "url": "https://testaccount.dev.azuresynapse.net/libraryOperationResults/606a995d-b95a-410a-95c6-8a929c5e3c72",
    "query": {
-    "api-version": "2019-06-01-preview"
+    "api-version": "2020-12-01"
    },
    "requestBody": null,
    "status": 200,

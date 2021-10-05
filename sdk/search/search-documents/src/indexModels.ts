@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
 import {
   QueryType,
   SearchMode,
@@ -14,7 +14,10 @@ import {
   Answers,
   CaptionResult,
   AnswerResult,
-  Captions
+  Captions,
+  QuerySpellerType,
+  QueryAnswerType,
+  QueryCaptionType
 } from "./generated/data/models";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
@@ -267,11 +270,11 @@ export interface SearchRequest {
    * A value that specified the type of the speller to use to spell-correct individual search
    * query terms.
    */
-  speller?: Speller;
+  speller?: QuerySpellerType;
   /**
    * A value that specifies whether answers should be returned as part of the search response.
    */
-  answers?: Answers;
+  answers?: QueryAnswerType;
   /**
    * The comma-separated list of fields to retrieve. If unspecified, all fields marked as
    * retrievable in the schema are included.
@@ -290,9 +293,13 @@ export interface SearchRequest {
    * Search request for the next page of results.
    */
   top?: number;
-  /** A value that specifies whether captions should be returned as part of the search response. */
-  captions?: Captions;
-  /** The comma-separated list of field names used for semantic search. */
+  /**
+   * A value that specifies whether captions should be returned as part of the search response.
+   */
+  captions?: QueryCaptionType;
+  /**
+   * The comma-separated list of field names used for semantic search.
+   */
   semanticFields?: string;
 }
 
@@ -420,6 +427,17 @@ export interface SearchRequestOptions<Fields> {
    * Search request for the next page of results.
    */
   top?: number;
+  /**
+   * This parameter is only valid if the query type is 'semantic'. If set, the query returns captions
+   * extracted from key passages in the highest ranked documents. When Captions is set to 'extractive',
+   * highlighting is enabled by default, and can be configured by appending the pipe character '|'
+   * followed by the 'highlight-true'/'highlight-false' option, such as 'extractive|highlight-true'. Defaults to 'None'.
+   */
+  captions?: Captions;
+  /**
+   * The list of field names used for semantic search.
+   */
+  semanticFields?: string[];
 }
 
 /**
