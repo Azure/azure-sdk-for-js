@@ -22,7 +22,7 @@ export class CommunicationRelayClient {
     constructor(connectionString: string, options?: CommunicationRelayClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: CommunicationRelayClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: CommunicationRelayClientOptions);
-    getRelayConfiguration(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<CommunicationRelayConfiguration>;
+    getRelayConfiguration(user?: CommunicationUserIdentifier, options?: OperationOptions): Promise<CommunicationRelayConfiguration>;
 }
 
 // @public

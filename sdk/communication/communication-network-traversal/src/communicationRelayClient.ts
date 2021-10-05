@@ -125,7 +125,7 @@ export class CommunicationRelayClient {
     user?: CommunicationUserIdentifier,
     options: OperationOptions = { }
   ): Promise<CommunicationRelayConfiguration> {
-    var requestOptions: CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams = options;
+    const requestOptions: CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams = options;
     requestOptions.body = { id: user?.communicationUserId };
 
     const { span, updatedOptions } = createSpan(
