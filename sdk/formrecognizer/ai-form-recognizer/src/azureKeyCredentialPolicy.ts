@@ -2,56 +2,22 @@
 // Licensed under the MIT license.
 
 import { KeyCredential } from "@azure/core-auth";
-import {
-  RequestPolicyFactory,
-  RequestPolicy,
-  RequestPolicyOptions,
-  BaseRequestPolicy,
-  HttpOperationResponse,
-  RequestPolicyOptionsLike,
-  WebResourceLike
-} from "@azure/core-http";
+import { PipelinePolicy, PipelineResponse } from "@azure/core-rest-pipeline";
 
-const API_KEY_HEADER_NAME = "Ocp-Apim-Subscription-Key";
+const APIM_SUBSCRIPTION_KEY_HEADER = "Ocp-Apim-Subscription-Key";
 
 /**
- * Create an HTTP pipeline policy to authenticate a request
- * using an `AzureKeyCredential` for Azure Form Recognizer
- *
+ * Create an HTTP pipeline policy to authenticate a request using an `AzureKeyCredential` for Azure Form Recognizer
  * @internal
  */
 export function createFormRecognizerAzureKeyCredentialPolicy(
   credential: KeyCredential
-): RequestPolicyFactory {
+): PipelinePolicy {
   return {
-    create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-      return new FormRecognizerAzureKeyCredentialPolicy(nextPolicy, options, credential);
-    }
+    name: "cognitiveServicesApimSubscriptionKeyCredentialPolicy",
+    sendRequest(request, next): Promise<PipelineResponse> {
+      request.headers.set(APIM_SUBSCRIPTION_KEY_HEADER, credential.key);
+      return next(request);
+    },
   };
-}
-
-/**
- * A concrete implementation of an AzureKeyCredential policy
- * using the appropriate header for Azure Form Recognizer
- */
-class FormRecognizerAzureKeyCredentialPolicy extends BaseRequestPolicy {
-  private credential: KeyCredential;
-
-  constructor(
-    nextPolicy: RequestPolicy,
-    options: RequestPolicyOptionsLike,
-    credential: KeyCredential
-  ) {
-    super(nextPolicy, options);
-    this.credential = credential;
-  }
-
-  public async sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse> {
-    if (!webResource) {
-      throw new Error("webResource cannot be null or undefined");
-    }
-
-    webResource.headers.set(API_KEY_HEADER_NAME, this.credential.key);
-    return this._nextPolicy.sendRequest(webResource);
-  }
 }
