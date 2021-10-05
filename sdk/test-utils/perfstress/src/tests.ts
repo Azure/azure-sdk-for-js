@@ -24,6 +24,8 @@ export interface PerfStressTestConstructor<TOptions extends {} = {}> {
   new (): PerfStressTest<TOptions>;
 }
 
+let _cachedParsedOptions = {};
+
 /**
  * Conveys the structure of any PerfStress test.
  * It allows developers to define the optional parameters to receive
@@ -39,14 +41,17 @@ export abstract class PerfStressTest<TOptions = {}> {
   public abstract options: PerfStressOptionDictionary<TOptions>;
 
   public get parsedOptions(): PerfStressOptionDictionary<TOptions & DefaultPerfStressOptions> {
+    if (!_cachedParsedOptions) {
+      _cachedParsedOptions = parsePerfStressOption({
+        ...this.options,
+        ...defaultPerfStressOptions
+      });
+    }
     // This cast is needed because TS thinks
     //   PerfStressOptionDictionary<TOptions & DefaultPerfStressOptions>
     //   is different from
     //   PerfStressOptionDictionary<TOptions> & PerfStressOptionDictionary<DefaultPerfStressOptions>
-    return parsePerfStressOption({
-      ...this.options,
-      ...defaultPerfStressOptions
-    }) as PerfStressOptionDictionary<TOptions & DefaultPerfStressOptions>;
+    return _cachedParsedOptions as PerfStressOptionDictionary<TOptions & DefaultPerfStressOptions>;
   }
 
   // Before and after running a bunch of the same test.
