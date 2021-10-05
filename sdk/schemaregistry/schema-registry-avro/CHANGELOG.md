@@ -1,16 +1,14 @@
 # Release History
 
-## 1.0.0-beta.3 (Unreleased)
-
-### Features Added
+## 1.0.0-beta.3 (2021-10-05)
 
 ### Breaking Changes
 
 - `schemaGroup` is no longer a constructor parameter and has been moved to the constructor options because it is only required for serialization.
 
-### Bugs Fixed
-
 ### Other Changes
+
+- Depends on @azure/schema-registry@1.0.0-beta.3.
 
 ## 1.0.0-beta.2 (2021-08-17)
 
