@@ -102,7 +102,7 @@ export const defaultPerfStressOptions: PerfStressOptionDictionary<DefaultPerfStr
     description: "Disables test cleanup"
   },
   "test-proxies": {
-    description: "URIs of TestProxy servers (separated by ',')",
+    description: "URIs of TestProxy servers (separated by ';')",
     defaultValue: undefined
   },
   insecure: {

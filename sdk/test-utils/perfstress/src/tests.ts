@@ -48,7 +48,7 @@ export abstract class PerfStressTest<TOptions = {}> {
 
     const testProxies = this.parsedOptions["test-proxies"].value;
     if (testProxies) {
-      this.testProxy = testProxies.split(",")[this.parallelIndex];
+      this.testProxy = testProxies.split(";")[this.parallelIndex];
     }
   }
 
