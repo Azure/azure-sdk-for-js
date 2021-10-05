@@ -103,7 +103,7 @@ describe("ClientCertificateCredential (internal)", function() {
     assert.ok(error);
     assert.equal(
       (error as Error).message,
-      "ClientCertificateCredential: To avoid unexpected behaviors, providing both the contents of a PEM certificate and the path to a PEM certificate is forbidden. Please provide either of both."
+      "ClientCertificateCredential: To avoid unexpected behaviors, providing both the contents of a PEM certificate and the path to a PEM certificate is forbidden."
     );
   });
 

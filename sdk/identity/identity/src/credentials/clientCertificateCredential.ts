@@ -102,7 +102,7 @@ export class ClientCertificateCredential implements TokenCredential {
     }
     if (configuration.certificate && configuration.certificatePath) {
       throw new Error(
-        `${credentialName}: To avoid unexpected behaviors, providing both the contents of a PEM certificate and the path to a PEM certificate is forbidden. Please provide either of both.`
+        `${credentialName}: To avoid unexpected behaviors, providing both the contents of a PEM certificate and the path to a PEM certificate is forbidden.`
       );
     }
     this.msalFlow = new MsalClientCertificate({
