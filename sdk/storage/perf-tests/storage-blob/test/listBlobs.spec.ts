@@ -2,21 +2,21 @@
 // Licensed under the MIT license.
 
 import { generateUuid } from "@azure/core-http";
-import { PerfStressOptionDictionary, executeParallel } from "@azure/test-utils-perfstress";
+import { executeParallel } from "@azure/test-utils-perfstress";
 import { StorageBlobTest } from "./storageTest.spec";
 interface StorageBlobListTestOptions {
   count: number;
 }
 
 export class StorageBlobListTest extends StorageBlobTest<StorageBlobListTestOptions> {
-  public options: PerfStressOptionDictionary<StorageBlobListTestOptions> = {
+  public options = this.getParsedOptions({
     count: {
       required: true,
       description: "Number of blobs to be listed",
       longName: "count",
       defaultValue: 10
     }
-  };
+  });
 
   public async globalSetup() {
     await super.globalSetup();
@@ -24,7 +24,7 @@ export class StorageBlobListTest extends StorageBlobTest<StorageBlobListTestOpti
       async (_count: number, _parallelIndex: number) => {
         await this.containerClient.uploadBlockBlob(generateUuid(), Buffer.alloc(0), 0);
       },
-      this.parsedOptions.count.value!,
+      this.options.count.value!,
       32
     );
   }

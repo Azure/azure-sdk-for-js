@@ -23,7 +23,7 @@ export class StorageBlobUploadFileTest extends StorageBlobUploadTest {
   public async globalSetup() {
     await super.globalSetup();
     if (!(await fileExists(dirName))) await mkdir(dirName);
-    await writeFile(fileName, Buffer.alloc(this.parsedOptions.size.value!));
+    await writeFile(fileName, Buffer.alloc(this.options.size.value!));
   }
 
   public async globalCleanup() {

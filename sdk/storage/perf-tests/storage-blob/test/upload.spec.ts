@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { generateUuid } from "@azure/core-http";
-import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
 import { StorageBlobTest } from "./storageTest.spec";
 
 interface StorageBlobUploadTestOptions {
@@ -12,7 +11,7 @@ interface StorageBlobUploadTestOptions {
 export class StorageBlobUploadTest extends StorageBlobTest<StorageBlobUploadTestOptions> {
   blobName: string;
   buffer: Buffer;
-  public options: PerfStressOptionDictionary<StorageBlobUploadTestOptions> = {
+  public options = this.getParsedOptions({
     size: {
       required: true,
       description: "Size in bytes",
@@ -20,19 +19,19 @@ export class StorageBlobUploadTest extends StorageBlobTest<StorageBlobUploadTest
       longName: "size",
       defaultValue: 10240
     }
-  };
+  });
 
   constructor() {
     super();
     this.blobName = generateUuid();
-    this.buffer = Buffer.alloc(this.parsedOptions.size.value!);
+    this.buffer = Buffer.alloc(this.options.size.value!);
   }
 
   async runAsync(): Promise<void> {
     await this.containerClient.uploadBlockBlob(
       this.blobName,
       this.buffer,
-      this.parsedOptions.size.value!
+      this.options.size.value!
     );
   }
 }

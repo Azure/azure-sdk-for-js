@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressOptionDictionary, getEnvVar, drainStream } from "@azure/test-utils-perfstress";
+import { getEnvVar, drainStream } from "@azure/test-utils-perfstress";
 import { StorageBlobTest } from "./storageTest.spec";
 import {
   BlockBlobClient,
@@ -19,7 +19,7 @@ interface StorageBlobDownloadTestOptions {
 export class StorageBlobDownloadWithSASTest extends StorageBlobTest<
   StorageBlobDownloadTestOptions
 > {
-  public options: PerfStressOptionDictionary<StorageBlobDownloadTestOptions> = {
+  public options = this.getParsedOptions({
     size: {
       required: true,
       description: "Size in bytes",
@@ -27,7 +27,7 @@ export class StorageBlobDownloadWithSASTest extends StorageBlobTest<
       longName: "size",
       defaultValue: 10240
     }
-  };
+  });
 
   static blobName = generateUuid();
   blockBlobClient: BlockBlobClient;
@@ -65,8 +65,8 @@ export class StorageBlobDownloadWithSASTest extends StorageBlobTest<
 
     // Create a blob
     await this.blockBlobClient.upload(
-      Buffer.alloc(this.parsedOptions.size.value!),
-      this.parsedOptions.size.value!
+      Buffer.alloc(this.options.size.value!),
+      this.options.size.value!
     );
   }
 
