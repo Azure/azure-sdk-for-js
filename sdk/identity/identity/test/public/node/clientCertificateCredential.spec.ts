@@ -32,9 +32,11 @@ describe("ClientCertificateCredential", function() {
       this.skip();
     }
 
-    const credential = new ClientCertificateCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, {
+    const credential = new ClientCertificateCredential(
+      env.AZURE_TENANT_ID,
+      env.AZURE_CLIENT_ID,
       certificatePath
-    });
+    );
 
     const token = await credential.getToken(scope);
     assert.ok(token?.token);

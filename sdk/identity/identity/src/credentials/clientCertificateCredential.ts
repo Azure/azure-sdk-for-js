@@ -54,6 +54,21 @@ export class ClientCertificateCredential implements TokenCredential {
    *
    * @param tenantId - The Azure Active Directory tenant (directory) ID.
    * @param clientId - The client (application) ID of an App Registration in the tenant.
+   * @param certificatePath - The path to a PEM-encoded public/private key certificate on the filesystem.
+   * @param options - Options for configuring the client which makes the authentication request.
+   */
+  constructor(
+    tenantId: string,
+    clientId: string,
+    certificatePath: string,
+    options?: ClientCertificateCredentialOptions
+  );
+  /**
+   * Creates an instance of the ClientCertificateCredential with the details
+   * needed to authenticate against Azure Active Directory with a certificate.
+   *
+   * @param tenantId - The Azure Active Directory tenant (directory) ID.
+   * @param clientId - The client (application) ID of an App Registration in the tenant.
    * @param configuration - Other parameters required, including the PEM-encoded certificate as a string, or as a path on the filesystem.
    *                        If the type is ignored, we will throw if both the value of the PEM certificate and the path to a PEM certificate are provided at the same time.
    * @param options - Options for configuring the client which makes the authentication request.
@@ -62,11 +77,24 @@ export class ClientCertificateCredential implements TokenCredential {
     tenantId: string,
     clientId: string,
     configuration: ClientCertificateCredentialPEMConfiguration,
+    options?: ClientCertificateCredentialOptions
+  );
+  constructor(
+    tenantId: string,
+    clientId: string,
+    certificatePathOrConfiguration: string | ClientCertificateCredentialPEMConfiguration,
     options: ClientCertificateCredentialOptions = {}
   ) {
     if (!tenantId || !clientId) {
       throw new Error(`${credentialName}: tenantId and clientId are required parameters.`);
     }
+    const configuration: ClientCertificateCredentialPEMConfiguration = {
+      ...(typeof certificatePathOrConfiguration === "string"
+        ? {
+            certificatePath: certificatePathOrConfiguration
+          }
+        : certificatePathOrConfiguration)
+    };
     if (!configuration || !(configuration.certificate || configuration.certificatePath)) {
       throw new Error(
         `${credentialName}: Provide either a PEM certificate in string form, or the path to that certificate in the filesystem.`
