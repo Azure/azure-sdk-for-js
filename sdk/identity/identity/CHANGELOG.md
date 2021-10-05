@@ -67,12 +67,6 @@ A new method `authenticate()` is added to these credentials which is similar to 
 
 > Read more about persisting user authentication data in our [samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#persist-user-authentication-data).
 
-#### New features in ClientSecretCredential and ClientCertificateCredential
-
-Identity v2 adds better support for regional endpoints on the `ClientSecretCredential` and `ClientCertificateCredential` credentials. These credentials have a new `regionalAuthority` optional property on their constructors. Additionally, a new `enum` type with all of the Azure regions is available as `RegionalAuthority`.
-
-The Azure region can also be specified through the `AZURE_REGIONAL_AUTHORITY_NAME` environment variable. If instead of a region, `AutoDiscoverRegion` is specified as the value for `regionalAuthority`, MSAL will be used to attempt to discover the region.
-
 #### New features in ManagedIdentityCredential
 
 In Identity v2, the `ManagedIdentityCredential` retries with exponential back-off when a request for a token fails with a 404 status code. This change only applies to environments with available IMDS endpoints.
