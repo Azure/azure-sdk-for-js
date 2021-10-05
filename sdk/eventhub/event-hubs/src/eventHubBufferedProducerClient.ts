@@ -226,6 +226,31 @@ export class EventHubBufferedProducerClient {
   }
 
   /**
+   * Enqueues an event into the buffer to be published to the Event Hub.
+   * If there is no capacity in the buffer when this method is invoked,
+   * it will wait for space to become available and ensure that the event
+   * has been enqueued.
+   *
+   * When this call returns, the event has been accepted into the buffer,
+   * but it may not have been published yet.
+   * Publishing will take place at a nondeterministic point in the future as the buffer is processed.
+   *
+   * @param events - An {@link EventData} or `AmqpAnnotatedMessage`.
+   * @param options - A set of options that can be specified to influence the way in which
+   * the event is sent to the associated Event Hub.
+   * - `abortSignal`  : A signal used to cancel the enqueueEvent operation.
+   * - `partitionId`  : The partition this set of events will be sent to. If set, `partitionKey` can not be set.
+   * - `partitionKey` : A value that is hashed to produce a partition assignment. If set, `partitionId` can not be set.
+   * @returns The total number of events that are currently buffered and waiting to be published, across all partitions.
+   */
+  async enqueueEvent(
+    event: EventData | AmqpAnnotatedMessage,
+    options: EnqueueEventOptions = {}
+  ): Promise<number> {
+    throw new Error(`Not implemented ${event}, ${options}`);
+  }
+
+  /**
    * Enqueues events into the buffer to be published to the Event Hub.
    * If there is no capacity in the buffer when this method is invoked,
    * it will wait for space to become available and ensure that the events
@@ -238,7 +263,7 @@ export class EventHubBufferedProducerClient {
    * @param events - An array of {@link EventData} or `AmqpAnnotatedMessage`.
    * @param options - A set of options that can be specified to influence the way in which
    * events are sent to the associated Event Hub.
-   * - `abortSignal`  : A signal the request to cancel the send operation.
+   * - `abortSignal`  : A signal used to cancel the enqueueEvents operation.
    * - `partitionId`  : The partition this set of events will be sent to. If set, `partitionKey` can not be set.
    * - `partitionKey` : A value that is hashed to produce a partition assignment. If set, `partitionId` can not be set.
    * @returns The total number of events that are currently buffered and waiting to be published, across all partitions.
