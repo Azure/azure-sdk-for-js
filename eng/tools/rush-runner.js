@@ -22,6 +22,25 @@ const reducedDependencyTestMatrix = {
     '@azure/test-utils-perfstress',
     '@azure-tools/test-recorder',
     '@azure/synapse-monitoring'
+  ],
+  'test-utils': ['@azure-rest/core-client',
+    '@azure-rest/core-client-lro',
+    '@azure-rest/core-client-paging',
+    '@azure-rest/purview-account',
+    '@azure-tests/perf-storage-blob',
+    '@azure/ai-text-analytics',
+    '@azure/arm-compute',
+    '@azure/dev-tool',
+    '@azure/identity',
+    '@azure/identity-cache-persistence',
+    '@azure/identity-vscode',
+    '@azure/service-bus',
+    '@azure/storage-blob',
+    '@azure/template',
+    '@azure/test-utils',
+    '@azure/test-utils-perfstress',
+    '@azure-tools/test-recorder',
+    '@azure/synapse-monitoring'
   ]
 };
 
