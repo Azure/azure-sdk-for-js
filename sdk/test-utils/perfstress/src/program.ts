@@ -350,7 +350,7 @@ export class PerfStressProgram {
    * - delete the live resources that we have created before
    */
   private async recordAndStartPlayback(test: PerfStressTest) {
-    // If test proxy,
+    // If test-proxy,
     // => then start record
     // => run the runAsync
     // => stop record
