@@ -10,7 +10,7 @@ This changelog entry showcases the changes that have been made from version 1 of
 
 #### Plugin API
 
-Identity v2 provides a top-level `useIdentityPlugin` method, which allows using two new plugin packages:
+Identity v2 provides a top-level `useIdentityPlugin` function, which allows using two new plugin packages:
 
 - [@azure/identity-vscode](https://www.npmjs.com/package/@azure/identity-vscode), which provides the dependencies of `VisualStudioCodeCredential` and enables it.
   - If the `@azure/identity-vscode` plugin isn't used through the `useIdentityPlugin` function, the `VisualStudioCodeCredential` exposed by Identity v2 will throw a `CredentialUnavailableError`.
@@ -63,9 +63,9 @@ A new method `authenticate()` is added to these credentials which is similar to 
 - The `AuthenticationRecord` object has a `serialize()` method that allows an authenticated account to be stored as a string and re-used in another credential at any time. Use the new helper function `deserializeAuthenticationRecord` to de-serialize this string.
 - `authenticate()` might succeed and still return `undefined` if we're unable to pick just one account record from the cache. This might happen if the cache is being used by more than one credential, or if multiple users have authenticated using the same Client ID and Tenant ID. To ensure consistency on a program with many users, please keep track of the `AuthenticationRecord` and provide them in the constructors of the credentials on initialization.
 
-> Read more about controlling user interaction in our [samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#control-user-interaction).
-
-> Read more about persisting user authentication data in our [samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#persist-user-authentication-data).
+Learn more via the below samples
+- [Samples around controlling user interaction]https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#control-user-interaction).
+- [Samples around persisting user authentication data](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#persist-user-authentication-data).
 
 #### New features in ManagedIdentityCredential
 
@@ -103,7 +103,7 @@ Azure Service Fabric support hasn't been added on the initial version 2 of Ident
 
 ### Bugs Fixed
 
-`ClientSecretCredential`, `ClientCertificateCredential`, and `UsernamePasswordCredential` throw if the required parameters aren't provided (even in JavaScript).
+- `ClientSecretCredential`, `ClientCertificateCredential`, and `UsernamePasswordCredential` throw if the required parameters aren't provided (even in JavaScript).
 - Fixed a bug that caused `AzureCliCredential` to fail when a custom tenant ID was provided.
 
 ### Other Changes
