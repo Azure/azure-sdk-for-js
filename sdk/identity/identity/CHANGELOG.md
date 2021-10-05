@@ -100,6 +100,7 @@ Azure Service Fabric support hasn't been added on the initial version 2 of Ident
 #### Breaking Changes from 2.0.0-beta.4
 
 - Removed the `allowMultiTenantAuthentication` option from all of the credentials. Multi-tenant authentication is now enabled by default. On Node.js, it can be disabled with the `AZURE_IDENTITY_DISABLE_MULTITENANTAUTH` environment variable.
+- Removed support for specific Azure regions on `ClientSecretCredential` and `ClientCertificateCredential. This feature will be added back on the next beta.
 
 ### Bugs Fixed
 
