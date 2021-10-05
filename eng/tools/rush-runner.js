@@ -33,8 +33,8 @@ const reducedDependencyTestMatrix = {
     '@azure/identity-cache-persistence',
     '@azure/identity-vscode',
     '@azure/storage-blob',
-    '@azure/template',
-    '@azure/synapse-monitoring'
+    '@azure/storage-file-share',
+    '@azure/template'
   ]
 };
 
