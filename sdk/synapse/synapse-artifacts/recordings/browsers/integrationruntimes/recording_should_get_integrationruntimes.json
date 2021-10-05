@@ -28,7 +28,7 @@
    "method": "GET",
    "url": "https://testaccount.dev.azuresynapse.net/integrationRuntimes/AutoResolveIntegrationRuntime",
    "query": {
-    "api-version": "2019-06-01-preview"
+    "api-version": "2020-12-01"
    },
    "requestBody": null,
    "status": 200,

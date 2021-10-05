@@ -8,7 +8,7 @@
 
 import { createSpan } from "../tracing";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SqlScriptOperations } from "../operationsInterfaces";
+import { SparkConfigurationOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
@@ -17,27 +17,28 @@ import { ArtifactsClientContext } from "../artifactsClientContext";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  SqlScriptResource,
-  SqlScriptGetSqlScriptsByWorkspaceNextOptionalParams,
-  SqlScriptGetSqlScriptsByWorkspaceOptionalParams,
-  SqlScriptGetSqlScriptsByWorkspaceResponse,
-  SqlScriptCreateOrUpdateSqlScriptOptionalParams,
-  SqlScriptCreateOrUpdateSqlScriptResponse,
-  SqlScriptGetSqlScriptOptionalParams,
-  SqlScriptGetSqlScriptResponse,
-  SqlScriptDeleteSqlScriptOptionalParams,
+  SparkConfigurationResource,
+  SparkConfigurationGetSparkConfigurationsByWorkspaceNextOptionalParams,
+  SparkConfigurationGetSparkConfigurationsByWorkspaceOptionalParams,
+  SparkConfigurationGetSparkConfigurationsByWorkspaceResponse,
+  SparkConfigurationCreateOrUpdateSparkConfigurationOptionalParams,
+  SparkConfigurationCreateOrUpdateSparkConfigurationResponse,
+  SparkConfigurationGetSparkConfigurationOptionalParams,
+  SparkConfigurationGetSparkConfigurationResponse,
+  SparkConfigurationDeleteSparkConfigurationOptionalParams,
   ArtifactRenameRequest,
-  SqlScriptRenameSqlScriptOptionalParams,
-  SqlScriptGetSqlScriptsByWorkspaceNextResponse
+  SparkConfigurationRenameSparkConfigurationOptionalParams,
+  SparkConfigurationGetSparkConfigurationsByWorkspaceNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing SqlScriptOperations operations. */
-export class SqlScriptOperationsImpl implements SqlScriptOperations {
+/** Class containing SparkConfigurationOperations operations. */
+export class SparkConfigurationOperationsImpl
+  implements SparkConfigurationOperations {
   private readonly client: ArtifactsClientContext;
 
   /**
-   * Initialize a new instance of the class SqlScriptOperations class.
+   * Initialize a new instance of the class SparkConfigurationOperations class.
    * @param client Reference to the service client
    */
   constructor(client: ArtifactsClientContext) {
@@ -45,13 +46,13 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
   }
 
   /**
-   * Lists sql scripts.
+   * Lists sparkconfigurations.
    * @param options The options parameters.
    */
-  public listSqlScriptsByWorkspace(
-    options?: SqlScriptGetSqlScriptsByWorkspaceOptionalParams
-  ): PagedAsyncIterableIterator<SqlScriptResource> {
-    const iter = this.getSqlScriptsByWorkspacePagingAll(options);
+  public listSparkConfigurationsByWorkspace(
+    options?: SparkConfigurationGetSparkConfigurationsByWorkspaceOptionalParams
+  ): PagedAsyncIterableIterator<SparkConfigurationResource> {
+    const iter = this.getSparkConfigurationsByWorkspacePagingAll(options);
     return {
       next() {
         return iter.next();
@@ -60,19 +61,19 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
         return this;
       },
       byPage: () => {
-        return this.getSqlScriptsByWorkspacePagingPage(options);
+        return this.getSparkConfigurationsByWorkspacePagingPage(options);
       }
     };
   }
 
-  private async *getSqlScriptsByWorkspacePagingPage(
-    options?: SqlScriptGetSqlScriptsByWorkspaceOptionalParams
-  ): AsyncIterableIterator<SqlScriptResource[]> {
-    let result = await this._getSqlScriptsByWorkspace(options);
+  private async *getSparkConfigurationsByWorkspacePagingPage(
+    options?: SparkConfigurationGetSparkConfigurationsByWorkspaceOptionalParams
+  ): AsyncIterableIterator<SparkConfigurationResource[]> {
+    let result = await this._getSparkConfigurationsByWorkspace(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getSqlScriptsByWorkspaceNext(
+      result = await this._getSparkConfigurationsByWorkspaceNext(
         continuationToken,
         options
       );
@@ -81,31 +82,33 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
     }
   }
 
-  private async *getSqlScriptsByWorkspacePagingAll(
-    options?: SqlScriptGetSqlScriptsByWorkspaceOptionalParams
-  ): AsyncIterableIterator<SqlScriptResource> {
-    for await (const page of this.getSqlScriptsByWorkspacePagingPage(options)) {
+  private async *getSparkConfigurationsByWorkspacePagingAll(
+    options?: SparkConfigurationGetSparkConfigurationsByWorkspaceOptionalParams
+  ): AsyncIterableIterator<SparkConfigurationResource> {
+    for await (const page of this.getSparkConfigurationsByWorkspacePagingPage(
+      options
+    )) {
       yield* page;
     }
   }
 
   /**
-   * Lists sql scripts.
+   * Lists sparkconfigurations.
    * @param options The options parameters.
    */
-  private async _getSqlScriptsByWorkspace(
-    options?: SqlScriptGetSqlScriptsByWorkspaceOptionalParams
-  ): Promise<SqlScriptGetSqlScriptsByWorkspaceResponse> {
+  private async _getSparkConfigurationsByWorkspace(
+    options?: SparkConfigurationGetSparkConfigurationsByWorkspaceOptionalParams
+  ): Promise<SparkConfigurationGetSparkConfigurationsByWorkspaceResponse> {
     const { span } = createSpan(
-      "ArtifactsClient-_getSqlScriptsByWorkspace",
+      "ArtifactsClient-_getSparkConfigurationsByWorkspace",
       options || {}
     );
     try {
       const result = await this.client.sendOperationRequest(
         { options },
-        getSqlScriptsByWorkspaceOperationSpec
+        getSparkConfigurationsByWorkspaceOperationSpec
       );
-      return result as SqlScriptGetSqlScriptsByWorkspaceResponse;
+      return result as SparkConfigurationGetSparkConfigurationsByWorkspaceResponse;
     } catch (error) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
@@ -118,32 +121,34 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
   }
 
   /**
-   * Creates or updates a Sql Script.
-   * @param sqlScriptName The sql script name.
-   * @param sqlScript Sql Script resource definition.
+   * Creates or updates a sparkconfiguration.
+   * @param sparkConfigurationName The spark Configuration name.
+   * @param sparkConfiguration SparkConfiguration resource definition.
    * @param options The options parameters.
    */
-  async beginCreateOrUpdateSqlScript(
-    sqlScriptName: string,
-    sqlScript: SqlScriptResource,
-    options?: SqlScriptCreateOrUpdateSqlScriptOptionalParams
+  async beginCreateOrUpdateSparkConfiguration(
+    sparkConfigurationName: string,
+    sparkConfiguration: SparkConfigurationResource,
+    options?: SparkConfigurationCreateOrUpdateSparkConfigurationOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<SqlScriptCreateOrUpdateSqlScriptResponse>,
-      SqlScriptCreateOrUpdateSqlScriptResponse
+      PollOperationState<
+        SparkConfigurationCreateOrUpdateSparkConfigurationResponse
+      >,
+      SparkConfigurationCreateOrUpdateSparkConfigurationResponse
     >
   > {
     const { span } = createSpan(
-      "ArtifactsClient-beginCreateOrUpdateSqlScript",
+      "ArtifactsClient-beginCreateOrUpdateSparkConfiguration",
       options || {}
     );
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<SqlScriptCreateOrUpdateSqlScriptResponse> => {
+    ): Promise<SparkConfigurationCreateOrUpdateSparkConfigurationResponse> => {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
-        return result as SqlScriptCreateOrUpdateSqlScriptResponse;
+        return result as SparkConfigurationCreateOrUpdateSparkConfigurationResponse;
       } catch (error) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
@@ -189,8 +194,8 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
 
     const lro = new LroImpl(
       sendOperation,
-      { sqlScriptName, sqlScript, options },
-      createOrUpdateSqlScriptOperationSpec
+      { sparkConfigurationName, sparkConfiguration, options },
+      createOrUpdateSparkConfigurationOperationSpec
     );
     return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
@@ -199,40 +204,43 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
   }
 
   /**
-   * Creates or updates a Sql Script.
-   * @param sqlScriptName The sql script name.
-   * @param sqlScript Sql Script resource definition.
+   * Creates or updates a sparkconfiguration.
+   * @param sparkConfigurationName The spark Configuration name.
+   * @param sparkConfiguration SparkConfiguration resource definition.
    * @param options The options parameters.
    */
-  async beginCreateOrUpdateSqlScriptAndWait(
-    sqlScriptName: string,
-    sqlScript: SqlScriptResource,
-    options?: SqlScriptCreateOrUpdateSqlScriptOptionalParams
-  ): Promise<SqlScriptCreateOrUpdateSqlScriptResponse> {
-    const poller = await this.beginCreateOrUpdateSqlScript(
-      sqlScriptName,
-      sqlScript,
+  async beginCreateOrUpdateSparkConfigurationAndWait(
+    sparkConfigurationName: string,
+    sparkConfiguration: SparkConfigurationResource,
+    options?: SparkConfigurationCreateOrUpdateSparkConfigurationOptionalParams
+  ): Promise<SparkConfigurationCreateOrUpdateSparkConfigurationResponse> {
+    const poller = await this.beginCreateOrUpdateSparkConfiguration(
+      sparkConfigurationName,
+      sparkConfiguration,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Gets a sql script.
-   * @param sqlScriptName The sql script name.
+   * Gets a sparkConfiguration.
+   * @param sparkConfigurationName The spark Configuration name.
    * @param options The options parameters.
    */
-  async getSqlScript(
-    sqlScriptName: string,
-    options?: SqlScriptGetSqlScriptOptionalParams
-  ): Promise<SqlScriptGetSqlScriptResponse> {
-    const { span } = createSpan("ArtifactsClient-getSqlScript", options || {});
+  async getSparkConfiguration(
+    sparkConfigurationName: string,
+    options?: SparkConfigurationGetSparkConfigurationOptionalParams
+  ): Promise<SparkConfigurationGetSparkConfigurationResponse> {
+    const { span } = createSpan(
+      "ArtifactsClient-getSparkConfiguration",
+      options || {}
+    );
     try {
       const result = await this.client.sendOperationRequest(
-        { sqlScriptName, options },
-        getSqlScriptOperationSpec
+        { sparkConfigurationName, options },
+        getSparkConfigurationOperationSpec
       );
-      return result as SqlScriptGetSqlScriptResponse;
+      return result as SparkConfigurationGetSparkConfigurationResponse;
     } catch (error) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
@@ -245,16 +253,16 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
   }
 
   /**
-   * Deletes a Sql Script.
-   * @param sqlScriptName The sql script name.
+   * Deletes a sparkConfiguration.
+   * @param sparkConfigurationName The spark Configuration name.
    * @param options The options parameters.
    */
-  async beginDeleteSqlScript(
-    sqlScriptName: string,
-    options?: SqlScriptDeleteSqlScriptOptionalParams
+  async beginDeleteSparkConfiguration(
+    sparkConfigurationName: string,
+    options?: SparkConfigurationDeleteSparkConfigurationOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const { span } = createSpan(
-      "ArtifactsClient-beginDeleteSqlScript",
+      "ArtifactsClient-beginDeleteSparkConfiguration",
       options || {}
     );
     const directSendOperation = async (
@@ -309,8 +317,8 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
 
     const lro = new LroImpl(
       sendOperation,
-      { sqlScriptName, options },
-      deleteSqlScriptOperationSpec
+      { sparkConfigurationName, options },
+      deleteSparkConfigurationOperationSpec
     );
     return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
@@ -319,31 +327,34 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
   }
 
   /**
-   * Deletes a Sql Script.
-   * @param sqlScriptName The sql script name.
+   * Deletes a sparkConfiguration.
+   * @param sparkConfigurationName The spark Configuration name.
    * @param options The options parameters.
    */
-  async beginDeleteSqlScriptAndWait(
-    sqlScriptName: string,
-    options?: SqlScriptDeleteSqlScriptOptionalParams
+  async beginDeleteSparkConfigurationAndWait(
+    sparkConfigurationName: string,
+    options?: SparkConfigurationDeleteSparkConfigurationOptionalParams
   ): Promise<void> {
-    const poller = await this.beginDeleteSqlScript(sqlScriptName, options);
+    const poller = await this.beginDeleteSparkConfiguration(
+      sparkConfigurationName,
+      options
+    );
     return poller.pollUntilDone();
   }
 
   /**
-   * Renames a sqlScript.
-   * @param sqlScriptName The sql script name.
+   * Renames a sparkConfiguration.
+   * @param sparkConfigurationName The spark Configuration name.
    * @param request proposed new name.
    * @param options The options parameters.
    */
-  async beginRenameSqlScript(
-    sqlScriptName: string,
+  async beginRenameSparkConfiguration(
+    sparkConfigurationName: string,
     request: ArtifactRenameRequest,
-    options?: SqlScriptRenameSqlScriptOptionalParams
+    options?: SparkConfigurationRenameSparkConfigurationOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const { span } = createSpan(
-      "ArtifactsClient-beginRenameSqlScript",
+      "ArtifactsClient-beginRenameSparkConfiguration",
       options || {}
     );
     const directSendOperation = async (
@@ -398,8 +409,8 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
 
     const lro = new LroImpl(
       sendOperation,
-      { sqlScriptName, request, options },
-      renameSqlScriptOperationSpec
+      { sparkConfigurationName, request, options },
+      renameSparkConfigurationOperationSpec
     );
     return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
@@ -408,18 +419,18 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
   }
 
   /**
-   * Renames a sqlScript.
-   * @param sqlScriptName The sql script name.
+   * Renames a sparkConfiguration.
+   * @param sparkConfigurationName The spark Configuration name.
    * @param request proposed new name.
    * @param options The options parameters.
    */
-  async beginRenameSqlScriptAndWait(
-    sqlScriptName: string,
+  async beginRenameSparkConfigurationAndWait(
+    sparkConfigurationName: string,
     request: ArtifactRenameRequest,
-    options?: SqlScriptRenameSqlScriptOptionalParams
+    options?: SparkConfigurationRenameSparkConfigurationOptionalParams
   ): Promise<void> {
-    const poller = await this.beginRenameSqlScript(
-      sqlScriptName,
+    const poller = await this.beginRenameSparkConfiguration(
+      sparkConfigurationName,
       request,
       options
     );
@@ -427,25 +438,25 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
   }
 
   /**
-   * GetSqlScriptsByWorkspaceNext
-   * @param nextLink The nextLink from the previous successful call to the GetSqlScriptsByWorkspace
-   *                 method.
+   * GetSparkConfigurationsByWorkspaceNext
+   * @param nextLink The nextLink from the previous successful call to the
+   *                 GetSparkConfigurationsByWorkspace method.
    * @param options The options parameters.
    */
-  private async _getSqlScriptsByWorkspaceNext(
+  private async _getSparkConfigurationsByWorkspaceNext(
     nextLink: string,
-    options?: SqlScriptGetSqlScriptsByWorkspaceNextOptionalParams
-  ): Promise<SqlScriptGetSqlScriptsByWorkspaceNextResponse> {
+    options?: SparkConfigurationGetSparkConfigurationsByWorkspaceNextOptionalParams
+  ): Promise<SparkConfigurationGetSparkConfigurationsByWorkspaceNextResponse> {
     const { span } = createSpan(
-      "ArtifactsClient-_getSqlScriptsByWorkspaceNext",
+      "ArtifactsClient-_getSparkConfigurationsByWorkspaceNext",
       options || {}
     );
     try {
       const result = await this.client.sendOperationRequest(
         { nextLink, options },
-        getSqlScriptsByWorkspaceNextOperationSpec
+        getSparkConfigurationsByWorkspaceNextOperationSpec
       );
-      return result as SqlScriptGetSqlScriptsByWorkspaceNextResponse;
+      return result as SparkConfigurationGetSparkConfigurationsByWorkspaceNextResponse;
     } catch (error) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
@@ -460,45 +471,45 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getSqlScriptsByWorkspaceOperationSpec: coreClient.OperationSpec = {
-  path: "/sqlScripts",
+const getSparkConfigurationsByWorkspaceOperationSpec: coreClient.OperationSpec = {
+  path: "/sparkconfigurations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlScriptsListResponse
+      bodyMapper: Mappers.SparkConfigurationListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
 };
-const createOrUpdateSqlScriptOperationSpec: coreClient.OperationSpec = {
-  path: "/sqlScripts/{sqlScriptName}",
+const createOrUpdateSparkConfigurationOperationSpec: coreClient.OperationSpec = {
+  path: "/sparkconfigurations/{sparkConfigurationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlScriptResource
+      bodyMapper: Mappers.SparkConfigurationResource
     },
     201: {
-      bodyMapper: Mappers.SqlScriptResource
+      bodyMapper: Mappers.SparkConfigurationResource
     },
     202: {
-      bodyMapper: Mappers.SqlScriptResource
+      bodyMapper: Mappers.SparkConfigurationResource
     },
     204: {
-      bodyMapper: Mappers.SqlScriptResource
+      bodyMapper: Mappers.SparkConfigurationResource
     },
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.sqlScript,
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [Parameters.endpoint, Parameters.sqlScriptName],
+  requestBody: Parameters.sparkConfiguration,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.sparkConfigurationName],
   headerParameters: [
     Parameters.accept,
     Parameters.contentType,
@@ -507,25 +518,25 @@ const createOrUpdateSqlScriptOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const getSqlScriptOperationSpec: coreClient.OperationSpec = {
-  path: "/sqlScripts/{sqlScriptName}",
+const getSparkConfigurationOperationSpec: coreClient.OperationSpec = {
+  path: "/sparkconfigurations/{sparkConfigurationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlScriptResource
+      bodyMapper: Mappers.SparkConfigurationResource
     },
     304: {},
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [Parameters.endpoint, Parameters.sqlScriptName],
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.sparkConfigurationName],
   headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
   serializer
 };
-const deleteSqlScriptOperationSpec: coreClient.OperationSpec = {
-  path: "/sqlScripts/{sqlScriptName}",
+const deleteSparkConfigurationOperationSpec: coreClient.OperationSpec = {
+  path: "/sparkconfigurations/{sparkConfigurationName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -533,16 +544,16 @@ const deleteSqlScriptOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [Parameters.endpoint, Parameters.sqlScriptName],
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.sparkConfigurationName],
   headerParameters: [Parameters.accept],
   serializer
 };
-const renameSqlScriptOperationSpec: coreClient.OperationSpec = {
-  path: "/sqlScripts/{sqlScriptName}/rename",
+const renameSparkConfigurationOperationSpec: coreClient.OperationSpec = {
+  path: "/sparkconfigurations/{sparkConfigurationName}/rename",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -550,28 +561,28 @@ const renameSqlScriptOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
   requestBody: Parameters.request,
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [Parameters.endpoint, Parameters.sqlScriptName],
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.sparkConfigurationName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
-const getSqlScriptsByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
+const getSparkConfigurationsByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlScriptsListResponse
+      bodyMapper: Mappers.SparkConfigurationListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
