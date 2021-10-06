@@ -3,8 +3,9 @@
 
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
-import { EventData, OperationOptions } from ".";
-import { ConnectionContext, createConnectionContext } from "./connectionContext";
+import { BatchingPartitionChannel } from "./batchingPartitionProducer";
+import { PartitionAssigner } from "./impl/partitionAssigner";
+import { EventData, EventHubProducerClient, OperationOptions } from "./index";
 import { EventHubProperties, PartitionProperties } from "./managementClient";
 import {
   EventHubClientOptions,
@@ -102,21 +103,31 @@ export interface EnqueueEventOptions extends SendBatchOptions {}
  */
 export class EventHubBufferedProducerClient {
   /**
-   * Describes the amqp connection context for the client.
+   * Indicates whether the client has been explicitly closed.
    */
-  private _context: ConnectionContext;
+  private _isClosed: boolean = false;
+
+  private _partitionAssigner = new PartitionAssigner();
+
+  private _partitionIds: string[] = [];
+  /**
+   * The EventHubProducerClient to use when creating and sending batches to the Event Hub.
+   */
+  private _producer: EventHubProducerClient;
+
+  private _partitionChannels = new Map<string, BatchingPartitionChannel>();
 
   /**
-   * The options passed by the user when creating the EventHubClient instance.
+   * The options passed by the user when creating the EventHubBufferedProducerClient instance.
    */
-  private _clientOptions: EventHubClientOptions;
+  private _clientOptions: EventHubBufferedProducerClientOptions;
 
   /**
    * @readonly
    * The name of the Event Hub instance for which this client is created.
    */
   get eventHubName(): string {
-    throw new Error("Not implemented");
+    return this._producer.eventHubName;
   }
 
   /**
@@ -125,7 +136,7 @@ export class EventHubBufferedProducerClient {
    * This is likely to be similar to <yournamespace>.servicebus.windows.net.
    */
   get fullyQualifiedNamespace(): string {
-    throw new Error("Not implemented");
+    return this._producer.fullyQualifiedNamespace;
   }
 
   /**
@@ -195,18 +206,27 @@ export class EventHubBufferedProducerClient {
       | EventHubBufferedProducerClientOptions,
     options4?: EventHubBufferedProducerClientOptions
   ) {
-    this._context = createConnectionContext(
-      fullyQualifiedNamespaceOrConnectionString1,
-      eventHubNameOrOptions2,
-      credentialOrOptions3,
-      options4
-    );
     if (typeof eventHubNameOrOptions2 !== "string") {
-      this._clientOptions = eventHubNameOrOptions2 || {};
+      this._producer = new EventHubProducerClient(
+        fullyQualifiedNamespaceOrConnectionString1,
+        eventHubNameOrOptions2
+      );
+      this._clientOptions = { ...eventHubNameOrOptions2 };
     } else if (!isCredential(credentialOrOptions3)) {
-      this._clientOptions = credentialOrOptions3 || {};
+      this._producer = new EventHubProducerClient(
+        fullyQualifiedNamespaceOrConnectionString1,
+        eventHubNameOrOptions2,
+        credentialOrOptions3
+      );
+      this._clientOptions = { ...credentialOrOptions3! };
     } else {
-      this._clientOptions = options4 || {};
+      this._producer = new EventHubProducerClient(
+        fullyQualifiedNamespaceOrConnectionString1,
+        eventHubNameOrOptions2,
+        credentialOrOptions3,
+        options4
+      );
+      this._clientOptions = { ...options4! };
     }
   }
 
@@ -222,7 +242,7 @@ export class EventHubBufferedProducerClient {
     if (!isDefined(options.flush) || options.flush === true) {
       await this.flush(options);
     }
-    return this._context.close();
+    return this._producer.close();
   }
 
   /**
@@ -272,7 +292,30 @@ export class EventHubBufferedProducerClient {
     events: EventData[] | AmqpAnnotatedMessage[],
     options: EnqueueEventOptions = {}
   ): Promise<number> {
-    throw new Error(`Not implemented ${events}, ${options}`);
+    if (this._isClosed) {
+      throw new Error(
+        `This EventHubBufferedProducerClient has already been closed. Create a new client to enqueue events.`
+      );
+    }
+
+    if (!this._partitionIds.length) {
+      this._partitionIds = await this.getPartitionIds();
+      this._partitionAssigner.setPartitionIds(this._partitionIds);
+    }
+
+    const partitionId = this._partitionAssigner.assignPartition({
+      partitionId: options.partitionId,
+      partitionKey: options.partitionKey
+    });
+
+    // TODO: assign partition key to each event.
+
+    const partitionChannel = this._getPartitionChannel(partitionId);
+    for (const event of events) {
+      await partitionChannel.enqueueEvent(event);
+    }
+
+    return this._getTotalBufferedEventsCount();
   }
 
   /**
@@ -295,10 +338,7 @@ export class EventHubBufferedProducerClient {
    * @throws AbortError if the operation is cancelled via the abortSignal.
    */
   getEventHubProperties(options: GetEventHubPropertiesOptions = {}): Promise<EventHubProperties> {
-    return this._context.managementSession!.getEventHubProperties({
-      ...options,
-      retryOptions: this._clientOptions.retryOptions
-    });
+    return this._producer.getEventHubProperties(options);
   }
 
   /**
@@ -310,14 +350,7 @@ export class EventHubBufferedProducerClient {
    * @throws AbortError if the operation is cancelled via the abortSignal.
    */
   getPartitionIds(options: GetPartitionIdsOptions = {}): Promise<Array<string>> {
-    return this._context
-      .managementSession!.getEventHubProperties({
-        ...options,
-        retryOptions: this._clientOptions.retryOptions
-      })
-      .then((eventHubProperties) => {
-        return eventHubProperties.partitionIds;
-      });
+    return this._producer.getPartitionIds(options);
   }
 
   /**
@@ -332,9 +365,28 @@ export class EventHubBufferedProducerClient {
     partitionId: string,
     options: GetPartitionPropertiesOptions = {}
   ): Promise<PartitionProperties> {
-    return this._context.managementSession!.getPartitionProperties(partitionId, {
-      ...options,
-      retryOptions: this._clientOptions.retryOptions
-    });
+    return this._producer.getPartitionProperties(partitionId, options);
+  }
+
+  private _getPartitionChannel(partitionId: string): BatchingPartitionChannel {
+    const partitionChannel =
+      this._partitionChannels.get(partitionId) ??
+      new BatchingPartitionChannel({
+        maxBufferSize: this._clientOptions.maxBufferedEventCount || 100,
+        maxWaitTimeInMs: this._clientOptions.maxWaitTimeInMs || 1000,
+        partitionId,
+        producer: this._producer
+      });
+    this._partitionChannels.set(partitionId, partitionChannel);
+    return partitionChannel;
+  }
+
+  private _getTotalBufferedEventsCount(): number {
+    let total = 0;
+    for (const [_, channel] of this._partitionChannels) {
+      total += channel.getCurrentBufferedCount();
+    }
+
+    return total;
   }
 }
