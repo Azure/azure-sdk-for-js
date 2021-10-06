@@ -61,9 +61,7 @@ export class AuthenticationRequiredError extends Error {
 
 // @public
 export interface AuthenticationRequiredErrorOptions {
-    // (undocumented)
     getTokenOptions?: GetTokenOptions;
-    // (undocumented)
     message?: string;
 }
 

@@ -189,7 +189,13 @@ function convertOAuthErrorResponseToErrorResponse(errorBody: OAuthErrorResponse)
  * Optional parameters to the {@link AuthenticationRequiredError}
  */
 export interface AuthenticationRequiredErrorOptions {
+  /**
+   * The options passed to the getToken request.
+   */
   getTokenOptions?: GetTokenOptions;
+  /**
+   * The message of the error.
+   */
   message?: string;
 }
 
@@ -198,7 +204,7 @@ export interface AuthenticationRequiredErrorOptions {
  */
 export class AuthenticationRequiredError extends Error {
   /**
-   * The options used to configure the getToken request.
+   * The options passed to the getToken request.
    */
   public getTokenOptions?: GetTokenOptions;
 
