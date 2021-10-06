@@ -42,7 +42,7 @@ The *package.json* file key-value pair now resembles the following:
 
 ### Update dependencies for Visual Studio Code authentication
 
-If you use the `VisualStudioCodeCredential`, you likely have [keytar][npm-keytar] in your dependencies. `keytar` is a popular native machine-code (NMC) dependency in the Node.js ecosystem. NMC dependencies were removed from `@azure/identity` and put into individual packages. To use the `VisualStudioCodeCredential` with Identity v2, complete the following steps:
+If you use the `VisualStudioCodeCredential`, you likely have [keytar][npm-keytar] in your dependencies. `keytar` is a popular native machine-code dependency in the Node.js ecosystem. NMC dependencies were removed from `@azure/identity` and put into individual packages. To use the `VisualStudioCodeCredential` with Identity v2, complete the following steps:
 
 1. Install the [@azure/identity-vscode][npm-vscode] package:
 

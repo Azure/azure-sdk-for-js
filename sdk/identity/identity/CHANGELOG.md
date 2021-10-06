@@ -47,8 +47,13 @@ Identity v2 includes three new credential types:
 
 Identity v2 enables:
 
-- Support for claims challenges resulting from [Continuous Access Enforcement (CAE)](https://docs.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) and [Conditional Access authentication context](https://techcommunity.microsoft.com/t5/azure-active-directory-identity/granular-conditional-access-for-sensitive-data-and-actions/ba-p/1751775). To disable this behavior, set the environment variable `AZURE_IDENTITY_DISABLE_CP1` to any value. For more about claims challenges, see [Claims challenges, claims requests, and client capabilities](https://docs.microsoft.com/azure/active-directory/develop/claims-challenge).
-- Multi-tenant authentication on all credentials except `ManagedIdentityCredential`. To disable it, set the environment variable `AZURE_IDENTITY_DISABLE_MULTITENANTAUTH`. For more about multitenancy, see [Identity management in multitenant apps](https://docs.microsoft.com/azure/architecture/multitenant-identity/).
+- Support for claims challenges resulting from [Continuous Access Enforcement (CAE)](https://docs.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) and [Conditional Access authentication context](https://techcommunity.microsoft.com/t5/azure-active-directory-identity/granular-conditional-access-for-sensitive-data-and-actions/ba-p/1751775).
+  - By default, credentials of Identity v2 will produce tokens that can be used to trigger the challenge authentication flows. After these tokens expire, the next HTTP requests to Azure will fail, but the response will contain information to re-authenticate.
+  - To disable this behavior, set the environment variable `AZURE_IDENTITY_DISABLE_CP1` to any value. For more about claims challenges, see [Claims challenges, claims requests, and client capabilities](https://docs.microsoft.com/azure/active-directory/develop/claims-challenge).
+- Support for multi-tenant authentication on all credentials except `ManagedIdentityCredential`.
+  - At the moment, applications needing multi-tenancy support will need to call to the credentials' `getToken` directly, sending the new `tenantId` property.
+  - A sample with more context will be provided in a future date.
+  - To disable it, set the environment variable `AZURE_IDENTITY_DISABLE_MULTITENANTAUTH`. For more about multitenancy, see [Identity management in multitenant apps](https://docs.microsoft.com/azure/architecture/multitenant-identity/).
 
 #### New features in InteractiveBrowserCredential and DeviceCodeCredential
 
@@ -89,13 +94,11 @@ Azure Service Fabric support hasn't been added on the initial version 2 of Ident
 - For `ClientCertificateCredential` specifically, the validity of the PEM certificate is evaluated on `getToken` and not on the constructor.
 - We have also renamed the error `CredentialUnavailable` to `CredentialUnavailableError`, to align with the naming convention used for error classes in the Azure SDKs in JavaScript.
 - In v1 of Identity some `getToken` calls could resolve with `null` in the case the authentication request succeeded with a malformed output. In v2, issues with the `getToken` method will always throw errors.
-
-##### Breaking changes to InteractiveBrowserCredential
-
-- The `InteractiveBrowserCredential` will use the [Auth Code Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow) with [PKCE](https://tools.ietf.org/html/rfc7636) rather than [Implicit Grant Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow) to better support browsers with enhanced security restrictions. Learn how to migrate in the [migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/migration-v1-v2.md). Read more about the latest `InteractiveBrowserCredential` [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/interactive-browser-credential.md).
-- The default client ID used for `InteractiveBrowserCredential` was viable only in Node.js and not for the browser. Therefore, on v2 client ID is a required parameter when using this credential in browser apps.
-- Identity v2 also removes the `postLogoutRedirectUri` from the options to the constructor for `InteractiveBrowserCredential`. This option wasn't being used. Instead of using this option, use MSAL directly. For more information, see [Authenticating with the @azure/msal-browser Public Client](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-the-azuremsal-browser-public-client).
-- In Identity v2, `VisualStudioCodeCredential` throws a `CredentialUnavailableError` unless the new [@azure/identity-vscode](https://www.npmjs.com/package/@azure/identity-vscode) plugin is used.
+- Breaking changes to InteractiveBrowserCredential
+  - The `InteractiveBrowserCredential` will use the [Auth Code Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow) with [PKCE](https://tools.ietf.org/html/rfc7636) rather than [Implicit Grant Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow) to better support browsers with enhanced security restrictions. Learn how to migrate in the [migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/migration-v1-v2.md). Read more about the latest `InteractiveBrowserCredential` [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/interactive-browser-credential.md).
+  - The default client ID used for `InteractiveBrowserCredential` was viable only in Node.js and not for the browser. Therefore, on v2 client ID is a required parameter when using this credential in browser apps.
+  - Identity v2 also removes the `postLogoutRedirectUri` from the options to the constructor for `InteractiveBrowserCredential`. This option wasn't being used. Instead of using this option, use MSAL directly. For more information, see [Authenticating with the @azure/msal-browser Public Client](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-the-azuremsal-browser-public-client).
+  - In Identity v2, `VisualStudioCodeCredential` throws a `CredentialUnavailableError` unless the new [@azure/identity-vscode](https://www.npmjs.com/package/@azure/identity-vscode) plugin is used.
 
 #### Breaking Changes from 2.0.0-beta.4
 
