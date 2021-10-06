@@ -23,7 +23,7 @@ describe("Core V1 tests", () => {
     const options: StoragePipelineOptions = {};
     options.httpClient = recorder;
     const client = new QueueServiceClient(env.STORAGE_SAS_URL, undefined, options);
-    await recorder.start();
+    await recorder.start({});
     await client.createQueue((isNode ? "node-" : "browser-") + "1320");
   });
 });
