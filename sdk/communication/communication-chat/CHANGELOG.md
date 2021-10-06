@@ -1,6 +1,12 @@
 # Release History
 
-## 1.1.0 ((2021-09-15)
+## 1.1.1 (Not released)
+
+### Features Added
+- Updated to @azure/communication-signaling@1.0.0-beta.11.
+- Addedc `signalingClientOptions` in `ClientOptions`.
+
+## 1.1.0 (2021-09-15)
 
 ### Features Added
 

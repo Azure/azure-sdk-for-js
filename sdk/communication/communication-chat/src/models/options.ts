@@ -17,15 +17,21 @@ export {
   RestListReadReceiptsOptions
 };
 
+export interface SignalingClientOptions {
+  environment?: string;
+}
+
 /**
  * Options to create chat client.
  */
-export interface ChatClientOptions extends CommonClientOptions {}
+export interface ChatClientOptions extends CommonClientOptions {
+  signalingClientOptions?: SignalingClientOptions
+}
 
 /**
  * Options to create chat thread client.
  */
-export interface ChatThreadClientOptions extends ChatClientOptions {}
+export interface ChatThreadClientOptions extends CommonClientOptions {}
 
 /**
  * Options to update a chat thread.

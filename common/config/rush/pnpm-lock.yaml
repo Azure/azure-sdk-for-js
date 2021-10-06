@@ -386,8 +386,8 @@ packages:
       tslib: 2.3.1
     dev: false
 
-  /@azure/communication-signaling/1.0.0-beta.10:
-    resolution: {integrity: sha512-1eQphUq80S+vF79h3SooOLcMuhSreB3CYwlVQWV31AX1ypfc6QvaIsAumIPMw48R9CSyZJ67wub0hKHR8WsFSg==}
+  /@azure/communication-signaling/1.0.0-beta.11:
+    resolution: {integrity: sha512-+erzTnfEB0xymIHPJm6WXrYaWB/GvK6bMm8V3Kl4STcpY2qAO102DM6wEHsn7qtjbfwLp1+mC8ka8CoglWcugQ==}
     engines: {node: '>=8.0.0'}
     dependencies:
       '@azure/core-http': 2.2.0
@@ -1521,6 +1521,7 @@ packages:
   /@opentelemetry/tracing/0.22.0_@opentelemetry+api@1.0.3:
     resolution: {integrity: sha512-EFrKTFndiEdh/KnzwDgo/EcphG/5z/NyLck8oiUUY+YMP7hskXNYHjTWSAv9UxtYe1MzgLbjmAateTuMmFIVNw==}
     engines: {node: '>=8.0.0'}
+    deprecated: Package renamed to @opentelemetry/sdk-trace-base
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
@@ -8836,12 +8837,12 @@ packages:
     dev: false
 
   file:projects/communication-chat.tgz:
-    resolution: {integrity: sha512-hwiUYIKo2uze93jsrAMKE3tCLOj/s3JiffASzXFcXMNMzzXJT0ikVatL0u0MZXaplZHFyMcHJ1/tjCuSQE9Cew==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-3mBDemL2PvS7+J1J+I6rvF0FDpoN5BKfpISDGwz+7vbCTKOBa1Wrnp6OfdaXyT7clZ0vTdzAxbz0JN/MdWnM7w==, tarball: file:projects/communication-chat.tgz}
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
       '@azure/communication-identity': 1.0.0
-      '@azure/communication-signaling': 1.0.0-beta.10
+      '@azure/communication-signaling': 1.0.0-beta.11
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
@@ -11486,7 +11487,7 @@ packages:
     dev: false
 
   file:projects/perf-search-documents.tgz:
-    resolution: {integrity: sha512-jIBagXzEDWliTMSg39K2ol71cRYif21I398rrNyXnlpyjnlo+ApBAEUb0KG7scDPyfd1gH/w3NURLVRje/Qiuw==, tarball: file:projects/perf-search-documents.tgz}
+    resolution: {integrity: sha512-JzZnuFWDzadcVL5Ch79lQLH2bLQbEGlh4m4RjmcE2FQMSUpyEeD6RsgRZjvdp9S1snhJgUHCnjNg8C/k/2GJzg==, tarball: file:projects/perf-search-documents.tgz}
     name: '@rush-temp/perf-search-documents'
     version: 0.0.0
     dependencies:
@@ -11937,7 +11938,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-eeR62qM3z5Dlp84mV4//oBv8+IssnkMf2EJotuSAmu9nerY0YcpaD9ehkQIo2DthheWlte7ah55M3+0OZPmb2A==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-1vVVrXpDsNF6D0jfxy6e4EIJz1anhCYtCki2uiP6bMX171TGLMFWCNpKk0Xxw2FMeJqAIVt4/UcoOpOy0dby1w==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
@@ -12838,7 +12839,7 @@ packages:
     dev: false
 
   file:projects/test-utils-perfstress.tgz:
-    resolution: {integrity: sha512-fTItTYBBwhhtVdOQ5qASInrtqY+mDuDqE9NCvItNO3FH8yp/DP67/q3g6QpEwimVRNVCIMt/EKikSFngBugZXQ==, tarball: file:projects/test-utils-perfstress.tgz}
+    resolution: {integrity: sha512-RYaN04zHouUgjzQ9x25yRE/XBAnAIADGNe1Th5m6lgEXeohWPorl+nFH3cqS5LdppUoTXnif5cL5Im0gwZ1YUA==, tarball: file:projects/test-utils-perfstress.tgz}
     name: '@rush-temp/test-utils-perfstress'
     version: 0.0.0
     dependencies:
