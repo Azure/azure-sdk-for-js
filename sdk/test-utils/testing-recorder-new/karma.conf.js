@@ -52,7 +52,6 @@ module.exports = function(config) {
     // https://www.npmjs.com/package/karma-env-preprocessor
     envPreprocessor: [
       "TEST_MODE",
-      "STORAGE_CONNECTION_STRING",
       "STORAGE_SAS_URL",
       "TABLES_SAS_CONNECTION_STRING",
       "RECORDINGS_RELATIVE_PATH"
