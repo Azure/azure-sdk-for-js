@@ -4,7 +4,7 @@
 import { CommunicationSignalingClient, SignalingClient } from "@azure/communication-signaling";
 import { CommunicationTokenCredential } from "@azure/communication-common";
 import { AzureLogger } from "@azure/logger";
-import { SignalingClientOptions } from '../models/options';
+import { SignalingClientOptions } from "../models/options";
 
 export const getSignalingClient = (
   credential: CommunicationTokenCredential,
@@ -13,7 +13,9 @@ export const getSignalingClient = (
 ): SignalingClient | undefined => {
   if (typeof navigator !== "undefined" && navigator.product === "ReactNative") {
     // In React Native
-    return new CommunicationSignalingClient(credential, logger, {environment: options?.environment ?? undefined});
+    return new CommunicationSignalingClient(credential, logger, {
+      environment: options?.environment ?? undefined
+    });
   }
 
   // In node js

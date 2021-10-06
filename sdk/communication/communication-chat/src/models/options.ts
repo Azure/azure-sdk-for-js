@@ -25,7 +25,7 @@ export interface SignalingClientOptions {
  * Options to create chat client.
  */
 export interface ChatClientOptions extends CommonClientOptions {
-  signalingClientOptions?: SignalingClientOptions
+  signalingClientOptions?: SignalingClientOptions;
 }
 
 /**
