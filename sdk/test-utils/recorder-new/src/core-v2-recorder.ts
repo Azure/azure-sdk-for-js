@@ -6,6 +6,7 @@ import {
   createDefaultHttpClient,
   createPipelineRequest,
   HttpClient,
+  HttpMethods,
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
@@ -15,6 +16,7 @@ import { env, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import { RecorderError, RecordingStateManager } from "./utils/utils";
 import { Test } from "mocha";
 import { sessionFilePath } from "./utils/sessionFilePath";
+import { getRealFakePairs } from "./utils/connectionStringHelpers";
 
 const paths = {
   playback: "/playback",
@@ -108,7 +110,11 @@ export class TestProxyHttpClient {
     if (this.recordingId !== undefined) {
       const infoUri = `${this.url}${paths.info}${paths.available}`;
       const req = this._createRecordingRequest(infoUri, "GET");
-
+      if (!this.httpClient) {
+        throw new RecorderError(
+          `Something went wrong, TestProxyHttpClient.httpClient should not have been undefined in ${this.mode} mode.`
+        );
+      }
       const rsp = await this.httpClient.sendRequest({
         ...req,
         allowInsecureConnection: true
@@ -130,6 +136,11 @@ export class TestProxyHttpClient {
       const req = this._createRecordingRequest(infoUri);
       req.headers.set("x-abstraction-identifier", "GeneralRegexSanitizer");
       req.body = JSON.stringify(replacer);
+      if (!this.httpClient) {
+        throw new RecorderError(
+          `Something went wrong, TestProxyHttpClient.httpClient should not have been undefined in ${this.mode} mode.`
+        );
+      }
       const rsp = await this.httpClient.sendRequest({
         ...req,
         allowInsecureConnection: true
@@ -167,6 +178,11 @@ export class TestProxyHttpClient {
       const req = this._createRecordingRequest(infoUri);
       req.headers.set("x-abstraction-identifier", "RemoveHeaderSanitizer");
       req.body = JSON.stringify({ headersForRemoval: headers.toString() });
+      if (!this.httpClient) {
+        throw new RecorderError(
+          `Something went wrong, TestProxyHttpClient.httpClient should not have been undefined in ${this.mode} mode.`
+        );
+      }
       const rsp = await this.httpClient.sendRequest({
         ...req,
         allowInsecureConnection: true
@@ -253,8 +269,8 @@ export class TestProxyHttpClient {
    * @private
    * @param {string} url
    */
-  private _createRecordingRequest(url: string) {
-    const req = createPipelineRequest({ url: url, method: "POST" });
+  private _createRecordingRequest(url: string, method: HttpMethods | undefined = "POST") {
+    const req = createPipelineRequest({ url: url, method });
     if (!this.sessionFile) {
       throw new RecorderError(
         `Something went wrong, TestProxyHttpClient.sessionFile should not have been undefined in ${this.mode} mode.`
