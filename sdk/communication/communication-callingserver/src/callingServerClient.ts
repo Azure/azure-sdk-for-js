@@ -24,7 +24,7 @@ import {
   PlayAudioWithCallLocatorRequest,
   PlayAudioResult,
   PlayAudioToParticipantWithCallLocatorRequest,
-  AddParticipantResult,
+  ServerCallsAddParticipantResponse,
   AddParticipantWithCallLocatorRequest,
   RemoveParticipantWithCallLocatorRequest,
   CancelMediaOperationWithCallLocatorRequest,
@@ -352,7 +352,7 @@ export class CallingServerClient {
     alternateCallerId?: string,
     operationContext?: string,
     options: AddParticipantOptions = {}
-  ): Promise<AddParticipantResult> {
+  ): Promise<ServerCallsAddParticipantResponse> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-playAudio", options);
     var alternate_caller_id = typeof alternateCallerId === "undefined" ? alternateCallerId : serializeCommunicationIdentifier({ phoneNumber: alternateCallerId }).phoneNumber;
 
@@ -514,7 +514,7 @@ export class CallingServerClient {
     if (typeof callLocator === 'undefined' || !callLocator) {
       throw new Error('callLocator is invalid.');
     }
-    if (typeof recordingStateCallbackUri !== 'undefined' ||
+    if (typeof recordingStateCallbackUri === 'undefined' ||
       !recordingStateCallbackUri ||
       !CallingServerUtils.isValidUrl(recordingStateCallbackUri)) {
       throw new Error('recordingStateCallbackUri is invalid.');

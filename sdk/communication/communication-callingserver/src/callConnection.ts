@@ -8,7 +8,7 @@ import {
   PlayAudioRequest,
   PlayAudioResult,
   AddParticipantRequest,
-  AddParticipantResult,
+  CallConnectionsAddParticipantResponse,
   RemoveParticipantRequest,
   PlayAudioToParticipantRequest,
   CancelParticipantMediaOperationRequest,
@@ -168,7 +168,7 @@ export class CallConnection {
     alternateCallerId?: string,
     operationContext?: string,
     options: AddParticipantOptions = {}
-  ): Promise<AddParticipantResult> {
+  ): Promise<CallConnectionsAddParticipantResponse> {
     const { span, updatedOptions } = createSpan("CallConnectionRestClient-playAudio", options);
     var alternate_caller_id = typeof alternateCallerId === "undefined" ? alternateCallerId : serializeCommunicationIdentifier({ phoneNumber: alternateCallerId }).phoneNumber;
 

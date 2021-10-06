@@ -18,7 +18,8 @@ export {
   CommunicationUserIdentifierModel,
   KnownToneValue,
   KnownCallConnectionState,
-  KnownOperationStatus
+  KnownOperationStatus,
+  CallConnectionsCancelAllMediaOperationsResponse
 } from "./generated/src/models";
 
 /** Known values of {@link MediaType} that the service accepts. */

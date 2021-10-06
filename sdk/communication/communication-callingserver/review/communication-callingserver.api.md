@@ -9,18 +9,32 @@ import * as coreHttp from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { PhoneNumberIdentifier } from '@azure/communication-common';
 import { PipelineOptions } from '@azure/core-http';
+import { RestResponse } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AddParticipantOptions = OperationOptions;
 
 // @public
+export interface AddParticipantResult {
+    participantId?: string;
+}
+
+// @public (undocumented)
+export interface AddParticipantResultEvent {
+    operationContext?: string;
+    // Warning: (ae-forgotten-export) The symbol "ResultInfo" needs to be exported by the entry point index.d.ts
+    resultInfo?: ResultInfo;
+    // Warning: (ae-forgotten-export) The symbol "OperationStatus" needs to be exported by the entry point index.d.ts
+    status: OperationStatus;
+}
+
+// @public
 export class CallConnection {
     // Warning: (ae-forgotten-export) The symbol "CallConnections" needs to be exported by the entry point index.d.ts
     constructor(callConnectionId: string, callConnectionRestClient: CallConnections);
-    // Warning: (ae-forgotten-export) The symbol "AddParticipantResult" needs to be exported by the entry point index.d.ts
-    addParticipant(participant: CommunicationIdentifier, alternateCallerId?: string, operationContext?: string, options?: AddParticipantOptions): Promise<AddParticipantResult>;
-    cancelAllMediaOperations(operationContext?: string, options?: CancelAllMediaOperationsOptions): Promise<void>;
+    addParticipant(participant: CommunicationIdentifier, alternateCallerId?: string, operationContext?: string, options?: AddParticipantOptions): Promise<CallConnectionsAddParticipantResponse>;
+    cancelAllMediaOperations(operationContext?: string, options?: CancelAllMediaOperationsOptions): Promise<CallConnectionsCancelAllMediaOperationsResponse>;
     cancelParticipantMediaOperation(participant: CommunicationIdentifier, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
     hangUp(options?: HangUpOptions): Promise<void>;
     playAudio(audioFileUri: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
@@ -30,19 +44,61 @@ export class CallConnection {
 }
 
 // @public
+export type CallConnectionsAddParticipantResponse = AddParticipantResult & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: AddParticipantResult;
+    };
+};
+
+// Warning: (ae-forgotten-export) The symbol "CancelAllMediaOperationsResult" needs to be exported by the entry point index.d.ts
+//
+// @public
+export type CallConnectionsCancelAllMediaOperationsResponse = CancelAllMediaOperationsResult & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: CancelAllMediaOperationsResult;
+    };
+};
+
+// @public
+export type CallConnectionsPlayAudioResponse = PlayAudioResult & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: PlayAudioResult;
+    };
+};
+
+// @public
+export interface CallConnectionStateChangedEvent {
+    callConnectionId?: string;
+    // Warning: (ae-forgotten-export) The symbol "CallConnectionState" needs to be exported by the entry point index.d.ts
+    callConnectionState: CallConnectionState;
+    serverCallId?: string;
+}
+
+// @public
 export class CallingServerClient {
     constructor(connectionString: string, options?: CallingServerClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: CallingServerClientOptions);
-    addParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, callbackUri: string, alternateCallerId?: string, operationContext?: string, options?: AddParticipantOptions): Promise<AddParticipantResult>;
+    // Warning: (ae-forgotten-export) The symbol "ServerCallsAddParticipantResponse" needs to be exported by the entry point index.d.ts
+    addParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, callbackUri: string, alternateCallerId?: string, operationContext?: string, options?: AddParticipantOptions): Promise<ServerCallsAddParticipantResponse>;
     cancelMediaOperation(callLocator: CallLocator, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
     cancelParticipantMediaOperation(callLocator: CallLocator, participant: CommunicationIdentifier, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
     createCallConnection(source: CommunicationIdentifier, targets: CommunicationIdentifier[], options: CreateCallOptions): Promise<CallConnection>;
     getCallConnection(callConnectionId: string): CallConnection;
+    // Warning: (ae-forgotten-export) The symbol "CallRecordingProperties" needs to be exported by the entry point index.d.ts
+    getRecordingProperties(recordingId: string, options?: GetRecordingPropertiesOptions): Promise<CallRecordingProperties>;
     joinCall(callLocator: CallLocator, source: CommunicationIdentifier, options: JoinCallOptions): Promise<CallConnection>;
+    pauseRecording(recordingId: string, options?: PauseRecordingOptions): Promise<RestResponse>;
     playAudio(callLocator: CallLocator, audioFileUri: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
     playAudioToParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, audioFileUri: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
     removeParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, options?: RemoveParticipantOptions): Promise<void>;
-    }
+    resumeRecording(recordingId: string, options?: ResumeRecordingOptions): Promise<RestResponse>;
+    // Warning: (ae-forgotten-export) The symbol "StartCallRecordingResult" needs to be exported by the entry point index.d.ts
+    startRecording(callLocator: CallLocator, recordingStateCallbackUri: string, options?: StartRecordingOptions): Promise<StartCallRecordingResult>;
+    stopRecording(recordingId: string, options?: StopRecordingOptions): Promise<RestResponse>;
+}
 
 // @public
 export interface CallingServerClientOptions extends PipelineOptions {
@@ -59,6 +115,20 @@ export type CancelAllMediaOperationsOptions = OperationOptions;
 
 // @public
 export type CancelMediaOperationOptions = OperationOptions;
+
+// @public
+export interface CommunicationIdentifierModel {
+    communicationUser?: CommunicationUserIdentifierModel;
+    // Warning: (ae-forgotten-export) The symbol "MicrosoftTeamsUserIdentifierModel" needs to be exported by the entry point index.d.ts
+    microsoftTeamsUser?: MicrosoftTeamsUserIdentifierModel;
+    phoneNumber?: PhoneNumberIdentifierModel;
+    rawId?: string;
+}
+
+// @public
+export interface CommunicationUserIdentifierModel {
+    id: string;
+}
 
 // @public
 export interface CreateCallOptions extends OperationOptions {
@@ -79,6 +149,9 @@ export const enum EventSubscriptionType {
 
 // @public
 export const getLocatorKind: (locator: CallLocator) => CallLocatorKind;
+
+// @public
+export type GetRecordingPropertiesOptions = OperationOptions;
 
 // @public
 export interface GroupCallLocator {
@@ -108,11 +181,103 @@ export interface JoinCallOptions extends OperationOptions {
 }
 
 // @public
+export const enum KnownCallConnectionState {
+    // (undocumented)
+    Connected = "connected",
+    // (undocumented)
+    Connecting = "connecting",
+    // (undocumented)
+    Disconnected = "disconnected",
+    // (undocumented)
+    Disconnecting = "disconnecting",
+    // (undocumented)
+    TransferAccepted = "transferAccepted",
+    // (undocumented)
+    Transferring = "transferring"
+}
+
+// @public (undocumented)
+export class KnownCallingServerEventType {
+    // (undocumented)
+    static ADD_PARTICIPANT_RESULT_EVENT: string | null;
+    // (undocumented)
+    static CALL_CONNECTION_STATE_CHANGED_EVENT: string | null;
+    // (undocumented)
+    static CALL_RECORDING_STATE_CHANGED_EVENT: string | null;
+    // (undocumented)
+    static fromString(value: string): string | null;
+    // (undocumented)
+    static PARTICIPANTS_UPDATED_EVENT: string | null;
+    // (undocumented)
+    static PLAY_AUDIO_RESULT_EVENT: string | null;
+    // (undocumented)
+    static TONE_RECEIVED_EVENT: string | null;
+}
+
+// @public
+export const enum KnownOperationStatus {
+    // (undocumented)
+    Completed = "completed",
+    // (undocumented)
+    Failed = "failed",
+    // (undocumented)
+    NotStarted = "notStarted",
+    // (undocumented)
+    Running = "running"
+}
+
+// @public
+export const enum KnownToneValue {
+    // (undocumented)
+    A = "a",
+    // (undocumented)
+    B = "b",
+    // (undocumented)
+    C = "c",
+    // (undocumented)
+    D = "d",
+    // (undocumented)
+    Flash = "flash",
+    // (undocumented)
+    Pound = "pound",
+    // (undocumented)
+    Star = "star",
+    // (undocumented)
+    Tone0 = "tone0",
+    // (undocumented)
+    Tone1 = "tone1",
+    // (undocumented)
+    Tone2 = "tone2",
+    // (undocumented)
+    Tone3 = "tone3",
+    // (undocumented)
+    Tone4 = "tone4",
+    // (undocumented)
+    Tone5 = "tone5",
+    // (undocumented)
+    Tone6 = "tone6",
+    // (undocumented)
+    Tone7 = "tone7",
+    // (undocumented)
+    Tone8 = "tone8",
+    // (undocumented)
+    Tone9 = "tone9"
+}
+
+// @public
 export const enum MediaType {
     // (undocumented)
     Audio = "audio",
     // (undocumented)
     Video = "video"
+}
+
+// @public
+export type PauseRecordingOptions = OperationOptions;
+
+// @public
+export interface PhoneNumberIdentifierModel {
+    value: string;
 }
 
 // @public (undocumented)
@@ -127,14 +292,22 @@ export interface PlayAudioOptions extends OperationOptions {
 export interface PlayAudioResult {
     operationContext?: string;
     operationId?: string;
-    // Warning: (ae-forgotten-export) The symbol "ResultInfo" needs to be exported by the entry point index.d.ts
     resultInfo?: ResultInfo;
-    // Warning: (ae-forgotten-export) The symbol "OperationStatus" needs to be exported by the entry point index.d.ts
+    status: OperationStatus;
+}
+
+// @public
+export interface PlayAudioResultEvent {
+    operationContext?: string;
+    resultInfo?: ResultInfo;
     status: OperationStatus;
 }
 
 // @public
 export type RemoveParticipantOptions = OperationOptions;
+
+// @public
+export type ResumeRecordingOptions = OperationOptions;
 
 // @public
 export interface ServerCallLocator {
@@ -144,6 +317,25 @@ export interface ServerCallLocator {
 // @public
 export interface ServerCallLocatorKind extends ServerCallLocator {
     kind: "serverCall";
+}
+
+// @public
+export type StartRecordingOptions = OperationOptions;
+
+// @public
+export type StopRecordingOptions = OperationOptions;
+
+// @public
+export interface ToneInfo {
+    sequenceId: number;
+    // Warning: (ae-forgotten-export) The symbol "ToneValue" needs to be exported by the entry point index.d.ts
+    tone: ToneValue;
+}
+
+// @public
+export interface ToneReceivedEvent {
+    callConnectionId?: string;
+    toneInfo: ToneInfo;
 }
 
 // @public
