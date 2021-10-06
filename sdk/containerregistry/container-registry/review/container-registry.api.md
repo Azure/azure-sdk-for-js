@@ -160,9 +160,6 @@ export enum KnownContainerRegistryAudience {
     AzureResourceManagerPublicCloud = "https://management.azure.com"
 }
 
-// @public (undocumented)
-export const LATEST_API_VERSION = "2021-07-01";
-
 // @public
 export interface ListManifestPropertiesOptions extends OperationOptions {
     orderBy?: ManifestOrderBy;

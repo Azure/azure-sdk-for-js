@@ -29,7 +29,7 @@ import {
 import { RegistryArtifact } from "./registryArtifact";
 import { ContainerRegistryRefreshTokenCredential } from "./containerRegistryTokenCredential";
 
-export const LATEST_API_VERSION = "2021-07-01";
+const LATEST_API_VERSION = "2021-07-01";
 
 /**
  * Client options used to configure Container Registry Repository API requests.
