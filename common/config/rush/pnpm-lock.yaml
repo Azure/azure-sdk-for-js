@@ -11948,7 +11948,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: 4wULpLuLiMk7+loAe+RwRq6u0i6mPpBa5tfSgnso/gWqPQpMh+UfNseudJInXH0KXwTZMwvkwjQCP/dwvkeG4A==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-4wULpLuLiMk7+loAe+RwRq6u0i6mPpBa5tfSgnso/gWqPQpMh+UfNseudJInXH0KXwTZMwvkwjQCP/dwvkeG4A==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
