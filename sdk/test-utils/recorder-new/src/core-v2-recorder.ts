@@ -12,23 +12,17 @@ import {
   PipelineResponse,
   SendRequest
 } from "@azure/core-rest-pipeline";
-import { env, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
+import {
+  env,
+  isPlaybackMode,
+  isRecordMode,
+  setEnvironmentVariables
+} from "@azure-tools/test-recorder";
 import { RecorderError, RecordingStateManager } from "./utils/utils";
 import { Test } from "mocha";
 import { sessionFilePath } from "./utils/sessionFilePath";
-import { getRealFakePairs } from "./utils/connectionStringHelpers";
-
-const paths = {
-  playback: "/playback",
-  record: "/record",
-  start: "/start",
-  stop: "/stop",
-  admin: "/admin",
-  addSanitizer: "/addSanitizer",
-  info: "/info",
-  available: "/available",
-  active: "/active"
-};
+import { Sanitizer, SanitizerOptions } from "./sanitizer";
+import { paths } from "./utils/paths";
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
@@ -44,6 +38,7 @@ export class TestProxyHttpClient {
   private stateManager = new RecordingStateManager();
   public httpClient: HttpClient | undefined = undefined;
   private sessionFile: string | undefined = undefined;
+  private sanitizer: Sanitizer;
 
   constructor(private testContext?: Test | undefined) {
     this.mode = env.TEST_MODE;
@@ -57,6 +52,7 @@ export class TestProxyHttpClient {
         );
       }
     }
+    this.sanitizer = new Sanitizer(this.mode, this.url, this.httpClient, this.sessionFile);
   }
 
   /**
@@ -93,6 +89,12 @@ export class TestProxyHttpClient {
     return request;
   }
 
+  async addSanitizers(options: SanitizerOptions): Promise<void> {
+    if (isRecordMode()) {
+      return this.sanitizer.addSanitizers(options);
+    }
+  }
+
   /**
    * recorderHttpPolicy calls this method on the request to modify and hit the proxy-tool with appropriate headers.
    */
@@ -106,103 +108,12 @@ export class TestProxyHttpClient {
     return request;
   }
 
-  async transformsInfo(): Promise<string | null | undefined> {
-    if (this.recordingId !== undefined) {
-      const infoUri = `${this.url}${paths.info}${paths.available}`;
-      const req = this._createRecordingRequest(infoUri, "GET");
-      if (!this.httpClient) {
-        throw new RecorderError(
-          `Something went wrong, TestProxyHttpClient.httpClient should not have been undefined in ${this.mode} mode.`
-        );
-      }
-      const rsp = await this.httpClient.sendRequest({
-        ...req,
-        allowInsecureConnection: true
-      });
-      if (rsp.status !== 200) {
-        throw new RecorderError("Info request failed.");
-      }
-      return rsp.bodyAsText;
-    } else {
-      throw new RecorderError(
-        "Bad state, recordingId is not defined when called transformsInfo()."
-      );
-    }
-  }
-
-  async addSanitizer(replacer: { value: string; regex: string }): Promise<void> {
-    if (this.recordingId !== undefined) {
-      const infoUri = `${this.url}${paths.admin}${paths.addSanitizer}`;
-      const req = this._createRecordingRequest(infoUri);
-      req.headers.set("x-abstraction-identifier", "GeneralRegexSanitizer");
-      req.body = JSON.stringify(replacer);
-      if (!this.httpClient) {
-        throw new RecorderError(
-          `Something went wrong, TestProxyHttpClient.httpClient should not have been undefined in ${this.mode} mode.`
-        );
-      }
-      const rsp = await this.httpClient.sendRequest({
-        ...req,
-        allowInsecureConnection: true
-      });
-      if (rsp.status !== 200) {
-        throw new RecorderError("Info request failed.");
-      }
-    } else {
-      throw new RecorderError(
-        "Bad state, recordingId is not defined when called transformsInfo()."
-      );
-    }
-  }
-
-  async addConnectionStringSanitizer(replacer: {
-    actualConnString: string;
-    fakeConnString: string;
-  }): Promise<void> {
-    if (this.recordingId !== undefined) {
-      // extract connection string parts and match call
-      const pairsMatched = getRealFakePairs(replacer.actualConnString, replacer.fakeConnString);
-      for (const [key, value] of Object.entries(pairsMatched)) {
-        await this.addSanitizer({ value: value, regex: key });
-      }
-    } else {
-      throw new RecorderError(
-        "Bad state, recordingId is not defined when called transformsInfo()."
-      );
-    }
-  }
-
-  async removeHeaderSanitizer(headers: string[]): Promise<void> {
-    if (this.recordingId !== undefined) {
-      const infoUri = `${this.url}${paths.admin}${paths.addSanitizer}`;
-      const req = this._createRecordingRequest(infoUri);
-      req.headers.set("x-abstraction-identifier", "RemoveHeaderSanitizer");
-      req.body = JSON.stringify({ headersForRemoval: headers.toString() });
-      if (!this.httpClient) {
-        throw new RecorderError(
-          `Something went wrong, TestProxyHttpClient.httpClient should not have been undefined in ${this.mode} mode.`
-        );
-      }
-      const rsp = await this.httpClient.sendRequest({
-        ...req,
-        allowInsecureConnection: true
-      });
-      if (rsp.status !== 200) {
-        throw new RecorderError("Info request failed.");
-      }
-    } else {
-      throw new RecorderError(
-        "Bad state, recordingId is not defined when called transformsInfo()."
-      );
-    }
-  }
-
   /**
    * Call this method to ping the proxy-tool with a start request
    * signalling to start recording in the record mode
    * or to start playing back in the playback mode.
    */
-  async start(): Promise<void> {
+  async start(envSetupForPlayback: Record<string, string>): Promise<void> {
     if (isPlaybackMode() || isRecordMode()) {
       this.stateManager.state = "started";
       if (this.recordingId === undefined) {
@@ -227,7 +138,16 @@ export class TestProxyHttpClient {
           throw new RecorderError("No recording ID returned for a successful start request.");
         }
         this.recordingId = id;
+        if (!this.sanitizer) {
+          throw new RecorderError(
+            `Something went wrong, TestProxyHttpClient.sanitizer should not have been undefined in ${this.mode} mode.`
+          );
+        }
+        this.sanitizer.setRecordingId(this.recordingId);
       }
+    }
+    if (isPlaybackMode() && envSetupForPlayback) {
+      setEnvironmentVariables(env, envSetupForPlayback);
     }
   }
 
