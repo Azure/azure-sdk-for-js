@@ -94,6 +94,7 @@ specifiers:
   '@rush-temp/perf-keyvault-certificates': file:./projects/perf-keyvault-certificates.tgz
   '@rush-temp/perf-keyvault-keys': file:./projects/perf-keyvault-keys.tgz
   '@rush-temp/perf-keyvault-secrets': file:./projects/perf-keyvault-secrets.tgz
+  '@rush-temp/perf-monitor-query': file:./projects/perf-monitor-query.tgz
   '@rush-temp/perf-search-documents': file:./projects/perf-search-documents.tgz
   '@rush-temp/perf-service-bus': file:./projects/perf-service-bus.tgz
   '@rush-temp/perf-storage-blob': file:./projects/perf-storage-blob.tgz
@@ -223,6 +224,7 @@ dependencies:
   '@rush-temp/perf-keyvault-certificates': file:projects/perf-keyvault-certificates.tgz
   '@rush-temp/perf-keyvault-keys': file:projects/perf-keyvault-keys.tgz
   '@rush-temp/perf-keyvault-secrets': file:projects/perf-keyvault-secrets.tgz
+  '@rush-temp/perf-monitor-query': file:projects/perf-monitor-query.tgz
   '@rush-temp/perf-search-documents': file:projects/perf-search-documents.tgz
   '@rush-temp/perf-service-bus': file:projects/perf-service-bus.tgz
   '@rush-temp/perf-storage-blob': file:projects/perf-storage-blob.tgz
@@ -633,7 +635,7 @@ packages:
     resolution: {integrity: sha512-Q71Buur3RMcg6lCnisLL8Im562DBw+ybzgm+YQj/FbAaI8ZNu/zl/5z1fE4k3Q9LSIzYrz6HLRzlhdSBXpydlQ==}
     engines: {node: '>=8.0.0'}
     dependencies:
-      '@azure/core-http': 1.2.3
+      '@azure/core-http': 1.2.6
       '@azure/core-tracing': 1.0.0-preview.9
       '@azure/logger': 1.0.3
       '@azure/msal-node': 1.0.0-beta.6_debug@4.3.2
@@ -3048,7 +3050,7 @@ packages:
     resolution: {integrity: sha512-mel+jf7nrtEl5Pn1Qx46zARXKDpBbvzezse7p7LqINmdoIk8PYP5SySaxEmYv6TZ0JyEKA1hsCId6DIhgITtWQ==}
     deprecated: Debug versions >=3.2.0 <3.2.7 || >=4 <4.3.1 have a low-severity ReDos regression when used in a Node.js environment. It is recommended you upgrade to 3.2.7 or 4.3.1. (https://github.com/visionmedia/debug/issues/797)
     dependencies:
-      ms: 2.1.1
+      ms: 2.1.3
     dev: false
 
   /debug/3.2.7:
@@ -11575,6 +11577,25 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/perf-monitor-query.tgz:
+    resolution: {integrity: sha512-toEUj6i3XyxLZWIO8erTWaghQaQddo1Fqg5bXigfnfm1Ols9D49XWJlL1TkD4NN02MU04u0j6yYQu+dHSZ+SxQ==, tarball: file:projects/perf-monitor-query.tgz}
+    name: '@rush-temp/perf-monitor-query'
+    version: 0.0.0
+    dependencies:
+      '@types/node': 12.20.27
+      dotenv: 8.6.0
+      eslint: 7.32.0
+      prettier: 1.19.1
+      rimraf: 3.0.2
+      ts-node: 10.2.1_3c2c35653f239e2d026eed3c3359ac92
+      tslib: 2.3.1
+      typescript: 4.2.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
   file:projects/perf-search-documents.tgz:
     resolution: {integrity: sha512-JzZnuFWDzadcVL5Ch79lQLH2bLQbEGlh4m4RjmcE2FQMSUpyEeD6RsgRZjvdp9S1snhJgUHCnjNg8C/k/2GJzg==, tarball: file:projects/perf-search-documents.tgz}
     name: '@rush-temp/perf-search-documents'
@@ -11927,7 +11948,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: sha512-4wULpLuLiMk7+loAe+RwRq6u0i6mPpBa5tfSgnso/gWqPQpMh+UfNseudJInXH0KXwTZMwvkwjQCP/dwvkeG4A==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-Dj9zXeDcT7X3avSNb4fB2h21lQ/9+MDS/hty9X2ykdoF31dOgP35b8rWh/CbWJKC/ApK0CknW77zGHJctbvtgg==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
