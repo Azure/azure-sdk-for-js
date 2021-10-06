@@ -134,7 +134,7 @@ export class CommunicationRelayClient {
     );
 
     try {
-      const { _response, ...result } = await this.client.issueRelayConfiguration(
+      const {...result } = await this.client.issueRelayConfiguration(
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return result;

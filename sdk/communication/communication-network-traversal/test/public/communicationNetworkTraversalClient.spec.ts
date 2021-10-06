@@ -53,6 +53,7 @@ matrix([[true, false]], async function(useAad) {
         assert.isNotNull(iceServer.credential);
       }
     }).timeout(5000);
+    
     it("successfully gets a turn credential without providing a user identity", async function() {
       
       const turnCredentialResponse = await client.getRelayConfiguration();
