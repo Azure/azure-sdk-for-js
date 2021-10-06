@@ -13,14 +13,16 @@
  * old JavaScript, it is simple enough.
  */
 
+// This is the calling module, which will be the node repl context.
+const main = require.main || module.parent;
+
 const path = require("path");
 
-const ts = require("typescript");
+// We need to use whatever version of TypeScript the calling package uses to inspect syntax nodes, because
+// that is what the ts-node invocation will use, and we need to agree with it on syntax brands.
+const ts = main.require("./node_modules/typescript");
 
 const cwd = process.cwd();
-
-// This is the calling module, which will be the node repl context.
-const main = module.parent;
 
 // We need to know which package name to monkey patch
 const { name: hostPackageName } = main.require("./package.json");
