@@ -28,7 +28,7 @@ const TEST_SERVER_URL = `http://host.docker.internal:8080`; // Accessing host's 
     beforeEach(async function() {
       setTestMode(mode);
       recorder = new TestProxyHttpClient(this.currentTest);
-      await recorder.start();
+      await recorder.start({});
     });
 
     afterEach(async () => {
