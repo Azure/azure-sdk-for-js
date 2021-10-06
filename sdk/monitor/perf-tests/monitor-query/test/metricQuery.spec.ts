@@ -14,7 +14,7 @@ export class MetricsQueryTest extends MonitorQueryMetrics<MonitorQueryTestOption
   constructor() {
     super();
     this.metricsUri = getEnvVar("METRICS_RESOURCE_ID");
-    this.metricNames = ["MatchedEventCount"];
+    this.metricNames = ["SuccessfulCalls"];
     this.aggregations = ["Count"];
   }
 
