@@ -73,9 +73,6 @@ schema registry.
 
 ### Register a schema
 
-`registerSchema` sends a request to the service to register a schema, and then keeps
-a copy of the schema and its service ID in a local private cache.
-
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
 const { SchemaRegistryClient } = require("@azure/schema-registry");
@@ -84,7 +81,7 @@ const client = new SchemaRegistryClient("<endpoint>", new DefaultAzureCredential
 
 const description = {
   name: "<name>",
-  group: "<group>",
+  groupName: "<group name>",
   serializationType: "<serialization type>"
   content: "<schema content>"
 }
@@ -95,8 +92,6 @@ console.log(registered.id);
 
 ### Get ID of existing schema
 
-`getSchemaId` will send a request to the service only if the local cache did not have the schema.
-
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
 const { SchemaRegistryClient } = require("@azure/schema-registry");
@@ -105,7 +100,7 @@ const client = new SchemaRegistryClient("<endpoint>", new DefaultAzureCredential
 
 const description = {
   name: "<name>",
-  group: "<group>",
+  groupName: "<group name>",
   serializationType: "<serialization type>"
   content: "<schema content>"
 }
@@ -118,14 +113,12 @@ if (found) {
 
 ### Get content of existing schema by ID
 
-Similarly to `getSchemaId`, `getSchemaById` will send a request to the service only if the local cache did not have the schema ID.
-
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
 const { SchemaRegistryClient } = require("@azure/schema-registry");
 
 const client = new SchemaRegistryClient("<endpoint>", new DefaultAzureCredential());
-const foundSchema = await client.getSchemaById("<id>");
+const foundSchema = await client.getSchema("<id>");
 if (foundSchema) {
   console.log(`Got schema content=${foundSchema.content}`);
 }

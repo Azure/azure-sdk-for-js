@@ -10,7 +10,7 @@ import {
   Recorder,
   RecorderEnvironmentSetup,
   isPlaybackMode
-} from "@azure/test-utils-recorder";
+} from "@azure-tools/test-recorder";
 
 import { RemoteRenderingClient } from "../../src";
 import "./env";

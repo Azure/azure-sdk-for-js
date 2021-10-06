@@ -10,7 +10,7 @@ import * as coreHttp from "@azure/core-http";
 import { ApiVersion10, AppConfigurationOptionalParams } from "./models";
 
 const packageName = "app-configuration";
-const packageVersion = "1.3.0";
+const packageVersion = "1.3.1";
 
 /** @internal */
 export class AppConfigurationContext extends coreHttp.ServiceClient {

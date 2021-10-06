@@ -1,5 +1,50 @@
 # Release History
 
+## 3.14.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 3.14.1 (2021-09-02)
+
+### Bugs Fixed
+
+- Fix @azure/core-rest-pipeline version for AAD auth.
+
+## 3.14.0 (2021-09-01)
+
+### Features Added
+
+- _PREVIEW_ Adds `container.item(itemId).patch()`. `patch()` is an alternative to `replace()` for item updates. https://github.com/Azure/azure-sdk-for-js/pull/16264/files#diff-7caca690c469e2025576523c0377ac71815f001024fde7c48b20cd24adaa6977R561
+- _PREVIEW_ Adds support for Bulk operation PATCH.
+- _PREVIEW_ Adds support for Batch operation PATCH.
+
+### Bugs Fixed
+
+- Fixes bug where Batch was passing the wrong header for batch requests with partition keys
+- Fixes 401s when using AAD auth. AAD credentials should now work and no longer cause 429s from @azure/identity at high throughput.
+
+## 3.13.1 (2021-08-23)
+
+### Bugs Fixed
+
+- Fixed bugs in session token clearing logic. Session Not found (404, substatus 1002) was not being handled correctly by the session retry policy and would mistakenly retry the request with the same session token.
+
+## 3.13.0 (2021-08-10)
+
+### Features Added
+
+- Adds TransactionalBatch to items `container.items.batch(operations)`
+
+### Bugs Fixed
+
+- Fixed bulk requests which had operations without partitionKey specified.
+
 ## 3.12.3 (2021-07-23)
 
 ### Bugs Fixed
@@ -21,8 +66,10 @@
 ## 3.12.0 (2021-07-06)
 
 ### Features Added
+
 - With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 - Added background refresher for endpoints, and new `ConnectionPolicy` options. Refreshing defaults to true, and the default refresh rate is every 5 minutes.
+
 ```js
 const client = new CosmosClient({
   endpoint,
@@ -32,13 +79,14 @@ const client = new CosmosClient({
     endpointRefreshRateInMs: 700,
     enableBackgroundEndpointRefreshing: true
   }
-})
+});
 ```
 
 - Added `client.dispose()` for closing the endpoint refresher verbosely. Necessary when destroying the CosmosClient inside existing processes like an express web server, or when you want to destroy the client and create a new one in the same process.
+
 ```js
-const client = new CosmosClient()
-client.dispose() // cancels background endpoint refreshing
+const client = new CosmosClient();
+client.dispose(); // cancels background endpoint refreshing
 ```
 
 ## 3.11.5 (2021-06-10)

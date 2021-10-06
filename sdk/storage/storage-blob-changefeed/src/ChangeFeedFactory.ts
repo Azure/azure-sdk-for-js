@@ -70,7 +70,7 @@ export class ChangeFeedFactory {
       if (continuationToken) {
         cursor = JSON.parse(continuationToken);
         ChangeFeedFactory.validateCursor(containerClient, cursor!);
-        options.start = parseDateFromSegmentPath(cursor?.CurrentSegmentCursor.SegmentPath!);
+        options.start = parseDateFromSegmentPath(cursor!.CurrentSegmentCursor.SegmentPath!);
         options.end = new Date(cursor!.EndTime!);
       }
       // Round start and end time if we are not using the cursor.

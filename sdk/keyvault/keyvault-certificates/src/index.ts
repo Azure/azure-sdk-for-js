@@ -80,7 +80,10 @@ import {
   CertificateClientOptions,
   LATEST_API_VERSION,
   CancelCertificateOperationOptions,
-  ImportCertificatePolicy
+  ImportCertificatePolicy,
+  KnownCertificateKeyCurveNames,
+  KnownCertificateKeyTypes,
+  KnownKeyUsageTypes
 } from "./certificatesModels";
 
 import {
@@ -98,12 +101,9 @@ import {
   ActionType,
   DeletionRecoveryLevel,
   JsonWebKeyType as CertificateKeyType,
-  KnownJsonWebKeyType as KnownCertificateKeyTypes,
   JsonWebKeyCurveName as CertificateKeyCurveName,
-  KnownJsonWebKeyCurveName as KnownCertificateKeyCurveNames,
   KnownDeletionRecoveryLevel as KnownDeletionRecoveryLevels,
-  KeyUsageType,
-  KnownKeyUsageType as KnownKeyUsageTypes
+  KeyUsageType
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./constants";

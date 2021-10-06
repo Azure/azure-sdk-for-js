@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env } from "@azure/test-utils-recorder";
+import { env } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 
 // Async iterator's polyfill for Node 8

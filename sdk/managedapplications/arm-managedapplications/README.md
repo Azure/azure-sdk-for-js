@@ -47,7 +47,8 @@ Set the values of the client ID, tenant ID, and client secret of the AAD applica
 ```javascript
 const { ApplicationClient } = require("@azure/arm-managedapplications");
 const { DefaultAzureCredential } = require("@azure/identity");
-const client = new ApplicationClient("<endpoint>", new DefaultAzureCredential());
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
+const client = new ApplicationClient(new DefaultAzureCredential(), subscriptionId);
 ```
 
 ## Key concepts

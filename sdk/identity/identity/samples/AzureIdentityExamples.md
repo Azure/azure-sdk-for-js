@@ -1,7 +1,6 @@
 # Table of contents
 
 - [Introduction](#introduction)
-- [Requirements](#requirements)
 - [Authenticating client-side browser applications](#authenticating-client-side-browser-applications)
 - [Authenticating server-side applications](#authenticating-server-side-applications)
   - [Authenticating User Accounts](#authenticating-user-accounts)
@@ -10,16 +9,24 @@
   - [Authenticating Azure Hosted Applications](#authenticating-azure-hosted-applications)
 - [Chaining credentials](#chaining-credentials)
 - [Authenticating With Azure Stack using Azure Identity](#authenticating-with-azure-stack-using-azure-identity)
-- [Authenticating With Azure Stack using Azure Identity](#authenticating-with-azure-stack-using-azure-identity)
 - [Advanced Examples](#advanced-examples)
   - [Custom Credentials](#custom-credentials)
+  - [Implementing the TokenCredential Interface](#implementing-the-tokencredential-interface).
   - [Authenticating with a pre-fetched access token](#authenticating-with-a-pre-fetched-access-token).
   - [Authenticating with MSAL directly](#authenticating-with-msal-directly).
-    - [Authenticating with the @azure/msal-node Confidential Client](#authenticating-with-the-azure-msal-node-confidential-client).
-    - [Authenticating with the @azure/msal-node On Behalf Flow](#authenticating-with-the-azure-msal-node-on-behalf-flow).
-    - [Authenticating with the @azure/msal-browser Public Client](#authenticating-with-the-azure-msal-browser-public-client).
+    - [Authenticating with the @azure/msal-node Confidential Client](#authenticating-with-the-@azure/msal-node-confidential-client).
+    - [Authenticating with the @azure/msal-node On Behalf Flow](#authenticating-with-the-@azure/msal-node-on-behalf-of-flow).
+    - [Authenticating with the @azure/msal-browser Public Client](#authenticating-with-the-@azure/msal-browser-public-client).
   - [Authenticating with Key Vault Certificates](#authenticating-with-key-vault-certificates)
   - [Rolling Certificates](#rolling-certificates)
+  - [Control user interaction](#control-user-interaction)
+  - [Persist user authentication data](#persist-user-authentication-data)
+    - [Persist the token cache](#persist-the-token-cache)
+    - [Use a named token cache](#use-a-named-token-cache)
+    - [Persist the authentication record](#persist-the-authentication-record)
+    - [Silent authentication with authentication record and token cache persistence options](#silent-authentication-with-authentication-record-and-token-cache-persistence-options)
+    - [Allow unencrypted storage](#allow-unencrypted-storage)
+  - [Authenticate national clouds](#authenticate-national-clouds)
 
 ## Introduction
 
@@ -55,7 +62,7 @@ function withInteractiveBrowserCredential() {
 }
 ```
 
-If your project is already using MSAL to authenticate on the browser, or if you're looking for more advanced authentication scenarios in the browser, the Azure SDK makes it easy to use MSAL directly to authenticate our clients: [Authenticating with the @azure/msal-browser Public Client](#authenticating-with-the-azure-msal-browser-public-client).
+If your project is already using MSAL to authenticate on the browser, or if you're looking for more advanced authentication scenarios in the browser, the Azure SDK makes it easy to use MSAL directly to authenticate our clients: [Authenticating with the @azure/msal-browser Public Client](#authenticating-with-the-@azure/msal-browser-public-client).
 
 ## Authenticating server-side applications
 
@@ -99,11 +106,11 @@ To learn more, read [Application and service principal objects in Azure Active D
 - [Application registration][quickstart-register-app]
 - [Create a Service Principal with the Azure CLI][service_principal_azure_cli] or [Create an Azure service principal with Azure PowerShell][service_principal_azure_powershell]
 
-| Credential with example                                                                      | Usage                                                                                                                                                                                                                                                                                                                                          |
-| -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [ClientSecretCredential](#authenticating-a-service-principal-with-a-client-secret)           | Authenticates a service principal using a secret.                                                                                                                                                                                                                                                                                              |
-| [ClientCertificateCredential](#authenticating-a-service-principal-with-a-client-certificate) | Authenticates a service principal using a certificate.                                                                                                                                                                                                                                                                                         |
-| [EnvironmentCredential](#authenticating-a-service-principal-with-environment-credentials)    | Authenticates a service principal or user via credential information specified in environment variables.                                                                                                                                                                                                                                       |
+| Credential with example                                                                      | Usage                                                                                                                                                                                                                                                                                                                                           |
+| -------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [ClientSecretCredential](#authenticating-a-service-principal-with-a-client-secret)           | Authenticates a service principal using a secret.                                                                                                                                                                                                                                                                                               |
+| [ClientCertificateCredential](#authenticating-a-service-principal-with-a-client-certificate) | Authenticates a service principal using a certificate.                                                                                                                                                                                                                                                                                          |
+| [EnvironmentCredential](#authenticating-a-service-principal-with-environment-credentials)    | Authenticates a service principal or user via credential information specified in environment variables.                                                                                                                                                                                                                                        |
 | [DefaultAzureCredential](#authenticating-with-defaultazurecredential)                        | Tries `EnvironmentCredential`, `AzureCliCredential`, `AzurePowerShellCredential`, and other credentials sequentially until one of them succeeds. Use this to have your application authenticate using developer tools, service principals, or managed identity based on what's available in the current environment without changing your code. |
 
 ### Authenticating Azure Hosted Applications
@@ -112,7 +119,7 @@ If your application is hosted in Azure, you can make use of [Managed Identity](h
 
 | Credential with example                                                     | Usage                                                                                                                                                                                                                                                                                                                                                                        |
 | --------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [ManagedIdentityCredential](#authenticating-in-azure-with-managed-identity) | Authenticate in a virtual machine, App Service, Functions app, Cloud Shell, or AKS environment on Azure, with system-assigned managed identity, user-assigned managed identity, or app registration (when working with AKS pod identity).                                                                                                                                     |
+| [ManagedIdentityCredential](#authenticating-in-azure-with-managed-identity) | Authenticate in a virtual machine, App Service, Functions app, Cloud Shell, or AKS environment on Azure, with system-assigned managed identity, user-assigned managed identity, or app registration (when working with AKS pod identity).                                                                                                                                    |
 | [DefaultAzureCredential](#authenticating-with-defaultazurecredential)       | Tries `EnvironmentCredential`, `ManagedIdentityCredential`, `AzureCliCredential`, `AzurePowerShellCredential`, and other credentials sequentially until one of them succeeds. Use this to have your application authenticate using developer tools, service principals or managed identity based on what is available in the current environment without changing your code. |
 
 ### Examples
@@ -315,6 +322,8 @@ First, [register your application][quickstart-register-app] and get your client 
 Next, prompt the user to login at the URL documented at [Microsoft identity platform and OAuth 2.0 authorization code flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow#request-an-authorization-code). You'll need the client ID, tenant ID, redirect URL, and the scopes your application plans to access.
 
 Then create an API at the redirect URL with the following code to access the Key Vault service.
+
+To learn more about scopes and permissions, see [Scopes and permissions](https://docs.microsoft.com/azure/active-directory/develop/v2-permissions-and-consent#scopes-and-permissions).
 
 For a complete example using the authorization code flow in Electron, please refer to [our electron sample](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/frameworks/electron/ts/src/authProvider.ts)
 
@@ -528,9 +537,41 @@ The `@azure/identity` library covers a broad range of Azure Active Directory aut
 
 In this section, we'll examine some such scenarios.
 
+### Implementing the TokenCredential Interface
+
+The [@azure/core-auth][core_auth] package exports a `TokenCredential` interface. The interface is used by the `@azure/identity` package to define a standard public API for all of the Identity credentials we offer. Here's how this type looks in `@azure/core-auth`:
+
+```ts
+export interface TokenCredential {
+  getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+}
+```
+
+To satisfy this interface, one has to provide an object with a `getToken` function. This function will always receive a `scope` parameter, and should generally receive a second parameter, an options object. This `getToken` function is expected to return an object compatible with `@azure/core-auth`'s `AccessToken` interface, which is defined as follows:
+
+```ts
+export interface AccessToken {
+  expiresOnTimestamp: number;
+  token: string;
+}
+```
+
+As long as a valid `AccessToken` is returned, the parameters are not required to be used by a method implementing the `TokenCredential` interface. So, the simplest possible object compatible with the `TokenCredential` interface is one that has a `getToken` method that may return either null, or an object with two properties, a numeric property called `expiresOnTimestamp`, and a string property called `token`. Example:
+
+```ts
+const mySimpleCredential = {
+  getToken() {
+    return {
+      expiresOnTimestamp: Date.now() + 1000, // Expires in a second
+      token: "my access token"
+    };
+  }
+};
+```
+
 ### Authenticating with a pre-fetched access token
 
-The [@azure/core-auth][core_auth] package exports a `TokenCredential` interface. The interface is used by the `@azure/identity` package to define a standard public API for all of the Identity credentials we offer. There are cases in which it's convenient to create custom credentials. For example, when a token is pre-fetched, a custom `TokenCredential` can return that token as an `AccessToken` to the Azure SDK clients.
+There are cases in which it's convenient to create custom credentials. For example, when a token is pre-fetched, a custom `TokenCredential` can return that token as an `AccessToken` to the Azure SDK clients.
 
 In this example, `StaticTokenCredential` implements the `TokenCredential` abstraction. It takes a pre-fetched access token in its constructor as an [AccessToken](https://docs.microsoft.com/javascript/api/@azure/core-auth/accesstoken) and returns that from its implementation of `getToken()`.
 
@@ -646,7 +687,7 @@ import * as msalNode from "@azure/msal-node";
 class OnBehalfOfCredential implements TokenCredential {
   private confidentialApp: msalNode.ConfidentialClientApplication;
 
-  constructor (
+  constructor(
     private clientId: string,
     private clientSecret: string,
     private userAccessToken: string
@@ -696,7 +737,7 @@ For this example, you'll define a `BrowserCredential` class with the following m
 
 **Prerequisites**
 
-Install the [@azure/msal-browser][msal_browser_npm] and [@azure/core-auth][core_auth].  
+Install the [@azure/msal-browser][msal_browser_npm] and [@azure/core-auth][core_auth] packages.
 
 > For more information about MSAL for browsers, see [the README of the `@azure/msal-browser` package][msal_browser_readme].
 
@@ -726,7 +767,7 @@ class BrowserCredential implements TokenCredential {
       }
       await this.publicApp.handleRedirectPromise();
       this.hasAuthenticated = true;
-    } catch(e) {
+    } catch (e) {
       console.error("BrowserCredential prepare() failed", e);
     }
   }
@@ -907,6 +948,234 @@ class RotatingCertificateCredential implements TokenCredential {
 ```
 
 In this example, the custom credential type `RotatingCertificateCredential` again uses a `ClientCertificateCredential` instance to retrieve tokens. However, in this case, it will attempt to refresh the certificate before obtaining the token. The method `RefreshCertificate` will query to see if the certificate has changed. If so, it will replace `this.credential` with a new instance of the certificate credential using the same certificate path.
+
+### Control user interaction
+
+In many cases, applications require tight control over user interaction. In these applications, automatically blocking on required user interaction is often undesired or impractical. For this reason, credentials in the `@azure/identity` library that interact with the user offer mechanisms to fully control user interaction. These settings are available under `InteractiveCredentialOptions` in both Node.js and the browser.
+
+```ts
+const credential = new InteractiveBrowserCredential({
+  disableAutomaticAuthentication: true
+});
+await credential.authenticate("https://vault.azure.net/.default");
+const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
+```
+
+In the preceding sample, the application is again using the `InteractiveBrowserCredential` to authenticate a `SecretClient`. There are two major differences from our first example. In this example:
+
+- The application is explicitly forcing any user interaction to happen before the credential is given to the client by calling the `authenticate` method.
+- The application is preventing the credential from automatically initiating user interaction. Even though the application authenticates the user before the credential is used, further interaction might still be needed. For instance, in the case that the user's refresh token expires or that a specific method requires additional consent or authentication.
+
+If `disableAutomaticAuthentication` is `false`, the user doesn't use `authenticate()`, and the user has never authenticated before, `getToken` will prompt the user to authenticate.
+
+By setting the option `disableAutomaticAuthentication` to `true`, the credential will fail to automatically authenticate calls in which user interaction is necessary. Instead, the credential will throw an `AuthenticationRequiredError`. If `disableAutomaticAuthentication` is set to `true`, the user doesn't use `authenticate()`, and the user has never authenticated before, `getToken` should fail hard.
+The following example demonstrates an application handling such an exception to prompt the user to authenticate only after some application logic has completed.
+
+```ts
+try {
+  await client.getSecret("secret-name");
+} catch (e) {
+  if (e.name === "AuthenticationRequiredError") {
+    await credential.authenticate(e.scopes);
+    console.log("Secret", await client.getSecret("secret-name"));
+  } else {
+    throw e;
+  }
+}
+```
+
+### Persist user authentication data
+
+Quite often, applications desire the ability to be run multiple times without re-authenticating the user on each execution. This requires that data from credentials be persisted outside of the application memory to authenticate silently on subsequent executions. Applications can persist this data using `tokenCachePersistenceOptions` when constructing the credential and persisting the `authenticationRecord` returned from `authenticate`.
+
+Many credential implementations in the `@azure/identity` library have an underlying token cache that persists sensitive authentication data such as account information, access tokens, and refresh tokens. By default, this data exists in an in-memory cache, which is specific to the credential instance. However, there are scenarios in which an application needs to persist it across executions to share the token cache across credentials. To accomplish this, the `@azure/identity` library provides the `tokenCachePersistenceOptions`.
+
+> IMPORTANT! The token cache contains sensitive data and MUST be protected to prevent compromising accounts. All application decisions regarding the persistence of the token cache must consider that a breach of its content will fully compromise all the accounts it contains.
+
+Starting in version 2 of `@azure/identity`, the `@azure/identity-cache-persistence` package can be used. This package provides a plugin to the `@azure/identity` package to enable persistent token caching. The package `@azure/identity-cache-persistence` exports a plugin object that you must pass as an argument to the top-level `useIdentityPlugin` function from the `@azure/identity` package.
+
+```
+npm install --save @azure/identity-cache-persistence
+```
+
+Enable token cache persistence in your application as follows:
+
+```ts
+import { useIdentityPlugin } from "@azure/identity";
+import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
+
+useIdentityPlugin(cachePersistencePlugin);
+```
+
+After calling `useIdentityPlugin`, the persistent token cache plugin is registered to the `@azure/identity` package and will be available on all credentials that support persistent token caching (those that have `tokenCachePersistenceOptions` in their constructor options).
+
+#### Persist the token cache
+
+The credential handles persisting all the data needed to silently authenticate one or many accounts. It manages sensitive data, such as refresh tokens and access tokens, which must be protected to prevent compromising the accounts related to them. The `@azure/identity` library will protect and cache sensitive token data, using available platform data protection, if `@azure/identity-cache-persistence` is configured. Otherwise, it will use only in-memory caching.
+
+To configure a credential, such as the `InteractiveBrowserCredential`, to persist token data, set the `tokenCachePersistenceOptions` option. The simplest way to persist the token data for a credential is to use the default `tokenCachePersistenceOptions`. This will persist and read token data from a shared persisted token cache protected to the current account.
+
+```ts
+import { useIdentityPlugin, InteractiveBrowserCredential } from "@azure/identity";
+import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
+
+useIdentityPlugin(cachePersistencePlugin);
+
+const credential = new InteractiveBrowserCredential({
+  tokenCachePersistenceOptions: {
+    enabled: true
+  }
+});
+```
+
+#### Use a named token cache
+
+Some applications may prefer to isolate the token cache they use and provide a unique identifier, instead of using the default. To accomplish this, specify the `tokenCachePersistenceOptions` when creating the credential and provide a `name` for the persisted cache instance.
+
+```ts
+const credential = new InteractiveBrowserCredential({
+  tokenCachePersistenceOptions: {
+    enabled: true,
+    name: "my_application_name"
+  }
+});
+```
+
+#### Persist the authentication record
+
+The `AuthenticationRecord` which is returned from the `authenticate`, contains data identifying an authenticated account. It's needed to identify the appropriate entry in the persisted token cache to silently authenticate on subsequent executions. There's no sensitive data in the `AuthenticationRecord`, so it can be persisted in a non-protected state. Ensure that you pass the appropriate scopes for your service to the `authenticate` method.
+
+The following example stores the `AuthenticationRecord` to the local file system after authenticating the user:
+
+```ts
+import {
+  useIdentityPlugin,
+  InteractiveBrowserCredential,
+  AuthenticationRecord,
+  serializeAuthenticationRecord
+} from "@azure/identity";
+import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
+import { writeFileSync } from "fs";
+import path from "path";
+
+useIdentityPlugin(cachePersistencePlugin);
+
+export async function main(): Promise<void> {
+  const AUTH_RECORD_PATH = "./tokencache.bin";
+  const credential = new InteractiveBrowserCredential({
+    tokenCachePersistenceOptions: {
+      enabled: true
+    }
+  });
+  const authRecord: AuthenticationRecord = await credential.authenticate(
+    "https://service/.default"
+  );
+  const content = serializeAuthenticationRecord(authRecord);
+  writeFileSsync(path.join(process.cwd(), AUTH_RECORD_PATH), content);
+}
+
+main().catch((err) => {
+  console.log("error code: ", err.code);
+  console.log("error message: ", err.message);
+  console.log("error stack: ", err.stack);
+  process.exit(1);
+});
+```
+
+#### Silent authentication with authentication record and token cache persistence options
+
+Once an application has configured a credential to persist token data and an `AuthenticationRecord`, it's possible to silently authenticate. The following example demonstrates setting the `tokenCachePersistenceOptions` and retrieving an `AuthenticationRecord` from the local file system to create an `InteractiveBrowserCredential` capable of silent authentication.
+
+```ts
+import {
+  useIdentityPlugin,
+  InteractiveBrowserCredential,
+  AuthenticationRecord,
+  deserializeAuthenticationRecord
+} from "@azure/identity";
+import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
+import { readFileSync } from "fs";
+import path from "path";
+
+useIdentityPlugin(cachePersistencePlugin);
+
+export async function main(): Promise<void> {
+  const AUTH_RECORD_PATH = "./tokencache.bin";
+  const fileContent = readFileSync(path.join(process.cwd(), AUTH_RECORD_PATH), {
+    encoding: "utf-8"
+  });
+  const authRecord: AuthenticationRecord = deserializeAuthenticationRecord(fileContent);
+
+  const credential = new InteractiveBrowserCredential({
+    tokenCachePersistenceOptions: {
+      enabled: true
+    },
+    authenticationRecord: authRecord
+  });
+}
+
+main().catch((err) => {
+  console.log("error code: ", err.code);
+  console.log("error message: ", err.message);
+  console.log("error stack: ", err.stack);
+  process.exit(1);
+});
+```
+
+The credential created in the preceding example will silently authenticate, given that a valid token corresponding to the `AuthenticationRecord` still exists in the persisted token data. There are some cases where interaction will still be required, such as on token expiry or when additional authentication is required for a particular resource.
+
+#### Allow unencrypted storage
+
+By default, the token cache will protect any data that is persisted using the user data protection APIs available on the current platform. However, there are cases where no data protection is available, and applications may choose to still persist the token cache in an unencrypted state. This is accomplished with the `unsafeAllowUnencryptedStorage` option.
+
+```ts
+import { useIdentityPlugin, InteractiveBrowserCredential } from "@azure/identity";
+import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
+
+useIdentityPlugin(cachePersistencePlugin);
+
+const credential = new InteractiveBrowserCredential({
+  tokenCachePersistenceOptions: {
+    enabled: true,
+    unsafeAllowUnencryptedStorage: true
+  }
+});
+```
+
+By setting `unsafeAllowUnencryptedStorage` to `true`, the credential will encrypt the contents of the token cache before persisting it, if data protection is available on the current platform. If platform data protection is unavailable, it will write and read the persisted token data to an unencrypted local file with access permissions restricted to the current user. If `unsafeAllowUnencryptedStorage` is `false` (the default), a `CredentialUnavailableError` will be thrown in the case that no data protection is available.
+
+### Authenticate national clouds
+
+National clouds are physically isolated instances of Azure. These regions of Azure are designed to make sure that data residency, sovereignty, and compliance requirements are honored within geographical boundaries. Including the global cloud, Azure Active Directory (Azure AD) is deployed in the following national clouds:
+
+- Azure Government
+- Azure Germany
+- Azure China 21Vianet
+
+All credentials have `authorityHost` as a setting in the constructor at some level. To authenticate for various national cloud or a private cloud, we can send the most appropriate `authorityHost`. We provide a set of common values through the `AzureAuthorityHosts` interface. So, for the US Government cloud, you could instantiate a credential this way:
+
+```ts
+import { AzureAuthorityHosts, ClientSecretCredential } from "@azure/identity";
+const credential = new ClientSecretCredential(
+  "<YOUR_TENANT_ID>",
+  "<YOUR_CLIENT_ID>",
+  "<YOUR_CLIENT_SECRET>",
+  {
+    authorityHost: AzureAuthorityHosts.AzureGovernment
+  }
+);
+```
+
+The following table shows common values provided through the `AzureAuthorityHosts`.
+
+| National Cloud                      | Azure AD authentication endpoint  | AzureAuthorityHost                     |
+| ----------------------------------- | --------------------------------- | -------------------------------------- |
+| Azure AD for US Government          | https://login.microsoftonline.us  | `AzureAuthorityHosts.AzureGovernment`  |
+| Azure AD Germany                    | https://login.microsoftonline.de  | `AzureAuthorityHosts.AzureGermany`     |
+| Azure AD China operated by 21Vianet | https://login.chinacloudapi.cn    | `AzureAuthorityHosts.AzureChina`       |
+| Azure AD (global service)           | https://login.microsoftonline.com | `AzureAuthorityHosts.AzurePublicCloud` |
+
+To learn more about Azure Authentication for National Clouds, see [National clouds](https://docs.microsoft.com/azure/active-directory/develop/authentication-national-cloud).
 
 <!-- LINKS -->
 

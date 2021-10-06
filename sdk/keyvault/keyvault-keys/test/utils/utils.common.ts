@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { SupportedVersions, supports, TestFunctionWrapper } from "@azure/test-utils";
-import { env } from "@azure/test-utils-recorder";
+import { env } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import { LATEST_API_VERSION } from "../../src/keysModels";
 

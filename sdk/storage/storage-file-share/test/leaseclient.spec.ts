@@ -3,9 +3,10 @@
 
 import * as assert from "assert";
 import { getBSU, recorderEnvSetup, bodyToString } from "./utils";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 import { ShareClient, ShareDirectoryClient, ShareFileClient } from "../src";
 import * as dotenv from "dotenv";
+import { Context } from "mocha";
 dotenv.config();
 
 // for file
@@ -22,7 +23,7 @@ describe("LeaseClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");

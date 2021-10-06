@@ -4,10 +4,12 @@
 import {
   BatchRequest as GeneratedBatchRequest,
   BatchQueryRequest as GeneratedBatchQueryRequest,
-  BatchQueryResponse as GeneratedBatchQueryResponse,
   QueryBatchResponse as GeneratedQueryBatchResponse,
+  BatchQueryResponse as GeneratedBatchQueryResponse,
   QueryBody,
-  Table as GeneratedTable
+  Table as GeneratedTable,
+  BatchQueryResults as GeneratedBatchQueryResults,
+  ErrorInfo as GeneratedErrorInfo
 } from "../generated/logquery/src";
 
 import {
@@ -19,57 +21,72 @@ import {
 
 import {
   MetricDefinitionsListOptionalParams as GeneratedMetricDefinitionsListOptionalParams,
-  MetricDefinitionsListResponse as GeneratedMetricDefinitionsListResponse
+  MetricDefinition as GeneratedMetricDefinition
 } from "../generated/metricsdefinitions/src";
 
-import { MetricNamespacesListResponse as GeneratedMetricNamespacesListResponse } from "../generated/metricsnamespaces/src";
-
+import { MetricNamespace as GeneratedMetricNamespace } from "../generated/metricsnamespaces/src";
 import { formatPreferHeader } from "./util";
 
 import {
-  BatchQuery,
-  GetMetricDefinitionsOptions,
-  GetMetricDefinitionsResult,
-  GetMetricNamespacesResult,
+  QueryBatch,
+  ListMetricDefinitionsOptions,
   LogsTable,
-  QueryLogsBatch,
-  QueryLogsBatchOptions,
-  QueryLogsBatchResult,
-  QueryMetricsOptions,
-  QueryMetricsResult
+  LogsQueryBatchResult,
+  MetricsQueryOptions,
+  MetricsQueryResult
 } from "../../src";
-import { Metric, MetricDefinition, TimeSeriesElement } from "../models/publicMetricsModels";
-import { FullOperationResponse } from "../../../../core/core-client/types/latest/core-client";
+import {
+  MetricNamespace,
+  Metric,
+  MetricDefinition,
+  TimeSeriesElement,
+  createMetricsQueryResult
+} from "../models/publicMetricsModels";
+import { FullOperationResponse } from "@azure/core-client";
+import {
+  convertIntervalToTimeIntervalObject,
+  convertTimespanToInterval
+} from "../timespanConversion";
+import { ErrorInfo, LogsQueryResult } from "../models/publicLogsModels";
 
 /**
  * @internal
  */
-export function convertRequestForQueryBatch(
-  batch: QueryLogsBatch,
-  batchOptions?: QueryLogsBatchOptions
-): GeneratedBatchRequest {
+export function convertRequestForQueryBatch(batch: QueryBatch[]): GeneratedBatchRequest {
   let id = 0;
 
-  const requests: GeneratedBatchQueryRequest[] = batch.queries.map((query: BatchQuery) => {
-    const body: QueryBody &
-      Partial<Pick<BatchQuery, "workspaceId">> &
+  const requests: GeneratedBatchQueryRequest[] = batch.map((query: QueryBatch) => {
+    const body: Exclude<QueryBody, "timespan"> &
       Partial<
         Pick<
-          QueryLogsBatchOptions,
-          "serverTimeoutInSeconds" | "includeQueryStatistics" | "additionalWorkspaces"
+          QueryBatch,
+          | "query"
+          | "workspaceId"
+          | "includeQueryStatistics"
+          | "additionalWorkspaces"
+          | "includeVisualization"
+          | "serverTimeoutInSeconds"
         >
       > = {
-      ...query
+      workspaceId: query.workspaceId,
+      query: query.query
     };
+    if (query["additionalWorkspaces"]) {
+      body["workspaces"] = query["additionalWorkspaces"].map((x) => x);
+    }
+    if (query["timespan"]) {
+      body["timespan"] = convertTimespanToInterval(query["timespan"]);
+    }
     delete body["workspaceId"];
-    delete body["serverTimeoutInSeconds"];
     delete body["includeQueryStatistics"];
-    body["workspaces"] = batchOptions?.additionalWorkspaces;
+    delete body["includeVisualization"];
+    delete body["additionalWorkspaces"];
+    delete body["serverTimeoutInSeconds"];
 
     const generatedRequest: GeneratedBatchQueryRequest = {
       id: id.toString(),
       workspace: query.workspaceId,
-      headers: formatPreferHeader(batchOptions),
+      headers: formatPreferHeader(query),
       body
     };
 
@@ -89,15 +106,16 @@ export function convertRequestForQueryBatch(
 export function convertResponseForQueryBatch(
   generatedResponse: GeneratedQueryBatchResponse,
   rawResponse: FullOperationResponse
-): QueryLogsBatchResult {
+): LogsQueryBatchResult {
   const fixApplied = fixInvalidBatchQueryResponse(generatedResponse, rawResponse);
-
   /* Sort the ids that are passed in with the queries, as numbers instead of strings
    * It is not guaranteed that service will return the responses for queries in the same order
    * as the queries are passed in
    */
-  const newResponse: QueryLogsBatchResult = {
-    results: generatedResponse.responses
+  const responseList = generatedResponse.responses || [];
+
+  const newResponse: LogsQueryBatchResult = {
+    results: responseList
       ?.sort((a, b) => {
         let left = 0;
         if (a.id != null) {
@@ -111,19 +129,24 @@ export function convertResponseForQueryBatch(
 
         return left - right;
       })
-      ?.map((response: GeneratedBatchQueryResponse) => ({
-        id: response.id,
-        status: response.status,
-        // hoist fields from the sub-object 'body' to this level
-        error: response.body?.error,
-        tables: response.body?.tables?.map(convertGeneratedTable)
-      }))
+      ?.map((response: GeneratedBatchQueryResponse) => convertBatchQueryResponseHelper(response))
   };
+  // compute status for failed or succeed or partial results
 
+  const resultsCount = newResponse.results?.length ?? 0;
+  for (let i = 0; i < resultsCount; i++) {
+    const result = newResponse.results[i];
+    if (result.error && result.tables) {
+      result.status = "Partial";
+    } else if (result.tables) {
+      result.status = "Success";
+    } else {
+      result.status = "Failed";
+    }
+  }
   (newResponse as any)["__fixApplied"] = fixApplied;
   return newResponse;
 }
-
 /**
  * This is a workaround for a service bug that we're investigating. The 'body' column will occasionally come
  * back as a JSON string, instead of being a JSON object.
@@ -169,21 +192,29 @@ export function fixInvalidBatchQueryResponse(
  * @internal
  */
 export function convertRequestForMetrics(
-  timespan: string,
-  queryMetricsOptions: QueryMetricsOptions | undefined
+  metricNames: string[],
+  queryMetricsOptions: MetricsQueryOptions | undefined
 ): GeneratedMetricsListOptionalParams {
   if (!queryMetricsOptions) {
-    return {
-      timespan
-    };
+    return {};
   }
 
-  const { orderBy, metricNames, aggregations, metricNamespace, ...rest } = queryMetricsOptions;
+  const {
+    orderBy,
+    aggregations,
+    metricNamespace,
+    timespan,
+    granularity,
+    ...rest
+  } = queryMetricsOptions;
 
   const obj: GeneratedMetricsListOptionalParams = {
-    ...rest,
-    timespan
+    ...rest
   };
+
+  if (timespan) {
+    obj.timespan = convertTimespanToInterval(timespan);
+  }
 
   if (orderBy) {
     obj.orderby = orderBy;
@@ -197,6 +228,9 @@ export function convertRequestForMetrics(
   if (metricNamespace) {
     obj.metricnamespace = metricNamespace;
   }
+  if (granularity) {
+    obj.interval = granularity;
+  }
   return obj;
 }
 
@@ -205,11 +239,12 @@ export function convertRequestForMetrics(
  */
 export function convertResponseForMetrics(
   generatedResponse: GeneratedMetricsListResponse
-): QueryMetricsResult {
+): MetricsQueryResult {
   const metrics: Metric[] = generatedResponse.value.map((metric: GeneratedMetric) => {
-    return {
+    const metricObject = {
       ...metric,
       name: metric.name.value,
+      description: metric.displayDescription,
       timeseries: metric.timeseries.map(
         (ts: GeneratedTimeSeriesElement) =>
           <TimeSeriesElement>{
@@ -221,28 +256,34 @@ export function convertResponseForMetrics(
           }
       )
     };
+    delete metricObject.displayDescription;
+    return metricObject;
   });
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars -- eslint doesn't recognize that the extracted variables are prefixed with '_' and are purposefully unused.
-  const { resourceregion, value: _ignoredValue, ...rest } = generatedResponse;
+  const { resourceregion, value: _ignoredValue, interval, timespan, ...rest } = generatedResponse;
 
-  const obj: QueryMetricsResult = {
+  const obj: Omit<MetricsQueryResult, "getMetricByName"> = {
     ...rest,
-    metrics
+    metrics,
+    timespan: convertIntervalToTimeIntervalObject(timespan)
   };
 
   if (resourceregion) {
     obj.resourceRegion = resourceregion;
   }
+  if (interval) {
+    obj.granularity = interval;
+  }
 
-  return obj;
+  return createMetricsQueryResult(obj);
 }
 
 /**
  * @internal
  */
 export function convertRequestOptionsForMetricsDefinitions(
-  options: GetMetricDefinitionsOptions | undefined
+  options: ListMetricDefinitionsOptions | undefined
 ): GeneratedMetricDefinitionsListOptionalParams {
   if (!options) {
     return {};
@@ -265,40 +306,52 @@ export function convertRequestOptionsForMetricsDefinitions(
  * @internal
  */
 export function convertResponseForMetricsDefinitions(
-  generatedResponse: GeneratedMetricDefinitionsListResponse
-): GetMetricDefinitionsResult {
-  return {
-    definitions: generatedResponse.value?.map((genDef) => {
-      const { name, dimensions, ...rest } = genDef;
+  generatedResponse: Array<GeneratedMetricDefinition>
+): Array<MetricDefinition> {
+  const definitions: Array<MetricDefinition> = generatedResponse?.map((genDef) => {
+    const { name, dimensions, displayDescription, ...rest } = genDef;
 
-      const response: MetricDefinition = {
-        ...rest
-      };
+    const response: MetricDefinition = {
+      ...rest
+    };
 
-      if (name?.value) {
-        response.name = name.value;
-      }
+    if (displayDescription) {
+      response.description = displayDescription;
+    }
+    if (name?.value) {
+      response.name = name.value;
+    }
 
-      const mappedDimensions = dimensions?.map((dim) => dim.value);
+    const mappedDimensions = dimensions?.map((dim) => dim.value);
 
-      if (mappedDimensions) {
-        response.dimensions = mappedDimensions;
-      }
-
-      return response;
-    })
-  };
+    if (mappedDimensions) {
+      response.dimensions = mappedDimensions;
+    }
+    return response;
+  });
+  return definitions;
 }
 
 /**
  * @internal
  */
 export function convertResponseForMetricNamespaces(
-  generatedResponse: GeneratedMetricNamespacesListResponse
-): GetMetricNamespacesResult {
-  return {
-    namespaces: generatedResponse.value
-  };
+  generatedResponse: Array<GeneratedMetricNamespace>
+): Array<MetricNamespace> {
+  const namespaces: Array<MetricNamespace> = generatedResponse?.map((genDef) => {
+    const { properties, ...rest } = genDef;
+
+    const response: MetricNamespace = {
+      ...rest
+    };
+
+    if (properties) {
+      response.metricNamespaceName = properties.metricNamespaceName;
+    }
+
+    return response;
+  });
+  return namespaces;
 }
 
 /**
@@ -334,6 +387,48 @@ export function convertGeneratedTable(table: GeneratedTable): LogsTable {
       }
 
       return row;
-    })
+    }),
+    columnDescriptors: table.columns
   };
+}
+
+/**
+ * @internal
+ */
+export function convertBatchQueryResponseHelper(
+  response: GeneratedBatchQueryResponse
+): Partial<LogsQueryResult> {
+  try {
+    const parsedResponseBody: GeneratedBatchQueryResults = JSON.parse(
+      response.body as any
+    ) as GeneratedBatchQueryResults;
+    return {
+      visualization: parsedResponseBody.render,
+      status: "Success", // Assume success until shown otherwise.
+      statistics: parsedResponseBody.statistics,
+      error: mapError(parsedResponseBody.error), // ? { ...parsedResponseBody.error, name: "Error" } : undefined,
+      tables: parsedResponseBody.tables?.map((table: GeneratedTable) =>
+        convertGeneratedTable(table)
+      )
+    };
+  } catch (e) {
+    return {
+      visualization: response.body?.render,
+      status: "Success", // Assume success until shown otherwise.
+      statistics: response.body?.statistics,
+      error: mapError(response.body?.error),
+      tables: response.body?.tables?.map((table: GeneratedTable) => convertGeneratedTable(table))
+    };
+  }
+}
+
+export function mapError(error?: GeneratedErrorInfo): ErrorInfo | undefined {
+  if (error) {
+    return {
+      ...error,
+      name: "Error",
+      innerError: mapError(error.innerError)
+    };
+  }
+  return undefined;
 }

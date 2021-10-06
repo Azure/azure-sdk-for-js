@@ -2,9 +2,9 @@
   "name": "@azure/loganalytics",
   "author": "Microsoft Corporation",
   "description": "LogAnalyticsClient Library with typescript type definitions for node.js and browser.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "dependencies": {
-    "@azure/ms-rest-js": "^1.1.0",
+    "@azure/ms-rest-js": "^2.4.0",
     "tslib": "^1.9.3"
   },
   "keywords": [

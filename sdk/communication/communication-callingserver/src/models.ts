@@ -3,13 +3,24 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { OperationOptions, TransferProgressEvent } from "@azure/core-http";
 import { PhoneNumberIdentifier } from "@azure/communication-common";
-import { AddParticipantResult, CallConnectionState, CancelAllMediaOperationsResult, MicrosoftTeamsUserIdentifierModel, OperationStatus, PlayAudioResult, ResultInfo, ToneValue } from "./generated/src";
 
-export {
-  PlayAudioResult
+export { 
+  PlayAudioResult,
+  PlayAudioResultEvent,
+  AddParticipantResult,
+  ToneReceivedEvent,
+  AddParticipantResultEvent,
+  CallConnectionStateChangedEvent,
+  ToneInfo,
+  CallConnectionsAddParticipantResponse,
+  CallConnectionsPlayAudioResponse,
+  PhoneNumberIdentifierModel,
+  CommunicationIdentifierModel,
+  CommunicationUserIdentifierModel,
+  KnownToneValue,
+  KnownCallConnectionState,
+  CallConnectionsCancelAllMediaOperationsResponse
 } from "./generated/src/models";
-import * as coreHttp from "@azure/core-http";
-
 
 /** Known values of {@link MediaType} that the service accepts. */
 export const enum MediaType {
@@ -33,12 +44,10 @@ export const enum KnownOperationStatus {
   Failed = "failed"
 }
 
-
-
 /**
  * Options to create a call.
  */
-export interface CreateCallConnectionOptions extends OperationOptions {
+export interface CreateCallOptions extends OperationOptions {
   /** The alternate identity of the source of the call if dialing out to a pstn number */
   alternateCallerId?: PhoneNumberIdentifier;
   /** The subject. */
@@ -65,155 +74,165 @@ export interface JoinCallOptions extends OperationOptions {
   requestedCallEvents?: EventSubscriptionType[];
 }
 
+export interface PlayAudioOptions extends OperationOptions {
+  /** The flag indicating whether audio file needs to be played in loop or not. */
+  loop: boolean;
+  /** The value to identify context of the operation. */
+  operationContext: string;
+  /** An id for the media in the AudioFileUri, using which we cache the media resource. */
+  audioFileId: string;
+  /** The callback Uri to receive PlayAudio status notifications. */
+  callbackUri: string;
+}
+
+/**
+ * Options to add participant to the call.
+ */
+export type AddParticipantOptions = OperationOptions;
+
+/**
+ * Options to remove participant from the call.
+ */
+export type RemoveParticipantOptions = OperationOptions;
+
+/**
+ * Options to cancel media operation in the call.
+ */
+export type CancelMediaOperationOptions = OperationOptions;
+
 /**
  * Options to hang up a call.
  */
-export type HangUpOptions = OperationOptions;
+export type HangUpOptions = OperationOptions
 
 /**
- * Options to play audio.
+ * Options to cancel all media operations.
  */
-export type PlayAudioOptions = OperationOptions;
+export type CancelAllMediaOperationsOptions = OperationOptions
+
+/**
+ * Options to transfer call.
+ */
+export type TransferCallOptions = OperationOptions
+
+/**
+ * Options to start recording.
+ */
+ export type StartRecordingOptions = OperationOptions;
+ /**
+ * Options to pause recording.
+ */
+ export type PauseRecordingOptions = OperationOptions;
+ /**
+  * Options to resume recording.
+  */
+ export type ResumeRecordingOptions = OperationOptions;
+ /**
+  * Options to stop recording.
+  */
+ export type StopRecordingOptions = OperationOptions;
+ /**
+  * Options to get recording properties.
+  */
+ export type GetRecordingPropertiesOptions = OperationOptions;
+
+/**
+ * Call Locator.
+ */
+export type CallLocator =
+  | GroupCallLocator
+  | ServerCallLocator;
 
 
-/** The play audio result event. */
-export interface PlayAudioResultEvent {
-  /** The result details. */
-  resultInfo?: ResultInfo;
-  /** The operation context. */
-  operationContext?: string;
-  /** The status of the operation */
-  status: OperationStatus;
+/**
+* The group call locator.
+*/
+export interface GroupCallLocator {
+  /**
+   * The group call id.
+   */
+  groupCallId: string;
 }
 
-/** The subscribe to tone event */
-export interface ToneReceivedEvent {
-  /** The tone info. */
-  toneInfo: ToneInfo;
-  /** The call connection id. */
-  callConnectionId?: string;
+
+/**
+* An Azure Communication user.
+*/
+export interface ServerCallLocator {
+  /**
+   * The server call id.
+   */
+  serverCallId: string;
 }
 
-export interface AddParticipantResultEvent {
-  /** The result details. */
-  resultInfo?: ResultInfo;
-  /** The operation context. */
-  operationContext?: string;
-  /** The status of the operation */
-  status: OperationStatus;
-}
-
-/** The call connection state changed event. */
-export interface CallConnectionStateChangedEvent {
-  /** The server call.id. */
-  serverCallId?: string;
-  /** The call connection id. */
-  callConnectionId?: string;
-  /** The call connection state. */
-  callConnectionState: CallConnectionState;
-}
-
-/** The information about the tone. */
-export interface ToneInfo {
-  /** The sequence id which can be used to determine if the same tone was played multiple times or if any tones were missed. */
-  sequenceId: number;
-  /** The tone value. */
-  tone: ToneValue;
-}
-
-/** Contains response data for the cancelAllMediaOperations operation. */
-export type CallConnectionsCancelAllMediaOperationsResponse = CancelAllMediaOperationsResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: CancelAllMediaOperationsResult;
-  };
+/**
+ * Tests an locator to determine whether it implements GroupCallLocator.
+ *
+ * @param locator - The assumed GroupCallLocator to be tested.
+ */
+export const isGroupCallLocator = (
+  locator: CallLocator
+): locator is GroupCallLocator => {
+  return typeof (locator as any).groupCallId === "string";
 };
 
-/** Contains response data for the addParticipant operation. */
-export type CallConnectionsAddParticipantResponse = AddParticipantResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: AddParticipantResult;
-  };
+/**
+ * Tests an locator to determine whether it implements ServerCallLocator.
+ *
+ * @param locator - The assumed ServerCallLocator to be tested.
+ */
+export const isServerCallLocator = (
+  locator: CallLocator
+): locator is ServerCallLocator => {
+  return typeof (locator as any).serverCallId === "string";
 };
 
-/** Contains response data for the playAudio operation. */
-export type CallConnectionsPlayAudioResponse = PlayAudioResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
+/**
+ * The CallLocatorKind is a discriminated union that adds a property `kind` to an CallLocator.
+ */
+export type CallLocatorKind =
+  | GroupCallLocatorKind
+  | ServerCallLocatorKind;
 
-    /** The response body as parsed JSON or XML */
-    parsedBody: PlayAudioResult;
-  };
+/**
+ * LocatorKind for a GroupCallLocator.
+ */
+export interface GroupCallLocatorKind extends GroupCallLocator {
+  /**
+   * The locator kind.
+   */
+  kind: "groupCall";
+}
+
+/**
+ * LocatorKind for ServerCallLocator.
+ */
+export interface ServerCallLocatorKind extends ServerCallLocator {
+  /**
+   * The locator kind.
+   */
+  kind: "serverCall";
+}
+
+/**
+ * Returns the CallLocatorKind for a given CallLocator. Returns undefined if the kind couldn't be inferred.
+ *
+ * @param locator - The locator whose kind is to be inferred.
+ */
+export const getLocatorKind = (
+  locator: CallLocator
+): CallLocatorKind => {
+  if (isGroupCallLocator(locator)) {
+    return { ...locator, kind: "groupCall" };
+  }
+  if (isServerCallLocator(locator)) {
+    return { ...locator, kind: "serverCall" };
+  }
+  throw "unknow CallLocator type.";
 };
-
-/** A phone number. */
-export interface PhoneNumberIdentifierModel {
-  /** The phone number in E.164 format. */
-  value: string;
-}
-
-/** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set. */
-export interface CommunicationIdentifierModel {
-  /** Raw Id of the identifier. Optional in requests, required in responses. */
-  rawId?: string;
-  /** The communication user. */
-  communicationUser?: CommunicationUserIdentifierModel;
-  /** The phone number. */
-  phoneNumber?: PhoneNumberIdentifierModel;
-  /** The Microsoft Teams user. */
-  microsoftTeamsUser?: MicrosoftTeamsUserIdentifierModel;
-}
-
-/** A user that got created with an Azure Communication Services resource. */
-export interface CommunicationUserIdentifierModel {
-  /** The Id of the communication user. */
-  id: string;
-}
-
-/** Known values of {@link ToneValue} that the service accepts. */
-export const enum KnownToneValue {
-  Tone0 = "tone0",
-  Tone1 = "tone1",
-  Tone2 = "tone2",
-  Tone3 = "tone3",
-  Tone4 = "tone4",
-  Tone5 = "tone5",
-  Tone6 = "tone6",
-  Tone7 = "tone7",
-  Tone8 = "tone8",
-  Tone9 = "tone9",
-  Star = "star",
-  Pound = "pound",
-  A = "a",
-  B = "b",
-  C = "c",
-  D = "d",
-  Flash = "flash"
-}
-
-/** Known values of {@link CallConnectionState} that the service accepts. */
-export const enum KnownCallConnectionState {
-  Incoming = "incoming",
-  Connecting = "connecting",
-  Connected = "connected",
-  Disconnecting = "disconnecting",
-  Disconnected = "disconnected"
-}
-
 
 /** Defines values for CallingServerEventType. */
-export const enum CallingServerEventType {
+enum CallingServerEventType {
 
   /** The call connection state change event type. */
   CALL_CONNECTION_STATE_CHANGED_EVENT = "Microsoft.Communication.CallConnectionStateChanged",
@@ -234,37 +253,10 @@ export const enum CallingServerEventType {
   TONE_RECEIVED_EVENT = "Microsoft.Communication.DtmfReceived",
 }
 
-/**
- * Options to start recording.
- */
-export type StartRecordingOptions = OperationOptions;
-/**
-* Options to pause recording.
-*/
-export type PauseRecordingOptions = OperationOptions;
-/**
- * Options to resume recording.
- */
-export type ResumeRecordingOptions = OperationOptions;
-/**
- * Options to stop recording.
- */
-export type StopRecordingOptions = OperationOptions;
-/**
- * Options to download content.
- */
 export interface DownloadContentOptions extends OperationOptions {
-   /** Return only the bytes of the blob in the specified range. */
-   range?: string;
+  /** Return only the bytes of the blob in the specified range. */
+  range?: string;
 }
-/**
- * Options to get recording file.
- */
-export type GetRecordingFileOptions = OperationOptions;
-/**
- * Options  to get recording state.
- */
-export type GetRecordingStateOptions = OperationOptions;
 
 export interface ContentDownloadOptions extends OperationOptions {
   /**
@@ -290,4 +282,23 @@ export interface ContentDownloadOptions extends OperationOptions {
    * Default value is 5, please set a larger value when loading large files in poor network.
    */
   maxRetryRequests?: number;
+}
+
+export class KnownCallingServerEventType {
+  public static CALL_CONNECTION_STATE_CHANGED_EVENT: string | null = KnownCallingServerEventType.fromString("Microsoft.Communication.CallConnectionStateChanged")
+  public static ADD_PARTICIPANT_RESULT_EVENT: string | null = KnownCallingServerEventType.fromString("Microsoft.Communication.AddParticipantResult")
+  public static CALL_RECORDING_STATE_CHANGED_EVENT: string | null = KnownCallingServerEventType.fromString("Microsoft.Communication.CallRecordingStateChanged")
+  public static PLAY_AUDIO_RESULT_EVENT: string | null = KnownCallingServerEventType.fromString("Microsoft.Communication.PlayAudioResult")
+  public static PARTICIPANTS_UPDATED_EVENT: string | null = KnownCallingServerEventType.fromString("Microsoft.Communication.ParticipantsUpdated")
+  public static TONE_RECEIVED_EVENT: string | null = KnownCallingServerEventType.fromString("Microsoft.Communication.DtmfReceived")
+
+  public static fromString(value: string) {
+    var allEvents = Object.values(CallingServerEventType)
+    for (let entry of allEvents) {
+      if (entry.toString().toUpperCase() == value.toUpperCase()) {
+        return value;
+      }
+    }
+    return null;
+  }
 }

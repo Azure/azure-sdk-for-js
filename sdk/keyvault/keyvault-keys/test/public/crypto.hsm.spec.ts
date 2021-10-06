@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import { Context } from "mocha";
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 
 import { CryptographyClient, KeyVaultKey, KeyClient } from "../../src";

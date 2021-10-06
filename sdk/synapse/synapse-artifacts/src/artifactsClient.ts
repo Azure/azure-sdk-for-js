@@ -6,20 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreAuth from "@azure/core-auth";
 import {
-  LinkedServiceImpl,
-  DatasetImpl,
-  PipelineImpl,
-  PipelineRunImpl,
-  TriggerImpl,
-  TriggerRunImpl,
-  DataFlowImpl,
+  LinkedServiceOperationsImpl,
+  DatasetOperationsImpl,
+  PipelineOperationsImpl,
+  PipelineRunOperationsImpl,
+  TriggerOperationsImpl,
+  TriggerRunOperationsImpl,
+  DataFlowOperationsImpl,
   DataFlowDebugSessionImpl,
-  SqlScriptImpl,
-  SparkJobDefinitionImpl,
-  NotebookImpl,
-  WorkspaceImpl,
+  SqlScriptOperationsImpl,
+  SparkJobDefinitionOperationsImpl,
+  NotebookOperationsImpl,
+  WorkspaceOperationsImpl,
   SqlPoolsImpl,
   BigDataPoolsImpl,
   IntegrationRuntimesImpl,
@@ -27,18 +27,18 @@ import {
   WorkspaceGitRepoManagementImpl
 } from "./operations";
 import {
-  LinkedService,
-  Dataset,
-  Pipeline,
-  PipelineRun,
-  Trigger,
-  TriggerRun,
-  DataFlow,
+  LinkedServiceOperations,
+  DatasetOperations,
+  PipelineOperations,
+  PipelineRunOperations,
+  TriggerOperations,
+  TriggerRunOperations,
+  DataFlowOperations,
   DataFlowDebugSession,
-  SqlScript,
-  SparkJobDefinition,
-  Notebook,
-  Workspace,
+  SqlScriptOperations,
+  SparkJobDefinitionOperations,
+  NotebookOperations,
+  WorkspaceOperations,
   SqlPools,
   BigDataPools,
   IntegrationRuntimes,
@@ -57,23 +57,25 @@ export class ArtifactsClient extends ArtifactsClientContext {
    * @param options The parameter options
    */
   constructor(
-    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
+    credentials: coreAuth.TokenCredential,
     endpoint: string,
     options?: ArtifactsClientOptionalParams
   ) {
     super(credentials, endpoint, options);
-    this.linkedService = new LinkedServiceImpl(this);
-    this.dataset = new DatasetImpl(this);
-    this.pipeline = new PipelineImpl(this);
-    this.pipelineRun = new PipelineRunImpl(this);
-    this.trigger = new TriggerImpl(this);
-    this.triggerRun = new TriggerRunImpl(this);
-    this.dataFlow = new DataFlowImpl(this);
+    this.linkedServiceOperations = new LinkedServiceOperationsImpl(this);
+    this.datasetOperations = new DatasetOperationsImpl(this);
+    this.pipelineOperations = new PipelineOperationsImpl(this);
+    this.pipelineRunOperations = new PipelineRunOperationsImpl(this);
+    this.triggerOperations = new TriggerOperationsImpl(this);
+    this.triggerRunOperations = new TriggerRunOperationsImpl(this);
+    this.dataFlowOperations = new DataFlowOperationsImpl(this);
     this.dataFlowDebugSession = new DataFlowDebugSessionImpl(this);
-    this.sqlScript = new SqlScriptImpl(this);
-    this.sparkJobDefinition = new SparkJobDefinitionImpl(this);
-    this.notebook = new NotebookImpl(this);
-    this.workspace = new WorkspaceImpl(this);
+    this.sqlScriptOperations = new SqlScriptOperationsImpl(this);
+    this.sparkJobDefinitionOperations = new SparkJobDefinitionOperationsImpl(
+      this
+    );
+    this.notebookOperations = new NotebookOperationsImpl(this);
+    this.workspaceOperations = new WorkspaceOperationsImpl(this);
     this.sqlPools = new SqlPoolsImpl(this);
     this.bigDataPools = new BigDataPoolsImpl(this);
     this.integrationRuntimes = new IntegrationRuntimesImpl(this);
@@ -81,18 +83,18 @@ export class ArtifactsClient extends ArtifactsClientContext {
     this.workspaceGitRepoManagement = new WorkspaceGitRepoManagementImpl(this);
   }
 
-  linkedService: LinkedService;
-  dataset: Dataset;
-  pipeline: Pipeline;
-  pipelineRun: PipelineRun;
-  trigger: Trigger;
-  triggerRun: TriggerRun;
-  dataFlow: DataFlow;
+  linkedServiceOperations: LinkedServiceOperations;
+  datasetOperations: DatasetOperations;
+  pipelineOperations: PipelineOperations;
+  pipelineRunOperations: PipelineRunOperations;
+  triggerOperations: TriggerOperations;
+  triggerRunOperations: TriggerRunOperations;
+  dataFlowOperations: DataFlowOperations;
   dataFlowDebugSession: DataFlowDebugSession;
-  sqlScript: SqlScript;
-  sparkJobDefinition: SparkJobDefinition;
-  notebook: Notebook;
-  workspace: Workspace;
+  sqlScriptOperations: SqlScriptOperations;
+  sparkJobDefinitionOperations: SparkJobDefinitionOperations;
+  notebookOperations: NotebookOperations;
+  workspaceOperations: WorkspaceOperations;
   sqlPools: SqlPools;
   bigDataPools: BigDataPools;
   integrationRuntimes: IntegrationRuntimes;

@@ -10,7 +10,7 @@ import {
 } from "./utils/testHelpers";
 import { AppConfigurationClient } from "../../src";
 import * as assert from "assert";
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
 describe("AppConfigurationClient (set|clear)ReadOnly", () => {

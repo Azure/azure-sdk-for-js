@@ -7,7 +7,7 @@ import { isNode } from "@azure/core-http";
 import { KeyClient } from "../../src";
 import { assertThrowsAbortError, getServiceVersion } from "../utils/utils.common";
 import { testPollerProperties } from "../utils/recorderUtils";
-import { env, Recorder, isRecordMode, isPlaybackMode } from "@azure/test-utils-recorder";
+import { env, Recorder, isRecordMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 

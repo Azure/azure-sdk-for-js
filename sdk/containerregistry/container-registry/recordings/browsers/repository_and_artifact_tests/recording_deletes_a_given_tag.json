@@ -1,33 +1,11 @@
 {
  "recordings": [
   {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1361",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 28 May 2021 22:17:31 GMT",
-    "expires": "-1",
-    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11722.21 - EUS ProdSlices",
-    "x-ms-request-id": "5253ea54-3fcc-487b-80a2-d131f26c7300"
-   }
-  },
-  {
    "method": "DELETE",
    "url": "https://myregistry.azurecr.io/acr/v1/library%2Fhello-world/_tags/test-delete",
-   "query": {},
+   "query": {
+    "api-version": "2021-07-01"
+   },
    "requestBody": null,
    "status": 401,
    "response": "{\"errors\":[{\"code\":\"UNAUTHORIZED\",\"message\":\"authentication required, visit https://aka.ms/acr/authorization for more information.\",\"detail\":[{\"Type\":\"repository\",\"Name\":\"library/hello-world\",\"Action\":\"delete\"}]}]}\n",
@@ -36,13 +14,13 @@
     "connection": "keep-alive",
     "content-length": "215",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 28 May 2021 22:17:31 GMT",
+    "date": "Mon, 20 Sep 2021 18:55:40 GMT",
     "docker-distribution-api-version": "registry/2.0",
     "server": "openresty",
     "strict-transport-security": "max-age=31536000; includeSubDomains, max-age=31536000; includeSubDomains",
-    "www-authenticate": "Bearer realm=\"https://myregistry.azurecr.io/oauth2/token\",service=\"myregistry.azurecr.io\",scope=\"repository:library/hello-world:delete\",error=\"invalid_token\"",
+    "www-authenticate": "Bearer realm=\"https://myregistry.azurecr.io/oauth2/token\",service=\"myregistry.azurecr.io\",scope=\"repository:library/hello-world:delete\"",
     "x-content-type-options": "nosniff",
-    "x-ms-correlation-request-id": "6479c141-ddad-4443-b55c-0a10a75d539b"
+    "x-ms-correlation-request-id": "1ed7da38-6df9-4679-9d25-3ad0afc59cf3"
    }
   },
   {
@@ -54,19 +32,19 @@
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-store, no-cache",
-    "content-length": "1361",
+    "content-length": "1351",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 28 May 2021 22:17:31 GMT",
+    "date": "Mon, 20 Sep 2021 18:55:40 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+bno\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11722.26 - SCUS ProdSlices",
-    "x-ms-request-id": "1a743a13-61fa-4b47-936b-d921065d0100"
+    "x-ms-ests-server": "2.1.12071.7 - NCUS ProdSlices",
+    "x-ms-request-id": "5fd77b3c-fee4-46d4-8294-f2629e8b9e00"
    }
   },
   {
@@ -79,12 +57,12 @@
    "responseHeaders": {
     "connection": "keep-alive",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 28 May 2021 22:17:31 GMT",
+    "date": "Mon, 20 Sep 2021 18:55:40 GMT",
     "server": "openresty",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "transfer-encoding": "chunked",
-    "x-ms-correlation-request-id": "7926dc81-015b-4cf2-a86e-f17f702dba4a",
-    "x-ms-ratelimit-remaining-calls-per-second": "166.1"
+    "x-ms-correlation-request-id": "f22e256b-6bb2-485d-9541-fb71469fd334",
+    "x-ms-ratelimit-remaining-calls-per-second": "165.866667"
    }
   },
   {
@@ -95,20 +73,22 @@
    "status": 200,
    "response": "{\"access_token\":\"access_token\"}",
    "responseHeaders": {
-    "connection": "keep-alive",
+    "connection": "close",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 28 May 2021 22:17:31 GMT",
+    "date": "Mon, 20 Sep 2021 18:55:40 GMT",
     "server": "openresty",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "transfer-encoding": "chunked",
-    "x-ms-correlation-request-id": "64b45e59-5c04-43bf-a701-0e0a0091f043",
-    "x-ms-ratelimit-remaining-calls-per-second": "166.083333"
+    "x-ms-correlation-request-id": "32828fbf-5430-48d9-a012-e2ae6b638c4d",
+    "x-ms-ratelimit-remaining-calls-per-second": "165.85"
    }
   },
   {
    "method": "DELETE",
    "url": "https://myregistry.azurecr.io/acr/v1/library%2Fhello-world/_tags/test-delete",
-   "query": {},
+   "query": {
+    "api-version": "2021-07-01"
+   },
    "requestBody": null,
    "status": 202,
    "response": "",
@@ -116,22 +96,24 @@
     "access-control-expose-headers": "Docker-Content-Digest, WWW-Authenticate, Link, X-Ms-Correlation-Request-Id",
     "connection": "keep-alive",
     "content-length": "0",
-    "date": "Fri, 28 May 2021 22:17:31 GMT",
+    "date": "Mon, 20 Sep 2021 18:55:41 GMT",
     "docker-distribution-api-version": "registry/2.0",
     "server": "openresty",
     "strict-transport-security": "max-age=31536000; includeSubDomains, max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-client-request-id": "3a343ad5-1f32-40dc-a459-ac190a5124e2",
-    "x-ms-correlation-request-id": "7a63073d-2eaa-4dd5-a52a-1d7e486f9094",
-    "x-ms-int-docker-content-digest": "sha256:5122f6204b6a3596e048758cabba3c46b1c937a46b5be6225b835d091b90e46c",
+    "x-ms-client-request-id": "3ca9205c-1cb7-4940-b6fa-90b49e749f08",
+    "x-ms-correlation-request-id": "5eac0f8a-a3a4-4f85-89f8-cca33bced93a",
+    "x-ms-int-docker-content-digest": "sha256:61bd3cb6014296e214ff4c6407a5a7e7092dfa8eefdbbec539e133e97f63e09f",
     "x-ms-ratelimit-remaining-calls-per-second": "8.000000",
-    "x-ms-request-id": "d0c5750a-531c-445a-9ce6-b1648c3806bb"
+    "x-ms-request-id": "65e557f7-60fb-46d3-a028-fd3443602bea"
    }
   },
   {
    "method": "GET",
    "url": "https://myregistry.azurecr.io/acr/v1/library%2Fhello-world/_tags/test-delete",
-   "query": {},
+   "query": {
+    "api-version": "2021-07-01"
+   },
    "requestBody": null,
    "status": 401,
    "response": "{\"errors\":[{\"code\":\"UNAUTHORIZED\",\"message\":\"authentication required, visit https://aka.ms/acr/authorization for more information.\",\"detail\":[{\"Type\":\"repository\",\"Name\":\"library/hello-world\",\"Action\":\"metadata_read\"}]}]}\n",
@@ -140,13 +122,13 @@
     "connection": "keep-alive",
     "content-length": "222",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 28 May 2021 22:17:31 GMT",
+    "date": "Mon, 20 Sep 2021 18:55:41 GMT",
     "docker-distribution-api-version": "registry/2.0",
     "server": "openresty",
     "strict-transport-security": "max-age=31536000; includeSubDomains, max-age=31536000; includeSubDomains",
-    "www-authenticate": "Bearer realm=\"https://myregistry.azurecr.io/oauth2/token\",service=\"myregistry.azurecr.io\",scope=\"repository:library/hello-world:metadata_read\",error=\"invalid_token\"",
+    "www-authenticate": "Bearer realm=\"https://myregistry.azurecr.io/oauth2/token\",service=\"myregistry.azurecr.io\",scope=\"repository:library/hello-world:metadata_read\"",
     "x-content-type-options": "nosniff",
-    "x-ms-correlation-request-id": "aab03983-12b9-43d4-9f8d-b4132d504099"
+    "x-ms-correlation-request-id": "f2aa59e5-3ed4-4753-91e9-19905d51c669"
    }
   },
   {
@@ -159,18 +141,20 @@
    "responseHeaders": {
     "connection": "keep-alive",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 28 May 2021 22:17:32 GMT",
+    "date": "Mon, 20 Sep 2021 18:55:41 GMT",
     "server": "openresty",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "transfer-encoding": "chunked",
-    "x-ms-correlation-request-id": "e286b7fb-cda3-442e-84d2-fbab9f5288b5",
-    "x-ms-ratelimit-remaining-calls-per-second": "166.066667"
+    "x-ms-correlation-request-id": "7d686796-2326-4a8e-861c-f2270c8a9ac7",
+    "x-ms-ratelimit-remaining-calls-per-second": "165.816667"
    }
   },
   {
    "method": "GET",
    "url": "https://myregistry.azurecr.io/acr/v1/library%2Fhello-world/_tags/test-delete",
-   "query": {},
+   "query": {
+    "api-version": "2021-07-01"
+   },
    "requestBody": null,
    "status": 404,
    "response": "{\"errors\":[{\"code\":\"TAG_UNKNOWN\",\"message\":\"the specified tag does not exist\"}]}\n",
@@ -179,12 +163,12 @@
     "connection": "keep-alive",
     "content-length": "81",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 28 May 2021 22:17:32 GMT",
+    "date": "Mon, 20 Sep 2021 18:55:41 GMT",
     "docker-distribution-api-version": "registry/2.0",
     "server": "openresty",
     "strict-transport-security": "max-age=31536000; includeSubDomains, max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-correlation-request-id": "f4ee5449-2fa8-4472-b422-cc31ba091f4a"
+    "x-ms-correlation-request-id": "a0178a37-b8de-4f91-9d12-048aa3ec3b44"
    }
   }
  ],
@@ -192,5 +176,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "8ef18f964ab14c0528464d04a659b509"
+ "hash": "815be5cab9022543070ebe8639679e33"
 }

@@ -2,7 +2,12 @@
 // Licensed under the MIT license.
 
 import { AzureCommunicationTokenCredential } from "@azure/communication-common";
-import { HttpClient, HttpHeaders, WebResourceLike, HttpOperationResponse } from "@azure/core-http";
+import {
+  createHttpHeaders,
+  HttpClient,
+  PipelineRequest,
+  PipelineResponse
+} from "@azure/core-rest-pipeline";
 import * as RestModel from "../../../src/generated/src/models";
 import { ChatClient, ChatParticipant, ChatThreadClient } from "../../../src";
 import { CommunicationIdentifierModel } from "../../../src/generated/src";
@@ -68,12 +73,12 @@ export const mockChatMessageReadReceipt: RestModel.ChatMessageReadReceipt = {
 
 export const generateHttpClient = (status: number, parsedBody?: unknown): HttpClient => {
   const mockHttpClient: HttpClient = {
-    async sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse> {
+    async sendRequest(httpRequest: PipelineRequest): Promise<PipelineResponse> {
       return {
         status: status,
-        headers: new HttpHeaders(),
+        headers: createHttpHeaders(),
         request: httpRequest,
-        parsedBody: parsedBody
+        bodyAsText: JSON.stringify(parsedBody)
       };
     }
   };

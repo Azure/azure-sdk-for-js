@@ -13,7 +13,9 @@ export interface SearchDocumentsTestOptions {
   documentsCount: number;
 }
 
-export abstract class SearchDocumentsBase<TOptions = Record<string, unknown>> extends PerfStressTest<TOptions> {
+export abstract class SearchDocumentsBase<
+  TOptions = Record<string, unknown>
+> extends PerfStressTest<TOptions> {
   searchIndexClient: SearchIndexClient;
   searchClient: SearchClient<Hotel>;
   indexName: string;

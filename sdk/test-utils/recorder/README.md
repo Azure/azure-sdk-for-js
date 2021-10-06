@@ -1,4 +1,6 @@
-## Azure test-utils-recorder SDK client library for JavaScript
+## Azure test-recorder SDK client library for JavaScript
+
+### **Note: This project is a test utility that assits with testing the packages maintained at the Azure SDK for JavaScript repository. This is not intended for the public utilization.**
 
 The Azure SDK for JavaScript is composed of a multitude of repositories that
 attempt to deliver a common, homogenous SDK to make use of all of the services
@@ -13,14 +15,14 @@ questions:
 - How to write tests that support parallelism?
 - How to write isomorphic tests for NodeJS and the Browsers?
 
-Our non-published package `@azure/test-utils-recorder` attempts to provide an
+Our non-published package `@azure-tools/test-recorder` attempts to provide an
 answer for those questions, as you'll be able to see throughout this README.
 
 This library provides interfaces and helper methods to equip the SDKs in the
 azure-sdk-for-js repo with the recording and playback capabilities for the
 tests, it targets HTTP requests in both Node.js and the Browsers.
 
-test-utils-recorder, as part of the Test Utils available in this repository, it
+test-recorder, as part of the Test Utils available in this repository, it
 is supposed to be added only as a devDependency and should be used only for the
 tests of an sdk.
 
@@ -62,7 +64,7 @@ tests of an sdk.
 ## Getting started
 
 We're about to go through how to set up your project to use the
-`@azure/test-utils-recorder` package.
+`@azure-tools/test-recorder` package.
 
 This document assumes familiarity with [git](https://git-scm.com) and [rush](https://rushjs.io).
 You can read more about how we use rush in the following links:
@@ -70,13 +72,13 @@ You can read more about how we use rush in the following links:
 - Rush used for [Project Orchestration](https://github.com/sadasant/azure-sdk-for-js/blob/master/CONTRIBUTING.md#project-orchestration).
 - [Rush for NPM users](https://github.com/sadasant/azure-sdk-for-js/blob/master/CONTRIBUTING.md#rush-for-npm-users).
 
-Keep in mind that `@azure/test-utils-recorder` is not a published package. It
+Keep in mind that `@azure-tools/test-recorder` is not a published package. It
 is only intended to be used by the libraries in the azure-sdk-for-js repository
 (at least for now).
 
 ### Installing the package
 
-To install the `@azure/test-utils-recorder` package, you'll need to start by
+To install the `@azure-tools/test-recorder` package, you'll need to start by
 cloning our azure-sdk-for-js repository. One way of doing this is by using the
 git command line interface, as follows:
 
@@ -99,15 +101,15 @@ This will optimistically assume you're in a fresh clone.
 From this point forward, we'll assume that you're developing (perhaps
 contributing!) to one of the azure-sdk-for-js's libraries. So, your next step
 is to change directory to the path relevant to your project. Let's say you want
-to add the `@azure/test-utils-recorder` package to `@azure/keyvault-keys` (it
-already uses test-utils-recorder, but bear with us), you'll be doing the
+to add the `@azure-tools/test-recorder` package to `@azure/keyvault-keys` (it
+already uses test-recorder, but bear with us), you'll be doing the
 following:
 
 ```bash
 cd sdk/keyvault/keyvault-keys
 ```
 
-Once there, you can add the test-utils-recorder package by changing your package.json
+Once there, you can add the test-recorder package by changing your package.json
 to include the following line in the devDependencies:
 
 ```bash
@@ -115,7 +117,7 @@ to include the following line in the devDependencies:
   // ... your package.json properties
   "devDependencies": {
     // ... your devDependencies
-    "@azure/test-utils-recorder": "1.0.0",
+    "@azure-tools/test-recorder": "1.0.0",
     // ... more of your devDependencies
   },
   // ... more of your package.json properties
@@ -131,13 +133,13 @@ rush update && rush install
 And you're ready! Now you can use the common recorder in your code, as shown below:
 
 ```typescript
-import * as commonRecorder from "@azure/test-utils-recorder";
+import * as commonRecorder from "@azure-tools/test-recorder";
 ```
 
 Or, if you know what functions you want to import, you can also do the following:
 
 ```typescript
-import { record, env, delay } from "@azure/test-utils-recorder";
+import { record, env, delay } from "@azure-tools/test-recorder";
 ```
 
 The common recorder provides the following public methods and properties:
@@ -189,7 +191,7 @@ recording tests right away by using the exported method `record()`. We'll get
 into the details further down this document. This function will do recordings,
 or will play back previous recordings, depending on an environment variable:
 `TEST_MODE`. If the environment variable `TEST_MODE` is empty, `record()` (and most
-of the functions provided by test-utils-recorder) won't be doing anything. You'll need
+of the functions provided by test-recorder) won't be doing anything. You'll need
 to set the `TEST_MODE` environment variable to `record` (or `soft-record`) to start recording, and then to
 `playback` to play the recordings back at your code.
 
@@ -300,12 +302,12 @@ section of our guidelines:
 
 To record your tests, make sure to set the environment variable `TEST_MODE` to
 `record` or `soft-record`, then in your code, call to the `record()` function exported from
-`@azure/test-utils-recorder`, then call it before the http request you want to
+`@azure-tools/test-recorder`, then call it before the http request you want to
 make. In the following example, we'll invoke the `record()` method before
 authenticating our KeyVault client:
 
 ```typescript
-import { env, record, Recorder } from "@azure/test-utils-recorder";
+import { env, record, Recorder } from "@azure-tools/test-recorder";
 import { KeysClient } from "@azure/keyvault-keys";
 
 describe("My test", () => {
@@ -429,7 +431,7 @@ about this feature [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sd
 
 Live tests need to do sensitive operations, like authenticating with your Azure
 credentials. To protect this information from the recordings,
-`@azure/test-utils-recorder` provides the following functions:
+`@azure-tools/test-recorder` provides the following functions:
 
 - `setReplaceableVariables`, which will allow you to hide sensitive content
   from the environment variables (more on that later).
@@ -450,7 +452,7 @@ store instead. To solve this issue in our previous example test, you may do the 
 
 ```typescript
 // You'll be most certainly importing more than this method.
-import { setReplaceableVariables } from "@azure/test-utils-recorder";
+import { setReplaceableVariables } from "@azure-tools/test-recorder";
 
 // Do this inside of the beforeEach, before you start recording.
 setReplaceableVariables({
@@ -505,7 +507,7 @@ as part of your recordings.
 
 A common issue while running integration tests is that, sometimes two persons
 or machines might try to run the same set of tests against the same resource.
-This is not directly related to the `@azure/test-utils-recorder` package, but
+This is not directly related to the `@azure-tools/test-recorder` package, but
 if you're getting into issues because of concurrent conflicting requests, we
 understand, and we might be able to help by providing you with the following
 suggestions:
@@ -524,7 +526,7 @@ as ideas. We understand that might not be an easy problem to fix.
 
 ### Isomorphic tests
 
-`@azure/test-utils-recorder` does support running tests in the browser. If you
+`@azure-tools/test-recorder` does support running tests in the browser. If you
 use Karma, as long as your karma configuration is correct, your tests should
 work both on NodeJS and in the browsers!
 
@@ -542,7 +544,7 @@ The common recorder might not be used yet in each one of the libraries in the
 azure-sdk-for-js repository (we're working on it). In the mean time, an easy
 way to find where we're using this package is by going through the following
 search link:
-<https://github.com/Azure/azure-sdk-for-js/search?q=test-utils-recorder>
+<https://github.com/Azure/azure-sdk-for-js/search?q=test-recorder>
 
 ## Contributing
 

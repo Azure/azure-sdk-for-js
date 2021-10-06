@@ -1,14 +1,10 @@
 # Release History
 
-## 4.4.1 (Unreleased)
+## 4.5.0 (Unreleased)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Added new System Event: `Microsoft.ContainerService.NewKubernetesVersionAvailable`
 
 ## 4.4.0 (2021-07-19)
 

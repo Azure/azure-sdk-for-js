@@ -129,7 +129,7 @@ export const SearchIndexerDataIdentity: coreHttp.CompositeMapper = {
     uberParent: "SearchIndexerDataIdentity",
     polymorphicDiscriminator: {
       serializedName: "@odata\\.type",
-      clientName: "@odata\\.type"
+      clientName: "odatatype"
     },
     modelProperties: {
       odatatype: {
@@ -150,7 +150,7 @@ export const DataChangeDetectionPolicy: coreHttp.CompositeMapper = {
     uberParent: "DataChangeDetectionPolicy",
     polymorphicDiscriminator: {
       serializedName: "@odata\\.type",
-      clientName: "@odata\\.type"
+      clientName: "odatatype"
     },
     modelProperties: {
       odatatype: {
@@ -171,7 +171,7 @@ export const DataDeletionDetectionPolicy: coreHttp.CompositeMapper = {
     uberParent: "DataDeletionDetectionPolicy",
     polymorphicDiscriminator: {
       serializedName: "@odata\\.type",
-      clientName: "@odata\\.type"
+      clientName: "odatatype"
     },
     modelProperties: {
       odatatype: {
@@ -1028,7 +1028,7 @@ export const SearchIndexerSkill: coreHttp.CompositeMapper = {
     uberParent: "SearchIndexerSkill",
     polymorphicDiscriminator: {
       serializedName: "@odata\\.type",
-      clientName: "@odata\\.type"
+      clientName: "odatatype"
     },
     modelProperties: {
       odatatype: {
@@ -1155,7 +1155,7 @@ export const CognitiveServicesAccount: coreHttp.CompositeMapper = {
     uberParent: "CognitiveServicesAccount",
     polymorphicDiscriminator: {
       serializedName: "@odata\\.type",
-      clientName: "@odata\\.type"
+      clientName: "odatatype"
     },
     modelProperties: {
       odatatype: {
@@ -1818,7 +1818,7 @@ export const LexicalAnalyzer: coreHttp.CompositeMapper = {
     uberParent: "LexicalAnalyzer",
     polymorphicDiscriminator: {
       serializedName: "@odata\\.type",
-      clientName: "@odata\\.type"
+      clientName: "odatatype"
     },
     modelProperties: {
       odatatype: {
@@ -1846,7 +1846,7 @@ export const LexicalTokenizer: coreHttp.CompositeMapper = {
     uberParent: "LexicalTokenizer",
     polymorphicDiscriminator: {
       serializedName: "@odata\\.type",
-      clientName: "@odata\\.type"
+      clientName: "odatatype"
     },
     modelProperties: {
       odatatype: {
@@ -1874,7 +1874,7 @@ export const TokenFilter: coreHttp.CompositeMapper = {
     uberParent: "TokenFilter",
     polymorphicDiscriminator: {
       serializedName: "@odata\\.type",
-      clientName: "@odata\\.type"
+      clientName: "odatatype"
     },
     modelProperties: {
       odatatype: {
@@ -1902,7 +1902,7 @@ export const CharFilter: coreHttp.CompositeMapper = {
     uberParent: "CharFilter",
     polymorphicDiscriminator: {
       serializedName: "@odata\\.type",
-      clientName: "@odata\\.type"
+      clientName: "odatatype"
     },
     modelProperties: {
       odatatype: {
@@ -1930,7 +1930,7 @@ export const LexicalNormalizer: coreHttp.CompositeMapper = {
     uberParent: "LexicalNormalizer",
     polymorphicDiscriminator: {
       serializedName: "@odata\\.type",
-      clientName: "@odata\\.type"
+      clientName: "odatatype"
     },
     modelProperties: {
       odatatype: {
@@ -1958,7 +1958,7 @@ export const Similarity: coreHttp.CompositeMapper = {
     uberParent: "Similarity",
     polymorphicDiscriminator: {
       serializedName: "@odata\\.type",
-      clientName: "@odata\\.type"
+      clientName: "odatatype"
     },
     modelProperties: {
       odatatype: {
@@ -2040,6 +2040,12 @@ export const AnalyzeRequest: coreHttp.CompositeMapper = {
       },
       tokenizer: {
         serializedName: "tokenizer",
+        type: {
+          name: "String"
+        }
+      },
+      normalizer: {
+        serializedName: "normalizer",
         type: {
           name: "String"
         }

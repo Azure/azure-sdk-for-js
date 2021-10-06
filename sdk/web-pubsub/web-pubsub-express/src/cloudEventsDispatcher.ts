@@ -30,7 +30,7 @@ function getConnectResponseHandler(
   connectRequest: ConnectRequest,
   response: ServerResponse
 ): ConnectResponseHandler {
-  let states: Record<string, any> = connectRequest.context.states;
+  const states: Record<string, any> = connectRequest.context.states;
   let modified = false;
   const handler = {
     setState(name: string, value: unknown): void {
@@ -62,7 +62,7 @@ function getUserEventResponseHandler(
   userRequest: UserEventRequest,
   response: ServerResponse
 ): UserEventResponseHandler {
-  let states: Record<string, any> = userRequest.context.states;
+  const states: Record<string, any> = userRequest.context.states;
   let modified = false;
   const handler = {
     setState(name: string, value: unknown): void {

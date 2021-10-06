@@ -1,8 +1,8 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "outDir": "./dist-esm/src",
-    "declarationDir": "./types/latest/src"
+    "outDir": "./dist-esm",
+    "declarationDir": "./types/latest"
   },
   "include": ["src/**/*.ts", "test/**/*.ts"]
 }

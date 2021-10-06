@@ -24,7 +24,7 @@ import {
   VirtualMachineImagesListSkusResponse
 } from "../models";
 
-/** Class representing a VirtualMachineImages. */
+/** Class containing VirtualMachineImages operations. */
 export class VirtualMachineImagesImpl implements VirtualMachineImages {
   private readonly client: ComputeManagementClientContext;
 

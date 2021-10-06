@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
-export const ChatMessageReadReceiptsCollection: coreHttp.CompositeMapper = {
+export const ChatMessageReadReceiptsCollection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ChatMessageReadReceiptsCollection",
@@ -37,7 +37,7 @@ export const ChatMessageReadReceiptsCollection: coreHttp.CompositeMapper = {
   }
 };
 
-export const ChatMessageReadReceipt: coreHttp.CompositeMapper = {
+export const ChatMessageReadReceipt: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ChatMessageReadReceipt",
@@ -67,7 +67,7 @@ export const ChatMessageReadReceipt: coreHttp.CompositeMapper = {
   }
 };
 
-export const CommunicationIdentifierModel: coreHttp.CompositeMapper = {
+export const CommunicationIdentifierModel: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CommunicationIdentifierModel",
@@ -103,7 +103,7 @@ export const CommunicationIdentifierModel: coreHttp.CompositeMapper = {
   }
 };
 
-export const CommunicationUserIdentifierModel: coreHttp.CompositeMapper = {
+export const CommunicationUserIdentifierModel: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CommunicationUserIdentifierModel",
@@ -119,7 +119,7 @@ export const CommunicationUserIdentifierModel: coreHttp.CompositeMapper = {
   }
 };
 
-export const PhoneNumberIdentifierModel: coreHttp.CompositeMapper = {
+export const PhoneNumberIdentifierModel: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PhoneNumberIdentifierModel",
@@ -135,7 +135,7 @@ export const PhoneNumberIdentifierModel: coreHttp.CompositeMapper = {
   }
 };
 
-export const MicrosoftTeamsUserIdentifierModel: coreHttp.CompositeMapper = {
+export const MicrosoftTeamsUserIdentifierModel: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MicrosoftTeamsUserIdentifierModel",
@@ -163,7 +163,7 @@ export const MicrosoftTeamsUserIdentifierModel: coreHttp.CompositeMapper = {
   }
 };
 
-export const CommunicationErrorResponse: coreHttp.CompositeMapper = {
+export const CommunicationErrorResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CommunicationErrorResponse",
@@ -179,7 +179,7 @@ export const CommunicationErrorResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const ChatError: coreHttp.CompositeMapper = {
+export const ChatError: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ChatError",
@@ -229,7 +229,7 @@ export const ChatError: coreHttp.CompositeMapper = {
   }
 };
 
-export const SendReadReceiptRequest: coreHttp.CompositeMapper = {
+export const SendReadReceiptRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SendReadReceiptRequest",
@@ -245,7 +245,7 @@ export const SendReadReceiptRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const SendChatMessageRequest: coreHttp.CompositeMapper = {
+export const SendChatMessageRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SendChatMessageRequest",
@@ -287,7 +287,7 @@ export const SendChatMessageRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const SendChatMessageResult: coreHttp.CompositeMapper = {
+export const SendChatMessageResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SendChatMessageResult",
@@ -303,7 +303,7 @@ export const SendChatMessageResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const ChatMessagesCollection: coreHttp.CompositeMapper = {
+export const ChatMessagesCollection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ChatMessagesCollection",
@@ -332,7 +332,7 @@ export const ChatMessagesCollection: coreHttp.CompositeMapper = {
   }
 };
 
-export const ChatMessage: coreHttp.CompositeMapper = {
+export const ChatMessage: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ChatMessage",
@@ -422,7 +422,7 @@ export const ChatMessage: coreHttp.CompositeMapper = {
   }
 };
 
-export const ChatMessageContent: coreHttp.CompositeMapper = {
+export const ChatMessageContent: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ChatMessageContent",
@@ -462,7 +462,7 @@ export const ChatMessageContent: coreHttp.CompositeMapper = {
   }
 };
 
-export const ChatParticipant: coreHttp.CompositeMapper = {
+export const ChatParticipant: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ChatParticipant",
@@ -490,7 +490,7 @@ export const ChatParticipant: coreHttp.CompositeMapper = {
   }
 };
 
-export const UpdateChatMessageRequest: coreHttp.CompositeMapper = {
+export const UpdateChatMessageRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "UpdateChatMessageRequest",
@@ -512,7 +512,7 @@ export const UpdateChatMessageRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const ChatParticipantsCollection: coreHttp.CompositeMapper = {
+export const ChatParticipantsCollection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ChatParticipantsCollection",
@@ -541,7 +541,7 @@ export const ChatParticipantsCollection: coreHttp.CompositeMapper = {
   }
 };
 
-export const AddChatParticipantsRequest: coreHttp.CompositeMapper = {
+export const AddChatParticipantsRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AddChatParticipantsRequest",
@@ -563,7 +563,7 @@ export const AddChatParticipantsRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const AddChatParticipantsResult: coreHttp.CompositeMapper = {
+export const AddChatParticipantsResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AddChatParticipantsResult",
@@ -585,7 +585,7 @@ export const AddChatParticipantsResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const CreateChatThreadRequest: coreHttp.CompositeMapper = {
+export const CreateChatThreadRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CreateChatThreadRequest",
@@ -613,7 +613,7 @@ export const CreateChatThreadRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const CreateChatThreadResult: coreHttp.CompositeMapper = {
+export const CreateChatThreadResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CreateChatThreadResult",
@@ -642,7 +642,7 @@ export const CreateChatThreadResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const ChatThreadProperties: coreHttp.CompositeMapper = {
+export const ChatThreadProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ChatThreadProperties",
@@ -685,7 +685,7 @@ export const ChatThreadProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const ChatThreadsItemCollection: coreHttp.CompositeMapper = {
+export const ChatThreadsItemCollection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ChatThreadsItemCollection",
@@ -714,7 +714,7 @@ export const ChatThreadsItemCollection: coreHttp.CompositeMapper = {
   }
 };
 
-export const ChatThreadItem: coreHttp.CompositeMapper = {
+export const ChatThreadItem: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ChatThreadItem",
@@ -750,7 +750,7 @@ export const ChatThreadItem: coreHttp.CompositeMapper = {
   }
 };
 
-export const UpdateChatThreadRequest: coreHttp.CompositeMapper = {
+export const UpdateChatThreadRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "UpdateChatThreadRequest",
@@ -765,7 +765,7 @@ export const UpdateChatThreadRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const SendTypingNotificationRequest: coreHttp.CompositeMapper = {
+export const SendTypingNotificationRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SendTypingNotificationRequest",

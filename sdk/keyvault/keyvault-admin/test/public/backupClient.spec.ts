@@ -4,7 +4,7 @@
 import * as chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
+import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 
 import { KeyVaultBackupClient } from "../../src";
 import { authenticate } from "../utils/authentication";

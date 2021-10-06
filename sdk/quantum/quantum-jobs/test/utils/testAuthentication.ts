@@ -3,7 +3,7 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { QuantumJobClient } from "../../src";
-import { env, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import { env, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 import TestClient from "./testClient";
 import { replaceStorageAccountInfo } from "./recorderUtils";
 

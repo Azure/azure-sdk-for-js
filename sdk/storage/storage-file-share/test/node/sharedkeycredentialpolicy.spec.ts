@@ -3,7 +3,8 @@
 
 import { getBSU, recorderEnvSetup } from "../utils";
 import { ShareClient } from "../../src";
-import { Recorder, record } from "@azure/test-utils-recorder";
+import { Recorder, record } from "@azure-tools/test-recorder";
+import { Context } from "mocha";
 
 describe("StorageSharedKeyCredentialPolicy Node.js only", () => {
   let shareName: string;
@@ -11,7 +12,7 @@ describe("StorageSharedKeyCredentialPolicy Node.js only", () => {
 
   let recorder: Recorder;
 
-  before(async function() {
+  before(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getBSU();
     shareName = recorder.getUniqueName("1share-with-dash");
@@ -20,13 +21,13 @@ describe("StorageSharedKeyCredentialPolicy Node.js only", () => {
     await recorder.stop();
   });
 
-  after(async function() {
+  after(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     await shareClient.delete();
     await recorder.stop();
   });
 
-  beforeEach(function() {
+  beforeEach(function(this: Context) {
     recorder = record(this, recorderEnvSetup);
   });
 

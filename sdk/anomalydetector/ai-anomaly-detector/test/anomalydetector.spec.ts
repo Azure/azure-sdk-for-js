@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import { Context } from "mocha";
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { AnomalyDetectorClient } from "../src/AnomalyDetectorClient";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { createRecordedAnomalyDetectorClient, testEnv } from "./utils/recordedClients";

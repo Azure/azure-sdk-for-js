@@ -6,6 +6,9 @@
 
 ### Breaking Changes
 
+- SpanOptions has been removed from OperationTracingOptions as it is internal and should not be exposed by client libraries.
+  - Customizing a newly created Span is only supported via passing `SpanOptions` to `createSpanFunction`
+
 ### Bugs Fixed
 
 ### Other Changes

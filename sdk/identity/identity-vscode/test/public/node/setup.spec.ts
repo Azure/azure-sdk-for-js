@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { vsCodeExtension as extension } from "../../../src";
+import { vsCodePlugin as plugin } from "../../../src";
 
-import { useIdentityExtension } from "@azure/identity";
+import { useIdentityPlugin } from "@azure/identity";
 
 before(function() {
-  useIdentityExtension(extension);
+  useIdentityPlugin(plugin);
 });

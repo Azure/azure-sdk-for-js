@@ -3,7 +3,7 @@
 
 import * as assert from "assert";
 
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 import * as dotenv from "dotenv";
 import {
   base64encode,
@@ -13,8 +13,10 @@ import {
   recorderEnvSetup
 } from "./utils";
 import { ContainerClient, BlobClient, BlockBlobClient } from "../src";
-import { Test_CPK_INFO } from "./utils/constants";
+import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
 import { BlockBlobTier } from "../src";
+import { Context } from "mocha";
+import { isNode } from "@azure/core-http";
 dotenv.config();
 
 describe("BlockBlobClient", () => {
@@ -26,7 +28,7 @@ describe("BlockBlobClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     const blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -37,7 +39,7 @@ describe("BlockBlobClient", () => {
     blockBlobClient = blobClient.getBlockBlobClient();
   });
 
-  afterEach(async function() {
+  afterEach(async function(this: Context) {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
       await recorder.stop();
@@ -54,7 +56,9 @@ describe("BlockBlobClient", () => {
   it("upload with progress report", async () => {
     const body: string = recorder.getUniqueName("randomstring");
     await blockBlobClient.upload(body, body.length, {
-      onProgress: () => {}
+      onProgress: () => {
+        /* empty */
+      }
     });
     const result = await blobClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
@@ -106,10 +110,14 @@ describe("BlockBlobClient", () => {
   it("stageBlock with progress report", async () => {
     const body = "HelloWorld";
     await blockBlobClient.stageBlock(base64encode("1"), body, body.length, {
-      onProgress: () => {}
+      onProgress: () => {
+        /* empty */
+      }
     });
     await blockBlobClient.stageBlock(base64encode("2"), body, body.length, {
-      onProgress: () => {}
+      onProgress: () => {
+        /* empty */
+      }
     });
     await blockBlobClient.commitBlockList([base64encode("1"), base64encode("2")]);
     const listResponse = await blockBlobClient.getBlockList("committed");
@@ -124,12 +132,11 @@ describe("BlockBlobClient", () => {
     const body = "HelloWorld";
     await blockBlobClient.upload(body, body.length);
 
-    // When testing is in Node.js environment with shared key, setAccessPolicy will work
-    // But in browsers testing with SAS tokens, below will throw an exception, ignore it
-    try {
+    // When in browsers testing with SAS tokens, setAccessPolicy won't work.
+    // so only test setAccessPolicy in Node.js environment.
+    if (isNode) {
       await containerClient.setAccessPolicy("container");
-      // tslint:disable-next-line:no-empty
-    } catch (err) {}
+    }
 
     const newBlockBlobClient = containerClient.getBlockBlobClient(
       recorder.getUniqueName("newblockblob")
@@ -146,12 +153,11 @@ describe("BlockBlobClient", () => {
     const body = "HelloWorld";
     await blockBlobClient.upload(body, body.length);
 
-    // When testing is in Node.js environment with shared key, setAccessPolicy will work
-    // But in browsers testing with SAS tokens, below will throw an exception, ignore it
-    try {
+    // When in browsers testing with SAS tokens, setAccessPolicy won't work.
+    // so only test setAccessPolicy in Node.js environment.
+    if (isNode) {
       await containerClient.setAccessPolicy("container");
-      // tslint:disable-next-line:no-empty
-    } catch (err) {}
+    }
 
     const newBlockBlobClient = containerClient.getBlockBlobClient(
       recorder.getUniqueName("newblockblob")
@@ -262,7 +268,6 @@ describe("BlockBlobClient", () => {
 
   it("throws error if constructor containerName parameter is empty", async () => {
     try {
-      // tslint:disable-next-line: no-unused-expression
       new BlockBlobClient(getSASConnectionStringFromEnvironment(), "", "blobName");
       assert.fail("Expecting an thrown error but didn't get one.");
     } catch (error) {
@@ -323,12 +328,11 @@ describe("BlockBlobClient", () => {
     const body = "HelloWorld";
     await blockBlobClient.upload(body, body.length);
 
-    // When testing is in Node.js environment with shared key, setAccessPolicy will work
-    // But in browsers testing with SAS tokens, below will throw an exception, ignore it
-    try {
+    // When in browsers testing with SAS tokens, setAccessPolicy won't work.
+    // so only test setAccessPolicy in Node.js environment.
+    if (isNode) {
       await containerClient.setAccessPolicy("container");
-      // tslint:disable-next-line:no-empty
-    } catch (err) {}
+    }
 
     const newBlockBlobURL = containerClient.getBlockBlobClient(
       recorder.getUniqueName("newblockblob")

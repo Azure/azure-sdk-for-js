@@ -23,8 +23,9 @@ import {
 } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { record, delay, Recorder, isPlaybackMode } from "@azure/test-utils-recorder";
-import { Test_CPK_INFO } from "../utils/constants";
+import { record, delay, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
+import { Context } from "mocha";
 
 describe("PageBlobClient Node.js only", () => {
   let containerName: string;
@@ -36,7 +37,7 @@ describe("PageBlobClient Node.js only", () => {
   let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -72,7 +73,7 @@ describe("PageBlobClient Node.js only", () => {
     let copySource = pageBlobClient.withSnapshot(snapshotResult.snapshot!).url;
     let copyResponse = await destPageBlobClient.startCopyIncremental(copySource);
 
-    async function waitForCopy(retries = 0) {
+    async function waitForCopy(retries = 0): Promise<void> {
       if (retries >= 30) {
         throw new Error("Check copy status exceed max retries counts");
       }
@@ -169,7 +170,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.equal(await bodyToString(page2, 512), "b".repeat(512));
   });
 
-  it("uploadPagesFromURL - source SAS and destination bearer token", async function() {
+  it("uploadPagesFromURL - source SAS and destination bearer token", async function(this: Context) {
     if (!isPlaybackMode()) {
       // Enable this when STG78 - version 2020-10-02 is enabled on production.
       this.skip();
@@ -215,7 +216,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.equal(await bodyToString(page2, 512), "b".repeat(512));
   });
 
-  it("uploadPagesFromURL - source bear token and destination account key", async function() {
+  it("uploadPagesFromURL - source bear token and destination account key", async function(this: Context) {
     if (!isPlaybackMode()) {
       // Enable this when STG78 - version 2020-10-02 is enabled on production.
       this.skip();
@@ -237,14 +238,14 @@ describe("PageBlobClient Node.js only", () => {
     await pageBlobClient.uploadPagesFromURL(blockBlobClient.url, 0, 0, 512, {
       sourceAuthorization: {
         scheme: "Bearer",
-        parameter: accessToken!.token
+        value: accessToken!.token
       }
     });
 
     await pageBlobClient.uploadPagesFromURL(blockBlobClient.url, 512, 512, 512, {
       sourceAuthorization: {
         scheme: "Bearer",
-        parameter: accessToken!.token
+        value: accessToken!.token
       }
     });
 
@@ -255,7 +256,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.equal(await bodyToString(page2, 512), "b".repeat(512));
   });
 
-  it("uploadPagesFromURL - destination bearer token", async function() {
+  it("uploadPagesFromURL - destination bearer token", async function(this: Context) {
     if (!isPlaybackMode()) {
       // Enable this when STG78 - version 2020-10-02 is enabled on production.
       this.skip();
@@ -491,6 +492,7 @@ describe("PageBlobClient Node.js only", () => {
       const copyResponse = await destPageBlobClient.startCopyIncremental(copySource);
       if (copyResponse.copyStatus === "pending") {
         // May fail as the copy succeeded during between? If so, ignore error in the abort as we don't care.
+        /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
         try {
           await destPageBlobClient.abortCopyFromURL(copyResponse.copyId!);
         } catch (err) {}

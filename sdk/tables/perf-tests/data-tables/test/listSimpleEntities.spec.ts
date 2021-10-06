@@ -1,10 +1,10 @@
 import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
 import { TablesTest } from "./tables.spec";
-import {TableEntityResult, TransactionAction } from "@azure/data-tables";
+import { TableEntityResult, TransactionAction } from "@azure/data-tables";
 import { createBatch } from "./utils/createBaseEntity";
 
 interface ListSimpleEntitiesTestOptions {
-    entityCount: number;
+  entityCount: number;
 }
 
 export class ListSimpleEntitiesTest extends TablesTest<ListSimpleEntitiesTestOptions> {
@@ -23,10 +23,13 @@ export class ListSimpleEntitiesTest extends TablesTest<ListSimpleEntitiesTestOpt
 
   public async globalSetup() {
     await super.globalSetup(); // Calling base class' setup
-    let batches: TransactionAction[][] = createBatch("simple", this.parsedOptions.entityCount.value!);
+    const batches: TransactionAction[][] = createBatch(
+      "simple",
+      this.parsedOptions.entityCount.value!
+    );
 
-    for(const batch of batches) {
-        await this.client.submitTransaction(batch);
+    for (const batch of batches) {
+      await this.client.submitTransaction(batch);
     }
   }
 
@@ -39,7 +42,7 @@ export class ListSimpleEntitiesTest extends TablesTest<ListSimpleEntitiesTestOpt
     const entities: TableEntityResult<Record<string, unknown>>[] = [];
 
     for await (const entity of iter) {
-        entities.push(entity);
+      entities.push(entity);
     }
   }
 }

@@ -9,7 +9,7 @@ import sinon from "sinon";
 
 import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity/test/msalTestUtils";
 import { VisualStudioCodeCredential } from "@azure/identity";
-import { isRecordMode } from "@azure/test-utils-recorder";
+import { isRecordMode } from "@azure-tools/test-recorder";
 
 const mockedResponse = [
   {

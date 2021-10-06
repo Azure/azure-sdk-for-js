@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { matrix } from "@azure/test-utils";
-import { Recorder, env } from "@azure/test-utils-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { PhoneNumbersClient, SearchAvailablePhoneNumbersRequest } from "../../src";

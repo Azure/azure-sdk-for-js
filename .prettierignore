@@ -4,3 +4,5 @@
 **/*.yml
 **/*.yaml
 **/*.d.ts
+.env
+tsdoc-metadata.json

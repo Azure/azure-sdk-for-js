@@ -19,13 +19,13 @@
 - Else If TEST_MODE = "playback" (or if the TEST_MODE is neither "record" nor "live"),
   - Existing recordings are played back as responses to the HTTP requests in the tests
 
-Add `@azure/test-utils-recorder` as a devDependency of your sdk.
+Add `@azure-tools/test-recorder` as a devDependency of your sdk.
 
 ## Adding a new test/test-suite
 
 - `recorder` package assumes that the tests in the sdk are leveraging [mocha](https://mochajs.org/) and [rollup](https://rollupjs.org/guide/en/) (and [karma](https://karma-runner.github.io/latest/index.html) test runner for browser tests) as suggested by the [template](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/template) package in the repo.
 
-- `record` from `@azure/test-utils-recorder` package should be imported in the test files.
+- `record` from `@azure-tools/test-recorder` package should be imported in the test files.
 
 ### Recording the tests
 
@@ -37,7 +37,7 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
 - Follow the below template for adding a new test. `beforeEach` and `afterEach` sections are compulsory.
 
   ```typescript
-  import { record } from "@azure/test-utils-recorder";
+  import { record } from "@azure-tools/test-recorder";
 
   describe("<describe-block-title>", () => {
     beforeEach(async function() {
@@ -75,7 +75,7 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
   }
   ```
 
-- `RecorderEnvironmentSetup` type is being exposed from the `@azure/test-utils-recorder` package.
+- `RecorderEnvironmentSetup` type is being exposed from the `@azure-tools/test-recorder` package.
   Environment variables for the tests in the sdk can be managed with the setup on a per-test basis.
 
 - `replaceableVariables: { [ENV_VAR: string]: string };`
@@ -152,7 +152,7 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
 
 - If a new test/test-suite is added, execute the test/test-suite(or all the tests) by setting the env variable `TEST_MODE = record` and **commit** the generated recording files.
 
-### Importing `delay` from `@azure/test-utils-recorder`
+### Importing `delay` from `@azure-tools/test-recorder`
 
 - This `delay` has no effect if the `TEST_MODE` is `"playback"`.
 - `delay` works as expected(`await delay(<milliseconds>)`) if the `TEST_MODE` is not `"playback"`.
@@ -256,10 +256,10 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
   ```
 - Saving the recordings of browser tests in the `recordings/browsers` folder.
 
-  Import `jsonRecordingFilterFunction` from `"@azure/test-utils-recorder"` as shown below.
+  Import `jsonRecordingFilterFunction` from `"@azure-tools/test-recorder"` as shown below.
 
   ```javascript
-  const { jsonRecordingFilterFunction } = require("@azure/test-utils-recorder");
+  const { jsonRecordingFilterFunction } = require("@azure-tools/test-recorder");
   ```
 
   jsonToFileReporter in karma.conf.js filters the JSON strings in console.logs

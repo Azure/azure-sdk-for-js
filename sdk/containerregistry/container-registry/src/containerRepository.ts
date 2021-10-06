@@ -39,20 +39,22 @@ export interface GetRepositoryPropertiesOptions extends OperationOptions {}
  * Options for the `setProperties` method of `ContainerRepository`.
  */
 export interface UpdateRepositoryPropertiesOptions extends OperationOptions {
-  /** Delete enabled */
+  /** Whether or not this repository can be deleted */
   canDelete?: boolean;
-  /** Write enabled */
+  /** Whether or not this repository can be written to */
   canWrite?: boolean;
-  /** List enabled */
+  /** Whether or not include this repository when listing repositories */
   canList?: boolean;
-  /** Read enabled */
+  /** Whether or not this repository can be read */
   canRead?: boolean;
-  /** Enables Teleport functionality on new images in the repository improving Container startup performance */
-  teleportEnabled?: boolean;
 }
 
 /**
- * The helper used to interact with the Container Registry service.
+ * A `repository` in a container registry is a logical grouping of images or artifacts that share the same name.  For example,
+ * different versions of a `hello-world` application could have tags `v1` and `v2`, and be grouped by the repository `hello-world`.
+ *
+ * The {@link ContainerRepository} interface is a helper that groups information and operations about a repository in this
+ * container registry.
  */
 export interface ContainerRepository {
   /**
@@ -64,23 +66,36 @@ export interface ContainerRepository {
    */
   readonly name: string;
   /**
-   * Deletes this repository.
+   * Deletes this repository and all artifacts that are part of its logical group.
    *
    * @param options - optional configuration for the operation
    */
   delete(options?: DeleteRepositoryOptions): Promise<void>;
   /**
-   * Returns an instance of RegistryArtifact.
+   * Returns an helper instance of {@link RegistryArtifact} for the given tag or digest.
    * @param tagOrDigest - the tag or digest of the artifact
    */
   getArtifact(tagOrDigest: string): RegistryArtifact;
   /**
-   * Retrieves properties of this repository.
+   * Retrieves the properties of this repository.
    * @param options -
    */
   getProperties(options?: GetRepositoryPropertiesOptions): Promise<ContainerRepositoryProperties>;
   /**
-   * Updates repository attributes.
+   * Updates the properties of this repository.
+   *
+   * Example usage:
+   *
+   * ```javascript
+   * const client = new ContainerRegistryClient(url, credential);
+   * const repository = client.getRepository(repositoryName)
+   * const updated = await repository.updateProperties({
+   *   canDelete: false,
+   *   canList: false,
+   *   canRead: false,
+   *   canWrite: false
+   * });
+   * ```
    * @param options -
    */
   updateProperties(
@@ -88,6 +103,8 @@ export interface ContainerRepository {
   ): Promise<ContainerRepositoryProperties>;
   /**
    * Returns an async iterable iterator to list manifest properties.
+   * This is useful for determining the collection of artifacts associated with
+   * this repository, as each artifact is uniquely identified by its manifest.
    *
    * Example using `for-await-of` syntax:
    *
@@ -162,7 +179,7 @@ export class ContainerRepositoryImpl {
   }
 
   /**
-   * Deletes this repository.
+   * Deletes this repository and all artifacts that are part of its logical group.
    *
    * @param options - optional configuration for the operation
    */
@@ -180,7 +197,7 @@ export class ContainerRepositoryImpl {
   }
 
   /**
-   * Returns an instance of {@link RegistryArtifact} that interacts with a container registry artifact.
+   * Returns an helper instance of {@link RegistryArtifact} for the given tag or digest.
    * @param tagOrDigest - the tag or digest of the artifact
    */
   public getArtifact(tagOrDigest: string): RegistryArtifact {
@@ -191,7 +208,7 @@ export class ContainerRepositoryImpl {
   }
 
   /**
-   * Retrieves properties of this repository.
+   * Retrieves the properties of this repository.
    * @param options -
    */
   public async getProperties(
@@ -210,7 +227,20 @@ export class ContainerRepositoryImpl {
   }
 
   /**
-   * Updates repository attributes.
+   * Updates the properties of this repository.
+   *
+   * Example usage:
+   *
+   * ```javascript
+   * const client = new ContainerRegistryClient(url, credential);
+   * const repository = client.getRepository(repositoryName)
+   * const updated = await repository.updateProperties({
+   *   canDelete: false,
+   *   canList: false,
+   *   canRead: false,
+   *   canWrite: false
+   * });
+   * ```
    * @param options -
    */
   public async updateProperties(
@@ -220,8 +250,7 @@ export class ContainerRepositoryImpl {
       canDelete: options.canDelete,
       canWrite: options.canWrite,
       canList: options.canList,
-      canRead: options.canRead,
-      teleportEnabled: options.teleportEnabled
+      canRead: options.canRead
     };
     const { span, updatedOptions } = createSpan("ContainerRepository-updateProperties", {
       ...options,
@@ -240,6 +269,8 @@ export class ContainerRepositoryImpl {
 
   /**
    * Returns an async iterable iterator to list manifest properties.
+   * This is useful for determining the collection of artifacts associated with
+   * this repository, as each artifact is uniquely identified by its manifest.
    *
    * Example using `for-await-of` syntax:
    *

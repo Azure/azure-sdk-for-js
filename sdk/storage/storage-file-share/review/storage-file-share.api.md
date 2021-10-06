@@ -1085,8 +1085,8 @@ export interface HandleItem {
 
 // @public
 export interface HttpAuthorization {
-    parameter: string;
     scheme: string;
+    value: string;
 }
 
 export { HttpHeaders }
@@ -1158,9 +1158,6 @@ export interface ListFilesAndDirectoriesSegmentResponse {
     // (undocumented)
     shareSnapshot?: string;
 }
-
-// @public
-export type ListFilesIncludeType = "Timestamps" | "Etag" | "Attributes" | "PermissionKey";
 
 // @public
 export interface ListHandlesResponse {

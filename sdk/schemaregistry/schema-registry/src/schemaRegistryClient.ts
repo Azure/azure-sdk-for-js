@@ -10,13 +10,13 @@ import {
 import { convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
 
 import {
-  GetSchemaByIdOptions,
-  GetSchemaIdOptions,
+  GetSchemaOptions,
+  GetSchemaPropertiesOptions,
   SchemaDescription,
   SchemaRegistryClientOptions,
   SchemaRegistry,
   RegisterSchemaOptions,
-  SchemaId,
+  SchemaProperties,
   Schema
 } from "./models";
 import { DEFAULT_SCOPE } from "./constants";
@@ -32,9 +32,6 @@ export class SchemaRegistryClient implements SchemaRegistry {
 
   /** Underlying autorest generated client. */
   private readonly client: GeneratedSchemaRegistryClient;
-
-  private readonly schemaToIdMap: Map<SchemaDescription, SchemaId>;
-  private readonly idToSchemaMap: Map<string, Schema>;
 
   /**
    * Creates a new client for Azure Schema Registry service.
@@ -67,13 +64,6 @@ export class SchemaRegistryClient implements SchemaRegistry {
 
     const authPolicy = bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_SCOPE });
     this.client.pipeline.addPolicy(authPolicy);
-    this.schemaToIdMap = new Map();
-    this.idToSchemaMap = new Map();
-  }
-
-  private addToCache(schema: SchemaDescription, id: SchemaId): void {
-    this.schemaToIdMap.set(schema, id);
-    this.idToSchemaMap.set(id.id, { ...id, content: schema.content });
   }
 
   /**
@@ -89,47 +79,26 @@ export class SchemaRegistryClient implements SchemaRegistry {
   async registerSchema(
     schema: SchemaDescription,
     options?: RegisterSchemaOptions
-  ): Promise<SchemaId> {
-    const id = await this.client.schema
-      .register(schema.group, schema.name, schema.serializationType, schema.content, options)
+  ): Promise<SchemaProperties> {
+    return this.client.schema
+      .register(schema.groupName, schema.name, schema.format, schema.definition, options)
       .then(convertSchemaIdResponse);
-    this.addToCache(schema, id);
-    return id;
   }
 
   /**
    * Gets the ID of an existing schema with matching name, group, type, and
-   * content.
+   * definition.
    *
    * @param schema - Schema to match.
    * @returns Matched schema's ID or undefined if no matching schema was found.
    */
-  async getSchemaId(
+  async getSchemaProperties(
     schema: SchemaDescription,
-    options?: GetSchemaIdOptions
-  ): Promise<SchemaId | undefined> {
-    const cached = this.schemaToIdMap.get(schema);
-    if (cached !== undefined) {
-      return cached;
-    }
-    try {
-      const id = await this.client.schema
-        .queryIdByContent(
-          schema.group,
-          schema.name,
-          schema.serializationType,
-          schema.content,
-          options
-        )
-        .then(convertSchemaIdResponse);
-      this.addToCache(schema, id);
-      return id;
-    } catch (error) {
-      if (typeof error === "object" && error?.statusCode === 404) {
-        return undefined;
-      }
-      throw error;
-    }
+    options?: GetSchemaPropertiesOptions
+  ): Promise<SchemaProperties> {
+    return this.client.schema
+      .queryIdByContent(schema.groupName, schema.name, schema.format, schema.definition, options)
+      .then(convertSchemaIdResponse);
   }
 
   /**
@@ -138,27 +107,11 @@ export class SchemaRegistryClient implements SchemaRegistry {
    * @param id - Unique schema ID.
    * @returns Schema with given ID or undefined if no schema was found with the given ID.
    */
-  async getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema | undefined> {
-    const cached = this.idToSchemaMap.get(id);
-    if (cached !== undefined) {
-      return cached;
-    }
-    try {
-      const { flatResponse, rawResponse } = await getRawResponse(
-        (paramOptions) => this.client.schema.getById(id, paramOptions),
-        options || {}
-      );
-      const schema = convertSchemaResponse(flatResponse, rawResponse);
-      // the service should send schema's name and group in separate headers so
-      // we can implement the other direction of the bidirectional caching.
-      // see https://github.com/Azure/azure-sdk-for-js/issues/16763
-      this.idToSchemaMap.set(id, schema);
-      return schema;
-    } catch (error) {
-      if (typeof error === "object" && error?.statusCode === 404) {
-        return undefined;
-      }
-      throw error;
-    }
+  async getSchema(id: string, options?: GetSchemaOptions): Promise<Schema> {
+    const { flatResponse, rawResponse } = await getRawResponse(
+      (paramOptions) => this.client.schema.getById(id, paramOptions),
+      options || {}
+    );
+    return convertSchemaResponse(flatResponse, rawResponse);
   }
 }

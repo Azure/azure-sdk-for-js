@@ -29,11 +29,8 @@ export function getGenericBSU(
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountKeyEnvVar = `${accountType}ACCOUNT_KEY`;
 
-  let accountName: string | undefined;
-  let accountKey: string | undefined;
-
-  accountName = process.env[accountNameEnvVar];
-  accountKey = process.env[accountKeyEnvVar];
+  const accountName = process.env[accountNameEnvVar];
+  const accountKey = process.env[accountKeyEnvVar];
 
   if (!accountName || !accountKey || accountName === "" || accountKey === "") {
     throw new Error(
@@ -93,8 +90,7 @@ export async function bodyToString(
 ): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     response.readableStreamBody!.on("readable", () => {
-      let chunk;
-      chunk = response.readableStreamBody!.read(length);
+      const chunk = response.readableStreamBody!.read(length);
       if (chunk) {
         resolve(chunk.toString());
       }
@@ -125,16 +121,18 @@ export async function createRandomLocalFile(
     }
 
     ws.on("open", () => {
-      // tslint:disable-next-line:no-empty
-      while (offsetInMB++ < blockNumber && ws.write(randomValueHex())) {}
+      while (offsetInMB++ < blockNumber && ws.write(randomValueHex())) {
+        /* empty */
+      }
       if (offsetInMB >= blockNumber) {
         ws.end();
       }
     });
 
     ws.on("drain", () => {
-      // tslint:disable-next-line:no-empty
-      while (offsetInMB++ < blockNumber && ws.write(randomValueHex())) {}
+      while (offsetInMB++ < blockNumber && ws.write(randomValueHex())) {
+        /* empty */
+      }
       if (offsetInMB >= blockNumber) {
         ws.end();
       }
@@ -199,9 +197,7 @@ async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Bu
 
 export function getTokenCredential(): TokenCredential {
   const accountTokenEnvVar = `ACCOUNT_TOKEN`;
-  let accountToken: string | undefined;
-
-  accountToken = process.env[accountTokenEnvVar];
+  const accountToken = process.env[accountTokenEnvVar];
 
   if (!accountToken || accountToken === "") {
     throw new Error(`${accountTokenEnvVar} environment variables not specified.`);

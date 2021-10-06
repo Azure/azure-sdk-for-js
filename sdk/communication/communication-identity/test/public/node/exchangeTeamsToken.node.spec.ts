@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import { matrix } from "@azure/test-utils";
-import { env, isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
+import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { UsernamePasswordCredential } from "@azure/identity";
 import { CommunicationAccessToken, CommunicationIdentityClient } from "../../../src";
 import {

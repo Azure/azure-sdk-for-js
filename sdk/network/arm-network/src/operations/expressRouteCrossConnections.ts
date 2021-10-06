@@ -13,9 +13,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClientContext } from "../networkManagementClientContext";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { LroEngine } from "../lro";
-import { CoreClientLro, shouldDeserializeLro } from "../coreClientLro";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   ExpressRouteCrossConnection,
   ExpressRouteCrossConnectionsListNextOptionalParams,
@@ -42,7 +41,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a ExpressRouteCrossConnections. */
+/** Class containing ExpressRouteCrossConnections operations. */
 export class ExpressRouteCrossConnectionsImpl
   implements ExpressRouteCrossConnections {
   private readonly client: NetworkManagementClientContext;
@@ -249,13 +248,16 @@ export class ExpressRouteCrossConnectionsImpl
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { resourceGroupName, crossConnectionName, parameters, options },
-      createOrUpdateOperationSpec,
-      "azure-async-operation"
+      createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
+    });
   }
 
   /**
@@ -364,7 +366,7 @@ export class ExpressRouteCrossConnectionsImpl
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       {
         resourceGroupName,
@@ -373,10 +375,13 @@ export class ExpressRouteCrossConnectionsImpl
         devicePath,
         options
       },
-      listArpTableOperationSpec,
-      "location"
+      listArpTableOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
   }
 
   /**
@@ -466,7 +471,7 @@ export class ExpressRouteCrossConnectionsImpl
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       {
         resourceGroupName,
@@ -475,10 +480,13 @@ export class ExpressRouteCrossConnectionsImpl
         devicePath,
         options
       },
-      listRoutesTableSummaryOperationSpec,
-      "location"
+      listRoutesTableSummaryOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
   }
 
   /**
@@ -566,7 +574,7 @@ export class ExpressRouteCrossConnectionsImpl
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       {
         resourceGroupName,
@@ -575,10 +583,13 @@ export class ExpressRouteCrossConnectionsImpl
         devicePath,
         options
       },
-      listRoutesTableOperationSpec,
-      "location"
+      listRoutesTableOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
   }
 
   /**

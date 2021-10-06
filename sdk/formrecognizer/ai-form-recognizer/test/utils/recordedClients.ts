@@ -9,7 +9,7 @@ import {
   record,
   RecorderEnvironmentSetup,
   isPlaybackMode
-} from "@azure/test-utils-recorder";
+} from "@azure-tools/test-recorder";
 
 import { AzureKeyCredential, FormTrainingClient, FormRecognizerClient } from "../../src";
 import { ClientSecretCredential } from "@azure/identity";

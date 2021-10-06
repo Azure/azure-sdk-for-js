@@ -1,5 +1,18 @@
 # Release History
 
+## 1.3.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Using this SDK with the resources from Sovereign clouds (AzureUSGovernment/AzureChinaCloud) would have failed with an authorization error.
+  Has been fixed in [#17583](https://github.com/Azure/azure-sdk-for-js/pull/17583)
+
+### Other Changes
+
 ## 1.3.0 (2021-07-26)
 
 ### Features Added
@@ -28,7 +41,7 @@
 
 ### Fixed
 
-- High request rate would result in throttling. SDK would retry on the failed requests based on the service suggested time from the `retry-after-ms` header in the error response. If there are too many parallel requests, retries for all of them may also result in a high request rate entering into a state which might seem like the application is hanging forever.
+- High request rate would result in throttling. SDK would retry on the failed requests based on the service suggested time from the `retry-after-ms` header in the error response. If there are too many parallel requests, retries for all of them may also result in a high request rate entering into a state which might seem like the application is perpetually not responding.
   - [#15721](https://github.com/Azure/azure-sdk-for-js/pull/15721) allows the user-provided abortSignal to be taken into account to abort the requests sooner.
   - More resources - [App Configuration | Throttling](https://docs.microsoft.com/azure/azure-app-configuration/rest-api-throttling) and [App Configuration | Requests Quota](https://docs.microsoft.com/azure/azure-app-configuration/faq#which-app-configuration-tier-should-i-use)
 

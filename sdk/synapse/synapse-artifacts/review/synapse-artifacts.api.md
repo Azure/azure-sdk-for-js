@@ -4,15 +4,12 @@
 
 ```ts
 
-import * as coreHttp from '@azure/core-http';
-import { HttpMethods } from '@azure/core-http';
-import { HttpOperationResponse } from '@azure/core-http';
-import { OperationArguments } from '@azure/core-http';
-import { OperationSpec } from '@azure/core-http';
+import * as coreAuth from '@azure/core-auth';
+import * as coreClient from '@azure/core-client';
+import * as coreRestPipeline from '@azure/core-rest-pipeline';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { Poller } from '@azure/core-lro';
+import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
-import { RestResponse } from '@azure/core-http';
 
 // @public
 export interface Activity {
@@ -192,46 +189,46 @@ export interface ArtifactRenameRequest {
 
 // @public (undocumented)
 export class ArtifactsClient extends ArtifactsClientContext {
-    constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, endpoint: string, options?: ArtifactsClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, endpoint: string, options?: ArtifactsClientOptionalParams);
     // (undocumented)
-    bigDataPools: BigDataPoolsOperation;
+    bigDataPools: BigDataPools;
     // (undocumented)
-    dataFlow: DataFlowOperation;
+    dataFlowDebugSession: DataFlowDebugSession;
     // (undocumented)
-    dataFlowDebugSession: DataFlowDebugSessionOperation;
+    dataFlowOperations: DataFlowOperations;
     // (undocumented)
-    dataset: DatasetOperation;
+    datasetOperations: DatasetOperations;
     // (undocumented)
-    integrationRuntimes: IntegrationRuntimesOperation;
+    integrationRuntimes: IntegrationRuntimes;
     // (undocumented)
-    library: LibraryOperaion;
+    library: Library;
     // (undocumented)
-    linkedService: LinkedServiceOperation;
+    linkedServiceOperations: LinkedServiceOperations;
     // (undocumented)
-    notebook: NotebookOperation;
+    notebookOperations: NotebookOperations;
     // (undocumented)
-    pipeline: PipelineOperation;
+    pipelineOperations: PipelineOperations;
     // (undocumented)
-    pipelineRun: PipelineRunOperation;
+    pipelineRunOperations: PipelineRunOperations;
     // (undocumented)
-    sparkJobDefinition: SparkJobDefinitionOperation;
+    sparkJobDefinitionOperations: SparkJobDefinitionOperations;
     // (undocumented)
-    sqlPools: SqlPoolsOperation;
+    sqlPools: SqlPools;
     // (undocumented)
-    sqlScript: SqlScriptOperation;
+    sqlScriptOperations: SqlScriptOperations;
     // (undocumented)
-    trigger: TriggerOperation;
+    triggerOperations: TriggerOperations;
     // (undocumented)
-    triggerRun: TriggerRunOperation;
+    triggerRunOperations: TriggerRunOperations;
     // (undocumented)
-    workspace: WorkspaceOperation;
+    workspaceGitRepoManagement: WorkspaceGitRepoManagement;
     // (undocumented)
-    workspaceGitRepoManagement: WorkspaceGitRepoManagementOperation;
+    workspaceOperations: WorkspaceOperations;
 }
 
 // @public (undocumented)
-export class ArtifactsClientContext extends coreHttp.ServiceClient {
-    constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, endpoint: string, options?: ArtifactsClientOptionalParams);
+export class ArtifactsClientContext extends coreClient.ServiceClient {
+    constructor(credentials: coreAuth.TokenCredential, endpoint: string, options?: ArtifactsClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -239,7 +236,7 @@ export class ArtifactsClientContext extends coreHttp.ServiceClient {
 }
 
 // @public
-export interface ArtifactsClientOptionalParams extends coreHttp.ServiceClientOptions {
+export interface ArtifactsClientOptionalParams extends coreClient.ServiceClientOptions {
     apiVersion?: string;
     endpoint?: string;
 }
@@ -983,11 +980,6 @@ export type AzureTableStorageLinkedService = LinkedService & {
     encryptedCredential?: string;
 };
 
-// @public (undocumented)
-export interface BaseResult extends RestResponse {
-    _response: LROOperationResponse;
-}
-
 // @public
 export interface BigDataPoolReference {
     referenceName: string;
@@ -1026,26 +1018,24 @@ export interface BigDataPoolResourceInfoListResult {
 }
 
 // @public
-export type BigDataPoolsGetResponse = BigDataPoolResourceInfo & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: BigDataPoolResourceInfo;
-    };
-};
-
-// @public
-export type BigDataPoolsListResponse = BigDataPoolResourceInfoListResult & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: BigDataPoolResourceInfoListResult;
-    };
-};
-
-// @public
-export interface BigDataPoolsOperation {
-    get(bigDataPoolName: string, options?: coreHttp.OperationOptions): Promise<BigDataPoolsGetResponse>;
-    list(options?: coreHttp.OperationOptions): Promise<BigDataPoolsListResponse>;
+export interface BigDataPools {
+    get(bigDataPoolName: string, options?: BigDataPoolsGetOptionalParams): Promise<BigDataPoolsGetResponse>;
+    list(options?: BigDataPoolsListOptionalParams): Promise<BigDataPoolsListResponse>;
 }
+
+// @public
+export interface BigDataPoolsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BigDataPoolsGetResponse = BigDataPoolResourceInfo;
+
+// @public
+export interface BigDataPoolsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BigDataPoolsListResponse = BigDataPoolResourceInfoListResult;
 
 // @public
 export type BinaryDataset = Dataset & {
@@ -1235,7 +1225,7 @@ export type ConcurSource = TabularSource & {
 
 // @public
 export type ControlActivity = Activity & {
-    type: "Container";
+    type: "Container" | "ExecutePipeline" | "IfCondition" | "Switch" | "ForEach" | "Wait" | "Until" | "Validation" | "Filter" | "SetVariable" | "AppendVariable" | "WebHook";
 };
 
 // @public (undocumented)
@@ -1504,20 +1494,6 @@ export interface DataFlow {
 export type DataFlowComputeType = string;
 
 // @public
-export interface DataFlowCreateOrUpdateDataFlowOptionalParams extends coreHttp.OperationOptions {
-    ifMatch?: string;
-}
-
-// @public
-export type DataFlowCreateOrUpdateDataFlowResponse = DataFlowResource & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: DataFlowResource;
-        [LROSYM]: LROResponseInfo;
-    };
-};
-
-// @public
 export interface DataFlowDebugCommandRequest {
     commandName?: string;
     commandPayload: any;
@@ -1576,12 +1552,22 @@ export interface DataFlowDebugResultResponse {
 }
 
 // @public
-export type DataFlowDebugSessionAddDataFlowResponse = AddDataFlowToDebugSessionResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: AddDataFlowToDebugSessionResponse;
-    };
-};
+export interface DataFlowDebugSession {
+    addDataFlow(request: DataFlowDebugPackage, options?: DataFlowDebugSessionAddDataFlowOptionalParams): Promise<DataFlowDebugSessionAddDataFlowResponse>;
+    beginCreateDataFlowDebugSession(request: CreateDataFlowDebugSessionRequest, options?: DataFlowDebugSessionCreateDataFlowDebugSessionOptionalParams): Promise<PollerLike<PollOperationState<DataFlowDebugSessionCreateDataFlowDebugSessionResponse>, DataFlowDebugSessionCreateDataFlowDebugSessionResponse>>;
+    beginCreateDataFlowDebugSessionAndWait(request: CreateDataFlowDebugSessionRequest, options?: DataFlowDebugSessionCreateDataFlowDebugSessionOptionalParams): Promise<DataFlowDebugSessionCreateDataFlowDebugSessionResponse>;
+    beginExecuteCommand(request: DataFlowDebugCommandRequest, options?: DataFlowDebugSessionExecuteCommandOptionalParams): Promise<PollerLike<PollOperationState<DataFlowDebugSessionExecuteCommandResponse>, DataFlowDebugSessionExecuteCommandResponse>>;
+    beginExecuteCommandAndWait(request: DataFlowDebugCommandRequest, options?: DataFlowDebugSessionExecuteCommandOptionalParams): Promise<DataFlowDebugSessionExecuteCommandResponse>;
+    deleteDataFlowDebugSession(request: DeleteDataFlowDebugSessionRequest, options?: DataFlowDebugSessionDeleteDataFlowDebugSessionOptionalParams): Promise<void>;
+    listQueryDataFlowDebugSessionsByWorkspace(options?: DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceOptionalParams): PagedAsyncIterableIterator<DataFlowDebugSessionInfo>;
+}
+
+// @public
+export interface DataFlowDebugSessionAddDataFlowOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DataFlowDebugSessionAddDataFlowResponse = AddDataFlowToDebugSessionResponse;
 
 // @public
 export interface DataFlowDebugSessionCreateDataFlowDebugSessionHeaders {
@@ -1589,13 +1575,17 @@ export interface DataFlowDebugSessionCreateDataFlowDebugSessionHeaders {
 }
 
 // @public
-export type DataFlowDebugSessionCreateDataFlowDebugSessionResponse = CreateDataFlowDebugSessionResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: CreateDataFlowDebugSessionResponse;
-        [LROSYM]: LROResponseInfo;
-    };
-};
+export interface DataFlowDebugSessionCreateDataFlowDebugSessionOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DataFlowDebugSessionCreateDataFlowDebugSessionResponse = CreateDataFlowDebugSessionResponse;
+
+// @public
+export interface DataFlowDebugSessionDeleteDataFlowDebugSessionOptionalParams extends coreClient.OperationOptions {
+}
 
 // @public
 export interface DataFlowDebugSessionExecuteCommandHeaders {
@@ -1603,13 +1593,13 @@ export interface DataFlowDebugSessionExecuteCommandHeaders {
 }
 
 // @public
-export type DataFlowDebugSessionExecuteCommandResponse = DataFlowDebugCommandResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: DataFlowDebugCommandResponse;
-        [LROSYM]: LROResponseInfo;
-    };
-};
+export interface DataFlowDebugSessionExecuteCommandOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DataFlowDebugSessionExecuteCommandResponse = DataFlowDebugCommandResponse;
 
 // @public
 export interface DataFlowDebugSessionInfo {
@@ -1626,29 +1616,18 @@ export interface DataFlowDebugSessionInfo {
 }
 
 // @public
-export interface DataFlowDebugSessionOperation {
-    addDataFlow(request: DataFlowDebugPackage, options?: coreHttp.OperationOptions): Promise<DataFlowDebugSessionAddDataFlowResponse>;
-    createDataFlowDebugSession(request: CreateDataFlowDebugSessionRequest, options?: coreHttp.OperationOptions): Promise<LROPoller<DataFlowDebugSessionCreateDataFlowDebugSessionResponse>>;
-    deleteDataFlowDebugSession(request: DeleteDataFlowDebugSessionRequest, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
-    executeCommand(request: DataFlowDebugCommandRequest, options?: coreHttp.OperationOptions): Promise<LROPoller<DataFlowDebugSessionExecuteCommandResponse>>;
-    listQueryDataFlowDebugSessionsByWorkspace(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<DataFlowDebugSessionInfo>;
+export interface DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextResponse = QueryDataFlowDebugSessionsResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: QueryDataFlowDebugSessionsResponse;
-    };
-};
+export type DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextResponse = QueryDataFlowDebugSessionsResponse;
 
 // @public
-export type DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceResponse = QueryDataFlowDebugSessionsResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: QueryDataFlowDebugSessionsResponse;
-    };
-};
+export interface DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceResponse = QueryDataFlowDebugSessionsResponse;
 
 // @public
 export interface DataFlowDebugStatisticsRequest {
@@ -1664,47 +1643,65 @@ export interface DataFlowFolder {
 }
 
 // @public
-export interface DataFlowGetDataFlowOptionalParams extends coreHttp.OperationOptions {
-    ifNoneMatch?: string;
-}
-
-// @public
-export type DataFlowGetDataFlowResponse = DataFlowResource & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: DataFlowResource;
-    };
-};
-
-// @public
-export type DataFlowGetDataFlowsByWorkspaceNextResponse = DataFlowListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: DataFlowListResponse;
-    };
-};
-
-// @public
-export type DataFlowGetDataFlowsByWorkspaceResponse = DataFlowListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: DataFlowListResponse;
-    };
-};
-
-// @public
 export interface DataFlowListResponse {
     nextLink?: string;
     value: DataFlowResource[];
 }
 
 // @public
-export interface DataFlowOperation {
-    createOrUpdateDataFlow(dataFlowName: string, dataFlow: DataFlowResource, options?: DataFlowCreateOrUpdateDataFlowOptionalParams): Promise<LROPoller<DataFlowCreateOrUpdateDataFlowResponse>>;
-    deleteDataFlow(dataFlowName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
-    getDataFlow(dataFlowName: string, options?: DataFlowGetDataFlowOptionalParams): Promise<DataFlowGetDataFlowResponse>;
-    listDataFlowsByWorkspace(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<DataFlowResource>;
-    renameDataFlow(dataFlowName: string, request: ArtifactRenameRequest, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+export interface DataFlowOperations {
+    beginCreateOrUpdateDataFlow(dataFlowName: string, dataFlow: DataFlowResource, options?: DataFlowOperationsCreateOrUpdateDataFlowOptionalParams): Promise<PollerLike<PollOperationState<DataFlowOperationsCreateOrUpdateDataFlowResponse>, DataFlowOperationsCreateOrUpdateDataFlowResponse>>;
+    beginCreateOrUpdateDataFlowAndWait(dataFlowName: string, dataFlow: DataFlowResource, options?: DataFlowOperationsCreateOrUpdateDataFlowOptionalParams): Promise<DataFlowOperationsCreateOrUpdateDataFlowResponse>;
+    beginDeleteDataFlow(dataFlowName: string, options?: DataFlowOperationsDeleteDataFlowOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteDataFlowAndWait(dataFlowName: string, options?: DataFlowOperationsDeleteDataFlowOptionalParams): Promise<void>;
+    beginRenameDataFlow(dataFlowName: string, request: ArtifactRenameRequest, options?: DataFlowOperationsRenameDataFlowOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRenameDataFlowAndWait(dataFlowName: string, request: ArtifactRenameRequest, options?: DataFlowOperationsRenameDataFlowOptionalParams): Promise<void>;
+    getDataFlow(dataFlowName: string, options?: DataFlowOperationsGetDataFlowOptionalParams): Promise<DataFlowOperationsGetDataFlowResponse>;
+    listDataFlowsByWorkspace(options?: DataFlowOperationsGetDataFlowsByWorkspaceOptionalParams): PagedAsyncIterableIterator<DataFlowResource>;
+}
+
+// @public
+export interface DataFlowOperationsCreateOrUpdateDataFlowOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DataFlowOperationsCreateOrUpdateDataFlowResponse = DataFlowResource;
+
+// @public
+export interface DataFlowOperationsDeleteDataFlowOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DataFlowOperationsGetDataFlowOptionalParams extends coreClient.OperationOptions {
+    ifNoneMatch?: string;
+}
+
+// @public
+export type DataFlowOperationsGetDataFlowResponse = DataFlowResource;
+
+// @public
+export interface DataFlowOperationsGetDataFlowsByWorkspaceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DataFlowOperationsGetDataFlowsByWorkspaceNextResponse = DataFlowListResponse;
+
+// @public
+export interface DataFlowOperationsGetDataFlowsByWorkspaceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DataFlowOperationsGetDataFlowsByWorkspaceResponse = DataFlowListResponse;
+
+// @public
+export interface DataFlowOperationsRenameDataFlowOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1806,20 +1803,6 @@ export type DatasetCompressionLevel = string;
 export type DatasetCompressionUnion = DatasetCompression | DatasetBZip2Compression | DatasetGZipCompression | DatasetDeflateCompression | DatasetZipDeflateCompression | DatasetTarCompression | DatasetTarGZipCompression;
 
 // @public
-export interface DatasetCreateOrUpdateDatasetOptionalParams extends coreHttp.OperationOptions {
-    ifMatch?: string;
-}
-
-// @public
-export type DatasetCreateOrUpdateDatasetResponse = DatasetResource & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: DatasetResource;
-        [LROSYM]: LROResponseInfo;
-    };
-};
-
-// @public
 export interface DatasetDataElement {
     name?: any;
     type?: any;
@@ -1840,35 +1823,6 @@ export type DatasetDeflateCompression = DatasetCompression & {
 export interface DatasetFolder {
     name?: string;
 }
-
-// @public
-export interface DatasetGetDatasetOptionalParams extends coreHttp.OperationOptions {
-    ifNoneMatch?: string;
-}
-
-// @public
-export type DatasetGetDatasetResponse = DatasetResource & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: DatasetResource;
-    };
-};
-
-// @public
-export type DatasetGetDatasetsByWorkspaceNextResponse = DatasetListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: DatasetListResponse;
-    };
-};
-
-// @public
-export type DatasetGetDatasetsByWorkspaceResponse = DatasetListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: DatasetListResponse;
-    };
-};
 
 // @public
 export type DatasetGZipCompression = DatasetCompression & {
@@ -1894,12 +1848,59 @@ export interface DatasetLocation {
 export type DatasetLocationUnion = DatasetLocation | AzureBlobStorageLocation | AzureBlobFSLocation | AzureDataLakeStoreLocation | AmazonS3Location | FileServerLocation | AzureFileStorageLocation | GoogleCloudStorageLocation | FtpServerLocation | SftpLocation | HttpServerLocation | HdfsLocation;
 
 // @public
-export interface DatasetOperation {
-    createOrUpdateDataset(datasetName: string, dataset: DatasetResource, options?: DatasetCreateOrUpdateDatasetOptionalParams): Promise<LROPoller<DatasetCreateOrUpdateDatasetResponse>>;
-    deleteDataset(datasetName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
-    getDataset(datasetName: string, options?: DatasetGetDatasetOptionalParams): Promise<DatasetGetDatasetResponse>;
-    listDatasetsByWorkspace(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<DatasetResource>;
-    renameDataset(datasetName: string, request: ArtifactRenameRequest, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+export interface DatasetOperations {
+    beginCreateOrUpdateDataset(datasetName: string, dataset: DatasetResource, options?: DatasetOperationsCreateOrUpdateDatasetOptionalParams): Promise<PollerLike<PollOperationState<DatasetOperationsCreateOrUpdateDatasetResponse>, DatasetOperationsCreateOrUpdateDatasetResponse>>;
+    beginCreateOrUpdateDatasetAndWait(datasetName: string, dataset: DatasetResource, options?: DatasetOperationsCreateOrUpdateDatasetOptionalParams): Promise<DatasetOperationsCreateOrUpdateDatasetResponse>;
+    beginDeleteDataset(datasetName: string, options?: DatasetOperationsDeleteDatasetOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteDatasetAndWait(datasetName: string, options?: DatasetOperationsDeleteDatasetOptionalParams): Promise<void>;
+    beginRenameDataset(datasetName: string, request: ArtifactRenameRequest, options?: DatasetOperationsRenameDatasetOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRenameDatasetAndWait(datasetName: string, request: ArtifactRenameRequest, options?: DatasetOperationsRenameDatasetOptionalParams): Promise<void>;
+    getDataset(datasetName: string, options?: DatasetOperationsGetDatasetOptionalParams): Promise<DatasetOperationsGetDatasetResponse>;
+    listDatasetsByWorkspace(options?: DatasetOperationsGetDatasetsByWorkspaceOptionalParams): PagedAsyncIterableIterator<DatasetResource>;
+}
+
+// @public
+export interface DatasetOperationsCreateOrUpdateDatasetOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DatasetOperationsCreateOrUpdateDatasetResponse = DatasetResource;
+
+// @public
+export interface DatasetOperationsDeleteDatasetOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DatasetOperationsGetDatasetOptionalParams extends coreClient.OperationOptions {
+    ifNoneMatch?: string;
+}
+
+// @public
+export type DatasetOperationsGetDatasetResponse = DatasetResource;
+
+// @public
+export interface DatasetOperationsGetDatasetsByWorkspaceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DatasetOperationsGetDatasetsByWorkspaceNextResponse = DatasetListResponse;
+
+// @public
+export interface DatasetOperationsGetDatasetsByWorkspaceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DatasetOperationsGetDatasetsByWorkspaceResponse = DatasetListResponse;
+
+// @public
+export interface DatasetOperationsRenameDatasetOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -2394,7 +2395,7 @@ export type ExecuteSsisPackageActivity = ExecutionActivity & {
 
 // @public
 export type ExecutionActivity = Activity & {
-    type: "Execution";
+    type: "Execution" | "Copy" | "HDInsightHive" | "HDInsightPig" | "HDInsightMapReduce" | "HDInsightStreaming" | "HDInsightSpark" | "ExecuteSSISPackage" | "Custom" | "SqlServerStoredProcedure" | "Delete" | "AzureDataExplorerCommand" | "Lookup" | "WebActivity" | "GetMetadata" | "AzureMLBatchExecution" | "AzureMLUpdateResource" | "AzureMLExecutePipeline" | "DataLakeAnalyticsU-SQL" | "DatabricksNotebook" | "DatabricksSparkJar" | "DatabricksSparkPython" | "AzureFunctionActivity" | "ExecuteDataFlow" | "SynapseNotebook" | "SparkJob";
     linkedServiceName?: LinkedServiceReference;
     policy?: ActivityPolicy;
 };
@@ -2498,9 +2499,6 @@ export type FilterActivity = ControlActivity & {
     condition: Expression;
 };
 
-// @public (undocumented)
-export type FinalStateVia = "azure-async-operation" | "location" | "original-uri";
-
 // @public
 export type ForEachActivity = ControlActivity & {
     type: "ForEach";
@@ -2581,12 +2579,19 @@ export interface GitHubAccessTokenRequest {
     gitHubAccessCode: string;
     gitHubAccessTokenBaseUrl: string;
     gitHubClientId: string;
+    gitHubClientSecret?: GitHubClientSecret;
 }
 
 // @public (undocumented)
 export interface GitHubAccessTokenResponse {
     // (undocumented)
     gitHubAccessToken?: string;
+}
+
+// @public
+export interface GitHubClientSecret {
+    byoaSecretAkvUrl?: string;
+    byoaSecretName?: string;
 }
 
 // @public
@@ -3180,26 +3185,24 @@ export type IntegrationRuntimeResource = SubResource & {
 };
 
 // @public
-export type IntegrationRuntimesGetResponse = IntegrationRuntimeResource & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: IntegrationRuntimeResource;
-    };
-};
-
-// @public
-export type IntegrationRuntimesListResponse = IntegrationRuntimeListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: IntegrationRuntimeListResponse;
-    };
-};
-
-// @public
-export interface IntegrationRuntimesOperation {
-    get(integrationRuntimeName: string, options?: coreHttp.OperationOptions): Promise<IntegrationRuntimesGetResponse>;
-    list(options?: coreHttp.OperationOptions): Promise<IntegrationRuntimesListResponse>;
+export interface IntegrationRuntimes {
+    get(integrationRuntimeName: string, options?: IntegrationRuntimesGetOptionalParams): Promise<IntegrationRuntimesGetResponse>;
+    list(options?: IntegrationRuntimesListOptionalParams): Promise<IntegrationRuntimesListResponse>;
 }
+
+// @public
+export interface IntegrationRuntimesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IntegrationRuntimesGetResponse = IntegrationRuntimeResource;
+
+// @public
+export interface IntegrationRuntimesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IntegrationRuntimesListResponse = IntegrationRuntimeListResponse;
 
 // @public
 export interface IntegrationRuntimeSsisCatalogInfo {
@@ -3318,7 +3321,7 @@ export type JsonWriteSettings = FormatWriteSettings & {
 };
 
 // @public
-export const enum KnownAvroCompressionCodec {
+export enum KnownAvroCompressionCodec {
     // (undocumented)
     Bzip2 = "bzip2",
     // (undocumented)
@@ -3332,7 +3335,7 @@ export const enum KnownAvroCompressionCodec {
 }
 
 // @public
-export const enum KnownAzureFunctionActivityMethod {
+export enum KnownAzureFunctionActivityMethod {
     // (undocumented)
     Delete = "DELETE",
     // (undocumented)
@@ -3350,7 +3353,7 @@ export const enum KnownAzureFunctionActivityMethod {
 }
 
 // @public
-export const enum KnownAzureSearchIndexWriteBehaviorType {
+export enum KnownAzureSearchIndexWriteBehaviorType {
     // (undocumented)
     Merge = "Merge",
     // (undocumented)
@@ -3358,13 +3361,13 @@ export const enum KnownAzureSearchIndexWriteBehaviorType {
 }
 
 // @public
-export const enum KnownBigDataPoolReferenceType {
+export enum KnownBigDataPoolReferenceType {
     // (undocumented)
     BigDataPoolReference = "BigDataPoolReference"
 }
 
 // @public
-export const enum KnownBlobEventType {
+export enum KnownBlobEventType {
     // (undocumented)
     MicrosoftStorageBlobCreated = "Microsoft.Storage.BlobCreated",
     // (undocumented)
@@ -3372,7 +3375,7 @@ export const enum KnownBlobEventType {
 }
 
 // @public
-export const enum KnownCassandraSourceReadConsistencyLevels {
+export enum KnownCassandraSourceReadConsistencyLevels {
     // (undocumented)
     ALL = "ALL",
     // (undocumented)
@@ -3396,7 +3399,7 @@ export const enum KnownCassandraSourceReadConsistencyLevels {
 }
 
 // @public
-export const enum KnownCellOutputType {
+export enum KnownCellOutputType {
     // (undocumented)
     DisplayData = "display_data",
     // (undocumented)
@@ -3408,7 +3411,7 @@ export const enum KnownCellOutputType {
 }
 
 // @public
-export const enum KnownCompressionCodec {
+export enum KnownCompressionCodec {
     // (undocumented)
     Bzip2 = "bzip2",
     // (undocumented)
@@ -3428,7 +3431,7 @@ export const enum KnownCompressionCodec {
 }
 
 // @public
-export const enum KnownCopyBehaviorType {
+export enum KnownCopyBehaviorType {
     // (undocumented)
     FlattenHierarchy = "FlattenHierarchy",
     // (undocumented)
@@ -3438,7 +3441,7 @@ export const enum KnownCopyBehaviorType {
 }
 
 // @public
-export const enum KnownDataFlowComputeType {
+export enum KnownDataFlowComputeType {
     // (undocumented)
     ComputeOptimized = "ComputeOptimized",
     // (undocumented)
@@ -3448,13 +3451,13 @@ export const enum KnownDataFlowComputeType {
 }
 
 // @public
-export const enum KnownDataFlowReferenceType {
+export enum KnownDataFlowReferenceType {
     // (undocumented)
     DataFlowReference = "DataFlowReference"
 }
 
 // @public
-export const enum KnownDatasetCompressionLevel {
+export enum KnownDatasetCompressionLevel {
     // (undocumented)
     Fastest = "Fastest",
     // (undocumented)
@@ -3462,19 +3465,19 @@ export const enum KnownDatasetCompressionLevel {
 }
 
 // @public
-export const enum KnownDatasetReferenceType {
+export enum KnownDatasetReferenceType {
     // (undocumented)
     DatasetReference = "DatasetReference"
 }
 
 // @public
-export const enum KnownDb2AuthenticationType {
+export enum KnownDb2AuthenticationType {
     // (undocumented)
     Basic = "Basic"
 }
 
 // @public
-export const enum KnownDependencyCondition {
+export enum KnownDependencyCondition {
     // (undocumented)
     Completed = "Completed",
     // (undocumented)
@@ -3486,7 +3489,7 @@ export const enum KnownDependencyCondition {
 }
 
 // @public
-export const enum KnownDynamicsAuthenticationType {
+export enum KnownDynamicsAuthenticationType {
     // (undocumented)
     AADServicePrincipal = "AADServicePrincipal",
     // (undocumented)
@@ -3496,7 +3499,7 @@ export const enum KnownDynamicsAuthenticationType {
 }
 
 // @public
-export const enum KnownDynamicsDeploymentType {
+export enum KnownDynamicsDeploymentType {
     // (undocumented)
     Online = "Online",
     // (undocumented)
@@ -3504,7 +3507,7 @@ export const enum KnownDynamicsDeploymentType {
 }
 
 // @public
-export const enum KnownDynamicsServicePrincipalCredentialType {
+export enum KnownDynamicsServicePrincipalCredentialType {
     // (undocumented)
     ServicePrincipalCert = "ServicePrincipalCert",
     // (undocumented)
@@ -3512,13 +3515,13 @@ export const enum KnownDynamicsServicePrincipalCredentialType {
 }
 
 // @public
-export const enum KnownDynamicsSinkWriteBehavior {
+export enum KnownDynamicsSinkWriteBehavior {
     // (undocumented)
     Upsert = "Upsert"
 }
 
 // @public
-export const enum KnownEventSubscriptionStatus {
+export enum KnownEventSubscriptionStatus {
     // (undocumented)
     Deprovisioning = "Deprovisioning",
     // (undocumented)
@@ -3532,13 +3535,13 @@ export const enum KnownEventSubscriptionStatus {
 }
 
 // @public
-export const enum KnownExpressionType {
+export enum KnownExpressionType {
     // (undocumented)
     Expression = "Expression"
 }
 
 // @public
-export const enum KnownFtpAuthenticationType {
+export enum KnownFtpAuthenticationType {
     // (undocumented)
     Anonymous = "Anonymous",
     // (undocumented)
@@ -3546,7 +3549,7 @@ export const enum KnownFtpAuthenticationType {
 }
 
 // @public
-export const enum KnownGoogleAdWordsAuthenticationType {
+export enum KnownGoogleAdWordsAuthenticationType {
     // (undocumented)
     ServiceAuthentication = "ServiceAuthentication",
     // (undocumented)
@@ -3554,7 +3557,7 @@ export const enum KnownGoogleAdWordsAuthenticationType {
 }
 
 // @public
-export const enum KnownGoogleBigQueryAuthenticationType {
+export enum KnownGoogleBigQueryAuthenticationType {
     // (undocumented)
     ServiceAuthentication = "ServiceAuthentication",
     // (undocumented)
@@ -3562,7 +3565,7 @@ export const enum KnownGoogleBigQueryAuthenticationType {
 }
 
 // @public
-export const enum KnownHBaseAuthenticationType {
+export enum KnownHBaseAuthenticationType {
     // (undocumented)
     Anonymous = "Anonymous",
     // (undocumented)
@@ -3570,7 +3573,7 @@ export const enum KnownHBaseAuthenticationType {
 }
 
 // @public
-export const enum KnownHdiNodeTypes {
+export enum KnownHdiNodeTypes {
     // (undocumented)
     Headnode = "Headnode",
     // (undocumented)
@@ -3580,7 +3583,7 @@ export const enum KnownHdiNodeTypes {
 }
 
 // @public
-export const enum KnownHDInsightActivityDebugInfoOption {
+export enum KnownHDInsightActivityDebugInfoOption {
     // (undocumented)
     Always = "Always",
     // (undocumented)
@@ -3590,7 +3593,7 @@ export const enum KnownHDInsightActivityDebugInfoOption {
 }
 
 // @public
-export const enum KnownHiveAuthenticationType {
+export enum KnownHiveAuthenticationType {
     // (undocumented)
     Anonymous = "Anonymous",
     // (undocumented)
@@ -3602,7 +3605,7 @@ export const enum KnownHiveAuthenticationType {
 }
 
 // @public
-export const enum KnownHiveServerType {
+export enum KnownHiveServerType {
     // (undocumented)
     HiveServer1 = "HiveServer1",
     // (undocumented)
@@ -3612,7 +3615,7 @@ export const enum KnownHiveServerType {
 }
 
 // @public
-export const enum KnownHiveThriftTransportProtocol {
+export enum KnownHiveThriftTransportProtocol {
     // (undocumented)
     Binary = "Binary",
     // (undocumented)
@@ -3622,7 +3625,7 @@ export const enum KnownHiveThriftTransportProtocol {
 }
 
 // @public
-export const enum KnownHttpAuthenticationType {
+export enum KnownHttpAuthenticationType {
     // (undocumented)
     Anonymous = "Anonymous",
     // (undocumented)
@@ -3636,7 +3639,7 @@ export const enum KnownHttpAuthenticationType {
 }
 
 // @public
-export const enum KnownImpalaAuthenticationType {
+export enum KnownImpalaAuthenticationType {
     // (undocumented)
     Anonymous = "Anonymous",
     // (undocumented)
@@ -3646,7 +3649,7 @@ export const enum KnownImpalaAuthenticationType {
 }
 
 // @public
-export const enum KnownIntegrationRuntimeEdition {
+export enum KnownIntegrationRuntimeEdition {
     // (undocumented)
     Enterprise = "Enterprise",
     // (undocumented)
@@ -3654,7 +3657,7 @@ export const enum KnownIntegrationRuntimeEdition {
 }
 
 // @public
-export const enum KnownIntegrationRuntimeEntityReferenceType {
+export enum KnownIntegrationRuntimeEntityReferenceType {
     // (undocumented)
     IntegrationRuntimeReference = "IntegrationRuntimeReference",
     // (undocumented)
@@ -3662,7 +3665,7 @@ export const enum KnownIntegrationRuntimeEntityReferenceType {
 }
 
 // @public
-export const enum KnownIntegrationRuntimeLicenseType {
+export enum KnownIntegrationRuntimeLicenseType {
     // (undocumented)
     BasePrice = "BasePrice",
     // (undocumented)
@@ -3670,13 +3673,13 @@ export const enum KnownIntegrationRuntimeLicenseType {
 }
 
 // @public
-export const enum KnownIntegrationRuntimeReferenceType {
+export enum KnownIntegrationRuntimeReferenceType {
     // (undocumented)
     IntegrationRuntimeReference = "IntegrationRuntimeReference"
 }
 
 // @public
-export const enum KnownIntegrationRuntimeSsisCatalogPricingTier {
+export enum KnownIntegrationRuntimeSsisCatalogPricingTier {
     // (undocumented)
     Basic = "Basic",
     // (undocumented)
@@ -3688,7 +3691,7 @@ export const enum KnownIntegrationRuntimeSsisCatalogPricingTier {
 }
 
 // @public
-export const enum KnownIntegrationRuntimeState {
+export enum KnownIntegrationRuntimeState {
     // (undocumented)
     AccessDenied = "AccessDenied",
     // (undocumented)
@@ -3712,7 +3715,7 @@ export const enum KnownIntegrationRuntimeState {
 }
 
 // @public
-export const enum KnownIntegrationRuntimeType {
+export enum KnownIntegrationRuntimeType {
     // (undocumented)
     Managed = "Managed",
     // (undocumented)
@@ -3720,7 +3723,7 @@ export const enum KnownIntegrationRuntimeType {
 }
 
 // @public
-export const enum KnownJsonFormatFilePattern {
+export enum KnownJsonFormatFilePattern {
     // (undocumented)
     ArrayOfObjects = "arrayOfObjects",
     // (undocumented)
@@ -3728,7 +3731,7 @@ export const enum KnownJsonFormatFilePattern {
 }
 
 // @public
-export const enum KnownJsonWriteFilePattern {
+export enum KnownJsonWriteFilePattern {
     // (undocumented)
     ArrayOfObjects = "arrayOfObjects",
     // (undocumented)
@@ -3736,7 +3739,7 @@ export const enum KnownJsonWriteFilePattern {
 }
 
 // @public
-export const enum KnownMongoDbAuthenticationType {
+export enum KnownMongoDbAuthenticationType {
     // (undocumented)
     Anonymous = "Anonymous",
     // (undocumented)
@@ -3744,7 +3747,7 @@ export const enum KnownMongoDbAuthenticationType {
 }
 
 // @public
-export const enum KnownNetezzaPartitionOption {
+export enum KnownNetezzaPartitionOption {
     // (undocumented)
     DataSlice = "DataSlice",
     // (undocumented)
@@ -3754,7 +3757,7 @@ export const enum KnownNetezzaPartitionOption {
 }
 
 // @public
-export const enum KnownNodeSize {
+export enum KnownNodeSize {
     // (undocumented)
     Large = "Large",
     // (undocumented)
@@ -3772,7 +3775,7 @@ export const enum KnownNodeSize {
 }
 
 // @public
-export const enum KnownNodeSizeFamily {
+export enum KnownNodeSizeFamily {
     // (undocumented)
     MemoryOptimized = "MemoryOptimized",
     // (undocumented)
@@ -3780,13 +3783,13 @@ export const enum KnownNodeSizeFamily {
 }
 
 // @public
-export const enum KnownNotebookReferenceType {
+export enum KnownNotebookReferenceType {
     // (undocumented)
     NotebookReference = "NotebookReference"
 }
 
 // @public
-export const enum KnownODataAadServicePrincipalCredentialType {
+export enum KnownODataAadServicePrincipalCredentialType {
     // (undocumented)
     ServicePrincipalCert = "ServicePrincipalCert",
     // (undocumented)
@@ -3794,7 +3797,7 @@ export const enum KnownODataAadServicePrincipalCredentialType {
 }
 
 // @public
-export const enum KnownODataAuthenticationType {
+export enum KnownODataAuthenticationType {
     // (undocumented)
     AadServicePrincipal = "AadServicePrincipal",
     // (undocumented)
@@ -3808,7 +3811,7 @@ export const enum KnownODataAuthenticationType {
 }
 
 // @public
-export const enum KnownOraclePartitionOption {
+export enum KnownOraclePartitionOption {
     // (undocumented)
     DynamicRange = "DynamicRange",
     // (undocumented)
@@ -3818,7 +3821,7 @@ export const enum KnownOraclePartitionOption {
 }
 
 // @public
-export const enum KnownOrcCompressionCodec {
+export enum KnownOrcCompressionCodec {
     // (undocumented)
     Lzo = "lzo",
     // (undocumented)
@@ -3830,7 +3833,7 @@ export const enum KnownOrcCompressionCodec {
 }
 
 // @public
-export const enum KnownParameterType {
+export enum KnownParameterType {
     // (undocumented)
     Array = "Array",
     // (undocumented)
@@ -3848,7 +3851,7 @@ export const enum KnownParameterType {
 }
 
 // @public
-export const enum KnownParquetCompressionCodecEnum {
+export enum KnownParquetCompressionCodecEnum {
     // (undocumented)
     Gzip = "gzip",
     // (undocumented)
@@ -3860,7 +3863,7 @@ export const enum KnownParquetCompressionCodecEnum {
 }
 
 // @public
-export const enum KnownPhoenixAuthenticationType {
+export enum KnownPhoenixAuthenticationType {
     // (undocumented)
     Anonymous = "Anonymous",
     // (undocumented)
@@ -3870,13 +3873,13 @@ export const enum KnownPhoenixAuthenticationType {
 }
 
 // @public
-export const enum KnownPipelineReferenceType {
+export enum KnownPipelineReferenceType {
     // (undocumented)
     PipelineReference = "PipelineReference"
 }
 
 // @public
-export const enum KnownPluginCurrentState {
+export enum KnownPluginCurrentState {
     // (undocumented)
     Cleanup = "Cleanup",
     // (undocumented)
@@ -3894,7 +3897,7 @@ export const enum KnownPluginCurrentState {
 }
 
 // @public
-export const enum KnownPolybaseSettingsRejectType {
+export enum KnownPolybaseSettingsRejectType {
     // (undocumented)
     Percentage = "percentage",
     // (undocumented)
@@ -3902,7 +3905,7 @@ export const enum KnownPolybaseSettingsRejectType {
 }
 
 // @public
-export const enum KnownPrestoAuthenticationType {
+export enum KnownPrestoAuthenticationType {
     // (undocumented)
     Anonymous = "Anonymous",
     // (undocumented)
@@ -3910,7 +3913,7 @@ export const enum KnownPrestoAuthenticationType {
 }
 
 // @public
-export const enum KnownRecurrenceFrequency {
+export enum KnownRecurrenceFrequency {
     // (undocumented)
     Day = "Day",
     // (undocumented)
@@ -3928,7 +3931,7 @@ export const enum KnownRecurrenceFrequency {
 }
 
 // @public
-export const enum KnownRestServiceAuthenticationType {
+export enum KnownRestServiceAuthenticationType {
     // (undocumented)
     AadServicePrincipal = "AadServicePrincipal",
     // (undocumented)
@@ -3940,7 +3943,7 @@ export const enum KnownRestServiceAuthenticationType {
 }
 
 // @public
-export const enum KnownRunQueryFilterOperand {
+export enum KnownRunQueryFilterOperand {
     // (undocumented)
     ActivityName = "ActivityName",
     // (undocumented)
@@ -3968,7 +3971,7 @@ export const enum KnownRunQueryFilterOperand {
 }
 
 // @public
-export const enum KnownRunQueryFilterOperator {
+export enum KnownRunQueryFilterOperator {
     // (undocumented)
     Equals = "Equals",
     // (undocumented)
@@ -3980,7 +3983,7 @@ export const enum KnownRunQueryFilterOperator {
 }
 
 // @public
-export const enum KnownRunQueryOrder {
+export enum KnownRunQueryOrder {
     // (undocumented)
     ASC = "ASC",
     // (undocumented)
@@ -3988,7 +3991,7 @@ export const enum KnownRunQueryOrder {
 }
 
 // @public
-export const enum KnownRunQueryOrderByField {
+export enum KnownRunQueryOrderByField {
     // (undocumented)
     ActivityName = "ActivityName",
     // (undocumented)
@@ -4010,7 +4013,7 @@ export const enum KnownRunQueryOrderByField {
 }
 
 // @public
-export const enum KnownSalesforceSinkWriteBehavior {
+export enum KnownSalesforceSinkWriteBehavior {
     // (undocumented)
     Insert = "Insert",
     // (undocumented)
@@ -4018,7 +4021,7 @@ export const enum KnownSalesforceSinkWriteBehavior {
 }
 
 // @public
-export const enum KnownSalesforceSourceReadBehavior {
+export enum KnownSalesforceSourceReadBehavior {
     // (undocumented)
     Query = "Query",
     // (undocumented)
@@ -4026,7 +4029,7 @@ export const enum KnownSalesforceSourceReadBehavior {
 }
 
 // @public
-export const enum KnownSapCloudForCustomerSinkWriteBehavior {
+export enum KnownSapCloudForCustomerSinkWriteBehavior {
     // (undocumented)
     Insert = "Insert",
     // (undocumented)
@@ -4034,7 +4037,7 @@ export const enum KnownSapCloudForCustomerSinkWriteBehavior {
 }
 
 // @public
-export const enum KnownSapHanaAuthenticationType {
+export enum KnownSapHanaAuthenticationType {
     // (undocumented)
     Basic = "Basic",
     // (undocumented)
@@ -4042,7 +4045,7 @@ export const enum KnownSapHanaAuthenticationType {
 }
 
 // @public
-export const enum KnownSapHanaPartitionOption {
+export enum KnownSapHanaPartitionOption {
     // (undocumented)
     None = "None",
     // (undocumented)
@@ -4052,7 +4055,7 @@ export const enum KnownSapHanaPartitionOption {
 }
 
 // @public
-export const enum KnownSapTablePartitionOption {
+export enum KnownSapTablePartitionOption {
     // (undocumented)
     None = "None",
     // (undocumented)
@@ -4068,7 +4071,7 @@ export const enum KnownSapTablePartitionOption {
 }
 
 // @public
-export const enum KnownSchedulerCurrentState {
+export enum KnownSchedulerCurrentState {
     // (undocumented)
     Ended = "Ended",
     // (undocumented)
@@ -4078,7 +4081,7 @@ export const enum KnownSchedulerCurrentState {
 }
 
 // @public
-export const enum KnownServiceNowAuthenticationType {
+export enum KnownServiceNowAuthenticationType {
     // (undocumented)
     Basic = "Basic",
     // (undocumented)
@@ -4086,7 +4089,7 @@ export const enum KnownServiceNowAuthenticationType {
 }
 
 // @public
-export const enum KnownSftpAuthenticationType {
+export enum KnownSftpAuthenticationType {
     // (undocumented)
     Basic = "Basic",
     // (undocumented)
@@ -4094,7 +4097,7 @@ export const enum KnownSftpAuthenticationType {
 }
 
 // @public
-export const enum KnownSparkAuthenticationType {
+export enum KnownSparkAuthenticationType {
     // (undocumented)
     Anonymous = "Anonymous",
     // (undocumented)
@@ -4106,7 +4109,7 @@ export const enum KnownSparkAuthenticationType {
 }
 
 // @public
-export const enum KnownSparkBatchJobResultType {
+export enum KnownSparkBatchJobResultType {
     // (undocumented)
     Cancelled = "Cancelled",
     // (undocumented)
@@ -4118,7 +4121,7 @@ export const enum KnownSparkBatchJobResultType {
 }
 
 // @public
-export const enum KnownSparkErrorSource {
+export enum KnownSparkErrorSource {
     // (undocumented)
     Dependency = "Dependency",
     // (undocumented)
@@ -4130,13 +4133,13 @@ export const enum KnownSparkErrorSource {
 }
 
 // @public
-export const enum KnownSparkJobReferenceType {
+export enum KnownSparkJobReferenceType {
     // (undocumented)
     SparkJobDefinitionReference = "SparkJobDefinitionReference"
 }
 
 // @public
-export const enum KnownSparkJobType {
+export enum KnownSparkJobType {
     // (undocumented)
     SparkBatch = "SparkBatch",
     // (undocumented)
@@ -4144,7 +4147,7 @@ export const enum KnownSparkJobType {
 }
 
 // @public
-export const enum KnownSparkServerType {
+export enum KnownSparkServerType {
     // (undocumented)
     SharkServer = "SharkServer",
     // (undocumented)
@@ -4154,7 +4157,7 @@ export const enum KnownSparkServerType {
 }
 
 // @public
-export const enum KnownSparkThriftTransportProtocol {
+export enum KnownSparkThriftTransportProtocol {
     // (undocumented)
     Binary = "Binary",
     // (undocumented)
@@ -4164,7 +4167,7 @@ export const enum KnownSparkThriftTransportProtocol {
 }
 
 // @public
-export const enum KnownSqlConnectionType {
+export enum KnownSqlConnectionType {
     // (undocumented)
     SqlOnDemand = "SqlOnDemand",
     // (undocumented)
@@ -4172,7 +4175,7 @@ export const enum KnownSqlConnectionType {
 }
 
 // @public
-export const enum KnownSqlPartitionOption {
+export enum KnownSqlPartitionOption {
     // (undocumented)
     DynamicRange = "DynamicRange",
     // (undocumented)
@@ -4182,25 +4185,25 @@ export const enum KnownSqlPartitionOption {
 }
 
 // @public
-export const enum KnownSqlPoolReferenceType {
+export enum KnownSqlPoolReferenceType {
     // (undocumented)
     SqlPoolReference = "SqlPoolReference"
 }
 
 // @public
-export const enum KnownSqlScriptType {
+export enum KnownSqlScriptType {
     // (undocumented)
     SqlQuery = "SqlQuery"
 }
 
 // @public
-export const enum KnownSsisLogLocationType {
+export enum KnownSsisLogLocationType {
     // (undocumented)
     File = "File"
 }
 
 // @public
-export const enum KnownSsisPackageLocationType {
+export enum KnownSsisPackageLocationType {
     // (undocumented)
     File = "File",
     // (undocumented)
@@ -4212,7 +4215,7 @@ export const enum KnownSsisPackageLocationType {
 }
 
 // @public
-export const enum KnownStoredProcedureParameterType {
+export enum KnownStoredProcedureParameterType {
     // (undocumented)
     Boolean = "Boolean",
     // (undocumented)
@@ -4230,7 +4233,7 @@ export const enum KnownStoredProcedureParameterType {
 }
 
 // @public
-export const enum KnownSybaseAuthenticationType {
+export enum KnownSybaseAuthenticationType {
     // (undocumented)
     Basic = "Basic",
     // (undocumented)
@@ -4238,7 +4241,7 @@ export const enum KnownSybaseAuthenticationType {
 }
 
 // @public
-export const enum KnownTeradataAuthenticationType {
+export enum KnownTeradataAuthenticationType {
     // (undocumented)
     Basic = "Basic",
     // (undocumented)
@@ -4246,7 +4249,7 @@ export const enum KnownTeradataAuthenticationType {
 }
 
 // @public
-export const enum KnownTeradataPartitionOption {
+export enum KnownTeradataPartitionOption {
     // (undocumented)
     DynamicRange = "DynamicRange",
     // (undocumented)
@@ -4256,13 +4259,13 @@ export const enum KnownTeradataPartitionOption {
 }
 
 // @public
-export const enum KnownTriggerReferenceType {
+export enum KnownTriggerReferenceType {
     // (undocumented)
     TriggerReference = "TriggerReference"
 }
 
 // @public
-export const enum KnownTriggerRunStatus {
+export enum KnownTriggerRunStatus {
     // (undocumented)
     Failed = "Failed",
     // (undocumented)
@@ -4272,7 +4275,7 @@ export const enum KnownTriggerRunStatus {
 }
 
 // @public
-export const enum KnownTriggerRuntimeState {
+export enum KnownTriggerRuntimeState {
     // (undocumented)
     Disabled = "Disabled",
     // (undocumented)
@@ -4282,7 +4285,7 @@ export const enum KnownTriggerRuntimeState {
 }
 
 // @public
-export const enum KnownTumblingWindowFrequency {
+export enum KnownTumblingWindowFrequency {
     // (undocumented)
     Hour = "Hour",
     // (undocumented)
@@ -4292,13 +4295,13 @@ export const enum KnownTumblingWindowFrequency {
 }
 
 // @public
-export const enum KnownType {
+export enum KnownType {
     // (undocumented)
     LinkedServiceReference = "LinkedServiceReference"
 }
 
 // @public
-export const enum KnownVariableType {
+export enum KnownVariableType {
     // (undocumented)
     Array = "Array",
     // (undocumented)
@@ -4310,7 +4313,7 @@ export const enum KnownVariableType {
 }
 
 // @public
-export const enum KnownWebActivityMethod {
+export enum KnownWebActivityMethod {
     // (undocumented)
     Delete = "DELETE",
     // (undocumented)
@@ -4322,7 +4325,7 @@ export const enum KnownWebActivityMethod {
 }
 
 // @public
-export const enum KnownWebAuthenticationType {
+export enum KnownWebAuthenticationType {
     // (undocumented)
     Anonymous = "Anonymous",
     // (undocumented)
@@ -4332,31 +4335,61 @@ export const enum KnownWebAuthenticationType {
 }
 
 // @public
-export const enum KnownWebHookActivityMethod {
+export enum KnownWebHookActivityMethod {
     // (undocumented)
     Post = "POST"
 }
 
 // @public
-export interface LibraryAppendOptionalParams extends coreHttp.OperationOptions {
-    xMsBlobConditionAppendpos?: number;
+export interface Library {
+    append(libraryName: string, content: coreRestPipeline.RequestBodyType, options?: LibraryAppendOptionalParams): Promise<void>;
+    beginCreate(libraryName: string, options?: LibraryCreateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginCreateAndWait(libraryName: string, options?: LibraryCreateOptionalParams): Promise<void>;
+    beginDelete(libraryName: string, options?: LibraryDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(libraryName: string, options?: LibraryDeleteOptionalParams): Promise<void>;
+    beginFlush(libraryName: string, options?: LibraryFlushOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginFlushAndWait(libraryName: string, options?: LibraryFlushOptionalParams): Promise<void>;
+    get(libraryName: string, options?: LibraryGetOptionalParams): Promise<LibraryGetResponse>;
+    getOperationResult(operationId: string, options?: LibraryGetOperationResultOptionalParams): Promise<LibraryGetOperationResultResponse>;
+    list(options?: LibraryListOptionalParams): PagedAsyncIterableIterator<LibraryResource>;
 }
 
 // @public
-export type LibraryGetOperationResultResponse = LibraryResource & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: LibraryResource;
-    };
-};
+export interface LibraryAppendOptionalParams extends coreClient.OperationOptions {
+    blobConditionAppendPosition?: number;
+}
 
 // @public
-export type LibraryGetResponse = LibraryResource & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: LibraryResource;
-    };
-};
+export interface LibraryCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface LibraryDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface LibraryFlushOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface LibraryGetOperationResultOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LibraryGetOperationResultResponse = LibraryResource;
+
+// @public
+export interface LibraryGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LibraryGetResponse = LibraryResource;
 
 // @public
 export interface LibraryInfo {
@@ -4370,36 +4403,23 @@ export interface LibraryInfo {
 }
 
 // @public
-export type LibraryListNextResponse = LibraryListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: LibraryListResponse;
-    };
-};
+export interface LibraryListNextOptionalParams extends coreClient.OperationOptions {
+}
 
 // @public
-export type LibraryListOperationResponse = LibraryListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: LibraryListResponse;
-    };
-};
+export type LibraryListNextResponse = LibraryListResponse;
+
+// @public
+export type LibraryListOperationResponse = LibraryListResponse;
+
+// @public
+export interface LibraryListOptionalParams extends coreClient.OperationOptions {
+}
 
 // @public
 export interface LibraryListResponse {
     nextLink?: string;
     value: LibraryResource[];
-}
-
-// @public
-export interface LibraryOperaion {
-    append(libraryName: string, content: coreHttp.HttpRequestBody, options?: LibraryAppendOptionalParams): Promise<coreHttp.RestResponse>;
-    create(libraryName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
-    delete(libraryName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
-    flush(libraryName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
-    get(libraryName: string, options?: coreHttp.OperationOptions): Promise<LibraryGetResponse>;
-    getOperationResult(operationId: string, options?: coreHttp.OperationOptions): Promise<LibraryGetOperationResultResponse>;
-    list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<LibraryResource>;
 }
 
 // @public
@@ -4471,51 +4491,8 @@ export interface LinkedService {
 }
 
 // @public
-export interface LinkedServiceCreateOrUpdateLinkedServiceOptionalParams extends coreHttp.OperationOptions {
-    ifMatch?: string;
-}
-
-// @public
-export type LinkedServiceCreateOrUpdateLinkedServiceResponse = LinkedServiceResource & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: LinkedServiceResource;
-        [LROSYM]: LROResponseInfo;
-    };
-};
-
-// @public
 export type LinkedServiceDebugResource = SubResourceDebugResource & {
     properties: LinkedServiceUnion;
-};
-
-// @public
-export interface LinkedServiceGetLinkedServiceOptionalParams extends coreHttp.OperationOptions {
-    ifNoneMatch?: string;
-}
-
-// @public
-export type LinkedServiceGetLinkedServiceResponse = LinkedServiceResource & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: LinkedServiceResource;
-    };
-};
-
-// @public
-export type LinkedServiceGetLinkedServicesByWorkspaceNextResponse = LinkedServiceListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: LinkedServiceListResponse;
-    };
-};
-
-// @public
-export type LinkedServiceGetLinkedServicesByWorkspaceResponse = LinkedServiceListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: LinkedServiceListResponse;
-    };
 };
 
 // @public
@@ -4525,12 +4502,59 @@ export interface LinkedServiceListResponse {
 }
 
 // @public
-export interface LinkedServiceOperation {
-    createOrUpdateLinkedService(linkedServiceName: string, linkedService: LinkedServiceResource, options?: LinkedServiceCreateOrUpdateLinkedServiceOptionalParams): Promise<LROPoller<LinkedServiceCreateOrUpdateLinkedServiceResponse>>;
-    deleteLinkedService(linkedServiceName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
-    getLinkedService(linkedServiceName: string, options?: LinkedServiceGetLinkedServiceOptionalParams): Promise<LinkedServiceGetLinkedServiceResponse>;
-    listLinkedServicesByWorkspace(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<LinkedServiceResource>;
-    renameLinkedService(linkedServiceName: string, request: ArtifactRenameRequest, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+export interface LinkedServiceOperations {
+    beginCreateOrUpdateLinkedService(linkedServiceName: string, linkedService: LinkedServiceResource, options?: LinkedServiceOperationsCreateOrUpdateLinkedServiceOptionalParams): Promise<PollerLike<PollOperationState<LinkedServiceOperationsCreateOrUpdateLinkedServiceResponse>, LinkedServiceOperationsCreateOrUpdateLinkedServiceResponse>>;
+    beginCreateOrUpdateLinkedServiceAndWait(linkedServiceName: string, linkedService: LinkedServiceResource, options?: LinkedServiceOperationsCreateOrUpdateLinkedServiceOptionalParams): Promise<LinkedServiceOperationsCreateOrUpdateLinkedServiceResponse>;
+    beginDeleteLinkedService(linkedServiceName: string, options?: LinkedServiceOperationsDeleteLinkedServiceOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteLinkedServiceAndWait(linkedServiceName: string, options?: LinkedServiceOperationsDeleteLinkedServiceOptionalParams): Promise<void>;
+    beginRenameLinkedService(linkedServiceName: string, request: ArtifactRenameRequest, options?: LinkedServiceOperationsRenameLinkedServiceOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRenameLinkedServiceAndWait(linkedServiceName: string, request: ArtifactRenameRequest, options?: LinkedServiceOperationsRenameLinkedServiceOptionalParams): Promise<void>;
+    getLinkedService(linkedServiceName: string, options?: LinkedServiceOperationsGetLinkedServiceOptionalParams): Promise<LinkedServiceOperationsGetLinkedServiceResponse>;
+    listLinkedServicesByWorkspace(options?: LinkedServiceOperationsGetLinkedServicesByWorkspaceOptionalParams): PagedAsyncIterableIterator<LinkedServiceResource>;
+}
+
+// @public
+export interface LinkedServiceOperationsCreateOrUpdateLinkedServiceOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type LinkedServiceOperationsCreateOrUpdateLinkedServiceResponse = LinkedServiceResource;
+
+// @public
+export interface LinkedServiceOperationsDeleteLinkedServiceOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface LinkedServiceOperationsGetLinkedServiceOptionalParams extends coreClient.OperationOptions {
+    ifNoneMatch?: string;
+}
+
+// @public
+export type LinkedServiceOperationsGetLinkedServiceResponse = LinkedServiceResource;
+
+// @public
+export interface LinkedServiceOperationsGetLinkedServicesByWorkspaceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LinkedServiceOperationsGetLinkedServicesByWorkspaceNextResponse = LinkedServiceListResponse;
+
+// @public
+export interface LinkedServiceOperationsGetLinkedServicesByWorkspaceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LinkedServiceOperationsGetLinkedServicesByWorkspaceResponse = LinkedServiceListResponse;
+
+// @public
+export interface LinkedServiceOperationsRenameLinkedServiceOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -4579,79 +4603,6 @@ export type LookupActivity = ExecutionActivity & {
     dataset: DatasetReference;
     firstRowOnly?: any;
 };
-
-// @public
-export type LROOperationResponse = HttpOperationResponse & {
-    [LROSYM]?: LROResponseInfo;
-};
-
-// @public (undocumented)
-export interface LROOperationState<TResult extends BaseResult> extends PollOperationState<TResult> {
-    // (undocumented)
-    finalStateVia?: FinalStateVia;
-    // (undocumented)
-    initialOperation: LROOperationStep<TResult>;
-    // (undocumented)
-    lastOperation: LROOperationStep<TResult>;
-    // (undocumented)
-    pollingStrategy: LROStrategy<TResult>;
-}
-
-// @public (undocumented)
-export interface LROOperationStep<TResult extends BaseResult> {
-    // (undocumented)
-    args: OperationArguments;
-    // (undocumented)
-    result: TResult;
-    // (undocumented)
-    spec: OperationSpec;
-}
-
-// @public (undocumented)
-export class LROPoller<TResult extends BaseResult> extends Poller<LROOperationState<TResult>, TResult> {
-    constructor({ initialOperationArguments, initialOperationResult, initialOperationSpec, sendOperation, finalStateVia, intervalInMs }: LROPollerOptions<TResult>);
-    delay(): Promise<void>;
-    }
-
-// @public (undocumented)
-export interface LROPollerOptions<TResult extends BaseResult> {
-    finalStateVia?: FinalStateVia;
-    initialOperationArguments: OperationArguments;
-    initialOperationResult: TResult;
-    initialOperationSpec: OperationSpec;
-    intervalInMs?: number;
-    sendOperation: SendOperationFn<TResult>;
-}
-
-// @public (undocumented)
-export interface LROResponseInfo {
-    // (undocumented)
-    azureAsyncOperation?: string;
-    // (undocumented)
-    isInitialRequest?: boolean;
-    // (undocumented)
-    location?: string;
-    // (undocumented)
-    operationLocation?: string;
-    // (undocumented)
-    provisioningState?: string;
-    // (undocumented)
-    requestMethod: HttpMethods;
-    // (undocumented)
-    status?: string;
-    // (undocumented)
-    statusCode: number;
-}
-
-// @public (undocumented)
-export interface LROStrategy<TResult extends BaseResult> {
-    // (undocumented)
-    isTerminal: () => boolean;
-    // (undocumented)
-    poll: () => Promise<LROOperationStep<TResult>>;
-    // (undocumented)
-    sendFinalRequest: () => Promise<LROOperationStep<TResult>>;
-}
 
 // @public
 export type MagentoLinkedService = LinkedService & {
@@ -4876,7 +4827,7 @@ export type MongoDbV2Source = CopySource & {
 
 // @public
 export type MultiplePipelineTrigger = Trigger & {
-    type: "MultiplePipelineTrigger";
+    type: "MultiplePipelineTrigger" | "ScheduleTrigger" | "BlobTrigger" | "BlobEventsTrigger" | "CustomEventsTrigger";
     pipelines?: TriggerPipelineReference[];
 };
 
@@ -4946,19 +4897,19 @@ export type NodeSizeFamily = string;
 // @public
 export interface Notebook {
     [property: string]: any;
-    bigDataPool?: BigDataPoolReference | null;
+    bigDataPool?: BigDataPoolReference;
     cells: NotebookCell[];
     description?: string;
     metadata: NotebookMetadata;
     nbformat: number;
     nbformatMinor: number;
-    sessionProperties?: NotebookSessionProperties | null;
+    sessionProperties?: NotebookSessionProperties;
 }
 
 // @public
 export interface NotebookCell {
     [property: string]: any;
-    attachments?: any | null;
+    attachments?: any;
     cellType: string;
     metadata: any;
     outputs?: NotebookCellOutputItem[];
@@ -4974,65 +4925,6 @@ export interface NotebookCellOutputItem {
     outputType: CellOutputType;
     text?: any;
 }
-
-// @public
-export interface NotebookCreateOrUpdateNotebookOptionalParams extends coreHttp.OperationOptions {
-    ifMatch?: string;
-}
-
-// @public
-export type NotebookCreateOrUpdateNotebookResponse = NotebookResource & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: NotebookResource;
-        [LROSYM]: LROResponseInfo;
-    };
-};
-
-// @public
-export interface NotebookGetNotebookOptionalParams extends coreHttp.OperationOptions {
-    ifNoneMatch?: string;
-}
-
-// @public
-export type NotebookGetNotebookResponse = NotebookResource & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: NotebookResource;
-    };
-};
-
-// @public
-export type NotebookGetNotebooksByWorkspaceNextResponse = NotebookListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: NotebookListResponse;
-    };
-};
-
-// @public
-export type NotebookGetNotebooksByWorkspaceResponse = NotebookListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: NotebookListResponse;
-    };
-};
-
-// @public
-export type NotebookGetNotebookSummaryByWorkSpaceNextResponse = NotebookListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: NotebookListResponse;
-    };
-};
-
-// @public
-export type NotebookGetNotebookSummaryByWorkSpaceResponse = NotebookListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: NotebookListResponse;
-    };
-};
 
 // @public
 export interface NotebookKernelSpec {
@@ -5058,17 +4950,78 @@ export interface NotebookListResponse {
 export interface NotebookMetadata {
     [property: string]: any;
     kernelspec?: NotebookKernelSpec;
-    languageInfo?: NotebookLanguageInfo | null;
+    languageInfo?: NotebookLanguageInfo;
 }
 
 // @public
-export interface NotebookOperation {
-    createOrUpdateNotebook(notebookName: string, notebook: NotebookResource, options?: NotebookCreateOrUpdateNotebookOptionalParams): Promise<LROPoller<NotebookCreateOrUpdateNotebookResponse>>;
-    deleteNotebook(notebookName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
-    getNotebook(notebookName: string, options?: NotebookGetNotebookOptionalParams): Promise<NotebookGetNotebookResponse>;
-    listNotebooksByWorkspace(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<NotebookResource>;
-    listNotebookSummaryByWorkSpace(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<NotebookResource>;
-    renameNotebook(notebookName: string, request: ArtifactRenameRequest, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+export interface NotebookOperations {
+    beginCreateOrUpdateNotebook(notebookName: string, notebook: NotebookResource, options?: NotebookOperationsCreateOrUpdateNotebookOptionalParams): Promise<PollerLike<PollOperationState<NotebookOperationsCreateOrUpdateNotebookResponse>, NotebookOperationsCreateOrUpdateNotebookResponse>>;
+    beginCreateOrUpdateNotebookAndWait(notebookName: string, notebook: NotebookResource, options?: NotebookOperationsCreateOrUpdateNotebookOptionalParams): Promise<NotebookOperationsCreateOrUpdateNotebookResponse>;
+    beginDeleteNotebook(notebookName: string, options?: NotebookOperationsDeleteNotebookOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteNotebookAndWait(notebookName: string, options?: NotebookOperationsDeleteNotebookOptionalParams): Promise<void>;
+    beginRenameNotebook(notebookName: string, request: ArtifactRenameRequest, options?: NotebookOperationsRenameNotebookOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRenameNotebookAndWait(notebookName: string, request: ArtifactRenameRequest, options?: NotebookOperationsRenameNotebookOptionalParams): Promise<void>;
+    getNotebook(notebookName: string, options?: NotebookOperationsGetNotebookOptionalParams): Promise<NotebookOperationsGetNotebookResponse>;
+    listNotebooksByWorkspace(options?: NotebookOperationsGetNotebooksByWorkspaceOptionalParams): PagedAsyncIterableIterator<NotebookResource>;
+    listNotebookSummaryByWorkSpace(options?: NotebookOperationsGetNotebookSummaryByWorkSpaceOptionalParams): PagedAsyncIterableIterator<NotebookResource>;
+}
+
+// @public
+export interface NotebookOperationsCreateOrUpdateNotebookOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NotebookOperationsCreateOrUpdateNotebookResponse = NotebookResource;
+
+// @public
+export interface NotebookOperationsDeleteNotebookOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NotebookOperationsGetNotebookOptionalParams extends coreClient.OperationOptions {
+    ifNoneMatch?: string;
+}
+
+// @public
+export type NotebookOperationsGetNotebookResponse = NotebookResource;
+
+// @public
+export interface NotebookOperationsGetNotebooksByWorkspaceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NotebookOperationsGetNotebooksByWorkspaceNextResponse = NotebookListResponse;
+
+// @public
+export interface NotebookOperationsGetNotebooksByWorkspaceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NotebookOperationsGetNotebooksByWorkspaceResponse = NotebookListResponse;
+
+// @public
+export interface NotebookOperationsGetNotebookSummaryByWorkSpaceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NotebookOperationsGetNotebookSummaryByWorkSpaceNextResponse = NotebookListResponse;
+
+// @public
+export interface NotebookOperationsGetNotebookSummaryByWorkSpaceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NotebookOperationsGetNotebookSummaryByWorkSpaceResponse = NotebookListResponse;
+
+// @public
+export interface NotebookOperationsRenameNotebookOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -5403,21 +5356,41 @@ export type PhoenixSource = TabularSource & {
 };
 
 // @public
-export interface PipelineCreateOrUpdatePipelineOptionalParams extends coreHttp.OperationOptions {
-    ifMatch?: string;
+export interface PipelineFolder {
+    name?: string;
 }
 
 // @public
-export type PipelineCreateOrUpdatePipelineResponse = PipelineResource & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: PipelineResource;
-        [LROSYM]: LROResponseInfo;
-    };
-};
+export interface PipelineListResponse {
+    nextLink?: string;
+    value: PipelineResource[];
+}
 
 // @public
-export interface PipelineCreatePipelineRunOptionalParams extends coreHttp.OperationOptions {
+export interface PipelineOperations {
+    beginCreateOrUpdatePipeline(pipelineName: string, pipeline: PipelineResource, options?: PipelineOperationsCreateOrUpdatePipelineOptionalParams): Promise<PollerLike<PollOperationState<PipelineOperationsCreateOrUpdatePipelineResponse>, PipelineOperationsCreateOrUpdatePipelineResponse>>;
+    beginCreateOrUpdatePipelineAndWait(pipelineName: string, pipeline: PipelineResource, options?: PipelineOperationsCreateOrUpdatePipelineOptionalParams): Promise<PipelineOperationsCreateOrUpdatePipelineResponse>;
+    beginDeletePipeline(pipelineName: string, options?: PipelineOperationsDeletePipelineOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeletePipelineAndWait(pipelineName: string, options?: PipelineOperationsDeletePipelineOptionalParams): Promise<void>;
+    beginRenamePipeline(pipelineName: string, request: ArtifactRenameRequest, options?: PipelineOperationsRenamePipelineOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRenamePipelineAndWait(pipelineName: string, request: ArtifactRenameRequest, options?: PipelineOperationsRenamePipelineOptionalParams): Promise<void>;
+    createPipelineRun(pipelineName: string, options?: PipelineOperationsCreatePipelineRunOptionalParams): Promise<PipelineOperationsCreatePipelineRunResponse>;
+    getPipeline(pipelineName: string, options?: PipelineOperationsGetPipelineOptionalParams): Promise<PipelineOperationsGetPipelineResponse>;
+    listPipelinesByWorkspace(options?: PipelineOperationsGetPipelinesByWorkspaceOptionalParams): PagedAsyncIterableIterator<PipelineResource>;
+}
+
+// @public
+export interface PipelineOperationsCreateOrUpdatePipelineOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PipelineOperationsCreateOrUpdatePipelineResponse = PipelineResource;
+
+// @public
+export interface PipelineOperationsCreatePipelineRunOptionalParams extends coreClient.OperationOptions {
     isRecovery?: boolean;
     parameters?: {
         [propertyName: string]: any;
@@ -5427,61 +5400,40 @@ export interface PipelineCreatePipelineRunOptionalParams extends coreHttp.Operat
 }
 
 // @public
-export type PipelineCreatePipelineRunResponse = CreateRunResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: CreateRunResponse;
-    };
-};
+export type PipelineOperationsCreatePipelineRunResponse = CreateRunResponse;
 
 // @public
-export interface PipelineFolder {
-    name?: string;
+export interface PipelineOperationsDeletePipelineOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export interface PipelineGetPipelineOptionalParams extends coreHttp.OperationOptions {
+export interface PipelineOperationsGetPipelineOptionalParams extends coreClient.OperationOptions {
     ifNoneMatch?: string;
 }
 
 // @public
-export type PipelineGetPipelineResponse = PipelineResource & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: PipelineResource;
-    };
-};
+export type PipelineOperationsGetPipelineResponse = PipelineResource;
 
 // @public
-export type PipelineGetPipelinesByWorkspaceNextResponse = PipelineListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: PipelineListResponse;
-    };
-};
-
-// @public
-export type PipelineGetPipelinesByWorkspaceResponse = PipelineListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: PipelineListResponse;
-    };
-};
-
-// @public
-export interface PipelineListResponse {
-    nextLink?: string;
-    value: PipelineResource[];
+export interface PipelineOperationsGetPipelinesByWorkspaceNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface PipelineOperation {
-    createOrUpdatePipeline(pipelineName: string, pipeline: PipelineResource, options?: PipelineCreateOrUpdatePipelineOptionalParams): Promise<LROPoller<PipelineCreateOrUpdatePipelineResponse>>;
-    createPipelineRun(pipelineName: string, options?: PipelineCreatePipelineRunOptionalParams): Promise<PipelineCreatePipelineRunResponse>;
-    deletePipeline(pipelineName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
-    getPipeline(pipelineName: string, options?: PipelineGetPipelineOptionalParams): Promise<PipelineGetPipelineResponse>;
-    listPipelinesByWorkspace(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<PipelineResource>;
-    renamePipeline(pipelineName: string, request: ArtifactRenameRequest, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+export type PipelineOperationsGetPipelinesByWorkspaceNextResponse = PipelineListResponse;
+
+// @public
+export interface PipelineOperationsGetPipelinesByWorkspaceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PipelineOperationsGetPipelinesByWorkspaceResponse = PipelineListResponse;
+
+// @public
+export interface PipelineOperationsRenamePipelineOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -5525,25 +5477,12 @@ export interface PipelineRun {
         [propertyName: string]: string;
     };
     readonly pipelineName?: string;
-    readonly runEnd?: Date | null;
+    readonly runEnd?: Date;
     readonly runGroupId?: string;
     readonly runId?: string;
     readonly runStart?: Date;
     readonly status?: string;
 }
-
-// @public
-export interface PipelineRunCancelPipelineRunOptionalParams extends coreHttp.OperationOptions {
-    isRecursive?: boolean;
-}
-
-// @public
-export type PipelineRunGetPipelineRunResponse = PipelineRun & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: PipelineRun;
-    };
-};
 
 // @public
 export interface PipelineRunInvokedBy {
@@ -5553,28 +5492,38 @@ export interface PipelineRunInvokedBy {
 }
 
 // @public
-export interface PipelineRunOperation {
-    cancelPipelineRun(runId: string, options?: PipelineRunCancelPipelineRunOptionalParams): Promise<coreHttp.RestResponse>;
-    getPipelineRun(runId: string, options?: coreHttp.OperationOptions): Promise<PipelineRunGetPipelineRunResponse>;
-    queryActivityRuns(pipelineName: string, runId: string, filterParameters: RunFilterParameters, options?: coreHttp.OperationOptions): Promise<PipelineRunQueryActivityRunsResponse>;
-    queryPipelineRunsByWorkspace(filterParameters: RunFilterParameters, options?: coreHttp.OperationOptions): Promise<PipelineRunQueryPipelineRunsByWorkspaceResponse>;
+export interface PipelineRunOperations {
+    cancelPipelineRun(runId: string, options?: PipelineRunOperationsCancelPipelineRunOptionalParams): Promise<void>;
+    getPipelineRun(runId: string, options?: PipelineRunOperationsGetPipelineRunOptionalParams): Promise<PipelineRunOperationsGetPipelineRunResponse>;
+    queryActivityRuns(pipelineName: string, runId: string, filterParameters: RunFilterParameters, options?: PipelineRunOperationsQueryActivityRunsOptionalParams): Promise<PipelineRunOperationsQueryActivityRunsResponse>;
+    queryPipelineRunsByWorkspace(filterParameters: RunFilterParameters, options?: PipelineRunOperationsQueryPipelineRunsByWorkspaceOptionalParams): Promise<PipelineRunOperationsQueryPipelineRunsByWorkspaceResponse>;
 }
 
 // @public
-export type PipelineRunQueryActivityRunsResponse = ActivityRunsQueryResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: ActivityRunsQueryResponse;
-    };
-};
+export interface PipelineRunOperationsCancelPipelineRunOptionalParams extends coreClient.OperationOptions {
+    isRecursive?: boolean;
+}
 
 // @public
-export type PipelineRunQueryPipelineRunsByWorkspaceResponse = PipelineRunsQueryResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: PipelineRunsQueryResponse;
-    };
-};
+export interface PipelineRunOperationsGetPipelineRunOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PipelineRunOperationsGetPipelineRunResponse = PipelineRun;
+
+// @public
+export interface PipelineRunOperationsQueryActivityRunsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PipelineRunOperationsQueryActivityRunsResponse = ActivityRunsQueryResponse;
+
+// @public
+export interface PipelineRunOperationsQueryPipelineRunsByWorkspaceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PipelineRunOperationsQueryPipelineRunsByWorkspaceResponse = PipelineRunsQueryResponse;
 
 // @public
 export interface PipelineRunsQueryResponse {
@@ -6262,9 +6211,6 @@ export type SelfHostedIntegrationRuntime = IntegrationRuntime & {
     linkedInfo?: LinkedIntegrationRuntimeTypeUnion;
 };
 
-// @public (undocumented)
-export type SendOperationFn<TResult extends BaseResult> = (args: OperationArguments, spec: OperationSpec) => Promise<TResult>;
-
 // @public
 export type ServiceNowAuthenticationType = string;
 
@@ -6462,17 +6408,17 @@ export type SparkAuthenticationType = string;
 
 // @public (undocumented)
 export interface SparkBatchJob {
-    appId?: string | null;
+    appId?: string;
     appInfo?: {
         [propertyName: string]: string;
-    } | null;
+    };
     artifactId?: string;
     errors?: SparkServiceError[];
     id: number;
     jobType?: SparkJobType;
     // (undocumented)
     livyInfo?: SparkBatchJobState;
-    logLines?: string[] | null;
+    logLines?: string[];
     name?: string;
     plugin?: SparkServicePlugin;
     result?: SparkBatchJobResultType;
@@ -6493,15 +6439,15 @@ export type SparkBatchJobResultType = string;
 // @public (undocumented)
 export interface SparkBatchJobState {
     currentState?: string;
-    deadAt?: Date | null;
+    deadAt?: Date;
     // (undocumented)
     jobCreationRequest?: SparkRequest;
-    notStartedAt?: Date | null;
-    recoveringAt?: Date | null;
-    runningAt?: Date | null;
-    startingAt?: Date | null;
-    successAt?: Date | null;
-    terminatedAt?: Date | null;
+    notStartedAt?: Date;
+    recoveringAt?: Date;
+    runningAt?: Date;
+    startingAt?: Date;
+    successAt?: Date;
+    terminatedAt?: Date;
 }
 
 // @public
@@ -6518,75 +6464,81 @@ export interface SparkJobDefinition {
 }
 
 // @public
-export interface SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParams extends coreHttp.OperationOptions {
-    ifMatch?: string;
+export interface SparkJobDefinitionOperations {
+    beginCreateOrUpdateSparkJobDefinition(sparkJobDefinitionName: string, sparkJobDefinition: SparkJobDefinitionResource, options?: SparkJobDefinitionOperationsCreateOrUpdateSparkJobDefinitionOptionalParams): Promise<PollerLike<PollOperationState<SparkJobDefinitionOperationsCreateOrUpdateSparkJobDefinitionResponse>, SparkJobDefinitionOperationsCreateOrUpdateSparkJobDefinitionResponse>>;
+    beginCreateOrUpdateSparkJobDefinitionAndWait(sparkJobDefinitionName: string, sparkJobDefinition: SparkJobDefinitionResource, options?: SparkJobDefinitionOperationsCreateOrUpdateSparkJobDefinitionOptionalParams): Promise<SparkJobDefinitionOperationsCreateOrUpdateSparkJobDefinitionResponse>;
+    beginDebugSparkJobDefinition(sparkJobDefinitionAzureResource: SparkJobDefinitionResource, options?: SparkJobDefinitionOperationsDebugSparkJobDefinitionOptionalParams): Promise<PollerLike<PollOperationState<SparkJobDefinitionOperationsDebugSparkJobDefinitionResponse>, SparkJobDefinitionOperationsDebugSparkJobDefinitionResponse>>;
+    beginDebugSparkJobDefinitionAndWait(sparkJobDefinitionAzureResource: SparkJobDefinitionResource, options?: SparkJobDefinitionOperationsDebugSparkJobDefinitionOptionalParams): Promise<SparkJobDefinitionOperationsDebugSparkJobDefinitionResponse>;
+    beginDeleteSparkJobDefinition(sparkJobDefinitionName: string, options?: SparkJobDefinitionOperationsDeleteSparkJobDefinitionOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteSparkJobDefinitionAndWait(sparkJobDefinitionName: string, options?: SparkJobDefinitionOperationsDeleteSparkJobDefinitionOptionalParams): Promise<void>;
+    beginExecuteSparkJobDefinition(sparkJobDefinitionName: string, options?: SparkJobDefinitionOperationsExecuteSparkJobDefinitionOptionalParams): Promise<PollerLike<PollOperationState<SparkJobDefinitionOperationsExecuteSparkJobDefinitionResponse>, SparkJobDefinitionOperationsExecuteSparkJobDefinitionResponse>>;
+    beginExecuteSparkJobDefinitionAndWait(sparkJobDefinitionName: string, options?: SparkJobDefinitionOperationsExecuteSparkJobDefinitionOptionalParams): Promise<SparkJobDefinitionOperationsExecuteSparkJobDefinitionResponse>;
+    beginRenameSparkJobDefinition(sparkJobDefinitionName: string, request: ArtifactRenameRequest, options?: SparkJobDefinitionOperationsRenameSparkJobDefinitionOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRenameSparkJobDefinitionAndWait(sparkJobDefinitionName: string, request: ArtifactRenameRequest, options?: SparkJobDefinitionOperationsRenameSparkJobDefinitionOptionalParams): Promise<void>;
+    getSparkJobDefinition(sparkJobDefinitionName: string, options?: SparkJobDefinitionOperationsGetSparkJobDefinitionOptionalParams): Promise<SparkJobDefinitionOperationsGetSparkJobDefinitionResponse>;
+    listSparkJobDefinitionsByWorkspace(options?: SparkJobDefinitionOperationsGetSparkJobDefinitionsByWorkspaceOptionalParams): PagedAsyncIterableIterator<SparkJobDefinitionResource>;
 }
 
 // @public
-export type SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse = SparkJobDefinitionResource & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SparkJobDefinitionResource;
-        [LROSYM]: LROResponseInfo;
-    };
-};
+export interface SparkJobDefinitionOperationsCreateOrUpdateSparkJobDefinitionOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
 
 // @public
-export type SparkJobDefinitionDebugSparkJobDefinitionResponse = SparkBatchJob & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SparkBatchJob;
-        [LROSYM]: LROResponseInfo;
-    };
-};
+export type SparkJobDefinitionOperationsCreateOrUpdateSparkJobDefinitionResponse = SparkJobDefinitionResource;
 
 // @public
-export type SparkJobDefinitionExecuteSparkJobDefinitionResponse = SparkBatchJob & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SparkBatchJob;
-        [LROSYM]: LROResponseInfo;
-    };
-};
+export interface SparkJobDefinitionOperationsDebugSparkJobDefinitionOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
 
 // @public
-export interface SparkJobDefinitionGetSparkJobDefinitionOptionalParams extends coreHttp.OperationOptions {
+export type SparkJobDefinitionOperationsDebugSparkJobDefinitionResponse = SparkBatchJob;
+
+// @public
+export interface SparkJobDefinitionOperationsDeleteSparkJobDefinitionOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SparkJobDefinitionOperationsExecuteSparkJobDefinitionOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SparkJobDefinitionOperationsExecuteSparkJobDefinitionResponse = SparkBatchJob;
+
+// @public
+export interface SparkJobDefinitionOperationsGetSparkJobDefinitionOptionalParams extends coreClient.OperationOptions {
     ifNoneMatch?: string;
 }
 
 // @public
-export type SparkJobDefinitionGetSparkJobDefinitionResponse = SparkJobDefinitionResource & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SparkJobDefinitionResource;
-    };
-};
+export type SparkJobDefinitionOperationsGetSparkJobDefinitionResponse = SparkJobDefinitionResource;
 
 // @public
-export type SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextResponse = SparkJobDefinitionsListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SparkJobDefinitionsListResponse;
-    };
-};
+export interface SparkJobDefinitionOperationsGetSparkJobDefinitionsByWorkspaceNextOptionalParams extends coreClient.OperationOptions {
+}
 
 // @public
-export type SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceResponse = SparkJobDefinitionsListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SparkJobDefinitionsListResponse;
-    };
-};
+export type SparkJobDefinitionOperationsGetSparkJobDefinitionsByWorkspaceNextResponse = SparkJobDefinitionsListResponse;
 
 // @public
-export interface SparkJobDefinitionOperation {
-    createOrUpdateSparkJobDefinition(sparkJobDefinitionName: string, sparkJobDefinition: SparkJobDefinitionResource, options?: SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParams): Promise<LROPoller<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse>>;
-    debugSparkJobDefinition(sparkJobDefinitionAzureResource: SparkJobDefinitionResource, options?: coreHttp.OperationOptions): Promise<LROPoller<SparkJobDefinitionDebugSparkJobDefinitionResponse>>;
-    deleteSparkJobDefinition(sparkJobDefinitionName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
-    executeSparkJobDefinition(sparkJobDefinitionName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<SparkJobDefinitionExecuteSparkJobDefinitionResponse>>;
-    getSparkJobDefinition(sparkJobDefinitionName: string, options?: SparkJobDefinitionGetSparkJobDefinitionOptionalParams): Promise<SparkJobDefinitionGetSparkJobDefinitionResponse>;
-    listSparkJobDefinitionsByWorkspace(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<SparkJobDefinitionResource>;
-    renameSparkJobDefinition(sparkJobDefinitionName: string, request: ArtifactRenameRequest, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+export interface SparkJobDefinitionOperationsGetSparkJobDefinitionsByWorkspaceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SparkJobDefinitionOperationsGetSparkJobDefinitionsByWorkspaceResponse = SparkJobDefinitionsListResponse;
+
+// @public
+export interface SparkJobDefinitionOperationsRenameSparkJobDefinitionOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -6687,15 +6639,15 @@ export interface SparkRequest {
 // @public (undocumented)
 export interface SparkScheduler {
     // (undocumented)
-    cancellationRequestedAt?: Date | null;
+    cancellationRequestedAt?: Date;
     // (undocumented)
     currentState?: SchedulerCurrentState;
     // (undocumented)
-    endedAt?: Date | null;
+    endedAt?: Date;
     // (undocumented)
-    scheduledAt?: Date | null;
+    scheduledAt?: Date;
     // (undocumented)
-    submittedAt?: Date | null;
+    submittedAt?: Date;
 }
 
 // @public
@@ -6714,17 +6666,17 @@ export interface SparkServiceError {
 // @public (undocumented)
 export interface SparkServicePlugin {
     // (undocumented)
-    cleanupStartedAt?: Date | null;
+    cleanupStartedAt?: Date;
     // (undocumented)
     currentState?: PluginCurrentState;
     // (undocumented)
-    monitoringStartedAt?: Date | null;
+    monitoringStartedAt?: Date;
     // (undocumented)
-    preparationStartedAt?: Date | null;
+    preparationStartedAt?: Date;
     // (undocumented)
-    resourceAcquisitionStartedAt?: Date | null;
+    resourceAcquisitionStartedAt?: Date;
     // (undocumented)
-    submissionStartedAt?: Date | null;
+    submissionStartedAt?: Date;
 }
 
 // @public
@@ -6833,26 +6785,24 @@ export interface SqlPoolReference {
 export type SqlPoolReferenceType = string;
 
 // @public
-export type SqlPoolsGetResponse = SqlPool & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SqlPool;
-    };
-};
-
-// @public
-export type SqlPoolsListResponse = SqlPoolInfoListResult & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SqlPoolInfoListResult;
-    };
-};
-
-// @public
-export interface SqlPoolsOperation {
-    get(sqlPoolName: string, options?: coreHttp.OperationOptions): Promise<SqlPoolsGetResponse>;
-    list(options?: coreHttp.OperationOptions): Promise<SqlPoolsListResponse>;
+export interface SqlPools {
+    get(sqlPoolName: string, options?: SqlPoolsGetOptionalParams): Promise<SqlPoolsGetResponse>;
+    list(options?: SqlPoolsListOptionalParams): Promise<SqlPoolsListResponse>;
 }
+
+// @public
+export interface SqlPoolsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlPoolsGetResponse = SqlPool;
+
+// @public
+export interface SqlPoolsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlPoolsListResponse = SqlPoolInfoListResult;
 
 // @public
 export type SqlPoolStoredProcedureActivity = Activity & {
@@ -6881,61 +6831,65 @@ export interface SqlScriptContent {
 }
 
 // @public
-export interface SqlScriptCreateOrUpdateSqlScriptOptionalParams extends coreHttp.OperationOptions {
-    ifMatch?: string;
-}
-
-// @public
-export type SqlScriptCreateOrUpdateSqlScriptResponse = SqlScriptResource & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SqlScriptResource;
-        [LROSYM]: LROResponseInfo;
-    };
-};
-
-// @public
-export interface SqlScriptGetSqlScriptOptionalParams extends coreHttp.OperationOptions {
-    ifNoneMatch?: string;
-}
-
-// @public
-export type SqlScriptGetSqlScriptResponse = SqlScriptResource & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SqlScriptResource;
-    };
-};
-
-// @public
-export type SqlScriptGetSqlScriptsByWorkspaceNextResponse = SqlScriptsListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SqlScriptsListResponse;
-    };
-};
-
-// @public
-export type SqlScriptGetSqlScriptsByWorkspaceResponse = SqlScriptsListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SqlScriptsListResponse;
-    };
-};
-
-// @public
 export interface SqlScriptMetadata {
     [property: string]: any;
     language?: string;
 }
 
 // @public
-export interface SqlScriptOperation {
-    createOrUpdateSqlScript(sqlScriptName: string, sqlScript: SqlScriptResource, options?: SqlScriptCreateOrUpdateSqlScriptOptionalParams): Promise<LROPoller<SqlScriptCreateOrUpdateSqlScriptResponse>>;
-    deleteSqlScript(sqlScriptName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
-    getSqlScript(sqlScriptName: string, options?: SqlScriptGetSqlScriptOptionalParams): Promise<SqlScriptGetSqlScriptResponse>;
-    listSqlScriptsByWorkspace(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<SqlScriptResource>;
-    renameSqlScript(sqlScriptName: string, request: ArtifactRenameRequest, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+export interface SqlScriptOperations {
+    beginCreateOrUpdateSqlScript(sqlScriptName: string, sqlScript: SqlScriptResource, options?: SqlScriptOperationsCreateOrUpdateSqlScriptOptionalParams): Promise<PollerLike<PollOperationState<SqlScriptOperationsCreateOrUpdateSqlScriptResponse>, SqlScriptOperationsCreateOrUpdateSqlScriptResponse>>;
+    beginCreateOrUpdateSqlScriptAndWait(sqlScriptName: string, sqlScript: SqlScriptResource, options?: SqlScriptOperationsCreateOrUpdateSqlScriptOptionalParams): Promise<SqlScriptOperationsCreateOrUpdateSqlScriptResponse>;
+    beginDeleteSqlScript(sqlScriptName: string, options?: SqlScriptOperationsDeleteSqlScriptOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteSqlScriptAndWait(sqlScriptName: string, options?: SqlScriptOperationsDeleteSqlScriptOptionalParams): Promise<void>;
+    beginRenameSqlScript(sqlScriptName: string, request: ArtifactRenameRequest, options?: SqlScriptOperationsRenameSqlScriptOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRenameSqlScriptAndWait(sqlScriptName: string, request: ArtifactRenameRequest, options?: SqlScriptOperationsRenameSqlScriptOptionalParams): Promise<void>;
+    getSqlScript(sqlScriptName: string, options?: SqlScriptOperationsGetSqlScriptOptionalParams): Promise<SqlScriptOperationsGetSqlScriptResponse>;
+    listSqlScriptsByWorkspace(options?: SqlScriptOperationsGetSqlScriptsByWorkspaceOptionalParams): PagedAsyncIterableIterator<SqlScriptResource>;
+}
+
+// @public
+export interface SqlScriptOperationsCreateOrUpdateSqlScriptOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SqlScriptOperationsCreateOrUpdateSqlScriptResponse = SqlScriptResource;
+
+// @public
+export interface SqlScriptOperationsDeleteSqlScriptOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SqlScriptOperationsGetSqlScriptOptionalParams extends coreClient.OperationOptions {
+    ifNoneMatch?: string;
+}
+
+// @public
+export type SqlScriptOperationsGetSqlScriptResponse = SqlScriptResource;
+
+// @public
+export interface SqlScriptOperationsGetSqlScriptsByWorkspaceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlScriptOperationsGetSqlScriptsByWorkspaceNextResponse = SqlScriptsListResponse;
+
+// @public
+export interface SqlScriptOperationsGetSqlScriptsByWorkspaceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlScriptOperationsGetSqlScriptsByWorkspaceResponse = SqlScriptsListResponse;
+
+// @public
+export interface SqlScriptOperationsRenameSqlScriptOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -7251,6 +7205,7 @@ export interface SynapseNotebookReference {
 export type SynapseSparkJobDefinitionActivity = ExecutionActivity & {
     type: "SparkJob";
     sparkJob: SynapseSparkJobReference;
+    arguments?: any[];
 };
 
 // @public
@@ -7261,7 +7216,7 @@ export interface SynapseSparkJobReference {
 
 // @public
 export type TabularSource = CopySource & {
-    type: "TabularSource";
+    type: "TabularSource" | "AzureTableSource" | "InformixSource" | "Db2Source" | "OdbcSource" | "MySqlSource" | "PostgreSqlSource" | "SybaseSource" | "SapBwSource" | "SalesforceSource" | "SapCloudForCustomerSource" | "SapEccSource" | "SapHanaSource" | "SapOpenHubSource" | "SapTableSource" | "SqlSource" | "SqlServerSource" | "AzureSqlSource" | "SqlMISource" | "SqlDWSource" | "AzureMySqlSource" | "TeradataSource" | "CassandraSource" | "AmazonMWSSource" | "AzurePostgreSqlSource" | "ConcurSource" | "CouchbaseSource" | "DrillSource" | "EloquaSource" | "GoogleBigQuerySource" | "GreenplumSource" | "HBaseSource" | "HiveSource" | "HubspotSource" | "ImpalaSource" | "JiraSource" | "MagentoSource" | "MariaDBSource" | "AzureMariaDBSource" | "MarketoSource" | "PaypalSource" | "PhoenixSource" | "PrestoSource" | "QuickBooksSource" | "ServiceNowSource" | "ShopifySource" | "SparkSource" | "SquareSource" | "XeroSource" | "ZohoSource" | "NetezzaSource" | "VerticaSource" | "SalesforceMarketingCloudSource" | "ResponsysSource" | "DynamicsAXSource" | "OracleServiceCloudSource" | "GoogleAdWordsSource" | "AmazonRedshiftSource";
     queryTimeout?: any;
     additionalColumns?: AdditionalColumns[];
 };
@@ -7370,20 +7325,6 @@ export interface Trigger {
 }
 
 // @public
-export interface TriggerCreateOrUpdateTriggerOptionalParams extends coreHttp.OperationOptions {
-    ifMatch?: string;
-}
-
-// @public
-export type TriggerCreateOrUpdateTriggerResponse = TriggerResource & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: TriggerResource;
-        [LROSYM]: LROResponseInfo;
-    };
-};
-
-// @public
 export interface TriggerDependencyProvisioningStatus {
     provisioningStatus: string;
     triggerName: string;
@@ -7391,49 +7332,12 @@ export interface TriggerDependencyProvisioningStatus {
 
 // @public
 export type TriggerDependencyReference = DependencyReference & {
-    type: "TriggerDependencyReference";
+    type: "TriggerDependencyReference" | "TumblingWindowTriggerDependencyReference";
     referenceTrigger: TriggerReference;
 };
 
 // @public (undocumented)
 export type TriggerDependencyReferenceUnion = TriggerDependencyReference | TumblingWindowTriggerDependencyReference;
-
-// @public
-export type TriggerGetEventSubscriptionStatusResponse = TriggerSubscriptionOperationStatus & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: TriggerSubscriptionOperationStatus;
-    };
-};
-
-// @public
-export interface TriggerGetTriggerOptionalParams extends coreHttp.OperationOptions {
-    ifNoneMatch?: string;
-}
-
-// @public
-export type TriggerGetTriggerResponse = TriggerResource & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: TriggerResource;
-    };
-};
-
-// @public
-export type TriggerGetTriggersByWorkspaceNextResponse = TriggerListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: TriggerListResponse;
-    };
-};
-
-// @public
-export type TriggerGetTriggersByWorkspaceResponse = TriggerListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: TriggerListResponse;
-    };
-};
 
 // @public
 export interface TriggerListResponse {
@@ -7442,17 +7346,98 @@ export interface TriggerListResponse {
 }
 
 // @public
-export interface TriggerOperation {
-    createOrUpdateTrigger(triggerName: string, trigger: TriggerResource, options?: TriggerCreateOrUpdateTriggerOptionalParams): Promise<LROPoller<TriggerCreateOrUpdateTriggerResponse>>;
-    deleteTrigger(triggerName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
-    getEventSubscriptionStatus(triggerName: string, options?: coreHttp.OperationOptions): Promise<TriggerGetEventSubscriptionStatusResponse>;
-    getTrigger(triggerName: string, options?: TriggerGetTriggerOptionalParams): Promise<TriggerGetTriggerResponse>;
-    listTriggersByWorkspace(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<TriggerResource>;
-    startTrigger(triggerName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
-    stopTrigger(triggerName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
-    subscribeTriggerToEvents(triggerName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<TriggerSubscribeTriggerToEventsResponse>>;
-    unsubscribeTriggerFromEvents(triggerName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<TriggerUnsubscribeTriggerFromEventsResponse>>;
+export interface TriggerOperations {
+    beginCreateOrUpdateTrigger(triggerName: string, trigger: TriggerResource, options?: TriggerOperationsCreateOrUpdateTriggerOptionalParams): Promise<PollerLike<PollOperationState<TriggerOperationsCreateOrUpdateTriggerResponse>, TriggerOperationsCreateOrUpdateTriggerResponse>>;
+    beginCreateOrUpdateTriggerAndWait(triggerName: string, trigger: TriggerResource, options?: TriggerOperationsCreateOrUpdateTriggerOptionalParams): Promise<TriggerOperationsCreateOrUpdateTriggerResponse>;
+    beginDeleteTrigger(triggerName: string, options?: TriggerOperationsDeleteTriggerOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteTriggerAndWait(triggerName: string, options?: TriggerOperationsDeleteTriggerOptionalParams): Promise<void>;
+    beginStartTrigger(triggerName: string, options?: TriggerOperationsStartTriggerOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStartTriggerAndWait(triggerName: string, options?: TriggerOperationsStartTriggerOptionalParams): Promise<void>;
+    beginStopTrigger(triggerName: string, options?: TriggerOperationsStopTriggerOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStopTriggerAndWait(triggerName: string, options?: TriggerOperationsStopTriggerOptionalParams): Promise<void>;
+    beginSubscribeTriggerToEvents(triggerName: string, options?: TriggerOperationsSubscribeTriggerToEventsOptionalParams): Promise<PollerLike<PollOperationState<TriggerOperationsSubscribeTriggerToEventsResponse>, TriggerOperationsSubscribeTriggerToEventsResponse>>;
+    beginSubscribeTriggerToEventsAndWait(triggerName: string, options?: TriggerOperationsSubscribeTriggerToEventsOptionalParams): Promise<TriggerOperationsSubscribeTriggerToEventsResponse>;
+    beginUnsubscribeTriggerFromEvents(triggerName: string, options?: TriggerOperationsUnsubscribeTriggerFromEventsOptionalParams): Promise<PollerLike<PollOperationState<TriggerOperationsUnsubscribeTriggerFromEventsResponse>, TriggerOperationsUnsubscribeTriggerFromEventsResponse>>;
+    beginUnsubscribeTriggerFromEventsAndWait(triggerName: string, options?: TriggerOperationsUnsubscribeTriggerFromEventsOptionalParams): Promise<TriggerOperationsUnsubscribeTriggerFromEventsResponse>;
+    getEventSubscriptionStatus(triggerName: string, options?: TriggerOperationsGetEventSubscriptionStatusOptionalParams): Promise<TriggerOperationsGetEventSubscriptionStatusResponse>;
+    getTrigger(triggerName: string, options?: TriggerOperationsGetTriggerOptionalParams): Promise<TriggerOperationsGetTriggerResponse>;
+    listTriggersByWorkspace(options?: TriggerOperationsGetTriggersByWorkspaceOptionalParams): PagedAsyncIterableIterator<TriggerResource>;
 }
+
+// @public
+export interface TriggerOperationsCreateOrUpdateTriggerOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type TriggerOperationsCreateOrUpdateTriggerResponse = TriggerResource;
+
+// @public
+export interface TriggerOperationsDeleteTriggerOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface TriggerOperationsGetEventSubscriptionStatusOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TriggerOperationsGetEventSubscriptionStatusResponse = TriggerSubscriptionOperationStatus;
+
+// @public
+export interface TriggerOperationsGetTriggerOptionalParams extends coreClient.OperationOptions {
+    ifNoneMatch?: string;
+}
+
+// @public
+export type TriggerOperationsGetTriggerResponse = TriggerResource;
+
+// @public
+export interface TriggerOperationsGetTriggersByWorkspaceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TriggerOperationsGetTriggersByWorkspaceNextResponse = TriggerListResponse;
+
+// @public
+export interface TriggerOperationsGetTriggersByWorkspaceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TriggerOperationsGetTriggersByWorkspaceResponse = TriggerListResponse;
+
+// @public
+export interface TriggerOperationsStartTriggerOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface TriggerOperationsStopTriggerOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface TriggerOperationsSubscribeTriggerToEventsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type TriggerOperationsSubscribeTriggerToEventsResponse = TriggerSubscriptionOperationStatus;
+
+// @public
+export interface TriggerOperationsUnsubscribeTriggerFromEventsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type TriggerOperationsUnsubscribeTriggerFromEventsResponse = TriggerSubscriptionOperationStatus;
 
 // @public
 export interface TriggerPipelineReference {
@@ -7494,19 +7479,26 @@ export interface TriggerRun {
 }
 
 // @public
-export interface TriggerRunOperation {
-    cancelTriggerInstance(triggerName: string, runId: string, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
-    queryTriggerRunsByWorkspace(filterParameters: RunFilterParameters, options?: coreHttp.OperationOptions): Promise<TriggerRunQueryTriggerRunsByWorkspaceResponse>;
-    rerunTriggerInstance(triggerName: string, runId: string, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
+export interface TriggerRunOperations {
+    cancelTriggerInstance(triggerName: string, runId: string, options?: TriggerRunOperationsCancelTriggerInstanceOptionalParams): Promise<void>;
+    queryTriggerRunsByWorkspace(filterParameters: RunFilterParameters, options?: TriggerRunOperationsQueryTriggerRunsByWorkspaceOptionalParams): Promise<TriggerRunOperationsQueryTriggerRunsByWorkspaceResponse>;
+    rerunTriggerInstance(triggerName: string, runId: string, options?: TriggerRunOperationsRerunTriggerInstanceOptionalParams): Promise<void>;
 }
 
 // @public
-export type TriggerRunQueryTriggerRunsByWorkspaceResponse = TriggerRunsQueryResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: TriggerRunsQueryResponse;
-    };
-};
+export interface TriggerRunOperationsCancelTriggerInstanceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface TriggerRunOperationsQueryTriggerRunsByWorkspaceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TriggerRunOperationsQueryTriggerRunsByWorkspaceResponse = TriggerRunsQueryResponse;
+
+// @public
+export interface TriggerRunOperationsRerunTriggerInstanceOptionalParams extends coreClient.OperationOptions {
+}
 
 // @public
 export interface TriggerRunsQueryResponse {
@@ -7521,15 +7513,6 @@ export type TriggerRunStatus = string;
 export type TriggerRuntimeState = string;
 
 // @public
-export type TriggerSubscribeTriggerToEventsResponse = TriggerSubscriptionOperationStatus & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: TriggerSubscriptionOperationStatus;
-        [LROSYM]: LROResponseInfo;
-    };
-};
-
-// @public
 export interface TriggerSubscriptionOperationStatus {
     readonly status?: EventSubscriptionStatus;
     readonly triggerName?: string;
@@ -7537,15 +7520,6 @@ export interface TriggerSubscriptionOperationStatus {
 
 // @public (undocumented)
 export type TriggerUnion = Trigger | RerunTumblingWindowTrigger | MultiplePipelineTriggerUnion | TumblingWindowTrigger | ChainingTrigger;
-
-// @public
-export type TriggerUnsubscribeTriggerFromEventsResponse = TriggerSubscriptionOperationStatus & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: TriggerSubscriptionOperationStatus;
-        [LROSYM]: LROResponseInfo;
-    };
-};
 
 // @public
 export type TumblingWindowFrequency = string;
@@ -7766,30 +7740,17 @@ export type Workspace = TrackedResource & {
 };
 
 // @public
-export type WorkspaceGetResponse = Workspace & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: Workspace;
-    };
-};
+export interface WorkspaceGitRepoManagement {
+    getGitHubAccessToken(gitHubAccessTokenRequest: GitHubAccessTokenRequest, options?: WorkspaceGitRepoManagementGetGitHubAccessTokenOptionalParams): Promise<WorkspaceGitRepoManagementGetGitHubAccessTokenResponse>;
+}
 
 // @public
-export interface WorkspaceGitRepoManagementGetGitHubAccessTokenOptionalParams extends coreHttp.OperationOptions {
+export interface WorkspaceGitRepoManagementGetGitHubAccessTokenOptionalParams extends coreClient.OperationOptions {
     clientRequestId?: string;
 }
 
 // @public
-export type WorkspaceGitRepoManagementGetGitHubAccessTokenResponse = GitHubAccessTokenResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: GitHubAccessTokenResponse;
-    };
-};
-
-// @public
-export interface WorkspaceGitRepoManagementOperation {
-    getGitHubAccessToken(gitHubAccessTokenRequest: GitHubAccessTokenRequest, options?: WorkspaceGitRepoManagementGetGitHubAccessTokenOptionalParams): Promise<WorkspaceGitRepoManagementGetGitHubAccessTokenResponse>;
-}
+export type WorkspaceGitRepoManagementGetGitHubAccessTokenResponse = GitHubAccessTokenResponse;
 
 // @public
 export interface WorkspaceIdentity {
@@ -7805,13 +7766,22 @@ export interface WorkspaceKeyDetails {
 }
 
 // @public
-export interface WorkspaceOperation {
-    get(options?: coreHttp.OperationOptions): Promise<WorkspaceGetResponse>;
+export interface WorkspaceOperations {
+    get(options?: WorkspaceOperationsGetOptionalParams): Promise<WorkspaceOperationsGetResponse>;
 }
+
+// @public
+export interface WorkspaceOperationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkspaceOperationsGetResponse = Workspace;
 
 // @public
 export interface WorkspaceRepositoryConfiguration {
     accountName?: string;
+    clientId?: string;
+    clientSecret?: GitHubClientSecret;
     collaborationBranch?: string;
     hostName?: string;
     lastCommitId?: string;

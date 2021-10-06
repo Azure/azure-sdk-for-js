@@ -10,7 +10,7 @@ import {
   record,
   RecorderEnvironmentSetup,
   isPlaybackMode
-} from "@azure/test-utils-recorder";
+} from "@azure-tools/test-recorder";
 
 import {
   AttestationClient,

@@ -5,10 +5,11 @@ import {
   OperationTracingOptions,
   Span,
   SpanOptions,
-  SpanKind,
   setSpan,
   context as otContext,
-  getTracer
+  getTracer,
+  Context,
+  SpanKind
 } from "./interfaces";
 import { trace, INVALID_SPAN_CONTEXT } from "@opentelemetry/api";
 
@@ -33,6 +34,21 @@ export interface CreateSpanFunctionArgs {
   namespace: string;
 }
 
+/**
+ * @internal
+ * A set of known span attributes that will exist on a context
+ */
+export const knownSpanAttributes = {
+  AZ_NAMESPACE: { contextKey: Symbol.for("az.namespace"), spanAttributeName: "az.namespace" }
+};
+
+/**
+ * Checks whether tracing is disabled by checking the `AZURE_TRACING_DISABLED` environment variable.
+ *
+ * @returns - `true` if tracing is disabled, `false` otherwise.
+ *
+ * @internal
+ */
 export function isTracingDisabled(): boolean {
   if (typeof process === "undefined") {
     // not supported in browser for now without polyfills
@@ -49,6 +65,78 @@ export function isTracingDisabled(): boolean {
 }
 
 /**
+ * Maintains backwards compatibility with the previous `OperationTracingOptions` in core-tracing preview.13 and earlier
+ * which passed `spanOptions` as part of `tracingOptions`.
+ */
+function disambiguateParameters<T extends { tracingOptions?: OperationTracingOptions }>(
+  operationOptions: T,
+  startSpanOptions?: SpanOptions
+): [OperationTracingOptions, SpanOptions] {
+  const { tracingOptions } = operationOptions;
+
+  // If startSpanOptions is provided, then we are using the new signature,
+  // otherwise try to pluck it out of the tracingOptions.
+  const spanOptions: SpanOptions = startSpanOptions || (tracingOptions as any)?.spanOptions || {};
+  spanOptions.kind = spanOptions.kind || SpanKind.INTERNAL;
+
+  return [tracingOptions || {}, spanOptions];
+}
+
+/**
+ * Creates a new span using the given parameters.
+ *
+ * @param spanName - The name of the span to created.
+ * @param spanOptions - Initialization options that can be used to customize the created span.
+ * @param tracingContext - The tracing context to use for the created span.
+ *
+ * @returns - A new span.
+ */
+function startSpan(spanName: string, spanOptions: SpanOptions, tracingContext: Context) {
+  if (isTracingDisabled()) {
+    return trace.wrapSpanContext(INVALID_SPAN_CONTEXT);
+  }
+
+  const tracer = getTracer();
+  return tracer.startSpan(spanName, spanOptions, tracingContext);
+}
+
+/**
+ * Adds the `az.namespace` attribute on a span, the tracingContext, and the spanOptions
+ *
+ * @param span - The span to add the attribute to in place.
+ * @param tracingContext - The context bag to add the attribute to by creating a new context with the attribute.
+ * @param namespace - The value of the attribute.
+ * @param spanOptions - The spanOptions to add the attribute to (for backwards compatibility).
+ *
+ * @internal
+ *
+ * @returns The updated span options and context.
+ */
+function setNamespaceOnSpan(
+  span: Span,
+  tracingContext: Context,
+  namespace: string,
+  spanOptions: SpanOptions
+) {
+  span.setAttribute(knownSpanAttributes.AZ_NAMESPACE.spanAttributeName, namespace);
+  const updatedContext = tracingContext.setValue(
+    knownSpanAttributes.AZ_NAMESPACE.contextKey,
+    namespace
+  );
+
+  // Here for backwards compatibility, but can be removed once we no longer use `spanOptions` (every client and core library depends on a version higher than preview.13)
+  const updatedSpanOptions = {
+    ...spanOptions,
+    attributes: {
+      ...spanOptions?.attributes,
+      [knownSpanAttributes.AZ_NAMESPACE.spanAttributeName]: namespace
+    }
+  };
+
+  return { updatedSpanOptions, updatedContext };
+}
+
+/**
  * Creates a function that can be used to create spans using the global tracer.
  *
  * Usage:
@@ -58,61 +146,66 @@ export function isTracingDisabled(): boolean {
  * const createSpan = createSpanFunction({ packagePrefix: "Azure.Data.AppConfiguration", namespace: "Microsoft.AppConfiguration" });
  *
  * // in each operation
- * const span = createSpan("deleteConfigurationSetting", operationOptions);
+ * const span = createSpan("deleteConfigurationSetting", operationOptions, startSpanOptions );
  *    // code...
  * span.end();
  * ```
  *
- * @hidden
  * @param args - allows configuration of the prefix for each span as well as the az.namespace field.
  */
 export function createSpanFunction(args: CreateSpanFunctionArgs) {
+  /**
+   * Creates a span using the global tracer provider.
+   *
+   * @param operationName - The name of the operation to create a span for.
+   * @param operationOptions - The operation options containing the currently active tracing context when using manual span propagation.
+   * @param startSpanOptions - The options to use when creating the span, and will be passed to the tracer.startSpan method.
+   *
+   * @returns - A span from the global tracer provider, and an updatedOptions bag containing the new tracing context.
+   *
+   * Example usage:
+   * ```ts
+   * const { span, updatedOptions } = createSpan("deleteConfigurationSetting", operationOptions, startSpanOptions);
+   * ```
+   */
   return function<T extends { tracingOptions?: OperationTracingOptions }>(
     operationName: string,
-    operationOptions: T | undefined
+    operationOptions?: T,
+    startSpanOptions?: SpanOptions
   ): { span: Span; updatedOptions: T } {
-    const tracer = getTracer();
-    const tracingOptions = operationOptions?.tracingOptions || {};
-    const spanOptions: SpanOptions = {
-      kind: SpanKind.INTERNAL,
-      ...tracingOptions.spanOptions
-    };
+    const [tracingOptions, spanOptions] = disambiguateParameters(
+      operationOptions || ({} as T),
+      startSpanOptions
+    );
+
+    let tracingContext = tracingOptions?.tracingContext || otContext.active();
 
     const spanName = args.packagePrefix ? `${args.packagePrefix}.${operationName}` : operationName;
+    const span = startSpan(spanName, spanOptions, tracingContext);
 
-    let span: Span;
-    if (isTracingDisabled()) {
-      span = trace.wrapSpanContext(INVALID_SPAN_CONTEXT);
-    } else {
-      span = tracer.startSpan(spanName, spanOptions, tracingOptions.tracingContext);
-    }
-
+    let newSpanOptions = spanOptions;
     if (args.namespace) {
-      span.setAttribute("az.namespace", args.namespace);
+      const { updatedSpanOptions, updatedContext } = setNamespaceOnSpan(
+        span,
+        tracingContext,
+        args.namespace,
+        spanOptions
+      );
+
+      tracingContext = updatedContext;
+      newSpanOptions = updatedSpanOptions;
     }
 
-    let newSpanOptions = tracingOptions.spanOptions || {};
-
-    if (span.isRecording() && args.namespace) {
-      newSpanOptions = {
-        ...tracingOptions.spanOptions,
-        attributes: {
-          ...spanOptions.attributes,
-          "az.namespace": args.namespace
-        }
-      };
-    }
-
-    const newTracingOptions: Required<OperationTracingOptions> = {
+    const newTracingOptions = {
       ...tracingOptions,
       spanOptions: newSpanOptions,
-      tracingContext: setSpan(tracingOptions.tracingContext || otContext.active(), span)
+      tracingContext: setSpan(tracingContext, span)
     };
 
     const newOperationOptions = {
-      ...operationOptions,
+      ...(operationOptions as T),
       tracingOptions: newTracingOptions
-    } as T & { tracingOptions: Required<OperationTracingOptions> };
+    };
 
     return {
       span,

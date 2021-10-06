@@ -28,7 +28,7 @@ export class NockRecorder extends BaseRecorder {
   public playback(recorderEnvironmentSetup: RecorderEnvironmentSetup, testFilePath: string): void {
     super.init(recorderEnvironmentSetup);
     /**
-     * `@azure/test-utils-recorder` package is used for both the browser and node tests
+     * `@azure-tools/test-recorder` package is used for both the browser and node tests
      *
      * During the playback mode,
      *  `path` module is leveraged to import the node test recordings and `path` module can't be imported in the browser.

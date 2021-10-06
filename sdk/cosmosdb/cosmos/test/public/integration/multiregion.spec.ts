@@ -4,7 +4,7 @@ import assert from "assert";
 import { Suite } from "mocha";
 
 import { CosmosClient } from "../../../src";
-import { masterKey } from "../common/_testConfig";
+import { masterKey } from "../common/_fakeTestSecrets";
 import { PluginOn, PluginConfig, CosmosClientOptions } from "../../../src";
 
 const endpoint = "https://failovertest.documents.azure.com/";

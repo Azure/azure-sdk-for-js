@@ -10,9 +10,8 @@ import * as coreClient from "@azure/core-client";
 import * as coreAuth from "@azure/core-auth";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { LroEngine } from "./lro";
-import { CoreClientLro, shouldDeserializeLro } from "./coreClientLro";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "./lroImpl";
 import {
   ApplicationGatewaysImpl,
   ApplicationGatewayPrivateLinkResourcesImpl,
@@ -86,6 +85,7 @@ import {
   ServiceEndpointPoliciesImpl,
   ServiceEndpointPolicyDefinitionsImpl,
   ServiceTagsImpl,
+  ServiceTagInformationOperationsImpl,
   UsagesImpl,
   VirtualNetworksImpl,
   SubnetsImpl,
@@ -195,6 +195,7 @@ import {
   ServiceEndpointPolicies,
   ServiceEndpointPolicyDefinitions,
   ServiceTags,
+  ServiceTagInformationOperations,
   Usages,
   VirtualNetworks,
   Subnets,
@@ -398,6 +399,9 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
       this
     );
     this.serviceTags = new ServiceTagsImpl(this);
+    this.serviceTagInformationOperations = new ServiceTagInformationOperationsImpl(
+      this
+    );
     this.usages = new UsagesImpl(this);
     this.virtualNetworks = new VirtualNetworksImpl(this);
     this.subnets = new SubnetsImpl(this);
@@ -817,13 +821,16 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { resourceGroupName, bastionHostName, bslRequest, options },
-      putBastionShareableLinkOperationSpec,
-      "location"
+      putBastionShareableLinkOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
   }
 
   /**
@@ -878,13 +885,16 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { resourceGroupName, bastionHostName, bslRequest, options },
-      deleteBastionShareableLinkOperationSpec,
-      "location"
+      deleteBastionShareableLinkOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
   }
 
   /**
@@ -983,13 +993,16 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { resourceGroupName, bastionHostName, options },
-      getActiveSessionsOperationSpec,
-      "location"
+      getActiveSessionsOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
   }
 
   /**
@@ -1107,13 +1120,16 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { resourceGroupName, virtualWANName, vpnClientParams, options },
-      generatevirtualwanvpnserverconfigurationvpnprofileOperationSpec,
-      "location"
+      generatevirtualwanvpnserverconfigurationvpnprofileOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
   }
 
   /**
@@ -1299,6 +1315,7 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
   serviceEndpointPolicies: ServiceEndpointPolicies;
   serviceEndpointPolicyDefinitions: ServiceEndpointPolicyDefinitions;
   serviceTags: ServiceTags;
+  serviceTagInformationOperations: ServiceTagInformationOperations;
   usages: Usages;
   virtualNetworks: VirtualNetworks;
   subnets: Subnets;

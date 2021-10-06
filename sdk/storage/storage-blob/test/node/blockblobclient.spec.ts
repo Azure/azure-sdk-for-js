@@ -26,10 +26,11 @@ import {
 } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { isPlaybackMode, record, Recorder } from "@azure/test-utils-recorder";
+import { isPlaybackMode, record, Recorder } from "@azure-tools/test-recorder";
 import { streamToBuffer3 } from "../../src/utils/utils.node";
 import * as crypto from "crypto";
 import { BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES } from "../../src/utils/constants";
+import { Context } from "mocha";
 
 describe("BlockBlobClient Node.js only", () => {
   let containerName: string;
@@ -40,7 +41,7 @@ describe("BlockBlobClient Node.js only", () => {
   let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -51,7 +52,7 @@ describe("BlockBlobClient Node.js only", () => {
     blockBlobClient = blobClient.getBlockBlobClient();
   });
 
-  afterEach(async function() {
+  afterEach(async function(this: Context) {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
       await recorder.stop();
@@ -205,7 +206,7 @@ describe("syncUploadFromURL", () => {
     largeContent = genearteRandomUint8Array(BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES);
   });
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     const blobServiceClient = getBSU();
     const containerName = recorder.getUniqueName("container");
@@ -236,14 +237,14 @@ describe("syncUploadFromURL", () => {
     sourceBlobURLWithSAS = sourceBlob.url + "?" + sas;
   });
 
-  afterEach(async function() {
+  afterEach(async function(this: Context) {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
       await recorder.stop();
     }
   });
 
-  it("stageBlockFromURL - source SAS and destination bearer token", async function() {
+  it("stageBlockFromURL - source SAS and destination bearer token", async function(this: Context) {
     if (!isPlaybackMode()) {
       // Enable this when STG78 - version 2020-10-02 is enabled on production.
       this.skip();
@@ -275,7 +276,7 @@ describe("syncUploadFromURL", () => {
     assert.equal(listResponse.committedBlocks![1].size, content.length);
   });
 
-  it("stageBlockFromURL - source bear token and destination account key", async function() {
+  it("stageBlockFromURL - source bear token and destination account key", async function(this: Context) {
     if (!isPlaybackMode()) {
       // Enable this when STG78 - version 2020-10-02 is enabled on production.
       this.skip();
@@ -298,7 +299,7 @@ describe("syncUploadFromURL", () => {
       {
         sourceAuthorization: {
           scheme: "Bearer",
-          parameter: accessToken!.token
+          value: accessToken!.token
         }
       }
     );
@@ -311,7 +312,7 @@ describe("syncUploadFromURL", () => {
       {
         sourceAuthorization: {
           scheme: "Bearer",
-          parameter: accessToken!.token
+          value: accessToken!.token
         }
       }
     );
@@ -325,7 +326,7 @@ describe("syncUploadFromURL", () => {
     assert.equal(listResponse.committedBlocks![1].size, body.length);
   });
 
-  it("stageBlockFromURL - destination bearer token", async function() {
+  it("stageBlockFromURL - destination bearer token", async function(this: Context) {
     if (!isPlaybackMode()) {
       // Enable this when STG78 - version 2020-10-02 is enabled on production.
       this.skip();
@@ -351,7 +352,7 @@ describe("syncUploadFromURL", () => {
       {
         sourceAuthorization: {
           scheme: "Bearer",
-          parameter: accessToken!.token
+          value: accessToken!.token
         }
       }
     );
@@ -364,7 +365,7 @@ describe("syncUploadFromURL", () => {
       {
         sourceAuthorization: {
           scheme: "Bearer",
-          parameter: accessToken!.token
+          value: accessToken!.token
         }
       }
     );
@@ -378,7 +379,7 @@ describe("syncUploadFromURL", () => {
     assert.equal(listResponse.committedBlocks![1].size, body.length);
   });
 
-  it("syncUploadFromURL - source SAS and destination bearer token", async function() {
+  it("syncUploadFromURL - source SAS and destination bearer token", async function(this: Context) {
     if (!isPlaybackMode()) {
       // Enable this when STG78 - version 2020-10-02 is enabled on production.
       this.skip();
@@ -396,7 +397,7 @@ describe("syncUploadFromURL", () => {
     assert.ok(downloadBuffer.compare(Buffer.from(content)) === 0);
   });
 
-  it("syncUploadFromURL - source bear token and destination account key", async function() {
+  it("syncUploadFromURL - source bear token and destination account key", async function(this: Context) {
     if (!isPlaybackMode()) {
       // Enable this when STG78 - version 2020-10-02 is enabled on production.
       this.skip();
@@ -414,7 +415,7 @@ describe("syncUploadFromURL", () => {
     await newBlockBlobClient.syncUploadFromURL(blockBlobClient.url, {
       sourceAuthorization: {
         scheme: "Bearer",
-        parameter: accessToken!.token
+        value: accessToken!.token
       }
     });
 
@@ -424,7 +425,7 @@ describe("syncUploadFromURL", () => {
     assert.equal(downloadRes.contentLength!, body.length);
   });
 
-  it("syncUploadFromURL - destination bearer token", async function() {
+  it("syncUploadFromURL - destination bearer token", async function(this: Context) {
     if (!isPlaybackMode()) {
       // Enable this when STG78 - version 2020-10-02 is enabled on production.
       this.skip();
@@ -445,7 +446,7 @@ describe("syncUploadFromURL", () => {
     await tokenNewBlockBlobClient.syncUploadFromURL(blockBlobClient.url, {
       sourceAuthorization: {
         scheme: "Bearer",
-        parameter: accessToken!.token
+        value: accessToken!.token
       }
     });
 

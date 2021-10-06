@@ -66,7 +66,14 @@ export class DataLakeServiceClient extends StorageClient {
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
-  public static fromConnectionString(connectionString: string, options?: StoragePipelineOptions) {
+  // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
+  public static fromConnectionString(
+    connectionString: string,
+    // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
+    options?: StoragePipelineOptions
+  ): DataLakeServiceClient {
     options = options || {};
     const extractedCreds = extractConnectionStringParts(connectionString);
     if (extractedCreds.kind === "AccountConnString") {
@@ -106,6 +113,8 @@ export class DataLakeServiceClient extends StorageClient {
   public constructor(
     url: string,
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+    // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: StoragePipelineOptions
   );
 
@@ -127,6 +136,8 @@ export class DataLakeServiceClient extends StorageClient {
       | AnonymousCredential
       | TokenCredential
       | Pipeline,
+    // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: StoragePipelineOptions
   ) {
     if (credentialOrPipeline instanceof Pipeline) {
@@ -152,6 +163,8 @@ export class DataLakeServiceClient extends StorageClient {
    *
    * @param fileSystemName - File system name.
    */
+  // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-subclients */
   public getFileSystemClient(fileSystemName: string): DataLakeFileSystemClient {
     return new DataLakeFileSystemClient(
       appendToURLPath(this.url, encodeURIComponent(fileSystemName)),
@@ -351,6 +364,7 @@ export class DataLakeServiceClient extends StorageClient {
    * @param destinationContainerName - The new name of the File System.
    * @param options - Options to configure File System Rename operation.
    */
+  /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
   // @ts-ignore Need to hide this interface for now. Make it public and turn on the live tests for it when the service is ready.
   private async renameFileSystem(
     sourceFileSystemName: string,

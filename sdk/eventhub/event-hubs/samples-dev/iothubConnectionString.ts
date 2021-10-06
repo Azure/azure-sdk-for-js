@@ -15,7 +15,7 @@
 import * as crypto from "crypto";
 import { Buffer } from "buffer";
 import { AmqpError, Connection, ReceiverEvents, parseConnectionString } from "rhea-promise";
-import rheaPromise from "rhea-promise";
+import * as rheaPromise from "rhea-promise";
 import { EventHubConsumerClient, earliestEventPosition } from "@azure/event-hubs";
 
 // Load the .env file if it exists

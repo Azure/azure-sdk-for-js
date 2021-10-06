@@ -9,7 +9,7 @@ import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
 import { matrix } from "@azure/test-utils";
-import { isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
+import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 
 import { AuthMethod, createClient, createRecorder } from "./utils/recordedClient";
 import {

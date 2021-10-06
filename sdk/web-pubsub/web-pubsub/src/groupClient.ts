@@ -84,54 +84,54 @@ export interface WebPubSubGroup {
   /**
    * Add a specific connection to this group
    *
-   * @param connectionId The connection id to add to this group
-   * @param options Additional options
+   * @param connectionId - The connection id to add to this group
+   * @param options - Additional options
    */
   addConnection(connectionId: string, options?: GroupAddConnectionOptions): Promise<void>;
 
   /**
    * Remove a specific connection from this group
    *
-   * @param connectionId The connection id to remove from this group
-   * @param options Additional options
+   * @param connectionId - The connection id to remove from this group
+   * @param options - Additional options
    */
   removeConnection(connectionId: string, options?: GroupRemoveConnectionOptions): Promise<void>;
 
   /**
    * Add a user to this group
    *
-   * @param username The user name to add
-   * @param options Additional options
+   * @param username - The user name to add
+   * @param options - Additional options
    */
   addUser(username: string, options?: GroupAddUserOptions): Promise<void>;
 
   /**
    * Remove a user from this group
    *
-   * @param username The user name to remove
-   * @param options Additional options
+   * @param username - The user name to remove
+   * @param options - Additional options
    */
   removeUser(username: string, options?: GroupRemoveUserOptions): Promise<void>;
 
   /**
    * Send a text message to every connection in this group
    *
-   * @param message The message to send
-   * @param options Additional options
+   * @param message - The message to send
+   * @param options - Additional options
    */
   sendToAll(message: string, options: GroupSendTextToAllOptions): Promise<void>;
   /**
    * Send a json message to every connection in this group
    *
-   * @param message The message to send
-   * @param options Additional options
+   * @param message - The message to send
+   * @param options - Additional options
    */
   sendToAll(message: JSONTypes, options?: GroupSendToAllOptions): Promise<void>;
   /**
    * Send a binary message to every connection in this group
    *
-   * @param message The binary message to send
-   * @param options Additional options
+   * @param message - The binary message to send
+   * @param options - Additional options
    */
   sendToAll(message: RequestBodyType, options?: GroupSendToAllOptions): Promise<void>;
 }
@@ -174,8 +174,8 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
   /**
    * Add a specific connection to this group
    *
-   * @param connectionId The connection id to add to this group
-   * @param options Additional options
+   * @param connectionId - The connection id to add to this group
+   * @param options - Additional options
    */
   public async addConnection(
     connectionId: string,
@@ -214,8 +214,8 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
   /**
    * Remove a specific connection from this group
    *
-   * @param connectionId The connection id to remove from this group
-   * @param options Additional options
+   * @param connectionId - The connection id to remove from this group
+   * @param options - Additional options
    */
   public async removeConnection(
     connectionId: string,
@@ -241,8 +241,8 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
   /**
    * Add a user to this group
    *
-   * @param username The user name to add
-   * @param options Additional options
+   * @param username - The user name to add
+   * @param options - Additional options
    */
   public async addUser(username: string, options: GroupAddUserOptions = {}): Promise<void> {
     const { span, updatedOptions } = createSpan("WebPubSubServiceClient-group-addUser", options);
@@ -262,8 +262,8 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
   /**
    * Remove a user from this group
    *
-   * @param username The user name to remove
-   * @param options Additional options
+   * @param username - The user name to remove
+   * @param options - Additional options
    */
   public async removeUser(username: string, options: GroupRemoveUserOptions = {}): Promise<void> {
     const { span, updatedOptions } = createSpan("WebPubSubServiceClient-group-removeUser", options);
@@ -283,22 +283,22 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
   /**
    * Send a text message to every connection in this group
    *
-   * @param message The message to send
-   * @param options Additional options
+   * @param message - The message to send
+   * @param options - Additional options
    */
   public async sendToAll(message: string, options: GroupSendTextToAllOptions): Promise<void>;
   /**
    * Send a json message to every connection in this group
    *
-   * @param message The message to send
-   * @param options Additional options
+   * @param message - The message to send
+   * @param options - Additional options
    */
   public async sendToAll(message: JSONTypes, options?: GroupSendToAllOptions): Promise<void>;
   /**
    * Send a binary message to every connection in this group
    *
-   * @param message The binary message to send
-   * @param options Additional options
+   * @param message - The binary message to send
+   * @param options - Additional options
    */
   public async sendToAll(message: RequestBodyType, options?: GroupSendToAllOptions): Promise<void>;
 

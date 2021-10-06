@@ -20,7 +20,7 @@ import {
 } from "../public/utils/testHelpers";
 
 import * as chai from "chai";
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
 describe("http request related tests", function() {

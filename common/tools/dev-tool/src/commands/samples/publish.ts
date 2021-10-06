@@ -365,7 +365,7 @@ async function makeSampleGenerationInfo(
     ),
     computeSampleDependencies(outputKind: OutputKind) {
       // Store the `@types/*` packages the TS samples might need.
-      const typesDependencies: {[packageName: string]: string} = {};
+      const typesDependencies: { [packageName: string]: string } = {};
       return {
         dependencies: moduleInfos.reduce((prev, source) => {
           const current: Record<string, string> = {};

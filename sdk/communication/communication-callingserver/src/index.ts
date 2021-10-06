@@ -6,7 +6,6 @@ export * from "./models";
 export * from "./callingServerClient";
 export * from "./converters";
 export * from "./callConnection";
-export * from "./serverCall";
 
 /** Defines headers for Blob_download operation. */
 export interface ContentDownloadHeaders {

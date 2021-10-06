@@ -3,7 +3,7 @@
 
 // Chai is the Azure SDK Team's preferred assertion library, and it is included
 // as part of our template project.
-import { ContainerRegistryClient } from "../../src";
+import { ContainerRegistryClient, KnownContainerRegistryAudience } from "../../src";
 import { assert } from "chai";
 
 describe("ContainerRegistryClient functional test", async function() {
@@ -17,7 +17,9 @@ describe("ContainerRegistryClient functional test", async function() {
 
   ["", null, undefined].forEach((value) => {
     it("deleteRepository should throw for invalid repository name", async function() {
-      const client = new ContainerRegistryClient("https://endpoint");
+      const client = new ContainerRegistryClient("https://endpoint", {
+        audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud
+      });
       try {
         await client.deleteRepository(value as any);
         assert.fail("should have thrown already");
@@ -29,7 +31,9 @@ describe("ContainerRegistryClient functional test", async function() {
 
   ["", null, undefined].forEach((value) => {
     it("getRepository should throw for invalid endpoint", () => {
-      const client = new ContainerRegistryClient("https://endpoint");
+      const client = new ContainerRegistryClient("https://endpoint", {
+        audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud
+      });
       assert.throws(() => {
         client.getRepository(value as any);
       }, "invalid repositoryName");
@@ -38,14 +42,18 @@ describe("ContainerRegistryClient functional test", async function() {
 
   ["", null, undefined].forEach((value) => {
     it("getArtifact should throw for invalid repository name", () => {
-      const client = new ContainerRegistryClient("https://endpoint");
+      const client = new ContainerRegistryClient("https://endpoint", {
+        audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud
+      });
       assert.throws(() => {
         client.getArtifact(value as any, "digest");
       }, "invalid repositoryName");
     });
 
-    it("getArtifact should throw for invalid tagORDigest", () => {
-      const client = new ContainerRegistryClient("https://endpoint");
+    it("getArtifact should throw for invalid tagOrDigest", () => {
+      const client = new ContainerRegistryClient("https://endpoint", {
+        audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud
+      });
       assert.throws(() => {
         client.getArtifact("repositoryName", value as any);
       }, "invalid tagOrDigest");
@@ -54,7 +62,9 @@ describe("ContainerRegistryClient functional test", async function() {
 });
 
 describe("ContainerRepository functional test", async function() {
-  const client = new ContainerRegistryClient("https://endpoint");
+  const client = new ContainerRegistryClient("https://endpoint", {
+    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud
+  });
   const repository = client.getRepository("repositoryName");
   ["", null, undefined].forEach((value) => {
     it("getArtifact should throw for invalid tagOrDigest", () => {
@@ -66,7 +76,9 @@ describe("ContainerRepository functional test", async function() {
 });
 
 describe("RegistryArtifact functional test", async function() {
-  const client = new ContainerRegistryClient("https://endpoint");
+  const client = new ContainerRegistryClient("https://endpoint", {
+    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud
+  });
   const artifact = client.getArtifact("repositoryName", "digest");
   ["", null, undefined].forEach((value) => {
     it("deleteTag should throw for invalid tag", async function() {

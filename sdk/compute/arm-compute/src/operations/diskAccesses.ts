@@ -48,7 +48,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a DiskAccesses. */
+/** Class containing DiskAccesses operations. */
 export class DiskAccessesImpl implements DiskAccesses {
   private readonly client: ComputeManagementClientContext;
 
@@ -890,7 +890,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.diskAccess,
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -923,7 +923,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.diskAccess1,
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -946,7 +946,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -969,7 +969,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -991,7 +991,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -1012,7 +1012,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -1026,7 +1026,7 @@ const getPrivateLinkResourcesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PrivateLinkResourceListResult
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -1058,7 +1058,7 @@ const updateAPrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = 
     }
   },
   requestBody: Parameters.privateEndpointConnection,
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -1082,7 +1082,7 @@ const getAPrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -1106,7 +1106,7 @@ const deleteAPrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = 
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -1129,7 +1129,7 @@ const listPrivateEndpointConnectionsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -1150,7 +1150,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -1171,7 +1171,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1191,7 +1191,7 @@ const listPrivateEndpointConnectionsNextOperationSpec: coreClient.OperationSpec 
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

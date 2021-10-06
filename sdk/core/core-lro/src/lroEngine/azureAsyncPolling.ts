@@ -15,7 +15,7 @@ import { isUnexpectedPollingResponse } from "./requestUtils";
 
 function getResponseStatus(rawResponse: RawResponse): string {
   const { status } = (rawResponse.body as LroBody) ?? {};
-  return status?.toLowerCase() ?? "succeeded";
+  return typeof status === "string" ? status.toLowerCase() : "succeeded";
 }
 
 function isAzureAsyncPollingDone(rawResponse: RawResponse): boolean {

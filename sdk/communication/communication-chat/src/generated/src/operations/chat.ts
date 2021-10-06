@@ -6,29 +6,31 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { Chat } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ChatApiClient } from "../chatApiClient";
+import { ChatApiClientContext } from "../chatApiClientContext";
 import {
   CreateChatThreadRequest,
   ChatCreateChatThreadOptionalParams,
   ChatCreateChatThreadResponse,
   ChatListChatThreadsOptionalParams,
   ChatListChatThreadsResponse,
+  ChatDeleteChatThreadOptionalParams,
   ChatListChatThreadsNextOptionalParams,
   ChatListChatThreadsNextResponse
 } from "../models";
 
-/** Class representing a Chat. */
-export class Chat {
-  private readonly client: ChatApiClient;
+/** Class containing Chat operations. */
+export class ChatImpl implements Chat {
+  private readonly client: ChatApiClientContext;
 
   /**
    * Initialize a new instance of the class Chat class.
    * @param client Reference to the service client
    */
-  constructor(client: ChatApiClient) {
+  constructor(client: ChatApiClientContext) {
     this.client = client;
   }
 
@@ -41,14 +43,10 @@ export class Chat {
     createChatThreadRequest: CreateChatThreadRequest,
     options?: ChatCreateChatThreadOptionalParams
   ): Promise<ChatCreateChatThreadResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      createChatThreadRequest,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { createChatThreadRequest, options },
       createChatThreadOperationSpec
-    ) as Promise<ChatCreateChatThreadResponse>;
+    );
   }
 
   /**
@@ -58,13 +56,10 @@ export class Chat {
   listChatThreads(
     options?: ChatListChatThreadsOptionalParams
   ): Promise<ChatListChatThreadsResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       listChatThreadsOperationSpec
-    ) as Promise<ChatListChatThreadsResponse>;
+    );
   }
 
   /**
@@ -74,16 +69,12 @@ export class Chat {
    */
   deleteChatThread(
     chatThreadId: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<coreHttp.RestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      chatThreadId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    options?: ChatDeleteChatThreadOptionalParams
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      operationArguments,
+      { chatThreadId, options },
       deleteChatThreadOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    );
   }
 
   /**
@@ -95,20 +86,16 @@ export class Chat {
     nextLink: string,
     options?: ChatListChatThreadsNextOptionalParams
   ): Promise<ChatListChatThreadsNextResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { nextLink, options },
       listChatThreadsNextOperationSpec
-    ) as Promise<ChatListChatThreadsNextResponse>;
+    );
   }
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const createChatThreadOperationSpec: coreHttp.OperationSpec = {
+const createChatThreadOperationSpec: coreClient.OperationSpec = {
   path: "/chat/threads",
   httpMethod: "POST",
   responses: {
@@ -143,7 +130,7 @@ const createChatThreadOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const listChatThreadsOperationSpec: coreHttp.OperationSpec = {
+const listChatThreadsOperationSpec: coreClient.OperationSpec = {
   path: "/chat/threads",
   httpMethod: "GET",
   responses: {
@@ -176,7 +163,7 @@ const listChatThreadsOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const deleteChatThreadOperationSpec: coreHttp.OperationSpec = {
+const deleteChatThreadOperationSpec: coreClient.OperationSpec = {
   path: "/chat/threads/{chatThreadId}",
   httpMethod: "DELETE",
   responses: {
@@ -203,7 +190,7 @@ const deleteChatThreadOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listChatThreadsNextOperationSpec: coreHttp.OperationSpec = {
+const listChatThreadsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {

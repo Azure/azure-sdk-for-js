@@ -8,7 +8,6 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
-import { TokenCredential } from "@azure/core-auth";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
@@ -30,17 +29,12 @@ class BatchServiceClient extends BatchServiceClientContext {
 
   /**
    * Initializes a new instance of the BatchServiceClient class.
-   * @param credentials Credentials needed for the client to connect to Azure. Credentials
-   * implementing the TokenCredential interface from the @azure/identity package are recommended. For
-   * more information about these credentials, see
-   * {@link https://www.npmjs.com/package/@azure/identity}. Credentials implementing the
-   * ServiceClientCredentials interface from the older packages @azure/ms-rest-nodeauth and
-   * @azure/ms-rest-browserauth are also supported.
+   * @param credentials Credentials needed for the client to connect to Azure.
    * @param batchUrl The base URL for all Azure Batch service requests.
    * @param [options] The parameter options
    */
   constructor(
-    credentials: msRest.ServiceClientCredentials | TokenCredential,
+    credentials: msRest.ServiceClientCredentials,
     batchUrl: string,
     options?: msRestAzure.AzureServiceClientOptions
   ) {

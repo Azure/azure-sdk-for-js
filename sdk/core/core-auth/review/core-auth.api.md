@@ -49,7 +49,6 @@ export interface GetTokenOptions {
     };
     tenantId?: string;
     tracingOptions?: {
-        spanOptions?: SpanOptions;
         tracingContext?: Context;
     };
 }
@@ -77,26 +76,6 @@ export interface NamedKeyCredential {
 // @public
 export interface SASCredential {
     readonly signature: string;
-}
-
-// @public
-export interface SpanAttributes {
-    [attributeKey: string]: SpanAttributeValue | undefined;
-}
-
-// @public
-export type SpanAttributeValue = string | number | boolean | Array<null | undefined | string> | Array<null | undefined | number> | Array<null | undefined | boolean>;
-
-// @public
-export interface SpanContext {
-    spanId: string;
-    traceFlags: number;
-    traceId: string;
-}
-
-// @public
-export interface SpanOptions {
-    attributes?: SpanAttributes;
 }
 
 // @public

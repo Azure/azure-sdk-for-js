@@ -1,16 +1,21 @@
 # Release History
 
-## 12.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 12.1.2 (2021-09-07)
 
 ### Bugs Fixed
 
-- Fix [#15854](https://github.com/Azure/azure-sdk-for-js/issues/15701) when submitting transactions by ensuring the `allowInsecureConnection` client option is respected.
+- Fix `disableTypeConversion` to also apply for booleans and convert value to string when there is no type metadata. [#17385](https://github.com/Azure/azure-sdk-for-js/pull/17385)
+
+## 12.1.1 (2021-08-10)
+
+### Bugs Fixed
+
+- Fixed inconsistent return type for number and strings when setting `disableTypeConversion` option. [#16736](https://github.com/Azure/azure-sdk-for-js/pull/16736)
+- Fix [#15854](https://github.com/Azure/azure-sdk-for-js/issues/15701) when submitting transactions by ensuring the `allowInsecureConnection` client option is respected. [#16587](https://github.com/Azure/azure-sdk-for-js/pull/16587)
 
 ### Other Changes
+
+- Update dependency of `@azure/core-xml`. [#16816](https://github.com/Azure/azure-sdk-for-js/pull/16816)
 
 ## 12.1.0 (2021-07-07)
 

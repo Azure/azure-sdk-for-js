@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { v4 as uuid } from "uuid";
+import { v4 } from "uuid";
+const uuid = v4;
 import { ChangeFeedIterator } from "../../ChangeFeedIterator";
 import { ChangeFeedOptions } from "../../ChangeFeedOptions";
 import { ClientContext } from "../../ClientContext";
@@ -8,7 +9,7 @@ import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from ".
 import { extractPartitionKey } from "../../extractPartitionKey";
 import { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
-import { FeedOptions, RequestOptions } from "../../request";
+import { FeedOptions, RequestOptions, Response } from "../../request";
 import { Container, PartitionKeyRange } from "../Container";
 import { Item } from "./Item";
 import { ItemDefinition } from "./ItemDefinition";
@@ -21,7 +22,8 @@ import {
   decorateOperation,
   OperationResponse,
   OperationInput,
-  BulkOptions
+  BulkOptions,
+  decorateBatchOperation
 } from "../../utils/batch";
 import { hashV1PartitionKey } from "../../utils/hashing/v1";
 import { hashV2PartitionKey } from "../../utils/hashing/v2";
@@ -417,7 +419,7 @@ export class Items {
       };
     });
     operations
-      .map((operation) => decorateOperation(operation, definition))
+      .map((operation) => decorateOperation(operation, definition, options))
       .forEach((operation: Operation, index: number) => {
         const partitionProp = definition.paths[0].replace("/", "");
         const isV2 = definition.version && definition.version === 2;
@@ -466,5 +468,58 @@ export class Items {
         })
     );
     return orderedResponses;
+  }
+
+  /**
+   * Execute transactional batch operations on items.
+   *
+   * Batch takes an array of Operations which are typed based on what the operation does. Batch is transactional and will rollback all operations if one fails.
+   * The choices are: Create, Upsert, Read, Replace, and Delete
+   *
+   * Usage example:
+   * ```typescript
+   * // partitionKey is required as a second argument to batch, but defaults to the default partition key
+   * const operations: OperationInput[] = [
+   *    {
+   *       operationType: "Create",
+   *       resourceBody: { id: "doc1", name: "sample", key: "A" }
+   *    },
+   *    {
+   *       operationType: "Upsert",
+   *       partitionKey: 'A',
+   *       resourceBody: { id: "doc2", name: "other", key: "A" }
+   *    }
+   * ]
+   *
+   * await database.container.items.batch(operations)
+   * ```
+   *
+   * @param operations - List of operations. Limit 100
+   * @param options - Used for modifying the request
+   */
+  public async batch(
+    operations: OperationInput[],
+    partitionKey: string = "[{}]",
+    options?: RequestOptions
+  ): Promise<Response<any>> {
+    operations.map((operation) => decorateBatchOperation(operation, options));
+
+    const path = getPathFromLink(this.container.url, ResourceType.item);
+
+    if (operations.length > 100) {
+      throw new Error("Cannot run batch request with more than 100 operations per partition");
+    }
+    try {
+      const response = await this.clientContext.batch({
+        body: operations,
+        partitionKey,
+        path,
+        resourceId: this.container.url,
+        options
+      });
+      return response;
+    } catch (err) {
+      throw new Error(`Batch request error: ${err.message}`);
+    }
   }
 }

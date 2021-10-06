@@ -4,3 +4,4 @@
 import "@azure/core-asynciterator-polyfill";
 
 export * from "./models";
+export * from "./getPagedAsyncIterator";

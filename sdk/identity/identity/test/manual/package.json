@@ -6,12 +6,13 @@
   "scripts": {
     "build": "webpack --config webpack.config.js",
     "start": "webpack-dev-server",
-    "format": "prettier --write \"src/**/*.tsx\""
+    "check-format": "prettier --list-different --config ../../../../../.prettierrc.json --ignore-path ../../../../../.prettierignore \"src/**/*.tsx\"",
+    "format": "prettier --write --config ../../../../../.prettierrc.json --ignore-path ../../../../../.prettierignore \"src/**/*.tsx\""
   },
   "author": "Microsoft Corporation",
   "license": "MIT",
   "dependencies": {
-    "@azure/identity": "2.0.0-beta.5",
+    "@azure/identity": "2.0.0-beta.6",
     "@azure/service-bus": "^7.0.3",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",

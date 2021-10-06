@@ -4,21 +4,21 @@
    "method": "POST",
    "url": "https://fakeaccount.table.core.windows.net/tableClientTestSASConnectionStringbrowser",
    "query": {},
-   "requestBody": "{\"PartitionKey\":\"P8_browser\",\"RowKey\":\"R8\",\"integerNumber\":3,\"floatingPointNumber\":3.14}",
+   "requestBody": "{\"PartitionKey\":\"P8_browser\",\"RowKey\":\"R8\",\"integerNumber\":3,\"floatingPointNumber\":3.14,\"booleanValue\":true}",
    "status": 204,
    "response": "",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "0",
     "dataserviceid": "https://fakeaccount.table.core.windows.net/tableClientTestSASConnectionStringbrowser(PartitionKey='P8_browser',RowKey='R8')",
-    "date": "Tue, 03 Aug 2021 22:50:25 GMT",
-    "etag": "W/\"datetime'2021-08-03T22%3A50%3A25.2507633Z'\"",
+    "date": "Tue, 07 Sep 2021 16:24:40 GMT",
+    "etag": "W/\"datetime'2021-09-07T16%3A24%3A41.7010398Z'\"",
     "location": "https://fakeaccount.table.core.windows.net/tableClientTestSASConnectionStringbrowser(PartitionKey='P8_browser',RowKey='R8')",
     "preference-applied": "return-no-content",
     "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
     "x-content-type-options": "nosniff",
-    "x-ms-client-request-id": "d4799ad4-15cf-4d4a-9e5f-02440ef5ed87",
-    "x-ms-request-id": "e1f3e793-2002-00e9-57b9-887db9000000",
+    "x-ms-client-request-id": "9ca36759-9930-42fc-9873-24b6eeb860e8",
+    "x-ms-request-id": "4bd6ee7a-3002-0090-2c04-a414f3000000",
     "x-ms-version": "2019-02-02"
    }
   },
@@ -28,19 +28,19 @@
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"odata.metadata\":\"https://fakeaccount.table.core.windows.net/$metadata#tableClientTestSASConnectionStringbrowser/@Element\",\"odata.etag\":\"W/\\\"datetime'2021-08-03T22%3A50%3A25.2507633Z'\\\"\",\"PartitionKey\":\"P8_browser\",\"RowKey\":\"R8\",\"Timestamp\":\"2021-08-03T22:50:25.2507633Z\",\"integerNumber\":3,\"floatingPointNumber\":3.14}",
+   "response": "{\"odata.metadata\":\"https://fakeaccount.table.core.windows.net/$metadata#tableClientTestSASConnectionStringbrowser/@Element\",\"odata.etag\":\"W/\\\"datetime'2021-09-07T16%3A24%3A41.7010398Z'\\\"\",\"PartitionKey\":\"P8_browser\",\"RowKey\":\"R8\",\"Timestamp\":\"2021-09-07T16:24:41.7010398Z\",\"integerNumber\":3,\"floatingPointNumber\":3.14,\"booleanValue\":true}",
    "responseHeaders": {
     "access-control-allow-origin": "*",
     "access-control-expose-headers": "x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,ETag,Content-Type,Content-Length,Date,Transfer-Encoding",
     "cache-control": "no-cache",
     "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
-    "date": "Tue, 03 Aug 2021 22:50:25 GMT",
-    "etag": "W/\"datetime'2021-08-03T22%3A50%3A25.2507633Z'\"",
+    "date": "Tue, 07 Sep 2021 16:24:40 GMT",
+    "etag": "W/\"datetime'2021-09-07T16%3A24%3A41.7010398Z'\"",
     "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-ms-client-request-id": "22009e02-8cec-4995-825d-3e4b8b88e1cc",
-    "x-ms-request-id": "e1f3e7a0-2002-00e9-64b9-887db9000000",
+    "x-ms-client-request-id": "b95f6b94-75d9-4403-89e4-dafd0a19c64c",
+    "x-ms-request-id": "4bd6ee94-3002-0090-4304-a414f3000000",
     "x-ms-version": "2019-02-02"
    }
   },
@@ -54,11 +54,11 @@
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "0",
-    "date": "Tue, 03 Aug 2021 22:50:25 GMT",
+    "date": "Tue, 07 Sep 2021 16:24:40 GMT",
     "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
     "x-content-type-options": "nosniff",
-    "x-ms-client-request-id": "474848e4-0b56-46ee-b183-3d8ebb2ab425",
-    "x-ms-request-id": "e1f3e7aa-2002-00e9-6eb9-887db9000000",
+    "x-ms-client-request-id": "69a2196a-1519-46fb-b683-ddbbc9e2a7ec",
+    "x-ms-request-id": "4bd6eeb0-3002-0090-5e04-a414f3000000",
     "x-ms-version": "2019-02-02"
    }
   }
@@ -67,5 +67,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "77344ad3ea3146abc55572a420c25082"
+ "hash": "5ea79d1bba6859fd0f772e05df868107"
 }

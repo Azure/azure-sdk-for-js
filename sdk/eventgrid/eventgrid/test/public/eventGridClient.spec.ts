@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { Suite, Context } from "mocha";
 
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 
 import { createRecordedClient, testEnv } from "./utils/recordedClient";
 

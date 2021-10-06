@@ -78,7 +78,9 @@ export abstract class StorageClient {
             this.credential = factory;
             break;
           }
-        } catch (err) {}
+        } catch (err) {
+          // ignore errors in creating policy, the client instance may still work without the policy.
+        }
       }
     }
   }
@@ -92,6 +94,5 @@ export abstract class StorageClient {
  * Defines values for ListQueuesIncludeType.
  * Possible values include: 'metadata'
  * @readonly
- * @enum {string}
  */
 export type ListQueuesIncludeType = "metadata";

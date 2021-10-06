@@ -21,23 +21,40 @@ export async function main() {
   const logsQueryClient = new LogsQueryClient(tokenCredential);
 
   const kqlQuery = "AppEvents | project TimeGenerated, Name, AppRoleInstance | limit 1";
+  const queriesBatch = [
+    {
+      workspaceId: monitorWorkspaceId,
+      query: kqlQuery,
+      timespan: { duration: "P1D" }
+    },
+    {
+      workspaceId: monitorWorkspaceId,
+      query: "AzureActivity | summarize count()",
+      timespan: { duration: "PT1H" }
+    },
+    {
+      workspaceId: monitorWorkspaceId,
+      query:
+        "AppRequests | take 10 | summarize avgRequestDuration=avg(DurationMs) by bin(TimeGenerated, 10m), _ResourceId",
+      timespan: { duration: "PT1H" }
+    },
+    {
+      workspaceId: monitorWorkspaceId,
+      query: "AppRequests | take 2",
+      timespan: { duration: "PT1H" },
+      includeQueryStatistics: true
+    }
+  ];
 
-  const result = await logsQueryClient.queryLogsBatch({
-    queries: [
-      {
-        workspaceId: monitorWorkspaceId,
-        query: kqlQuery,
-        timespan: "P1D"
-      }
-    ]
-  });
+  const result = await logsQueryClient.queryBatch(queriesBatch);
 
   if (result.results == null) {
     throw new Error("No response for query");
   }
 
+  let i = 0;
   for (const response of result.results) {
-    console.log(`Results for query with id: ${response.id}`);
+    console.log(`Results for query with query: ${queriesBatch[i]}`);
 
     if (response.error) {
       console.log(` Query had errors:`, response.error);
@@ -45,10 +62,12 @@ export async function main() {
       if (response.tables == null) {
         console.log(`No results for query`);
       } else {
-        console.log(`Printing results from query '${kqlQuery}' for 1 day.`);
+        console.log(
+          `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
+        );
 
         for (const table of response.tables) {
-          const columnHeaderString = table.columns
+          const columnHeaderString = table.columnDescriptors
             .map((column) => `${column.name}(${column.type}) `)
             .join("| ");
           console.log(columnHeaderString);
@@ -60,6 +79,8 @@ export async function main() {
         }
       }
     }
+    // next query
+    i++;
   }
 }
 

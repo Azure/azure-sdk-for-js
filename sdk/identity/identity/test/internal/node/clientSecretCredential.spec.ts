@@ -6,7 +6,7 @@
 import Sinon from "sinon";
 import { assert } from "chai";
 import { AbortController } from "@azure/abort-controller";
-import { env, delay } from "@azure/test-utils-recorder";
+import { env, delay } from "@azure-tools/test-recorder";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import { ClientSecretCredential, RegionalAuthority } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
@@ -35,6 +35,37 @@ describe("ClientSecretCredential (internal)", function() {
   });
 
   const scope = "https://vault.azure.net/.default";
+
+  it("Should throw if the parameteres are not correctly specified", async function() {
+    const errors: Error[] = [];
+    try {
+      new ClientSecretCredential(undefined as any, env.AZURE_CLIENT_ID, env.AZURE_CLIENT_SECRET);
+    } catch (e) {
+      errors.push(e);
+    }
+    try {
+      new ClientSecretCredential(env.AZURE_TENANT_ID, undefined as any, env.AZURE_CLIENT_SECRET);
+    } catch (e) {
+      errors.push(e);
+    }
+    try {
+      new ClientSecretCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, undefined as any);
+    } catch (e) {
+      errors.push(e);
+    }
+    try {
+      new ClientSecretCredential(undefined as any, undefined as any, undefined as any);
+    } catch (e) {
+      errors.push(e);
+    }
+    assert.equal(errors.length, 4);
+    errors.forEach((e) => {
+      assert.equal(
+        e.message,
+        "ClientSecretCredential: tenantId, clientId, and clientSecret are required parameters."
+      );
+    });
+  });
 
   it("Authenticates silently after the initial request", async function() {
     const credential = new ClientSecretCredential(

@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/keyvault/
-
 pr:
   branches:
     include:
@@ -17,10 +16,11 @@ pr:
       - feature/*
       - release/*
       - hotfix/*
+    exclude:
+      - feature/v4
   paths:
     include:
       - sdk/keyvault/
-
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -34,3 +34,5 @@ extends:
         safeName: azurekeyvaultsecrets
       - name: azure-keyvault-admin
         safeName: azurekeyvaultadmin
+      - name: azure-arm-keyvault
+        safeName: azurearmkeyvault

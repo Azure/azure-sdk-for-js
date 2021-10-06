@@ -22,7 +22,7 @@ import {
   LogAnalyticsExportThrottledRequestsResponse
 } from "../models";
 
-/** Class representing a LogAnalytics. */
+/** Class containing LogAnalytics operations. */
 export class LogAnalyticsImpl implements LogAnalytics {
   private readonly client: ComputeManagementClientContext;
 

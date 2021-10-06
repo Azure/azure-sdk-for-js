@@ -169,12 +169,21 @@ export interface EncryptResult {
 }
 
 // @public
+export interface GetCryptographyClientOptions {
+    keyVersion?: string;
+}
+
+// @public
 export interface GetDeletedKeyOptions extends coreHttp.OperationOptions {
 }
 
 // @public
 export interface GetKeyOptions extends coreHttp.OperationOptions {
     version?: string;
+}
+
+// @public
+export interface GetKeyRotationPolicyOptions extends coreHttp.OperationOptions {
 }
 
 // @public
@@ -224,8 +233,10 @@ export class KeyClient {
     createKey(name: string, keyType: KeyType, options?: CreateKeyOptions): Promise<KeyVaultKey>;
     createOctKey(name: string, options?: CreateOctKeyOptions): Promise<KeyVaultKey>;
     createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<KeyVaultKey>;
+    getCryptographyClient(keyName: string, options?: GetCryptographyClientOptions): CryptographyClient;
     getDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<DeletedKey>;
     getKey(name: string, options?: GetKeyOptions): Promise<KeyVaultKey>;
+    getKeyRotationPolicy(name: string, options?: GetKeyRotationPolicyOptions): Promise<KeyRotationPolicy>;
     getRandomBytes(count: number, options?: GetRandomBytesOptions): Promise<RandomBytes>;
     importKey(name: string, key: JsonWebKey, options?: ImportKeyOptions): Promise<KeyVaultKey>;
     listDeletedKeys(options?: ListDeletedKeysOptions): PagedAsyncIterableIterator<DeletedKey>;
@@ -234,8 +245,10 @@ export class KeyClient {
     purgeDeletedKey(name: string, options?: PurgeDeletedKeyOptions): Promise<void>;
     releaseKey(name: string, target: string, options?: ReleaseKeyOptions): Promise<ReleaseKeyResult>;
     restoreKeyBackup(backup: Uint8Array, options?: RestoreKeyBackupOptions): Promise<KeyVaultKey>;
+    rotateKey(name: string, options?: RotateKeyOptions): Promise<KeyVaultKey>;
     updateKeyProperties(name: string, keyVersion: string, options?: UpdateKeyPropertiesOptions): Promise<KeyVaultKey>;
     updateKeyProperties(name: string, options?: UpdateKeyPropertiesOptions): Promise<KeyVaultKey>;
+    updateKeyRotationPolicy(name: string, policy: KeyRotationPolicyProperties, options?: UpdateKeyRotationPolicyOptions): Promise<KeyRotationPolicy>;
     readonly vaultUrl: string;
 }
 
@@ -287,6 +300,29 @@ export interface KeyReleasePolicy {
 }
 
 // @public
+export interface KeyRotationLifetimeAction {
+    action: KeyRotationPolicyAction;
+    timeAfterCreate?: string;
+    timeBeforeExpiry?: string;
+}
+
+// @public
+export interface KeyRotationPolicy extends KeyRotationPolicyProperties {
+    readonly createdOn?: Date;
+    readonly id?: string;
+    readonly updatedOn?: Date;
+}
+
+// @public
+export type KeyRotationPolicyAction = "Rotate" | "Notify";
+
+// @public
+export interface KeyRotationPolicyProperties {
+    expiresIn?: string;
+    lifetimeActions?: KeyRotationLifetimeAction[];
+}
+
+// @public
 export type KeyType = string;
 
 // @public
@@ -311,7 +347,7 @@ export interface KeyVaultKeyIdentifier {
 export type KeyWrapAlgorithm = "A128KW" | "A192KW" | "A256KW" | "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
 
 // @public
-export const enum KnownDeletionRecoveryLevel {
+export enum KnownDeletionRecoveryLevel {
     CustomizedRecoverable = "CustomizedRecoverable",
     CustomizedRecoverableProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription",
     CustomizedRecoverablePurgeable = "CustomizedRecoverable+Purgeable",
@@ -322,7 +358,7 @@ export const enum KnownDeletionRecoveryLevel {
 }
 
 // @public
-export const enum KnownEncryptionAlgorithms {
+export enum KnownEncryptionAlgorithms {
     A128CBC = "A128CBC",
     A128Cbcpad = "A128CBCPAD",
     A128GCM = "A128GCM",
@@ -341,7 +377,7 @@ export const enum KnownEncryptionAlgorithms {
 }
 
 // @public
-export const enum KnownKeyCurveNames {
+export enum KnownKeyCurveNames {
     P256 = "P-256",
     P256K = "P-256K",
     P384 = "P-384",
@@ -360,7 +396,7 @@ export enum KnownKeyOperations {
 }
 
 // @public
-export const enum KnownKeyTypes {
+export enum KnownKeyTypes {
     EC = "EC",
     ECHSM = "EC-HSM",
     Oct = "oct",
@@ -370,7 +406,7 @@ export const enum KnownKeyTypes {
 }
 
 // @public
-export const enum KnownSignatureAlgorithms {
+export enum KnownSignatureAlgorithms {
     ES256 = "ES256",
     ES256K = "ES256K",
     ES384 = "ES384",
@@ -438,6 +474,10 @@ export interface RestoreKeyBackupOptions extends coreHttp.OperationOptions {
 }
 
 // @public
+export interface RotateKeyOptions extends coreHttp.OperationOptions {
+}
+
+// @public
 export interface RsaDecryptParameters {
     algorithm: RsaEncryptionAlgorithm;
     ciphertext: Uint8Array;
@@ -487,6 +527,10 @@ export interface UpdateKeyPropertiesOptions extends coreHttp.OperationOptions {
     tags?: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export interface UpdateKeyRotationPolicyOptions extends coreHttp.OperationOptions {
 }
 
 // @public

@@ -11,17 +11,17 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1318",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 19 Jun 2021 00:55:59 GMT",
+    "date": "Tue, 07 Sep 2021 16:24:52 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+bno\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11829.8 - EUS ProdSlices",
-    "x-ms-request-id": "87482d50-c115-4b8e-9528-1551fa060500"
+    "x-ms-ests-server": "2.1.12025.12 - SCUS ProdSlices",
+    "x-ms-request-id": "950787a5-99cf-4811-85ac-d8a43418d300"
    }
   },
   {
@@ -30,16 +30,16 @@
    "query": {},
    "requestBody": "{\"TableName\":\"batchTableTestTokenCredentialbrowser\"}",
    "status": 409,
-   "response": "{\"odata.error\":{\"code\":\"TableAlreadyExists\",\"message\":{\"lang\":\"en-US\",\"value\":\"The table specified already exists.\\nRequestId:eed55805-b002-00a8-37a5-6455aa000000\\nTime:2021-06-19T00:56:00.8441120Z\"}}}",
+   "response": "{\"odata.error\":{\"code\":\"TableAlreadyExists\",\"message\":{\"lang\":\"en-US\",\"value\":\"The table specified already exists.\\nRequestId:4bd6fd1a-3002-0090-3804-a414f3000000\\nTime:2021-09-07T16:24:53.0991173Z\"}}}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
-    "date": "Sat, 19 Jun 2021 00:56:00 GMT",
+    "date": "Tue, 07 Sep 2021 16:24:52 GMT",
     "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-ms-client-request-id": "6721bf4a-65f6-4108-b112-5075b72c4b0a",
-    "x-ms-request-id": "eed55805-b002-00a8-37a5-6455aa000000",
+    "x-ms-client-request-id": "84a261de-8fc3-4f18-a563-a6ee52016365",
+    "x-ms-request-id": "4bd6fd1a-3002-0090-3804-a414f3000000",
     "x-ms-version": "2019-02-02"
    }
   },
@@ -54,17 +54,17 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1318",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 19 Jun 2021 00:55:59 GMT",
+    "date": "Tue, 07 Sep 2021 16:24:52 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+bno\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11829.8 - WUS2 ProdSlices",
-    "x-ms-request-id": "c5089dc3-7113-453c-b0bc-8acbcdc01000"
+    "x-ms-ests-server": "2.1.12025.12 - SCUS ProdSlices",
+    "x-ms-request-id": "c1c390bb-3829-4338-977c-fe39bc47d500"
    }
   },
   {
@@ -73,16 +73,16 @@
    "query": {},
    "requestBody": "--batch_fakeId\r\ncontent-type: multipart/mixed; boundary=changeset_fakeId\r\n\r\n\r\n--changeset_fakeId\r\ncontent-type: application/http\r\ncontent-transfer-encoding: binary\r\n\r\nPUT https://fakeaccount.table.core.windows.net/batchTableTestTokenCredentialbrowser(PartitionKey='batchTest',RowKey='1') HTTP/1.1\r\ncontent-type: application/json\r\ndataserviceversion: 3.0\r\naccept: application/json\r\n\r\n\r\n{\"PartitionKey\":\"batchTest\",\"RowKey\":\"1\",\"name\":\"upserted\"}\r\n--changeset_fakeId\r\ncontent-type: application/http\r\ncontent-transfer-encoding: binary\r\n\r\nPUT https://fakeaccount.table.core.windows.net/batchTableTestTokenCredentialbrowser(PartitionKey='batchTest',RowKey='2') HTTP/1.1\r\ncontent-type: application/json\r\ndataserviceversion: 3.0\r\naccept: application/json\r\n\r\n\r\n{\"PartitionKey\":\"batchTest\",\"RowKey\":\"2\",\"name\":\"upserted\"}\r\n--changeset_fakeId\r\ncontent-type: application/http\r\ncontent-transfer-encoding: binary\r\n\r\nPUT https://fakeaccount.table.core.windows.net/batchTableTestTokenCredentialbrowser(PartitionKey='batchTest',RowKey='3') HTTP/1.1\r\ncontent-type: application/json\r\ndataserviceversion: 3.0\r\naccept: application/json\r\n\r\n\r\n{\"PartitionKey\":\"batchTest\",\"RowKey\":\"3\",\"name\":\"upserted\"}\r\n--changeset_fakeId\r\ncontent-type: application/http\r\ncontent-transfer-encoding: binary\r\n\r\nPUT https://fakeaccount.table.core.windows.net/batchTableTestTokenCredentialbrowser(PartitionKey='batchTest',RowKey='4') HTTP/1.1\r\ncontent-type: application/json\r\ndataserviceversion: 3.0\r\naccept: application/json\r\n\r\n\r\n{\"PartitionKey\":\"batchTest\",\"RowKey\":\"4\",\"name\":\"upserted\"}\r\n--changeset_fakeId--\r\n--batch_fakeId--\r\n",
    "status": 202,
-   "response": "--batchresponse_f447869c-8a1f-4bf7-99a4-7809043f64e7\r\nContent-Type: multipart/mixed; boundary=changesetresponse_583cd2a0-41fa-4cc1-bd50-2fc1ea0892de\r\n\r\n--changesetresponse_583cd2a0-41fa-4cc1-bd50-2fc1ea0892de\r\nContent-Type: application/http\r\nContent-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 204 No Content\r\nX-Content-Type-Options: nosniff\r\nCache-Control: no-cache\r\nDataServiceVersion: 1.0;\r\nETag: W/\"datetime'2021-06-19T00%3A56%3A01.0200393Z'\"\r\n\r\n\r\n--changesetresponse_583cd2a0-41fa-4cc1-bd50-2fc1ea0892de\r\nContent-Type: application/http\r\nContent-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 204 No Content\r\nX-Content-Type-Options: nosniff\r\nCache-Control: no-cache\r\nDataServiceVersion: 1.0;\r\nETag: W/\"datetime'2021-06-19T00%3A56%3A01.0200393Z'\"\r\n\r\n\r\n--changesetresponse_583cd2a0-41fa-4cc1-bd50-2fc1ea0892de\r\nContent-Type: application/http\r\nContent-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 204 No Content\r\nX-Content-Type-Options: nosniff\r\nCache-Control: no-cache\r\nDataServiceVersion: 1.0;\r\nETag: W/\"datetime'2021-06-19T00%3A56%3A01.0200393Z'\"\r\n\r\n\r\n--changesetresponse_583cd2a0-41fa-4cc1-bd50-2fc1ea0892de\r\nContent-Type: application/http\r\nContent-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 204 No Content\r\nX-Content-Type-Options: nosniff\r\nCache-Control: no-cache\r\nDataServiceVersion: 1.0;\r\nETag: W/\"datetime'2021-06-19T00%3A56%3A01.02104Z'\"\r\n\r\n\r\n--changesetresponse_583cd2a0-41fa-4cc1-bd50-2fc1ea0892de--\r\n--batchresponse_f447869c-8a1f-4bf7-99a4-7809043f64e7--\r\n",
+   "response": "--batchresponse_e3683bfe-c730-4a13-a96a-1ef6d5075969\r\nContent-Type: multipart/mixed; boundary=changesetresponse_31f55cfc-e2c7-4738-bd13-71671d0a4048\r\n\r\n--changesetresponse_31f55cfc-e2c7-4738-bd13-71671d0a4048\r\nContent-Type: application/http\r\nContent-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 204 No Content\r\nX-Content-Type-Options: nosniff\r\nCache-Control: no-cache\r\nDataServiceVersion: 1.0;\r\nETag: W/\"datetime'2021-09-07T16%3A24%3A53.2990199Z'\"\r\n\r\n\r\n--changesetresponse_31f55cfc-e2c7-4738-bd13-71671d0a4048\r\nContent-Type: application/http\r\nContent-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 204 No Content\r\nX-Content-Type-Options: nosniff\r\nCache-Control: no-cache\r\nDataServiceVersion: 1.0;\r\nETag: W/\"datetime'2021-09-07T16%3A24%3A53.2990199Z'\"\r\n\r\n\r\n--changesetresponse_31f55cfc-e2c7-4738-bd13-71671d0a4048\r\nContent-Type: application/http\r\nContent-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 204 No Content\r\nX-Content-Type-Options: nosniff\r\nCache-Control: no-cache\r\nDataServiceVersion: 1.0;\r\nETag: W/\"datetime'2021-09-07T16%3A24%3A53.2990199Z'\"\r\n\r\n\r\n--changesetresponse_31f55cfc-e2c7-4738-bd13-71671d0a4048\r\nContent-Type: application/http\r\nContent-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 204 No Content\r\nX-Content-Type-Options: nosniff\r\nCache-Control: no-cache\r\nDataServiceVersion: 1.0;\r\nETag: W/\"datetime'2021-09-07T16%3A24%3A53.3000206Z'\"\r\n\r\n\r\n--changesetresponse_31f55cfc-e2c7-4738-bd13-71671d0a4048--\r\n--batchresponse_e3683bfe-c730-4a13-a96a-1ef6d5075969--\r\n",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-type": "multipart/mixed; boundary=batchresponse_f447869c-8a1f-4bf7-99a4-7809043f64e7",
-    "date": "Sat, 19 Jun 2021 00:56:00 GMT",
+    "content-type": "multipart/mixed; boundary=batchresponse_e3683bfe-c730-4a13-a96a-1ef6d5075969",
+    "date": "Tue, 07 Sep 2021 16:24:52 GMT",
     "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-ms-client-request-id": "6cde5ba8-c800-4899-be30-d648b0ae8916",
-    "x-ms-request-id": "eed5582c-b002-00a8-5ba5-6455aa000000",
+    "x-ms-client-request-id": "639bc26a-e76b-4810-a578-2a8e340a5d96",
+    "x-ms-request-id": "4bd6fd5d-3002-0090-7604-a414f3000000",
     "x-ms-version": "2019-02-02"
    }
   },
@@ -94,18 +94,18 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"odata.metadata\":\"https://fakeaccount.table.core.windows.net/$metadata#batchTableTestTokenCredentialbrowser\",\"value\":[{\"odata.etag\":\"W/\\\"datetime'2021-06-19T00%3A56%3A01.0200393Z'\\\"\",\"PartitionKey\":\"batchTest\",\"RowKey\":\"1\",\"Timestamp\":\"2021-06-19T00:56:01.0200393Z\",\"name\":\"upserted\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-19T00%3A56%3A01.0200393Z'\\\"\",\"PartitionKey\":\"batchTest\",\"RowKey\":\"2\",\"Timestamp\":\"2021-06-19T00:56:01.0200393Z\",\"name\":\"upserted\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-19T00%3A56%3A01.0200393Z'\\\"\",\"PartitionKey\":\"batchTest\",\"RowKey\":\"3\",\"Timestamp\":\"2021-06-19T00:56:01.0200393Z\",\"name\":\"upserted\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-19T00%3A56%3A01.02104Z'\\\"\",\"PartitionKey\":\"batchTest\",\"RowKey\":\"4\",\"Timestamp\":\"2021-06-19T00:56:01.02104Z\",\"name\":\"upserted\"}]}",
+   "response": "{\"odata.metadata\":\"https://fakeaccount.table.core.windows.net/$metadata#batchTableTestTokenCredentialbrowser\",\"value\":[{\"odata.etag\":\"W/\\\"datetime'2021-09-07T16%3A24%3A53.2990199Z'\\\"\",\"PartitionKey\":\"batchTest\",\"RowKey\":\"1\",\"Timestamp\":\"2021-09-07T16:24:53.2990199Z\",\"name\":\"upserted\"},{\"odata.etag\":\"W/\\\"datetime'2021-09-07T16%3A24%3A53.2990199Z'\\\"\",\"PartitionKey\":\"batchTest\",\"RowKey\":\"2\",\"Timestamp\":\"2021-09-07T16:24:53.2990199Z\",\"name\":\"upserted\"},{\"odata.etag\":\"W/\\\"datetime'2021-09-07T16%3A24%3A53.2990199Z'\\\"\",\"PartitionKey\":\"batchTest\",\"RowKey\":\"3\",\"Timestamp\":\"2021-09-07T16:24:53.2990199Z\",\"name\":\"upserted\"},{\"odata.etag\":\"W/\\\"datetime'2021-09-07T16%3A24%3A53.3000206Z'\\\"\",\"PartitionKey\":\"batchTest\",\"RowKey\":\"4\",\"Timestamp\":\"2021-09-07T16:24:53.3000206Z\",\"name\":\"upserted\"}]}",
    "responseHeaders": {
     "access-control-allow-origin": "*",
     "access-control-expose-headers": "x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,Content-Type,Content-Length,Date,Transfer-Encoding",
     "cache-control": "no-cache",
     "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
-    "date": "Sat, 19 Jun 2021 00:56:00 GMT",
+    "date": "Tue, 07 Sep 2021 16:24:52 GMT",
     "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-ms-client-request-id": "b8eb77db-1a2a-4262-85d1-11f62d286174",
-    "x-ms-request-id": "eed55840-b002-00a8-6ba5-6455aa000000",
+    "x-ms-client-request-id": "0fe1607d-28ac-4ff6-be92-de1dd785eab1",
+    "x-ms-request-id": "4bd6fd7e-3002-0090-1704-a414f3000000",
     "x-ms-version": "2019-02-02"
    }
   }

@@ -1,6 +1,4 @@
-import {
-  GeographyPoint  
-} from "@azure/search-documents";
+import { GeographyPoint } from "@azure/search-documents";
 
 export interface Hotel {
   hotelId: string;

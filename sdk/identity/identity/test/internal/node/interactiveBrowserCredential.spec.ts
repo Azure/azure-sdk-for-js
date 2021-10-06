@@ -7,7 +7,7 @@
 import Sinon from "sinon";
 import { assert } from "chai";
 import { Context } from "mocha";
-import { env } from "@azure/test-utils-recorder";
+import { env } from "@azure-tools/test-recorder";
 import { InteractiveBrowserCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { interactiveBrowserMockable } from "../../../src/msal/nodeFlows/msalOpenBrowser";

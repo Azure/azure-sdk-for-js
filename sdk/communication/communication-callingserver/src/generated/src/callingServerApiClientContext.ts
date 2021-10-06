@@ -49,6 +49,6 @@ export class CallingServerApiClientContext extends coreHttp.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2021-06-15-preview";
+    this.apiVersion = options.apiVersion || "2021-11-15-preview";
   }
 }

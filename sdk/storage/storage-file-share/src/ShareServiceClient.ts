@@ -242,6 +242,8 @@ export class ShareServiceClient extends StorageClient {
    */
   public static fromConnectionString(
     connectionString: string,
+    // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: StoragePipelineOptions
   ): ShareServiceClient {
     const extractedCreds = extractConnectionStringParts(connectionString);
@@ -276,6 +278,8 @@ export class ShareServiceClient extends StorageClient {
    *                                  If not specified, AnonymousCredential is used.
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
+  // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
   constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
   /**
    * Creates an instance of ShareServiceClient.
@@ -290,6 +294,8 @@ export class ShareServiceClient extends StorageClient {
   constructor(
     url: string,
     credentialOrPipeline?: Credential | Pipeline,
+    // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: StoragePipelineOptions
   ) {
     let pipeline: Pipeline;

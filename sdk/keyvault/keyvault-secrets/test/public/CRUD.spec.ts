@@ -4,7 +4,7 @@
 import { Context } from "mocha";
 import { assert } from "chai";
 import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
-import { env, Recorder } from "@azure/test-utils-recorder";
+import { env, Recorder } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
 
 import { SecretClient } from "../../src";

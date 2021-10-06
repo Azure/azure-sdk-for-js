@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay, record, Recorder } from "@azure/test-utils-recorder";
+import { delay, record, Recorder } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
+import { Context } from "mocha";
 
 import { DataLakeFileClient, DataLakeDirectoryClient, DataLakeFileSystemClient } from "../src";
 import { getDataLakeServiceClient, recorderEnvSetup } from "./utils";
@@ -16,7 +17,7 @@ describe("LeaseClient from FileSystem", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
@@ -148,7 +149,7 @@ describe("LeaseClient from File", () => {
   let fileClient: DataLakeFileClient;
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
@@ -271,7 +272,7 @@ describe("LeaseClient from Directory", () => {
   let directoryClient: DataLakeDirectoryClient;
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");

@@ -20,7 +20,7 @@ import { TopicResourceSerializer } from "../../../src/serializers/topicResourceS
 import { SubscriptionResourceSerializer } from "../../../src/serializers/subscriptionResourceSerializer";
 import { RuleResourceSerializer } from "../../../src/serializers/ruleResourceSerializer";
 import { getXMLNSPrefix, isJSONLikeObject } from "../../../src/util/utils";
-import { TestConstants } from "../../public/testConstants";
+import { TestConstants } from "../../public/fakeTestSecrets";
 
 const queueProperties = [
   Constants.LOCK_DURATION,

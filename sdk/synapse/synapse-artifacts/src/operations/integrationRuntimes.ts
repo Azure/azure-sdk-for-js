@@ -6,14 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "../tracing";
 import { IntegrationRuntimes } from "../operationsInterfaces";
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
+import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClientContext } from "../artifactsClientContext";
-import { IntegrationRuntimesListResponse, IntegrationRuntimesGetResponse } from "../models";
+import {
+  IntegrationRuntimesListOptionalParams,
+  IntegrationRuntimesListResponse,
+  IntegrationRuntimesGetOptionalParams,
+  IntegrationRuntimesGetResponse
+} from "../models";
 
 /** Class representing a IntegrationRuntimes. */
 export class IntegrationRuntimesImpl implements IntegrationRuntimes {
@@ -31,17 +36,19 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
    * List Integration Runtimes
    * @param options The options parameters.
    */
-  async list(options?: coreHttp.OperationOptions): Promise<IntegrationRuntimesListResponse> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-list", options || {});
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
-    };
+  async list(
+    options?: IntegrationRuntimesListOptionalParams
+  ): Promise<IntegrationRuntimesListResponse> {
+    const { span } = createSpan("ArtifactsClient-list", options || {});
     try {
-      const result = await this.client.sendOperationRequest(operationArguments, listOperationSpec);
+      const result = await this.client.sendOperationRequest(
+        { options },
+        listOperationSpec
+      );
       return result as IntegrationRuntimesListResponse;
     } catch (error) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
+        code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
       });
       throw error;
@@ -57,19 +64,18 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
    */
   async get(
     integrationRuntimeName: string,
-    options?: coreHttp.OperationOptions
+    options?: IntegrationRuntimesGetOptionalParams
   ): Promise<IntegrationRuntimesGetResponse> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-get", options || {});
-    const operationArguments: coreHttp.OperationArguments = {
-      integrationRuntimeName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
-    };
+    const { span } = createSpan("ArtifactsClient-get", options || {});
     try {
-      const result = await this.client.sendOperationRequest(operationArguments, getOperationSpec);
+      const result = await this.client.sendOperationRequest(
+        { integrationRuntimeName, options },
+        getOperationSpec
+      );
       return result as IntegrationRuntimesGetResponse;
     } catch (error) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
+        code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
       });
       throw error;
@@ -79,9 +85,9 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
   }
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreHttp.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
   path: "/integrationRuntimes",
   httpMethod: "GET",
   responses: {
@@ -97,7 +103,7 @@ const listOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getOperationSpec: coreHttp.OperationSpec = {
+const getOperationSpec: coreClient.OperationSpec = {
   path: "/integrationRuntimes/{integrationRuntimeName}",
   httpMethod: "GET",
   responses: {

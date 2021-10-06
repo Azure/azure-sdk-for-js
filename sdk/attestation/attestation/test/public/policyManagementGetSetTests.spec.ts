@@ -6,7 +6,7 @@ import { Context } from "mocha";
 import chaiAsPromised from "chai-as-promised";
 chaiUse(chaiAsPromised);
 
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 
 import {
   createRecordedAdminClient,

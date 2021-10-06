@@ -127,11 +127,6 @@ export interface WebResourceLike {
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
 
   /**
-   * Tracing: Options used to create a span when tracing is enabled.
-   */
-  spanOptions?: SpanOptions;
-
-  /**
    * Tracing: Context used when creating spans.
    */
   tracingContext?: Context;
@@ -699,11 +694,6 @@ export interface RequestOptionsBase {
    * HttpOperationResponse should be deserialized.
    */
   shouldDeserialize?: boolean | ((response: HttpOperationResponse) => boolean);
-
-  /**
-   * Tracing: Options used to create a span when tracing is enabled.
-   */
-  spanOptions?: SpanOptions;
 
   /**
    * Tracing: Context used when creating spans.

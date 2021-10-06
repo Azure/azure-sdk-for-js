@@ -24,7 +24,7 @@ describe("UsernamePasswordCredential", function() {
   });
 
   it("sends an authorization request with the given username and password", async () => {
-    const password = "p4s$w0rd";
+    const password = "p@55wOrd";
 
     const authDetails = await sendCredentialRequests({
       scopes: ["scope"],

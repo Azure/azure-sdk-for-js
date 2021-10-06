@@ -9,7 +9,7 @@ import {
   startRecorder
 } from "./utils/testHelpers";
 import * as assert from "assert";
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
 // There's been discussion on other teams about what errors are thrown when. This

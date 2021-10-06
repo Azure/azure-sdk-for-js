@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import * as dotenv from "dotenv";
 import { ContainerRegistryClient, ContainerRepository } from "../../src";
-import { env, record, Recorder } from "@azure/test-utils-recorder";
+import { env, record, Recorder } from "@azure-tools/test-recorder";
 import { RestError } from "@azure/core-rest-pipeline";
 import { isNode } from "../utils/isNode";
 import { createRegistryClient, recorderEnvSetup } from "../utils/utils";
@@ -126,14 +126,12 @@ describe("Repository and artifact tests", function() {
         canList: false,
         canRead: false,
         canWrite: false
-        // teleportEnabled: true
       });
 
       assert.strictEqual(updated.canDelete, false);
       assert.strictEqual(updated.canList, false);
       assert.strictEqual(updated.canRead, false);
       assert.strictEqual(updated.canWrite, false);
-      // assert.strictEqual(updated.teleportEnabled, true);
     } finally {
       await repository.updateProperties(original);
     }

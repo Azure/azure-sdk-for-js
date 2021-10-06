@@ -1,21 +1,86 @@
 # Release History
 
-## 2.0.0-beta.5 (Unreleased)
+## 2.0.0-beta.7 (Unreleased)
 
 ### Features Added
 
-- `ChainedTokenCredential` and `DefaultAzureCredential` now expose a property named `selectedCredential`, which will store the selected credential once any of the available credentials succeeds.
 ### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 2.0.0-beta.6 (2021-09-09)
+
+### Features Added
+
+- Added the `OnBehalfOfCredential`, which allows users to authenticate through the [On-Behalf-Of authentication flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow).
+- `ManagedIdentityCredential` now supports token exchange authentication.
+
+### Breaking Changes
+
+- `ClientCertificateCredential` now evaluates the validity of the PEM certificate path on `getToken` and not on the constructor.
+
+#### Breaking Changes from 2.0.0-beta.5
+
+- The property named `selectedCredential` that was added to `ChainedTokenCredential` and `DefaultAzureCredential` has been removed, since customers reported that logging was enough.
+- Changed the name of the "extension" API to the "plugin" API to reduce confusion between this package and VS Code extensions. The function `useIdentityExtension` was renamed to `useIdentityPlugin`, and "extension packages" are now known as "plugin packages".
+- Renamed the `allowUnencryptedStorage` property of `TokenCachePersistenceOptions` to `unsafeAllowUnencryptedStorage` to make it clear that enabling the unencrypted storage feature is not generally safe for production use.
+
+### Bugs Fixed
+
+- `ClientSecretCredential`, `ClientCertificateCredential` and `UsernamePasswordCredential` now throw if the required parameters are not provided (even in JavaScript).
+- Fixed a bug introduced on 2.0.0-beta.5 that caused the `ManagedIdentityCredential` to fail authenticating in Arc environments. Since our new core disables unsafe requests by default, we had to change the security settings for the first request of the Arc MSI, which retrieves the file path where the authentication value is stored since this request generally happens through an HTTP endpoint.
+- Fixed bug on the `AggregateAuthenticationError`, which caused an inconsistent error message on the `ChainedTokenCredential`, `DefaultAzureCredential` and `ApplicationCredential`.
+
+### Other Changes
+
+- The errors thrown by the `ManagedIdentityCredential` have been improved.
+
+## 2.0.0-beta.5 (2021-08-10)
+
+### Features Added
+
+- This release adds support by default for CP1 client capabilities, enabling all credentials to respond to claims challenges that occur due to insufficient claims. Claims challenges, for example, can occur due to requirements of [Continuous Access Enforcement (CAE)](https://docs.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) and [Conditional Access authentication context](https://techcommunity.microsoft.com/t5/azure-active-directory-identity/granular-conditional-access-for-sensitive-data-and-actions/ba-p/1751775). You may optionally disable this behavior by setting the environment variable `AZURE_IDENTITY_DISABLE_CP1` (to any value). You can read more about client capabilities, CAE, and Conditional Access on [the Microsoft Documentation](https://docs.microsoft.com/azure/active-directory/develop/claims-challenge).
+- `ChainedTokenCredential` and `DefaultAzureCredential` now expose a property named `selectedCredential`, which will store the selected credential once any of the available credentials succeeds.
+- Implementation of `ApplicationCredential` for use by applications which call into Microsoft Graph APIs and which have issues using `DefaultAzureCredential`. This credential is based on `EnvironmentCredential` and `ManagedIdentityCredential`.
+
+### Breaking Changes
+
+> These changes do not impact the API of stable versions such as 1.6.0.
+> Only code written against a beta version such as 1.7.0b1 may be affected.
+
+- Renamed `AZURE_POD_IDENTITY_TOKEN_URL` to `AZURE_POD_IDENTITY_AUTHORITY_HOST`.
 
 ### Bugs Fixed
 
 - With this release, we've migrated from using `@azure/core-http` to `@azure/core-rest-pipeline` for the handling of HTTP requests. See [Azure Core v1 vs v2](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-rest-pipeline/documentation/core2.md) for more on the difference and benefits of the move. This removes our dependency on `node-fetch` and along with it issues we have seen in using this dependency in specific environments like Kubernetes pods.
 
-### Other Changes
+## 1.5.2 (2021-09-01)
+
+- Fixed a bug introduced on 1.5.0 that caused the `ManagedIdentityCredential` to fail authenticating in Arc environments. Since our new core disables unsafe requests by default, we had to change the security settings for the first request of the Arc MSI, which retrieves the file path where the authentication value is stored since this request generally happens through an HTTP endpoint.
+
+## 1.5.1 (2021-08-12)
+
+- Fixed how we verify the IMDS endpoint is available. Now, besides skipping the `Metadata` header, we skip the URL query. Both will ensure that all the known IMDS endpoints return as early as possible.
+- Added support for the `AZURE_POD_IDENTITY_AUTHORITY_HOST` environment variable. If present, the IMDS endpoint initial verification will be skipped.
+
+## 1.5.0 (2021-07-19)
+
+- With this release, we've migrated from using `@azure/core-http` to `@azure/core-rest-pipeline` for the handling of HTTP requests. See [Azure Core v1 vs v2](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-rest-pipeline/documentation/core2.md) for more on the difference and benefits of the move. This removes our dependency on `node-fetch` and along with it issues we have seen in using this dependency in specific environments like Kubernetes pods.
+
+## 1.4.0 (2021-07-09)
+
+- With this release, we drop support for Node.js versions that have reached the end of life, like Node.js 8. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+- Updated the default timeout of the first request of the IMDS MSI from half a second to three seconds to compensate for the slowness caused by `node-fetch` for initial requests in specific environments, like Kubernetes pods.
+- Upgraded `@azure/core-http` to version `^2.0.0`, and `@azure/core-tracing` to version `1.0.0-preview.12`.
+
+- Upgraded the `AuthorizationCodeCredential` to use the latest `@azure/msal-node`.
 
 ## 2.0.0-beta.4 (2021-07-07)
 
 ### Features Added
+
 - With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 - Introduced an extension API through a top-level method `useIdentityExtension`. The function accepts an "extension" as an argument, which is a function accepting a `context`. The extension context is an internal part of the Azure Identity API, so it has an `unknown` type. Two new packages are designed to be used with this API:
   - `@azure/identity-vscode`, which provides the dependencies of `VisualStudioCodeCredential` and enables it (see more below).
@@ -39,7 +104,7 @@
 
 ### Key Bugs Fixed
 
-- Fixed an issue in which `InteractiveBrowserCredential` on Node would sometimes cause the process to hang if there was no browser available.
+- Fixed an issue in which `InteractiveBrowserCredential` on Node would sometimes cause the process to not respond if there was no browser available.
 - Fixed an issue in which the `AZURE_AUTHORITY_HOST` environment variable was not properly picked up in Node.js.
 
 ## 2.0.0-beta.3 (2021-05-12)
@@ -70,16 +135,6 @@
 - `InteractiveBrowserCredential` no longer supports [Implicit Grant Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow) and will only support [Auth Code Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow) instead. Therefore the `flow` option introduced in `1.2.4-beta.1` has been removed. More information from the documentation on Implicit Grant Flow:
 
 > With the plans for [third party cookies to be removed from browsers](https://docs.microsoft.com/azure/active-directory/develop/reference-third-party-cookies-spas), the **implicit grant flow is no longer a suitable authentication method**. The [silent SSO features](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow#getting-access-tokens-silently-in-the-background) of the implicit flow do not work without third party cookies, causing applications to break when they attempt to get a new token. We strongly recommend that all new applications use the authorization code flow that now supports single page apps in place of the implicit flow, and that [existing single page apps begin migrating to the authorization code flow](https://docs.microsoft.com/azure/active-directory/develop/migrate-spa-implicit-to-auth-code) as well.
-
-## 1.5.0 (2021-07-19)
-
-- With this release, we've migrated from using `@azure/core-http` to `@azure/core-rest-pipeline` for the handling of HTTP requests. See [Azure Core v1 vs v2](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-rest-pipeline/documentation/core2.md) for more on the difference and benefits of the move. This removes our dependency on `node-fetch` and along with it issues we have seen in using this dependency in specific environments like Kubernetes pods.
-
-## 1.4.0 (2021-07-09)
-
-- With this release, we drop support for Node.js versions that have reached the end of life, like Node.js 8. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
-- Updated the default timeout of the first request of the IMDS MSI from half a second to three seconds to compensate for the slowness caused by `node-fetch` for initial requests in specific environments, like Kubernetes pods.
-- Upgraded `@azure/core-http` to version `^2.0.0`, and `@azure/core-tracing` to version `1.0.0-preview.12`.
 
 ## 1.3.0 (2021-04-05)
 

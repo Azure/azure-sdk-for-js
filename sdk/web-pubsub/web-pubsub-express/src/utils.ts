@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { IncomingMessage } from "http";
 import { Message } from "cloudevents";
 
@@ -15,8 +18,8 @@ export function fromBase64JsonString(base64String: string): Record<string, any> 
   }
 
   try {
-    let buf = Buffer.from(base64String, "base64").toString();
-    let parsed = JSON.parse(buf);
+    const buf = Buffer.from(base64String, "base64").toString();
+    const parsed = JSON.parse(buf);
     return isJsonObject(parsed) ? parsed : {};
   } catch (e) {
     console.warn("Unexpected state format:" + e);

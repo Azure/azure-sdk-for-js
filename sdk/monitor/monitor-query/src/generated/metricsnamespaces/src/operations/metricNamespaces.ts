@@ -16,7 +16,7 @@ import {
   MetricNamespacesListResponse
 } from "../models";
 
-/** Class representing a MetricNamespaces. */
+/** Class containing MetricNamespaces operations. */
 export class MetricNamespacesImpl implements MetricNamespaces {
   private readonly client: MonitorManagementClientContext;
 

@@ -27,7 +27,6 @@ import { LeaseOperationResponse } from '@azure/storage-blob';
 import { ModifiedAccessConditions as ModifiedAccessConditions_2 } from '@azure/storage-blob';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { Pipeline as Pipeline_2 } from '@azure/storage-blob';
 import { ProxyOptions } from '@azure/core-http';
 import { Readable } from 'stream';
 import { RequestPolicy } from '@azure/core-http';
@@ -1809,7 +1808,7 @@ export interface PathUpdateHeaders {
 }
 
 // @public
-export class Pipeline extends Pipeline_2 {
+export class Pipeline {
     constructor(factories: RequestPolicyFactory[], options?: PipelineOptions);
     readonly factories: RequestPolicyFactory[];
     readonly options: PipelineOptions;

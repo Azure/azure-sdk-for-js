@@ -13,6 +13,7 @@ import {
 } from "./analyzeHealthcareEntitiesResult";
 import {
   GeneratedClient,
+  GeneratedClientHealthStatusOptionalParams,
   GeneratedClientHealthStatusResponse,
   TextDocumentInput
 } from "./generated";
@@ -34,7 +35,7 @@ import {
   top
 } from "./generated/models/parameters";
 import { processAndCombineSuccessfulAndErroneousDocuments } from "./textAnalyticsResult";
-import { getPagedAsyncIterator, PagedResult } from "./paging";
+import { getPagedAsyncIterator, PagedResult } from "@azure/core-paging";
 import { AnalysisPollOperationState } from "./pollerModels";
 import { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
 
@@ -178,48 +179,52 @@ export function isHealthDone(response: unknown): boolean {
 /**
  * @internal
  */
-export function processHealthResult<TOptions extends OperationOptions>(
+export function processHealthResult(
   // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   client: GeneratedClient,
   documents: TextDocumentInput[],
-  options: TOptions
+  options: GeneratedClientHealthStatusOptionalParams
 ): (
   result: unknown,
   state: AnalyzeHealthcareOperationState
 ) => PagedAnalyzeHealthcareEntitiesResult {
-  const pagedResult: PagedResult<
-    TOptions,
-    GeneratedClientHealthStatusResponse,
-    AnalyzeHealthcareEntitiesResultArray
-  > = {
-    sendGetRequest: (path: string, optionsParam: TOptions) =>
-      sendGetRequest(client, healthStatusOperationSpec, "HealthStatus", optionsParam, path).then(
-        (response) => response.flatResponse as GeneratedClientHealthStatusResponse
-      ),
-    buildPage: (flatResponse: GeneratedClientHealthStatusResponse) => {
-      if (flatResponse.results) {
-        return processAndCombineSuccessfulAndErroneousDocuments(
-          documents,
-          flatResponse.results,
-          makeHealthcareEntitiesResult,
-          makeHealthcareEntitiesErrorResult
-        );
-      } else {
-        throw new Error("Healthcare action has succeeded but there are no results!");
-      }
-    }
-  };
   return (
     result: unknown,
     state: AnalyzeHealthcareOperationState
   ): PagedAnalyzeHealthcareEntitiesResult => {
     const pollingURL = (state as any).pollingURL;
+    const pagedResult: PagedResult<AnalyzeHealthcareEntitiesResultArray> = {
+      firstPageLink: pollingURL,
+      getPage: async (pageLink: string, maxPageSize?: number) => {
+        const response = await sendGetRequest(
+          client,
+          healthStatusOperationSpec,
+          "HealthStatus",
+          // if `top` is set to `undefined`, the default value will not be sent
+          // as part of the request.
+          maxPageSize ? { ...options, top: maxPageSize } : options,
+          pageLink
+        );
+        const flatResponse = response.flatResponse as GeneratedClientHealthStatusResponse;
+        if (flatResponse.results) {
+          return {
+            page: processAndCombineSuccessfulAndErroneousDocuments(
+              documents,
+              flatResponse.results,
+              makeHealthcareEntitiesResult,
+              makeHealthcareEntitiesErrorResult
+            ),
+            nextPageLink: flatResponse.nextLink
+          };
+        } else {
+          throw new Error("Healthcare action has succeeded but there are no results!");
+        }
+      }
+    };
     const pagedIterator = getPagedAsyncIterator<
-      TOptions,
-      GeneratedClientHealthStatusResponse,
       AnalyzeHealthcareEntitiesResult,
       AnalyzeHealthcareEntitiesResultArray
-    >(pagedResult, pollingURL, options);
+    >(pagedResult);
     return Object.assign(pagedIterator, {
       statistics: (result as any).results.statistics,
       modelVersion: (result as any).results.modelVersion!

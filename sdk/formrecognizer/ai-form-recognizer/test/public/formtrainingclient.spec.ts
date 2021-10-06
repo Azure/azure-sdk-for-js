@@ -6,7 +6,7 @@ import { Context } from "mocha";
 
 import { matrix } from "@azure/test-utils";
 
-import { env, Recorder } from "@azure/test-utils-recorder";
+import { env, Recorder } from "@azure-tools/test-recorder";
 
 import { testPollingOptions, createRecorder, makeCredential } from "../utils/recordedClients";
 

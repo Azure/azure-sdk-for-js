@@ -20,8 +20,6 @@ Key links:
 
 ### Currently supported environments
 
-### Currently supported environments
-
 - [LTS versions of Node.js](https://nodejs.org/about/releases/)
 - Latest versions of Safari, Chrome, Edge, and Firefox.
 

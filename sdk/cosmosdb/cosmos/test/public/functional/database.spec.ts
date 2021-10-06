@@ -3,7 +3,8 @@
 import assert from "assert";
 import { Suite } from "mocha";
 import { CosmosClient, DatabaseDefinition, Database } from "../../../src";
-import { endpoint, masterKey } from "../common/_testConfig";
+import { endpoint } from "../common/_testConfig";
+import { masterKey } from "../common/_fakeTestSecrets";
 import {
   addEntropy,
   removeAllDatabases,

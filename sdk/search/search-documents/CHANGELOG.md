@@ -1,5 +1,12 @@
 # Release History
 
+## 11.3.0-beta.3 (2021-09-07)
+
+### Features Added
+
+- Added a new property `normalizerName` to the `AnalyzeRequest` object.
+- Added 2 new properties `captions` & `semanticFields` to the `SearchRequestOptions` object.
+
 ## 11.3.0-beta.2 (2021-08-10)
 
 ### Features Added

@@ -6,18 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./linkedService";
-export * from "./dataset";
-export * from "./pipeline";
-export * from "./pipelineRun";
-export * from "./trigger";
-export * from "./triggerRun";
-export * from "./dataFlow";
+export * from "./linkedServiceOperations";
+export * from "./datasetOperations";
+export * from "./pipelineOperations";
+export * from "./pipelineRunOperations";
+export * from "./triggerOperations";
+export * from "./triggerRunOperations";
+export * from "./dataFlowOperations";
 export * from "./dataFlowDebugSession";
-export * from "./sqlScript";
-export * from "./sparkJobDefinition";
-export * from "./notebook";
-export * from "./workspace";
+export * from "./sqlScriptOperations";
+export * from "./sparkJobDefinitionOperations";
+export * from "./notebookOperations";
+export * from "./workspaceOperations";
 export * from "./sqlPools";
 export * from "./bigDataPools";
 export * from "./integrationRuntimes";

@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import { RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 
 const environmentSetup: RecorderEnvironmentSetup = {
   replaceableVariables: {

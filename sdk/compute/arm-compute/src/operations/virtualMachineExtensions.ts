@@ -27,7 +27,7 @@ import {
   VirtualMachineExtensionsListResponse
 } from "../models";
 
-/** Class representing a VirtualMachineExtensions. */
+/** Class containing VirtualMachineExtensions operations. */
 export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
   private readonly client: ComputeManagementClientContext;
 

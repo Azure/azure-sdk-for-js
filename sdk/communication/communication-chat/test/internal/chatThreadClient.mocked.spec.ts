@@ -82,7 +82,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     const request = spy.getCall(0).args[0];
     assert.equal(request.url, `${baseUri}/chat/threads/${threadId}?api-version=${API_VERSION}`);
     assert.equal(request.method, "PATCH");
-    assert.deepEqual(JSON.parse(request.body), { topic: topic });
+    assert.deepEqual(JSON.parse(request.body as string), { topic: topic });
   });
 
   it("makes successful send message request", async () => {
@@ -113,7 +113,7 @@ describe("[Mocked] ChatThreadClient", async () => {
       `${baseUri}/chat/threads/${threadId}/messages?api-version=${API_VERSION}`
     );
     assert.equal(request.method, "POST");
-    assert.deepEqual(JSON.parse(request.body), {
+    assert.deepEqual(JSON.parse(request.body as string), {
       ...sendRequest,
       ...sendOptions
     });
@@ -224,7 +224,7 @@ describe("[Mocked] ChatThreadClient", async () => {
       `${baseUri}/chat/threads/${threadId}/messages/${mockMessage.id}?api-version=${API_VERSION}`
     );
     assert.equal(request.method, "PATCH");
-    assert.deepEqual(JSON.parse(request.body), {
+    assert.deepEqual(JSON.parse(request.body as string), {
       content: mockMessage.content?.message,
       metadata: mockMessage.metadata
     });
@@ -265,7 +265,7 @@ describe("[Mocked] ChatThreadClient", async () => {
       `${baseUri}/chat/threads/${threadId}/participants/:add?api-version=${API_VERSION}`
     );
     assert.equal(request.method, "POST");
-    const requestJson = JSON.parse(request.body);
+    const requestJson = JSON.parse(request.body as string);
     assert.equal(
       (sendRequest.participants[0].id as CommunicationUserIdentifier).communicationUserId,
       requestJson.participants[0].communicationIdentifier.communicationUser.id
@@ -323,7 +323,7 @@ describe("[Mocked] ChatThreadClient", async () => {
       `${baseUri}/chat/threads/${threadId}/participants/:remove?api-version=${API_VERSION}`
     );
     assert.equal(request.method, "POST");
-    const requestJson = JSON.parse(request.body);
+    const requestJson = JSON.parse(request.body as string);
     assert.deepEqual(mockParticipant.communicationIdentifier, requestJson);
   });
 
@@ -360,7 +360,7 @@ describe("[Mocked] ChatThreadClient", async () => {
       `${baseUri}/chat/threads/${threadId}/typing?api-version=${API_VERSION}`
     );
     assert.equal(request.method, "POST");
-    assert.deepEqual(JSON.parse(request.body), options);
+    assert.deepEqual(JSON.parse(request.body as string), options);
   });
 
   it("makes successful sent read receipt request", async () => {

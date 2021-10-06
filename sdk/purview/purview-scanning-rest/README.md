@@ -9,6 +9,7 @@ Azure Purview Scanning is a fully managed cloud service whose users can scan you
 **Please rely heavily on the [service's documentation][scanning_product_documentation] and our [Rest client docs][rest_client] to use this library**
 
 Key links:
+
 - [Source code][source_code]
 - [Package (NPM)][scanning_npm]
 - [API reference documentation][scanning_ref_docs]
@@ -58,7 +59,7 @@ Use the returned token credential to authenticate the client:
 import PurviewScanning from "@azure-rest/purview-scanning";
 import { DefaultAzureCredential } from "@azure/identity";
 const client = PurviewScanning(
-  "https://<my-account-name>.scanning.purview.azure.com",
+  "https://<my-account-name>.scan.purview.azure.com",
   new DefaultAzureCredential()
 );
 ```
@@ -84,7 +85,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function main() {
   console.log("== List dataSources ==");
   const client = PurviewScanning(
-    "https://<my-account-name>.scanning.purview.azure.com",
+    "https://<my-account-name>.scan.purview.azure.com",
     new DefaultAzureCredential()
   );
 

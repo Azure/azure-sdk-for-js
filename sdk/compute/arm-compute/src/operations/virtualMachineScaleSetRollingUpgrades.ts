@@ -21,7 +21,7 @@ import {
   VirtualMachineScaleSetRollingUpgradesGetLatestResponse
 } from "../models";
 
-/** Class representing a VirtualMachineScaleSetRollingUpgrades. */
+/** Class containing VirtualMachineScaleSetRollingUpgrades operations. */
 export class VirtualMachineScaleSetRollingUpgradesImpl
   implements VirtualMachineScaleSetRollingUpgrades {
   private readonly client: ComputeManagementClientContext;

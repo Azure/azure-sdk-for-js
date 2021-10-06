@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 
 import { TokenCredential } from "@azure/core-http";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 import * as assert from "assert";
+import { Context } from "mocha";
 
 import {
   DataLakeFileSystemClient,
@@ -20,7 +21,7 @@ describe("DataLakeFileSystemClient Node.js only", () => {
   let fileSystemClient: DataLakeFileSystemClient;
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");

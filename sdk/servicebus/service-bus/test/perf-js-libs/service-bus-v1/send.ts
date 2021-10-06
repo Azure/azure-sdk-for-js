@@ -11,11 +11,14 @@ Measures the maximum throughput of `sender.send()` in package `@azure/service-bu
  */
 
 import { ServiceBusClient, Sender } from "@azure/service-bus";
-import delay from "delay";
 import moment from "moment";
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
+
+function delay(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 const _payload = Buffer.alloc(1024);
 const _start = moment();

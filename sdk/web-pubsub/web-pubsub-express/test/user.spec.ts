@@ -46,7 +46,7 @@ describe("Can handle user event", function() {
     const endSpy = sinon.spy(res.end);
 
     const dispatcher = new CloudEventsDispatcher("hub1", ["*"]);
-    var result = await dispatcher.processRequest(req, res);
+    const result = await dispatcher.processRequest(req, res);
     assert.isFalse(result);
     assert.isTrue(endSpy.notCalled);
   });
@@ -56,7 +56,7 @@ describe("Can handle user event", function() {
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub1", ["*"]);
-    var result = await dispatcher.processRequest(req, res);
+    const result = await dispatcher.processRequest(req, res);
     assert.isFalse(result);
     assert.isTrue(endSpy.notCalled);
   });
@@ -66,7 +66,7 @@ describe("Can handle user event", function() {
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", ["*"]);
-    var result = await dispatcher.processRequest(req, res);
+    const result = await dispatcher.processRequest(req, res);
     assert.isTrue(result, "should handle");
     assert.isTrue(endSpy.calledOnce, "should call once");
     assert.equal(200, res.statusCode, "should be 200");
@@ -77,7 +77,7 @@ describe("Can handle user event", function() {
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", ["*"], {});
-    var result = await dispatcher.processRequest(req, res);
+    const result = await dispatcher.processRequest(req, res);
     assert.isTrue(result, "should handle");
     assert.isTrue(endSpy.calledOnce, "should call once");
     assert.equal(200, res.statusCode, "should be 200");
@@ -92,9 +92,9 @@ describe("Can handle user event", function() {
         res.fail(500);
       }
     });
-    var process = dispatcher.processRequest(req, res);
+    const process = dispatcher.processRequest(req, res);
     mockBody(req, JSON.stringify({}));
-    var result = await process;
+    const result = await process;
     assert.isTrue(result, "should handle");
     assert.isTrue(endSpy.calledOnce, "should call once");
     assert.equal(500, res.statusCode, "should be error");
@@ -109,9 +109,9 @@ describe("Can handle user event", function() {
         res.success();
       }
     });
-    var process = dispatcher.processRequest(req, res);
+    const process = dispatcher.processRequest(req, res);
     mockBody(req, JSON.stringify({}));
-    var result = await process;
+    const result = await process;
     assert.isTrue(result, "should handle");
     assert.isTrue(endSpy.calledOnce, "should call once");
     assert.equal(200, res.statusCode, "should be success");
@@ -126,9 +126,9 @@ describe("Can handle user event", function() {
         res.success("a");
       }
     });
-    var process = dispatcher.processRequest(req, res);
+    const process = dispatcher.processRequest(req, res);
     mockBody(req, JSON.stringify({}));
-    var result = await process;
+    const result = await process;
     assert.isTrue(result, "should handle");
     assert.isTrue(endSpy.calledOnce, "should call once");
     assert.equal(200, res.statusCode, "should be success");
@@ -144,9 +144,9 @@ describe("Can handle user event", function() {
         res.success("a", "text");
       }
     });
-    var process = dispatcher.processRequest(req, res);
+    const process = dispatcher.processRequest(req, res);
     mockBody(req, JSON.stringify({}));
-    var result = await process;
+    const result = await process;
     assert.isTrue(result, "should handle");
     assert.isTrue(endSpy.calledOnce, "should call once");
     assert.equal(200, res.statusCode, "should be success");
@@ -162,9 +162,9 @@ describe("Can handle user event", function() {
         res.success("a", "json");
       }
     });
-    var process = dispatcher.processRequest(req, res);
+    const process = dispatcher.processRequest(req, res);
     mockBody(req, JSON.stringify({}));
-    var result = await process;
+    const result = await process;
     assert.isTrue(result, "should handle");
     assert.isTrue(endSpy.calledOnce, "should call once");
     assert.equal(200, res.statusCode, "should be success");
@@ -188,9 +188,9 @@ describe("Can handle user event", function() {
         res.success();
       }
     });
-    var process = dispatcher.processRequest(req, res);
+    const process = dispatcher.processRequest(req, res);
     mockBody(req, JSON.stringify({}));
-    var result = await process;
+    const result = await process;
     assert.isTrue(result, "should handle");
     assert.isTrue(endSpy.calledOnce, "should call once");
     assert.equal(200, res.statusCode, "should be success");

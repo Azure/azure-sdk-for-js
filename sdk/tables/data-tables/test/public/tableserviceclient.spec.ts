@@ -3,7 +3,7 @@
 
 import { TableItem, TableServiceClient } from "../../src";
 import { Context } from "mocha";
-import { record, Recorder, isPlaybackMode, isLiveMode } from "@azure/test-utils-recorder";
+import { record, Recorder, isPlaybackMode, isLiveMode } from "@azure-tools/test-recorder";
 import {
   recordedEnvironmentSetup,
   createTableServiceClient,
@@ -98,21 +98,31 @@ authModes.forEach((authMode) => {
         for await (const table of tables) {
           all.push(table);
         }
-        assert.equal(all.length, expectedTotalItems);
+        for (let i = 0; i < expectedTotalItems; i++) {
+          assert.isTrue(
+            all.some((t) => t.name === `ListTableTest${suffix}${i}`),
+            `Couldn't find table ListTableTest${suffix}${i}`
+          );
+        }
       });
 
       it("should list by page", async function() {
+        let all: TableItem[] = [];
         const maxPageSize = 5;
         const tables = client.listTables();
-        let totalItems = 0;
         for await (const page of tables.byPage({
           maxPageSize
         })) {
-          totalItems += page.length;
+          all = [...all, ...page];
           assert.isTrue(page.length <= 5);
         }
 
-        assert.equal(totalItems, expectedTotalItems);
+        for (let i = 0; i < expectedTotalItems; i++) {
+          assert.isTrue(
+            all.some((t) => t.name === `ListTableTest${suffix}${i}`),
+            `Couldn't find table ListTableTest${suffix}${i}`
+          );
+        }
       });
     });
   });

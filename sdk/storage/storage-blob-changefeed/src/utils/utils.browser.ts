@@ -31,4 +31,6 @@ export async function blobToString(blob: Blob): Promise<string> {
   });
 }
 
-export function bodyToAvroReadable() {}
+export function bodyToAvroReadable(): void {
+  /* empty */
+}

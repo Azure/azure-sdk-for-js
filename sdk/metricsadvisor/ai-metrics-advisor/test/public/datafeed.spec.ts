@@ -23,7 +23,7 @@ import {
   AzureLogAnalyticsDataFeedSource
 } from "../../src";
 import { createRecordedAdminClient, testEnv, makeCredential } from "./util/recordedClients";
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { matrix } from "./util/matrix";
 
 matrix([[true, false]] as const, async (useAad) => {
@@ -580,7 +580,7 @@ matrix([[true, false]] as const, async (useAad) => {
             connectionString: "https://connect-to-influxdb",
             database: "data-feed-database",
             userName: "user",
-            password: "pwd1",
+            password: "SecretPlaceholder",
             query: "partition-key eq @start-time",
             authenticationType: "Basic"
           };

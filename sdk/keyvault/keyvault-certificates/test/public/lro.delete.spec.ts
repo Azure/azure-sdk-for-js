@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import { Context } from "mocha";
 import { PollerStoppedError } from "@azure/core-lro";
-import { env, Recorder } from "@azure/test-utils-recorder";
+import { env, Recorder } from "@azure-tools/test-recorder";
 
 import { CertificateClient, DeletedCertificate, DefaultCertificatePolicy } from "../../src";
 import { testPollerProperties } from "../utils/recorderUtils";

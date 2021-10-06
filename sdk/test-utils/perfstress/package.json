@@ -6,16 +6,16 @@
   "main": "dist-esm/src/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {},
-  "types": "./typings/src/index.d.ts",
+  "types": "./types/src/index.d.ts",
   "engines": {
     "node": ">=12.0.0"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build": "tsc -p .",
+    "build": "npm run clean && tsc -p .",
     "build:test": "echo not needed",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-* typings *.tgz *.log",
+    "clean": "rimraf dist dist-* types *.tgz *.log",
     "extract-api": "echo skipped",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
@@ -24,7 +24,6 @@
     "lint:fix": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src test --ext .ts -f html -o perfstress-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
-    "prebuild": "npm run clean",
     "perf-test:node": "npm run build && node dist-esm/test/index.spec.js",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
@@ -38,7 +37,7 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "typings/src",
+    "types/src",
     "README.md",
     "LICENSE"
   ],
@@ -62,6 +61,7 @@
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-http": "^2.0.0",
+    "@azure/core-rest-pipeline": "^1.1.0",
     "tslib": "^2.2.0",
     "node-fetch": "^2.6.0",
     "minimist": "~1.2.5",

@@ -87,7 +87,7 @@ import {
   PageBlobGetPageRangesResponse,
   rangeResponseFromModel
 } from "./PageBlobRangeResponse";
-import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
+import { newPipeline, PipelineLike, isPipelineLike, StoragePipelineOptions } from "./Pipeline";
 import {
   BlobBeginCopyFromUrlPoller,
   BlobBeginCopyFromUrlPollState,
@@ -877,6 +877,8 @@ export class BlobClient extends StorageClient {
     connectionString: string,
     containerName: string,
     blobName: string,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   );
   /**
@@ -894,6 +896,8 @@ export class BlobClient extends StorageClient {
   constructor(
     url: string,
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   );
   /**
@@ -913,7 +917,7 @@ export class BlobClient extends StorageClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  constructor(url: string, pipeline: Pipeline);
+  constructor(url: string, pipeline: PipelineLike);
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName?:
@@ -921,14 +925,16 @@ export class BlobClient extends StorageClient {
       | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
-      | Pipeline,
+      | PipelineLike,
     blobNameOrOptions?: string | StoragePipelineOptions,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   ) {
     options = options || {};
-    let pipeline: Pipeline;
+    let pipeline: PipelineLike;
     let url: string;
-    if (credentialOrPipelineOrContainerName instanceof Pipeline) {
+    if (isPipelineLike(credentialOrPipelineOrContainerName)) {
       // (url: string, pipeline: Pipeline)
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
@@ -1186,7 +1192,7 @@ export class BlobClient extends StorageClient {
       return new BlobDownloadResponse(
         wrappedRes,
         async (start: number): Promise<NodeJS.ReadableStream> => {
-          const updatedOptions: BlobDownloadOptionalParams = {
+          const updatedDownloadOptions: BlobDownloadOptionalParams = {
             leaseAccessConditions: options.conditions,
             modifiedAccessConditions: {
               ifMatch: options.conditions!.ifMatch || res.etag,
@@ -1215,7 +1221,7 @@ export class BlobClient extends StorageClient {
           return (
             await this.blobContext.download({
               abortSignal: options.abortSignal,
-              ...updatedOptions
+              ...updatedDownloadOptions
             })
           ).readableStreamBody!;
         },
@@ -1890,7 +1896,7 @@ export class BlobClient extends StorageClient {
     param2?: number,
     param3?: BlobDownloadToBufferOptions | number,
     param4: BlobDownloadToBufferOptions = {}
-  ) {
+  ): Promise<Buffer | undefined> {
     let buffer: Buffer | undefined;
     let offset = 0;
     let count = 0;
@@ -2525,6 +2531,8 @@ export class AppendBlobClient extends BlobClient {
     connectionString: string,
     containerName: string,
     blobName: string,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   );
   /**
@@ -2547,6 +2555,8 @@ export class AppendBlobClient extends BlobClient {
   constructor(
     url: string,
     credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   );
   /**
@@ -2566,7 +2576,7 @@ export class AppendBlobClient extends BlobClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  constructor(url: string, pipeline: Pipeline);
+  constructor(url: string, pipeline: PipelineLike);
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName:
@@ -2574,16 +2584,18 @@ export class AppendBlobClient extends BlobClient {
       | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
-      | Pipeline,
+      | PipelineLike,
     blobNameOrOptions?: string | StoragePipelineOptions,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   ) {
     // In TypeScript we cannot simply pass all parameters to super() like below so have to duplicate the code instead.
     //   super(s, credentialOrPipelineOrContainerNameOrOptions, blobNameOrOptions, options);
-    let pipeline: Pipeline;
+    let pipeline: PipelineLike;
     let url: string;
     options = options || {};
-    if (credentialOrPipelineOrContainerName instanceof Pipeline) {
+    if (isPipelineLike(credentialOrPipelineOrContainerName)) {
       // (url: string, pipeline: Pipeline)
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
@@ -3523,6 +3535,8 @@ export class BlockBlobClient extends BlobClient {
     connectionString: string,
     containerName: string,
     blobName: string,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   );
   /**
@@ -3545,6 +3559,8 @@ export class BlockBlobClient extends BlobClient {
   constructor(
     url: string,
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   );
   /**
@@ -3564,7 +3580,7 @@ export class BlockBlobClient extends BlobClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  constructor(url: string, pipeline: Pipeline);
+  constructor(url: string, pipeline: PipelineLike);
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName?:
@@ -3572,16 +3588,18 @@ export class BlockBlobClient extends BlobClient {
       | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
-      | Pipeline,
+      | PipelineLike,
     blobNameOrOptions?: string | StoragePipelineOptions,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   ) {
     // In TypeScript we cannot simply pass all parameters to super() like below so have to duplicate the code instead.
     //   super(s, credentialOrPipelineOrContainerNameOrOptions, blobNameOrOptions, options);
-    let pipeline: Pipeline;
+    let pipeline: PipelineLike;
     let url: string;
     options = options || {};
-    if (credentialOrPipelineOrContainerName instanceof Pipeline) {
+    if (isPipelineLike(credentialOrPipelineOrContainerName)) {
       // (url: string, pipeline: Pipeline)
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
@@ -4771,6 +4789,8 @@ export class PageBlobClient extends BlobClient {
     connectionString: string,
     containerName: string,
     blobName: string,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   );
   /**
@@ -4788,6 +4808,8 @@ export class PageBlobClient extends BlobClient {
   constructor(
     url: string,
     credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   );
   /**
@@ -4804,7 +4826,7 @@ export class PageBlobClient extends BlobClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  constructor(url: string, pipeline: Pipeline);
+  constructor(url: string, pipeline: PipelineLike);
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName:
@@ -4812,16 +4834,18 @@ export class PageBlobClient extends BlobClient {
       | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
-      | Pipeline,
+      | PipelineLike,
     blobNameOrOptions?: string | StoragePipelineOptions,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   ) {
     // In TypeScript we cannot simply pass all parameters to super() like below so have to duplicate the code instead.
     //   super(s, credentialOrPipelineOrContainerNameOrOptions, blobNameOrOptions, options);
-    let pipeline: Pipeline;
+    let pipeline: PipelineLike;
     let url: string;
     options = options || {};
-    if (credentialOrPipelineOrContainerName instanceof Pipeline) {
+    if (isPipelineLike(credentialOrPipelineOrContainerName)) {
       // (url: string, pipeline: Pipeline)
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;

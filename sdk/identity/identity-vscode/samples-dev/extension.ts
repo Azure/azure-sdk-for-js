@@ -2,23 +2,23 @@
 // Licensed under the MIT license.
 
 /**
- * In this sample, we use the extension API to provide an implementation of
+ * In this sample, we use the plugin API to provide an implementation of
  * `VisualStudioCodeCredential` to the `@azure/identity` package, and we use it
- * through the `DefaultAzureCredential` class.  Without the extension, the
+ * through the `DefaultAzureCredential` class.  Without the plugin, the
  * credential will simply throw a `CredentialNotFoundError`, and the
  * `DefaultAzureCredential` will use a different credential, if one is
  * available.
  *
- * @summary loads the `VisualStudioCodeCredential` extension and uses it through
+ * @summary loads the `VisualStudioCodeCredential` plugin and uses it through
  * `DefaultAzureCredential`
  */
 
-import { useIdentityExtension, DefaultAzureCredential } from "@azure/identity";
+import { useIdentityPlugin, DefaultAzureCredential } from "@azure/identity";
 
-// The extension is the package's default export, so you may import and use it
-// as any name you like, and simply pass it to `useIdentityExtension`.
-import { vsCodeExtension } from "@azure/identity-vscode";
-useIdentityExtension(vsCodeExtension);
+// The plugin is the package's default export, so you may import and use it
+// as any name you like, and simply pass it to `useIdentityPlugin`.
+import { vsCodePlugin } from "@azure/identity-vscode";
+useIdentityPlugin(vsCodePlugin);
 
 export async function main() {
   const credential = new DefaultAzureCredential();

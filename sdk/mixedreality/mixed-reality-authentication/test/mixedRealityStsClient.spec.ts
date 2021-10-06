@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import { AzureKeyCredential, MixedRealityStsClient } from "../src";
 import { createTokenCredentialFromMRKeyCredential } from "./utils/tokenCredentialHelper";
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { createClient, createRecorder } from "./utils/recordedClient";
 
 describe("MixedRealityStsClient", () => {

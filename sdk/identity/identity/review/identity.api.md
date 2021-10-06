@@ -22,6 +22,16 @@ export class AggregateAuthenticationError extends Error {
 export const AggregateAuthenticationErrorName = "AggregateAuthenticationError";
 
 // @public
+export class ApplicationCredential extends ChainedTokenCredential {
+    constructor(options?: ApplicationCredentialOptions);
+}
+
+// @public
+export interface ApplicationCredentialOptions extends TokenCredentialOptions, CredentialPersistenceOptions {
+    managedIdentityClientId?: string;
+}
+
+// @public
 export class AuthenticationError extends Error {
     constructor(statusCode: number, errorBody: object | string | undefined | null);
     readonly errorResponse: ErrorResponse;
@@ -78,7 +88,7 @@ export interface AzureCliCredentialOptions extends TokenCredentialOptions {
 // @public
 export class AzurePowerShellCredential implements TokenCredential {
     constructor(options?: AzurePowerShellCredentialOptions);
-    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
     }
 
 // @public
@@ -93,7 +103,6 @@ export type BrowserLoginStyle = "redirect" | "popup";
 export class ChainedTokenCredential implements TokenCredential {
     constructor(...sources: TokenCredential[]);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
-    selectedCredential?: TokenCredential;
     protected UnavailableMessage: string;
 }
 
@@ -197,7 +206,7 @@ export function getDefaultAzureCredential(): TokenCredential;
 export { GetTokenOptions }
 
 // @public
-export type IdentityExtension = (context: unknown) => void;
+export type IdentityPlugin = (context: unknown) => void;
 
 // @public
 export class InteractiveBrowserCredential implements TokenCredential {
@@ -238,6 +247,33 @@ export class ManagedIdentityCredential implements TokenCredential {
     constructor(options?: TokenCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
     }
+
+// @public
+export class OnBehalfOfCredential implements TokenCredential {
+    constructor(configuration: OnBehalfOfCredentialSecretConfiguration | OnBehalfOfCredentialCertificateConfiguration, options?: OnBehalfOfCredentialOptions);
+    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
+    }
+
+// @public
+export interface OnBehalfOfCredentialCertificateConfiguration {
+    certificatePath: string;
+    clientId: string;
+    sendCertificateChain?: boolean;
+    tenantId: string;
+    userAssertionToken: string;
+}
+
+// @public
+export interface OnBehalfOfCredentialOptions extends TokenCredentialOptions, CredentialPersistenceOptions {
+}
+
+// @public
+export interface OnBehalfOfCredentialSecretConfiguration {
+    clientId: string;
+    clientSecret: string;
+    tenantId: string;
+    userAssertionToken: string;
+}
 
 // @public
 export enum RegionalAuthority {
@@ -301,9 +337,9 @@ export function serializeAuthenticationRecord(record: AuthenticationRecord): str
 
 // @public
 export interface TokenCachePersistenceOptions {
-    allowUnencryptedStorage?: boolean;
     enabled: boolean;
     name?: string;
+    unsafeAllowUnencryptedStorage?: boolean;
 }
 
 export { TokenCredential }
@@ -315,7 +351,7 @@ export interface TokenCredentialOptions extends CommonClientOptions {
 }
 
 // @public
-export function useIdentityExtension(extension: IdentityExtension): void;
+export function useIdentityPlugin(plugin: IdentityPlugin): void;
 
 // @public
 export class UsernamePasswordCredential implements TokenCredential {

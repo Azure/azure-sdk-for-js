@@ -14,7 +14,7 @@ import { isUnexpectedPollingResponse } from "./requestUtils";
 function getProvisioningState(rawResponse: RawResponse): string {
   const { properties, provisioningState } = (rawResponse.body as LroBody) ?? {};
   const state: string | undefined = properties?.provisioningState ?? provisioningState;
-  return state?.toLowerCase() ?? "succeeded";
+  return typeof state === "string" ? state.toLowerCase() : "succeeded";
 }
 
 export function isBodyPollingDone(rawResponse: RawResponse): boolean {

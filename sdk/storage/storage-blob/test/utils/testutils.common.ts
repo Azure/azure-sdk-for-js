@@ -3,7 +3,7 @@
 
 import { padStart } from "../../src/utils/utils.common";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { isPlaybackMode, env, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import { isPlaybackMode, env, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 
 export const testPollerProperties = {
   intervalInMs: isPlaybackMode() ? 0 : undefined
@@ -52,6 +52,11 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
       recording.replace(
         new RegExp(env.ACCOUNT_SAS.match("(.*)&sig=(.*)")[2], "g"),
         `${mockAccountKey}`
+      ),
+    (recording: string): string =>
+      recording.replace(
+        /Authorization: SharedKey [^\\]+/g,
+        "Authorization: SharedKey fakestorageaccount:pass123"
       )
   ],
   // SAS token may contain sensitive information

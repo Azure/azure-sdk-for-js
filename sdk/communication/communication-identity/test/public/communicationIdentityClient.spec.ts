@@ -7,7 +7,7 @@ import {
 } from "@azure/communication-common";
 import { assert } from "chai";
 import { matrix } from "@azure/test-utils";
-import { isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
+import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { CommunicationIdentityClient } from "../../src";
 import {
   createRecordedCommunicationIdentityClient,

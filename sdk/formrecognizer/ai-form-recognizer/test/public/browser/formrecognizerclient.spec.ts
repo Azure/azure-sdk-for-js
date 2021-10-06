@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import { DefaultHttpClient, WebResource } from "@azure/core-http";
 import { FormRecognizerClient, AzureKeyCredential } from "../../../src";
-import { env, Recorder } from "@azure/test-utils-recorder";
+import { env, Recorder } from "@azure-tools/test-recorder";
 import {
   createRecordedRecognizerClient,
   testEnv,

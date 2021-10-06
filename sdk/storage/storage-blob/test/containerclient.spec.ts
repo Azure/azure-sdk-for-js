@@ -11,7 +11,7 @@ import {
   isSuperSet,
   recorderEnvSetup
 } from "./utils";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 import { URLBuilder } from "@azure/core-http";
 import {
   ContainerClient,
@@ -19,8 +19,9 @@ import {
   ContainerListBlobHierarchySegmentResponse,
   BlobServiceClient
 } from "../src";
-import { Test_CPK_INFO } from "./utils/constants";
+import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
 import { context, setSpan } from "@azure/core-tracing";
+import { Context } from "mocha";
 dotenv.config();
 
 describe("ContainerClient", () => {
@@ -30,7 +31,7 @@ describe("ContainerClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -244,7 +245,7 @@ describe("ContainerClient", () => {
     const result = (
       await containerClient
         .listBlobsFlat({
-          includeDeletedwithVersions: true
+          includeDeletedWithVersions: true
         })
         .byPage()
         .next()
@@ -879,7 +880,7 @@ describe("ContainerClient - Verify Name Properties", () => {
   const containerName = "containerName";
   const accountName = "myAccount";
 
-  function verifyNameProperties(url: string) {
+  function verifyNameProperties(url: string): void {
     const newClient = new ContainerClient(url);
     assert.equal(
       newClient.containerName,

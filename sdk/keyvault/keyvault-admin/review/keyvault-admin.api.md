@@ -169,12 +169,15 @@ export enum KnownKeyVaultDataAction {
     DecryptHsmKey = "Microsoft.KeyVault/managedHsm/keys/decrypt/action",
     DeleteHsmKey = "Microsoft.KeyVault/managedHsm/keys/delete",
     DeleteRoleAssignment = "Microsoft.KeyVault/managedHsm/roleAssignments/delete/action",
+    DeleteRoleDefinition = "Microsoft.KeyVault/managedHsm/roleDefinitions/delete/action",
     DownloadHsmSecurityDomain = "Microsoft.KeyVault/managedHsm/securitydomain/download/action",
+    DownloadHsmSecurityDomainStatus = "Microsoft.KeyVault/managedHsm/securitydomain/download/read",
     EncryptHsmKey = "Microsoft.KeyVault/managedHsm/keys/encrypt/action",
     ExportHsmKey = "Microsoft.KeyVault/managedHsm/keys/export/action",
     GetRoleAssignment = "Microsoft.KeyVault/managedHsm/roleAssignments/read/action",
     ImportHsmKey = "Microsoft.KeyVault/managedHsm/keys/import/action",
     PurgeDeletedHsmKey = "Microsoft.KeyVault/managedHsm/keys/deletedKeys/delete",
+    RandomNumbersGenerate = "Microsoft.KeyVault/managedHsm/rng/action",
     ReadDeletedHsmKey = "Microsoft.KeyVault/managedHsm/keys/deletedKeys/read/action",
     ReadHsmBackupStatus = "Microsoft.KeyVault/managedHsm/backup/status/action",
     ReadHsmKey = "Microsoft.KeyVault/managedHsm/keys/read/action",
@@ -183,6 +186,7 @@ export enum KnownKeyVaultDataAction {
     ReadHsmSecurityDomainTransferKey = "Microsoft.KeyVault/managedHsm/securitydomain/transferkey/read",
     ReadRoleDefinition = "Microsoft.KeyVault/managedHsm/roleDefinitions/read/action",
     RecoverDeletedHsmKey = "Microsoft.KeyVault/managedHsm/keys/deletedKeys/recover/action",
+    ReleaseKey = "Microsoft.KeyVault/managedHsm/keys/release/action",
     RestoreHsmKeys = "Microsoft.KeyVault/managedHsm/keys/restore/action",
     SignHsmKey = "Microsoft.KeyVault/managedHsm/keys/sign/action",
     StartHsmBackup = "Microsoft.KeyVault/managedHsm/backup/start/action",
@@ -192,7 +196,8 @@ export enum KnownKeyVaultDataAction {
     VerifyHsmKey = "Microsoft.KeyVault/managedHsm/keys/verify/action",
     WrapHsmKey = "Microsoft.KeyVault/managedHsm/keys/wrap/action",
     WriteHsmKey = "Microsoft.KeyVault/managedHsm/keys/write/action",
-    WriteRoleAssignment = "Microsoft.KeyVault/managedHsm/roleAssignments/write/action"
+    WriteRoleAssignment = "Microsoft.KeyVault/managedHsm/roleAssignments/write/action",
+    WriteRoleDefinition = "Microsoft.KeyVault/managedHsm/roleDefinitions/write/action"
 }
 
 // @public
@@ -202,7 +207,7 @@ export enum KnownKeyVaultRoleScope {
 }
 
 // @public
-export const LATEST_API_VERSION = "7.2";
+export const LATEST_API_VERSION = "7.3-preview";
 
 // @public
 export interface ListRoleAssignmentsOptions extends OperationOptions {
@@ -235,7 +240,7 @@ export interface SetRoleDefinitionOptions extends OperationOptions {
 }
 
 // @public
-export type SUPPORTED_API_VERSIONS = "7.2";
+export type SUPPORTED_API_VERSIONS = "7.2" | "7.3-preview";
 
 
 // (No @packageDocumentation comment for this package)

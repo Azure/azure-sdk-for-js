@@ -10,7 +10,8 @@ import {
   SpanAttributes,
   SpanStatusCode,
   SpanAttributeValue,
-  Span
+  Span,
+  SpanOptions
 } from "../../src/interfaces";
 
 /**
@@ -68,21 +69,20 @@ export class TestSpan implements Span {
     parentTracer: Tracer,
     name: string,
     context: SpanContext,
-    kind: SpanKind,
     parentSpanId?: string,
-    startTime: TimeInput = Date.now()
+    options?: SpanOptions
   ) {
     this._tracer = parentTracer;
     this.name = name;
-    this.kind = kind;
-    this.startTime = startTime;
+    this.kind = options?.kind || SpanKind.INTERNAL;
+    this.startTime = options?.startTime || Date.now();
     this.parentSpanId = parentSpanId;
+    this.attributes = options?.attributes || {};
     this.status = {
       code: SpanStatusCode.OK
     };
     this.endCalled = false;
     this._context = context;
-    this.attributes = {};
   }
 
   /**

@@ -54,7 +54,7 @@ export class BatchResponseParser {
   public async parseBatchResponse(): Promise<ParsedBatchResponse> {
     // When logic reach here, suppose batch request has already succeeded with 202, so we can further parse
     // sub request's response.
-    if (this.batchResponse._response.status != HTTPURLConnection.HTTP_ACCEPTED) {
+    if (this.batchResponse._response.status !== HTTPURLConnection.HTTP_ACCEPTED) {
       throw new Error(
         `Invalid state: batch request failed with status: '${this.batchResponse._response.status}'.`
       );
@@ -72,7 +72,7 @@ export class BatchResponseParser {
     // Note: subResponseCount == 1 is special case where sub request is invalid.
     // We try to prevent such cases through early validation, e.g. validate sub request count >= 1.
     // While in unexpected sub request invalid case, we allow sub response to be parsed and return to user.
-    if (subResponseCount != this.subRequests.size && subResponseCount != 1) {
+    if (subResponseCount !== this.subRequests.size && subResponseCount !== 1) {
       throw new Error("Invalid state: sub responses' count is not equal to sub requests' count.");
     }
 
@@ -152,7 +152,7 @@ export class BatchResponseParser {
       // to be 1-1 mapping from the [0, subRequests.size) to the Content-IDs returned. If not, we simply don't return that
       // unexpected subResponse in the parsed reponse and we can always look it up in the raw response for debugging purpose.
       if (
-        contentId != NOT_FOUND &&
+        contentId !== NOT_FOUND &&
         Number.isInteger(contentId) &&
         contentId >= 0 &&
         contentId < this.subRequests.size &&

@@ -26,7 +26,7 @@ describe("Utility Helpers Node.js only", () => {
   const accountKey = "myAccountKey";
   const blobEndpoint = `${protocol}://${accountName}.blob.${endpointSuffix}`;
 
-  function verifyConnectionString(connectionString: string) {
+  function verifyConnectionString(connectionString: string): void {
     const connectionStringParts = extractConnectionStringParts(connectionString);
     assert.equal(
       "AccountConnString",
@@ -361,9 +361,9 @@ describe("Utility Helpers Node.js only", () => {
         // the last call to read() returns the last bytes, and there is never a call which returns null.
         // I'm not sure why this behavior is different, but streamToBuffer2() should support both.
         let readStream: Readable;
-        if (test.streamType == "test") {
+        if (test.streamType === "test") {
           readStream = new TestReadableStream(inputBuffer, test.bytesPerRead!);
-        } else if (test.streamType == "passthrough") {
+        } else if (test.streamType === "passthrough") {
           const passthrough = new PassThrough();
           passthrough.end(inputBuffer);
           readStream = passthrough;

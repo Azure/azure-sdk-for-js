@@ -7,7 +7,7 @@ import Sinon from "sinon";
 import { assert } from "chai";
 import * as path from "path";
 import { AbortController } from "@azure/abort-controller";
-import { env, isPlaybackMode, delay } from "@azure/test-utils-recorder";
+import { env, isPlaybackMode, delay } from "@azure-tools/test-recorder";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import { ClientCertificateCredential, RegionalAuthority } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
@@ -37,17 +37,61 @@ describe("ClientCertificateCredential (internal)", function() {
     await cleanup();
   });
 
-  const certificatePath = path.join(ASSET_PATH, "cert.pem");
+  const certificatePath = path.join(ASSET_PATH, "fake-cert.pem");
   const scope = "https://vault.azure.net/.default";
 
-  it("throws when given a file that doesn't contain a PEM-formatted certificate", () => {
-    assert.throws(() => {
+  it("Should throw if the parameteres are not correctly specified", async function() {
+    const errors: Error[] = [];
+    try {
       new ClientCertificateCredential(
-        "tenant",
-        "client",
-        path.resolve(__dirname, "../src/index.ts")
+        undefined as any,
+        env.AZURE_CLIENT_ID,
+        env.AZURE_CLIENT_CERTIFICATE_PATH
+      );
+    } catch (e) {
+      errors.push(e);
+    }
+    try {
+      new ClientCertificateCredential(
+        env.AZURE_TENANT_ID,
+        undefined as any,
+        env.AZURE_CLIENT_CERTIFICATE_PATH
+      );
+    } catch (e) {
+      errors.push(e);
+    }
+    try {
+      new ClientCertificateCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, undefined as any);
+    } catch (e) {
+      errors.push(e);
+    }
+    try {
+      new ClientCertificateCredential(undefined as any, undefined as any, undefined as any);
+    } catch (e) {
+      errors.push(e);
+    }
+    assert.equal(errors.length, 4);
+    errors.forEach((e) => {
+      assert.equal(
+        e.message,
+        "ClientCertificateCredential: tenantId, clientId, and certificatePath are required parameters."
       );
     });
+  });
+
+  it("throws when given a file that doesn't contain a PEM-formatted certificate", async function(this: Context) {
+    const fullPath = path.resolve(__dirname, "../src/index.ts");
+    const credential = new ClientCertificateCredential("tenant", "client", fullPath);
+
+    let error: Error | undefined;
+    try {
+      await credential.getToken(scope);
+    } catch (_error) {
+      error = _error;
+    }
+
+    assert.ok(error);
+    assert.deepEqual(error?.message, `ENOENT: no such file or directory, open '${fullPath}'`);
   });
 
   it("Authenticates silently after the initial request", async function(this: Context) {

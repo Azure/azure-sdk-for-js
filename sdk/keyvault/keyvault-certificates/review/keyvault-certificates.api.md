@@ -351,7 +351,7 @@ export interface KeyVaultCertificateWithPolicy extends KeyVaultCertificate {
 }
 
 // @public
-export const enum KnownCertificateKeyCurveNames {
+export enum KnownCertificateKeyCurveNames {
     P256 = "P-256",
     P256K = "P-256K",
     P384 = "P-384",
@@ -359,7 +359,7 @@ export const enum KnownCertificateKeyCurveNames {
 }
 
 // @public
-export const enum KnownCertificateKeyTypes {
+export enum KnownCertificateKeyTypes {
     EC = "EC",
     ECHSM = "EC-HSM",
     Oct = "oct",

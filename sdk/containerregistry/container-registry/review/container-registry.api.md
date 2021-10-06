@@ -61,7 +61,7 @@ export class ContainerRegistryClient {
 
 // @public
 export interface ContainerRegistryClientOptions extends PipelineOptions {
-    authenticationScope?: string;
+    audience?: string;
 }
 
 // @public
@@ -87,7 +87,6 @@ export interface ContainerRepositoryProperties {
     readonly name: string;
     readonly registryLoginServer: string;
     readonly tagCount: number;
-    teleportEnabled?: boolean;
 }
 
 // @public
@@ -116,64 +115,45 @@ export interface GetTagPropertiesOptions extends OperationOptions {
 
 // @public
 export enum KnownArtifactArchitecture {
-    // (undocumented)
     Amd64 = "amd64",
-    // (undocumented)
     Arm = "arm",
-    // (undocumented)
     Arm64 = "arm64",
-    // (undocumented)
     I386 = "386",
-    // (undocumented)
     Mips = "mips",
-    // (undocumented)
     Mips64 = "mips64",
-    // (undocumented)
     Mips64Le = "mips64le",
-    // (undocumented)
     MipsLe = "mipsle",
-    // (undocumented)
     Ppc64 = "ppc64",
-    // (undocumented)
     Ppc64Le = "ppc64le",
-    // (undocumented)
     RiscV64 = "riscv64",
-    // (undocumented)
     S390X = "s390x",
-    // (undocumented)
     Wasm = "wasm"
 }
 
 // @public
 export enum KnownArtifactOperatingSystem {
-    // (undocumented)
     Aix = "aix",
-    // (undocumented)
     Android = "android",
-    // (undocumented)
     Darwin = "darwin",
-    // (undocumented)
     Dragonfly = "dragonfly",
-    // (undocumented)
     FreeBsd = "freebsd",
-    // (undocumented)
     Illumos = "illumos",
-    // (undocumented)
     iOS = "ios",
-    // (undocumented)
     JS = "js",
-    // (undocumented)
     Linux = "linux",
-    // (undocumented)
     NetBsd = "netbsd",
-    // (undocumented)
     OpenBsd = "openbsd",
-    // (undocumented)
     Plan9 = "plan9",
-    // (undocumented)
     Solaris = "solaris",
-    // (undocumented)
     Windows = "windows"
+}
+
+// @public
+export enum KnownContainerRegistryAudience {
+    AzureResourceManagerChina = "https://management.chinacloudapi.cn",
+    AzureResourceManagerGermany = "https://management.microsoftazure.de",
+    AzureResourceManagerGovernment = "https://management.usgovcloudapi.net",
+    AzureResourceManagerPublicCloud = "https://management.azure.com"
 }
 
 // @public
@@ -239,7 +219,6 @@ export interface UpdateRepositoryPropertiesOptions extends OperationOptions {
     canList?: boolean;
     canRead?: boolean;
     canWrite?: boolean;
-    teleportEnabled?: boolean;
 }
 
 // @public

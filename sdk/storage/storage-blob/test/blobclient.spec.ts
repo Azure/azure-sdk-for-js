@@ -15,7 +15,7 @@ import {
   getGenericBSU,
   getImmutableContainerName
 } from "./utils";
-import { record, delay, isLiveMode, Recorder } from "@azure/test-utils-recorder";
+import { record, delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import {
   BlobClient,
   BlockBlobClient,
@@ -24,9 +24,10 @@ import {
   BlobServiceClient,
   RehydratePriority
 } from "../src";
-import { Test_CPK_INFO } from "./utils/constants";
+import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
 import { base64encode } from "../src/utils/utils.common";
 import { context, setSpan } from "@azure/core-tracing";
+import { Context } from "mocha";
 dotenv.config();
 
 describe("BlobClient", () => {
@@ -40,7 +41,7 @@ describe("BlobClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -52,7 +53,7 @@ describe("BlobClient", () => {
     await blockBlobClient.upload(content, content.length);
   });
 
-  afterEach(async function() {
+  afterEach(async function(this: Context) {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
       await recorder.stop();
@@ -849,7 +850,7 @@ describe("BlobClient", () => {
     await checkRehydratePriority("Standard");
   });
 
-  it("lastAccessed returned", async function() {
+  it("lastAccessed returned", async function(this: Context) {
     if (isLiveMode()) {
       // Skipped for now as it's not working in live tests pipeline.
       this.skip();
@@ -1340,13 +1341,13 @@ describe("BlobClient - Object Replication", () => {
     }
   ];
 
-  before(async function() {
+  before(async function(this: Context) {
     if (isLiveMode()) {
       this.skip();
     }
   });
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     srcBlobServiceClient = getGenericBSU("");
     destBlobServiceClient = getGenericBSU("ORS_DEST_");
@@ -1411,7 +1412,7 @@ describe("BlobClient - Object Replication", () => {
     assert.equal(destRes.objectReplicationSourceProperties, undefined);
   });
 
-  it("download to file", async function() {
+  it("download to file", async function(this: Context) {
     if (!isNode) {
       this.skip();
     }
@@ -1446,7 +1447,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
 
@@ -1461,7 +1462,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
     blobClient = containerClient.getBlobClient(blobName);
   });
 
-  afterEach(async function() {
+  afterEach(async function(this: Context) {
     if (!this.currentTest?.isPending()) {
       const listResult = (
         await containerClient
@@ -1471,8 +1472,9 @@ describe("BlobClient - ImmutabilityPolicy", () => {
       ).value;
 
       for (let i = 0; i < listResult.segment.blobItems!.length; ++i) {
-        let deleteBlobClient: BlobClient;
-        deleteBlobClient = containerClient.getBlobClient(listResult.segment.blobItems[i].name);
+        const deleteBlobClient = containerClient.getBlobClient(
+          listResult.segment.blobItems[i].name
+        );
 
         await deleteBlobClient.setLegalHold(false);
 

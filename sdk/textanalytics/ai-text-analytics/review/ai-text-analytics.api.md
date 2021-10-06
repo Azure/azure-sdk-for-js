@@ -395,7 +395,7 @@ export enum KnownInnerErrorCodeValue {
 }
 
 // @public
-export type KnownSummarySentencesSortBy = "Offset" | "Rank";
+export type KnownSummarySentencesOrderBy = "Offset" | "Rank";
 
 // @public
 export enum KnownWarningCode {
@@ -464,6 +464,7 @@ export type PiiEntityCategory = string;
 
 // @public
 export enum PiiEntityDomain {
+    // (undocumented)
     PROTECTED_HEALTH_INFORMATION = "PHI"
 }
 

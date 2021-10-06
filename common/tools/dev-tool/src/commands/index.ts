@@ -27,7 +27,7 @@ export const baseCommand = async (...args: string[]) => {
   const status = await subCommand(baseCommandInfo, baseCommands)(...args);
 
   if (!status) {
-    log.error("Errors occured. See the output above.")
+    log.error("Errors occured. See the output above.");
     process.exit(1);
   }
-}
+};

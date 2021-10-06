@@ -389,7 +389,11 @@ export function nonretryerrorDeleteasyncRetry400(request: PipelineRequest): Pipe
 export function nonretryerrorDeleteasyncRetryFailedOperationResults400(
   request: PipelineRequest
 ): PipelineResponse {
-  return buildResponse(request, 400, `{ "message" : "Expected bad request message" }`);
+  return buildResponse(
+    request,
+    400,
+    `{ "message" : "Expected bad request message", "status": 200 }`
+  );
 }
 
 export function nonretryerrorPost400(request: PipelineRequest): PipelineResponse {

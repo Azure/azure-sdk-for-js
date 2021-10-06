@@ -11,7 +11,8 @@ import {
   PageBlobClient
 } from "../../src";
 import { getBSU, getConnectionStringFromEnvironment, bodyToString, getUniqueName } from "../utils";
-import { env } from "@azure/test-utils-recorder";
+import { env } from "@azure-tools/test-recorder";
+import { Context } from "mocha";
 dotenv.config();
 
 // Expected environment variable to run this test-suite
@@ -25,7 +26,7 @@ describe("Emulator Tests", () => {
   let blockBlobClient: BlockBlobClient;
   const content = "Hello World";
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     if (!env.STORAGE_CONNECTION_STRING.startsWith("UseDevelopmentStorage=true")) {
       this.skip();
     }
@@ -39,7 +40,7 @@ describe("Emulator Tests", () => {
     await blockBlobClient.upload(content, content.length);
   });
 
-  afterEach(async function() {
+  afterEach(async function(this: Context) {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
     }

@@ -4,10 +4,10 @@
 
 ```ts
 
-import { IdentityExtension } from '@azure/identity';
+import { IdentityPlugin } from '@azure/identity';
 
 // @public
-export const vsCodeExtension: IdentityExtension;
+export const vsCodePlugin: IdentityPlugin;
 
 
 // (No @packageDocumentation comment for this package)

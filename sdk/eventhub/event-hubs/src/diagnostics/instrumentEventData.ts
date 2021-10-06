@@ -6,9 +6,11 @@ import {
   getTraceParentHeader,
   isSpanContextValid
 } from "@azure/core-tracing";
-import { Span, SpanContext } from "@azure/core-tracing";
+import { SpanContext } from "@azure/core-tracing";
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { EventData, isAmqpAnnotatedMessage } from "../eventData";
+import { OperationOptions } from "../util/operationOptions";
+import { createMessageSpan } from "./tracing";
 
 /**
  * @hidden
@@ -24,31 +26,50 @@ export const TRACEPARENT_PROPERTY = "Diagnostic-Id";
  */
 export function instrumentEventData(
   eventData: EventData | AmqpAnnotatedMessage,
-  span: Span
-): EventData {
+  options: OperationOptions,
+  entityPath: string,
+  host: string
+): { event: EventData; spanContext: SpanContext | undefined } {
   const props = isAmqpAnnotatedMessage(eventData)
     ? eventData.applicationProperties
     : eventData.properties;
 
-  if (props && props[TRACEPARENT_PROPERTY]) {
-    return eventData;
+  // check if the event has already been instrumented
+  const previouslyInstrumented = Boolean(props?.[TRACEPARENT_PROPERTY]);
+
+  if (previouslyInstrumented) {
+    return { event: eventData, spanContext: undefined };
   }
 
-  const copiedProps = { ...props };
+  const { span: messageSpan } = createMessageSpan(options, { entityPath, host });
+  try {
+    if (!messageSpan.isRecording()) {
+      return {
+        event: eventData,
+        spanContext: undefined
+      };
+    }
 
-  // create a copy so the original isn't modified
-  if (isAmqpAnnotatedMessage(eventData)) {
-    eventData = { ...eventData, applicationProperties: copiedProps };
-  } else {
-    eventData = { ...eventData, properties: copiedProps };
+    const traceParent = getTraceParentHeader(messageSpan.spanContext());
+    if (traceParent && isSpanContextValid(messageSpan.spanContext())) {
+      const copiedProps = { ...props };
+
+      // create a copy so the original isn't modified
+      if (isAmqpAnnotatedMessage(eventData)) {
+        eventData = { ...eventData, applicationProperties: copiedProps };
+      } else {
+        eventData = { ...eventData, properties: copiedProps };
+      }
+      copiedProps[TRACEPARENT_PROPERTY] = traceParent;
+    }
+
+    return {
+      event: eventData,
+      spanContext: messageSpan.spanContext()
+    };
+  } finally {
+    messageSpan.end();
   }
-
-  const traceParent = getTraceParentHeader(span.spanContext());
-  if (traceParent && isSpanContextValid(span.spanContext())) {
-    copiedProps[TRACEPARENT_PROPERTY] = traceParent;
-  }
-
-  return eventData;
 }
 
 /**

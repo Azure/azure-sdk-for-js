@@ -10,15 +10,15 @@ import { ChatMessageReceivedEvent } from '@azure/communication-signaling';
 import { ChatThreadCreatedEvent } from '@azure/communication-signaling';
 import { ChatThreadDeletedEvent } from '@azure/communication-signaling';
 import { ChatThreadPropertiesUpdatedEvent } from '@azure/communication-signaling';
+import { CommonClientOptions } from '@azure/core-client';
 import { CommunicationIdentifier } from '@azure/communication-common';
 import { CommunicationIdentifierKind } from '@azure/communication-common';
 import { CommunicationTokenCredential } from '@azure/communication-common';
-import * as coreHttp from '@azure/core-http';
-import { OperationOptions } from '@azure/core-http';
+import * as coreClient from '@azure/core-client';
+import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { ParticipantsAddedEvent } from '@azure/communication-signaling';
 import { ParticipantsRemovedEvent } from '@azure/communication-signaling';
-import { PipelineOptions } from '@azure/core-http';
 import { ReadReceiptReceivedEvent } from '@azure/communication-signaling';
 import { TypingIndicatorReceivedEvent } from '@azure/communication-signaling';
 
@@ -67,7 +67,7 @@ export class ChatClient {
     }
 
 // @public
-export interface ChatClientOptions extends PipelineOptions {
+export interface ChatClientOptions extends CommonClientOptions {
 }
 
 // @public
@@ -209,25 +209,25 @@ export type ListReadReceiptsOptions = RestListReadReceiptsOptions;
 export type RemoveParticipantOptions = OperationOptions;
 
 // @public
-export interface RestListChatThreadsOptions extends coreHttp.OperationOptions {
+export interface RestListChatThreadsOptions extends coreClient.OperationOptions {
     maxPageSize?: number;
     startTime?: Date;
 }
 
 // @public
-export interface RestListMessagesOptions extends coreHttp.OperationOptions {
+export interface RestListMessagesOptions extends coreClient.OperationOptions {
     maxPageSize?: number;
     startTime?: Date;
 }
 
 // @public
-export interface RestListParticipantsOptions extends coreHttp.OperationOptions {
+export interface RestListParticipantsOptions extends coreClient.OperationOptions {
     maxPageSize?: number;
     skip?: number;
 }
 
 // @public
-export interface RestListReadReceiptsOptions extends coreHttp.OperationOptions {
+export interface RestListReadReceiptsOptions extends coreClient.OperationOptions {
     maxPageSize?: number;
     skip?: number;
 }

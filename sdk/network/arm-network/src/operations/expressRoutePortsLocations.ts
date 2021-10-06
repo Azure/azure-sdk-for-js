@@ -24,7 +24,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a ExpressRoutePortsLocations. */
+/** Class containing ExpressRoutePortsLocations operations. */
 export class ExpressRoutePortsLocationsImpl
   implements ExpressRoutePortsLocations {
   private readonly client: NetworkManagementClientContext;

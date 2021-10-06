@@ -23,6 +23,7 @@ const banner = [
 
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
+const devDepNames = Object.keys(pkg.devDependencies);
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
@@ -90,7 +91,7 @@ export function nodeConfig(test = false) {
     baseConfig.output.file = "dist-test/index.node.js";
 
     // mark assert as external
-    baseConfig.external.push("assert", "fs", "path", "buffer", "zlib");
+    baseConfig.external.push(...devDepNames);
 
     baseConfig.context = "null";
 

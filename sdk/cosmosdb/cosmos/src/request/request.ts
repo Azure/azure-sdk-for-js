@@ -191,8 +191,7 @@ export async function getHeaders({
     clientOptions.key ||
     clientOptions.resourceTokens ||
     clientOptions.tokenProvider ||
-    clientOptions.permissionFeed ||
-    clientOptions.aadCredentials
+    clientOptions.permissionFeed
   ) {
     await setAuthorizationHeader(clientOptions, verb, path, resourceId, resourceType, headers);
   }

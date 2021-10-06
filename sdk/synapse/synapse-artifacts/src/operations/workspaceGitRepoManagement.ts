@@ -6,10 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "../tracing";
 import { WorkspaceGitRepoManagement } from "../operationsInterfaces";
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
+import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClientContext } from "../artifactsClientContext";
@@ -20,7 +20,8 @@ import {
 } from "../models";
 
 /** Class representing a WorkspaceGitRepoManagement. */
-export class WorkspaceGitRepoManagementImpl implements WorkspaceGitRepoManagement {
+export class WorkspaceGitRepoManagementImpl
+  implements WorkspaceGitRepoManagement {
   private readonly client: ArtifactsClientContext;
 
   /**
@@ -40,23 +41,19 @@ export class WorkspaceGitRepoManagementImpl implements WorkspaceGitRepoManagemen
     gitHubAccessTokenRequest: GitHubAccessTokenRequest,
     options?: WorkspaceGitRepoManagementGetGitHubAccessTokenOptionalParams
   ): Promise<WorkspaceGitRepoManagementGetGitHubAccessTokenResponse> {
-    const { span, updatedOptions } = createSpan(
+    const { span } = createSpan(
       "ArtifactsClient-getGitHubAccessToken",
       options || {}
     );
-    const operationArguments: coreHttp.OperationArguments = {
-      gitHubAccessTokenRequest,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
-    };
     try {
       const result = await this.client.sendOperationRequest(
-        operationArguments,
+        { gitHubAccessTokenRequest, options },
         getGitHubAccessTokenOperationSpec
       );
       return result as WorkspaceGitRepoManagementGetGitHubAccessTokenResponse;
     } catch (error) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
+        code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
       });
       throw error;
@@ -66,9 +63,9 @@ export class WorkspaceGitRepoManagementImpl implements WorkspaceGitRepoManagemen
   }
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getGitHubAccessTokenOperationSpec: coreHttp.OperationSpec = {
+const getGitHubAccessTokenOperationSpec: coreClient.OperationSpec = {
   path: "/getGitHubAccessToken",
   httpMethod: "POST",
   responses: {
@@ -79,7 +76,11 @@ const getGitHubAccessTokenOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.gitHubAccessTokenRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.clientRequestId],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.clientRequestId
+  ],
   mediaType: "json",
   serializer
 };

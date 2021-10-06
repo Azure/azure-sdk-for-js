@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import { assert } from "chai";
-import { env, isLiveMode, delay, isPlaybackMode } from "@azure/test-utils-recorder";
+import { env, isLiveMode, delay, isPlaybackMode } from "@azure-tools/test-recorder";
 import { AbortController, AbortError } from "@azure/abort-controller";
 import { DeviceCodeCredential, DeviceCodePromptCallback } from "../../../src";
 import { msalNodeTestSetup, MsalTestCleanup, testTracing } from "../../msalTestUtils";
@@ -84,6 +84,10 @@ describe("DeviceCodeCredential", function() {
   });
 
   it("allows cancelling the authentication", async function(this: Context) {
+    // Because of the user interaction, this test works inconsistently in our live test pipelines.
+    if (isLiveMode()) {
+      this.skip();
+    }
     if (isPlaybackMode()) {
       // We're automatically replacing the DeviceCode polling interval on the recorder settings,
       // which makes it so this test fails on playback.

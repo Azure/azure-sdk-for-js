@@ -2,7 +2,7 @@
   "name": "@azure/keyvault-admin",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "4.2.0-beta.1",
+  "version": "4.2.0-beta.2",
   "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's administrative functions.",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/README.md",
@@ -48,7 +48,7 @@
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:nodebrowser": "rollup -c 2>&1",
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
-    "build": "tsc -p . && npm run build:nodebrowser && api-extractor run --local",
+    "build": "npm run clean && tsc -p . && npm run build:nodebrowser && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* types *.tgz *.log statistics.html coverage && rimraf src/**/*.js && rimraf test/**/*.js",
     "execute:samples": "dev-tool samples run samples-dev",
@@ -61,7 +61,6 @@
     "lint:fix": "eslint package.json src --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json api-extractor.json src --ext .ts",
     "pack": "npm pack 2>&1",
-    "prebuild": "npm run clean",
     "regenerate": "npx autorest swagger/README.md --typescript",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
@@ -75,7 +74,7 @@
     "constantPaths": [
       {
         "path": "src/generated/keyVaultClientContext.ts",
-        "prefix": "packageDetails"
+        "prefix": "packageVersion"
       },
       {
         "path": "src/constants.ts",
@@ -121,10 +120,10 @@
     "@azure/core-util": "^1.0.0-beta.1",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "2.0.0-beta.4",
+    "@azure/identity": "2.0.0-beta.7",
     "@azure/keyvault-keys": "^4.2.1",
     "@azure/test-utils": "^1.0.0",
-    "@azure/test-utils-recorder": "^1.0.0",
+    "@azure-tools/test-recorder": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-json": "^4.0.0",

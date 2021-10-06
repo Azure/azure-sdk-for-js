@@ -11,11 +11,11 @@ generate-metadata: false
 add-credentials: false
 license-header: MICROSOFT_MIT_NO_VERSION
 input-file:
-  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/1e2c9f3ec93078da8078389941531359e274f32a/specification/keyvault/data-plane/Microsoft.KeyVault/stable/7.2/rbac.json
-  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/1e2c9f3ec93078da8078389941531359e274f32a/specification/keyvault/data-plane/Microsoft.KeyVault/stable/7.2/backuprestore.json
+  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/7a42f16c75e5005c59b75fe7f0888c1103294d43/specification/keyvault/data-plane/Microsoft.KeyVault/preview/7.3-preview/rbac.json
+  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/7a42f16c75e5005c59b75fe7f0888c1103294d43/specification/keyvault/data-plane/Microsoft.KeyVault/preview/7.3-preview/backuprestore.json
 output-folder: ../
 source-code-folder-path: ./src/generated
-package-version: 4.2.0-beta.1
+package-version: 4.2.0-beta.2
 ```
 
 ### Hide LROs

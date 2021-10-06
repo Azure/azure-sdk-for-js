@@ -6,30 +6,37 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-/// <reference lib="esnext.asynciterable" />
-import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "../tracing";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { DataFlowDebugSession } from "../operationsInterfaces";
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
+import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClientContext } from "../artifactsClientContext";
-import { LROPoller, shouldDeserializeLRO } from "../lro";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   DataFlowDebugSessionInfo,
+  DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextOptionalParams,
+  DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceOptionalParams,
   CreateDataFlowDebugSessionRequest,
+  DataFlowDebugSessionCreateDataFlowDebugSessionOptionalParams,
   DataFlowDebugSessionCreateDataFlowDebugSessionResponse,
   DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceResponse,
   DataFlowDebugPackage,
+  DataFlowDebugSessionAddDataFlowOptionalParams,
   DataFlowDebugSessionAddDataFlowResponse,
   DeleteDataFlowDebugSessionRequest,
+  DataFlowDebugSessionDeleteDataFlowDebugSessionOptionalParams,
   DataFlowDebugCommandRequest,
+  DataFlowDebugSessionExecuteCommandOptionalParams,
   DataFlowDebugSessionExecuteCommandResponse,
   DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextResponse
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Class representing a DataFlowDebugSession. */
 export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
   private readonly client: ArtifactsClientContext;
@@ -47,7 +54,7 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
    * @param options The options parameters.
    */
   public listQueryDataFlowDebugSessionsByWorkspace(
-    options?: coreHttp.OperationOptions
+    options?: DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceOptionalParams
   ): PagedAsyncIterableIterator<DataFlowDebugSessionInfo> {
     const iter = this.queryDataFlowDebugSessionsByWorkspacePagingAll(options);
     return {
@@ -64,22 +71,27 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
   }
 
   private async *queryDataFlowDebugSessionsByWorkspacePagingPage(
-    options?: coreHttp.OperationOptions
+    options?: DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceOptionalParams
   ): AsyncIterableIterator<DataFlowDebugSessionInfo[]> {
     let result = await this._queryDataFlowDebugSessionsByWorkspace(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._queryDataFlowDebugSessionsByWorkspaceNext(continuationToken, options);
+      result = await this._queryDataFlowDebugSessionsByWorkspaceNext(
+        continuationToken,
+        options
+      );
       continuationToken = result.nextLink;
       yield result.value || [];
     }
   }
 
   private async *queryDataFlowDebugSessionsByWorkspacePagingAll(
-    options?: coreHttp.OperationOptions
+    options?: DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceOptionalParams
   ): AsyncIterableIterator<DataFlowDebugSessionInfo> {
-    for await (const page of this.queryDataFlowDebugSessionsByWorkspacePagingPage(options)) {
+    for await (const page of this.queryDataFlowDebugSessionsByWorkspacePagingPage(
+      options
+    )) {
       yield* page;
     }
   }
@@ -89,28 +101,31 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
    * @param request Data flow debug session definition
    * @param options The options parameters.
    */
-  async createDataFlowDebugSession(
+  async beginCreateDataFlowDebugSession(
     request: CreateDataFlowDebugSessionRequest,
-    options?: coreHttp.OperationOptions
-  ): Promise<LROPoller<DataFlowDebugSessionCreateDataFlowDebugSessionResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-createDataFlowDebugSession",
+    options?: DataFlowDebugSessionCreateDataFlowDebugSessionOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        DataFlowDebugSessionCreateDataFlowDebugSessionResponse
+      >,
+      DataFlowDebugSessionCreateDataFlowDebugSessionResponse
+    >
+  > {
+    const { span } = createSpan(
+      "ArtifactsClient-beginCreateDataFlowDebugSession",
       options || {}
     );
-    const operationArguments: coreHttp.OperationArguments = {
-      request,
-      options: this.getOperationOptions(updatedOptions, "undefined")
-    };
-    const sendOperation = async (
-      args: coreHttp.OperationArguments,
-      spec: coreHttp.OperationSpec
-    ) => {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<DataFlowDebugSessionCreateDataFlowDebugSessionResponse> => {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as DataFlowDebugSessionCreateDataFlowDebugSessionResponse;
       } catch (error) {
         span.setStatus({
-          code: SpanStatusCode.ERROR,
+          code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
         });
         throw error;
@@ -118,17 +133,61 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
         span.end();
       }
     };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
 
-    const initialOperationResult = await sendOperation(
-      operationArguments,
+    const lro = new LroImpl(
+      sendOperation,
+      { request, options },
       createDataFlowDebugSessionOperationSpec
     );
-    return new LROPoller({
-      initialOperationArguments: operationArguments,
-      initialOperationSpec: createDataFlowDebugSessionOperationSpec,
-      initialOperationResult,
-      sendOperation
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
     });
+  }
+
+  /**
+   * Creates a data flow debug session.
+   * @param request Data flow debug session definition
+   * @param options The options parameters.
+   */
+  async beginCreateDataFlowDebugSessionAndWait(
+    request: CreateDataFlowDebugSessionRequest,
+    options?: DataFlowDebugSessionCreateDataFlowDebugSessionOptionalParams
+  ): Promise<DataFlowDebugSessionCreateDataFlowDebugSessionResponse> {
+    const poller = await this.beginCreateDataFlowDebugSession(request, options);
+    return poller.pollUntilDone();
   }
 
   /**
@@ -136,24 +195,23 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
    * @param options The options parameters.
    */
   private async _queryDataFlowDebugSessionsByWorkspace(
-    options?: coreHttp.OperationOptions
-  ): Promise<DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceResponse> {
-    const { span, updatedOptions } = createSpan(
+    options?: DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceOptionalParams
+  ): Promise<
+    DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceResponse
+  > {
+    const { span } = createSpan(
       "ArtifactsClient-_queryDataFlowDebugSessionsByWorkspace",
       options || {}
     );
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
-    };
     try {
       const result = await this.client.sendOperationRequest(
-        operationArguments,
+        { options },
         queryDataFlowDebugSessionsByWorkspaceOperationSpec
       );
       return result as DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceResponse;
     } catch (error) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
+        code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
       });
       throw error;
@@ -169,22 +227,18 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
    */
   async addDataFlow(
     request: DataFlowDebugPackage,
-    options?: coreHttp.OperationOptions
+    options?: DataFlowDebugSessionAddDataFlowOptionalParams
   ): Promise<DataFlowDebugSessionAddDataFlowResponse> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-addDataFlow", options || {});
-    const operationArguments: coreHttp.OperationArguments = {
-      request,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
-    };
+    const { span } = createSpan("ArtifactsClient-addDataFlow", options || {});
     try {
       const result = await this.client.sendOperationRequest(
-        operationArguments,
+        { request, options },
         addDataFlowOperationSpec
       );
       return result as DataFlowDebugSessionAddDataFlowResponse;
     } catch (error) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
+        code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
       });
       throw error;
@@ -200,25 +254,21 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
    */
   async deleteDataFlowDebugSession(
     request: DeleteDataFlowDebugSessionRequest,
-    options?: coreHttp.OperationOptions
-  ): Promise<coreHttp.RestResponse> {
-    const { span, updatedOptions } = createSpan(
+    options?: DataFlowDebugSessionDeleteDataFlowDebugSessionOptionalParams
+  ): Promise<void> {
+    const { span } = createSpan(
       "ArtifactsClient-deleteDataFlowDebugSession",
       options || {}
     );
-    const operationArguments: coreHttp.OperationArguments = {
-      request,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
-    };
     try {
       const result = await this.client.sendOperationRequest(
-        operationArguments,
+        { request, options },
         deleteDataFlowDebugSessionOperationSpec
       );
-      return result as coreHttp.RestResponse;
+      return result as void;
     } catch (error) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
+        code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
       });
       throw error;
@@ -232,25 +282,29 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
    * @param request Data flow debug command definition.
    * @param options The options parameters.
    */
-  async executeCommand(
+  async beginExecuteCommand(
     request: DataFlowDebugCommandRequest,
-    options?: coreHttp.OperationOptions
-  ): Promise<LROPoller<DataFlowDebugSessionExecuteCommandResponse>> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-executeCommand", options || {});
-    const operationArguments: coreHttp.OperationArguments = {
-      request,
-      options: this.getOperationOptions(updatedOptions, "undefined")
-    };
-    const sendOperation = async (
-      args: coreHttp.OperationArguments,
-      spec: coreHttp.OperationSpec
-    ) => {
+    options?: DataFlowDebugSessionExecuteCommandOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<DataFlowDebugSessionExecuteCommandResponse>,
+      DataFlowDebugSessionExecuteCommandResponse
+    >
+  > {
+    const { span } = createSpan(
+      "ArtifactsClient-beginExecuteCommand",
+      options || {}
+    );
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<DataFlowDebugSessionExecuteCommandResponse> => {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as DataFlowDebugSessionExecuteCommandResponse;
       } catch (error) {
         span.setStatus({
-          code: SpanStatusCode.ERROR,
+          code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
         });
         throw error;
@@ -258,17 +312,61 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
         span.end();
       }
     };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
 
-    const initialOperationResult = await sendOperation(
-      operationArguments,
+    const lro = new LroImpl(
+      sendOperation,
+      { request, options },
       executeCommandOperationSpec
     );
-    return new LROPoller({
-      initialOperationArguments: operationArguments,
-      initialOperationSpec: executeCommandOperationSpec,
-      initialOperationResult,
-      sendOperation
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
     });
+  }
+
+  /**
+   * Execute a data flow debug command.
+   * @param request Data flow debug command definition.
+   * @param options The options parameters.
+   */
+  async beginExecuteCommandAndWait(
+    request: DataFlowDebugCommandRequest,
+    options?: DataFlowDebugSessionExecuteCommandOptionalParams
+  ): Promise<DataFlowDebugSessionExecuteCommandResponse> {
+    const poller = await this.beginExecuteCommand(request, options);
+    return poller.pollUntilDone();
   }
 
   /**
@@ -279,25 +377,23 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
    */
   private async _queryDataFlowDebugSessionsByWorkspaceNext(
     nextLink: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextResponse> {
-    const { span, updatedOptions } = createSpan(
+    options?: DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextOptionalParams
+  ): Promise<
+    DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextResponse
+  > {
+    const { span } = createSpan(
       "ArtifactsClient-_queryDataFlowDebugSessionsByWorkspaceNext",
       options || {}
     );
-    const operationArguments: coreHttp.OperationArguments = {
-      nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
-    };
     try {
       const result = await this.client.sendOperationRequest(
-        operationArguments,
+        { nextLink, options },
         queryDataFlowDebugSessionsByWorkspaceNextOperationSpec
       );
       return result as DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextResponse;
     } catch (error) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
+        code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
       });
       throw error;
@@ -305,23 +401,11 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
       span.end();
     }
   }
-
-  private getOperationOptions<TOptions extends coreHttp.OperationOptions>(
-    options: TOptions | undefined,
-    finalStateVia?: string
-  ): coreHttp.RequestOptionsBase {
-    const operationOptions: coreHttp.OperationOptions = options || {};
-    operationOptions.requestOptions = {
-      ...operationOptions.requestOptions,
-      shouldDeserialize: shouldDeserializeLRO(finalStateVia)
-    };
-    return coreHttp.operationOptionsToRequestOptionsBase(operationOptions);
-  }
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const createDataFlowDebugSessionOperationSpec: coreHttp.OperationSpec = {
+const createDataFlowDebugSessionOperationSpec: coreClient.OperationSpec = {
   path: "/createDataFlowDebugSession",
   httpMethod: "POST",
   responses: {
@@ -348,7 +432,7 @@ const createDataFlowDebugSessionOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const queryDataFlowDebugSessionsByWorkspaceOperationSpec: coreHttp.OperationSpec = {
+const queryDataFlowDebugSessionsByWorkspaceOperationSpec: coreClient.OperationSpec = {
   path: "/queryDataFlowDebugSessions",
   httpMethod: "POST",
   responses: {
@@ -364,7 +448,7 @@ const queryDataFlowDebugSessionsByWorkspaceOperationSpec: coreHttp.OperationSpec
   headerParameters: [Parameters.accept],
   serializer
 };
-const addDataFlowOperationSpec: coreHttp.OperationSpec = {
+const addDataFlowOperationSpec: coreClient.OperationSpec = {
   path: "/addDataFlowToDebugSession",
   httpMethod: "POST",
   responses: {
@@ -382,7 +466,7 @@ const addDataFlowOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const deleteDataFlowDebugSessionOperationSpec: coreHttp.OperationSpec = {
+const deleteDataFlowDebugSessionOperationSpec: coreClient.OperationSpec = {
   path: "/deleteDataFlowDebugSession",
   httpMethod: "POST",
   responses: {
@@ -398,7 +482,7 @@ const deleteDataFlowDebugSessionOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const executeCommandOperationSpec: coreHttp.OperationSpec = {
+const executeCommandOperationSpec: coreClient.OperationSpec = {
   path: "/executeDataFlowDebugCommand",
   httpMethod: "POST",
   responses: {
@@ -425,7 +509,7 @@ const executeCommandOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const queryDataFlowDebugSessionsByWorkspaceNextOperationSpec: coreHttp.OperationSpec = {
+const queryDataFlowDebugSessionsByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {

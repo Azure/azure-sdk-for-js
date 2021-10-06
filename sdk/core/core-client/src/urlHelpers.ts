@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { URL } from "./url";
 import { OperationSpec, OperationArguments, QueryCollectionFormat } from "./interfaces";
 import { getOperationArgumentValueFromParameter } from "./operationHelpers";
 import { getPathStringFromParameter } from "./interfaceHelpers";

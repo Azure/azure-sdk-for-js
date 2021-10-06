@@ -7,7 +7,7 @@ import {
   RecorderEnvironmentSetup,
   TestContextInterface,
   pluginForIdentitySDK
-} from "@azure/test-utils-recorder";
+} from "@azure-tools/test-recorder";
 import Sinon, { createSandbox } from "sinon";
 import { assert } from "chai";
 import { OperationTracingOptions, setSpan, context as otContext } from "@azure/core-tracing";

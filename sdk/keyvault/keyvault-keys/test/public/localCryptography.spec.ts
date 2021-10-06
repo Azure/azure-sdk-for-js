@@ -10,7 +10,7 @@ import { isNode } from "@azure/core-http";
 import { createHash } from "crypto";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
-import { Recorder, env } from "@azure/test-utils-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider";
 import { getServiceVersion } from "../utils/utils.common";

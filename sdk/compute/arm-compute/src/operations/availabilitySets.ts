@@ -37,7 +37,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a AvailabilitySets. */
+/** Class containing AvailabilitySets operations. */
 export class AvailabilitySetsImpl implements AvailabilitySets {
   private readonly client: ComputeManagementClientContext;
 

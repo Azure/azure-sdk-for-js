@@ -34,7 +34,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a CapacityReservationGroups. */
+/** Class containing CapacityReservationGroups operations. */
 export class CapacityReservationGroupsImpl
   implements CapacityReservationGroups {
   private readonly client: ComputeManagementClientContext;

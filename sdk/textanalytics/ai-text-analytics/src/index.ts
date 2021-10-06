@@ -34,7 +34,7 @@ export {
   RecognizeLinkedEntitiesAction,
   AnalyzeSentimentAction,
   ExtractSummaryAction,
-  KnownSummarySentencesSortBy
+  KnownSummarySentencesSortBy as KnownSummarySentencesOrderBy
 } from "./textAnalyticsClient";
 export { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
 export {

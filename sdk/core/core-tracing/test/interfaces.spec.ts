@@ -47,36 +47,18 @@ describe("interface compatibility", () => {
 
   it("core-auth", () => {
     const coreTracingOptions: Required<coreTracing.OperationTracingOptions> = {
-      spanOptions: {
-        attributes: {
-          hello: "world"
-        },
-        kind: coreTracing.SpanKind.PRODUCER,
-        links: [
-          {
-            context: {
-              spanId: "spanId",
-              traceId: "traceId",
-              traceFlags: coreTracing.TraceFlags.NONE
-            },
-            attributes: {
-              hello2: "world2"
-            }
-          }
-        ]
-      },
       tracingContext: coreTracing.context.active()
     };
 
     const t: Required<Omit<
       coreAuthTracingOptions,
-      keyof Required<coreTracing.OperationTracingOptions>
+      keyof Required<coreTracing.OperationTracingOptions> | "spanOptions"
     >> = {};
     assert.ok(t, "core-tracing and core-auth should have the same properties");
 
     const t2: Required<Omit<
       coreTracing.OperationTracingOptions,
-      keyof Required<coreAuthTracingOptions>
+      keyof Required<coreAuthTracingOptions> | "spanOptions"
     >> = {};
     assert.ok(t2, "core-tracing and core-auth should have the same properties");
 

@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { IncomingMessage, RequestOptions, request } from "http";
 
 /**
  * Returns the environment variable, throws an error if not defined.
@@ -27,4 +28,25 @@ export async function drainStream(stream: NodeJS.ReadableStream) {
     stream.on("end", resolve);
     stream.on("error", reject);
   });
+}
+export async function makeRequest(
+  uri: string,
+  requestOptions: RequestOptions
+): Promise<IncomingMessage> {
+  return new Promise<IncomingMessage>((resolve, reject) => {
+    const req = request(uri, requestOptions, resolve);
+
+    req.once("error", reject);
+
+    req.end();
+  });
+}
+
+/**
+ * Helper TypeGuard that checks if something is defined or not.
+ * @param thing - Anything
+ * @internal
+ */
+export function isDefined<T>(thing: T | undefined | null): thing is T {
+  return typeof thing !== "undefined" && thing !== null;
 }
