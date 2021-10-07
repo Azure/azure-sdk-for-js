@@ -67,7 +67,8 @@ export interface EventHandlerTemplate {
 }
 
 // @public
-export type KeyType = string;
+type KeyType_2 = string;
+export { KeyType_2 as KeyType }
 
 // @public
 export enum KnownACLAction {
@@ -345,7 +346,7 @@ export type ProxyResource = Resource & {};
 
 // @public
 export interface RegenerateKeyParameters {
-    keyType?: KeyType;
+    keyType?: KeyType_2;
 }
 
 // @public
@@ -778,7 +779,6 @@ export interface WebPubSubUpdateOptionalParams extends coreClient.OperationOptio
 
 // @public
 export type WebPubSubUpdateResponse = WebPubSubResource;
-
 
 // (No @packageDocumentation comment for this package)
 

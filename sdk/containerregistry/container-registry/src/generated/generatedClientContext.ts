@@ -12,6 +12,7 @@ import { GeneratedClientOptionalParams } from "./models";
 /** @internal */
 export class GeneratedClientContext extends coreClient.ServiceClient {
   url: string;
+  apiVersion?: string;
 
   /**
    * Initializes a new instance of the GeneratedClientContext class.
@@ -48,5 +49,8 @@ export class GeneratedClientContext extends coreClient.ServiceClient {
     super(optionsWithDefaults);
     // Parameter assignments
     this.url = url;
+
+    // Assigning values to Constant parameters
+    this.apiVersion = options.apiVersion || "2021-07-01";
   }
 }

@@ -5,7 +5,7 @@
 
 import sinon from "sinon";
 import { assert } from "chai";
-import { isPlaybackMode } from "@azure-tools/test-recorder";
+import { isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { EnvironmentCredential, UsernamePasswordCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
 import { Context } from "mocha";
@@ -55,6 +55,10 @@ describe("EnvironmentCredential", function() {
   });
 
   it("authenticates with a client certificate on the environment variables", async function(this: Context) {
+    if (isLiveMode()) {
+      // Live test run not supported on CI at the moment. Locally should work though.
+      this.skip();
+    }
     if (isPlaybackMode()) {
       // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
       // This assertion could be provided as parameters, but we don't have that in the public API yet,
@@ -131,6 +135,10 @@ describe("EnvironmentCredential", function() {
   );
 
   it("supports tracing with environment client certificate", async function(this: Context) {
+    if (isLiveMode()) {
+      // Live test run not supported on CI at the moment. Locally should work though.
+      this.skip();
+    }
     if (isPlaybackMode()) {
       // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
       // This assertion could be provided as parameters, but we don't have that in the public API yet,

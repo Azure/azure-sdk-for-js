@@ -5,7 +5,7 @@ module.exports.hash = "7277123b629a210f8b3110ebefec5e9d";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/indexes(%27garbxyz%27)')
+  .get(`/indexes('garbxyz')`)
   .query(true)
   .reply(404, {"error":{"code":"","message":"No index with the name 'garbxyz' was found in the service 'testsearchcases'."}}, [
   'Cache-Control',
@@ -19,9 +19,9 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'request-id',
-  'fa6ad51f-b816-497c-9a73-7311927018c6',
+  'e01da2e0-443f-4891-b4a9-2394223714e0',
   'elapsed-time',
-  '20',
+  '15',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -29,7 +29,7 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Thu, 02 Sep 2021 05:58:01 GMT',
+  'Tue, 28 Sep 2021 05:58:29 GMT',
   'Content-Length',
   '110'
 ]);

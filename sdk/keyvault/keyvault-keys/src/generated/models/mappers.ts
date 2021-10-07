@@ -864,7 +864,7 @@ export const LifetimeActionsType: coreHttp.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: ["rotate", "notify"]
+          allowedValues: ["Rotate", "Notify"]
         }
       }
     }

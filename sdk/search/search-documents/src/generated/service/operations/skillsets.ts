@@ -7,7 +7,7 @@
  */
 
 import { Skillsets } from "../operationsInterfaces";
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SearchServiceClientContext } from "../searchServiceClientContext";
@@ -21,10 +21,12 @@ import {
   SkillsetsListOptionalParams,
   SkillsetsListResponse,
   SkillsetsCreateOptionalParams,
-  SkillsetsCreateResponse
+  SkillsetsCreateResponse,
+  SkillNames,
+  SkillsetsResetSkillsOptionalParams
 } from "../models";
 
-/** Class representing a Skillsets. */
+/** Class containing Skillsets operations. */
 export class SkillsetsImpl implements Skillsets {
   private readonly client: SearchServiceClientContext;
 
@@ -47,15 +49,10 @@ export class SkillsetsImpl implements Skillsets {
     skillset: SearchIndexerSkillset,
     options?: SkillsetsCreateOrUpdateOptionalParams
   ): Promise<SkillsetsCreateOrUpdateResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      skillsetName,
-      skillset,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { skillsetName, skillset, options },
       createOrUpdateOperationSpec
-    ) as Promise<SkillsetsCreateOrUpdateResponse>;
+    );
   }
 
   /**
@@ -66,15 +63,11 @@ export class SkillsetsImpl implements Skillsets {
   delete(
     skillsetName: string,
     options?: SkillsetsDeleteOptionalParams
-  ): Promise<coreHttp.RestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      skillsetName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      operationArguments,
+      { skillsetName, options },
       deleteOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    );
   }
 
   /**
@@ -86,14 +79,10 @@ export class SkillsetsImpl implements Skillsets {
     skillsetName: string,
     options?: SkillsetsGetOptionalParams
   ): Promise<SkillsetsGetResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      skillsetName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { skillsetName, options },
       getOperationSpec
-    ) as Promise<SkillsetsGetResponse>;
+    );
   }
 
   /**
@@ -101,13 +90,7 @@ export class SkillsetsImpl implements Skillsets {
    * @param options The options parameters.
    */
   list(options?: SkillsetsListOptionalParams): Promise<SkillsetsListResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      listOperationSpec
-    ) as Promise<SkillsetsListResponse>;
+    return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
@@ -119,20 +102,33 @@ export class SkillsetsImpl implements Skillsets {
     skillset: SearchIndexerSkillset,
     options?: SkillsetsCreateOptionalParams
   ): Promise<SkillsetsCreateResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      skillset,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { skillset, options },
       createOperationSpec
-    ) as Promise<SkillsetsCreateResponse>;
+    );
+  }
+
+  /**
+   * Reset an existing skillset in a search service.
+   * @param skillsetName The name of the skillset to reset.
+   * @param skillNames The names of skills to reset.
+   * @param options The options parameters.
+   */
+  resetSkills(
+    skillsetName: string,
+    skillNames: SkillNames,
+    options?: SkillsetsResetSkillsOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { skillsetName, skillNames, options },
+      resetSkillsOperationSpec
+    );
   }
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/skillsets('{skillsetName}')",
   httpMethod: "PUT",
   responses: {
@@ -149,7 +145,7 @@ const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.skillset,
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.ignoreResetRequirements,
+    Parameters.skipIndexerResetRequirementForCache,
     Parameters.disableCacheReprocessingChangeDetection
   ],
   urlParameters: [Parameters.endpoint, Parameters.skillsetName],
@@ -164,7 +160,7 @@ const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const deleteOperationSpec: coreHttp.OperationSpec = {
+const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/skillsets('{skillsetName}')",
   httpMethod: "DELETE",
   responses: {
@@ -184,7 +180,7 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
   ],
   serializer
 };
-const getOperationSpec: coreHttp.OperationSpec = {
+const getOperationSpec: coreClient.OperationSpec = {
   path: "/skillsets('{skillsetName}')",
   httpMethod: "GET",
   responses: {
@@ -200,7 +196,7 @@ const getOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept, Parameters.xMsClientRequestId],
   serializer
 };
-const listOperationSpec: coreHttp.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
   path: "/skillsets",
   httpMethod: "GET",
   responses: {
@@ -216,7 +212,7 @@ const listOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept, Parameters.xMsClientRequestId],
   serializer
 };
-const createOperationSpec: coreHttp.OperationSpec = {
+const createOperationSpec: coreClient.OperationSpec = {
   path: "/skillsets",
   httpMethod: "POST",
   responses: {
@@ -230,6 +226,26 @@ const createOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.skillset,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.xMsClientRequestId
+  ],
+  mediaType: "json",
+  serializer
+};
+const resetSkillsOperationSpec: coreClient.OperationSpec = {
+  path: "/skillsets('{skillsetName}')/search.resetskills",
+  httpMethod: "POST",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.SearchError
+    }
+  },
+  requestBody: Parameters.skillNames,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.skillsetName],
   headerParameters: [
     Parameters.contentType,
     Parameters.accept,

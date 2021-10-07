@@ -4,6 +4,8 @@
 
 ```ts
 
+/// <reference types="node" />
+
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
 import { Context } from '@azure/core-tracing';
@@ -30,7 +32,7 @@ export class AccessTokenRefresher {
     constructor(credential: TokenCredential, scopes: string | string[], requiredMillisecondsBeforeNewRefresh?: number);
     isReady(): boolean;
     refresh(options: GetTokenOptions): Promise<AccessToken | undefined>;
-    }
+}
 
 // @public
 export interface ApiKeyCredentialOptions {
@@ -179,7 +181,7 @@ export class DefaultHttpClient extends FetchHttpClient {
     prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>>;
     // (undocumented)
     processRequest(operationResponse: HttpOperationResponse): Promise<void>;
-    }
+}
 
 // @public
 export function delay<T>(delayInMs: number, value?: T, options?: {
@@ -250,7 +252,7 @@ export class ExpiringAccessTokenCache implements AccessTokenCache {
     getCachedToken(): AccessToken | undefined;
     // (undocumented)
     setCachedToken(accessToken: AccessToken | undefined): void;
-    }
+}
 
 // @public (undocumented)
 export function exponentialRetryPolicy(retryCount?: number, retryInterval?: number, maxRetryInterval?: number): RequestPolicyFactory;
@@ -772,7 +774,7 @@ export class ServiceClient {
     protected requestContentType?: string;
     sendOperationRequest(operationArguments: OperationArguments, operationSpec: OperationSpec, callback?: ServiceCallback<any>): Promise<RestResponse>;
     sendRequest(options: RequestPrepareOptions | WebResourceLike): Promise<HttpOperationResponse>;
-    }
+}
 
 // @public (undocumented)
 export interface ServiceClientCredentials {
@@ -989,7 +991,6 @@ export const XML_ATTRKEY = "$";
 
 // @public
 export const XML_CHARKEY = "_";
-
 
 // (No @packageDocumentation comment for this package)
 

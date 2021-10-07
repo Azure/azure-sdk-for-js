@@ -12,8 +12,11 @@ Measures the maximum throughput of `sender.send()` in package `azure-sb`.
  */
 
 import { createServiceBusService, ServiceBusService } from "azure-sb";
-import delay from "delay";
 import moment from "moment";
+
+function delay(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 const _payload = JSON.stringify(Buffer.alloc(1024));
 const _start = moment();

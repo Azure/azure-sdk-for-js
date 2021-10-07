@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import {
   BatchRequest as GeneratedBatchRequest,
   BatchQueryRequest
@@ -24,7 +24,12 @@ import {
   SerializerOptions
 } from "@azure/core-client";
 import { OperationTracingOptions } from "@azure/core-tracing";
-import { Durations, ListMetricDefinitionsOptions, MetricsQueryOptions } from "../../../src";
+import {
+  Durations,
+  ListMetricDefinitionsOptions,
+  MetricsQueryOptions,
+  MetricsQueryResult
+} from "../../../src";
 import { AbortSignalLike } from "@azure/abort-controller";
 
 describe("Model unit tests", () => {
@@ -34,7 +39,7 @@ describe("Model unit tests", () => {
         {
           query: "the kusto query",
           workspaceId: "the primary workspace id",
-          timespan: { duration: Durations.TwentyFourHours }
+          timespan: { duration: Durations.twentyFourHours }
         }
       ]);
 
@@ -46,7 +51,7 @@ describe("Model unit tests", () => {
             headers: undefined,
             body: {
               query: "the kusto query",
-              timespan: Durations.TwentyFourHours
+              timespan: Durations.twentyFourHours
             }
           }
         ]
@@ -58,11 +63,11 @@ describe("Model unit tests", () => {
         {
           query: "<placeholder>",
           workspaceId: "<placeholder>",
-          timespan: { duration: Durations.TwentyFourHours }
+          timespan: { duration: Durations.twentyFourHours }
         },
         {
           query: "the kusto query",
-          timespan: { duration: Durations.FiveMinutes },
+          timespan: { duration: Durations.fiveMinutes },
           workspaceId: "the primary workspace id",
           includeQueryStatistics: true,
           serverTimeoutInSeconds: 100,
@@ -234,7 +239,10 @@ describe("Model unit tests", () => {
 
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { getMetricByName, ...rest } = actualConvertedResponse;
-      assert.deepEqual({ ...rest }, expectedResponse);
+      assert.deepEqual(
+        { ...rest } as Omit<MetricsQueryResult, "getMetricByName">,
+        expectedResponse
+      );
     });
 
     it("convertRequestOptionsForMetricsDefinitions (all fields)", () => {

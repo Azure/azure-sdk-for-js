@@ -6,19 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   DatasetResource,
-  DatasetOperationsGetDatasetsByWorkspaceOptionalParams,
-  DatasetOperationsCreateOrUpdateDatasetOptionalParams,
-  DatasetOperationsCreateOrUpdateDatasetResponse,
-  DatasetOperationsGetDatasetOptionalParams,
-  DatasetOperationsGetDatasetResponse,
-  DatasetOperationsDeleteDatasetOptionalParams,
+  DatasetGetDatasetsByWorkspaceOptionalParams,
+  DatasetCreateOrUpdateDatasetOptionalParams,
+  DatasetCreateOrUpdateDatasetResponse,
+  DatasetGetDatasetOptionalParams,
+  DatasetGetDatasetResponse,
+  DatasetDeleteDatasetOptionalParams,
   ArtifactRenameRequest,
-  DatasetOperationsRenameDatasetOptionalParams
+  DatasetRenameDatasetOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +28,7 @@ export interface DatasetOperations {
    * @param options The options parameters.
    */
   listDatasetsByWorkspace(
-    options?: DatasetOperationsGetDatasetsByWorkspaceOptionalParams
+    options?: DatasetGetDatasetsByWorkspaceOptionalParams
   ): PagedAsyncIterableIterator<DatasetResource>;
   /**
    * Creates or updates a dataset.
@@ -40,11 +39,11 @@ export interface DatasetOperations {
   beginCreateOrUpdateDataset(
     datasetName: string,
     dataset: DatasetResource,
-    options?: DatasetOperationsCreateOrUpdateDatasetOptionalParams
+    options?: DatasetCreateOrUpdateDatasetOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<DatasetOperationsCreateOrUpdateDatasetResponse>,
-      DatasetOperationsCreateOrUpdateDatasetResponse
+      PollOperationState<DatasetCreateOrUpdateDatasetResponse>,
+      DatasetCreateOrUpdateDatasetResponse
     >
   >;
   /**
@@ -56,8 +55,8 @@ export interface DatasetOperations {
   beginCreateOrUpdateDatasetAndWait(
     datasetName: string,
     dataset: DatasetResource,
-    options?: DatasetOperationsCreateOrUpdateDatasetOptionalParams
-  ): Promise<DatasetOperationsCreateOrUpdateDatasetResponse>;
+    options?: DatasetCreateOrUpdateDatasetOptionalParams
+  ): Promise<DatasetCreateOrUpdateDatasetResponse>;
   /**
    * Gets a dataset.
    * @param datasetName The dataset name.
@@ -65,8 +64,8 @@ export interface DatasetOperations {
    */
   getDataset(
     datasetName: string,
-    options?: DatasetOperationsGetDatasetOptionalParams
-  ): Promise<DatasetOperationsGetDatasetResponse>;
+    options?: DatasetGetDatasetOptionalParams
+  ): Promise<DatasetGetDatasetResponse>;
   /**
    * Deletes a dataset.
    * @param datasetName The dataset name.
@@ -74,7 +73,7 @@ export interface DatasetOperations {
    */
   beginDeleteDataset(
     datasetName: string,
-    options?: DatasetOperationsDeleteDatasetOptionalParams
+    options?: DatasetDeleteDatasetOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes a dataset.
@@ -83,7 +82,7 @@ export interface DatasetOperations {
    */
   beginDeleteDatasetAndWait(
     datasetName: string,
-    options?: DatasetOperationsDeleteDatasetOptionalParams
+    options?: DatasetDeleteDatasetOptionalParams
   ): Promise<void>;
   /**
    * Renames a dataset.
@@ -94,7 +93,7 @@ export interface DatasetOperations {
   beginRenameDataset(
     datasetName: string,
     request: ArtifactRenameRequest,
-    options?: DatasetOperationsRenameDatasetOptionalParams
+    options?: DatasetRenameDatasetOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Renames a dataset.
@@ -105,6 +104,6 @@ export interface DatasetOperations {
   beginRenameDatasetAndWait(
     datasetName: string,
     request: ArtifactRenameRequest,
-    options?: DatasetOperationsRenameDatasetOptionalParams
+    options?: DatasetRenameDatasetOptionalParams
   ): Promise<void>;
 }

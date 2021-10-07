@@ -28,7 +28,7 @@
    "method": "DELETE",
    "url": "https://testaccount.dev.azuresynapse.net/dataflows/testdataflow2",
    "query": {
-    "api-version": "2019-06-01-preview"
+    "api-version": "2020-12-01"
    },
    "requestBody": null,
    "status": 202,
@@ -39,7 +39,7 @@
     "content-length": "351",
     "content-type": "application/json; charset=utf-8",
     "date": "Fri, 11 Jun 2021 18:41:27 GMT",
-    "location": "https://testaccount.dev.azuresynapse.net/operationResults/381ee057-07a7-40ed-adab-007bc434d0b4?api-version=2019-06-01-preview",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/381ee057-07a7-40ed-adab-007bc434d0b4?api-version=2020-12-01",
     "server": "Microsoft-HTTPAPI/2.0",
     "status": "202",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
@@ -50,7 +50,7 @@
    "method": "GET",
    "url": "https://testaccount.dev.azuresynapse.net/operationResults/381ee057-07a7-40ed-adab-007bc434d0b4",
    "query": {
-    "api-version": "2019-06-01-preview"
+    "api-version": "2020-12-01"
    },
    "requestBody": null,
    "status": 202,
@@ -61,7 +61,7 @@
     "content-length": "23",
     "content-type": "application/json; charset=utf-8",
     "date": "Fri, 11 Jun 2021 18:41:27 GMT",
-    "location": "https://testaccount.dev.azuresynapse.net/operationResults/381ee057-07a7-40ed-adab-007bc434d0b4?api-version=2019-06-01-preview",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/381ee057-07a7-40ed-adab-007bc434d0b4?api-version=2020-12-01",
     "retry-after": "10",
     "server": "Microsoft-HTTPAPI/2.0",
     "status": "202",
@@ -73,7 +73,7 @@
    "method": "GET",
    "url": "https://testaccount.dev.azuresynapse.net/operationResults/381ee057-07a7-40ed-adab-007bc434d0b4",
    "query": {
-    "api-version": "2019-06-01-preview"
+    "api-version": "2020-12-01"
    },
    "requestBody": null,
    "status": 202,
@@ -84,7 +84,7 @@
     "content-length": "23",
     "content-type": "application/json; charset=utf-8",
     "date": "Fri, 11 Jun 2021 18:41:29 GMT",
-    "location": "https://testaccount.dev.azuresynapse.net/operationResults/381ee057-07a7-40ed-adab-007bc434d0b4?api-version=2019-06-01-preview",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/381ee057-07a7-40ed-adab-007bc434d0b4?api-version=2020-12-01",
     "retry-after": "10",
     "server": "Microsoft-HTTPAPI/2.0",
     "status": "202",
@@ -96,7 +96,7 @@
    "method": "GET",
    "url": "https://testaccount.dev.azuresynapse.net/operationResults/381ee057-07a7-40ed-adab-007bc434d0b4",
    "query": {
-    "api-version": "2019-06-01-preview"
+    "api-version": "2020-12-01"
    },
    "requestBody": null,
    "status": 202,
@@ -107,7 +107,7 @@
     "content-length": "23",
     "content-type": "application/json; charset=utf-8",
     "date": "Fri, 11 Jun 2021 18:41:31 GMT",
-    "location": "https://testaccount.dev.azuresynapse.net/operationResults/381ee057-07a7-40ed-adab-007bc434d0b4?api-version=2019-06-01-preview",
+    "location": "https://testaccount.dev.azuresynapse.net/operationResults/381ee057-07a7-40ed-adab-007bc434d0b4?api-version=2020-12-01",
     "retry-after": "10",
     "server": "Microsoft-HTTPAPI/2.0",
     "status": "202",
@@ -119,7 +119,7 @@
    "method": "GET",
    "url": "https://testaccount.dev.azuresynapse.net/operationResults/381ee057-07a7-40ed-adab-007bc434d0b4",
    "query": {
-    "api-version": "2019-06-01-preview"
+    "api-version": "2020-12-01"
    },
    "requestBody": null,
    "status": 200,

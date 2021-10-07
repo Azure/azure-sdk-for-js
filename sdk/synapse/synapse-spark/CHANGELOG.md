@@ -1,14 +1,11 @@
 # Release History
 
-## 1.0.0-beta.4 (Unreleased)
+## 1.0.0-beta.4 (2021-10-05)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Re-generate with latest release tag `package-spark-2020-12-01`
+- Update `LivyState` to be an extensible enum.
 
 ## 1.0.0-beta.3 (2021-08-10)
 
