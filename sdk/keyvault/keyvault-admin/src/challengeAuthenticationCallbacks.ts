@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/// <reference lib="dom" />
 import {
   AuthorizeRequestOnChallengeOptions,
   AuthorizeRequestOptions,
@@ -10,10 +9,7 @@ import {
   RequestBodyType
 } from "@azure/core-rest-pipeline";
 import { GetTokenOptions } from "@azure/core-auth";
-import {
-  ParsedWWWAuthenticate,
-  parseWWWAuthenticate
-} from "../../keyvault-common/src/parseWWWAuthenticate";
+import { ParsedWWWAuthenticate, parseWWWAuthenticate } from "../../keyvault-common/src";
 
 /**
  * @internal

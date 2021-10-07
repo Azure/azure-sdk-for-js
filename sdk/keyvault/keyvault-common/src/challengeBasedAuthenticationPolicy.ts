@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 /* eslint-disable @azure/azure-sdk/ts-use-interface-parameters */
 
-/// <reference lib="dom" />
 import { TokenCredential } from "@azure/core-http";
 import {
   BaseRequestPolicy,
