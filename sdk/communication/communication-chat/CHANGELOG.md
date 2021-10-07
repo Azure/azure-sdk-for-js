@@ -4,7 +4,7 @@
 
 ### Features Added
 - Updated to @azure/communication-signaling@1.0.0-beta.11.
-- Addedc `signalingClientOptions` in `ClientOptions`.
+- Added `signalingClientOptions` in `ClientOptions`.
 
 ## 1.1.0 (2021-09-15)
 

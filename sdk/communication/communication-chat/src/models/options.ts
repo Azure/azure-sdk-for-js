@@ -17,6 +17,9 @@ export {
   RestListReadReceiptsOptions
 };
 
+/**
+ * Options for signaling client.
+ */
 export interface SignalingClientOptions {
   environment?: string;
 }
@@ -25,6 +28,9 @@ export interface SignalingClientOptions {
  * Options to create chat client.
  */
 export interface ChatClientOptions extends CommonClientOptions {
+  /**
+   * Options for the signaling client.
+   */
   signalingClientOptions?: SignalingClientOptions;
 }
 
