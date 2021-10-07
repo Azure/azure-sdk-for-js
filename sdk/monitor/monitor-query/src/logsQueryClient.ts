@@ -43,7 +43,7 @@ export interface LogsQueryClientOptions extends CommonClientOptions {
    * The authentication scope will be set from this audience.
    * Defaults to 'https://api.loganalytics.io/.default'
    */
-  audience?: string;
+  _audience?: string;
 }
 
 /**
@@ -51,6 +51,7 @@ export interface LogsQueryClientOptions extends CommonClientOptions {
  */
 export class LogsQueryClient {
   private _logAnalytics: AzureLogAnalytics;
+  private _audience?: string;
 
   /**
    * Construct a LogsClient that can be used to query logs using the Log Analytics Query language.
@@ -61,8 +62,9 @@ export class LogsQueryClient {
   constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions) {
     // This client defaults to using 'https://api.loganalytics.io/' as the
     // host.
+    this._audience = `${options?.endpoint}./default`;
     const credentialOptions = {
-      credentialScopes: options?.audience
+      credentialScopes: this._audience
     };
     const packageDetails = `azsdk-js-monitor-query/${SDK_VERSION}`;
     const userAgentPrefix =
