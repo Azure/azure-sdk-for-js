@@ -24,7 +24,10 @@ import { SDK_VERSION } from "./constants";
 import { logger } from "./common/logger";
 import { createSpan } from "./common/tracing";
 import { CommunicationRelayClientOptions } from "./models";
-import { CommunicationRelayConfiguration, CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams } from "./generated/src/models";
+import {
+  CommunicationRelayConfiguration,
+  CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams
+} from "./generated/src/models";
 
 const isCommunicationRelayClientOptions = (
   options: any
@@ -123,7 +126,7 @@ export class CommunicationRelayClient {
    */
   public async getRelayConfiguration(
     user?: CommunicationUserIdentifier,
-    options: OperationOptions = { }
+    options: OperationOptions = {}
   ): Promise<CommunicationRelayConfiguration> {
     const requestOptions: CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams = options;
     requestOptions.body = { id: user?.communicationUserId };
@@ -134,7 +137,7 @@ export class CommunicationRelayClient {
     );
 
     try {
-      const {...result } = await this.client.issueRelayConfiguration(
+      const { ...result } = await this.client.issueRelayConfiguration(
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return result;
