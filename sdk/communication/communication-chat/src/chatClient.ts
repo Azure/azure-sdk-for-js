@@ -85,7 +85,11 @@ export class ChatClient {
     const authPolicy = createCommunicationTokenCredentialPolicy(this.tokenCredential);
     this.client.pipeline.addPolicy(authPolicy);
 
-    this.signalingClient = getSignalingClient(credential, logger, (options as any).signalingClientOptions);
+    this.signalingClient = getSignalingClient(
+      credential,
+      logger,
+      (options as any).signalingClientOptions
+    );
   }
 
   /**
