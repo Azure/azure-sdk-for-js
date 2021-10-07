@@ -18,26 +18,15 @@ export {
 };
 
 /**
- * Options for signaling client.
- */
-export interface SignalingClientOptions {
-  environment?: string;
-}
-
-/**
  * Options to create chat client.
  */
 export interface ChatClientOptions extends CommonClientOptions {
-  /**
-   * Options for the signaling client.
-   */
-  signalingClientOptions?: SignalingClientOptions;
 }
 
 /**
  * Options to create chat thread client.
  */
-export interface ChatThreadClientOptions extends CommonClientOptions {}
+export interface ChatThreadClientOptions extends ChatClientOptions {}
 
 /**
  * Options to update a chat thread.

@@ -7,7 +7,10 @@ import { AzureLogger } from "@azure/logger";
 
 export const getSignalingClient = (
   credential: CommunicationTokenCredential,
-  logger: AzureLogger
+  logger: AzureLogger,
+  options?: any
 ): SignalingClient | undefined => {
-  return new CommunicationSignalingClient(credential, logger);
+  return new CommunicationSignalingClient(credential, logger, {
+    environment: options?.environment ?? undefined
+  });
 };

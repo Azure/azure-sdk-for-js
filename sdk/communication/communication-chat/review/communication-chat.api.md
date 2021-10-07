@@ -70,7 +70,6 @@ export class ChatClient {
 
 // @public
 export interface ChatClientOptions extends CommonClientOptions {
-    signalingClientOptions?: SignalingClientOptions;
 }
 
 // @public
@@ -142,7 +141,7 @@ export class ChatThreadClient {
 }
 
 // @public
-export interface ChatThreadClientOptions extends CommonClientOptions {
+export interface ChatThreadClientOptions extends ChatClientOptions {
 }
 
 // @public
@@ -263,12 +262,6 @@ export interface SendReadReceiptRequest {
 // @public
 export interface SendTypingNotificationOptions extends OperationOptions {
     senderDisplayName?: string;
-}
-
-// @public
-export interface SignalingClientOptions {
-    // (undocumented)
-    environment?: string;
 }
 
 // @public
