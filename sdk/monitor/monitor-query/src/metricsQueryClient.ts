@@ -57,8 +57,12 @@ export class MetricsQueryClient {
    * @param options - Options for the client like controlling request retries.
    */
   constructor(tokenCredential: TokenCredential, options?: MetricsQueryClientOptions) {
+    let scope;
+    if (options?.endpoint) {
+      scope = `${options?.endpoint}./default`;
+    }
     const credentialOptions = {
-      credentialScopes: `${options?.endpoint}/.default`
+      credentialScopes: scope
     };
     const packageDetails = `azsdk-js-monitor-query/${SDK_VERSION}`;
     const userAgentPrefix =

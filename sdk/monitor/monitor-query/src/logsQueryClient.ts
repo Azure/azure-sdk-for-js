@@ -54,8 +54,12 @@ export class LogsQueryClient {
   constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions) {
     // This client defaults to using 'https://api.loganalytics.io/' as the
     // host.
+    let scope;
+    if (options?.endpoint) {
+      scope = `${options?.endpoint}./default`;
+    }
     const credentialOptions = {
-      credentialScopes: `${options?.endpoint}./default`
+      credentialScopes: scope
     };
     const packageDetails = `azsdk-js-monitor-query/${SDK_VERSION}`;
     const userAgentPrefix =
