@@ -291,21 +291,21 @@ Run this command
 
 Reference: https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/Azure.Sdk.Tools.TestProxy#via-docker-image
 
-To use the proxy-tool in your test pass this option in cli `--test-proxy http://localhost:5000`(Make sure the port is same as what you have used to run the `docker run` command).
+To use the proxy-tool in your test pass this option in cli `--test-proxies http://localhost:5000`(Make sure the port is same as what you have used to run the `docker run` command).
 
 Sample command(using storage-blob perf tests as example (Core-v1)!)
 
-> npm run perf-test:node -- StorageBlobDownloadTest --warmup 2 --duration 7 --iterations 2 --test-proxy http://localhost:5000
+> npm run perf-test:node -- StorageBlobDownloadTest --warmup 2 --duration 7 --iterations 2 --test-proxies http://localhost:5000
 
-> npm run perf-test:node -- StorageBlobDownloadTest --warmup 2 --duration 7 --iterations 2 --parallel 2 --test-proxy http://localhost:5000
+> npm run perf-test:node -- StorageBlobDownloadTest --warmup 2 --duration 7 --iterations 2 --parallel 2 --test-proxies http://localhost:5000
 
-> npm run perf-test:node -- StorageBlobDownloadTest --warmup 2 --duration 7 --iterations 2 --parallel 2 --test-proxy https://localhost:5001 --insecure true
+> npm run perf-test:node -- StorageBlobDownloadTest --warmup 2 --duration 7 --iterations 2 --parallel 2 --test-proxies https://localhost:5001 --insecure true
 
 Sample command(using data-tables perf tests as example (Core-v2)!)
 
-> npm run perf-test:node -- ListComplexEntitiesTest --duration 7 --iterations 2 --parallel 2 --test-proxy http://localhost:5000
+> npm run perf-test:node -- ListComplexEntitiesTest --duration 7 --iterations 2 --parallel 2 --test-proxies http://localhost:5000
 
-> npm run perf-test:node -- ListComplexEntitiesTest --duration 7 --iterations 2 --parallel 2 --test-proxy https://localhost:5001 --insecure true
+> npm run perf-test:node -- ListComplexEntitiesTest --duration 7 --iterations 2 --parallel 2 --test-proxies https://localhost:5001 --insecure true
 
 > npm run perf-test:node -- ListComplexEntitiesTest --duration 7 --iterations 2 --parallel 2
 
