@@ -20,6 +20,7 @@ import {
 } from "./models";
 import { CallConnections, ServerCalls } from "./generated/src/operations";
 import {
+  CallLocatorModel,
   CreateCallRequest,
   JoinCallRequest,
   PlayAudioWithCallLocatorRequest,
@@ -64,6 +65,7 @@ import { rangeToString } from "./Range";
 import { RepeatableContentDownloadResponse } from "./RepeatableContentDownloadResponse";
 import { extractOperationOptions } from "./extractOperationOptions";
 import { CallingServerUtils } from './utils/utils'
+import { serializeCallLocator } from "./callLocatorModelSerializer";
 
 /**
  * Client options used to configure CallingServer Client API requests.
@@ -217,8 +219,9 @@ export class CallingServerClient {
     const { operationOptions, restOptions } = extractOperationOptions(options);
     const { span, updatedOptions } = createSpan("ServerCallRestClient-JoinCall", operationOptions);
 
+    console.log(serializeCallLocator(callLocator));
     const request: JoinCallRequest = {
-      callLocator: callLocator,
+      callLocator: serializeCallLocator(callLocator),
       source: serializeCommunicationIdentifier(source),
       callbackUri: restOptions.callbackUri,
       requestedMediaTypes: restOptions.requestedMediaTypes,
@@ -518,7 +521,7 @@ export class CallingServerClient {
    * @param options - Additional request options contains StartRecording api options.
    */
   public async startRecording(
-    callLocator: CallLocator,
+    callLocator: CallLocatorModel,
     recordingStateCallbackUri: string,
     options: StartRecordingOptions = {}
   ): Promise<StartCallRecordingResult> {
@@ -634,7 +637,7 @@ export class CallingServerClient {
     options: StopRecordingOptions = {}
   ): Promise<RestResponse> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-StopRecording", options);
-
+    console.log("Recording Id: " + recordingId);
     if (typeof recordingId === 'undefined' || !recordingId || !recordingId.trim()) {
       throw new Error('recordingId is invalid.')
     }
@@ -758,7 +761,6 @@ export class CallingServerClient {
     const DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS = 3;
     let contentDownloader = this.initializeContentDownloader();
     try {
-      console.log("before download");
       const res = await contentDownloader.downloadContent(uri,{
         abortSignal: options.abortSignal,
         requestOptions: {
@@ -767,7 +769,6 @@ export class CallingServerClient {
         range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
-      console.log("after download");
       // Return browser response immediately
       if (!isNode) {
         return res;
@@ -786,7 +787,6 @@ export class CallingServerClient {
       if (res.contentLength === undefined) {
         throw new RangeError(`File download response doesn't contain valid content length header`);
       }
-      console.log("before returning");
       return new RepeatableContentDownloadResponse(
         res,
         async (start: number): Promise<NodeJS.ReadableStream> => {

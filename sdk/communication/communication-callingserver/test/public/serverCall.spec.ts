@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { record, Recorder, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
-import { env } from "@azure/test-utils-recorder";
-import { CallingServerClient } from "../../src";
+import { env, record, Recorder, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import { CallConnection, CallingServerClient, CreateCallOptions, EventSubscriptionType, MediaType } from "../../src";
 import { CALLBACK_URI  } from "./utils/constants";
 import { TestUtils } from "./utils/testUtils";
 import assert from "assert";
@@ -18,7 +17,7 @@ const environmentSetup: RecorderEnvironmentSetup = {
     queryParametersToSkip: []
   };
 
-describe("Server Call", function() {
+describe("Server Call Live tests", function() {
 
     describe("Recording Operations", function() {
 
@@ -34,53 +33,60 @@ describe("Server Call", function() {
         await recorder.stop();
         });
 
-        it("Run all client recording operations", async function() {
+        it.skip("Run all client recording operations", async function() {
             this.timeout(0);
-            var groupId = TestUtils.getGroupId("Run all client recording operations");
             
-            var fromUser = await TestUtils.getUserId("fromUser");
-            var toUser = await TestUtils.getUserId("toUser");
+            const fromUser = await TestUtils.getUser();
+            const toUser = await TestUtils.getUser();
 
-            var connections = [];
+            // var connections = [];
+            var callConnection : CallConnection;
             var recordingId = "";
-            var serverCall = null;
 
-            var callingServer = new CallingServerClient(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING);
-
+            let callingServer = new CallingServerClient(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING);
             try {
-              connections = await TestUtils.createCallConnections(callingServer, groupId, fromUser, toUser);
-
-              serverCall = callingServer.initializeServerCall(groupId);
-              var startCallRecordingResult = await serverCall.startRecording(CALLBACK_URI);
-              recordingId = startCallRecordingResult.recordingId!;
-              assert.notStrictEqual(serverCall.serverCallId, undefined);
+              var callOptions : CreateCallOptions = {
+                callbackUri: CALLBACK_URI,
+                requestedMediaTypes: [MediaType.Audio],
+                requestedCallEvents: [EventSubscriptionType.ParticipantsUpdated],
+              }
+              var callConnection = await callingServer.createCallConnection(fromUser, [toUser], callOptions);
+              console.log("Waiting");
               await TestUtils.delayIfLive();
-              var recordingState = await serverCall.getRecordingState(recordingId!);
+              var call = await callConnection.getCall();
+              console.log("Call: " + JSON.stringify(call, null, 4));
+              let callLocator = call.callLocator;
+              console.log("Call Locator: " + JSON.stringify(callLocator, null, 4));
+              var startCallRecordingResult = await callingServer.startRecording(callLocator!, CALLBACK_URI);
+              recordingId = startCallRecordingResult.recordingId!;
+              await TestUtils.delayIfLive();
+              var recordingState = await callingServer.getRecordingProperties(recordingId!);
               assert.strictEqual(recordingState.recordingState, "active");
               
-              await serverCall.pauseRecording(recordingId!);
+              await callingServer.pauseRecording(recordingId!);
               await TestUtils.delayIfLive();
-              var recordingState = await serverCall.getRecordingState(recordingId!);
+              var recordingState = await callingServer.getRecordingProperties(recordingId!);
               assert.strictEqual(recordingState.recordingState, "inactive");
 
-              await serverCall.resumeRecording(recordingId!);
+              await callingServer.resumeRecording(recordingId!);
               await TestUtils.delayIfLive();
-              var recordingState = await serverCall.getRecordingState(recordingId!);
+              var recordingState = await callingServer.getRecordingProperties(recordingId!);
               assert.strictEqual(recordingState.recordingState, "active");
 
-              await serverCall.stopRecording(recordingId!);  
+              await callingServer.stopRecording(recordingId!);  
             }
             finally {
-              if (serverCall != null) {
+              if (callingServer != null) {
                 try {
-                  await serverCall.stopRecording(recordingId);
+                  await callingServer.stopRecording(recordingId);
                 } catch (e) {
                   console.error("Error stopping recording (" + recordingId + "): " + e);
                 }
               }
             }
             
-            TestUtils.cleanCallConnections(connections);
+            //TestUtils.cleanCallConnections(connections);
+            callConnection.hangUp();
         })
     })
 })

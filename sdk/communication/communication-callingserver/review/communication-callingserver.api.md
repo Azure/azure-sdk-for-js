@@ -12,8 +12,8 @@ import { OperationOptions } from '@azure/core-http';
 import { PhoneNumberIdentifier } from '@azure/communication-common';
 import { PipelineOptions } from '@azure/core-http';
 import { RestResponse } from '@azure/core-http';
-import { TransferProgressEvent } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-auth';
+import { TransferProgressEvent } from '@azure/core-http';
 
 // @public
 export type AddParticipantOptions = OperationOptions;
@@ -93,6 +93,10 @@ export class CallingServerClient {
     getCallConnection(callConnectionId: string): CallConnection;
     // Warning: (ae-forgotten-export) The symbol "CallRecordingProperties" needs to be exported by the entry point index.d.ts
     getRecordingProperties(recordingId: string, options?: GetRecordingPropertiesOptions): Promise<CallRecordingProperties>;
+    // Warning: (ae-forgotten-export) The symbol "ContentDownloader" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    initializeContentDownloader(): ContentDownloader;
     joinCall(callLocator: CallLocator, source: CommunicationIdentifier, options: JoinCallOptions): Promise<CallConnection>;
     pauseRecording(recordingId: string, options?: PauseRecordingOptions): Promise<RestResponse>;
     playAudio(callLocator: CallLocator, audioFileUri: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
@@ -168,7 +172,7 @@ export interface CreateCallOptions extends OperationOptions {
     subject?: string;
 }
 
-// @public
+// @public (undocumented)
 export interface DownloadContentOptions extends OperationOptions {
     range?: string;
 }
@@ -220,70 +224,6 @@ export class JoinCallRequestConverter {
     //
     // (undocumented)
     static convert(source: CommunicationIdentifier, options: JoinCallOptions): JoinCallRequest;
-}
-
-// @public
-export const enum KnownCallConnectionState {
-    // (undocumented)
-    Connected = "connected",
-    // (undocumented)
-    Connecting = "connecting",
-    // (undocumented)
-    Disconnected = "disconnected",
-    // (undocumented)
-    Disconnecting = "disconnecting",
-    // (undocumented)
-    Incoming = "incoming"
-}
-
-// @public
-export const enum KnownOperationStatus {
-    // (undocumented)
-    Completed = "completed",
-    // (undocumented)
-    Failed = "failed",
-    // (undocumented)
-    NotStarted = "notStarted",
-    // (undocumented)
-    Running = "running"
-}
-
-// @public
-export const enum KnownToneValue {
-    // (undocumented)
-    A = "a",
-    // (undocumented)
-    B = "b",
-    // (undocumented)
-    C = "c",
-    // (undocumented)
-    D = "d",
-    // (undocumented)
-    Flash = "flash",
-    // (undocumented)
-    Pound = "pound",
-    // (undocumented)
-    Star = "star",
-    // (undocumented)
-    Tone0 = "tone0",
-    // (undocumented)
-    Tone1 = "tone1",
-    // (undocumented)
-    Tone2 = "tone2",
-    // (undocumented)
-    Tone3 = "tone3",
-    // (undocumented)
-    Tone4 = "tone4",
-    // (undocumented)
-    Tone5 = "tone5",
-    // (undocumented)
-    Tone6 = "tone6",
-    // (undocumented)
-    Tone7 = "tone7",
-    // (undocumented)
-    Tone8 = "tone8",
-    // (undocumented)
-    Tone9 = "tone9"
 }
 
 // @public

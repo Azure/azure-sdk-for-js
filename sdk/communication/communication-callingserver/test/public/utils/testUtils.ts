@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, isLiveMode, isRecordMode } from "@azure/test-utils-recorder";
+import { env, isLiveMode, isRecordMode } from "@azure-tools/test-recorder";
 import { v4 as uuidv4, v5 as uuidv5 } from "uuid";
-import { CallingServerClient, MediaType, EventSubscriptionType, CallConnection } from "../../../src";
+import { CallingServerClient, MediaType, EventSubscriptionType, CallConnection, ServerCallLocator } from "../../../src";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 import  * as Constants from "../utils/constants";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
+import { CommunicationUserIdentifier } from "@azure/communication-common";
 
 export class TestUtils {
     private static delay(ms: number) {
@@ -20,6 +21,11 @@ export class TestUtils {
       }
       
       return (await communicationIdentityClient.createUser()).communicationUserId;
+    }
+
+    public static async getUser() : Promise<CommunicationUserIdentifier> {
+      var communicationIdentityClient = new CommunicationIdentityClient(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING);
+      return await communicationIdentityClient.createUser();
     }
 
     public static getGroupId(testName: string) {
@@ -40,9 +46,10 @@ export class TestUtils {
           requestedMediaTypes: [MediaType.Audio],
           requestedCallEvents: [EventSubscriptionType.ParticipantsUpdated]
       };
+      let callLocator : ServerCallLocator = { serverCallId: groupId };
       var callConnections = [];
-      callConnections.push(await callingServerClient.joinCall(groupId, {communicationUserId: fromUser}, joinCallOptions));
-      callConnections.push(await callingServerClient.joinCall(groupId, {communicationUserId: toUser}, joinCallOptions));
+      callConnections.push(await callingServerClient.joinCall(callLocator, {communicationUserId: fromUser}, joinCallOptions));
+      callConnections.push(await callingServerClient.joinCall(callLocator, {communicationUserId: toUser}, joinCallOptions));
 
       return callConnections;
     }

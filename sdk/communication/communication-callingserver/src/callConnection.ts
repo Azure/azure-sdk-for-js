@@ -13,7 +13,8 @@ import {
   PlayAudioToParticipantRequest,
   CancelParticipantMediaOperationRequest,
   TransferCallRequest,
-  CallConnectionsCancelAllMediaOperationsResponse
+  CallConnectionsCancelAllMediaOperationsResponse,
+  CallConnectionsGetCallResponse
 } from "./generated/src/models";
 import {
   HangUpOptions,
@@ -341,5 +342,9 @@ export class CallConnection {
     } finally {
       span.end();
     }
+  }
+
+  public async getCall() : Promise<CallConnectionsGetCallResponse> {
+    return await this.callConnectionRestClient.getCall(this.callConnectionId);
   }
 }
