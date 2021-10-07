@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import { Context } from "mocha";
 import { createSandbox } from "sinon";
 import { env, Recorder } from "@azure-tools/test-recorder";
@@ -123,42 +123,6 @@ describe("Challenge based authentication tests", () => {
 
     // Note: Failing to authenticate will make network requests throw.
   });
-
-  describe("parseWWWAuthenticate tests", () => {
-    it("Should work for known shapes of the WWW-Authenticate header", () => {
-      const wwwAuthenticate1 = `Bearer authorization="some_authorization", resource="https://some.url"`;
-      const parsed1 = parseWWWAuthenticate(wwwAuthenticate1);
-      assert.deepEqual(parsed1, {
-        authorization: "some_authorization",
-        resource: "https://some.url"
-      });
-
-      const wwwAuthenticate2 = `Bearer authorization="some_authorization", scope="https://some.url"`;
-      const parsed2 = parseWWWAuthenticate(wwwAuthenticate2);
-      assert.deepEqual(parsed2, {
-        authorization: "some_authorization",
-        scope: "https://some.url"
-      });
-    });
-
-    it("Should skip unexpected properties on the WWW-Authenticate header", () => {
-      const wwwAuthenticate1 = `Bearer authorization="some_authorization", a="a", b="b"`;
-      const parsed1 = parseWWWAuthenticate(wwwAuthenticate1);
-      assert.deepEqual(parsed1, {
-        authorization: "some_authorization",
-        a: "a",
-        b: "b"
-      });
-
-      const wwwAuthenticate2 = `scope="https://some.url", a="a", c="c"`;
-      const parsed2 = parseWWWAuthenticate(wwwAuthenticate2);
-      assert.deepEqual(parsed2, {
-        scope: "https://some.url",
-        a: "a",
-        c: "c"
-      });
-    });
-  });
 });
 
 describe("Local Challenge based authentication tests", () => {
@@ -188,5 +152,33 @@ describe("Local Challenge based authentication tests", () => {
     }
 
     assert.equal(request.body, "request body");
+  });
+
+  describe("parseWWWAuthenticate tests", () => {
+    it("Should work for known shapes of the WWW-Authenticate header", () => {
+      const wwwAuthenticate1 = `Bearer authorization="https://login.windows.net/", resource="https://some.url"`;
+      const parsed1 = parseWWWAuthenticate(wwwAuthenticate1);
+      assert.deepEqual(parsed1, {
+        authorization: "https://login.windows.net/",
+        resource: "https://some.url"
+      });
+
+      const wwwAuthenticate2 = `Bearer authorization="https://login.windows.net", scope="https://some.url"`;
+      const parsed2 = parseWWWAuthenticate(wwwAuthenticate2);
+      assert.deepEqual(parsed2, {
+        authorization: "https://login.windows.net",
+        scope: "https://some.url"
+      });
+    });
+
+    it("should include the tenantId when present", () => {
+      const wwwAuthenticate1 = `Bearer authorization="https://login.windows.net/9999", resource="https://some.url"`;
+      const parsed1 = parseWWWAuthenticate(wwwAuthenticate1);
+      assert.deepEqual(parsed1, {
+        authorization: "https://login.windows.net/9999",
+        resource: "https://some.url",
+        tenantId: "9999"
+      });
+    });
   });
 });
