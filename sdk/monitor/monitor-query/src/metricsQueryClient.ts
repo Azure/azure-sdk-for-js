@@ -50,7 +50,6 @@ export class MetricsQueryClient {
   private _metricsClient: GeneratedMetricsClient;
   private _definitionsClient: GeneratedMetricsDefinitionsClient;
   private _namespacesClient: GeneratedMetricsNamespacesClient;
-  private _audience?: string;
 
   /**
    * Creates a MetricsQueryClient.
@@ -58,9 +57,8 @@ export class MetricsQueryClient {
    * @param options - Options for the client like controlling request retries.
    */
   constructor(tokenCredential: TokenCredential, options?: MetricsQueryClientOptions) {
-    this._audience = `${options?.endpoint}/.default`;
     const credentialOptions = {
-      credentialScopes: this._audience
+      credentialScopes: `${options?.endpoint}/.default`
     };
     const packageDetails = `azsdk-js-monitor-query/${SDK_VERSION}`;
     const userAgentPrefix =

@@ -66,7 +66,6 @@ export class LogsQueryClient {
 
 // @public
 export interface LogsQueryClientOptions extends CommonClientOptions {
-    _audience?: string;
     endpoint?: string;
 }
 
