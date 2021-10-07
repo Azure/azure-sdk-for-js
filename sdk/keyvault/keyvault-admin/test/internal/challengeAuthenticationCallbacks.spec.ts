@@ -4,10 +4,7 @@
 import chai, { assert } from "chai";
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import {
-  createChallengeCallbacks,
-  parseWWWAuthenticate
-} from "../../src/challengeAuthenticationCallbacks";
+import { createChallengeCallbacks } from "../../src/challengeAuthenticationCallbacks";
 import {
   AuthorizeRequestOptions,
   ChallengeCallbacks,
@@ -15,6 +12,7 @@ import {
   createPipelineRequest,
   PipelineRequest
 } from "@azure/core-rest-pipeline";
+import { parseWWWAuthenticate } from "../../../keyvault-common/src";
 
 describe("Challenge based authentication tests", function() {
   let request: PipelineRequest;
