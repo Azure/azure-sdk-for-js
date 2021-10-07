@@ -43,6 +43,5 @@ describe("LogsQueryClient unit tests", () => {
         message: "Shortcircuit auth exception"
       });
     }
-
   });
 });
