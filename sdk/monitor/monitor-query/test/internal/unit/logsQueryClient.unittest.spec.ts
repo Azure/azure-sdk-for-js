@@ -44,6 +44,5 @@ describe("LogsQueryClient unit tests", () => {
       });
     }
 
-    // assert.deepEqual(scopesPassed, ["https://customscopes1/"]);
   });
 });
