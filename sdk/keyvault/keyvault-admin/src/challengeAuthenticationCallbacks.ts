@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/// <reference lib="dom" />
 import {
   AuthorizeRequestOnChallengeOptions,
   AuthorizeRequestOptions,
@@ -9,7 +10,6 @@ import {
   RequestBodyType
 } from "@azure/core-rest-pipeline";
 import { GetTokenOptions } from "@azure/core-auth";
-import { URL } from "url";
 
 const validParsedWWWAuthenticateProperties = ["authorization", "resource", "scope"];
 

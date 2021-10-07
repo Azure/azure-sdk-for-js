@@ -133,6 +133,27 @@ describe("Challenge based authentication tests", function() {
       assert.sameMembers(getAccessTokenScopes, ["cae_scope"]);
     });
 
+    it("passes the tenantId if provided", async () => {
+      let getAccessTokenTenantId: string | undefined = "";
+      await challengeCallbacks.authorizeRequestOnChallenge!({
+        getAccessToken: (_scopes, options) => {
+          getAccessTokenTenantId = options.tenantId;
+          return Promise.resolve(null);
+        },
+        request,
+        response: {
+          headers: createHttpHeaders({
+            "WWW-Authenticate": `Bearer scope="cae_scope" authorization="http://login.windows.net/tenantId"`
+          }),
+          request,
+          status: 200
+        },
+        scopes: []
+      });
+
+      assert.equal(getAccessTokenTenantId, "tenantId");
+    });
+
     it("returns true and sets the authorization header if challenge succeeds", async () => {
       const result = await challengeCallbacks.authorizeRequestOnChallenge!({
         getAccessToken: () => {

@@ -13,7 +13,6 @@ import { Constants } from "@azure/core-http";
 import { HttpOperationResponse } from "@azure/core-http";
 import { WebResource } from "@azure/core-http";
 import { AccessTokenCache, ExpiringAccessTokenCache } from "@azure/core-http";
-import { URL } from "url";
 
 type ValidParsedWWWAuthenticateProperties =
   // "authorization_uri" was used in the track 1 version of KeyVault.
