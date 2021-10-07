@@ -10,16 +10,58 @@ import {
   OperationParameter,
   OperationURLParameter,
   OperationQueryParameter
-} from "@azure/core-http";
+} from "@azure/core-client";
 import {
-  TrainRequest as TrainRequestMapper,
-  SourcePath as SourcePathMapper,
-  CopyRequest as CopyRequestMapper,
-  ComposeRequest as ComposeRequestMapper
+  AnalyzeDocumentRequest as AnalyzeDocumentRequestMapper,
+  BuildDocumentModelRequest as BuildDocumentModelRequestMapper,
+  ComposeDocumentModelRequest as ComposeDocumentModelRequestMapper,
+  AuthorizeCopyRequest as AuthorizeCopyRequestMapper,
+  CopyAuthorization as CopyAuthorizationMapper
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
+  parameterPath: "contentType",
+  mapper: {
+    serializedName: "Content-Type",
+    required: true,
+    type: {
+      name: "Enum",
+      allowedValues: [
+        "application/octet-stream",
+        "application/pdf",
+        "image/bmp",
+        "image/jpeg",
+        "image/png",
+        "image/tiff"
+      ]
+    }
+  }
+};
+
+export const analyzeRequest: OperationParameter = {
+  parameterPath: ["options", "analyzeRequest"],
+  mapper: {
+    serializedName: "analyzeRequest",
+    type: {
+      name: "Stream"
+    }
+  }
+};
+
+export const accept: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const contentType1: OperationParameter = {
+  parameterPath: "contentType",
   mapper: {
     defaultValue: "application/json",
     isConstant: true,
@@ -30,12 +72,12 @@ export const contentType: OperationParameter = {
   }
 };
 
-export const trainRequest: OperationParameter = {
-  parameterPath: "trainRequest",
-  mapper: TrainRequestMapper
+export const analyzeRequest1: OperationParameter = {
+  parameterPath: ["options", "analyzeRequest"],
+  mapper: AnalyzeDocumentRequestMapper
 };
 
-export const accept: OperationParameter = {
+export const accept1: OperationParameter = {
   parameterPath: "accept",
   mapper: {
     defaultValue: "application/json",
@@ -62,88 +104,13 @@ export const endpoint: OperationURLParameter = {
 export const modelId: OperationURLParameter = {
   parameterPath: "modelId",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9][a-zA-Z0-9._~-]{1,63}")
+    },
     serializedName: "modelId",
     required: true,
     type: {
-      name: "Uuid"
-    }
-  }
-};
-
-export const includeKeys: OperationQueryParameter = {
-  parameterPath: ["options", "includeKeys"],
-  mapper: {
-    serializedName: "includeKeys",
-    type: {
-      name: "Boolean"
-    }
-  }
-};
-
-export const contentType1: OperationParameter = {
-  parameterPath: "contentType",
-  mapper: {
-    serializedName: "Content-Type",
-    required: true,
-    type: {
-      name: "Enum",
-      allowedValues: [
-        "application/pdf",
-        "image/bmp",
-        "image/jpeg",
-        "image/png",
-        "image/tiff"
-      ]
-    }
-  }
-};
-
-export const fileStream: OperationParameter = {
-  parameterPath: "fileStream",
-  mapper: {
-    serializedName: "fileStream",
-    required: true,
-    type: {
-      name: "Stream"
-    }
-  }
-};
-
-export const accept1: OperationParameter = {
-  parameterPath: "accept",
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Accept",
-    type: {
       name: "String"
-    }
-  }
-};
-
-export const contentType2: OperationParameter = {
-  parameterPath: "contentType",
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const fileStream1: OperationParameter = {
-  parameterPath: ["options", "fileStream"],
-  mapper: SourcePathMapper
-};
-
-export const includeTextDetails: OperationQueryParameter = {
-  parameterPath: ["options", "includeTextDetails"],
-  mapper: {
-    serializedName: "includeTextDetails",
-    type: {
-      name: "Boolean"
     }
   }
 };
@@ -151,48 +118,10 @@ export const includeTextDetails: OperationQueryParameter = {
 export const pages: OperationQueryParameter = {
   parameterPath: ["options", "pages"],
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^(\\d+(-\\d+)?)(,\\s*(\\d+(-\\d+)?))*$")
+    },
     serializedName: "pages",
-    type: {
-      name: "Sequence",
-      element: {
-        constraints: {
-          Pattern: new RegExp("(^[0-9]+-[0-9]+$)|(^[0-9]+$)")
-        },
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const resultId: OperationURLParameter = {
-  parameterPath: "resultId",
-  mapper: {
-    serializedName: "resultId",
-    required: true,
-    type: {
-      name: "Uuid"
-    }
-  }
-};
-
-export const copyRequest: OperationParameter = {
-  parameterPath: "copyRequest",
-  mapper: CopyRequestMapper
-};
-
-export const composeRequest: OperationParameter = {
-  parameterPath: "composeRequest",
-  mapper: ComposeRequestMapper
-};
-
-export const accept2: OperationParameter = {
-  parameterPath: "accept",
-  mapper: {
-    defaultValue: "application/json, text/json",
-    isConstant: true,
-    serializedName: "Accept",
     type: {
       name: "String"
     }
@@ -209,46 +138,76 @@ export const locale: OperationQueryParameter = {
   }
 };
 
-export const language: OperationQueryParameter = {
-  parameterPath: ["options", "language"],
+export const stringIndexType: OperationQueryParameter = {
+  parameterPath: "stringIndexType",
   mapper: {
-    serializedName: "language",
+    serializedName: "stringIndexType",
     type: {
       name: "String"
     }
   }
 };
 
-export const readingOrder: OperationQueryParameter = {
-  parameterPath: ["options", "readingOrder"],
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "basic",
-    serializedName: "readingOrder",
-    type: {
-      name: "Enum",
-      allowedValues: ["basic", "natural"]
-    }
-  }
-};
-
-export const op: OperationQueryParameter = {
-  parameterPath: "op",
-  mapper: {
-    defaultValue: "full",
+    defaultValue: "2021-09-30-preview",
     isConstant: true,
-    serializedName: "op",
+    serializedName: "api-version",
     type: {
       name: "String"
     }
   }
 };
 
-export const op1: OperationQueryParameter = {
-  parameterPath: "op",
+export const resultId: OperationURLParameter = {
+  parameterPath: "resultId",
   mapper: {
-    defaultValue: "summary",
+    serializedName: "resultId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const contentType2: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
     isConstant: true,
-    serializedName: "op",
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const buildRequest: OperationParameter = {
+  parameterPath: "buildRequest",
+  mapper: BuildDocumentModelRequestMapper
+};
+
+export const composeRequest: OperationParameter = {
+  parameterPath: "composeRequest",
+  mapper: ComposeDocumentModelRequestMapper
+};
+
+export const authorizeCopyRequest: OperationParameter = {
+  parameterPath: "authorizeCopyRequest",
+  mapper: AuthorizeCopyRequestMapper
+};
+
+export const copyToRequest: OperationParameter = {
+  parameterPath: "copyToRequest",
+  mapper: CopyAuthorizationMapper
+};
+
+export const operationId: OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    serializedName: "operationId",
+    required: true,
     type: {
       name: "String"
     }

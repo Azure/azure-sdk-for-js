@@ -551,23 +551,27 @@ export async function main() {
   const metricsQueryClient = new MetricsQueryClient(tokenCredential);
 
   if (!metricsResourceId) {
-    throw new Error("METRICS_RESOURCE_ID must be set in the environment for this sample");
+    throw new Error(
+      "METRICS_RESOURCE_ID for an Azure Metrics Advisor subscription must be set in the environment for this sample"
+    );
   }
 
-  console.log(`Picking an example metric to query: ${firstMetricName}`);
+  console.log(`Picking an example metric to query: MatchedEventCount`);
 
   const metricsResponse = await metricsQueryClient.queryResource(
     metricsResourceId,
-    { duration: Durations.fiveMinutes },
+    ["MatchedEventCount"],
     {
-      metricNames: ["MatchedEventCount"],
-      interval: "PT1M",
-      aggregations: [AggregationType.Count]
+      timespan: {
+        duration: Durations.fiveMinutes
+      },
+      granularity: "PT1M",
+      aggregations: ["Count"]
     }
   );
 
   console.log(
-    `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.interval}, time span: ${metricsResponse.timespan}`
+    `Query cost: ${metricsResponse.cost}, granularity: ${metricsResponse.granularity}, time span: ${metricsResponse.timespan}`
   );
 
   const metrics: Metric[] = metricsResponse.metrics;

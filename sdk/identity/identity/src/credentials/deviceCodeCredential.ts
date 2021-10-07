@@ -32,6 +32,20 @@ export class DeviceCodeCredential implements TokenCredential {
    * Creates an instance of DeviceCodeCredential with the details needed
    * to initiate the device code authorization flow with Azure Active Directory.
    *
+   * A message will be logged, giving users a code that they can use to authenticate once they go to https://microsoft.com/devicelogin
+   *
+   * Developers can configure how this message is shown by passing a custom `userPromptCallback`:
+   *
+   * ```js
+   * const credential = new DeviceCodeCredential({
+   *   tenantId: env.AZURE_TENANT_ID,
+   *   clientId: env.AZURE_CLIENT_ID,
+   *   userPromptCallback: (info) => {
+   *     console.log("CUSTOMIZED PROMPT CALLBACK", info.message);
+   *   }
+   * });
+   * ```
+   *
    * @param options - Options for configuring the client which makes the authentication requests.
    */
   constructor(options?: DeviceCodeCredentialOptions) {

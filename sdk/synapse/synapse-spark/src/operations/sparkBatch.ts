@@ -24,7 +24,7 @@ import {
   SparkBatchCancelSparkBatchJobOptionalParams
 } from "../models";
 
-/** Class representing a SparkBatch. */
+/** Class containing SparkBatch operations. */
 export class SparkBatchImpl implements SparkBatch {
   private readonly client: SparkClientContext;
 

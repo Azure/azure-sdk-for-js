@@ -2228,7 +2228,6 @@ describe("ATOM APIs", () => {
         autoDeleteOnIdle: "PT2H",
         supportOrdering: true,
         maxSizeInMegabytes: 3072,
-        maxMessageSizeInKilobytes: 1036,
         availabilityStatus: "Available" as EntityAvailabilityStatus
       },
       output: {

@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure Form Recognizer service.",
-  "version": "3.2.1",
+  "version": "4.0.0-beta.1",
   "keywords": [
     "node",
     "azure",
@@ -81,10 +81,12 @@
   "autoPublish": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
+    "@azure/abort-controller": "^1.0.0",
     "@azure/core-auth": "^1.3.0",
     "@azure/core-lro": "^2.2.0",
     "@azure/core-paging": "^1.1.1",
-    "@azure/core-http": "^2.0.0",
+    "@azure/core-rest-pipeline": "^1.1.0",
+    "@azure/core-client": "^1.0.0",
     "@azure/core-tracing": "1.0.0-preview.13",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0"
@@ -121,25 +123,21 @@
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^1.18.0",
     "nyc": "^14.0.0",
-    "prettier": "^1.16.4",
+    "prettier": "^2.4.0",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",
-    "typescript": "~4.2.0",
+    "typescript": "~4.4.0",
     "typedoc": "0.15.2"
   },
   "//sampleConfiguration": {
     "skip": [
-      "customModelManagement.js",
-      "createComposedModel.js",
-      "differentiateLabeledUnlabeled.js",
-      "getBoundingBoxes.js",
-      "recognizeCustomForm.js",
-      "trainLabeledModel.js",
-      "trainUnlabeledModel.js",
+      "analyzeDocumentByModelId.js",
+      "buildModel.js",
+      "composeModel.js",
       "copyModel.js",
-      "deleteAllModels.js"
+      "getModel.js"
     ],
     "productName": "Azure Form Recognizer",
     "productSlugs": [

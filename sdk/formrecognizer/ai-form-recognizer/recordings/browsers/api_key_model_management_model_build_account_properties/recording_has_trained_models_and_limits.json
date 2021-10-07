@@ -1,0 +1,27 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://endpoint/formrecognizer/info",
+   "query": {
+    "api-version": "2021-09-30-preview"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\n  \"customDocumentModels\": {\n    \"count\": 92,\n    \"limit\": 20000\n  }\n}",
+   "responseHeaders": {
+    "apim-request-id": "02ccb64b-80be-4874-a85d-f98e380e8f9d",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 21 Sep 2021 21:35:53 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "65"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "f9b988cd2c88eaf3bda64d60f90b3e8a"
+}

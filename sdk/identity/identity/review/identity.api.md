@@ -115,7 +115,6 @@ export class ClientCertificateCredential implements TokenCredential {
 
 // @public
 export interface ClientCertificateCredentialOptions extends TokenCredentialOptions, CredentialPersistenceOptions {
-    regionalAuthority?: string;
     sendCertificateChain?: boolean;
 }
 
@@ -136,7 +135,6 @@ export class ClientSecretCredential implements TokenCredential {
 
 // @public
 export interface ClientSecretCredentialOptions extends TokenCredentialOptions, CredentialPersistenceOptions {
-    regionalAuthority?: string;
 }
 
 // @public
@@ -283,63 +281,6 @@ export interface OnBehalfOfCredentialSecretConfiguration {
     clientSecret: string;
     tenantId: string;
     userAssertionToken: string;
-}
-
-// @public
-export enum RegionalAuthority {
-    AsiaEast = "eastasia",
-    AsiaSouthEast = "southeastasia",
-    AustraliaCentral = "australiacentral",
-    AustraliaCentral2 = "australiacentral2",
-    AustraliaEast = "australiaeast",
-    AustraliaSouthEast = "australiasoutheast",
-    AutoDiscoverRegion = "AutoDiscoverRegion",
-    BrazilSouth = "brazilsouth",
-    CanadaCentral = "canadacentral",
-    CanadaEast = "canadaeast",
-    ChinaEast = "chinaeast",
-    ChinaEast2 = "chinaeast2",
-    ChinaNorth = "chinanorth",
-    ChinaNorth2 = "chinanorth2",
-    EuropeNorth = "northeurope",
-    EuropeWest = "westeurope",
-    FranceCentral = "francecentral",
-    FranceSouth = "francesouth",
-    GermanyCentral = "germanycentral",
-    GermanyNorth = "germanynorth",
-    GermanyNorthEast = "germanynortheast",
-    GermanyWestCentral = "germanywestcentral",
-    GovernmentUSArizona = "usgovarizona",
-    GovernmentUSDodCentral = "usdodcentral",
-    GovernmentUSDodEast = "usdodeast",
-    GovernmentUSIowa = "usgoviowa",
-    GovernmentUSTexas = "usgovtexas",
-    GovernmentUSVirginia = "usgovvirginia",
-    IndiaCentral = "centralindia",
-    IndiaSouth = "southindia",
-    IndiaWest = "westindia",
-    JapanEast = "japaneast",
-    JapanWest = "japanwest",
-    KoreaCentral = "koreacentral",
-    KoreaSouth = "koreasouth",
-    NorwayEast = "norwayeast",
-    NorwayWest = "norwaywest",
-    SouthAfricaNorth = "southafricanorth",
-    SouthAfricaWest = "southafricawest",
-    SwitzerlandNorth = "switzerlandnorth",
-    SwitzerlandWest = "switzerlandwest",
-    UAECentral = "uaecentral",
-    UAENorth = "uaenorth",
-    UKSouth = "uksouth",
-    UKWest = "ukwest",
-    USCentral = "centralus",
-    USEast = "eastus",
-    USEast2 = "eastus2",
-    USNorthCentral = "northcentralus",
-    USSouthCentral = "southcentralus",
-    USWest = "westus",
-    USWest2 = "westus2",
-    USWestCentral = "westcentralus"
 }
 
 // @public

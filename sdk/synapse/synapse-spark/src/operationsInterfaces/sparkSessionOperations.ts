@@ -7,24 +7,24 @@
  */
 
 import {
-  SparkSessionOperationsGetSparkSessionsOptionalParams,
-  SparkSessionOperationsGetSparkSessionsResponse,
+  SparkSessionGetSparkSessionsOptionalParams,
+  SparkSessionGetSparkSessionsResponse,
   SparkSessionOptions,
-  SparkSessionOperationsCreateSparkSessionOptionalParams,
-  SparkSessionOperationsCreateSparkSessionResponse,
-  SparkSessionOperationsGetSparkSessionOptionalParams,
-  SparkSessionOperationsGetSparkSessionResponse,
-  SparkSessionOperationsCancelSparkSessionOptionalParams,
-  SparkSessionOperationsResetSparkSessionTimeoutOptionalParams,
-  SparkSessionOperationsGetSparkStatementsOptionalParams,
-  SparkSessionOperationsGetSparkStatementsResponse,
+  SparkSessionCreateSparkSessionOptionalParams,
+  SparkSessionCreateSparkSessionResponse,
+  SparkSessionGetSparkSessionOptionalParams,
+  SparkSessionGetSparkSessionResponse,
+  SparkSessionCancelSparkSessionOptionalParams,
+  SparkSessionResetSparkSessionTimeoutOptionalParams,
+  SparkSessionGetSparkStatementsOptionalParams,
+  SparkSessionGetSparkStatementsResponse,
   SparkStatementOptions,
-  SparkSessionOperationsCreateSparkStatementOptionalParams,
-  SparkSessionOperationsCreateSparkStatementResponse,
-  SparkSessionOperationsGetSparkStatementOptionalParams,
-  SparkSessionOperationsGetSparkStatementResponse,
-  SparkSessionOperationsCancelSparkStatementOptionalParams,
-  SparkSessionOperationsCancelSparkStatementResponse
+  SparkSessionCreateSparkStatementOptionalParams,
+  SparkSessionCreateSparkStatementResponse,
+  SparkSessionGetSparkStatementOptionalParams,
+  SparkSessionGetSparkStatementResponse,
+  SparkSessionCancelSparkStatementOptionalParams,
+  SparkSessionCancelSparkStatementResponse
 } from "../models";
 
 /** Interface representing a SparkSessionOperations. */
@@ -34,8 +34,8 @@ export interface SparkSessionOperations {
    * @param options The options parameters.
    */
   getSparkSessions(
-    options?: SparkSessionOperationsGetSparkSessionsOptionalParams
-  ): Promise<SparkSessionOperationsGetSparkSessionsResponse>;
+    options?: SparkSessionGetSparkSessionsOptionalParams
+  ): Promise<SparkSessionGetSparkSessionsResponse>;
   /**
    * Create new spark session.
    * @param sparkSessionOptions Livy compatible batch job request payload.
@@ -43,8 +43,8 @@ export interface SparkSessionOperations {
    */
   createSparkSession(
     sparkSessionOptions: SparkSessionOptions,
-    options?: SparkSessionOperationsCreateSparkSessionOptionalParams
-  ): Promise<SparkSessionOperationsCreateSparkSessionResponse>;
+    options?: SparkSessionCreateSparkSessionOptionalParams
+  ): Promise<SparkSessionCreateSparkSessionResponse>;
   /**
    * Gets a single spark session.
    * @param sessionId Identifier for the session.
@@ -52,8 +52,8 @@ export interface SparkSessionOperations {
    */
   getSparkSession(
     sessionId: number,
-    options?: SparkSessionOperationsGetSparkSessionOptionalParams
-  ): Promise<SparkSessionOperationsGetSparkSessionResponse>;
+    options?: SparkSessionGetSparkSessionOptionalParams
+  ): Promise<SparkSessionGetSparkSessionResponse>;
   /**
    * Cancels a running spark session.
    * @param sessionId Identifier for the session.
@@ -61,7 +61,7 @@ export interface SparkSessionOperations {
    */
   cancelSparkSession(
     sessionId: number,
-    options?: SparkSessionOperationsCancelSparkSessionOptionalParams
+    options?: SparkSessionCancelSparkSessionOptionalParams
   ): Promise<void>;
   /**
    * Sends a keep alive call to the current session to reset the session timeout.
@@ -70,7 +70,7 @@ export interface SparkSessionOperations {
    */
   resetSparkSessionTimeout(
     sessionId: number,
-    options?: SparkSessionOperationsResetSparkSessionTimeoutOptionalParams
+    options?: SparkSessionResetSparkSessionTimeoutOptionalParams
   ): Promise<void>;
   /**
    * Gets a list of statements within a spark session.
@@ -79,8 +79,8 @@ export interface SparkSessionOperations {
    */
   getSparkStatements(
     sessionId: number,
-    options?: SparkSessionOperationsGetSparkStatementsOptionalParams
-  ): Promise<SparkSessionOperationsGetSparkStatementsResponse>;
+    options?: SparkSessionGetSparkStatementsOptionalParams
+  ): Promise<SparkSessionGetSparkStatementsResponse>;
   /**
    * Create statement within a spark session.
    * @param sessionId Identifier for the session.
@@ -90,8 +90,8 @@ export interface SparkSessionOperations {
   createSparkStatement(
     sessionId: number,
     sparkStatementOptions: SparkStatementOptions,
-    options?: SparkSessionOperationsCreateSparkStatementOptionalParams
-  ): Promise<SparkSessionOperationsCreateSparkStatementResponse>;
+    options?: SparkSessionCreateSparkStatementOptionalParams
+  ): Promise<SparkSessionCreateSparkStatementResponse>;
   /**
    * Gets a single statement within a spark session.
    * @param sessionId Identifier for the session.
@@ -101,8 +101,8 @@ export interface SparkSessionOperations {
   getSparkStatement(
     sessionId: number,
     statementId: number,
-    options?: SparkSessionOperationsGetSparkStatementOptionalParams
-  ): Promise<SparkSessionOperationsGetSparkStatementResponse>;
+    options?: SparkSessionGetSparkStatementOptionalParams
+  ): Promise<SparkSessionGetSparkStatementResponse>;
   /**
    * Kill a statement within a session.
    * @param sessionId Identifier for the session.
@@ -112,6 +112,6 @@ export interface SparkSessionOperations {
   cancelSparkStatement(
     sessionId: number,
     statementId: number,
-    options?: SparkSessionOperationsCancelSparkStatementOptionalParams
-  ): Promise<SparkSessionOperationsCancelSparkStatementResponse>;
+    options?: SparkSessionCancelSparkStatementOptionalParams
+  ): Promise<SparkSessionCancelSparkStatementResponse>;
 }
