@@ -74,7 +74,7 @@ describe("ClientSecretCredential", function() {
       },
       children: [
         {
-          name: "Azure.Identity.ClientSecretCredential.getToken",
+          name: "Azure.Identity.ClientSecretCredential-getToken",
           children: []
         }
       ]
