@@ -13,6 +13,7 @@ import { Constants } from "@azure/core-http";
 import { HttpOperationResponse } from "@azure/core-http";
 import { WebResource } from "@azure/core-http";
 import { AccessTokenCache, ExpiringAccessTokenCache } from "@azure/core-http";
+import { URL } from "url";
 
 type ValidParsedWWWAuthenticateProperties =
   // "authorization_uri" was used in the track 1 version of KeyVault.
@@ -21,7 +22,8 @@ type ValidParsedWWWAuthenticateProperties =
   | "authorization"
   // Even though the service is moving to "scope", both "resource" and "scope" should be supported.
   | "resource"
-  | "scope";
+  | "scope"
+  | "tenantId";
 
 type ParsedWWWAuthenticate = {
   [Key in ValidParsedWWWAuthenticateProperties]?: string;
@@ -31,7 +33,7 @@ type ParsedWWWAuthenticate = {
  * Representation of the Authentication Challenge
  */
 export class AuthenticationChallenge {
-  constructor(public authorization: string, public scope: string) {}
+  constructor(public authorization: string, public scope: string, public tenantId?: string) {}
 
   /**
    * Checks that this AuthenticationChallenge is equal to another one given.
@@ -108,6 +110,17 @@ export function parseWWWAuthenticate(wwwAuthenticate: string): ParsedWWWAuthenti
     }),
     {}
   );
+
+  if (parsed.authorization) {
+    try {
+      const tenantId = new URL(parsed.authorization).pathname.substring(1);
+      if (tenantId) {
+        parsed.tenantId = tenantId;
+      }
+    } catch (_) {
+      throw new Error(`The challenge authorization URI '${parsed.authorization}' is invalid.`);
+    }
+  }
   return parsed;
 }
 
@@ -149,7 +162,9 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
 
     // If there's no cached token in the cache, we try to get a new one.
     if (accessToken === undefined) {
-      const receivedToken = await this.credential.getToken(this.challengeCache.challenge!.scope);
+      const receivedToken = await this.credential.getToken(this.challengeCache.challenge!.scope, {
+        tenantId: this.challengeCache.challenge!.tenantId
+      });
       accessToken = receivedToken || undefined;
       this.tokenCache.setCachedToken(accessToken);
     }
@@ -179,12 +194,13 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
     const parsedWWWAuth = this.parseWWWAuthenticate(wwwAuthenticate);
     const authorization = parsedWWWAuth.authorization!;
     const resource = parsedWWWAuth.resource! || parsedWWWAuth.scope!;
+    const tenantId = parsedWWWAuth.tenantId;
 
     if (!(authorization && resource)) {
       return this._nextPolicy.sendRequest(webResource);
     }
 
-    const challenge = new AuthenticationChallenge(authorization, resource + "/.default");
+    const challenge = new AuthenticationChallenge(authorization, resource + "/.default", tenantId);
 
     // Either if there's no cached challenge at this point (could have happen in parallel),
     // or if the cached challenge has a different scope,

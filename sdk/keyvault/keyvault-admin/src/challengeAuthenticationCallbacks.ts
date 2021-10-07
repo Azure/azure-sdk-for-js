@@ -9,6 +9,7 @@ import {
   RequestBodyType
 } from "@azure/core-rest-pipeline";
 import { GetTokenOptions } from "@azure/core-auth";
+import { URL } from "url";
 
 const validParsedWWWAuthenticateProperties = ["authorization", "resource", "scope"];
 
@@ -19,7 +20,7 @@ const validParsedWWWAuthenticateProperties = ["authorization", "resource", "scop
  * parsing a WWW-Authenticate header.
  */
 type ParsedWWWAuthenticate = {
-  [Key in "authorization" | "resource" | "scope"]?: string;
+  [Key in "authorization" | "resource" | "scope" | "tenantId"]?: string;
 };
 
 /**
@@ -56,17 +57,32 @@ type ChallengeState =
  */
 export function parseWWWAuthenticate(wwwAuthenticate: string): ParsedWWWAuthenticate {
   const pairDelimiter = /,? +/;
-  return wwwAuthenticate.split(pairDelimiter).reduce<ParsedWWWAuthenticate>((kvPairs, p) => {
-    if (p.match(/\w="/)) {
-      // 'sampleKey="sample_value"' -> [sampleKey, "sample_value"] -> { sampleKey: sample_value }
-      const [key, value] = p.split("=");
-      if (validParsedWWWAuthenticateProperties.includes(key)) {
-        // The values will be wrapped in quotes, which need to be stripped out.
-        return { ...kvPairs, [key]: value.slice(1, -1) };
+  const parsed = wwwAuthenticate
+    .split(pairDelimiter)
+    .reduce<ParsedWWWAuthenticate>((kvPairs, p) => {
+      if (p.match(/\w="/)) {
+        // 'sampleKey="sample_value"' -> [sampleKey, "sample_value"] -> { sampleKey: sample_value }
+        const [key, value] = p.split("=");
+        if (validParsedWWWAuthenticateProperties.includes(key)) {
+          // The values will be wrapped in quotes, which need to be stripped out.
+          return { ...kvPairs, [key]: value.slice(1, -1) };
+        }
       }
+      return kvPairs;
+    }, {});
+
+  if (parsed.authorization) {
+    try {
+      const tenantId = new URL(parsed.authorization).pathname.substring(1);
+      if (tenantId) {
+        parsed.tenantId = tenantId;
+      }
+    } catch (_) {
+      throw new Error(`The challenge authorization URI '${parsed.authorization}' is invalid.`);
     }
-    return kvPairs;
-  }, {});
+  }
+
+  return parsed;
 }
 
 /**
@@ -143,7 +159,7 @@ export function createChallengeCallbacks(): ChallengeCallbacks {
 
     const accessToken = await options.getAccessToken(
       parsedChallenge.scope ? [parsedChallenge.scope] : scopes,
-      getTokenOptions
+      { ...getTokenOptions, tenantId: parsedChallenge.tenantId }
     );
 
     if (!accessToken) {

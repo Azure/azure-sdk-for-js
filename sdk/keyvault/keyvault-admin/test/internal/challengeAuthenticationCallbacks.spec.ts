@@ -172,28 +172,38 @@ describe("Challenge based authentication tests", function() {
 
   describe("parseWWWAuthenticate tests", () => {
     it("Should work for known shapes of the WWW-Authenticate header", () => {
-      const wwwAuthenticate1 = `Bearer authorization="some_authorization", resource="https://some.url"`;
+      const wwwAuthenticate1 = `Bearer authorization="https://login.windows.net", resource="https://some.url"`;
       const parsed1 = parseWWWAuthenticate(wwwAuthenticate1);
       assert.deepEqual(parsed1, {
-        authorization: "some_authorization",
+        authorization: "https://login.windows.net",
         resource: "https://some.url"
       });
 
-      const wwwAuthenticate2 = `Bearer authorization="some_authorization", scope="https://some.url"`;
+      const wwwAuthenticate2 = `Bearer authorization="https://login.windows.net/", scope="https://some.url"`;
       const parsed2 = parseWWWAuthenticate(wwwAuthenticate2);
       assert.deepEqual(parsed2, {
-        authorization: "some_authorization",
+        authorization: "https://login.windows.net/",
         scope: "https://some.url"
       });
     });
 
     it("Should ignore unknown values in the WWW-Authenticate header", () => {
-      const wwwAuthenticate1 = `Bearer authorization="some_authorization", resource="https://some.url" scope="scope", a="a", b="b"`;
+      const wwwAuthenticate1 = `Bearer authorization="https://login.windows.net", resource="https://some.url" scope="scope", a="a", b="b"`;
       const parsed1 = parseWWWAuthenticate(wwwAuthenticate1);
       assert.deepEqual(parsed1, {
-        authorization: "some_authorization",
+        authorization: "https://login.windows.net",
         resource: "https://some.url",
         scope: "scope"
+      });
+    });
+
+    it("should include the tenantId when present", () => {
+      const wwwAuthenticate1 = `Bearer authorization="https://login.windows.net/9999", resource="https://some.url"`;
+      const parsed1 = parseWWWAuthenticate(wwwAuthenticate1);
+      assert.deepEqual(parsed1, {
+        authorization: "https://login.windows.net/9999",
+        resource: "https://some.url",
+        tenantId: "9999"
       });
     });
   });
