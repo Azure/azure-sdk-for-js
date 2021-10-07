@@ -62,12 +62,12 @@ export {
   VisualStudioCodeCredentialOptions
 } from "./credentials/visualStudioCodeCredential";
 
+export { OnBehalfOfCredential } from "./credentials/onBehalfOfCredential";
 export {
-  OnBehalfOfCredential,
-  OnBehalfOfCredentialSecretConfiguration,
-  OnBehalfOfCredentialCertificateConfiguration
-} from "./credentials/onBehalfOfCredential";
-export { OnBehalfOfCredentialOptions } from "./credentials/onBehalfOfCredentialOptions";
+  OnBehalfOfCredentialOptions,
+  OnBehalfOfCredentialSecretOptions,
+  OnBehalfOfCredentialCertificateOptions
+} from "./credentials/onBehalfOfCredentialOptions";
 
 export { TokenCachePersistenceOptions } from "./msal/nodeFlows/tokenCachePersistenceOptions";
 

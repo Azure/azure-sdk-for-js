@@ -248,27 +248,29 @@ export class ManagedIdentityCredential implements TokenCredential {
 
 // @public
 export class OnBehalfOfCredential implements TokenCredential {
-    constructor(configuration: OnBehalfOfCredentialSecretConfiguration | OnBehalfOfCredentialCertificateConfiguration, options?: OnBehalfOfCredentialOptions);
+    constructor(options: OnBehalfOfCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
 // @public
-export interface OnBehalfOfCredentialCertificateConfiguration {
+export interface OnBehalfOfCredentialCertificateOptions {
     certificatePath: string;
     clientId: string;
+    clientSecret?: never;
     sendCertificateChain?: boolean;
     tenantId: string;
     userAssertionToken: string;
 }
 
 // @public
-export interface OnBehalfOfCredentialOptions extends TokenCredentialOptions, CredentialPersistenceOptions {
-}
+export type OnBehalfOfCredentialOptions = (OnBehalfOfCredentialSecretOptions | OnBehalfOfCredentialCertificateOptions) & TokenCredentialOptions & CredentialPersistenceOptions;
 
 // @public
-export interface OnBehalfOfCredentialSecretConfiguration {
+export interface OnBehalfOfCredentialSecretOptions {
+    certificatePath?: never;
     clientId: string;
     clientSecret: string;
+    sendCertificateChain?: never;
     tenantId: string;
     userAssertionToken: string;
 }

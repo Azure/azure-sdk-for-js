@@ -15,6 +15,7 @@
 
 - Renamed the `ApplicationCredential` to `AzureApplicationCredential`.
 - Removed the `CredentialPersistenceOptions` from `DefaultAzureCredential` and `EnvironmentCredential`.
+- Merged the configuration and the options bag on the `OnBehalfOfCredential` into a single options bag.
 
 ### Bugs Fixed
 
