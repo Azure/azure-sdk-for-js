@@ -231,7 +231,7 @@ const credential = new ClientSecretCredential(
 );
 ```
 
-Not all credentials require this configuration. Credentials which authenticate through a development tool, such as AzureCliCredential, use that tool's configuration. Similarly, VisualStudioCodeCredential accepts an authority argument but defaults to the authority matching VS Code's "Azure: Cloud" setting.
+Not all credentials require this configuration. Credentials which authenticate through a development tool, such as AzureCliCredential, use that tool's configuration. Similarly, VisualStudioCodeCredential accepts an `authorityHost` argument but defaults to the `authorityHost` matching VS Code's "Azure: Cloud" setting.
 
 ## Credential Classes
 
