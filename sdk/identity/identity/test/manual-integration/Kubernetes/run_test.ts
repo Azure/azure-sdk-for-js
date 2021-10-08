@@ -98,7 +98,7 @@ async function main(): Promise<void> {
     "--output=jsonpath='{.items[*].metadata.name}'"
   ]);
 
-  if (typeof podName !== "string") {
+  if (podName === null) {
     throw new Error("Missing pod name.");
   }
 
