@@ -136,7 +136,7 @@ export class ManagedIdentityCredential implements TokenCredential {
   ): Promise<AccessToken> {
     let result: AccessToken | null = null;
 
-    const { span, updatedOptions } = createSpan("ManagedIdentityCredential-getToken", options);
+    const { span, updatedOptions } = createSpan("ManagedIdentityCredential.getToken", options);
 
     try {
       // isEndpointAvailable can be true, false, or null,

@@ -124,7 +124,7 @@ export class EnvironmentCredential implements TokenCredential {
    * @param options - Optional parameters. See {@link GetTokenOptions}.
    */
   async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
-    return trace("EnvironmentCredential-getToken", options, async (newOptions) => {
+    return trace("EnvironmentCredentia..getToken", options, async (newOptions) => {
       if (this._credential) {
         try {
           const result = await this._credential.getToken(scopes, newOptions);

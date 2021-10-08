@@ -122,10 +122,10 @@ describe("EnvironmentCredential", function() {
       },
       children: [
         {
-          name: "Azure.Identity.EnvironmentCredential-getToken",
+          name: "Azure.Identity.EnvironmentCredential.getToken",
           children: [
             {
-              name: "Azure.Identity.ClientSecretCredential-getToken",
+              name: "Azure.Identity.ClientSecretCredential.getToken",
               children: []
             }
           ]
@@ -161,10 +161,10 @@ describe("EnvironmentCredential", function() {
       },
       children: [
         {
-          name: "Azure.Identity.EnvironmentCredential-getToken",
+          name: "Azure.Identity.EnvironmentCredential.getToken",
           children: [
             {
-              name: "Azure.Identity.ClientCertificateCredential-getToken",
+              name: "Azure.Identity.ClientCertificateCredential.getToken",
               children: []
             }
           ]
@@ -197,10 +197,10 @@ describe("EnvironmentCredential", function() {
       },
       children: [
         {
-          name: "Azure.Identity.EnvironmentCredential-getToken",
+          name: "Azure.Identity.EnvironmentCredential.getToken",
           children: [
             {
-              name: "Azure.Identity.UsernamePasswordCredential-getToken",
+              name: "Azure.Identity.UsernamePasswordCredential.getToken",
               children: []
             }
           ]
