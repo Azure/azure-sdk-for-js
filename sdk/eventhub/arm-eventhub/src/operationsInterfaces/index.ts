@@ -7,12 +7,11 @@
  */
 
 export * from "./clusters";
+export * from "./configuration";
 export * from "./namespaces";
 export * from "./privateEndpointConnections";
 export * from "./privateLinkResources";
-export * from "./configuration";
-export * from "./disasterRecoveryConfigs";
-export * from "./eventHubs";
-export * from "./consumerGroups";
 export * from "./operations";
-export * from "./regions";
+export * from "./eventHubs";
+export * from "./disasterRecoveryConfigs";
+export * from "./consumerGroups";
