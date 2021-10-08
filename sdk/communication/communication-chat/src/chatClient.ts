@@ -5,20 +5,6 @@
 import { logger } from "./models/logger";
 import { EventEmitter } from "events";
 import { CommunicationTokenCredential } from "@azure/communication-common";
-import {
-  SignalingClient,
-  ChatEventId,
-  ChatMessageReceivedEvent,
-  ChatMessageEditedEvent,
-  ChatMessageDeletedEvent,
-  ReadReceiptReceivedEvent,
-  TypingIndicatorReceivedEvent,
-  ChatThreadCreatedEvent,
-  ChatThreadDeletedEvent,
-  ChatThreadPropertiesUpdatedEvent,
-  ParticipantsAddedEvent,
-  ParticipantsRemovedEvent
-} from "@azure/communication-signaling";
 import { getSignalingClient } from "./signaling/signalingClient";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SpanStatusCode } from "@azure/core-tracing";
@@ -41,6 +27,20 @@ import { ChatApiClient } from "./generated/src";
 import { CreateChatThreadRequest } from "./models/requests";
 import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
 import { generateUuid } from "./models/uuid";
+import { SignalingClient } from "@azure/communication-signaling";
+import {
+  ChatEventId,
+  ChatMessageReceivedEvent,
+  ChatMessageEditedEvent,
+  ChatMessageDeletedEvent,
+  ReadReceiptReceivedEvent,
+  TypingIndicatorReceivedEvent,
+  ChatThreadCreatedEvent,
+  ChatThreadDeletedEvent,
+  ChatThreadPropertiesUpdatedEvent,
+  ParticipantsAddedEvent,
+  ParticipantsRemovedEvent
+} from "./models/events";
 
 /**
  * The client to do chat operations
