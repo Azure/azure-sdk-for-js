@@ -221,6 +221,64 @@ export interface ConnectedCluster extends TrackedResource {
 }
 
 /**
+ * Contains the REP (rendezvous endpoint) and “Sender” access token.
+ */
+export interface HybridConnectionConfig {
+  /**
+   * Timestamp when this token will be expired.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly expirationTime?: number;
+  /**
+   * Name of the connection
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly hybridConnectionName?: string;
+  /**
+   * Name of the relay.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly relay?: string;
+  /**
+   * Sender access token
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly token?: string;
+}
+
+/**
+ * The credential result response.
+ */
+export interface CredentialResult {
+  /**
+   * The name of the credential.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Base64-encoded Kubernetes configuration file.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: Uint8Array;
+}
+
+/**
+ * The list of credential result response.
+ */
+export interface CredentialResults {
+  /**
+   * Contains the REP (rendezvous endpoint) and “Sender” access token.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly hybridConnectionConfig?: HybridConnectionConfig;
+  /**
+   * Base64-encoded Kubernetes configuration file.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly kubeconfigs?: CredentialResult[];
+}
+
+/**
  * Object containing updates for patch operations.
  */
 export interface ConnectedClusterPatch {
@@ -233,6 +291,20 @@ export interface ConnectedClusterPatch {
    * operation.
    */
   properties?: any;
+}
+
+/**
+ * An interface representing ListClusterUserCredentialProperties.
+ */
+export interface ListClusterUserCredentialProperties {
+  /**
+   * The mode of client authentication. Possible values include: 'Token', 'AAD'
+   */
+  authenticationMethod: AuthenticationMethod;
+  /**
+   * Boolean value to indicate whether the request is for client side proxy or not
+   */
+  clientProxy: boolean;
 }
 
 /**
@@ -387,6 +459,14 @@ export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
 export type LastModifiedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
 
 /**
+ * Defines values for AuthenticationMethod.
+ * Possible values include: 'Token', 'AAD'
+ * @readonly
+ * @enum {string}
+ */
+export type AuthenticationMethod = 'Token' | 'AAD';
+
+/**
  * Contains response data for the create operation.
  */
 export type ConnectedClusterCreateResponse = ConnectedCluster & {
@@ -443,6 +523,26 @@ export type ConnectedClusterGetResponse = ConnectedCluster & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ConnectedCluster;
+    };
+};
+
+/**
+ * Contains response data for the listClusterUserCredential operation.
+ */
+export type ConnectedClusterListClusterUserCredentialResponse = CredentialResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CredentialResults;
     };
 };
 

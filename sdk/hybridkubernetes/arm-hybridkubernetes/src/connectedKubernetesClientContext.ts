@@ -9,11 +9,11 @@
 
 import * as Models from "./models";
 import * as msRest from "@azure/ms-rest-js";
-import { TokenCredential } from "@azure/core-auth";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
+import { TokenCredential } from "@azure/core-auth";
 
 const packageName = "@azure/arm-hybridkubernetes";
-const packageVersion = "1.1.1";
+const packageVersion = "1.2.0";
 
 export class ConnectedKubernetesClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials | TokenCredential;
@@ -49,7 +49,7 @@ export class ConnectedKubernetesClientContext extends msRestAzure.AzureServiceCl
 
     super(credentials, options);
 
-    this.apiVersion = '2021-03-01';
+    this.apiVersion = '2021-10-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
