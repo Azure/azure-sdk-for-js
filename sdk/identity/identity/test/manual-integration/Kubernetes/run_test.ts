@@ -96,11 +96,7 @@ async function main(): Promise<void> {
     "pods",
     "--selector=job-name=" + JOB_NAME,
     "--output=jsonpath='{.items[*].metadata.name}'"
-  ]);
-
-  if (podName === null) {
-    throw new Error("Missing pod name.");
-  }
+  ]) as string;
 
   if (podName[0] == "'") {
     podName = podName.slice(1, -1);
