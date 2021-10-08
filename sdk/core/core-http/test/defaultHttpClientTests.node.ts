@@ -459,7 +459,6 @@ describe("defaultHttpClient (node)", function() {
 
     const res = await promise;
     assert.ok(res.readableStreamBody, "Expecting valid download stream");
-    console.log("destroying download stream...");
     const stream: Readable = res.readableStreamBody as any;
     stream.destroy();
   });
