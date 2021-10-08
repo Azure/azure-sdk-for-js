@@ -6,25 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   TriggerResource,
-  TriggerOperationsGetTriggersByWorkspaceOptionalParams,
-  TriggerOperationsCreateOrUpdateTriggerOptionalParams,
-  TriggerOperationsCreateOrUpdateTriggerResponse,
-  TriggerOperationsGetTriggerOptionalParams,
-  TriggerOperationsGetTriggerResponse,
-  TriggerOperationsDeleteTriggerOptionalParams,
-  TriggerOperationsSubscribeTriggerToEventsOptionalParams,
-  TriggerOperationsSubscribeTriggerToEventsResponse,
-  TriggerOperationsGetEventSubscriptionStatusOptionalParams,
-  TriggerOperationsGetEventSubscriptionStatusResponse,
-  TriggerOperationsUnsubscribeTriggerFromEventsOptionalParams,
-  TriggerOperationsUnsubscribeTriggerFromEventsResponse,
-  TriggerOperationsStartTriggerOptionalParams,
-  TriggerOperationsStopTriggerOptionalParams
+  TriggerGetTriggersByWorkspaceOptionalParams,
+  TriggerCreateOrUpdateTriggerOptionalParams,
+  TriggerCreateOrUpdateTriggerResponse,
+  TriggerGetTriggerOptionalParams,
+  TriggerGetTriggerResponse,
+  TriggerDeleteTriggerOptionalParams,
+  TriggerSubscribeTriggerToEventsOptionalParams,
+  TriggerSubscribeTriggerToEventsResponse,
+  TriggerGetEventSubscriptionStatusOptionalParams,
+  TriggerGetEventSubscriptionStatusResponse,
+  TriggerUnsubscribeTriggerFromEventsOptionalParams,
+  TriggerUnsubscribeTriggerFromEventsResponse,
+  TriggerStartTriggerOptionalParams,
+  TriggerStopTriggerOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +34,7 @@ export interface TriggerOperations {
    * @param options The options parameters.
    */
   listTriggersByWorkspace(
-    options?: TriggerOperationsGetTriggersByWorkspaceOptionalParams
+    options?: TriggerGetTriggersByWorkspaceOptionalParams
   ): PagedAsyncIterableIterator<TriggerResource>;
   /**
    * Creates or updates a trigger.
@@ -46,11 +45,11 @@ export interface TriggerOperations {
   beginCreateOrUpdateTrigger(
     triggerName: string,
     trigger: TriggerResource,
-    options?: TriggerOperationsCreateOrUpdateTriggerOptionalParams
+    options?: TriggerCreateOrUpdateTriggerOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<TriggerOperationsCreateOrUpdateTriggerResponse>,
-      TriggerOperationsCreateOrUpdateTriggerResponse
+      PollOperationState<TriggerCreateOrUpdateTriggerResponse>,
+      TriggerCreateOrUpdateTriggerResponse
     >
   >;
   /**
@@ -62,8 +61,8 @@ export interface TriggerOperations {
   beginCreateOrUpdateTriggerAndWait(
     triggerName: string,
     trigger: TriggerResource,
-    options?: TriggerOperationsCreateOrUpdateTriggerOptionalParams
-  ): Promise<TriggerOperationsCreateOrUpdateTriggerResponse>;
+    options?: TriggerCreateOrUpdateTriggerOptionalParams
+  ): Promise<TriggerCreateOrUpdateTriggerResponse>;
   /**
    * Gets a trigger.
    * @param triggerName The trigger name.
@@ -71,8 +70,8 @@ export interface TriggerOperations {
    */
   getTrigger(
     triggerName: string,
-    options?: TriggerOperationsGetTriggerOptionalParams
-  ): Promise<TriggerOperationsGetTriggerResponse>;
+    options?: TriggerGetTriggerOptionalParams
+  ): Promise<TriggerGetTriggerResponse>;
   /**
    * Deletes a trigger.
    * @param triggerName The trigger name.
@@ -80,7 +79,7 @@ export interface TriggerOperations {
    */
   beginDeleteTrigger(
     triggerName: string,
-    options?: TriggerOperationsDeleteTriggerOptionalParams
+    options?: TriggerDeleteTriggerOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes a trigger.
@@ -89,7 +88,7 @@ export interface TriggerOperations {
    */
   beginDeleteTriggerAndWait(
     triggerName: string,
-    options?: TriggerOperationsDeleteTriggerOptionalParams
+    options?: TriggerDeleteTriggerOptionalParams
   ): Promise<void>;
   /**
    * Subscribe event trigger to events.
@@ -98,11 +97,11 @@ export interface TriggerOperations {
    */
   beginSubscribeTriggerToEvents(
     triggerName: string,
-    options?: TriggerOperationsSubscribeTriggerToEventsOptionalParams
+    options?: TriggerSubscribeTriggerToEventsOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<TriggerOperationsSubscribeTriggerToEventsResponse>,
-      TriggerOperationsSubscribeTriggerToEventsResponse
+      PollOperationState<TriggerSubscribeTriggerToEventsResponse>,
+      TriggerSubscribeTriggerToEventsResponse
     >
   >;
   /**
@@ -112,8 +111,8 @@ export interface TriggerOperations {
    */
   beginSubscribeTriggerToEventsAndWait(
     triggerName: string,
-    options?: TriggerOperationsSubscribeTriggerToEventsOptionalParams
-  ): Promise<TriggerOperationsSubscribeTriggerToEventsResponse>;
+    options?: TriggerSubscribeTriggerToEventsOptionalParams
+  ): Promise<TriggerSubscribeTriggerToEventsResponse>;
   /**
    * Get a trigger's event subscription status.
    * @param triggerName The trigger name.
@@ -121,8 +120,8 @@ export interface TriggerOperations {
    */
   getEventSubscriptionStatus(
     triggerName: string,
-    options?: TriggerOperationsGetEventSubscriptionStatusOptionalParams
-  ): Promise<TriggerOperationsGetEventSubscriptionStatusResponse>;
+    options?: TriggerGetEventSubscriptionStatusOptionalParams
+  ): Promise<TriggerGetEventSubscriptionStatusResponse>;
   /**
    * Unsubscribe event trigger from events.
    * @param triggerName The trigger name.
@@ -130,11 +129,11 @@ export interface TriggerOperations {
    */
   beginUnsubscribeTriggerFromEvents(
     triggerName: string,
-    options?: TriggerOperationsUnsubscribeTriggerFromEventsOptionalParams
+    options?: TriggerUnsubscribeTriggerFromEventsOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<TriggerOperationsUnsubscribeTriggerFromEventsResponse>,
-      TriggerOperationsUnsubscribeTriggerFromEventsResponse
+      PollOperationState<TriggerUnsubscribeTriggerFromEventsResponse>,
+      TriggerUnsubscribeTriggerFromEventsResponse
     >
   >;
   /**
@@ -144,8 +143,8 @@ export interface TriggerOperations {
    */
   beginUnsubscribeTriggerFromEventsAndWait(
     triggerName: string,
-    options?: TriggerOperationsUnsubscribeTriggerFromEventsOptionalParams
-  ): Promise<TriggerOperationsUnsubscribeTriggerFromEventsResponse>;
+    options?: TriggerUnsubscribeTriggerFromEventsOptionalParams
+  ): Promise<TriggerUnsubscribeTriggerFromEventsResponse>;
   /**
    * Starts a trigger.
    * @param triggerName The trigger name.
@@ -153,7 +152,7 @@ export interface TriggerOperations {
    */
   beginStartTrigger(
     triggerName: string,
-    options?: TriggerOperationsStartTriggerOptionalParams
+    options?: TriggerStartTriggerOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Starts a trigger.
@@ -162,7 +161,7 @@ export interface TriggerOperations {
    */
   beginStartTriggerAndWait(
     triggerName: string,
-    options?: TriggerOperationsStartTriggerOptionalParams
+    options?: TriggerStartTriggerOptionalParams
   ): Promise<void>;
   /**
    * Stops a trigger.
@@ -171,7 +170,7 @@ export interface TriggerOperations {
    */
   beginStopTrigger(
     triggerName: string,
-    options?: TriggerOperationsStopTriggerOptionalParams
+    options?: TriggerStopTriggerOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Stops a trigger.
@@ -180,6 +179,6 @@ export interface TriggerOperations {
    */
   beginStopTriggerAndWait(
     triggerName: string,
-    options?: TriggerOperationsStopTriggerOptionalParams
+    options?: TriggerStopTriggerOptionalParams
   ): Promise<void>;
 }

@@ -1,16 +1,20 @@
 # Testing
 
+## Overview
+
 To test this project, make sure to build it by following our [building instructions](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#building), then follow the [testing instructions](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#testing).
 
 You can use existing Azure resources for the live tests, or generate new ones by using our [New-TestResources.ps1](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/common/TestResources/New-TestResources.ps1) script, which will use an [ARM template](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/test-resources.json) that already has all of the the necessary configurations.
 
-> Some tests require an Azure Managed HSM to run in live mode, as such you'll need to ensure one is deployed to run these tests. To do so you'll want to pass `enableHsm` as an ARM template parameter.
->
-> As an example:
->
-> ```powershell
-> New-TestResources.ps1 -ServiceDirectory 'keyvault' -ArmTemplateParameters @{ "enableHsm" = $true }
-> ```
+## Managed HSM tests
+
+Some tests require an Azure Managed HSM to run in live mode, which will need to be deployed and activated. To do so you'll want to pass `enableHsm` as an ARM template parameter.
+
+As an example:
+
+```powershell
+New-TestResources.ps1 -ServiceDirectory 'keyvault' -ArmTemplateParameters @{ "enableHsm" = $true }
+```
 
 The `New-TestResources` script will ensure that the Managed HSM is activated; however, if you are creating your own Managed HSM there are additional steps required to set up the correct permissions and activate the HSM. Please see [Activate Your Managed HSM](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/README.md#activate-your-managed-hsm) for more information.
 
@@ -21,6 +25,8 @@ Tests that require a managed HSM will be skipped if the `AZURE_MANAGEDHSM_URI` e
 The Azure resource that is used by the tests in this project is:
 
 - An [Azure Key Vault](https://docs.microsoft.com/azure/key-vault/general/basic-concepts). Your Azure Active Directory application needs to be added to the Access Policies of the Key Vault. The steps are provided [below](#aad-based-authentication).
+- An [Azure Key Vault Managed HSM](https://docs.microsoft.com/azure/key-vault/general/basic-concepts). Your Azure Active Directory application needs to be added to the Access Policies of the Key Vault. The steps are provided [below](#aad-based-authentication).
+- An [Azure Web App for Containers](https://docs.microsoft.com/azure/app-service/tutorial-custom-container?pivots=container-linux) is used to deploy a mock attestation service that is used to generate tokens and verify tokens by the HSM. The source code for the attestation service is hosted on [GitHub](https://github.com/Azure/azure-sdk-tools/tree/main/tools/keyvault-mock-attestation) and is deployed by the same ARM template when `enableHsm` ARM template parameter is true.
 
 To run the live tests, you will also need to set the below environment variables:
 
@@ -29,7 +35,13 @@ To run the live tests, you will also need to set the below environment variables
 - `AZURE_CLIENT_SECRET`: The client secret of an Azure Active Directory application.
 - `AZURE_TENANT_ID`: The Tenant ID of your organization in Azure Active Directory.
 - `KEYVAULT_URI`: The URI of the KeyVault to use.
+
+In addition, when running HSM based live tests the following environment variables are required:
+
+> If `AZURE_MANAGEDHSM_URI` is not defined, these tests will be skipped in live mode.
+
 - `AZURE_MANAGEDHSM_URI`: The URI of the Azure Managed HSM to use in the Managed HSM tests.
+- `AZURE_KEYVAULT_ATTESTATION_URI`: The URI of the mock attestation service used for Secure Key Release tests.
 
 The live tests in this project will create, modify and delete [keys](https://docs.microsoft.com/azure/key-vault/keys/about-keys) inside of the provided Azure Key Vault.
 

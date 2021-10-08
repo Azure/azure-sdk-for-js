@@ -39,7 +39,7 @@ async function runSingle(name: string, accumulatedErrors: Array<[string, string]
       await sampleMain();
     }
   } catch (err) {
-    const truncatedError: string = err
+    const truncatedError: string = (err as Error)
       .toString()
       .split("\n")[0]
       .slice(0, 100);

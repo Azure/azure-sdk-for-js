@@ -12,9 +12,11 @@ const logger = credentialLogger("AzurePowerShellCredential");
 
 /**
  * This credential will use the currently-logged-in user's login information via the Azure Power Shell command line tool.
- * This credential is not supported in browsers.
  */
 export class AzurePowerShellCredential implements TokenCredential {
+  /**
+   * Only available in Node.js
+   */
   constructor() {
     logger.info(formatError("", BrowserNotSupportedError));
     throw BrowserNotSupportedError;

@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
 export type SearchIndexerDataIdentityUnion =
   | SearchIndexerDataIdentity
@@ -213,6 +213,13 @@ export interface ListDataSourcesResult {
   readonly dataSources: SearchIndexerDataSource[];
 }
 
+export interface DocumentKeysOrIds {
+  /** document keys to be reset */
+  documentKeys?: string[];
+  /** datasource document identifiers to be reset */
+  datasourceDocumentIds?: string[];
+}
+
 /** Represents an indexer. */
 export interface SearchIndexer {
   /** The name of the indexer. */
@@ -316,7 +323,7 @@ export interface FieldMappingFunction {
   /** The name of the field mapping function. */
   name: string;
   /** A dictionary of parameter name/value pairs to pass to the function. Each value must be of a primitive type. */
-  parameters?: { [propertyName: string]: any };
+  parameters?: { [propertyName: string]: Record<string, unknown> };
 }
 
 export interface SearchIndexerCache {
@@ -367,6 +374,16 @@ export interface IndexerExecutionResult {
    */
   readonly status: IndexerExecutionStatus;
   /**
+   * The outcome of this indexer execution.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly statusDetail?: IndexerExecutionStatusDetail;
+  /**
+   * All of the state that defines and dictates the indexer's current execution.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly currentState?: IndexerCurrentState;
+  /**
    * The error message indicating the top-level error, if any.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -411,6 +428,45 @@ export interface IndexerExecutionResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly finalTrackingState?: string;
+}
+
+/** Represents all of the state that defines and dictates the indexer's current execution. */
+export interface IndexerCurrentState {
+  /**
+   * The mode the indexer is running in.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly mode?: IndexingMode;
+  /**
+   * Change tracking state used when indexing starts on all documents in the datasource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly allDocsInitialChangeTrackingState?: string;
+  /**
+   * Change tracking state value when indexing finishes on all documents in the datasource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly allDocsFinalChangeTrackingState?: string;
+  /**
+   * Change tracking state used when indexing starts on select, reset documents in the datasource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resetDocsInitialChangeTrackingState?: string;
+  /**
+   * Change tracking state value when indexing finishes on select, reset documents in the datasource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resetDocsFinalChangeTrackingState?: string;
+  /**
+   * The list of document keys that have been reset. The document key is the document's unique identifier for the data in the search index. The indexer will prioritize selectively re-ingesting these keys.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resetDocumentKeys?: string[];
+  /**
+   * The list of datasource document ids that have been reset. The datasource document id is the unique identifier for the data in the datasource. The indexer will prioritize selectively re-ingesting these ids.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resetDatasourceDocumentIds?: string[];
 }
 
 /** Represents an item- or document-level indexing error. */
@@ -615,6 +671,11 @@ export interface ListSkillsetsResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly skillsets: SearchIndexerSkillset[];
+}
+
+export interface SkillNames {
+  /** the names of skills to be reset. */
+  skillNames?: string[];
 }
 
 /** Represents a synonym map definition. */
@@ -1265,7 +1326,7 @@ export type DocumentExtractionSkill = SearchIndexerSkill & {
   /** The type of data to be extracted for the skill. Will be set to 'contentAndMetadata' if not defined. */
   dataToExtract?: string;
   /** A dictionary of configurations for the skill. */
-  configuration?: { [propertyName: string]: any };
+  configuration?: { [propertyName: string]: Record<string, unknown> };
 };
 
 /** A skill that can call a Web API endpoint, allowing you to extend a skillset by having it call your custom code. */
@@ -1847,7 +1908,7 @@ export interface RequestOptions {
 }
 
 /** Known values of {@link ApiVersion20210430Preview} that the service accepts. */
-export const enum KnownApiVersion20210430Preview {
+export enum KnownApiVersion20210430Preview {
   /** Api Version '2021-04-30-Preview' */
   TwoThousandTwentyOne0430Preview = "2021-04-30-Preview"
 }
@@ -1862,7 +1923,7 @@ export const enum KnownApiVersion20210430Preview {
 export type ApiVersion20210430Preview = string;
 
 /** Known values of {@link SearchIndexerDataSourceType} that the service accepts. */
-export const enum KnownSearchIndexerDataSourceType {
+export enum KnownSearchIndexerDataSourceType {
   /** Indicates an Azure SQL datasource. */
   AzureSql = "azuresql",
   /** Indicates a CosmosDB datasource. */
@@ -1892,7 +1953,7 @@ export const enum KnownSearchIndexerDataSourceType {
 export type SearchIndexerDataSourceType = string;
 
 /** Known values of {@link BlobIndexerParsingMode} that the service accepts. */
-export const enum KnownBlobIndexerParsingMode {
+export enum KnownBlobIndexerParsingMode {
   /** Set to default for normal file processing. */
   Default = "default",
   /** Set to text to improve indexing performance on plain text files in blob storage. */
@@ -1922,7 +1983,7 @@ export const enum KnownBlobIndexerParsingMode {
 export type BlobIndexerParsingMode = string;
 
 /** Known values of {@link BlobIndexerDataToExtract} that the service accepts. */
-export const enum KnownBlobIndexerDataToExtract {
+export enum KnownBlobIndexerDataToExtract {
   /** Indexes just the standard blob properties and user-specified metadata. */
   StorageMetadata = "storageMetadata",
   /** Extracts metadata provided by the Azure blob storage subsystem and the content-type specific metadata (for example, metadata unique to just .png files are indexed). */
@@ -1943,7 +2004,7 @@ export const enum KnownBlobIndexerDataToExtract {
 export type BlobIndexerDataToExtract = string;
 
 /** Known values of {@link BlobIndexerImageAction} that the service accepts. */
-export const enum KnownBlobIndexerImageAction {
+export enum KnownBlobIndexerImageAction {
   /** Ignores embedded images or image files in the data set.  This is the default. */
   None = "none",
   /** Extracts text from images (for example, the word "STOP" from a traffic stop sign), and embeds it into the content field.  This action requires that "dataToExtract" is set to "contentAndMetadata".  A normalized image refers to additional processing resulting in uniform image output, sized and rotated to promote consistent rendering when you include images in visual search results. This information is generated for each image when you use this option. */
@@ -1964,7 +2025,7 @@ export const enum KnownBlobIndexerImageAction {
 export type BlobIndexerImageAction = string;
 
 /** Known values of {@link BlobIndexerPDFTextRotationAlgorithm} that the service accepts. */
-export const enum KnownBlobIndexerPDFTextRotationAlgorithm {
+export enum KnownBlobIndexerPDFTextRotationAlgorithm {
   /** Leverages normal text extraction.  This is the default. */
   None = "none",
   /** May produce better and more readable text extraction from PDF files that have rotated text within them.  Note that there may be a small performance speed impact when this parameter is used.  This parameter only applies to PDF files, and only to PDFs with embedded text.  If the rotated text appears within an embedded image in the PDF, this parameter does not apply. */
@@ -1982,7 +2043,7 @@ export const enum KnownBlobIndexerPDFTextRotationAlgorithm {
 export type BlobIndexerPDFTextRotationAlgorithm = string;
 
 /** Known values of {@link IndexerExecutionEnvironment} that the service accepts. */
-export const enum KnownIndexerExecutionEnvironment {
+export enum KnownIndexerExecutionEnvironment {
   /** Indicates that Azure Cognitive Search can determine where the indexer should execute. This is the default environment when nothing is specified and is the recommended value. */
   Standard = "standard",
   /** Indicates that the indexer should run with the environment provisioned specifically for the search service. This should only be specified as the execution environment if the indexer needs to access resources securely over shared private link resources. */
@@ -1999,8 +2060,41 @@ export const enum KnownIndexerExecutionEnvironment {
  */
 export type IndexerExecutionEnvironment = string;
 
+/** Known values of {@link IndexerExecutionStatusDetail} that the service accepts. */
+export enum KnownIndexerExecutionStatusDetail {
+  /** Indicates that the reset that occurred was for a call to ResetDocs. */
+  ResetDocs = "resetDocs"
+}
+
+/**
+ * Defines values for IndexerExecutionStatusDetail. \
+ * {@link KnownIndexerExecutionStatusDetail} can be used interchangeably with IndexerExecutionStatusDetail,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **resetDocs**: Indicates that the reset that occurred was for a call to ResetDocs.
+ */
+export type IndexerExecutionStatusDetail = string;
+
+/** Known values of {@link IndexingMode} that the service accepts. */
+export enum KnownIndexingMode {
+  /** The indexer is indexing all documents in the datasource. */
+  IndexingAllDocs = "indexingAllDocs",
+  /** The indexer is indexing selective, reset documents in the datasource. The documents being indexed are defined on indexer status. */
+  IndexingResetDocs = "indexingResetDocs"
+}
+
+/**
+ * Defines values for IndexingMode. \
+ * {@link KnownIndexingMode} can be used interchangeably with IndexingMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **indexingAllDocs**: The indexer is indexing all documents in the datasource. \
+ * **indexingResetDocs**: The indexer is indexing selective, reset documents in the datasource. The documents being indexed are defined on indexer status.
+ */
+export type IndexingMode = string;
+
 /** Known values of {@link SearchFieldDataType} that the service accepts. */
-export const enum KnownSearchFieldDataType {
+export enum KnownSearchFieldDataType {
   /** Indicates that a field contains a string. */
   String = "Edm.String",
   /** Indicates that a field contains a 32-bit signed integer. */
@@ -2052,7 +2146,7 @@ export const enum KnownSearchFieldDataType {
 export type SearchFieldDataType = string;
 
 /** Known values of {@link LexicalAnalyzerName} that the service accepts. */
-export const enum KnownLexicalAnalyzerName {
+export enum KnownLexicalAnalyzerName {
   /** Microsoft analyzer for Arabic. */
   ArMicrosoft = "ar.microsoft",
   /** Lucene analyzer for Arabic. */
@@ -2343,7 +2437,7 @@ export const enum KnownLexicalAnalyzerName {
 export type LexicalAnalyzerName = string;
 
 /** Known values of {@link LexicalNormalizerName} that the service accepts. */
-export const enum KnownLexicalNormalizerName {
+export enum KnownLexicalNormalizerName {
   /** Converts alphabetic, numeric, and symbolic Unicode characters which are not in the first 127 ASCII characters (the "Basic Latin" Unicode block) into their ASCII equivalents, if such equivalents exist. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/ASCIIFoldingFilter.html */
   AsciiFolding = "asciifolding",
   /** Removes elisions. For example, "l'avion" (the plane) will be converted to "avion" (plane). See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/util/ElisionFilter.html */
@@ -2370,7 +2464,7 @@ export const enum KnownLexicalNormalizerName {
 export type LexicalNormalizerName = string;
 
 /** Known values of {@link TokenFilterName} that the service accepts. */
-export const enum KnownTokenFilterName {
+export enum KnownTokenFilterName {
   /** A token filter that applies the Arabic normalizer to normalize the orthography. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/ar/ArabicNormalizationFilter.html */
   ArabicNormalization = "arabic_normalization",
   /** Strips all characters after an apostrophe (including the apostrophe itself). See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/tr/ApostropheFilter.html */
@@ -2484,7 +2578,7 @@ export const enum KnownTokenFilterName {
 export type TokenFilterName = string;
 
 /** Known values of {@link CharFilterName} that the service accepts. */
-export const enum KnownCharFilterName {
+export enum KnownCharFilterName {
   /** A character filter that attempts to strip out HTML constructs. See https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/charfilter/HTMLStripCharFilter.html */
   HtmlStrip = "html_strip"
 }
@@ -2499,7 +2593,7 @@ export const enum KnownCharFilterName {
 export type CharFilterName = string;
 
 /** Known values of {@link KeyPhraseExtractionSkillLanguage} that the service accepts. */
-export const enum KnownKeyPhraseExtractionSkillLanguage {
+export enum KnownKeyPhraseExtractionSkillLanguage {
   /** Danish */
   Da = "da",
   /** Dutch */
@@ -2559,7 +2653,7 @@ export const enum KnownKeyPhraseExtractionSkillLanguage {
 export type KeyPhraseExtractionSkillLanguage = string;
 
 /** Known values of {@link OcrSkillLanguage} that the service accepts. */
-export const enum KnownOcrSkillLanguage {
+export enum KnownOcrSkillLanguage {
   /** Chinese-Simplified */
   ZhHans = "zh-Hans",
   /** Chinese-Traditional */
@@ -2649,7 +2743,7 @@ export const enum KnownOcrSkillLanguage {
 export type OcrSkillLanguage = string;
 
 /** Known values of {@link LineEnding} that the service accepts. */
-export const enum KnownLineEnding {
+export enum KnownLineEnding {
   /** Lines are separated by a single space character. */
   Space = "space",
   /** Lines are separated by a carriage return ('\r') character. */
@@ -2673,7 +2767,7 @@ export const enum KnownLineEnding {
 export type LineEnding = string;
 
 /** Known values of {@link ImageAnalysisSkillLanguage} that the service accepts. */
-export const enum KnownImageAnalysisSkillLanguage {
+export enum KnownImageAnalysisSkillLanguage {
   /** English */
   En = "en",
   /** Spanish */
@@ -2700,7 +2794,7 @@ export const enum KnownImageAnalysisSkillLanguage {
 export type ImageAnalysisSkillLanguage = string;
 
 /** Known values of {@link VisualFeature} that the service accepts. */
-export const enum KnownVisualFeature {
+export enum KnownVisualFeature {
   /** Visual features recognized as adult persons. */
   Adult = "adult",
   /** Visual features recognized as commercial brands. */
@@ -2733,7 +2827,7 @@ export const enum KnownVisualFeature {
 export type VisualFeature = string;
 
 /** Known values of {@link ImageDetail} that the service accepts. */
-export const enum KnownImageDetail {
+export enum KnownImageDetail {
   /** Details recognized as celebrities. */
   Celebrities = "celebrities",
   /** Details recognized as landmarks. */
@@ -2751,7 +2845,7 @@ export const enum KnownImageDetail {
 export type ImageDetail = string;
 
 /** Known values of {@link EntityCategory} that the service accepts. */
-export const enum KnownEntityCategory {
+export enum KnownEntityCategory {
   /** Entities describing a physical location. */
   Location = "location",
   /** Entities describing an organization. */
@@ -2784,7 +2878,7 @@ export const enum KnownEntityCategory {
 export type EntityCategory = string;
 
 /** Known values of {@link EntityRecognitionSkillLanguage} that the service accepts. */
-export const enum KnownEntityRecognitionSkillLanguage {
+export enum KnownEntityRecognitionSkillLanguage {
   /** Arabic */
   Ar = "ar",
   /** Czech */
@@ -2865,7 +2959,7 @@ export const enum KnownEntityRecognitionSkillLanguage {
 export type EntityRecognitionSkillLanguage = string;
 
 /** Known values of {@link SentimentSkillLanguage} that the service accepts. */
-export const enum KnownSentimentSkillLanguage {
+export enum KnownSentimentSkillLanguage {
   /** Danish */
   Da = "da",
   /** Dutch */
@@ -2922,7 +3016,7 @@ export const enum KnownSentimentSkillLanguage {
 export type SentimentSkillLanguage = string;
 
 /** Known values of {@link PIIDetectionSkillMaskingMode} that the service accepts. */
-export const enum KnownPIIDetectionSkillMaskingMode {
+export enum KnownPIIDetectionSkillMaskingMode {
   /** No masking occurs and the maskedText output will not be returned. */
   None = "none",
   /** Replaces the detected entities with the character given in the maskingCharacter parameter. The character will be repeated to the length of the detected entity so that the offsets will correctly correspond to both the input text as well as the output maskedText. */
@@ -2940,7 +3034,7 @@ export const enum KnownPIIDetectionSkillMaskingMode {
 export type PIIDetectionSkillMaskingMode = string;
 
 /** Known values of {@link SplitSkillLanguage} that the service accepts. */
-export const enum KnownSplitSkillLanguage {
+export enum KnownSplitSkillLanguage {
   /** Danish */
   Da = "da",
   /** German */
@@ -2979,7 +3073,7 @@ export const enum KnownSplitSkillLanguage {
 export type SplitSkillLanguage = string;
 
 /** Known values of {@link TextSplitMode} that the service accepts. */
-export const enum KnownTextSplitMode {
+export enum KnownTextSplitMode {
   /** Split the text into individual pages. */
   Pages = "pages",
   /** Split the text into individual sentences. */
@@ -2997,7 +3091,7 @@ export const enum KnownTextSplitMode {
 export type TextSplitMode = string;
 
 /** Known values of {@link CustomEntityLookupSkillLanguage} that the service accepts. */
-export const enum KnownCustomEntityLookupSkillLanguage {
+export enum KnownCustomEntityLookupSkillLanguage {
   /** Danish */
   Da = "da",
   /** German */
@@ -3036,7 +3130,7 @@ export const enum KnownCustomEntityLookupSkillLanguage {
 export type CustomEntityLookupSkillLanguage = string;
 
 /** Known values of {@link TextTranslationSkillLanguage} that the service accepts. */
-export const enum KnownTextTranslationSkillLanguage {
+export enum KnownTextTranslationSkillLanguage {
   /** Afrikaans */
   Af = "af",
   /** Arabic */
@@ -3264,7 +3358,7 @@ export const enum KnownTextTranslationSkillLanguage {
 export type TextTranslationSkillLanguage = string;
 
 /** Known values of {@link LexicalTokenizerName} that the service accepts. */
-export const enum KnownLexicalTokenizerName {
+export enum KnownLexicalTokenizerName {
   /** Grammar-based tokenizer that is suitable for processing most European-language documents. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/standard/ClassicTokenizer.html */
   Classic = "classic",
   /** Tokenizes the input from an edge into n-grams of the given size(s). See https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/ngram/EdgeNGramTokenizer.html */
@@ -3315,7 +3409,7 @@ export const enum KnownLexicalTokenizerName {
 export type LexicalTokenizerName = string;
 
 /** Known values of {@link RegexFlags} that the service accepts. */
-export const enum KnownRegexFlags {
+export enum KnownRegexFlags {
   /** Enables canonical equivalence. */
   CanonEq = "CANON_EQ",
   /** Enables case-insensitive matching. */
@@ -3605,7 +3699,7 @@ export type StopwordsList =
 
 /** Optional parameters. */
 export interface DataSourcesCreateOrUpdateOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
@@ -3613,24 +3707,15 @@ export interface DataSourcesCreateOrUpdateOptionalParams
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
   ifNoneMatch?: string;
   /** Ignores cache reset requirements. */
-  ignoreResetRequirements?: boolean;
+  skipIndexerResetRequirementForCache?: boolean;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type DataSourcesCreateOrUpdateResponse = SearchIndexerDataSource & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: SearchIndexerDataSource;
-  };
-};
+export type DataSourcesCreateOrUpdateResponse = SearchIndexerDataSource;
 
 /** Optional parameters. */
 export interface DataSourcesDeleteOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
@@ -3641,26 +3726,17 @@ export interface DataSourcesDeleteOptionalParams
 
 /** Optional parameters. */
 export interface DataSourcesGetOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
 }
 
 /** Contains response data for the get operation. */
-export type DataSourcesGetResponse = SearchIndexerDataSource & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: SearchIndexerDataSource;
-  };
-};
+export type DataSourcesGetResponse = SearchIndexerDataSource;
 
 /** Optional parameters. */
 export interface DataSourcesListOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
   /** Selects which top-level properties of the data sources to retrieve. Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all properties. */
@@ -3668,51 +3744,44 @@ export interface DataSourcesListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type DataSourcesListResponse = ListDataSourcesResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: ListDataSourcesResult;
-  };
-};
+export type DataSourcesListResponse = ListDataSourcesResult;
 
 /** Optional parameters. */
 export interface DataSourcesCreateOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
 }
 
 /** Contains response data for the create operation. */
-export type DataSourcesCreateResponse = SearchIndexerDataSource & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: SearchIndexerDataSource;
-  };
-};
+export type DataSourcesCreateResponse = SearchIndexerDataSource;
 
 /** Optional parameters. */
-export interface IndexersResetOptionalParams extends coreHttp.OperationOptions {
+export interface IndexersResetOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
 }
 
 /** Optional parameters. */
-export interface IndexersRunOptionalParams extends coreHttp.OperationOptions {
+export interface IndexersResetDocsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Parameter group */
+  requestOptionsParam?: RequestOptions;
+  keysOrIds?: DocumentKeysOrIds;
+  /** If false, keys or ids will be appended to existing ones. If true, only the keys or ids in this payload will be queued to be re-ingested. */
+  overwrite?: boolean;
+}
+
+/** Optional parameters. */
+export interface IndexersRunOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
 }
 
 /** Optional parameters. */
 export interface IndexersCreateOrUpdateOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
@@ -3720,26 +3789,17 @@ export interface IndexersCreateOrUpdateOptionalParams
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
   ifNoneMatch?: string;
   /** Ignores cache reset requirements. */
-  ignoreResetRequirements?: boolean;
+  skipIndexerResetRequirementForCache?: boolean;
   /** Disables cache reprocessing change detection. */
   disableCacheReprocessingChangeDetection?: boolean;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type IndexersCreateOrUpdateResponse = SearchIndexer & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: SearchIndexer;
-  };
-};
+export type IndexersCreateOrUpdateResponse = SearchIndexer;
 
 /** Optional parameters. */
 export interface IndexersDeleteOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
@@ -3749,25 +3809,17 @@ export interface IndexersDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface IndexersGetOptionalParams extends coreHttp.OperationOptions {
+export interface IndexersGetOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
 }
 
 /** Contains response data for the get operation. */
-export type IndexersGetResponse = SearchIndexer & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: SearchIndexer;
-  };
-};
+export type IndexersGetResponse = SearchIndexer;
 
 /** Optional parameters. */
-export interface IndexersListOptionalParams extends coreHttp.OperationOptions {
+export interface IndexersListOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
   /** Selects which top-level properties of the indexers to retrieve. Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all properties. */
@@ -3775,58 +3827,31 @@ export interface IndexersListOptionalParams extends coreHttp.OperationOptions {
 }
 
 /** Contains response data for the list operation. */
-export type IndexersListResponse = ListIndexersResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: ListIndexersResult;
-  };
-};
+export type IndexersListResponse = ListIndexersResult;
 
 /** Optional parameters. */
 export interface IndexersCreateOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
 }
 
 /** Contains response data for the create operation. */
-export type IndexersCreateResponse = SearchIndexer & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: SearchIndexer;
-  };
-};
+export type IndexersCreateResponse = SearchIndexer;
 
 /** Optional parameters. */
 export interface IndexersGetStatusOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
 }
 
 /** Contains response data for the getStatus operation. */
-export type IndexersGetStatusResponse = SearchIndexerStatus & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: SearchIndexerStatus;
-  };
-};
+export type IndexersGetStatusResponse = SearchIndexerStatus;
 
 /** Optional parameters. */
 export interface SkillsetsCreateOrUpdateOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
@@ -3834,26 +3859,17 @@ export interface SkillsetsCreateOrUpdateOptionalParams
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
   ifNoneMatch?: string;
   /** Ignores cache reset requirements. */
-  ignoreResetRequirements?: boolean;
+  skipIndexerResetRequirementForCache?: boolean;
   /** Disables cache reprocessing change detection. */
   disableCacheReprocessingChangeDetection?: boolean;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type SkillsetsCreateOrUpdateResponse = SearchIndexerSkillset & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: SearchIndexerSkillset;
-  };
-};
+export type SkillsetsCreateOrUpdateResponse = SearchIndexerSkillset;
 
 /** Optional parameters. */
 export interface SkillsetsDeleteOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
@@ -3863,25 +3879,18 @@ export interface SkillsetsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface SkillsetsGetOptionalParams extends coreHttp.OperationOptions {
+export interface SkillsetsGetOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
 }
 
 /** Contains response data for the get operation. */
-export type SkillsetsGetResponse = SearchIndexerSkillset & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: SearchIndexerSkillset;
-  };
-};
+export type SkillsetsGetResponse = SearchIndexerSkillset;
 
 /** Optional parameters. */
-export interface SkillsetsListOptionalParams extends coreHttp.OperationOptions {
+export interface SkillsetsListOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
   /** Selects which top-level properties of the skillsets to retrieve. Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all properties. */
@@ -3889,39 +3898,28 @@ export interface SkillsetsListOptionalParams extends coreHttp.OperationOptions {
 }
 
 /** Contains response data for the list operation. */
-export type SkillsetsListResponse = ListSkillsetsResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: ListSkillsetsResult;
-  };
-};
+export type SkillsetsListResponse = ListSkillsetsResult;
 
 /** Optional parameters. */
 export interface SkillsetsCreateOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
 }
 
 /** Contains response data for the create operation. */
-export type SkillsetsCreateResponse = SearchIndexerSkillset & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
+export type SkillsetsCreateResponse = SearchIndexerSkillset;
 
-    /** The response body as parsed JSON or XML */
-    parsedBody: SearchIndexerSkillset;
-  };
-};
+/** Optional parameters. */
+export interface SkillsetsResetSkillsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Parameter group */
+  requestOptionsParam?: RequestOptions;
+}
 
 /** Optional parameters. */
 export interface SynonymMapsCreateOrUpdateOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
@@ -3931,20 +3929,11 @@ export interface SynonymMapsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type SynonymMapsCreateOrUpdateResponse = SynonymMap & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: SynonymMap;
-  };
-};
+export type SynonymMapsCreateOrUpdateResponse = SynonymMap;
 
 /** Optional parameters. */
 export interface SynonymMapsDeleteOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
@@ -3955,26 +3944,17 @@ export interface SynonymMapsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface SynonymMapsGetOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
 }
 
 /** Contains response data for the get operation. */
-export type SynonymMapsGetResponse = SynonymMap & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: SynonymMap;
-  };
-};
+export type SynonymMapsGetResponse = SynonymMap;
 
 /** Optional parameters. */
 export interface SynonymMapsListOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
   /** Selects which top-level properties of the synonym maps to retrieve. Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all properties. */
@@ -3982,56 +3962,30 @@ export interface SynonymMapsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type SynonymMapsListResponse = ListSynonymMapsResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: ListSynonymMapsResult;
-  };
-};
+export type SynonymMapsListResponse = ListSynonymMapsResult;
 
 /** Optional parameters. */
 export interface SynonymMapsCreateOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
 }
 
 /** Contains response data for the create operation. */
-export type SynonymMapsCreateResponse = SynonymMap & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: SynonymMap;
-  };
-};
+export type SynonymMapsCreateResponse = SynonymMap;
 
 /** Optional parameters. */
-export interface IndexesCreateOptionalParams extends coreHttp.OperationOptions {
+export interface IndexesCreateOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
 }
 
 /** Contains response data for the create operation. */
-export type IndexesCreateResponse = SearchIndex & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: SearchIndex;
-  };
-};
+export type IndexesCreateResponse = SearchIndex;
 
 /** Optional parameters. */
-export interface IndexesListOptionalParams extends coreHttp.OperationOptions {
+export interface IndexesListOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
   /** Selects which top-level properties of the index definitions to retrieve. Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all properties. */
@@ -4039,20 +3993,11 @@ export interface IndexesListOptionalParams extends coreHttp.OperationOptions {
 }
 
 /** Contains response data for the list operation. */
-export type IndexesListResponse = ListIndexesResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: ListIndexesResult;
-  };
-};
+export type IndexesListResponse = ListIndexesResult;
 
 /** Optional parameters. */
 export interface IndexesCreateOrUpdateOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
@@ -4064,19 +4009,11 @@ export interface IndexesCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type IndexesCreateOrUpdateResponse = SearchIndex & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: SearchIndex;
-  };
-};
+export type IndexesCreateOrUpdateResponse = SearchIndex;
 
 /** Optional parameters. */
-export interface IndexesDeleteOptionalParams extends coreHttp.OperationOptions {
+export interface IndexesDeleteOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
@@ -4086,83 +4023,47 @@ export interface IndexesDeleteOptionalParams extends coreHttp.OperationOptions {
 }
 
 /** Optional parameters. */
-export interface IndexesGetOptionalParams extends coreHttp.OperationOptions {
+export interface IndexesGetOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
 }
 
 /** Contains response data for the get operation. */
-export type IndexesGetResponse = SearchIndex & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: SearchIndex;
-  };
-};
+export type IndexesGetResponse = SearchIndex;
 
 /** Optional parameters. */
 export interface IndexesGetStatisticsOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
 }
 
 /** Contains response data for the getStatistics operation. */
-export type IndexesGetStatisticsResponse = GetIndexStatisticsResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: GetIndexStatisticsResult;
-  };
-};
+export type IndexesGetStatisticsResponse = GetIndexStatisticsResult;
 
 /** Optional parameters. */
 export interface IndexesAnalyzeOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
 }
 
 /** Contains response data for the analyze operation. */
-export type IndexesAnalyzeResponse = AnalyzeResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: AnalyzeResult;
-  };
-};
+export type IndexesAnalyzeResponse = AnalyzeResult;
 
 /** Optional parameters. */
 export interface SearchServiceClientGetServiceStatisticsOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
 }
 
 /** Contains response data for the getServiceStatistics operation. */
-export type SearchServiceClientGetServiceStatisticsResponse = ServiceStatistics & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: ServiceStatistics;
-  };
-};
+export type SearchServiceClientGetServiceStatisticsResponse = ServiceStatistics;
 
 /** Optional parameters. */
 export interface SearchServiceClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+  extends coreClient.ServiceClientOptions {
   /** Overrides client endpoint. */
   endpoint?: string;
 }

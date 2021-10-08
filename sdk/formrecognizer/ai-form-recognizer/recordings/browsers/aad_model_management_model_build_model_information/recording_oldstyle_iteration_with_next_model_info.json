@@ -1,0 +1,51 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1331",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 04 Oct 2021 18:25:47 GMT",
+    "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+chi\"}]}",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.12071.28 - EUS ProdSlices",
+    "x-ms-request-id": "fdea0799-79a5-437a-b969-7088a7d45300"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/formrecognizer/documentModels",
+   "query": {
+    "api-version": "2021-09-30-preview"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\n  \"value\": [\n    {\n      \"modelId\": \"prebuilt-idDocument\",\n      \"createdDateTime\": \"2021-07-30T00:00:00Z\",\n      \"description\": \"Prebuilt model to extract key information from US driver licenses and international passports.\"\n    },\n    {\n      \"modelId\": \"prebuilt-layout\",\n      \"createdDateTime\": \"2021-07-30T00:00:00Z\",\n      \"description\": \"Prebuilt model to extract text, selection marks, tables, and other layout information.\"\n    },\n    {\n      \"modelId\": \"prebuilt-invoice\",\n      \"createdDateTime\": \"2021-07-30T00:00:00Z\",\n      \"description\": \"Prebuilt model to extract key information from English invoices, including customer, vendor, invoice ID, due date, total, and more.\"\n    },\n    {\n      \"modelId\": \"prebuilt-document\",\n      \"createdDateTime\": \"2021-07-30T00:00:00Z\",\n      \"description\": \"Prebuilt model to extract text, selection marks, tables, entities, and general key-value pairs.\"\n    },\n    {\n      \"modelId\": \"prebuilt-receipt\",\n      \"createdDateTime\": \"2021-07-30T00:00:00Z\",\n      \"description\": \"Prebuilt model to extract key information from English receipts, including merchant name, transaction date, transaction total, and more.\"\n    },\n    {\n      \"modelId\": \"prebuilt-businessCard\",\n      \"createdDateTime\": \"2021-07-30T00:00:00Z\",\n      \"description\": \"Prebuilt model to extract key information from English business cards, including personal contact info, company name, job title, and more.\"\n    },\n    {\n      \"modelId\": \"copyTarget163337131337006713\",\n      \"createdDateTime\": \"2021-10-04T18:15:09Z\"\n    },\n    {\n      \"modelId\": \"composedModelName163337183914902643\",\n      \"createdDateTime\": \"2021-10-04T18:23:59Z\"\n    },\n    {\n      \"modelId\": \"composedModelName163337192187701803\",\n      \"createdDateTime\": \"2021-10-04T18:25:22Z\"\n    },\n    {\n      \"modelId\": \"input2163337191532708937\",\n      \"createdDateTime\": \"2021-10-04T18:25:17Z\"\n    },\n    {\n      \"modelId\": \"input1163337186973805237\",\n      \"createdDateTime\": \"2021-10-04T18:24:32Z\"\n    },\n    {\n      \"modelId\": \"azsdkJavaScript037058\",\n      \"createdDateTime\": \"2021-10-04T18:10:39Z\"\n    },\n    {\n      \"modelId\": \"input2163337183083602943\",\n      \"createdDateTime\": \"2021-10-04T18:23:54Z\"\n    },\n    {\n      \"modelId\": \"copySource163337130657801160\",\n      \"createdDateTime\": \"2021-10-04T18:15:09Z\"\n    },\n    {\n      \"modelId\": \"customFormModelName163337115963302920\",\n      \"createdDateTime\": \"2021-10-04T18:12:42Z\"\n    },\n    {\n      \"modelId\": \"input1163337191532401327\",\n      \"createdDateTime\": \"2021-10-04T18:25:17Z\"\n    },\n    {\n      \"modelId\": \"input1163337125098407403\",\n      \"createdDateTime\": \"2021-10-04T18:14:13Z\"\n    },\n    {\n      \"modelId\": \"copyTarget163337192872809183\",\n      \"createdDateTime\": \"2021-10-04T18:25:24Z\"\n    },\n    {\n      \"modelId\": \"copySource163337187682004555\",\n      \"createdDateTime\": \"2021-10-04T18:24:39Z\"\n    },\n    {\n      \"modelId\": \"composedModelName163337130609209319\",\n      \"createdDateTime\": \"2021-10-04T18:15:06Z\"\n    },\n    {\n      \"modelId\": \"modelName163337193472600865\",\n      \"createdDateTime\": \"2021-10-04T18:25:37Z\"\n    },\n    {\n      \"modelId\": \"input2163337125098509178\",\n      \"createdDateTime\": \"2021-10-04T18:14:13Z\"\n    },\n    {\n      \"modelId\": \"input1163337183083404470\",\n      \"createdDateTime\": \"2021-10-04T18:23:53Z\"\n    },\n    {\n      \"modelId\": \"copySource163337125885001523\",\n      \"createdDateTime\": \"2021-10-04T18:14:21Z\"\n    },\n    {\n      \"modelId\": \"copySource163337192233401802\",\n      \"createdDateTime\": \"2021-10-04T18:25:24Z\"\n    },\n    {\n      \"modelId\": \"copyTarget163337188343308910\",\n      \"createdDateTime\": \"2021-10-04T18:24:39Z\"\n    },\n    {\n      \"modelId\": \"customFormModelName163337173870804431\",\n      \"createdDateTime\": \"2021-10-04T18:22:21Z\"\n    },\n    {\n      \"modelId\": \"copySource163337183967902573\",\n      \"createdDateTime\": \"2021-10-04T18:24:02Z\"\n    },\n    {\n      \"modelId\": \"customFormModelName163337159276803720\",\n      \"createdDateTime\": \"2021-10-04T18:19:55Z\"\n    },\n    {\n      \"modelId\": \"copyTarget163337184656409458\",\n      \"createdDateTime\": \"2021-10-04T18:24:02Z\"\n    },\n    {\n      \"modelId\": \"copyTarget163337126577104571\",\n      \"createdDateTime\": \"2021-10-04T18:14:21Z\"\n    },\n    {\n      \"modelId\": \"composedModelName163337187639305208\",\n      \"createdDateTime\": \"2021-10-04T18:24:36Z\"\n    },\n    {\n      \"modelId\": \"input2163337129909206437\",\n      \"createdDateTime\": \"2021-10-04T18:15:01Z\"\n    },\n    {\n      \"modelId\": \"input2163337186973906435\",\n      \"createdDateTime\": \"2021-10-04T18:24:32Z\"\n    },\n    {\n      \"modelId\": \"composedModelName163337125806502764\",\n      \"createdDateTime\": \"2021-10-04T18:14:18Z\"\n    },\n    {\n      \"modelId\": \"input1163337129908806200\",\n      \"createdDateTime\": \"2021-10-04T18:15:01Z\"\n    }\n  ]\n}",
+   "responseHeaders": {
+    "apim-request-id": "1c382514-3554-4642-8df1-9b2d86a02daa",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 04 Oct 2021 18:25:48 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "195"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "9771560eb06defc168001ee8e7419ed4"
+}

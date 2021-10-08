@@ -16,11 +16,16 @@ const logger = credentialLogger("ApplicationCredential");
  * Provides a default {@link ChainedTokenCredential} configuration for
  * applications that will be deployed to Azure.
  *
- * Only available in NodeJS.
+ * Only available in Node.js
  */
 export class ApplicationCredential extends ChainedTokenCredential {
   /**
    * Creates an instance of the ApplicationCredential class.
+   *
+   * The ApplicationCredential provides a default {@link ChainedTokenCredential} configuration for
+   * applications that will be deployed to Azure.
+   *
+   * Only available in Node.js
    *
    * @param options - Options for configuring the client which makes the authentication request.
    */

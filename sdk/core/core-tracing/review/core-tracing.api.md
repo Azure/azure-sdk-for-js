@@ -12,7 +12,8 @@ export interface Context {
 }
 
 // @public
-export const context: ContextAPI;
+const context_2: ContextAPI;
+export { context_2 as context }
 
 // @public
 export interface ContextAPI {
@@ -181,7 +182,6 @@ export interface TraceState {
     set(key: string, value: string): TraceState;
     unset(key: string): TraceState;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

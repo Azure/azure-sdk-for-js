@@ -145,7 +145,8 @@
                 "wrapKey",
                 "verify",
                 "sign",
-                "purge"
+                "purge",
+                "rotate"
               ],
               "secrets": ["get", "list", "set", "delete", "recover", "backup", "restore", "purge"],
               "certificates": [

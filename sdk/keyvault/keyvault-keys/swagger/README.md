@@ -14,7 +14,7 @@ output-folder: ../
 source-code-folder-path: ./src/generated
 disable-async-iterators: true
 api-version-parameter: choice
-package-version: 4.4.0-beta.2
+package-version: 4.4.0-beta.3
 ```
 
 ## Customizations for Track 2 Generator
@@ -34,4 +34,17 @@ directive:
     where: $.definitions.KeyOperationsParameters.properties.tag
     transform: >
       $["x-ms-client-name"] = "authenticationTag"
+```
+
+### Update swagger enum values for LifetimeActionsType to reflect what the service actually returns
+
+There is an ongoing thread about changing the swagger or returning lowercase values for enum values.
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.LifetimeActionsType.properties["type"]["x-ms-enum"]
+    transform: >
+      $.values[0].value = "Rotate";
+      $.values[1].value = "Notify";
 ```

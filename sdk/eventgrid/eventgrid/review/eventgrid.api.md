@@ -207,6 +207,86 @@ export type AcsSmsReceivedEventData = AcsSmsEventBase & {
 };
 
 // @public
+export interface AcsUserDisconnectedEventData {
+    userCommunicationIdentifier: CommunicationIdentifierModel;
+}
+
+// @public
+export interface ApiManagementApiCreatedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementApiDeletedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementApiReleaseCreatedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementApiReleaseDeletedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementApiReleaseUpdatedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementApiUpdatedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementProductCreatedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementProductDeletedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementProductUpdatedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementSubscriptionCreatedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementSubscriptionDeletedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementSubscriptionUpdatedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementUserCreatedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementUserDeletedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementUserUpdatedEventData {
+    resourceUri: string;
+}
+
+// @public
 export type AppAction = string;
 
 // @public
@@ -842,6 +922,12 @@ export interface MediaJobStateChangeEventData {
 }
 
 // @public
+export interface MediaLiveEventChannelArchiveHeartbeatEventData {
+    readonly channelLatencyMs: string;
+    readonly latencyResultCode: string;
+}
+
+// @public
 export interface MediaLiveEventConnectionRejectedEventData {
     readonly encoderIp: string;
     readonly encoderPort: string;
@@ -915,6 +1001,8 @@ export interface MediaLiveEventIngestHeartbeatEventData {
     readonly discontinuityCount: number;
     readonly healthy: boolean;
     readonly incomingBitrate: number;
+    readonly ingestDriftValue: string;
+    readonly lastFragmentArrivalTime: string;
     readonly lastTimestamp: string;
     readonly nonincreasingCount: number;
     readonly overlapCount: number;
@@ -922,6 +1010,8 @@ export interface MediaLiveEventIngestHeartbeatEventData {
     readonly timescale: string;
     readonly trackName: string;
     readonly trackType: string;
+    readonly transcriptionLanguage: string;
+    readonly transcriptionState: string;
     readonly unexpectedBitrate: boolean;
 }
 
@@ -1310,6 +1400,21 @@ export interface SubscriptionValidationEventData {
 
 // @public
 export interface SystemEventNameToEventData {
+    "Microsoft.ApiManagement.APICreated": ApiManagementApiCreatedEventData;
+    "Microsoft.ApiManagement.APIDeleted": ApiManagementApiDeletedEventData;
+    "Microsoft.ApiManagement.APIReleaseCreated": ApiManagementApiReleaseCreatedEventData;
+    "Microsoft.ApiManagement.APIReleaseDeleted": ApiManagementApiReleaseDeletedEventData;
+    "Microsoft.ApiManagement.APIReleaseUpdated": ApiManagementApiReleaseUpdatedEventData;
+    "Microsoft.ApiManagement.APIUpdated": ApiManagementApiUpdatedEventData;
+    "Microsoft.ApiManagement.ProductCreated": ApiManagementProductCreatedEventData;
+    "Microsoft.ApiManagement.ProductDeleted": ApiManagementProductDeletedEventData;
+    "Microsoft.ApiManagement.ProductUpdated": ApiManagementProductUpdatedEventData;
+    "Microsoft.ApiManagement.SubscriptionCreated": ApiManagementSubscriptionCreatedEventData;
+    "Microsoft.ApiManagement.SubscriptionDeleted": ApiManagementSubscriptionDeletedEventData;
+    "Microsoft.ApiManagement.SubscriptionUpdated": ApiManagementSubscriptionUpdatedEventData;
+    "Microsoft.ApiManagement.UserCreated": ApiManagementUserCreatedEventData;
+    "Microsoft.ApiManagement.UserDeleted": ApiManagementUserDeletedEventData;
+    "Microsoft.ApiManagement.UserUpdated": ApiManagementUserUpdatedEventData;
     "Microsoft.AppConfiguration.KeyValueDeleted": AppConfigurationKeyValueDeletedEventData;
     "Microsoft.AppConfiguration.KeyValueModified": AppConfigurationKeyValueModifiedEventData;
     "Microsoft.Communication.ChatMessageDeleted": AcsChatMessageDeletedEventData;
@@ -1328,6 +1433,7 @@ export interface SystemEventNameToEventData {
     "Microsoft.Communication.RecordingFileStatusUpdated": AcsRecordingFileStatusUpdatedEventData;
     "Microsoft.Communication.SMSDeliveryReportReceived": AcsSmsDeliveryReportReceivedEventData;
     "Microsoft.Communication.SMSReceived": AcsSmsReceivedEventData;
+    "Microsoft.Communication.UserDisconnected": AcsUserDisconnectedEventData;
     "Microsoft.ContainerRegistry.ChartDeleted": ContainerRegistryChartDeletedEventData;
     "Microsoft.ContainerRegistry.ChartPushed": ContainerRegistryChartPushedEventData;
     "Microsoft.ContainerRegistry.ImageDeleted": ContainerRegistryImageDeletedEventData;
@@ -1374,6 +1480,7 @@ export interface SystemEventNameToEventData {
     "Microsoft.Media.JobProcessing": MediaJobProcessingEventData;
     "Microsoft.Media.JobScheduled": MediaJobScheduledEventData;
     "Microsoft.Media.JobStateChange": MediaJobStateChangeEventData;
+    "Microsoft.Media.LiveEventChannelArchiveHeartbeat": MediaLiveEventChannelArchiveHeartbeatEventData;
     "Microsoft.Media.LiveEventConnectionRejected": MediaLiveEventConnectionRejectedEventData;
     "Microsoft.Media.LiveEventEncoderConnected": MediaLiveEventEncoderConnectedEventData;
     "Microsoft.Media.LiveEventEncoderDisconnected": MediaLiveEventEncoderDisconnectedEventData;

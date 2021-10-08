@@ -10,9 +10,9 @@ parameters:
   ServiceDirectory: ''
 
 stages:
-  - ${{if and(eq(variables['Build.Reason'], 'Manual'), eq(variables['System.TeamProject'], 'internal'))}}:
+  - ${{if and(in(variables['Build.Reason'], 'Manual', ''), eq(variables['System.TeamProject'], 'internal'))}}:
     - ${{ each artifact in parameters.Artifacts }}:
-      - stage: Release_${{artifact.safeName}}
+      - stage:
         displayName: 'Release: ${{artifact.name}}'
         dependsOn: ${{parameters.DependsOn}}
         condition: and(succeeded(), ne(variables['SetDevVersion'], 'true'), ne(variables['Skip.Release'], 'true'), ne(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js-pr'))
@@ -53,7 +53,7 @@ stages:
                         ReleaseSha: $(Build.SourceVersion)
                         RepoId: Azure/azure-sdk-for-js
                         WorkingDirectory: $(System.DefaultWorkingDirectory)
-                    
+
           - ${{if ne(artifact.skipPublishPackage, 'true')}}:
             - deployment: PublishPackage
               displayName: "Publish to npmjs"
@@ -123,13 +123,13 @@ stages:
                     steps:
                       - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
                         parameters:
-                          SkipDefaultCheckout: true 
+                          SkipDefaultCheckout: true
                           Paths:
                             - sdk/**/*.md
                       - download: current
                       - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
                         parameters:
-                          PackageInfoLocations: 
+                          PackageInfoLocations:
                             - $(Pipeline.Workspace)/${{parameters.ArtifactName}}/PackageInfo/${{artifact.name}}.json
                           RepoId: Azure/azure-sdk-for-js
                           WorkingDirectory: $(System.DefaultWorkingDirectory)
@@ -234,7 +234,7 @@ stages:
     - job: PublishPackages
       # Run Integration job only if SetDevVersion is set to true or ( SetDevVersion is empty and job is a scheduled CI run)
       # If SetDevVersion is set to false then we should skip integration job even for scheduled runs.
-      condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['SetDevVersion'], ''), eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal')))
+      condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal')))
       displayName: Publish package to daily feed
       pool:
         name: azsdk-pool-mms-ubuntu-2004-general
@@ -265,24 +265,25 @@ stages:
                 }
                 echo "##vso[task.setvariable variable=NpmToken]$npmToken"
                 echo "##vso[task.setvariable variable=Registry]$registry"
-              displayName: Detecting package archive_${{artifact.safeName}}
+              displayName: Detecting package archive_${{artifact.name}}
 
             - task: PowerShell@2
-              displayName: "Publish_${{artifact.safeName}} to dev feed"
+              displayName: "Publish_${{artifact.name}} to dev feed"
               inputs:
                 targetType: filePath
                 filePath: "eng/tools/publish-to-npm.ps1"
                 arguments: '-pathToArtifacts $(Package.Archive) -accessLevel "public" -tag "dev" -registry "$(Registry)" -npmToken "$(NpmToken)"'
 
     - job: PublishDocsToNightlyBranch
-      condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['SetDevVersion'], ''), eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal')))
+      condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal')))
+      dependsOn: PublishPackages
       pool:
         name: azsdk-pool-mms-ubuntu-2004-general
         vmImage: MMSUbuntu20.04
       steps:
         - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
           parameters:
-            SkipDefaultCheckout: true 
+            SkipDefaultCheckout: true
             Paths:
               - sdk/**/*.md
         - download: current

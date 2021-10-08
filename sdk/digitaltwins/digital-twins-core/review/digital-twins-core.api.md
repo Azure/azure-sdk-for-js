@@ -4,6 +4,8 @@
 
 ```ts
 
+/// <reference lib="esnext.asynciterable" />
+
 import * as coreHttp from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
@@ -343,7 +345,6 @@ export interface RelationshipCollection {
     nextLink?: string;
     value?: any[];
 }
-
 
 // (No @packageDocumentation comment for this package)
 

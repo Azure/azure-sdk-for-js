@@ -6,7 +6,7 @@
 import * as path from "path";
 import { assert } from "chai";
 import { AbortController } from "@azure/abort-controller";
-import { env, isPlaybackMode, delay } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode, delay, isLiveMode } from "@azure-tools/test-recorder";
 import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
 import { ClientCertificateCredential } from "../../../src";
 import { Context } from "mocha";
@@ -26,6 +26,10 @@ describe("ClientCertificateCredential", function() {
   const scope = "https://vault.azure.net/.default";
 
   it("authenticates", async function(this: Context) {
+    if (isLiveMode()) {
+      // Live test run not supported on CI at the moment. Locally should work though.
+      this.skip();
+    }
     if (isPlaybackMode()) {
       // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
       // This assertion could be provided as parameters, but we don't have that in the public API yet,
@@ -45,6 +49,10 @@ describe("ClientCertificateCredential", function() {
   });
 
   it("authenticates with sendCertificateChain", async function(this: Context) {
+    if (isLiveMode()) {
+      // Live test run not supported on CI at the moment. Locally should work though.
+      this.skip();
+    }
     if (isPlaybackMode()) {
       // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
       // This assertion could be provided as parameters, but we don't have that in the public API yet,
@@ -90,6 +98,10 @@ describe("ClientCertificateCredential", function() {
   });
 
   it("supports tracing", async function(this: Context) {
+    if (isLiveMode()) {
+      // Live test run not supported on CI at the moment. Locally should work though.
+      this.skip();
+    }
     if (isPlaybackMode()) {
       // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
       // This assertion could be provided as parameters, but we don't have that in the public API yet,

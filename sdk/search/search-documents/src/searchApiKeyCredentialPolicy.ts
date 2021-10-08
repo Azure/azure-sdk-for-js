@@ -3,52 +3,27 @@
 
 import { KeyCredential } from "@azure/core-auth";
 import {
-  RequestPolicyFactory,
-  RequestPolicy,
-  BaseRequestPolicy,
-  WebResourceLike,
-  HttpOperationResponse,
-  RequestPolicyOptionsLike
-} from "@azure/core-http";
+  PipelinePolicy,
+  PipelineRequest,
+  SendRequest,
+  PipelineResponse
+} from "@azure/core-rest-pipeline";
 
 const API_KEY_HEADER_NAME = "api-key";
+const searchApiKeyCredentialPolicy = "SearchApiKeyCredentialPolicy";
 
 /**
  * Create an HTTP pipeline policy to authenticate a request
  * using an `AzureKeyCredential` for Azure Cognitive Search
  */
-export function createSearchApiKeyCredentialPolicy(
-  credential: KeyCredential
-): RequestPolicyFactory {
+export function createSearchApiKeyCredentialPolicy(credential: KeyCredential): PipelinePolicy {
   return {
-    create: (nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike) => {
-      return new SearchApiKeyCredentialPolicy(nextPolicy, options, credential);
+    name: searchApiKeyCredentialPolicy,
+    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+      if (!request.headers.has(API_KEY_HEADER_NAME)) {
+        request.headers.set(API_KEY_HEADER_NAME, credential.key);
+      }
+      return next(request);
     }
   };
-}
-
-/**
- * A concrete implementation of an AzureKeyCredential policy
- * using the appropriate header for Azure Cognitive Search
- */
-class SearchApiKeyCredentialPolicy extends BaseRequestPolicy {
-  private credential: KeyCredential;
-
-  constructor(
-    nextPolicy: RequestPolicy,
-    options: RequestPolicyOptionsLike,
-    credential: KeyCredential
-  ) {
-    super(nextPolicy, options);
-    this.credential = credential;
-  }
-
-  public async sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse> {
-    if (!webResource) {
-      throw new Error("webResource cannot be null or undefined");
-    }
-
-    webResource.headers.set(API_KEY_HEADER_NAME, this.credential.key);
-    return this._nextPolicy.sendRequest(webResource);
-  }
 }

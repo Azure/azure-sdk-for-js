@@ -2,6 +2,31 @@
 
 ## 1.0.0 (Unreleased)
 
+### 2021-10-05
+
+- Support multiple test proxies
+  [#18031](https://github.com/Azure/azure-sdk-for-js/pull/18031)
+
+### 2021-10-01
+
+- Calls runAsync() once before starting recording, to avoid capturing one-time setup like authorization requests.
+  [#17993](https://github.com/Azure/azure-sdk-for-js/pull/17993)
+
+### 2021-09-29
+
+- Allows connecting to the proxy-tool with https with the "insecure" boolean option.
+  [#17898](https://github.com/Azure/azure-sdk-for-js/pull/17898)
+
+- [Bug Fix] Fixes [#17954](https://github.com/Azure/azure-sdk-for-js/issues/17954), boolean options parsed incorrectly as strings is rectified.
+
+### 2021-09-24
+
+- Instead of using the cached proxy-clients(to leverage the proxy-tool), we now get a new client for each of the instantiated PerfStressTest classes. [#17832](https://github.com/Azure/azure-sdk-for-js/pull/17832)
+
+### 2021-09-23
+
+- Bug fix - Running the perf framework with `--<option> 0` does not work correctly as it picks the default value instead. Fixed in [#17829](https://github.com/Azure/azure-sdk-for-js/pull/17829).
+
 ### 2021-08-05
 
 - Adds test-proxy tool support to the perf framework. With this, the tests can avoid service throttling by hitting the test-proxy instead to get the recorded responses.
