@@ -440,8 +440,11 @@ describe("defaultHttpClient (node)", function() {
       body: payload
     };
 
+    let signal: AbortSignal | undefined;
     const client = new DefaultHttpClient();
-    sinon.stub(client, "fetch").callsFake(async (_input, _init) => {
+    sinon.stub(client, "fetch").callsFake(async (_input, init) => {
+      assert.ok(init, "expecting valid request initialization");
+      signal = init!.signal;
       return (response as unknown) as CommonResponse;
     });
 
@@ -459,8 +462,16 @@ describe("defaultHttpClient (node)", function() {
 
     const res = await promise;
     assert.ok(res.readableStreamBody, "Expecting valid download stream");
+
+    assert.ok(signal, "Expecting valid signal");
+    const abortFiredPromise = new Promise<void>((resolve) => {
+      signal!.onabort = () => {
+        resolve();
+      };
+    });
     const stream: Readable = res.readableStreamBody as any;
     stream.destroy();
+    await abortFiredPromise; // 'abort' event fired
   });
 });
 
