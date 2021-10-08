@@ -83,22 +83,8 @@ describe("Eventhub test", () => {
         addressPrefixes: ["10.0.0.0/16"],
       },
     };
-    await network_client.virtualNetworks
-      .beginCreateOrUpdateAndWait(
-        resourceGroupName,
-        virtualNetworkName,
-        parameter
-      )
-      .then((result) => {
-        console.log(result);
-      });
-    const subnet_info = await network_client.subnets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      virtualNetworkName,
-      subnetName,
-      { addressPrefix: "10.0.0.0/24" }
-    );
-    console.log(subnet_info);
+    const network_create = await network_client.virtualNetworks.beginCreateOrUpdateAndWait(resourceGroupName,virtualNetworkName,parameter);
+    const subnet_info = await network_client.subnets.beginCreateOrUpdateAndWait(resourceGroupName,virtualNetworkName,subnetName,{ addressPrefix: "10.0.0.0/24" });
   }
 
   //storageAccounts.beginCreateAndWait
