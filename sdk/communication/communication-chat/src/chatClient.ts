@@ -85,7 +85,11 @@ export class ChatClient {
     const authPolicy = createCommunicationTokenCredentialPolicy(this.tokenCredential);
     this.client.pipeline.addPolicy(authPolicy);
 
-    this.signalingClient = getSignalingClient(credential, logger);
+    this.signalingClient = getSignalingClient(
+      credential,
+      logger,
+      (options as any).signalingClientOptions
+    );
   }
 
   /**
@@ -238,7 +242,7 @@ export class ChatClient {
     }
 
     this.isRealtimeNotificationsStarted = true;
-    this.signalingClient.start();
+    await this.signalingClient.start();
     this.subscribeToSignalingEvents();
   }
 
@@ -252,7 +256,7 @@ export class ChatClient {
     }
 
     this.isRealtimeNotificationsStarted = false;
-    this.signalingClient.stop();
+    await this.signalingClient.stop();
     this.emitter.removeAllListeners();
   }
 
