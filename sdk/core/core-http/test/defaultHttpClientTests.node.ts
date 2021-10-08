@@ -12,7 +12,7 @@ import { createReadStream, ReadStream } from "fs";
 import { DefaultHttpClient } from "../src/defaultHttpClient";
 import { WebResource, TransferProgressEvent } from "../src/webResource";
 import { getHttpMock, HttpMockFacade } from "./mockHttp";
-import { PassThrough, Readable, pipeline } from "stream";
+import { PassThrough, Readable } from "stream";
 import { ReportTransform, CommonResponse } from "../src/fetchHttpClient";
 import { CompositeMapper, Serializer } from "../src/serializer";
 import { OperationSpec } from "../src/operationSpec";
@@ -434,43 +434,27 @@ describe("defaultHttpClient (node)", function() {
     const b = new PassThrough();
     b.pipe(payload, { end: false });
     b.write("hello");
-    const localPort = 32293;
-    const errorHandler = function(err: any) {
-      if (err) {
-        assert.strictEqual(err.message, "Premature close");
-      }
-    };
-
-    const localServer = http
-      .createServer(function(_req, res) {
-        pipeline(payload, res, errorHandler);
-        res.writeHead(200, { "Content-Type": "text/html" });
-      })
-      .listen(localPort);
-
-    httpMock.passThrough();
-    const ac = new AbortController();
-    const request = new WebResource(
-      `http://127.0.0.1:${localPort}`,
-      "GET",
-      undefined,
-      undefined,
-      undefined,
-      true /* streaming response */
-    );
-    request.abortSignal = ac.signal;
-    const httpClient = new DefaultHttpClient();
-
-    const response = await httpClient.sendRequest(request);
-
-    try {
-      const stream = response.readableStreamBody as Readable;
-      stream.destroy();
-    } finally {
-      // Clean up
-      localServer.close();
-      httpMock.teardown();
+    const response = {
+      status: 200,
+      headers: [],
+      body: payload
     }
+
+    const client = new DefaultHttpClient();
+    sinon.stub(client, "fetch").callsFake(async (_input, _init) => {
+      return (response as unknown) as CommonResponse;
+    });
+
+    const ac = new AbortController();
+    const request = new WebResource("http://myhost/bigdownload", "GET", undefined, undefined, undefined, true);
+    request.abortSignal = ac.signal;
+    const promise = client.sendRequest(request);
+
+    const res = await promise;
+    assert.ok(res.readableStreamBody, "Expecting valid download stream");
+    console.log("destroying download stream...");
+    const stream: Readable = res.readableStreamBody as any;
+    stream.destroy();
   });
 });
 
