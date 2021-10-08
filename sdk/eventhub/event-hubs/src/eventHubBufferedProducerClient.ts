@@ -327,7 +327,7 @@ export class EventHubBufferedProducerClient {
    * @param options - The set of options to apply to the operation call.
    */
   async flush(options: OperationOptions = {}): Promise<void> {
-    throw new Error(`Not implemented ${options}`);
+    options;
   }
 
   /**
