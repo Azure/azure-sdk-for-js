@@ -291,6 +291,8 @@ import { setLogLevel } from "@azure/logger";
 setLogLevel("info");
 ```
 
+For assistance with troubleshooting, please refer the [troubleshooting guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/Troubleshooting.md)
+
 ## Next steps
 
 ### Read the documentation
