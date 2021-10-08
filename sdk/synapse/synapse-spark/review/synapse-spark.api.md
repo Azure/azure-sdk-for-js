@@ -8,6 +8,48 @@ import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
 
 // @public
+export enum KnownLivyStatementStates {
+    // (undocumented)
+    Available = "available",
+    // (undocumented)
+    Cancelled = "cancelled",
+    // (undocumented)
+    Cancelling = "cancelling",
+    // (undocumented)
+    Error = "error",
+    // (undocumented)
+    Running = "running",
+    // (undocumented)
+    Waiting = "waiting"
+}
+
+// @public
+export enum KnownLivyStates {
+    // (undocumented)
+    Busy = "busy",
+    // (undocumented)
+    Dead = "dead",
+    // (undocumented)
+    Error = "error",
+    // (undocumented)
+    Idle = "idle",
+    // (undocumented)
+    Killed = "killed",
+    // (undocumented)
+    NotStarted = "not_started",
+    // (undocumented)
+    Recovering = "recovering",
+    // (undocumented)
+    Running = "running",
+    // (undocumented)
+    ShuttingDown = "shutting_down",
+    // (undocumented)
+    Starting = "starting",
+    // (undocumented)
+    Success = "success"
+}
+
+// @public
 export enum KnownPluginCurrentState {
     // (undocumented)
     Cleanup = "Cleanup",
@@ -92,6 +134,12 @@ export enum KnownSparkStatementLanguageType {
 }
 
 // @public
+export type LivyStatementStates = string;
+
+// @public
+export type LivyStates = string;
+
+// @public
 export type PluginCurrentState = string;
 
 // @public
@@ -153,7 +201,7 @@ export interface SparkBatchJob {
     result?: SparkBatchJobResultType;
     scheduler?: SparkScheduler;
     sparkPoolName?: string;
-    state?: string;
+    state?: LivyStates;
     submitterId?: string;
     submitterName?: string;
     tags?: {
@@ -357,8 +405,7 @@ export interface SparkSession {
     scheduler?: SparkScheduler;
     // (undocumented)
     sparkPoolName?: string;
-    // (undocumented)
-    state?: string;
+    state?: LivyStates;
     // (undocumented)
     submitterId?: string;
     // (undocumented)
@@ -369,6 +416,17 @@ export interface SparkSession {
     // (undocumented)
     workspaceName?: string;
 }
+
+// @public
+export interface SparkSessionCancelSparkSessionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface SparkSessionCancelSparkStatementOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SparkSessionCancelSparkStatementResponse = SparkStatementCancellationResult;
 
 // @public (undocumented)
 export interface SparkSessionCollection {
@@ -381,78 +439,63 @@ export interface SparkSessionCollection {
 }
 
 // @public
-export interface SparkSessionOperations {
-    cancelSparkSession(sessionId: number, options?: SparkSessionOperationsCancelSparkSessionOptionalParams): Promise<void>;
-    cancelSparkStatement(sessionId: number, statementId: number, options?: SparkSessionOperationsCancelSparkStatementOptionalParams): Promise<SparkSessionOperationsCancelSparkStatementResponse>;
-    createSparkSession(sparkSessionOptions: SparkSessionOptions, options?: SparkSessionOperationsCreateSparkSessionOptionalParams): Promise<SparkSessionOperationsCreateSparkSessionResponse>;
-    createSparkStatement(sessionId: number, sparkStatementOptions: SparkStatementOptions, options?: SparkSessionOperationsCreateSparkStatementOptionalParams): Promise<SparkSessionOperationsCreateSparkStatementResponse>;
-    getSparkSession(sessionId: number, options?: SparkSessionOperationsGetSparkSessionOptionalParams): Promise<SparkSessionOperationsGetSparkSessionResponse>;
-    getSparkSessions(options?: SparkSessionOperationsGetSparkSessionsOptionalParams): Promise<SparkSessionOperationsGetSparkSessionsResponse>;
-    getSparkStatement(sessionId: number, statementId: number, options?: SparkSessionOperationsGetSparkStatementOptionalParams): Promise<SparkSessionOperationsGetSparkStatementResponse>;
-    getSparkStatements(sessionId: number, options?: SparkSessionOperationsGetSparkStatementsOptionalParams): Promise<SparkSessionOperationsGetSparkStatementsResponse>;
-    resetSparkSessionTimeout(sessionId: number, options?: SparkSessionOperationsResetSparkSessionTimeoutOptionalParams): Promise<void>;
-}
-
-// @public
-export interface SparkSessionOperationsCancelSparkSessionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface SparkSessionOperationsCancelSparkStatementOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SparkSessionOperationsCancelSparkStatementResponse = SparkStatementCancellationResult;
-
-// @public
-export interface SparkSessionOperationsCreateSparkSessionOptionalParams extends coreClient.OperationOptions {
+export interface SparkSessionCreateSparkSessionOptionalParams extends coreClient.OperationOptions {
     detailed?: boolean;
 }
 
 // @public
-export type SparkSessionOperationsCreateSparkSessionResponse = SparkSession;
+export type SparkSessionCreateSparkSessionResponse = SparkSession;
 
 // @public
-export interface SparkSessionOperationsCreateSparkStatementOptionalParams extends coreClient.OperationOptions {
+export interface SparkSessionCreateSparkStatementOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type SparkSessionOperationsCreateSparkStatementResponse = SparkStatement;
+export type SparkSessionCreateSparkStatementResponse = SparkStatement;
 
 // @public
-export interface SparkSessionOperationsGetSparkSessionOptionalParams extends coreClient.OperationOptions {
+export interface SparkSessionGetSparkSessionOptionalParams extends coreClient.OperationOptions {
     detailed?: boolean;
 }
 
 // @public
-export type SparkSessionOperationsGetSparkSessionResponse = SparkSession;
+export type SparkSessionGetSparkSessionResponse = SparkSession;
 
 // @public
-export interface SparkSessionOperationsGetSparkSessionsOptionalParams extends coreClient.OperationOptions {
+export interface SparkSessionGetSparkSessionsOptionalParams extends coreClient.OperationOptions {
     detailed?: boolean;
     fromParam?: number;
     size?: number;
 }
 
 // @public
-export type SparkSessionOperationsGetSparkSessionsResponse = SparkSessionCollection;
+export type SparkSessionGetSparkSessionsResponse = SparkSessionCollection;
 
 // @public
-export interface SparkSessionOperationsGetSparkStatementOptionalParams extends coreClient.OperationOptions {
+export interface SparkSessionGetSparkStatementOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type SparkSessionOperationsGetSparkStatementResponse = SparkStatement;
+export type SparkSessionGetSparkStatementResponse = SparkStatement;
 
 // @public
-export interface SparkSessionOperationsGetSparkStatementsOptionalParams extends coreClient.OperationOptions {
+export interface SparkSessionGetSparkStatementsOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type SparkSessionOperationsGetSparkStatementsResponse = SparkStatementCollection;
+export type SparkSessionGetSparkStatementsResponse = SparkStatementCollection;
 
 // @public
-export interface SparkSessionOperationsResetSparkSessionTimeoutOptionalParams extends coreClient.OperationOptions {
+export interface SparkSessionOperations {
+    cancelSparkSession(sessionId: number, options?: SparkSessionCancelSparkSessionOptionalParams): Promise<void>;
+    cancelSparkStatement(sessionId: number, statementId: number, options?: SparkSessionCancelSparkStatementOptionalParams): Promise<SparkSessionCancelSparkStatementResponse>;
+    createSparkSession(sparkSessionOptions: SparkSessionOptions, options?: SparkSessionCreateSparkSessionOptionalParams): Promise<SparkSessionCreateSparkSessionResponse>;
+    createSparkStatement(sessionId: number, sparkStatementOptions: SparkStatementOptions, options?: SparkSessionCreateSparkStatementOptionalParams): Promise<SparkSessionCreateSparkStatementResponse>;
+    getSparkSession(sessionId: number, options?: SparkSessionGetSparkSessionOptionalParams): Promise<SparkSessionGetSparkSessionResponse>;
+    getSparkSessions(options?: SparkSessionGetSparkSessionsOptionalParams): Promise<SparkSessionGetSparkSessionsResponse>;
+    getSparkStatement(sessionId: number, statementId: number, options?: SparkSessionGetSparkStatementOptionalParams): Promise<SparkSessionGetSparkStatementResponse>;
+    getSparkStatements(sessionId: number, options?: SparkSessionGetSparkStatementsOptionalParams): Promise<SparkSessionGetSparkStatementsResponse>;
+    resetSparkSessionTimeout(sessionId: number, options?: SparkSessionResetSparkSessionTimeoutOptionalParams): Promise<void>;
 }
 
 // @public (undocumented)
@@ -494,6 +537,10 @@ export interface SparkSessionOptions {
 }
 
 // @public
+export interface SparkSessionResetSparkSessionTimeoutOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
 export type SparkSessionResultType = string;
 
 // @public (undocumented)
@@ -531,7 +578,7 @@ export interface SparkStatement {
     // (undocumented)
     output?: SparkStatementOutput;
     // (undocumented)
-    state?: string;
+    state?: LivyStatementStates;
 }
 
 // @public (undocumented)

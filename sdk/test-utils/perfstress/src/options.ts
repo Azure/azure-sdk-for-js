@@ -66,7 +66,7 @@ export interface DefaultPerfStressOptions {
   iterations: number;
   "no-cleanup": boolean;
   "milliseconds-to-log": number;
-  "test-proxy": string;
+  "test-proxies": string;
   insecure: boolean;
 }
 
@@ -101,13 +101,13 @@ export const defaultPerfStressOptions: PerfStressOptionDictionary<DefaultPerfStr
   "no-cleanup": {
     description: "Disables test cleanup"
   },
-  "test-proxy": {
-    description: "URI of TestProxy server",
+  "test-proxies": {
+    description: "URIs of TestProxy servers (separated by ';')",
     defaultValue: undefined
   },
   insecure: {
     description:
-      "Applied when test-proxy option is defined, connects with https(insecurely by disabling SSL validation)",
+      "Applied when test-proxies option is defined, connects with https(insecurely by disabling SSL validation)",
     shortName: "ins",
     defaultValue: false
   },

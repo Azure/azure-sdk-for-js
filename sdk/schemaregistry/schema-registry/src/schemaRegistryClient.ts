@@ -21,7 +21,7 @@ import {
 } from "./models";
 import { DEFAULT_SCOPE } from "./constants";
 import { logger } from "./logger";
-import { getRawResponse } from "./utils";
+import { getRawResponse, undefinedfyOn404 } from "./utils";
 
 /**
  * Client for Azure Schema Registry service.
@@ -95,16 +95,18 @@ export class SchemaRegistryClient implements SchemaRegistry {
   async getSchemaProperties(
     schema: SchemaDescription,
     options?: GetSchemaPropertiesOptions
-  ): Promise<SchemaProperties> {
-    return this.client.schema
-      .queryIdByContent(
-        schema.groupName,
-        schema.name,
-        schema.format,
-        schema.schemaDefinition,
-        options
-      )
-      .then(convertSchemaIdResponse);
+  ): Promise<SchemaProperties | undefined> {
+    return undefinedfyOn404(
+      this.client.schema
+        .queryIdByContent(
+          schema.groupName,
+          schema.name,
+          schema.format,
+          schema.schemaDefinition,
+          options
+        )
+        .then(convertSchemaIdResponse)
+    );
   }
 
   /**
@@ -113,11 +115,12 @@ export class SchemaRegistryClient implements SchemaRegistry {
    * @param id - Unique schema ID.
    * @returns Schema with given ID or undefined if no schema was found with the given ID.
    */
-  async getSchema(id: string, options?: GetSchemaOptions): Promise<Schema> {
-    const { flatResponse, rawResponse } = await getRawResponse(
-      (paramOptions) => this.client.schema.getById(id, paramOptions),
-      options || {}
+  async getSchema(id: string, options?: GetSchemaOptions): Promise<Schema | undefined> {
+    return undefinedfyOn404(
+      getRawResponse(
+        (paramOptions) => this.client.schema.getById(id, paramOptions),
+        options || {}
+      ).then(({ flatResponse, rawResponse }) => convertSchemaResponse(flatResponse, rawResponse))
     );
-    return convertSchemaResponse(flatResponse, rawResponse);
   }
 }

@@ -6,15 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
-import { GeneratedClientOptionalParams } from "./models";
+import * as coreClient from "@azure/core-client";
+import { StringIndexType, GeneratedClientOptionalParams } from "./models";
 
-const packageName = "@azure/ai-form-recognizer";
-const packageVersion = "3.2.1";
-
-/** @hidden */
-export class GeneratedClientContext extends coreHttp.ServiceClient {
+export class GeneratedClientContext extends coreClient.ServiceClient {
   endpoint: string;
+  stringIndexType?: StringIndexType;
+  apiVersion: string;
 
   /**
    * Initializes a new instance of the GeneratedClientContext class.
@@ -31,19 +29,29 @@ export class GeneratedClientContext extends coreHttp.ServiceClient {
     if (!options) {
       options = {};
     }
+    const defaults: GeneratedClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8"
+    };
 
-    if (!options.userAgent) {
-      const defaultUserAgent = coreHttp.getDefaultUserAgentValue();
-      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
-    }
+    const packageDetails = `azsdk-js-ai-form-recognizer/4.0.0-beta.1`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
 
-    super(undefined, options);
-
-    this.requestContentType = "application/json; charset=utf-8";
-
-    this.baseUri = options.endpoint || "{endpoint}/formrecognizer/v2.1";
-
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint || "{endpoint}/formrecognizer"
+    };
+    super(optionsWithDefaults);
     // Parameter assignments
     this.endpoint = endpoint;
+
+    // Assigning values to Constant parameters
+    this.apiVersion = options.apiVersion || "2021-09-30-preview";
   }
 }

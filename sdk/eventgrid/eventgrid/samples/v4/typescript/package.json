@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "description": "Azure Event Grid client library samples for TypeScript",
-  "engine": {
+  "engines": {
     "node": ">=12.0.0"
   },
   "scripts": {
@@ -35,7 +35,7 @@
     "@azure/service-bus": "^7.0.0"
   },
   "devDependencies": {
-    "typescript": "~4.2.0",
+    "typescript": "~4.4.0",
     "rimraf": "latest"
   }
 }

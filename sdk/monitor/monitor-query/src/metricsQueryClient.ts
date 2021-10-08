@@ -41,12 +41,6 @@ const defaultMetricsScope = "https://management.azure.com/.default";
 export interface MetricsQueryClientOptions extends CommonClientOptions {
   /** Overrides client endpoint. */
   endpoint?: string;
-  /**
-   * Gets or sets the audience to use for authentication with Azure Active Directory.
-   * The authentication scope will be set from this audience.
-   * Defaults to "https://management.azure.com/.default"
-   */
-  audience?: string;
 }
 
 /**
@@ -63,8 +57,12 @@ export class MetricsQueryClient {
    * @param options - Options for the client like controlling request retries.
    */
   constructor(tokenCredential: TokenCredential, options?: MetricsQueryClientOptions) {
+    let scope;
+    if (options?.endpoint) {
+      scope = `${options?.endpoint}./default`;
+    }
     const credentialOptions = {
-      credentialScopes: options?.audience
+      credentialScopes: scope
     };
     const packageDetails = `azsdk-js-monitor-query/${SDK_VERSION}`;
     const userAgentPrefix =

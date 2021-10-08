@@ -66,7 +66,6 @@ export class LogsQueryClient {
 
 // @public
 export interface LogsQueryClientOptions extends CommonClientOptions {
-    audience?: string;
     endpoint?: string;
 }
 
@@ -173,7 +172,6 @@ export interface MetricNamespace {
 
 // @public
 export interface MetricsClientOptions extends CommonClientOptions {
-    audience?: string;
     endpoint?: string;
 }
 
@@ -257,7 +255,6 @@ export interface TimeSeriesElement {
     data?: MetricValue[];
     metadataValues?: MetadataValue[];
 }
-
 
 // (No @packageDocumentation comment for this package)
 

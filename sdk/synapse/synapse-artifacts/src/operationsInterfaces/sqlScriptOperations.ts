@@ -6,19 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   SqlScriptResource,
-  SqlScriptOperationsGetSqlScriptsByWorkspaceOptionalParams,
-  SqlScriptOperationsCreateOrUpdateSqlScriptOptionalParams,
-  SqlScriptOperationsCreateOrUpdateSqlScriptResponse,
-  SqlScriptOperationsGetSqlScriptOptionalParams,
-  SqlScriptOperationsGetSqlScriptResponse,
-  SqlScriptOperationsDeleteSqlScriptOptionalParams,
+  SqlScriptGetSqlScriptsByWorkspaceOptionalParams,
+  SqlScriptCreateOrUpdateSqlScriptOptionalParams,
+  SqlScriptCreateOrUpdateSqlScriptResponse,
+  SqlScriptGetSqlScriptOptionalParams,
+  SqlScriptGetSqlScriptResponse,
+  SqlScriptDeleteSqlScriptOptionalParams,
   ArtifactRenameRequest,
-  SqlScriptOperationsRenameSqlScriptOptionalParams
+  SqlScriptRenameSqlScriptOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +28,7 @@ export interface SqlScriptOperations {
    * @param options The options parameters.
    */
   listSqlScriptsByWorkspace(
-    options?: SqlScriptOperationsGetSqlScriptsByWorkspaceOptionalParams
+    options?: SqlScriptGetSqlScriptsByWorkspaceOptionalParams
   ): PagedAsyncIterableIterator<SqlScriptResource>;
   /**
    * Creates or updates a Sql Script.
@@ -40,11 +39,11 @@ export interface SqlScriptOperations {
   beginCreateOrUpdateSqlScript(
     sqlScriptName: string,
     sqlScript: SqlScriptResource,
-    options?: SqlScriptOperationsCreateOrUpdateSqlScriptOptionalParams
+    options?: SqlScriptCreateOrUpdateSqlScriptOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<SqlScriptOperationsCreateOrUpdateSqlScriptResponse>,
-      SqlScriptOperationsCreateOrUpdateSqlScriptResponse
+      PollOperationState<SqlScriptCreateOrUpdateSqlScriptResponse>,
+      SqlScriptCreateOrUpdateSqlScriptResponse
     >
   >;
   /**
@@ -56,8 +55,8 @@ export interface SqlScriptOperations {
   beginCreateOrUpdateSqlScriptAndWait(
     sqlScriptName: string,
     sqlScript: SqlScriptResource,
-    options?: SqlScriptOperationsCreateOrUpdateSqlScriptOptionalParams
-  ): Promise<SqlScriptOperationsCreateOrUpdateSqlScriptResponse>;
+    options?: SqlScriptCreateOrUpdateSqlScriptOptionalParams
+  ): Promise<SqlScriptCreateOrUpdateSqlScriptResponse>;
   /**
    * Gets a sql script.
    * @param sqlScriptName The sql script name.
@@ -65,8 +64,8 @@ export interface SqlScriptOperations {
    */
   getSqlScript(
     sqlScriptName: string,
-    options?: SqlScriptOperationsGetSqlScriptOptionalParams
-  ): Promise<SqlScriptOperationsGetSqlScriptResponse>;
+    options?: SqlScriptGetSqlScriptOptionalParams
+  ): Promise<SqlScriptGetSqlScriptResponse>;
   /**
    * Deletes a Sql Script.
    * @param sqlScriptName The sql script name.
@@ -74,7 +73,7 @@ export interface SqlScriptOperations {
    */
   beginDeleteSqlScript(
     sqlScriptName: string,
-    options?: SqlScriptOperationsDeleteSqlScriptOptionalParams
+    options?: SqlScriptDeleteSqlScriptOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes a Sql Script.
@@ -83,7 +82,7 @@ export interface SqlScriptOperations {
    */
   beginDeleteSqlScriptAndWait(
     sqlScriptName: string,
-    options?: SqlScriptOperationsDeleteSqlScriptOptionalParams
+    options?: SqlScriptDeleteSqlScriptOptionalParams
   ): Promise<void>;
   /**
    * Renames a sqlScript.
@@ -94,7 +93,7 @@ export interface SqlScriptOperations {
   beginRenameSqlScript(
     sqlScriptName: string,
     request: ArtifactRenameRequest,
-    options?: SqlScriptOperationsRenameSqlScriptOptionalParams
+    options?: SqlScriptRenameSqlScriptOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Renames a sqlScript.
@@ -105,6 +104,6 @@ export interface SqlScriptOperations {
   beginRenameSqlScriptAndWait(
     sqlScriptName: string,
     request: ArtifactRenameRequest,
-    options?: SqlScriptOperationsRenameSqlScriptOptionalParams
+    options?: SqlScriptRenameSqlScriptOptionalParams
   ): Promise<void>;
 }
