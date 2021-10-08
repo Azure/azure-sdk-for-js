@@ -1,8 +1,8 @@
 ## Azure Identity client library for JavaScript
 
-The Azure Identity library provides [Azure Active Directory (AAD)](https://docs.microsoft.com/azure/active-directory/fundamentals/active-directory-whatis) token authentication through a set of convenient [TokenCredential](https://docs.microsoft.com/javascript/api/@azure/core-auth/tokencredential) implementations. It enables Azure SDK clients to authenticate with AAD, while also allowing other JavaScript and TypeScript apps to authenticate with AAD work and school accounts, Microsoft personal accounts (MSA), and other Identity providers through the [AAD B2C](https://docs.microsoft.com/azure/active-directory-b2c/overview) service.
+The Azure Identity library provides [Azure Active Directory (AAD)](https://docs.microsoft.com/azure/active-directory/fundamentals/active-directory-whatis) token authentication through a set of convenient [TokenCredential](https://docs.microsoft.com/javascript/api/@azure/core-auth/tokencredential) implementations.
 
-You can find examples for these various credentials in the [Azure Identity Examples Page](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md)
+You can find examples for various credentials in the [Azure Identity Examples Page](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md)
 
 Key links:
 
@@ -270,6 +270,14 @@ setLogLevel("info");
 ### Read the documentation
 
 API documentation for this library can be found on our [documentation site](https://docs.microsoft.com/javascript/api/@azure/identity).
+
+### Client library support
+
+Client and management libraries listed on the [Azure SDK release page](https://azure.github.io/azure-sdk/releases/latest/js.html) which support Azure AD authentication accept credentials from this library. You can learn more about using these libraries in their documentation, which is linked from the release page.
+
+### B2C support
+
+This library also allows other JavaScript and TypeScript apps to authenticate with AAD work and school accounts, Microsoft personal accounts (MSA), and other Identity providers through the [AAD B2C](https://docs.microsoft.com/azure/active-directory-b2c/overview) service.
 
 ### Provide Feedback
 
