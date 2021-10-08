@@ -248,10 +248,10 @@
       "location": "[parameters('location')]",
       "kind": "linux",
       "sku": {
-          "name": "B1"
+        "name": "B1"
       },
       "properties": {
-          "reserved": true
+        "reserved": true
       }
     },
     {
@@ -260,22 +260,22 @@
       "name": "[variables('attestationSite')]",
       "condition": "[parameters('enableHsm')]",
       "dependsOn": [
-          "[resourceId('Microsoft.Web/serverfarms', variables('attestationFarm'))]"
+        "[resourceId('Microsoft.Web/serverfarms', variables('attestationFarm'))]"
       ],
       "location": "[parameters('location')]",
       "properties": {
         "httpsOnly": true,
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('attestationFarm'))]",
         "siteConfig": {
-            "name": "[variables('attestationSite')]",
-            "alwaysOn": true,
-            "linuxFxVersion": "[variables('attestationImageUri')]",
-            "appSettings": [
-                {
-                    "name": "WEBSITES_ENABLE_APP_SERVICE_STORAGE",
-                    "value": "false"
-                }
-            ]
+          "name": "[variables('attestationSite')]",
+          "alwaysOn": true,
+          "linuxFxVersion": "[variables('attestationImageUri')]",
+          "appSettings": [
+            {
+                "name": "WEBSITES_ENABLE_APP_SERVICE_STORAGE",
+                "value": "false"
+            }
+          ]
         }
       }
     }
