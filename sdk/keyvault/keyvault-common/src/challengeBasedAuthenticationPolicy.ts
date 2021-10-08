@@ -31,7 +31,8 @@ export class AuthenticationChallenge {
   public equalTo(other: AuthenticationChallenge | undefined): boolean {
     return other
       ? this.scope.toLowerCase() === other.scope.toLowerCase() &&
-          this.authorization.toLowerCase() === other.authorization.toLowerCase()
+          this.authorization.toLowerCase() === other.authorization.toLowerCase() &&
+          this.tenantId?.toLowerCase() === other.tenantId?.toLowerCase()
       : false;
   }
 }
