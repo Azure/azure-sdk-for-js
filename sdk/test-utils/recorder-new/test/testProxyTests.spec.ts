@@ -169,26 +169,26 @@ function getTestServerUrl() {
       //   }
       // });
 
-      it("connection string santizer", async () => {
-        await recorder.start({});
-        const client = new ServiceClient({
-          baseUri: getTestServerUrl()
-        });
-        client.pipeline.addPolicy(recorderHttpPolicy(recorder));
-        // // await recorder.addSanitizer({ regex: "harshanstoragetest", value: "fakeaccount" });
-        // await recorder.addConnectionStringSanitizer({
-        //   fakeConnString:
-        //     "TableEndpoint=https://fakeaccountname.table.core.windows.net/;SharedAccessSignature=st=2021-08-03T08:52:15Z&spr=https&sig=fakesigval",
-        //   actualConnString: env.TABLES_SAS_CONNECTION_STRING
-        // });
-        // // console.log(await recorder.transformsInfo());
-        // await recorder.removeHeaderSanitizer(["x-ms-version", "X-Content-Type-Options"]);
-        const req = createPipelineRequest({
-          url: getTestServerUrl() + "/sample_response",
-          ...basePipelineReqOptions
-        });
-        expect(JSON.parse((await client.sendRequest(req)).bodyAsText!).val).to.equal("abc");
-      });
+      // it("connection string santizer", async () => {
+      //   await recorder.start({});
+      //   const client = new ServiceClient({
+      //     baseUri: getTestServerUrl()
+      //   });
+      //   client.pipeline.addPolicy(recorderHttpPolicy(recorder));
+      //   // // await recorder.addSanitizer({ regex: "harshanstoragetest", value: "fakeaccount" });
+      //   // await recorder.addConnectionStringSanitizer({
+      //   //   fakeConnString:
+      //   //     "TableEndpoint=https://fakeaccountname.table.core.windows.net/;SharedAccessSignature=st=2021-08-03T08:52:15Z&spr=https&sig=fakesigval",
+      //   //   actualConnString: env.TABLES_SAS_CONNECTION_STRING
+      //   // });
+      //   // // console.log(await recorder.transformsInfo());
+      //   // await recorder.removeHeaderSanitizer(["x-ms-version", "X-Content-Type-Options"]);
+      //   const req = createPipelineRequest({
+      //     url: getTestServerUrl() + "/sample_response",
+      //     ...basePipelineReqOptions
+      //   });
+      //   expect(JSON.parse((await client.sendRequest(req)).bodyAsText!).val).to.equal("abc");
+      // });
     });
 
     // Matchers
