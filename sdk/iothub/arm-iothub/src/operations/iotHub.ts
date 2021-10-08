@@ -35,18 +35,9 @@ export class IotHub {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  manualFailover(
-    iotHubName: string,
-    resourceGroupName: string,
-    failoverRegion: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse> {
-    return this.beginManualFailover(
-      iotHubName,
-      resourceGroupName,
-      failoverRegion,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished());
+  manualFailover(iotHubName: string, resourceGroupName: string, failoverRegion: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginManualFailover(iotHubName,resourceGroupName,failoverRegion,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -59,12 +50,7 @@ export class IotHub {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginManualFailover(
-    iotHubName: string,
-    resourceGroupName: string,
-    failoverRegion: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginManualFailover(iotHubName: string, resourceGroupName: string, failoverRegion: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         iotHubName,
@@ -73,8 +59,7 @@ export class IotHub {
         options
       },
       beginManualFailoverOperationSpec,
-      options
-    );
+      options);
   }
 }
 
@@ -82,11 +67,18 @@ export class IotHub {
 const serializer = new msRest.Serializer(Mappers);
 const beginManualFailoverOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{iotHubName}/failover",
-  urlParameters: [Parameters.iotHubName, Parameters.subscriptionId, Parameters.resourceGroupName],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{iotHubName}/failover",
+  urlParameters: [
+    Parameters.iotHubName,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: {
       failoverRegion: "failoverRegion"

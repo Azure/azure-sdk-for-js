@@ -14,6 +14,7 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { IotHubClientContext } from "./iotHubClientContext";
 
+
 class IotHubClient extends IotHubClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -35,11 +36,7 @@ class IotHubClient extends IotHubClientContext {
    * @param subscriptionId The subscription identifier.
    * @param [options] The parameter options
    */
-  constructor(
-    credentials: msRest.ServiceClientCredentials | TokenCredential,
-    subscriptionId: string,
-    options?: Models.IotHubClientOptions
-  ) {
+  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.IotHubClientOptions) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.iotHubResource = new operations.IotHubResource(this);
@@ -53,5 +50,10 @@ class IotHubClient extends IotHubClientContext {
 
 // Operation Specifications
 
-export { IotHubClient, IotHubClientContext, Models as IotHubModels, Mappers as IotHubMappers };
+export {
+  IotHubClient,
+  IotHubClientContext,
+  Models as IotHubModels,
+  Mappers as IotHubMappers
+};
 export * from "./operations";
