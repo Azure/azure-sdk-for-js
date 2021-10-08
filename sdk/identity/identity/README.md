@@ -92,6 +92,8 @@ Developers using Visual Studio Code can use the [Azure Account Extension](https:
 
 To authenticate in Visual Studio Code, first ensure the [Azure Account Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.azure-account) is installed. Once the extension is installed, press F1 to open the command palette and run the `Azure: Sign In` command.
 
+In addition to this, you need to use the plugin [`@azure/identity-vscode`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-vscode), which provides the dependencies of `VisualStudioCodeCredential` and enables it. See [Plugins](##Plugins)
+
 ### Authenticate the client in browsers
 
 To authenticate Azure SDKs within web browsers, we currently offer the `InteractiveBrowserCredential`, which can be set to use redirection or popups to complete the authentication flow. It is necessary to [create an Azure App Registration](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) in the portal for your web application first.
