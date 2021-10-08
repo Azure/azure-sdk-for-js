@@ -272,8 +272,8 @@
           "linuxFxVersion": "[variables('attestationImageUri')]",
           "appSettings": [
             {
-                "name": "WEBSITES_ENABLE_APP_SERVICE_STORAGE",
-                "value": "false"
+              "name": "WEBSITES_ENABLE_APP_SERVICE_STORAGE",
+              "value": "false"
             }
           ]
         }
