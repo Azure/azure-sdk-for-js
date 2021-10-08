@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Issue a new Relay configuration
+ * @summary Issue a new Relay configuration providing a user identity
  */
 
 import { CommunicationIdentityClient } from "@azure/communication-identity";
