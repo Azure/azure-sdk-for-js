@@ -1704,7 +1704,7 @@ packages:
     resolution: {integrity: sha512-a6bTJ21vFOGIkwM0kzh9Yr89ziVxq4vYH2fQ6N8AeipEzai/cFK6aGMArIkUeIdRIgpwQa+2bXiLuUJCpSf2Cg==}
     dependencies:
       '@types/connect': 3.4.35
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
     dev: false
 
   /@types/chai-as-promised/7.1.4:
@@ -1765,7 +1765,7 @@ packages:
   /@types/express-serve-static-core/4.17.24:
     resolution: {integrity: sha512-3UJuW+Qxhzwjq3xhwXm2onQcFHn76frIYVbTu+kn24LFxI+dEhdfISDFovPB8VpEgW8oQCTpRuCe+0zJxB7NEA==}
     dependencies:
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/qs': 6.9.7
       '@types/range-parser': 1.2.4
     dev: false
@@ -1782,20 +1782,20 @@ packages:
   /@types/fs-extra/8.1.2:
     resolution: {integrity: sha512-SvSrYXfWSc7R4eqnOzbQF4TZmfpNSM9FrSWLU3EUnWBuyZqNBOrv1B1JA3byUDPUl9z4Ab3jeZG2eDdySlgNMg==}
     dependencies:
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
     dev: false
 
   /@types/glob/7.1.4:
     resolution: {integrity: sha512-w+LsMxKyYQm347Otw+IfBXOv9UWVjpHpCDdbBMt8Kz/xbvCYNjP+0qPh91Km3iKfSRLBB0P7fAMf0KHrPu+MyA==}
     dependencies:
       '@types/minimatch': 3.0.5
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
     dev: false
 
   /@types/is-buffer/2.0.0:
     resolution: {integrity: sha512-0f7N/e3BAz32qDYvgB4d2cqv1DqUwvGxHkXsrucICn8la1Vb6Yl6Eg8mPScGwUiqHJeE7diXlzaK+QMA9m4Gxw==}
     dependencies:
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
     dev: false
 
   /@types/json-schema/7.0.9:
@@ -1809,13 +1809,13 @@ packages:
   /@types/jsonwebtoken/8.5.5:
     resolution: {integrity: sha512-OGqtHQ7N5/Ap/TUwO6IgHDuLiAoTmHhGpNvgkCm/F4N6pKzx/RBSfr2OXZSwC6vkfnsEdb6+7DNZVtiXiwdwFw==}
     dependencies:
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
     dev: false
 
   /@types/jws/3.2.4:
     resolution: {integrity: sha512-aqtH4dPw1wUjFZaeMD1ak/pf8iXlu/odFe+trJrvw0g1sTh93i+SCykg0Ek8C6B7rVK3oBORbfZAsKO7P10etg==}
     dependencies:
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
     dev: false
 
   /@types/jwt-decode/2.2.1:
@@ -1829,7 +1829,7 @@ packages:
   /@types/md5/2.3.1:
     resolution: {integrity: sha512-OK3oe+ALIoPSo262lnhAYwpqFNXbiwH2a+0+Z5YBnkQEwWD8fk5+PIeRhYA48PzvX9I4SGNpWy+9bLj8qz92RQ==}
     dependencies:
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
     dev: false
 
   /@types/mime/1.3.2:
@@ -1855,13 +1855,13 @@ packages:
   /@types/mock-fs/4.10.0:
     resolution: {integrity: sha512-FQ5alSzmHMmliqcL36JqIA4Yyn9jyJKvRSGV3mvPh108VFatX7naJDzSG4fnFQNZFq9dIx0Dzoe6ddflMB2Xkg==}
     dependencies:
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
     dev: false
 
   /@types/mock-require/2.0.0:
     resolution: {integrity: sha512-nOgjoE5bBiDeiA+z41i95makyHUSMWQMOPocP+J67Pqx/68HAXaeWN1NFtrAYYV6LrISIZZ8vKHm/a50k0f6Sg==}
     dependencies:
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
     dev: false
 
   /@types/ms/0.7.31:
@@ -1875,12 +1875,8 @@ packages:
   /@types/node-fetch/2.5.12:
     resolution: {integrity: sha512-MKgC4dlq4kKNa/mYrwpKfzQMB5X3ee5U6fSprkKpToBqBmX4nFZL9cW5jl6sWn+xpRJ7ypWh2yyqqr8UUCstSw==}
     dependencies:
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       form-data: 3.0.1
-    dev: false
-
-  /@types/node/12.20.21:
-    resolution: {integrity: sha512-Qk7rOvV2A4vNgXNS88vEvbJE1NDFPCQ8AU+pNElrU2bA4yrRDef3fg3SUe+xkwyin3Bpg/Xh5JkNWTlsOcS2tA==}
     dev: false
 
   /@types/node/12.20.24:
@@ -1914,7 +1910,7 @@ packages:
   /@types/resolve/1.17.1:
     resolution: {integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==}
     dependencies:
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
     dev: false
 
   /@types/semaphore/1.1.1:
@@ -1925,7 +1921,7 @@ packages:
     resolution: {integrity: sha512-nCkHGI4w7ZgAdNkrEu0bv+4xNV/XDqW+DydknebMOQwkpDGx8G+HTlj7R7ABI8i8nKxVw0wtKPi1D+lPOkh4YQ==}
     dependencies:
       '@types/mime': 1.3.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
     dev: false
 
   /@types/sinon/9.0.11:
@@ -1941,7 +1937,7 @@ packages:
   /@types/stoppable/1.1.1:
     resolution: {integrity: sha512-b8N+fCADRIYYrGZOcmOR8ZNBOqhktWTB/bMUl5LvGtT201QKJZOOH5UsFyI3qtteM6ZAJbJqZoBcLqqxKIwjhw==}
     dependencies:
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
     dev: false
 
   /@types/tough-cookie/4.0.1:
@@ -1957,7 +1953,7 @@ packages:
   /@types/tunnel/0.0.3:
     resolution: {integrity: sha512-sOUTGn6h1SfQ+gbgqC364jLFBw2lnFqkgF3q0WovEHRLMrVD1sd5aufqi/aJObLekJO+Aq5z646U4Oxy6shXMA==}
     dependencies:
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
     dev: false
 
   /@types/underscore/1.11.3:
@@ -1971,13 +1967,13 @@ packages:
   /@types/ws/7.4.7:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
     dependencies:
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
     dev: false
 
   /@types/xml2js/0.4.9:
     resolution: {integrity: sha512-CHiCKIihl1pychwR2RNX5mAYmJDACgFVCMT5OArMaO3erzwXVcBqPcusr+Vl8yeeXukxZqtF8mZioqX+mpjjdw==}
     dependencies:
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
     dev: false
 
   /@types/yauzl/2.9.2:
@@ -6843,7 +6839,7 @@ packages:
     hasBin: true
     dependencies:
       '@types/estree': 0.0.50
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       acorn: 7.4.1
     dev: false
 
@@ -7126,7 +7122,7 @@ packages:
     dependencies:
       '@types/cookie': 0.4.1
       '@types/cors': 2.8.12
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       accepts: 1.3.7
       base64id: 2.0.0
       debug: 4.3.2
@@ -7582,7 +7578,7 @@ packages:
     hasBin: true
     dev: false
 
-  /ts-node/10.2.1_34240cc25341bc92b4fb7aca1a56ac75:
+  /ts-node/10.2.1_330c0207325f3bf412a1747a76be4657:
     resolution: {integrity: sha512-hCnyOyuGmD5wHleOQX6NIjJtYVIO8bPP8F2acWkB4W06wdlkgyvJtubO/I9NkI88hCFECbsEgoLc0VNkYmcSfw==}
     engines: {node: '>=12.0.0'}
     hasBin: true
@@ -7602,38 +7598,7 @@ packages:
       '@tsconfig/node12': 1.0.9
       '@tsconfig/node14': 1.0.1
       '@tsconfig/node16': 1.0.2
-      '@types/node': 12.20.21
-      acorn: 8.5.0
-      acorn-walk: 8.2.0
-      arg: 4.1.3
-      create-require: 1.1.1
-      diff: 4.0.2
-      make-error: 1.3.6
-      typescript: 4.2.4
-      yn: 3.1.1
-    dev: false
-
-  /ts-node/10.2.1_f44a39c2c3c81dfc6029effe3b9abb40:
-    resolution: {integrity: sha512-hCnyOyuGmD5wHleOQX6NIjJtYVIO8bPP8F2acWkB4W06wdlkgyvJtubO/I9NkI88hCFECbsEgoLc0VNkYmcSfw==}
-    engines: {node: '>=12.0.0'}
-    hasBin: true
-    peerDependencies:
-      '@swc/core': '>=1.2.50'
-      '@swc/wasm': '>=1.2.50'
-      '@types/node': '*'
-      typescript: '>=2.7'
-    peerDependenciesMeta:
-      '@swc/core':
-        optional: true
-      '@swc/wasm':
-        optional: true
-    dependencies:
-      '@cspotcode/source-map-support': 0.6.1
-      '@tsconfig/node10': 1.0.8
-      '@tsconfig/node12': 1.0.9
-      '@tsconfig/node14': 1.0.1
-      '@tsconfig/node16': 1.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       acorn: 8.5.0
       acorn-walk: 8.2.0
       arg: 4.1.3
@@ -7641,6 +7606,37 @@ packages:
       diff: 4.0.2
       make-error: 1.3.6
       typescript: 4.4.3
+      yn: 3.1.1
+    dev: false
+
+  /ts-node/10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb:
+    resolution: {integrity: sha512-hCnyOyuGmD5wHleOQX6NIjJtYVIO8bPP8F2acWkB4W06wdlkgyvJtubO/I9NkI88hCFECbsEgoLc0VNkYmcSfw==}
+    engines: {node: '>=12.0.0'}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.6.1
+      '@tsconfig/node10': 1.0.8
+      '@tsconfig/node12': 1.0.9
+      '@tsconfig/node14': 1.0.1
+      '@tsconfig/node16': 1.0.2
+      '@types/node': 12.20.24
+      acorn: 8.5.0
+      acorn-walk: 8.2.0
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 4.2.4
       yn: 3.1.1
     dev: false
 
@@ -8233,7 +8229,7 @@ packages:
       '@microsoft/api-extractor': 7.18.13
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       chai: 4.3.4
       cross-env: 7.0.3
       delay: 4.4.1
@@ -8256,7 +8252,7 @@ packages:
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typedoc: 0.15.2
       typescript: 4.2.4
@@ -8280,7 +8276,7 @@ packages:
       '@microsoft/api-extractor': 7.18.13
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -8332,7 +8328,7 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       chai: 4.3.4
       cross-env: 7.0.3
       csv-parse: 4.16.0
@@ -8381,7 +8377,7 @@ packages:
       '@microsoft/api-extractor': 7.18.13
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -8427,7 +8423,7 @@ packages:
       '@microsoft/api-extractor': 7.18.13
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
@@ -8475,7 +8471,7 @@ packages:
       '@microsoft/api-extractor': 7.18.13
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
@@ -8503,7 +8499,7 @@ packages:
       rollup: 1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.19
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typedoc: 0.15.2
       typescript: 4.2.4
@@ -8527,7 +8523,7 @@ packages:
       '@types/chai': 4.2.21
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
@@ -8556,7 +8552,7 @@ packages:
       rollup: 1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.19
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typedoc: 0.15.2
       typescript: 4.2.4
@@ -8586,7 +8582,7 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       assert: 1.5.0
       chai: 4.3.4
@@ -8616,7 +8612,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       sinon: 9.2.4
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typedoc: 0.15.2
       typescript: 4.2.4
@@ -9070,7 +9066,7 @@ packages:
       '@types/chai': 4.2.21
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       buffer: 6.0.3
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
@@ -9103,7 +9099,7 @@ packages:
       rollup: 1.32.1
       safe-buffer: 5.2.1
       source-map-support: 0.5.19
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typedoc: 0.15.2
       typescript: 4.2.4
@@ -9133,7 +9129,7 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.1
       assert: 1.5.0
@@ -9195,7 +9191,7 @@ packages:
       '@types/chai-as-promised': 7.1.4
       '@types/jwt-decode': 2.2.1
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       assert: 1.5.0
       chai: 4.3.4
@@ -9252,7 +9248,7 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       assert: 1.5.0
       chai: 4.3.4
@@ -9311,7 +9307,7 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       assert: 1.5.0
       chai: 4.3.4
@@ -9369,7 +9365,7 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       assert: 1.5.0
       chai: 4.3.4
@@ -9427,7 +9423,7 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       assert: 1.5.0
       chai: 4.3.4
@@ -9479,7 +9475,7 @@ packages:
       '@microsoft/api-extractor': 7.18.13
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -9526,7 +9522,7 @@ packages:
       '@types/chai': 4.2.21
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
@@ -9578,7 +9574,7 @@ packages:
       '@types/chai': 4.2.21
       '@types/debug': 4.1.7
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       '@types/ws': 7.4.7
       buffer: 6.0.3
@@ -9607,7 +9603,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       sinon: 9.2.4
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typedoc: 0.15.2
       typescript: 4.2.4
@@ -9627,7 +9623,7 @@ packages:
     name: '@rush-temp/core-asynciterator-polyfill'
     version: 0.0.0
     dependencies:
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       eslint: 7.32.0
       prettier: 1.19.1
       typedoc: 0.15.2
@@ -9644,7 +9640,7 @@ packages:
       '@microsoft/api-extractor': 7.18.13
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       chai: 4.3.4
       cross-env: 7.0.3
       downlevel-dts: 0.4.0
@@ -9672,7 +9668,7 @@ packages:
       '@microsoft/api-extractor': 7.18.13
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.4
       cross-env: 7.0.3
@@ -9696,7 +9692,7 @@ packages:
       rimraf: 3.0.2
       rollup: 1.32.1
       sinon: 9.2.4
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typedoc: 0.15.2
       typescript: 4.2.4
@@ -9719,7 +9715,7 @@ packages:
       '@microsoft/api-extractor': 7.18.13
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       chai: 4.3.4
       cross-env: 7.0.3
       eslint: 7.32.0
@@ -9761,7 +9757,7 @@ packages:
       '@microsoft/api-extractor': 7.18.13
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       chai: 4.3.4
       cross-env: 7.0.3
       eslint: 7.32.0
@@ -9802,7 +9798,7 @@ packages:
       '@microsoft/api-extractor': 7.18.13
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       chai: 4.3.4
       cross-env: 7.0.3
       eslint: 7.32.0
@@ -9846,7 +9842,7 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.4
       cross-env: 7.0.3
@@ -9893,7 +9889,7 @@ packages:
       '@types/express': 4.17.13
       '@types/glob': 7.1.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/node-fetch': 2.5.12
       '@types/sinon': 9.0.11
       '@types/tough-cookie': 4.0.1
@@ -9931,7 +9927,7 @@ packages:
       shx: 0.3.3
       sinon: 9.2.4
       tough-cookie: 4.0.0
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       tunnel: 0.0.6
       typedoc: 0.15.2
@@ -9958,7 +9954,7 @@ packages:
       '@microsoft/api-extractor': 7.18.13
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       chai: 4.3.4
       cross-env: 7.0.3
       eslint: 7.32.0
@@ -9980,7 +9976,7 @@ packages:
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typedoc: 0.15.2
       typescript: 4.2.4
@@ -10002,7 +9998,7 @@ packages:
       '@microsoft/api-extractor': 7.18.13
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       chai: 4.3.4
       downlevel-dts: 0.4.0
       eslint: 7.32.0
@@ -10042,7 +10038,7 @@ packages:
       '@opentelemetry/api': 1.0.2
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.1
       chai: 4.3.4
@@ -10093,7 +10089,7 @@ packages:
       '@opentelemetry/tracing': 0.22.0_@opentelemetry+api@1.0.2
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.4
       cross-env: 7.0.3
@@ -10135,7 +10131,7 @@ packages:
       '@microsoft/api-extractor': 7.18.13
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.4
       cross-env: 7.0.3
@@ -10178,7 +10174,7 @@ packages:
       '@microsoft/api-extractor': 7.18.13
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       '@types/xml2js': 0.4.9
       chai: 4.3.4
@@ -10226,7 +10222,7 @@ packages:
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@types/debug': 4.1.7
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/priorityqueuejs': 1.0.1
       '@types/semaphore': 1.1.1
       '@types/sinon': 9.0.11
@@ -10256,7 +10252,7 @@ packages:
       sinon: 9.2.4
       snap-shot-it: 7.9.6
       source-map-support: 0.5.19
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typedoc: 0.15.2
       typescript: 4.2.4
@@ -10284,7 +10280,7 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.1
       chai: 4.3.4
@@ -10315,7 +10311,7 @@ packages:
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typedoc: 0.15.2
       typescript: 4.2.4
@@ -10344,7 +10340,7 @@ packages:
       '@types/fs-extra': 8.1.2
       '@types/minimist': 1.2.2
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/prettier': 2.0.2
       builtin-modules: 3.2.0
       chai: 4.3.4
@@ -10360,7 +10356,7 @@ packages:
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
-      ts-node: 10.2.1_f44a39c2c3c81dfc6029effe3b9abb40
+      ts-node: 10.2.1_330c0207325f3bf412a1747a76be4657
       tslib: 2.3.1
       typedoc: 0.15.2
       typescript: 4.4.3
@@ -10386,7 +10382,7 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.1
       chai: 4.3.4
@@ -10441,7 +10437,7 @@ packages:
       '@types/glob': 7.1.4
       '@types/json-schema': 7.0.9
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@typescript-eslint/eslint-plugin': 4.19.0_359354e87b989469ccdce12bde18eddc
       '@typescript-eslint/experimental-utils': 4.19.0_eslint@7.32.0+typescript@4.2.4
       '@typescript-eslint/parser': 4.19.0_eslint@7.32.0+typescript@4.2.4
@@ -10488,7 +10484,7 @@ packages:
       '@types/debug': 4.1.7
       '@types/long': 4.0.1
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.1
       '@types/ws': 7.4.7
@@ -10532,7 +10528,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       sinon: 9.2.4
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typedoc: 0.15.2
       typescript: 4.2.4
@@ -10565,7 +10561,7 @@ packages:
       '@types/chai-string': 1.4.2
       '@types/debug': 4.1.7
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/uuid': 8.3.1
       '@types/ws': 7.4.7
       async-lock: 1.3.0
@@ -10587,7 +10583,7 @@ packages:
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typedoc: 0.15.2
       typescript: 4.2.4
@@ -10617,7 +10613,7 @@ packages:
       '@types/chai': 4.2.21
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.1
       chai: 4.3.4
@@ -10650,7 +10646,7 @@ packages:
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.19
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typedoc: 0.15.2
       typescript: 4.2.4
@@ -10682,7 +10678,7 @@ packages:
       '@types/chai-string': 1.4.2
       '@types/debug': 4.1.7
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       assert: 1.5.0
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
@@ -10716,7 +10712,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typedoc: 0.15.2
       typescript: 4.2.4
@@ -10746,7 +10742,7 @@ packages:
       '@types/chai-string': 1.4.2
       '@types/debug': 4.1.7
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       assert: 1.5.0
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
@@ -10779,7 +10775,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typedoc: 0.15.2
       typescript: 4.2.4
@@ -10802,7 +10798,7 @@ packages:
       '@microsoft/api-extractor': 7.18.13
       '@types/jws': 3.2.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/qs': 6.9.7
       '@types/sinon': 9.0.11
       assert: 1.5.0
@@ -10837,7 +10833,7 @@ packages:
       '@microsoft/api-extractor': 7.18.13
       '@types/jws': 3.2.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/qs': 6.9.7
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.1
@@ -10877,7 +10873,7 @@ packages:
       '@types/chai': 4.2.21
       '@types/jws': 3.2.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/qs': 6.9.7
       '@types/sinon': 9.0.11
       '@types/stoppable': 1.1.1
@@ -10929,7 +10925,7 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.0-beta.6
       '@microsoft/api-extractor': 7.18.13
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/uuid': 8.3.1
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -10963,7 +10959,7 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.4
       cross-env: 7.0.3
@@ -10992,7 +10988,7 @@ packages:
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typedoc: 0.15.2
       typescript: 4.2.4
@@ -11022,7 +11018,7 @@ packages:
       '@types/chai': 4.2.21
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.1
       assert: 1.5.0
@@ -11067,7 +11063,7 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       assert: 1.5.0
       chai: 4.3.4
@@ -11142,7 +11138,7 @@ packages:
       '@types/chai': 4.2.21
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       assert: 1.5.0
       chai: 4.3.4
@@ -11203,7 +11199,7 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       assert: 1.5.0
       chai: 4.3.4
@@ -11256,7 +11252,7 @@ packages:
       '@microsoft/api-extractor': 7.18.13
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.4
       cross-env: 7.0.3
@@ -11282,7 +11278,7 @@ packages:
       rimraf: 3.0.2
       rollup: 1.32.1
       sinon: 9.2.4
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typedoc: 0.15.2
       typescript: 4.2.4
@@ -11305,7 +11301,7 @@ packages:
       '@types/chai': 4.2.21
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
@@ -11353,7 +11349,7 @@ packages:
       '@types/chai': 4.2.21
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/uuid': 8.3.1
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
@@ -11396,7 +11392,7 @@ packages:
     name: '@rush-temp/mock-hub'
     version: 0.0.0
     dependencies:
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       dotenv: 8.6.0
       eslint: 7.32.0
       prettier: 1.19.1
@@ -11423,7 +11419,7 @@ packages:
       '@opentelemetry/semantic-conventions': 0.24.0
       '@opentelemetry/tracing': 0.22.0_@opentelemetry+api@1.0.2
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       dotenv: 8.6.0
       eslint: 7.32.0
       eslint-plugin-node: 11.1.0_eslint@7.32.0
@@ -11435,7 +11431,7 @@ packages:
       rimraf: 3.0.2
       rollup: 1.32.1
       sinon: 9.2.4
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typedoc: 0.15.2
       typescript: 4.2.4
@@ -11460,7 +11456,7 @@ packages:
       '@types/chai': 4.2.21
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
@@ -11506,12 +11502,12 @@ packages:
     dependencies:
       '@azure/ai-form-recognizer': 3.1.0-beta.3
       '@azure/identity': 2.0.0-beta.5
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       dotenv: 8.6.0
       eslint: 7.32.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -11527,12 +11523,12 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/ai-metrics-advisor': 1.0.0-beta.3
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       dotenv: 8.6.0
       eslint: 7.32.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -11548,12 +11544,12 @@ packages:
     dependencies:
       '@azure/ai-text-analytics': 5.1.0
       '@azure/identity': 2.0.0-beta.6
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       dotenv: 8.6.0
       eslint: 7.32.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -11568,13 +11564,13 @@ packages:
     name: '@rush-temp/perf-app-configuration'
     version: 0.0.0
     dependencies:
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/uuid': 8.3.1
       dotenv: 8.6.0
       eslint: 7.32.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -11590,7 +11586,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/container-registry': 1.0.0-beta.4
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       dotenv: 8.6.0
       eslint: 7.32.0
       prettier: 1.19.1
@@ -11607,13 +11603,13 @@ packages:
     name: '@rush-temp/perf-core-rest-pipeline'
     version: 0.0.0
     dependencies:
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/uuid': 8.3.1
       dotenv: 8.6.0
       eslint: 7.32.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -11627,13 +11623,13 @@ packages:
     name: '@rush-temp/perf-data-tables'
     version: 0.0.0
     dependencies:
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/uuid': 8.3.1
       dotenv: 8.6.0
       eslint: 7.32.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -11648,14 +11644,14 @@ packages:
     name: '@rush-temp/perf-event-hubs'
     version: 0.0.0
     dependencies:
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/uuid': 8.3.1
       dotenv: 8.6.0
       eslint: 7.32.0
       moment: 2.29.1
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -11670,12 +11666,12 @@ packages:
     name: '@rush-temp/perf-eventgrid'
     version: 0.0.0
     dependencies:
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       dotenv: 8.6.0
       eslint: 7.32.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -11689,13 +11685,13 @@ packages:
     name: '@rush-temp/perf-identity'
     version: 0.0.0
     dependencies:
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/uuid': 8.3.1
       dotenv: 8.6.0
       eslint: 7.32.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -11711,13 +11707,13 @@ packages:
     dependencies:
       '@azure/identity': 2.0.0-beta.5
       '@azure/keyvault-certificates': 4.3.0
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/uuid': 8.3.1
       dotenv: 8.6.0
       eslint: 7.32.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -11735,13 +11731,13 @@ packages:
     dependencies:
       '@azure/identity': 2.0.0-beta.6
       '@azure/keyvault-keys': 4.3.0
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/uuid': 8.3.1
       dotenv: 8.6.0
       eslint: 7.32.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -11758,13 +11754,13 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.0.0-beta.5
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/uuid': 8.3.1
       dotenv: 8.6.0
       eslint: 7.32.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -11781,12 +11777,12 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.0.0-beta.5
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       dotenv: 8.6.0
       eslint: 7.32.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -11802,13 +11798,13 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/service-bus': 7.3.0
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/uuid': 8.3.1
       dotenv: 8.6.0
       eslint: 7.32.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -11823,7 +11819,7 @@ packages:
     name: '@rush-temp/perf-storage-blob'
     version: 0.0.0
     dependencies:
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/node-fetch': 2.5.12
       '@types/uuid': 8.3.1
       dotenv: 8.6.0
@@ -11831,7 +11827,7 @@ packages:
       node-fetch: 2.6.1
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -11846,13 +11842,13 @@ packages:
     name: '@rush-temp/perf-storage-file-datalake'
     version: 0.0.0
     dependencies:
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/uuid': 8.3.1
       dotenv: 8.6.0
       eslint: 7.32.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -11867,13 +11863,13 @@ packages:
     name: '@rush-temp/perf-storage-file-share'
     version: 0.0.0
     dependencies:
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/uuid': 8.3.1
       dotenv: 8.6.0
       eslint: 7.32.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -11894,7 +11890,7 @@ packages:
       '@microsoft/api-extractor': 7.18.13
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -11940,7 +11936,7 @@ packages:
       '@microsoft/api-extractor': 7.18.13
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -11987,7 +11983,7 @@ packages:
       '@microsoft/api-extractor': 7.18.13
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -12034,7 +12030,7 @@ packages:
       '@microsoft/api-extractor': 7.18.13
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -12087,7 +12083,7 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.4
       cross-env: 7.0.3
@@ -12147,7 +12143,7 @@ packages:
       '@types/chai': 4.2.21
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       avsc: 5.7.3
       buffer: 6.0.3
       chai: 4.3.4
@@ -12202,7 +12198,7 @@ packages:
       '@types/chai': 4.2.21
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
@@ -12252,7 +12248,7 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.4
       cross-env: 7.0.3
@@ -12284,7 +12280,7 @@ packages:
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typedoc: 0.15.2
       typescript: 4.2.4
@@ -12319,7 +12315,7 @@ packages:
       '@types/is-buffer': 2.0.0
       '@types/long': 4.0.1
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       '@types/ws': 7.4.7
       assert: 1.5.0
@@ -12366,7 +12362,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       sinon: 9.2.4
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typedoc: 0.15.2
       typescript: 4.2.4
@@ -12391,7 +12387,7 @@ packages:
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       assert: 1.5.0
       cross-env: 7.0.3
@@ -12428,7 +12424,7 @@ packages:
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.19
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typedoc: 0.15.2
       typescript: 4.2.4
@@ -12456,7 +12452,7 @@ packages:
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/node-fetch': 2.5.12
       assert: 1.5.0
       cross-env: 7.0.3
@@ -12493,7 +12489,7 @@ packages:
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       source-map-support: 0.5.19
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typedoc: 0.15.2
       typescript: 4.2.4
@@ -12521,7 +12517,7 @@ packages:
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       assert: 1.5.0
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -12557,7 +12553,7 @@ packages:
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       source-map-support: 0.5.19
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typedoc: 0.15.2
       typescript: 4.2.4
@@ -12583,7 +12579,7 @@ packages:
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       assert: 1.5.0
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -12618,7 +12614,7 @@ packages:
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       source-map-support: 0.5.19
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typedoc: 0.15.2
       typescript: 4.2.4
@@ -12643,7 +12639,7 @@ packages:
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       assert: 1.5.0
       dotenv: 8.6.0
       downlevel-dts: 0.4.0
@@ -12676,7 +12672,7 @@ packages:
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       source-map-support: 0.5.19
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
@@ -12702,7 +12698,7 @@ packages:
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       assert: 1.5.0
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -12736,7 +12732,7 @@ packages:
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       source-map-support: 0.5.19
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typedoc: 0.15.2
       typescript: 4.2.4
@@ -12761,7 +12757,7 @@ packages:
       '@types/chai': 4.2.21
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
@@ -12790,7 +12786,7 @@ packages:
       rollup: 1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.19
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typedoc: 0.15.2
       typescript: 4.2.4
@@ -12815,7 +12811,7 @@ packages:
       '@types/chai': 4.2.21
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
@@ -12844,7 +12840,7 @@ packages:
       rollup: 1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.19
-      ts-node: 10.2.1_34240cc25341bc92b4fb7aca1a56ac75
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.3.1
       typedoc: 0.15.2
       typescript: 4.2.4
@@ -12984,7 +12980,7 @@ packages:
       '@types/chai': 4.2.21
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
@@ -13024,7 +13020,7 @@ packages:
     dev: false
 
   file:projects/test-recorder-new.tgz:
-    resolution: {integrity: sha512-QA/q5jYVt08XyM/xekZCFi7B0C8Ltj/kp29ZYLRFbrH3zlPzoJ0A7Vkx37pfCyaTz/mbRnQE4n/qKWYCKuCIKg==, tarball: file:projects/test-recorder-new.tgz}
+    resolution: {integrity: sha512-bFNDNk5if6y3+lj8csPD/AmGg8EQsPyDuWzh11aA7oUhUH0Ig1DWmG9e9zNQoSt2j07cvzJcDefkd6+XNgVCNQ==, tarball: file:projects/test-recorder-new.tgz}
     name: '@rush-temp/test-recorder-new'
     version: 0.0.0
     dependencies:
@@ -13032,6 +13028,7 @@ packages:
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
+      '@types/body-parser': 1.19.1
       '@types/chai': 4.2.21
       '@types/express': 4.17.13
       '@types/fs-extra': 8.1.2
@@ -13040,7 +13037,8 @@ packages:
       '@types/mock-fs': 4.10.0
       '@types/mock-require': 2.0.0
       '@types/nise': 1.4.0
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
+      body-parser: 1.19.0
       chai: 4.3.4
       concurrently: 6.2.1
       cross-env: 7.0.3
@@ -13101,7 +13099,7 @@ packages:
       '@types/mock-fs': 4.10.0
       '@types/mock-require': 2.0.0
       '@types/nise': 1.4.0
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       chai: 4.3.4
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -13151,7 +13149,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/minimist': 1.2.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/node-fetch': 2.5.12
       eslint: 7.32.0
       karma: 6.3.4
@@ -13181,7 +13179,7 @@ packages:
       '@opentelemetry/api': 1.0.2
       '@types/chai': 4.2.21
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
@@ -13220,7 +13218,7 @@ packages:
       '@types/mock-fs': 4.10.0
       '@types/mock-require': 2.0.0
       '@types/nise': 1.4.0
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/uuid': 8.3.1
       chai: 4.3.4
       dotenv: 8.6.0
@@ -13271,7 +13269,7 @@ packages:
       '@types/chai': 4.2.21
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       azure-iothub: 1.14.3
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
@@ -13324,7 +13322,7 @@ packages:
       '@types/express-serve-static-core': 4.17.24
       '@types/jsonwebtoken': 8.5.5
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       assert: 1.5.0
       chai: 4.3.4
@@ -13385,7 +13383,7 @@ packages:
       '@types/chai': 4.2.21
       '@types/jsonwebtoken': 8.5.5
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.21
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.4
       cross-env: 7.0.3
