@@ -53,21 +53,21 @@ export { AuthorizationCodeCredential } from "./credentials/authorizationCodeCred
 export { AzurePowerShellCredential } from "./credentials/azurePowerShellCredential";
 export { AzurePowerShellCredentialOptions } from "./credentials/azurePowerShellCredentialOptions";
 export {
-  ApplicationCredential,
-  ApplicationCredentialOptions
-} from "./credentials/applicationCredential";
+  AzureApplicationCredential as ApplicationCredential,
+  AzureApplicationCredentialOptions as ApplicationCredentialOptions
+} from "./credentials/azureApplicationCredential";
 
 export {
   VisualStudioCodeCredential,
   VisualStudioCodeCredentialOptions
 } from "./credentials/visualStudioCodeCredential";
 
+export { OnBehalfOfCredential } from "./credentials/onBehalfOfCredential";
 export {
-  OnBehalfOfCredential,
-  OnBehalfOfCredentialSecretConfiguration,
-  OnBehalfOfCredentialCertificateConfiguration
-} from "./credentials/onBehalfOfCredential";
-export { OnBehalfOfCredentialOptions } from "./credentials/onBehalfOfCredentialOptions";
+  OnBehalfOfCredentialOptions,
+  OnBehalfOfCredentialSecretOptions,
+  OnBehalfOfCredentialCertificateOptions
+} from "./credentials/onBehalfOfCredentialOptions";
 
 export { TokenCachePersistenceOptions } from "./msal/nodeFlows/tokenCachePersistenceOptions";
 

@@ -12,9 +12,9 @@ import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
 import { DefaultManagedIdentityCredential } from "./defaultAzureCredential";
 
 /**
- * Provides options to configure the {@link ApplicationCredential} class.
+ * Provides options to configure the {@link AzureApplicationCredential} class.
  */
-export interface ApplicationCredentialOptions
+export interface AzureApplicationCredentialOptions
   extends TokenCredentialOptions,
     CredentialPersistenceOptions {
   /**
@@ -28,11 +28,11 @@ export interface ApplicationCredentialOptions
  * The type of a class that implements TokenCredential and accepts
  * `ApplicationCredentialOptions`.
  */
-interface ApplicationCredentialConstructor {
-  new (options?: ApplicationCredentialOptions): TokenCredential;
+interface AzureApplicationCredentialConstructor {
+  new (options?: AzureApplicationCredentialOptions): TokenCredential;
 }
 
-export const ApplicationCredentials: ApplicationCredentialConstructor[] = [
+export const AzureApplicationCredentials: AzureApplicationCredentialConstructor[] = [
   EnvironmentCredential,
   DefaultManagedIdentityCredential
 ];
@@ -41,11 +41,11 @@ export const ApplicationCredentials: ApplicationCredentialConstructor[] = [
  * Provides a default {@link ChainedTokenCredential} configuration that should
  * work for most applications that use the Azure SDK.
  */
-export class ApplicationCredential extends ChainedTokenCredential {
+export class AzureApplicationCredential extends ChainedTokenCredential {
   /**
-   * Creates an instance of the ApplicationCredential class.
+   * Creates an instance of the AzureApplicationCredential class.
    *
-   * The ApplicationCredential provides a default {@link ChainedTokenCredential} configuration that should
+   * The AzureApplicationCredential provides a default {@link ChainedTokenCredential} configuration that should
    * work for most applications that use the Azure SDK.  The following credential
    * types will be tried, in order:
    *
@@ -55,10 +55,10 @@ export class ApplicationCredential extends ChainedTokenCredential {
    * Consult the documentation of these credential types for more information
    * on how they attempt authentication.
    *
-   * @param options - Optional parameters. See {@link ApplicationCredentialOptions}.
+   * @param options - Optional parameters. See {@link AzureApplicationCredentialOptions}.
    */
-  constructor(options?: ApplicationCredentialOptions) {
-    super(...ApplicationCredentials.map((ctor) => new ctor(options)));
+  constructor(options?: AzureApplicationCredentialOptions) {
+    super(...AzureApplicationCredentials.map((ctor) => new ctor(options)));
     this.UnavailableMessage =
       "ApplicationCredential => failed to retrieve a token from the included credentials";
   }
