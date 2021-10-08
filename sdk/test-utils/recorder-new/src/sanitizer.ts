@@ -13,7 +13,14 @@ export interface SanitizerOptions {
     actualConnString: string;
     fakeConnString: string;
   }>;
-  removeHeaderSanitizer?: { headers: string[] };
+  bodyKeySanitizers?: Array<{ value: string; regex: string; jsonPath: string }>;
+  bodyRegexSanitizers?: Array<{ value: string; regex: string; groupForReplace: string }>;
+  continuationSanitizers?: Array<{ key: string; method: string; resetAfterFirst: boolean }>;
+  headerRegexSanitizers?: Array<{ key: string; value: string; regex: string }>;
+  uriRegexSanitizers?: Array<{ value: string; regex: string }>;
+  removeHeaderSanitizer?: { headersForRemoval: string[] };
+  oAuthResponseSanitizer?: boolean;
+  uriSubscriptionIdSanitizer?: { value: string };
 }
 
 // TODO:
@@ -66,7 +73,71 @@ export class Sanitizer {
       }
     }
     if (options.removeHeaderSanitizer) {
-      await this.removeHeaderSanitizer(options.removeHeaderSanitizer.headers);
+      this.addSanitizer({
+        sanitizer: "RemoveHeaderSanitizer",
+        body: JSON.stringify({
+          headersForRemoval: options.removeHeaderSanitizer.headersForRemoval.toString()
+        })
+      });
+    }
+    if (options.bodyKeySanitizers) {
+      // TODO: Test
+      for (const replacer of options.bodyKeySanitizers) {
+        await this.addSanitizer({
+          sanitizer: "BodyKeySanitizer",
+          body: JSON.stringify(replacer)
+        });
+      }
+    }
+    if (options.bodyRegexSanitizers) {
+      // TODO: Test
+      for (const replacer of options.bodyRegexSanitizers) {
+        await this.addSanitizer({
+          sanitizer: "BodyRegexSanitizer",
+          body: JSON.stringify(replacer)
+        });
+      }
+    }
+    if (options.continuationSanitizers) {
+      // TODO: Test
+      for (const replacer of options.continuationSanitizers) {
+        await this.addSanitizer({
+          sanitizer: "ContinuationSanitizer",
+          body: JSON.stringify(replacer)
+        });
+      }
+    }
+    if (options.headerRegexSanitizers) {
+      // TODO: Test
+      for (const replacer of options.headerRegexSanitizers) {
+        await this.addSanitizer({
+          sanitizer: "HeaderRegexSanitizer",
+          body: JSON.stringify(replacer)
+        });
+      }
+    }
+    if (options.oAuthResponseSanitizer) {
+      // TODO: Test
+      await this.addSanitizer({
+        sanitizer: "OAuthResponseSanitizer",
+        body: undefined
+      });
+    }
+    if (options.uriRegexSanitizers) {
+      // TODO: Test
+      for (const replacer of options.uriRegexSanitizers) {
+        await this.addSanitizer({
+          sanitizer: "UriRegexSanitizer",
+          body: JSON.stringify(replacer)
+        });
+      }
+    }
+    if (options.uriSubscriptionIdSanitizer) {
+      // TODO: Test
+      await this.addSanitizer({
+        sanitizer: "UriSubscriptionIdSanitizer",
+        body: JSON.stringify(options.uriSubscriptionIdSanitizer)
+      });
     }
   }
 
@@ -84,23 +155,22 @@ export class Sanitizer {
   async addRegexSanitizer(replacer: { value: string; regex: string }): Promise<void> {
     return this.addSanitizer({
       sanitizer: "GeneralRegexSanitizer",
-      headers: [],
       body: JSON.stringify(replacer)
     });
   }
 
-  async removeHeaderSanitizer(headers: string[]): Promise<void> {
-    return this.addSanitizer({
-      sanitizer: "RemoveHeaderSanitizer",
-      headers: [],
-      body: JSON.stringify({ headersForRemoval: headers.toString() })
-    });
-  }
-
   private async addSanitizer(options: {
-    sanitizer: "GeneralRegexSanitizer" | "RemoveHeaderSanitizer";
-    headers: string[];
-    body: string;
+    sanitizer:
+      | "GeneralRegexSanitizer"
+      | "RemoveHeaderSanitizer"
+      | "BodyKeySanitizer"
+      | "BodyRegexSanitizer"
+      | "ContinuationSanitizer"
+      | "HeaderRegexSanitizer"
+      | "OAuthResponseSanitizer"
+      | "UriRegexSanitizer"
+      | "UriSubscriptionIdSanitizer";
+    body: string | undefined;
   }): Promise<void> {
     if (this.recordingId !== undefined) {
       const infoUri = `${this.url}${paths.admin}${paths.addSanitizer}`;
