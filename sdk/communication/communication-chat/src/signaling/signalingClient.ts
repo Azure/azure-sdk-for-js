@@ -5,10 +5,14 @@ import { CommunicationSignalingClient, SignalingClient } from "@azure/communicat
 import { CommunicationTokenCredential } from "@azure/communication-common";
 import { AzureLogger } from "@azure/logger";
 
+export interface SignalingClientOptions {
+  environment?: string;
+}
+
 export const getSignalingClient = (
   credential: CommunicationTokenCredential,
   logger: AzureLogger,
-  options?: any
+  options?: SignalingClientOptions
 ): SignalingClient | undefined => {
   if (typeof navigator !== "undefined" && navigator.product === "ReactNative") {
     // In React Native
