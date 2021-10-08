@@ -113,7 +113,7 @@ async function main(): Promise<void> {
   for (let x = 0; x < 10; ++x) {
     // kubectl will return '' when there are no active pods
     let active_pods = runCommand(count_active_pods);
-    logs = await runCommand(["kubectl", "logs", "-f", podName as string], false);
+    logs = (await runCommand(["kubectl", "logs", "-f", podName as string], false)) as string;
     if (!active_pods) break;
     await sleep(30);
   }
