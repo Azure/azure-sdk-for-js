@@ -18,7 +18,7 @@ const validParsedWWWAuthenticateProperties = [
 /**
  * @internal
  *
- * Valid key names in WWW-Authenticate header.
+ * A union type representing all valid key names in WWW-Authenticate header.
  */
 type ValidParsedWWWAuthenticateProperties = typeof validParsedWWWAuthenticateProperties[number];
 
