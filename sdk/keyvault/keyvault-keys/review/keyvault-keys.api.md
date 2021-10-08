@@ -392,6 +392,13 @@ export enum KnownKeyCurveNames {
 }
 
 // @public
+export enum KnownKeyExportEncryptionAlgorithm {
+    CkmRsaAesKeyWrap = "CKM_RSA_AES_KEY_WRAP",
+    RsaAesKeyWrap256 = "RSA_AES_KEY_WRAP_256",
+    RsaAesKeyWrap384 = "RSA_AES_KEY_WRAP_384"
+}
+
+// @public
 export enum KnownKeyOperations {
     Decrypt = "decrypt",
     Encrypt = "encrypt",
