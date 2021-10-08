@@ -1,27 +1,27 @@
 {
   "Entries": [
     {
-      "RequestUri": "http://host.docker.internal:8080/sample_response",
+      "RequestUri": "http://host.docker.internal:8080/sample_response/fake_secret_info",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "User-Agent": "core-rest-pipeline/1.3.2 Node/v14.17.6 OS/(x64-Linux-5.4.0-1059-azure)",
-        "x-ms-client-request-id": "9b4af6a7-ed2b-4760-ace0-84a392567892"
+        "x-ms-client-request-id": "8cfd7713-eaf4-4364-b8bd-48de957ce366"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Connection": "keep-alive",
-        "Content-Length": "13",
+        "Content-Length": "26",
         "Content-Type": "application/json; charset=utf-8",
         "Date": "Fri, 08 Oct 2021 23:20:26 GMT",
-        "ETag": "W/\u0022d-ua9UN3rfp1JzmLYtPUOjtDq\u002B3co\u0022",
+        "ETag": "W/\u00221a-l2n/o5TdaU5b3c0hr/H15EW8dl8\u0022",
         "Keep-Alive": "timeout=5",
         "X-Powered-By": "Express"
       },
       "ResponseBody": {
-        "val": "abc"
+        "val": "I am the answer!"
       }
     }
   ],
