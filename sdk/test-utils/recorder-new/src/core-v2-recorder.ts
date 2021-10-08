@@ -52,7 +52,7 @@ export class TestProxyHttpClient {
         );
       }
     }
-    this.sanitizer = new Sanitizer(this.mode, this.url, this.httpClient, this.sessionFile);
+    this.sanitizer = new Sanitizer(this.mode, this.url, this.httpClient);
   }
 
   /**

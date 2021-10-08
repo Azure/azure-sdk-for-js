@@ -23,12 +23,7 @@ export interface SanitizerOptions {
 // - Test in live mode
 
 export class Sanitizer {
-  constructor(
-    private mode: string,
-    private url: string,
-    private httpClient?: HttpClient,
-    private sessionFile?: string
-  ) {}
+  constructor(private mode: string, private url: string, private httpClient?: HttpClient) {}
   private recordingId: string | undefined;
 
   setRecordingId(recordingId: string) {
@@ -138,12 +133,6 @@ export class Sanitizer {
    */
   private _createRecordingRequest(url: string, method: HttpMethods | undefined = "POST") {
     const req = createPipelineRequest({ url: url, method });
-    if (!this.sessionFile) {
-      throw new RecorderError(
-        `Something went wrong, TestProxyHttpClient.sessionFile should not have been undefined in ${this.mode} mode.`
-      );
-    }
-    req.headers.set("x-recording-file", this.sessionFile);
     if (this.recordingId !== undefined) {
       req.headers.set("x-recording-id", this.recordingId);
     }
