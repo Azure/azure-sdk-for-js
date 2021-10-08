@@ -28,7 +28,7 @@ export function getValuePair(kvp: string): string[] {
   return [key, value];
 }
 
-export function getRealFakePairs(
+export function getRealAndFakePairs(
   connectionString: string,
   fakeConnString: string
 ): { [key: string]: string } {

@@ -1,6 +1,6 @@
 import { HttpClient } from "@azure/core-rest-pipeline";
 import { createPipelineRequest, HttpMethods } from "@azure/core-rest-pipeline";
-import { getRealFakePairs } from "./utils/connectionStringHelpers";
+import { getRealAndFakePairs } from "./utils/connectionStringHelpers";
 import { paths } from "./utils/paths";
 import { RecorderError } from "./utils/utils";
 
@@ -80,7 +80,7 @@ export class Sanitizer {
     fakeConnString: string;
   }): Promise<void> {
     // extract connection string parts and match call
-    const pairsMatched = getRealFakePairs(replacer.actualConnString, replacer.fakeConnString);
+    const pairsMatched = getRealAndFakePairs(replacer.actualConnString, replacer.fakeConnString);
     for (const [key, value] of Object.entries(pairsMatched)) {
       await this.addRegexSanitizer({ value: value, regex: key });
     }
