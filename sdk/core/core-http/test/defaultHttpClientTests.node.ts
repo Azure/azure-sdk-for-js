@@ -438,7 +438,7 @@ describe("defaultHttpClient (node)", function() {
       status: 200,
       headers: [],
       body: payload
-    }
+    };
 
     const client = new DefaultHttpClient();
     sinon.stub(client, "fetch").callsFake(async (_input, _init) => {
@@ -446,7 +446,14 @@ describe("defaultHttpClient (node)", function() {
     });
 
     const ac = new AbortController();
-    const request = new WebResource("http://myhost/bigdownload", "GET", undefined, undefined, undefined, true);
+    const request = new WebResource(
+      "http://myhost/bigdownload",
+      "GET",
+      undefined,
+      undefined,
+      undefined,
+      true
+    );
     request.abortSignal = ac.signal;
     const promise = client.sendRequest(request);
 
