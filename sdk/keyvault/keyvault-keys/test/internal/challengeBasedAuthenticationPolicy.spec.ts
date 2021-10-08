@@ -16,8 +16,9 @@ import { KeyClient } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 import { getServiceVersion } from "../utils/utils.common";
-import { WebResource } from "@azure/core-http";
+import { HttpHeaders, WebResource } from "@azure/core-http";
 import { ClientSecretCredential } from "@azure/identity";
+import sinon from "sinon";
 
 // Following the philosophy of not testing the insides if we can test the outsides...
 // I present you with this "Get Out of Jail Free" card (in reference to Monopoly).
@@ -124,6 +125,40 @@ describe("Local Challenge based authentication tests", () => {
     }
 
     assert.equal(request.body, "request body");
+  });
+
+  it("should support multi-tenant authentication by passing tenantId in GetTokenOptions", async () => {
+    const credential = new ClientSecretCredential(
+      env.AZURE_TENANT_ID!,
+      env.AZURE_CLIENT_ID!,
+      env.AZURE_CLIENT_SECRET!
+    );
+    const stub = sinon.stub(credential, "getToken").resolves();
+
+    const expectedTenantId = "expectedTenantId";
+
+    // Setup a policy with a nextPolicy that will force the challenge.
+    // 401 with WWW-Authenticate header will invoke the challenge-based authentication logic.
+    const policy = challengeBasedAuthenticationPolicy(credential).create(
+      {
+        sendRequest: (request) =>
+          Promise.resolve({
+            status: 401,
+            headers: new HttpHeaders({
+              "WWW-Authenticate": `Bearer authorization="https://login.windows.net/${expectedTenantId}" scope="default"`
+            }),
+            request
+          })
+      },
+      { log: () => null, shouldLog: () => false }
+    );
+
+    await policy.sendRequest(new WebResource("https://my_vault.vault.azure.net"));
+
+    const getTokenOptions = stub.lastCall.lastArg;
+    assert.equal(getTokenOptions.tenantId, expectedTenantId);
+
+    sinon.restore();
   });
 
   describe("parseWWWAuthenticate tests", () => {

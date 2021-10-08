@@ -132,7 +132,10 @@ describe("Challenge based authentication tests", function() {
     });
 
     it("passes the tenantId if provided", async () => {
+      const expectedTenantId = "expectedTenantId";
+
       let getAccessTokenTenantId: string | undefined = "";
+
       await challengeCallbacks.authorizeRequestOnChallenge!({
         getAccessToken: (_scopes, options) => {
           getAccessTokenTenantId = options.tenantId;
@@ -141,7 +144,7 @@ describe("Challenge based authentication tests", function() {
         request,
         response: {
           headers: createHttpHeaders({
-            "WWW-Authenticate": `Bearer scope="cae_scope" authorization="http://login.windows.net/tenantId"`
+            "WWW-Authenticate": `Bearer scope="cae_scope" authorization="http://login.windows.net/${expectedTenantId}"`
           }),
           request,
           status: 200
@@ -149,7 +152,7 @@ describe("Challenge based authentication tests", function() {
         scopes: []
       });
 
-      assert.equal(getAccessTokenTenantId, "tenantId");
+      assert.equal(getAccessTokenTenantId, expectedTenantId);
     });
 
     it("returns true and sets the authorization header if challenge succeeds", async () => {
