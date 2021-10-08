@@ -318,6 +318,10 @@
       "type": "string",
       "condition": "[parameters('enableHsm')]",
       "value": "[concat('https://', reference(resourceId('Microsoft.Web/sites', variables('attestationAppName')), '2018-02-01').defaultHostName, '/')]"
+    },
+    "OID": {
+      "type": "string",
+      "value": "[parameters('provisionerApplicationOid')]"
     }
   }
 }
