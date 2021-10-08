@@ -125,7 +125,7 @@ export class Sanitizer {
   }
 
   /**
-   * Adds the recording file and the recording id headers to the requests that are sent to the proxy tool.
+   * Adds the recording id headers to the requests that are sent to the proxy tool.
    * These are required to appropriately save the recordings in the record mode and picking them up in playback.
    *
    * @private
