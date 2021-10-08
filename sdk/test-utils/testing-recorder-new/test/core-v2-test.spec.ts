@@ -14,8 +14,8 @@ const fakeConnString =
 const sanitizerOptions: SanitizerOptions = {
   connectionStringSanitizers: [
     {
-      fakeConnString,
-      actualConnString: env.TABLES_SAS_CONNECTION_STRING
+      actualConnString: env.TABLES_SAS_CONNECTION_STRING,
+      fakeConnString
     }
   ],
   removeHeaderSanitizer: { headers: ["X-Content-Type-Options"] },
