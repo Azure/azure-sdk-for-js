@@ -215,6 +215,24 @@ The [Managed identity authentication](https://docs.microsoft.com/azure/active-di
 
 For examples of how to use managed identity for authentication please refer to [the examples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-in-azure-with-managed-identity)
 
+## Cloud Configuration
+
+Credentials default to authenticating to the Azure Active Directory endpoint for Azure Public Cloud. To access resources in other clouds, such as Azure Government or a private cloud, configure credentials with the `authorityHost` argument setting in the constructor. The `AzureAuthorityHosts` interface defines authorities for well-known clouds. So, for the US Government cloud, you could instantiate a credential this way:
+
+```ts
+import { AzureAuthorityHosts, ClientSecretCredential } from "@azure/identity";
+const credential = new ClientSecretCredential(
+  "<YOUR_TENANT_ID>",
+  "<YOUR_CLIENT_ID>",
+  "<YOUR_CLIENT_SECRET>",
+  {
+    authorityHost: AzureAuthorityHosts.AzureGovernment
+  }
+);
+```
+
+Not all credentials require this configuration. Credentials which authenticate through a development tool, such as AzureCliCredential, use that tool's configuration. Similarly, VisualStudioCodeCredential accepts an authority argument but defaults to the authority matching VS Code's "Azure: Cloud" setting.
+
 ## Credential Classes
 
 ### Authenticating Azure Hosted Applications
