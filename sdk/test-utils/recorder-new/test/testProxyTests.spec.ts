@@ -1,59 +1,178 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env } from "@azure-tools/test-recorder";
-import { createPipelineRequest } from "@azure/core-rest-pipeline";
+import { env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
+import {
+  createPipelineRequest,
+  HttpMethods,
+  PipelineRequestOptions
+} from "@azure/core-rest-pipeline";
 import { ServiceClient } from "@azure/core-client";
 import { recorderHttpPolicy, TestProxyHttpClient } from "../src";
 import { expect } from "chai";
 
-const setTestMode = (
-  mode: "record" | "playback" | undefined
-): "record" | "playback" | undefined => {
+type TestMode = "record" | "playback" | "live" | undefined;
+
+const setTestMode = (mode: TestMode): TestMode => {
   env.TEST_MODE = mode;
-  console.log(`TEST_MODE = ${mode}`);
-  return mode as "record" | "playback" | undefined;
+  console.log(`==== setting TEST_MODE = ${mode} ====`);
+  return mode;
 };
 
-// const TEST_SERVER_URL = `http://127.0.0.1:8080`;
-const TEST_SERVER_URL = `http://host.docker.internal:8080`; // Accessing host's network(localhost) through docker container
+function getTestServerUrl() {
+  return !isLiveMode()
+    ? `http://host.docker.internal:8080` // Accessing host's network(localhost) through docker container
+    : `http://127.0.0.1:8080`;
+}
 
 // These tests require the following to be running in parallel
 // - utils/server.ts (to serve requests to act as a service)
 // - proxy-tool (to save/mock the responses)
-(["record", "playback"] as ("record" | "playback")[]).forEach((mode) => {
+(["record", "playback", "live"] as TestMode[]).forEach((mode) => {
   describe(`proxy tool`, () => {
     let recorder: TestProxyHttpClient;
+    let client: ServiceClient;
+
+    const basePipelineReqOptions: Partial<PipelineRequestOptions> =
+      mode === "live" ? { allowInsecureConnection: true } : {};
+
+    before(() => {
+      setTestMode(mode);
+    });
 
     beforeEach(async function() {
-      setTestMode(mode);
       recorder = new TestProxyHttpClient(this.currentTest);
-      await recorder.start({});
+      client = new ServiceClient({ baseUri: getTestServerUrl() });
+      client.pipeline.addPolicy(recorderHttpPolicy(recorder));
     });
 
     afterEach(async () => {
       await recorder.stop();
-      setTestMode(undefined);
     });
 
+    async function makeRequestAndVerifyResponse(
+      request: {
+        path: string;
+        body?: string;
+        headers?: [{ headerName: string; value: string }];
+        method: HttpMethods;
+      },
+      expectedResponse: { [key: string]: unknown }
+    ) {
+      const req = createPipelineRequest({
+        url: getTestServerUrl() + request.path,
+        body: request.body,
+        method: request.method,
+        ...basePipelineReqOptions
+      });
+      request.headers?.forEach(({ headerName, value }) => {
+        req.headers.set(headerName, value);
+      });
+      const response = await client.sendRequest(req);
+      expect(JSON.parse(response.bodyAsText!)).to.deep.equal(expectedResponse);
+    }
+
     it("sample_response", async () => {
-      const client = new ServiceClient({ baseUri: TEST_SERVER_URL });
-      client.pipeline.addPolicy(recorderHttpPolicy(recorder));
-      const req = createPipelineRequest({ url: TEST_SERVER_URL + "/sample_response" });
-      expect(JSON.parse((await client.sendRequest(req)).bodyAsText!).abc).to.equal("def");
+      await recorder.start({});
+      await makeRequestAndVerifyResponse(
+        { path: `/sample_response`, method: "GET" },
+        { val: "abc" }
+      );
     });
 
     describe("Sanitizers", () => {
-      it("add santizer", async () => {
-        const client = new ServiceClient({ baseUri: TEST_SERVER_URL });
-        client.pipeline.addPolicy(recorderHttpPolicy(recorder));
-        const req = createPipelineRequest({ url: TEST_SERVER_URL + "/sample_response" });
-        expect(JSON.parse((await client.sendRequest(req)).bodyAsText!).abc).to.equal("def");
+      it("GeneralRegexSanitizer", async () => {
+        env.SECRET_INFO = "abcdef";
+        const fakeSecretInfo = "fake_secret_info";
+        await recorder.start({ SECRET_INFO: fakeSecretInfo });
+        await recorder.addSanitizers({
+          generalRegexSanitizers: [{ regex: env.SECRET_INFO, value: fakeSecretInfo }]
+        });
+        await makeRequestAndVerifyResponse(
+          { path: `/sample_response/${env.SECRET_INFO}`, method: "GET" },
+          { val: "I am the answer!" }
+        );
       });
 
+      it("RemoveHeaderSanitizer", async () => {
+        await recorder.start({});
+        await recorder.addSanitizers({
+          removeHeaderSanitizer: { headersForRemoval: ["ETag", "Date"] }
+        });
+        await makeRequestAndVerifyResponse(
+          { path: `/sample_response`, method: "GET" },
+          { val: "abc" }
+        );
+      });
+
+      it("BodyKeySanitizer", async () => {
+        await recorder.start({});
+        const secretValue = "ab12cd34ef";
+        const fakeSecretValue = "fake_secret_info";
+        await recorder.addSanitizers({
+          bodyKeySanitizers: [
+            {
+              jsonPath: "$.secret_info", // Handles the request body
+              regex: secretValue,
+              value: fakeSecretValue
+            },
+            {
+              jsonPath: "$.bodyProvided.secret_info", // Handles the response body
+              regex: secretValue,
+              value: fakeSecretValue
+            }
+          ]
+        });
+        const reqBody = { secret_info: isPlaybackMode() ? fakeSecretValue : secretValue };
+        await makeRequestAndVerifyResponse(
+          {
+            path: `/api/sample_request_body`,
+            body: JSON.stringify(reqBody),
+            method: "POST",
+            headers: [{ headerName: "Content-Type", value: "application/json" }]
+          },
+          { bodyProvided: reqBody }
+        );
+      });
+
+      it("BodyRegexSanitizer", async () => {
+        await recorder.start({});
+        const secretValue = "ab12cd34ef";
+        const fakeSecretValue = "fake_secret_info";
+        await recorder.addSanitizers({
+          bodyRegexSanitizers: [
+            {
+              regex: "(.*)&SECRET=(?<secret_content>[^&]*)&(.*)",
+              value: fakeSecretValue,
+              groupForReplace: "secret_content"
+            }
+          ]
+        });
+        const reqBody = `non_secret=i'm_no_secret&SECRET=${
+          isPlaybackMode() ? fakeSecretValue : secretValue
+        }&random=random`;
+        await makeRequestAndVerifyResponse(
+          {
+            path: `/api/sample_request_body`,
+            body: reqBody,
+            method: "POST",
+            headers: [{ headerName: "Content-Type", value: "text/plain" }]
+          },
+          { bodyProvided: reqBody }
+        );
+      });
+
+      // it("RemoveHeaderSanitizer", async () => {
+      //   await recorder.start({});
+      //   if (isRecordMode()) {
+      //     console.log(await recorder["sanitizer"].transformsInfo());
+      //   }
+      // });
+
       it("connection string santizer", async () => {
+        await recorder.start({});
         const client = new ServiceClient({
-          baseUri: TEST_SERVER_URL
+          baseUri: getTestServerUrl()
         });
         client.pipeline.addPolicy(recorderHttpPolicy(recorder));
         // // await recorder.addSanitizer({ regex: "harshanstoragetest", value: "fakeaccount" });
@@ -65,11 +184,15 @@ const TEST_SERVER_URL = `http://host.docker.internal:8080`; // Accessing host's 
         // // console.log(await recorder.transformsInfo());
         // await recorder.removeHeaderSanitizer(["x-ms-version", "X-Content-Type-Options"]);
         const req = createPipelineRequest({
-          url: TEST_SERVER_URL + "/sample_response"
+          url: getTestServerUrl() + "/sample_response",
+          ...basePipelineReqOptions
         });
-        expect(JSON.parse((await client.sendRequest(req)).bodyAsText!).abc).to.equal("def");
+        expect(JSON.parse((await client.sendRequest(req)).bodyAsText!).val).to.equal("abc");
       });
     });
+
+    // Matchers
+    // Transforms
   });
 });
 
