@@ -13,7 +13,7 @@ import { TokenCredential } from "@azure/core-auth";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-apimanagement";
-const packageVersion = "7.1.1";
+const packageVersion = "7.1.2";
 
 export class ApiManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials | TokenCredential;
