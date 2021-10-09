@@ -31,7 +31,8 @@ export function ensureValidMsalToken(
 ): void {
   const error = (message: string): Error => {
     logger.getToken.info(message);
-    return new AuthenticationRequiredError(Array.isArray(scopes) ? scopes : [scopes], {
+    return new AuthenticationRequiredError({
+      scopes: Array.isArray(scopes) ? scopes : [scopes],
       getTokenOptions,
       message
     });
@@ -188,7 +189,7 @@ export class MsalBaseUtilities {
     ) {
       return error;
     }
-    return new AuthenticationRequiredError(scopes, { getTokenOptions, message: error.message });
+    return new AuthenticationRequiredError({ scopes, getTokenOptions, message: error.message });
   }
 }
 

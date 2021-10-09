@@ -158,7 +158,8 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
   ): Promise<AccessToken> {
     const account = await this.getActiveAccount();
     if (!account) {
-      throw new AuthenticationRequiredError(scopes, {
+      throw new AuthenticationRequiredError({
+        scopes,
         getTokenOptions: options,
         message:
           "Silent authentication failed. We couldn't retrieve an active account from the cache."
@@ -191,7 +192,8 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
   ): Promise<AccessToken> {
     const account = await this.getActiveAccount();
     if (!account) {
-      throw new AuthenticationRequiredError(scopes, {
+      throw new AuthenticationRequiredError({
+        scopes,
         getTokenOptions: options,
         message:
           "Silent authentication failed. We couldn't retrieve an active account from the cache."

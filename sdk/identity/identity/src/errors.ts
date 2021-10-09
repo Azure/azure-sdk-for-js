@@ -190,6 +190,10 @@ function convertOAuthErrorResponseToErrorResponse(errorBody: OAuthErrorResponse)
  */
 export interface AuthenticationRequiredErrorOptions {
   /**
+   * The list of scopes for which the token will have access.
+   */
+  scopes: string[],
+  /**
    * The options passed to the getToken request.
    */
   getTokenOptions?: GetTokenOptions;
@@ -204,21 +208,22 @@ export interface AuthenticationRequiredErrorOptions {
  */
 export class AuthenticationRequiredError extends Error {
   /**
+   * The list of scopes for which the token will have access.
+   */
+  public scopes: string[];
+  /**
    * The options passed to the getToken request.
    */
   public getTokenOptions?: GetTokenOptions;
 
   constructor(
     /**
-     * The list of scopes for which the token will have access.
-     */
-    public scopes: string[],
-    /**
      * Optional parameters. A message can be specified. The {@link GetTokenOptions} of the request can also be specified to more easily associate the error with the received parameters.
      */
-    options: AuthenticationRequiredErrorOptions = {}
+    options: AuthenticationRequiredErrorOptions
   ) {
     super(options.message);
+    this.scopes = options.scopes;
     this.getTokenOptions = options.getTokenOptions;
     this.name = "AuthenticationRequiredError";
   }

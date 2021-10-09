@@ -159,7 +159,8 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
         throw err;
       }
       if (options?.disableAutomaticAuthentication) {
-        throw new AuthenticationRequiredError(scopes, {
+        throw new AuthenticationRequiredError({
+          scopes,
           getTokenOptions: options,
           message:
             "Automatic authentication has been disabled. You may call the authentication() method."
