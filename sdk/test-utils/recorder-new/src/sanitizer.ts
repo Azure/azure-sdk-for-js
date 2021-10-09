@@ -14,10 +14,10 @@ export interface SanitizerOptions {
     fakeConnString: string;
   }>;
   bodyKeySanitizers?: Array<{ value: string; regex: string; jsonPath: string }>;
-  bodyRegexSanitizers?: Array<{ value: string; regex: string; groupForReplace: string }>;
+  bodyRegexSanitizers?: Array<{ value: string; regex: string; groupForReplace?: string }>;
   continuationSanitizers?: Array<{ key: string; method: string; resetAfterFirst: boolean }>;
   headerRegexSanitizers?: Array<{ key: string; value: string; regex: string }>;
-  uriRegexSanitizers?: Array<{ value: string; regex: string }>;
+  uriRegexSanitizers?: Array<{ value: string; regex: string; groupForReplace?: string }>;
   removeHeaderSanitizer?: { headersForRemoval: string[] };
   oAuthResponseSanitizer?: boolean;
   uriSubscriptionIdSanitizer?: { value: string };
@@ -81,7 +81,6 @@ export class Sanitizer {
       });
     }
     if (options.bodyKeySanitizers) {
-      // TODO: Test
       for (const replacer of options.bodyKeySanitizers) {
         await this.addSanitizer({
           sanitizer: "BodyKeySanitizer",
@@ -90,7 +89,6 @@ export class Sanitizer {
       }
     }
     if (options.bodyRegexSanitizers) {
-      // TODO: Test
       for (const replacer of options.bodyRegexSanitizers) {
         await this.addSanitizer({
           sanitizer: "BodyRegexSanitizer",

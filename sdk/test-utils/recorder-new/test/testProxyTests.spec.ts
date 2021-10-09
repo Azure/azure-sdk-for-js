@@ -54,7 +54,7 @@ function getTestServerUrl() {
       request: {
         path: string;
         body?: string;
-        headers?: [{ headerName: string; value: string }];
+        headers?: { headerName: string; value: string }[];
         method: HttpMethods;
       },
       expectedResponse: { [key: string]: unknown }
@@ -89,7 +89,10 @@ function getTestServerUrl() {
           generalRegexSanitizers: [{ regex: env.SECRET_INFO, value: fakeSecretInfo }]
         });
         await makeRequestAndVerifyResponse(
-          { path: `/sample_response/${env.SECRET_INFO}`, method: "GET" },
+          {
+            path: `/sample_response/${env.SECRET_INFO}`,
+            method: "GET"
+          },
           { val: "I am the answer!" }
         );
       });
@@ -97,7 +100,9 @@ function getTestServerUrl() {
       it("RemoveHeaderSanitizer", async () => {
         await recorder.start({});
         await recorder.addSanitizers({
-          removeHeaderSanitizer: { headersForRemoval: ["ETag", "Date"] }
+          removeHeaderSanitizer: {
+            headersForRemoval: ["ETag", "Date"]
+          }
         });
         await makeRequestAndVerifyResponse(
           { path: `/sample_response`, method: "GET" },
@@ -123,7 +128,9 @@ function getTestServerUrl() {
             }
           ]
         });
-        const reqBody = { secret_info: isPlaybackMode() ? fakeSecretValue : secretValue };
+        const reqBody = {
+          secret_info: isPlaybackMode() ? fakeSecretValue : secretValue
+        };
         await makeRequestAndVerifyResponse(
           {
             path: `/api/sample_request_body`,
@@ -159,6 +166,47 @@ function getTestServerUrl() {
             headers: [{ headerName: "Content-Type", value: "text/plain" }]
           },
           { bodyProvided: reqBody }
+        );
+      });
+
+      it.skip("UriRegexSanitizer", async () => {
+        await recorder.start({});
+        const secretEndpoint = "random_endpoint";
+        const fakeEndpoint = "fake_random_endpoint";
+        await recorder.addSanitizers({
+          uriRegexSanitizers: [
+            {
+              regex: secretEndpoint,
+              value: fakeEndpoint
+            }
+          ]
+        });
+
+        // TODO:
+        // `https://random_endpoint.io/random_path?secret_token=ab12cd34ef&random=random`;
+        // Changing ab12cd34ef with fake_token is not allowed (doesn't work?)
+        // Same for random_endpoint
+        const headerWithUrl = `https://${
+          isPlaybackMode() ? fakeEndpoint : secretEndpoint
+        }.io/random_path?secret_token=&random=random`;
+
+        await makeRequestAndVerifyResponse(
+          {
+            path: `/api/sample_request_body`,
+            body: "abcd",
+            method: "POST",
+            headers: [
+              {
+                headerName: "Content-Type",
+                value: "text/plain"
+              },
+              {
+                headerName: "some_url",
+                value: headerWithUrl
+              }
+            ]
+          },
+          { bodyProvided: "abcd" }
         );
       });
 
