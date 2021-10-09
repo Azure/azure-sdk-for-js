@@ -335,4 +335,4 @@ We also provide some samples [here](https://github.com/Azure-Samples/azure-sampl
 
 ## Need help
 
-If you have encountered an issue during migration, please file an issue via [Github Issues](https://github.com/Azure/azure-sdk-for-js/issues) and make sure you add the "Preview" label to the issue.
+If you have encountered an issue during migration, please file an issue via [Github Issues](https://github.com/Azure/azure-sdk-for-js/issues) and make sure you add the 'Preview' label to the issue.
