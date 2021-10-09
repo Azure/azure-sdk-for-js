@@ -2,12 +2,6 @@
 
 ## 5.0.0-beta.1 (2021-10-09)
 
-**Bug Fixes**
-
-  - bump version
-
-## 30.0.0-beta.1 (2021-09-09)
-
 This is the first preview for the new version of the `@azure/arm-servicebus` package that follows the new [guidelines for TypeScript SDKs](https://azure.github.io/azure-sdk/typescript_introduction.html) for Azure services.
 
 While this package remains auto generated, the SDK generator itself has undergone changes to comply with the above guidelines in order to generate packages that are idiomatic to the JavaScript/TypeScript ecosystem and consistent with other packages for Azure services. For more on this, please see [State of the Azure SDK 2021](https://devblogs.microsoft.com/azure-sdk/state-of-the-azure-sdk-2021/).
