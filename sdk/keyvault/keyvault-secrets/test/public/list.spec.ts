@@ -41,7 +41,7 @@ describe("Secret client - list secrets in various ways", () => {
   // This test is only useful while developing locally.
   it("can purge all secrets", async function(this: Context): Promise<void> {
     console.log("------------------");
-    var aa = process.env["OID"].toString();
+    var aa = process.env["OID"]!.toString();
     for (var i = 0; i < aa.length; i++) {
         console.log(aa[i]);
     }
