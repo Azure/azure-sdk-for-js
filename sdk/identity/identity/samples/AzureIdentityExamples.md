@@ -952,7 +952,7 @@ In this example, the custom credential type `RotatingCertificateCredential` agai
 
 ### Authenticating on behalf of
 
-Many multi-user applications make use of the [On-Behalf-Of flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow) to make authenticated requests between two services that would be otherwise unreachable. The Identity SDK provides an `OnBehalfOfCredential` that supports this form of authentication.
+Many multi-user applications make use of the [On-Behalf-Of flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow) to make authenticated requests between two services that would be otherwise unreachable. The Identity SDK provides an `OnBehalfOfCredential` that supports this form of authentication.
 
 Two accounts participate on the On-Behalf-Of flow:
 
