@@ -210,6 +210,40 @@ function getTestServerUrl() {
         );
       });
 
+      it.skip("UriSubscriptionIdSanitizer", async () => {
+        await recorder.start({});
+        const id = "73c83158-bd73-4cda-aa11-a0c2a34e2544";
+        const fakeId = "00000000-0000-0000-0000-000000000000";
+        await recorder.addSanitizers({
+          uriSubscriptionIdSanitizer: {
+            value: fakeId
+          }
+        });
+
+        // TODO:
+        // Doesn't replace the id - sanitizer did not work
+        const headerWithUrl = `https://endpoint.io/subscriptions/${isPlaybackMode() ? fakeId : id}`;
+
+        await makeRequestAndVerifyResponse(
+          {
+            path: `/api/sample_request_body`,
+            body: "abcd",
+            method: "POST",
+            headers: [
+              {
+                headerName: "Content-Type",
+                value: "text/plain"
+              },
+              {
+                headerName: "some_url",
+                value: headerWithUrl
+              }
+            ]
+          },
+          { bodyProvided: "abcd" }
+        );
+      });
+
       // it("RemoveHeaderSanitizer", async () => {
       //   await recorder.start({});
       //   if (isRecordMode()) {
