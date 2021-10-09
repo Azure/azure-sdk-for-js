@@ -11,7 +11,7 @@ import {
   SendCredentialRequests
 } from "../../httpRequestsCommon";
 
-describe("AzureApplicationCredential testing Managed Identity (internal)", function () {
+describe("AzureApplicationCredential testing Managed Identity (internal)", function() {
   let envCopy: string = "";
   let testContext: IdentityTestContext;
   let sendCredentialRequests: SendCredentialRequests;
@@ -34,7 +34,7 @@ describe("AzureApplicationCredential testing Managed Identity (internal)", funct
     await testContext.restore();
   });
 
-  it("returns error when no MSI is available", async function () {
+  it("returns error when no MSI is available", async function() {
     process.env.AZURE_CLIENT_ID = "errclient";
 
     const { error } = await sendCredentialRequests({
@@ -52,7 +52,7 @@ describe("AzureApplicationCredential testing Managed Identity (internal)", funct
     );
   });
 
-  it("an unexpected error bubbles all the way up", async function () {
+  it("an unexpected error bubbles all the way up", async function() {
     process.env.AZURE_CLIENT_ID = "errclient";
 
     const errorMessage = "ManagedIdentityCredential authentication failed.";
@@ -68,7 +68,7 @@ describe("AzureApplicationCredential testing Managed Identity (internal)", funct
     assert.ok(error?.message.startsWith(errorMessage));
   });
 
-  it("returns expected error when the network was unreachable", async function () {
+  it("returns expected error when the network was unreachable", async function() {
     process.env.AZURE_CLIENT_ID = "errclient";
 
     const netError: RestError = new RestError("Request Timeout", {
