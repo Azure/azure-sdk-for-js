@@ -582,8 +582,11 @@ export enum KnownKeyOperations {
 
 /** Known values of {@link KeyExportEncryptionAlgorithm} that the service accepts. */
 export enum KnownKeyExportEncryptionAlgorithm {
+  /** CKM_RSA_AES_KEY_WRAP Key Export Encryption Algorithm */
   CkmRsaAesKeyWrap = "CKM_RSA_AES_KEY_WRAP",
+  /** RSA_AES_KEY_WRAP_256 Key Export Encryption Algorithm */
   RsaAesKeyWrap256 = "RSA_AES_KEY_WRAP_256",
+  /** RSA_AES_KEY_WRAP_384 Key Export Encryption Algorithm */
   RsaAesKeyWrap384 = "RSA_AES_KEY_WRAP_384"
 }
 
