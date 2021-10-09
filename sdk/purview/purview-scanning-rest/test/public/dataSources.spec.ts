@@ -24,7 +24,7 @@ describe("List data sources", () => {
     const result = await client.path("/datasources").get();
     const iter = paginate(client, result);
 
-    let items = [];
+    const items = [];
 
     for await (const item of iter) {
       items.push(item);
