@@ -1,3 +1,11 @@
+# Release History
+
+## 5.0.0-beta.1 (2021-10-09)
+
+**Bug Fixes**
+
+  - bump version
+
 ## 30.0.0-beta.2 (2021-10-08)
     
 **Features**
