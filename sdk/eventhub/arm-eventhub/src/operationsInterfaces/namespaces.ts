@@ -6,24 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
-  IpFilterRule,
-  NamespacesListIPFilterRulesOptionalParams,
   EHNamespace,
   NamespacesListOptionalParams,
   NamespacesListByResourceGroupOptionalParams,
-  VirtualNetworkRule,
-  NamespacesListVirtualNetworkRulesOptionalParams,
   AuthorizationRule,
   NamespacesListAuthorizationRulesOptionalParams,
-  NamespacesCreateOrUpdateIpFilterRuleOptionalParams,
-  NamespacesCreateOrUpdateIpFilterRuleResponse,
-  NamespacesDeleteIpFilterRuleOptionalParams,
-  NamespacesGetIpFilterRuleOptionalParams,
-  NamespacesGetIpFilterRuleResponse,
   NamespacesCreateOrUpdateOptionalParams,
   NamespacesCreateOrUpdateResponse,
   NamespacesDeleteOptionalParams,
@@ -31,11 +21,6 @@ import {
   NamespacesGetResponse,
   NamespacesUpdateOptionalParams,
   NamespacesUpdateResponse,
-  NamespacesCreateOrUpdateVirtualNetworkRuleOptionalParams,
-  NamespacesCreateOrUpdateVirtualNetworkRuleResponse,
-  NamespacesDeleteVirtualNetworkRuleOptionalParams,
-  NamespacesGetVirtualNetworkRuleOptionalParams,
-  NamespacesGetVirtualNetworkRuleResponse,
   NetworkRuleSet,
   NamespacesCreateOrUpdateNetworkRuleSetOptionalParams,
   NamespacesCreateOrUpdateNetworkRuleSetResponse,
@@ -60,17 +45,6 @@ import {
 /** Interface representing a Namespaces. */
 export interface Namespaces {
   /**
-   * Gets a list of IP Filter rules for a Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param options The options parameters.
-   */
-  listIPFilterRules(
-    resourceGroupName: string,
-    namespaceName: string,
-    options?: NamespacesListIPFilterRulesOptionalParams
-  ): PagedAsyncIterableIterator<IpFilterRule>;
-  /**
    * Lists all the available Namespaces within a subscription, irrespective of the resource groups.
    * @param options The options parameters.
    */
@@ -87,17 +61,6 @@ export interface Namespaces {
     options?: NamespacesListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<EHNamespace>;
   /**
-   * Gets a list of VirtualNetwork rules for a Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param options The options parameters.
-   */
-  listVirtualNetworkRules(
-    resourceGroupName: string,
-    namespaceName: string,
-    options?: NamespacesListVirtualNetworkRulesOptionalParams
-  ): PagedAsyncIterableIterator<VirtualNetworkRule>;
-  /**
    * Gets a list of authorization rules for a Namespace.
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
@@ -108,47 +71,6 @@ export interface Namespaces {
     namespaceName: string,
     options?: NamespacesListAuthorizationRulesOptionalParams
   ): PagedAsyncIterableIterator<AuthorizationRule>;
-  /**
-   * Creates or updates an IpFilterRule for a Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param ipFilterRuleName The IP Filter Rule name.
-   * @param parameters The Namespace IpFilterRule.
-   * @param options The options parameters.
-   */
-  createOrUpdateIpFilterRule(
-    resourceGroupName: string,
-    namespaceName: string,
-    ipFilterRuleName: string,
-    parameters: IpFilterRule,
-    options?: NamespacesCreateOrUpdateIpFilterRuleOptionalParams
-  ): Promise<NamespacesCreateOrUpdateIpFilterRuleResponse>;
-  /**
-   * Deletes an IpFilterRule for a Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param ipFilterRuleName The IP Filter Rule name.
-   * @param options The options parameters.
-   */
-  deleteIpFilterRule(
-    resourceGroupName: string,
-    namespaceName: string,
-    ipFilterRuleName: string,
-    options?: NamespacesDeleteIpFilterRuleOptionalParams
-  ): Promise<void>;
-  /**
-   * Gets an IpFilterRule for a Namespace by rule name.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param ipFilterRuleName The IP Filter Rule name.
-   * @param options The options parameters.
-   */
-  getIpFilterRule(
-    resourceGroupName: string,
-    namespaceName: string,
-    ipFilterRuleName: string,
-    options?: NamespacesGetIpFilterRuleOptionalParams
-  ): Promise<NamespacesGetIpFilterRuleResponse>;
   /**
    * Creates or updates a namespace. Once created, this namespace's resource manifest is immutable. This
    * operation is idempotent.
@@ -231,47 +153,6 @@ export interface Namespaces {
     parameters: EHNamespace,
     options?: NamespacesUpdateOptionalParams
   ): Promise<NamespacesUpdateResponse>;
-  /**
-   * Creates or updates an VirtualNetworkRule for a Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param virtualNetworkRuleName The Virtual Network Rule name.
-   * @param parameters The Namespace VirtualNetworkRule.
-   * @param options The options parameters.
-   */
-  createOrUpdateVirtualNetworkRule(
-    resourceGroupName: string,
-    namespaceName: string,
-    virtualNetworkRuleName: string,
-    parameters: VirtualNetworkRule,
-    options?: NamespacesCreateOrUpdateVirtualNetworkRuleOptionalParams
-  ): Promise<NamespacesCreateOrUpdateVirtualNetworkRuleResponse>;
-  /**
-   * Deletes an VirtualNetworkRule for a Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param virtualNetworkRuleName The Virtual Network Rule name.
-   * @param options The options parameters.
-   */
-  deleteVirtualNetworkRule(
-    resourceGroupName: string,
-    namespaceName: string,
-    virtualNetworkRuleName: string,
-    options?: NamespacesDeleteVirtualNetworkRuleOptionalParams
-  ): Promise<void>;
-  /**
-   * Gets an VirtualNetworkRule for a Namespace by rule name.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param virtualNetworkRuleName The Virtual Network Rule name.
-   * @param options The options parameters.
-   */
-  getVirtualNetworkRule(
-    resourceGroupName: string,
-    namespaceName: string,
-    virtualNetworkRuleName: string,
-    options?: NamespacesGetVirtualNetworkRuleOptionalParams
-  ): Promise<NamespacesGetVirtualNetworkRuleResponse>;
   /**
    * Create or update NetworkRuleSet for a Namespace.
    * @param resourceGroupName Name of the resource group within the azure subscription.

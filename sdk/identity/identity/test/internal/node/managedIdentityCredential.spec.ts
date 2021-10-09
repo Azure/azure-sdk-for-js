@@ -9,7 +9,8 @@ import { RestError } from "@azure/core-rest-pipeline";
 import { ManagedIdentityCredential } from "../../../src";
 import {
   imdsHost,
-  imdsApiVersion
+  imdsApiVersion,
+  imdsEndpointPath
 } from "../../../src/credentials/managedIdentityCredential/constants";
 import {
   imdsMsi,
@@ -69,6 +70,11 @@ describe("ManagedIdentityCredential", function() {
     });
 
     // The first request is the IMDS ping.
+    // This ping request has to skip a header and the query parameters for it to work on POD identity.
+    const imdsPingRequest = authDetails.requests[0];
+    assert.ok(!imdsPingRequest.headers!.metadata);
+    assert.equal(imdsPingRequest.url, new URL(imdsEndpointPath, imdsHost).toString());
+
     // The second one tries to authenticate against IMDS once we know the endpoint is available.
     const authRequest = authDetails.requests[1];
 

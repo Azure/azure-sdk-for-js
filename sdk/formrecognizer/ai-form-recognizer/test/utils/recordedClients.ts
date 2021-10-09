@@ -8,20 +8,15 @@ import {
   Recorder,
   record,
   RecorderEnvironmentSetup,
-  isPlaybackMode
+  isPlaybackMode,
 } from "@azure-tools/test-recorder";
 
-import { AzureKeyCredential, FormTrainingClient, FormRecognizerClient } from "../../src";
+import { AzureKeyCredential } from "../../src";
 import { ClientSecretCredential } from "@azure/identity";
-import { TokenCredential } from "@azure/core-auth";
+import { KeyCredential, TokenCredential } from "@azure/core-auth";
 
-export interface RecordedTrainingClient {
-  client: FormTrainingClient;
-  recorder: Recorder;
-}
-
-export interface RecordedRecognizerClient {
-  client: FormRecognizerClient;
+export interface RecordedClient<T> {
+  client: T;
   recorder: Recorder;
 }
 
@@ -34,21 +29,21 @@ const replaceableVariables: { [k: string]: string } = {
   FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL: "https://storageaccount/trainingdata?sastoken",
   FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL: "https://storageaccount/testingdata?sastoken",
   FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL:
-    "https://storageaccount/selectionmark?sastoken",
+    "https://storageaccount/selectionmark-v3?sastoken",
   FORM_RECOGNIZER_TARGET_RESOURCE_REGION: "westus2",
   // fake resource id
   FORM_RECOGNIZER_TARGET_RESOURCE_ID:
-    "/subscriptions/e1367d46-77d4-4f57-8cfe-348edbdc84a3/resourceGroups/jstests/providers/Microsoft.CognitiveServices/accounts/jstests-fr"
+    "/subscriptions/e1367d46-77d4-4f57-8cfe-348edbdc84a3/resourceGroups/jstests/providers/Microsoft.CognitiveServices/accounts/jstests-fr",
 };
 
 export const testEnv = new Proxy(replaceableVariables, {
   get: (target, key: string) => {
     return env[key] || target[key];
-  }
+  },
 });
 
 export const testPollingOptions = {
-  updateIntervalInMs: isPlaybackMode() ? 0 : undefined
+  updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -77,9 +72,9 @@ export const environmentSetup: RecorderEnvironmentSetup = {
         .replace(/\?sv[^\\"]*\\"/, `?sastoken\\"`)
         .replace(/\?sp[^"]*"/, `?sastoken"`)
         .replace(/\?sp[^\\"]*\\"/, `?sastoken\\"`);
-    }
+    },
   ],
-  queryParametersToSkip: []
+  queryParametersToSkip: [],
 };
 
 export function createRecorder(context: Context): Recorder {
@@ -95,13 +90,14 @@ export function makeCredential(useAad: boolean): TokenCredential | AzureKeyCrede
     : new AzureKeyCredential(env.FORM_RECOGNIZER_API_KEY);
 }
 
-export function createRecordedTrainingClient(
+export function createRecordedClient<T>(
   context: Context,
+  ctor: { new (endpoint: string, credential: TokenCredential | KeyCredential): T },
   apiKey?: AzureKeyCredential
-): RecordedTrainingClient {
+): RecordedClient<T> {
   const recorder = record(context, environmentSetup);
   return {
-    client: new FormTrainingClient(
+    client: new ctor(
       testEnv.FORM_RECOGNIZER_ENDPOINT,
       apiKey ||
         new ClientSecretCredential(
@@ -110,25 +106,6 @@ export function createRecordedTrainingClient(
           testEnv.AZURE_CLIENT_SECRET
         )
     ),
-    recorder
-  };
-}
-
-export function createRecordedRecognizerClient(
-  context: Context,
-  apiKey?: AzureKeyCredential
-): RecordedRecognizerClient {
-  const recorder = record(context, environmentSetup);
-  return {
-    client: new FormRecognizerClient(
-      testEnv.FORM_RECOGNIZER_ENDPOINT,
-      apiKey ||
-        new ClientSecretCredential(
-          testEnv.AZURE_TENANT_ID,
-          testEnv.AZURE_CLIENT_ID,
-          testEnv.AZURE_CLIENT_SECRET
-        )
-    ),
-    recorder
+    recorder,
   };
 }

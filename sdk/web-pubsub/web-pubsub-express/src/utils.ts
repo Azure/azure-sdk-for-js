@@ -4,7 +4,7 @@
 import { IncomingMessage } from "http";
 import { Message } from "cloudevents";
 
-function isJsonObject(obj: any) {
+function isJsonObject(obj: any): boolean {
   return obj && typeof obj === "object" && !Array.isArray(obj);
 }
 

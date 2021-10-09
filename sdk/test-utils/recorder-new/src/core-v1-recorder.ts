@@ -5,6 +5,7 @@ import { HttpClient, HttpOperationResponse } from "@azure/core-http";
 import { DefaultHttpClient, WebResourceLike } from "@azure/core-http";
 import { isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import { TestProxyHttpClient } from "./core-v2-recorder";
+import { Test } from "mocha";
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
@@ -15,8 +16,8 @@ import { TestProxyHttpClient } from "./core-v2-recorder";
  */
 export class TestProxyHttpClientCoreV1 extends TestProxyHttpClient {
   public httpClientCoreV1: HttpClient;
-  constructor(sessionFile: string) {
-    super(sessionFile);
+  constructor(testContext?: Test) {
+    super(testContext);
     this.httpClientCoreV1 = new DefaultHttpClient();
   }
 

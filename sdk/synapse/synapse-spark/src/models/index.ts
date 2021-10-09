@@ -51,7 +51,7 @@ export interface SparkBatchJob {
   /** The detailed application info. */
   appInfo?: { [propertyName: string]: string };
   /** The batch state */
-  state?: string;
+  state?: LivyStates;
   /** The log lines. */
   logLines?: string[];
 }
@@ -164,7 +164,8 @@ export interface SparkSession {
   appId?: string;
   /** Dictionary of <string> */
   appInfo?: { [propertyName: string]: string };
-  state?: string;
+  /** The session state. */
+  state?: LivyStates;
   logLines?: string[];
 }
 
@@ -211,7 +212,7 @@ export interface SparkStatementCollection {
 export interface SparkStatement {
   id: number;
   code?: string;
-  state?: string;
+  state?: LivyStatementStates;
   output?: SparkStatementOutput;
 }
 
@@ -335,6 +336,40 @@ export enum KnownSparkErrorSource {
  */
 export type SparkErrorSource = string;
 
+/** Known values of {@link LivyStates} that the service accepts. */
+export enum KnownLivyStates {
+  NotStarted = "not_started",
+  Starting = "starting",
+  Idle = "idle",
+  Busy = "busy",
+  ShuttingDown = "shutting_down",
+  Error = "error",
+  Dead = "dead",
+  Killed = "killed",
+  Success = "success",
+  Running = "running",
+  Recovering = "recovering"
+}
+
+/**
+ * Defines values for LivyStates. \
+ * {@link KnownLivyStates} can be used interchangeably with LivyStates,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **not_started** \
+ * **starting** \
+ * **idle** \
+ * **busy** \
+ * **shutting_down** \
+ * **error** \
+ * **dead** \
+ * **killed** \
+ * **success** \
+ * **running** \
+ * **recovering**
+ */
+export type LivyStates = string;
+
 /** Known values of {@link SparkSessionResultType} that the service accepts. */
 export enum KnownSparkSessionResultType {
   Uncertain = "Uncertain",
@@ -354,6 +389,30 @@ export enum KnownSparkSessionResultType {
  * **Cancelled**
  */
 export type SparkSessionResultType = string;
+
+/** Known values of {@link LivyStatementStates} that the service accepts. */
+export enum KnownLivyStatementStates {
+  Waiting = "waiting",
+  Running = "running",
+  Available = "available",
+  Error = "error",
+  Cancelling = "cancelling",
+  Cancelled = "cancelled"
+}
+
+/**
+ * Defines values for LivyStatementStates. \
+ * {@link KnownLivyStatementStates} can be used interchangeably with LivyStatementStates,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **waiting** \
+ * **running** \
+ * **available** \
+ * **error** \
+ * **cancelling** \
+ * **cancelled**
+ */
+export type LivyStatementStates = string;
 
 /** Known values of {@link SparkStatementLanguageType} that the service accepts. */
 export enum KnownSparkStatementLanguageType {
@@ -417,7 +476,7 @@ export interface SparkBatchCancelSparkBatchJobOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface SparkSessionOperationsGetSparkSessionsOptionalParams
+export interface SparkSessionGetSparkSessionsOptionalParams
   extends coreClient.OperationOptions {
   /** Optional param specifying which index the list should begin from. */
   fromParam?: number;
@@ -431,63 +490,63 @@ export interface SparkSessionOperationsGetSparkSessionsOptionalParams
 }
 
 /** Contains response data for the getSparkSessions operation. */
-export type SparkSessionOperationsGetSparkSessionsResponse = SparkSessionCollection;
+export type SparkSessionGetSparkSessionsResponse = SparkSessionCollection;
 
 /** Optional parameters. */
-export interface SparkSessionOperationsCreateSparkSessionOptionalParams
+export interface SparkSessionCreateSparkSessionOptionalParams
   extends coreClient.OperationOptions {
   /** Optional query param specifying whether detailed response is returned beyond plain livy. */
   detailed?: boolean;
 }
 
 /** Contains response data for the createSparkSession operation. */
-export type SparkSessionOperationsCreateSparkSessionResponse = SparkSession;
+export type SparkSessionCreateSparkSessionResponse = SparkSession;
 
 /** Optional parameters. */
-export interface SparkSessionOperationsGetSparkSessionOptionalParams
+export interface SparkSessionGetSparkSessionOptionalParams
   extends coreClient.OperationOptions {
   /** Optional query param specifying whether detailed response is returned beyond plain livy. */
   detailed?: boolean;
 }
 
 /** Contains response data for the getSparkSession operation. */
-export type SparkSessionOperationsGetSparkSessionResponse = SparkSession;
+export type SparkSessionGetSparkSessionResponse = SparkSession;
 
 /** Optional parameters. */
-export interface SparkSessionOperationsCancelSparkSessionOptionalParams
+export interface SparkSessionCancelSparkSessionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface SparkSessionOperationsResetSparkSessionTimeoutOptionalParams
+export interface SparkSessionResetSparkSessionTimeoutOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface SparkSessionOperationsGetSparkStatementsOptionalParams
+export interface SparkSessionGetSparkStatementsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSparkStatements operation. */
-export type SparkSessionOperationsGetSparkStatementsResponse = SparkStatementCollection;
+export type SparkSessionGetSparkStatementsResponse = SparkStatementCollection;
 
 /** Optional parameters. */
-export interface SparkSessionOperationsCreateSparkStatementOptionalParams
+export interface SparkSessionCreateSparkStatementOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createSparkStatement operation. */
-export type SparkSessionOperationsCreateSparkStatementResponse = SparkStatement;
+export type SparkSessionCreateSparkStatementResponse = SparkStatement;
 
 /** Optional parameters. */
-export interface SparkSessionOperationsGetSparkStatementOptionalParams
+export interface SparkSessionGetSparkStatementOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSparkStatement operation. */
-export type SparkSessionOperationsGetSparkStatementResponse = SparkStatement;
+export type SparkSessionGetSparkStatementResponse = SparkStatement;
 
 /** Optional parameters. */
-export interface SparkSessionOperationsCancelSparkStatementOptionalParams
+export interface SparkSessionCancelSparkStatementOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the cancelSparkStatement operation. */
-export type SparkSessionOperationsCancelSparkStatementResponse = SparkStatementCancellationResult;
+export type SparkSessionCancelSparkStatementResponse = SparkStatementCancellationResult;
 
 /** Optional parameters. */
 export interface SparkClientOptionalParams

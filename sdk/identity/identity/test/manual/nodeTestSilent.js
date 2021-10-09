@@ -1,10 +1,14 @@
 const identity = require("@azure/identity");
 const serviceBus = require("@azure/service-bus");
 const dotenv = require("dotenv");
+const { cachePersistencePlugin } = require("@azure/identity-cache-persistence");
+
+identity.useIdentityPlugin(cachePersistencePlugin);
 
 // Ensure you have a .env file in the same directory with something similar to:
 //
 //   AZURE_CLIENT_ID="value"
+//   AZURE_TENANT_ID="value"
 //   AZURE_CLIENT_SECRET="value"
 //   SERVICE_BUS_ENDPOINT="value"
 //   QUEUE_NAME="value"

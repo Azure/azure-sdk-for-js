@@ -13,3 +13,5 @@ export {
 } from "./utils";
 export { pluginForIdentitySDK, pluginForClientSecretCredentialTests } from "./utils/msalAuth.node";
 export { jsonRecordingFilterFunction } from "./basekarma.conf";
+export { generateTestRecordingFilePath } from "./utils/recordingPath";
+export { findRecordingsFolderPath } from "./utils/recordings";

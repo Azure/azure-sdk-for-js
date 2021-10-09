@@ -10,19 +10,7 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export class AggregateBatchError extends Error {
-    constructor(errors: LogsErrorInfo[]);
-    errors: BatchError[];
-}
-
-// @public
 export type AggregationType = "None" | "Average" | "Count" | "Minimum" | "Maximum" | "Total";
-
-// @public
-export class BatchError extends Error implements LogsErrorInfo {
-    constructor(errorInfo: LogsErrorInfo);
-    code: string;
-}
 
 // @public
 export const Durations: {
@@ -64,19 +52,10 @@ export interface LogsErrorInfo extends Error {
 
 // @public
 export interface LogsQueryBatchOptions extends OperationOptions {
-    throwOnAnyFailure?: boolean;
 }
 
 // @public
-export interface LogsQueryBatchResult {
-    results: {
-        tables?: LogsTable[];
-        error?: LogsErrorInfo;
-        status?: LogsQueryResultStatus;
-        statistics?: Record<string, unknown>;
-        visualization?: Record<string, unknown>;
-    }[];
-}
+export type LogsQueryBatchResult = Array<LogsQueryPartialResult | LogsQuerySuccessfulResult | LogsQueryError>;
 
 // @public
 export class LogsQueryClient {
@@ -87,8 +66,13 @@ export class LogsQueryClient {
 
 // @public
 export interface LogsQueryClientOptions extends CommonClientOptions {
-    audience?: string;
     endpoint?: string;
+}
+
+// @public
+export interface LogsQueryError extends Error {
+    code: string;
+    status: LogsQueryResultStatus.Failure;
 }
 
 // @public
@@ -97,20 +81,34 @@ export interface LogsQueryOptions extends OperationOptions {
     includeQueryStatistics?: boolean;
     includeVisualization?: boolean;
     serverTimeoutInSeconds?: number;
-    throwOnAnyFailure?: boolean;
 }
 
 // @public
-export interface LogsQueryResult {
-    error?: LogsErrorInfo;
+export interface LogsQueryPartialResult {
+    partialError: LogsErrorInfo;
+    partialTables: LogsTable[];
     statistics?: Record<string, unknown>;
-    status: LogsQueryResultStatus;
-    tables: LogsTable[];
+    status: LogsQueryResultStatus.PartialFailure;
     visualization?: Record<string, unknown>;
 }
 
 // @public
-export type LogsQueryResultStatus = "PartialFailure" | "Success" | "Failure";
+export type LogsQueryResult = LogsQuerySuccessfulResult | LogsQueryPartialResult;
+
+// @public
+export enum LogsQueryResultStatus {
+    Failure = "Failure",
+    PartialFailure = "PartialFailure",
+    Success = "Success"
+}
+
+// @public
+export interface LogsQuerySuccessfulResult {
+    statistics?: Record<string, unknown>;
+    status: LogsQueryResultStatus.Success;
+    tables: LogsTable[];
+    visualization?: Record<string, unknown>;
+}
 
 // @public
 export interface LogsTable {
@@ -174,7 +172,6 @@ export interface MetricNamespace {
 
 // @public
 export interface MetricsClientOptions extends CommonClientOptions {
-    audience?: string;
     endpoint?: string;
 }
 
@@ -258,7 +255,6 @@ export interface TimeSeriesElement {
     data?: MetricValue[];
     metadataValues?: MetadataValue[];
 }
-
 
 // (No @packageDocumentation comment for this package)
 

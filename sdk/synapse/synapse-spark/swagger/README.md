@@ -18,6 +18,7 @@ tracing-info:
 require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/synapse/data-plane/readme.md
 use-extension:
   "@autorest/typescript": "latest"
+tag: package-spark-2020-12-01
 
 typescript:
   generate-metadata: false

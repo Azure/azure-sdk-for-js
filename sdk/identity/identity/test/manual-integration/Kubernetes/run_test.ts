@@ -48,7 +48,7 @@ const argv = yargs
   .help()
   .alias("help", "h").argv;
 
-async function runCommand(command: string[], exitOnError = true) {
+async function runCommand(command: string[], exitOnError = true): Promise<unknown> {
   try {
     if (argv.verbose) {
       console.log(command);
@@ -85,7 +85,7 @@ async function main(): Promise<void> {
     `image.repository=${argv.repository},image.name=${argv["image-name"]},image.tag=${argv["image-tag"]}`
   ];
 
-  runCommand(helm_install);
+  await runCommand(helm_install);
 
   // get the name of the test pod
   let podName = await runCommand([
@@ -96,7 +96,7 @@ async function main(): Promise<void> {
     "--output=jsonpath='{.items[*].metadata.name}'"
   ]);
 
-  if (podName[0] == "'") {
+  if (typeof podName === "string" && podName[0] == "'") {
     podName = podName.slice(1, -1);
   }
 
@@ -113,7 +113,7 @@ async function main(): Promise<void> {
   for (let x = 0; x < 10; ++x) {
     // kubectl will return '' when there are no active pods
     let active_pods = runCommand(count_active_pods);
-    logs = await runCommand(["kubectl", "logs", "-f", podName], false);
+    logs = await runCommand(["kubectl", "logs", "-f", podName as string], false);
     if (!active_pods) break;
     await sleep(30);
   }

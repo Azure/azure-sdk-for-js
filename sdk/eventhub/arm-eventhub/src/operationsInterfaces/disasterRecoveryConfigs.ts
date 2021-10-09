@@ -6,17 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  AuthorizationRule,
-  DisasterRecoveryConfigsListAuthorizationRulesOptionalParams,
   ArmDisasterRecovery,
   DisasterRecoveryConfigsListOptionalParams,
-  DisasterRecoveryConfigsGetAuthorizationRuleOptionalParams,
-  DisasterRecoveryConfigsGetAuthorizationRuleResponse,
-  DisasterRecoveryConfigsListKeysOptionalParams,
-  DisasterRecoveryConfigsListKeysResponse,
+  AuthorizationRule,
+  DisasterRecoveryConfigsListAuthorizationRulesOptionalParams,
   CheckNameAvailabilityParameter,
   DisasterRecoveryConfigsCheckNameAvailabilityOptionalParams,
   DisasterRecoveryConfigsCheckNameAvailabilityResponse,
@@ -26,12 +21,27 @@ import {
   DisasterRecoveryConfigsGetOptionalParams,
   DisasterRecoveryConfigsGetResponse,
   DisasterRecoveryConfigsBreakPairingOptionalParams,
-  DisasterRecoveryConfigsFailOverOptionalParams
+  DisasterRecoveryConfigsFailOverOptionalParams,
+  DisasterRecoveryConfigsGetAuthorizationRuleOptionalParams,
+  DisasterRecoveryConfigsGetAuthorizationRuleResponse,
+  DisasterRecoveryConfigsListKeysOptionalParams,
+  DisasterRecoveryConfigsListKeysResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DisasterRecoveryConfigs. */
 export interface DisasterRecoveryConfigs {
+  /**
+   * Gets all Alias(Disaster Recovery configurations)
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param options The options parameters.
+   */
+  list(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: DisasterRecoveryConfigsListOptionalParams
+  ): PagedAsyncIterableIterator<ArmDisasterRecovery>;
   /**
    * Gets a list of authorization rules for a Namespace.
    * @param resourceGroupName Name of the resource group within the azure subscription.
@@ -45,47 +55,6 @@ export interface DisasterRecoveryConfigs {
     alias: string,
     options?: DisasterRecoveryConfigsListAuthorizationRulesOptionalParams
   ): PagedAsyncIterableIterator<AuthorizationRule>;
-  /**
-   * Gets all Alias(Disaster Recovery configurations)
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param options The options parameters.
-   */
-  list(
-    resourceGroupName: string,
-    namespaceName: string,
-    options?: DisasterRecoveryConfigsListOptionalParams
-  ): PagedAsyncIterableIterator<ArmDisasterRecovery>;
-  /**
-   * Gets an AuthorizationRule for a Namespace by rule name.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param alias The Disaster Recovery configuration name
-   * @param authorizationRuleName The authorization rule name.
-   * @param options The options parameters.
-   */
-  getAuthorizationRule(
-    resourceGroupName: string,
-    namespaceName: string,
-    alias: string,
-    authorizationRuleName: string,
-    options?: DisasterRecoveryConfigsGetAuthorizationRuleOptionalParams
-  ): Promise<DisasterRecoveryConfigsGetAuthorizationRuleResponse>;
-  /**
-   * Gets the primary and secondary connection strings for the Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param alias The Disaster Recovery configuration name
-   * @param authorizationRuleName The authorization rule name.
-   * @param options The options parameters.
-   */
-  listKeys(
-    resourceGroupName: string,
-    namespaceName: string,
-    alias: string,
-    authorizationRuleName: string,
-    options?: DisasterRecoveryConfigsListKeysOptionalParams
-  ): Promise<DisasterRecoveryConfigsListKeysResponse>;
   /**
    * Check the give Namespace name availability.
    * @param resourceGroupName Name of the resource group within the azure subscription.
@@ -167,4 +136,34 @@ export interface DisasterRecoveryConfigs {
     alias: string,
     options?: DisasterRecoveryConfigsFailOverOptionalParams
   ): Promise<void>;
+  /**
+   * Gets an AuthorizationRule for a Namespace by rule name.
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param alias The Disaster Recovery configuration name
+   * @param authorizationRuleName The authorization rule name.
+   * @param options The options parameters.
+   */
+  getAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    authorizationRuleName: string,
+    options?: DisasterRecoveryConfigsGetAuthorizationRuleOptionalParams
+  ): Promise<DisasterRecoveryConfigsGetAuthorizationRuleResponse>;
+  /**
+   * Gets the primary and secondary connection strings for the Namespace.
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param alias The Disaster Recovery configuration name
+   * @param authorizationRuleName The authorization rule name.
+   * @param options The options parameters.
+   */
+  listKeys(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    authorizationRuleName: string,
+    options?: DisasterRecoveryConfigsListKeysOptionalParams
+  ): Promise<DisasterRecoveryConfigsListKeysResponse>;
 }

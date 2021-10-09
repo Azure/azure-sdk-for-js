@@ -12,7 +12,6 @@ import { ArtifactsClientOptionalParams } from "./models";
 
 export class ArtifactsClientContext extends coreClient.ServiceClient {
   endpoint: string;
-  apiVersion: string;
 
   /**
    * Initializes a new instance of the ArtifactsClientContext class.
@@ -62,8 +61,5 @@ export class ArtifactsClientContext extends coreClient.ServiceClient {
     super(optionsWithDefaults);
     // Parameter assignments
     this.endpoint = endpoint;
-
-    // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2019-06-01-preview";
   }
 }
