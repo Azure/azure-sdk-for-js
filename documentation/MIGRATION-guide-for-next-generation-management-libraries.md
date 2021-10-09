@@ -4,26 +4,27 @@ This document is intended to show the customers of the JavaScript/TypeScript man
 
 **For new customers of the JavaScript/TypeScript SDK ([azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js)) please see [quick start for next generation](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/next-generation-quickstart.md).**
 
-## Why switch to the next-generation
-
-Compared to the current management libraries, the next-generation has the following changes:
-
-1. Authentication: The packages `@azure/ms-rest-nodeauth` or `@azure/ms-rest-browserauth` are no longer supported. Use package [@azure/identity](https://www.npmjs.com/package/@azure/identity) instead. Select a credential from Azure Identity examples based on the authentication method of your choice
-1. Callbacks: Method overloads that used callbacks have been removed and the use of promises is encouraged instead
-1. List operations now return an iterable result that follows the `PagedAsyncIterableIterator` interface as opposed to the previous model where you had to make a new request using the link to the next page.
-1. Long running operations i.e. the Lro related object returned by methods whose names started with `begin`, now uses `pollUntilDone` to check whether the request is finished, instead of `pollUntilFinished`. To get the final result, use the corresponding method that will have the suffix `AndWait`.
-1. The SDK only supports ECMAScript 2015 (ES6) and beyond, all projects that referenced this SDK should be upgraded to use ES6.
-
-If you have an existing application that uses the JavaScript/TypeScript Azure SDK packages and you're interested in updating your application to use the next-generation JavaScript/TypeScript Azure SDK packages, then the good news is that there is very little for you to do. Here's the things that have changed with this new set of SDKs:
-
 ## Current status
 
 Currently, we have previewed several packages such as `azure/arm-resources`, `@azure/arm-storage`, `@azure/arm-compute`, `@azure/arm-network` for next-generation. See more from npmjs.com and find the latest version under `next` tag and have a try.
 
+## Why Switching to the next-generation
+
+Compared to the current management libraries, the next-generation has the following changes:
+
+1. Authentication: The packages `@azure/ms-rest-nodeauth` or `@azure/ms-rest-browserauth` are no longer supported. Use package [@azure/identity](https://www.npmjs.com/package/@azure/identity) instead. Select a credential from Azure Identity examples based on the authentication method of your choice.
+1. Callbacks: Method overloads that use callbacks have been removed and please use Promise instead.
+1. You could iterate the result of List operations by using the `PagedAsyncIterableIterator` interface, compared with the previous model where you have to make a new request using the link to the next page.
+1. Interface and API change for Long running operations: To check the final result of the Poller object returned by long running operations like `beginCreateOrUpdate`, please uses `pollUntilDone` instead of `pollUntilFinished`. To get the final result directly, use the method with the suffix `AndWait` e.g.`beginCreateOrUpdateAndWait`.
+1. The SDK only supports ECMAScript 2015 (ES6) and beyond, all projects that referenced this SDK should be upgraded to use ES6.
+
+If you have an existing application that uses the JavaScript/TypeScript Azure SDK packages and you're interested in updating your application to use the next-generation SDKs, the migration steps are quite straightforward. Here are the things that you need to do for the migration:
+
 ## Authentication
 
-In the next-generation JavaScript/TypeScript packages, we only support using `@azure/identity` to do the Authentication. And we have deprecated the authentication methods defined `@azure/ms-rest-nodeauth` and `@azure/ms-rest-browserauth`. If you are using them, please change it accordingly.  
-For example, if you are using `loginWithServicePrincipalSecret` method in `@azure/ms-rest-nodeauth` to get the credential, you may replace it with `ClientSecretCredential` in `@azure/identity`.
+In the next-generation JavaScript/TypeScript packages, we only support using `@azure/identity` to do the Authentication. We have deprecated the authentication methods defined `@azure/ms-rest-nodeauth` and `@azure/ms-rest-browserauth`. If you are still using them, please follow the below example to do the migration.
+
+If you are using `loginWithServicePrincipalSecret` method in `@azure/ms-rest-nodeauth` to get the credential, please replace it with `ClientSecretCredential` in `@azure/identity`.
 
 change
 
@@ -151,7 +152,7 @@ Refer to [@azure/core-paging](https://www.npmjs.com/package/@azure/core-paging) 
 
 ## Long Running Operations
 
-Many operations could take a long time before sending the desired response. The SDK provides two types of methods to interact with such operations. First type is a method that simply returns the result after the operation finishes processing and those methods' names correspond to the name of the API they call. One issue with these methods is that they do not provide a way to check on the current status of the operation or to access any partial results computed so far. The next-generation SDK provides similar methods but with a slightly different name, it has the prefix `begin` and the postfix `AndWait`. The other type of methods is one that returns a poller object which gives you access to the underlying state of the operation. Previously, these methods returned an object of type [`LROPoller`](https://github.com/Azure/ms-rest-azure-js/blob/a9cee4480a8710d5c81890ae7cb7a1dea559ec65/lib/lroPoller.ts#L13), a class that is exported by `@azure/ms-rest-azure-js` but the new operations return an object that implements the [`PollerLike`](https://github.com/Azure/azure-sdk-for-js/blob/35f86a68def5022d4c03a32d4c8c0362a0158772/sdk/core/core-lro/src/poller.ts#L50) interface instead which is exported by `@azure/core-lro`. The name of those methods did not change, both versions use the prefix `begin` with no postfix.
+Many operations may take a long time before receiving the desired response. The SDK provides two types of methods to interact with such operations. First type is a method that simply returns the result after the operation finishes processing and those methods' names correspond to the name of the API they call. One issue with these methods is that they do not provide a way to check on the current status of the operation or to access any partial results computed so far. The next-generation SDK provides similar methods but with a slightly different name, it has the prefix `begin` and the postfix `AndWait`. The other type of methods is one that returns a poller object which gives you access to the underlying state of the operation. Previously, these methods returned an object of type [`LROPoller`](https://github.com/Azure/ms-rest-azure-js/blob/a9cee4480a8710d5c81890ae7cb7a1dea559ec65/lib/lroPoller.ts#L13), a class that is exported by `@azure/ms-rest-azure-js` but the new operations return an object that implements the [`PollerLike`](https://github.com/Azure/azure-sdk-for-js/blob/35f86a68def5022d4c03a32d4c8c0362a0158772/sdk/core/core-lro/src/poller.ts#L50) interface instead which is exported by `@azure/core-lro`. The name of those methods did not change, both versions use the prefix `begin` with no postfix.
 
 <!-- markdownlint-disable MD033 -->
 <table>
@@ -334,4 +335,4 @@ We also provide some samples [here](https://github.com/Azure-Samples/azure-sampl
 
 ## Need help
 
-If you have encountered an issue during migration, please file an issue via `Github Issues <https://github.com/Azure/azure-sdk-for-js/issues>`and make sure you add the "Preview" label to the issue
+If you have encountered an issue during migration, please file an issue via [Github Issues](https://github.com/Azure/azure-sdk-for-js/issues) and make sure you add the "Preview" label to the issue.
