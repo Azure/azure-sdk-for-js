@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
 /** Describes an error condition for the Azure Cognitive Search API. */
 export interface SearchError {
@@ -140,9 +140,9 @@ export interface SearchRequest {
   /** A value that specifies the language of the search query. */
   queryLanguage?: QueryLanguage;
   /** A value that specified the type of the speller to use to spell-correct individual search query terms. */
-  speller?: Speller;
+  speller?: QuerySpellerType;
   /** A value that specifies whether answers should be returned as part of the search response. */
-  answers?: Answers;
+  answers?: QueryAnswerType;
   /** The comma-separated list of fields to retrieve. If unspecified, all fields marked as retrievable in the schema are included. */
   select?: string;
   /** The number of search results to skip. This value cannot be greater than 100,000. If you need to scan documents in sequence, but cannot use skip due to this limitation, consider using orderby on a totally-ordered key and filter with a range query instead. */
@@ -150,7 +150,7 @@ export interface SearchRequest {
   /** The number of search results to retrieve. This can be used in conjunction with $skip to implement client-side paging of search results. If results are truncated due to server-side paging, the response will include a continuation token that can be used to issue another Search request for the next page of results. */
   top?: number;
   /** A value that specifies whether captions should be returned as part of the search response. */
-  captions?: Captions;
+  captions?: QueryCaptionType;
   /** The comma-separated list of field names used for semantic search. */
   semanticFields?: string;
 }
@@ -446,7 +446,7 @@ export interface AutocompleteOptions {
 }
 
 /** Known values of {@link ApiVersion20210430Preview} that the service accepts. */
-export const enum KnownApiVersion20210430Preview {
+export enum KnownApiVersion20210430Preview {
   /** Api Version '2021-04-30-Preview' */
   TwoThousandTwentyOne0430Preview = "2021-04-30-Preview"
 }
@@ -461,7 +461,7 @@ export const enum KnownApiVersion20210430Preview {
 export type ApiVersion20210430Preview = string;
 
 /** Known values of {@link QueryLanguage} that the service accepts. */
-export const enum KnownQueryLanguage {
+export enum KnownQueryLanguage {
   /** Query language not specified. */
   None = "none",
   /** English */
@@ -479,7 +479,7 @@ export const enum KnownQueryLanguage {
 export type QueryLanguage = string;
 
 /** Known values of {@link Speller} that the service accepts. */
-export const enum KnownSpeller {
+export enum KnownSpeller {
   /** Speller not enabled. */
   None = "none",
   /** Speller corrects individual query terms using a static lexicon for the language specified by the queryLanguage parameter. */
@@ -497,7 +497,7 @@ export const enum KnownSpeller {
 export type Speller = string;
 
 /** Known values of {@link Answers} that the service accepts. */
-export const enum KnownAnswers {
+export enum KnownAnswers {
   /** Do not return answers for the query. */
   None = "none",
   /** Extracts answer candidates from the contents of the documents returned in response to a query expressed as a question in natural language. */
@@ -515,7 +515,7 @@ export const enum KnownAnswers {
 export type Answers = string;
 
 /** Known values of {@link Captions} that the service accepts. */
-export const enum KnownCaptions {
+export enum KnownCaptions {
   /** Do not return captions for the query. */
   None = "none",
   /** Extracts captions from the matching documents that contain passages relevant to the search query. */
@@ -531,6 +531,60 @@ export const enum KnownCaptions {
  * **extractive**: Extracts captions from the matching documents that contain passages relevant to the search query.
  */
 export type Captions = string;
+
+/** Known values of {@link QuerySpellerType} that the service accepts. */
+export enum KnownQuerySpellerType {
+  /** Speller not enabled. */
+  None = "none",
+  /** Speller corrects individual query terms using a static lexicon for the language specified by the queryLanguage parameter. */
+  Lexicon = "lexicon"
+}
+
+/**
+ * Defines values for QuerySpellerType. \
+ * {@link KnownQuerySpellerType} can be used interchangeably with QuerySpellerType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **none**: Speller not enabled. \
+ * **lexicon**: Speller corrects individual query terms using a static lexicon for the language specified by the queryLanguage parameter.
+ */
+export type QuerySpellerType = string;
+
+/** Known values of {@link QueryAnswerType} that the service accepts. */
+export enum KnownQueryAnswerType {
+  /** Do not return answers for the query. */
+  None = "none",
+  /** Extracts answer candidates from the contents of the documents returned in response to a query expressed as a question in natural language. */
+  Extractive = "extractive"
+}
+
+/**
+ * Defines values for QueryAnswerType. \
+ * {@link KnownQueryAnswerType} can be used interchangeably with QueryAnswerType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **none**: Do not return answers for the query. \
+ * **extractive**: Extracts answer candidates from the contents of the documents returned in response to a query expressed as a question in natural language.
+ */
+export type QueryAnswerType = string;
+
+/** Known values of {@link QueryCaptionType} that the service accepts. */
+export enum KnownQueryCaptionType {
+  /** Do not return captions for the query. */
+  None = "none",
+  /** Extracts captions from the matching documents that contain passages relevant to the search query. */
+  Extractive = "extractive"
+}
+
+/**
+ * Defines values for QueryCaptionType. \
+ * {@link KnownQueryCaptionType} can be used interchangeably with QueryCaptionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **none**: Do not return captions for the query. \
+ * **extractive**: Extracts captions from the matching documents that contain passages relevant to the search query.
+ */
+export type QueryCaptionType = string;
 /** Defines values for QueryType. */
 export type QueryType = "simple" | "full" | "semantic";
 /** Defines values for SearchMode. */
@@ -544,7 +598,7 @@ export type AutocompleteMode = "oneTerm" | "twoTerms" | "oneTermWithContext";
 
 /** Optional parameters. */
 export interface DocumentsCountOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
 }
@@ -553,20 +607,11 @@ export interface DocumentsCountOptionalParams
 export type DocumentsCountResponse = {
   /** The parsed response body. */
   body: number;
-
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: number;
-  };
 };
 
 /** Optional parameters. */
 export interface DocumentsSearchGetOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
   /** Parameter group */
@@ -576,38 +621,21 @@ export interface DocumentsSearchGetOptionalParams
 }
 
 /** Contains response data for the searchGet operation. */
-export type DocumentsSearchGetResponse = SearchDocumentsResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: SearchDocumentsResult;
-  };
-};
+export type DocumentsSearchGetResponse = SearchDocumentsResult;
 
 /** Optional parameters. */
 export interface DocumentsSearchPostOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
 }
 
 /** Contains response data for the searchPost operation. */
-export type DocumentsSearchPostResponse = SearchDocumentsResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: SearchDocumentsResult;
-  };
-};
+export type DocumentsSearchPostResponse = SearchDocumentsResult;
 
 /** Optional parameters. */
-export interface DocumentsGetOptionalParams extends coreHttp.OperationOptions {
+export interface DocumentsGetOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
   /** List of field names to retrieve for the document; Any field not retrieved will be missing from the returned document. */
@@ -615,23 +643,11 @@ export interface DocumentsGetOptionalParams extends coreHttp.OperationOptions {
 }
 
 /** Contains response data for the get operation. */
-export type DocumentsGetResponse = {
-  /** The parsed response body. */
-  body: any;
-
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: any;
-  };
-};
+export type DocumentsGetResponse = Record<string, unknown>;
 
 /** Optional parameters. */
 export interface DocumentsSuggestGetOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
   /** Parameter group */
@@ -639,58 +655,31 @@ export interface DocumentsSuggestGetOptionalParams
 }
 
 /** Contains response data for the suggestGet operation. */
-export type DocumentsSuggestGetResponse = SuggestDocumentsResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: SuggestDocumentsResult;
-  };
-};
+export type DocumentsSuggestGetResponse = SuggestDocumentsResult;
 
 /** Optional parameters. */
 export interface DocumentsSuggestPostOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
 }
 
 /** Contains response data for the suggestPost operation. */
-export type DocumentsSuggestPostResponse = SuggestDocumentsResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: SuggestDocumentsResult;
-  };
-};
+export type DocumentsSuggestPostResponse = SuggestDocumentsResult;
 
 /** Optional parameters. */
 export interface DocumentsIndexOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
 }
 
 /** Contains response data for the index operation. */
-export type DocumentsIndexResponse = IndexDocumentsResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: IndexDocumentsResult;
-  };
-};
+export type DocumentsIndexResponse = IndexDocumentsResult;
 
 /** Optional parameters. */
 export interface DocumentsAutocompleteGetOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
   /** Parameter group */
@@ -698,39 +687,21 @@ export interface DocumentsAutocompleteGetOptionalParams
 }
 
 /** Contains response data for the autocompleteGet operation. */
-export type DocumentsAutocompleteGetResponse = AutocompleteResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: AutocompleteResult;
-  };
-};
+export type DocumentsAutocompleteGetResponse = AutocompleteResult;
 
 /** Optional parameters. */
 export interface DocumentsAutocompletePostOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
 }
 
 /** Contains response data for the autocompletePost operation. */
-export type DocumentsAutocompletePostResponse = AutocompleteResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: AutocompleteResult;
-  };
-};
+export type DocumentsAutocompletePostResponse = AutocompleteResult;
 
 /** Optional parameters. */
 export interface SearchClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+  extends coreClient.ServiceClientOptions {
   /** Overrides client endpoint. */
   endpoint?: string;
 }

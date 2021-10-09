@@ -82,7 +82,7 @@ const client = new SchemaRegistryClient("<fullyQualifiedNamespace>", new Default
 const description = {
   name: "<name>",
   groupName: "<group name>",
-  format: "<schema format>"
+  format: "<schema format>",
   schemaDefinition: "<schema definition>"
 }
 
@@ -105,7 +105,7 @@ const description = {
   schemaDefinition: "<schema definition>"
 }
 
-const found = await client.getSchemaId(description);
+const found = await client.getSchemaProperties(description);
 if (found) {
   console.log(`Got schema ID=${found.id}`);
 }
@@ -178,5 +178,4 @@ learn more about how to build and test the code.
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
-[cognitive_auth]: https://docs.microsoft.com/azure/cognitive-services/authentication
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential

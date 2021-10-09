@@ -8,7 +8,7 @@ import { assert } from "chai";
 import { AbortController } from "@azure/abort-controller";
 import { env, delay } from "@azure-tools/test-recorder";
 import { ConfidentialClientApplication } from "@azure/msal-node";
-import { ClientSecretCredential, RegionalAuthority } from "../../../src";
+import { ClientSecretCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { MsalNode } from "../../../src/msal/nodeFlows/nodeCommon";
 import { Context } from "mocha";
@@ -85,13 +85,15 @@ describe("ClientSecretCredential (internal)", function() {
     assert.equal(doGetTokenSpy.callCount, 1);
   });
 
-  it("supports specifying the regional authority", async function() {
+  // TODO: Enable again once we're ready to release this feature.
+  it.skip("supports specifying the regional authority", async function() {
     const credential = new ClientSecretCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
       env.AZURE_CLIENT_SECRET,
       {
-        regionalAuthority: RegionalAuthority.AutoDiscoverRegion
+        // TODO: Uncomment once we're ready to release this feature.
+        // regionalAuthority: RegionalAuthority.AutoDiscoverRegion
       }
     );
 

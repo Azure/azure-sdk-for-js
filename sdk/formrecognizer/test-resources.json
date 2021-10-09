@@ -28,11 +28,11 @@
     },
     "trainingDataContainer": {
       "type": "string",
-      "defaultValue": "trainingdata"
+      "defaultValue": "trainingdata-v3"
     },
     "selectionMarkTrainingDataContainer": {
       "type": "string",
-      "defaultValue": "selectionmark"
+      "defaultValue": "selectionmark-v3"
     },
     "blobResourceId": {
       "type": "string",

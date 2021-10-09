@@ -23,8 +23,8 @@ import {
   publicToMsal
 } from "../utils";
 import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
-import { RegionalAuthority } from "../../regionalAuthority";
 import { processMultiTenantRequest } from "../../util/validateMultiTenant";
+import { RegionalAuthority } from "../../regionalAuthority";
 
 /**
  * Union of the constructor parameters that all MSAL flow types for Node.

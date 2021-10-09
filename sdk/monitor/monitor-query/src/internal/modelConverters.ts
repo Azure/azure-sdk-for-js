@@ -48,7 +48,13 @@ import {
   convertIntervalToTimeIntervalObject,
   convertTimespanToInterval
 } from "../timespanConversion";
-import { LogsErrorInfo, LogsQueryResult } from "../models/publicLogsModels";
+import {
+  LogsErrorInfo,
+  LogsQueryError,
+  LogsQueryPartialResult,
+  LogsQueryResultStatus,
+  LogsQuerySuccessfulResult
+} from "../models/publicLogsModels";
 
 /**
  * @internal
@@ -115,36 +121,22 @@ export function convertResponseForQueryBatch(
    */
   const responseList = generatedResponse.responses || [];
 
-  const newResponse: LogsQueryBatchResult = {
-    results: responseList
-      ?.sort((a, b) => {
-        let left = 0;
-        if (a.id != null) {
-          left = parseInt(a.id, 10);
-        }
+  const newResponse: LogsQueryBatchResult = responseList
+    ?.sort((a, b) => {
+      let left = 0;
+      if (a.id != null) {
+        left = parseInt(a.id, 10);
+      }
 
-        let right = 0;
-        if (b.id != null) {
-          right = parseInt(b.id, 10);
-        }
+      let right = 0;
+      if (b.id != null) {
+        right = parseInt(b.id, 10);
+      }
 
-        return left - right;
-      })
-      ?.map((response: GeneratedBatchQueryResponse) => convertBatchQueryResponseHelper(response))
-  };
-  // compute status for failed or succeed or partial results
+      return left - right;
+    })
+    ?.map((response: GeneratedBatchQueryResponse) => convertBatchQueryResponseHelper(response));
 
-  const resultsCount = newResponse.results?.length ?? 0;
-  for (let i = 0; i < resultsCount; i++) {
-    const result = newResponse.results[i];
-    if (result.error && result.tables) {
-      result.status = "PartialFailure";
-    } else if (result.tables) {
-      result.status = "Success";
-    } else {
-      result.status = "Failure";
-    }
-  }
   (newResponse as any)["__fixApplied"] = fixApplied;
   return newResponse;
 }
@@ -410,43 +402,63 @@ export function convertGeneratedTable(table: GeneratedTable): LogsTable {
  */
 export function convertBatchQueryResponseHelper(
   response: GeneratedBatchQueryResponse
-): Partial<LogsQueryResult> {
+): LogsQueryPartialResult | LogsQuerySuccessfulResult | LogsQueryError {
   try {
     const parsedResponseBody: GeneratedBatchQueryResults = JSON.parse(
       response.body as any
     ) as GeneratedBatchQueryResults;
-    return {
-      visualization: parsedResponseBody.render,
-      status: "Success", // Assume success until shown otherwise.
-      statistics: parsedResponseBody.statistics,
-      error: mapError(parsedResponseBody.error), // ? { ...parsedResponseBody.error, name: "Error" } : undefined,
-      tables: parsedResponseBody.tables?.map((table: GeneratedTable) =>
-        convertGeneratedTable(table)
-      )
-    };
+
+    return computeResultType(parsedResponseBody);
   } catch (e) {
-    return {
-      visualization: response.body?.render,
-      status: "Success", // Assume success until shown otherwise.
-      statistics: response.body?.statistics,
-      error: mapError(response.body?.error),
-      tables: response.body?.tables?.map((table: GeneratedTable) => convertGeneratedTable(table))
-    };
+    if (response.body) return computeResultType(response.body);
+    else return {} as LogsQuerySuccessfulResult;
   }
 }
 
-export function mapError(error?: GeneratedErrorInfo): LogsErrorInfo | undefined {
-  if (error) {
-    let innermostError = error;
-    while (innermostError.innerError) {
-      innermostError = innermostError.innerError;
-    }
-
-    return {
-      name: "Error",
-      code: error.code,
-      message: `${error.message}.  ${innermostError.message}`
+export function computeResultType(
+  generatedResponse: GeneratedBatchQueryResults
+): LogsQueryPartialResult | LogsQuerySuccessfulResult | LogsQueryError {
+  if (!generatedResponse.error) {
+    const result: LogsQuerySuccessfulResult = {
+      visualization: generatedResponse.render,
+      status: LogsQueryResultStatus.Success,
+      statistics: generatedResponse.statistics,
+      tables:
+        generatedResponse.tables?.map((table: GeneratedTable) => convertGeneratedTable(table)) || []
     };
+    return result;
+  } else {
+    if (generatedResponse.tables) {
+      const result: LogsQueryPartialResult = {
+        visualization: generatedResponse.render,
+        status: LogsQueryResultStatus.PartialFailure,
+        statistics: generatedResponse.statistics,
+        partialTables: generatedResponse.tables?.map((table: GeneratedTable) =>
+          convertGeneratedTable(table)
+        ),
+        partialError: mapError(generatedResponse.error)
+      };
+      return result;
+    } else {
+      const errorInfo: LogsErrorInfo = mapError(generatedResponse.error);
+      const result: LogsQueryError = {
+        status: LogsQueryResultStatus.Failure,
+        ...errorInfo
+      };
+      return result;
+    }
   }
-  return undefined;
+}
+
+export function mapError(error: GeneratedErrorInfo): LogsErrorInfo {
+  let innermostError = error;
+  while (innermostError.innerError) {
+    innermostError = innermostError.innerError;
+  }
+
+  return {
+    name: "Error",
+    code: error.code,
+    message: `${error.message}.  ${innermostError.message}`
+  };
 }

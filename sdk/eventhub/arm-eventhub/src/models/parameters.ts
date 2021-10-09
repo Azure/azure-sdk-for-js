@@ -13,17 +13,15 @@ import {
 } from "@azure/core-client";
 import {
   Cluster as ClusterMapper,
-  IpFilterRule as IpFilterRuleMapper,
+  ClusterQuotaConfigurationProperties as ClusterQuotaConfigurationPropertiesMapper,
   EHNamespace as EHNamespaceMapper,
-  VirtualNetworkRule as VirtualNetworkRuleMapper,
   NetworkRuleSet as NetworkRuleSetMapper,
   AuthorizationRule as AuthorizationRuleMapper,
   RegenerateAccessKeyParameters as RegenerateAccessKeyParametersMapper,
   CheckNameAvailabilityParameter as CheckNameAvailabilityParameterMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
-  ClusterQuotaConfigurationProperties as ClusterQuotaConfigurationPropertiesMapper,
-  ArmDisasterRecovery as ArmDisasterRecoveryMapper,
   Eventhub as EventhubMapper,
+  ArmDisasterRecovery as ArmDisasterRecoveryMapper,
   ConsumerGroup as ConsumerGroupMapper
 } from "../models/mappers";
 
@@ -65,7 +63,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2018-01-01-preview",
+    defaultValue: "2021-06-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -133,6 +131,16 @@ export const nextLink: OperationURLParameter = {
   skipEncoding: true
 };
 
+export const parameters1: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ClusterQuotaConfigurationPropertiesMapper
+};
+
+export const parameters2: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: EHNamespaceMapper
+};
+
 export const namespaceName: OperationURLParameter = {
   parameterPath: "namespaceName",
   mapper: {
@@ -148,55 +156,12 @@ export const namespaceName: OperationURLParameter = {
   }
 };
 
-export const parameters1: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: IpFilterRuleMapper
-};
-
-export const ipFilterRuleName: OperationURLParameter = {
-  parameterPath: "ipFilterRuleName",
-  mapper: {
-    constraints: {
-      MinLength: 1
-    },
-    serializedName: "ipFilterRuleName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters2: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: EHNamespaceMapper
-};
-
 export const parameters3: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: VirtualNetworkRuleMapper
-};
-
-export const virtualNetworkRuleName: OperationURLParameter = {
-  parameterPath: "virtualNetworkRuleName",
-  mapper: {
-    constraints: {
-      MinLength: 1
-    },
-    serializedName: "virtualNetworkRuleName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters4: OperationParameter = {
   parameterPath: "parameters",
   mapper: NetworkRuleSetMapper
 };
 
-export const parameters5: OperationParameter = {
+export const parameters4: OperationParameter = {
   parameterPath: "parameters",
   mapper: AuthorizationRuleMapper
 };
@@ -215,17 +180,17 @@ export const authorizationRuleName: OperationURLParameter = {
   }
 };
 
-export const parameters6: OperationParameter = {
+export const parameters5: OperationParameter = {
   parameterPath: "parameters",
   mapper: RegenerateAccessKeyParametersMapper
 };
 
-export const parameters7: OperationParameter = {
+export const parameters6: OperationParameter = {
   parameterPath: "parameters",
   mapper: CheckNameAvailabilityParameterMapper
 };
 
-export const parameters8: OperationParameter = {
+export const parameters7: OperationParameter = {
   parameterPath: "parameters",
   mapper: PrivateEndpointConnectionMapper
 };
@@ -234,46 +199,6 @@ export const privateEndpointConnectionName: OperationURLParameter = {
   parameterPath: "privateEndpointConnectionName",
   mapper: {
     serializedName: "privateEndpointConnectionName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters9: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ClusterQuotaConfigurationPropertiesMapper
-};
-
-export const alias: OperationURLParameter = {
-  parameterPath: "alias",
-  mapper: {
-    constraints: {
-      MaxLength: 50,
-      MinLength: 1
-    },
-    serializedName: "alias",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters10: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ArmDisasterRecoveryMapper
-};
-
-export const eventHubName: OperationURLParameter = {
-  parameterPath: "eventHubName",
-  mapper: {
-    constraints: {
-      MaxLength: 256,
-      MinLength: 1
-    },
-    serializedName: "eventHubName",
     required: true,
     type: {
       name: "String"
@@ -309,12 +234,47 @@ export const top: OperationQueryParameter = {
   }
 };
 
-export const parameters11: OperationParameter = {
+export const parameters8: OperationParameter = {
   parameterPath: "parameters",
   mapper: EventhubMapper
 };
 
-export const parameters12: OperationParameter = {
+export const eventHubName: OperationURLParameter = {
+  parameterPath: "eventHubName",
+  mapper: {
+    constraints: {
+      MaxLength: 256,
+      MinLength: 1
+    },
+    serializedName: "eventHubName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters9: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ArmDisasterRecoveryMapper
+};
+
+export const alias: OperationURLParameter = {
+  parameterPath: "alias",
+  mapper: {
+    constraints: {
+      MaxLength: 50,
+      MinLength: 1
+    },
+    serializedName: "alias",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters10: OperationParameter = {
   parameterPath: "parameters",
   mapper: ConsumerGroupMapper
 };
@@ -327,21 +287,6 @@ export const consumerGroupName: OperationURLParameter = {
       MinLength: 1
     },
     serializedName: "consumerGroupName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const sku: OperationURLParameter = {
-  parameterPath: "sku",
-  mapper: {
-    constraints: {
-      MaxLength: 50,
-      MinLength: 1
-    },
-    serializedName: "sku",
     required: true,
     type: {
       name: "String"

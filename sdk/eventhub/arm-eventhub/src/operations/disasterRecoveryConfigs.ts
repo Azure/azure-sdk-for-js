@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { DisasterRecoveryConfigs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
@@ -14,17 +13,12 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { EventHubManagementClientContext } from "../eventHubManagementClientContext";
 import {
-  AuthorizationRule,
-  DisasterRecoveryConfigsListAuthorizationRulesNextOptionalParams,
-  DisasterRecoveryConfigsListAuthorizationRulesOptionalParams,
   ArmDisasterRecovery,
   DisasterRecoveryConfigsListNextOptionalParams,
   DisasterRecoveryConfigsListOptionalParams,
-  DisasterRecoveryConfigsListAuthorizationRulesResponse,
-  DisasterRecoveryConfigsGetAuthorizationRuleOptionalParams,
-  DisasterRecoveryConfigsGetAuthorizationRuleResponse,
-  DisasterRecoveryConfigsListKeysOptionalParams,
-  DisasterRecoveryConfigsListKeysResponse,
+  AuthorizationRule,
+  DisasterRecoveryConfigsListAuthorizationRulesNextOptionalParams,
+  DisasterRecoveryConfigsListAuthorizationRulesOptionalParams,
   CheckNameAvailabilityParameter,
   DisasterRecoveryConfigsCheckNameAvailabilityOptionalParams,
   DisasterRecoveryConfigsCheckNameAvailabilityResponse,
@@ -36,8 +30,13 @@ import {
   DisasterRecoveryConfigsGetResponse,
   DisasterRecoveryConfigsBreakPairingOptionalParams,
   DisasterRecoveryConfigsFailOverOptionalParams,
-  DisasterRecoveryConfigsListAuthorizationRulesNextResponse,
-  DisasterRecoveryConfigsListNextResponse
+  DisasterRecoveryConfigsListAuthorizationRulesResponse,
+  DisasterRecoveryConfigsGetAuthorizationRuleOptionalParams,
+  DisasterRecoveryConfigsGetAuthorizationRuleResponse,
+  DisasterRecoveryConfigsListKeysOptionalParams,
+  DisasterRecoveryConfigsListKeysResponse,
+  DisasterRecoveryConfigsListNextResponse,
+  DisasterRecoveryConfigsListAuthorizationRulesNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -51,6 +50,65 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
    */
   constructor(client: EventHubManagementClientContext) {
     this.client = client;
+  }
+
+  /**
+   * Gets all Alias(Disaster Recovery configurations)
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param options The options parameters.
+   */
+  public list(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: DisasterRecoveryConfigsListOptionalParams
+  ): PagedAsyncIterableIterator<ArmDisasterRecovery> {
+    const iter = this.listPagingAll(resourceGroupName, namespaceName, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listPagingPage(resourceGroupName, namespaceName, options);
+      }
+    };
+  }
+
+  private async *listPagingPage(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: DisasterRecoveryConfigsListOptionalParams
+  ): AsyncIterableIterator<ArmDisasterRecovery[]> {
+    let result = await this._list(resourceGroupName, namespaceName, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listNext(
+        resourceGroupName,
+        namespaceName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      yield result.value || [];
+    }
+  }
+
+  private async *listPagingAll(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: DisasterRecoveryConfigsListOptionalParams
+  ): AsyncIterableIterator<ArmDisasterRecovery> {
+    for await (const page of this.listPagingPage(
+      resourceGroupName,
+      namespaceName,
+      options
+    )) {
+      yield* page;
+    }
   }
 
   /**
@@ -131,138 +189,6 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
     )) {
       yield* page;
     }
-  }
-
-  /**
-   * Gets all Alias(Disaster Recovery configurations)
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param options The options parameters.
-   */
-  public list(
-    resourceGroupName: string,
-    namespaceName: string,
-    options?: DisasterRecoveryConfigsListOptionalParams
-  ): PagedAsyncIterableIterator<ArmDisasterRecovery> {
-    const iter = this.listPagingAll(resourceGroupName, namespaceName, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, namespaceName, options);
-      }
-    };
-  }
-
-  private async *listPagingPage(
-    resourceGroupName: string,
-    namespaceName: string,
-    options?: DisasterRecoveryConfigsListOptionalParams
-  ): AsyncIterableIterator<ArmDisasterRecovery[]> {
-    let result = await this._list(resourceGroupName, namespaceName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        namespaceName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listPagingAll(
-    resourceGroupName: string,
-    namespaceName: string,
-    options?: DisasterRecoveryConfigsListOptionalParams
-  ): AsyncIterableIterator<ArmDisasterRecovery> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      namespaceName,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Gets a list of authorization rules for a Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param alias The Disaster Recovery configuration name
-   * @param options The options parameters.
-   */
-  private _listAuthorizationRules(
-    resourceGroupName: string,
-    namespaceName: string,
-    alias: string,
-    options?: DisasterRecoveryConfigsListAuthorizationRulesOptionalParams
-  ): Promise<DisasterRecoveryConfigsListAuthorizationRulesResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, alias, options },
-      listAuthorizationRulesOperationSpec
-    );
-  }
-
-  /**
-   * Gets an AuthorizationRule for a Namespace by rule name.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param alias The Disaster Recovery configuration name
-   * @param authorizationRuleName The authorization rule name.
-   * @param options The options parameters.
-   */
-  getAuthorizationRule(
-    resourceGroupName: string,
-    namespaceName: string,
-    alias: string,
-    authorizationRuleName: string,
-    options?: DisasterRecoveryConfigsGetAuthorizationRuleOptionalParams
-  ): Promise<DisasterRecoveryConfigsGetAuthorizationRuleResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        namespaceName,
-        alias,
-        authorizationRuleName,
-        options
-      },
-      getAuthorizationRuleOperationSpec
-    );
-  }
-
-  /**
-   * Gets the primary and secondary connection strings for the Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param alias The Disaster Recovery configuration name
-   * @param authorizationRuleName The authorization rule name.
-   * @param options The options parameters.
-   */
-  listKeys(
-    resourceGroupName: string,
-    namespaceName: string,
-    alias: string,
-    authorizationRuleName: string,
-    options?: DisasterRecoveryConfigsListKeysOptionalParams
-  ): Promise<DisasterRecoveryConfigsListKeysResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        namespaceName,
-        alias,
-        authorizationRuleName,
-        options
-      },
-      listKeysOperationSpec
-    );
   }
 
   /**
@@ -400,23 +326,75 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
   }
 
   /**
-   * ListAuthorizationRulesNext
+   * Gets a list of authorization rules for a Namespace.
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param alias The Disaster Recovery configuration name
-   * @param nextLink The nextLink from the previous successful call to the ListAuthorizationRules method.
    * @param options The options parameters.
    */
-  private _listAuthorizationRulesNext(
+  private _listAuthorizationRules(
     resourceGroupName: string,
     namespaceName: string,
     alias: string,
-    nextLink: string,
-    options?: DisasterRecoveryConfigsListAuthorizationRulesNextOptionalParams
-  ): Promise<DisasterRecoveryConfigsListAuthorizationRulesNextResponse> {
+    options?: DisasterRecoveryConfigsListAuthorizationRulesOptionalParams
+  ): Promise<DisasterRecoveryConfigsListAuthorizationRulesResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, alias, nextLink, options },
-      listAuthorizationRulesNextOperationSpec
+      { resourceGroupName, namespaceName, alias, options },
+      listAuthorizationRulesOperationSpec
+    );
+  }
+
+  /**
+   * Gets an AuthorizationRule for a Namespace by rule name.
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param alias The Disaster Recovery configuration name
+   * @param authorizationRuleName The authorization rule name.
+   * @param options The options parameters.
+   */
+  getAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    authorizationRuleName: string,
+    options?: DisasterRecoveryConfigsGetAuthorizationRuleOptionalParams
+  ): Promise<DisasterRecoveryConfigsGetAuthorizationRuleResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        namespaceName,
+        alias,
+        authorizationRuleName,
+        options
+      },
+      getAuthorizationRuleOperationSpec
+    );
+  }
+
+  /**
+   * Gets the primary and secondary connection strings for the Namespace.
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param alias The Disaster Recovery configuration name
+   * @param authorizationRuleName The authorization rule name.
+   * @param options The options parameters.
+   */
+  listKeys(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    authorizationRuleName: string,
+    options?: DisasterRecoveryConfigsListKeysOptionalParams
+  ): Promise<DisasterRecoveryConfigsListKeysResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        namespaceName,
+        alias,
+        authorizationRuleName,
+        options
+      },
+      listKeysOperationSpec
     );
   }
 
@@ -438,81 +416,31 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
       listNextOperationSpec
     );
   }
+
+  /**
+   * ListAuthorizationRulesNext
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param alias The Disaster Recovery configuration name
+   * @param nextLink The nextLink from the previous successful call to the ListAuthorizationRules method.
+   * @param options The options parameters.
+   */
+  private _listAuthorizationRulesNext(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    nextLink: string,
+    options?: DisasterRecoveryConfigsListAuthorizationRulesNextOptionalParams
+  ): Promise<DisasterRecoveryConfigsListAuthorizationRulesNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, namespaceName, alias, nextLink, options },
+      listAuthorizationRulesNextOperationSpec
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listAuthorizationRulesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/authorizationRules",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AuthorizationRuleListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.alias
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/authorizationRules/{authorizationRuleName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AuthorizationRule
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.authorizationRuleName,
-    Parameters.alias
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/authorizationRules/{authorizationRuleName}/listKeys",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AccessKeys
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.authorizationRuleName,
-    Parameters.alias
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/checkNameAvailability",
@@ -525,7 +453,7 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters7,
+  requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -572,7 +500,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters10,
+  requestBody: Parameters.parameters9,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -671,8 +599,9 @@ const failOverOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listAuthorizationRulesNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
+const listAuthorizationRulesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/authorizationRules",
   httpMethod: "GET",
   responses: {
     200: {
@@ -687,8 +616,55 @@ const listAuthorizationRulesNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink,
     Parameters.namespaceName,
+    Parameters.alias
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/authorizationRules/{authorizationRuleName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AuthorizationRule
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.authorizationRuleName,
+    Parameters.alias
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listKeysOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/authorizationRules/{authorizationRuleName}/listKeys",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AccessKeys
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.authorizationRuleName,
     Parameters.alias
   ],
   headerParameters: [Parameters.accept],
@@ -712,6 +688,29 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.nextLink,
     Parameters.namespaceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listAuthorizationRulesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AuthorizationRuleListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.nextLink,
+    Parameters.namespaceName,
+    Parameters.alias
   ],
   headerParameters: [Parameters.accept],
   serializer

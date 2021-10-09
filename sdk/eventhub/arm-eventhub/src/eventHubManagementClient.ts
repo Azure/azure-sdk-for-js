@@ -9,27 +9,25 @@
 import * as coreAuth from "@azure/core-auth";
 import {
   ClustersImpl,
+  ConfigurationImpl,
   NamespacesImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
-  ConfigurationImpl,
-  DisasterRecoveryConfigsImpl,
-  EventHubsImpl,
-  ConsumerGroupsImpl,
   OperationsImpl,
-  RegionsImpl
+  EventHubsImpl,
+  DisasterRecoveryConfigsImpl,
+  ConsumerGroupsImpl
 } from "./operations";
 import {
   Clusters,
+  Configuration,
   Namespaces,
   PrivateEndpointConnections,
   PrivateLinkResources,
-  Configuration,
-  DisasterRecoveryConfigs,
-  EventHubs,
-  ConsumerGroups,
   Operations,
-  Regions
+  EventHubs,
+  DisasterRecoveryConfigs,
+  ConsumerGroups
 } from "./operationsInterfaces";
 import { EventHubManagementClientContext } from "./eventHubManagementClientContext";
 import { EventHubManagementClientOptionalParams } from "./models";
@@ -49,25 +47,23 @@ export class EventHubManagementClient extends EventHubManagementClientContext {
   ) {
     super(credentials, subscriptionId, options);
     this.clusters = new ClustersImpl(this);
+    this.configuration = new ConfigurationImpl(this);
     this.namespaces = new NamespacesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
-    this.configuration = new ConfigurationImpl(this);
-    this.disasterRecoveryConfigs = new DisasterRecoveryConfigsImpl(this);
-    this.eventHubs = new EventHubsImpl(this);
-    this.consumerGroups = new ConsumerGroupsImpl(this);
     this.operations = new OperationsImpl(this);
-    this.regions = new RegionsImpl(this);
+    this.eventHubs = new EventHubsImpl(this);
+    this.disasterRecoveryConfigs = new DisasterRecoveryConfigsImpl(this);
+    this.consumerGroups = new ConsumerGroupsImpl(this);
   }
 
   clusters: Clusters;
+  configuration: Configuration;
   namespaces: Namespaces;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
-  configuration: Configuration;
-  disasterRecoveryConfigs: DisasterRecoveryConfigs;
-  eventHubs: EventHubs;
-  consumerGroups: ConsumerGroups;
   operations: Operations;
-  regions: Regions;
+  eventHubs: EventHubs;
+  disasterRecoveryConfigs: DisasterRecoveryConfigs;
+  consumerGroups: ConsumerGroups;
 }

@@ -15,7 +15,7 @@ import {
   WAIT_TIME,
   createRandomIndexName
 } from "../utils/setup";
-import { delay } from "@azure/core-http";
+import { delay } from "../../../src/serviceUtils";
 
 const TEST_INDEX_NAME = isLiveMode() ? createRandomIndexName() : "hotel-live-test3";
 

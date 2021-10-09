@@ -6,20 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   NotebookResource,
-  NotebookOperationsGetNotebooksByWorkspaceOptionalParams,
-  NotebookOperationsGetNotebookSummaryByWorkSpaceOptionalParams,
-  NotebookOperationsCreateOrUpdateNotebookOptionalParams,
-  NotebookOperationsCreateOrUpdateNotebookResponse,
-  NotebookOperationsGetNotebookOptionalParams,
-  NotebookOperationsGetNotebookResponse,
-  NotebookOperationsDeleteNotebookOptionalParams,
+  NotebookGetNotebooksByWorkspaceOptionalParams,
+  NotebookGetNotebookSummaryByWorkSpaceOptionalParams,
+  NotebookCreateOrUpdateNotebookOptionalParams,
+  NotebookCreateOrUpdateNotebookResponse,
+  NotebookGetNotebookOptionalParams,
+  NotebookGetNotebookResponse,
+  NotebookDeleteNotebookOptionalParams,
   ArtifactRenameRequest,
-  NotebookOperationsRenameNotebookOptionalParams
+  NotebookRenameNotebookOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,14 +29,14 @@ export interface NotebookOperations {
    * @param options The options parameters.
    */
   listNotebooksByWorkspace(
-    options?: NotebookOperationsGetNotebooksByWorkspaceOptionalParams
+    options?: NotebookGetNotebooksByWorkspaceOptionalParams
   ): PagedAsyncIterableIterator<NotebookResource>;
   /**
    * Lists a summary of Notebooks.
    * @param options The options parameters.
    */
   listNotebookSummaryByWorkSpace(
-    options?: NotebookOperationsGetNotebookSummaryByWorkSpaceOptionalParams
+    options?: NotebookGetNotebookSummaryByWorkSpaceOptionalParams
   ): PagedAsyncIterableIterator<NotebookResource>;
   /**
    * Creates or updates a Note Book.
@@ -48,11 +47,11 @@ export interface NotebookOperations {
   beginCreateOrUpdateNotebook(
     notebookName: string,
     notebook: NotebookResource,
-    options?: NotebookOperationsCreateOrUpdateNotebookOptionalParams
+    options?: NotebookCreateOrUpdateNotebookOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<NotebookOperationsCreateOrUpdateNotebookResponse>,
-      NotebookOperationsCreateOrUpdateNotebookResponse
+      PollOperationState<NotebookCreateOrUpdateNotebookResponse>,
+      NotebookCreateOrUpdateNotebookResponse
     >
   >;
   /**
@@ -64,8 +63,8 @@ export interface NotebookOperations {
   beginCreateOrUpdateNotebookAndWait(
     notebookName: string,
     notebook: NotebookResource,
-    options?: NotebookOperationsCreateOrUpdateNotebookOptionalParams
-  ): Promise<NotebookOperationsCreateOrUpdateNotebookResponse>;
+    options?: NotebookCreateOrUpdateNotebookOptionalParams
+  ): Promise<NotebookCreateOrUpdateNotebookResponse>;
   /**
    * Gets a Note Book.
    * @param notebookName The notebook name.
@@ -73,8 +72,8 @@ export interface NotebookOperations {
    */
   getNotebook(
     notebookName: string,
-    options?: NotebookOperationsGetNotebookOptionalParams
-  ): Promise<NotebookOperationsGetNotebookResponse>;
+    options?: NotebookGetNotebookOptionalParams
+  ): Promise<NotebookGetNotebookResponse>;
   /**
    * Deletes a Note book.
    * @param notebookName The notebook name.
@@ -82,7 +81,7 @@ export interface NotebookOperations {
    */
   beginDeleteNotebook(
     notebookName: string,
-    options?: NotebookOperationsDeleteNotebookOptionalParams
+    options?: NotebookDeleteNotebookOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes a Note book.
@@ -91,7 +90,7 @@ export interface NotebookOperations {
    */
   beginDeleteNotebookAndWait(
     notebookName: string,
-    options?: NotebookOperationsDeleteNotebookOptionalParams
+    options?: NotebookDeleteNotebookOptionalParams
   ): Promise<void>;
   /**
    * Renames a notebook.
@@ -102,7 +101,7 @@ export interface NotebookOperations {
   beginRenameNotebook(
     notebookName: string,
     request: ArtifactRenameRequest,
-    options?: NotebookOperationsRenameNotebookOptionalParams
+    options?: NotebookRenameNotebookOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Renames a notebook.
@@ -113,6 +112,6 @@ export interface NotebookOperations {
   beginRenameNotebookAndWait(
     notebookName: string,
     request: ArtifactRenameRequest,
-    options?: NotebookOperationsRenameNotebookOptionalParams
+    options?: NotebookRenameNotebookOptionalParams
   ): Promise<void>;
 }

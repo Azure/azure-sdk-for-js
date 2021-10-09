@@ -4,6 +4,8 @@
 
 ```ts
 
+/// <reference types="node" />
+
 import { CommonClientOptions } from '@azure/core-client';
 import { OperationOptions } from '@azure/core-client';
 import { TokenCredential } from '@azure/core-auth';
@@ -17,7 +19,7 @@ export class AttestationAdministrationClient {
     removePolicyManagementCertificate(pemCertificate: string, privateKey: string, certificate: string, options?: AttestationAdministrationClientPolicyCertificateOperationOptions): Promise<AttestationResponse<PolicyCertificatesModificationResult>>;
     resetPolicy(attestationType: AttestationType, options?: AttestationAdministrationClientPolicyOperationOptions): Promise<AttestationResponse<PolicyResult>>;
     setPolicy(attestationType: AttestationType, newPolicyDocument: string, options?: AttestationAdministrationClientPolicyOperationOptions): Promise<AttestationResponse<PolicyResult>>;
-    }
+}
 
 // @public
 export interface AttestationAdministrationClientOperationOptions extends OperationOptions {
@@ -48,7 +50,7 @@ export class AttestationClient {
     attestTpm(request: string, options?: AttestTpmOptions): Promise<string>;
     getAttestationSigners(options?: AttestationClientOperationOptions): Promise<AttestationSigner[]>;
     getOpenIdMetadata(options?: AttestationClientOperationOptions): Promise<Record<string, unknown>>;
-    }
+}
 
 // @public
 export interface AttestationClientOperationOptions extends OperationOptions {
@@ -206,7 +208,6 @@ export interface PolicyResult {
     policySigner?: AttestationSigner;
     policyTokenHash: Uint8Array;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

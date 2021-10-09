@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
 import {
   QueryType,
   SearchMode,
@@ -14,7 +14,10 @@ import {
   Answers,
   CaptionResult,
   AnswerResult,
-  Captions
+  Captions,
+  QuerySpellerType,
+  QueryAnswerType,
+  QueryCaptionType
 } from "./generated/data/models";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
@@ -267,11 +270,11 @@ export interface SearchRequest {
    * A value that specified the type of the speller to use to spell-correct individual search
    * query terms.
    */
-  speller?: Speller;
+  speller?: QuerySpellerType;
   /**
    * A value that specifies whether answers should be returned as part of the search response.
    */
-  answers?: Answers;
+  answers?: QueryAnswerType;
   /**
    * The comma-separated list of fields to retrieve. If unspecified, all fields marked as
    * retrievable in the schema are included.
@@ -293,7 +296,7 @@ export interface SearchRequest {
   /**
    * A value that specifies whether captions should be returned as part of the search response.
    */
-  captions?: Captions;
+  captions?: QueryCaptionType;
   /**
    * The comma-separated list of field names used for semantic search.
    */

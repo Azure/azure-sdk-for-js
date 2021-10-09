@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { IncomingMessage, RequestOptions, request } from "http";
+import { IncomingMessage, RequestOptions } from "http";
+import https from "https";
+import http from "http";
 
 /**
  * Returns the environment variable, throws an error if not defined.
@@ -15,6 +17,27 @@ export function getEnvVar(name: string) {
   }
   return val;
 }
+
+let cachedHttpsAgent: https.Agent;
+/**
+ * Returns https Agent to allow connecting to the proxy tool with "https" protocol.
+ *
+ * @export
+ * @param {string} name
+ */
+export const getCachedHttpsAgent = (insecure: boolean) => {
+  if (!cachedHttpsAgent) {
+    cachedHttpsAgent = new https.Agent({
+      rejectUnauthorized: !insecure
+      // TODO: Doesn't work currently
+      // pfx: require("fs").readFileSync(
+      //   "/workspaces/azure-sdk-for-js/eng/common/testproxy/dotnet-devcert.pfx"
+      // ),
+      // passphrase: "password"}
+    });
+  }
+  return cachedHttpsAgent;
+};
 
 /**
  * Reads a readable stream. Doesn't save to a buffer.
@@ -31,11 +54,23 @@ export async function drainStream(stream: NodeJS.ReadableStream) {
 }
 export async function makeRequest(
   uri: string,
-  requestOptions: RequestOptions
+  requestOptions: RequestOptions,
+  insecure: boolean
 ): Promise<IncomingMessage> {
   return new Promise<IncomingMessage>((resolve, reject) => {
-    const req = request(uri, requestOptions, resolve);
-
+    let req: http.ClientRequest;
+    if (uri.startsWith("https")) {
+      req = https.request(
+        uri,
+        {
+          ...requestOptions,
+          agent: getCachedHttpsAgent(insecure)
+        },
+        resolve
+      );
+    } else {
+      req = http.request(uri, requestOptions, resolve);
+    }
     req.once("error", reject);
 
     req.end();
