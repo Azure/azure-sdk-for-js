@@ -19,6 +19,7 @@
     - [Authenticating with the @azure/msal-browser Public Client](#authenticating-with-the-@azure/msal-browser-public-client).
   - [Authenticating with Key Vault Certificates](#authenticating-with-key-vault-certificates)
   - [Rolling Certificates](#rolling-certificates)
+  - [Authenticating on behalf of](#authenticating-on-behalf-of)
   - [Control user interaction](#control-user-interaction)
   - [Persist user authentication data](#persist-user-authentication-data)
     - [Persist the token cache](#persist-the-token-cache)
@@ -949,6 +950,67 @@ class RotatingCertificateCredential implements TokenCredential {
 
 In this example, the custom credential type `RotatingCertificateCredential` again uses a `ClientCertificateCredential` instance to retrieve tokens. However, in this case, it will attempt to refresh the certificate before obtaining the token. The method `RefreshCertificate` will query to see if the certificate has changed. If so, it will replace `this.credential` with a new instance of the certificate credential using the same certificate path.
 
+### Authenticating on behalf of
+
+Many multi-user applications make use of the [On-Behalf-Of flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow) to make authenticated requests between two services that would be otherwise unreachable. The Identity SDK provides an `OnBehalfOfCredential` that supports this form of authentication.
+
+Two accounts participate on the On-Behalf-Of flow:
+
+- A user, which aims to obtain a special access level.
+- An app registration, which will act as the provider of the special access level.
+
+Both need to belong to the same tenant.
+
+For this authentication flow to work, app registrations need ot be configured with a custom scope. To create a scope through the portal:
+
+1. Go to "Active Directory".
+2. Then go to "Enterprise Applications".
+3. Go to the application you want to authenticate against.
+4. then click on "Expose an API" on the left menu, and finally "Add a scope".
+
+While other credentials authenticate requesting access to a set of resources, the On-Behalf-Of flow requires the user token to have access specifically to the scope of the AAD application that will delegate its access to the users.
+
+
+```ts
+const credential = new InteractiveBrowserCredential();
+
+
+// Make sure to use the custom scope created on your app registration.
+const token = await credential.getToken("api://AAD_APP_CLIENT_ID/CUSTOM_SCOPE_NAME");
+
+```
+
+Once the token is retrieved, it can be passed as the `userAssertionToken` to the `OnBehalfOfCredential`, besides the `clientId`, `tenantId` and `clientSecret` (or `certificatePath`). Once initialized, this credential will have granted the user access to the resources available to the app registration.
+
+```ts
+import { InteractiveBrowserCredential } from "@azure/identity";
+
+async function main(): Promise<void> {
+  // One would use AuthCodeCredential in real life.
+  const credential = new InteractiveBrowserCredential();
+
+  const token = await deviceCred.getToken("api://AAD_APP_CLIENT_ID/Read");
+
+  const oboCred = new identity.OnBehalfOfCredential({
+    tenantId: "TENANT",
+    clientId: "AAD_APP_CLIENT_ID",
+    clientSecret: "AAD_APP_CLIENT_SECRET",
+    userAssertionToken: token.token
+  })
+
+  // Now, the originally authenticated user be granted access by the app registration
+  // to previously inaccessible resources.
+  const token2 = await oboCred.getToken("https://storage.azure.com/.default");
+  console.log({ token, token2 });
+}
+
+main().catch((err) => {
+  console.log("error code: ", err.code);
+  console.log("error message: ", err.message);
+  console.log("error stack: ", err.stack);
+  process.exit(1);
+});
+```
 ### Control user interaction
 
 In many cases, applications require tight control over user interaction. In these applications, automatically blocking on required user interaction is often undesired or impractical. For this reason, credentials in the `@azure/identity` library that interact with the user offer mechanisms to fully control user interaction. These settings are available under `InteractiveCredentialOptions` in both Node.js and the browser.
