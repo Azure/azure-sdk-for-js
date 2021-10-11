@@ -30,7 +30,7 @@ export class Snapshots {
    * Creates or updates a snapshot.
    * @param resourceGroupName The name of the resource group.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed
-   * after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The
+   * after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The
    * max name length is 80 characters.
    * @param snapshot Snapshot object supplied in the body of the Put disk operation.
    * @param [options] The optional parameters
@@ -45,7 +45,7 @@ export class Snapshots {
    * Updates (patches) a snapshot.
    * @param resourceGroupName The name of the resource group.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed
-   * after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The
+   * after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The
    * max name length is 80 characters.
    * @param snapshot Snapshot object supplied in the body of the Patch snapshot operation.
    * @param [options] The optional parameters
@@ -60,7 +60,7 @@ export class Snapshots {
    * Gets information about a snapshot.
    * @param resourceGroupName The name of the resource group.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed
-   * after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The
+   * after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The
    * max name length is 80 characters.
    * @param [options] The optional parameters
    * @returns Promise<Models.SnapshotsGetResponse>
@@ -69,7 +69,7 @@ export class Snapshots {
   /**
    * @param resourceGroupName The name of the resource group.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed
-   * after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The
+   * after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The
    * max name length is 80 characters.
    * @param callback The callback
    */
@@ -77,7 +77,7 @@ export class Snapshots {
   /**
    * @param resourceGroupName The name of the resource group.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed
-   * after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The
+   * after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The
    * max name length is 80 characters.
    * @param options The optional parameters
    * @param callback The callback
@@ -98,7 +98,7 @@ export class Snapshots {
    * Deletes a snapshot.
    * @param resourceGroupName The name of the resource group.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed
-   * after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The
+   * after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The
    * max name length is 80 characters.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
@@ -164,7 +164,7 @@ export class Snapshots {
    * Grants access to a snapshot.
    * @param resourceGroupName The name of the resource group.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed
-   * after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The
+   * after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The
    * max name length is 80 characters.
    * @param grantAccessData Access data object supplied in the body of the get snapshot access
    * operation.
@@ -180,7 +180,7 @@ export class Snapshots {
    * Revokes access to a snapshot.
    * @param resourceGroupName The name of the resource group.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed
-   * after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The
+   * after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The
    * max name length is 80 characters.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
@@ -194,7 +194,7 @@ export class Snapshots {
    * Creates or updates a snapshot.
    * @param resourceGroupName The name of the resource group.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed
-   * after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The
+   * after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The
    * max name length is 80 characters.
    * @param snapshot Snapshot object supplied in the body of the Put disk operation.
    * @param [options] The optional parameters
@@ -216,7 +216,7 @@ export class Snapshots {
    * Updates (patches) a snapshot.
    * @param resourceGroupName The name of the resource group.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed
-   * after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The
+   * after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The
    * max name length is 80 characters.
    * @param snapshot Snapshot object supplied in the body of the Patch snapshot operation.
    * @param [options] The optional parameters
@@ -238,7 +238,7 @@ export class Snapshots {
    * Deletes a snapshot.
    * @param resourceGroupName The name of the resource group.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed
-   * after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The
+   * after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The
    * max name length is 80 characters.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -258,7 +258,7 @@ export class Snapshots {
    * Grants access to a snapshot.
    * @param resourceGroupName The name of the resource group.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed
-   * after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The
+   * after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The
    * max name length is 80 characters.
    * @param grantAccessData Access data object supplied in the body of the get snapshot access
    * operation.
@@ -281,7 +281,7 @@ export class Snapshots {
    * Revokes access to a snapshot.
    * @param resourceGroupName The name of the resource group.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed
-   * after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The
+   * after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The
    * max name length is 80 characters.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>

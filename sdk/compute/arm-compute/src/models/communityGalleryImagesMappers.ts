@@ -7,16 +7,18 @@
  */
 
 export {
-  AccessUri,
   ApiError,
   ApiErrorBase,
   CloudError,
-  DiskRestorePoint,
-  DiskRestorePointList,
-  Encryption,
-  GrantAccessData,
+  CommunityGallery,
+  CommunityGalleryImage,
+  CommunityGalleryImageVersion,
+  Disallowed,
+  GalleryImageFeature,
+  GalleryImageIdentifier,
+  ImagePurchasePlan,
   InnerError,
-  ProxyOnlyResource,
-  PurchasePlan,
-  SupportedCapabilities
+  PirCommunityGalleryResource,
+  RecommendedMachineConfiguration,
+  ResourceRange
 } from "../models/mappers";

@@ -31,7 +31,7 @@ export class DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't
    * be changed after the disk encryption set is created. Supported characters for the name are a-z,
-   * A-Z, 0-9 and _. The maximum name length is 80 characters.
+   * A-Z, 0-9, _ and -. The maximum name length is 80 characters.
    * @param diskAccess disk access object supplied in the body of the Put disk access operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.DiskAccessesCreateOrUpdateResponse>
@@ -46,7 +46,7 @@ export class DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't
    * be changed after the disk encryption set is created. Supported characters for the name are a-z,
-   * A-Z, 0-9 and _. The maximum name length is 80 characters.
+   * A-Z, 0-9, _ and -. The maximum name length is 80 characters.
    * @param diskAccess disk access object supplied in the body of the Patch disk access operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.DiskAccessesUpdateResponse>
@@ -61,7 +61,7 @@ export class DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't
    * be changed after the disk encryption set is created. Supported characters for the name are a-z,
-   * A-Z, 0-9 and _. The maximum name length is 80 characters.
+   * A-Z, 0-9, _ and -. The maximum name length is 80 characters.
    * @param [options] The optional parameters
    * @returns Promise<Models.DiskAccessesGetResponse>
    */
@@ -70,7 +70,7 @@ export class DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't
    * be changed after the disk encryption set is created. Supported characters for the name are a-z,
-   * A-Z, 0-9 and _. The maximum name length is 80 characters.
+   * A-Z, 0-9, _ and -. The maximum name length is 80 characters.
    * @param callback The callback
    */
   get(resourceGroupName: string, diskAccessName: string, callback: msRest.ServiceCallback<Models.DiskAccess>): void;
@@ -78,7 +78,7 @@ export class DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't
    * be changed after the disk encryption set is created. Supported characters for the name are a-z,
-   * A-Z, 0-9 and _. The maximum name length is 80 characters.
+   * A-Z, 0-9, _ and -. The maximum name length is 80 characters.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -99,7 +99,7 @@ export class DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't
    * be changed after the disk encryption set is created. Supported characters for the name are a-z,
-   * A-Z, 0-9 and _. The maximum name length is 80 characters.
+   * A-Z, 0-9, _ and -. The maximum name length is 80 characters.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -165,7 +165,7 @@ export class DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't
    * be changed after the disk encryption set is created. Supported characters for the name are a-z,
-   * A-Z, 0-9 and _. The maximum name length is 80 characters.
+   * A-Z, 0-9, _ and -. The maximum name length is 80 characters.
    * @param [options] The optional parameters
    * @returns Promise<Models.DiskAccessesGetPrivateLinkResourcesResponse>
    */
@@ -174,7 +174,7 @@ export class DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't
    * be changed after the disk encryption set is created. Supported characters for the name are a-z,
-   * A-Z, 0-9 and _. The maximum name length is 80 characters.
+   * A-Z, 0-9, _ and -. The maximum name length is 80 characters.
    * @param callback The callback
    */
   getPrivateLinkResources(resourceGroupName: string, diskAccessName: string, callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): void;
@@ -182,7 +182,7 @@ export class DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't
    * be changed after the disk encryption set is created. Supported characters for the name are a-z,
-   * A-Z, 0-9 and _. The maximum name length is 80 characters.
+   * A-Z, 0-9, _ and -. The maximum name length is 80 characters.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -204,8 +204,8 @@ export class DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't
    * be changed after the disk encryption set is created. Supported characters for the name are a-z,
-   * A-Z, 0-9 and _. The maximum name length is 80 characters.
-   * @param privateEndpointConnectionName The name of the private endpoint connection
+   * A-Z, 0-9, _ and -. The maximum name length is 80 characters.
+   * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param privateEndpointConnection private endpoint connection object supplied in the body of the
    * Put private endpoint connection operation.
    * @param [options] The optional parameters
@@ -221,8 +221,8 @@ export class DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't
    * be changed after the disk encryption set is created. Supported characters for the name are a-z,
-   * A-Z, 0-9 and _. The maximum name length is 80 characters.
-   * @param privateEndpointConnectionName The name of the private endpoint connection
+   * A-Z, 0-9, _ and -. The maximum name length is 80 characters.
+   * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param [options] The optional parameters
    * @returns Promise<Models.DiskAccessesGetAPrivateEndpointConnectionResponse>
    */
@@ -231,8 +231,8 @@ export class DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't
    * be changed after the disk encryption set is created. Supported characters for the name are a-z,
-   * A-Z, 0-9 and _. The maximum name length is 80 characters.
-   * @param privateEndpointConnectionName The name of the private endpoint connection
+   * A-Z, 0-9, _ and -. The maximum name length is 80 characters.
+   * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param callback The callback
    */
   getAPrivateEndpointConnection(resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>): void;
@@ -240,8 +240,8 @@ export class DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't
    * be changed after the disk encryption set is created. Supported characters for the name are a-z,
-   * A-Z, 0-9 and _. The maximum name length is 80 characters.
-   * @param privateEndpointConnectionName The name of the private endpoint connection
+   * A-Z, 0-9, _ and -. The maximum name length is 80 characters.
+   * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -263,8 +263,8 @@ export class DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't
    * be changed after the disk encryption set is created. Supported characters for the name are a-z,
-   * A-Z, 0-9 and _. The maximum name length is 80 characters.
-   * @param privateEndpointConnectionName The name of the private endpoint connection
+   * A-Z, 0-9, _ and -. The maximum name length is 80 characters.
+   * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -278,7 +278,7 @@ export class DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't
    * be changed after the disk encryption set is created. Supported characters for the name are a-z,
-   * A-Z, 0-9 and _. The maximum name length is 80 characters.
+   * A-Z, 0-9, _ and -. The maximum name length is 80 characters.
    * @param [options] The optional parameters
    * @returns Promise<Models.DiskAccessesListPrivateEndpointConnectionsResponse>
    */
@@ -287,7 +287,7 @@ export class DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't
    * be changed after the disk encryption set is created. Supported characters for the name are a-z,
-   * A-Z, 0-9 and _. The maximum name length is 80 characters.
+   * A-Z, 0-9, _ and -. The maximum name length is 80 characters.
    * @param callback The callback
    */
   listPrivateEndpointConnections(resourceGroupName: string, diskAccessName: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>): void;
@@ -295,7 +295,7 @@ export class DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't
    * be changed after the disk encryption set is created. Supported characters for the name are a-z,
-   * A-Z, 0-9 and _. The maximum name length is 80 characters.
+   * A-Z, 0-9, _ and -. The maximum name length is 80 characters.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -316,7 +316,7 @@ export class DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't
    * be changed after the disk encryption set is created. Supported characters for the name are a-z,
-   * A-Z, 0-9 and _. The maximum name length is 80 characters.
+   * A-Z, 0-9, _ and -. The maximum name length is 80 characters.
    * @param diskAccess disk access object supplied in the body of the Put disk access operation.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -338,7 +338,7 @@ export class DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't
    * be changed after the disk encryption set is created. Supported characters for the name are a-z,
-   * A-Z, 0-9 and _. The maximum name length is 80 characters.
+   * A-Z, 0-9, _ and -. The maximum name length is 80 characters.
    * @param diskAccess disk access object supplied in the body of the Patch disk access operation.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -360,7 +360,7 @@ export class DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't
    * be changed after the disk encryption set is created. Supported characters for the name are a-z,
-   * A-Z, 0-9 and _. The maximum name length is 80 characters.
+   * A-Z, 0-9, _ and -. The maximum name length is 80 characters.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -381,8 +381,8 @@ export class DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't
    * be changed after the disk encryption set is created. Supported characters for the name are a-z,
-   * A-Z, 0-9 and _. The maximum name length is 80 characters.
-   * @param privateEndpointConnectionName The name of the private endpoint connection
+   * A-Z, 0-9, _ and -. The maximum name length is 80 characters.
+   * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param privateEndpointConnection private endpoint connection object supplied in the body of the
    * Put private endpoint connection operation.
    * @param [options] The optional parameters
@@ -406,8 +406,8 @@ export class DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't
    * be changed after the disk encryption set is created. Supported characters for the name are a-z,
-   * A-Z, 0-9 and _. The maximum name length is 80 characters.
-   * @param privateEndpointConnectionName The name of the private endpoint connection
+   * A-Z, 0-9, _ and -. The maximum name length is 80 characters.
+   * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
