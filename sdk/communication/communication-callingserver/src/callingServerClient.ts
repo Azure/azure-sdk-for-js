@@ -222,7 +222,6 @@ export class CallingServerClient {
     const { operationOptions, restOptions } = extractOperationOptions(options);
     const { span, updatedOptions } = createSpan("ServerCallRestClient-JoinCall", operationOptions);
 
-    console.log(serializeCallLocator(callLocator));
     const request: JoinCallRequest = {
       callLocator: serializeCallLocator(callLocator),
       source: serializeCommunicationIdentifier(source),
@@ -237,7 +236,6 @@ export class CallingServerClient {
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-
       if (response.callConnectionId) {
         return new CallConnection(response.callConnectionId, this.callConnectionRestClient);
       } else {
@@ -651,7 +649,6 @@ export class CallingServerClient {
     options: StopRecordingOptions = {}
   ): Promise<RestResponse> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-StopRecording", options);
-    console.log("Recording Id: " + recordingId);
     if (typeof recordingId === 'undefined' || !recordingId || !recordingId.trim()) {
       throw new Error('recordingId is invalid.')
     }

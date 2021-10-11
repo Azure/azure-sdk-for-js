@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { record, Recorder, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
-import { env } from "@azure/test-utils-recorder";
+import { env, record, Recorder, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 import { CallingServerClient, GroupCallLocator } from "../../src";
 import { CALLBACK_URI  } from "./utils/constants";
 import { TestUtils } from "./utils/testUtils";
@@ -34,16 +33,13 @@ describe("Server Call", function() {
         await recorder.stop();
         });
 
-        it.only("Run all client recording operations", async function() {
+        it("Run all client recording operations", async function() {
             this.timeout(0);
             var groupId = TestUtils.getGroupId("Run all client recording operations");
-            
             var fromUser = await TestUtils.getUserId("fromUser");
             var toUser = await TestUtils.getUserId("toUser");
-
             var connections = [];
             var recordingId = "";
-            var serverCall = null;
 
             var callingServer = new CallingServerClient(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING);
 
@@ -66,11 +62,9 @@ describe("Server Call", function() {
               await TestUtils.delayIfLive();
               var recordingState = await callingServer.getRecordingProperties(recordingId!);
               assert.strictEqual(recordingState.recordingState, "active");
-
-              await callingServer.stopRecording(recordingId!);  
             }
             finally {
-              if (serverCall != null) {
+              if (recordingId != "") {
                 try {
                   await callingServer.stopRecording(recordingId);
                 } catch (e) {
@@ -79,7 +73,7 @@ describe("Server Call", function() {
               }
             }
             
-            TestUtils.cleanCallConnections(connections);
+            await TestUtils.cleanCallConnections(connections);
         })
     })
 })

@@ -6,7 +6,6 @@ import { v4 as uuidv4, v5 as uuidv5 } from "uuid";
 import { CallingServerClient, MediaType, EventSubscriptionType, CallConnection, GroupCallLocator } from "../../../src";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 import  * as Constants from "../utils/constants";
-import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { CommunicationUserIdentifier } from "@azure/communication-common";
 
 export class TestUtils {
@@ -16,7 +15,7 @@ export class TestUtils {
     
     public static async getUserId(userName: string) {
       var communicationIdentityClient = new CommunicationIdentityClient(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING);
-      if (isPlaybackMode()){
+      if (!isLiveMode()){
         return "8:acs:" + env.AZURE_TENANT_ID + "_" + uuidv5(userName, Constants.NAMESPACE_UUID);
       }
       
@@ -50,7 +49,6 @@ export class TestUtils {
       var callConnections = [];
       callConnections.push(await callingServerClient.joinCall(callLocator, {communicationUserId: fromUser}, joinCallOptions));
       callConnections.push(await callingServerClient.joinCall(callLocator, {communicationUserId: toUser}, joinCallOptions));
-
       return callConnections;
     }
 
@@ -61,8 +59,8 @@ export class TestUtils {
     }
 
     public static async cleanCallConnections(callConnections: Array<CallConnection>) {
-      callConnections.forEach(async (connection) => {
-        await connection.hangUp();
-      });
+      for (const callConnection of callConnections) {
+        await callConnection.hangUp();
+      }
     }
 }

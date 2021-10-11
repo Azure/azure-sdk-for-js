@@ -39,6 +39,10 @@ export class CallConnection {
     addParticipant(participant: CommunicationIdentifier, alternateCallerId?: string, operationContext?: string, options?: AddParticipantOptions): Promise<CallConnectionsAddParticipantResponse>;
     cancelAllMediaOperations(operationContext?: string, options?: CancelAllMediaOperationsOptions): Promise<CallConnectionsCancelAllMediaOperationsResponse>;
     cancelParticipantMediaOperation(participant: CommunicationIdentifier, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
+    // Warning: (ae-forgotten-export) The symbol "CallConnectionsGetCallResponse" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    getCall(): Promise<CallConnectionsGetCallResponse>;
     hangUp(options?: HangUpOptions): Promise<void>;
     playAudio(audioFileUri: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
     playAudioToParticipant(participant: CommunicationIdentifier, audioFileUri: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
@@ -103,8 +107,12 @@ export class CallingServerClient {
     playAudioToParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, audioFileUri: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
     removeParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, options?: RemoveParticipantOptions): Promise<void>;
     resumeRecording(recordingId: string, options?: ResumeRecordingOptions): Promise<RestResponse>;
+    // Warning: (ae-forgotten-export) The symbol "CallLocatorModel" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "RecordingContentType" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "RecordingChannelType" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "RecordingFormatType" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "StartCallRecordingResult" needs to be exported by the entry point index.d.ts
-    startRecording(callLocator: CallLocator, recordingStateCallbackUri: string, options?: StartRecordingOptions): Promise<StartCallRecordingResult>;
+    startRecording(callLocator: CallLocatorModel, recordingStateCallbackUri: string, recordingContentType?: RecordingContentType, recordingChannelType?: RecordingChannelType, recordingFormatType?: RecordingFormatType, options?: StartRecordingOptions): Promise<StartCallRecordingResult>;
     stopRecording(recordingId: string, options?: StopRecordingOptions): Promise<RestResponse>;
 }
 
