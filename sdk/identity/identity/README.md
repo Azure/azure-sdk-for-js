@@ -301,7 +301,7 @@ API documentation for this library can be found on our [documentation site](http
 
 ### Client library support
 
-Client and management libraries listed on the [Azure SDK release page](https://azure.github.io/azure-sdk/releases/latest/js.html) which support Azure AD authentication accept credentials from this library. You can learn more about using these libraries in their documentation, which is linked from the release page.
+Client and management libraries listed on the [Azure SDK releases page](https://azure.github.io/azure-sdk/releases/latest/js.html) that support Azure AD authentication accept credentials from this library. Learn more about using these libraries in their documentation, which is linked from the releases page.
 
 ### B2C support
 
