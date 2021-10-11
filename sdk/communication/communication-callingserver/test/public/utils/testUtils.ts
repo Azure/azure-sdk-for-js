@@ -3,7 +3,7 @@
 
 import { env, isLiveMode, isRecordMode } from "@azure-tools/test-recorder";
 import { v4 as uuidv4, v5 as uuidv5 } from "uuid";
-import { CallingServerClient, MediaType, EventSubscriptionType, CallConnection, ServerCallLocator } from "../../../src";
+import { CallingServerClient, MediaType, EventSubscriptionType, CallConnection, GroupCallLocator } from "../../../src";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 import  * as Constants from "../utils/constants";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
@@ -46,7 +46,7 @@ export class TestUtils {
           requestedMediaTypes: [MediaType.Audio],
           requestedCallEvents: [EventSubscriptionType.ParticipantsUpdated]
       };
-      let callLocator : ServerCallLocator = { serverCallId: groupId };
+      let callLocator : GroupCallLocator = { groupCallId: groupId };
       var callConnections = [];
       callConnections.push(await callingServerClient.joinCall(callLocator, {communicationUserId: fromUser}, joinCallOptions));
       callConnections.push(await callingServerClient.joinCall(callLocator, {communicationUserId: toUser}, joinCallOptions));
