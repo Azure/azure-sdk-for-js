@@ -63,16 +63,6 @@ export class AuthorizationCodeCredential implements TokenCredential {
 }
 
 // @public
-export class AzureApplicationCredential extends ChainedTokenCredential {
-    constructor(options?: AzureApplicationCredentialOptions);
-}
-
-// @public
-export interface AzureApplicationCredentialOptions extends TokenCredentialOptions, CredentialPersistenceOptions {
-    managedIdentityClientId?: string;
-}
-
-// @public
 export enum AzureAuthorityHosts {
     AzureChina = "https://login.chinacloudapi.cn",
     AzureGermany = "https://login.microsoftonline.de",

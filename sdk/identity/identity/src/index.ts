@@ -63,10 +63,6 @@ export { UsernamePasswordCredentialOptions } from "./credentials/usernamePasswor
 export { AuthorizationCodeCredential } from "./credentials/authorizationCodeCredential";
 export { AzurePowerShellCredential } from "./credentials/azurePowerShellCredential";
 export { AzurePowerShellCredentialOptions } from "./credentials/azurePowerShellCredentialOptions";
-export {
-  AzureApplicationCredential,
-  AzureApplicationCredentialOptions
-} from "./credentials/azureApplicationCredential";
 
 export {
   VisualStudioCodeCredential,
