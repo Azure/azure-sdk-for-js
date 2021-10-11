@@ -760,6 +760,11 @@ export interface CommonGenerateSasUrlOptions {
   identifier?: string;
 
   /**
+   * Optional. Encryption scope to use when sending requests authorized with this SAS URI.
+   */
+  encryptionScope?: string;
+
+  /**
    * Optional. The cache-control header for the SAS.
    */
   cacheControl?: string;
