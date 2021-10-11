@@ -1008,6 +1008,7 @@ main().catch((err) => {
   process.exit(1);
 });
 ```
+
 ### Control user interaction
 
 In many cases, applications require tight control over user interaction. In these applications, automatically blocking on required user interaction is often undesired or impractical. For this reason, credentials in the `@azure/identity` library that interact with the user offer mechanisms to fully control user interaction. These settings are available under `InteractiveCredentialOptions` in both Node.js and the browser.
