@@ -1,0 +1,32 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "http://host.docker.internal:8080/api/sample_request_body",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "4",
+        "Content-Type": "text/plain",
+        "some_url": "https://endpoint.io/subscriptions/73c83158-bd73-4cda-aa11-a0c2a34e2544",
+        "User-Agent": "core-rest-pipeline/1.3.2 Node/v14.17.6 OS/(x64-Linux-5.4.0-1059-azure)",
+        "x-ms-client-request-id": "d9447967-106f-4773-8bbf-10f5d979092f"
+      },
+      "RequestBody": "abcd",
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Connection": "keep-alive",
+        "Content-Length": "23",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Sat, 09 Oct 2021 00:54:56 GMT",
+        "ETag": "W/\u002217-fbvrpA2eG0oWnWeG6T510h\u002BYino\u0022",
+        "Keep-Alive": "timeout=5",
+        "X-Powered-By": "Express"
+      },
+      "ResponseBody": {
+        "bodyProvided": "abcd"
+      }
+    }
+  ],
+  "Variables": {}
+}

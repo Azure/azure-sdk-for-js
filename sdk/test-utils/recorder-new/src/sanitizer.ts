@@ -15,7 +15,7 @@ export interface SanitizerOptions {
   }>;
   bodyKeySanitizers?: Array<{ value: string; regex: string; jsonPath: string }>;
   bodyRegexSanitizers?: Array<{ value: string; regex: string; groupForReplace?: string }>;
-  continuationSanitizers?: Array<{ key: string; method: string; resetAfterFirst: boolean }>;
+  continuationSanitizers?: Array<{ key: string; method?: string; resetAfterFirst: boolean }>;
   headerRegexSanitizers?: Array<{ key: string; value: string; regex: string }>;
   uriRegexSanitizers?: Array<{ value: string; regex: string; groupForReplace?: string }>;
   removeHeaderSanitizer?: { headersForRemoval: string[] };
@@ -101,7 +101,10 @@ export class Sanitizer {
       for (const replacer of options.continuationSanitizers) {
         await this.addSanitizer({
           sanitizer: "ContinuationSanitizer",
-          body: JSON.stringify(replacer)
+          body: JSON.stringify({
+            ...replacer,
+            resetAfterFirst: replacer.resetAfterFirst.toString()
+          })
         });
       }
     }

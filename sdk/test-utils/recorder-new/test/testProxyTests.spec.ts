@@ -57,7 +57,7 @@ function getTestServerUrl() {
         headers?: { headerName: string; value: string }[];
         method: HttpMethods;
       },
-      expectedResponse: { [key: string]: unknown }
+      expectedResponse: { [key: string]: unknown } | undefined
     ) {
       const req = createPipelineRequest({
         url: getTestServerUrl() + request.path,
@@ -69,7 +69,10 @@ function getTestServerUrl() {
         req.headers.set(headerName, value);
       });
       const response = await client.sendRequest(req);
-      expect(JSON.parse(response.bodyAsText!)).to.deep.equal(expectedResponse);
+      if (expectedResponse) {
+        expect(JSON.parse(response.bodyAsText!)).to.deep.equal(expectedResponse);
+      }
+      return response;
     }
 
     it("sample_response", async () => {
@@ -241,6 +244,46 @@ function getTestServerUrl() {
             ]
           },
           { bodyProvided: "abcd" }
+        );
+      });
+
+      it.only("ContinuationSanitizer", async () => {
+        await recorder.start({});
+        // What if the id is part of the response body and not response headers?
+        await recorder.addSanitizers({
+          continuationSanitizers: [
+            {
+              key: "your_uuid",
+              method: "guid", // What is this method exactly?
+              resetAfterFirst: false
+            }
+          ]
+        });
+
+        const firstResponse = await makeRequestAndVerifyResponse(
+          {
+            path: `/api/sample_uuid_in_header`,
+            method: "GET"
+          },
+          undefined
+        );
+
+        // Seems to fail with
+        // Unable to find a record for the request GET http://host.docker.internal:8080/sample_response
+        // Header differences:
+        //  <your_uuid> values differ, request <985e1725-6d96-467c-89fc-fe45ef0409e4>, record <7460db09-3140-4f76-b59c-16f23e91bc4c>
+        await makeRequestAndVerifyResponse(
+          {
+            path: `/sample_response`,
+            method: "GET",
+            headers: [
+              {
+                headerName: "your_uuid",
+                value: firstResponse.headers.get("your_uuid") || ""
+              }
+            ]
+          },
+          { val: "abc" }
         );
       });
 

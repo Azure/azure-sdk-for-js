@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 import express from "express";
+import { v4 as uuidv4 } from "uuid";
+
 const app = express();
 const port = 8080;
 const TEST_SERVER_URL = `http://localhost:${port}`;
@@ -22,6 +24,11 @@ app.get(`/sample_response/:secret_info`, (_, res) => {
 
 app.post("/api/sample_request_body", function(req, res) {
   res.send({ bodyProvided: req.body });
+});
+
+app.get("/api/sample_uuid_in_header", function(_, res) {
+  res.header("your_uuid", uuidv4());
+  res.send();
 });
 
 app.listen(port, () => {
