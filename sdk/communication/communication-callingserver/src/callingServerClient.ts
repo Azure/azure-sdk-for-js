@@ -34,7 +34,10 @@ import {
   StartCallRecordingRequest,
   StartCallRecordingResult,
   StartCallRecordingWithCallLocatorRequest,
-  CallRecordingProperties
+  CallRecordingProperties,
+  RecordingContentType,
+  RecordingChannelType,
+  RecordingFormatType
 } from "./generated/src/models";
 import { TokenCredential } from "@azure/core-auth";
 
@@ -518,11 +521,17 @@ export class CallingServerClient {
    *
    * @param callLocator - The callLocator contains server call id.
    * @param recordingStateCallbackUri - The call back uri for recording state.
+   * @param recordingContentType - Content type of call recording.
+   * @param recordingChannelType - Channel type of call recording.
+   * @param recordingFormatType - Format type of call recording.
    * @param options - Additional request options contains StartRecording api options.
    */
   public async startRecording(
     callLocator: CallLocatorModel,
     recordingStateCallbackUri: string,
+    recordingContentType?: RecordingContentType,
+    recordingChannelType?: RecordingChannelType,
+    recordingFormatType?: RecordingFormatType,
     options: StartRecordingOptions = {}
   ): Promise<StartCallRecordingResult> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-StartRecording", options);
@@ -536,7 +545,12 @@ export class CallingServerClient {
       throw new Error('recordingStateCallbackUri is invalid.');
     }
 
-    var startCallRecordingRequest: StartCallRecordingRequest = { recordingStateCallbackUri: recordingStateCallbackUri };
+    var startCallRecordingRequest: StartCallRecordingRequest = {
+      recordingStateCallbackUri: recordingStateCallbackUri,
+      recordingChannelType: recordingChannelType,
+      recordingContentType: recordingContentType,
+      recordingFormatType: recordingFormatType
+    };
 
     var startCallRecordingWithCallLocatorRequest: StartCallRecordingWithCallLocatorRequest = {
       callLocator: callLocator,
