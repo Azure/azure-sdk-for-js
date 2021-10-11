@@ -647,9 +647,23 @@ export interface SqlPool extends TrackedResource {
    */
   restorePointInTime?: Date;
   /**
-   * What is this?
+   * Specifies the mode of sql pool creation.
+   *
+   * Default: regular sql pool creation.
+   *
+   * PointInTimeRestore: Creates a sql pool by restoring a point in time backup of an existing sql
+   * pool. sourceDatabaseId must be specified as the resource ID of the existing sql pool, and
+   * restorePointInTime must be specified.
+   *
+   * Recovery: Creates a sql pool by a geo-replicated backup. sourceDatabaseId  must be specified
+   * as the recoverableDatabaseId to restore.
+   *
+   * Restore: Creates a sql pool by restoring a backup of a deleted sql  pool. SourceDatabaseId
+   * should be the sql pool's original resource ID. SourceDatabaseId and sourceDatabaseDeletionDate
+   * must be specified. Possible values include: 'Default', 'PointInTimeRestore', 'Recovery',
+   * 'Restore'
    */
-  createMode?: string;
+  createMode?: CreateMode;
   /**
    * Date the SQL pool was created
    */
@@ -711,9 +725,23 @@ export interface SqlPoolPatchInfo {
    */
   restorePointInTime?: Date;
   /**
-   * What is this?
+   * Specifies the mode of sql pool creation.
+   *
+   * Default: regular sql pool creation.
+   *
+   * PointInTimeRestore: Creates a sql pool by restoring a point in time backup of an existing sql
+   * pool. sourceDatabaseId must be specified as the resource ID of the existing sql pool, and
+   * restorePointInTime must be specified.
+   *
+   * Recovery: Creates a sql pool by a geo-replicated backup. sourceDatabaseId  must be specified
+   * as the recoverableDatabaseId to restore.
+   *
+   * Restore: Creates a sql pool by restoring a backup of a deleted sql  pool. SourceDatabaseId
+   * should be the sql pool's original resource ID. SourceDatabaseId and sourceDatabaseDeletionDate
+   * must be specified. Possible values include: 'Default', 'PointInTimeRestore', 'Recovery',
+   * 'Restore'
    */
-  createMode?: string;
+  createMode?: CreateMode;
   /**
    * Date the SQL pool was created
    */
@@ -4610,6 +4638,1030 @@ export interface SparkConfigurationResource extends SubResource {
 }
 
 /**
+ * An interface representing OperationDisplay.
+ * @summary The object that describes the operation.
+ */
+export interface OperationDisplay {
+  /**
+   * Friendly name of the resource provider.
+   */
+  provider?: string;
+  /**
+   * The operation type. For example: read, write, delete.
+   */
+  operation?: string;
+  /**
+   * The resource type on which the operation is performed.
+   */
+  resource?: string;
+  /**
+   * The friendly name of the operation.
+   */
+  description?: string;
+}
+
+/**
+ * An interface representing Operation.
+ * @summary A REST API operation
+ */
+export interface Operation {
+  /**
+   * The operation name. This is of the format {provider}/{resource}/{operation}.
+   */
+  name?: string;
+  /**
+   * The object that describes the operation.
+   */
+  display?: OperationDisplay;
+  /**
+   * The intended executor of the operation.
+   */
+  origin?: string;
+  /**
+   * Properties of the operation.
+   */
+  properties?: any;
+}
+
+/**
+ * Azure SKU definition.
+ */
+export interface AzureSku {
+  /**
+   * SKU name. Possible values include: 'Compute optimized', 'Storage optimized'
+   */
+  name: SkuName;
+  /**
+   * The number of instances of the cluster.
+   */
+  capacity?: number;
+  /**
+   * SKU size. Possible values include: 'Extra small', 'Small', 'Medium', 'Large'
+   */
+  size: SkuSize;
+}
+
+/**
+ * A class that contains the optimized auto scale definition.
+ */
+export interface OptimizedAutoscale {
+  /**
+   * The version of the template defined, for instance 1.
+   */
+  version: number;
+  /**
+   * A boolean value that indicate if the optimized autoscale feature is enabled or not.
+   */
+  isEnabled: boolean;
+  /**
+   * Minimum allowed instances count.
+   */
+  minimum: number;
+  /**
+   * Maximum allowed instances count.
+   */
+  maximum: number;
+}
+
+/**
+ * The language extension object.
+ */
+export interface LanguageExtension {
+  /**
+   * The language extension name. Possible values include: 'PYTHON', 'R'
+   */
+  languageExtensionName?: LanguageExtensionName;
+}
+
+/**
+ * Metadata pertaining to creation and last modification of the resource.
+ */
+export interface SystemData {
+  /**
+   * The identity that created the resource.
+   */
+  createdBy?: string;
+  /**
+   * The type of identity that created the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  createdByType?: CreatedByType;
+  /**
+   * The timestamp of resource creation (UTC).
+   */
+  createdAt?: Date;
+  /**
+   * The identity that last modified the resource.
+   */
+  lastModifiedBy?: string;
+  /**
+   * The type of identity that last modified the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  lastModifiedByType?: CreatedByType;
+  /**
+   * The timestamp of resource last modification (UTC)
+   */
+  lastModifiedAt?: Date;
+}
+
+/**
+ * Class representing a Kusto kusto pool.
+ */
+export interface KustoPool extends TrackedResource {
+  /**
+   * The SKU of the kusto pool.
+   */
+  sku: AzureSku;
+  /**
+   * The state of the resource. Possible values include: 'Creating', 'Unavailable', 'Running',
+   * 'Deleting', 'Deleted', 'Stopping', 'Stopped', 'Starting', 'Updating'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly state?: State;
+  /**
+   * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
+   * 'Deleting', 'Succeeded', 'Failed', 'Moving', 'Canceled'
+   */
+  provisioningState?: ResourceProvisioningState;
+  /**
+   * The Kusto Pool URI.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly uri?: string;
+  /**
+   * The Kusto Pool data ingestion URI.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly dataIngestionUri?: string;
+  /**
+   * The reason for the Kusto Pool's current state.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly stateReason?: string;
+  /**
+   * Optimized auto scale definition.
+   */
+  optimizedAutoscale?: OptimizedAutoscale;
+  /**
+   * A boolean value that indicates if the streaming ingest is enabled. Default value: false.
+   */
+  enableStreamingIngest?: boolean;
+  /**
+   * A boolean value that indicates if the purge operations are enabled. Default value: false.
+   */
+  enablePurge?: boolean;
+  /**
+   * List of the Kusto Pool's language extensions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly languageExtensions?: LanguageExtensionsList;
+  /**
+   * The workspace unique identifier.
+   */
+  workspaceUID?: string;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
+}
+
+/**
+ * The list Kusto pools operation response.
+ */
+export interface KustoPoolListResult {
+  /**
+   * The list of Kusto pools.
+   */
+  value?: KustoPool[];
+}
+
+/**
+ * The locations and zones info for SKU.
+ */
+export interface SkuLocationInfoItem {
+  /**
+   * The available location of the SKU.
+   */
+  location: string;
+  /**
+   * The available zone of the SKU.
+   */
+  zones?: string[];
+}
+
+/**
+ * The Kusto SKU description of given resource type
+ */
+export interface SkuDescription {
+  /**
+   * The resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly resourceType?: string;
+  /**
+   * The name of the SKU
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The size of the SKU
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly size?: string;
+  /**
+   * The set of locations that the SKU is available
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly locations?: string[];
+  /**
+   * Locations and zones
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly locationInfo?: SkuLocationInfoItem[];
+  /**
+   * The restrictions because of which SKU cannot be used
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly restrictions?: any[];
+}
+
+/**
+ * Azure capacity definition.
+ */
+export interface AzureCapacity {
+  /**
+   * Scale type. Possible values include: 'automatic', 'manual', 'none'
+   */
+  scaleType: AzureScaleType;
+  /**
+   * Minimum allowed capacity.
+   */
+  minimum: number;
+  /**
+   * Maximum allowed capacity.
+   */
+  maximum: number;
+  /**
+   * The default capacity that would be used.
+   */
+  default: number;
+}
+
+/**
+ * Azure resource SKU definition.
+ */
+export interface AzureResourceSku {
+  /**
+   * Resource Namespace and Type.
+   */
+  resourceType?: string;
+  /**
+   * The SKU details.
+   */
+  sku?: AzureSku;
+  /**
+   * The number of instances of the cluster.
+   */
+  capacity?: AzureCapacity;
+}
+
+/**
+ * Class representing an update to a Kusto kusto pool.
+ */
+export interface KustoPoolUpdate extends Resource {
+  /**
+   * Resource tags.
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * The SKU of the kusto pool.
+   */
+  sku?: AzureSku;
+  /**
+   * The state of the resource. Possible values include: 'Creating', 'Unavailable', 'Running',
+   * 'Deleting', 'Deleted', 'Stopping', 'Stopped', 'Starting', 'Updating'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly state?: State;
+  /**
+   * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
+   * 'Deleting', 'Succeeded', 'Failed', 'Moving', 'Canceled'
+   */
+  provisioningState?: ResourceProvisioningState;
+  /**
+   * The Kusto Pool URI.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly uri?: string;
+  /**
+   * The Kusto Pool data ingestion URI.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly dataIngestionUri?: string;
+  /**
+   * The reason for the Kusto Pool's current state.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly stateReason?: string;
+  /**
+   * Optimized auto scale definition.
+   */
+  optimizedAutoscale?: OptimizedAutoscale;
+  /**
+   * A boolean value that indicates if the streaming ingest is enabled. Default value: false.
+   */
+  enableStreamingIngest?: boolean;
+  /**
+   * A boolean value that indicates if the purge operations are enabled. Default value: false.
+   */
+  enablePurge?: boolean;
+  /**
+   * List of the Kusto Pool's language extensions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly languageExtensions?: LanguageExtensionsList;
+  /**
+   * The workspace unique identifier.
+   */
+  workspaceUID?: string;
+}
+
+/**
+ * Tables that will be included and excluded in the follower database
+ */
+export interface TableLevelSharingProperties {
+  /**
+   * List of tables to include in the follower database
+   */
+  tablesToInclude?: string[];
+  /**
+   * List of tables to exclude from the follower database
+   */
+  tablesToExclude?: string[];
+  /**
+   * List of external tables to include in the follower database
+   */
+  externalTablesToInclude?: string[];
+  /**
+   * List of external tables exclude from the follower database
+   */
+  externalTablesToExclude?: string[];
+  /**
+   * List of materialized views to include in the follower database
+   */
+  materializedViewsToInclude?: string[];
+  /**
+   * List of materialized views exclude from the follower database
+   */
+  materializedViewsToExclude?: string[];
+}
+
+/**
+ * Class representing an attached database configuration.
+ */
+export interface AttachedDatabaseConfiguration extends ProxyResource {
+  /**
+   * Resource location.
+   */
+  location?: string;
+  /**
+   * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
+   * 'Deleting', 'Succeeded', 'Failed', 'Moving', 'Canceled'
+   */
+  provisioningState?: ResourceProvisioningState;
+  /**
+   * The name of the database which you would like to attach, use * if you want to follow all
+   * current and future databases.
+   */
+  databaseName: string;
+  /**
+   * The resource id of the kusto pool where the databases you would like to attach reside.
+   */
+  kustoPoolResourceId: string;
+  /**
+   * The list of databases from the clusterResourceId which are currently attached to the kusto
+   * pool.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly attachedDatabaseNames?: string[];
+  /**
+   * The default principals modification kind. Possible values include: 'Union', 'Replace', 'None'
+   */
+  defaultPrincipalsModificationKind: DefaultPrincipalsModificationKind;
+  /**
+   * Table level sharing specifications
+   */
+  tableLevelSharingProperties?: TableLevelSharingProperties;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
+}
+
+/**
+ * Contains the possible cases for Database.
+ */
+export type DatabaseUnion = Database | ReadWriteDatabase;
+
+/**
+ * Class representing a Kusto database.
+ */
+export interface Database {
+  /**
+   * Polymorphic Discriminator
+   */
+  kind: "Database";
+  /**
+   * Fully qualified resource ID for the resource. Ex -
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+   * "Microsoft.Storage/storageAccounts"
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Resource location.
+   */
+  location?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
+}
+
+/**
+ * A class that contains database statistics information.
+ */
+export interface DatabaseStatistics {
+  /**
+   * The database size - the total size of compressed data and index in bytes.
+   */
+  size?: number;
+}
+
+/**
+ * Class representing a read write database.
+ */
+export interface ReadWriteDatabase {
+  /**
+   * Polymorphic Discriminator
+   */
+  kind: "ReadWrite";
+  /**
+   * Fully qualified resource ID for the resource. Ex -
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+   * "Microsoft.Storage/storageAccounts"
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Resource location.
+   */
+  location?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
+  /**
+   * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
+   * 'Deleting', 'Succeeded', 'Failed', 'Moving', 'Canceled'
+   */
+  provisioningState?: ResourceProvisioningState;
+  /**
+   * The time the data should be kept before it stops being accessible to queries in TimeSpan.
+   */
+  softDeletePeriod?: string;
+  /**
+   * The time the data should be kept in cache for fast queries in TimeSpan.
+   */
+  hotCachePeriod?: string;
+  /**
+   * The statistics of the database.
+   */
+  statistics?: DatabaseStatistics;
+  /**
+   * Indicates whether the database is followed.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isFollowed?: boolean;
+}
+
+/**
+ * The result returned from a data connection validation request.
+ */
+export interface DataConnectionValidationResult {
+  /**
+   * A message which indicates a problem in data connection validation.
+   */
+  errorMessage?: string;
+}
+
+/**
+ * The list Kusto data connection validation result.
+ */
+export interface DataConnectionValidationListResult {
+  /**
+   * The list of Kusto data connection validation errors.
+   */
+  value?: DataConnectionValidationResult[];
+}
+
+/**
+ * Contains the possible cases for DataConnection.
+ */
+export type DataConnectionUnion = DataConnection | EventHubDataConnection | IotHubDataConnection | EventGridDataConnection;
+
+/**
+ * Class representing a data connection.
+ */
+export interface DataConnection {
+  /**
+   * Polymorphic Discriminator
+   */
+  kind: "DataConnection";
+  /**
+   * Fully qualified resource ID for the resource. Ex -
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+   * "Microsoft.Storage/storageAccounts"
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Resource location.
+   */
+  location?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
+}
+
+/**
+ * Class representing an data connection validation.
+ */
+export interface DataConnectionValidation {
+  /**
+   * The name of the data connection.
+   */
+  dataConnectionName?: string;
+  /**
+   * The data connection properties to validate.
+   */
+  properties?: DataConnectionUnion;
+}
+
+/**
+ * Class representing an event hub data connection.
+ */
+export interface EventHubDataConnection {
+  /**
+   * Polymorphic Discriminator
+   */
+  kind: "EventHub";
+  /**
+   * Fully qualified resource ID for the resource. Ex -
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+   * "Microsoft.Storage/storageAccounts"
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Resource location.
+   */
+  location?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
+  /**
+   * The resource ID of the event hub to be used to create a data connection.
+   */
+  eventHubResourceId: string;
+  /**
+   * The event hub consumer group.
+   */
+  consumerGroup: string;
+  /**
+   * The table where the data should be ingested. Optionally the table information can be added to
+   * each message.
+   */
+  tableName?: string;
+  /**
+   * The mapping rule to be used to ingest the data. Optionally the mapping information can be
+   * added to each message.
+   */
+  mappingRuleName?: string;
+  /**
+   * The data format of the message. Optionally the data format can be added to each message.
+   * Possible values include: 'MULTIJSON', 'JSON', 'CSV', 'TSV', 'SCSV', 'SOHSV', 'PSV', 'TXT',
+   * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC', 'APACHEAVRO', 'W3CLOGFILE'
+   */
+  dataFormat?: EventHubDataFormat;
+  /**
+   * System properties of the event hub
+   */
+  eventSystemProperties?: string[];
+  /**
+   * The event hub messages compression type. Possible values include: 'None', 'GZip'
+   */
+  compression?: Compression;
+  /**
+   * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
+   * 'Deleting', 'Succeeded', 'Failed', 'Moving', 'Canceled'
+   */
+  provisioningState?: ResourceProvisioningState;
+}
+
+/**
+ * Class representing an iot hub data connection.
+ */
+export interface IotHubDataConnection {
+  /**
+   * Polymorphic Discriminator
+   */
+  kind: "IotHub";
+  /**
+   * Fully qualified resource ID for the resource. Ex -
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+   * "Microsoft.Storage/storageAccounts"
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Resource location.
+   */
+  location?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
+  /**
+   * The resource ID of the Iot hub to be used to create a data connection.
+   */
+  iotHubResourceId: string;
+  /**
+   * The iot hub consumer group.
+   */
+  consumerGroup: string;
+  /**
+   * The table where the data should be ingested. Optionally the table information can be added to
+   * each message.
+   */
+  tableName?: string;
+  /**
+   * The mapping rule to be used to ingest the data. Optionally the mapping information can be
+   * added to each message.
+   */
+  mappingRuleName?: string;
+  /**
+   * The data format of the message. Optionally the data format can be added to each message.
+   * Possible values include: 'MULTIJSON', 'JSON', 'CSV', 'TSV', 'SCSV', 'SOHSV', 'PSV', 'TXT',
+   * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC', 'APACHEAVRO', 'W3CLOGFILE'
+   */
+  dataFormat?: IotHubDataFormat;
+  /**
+   * System properties of the iot hub
+   */
+  eventSystemProperties?: string[];
+  /**
+   * The name of the share access policy
+   */
+  sharedAccessPolicyName: string;
+  /**
+   * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
+   * 'Deleting', 'Succeeded', 'Failed', 'Moving', 'Canceled'
+   */
+  provisioningState?: ResourceProvisioningState;
+}
+
+/**
+ * Class representing an Event Grid data connection.
+ */
+export interface EventGridDataConnection {
+  /**
+   * Polymorphic Discriminator
+   */
+  kind: "EventGrid";
+  /**
+   * Fully qualified resource ID for the resource. Ex -
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+   * "Microsoft.Storage/storageAccounts"
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Resource location.
+   */
+  location?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
+  /**
+   * The resource ID of the storage account where the data resides.
+   */
+  storageAccountResourceId: string;
+  /**
+   * The resource ID where the event grid is configured to send events.
+   */
+  eventHubResourceId: string;
+  /**
+   * The event hub consumer group.
+   */
+  consumerGroup: string;
+  /**
+   * The table where the data should be ingested. Optionally the table information can be added to
+   * each message.
+   */
+  tableName?: string;
+  /**
+   * The mapping rule to be used to ingest the data. Optionally the mapping information can be
+   * added to each message.
+   */
+  mappingRuleName?: string;
+  /**
+   * The data format of the message. Optionally the data format can be added to each message.
+   * Possible values include: 'MULTIJSON', 'JSON', 'CSV', 'TSV', 'SCSV', 'SOHSV', 'PSV', 'TXT',
+   * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC', 'APACHEAVRO', 'W3CLOGFILE'
+   */
+  dataFormat?: EventGridDataFormat;
+  /**
+   * A Boolean value that, if set to true, indicates that ingestion should ignore the first record
+   * of every file
+   */
+  ignoreFirstRecord?: boolean;
+  /**
+   * The name of blob storage event type to process. Possible values include:
+   * 'Microsoft.Storage.BlobCreated', 'Microsoft.Storage.BlobRenamed'
+   */
+  blobStorageEventType?: BlobStorageEventType;
+  /**
+   * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
+   * 'Deleting', 'Succeeded', 'Failed', 'Moving', 'Canceled'
+   */
+  provisioningState?: ResourceProvisioningState;
+}
+
+/**
+ * A class representing follower database request.
+ */
+export interface FollowerDatabaseDefinition {
+  /**
+   * Resource id of the cluster that follows a database owned by this cluster.
+   */
+  kustoPoolResourceId: string;
+  /**
+   * Resource name of the attached database configuration in the follower cluster.
+   */
+  attachedDatabaseConfigurationName: string;
+  /**
+   * The database name owned by this cluster that was followed. * in case following all databases.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly databaseName?: string;
+}
+
+/**
+ * Class representing a cluster principal assignment.
+ */
+export interface ClusterPrincipalAssignment extends ProxyResource {
+  /**
+   * The principal ID assigned to the cluster principal. It can be a user email, application ID, or
+   * security group name.
+   */
+  principalId: string;
+  /**
+   * Cluster principal role. Possible values include: 'AllDatabasesAdmin', 'AllDatabasesViewer'
+   */
+  role: ClusterPrincipalRole;
+  /**
+   * The tenant id of the principal
+   */
+  tenantId?: string;
+  /**
+   * Principal type. Possible values include: 'App', 'Group', 'User'
+   */
+  principalType: PrincipalType;
+  /**
+   * The tenant name of the principal
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantName?: string;
+  /**
+   * The principal name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalName?: string;
+  /**
+   * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
+   * 'Deleting', 'Succeeded', 'Failed', 'Moving', 'Canceled'
+   */
+  provisioningState?: ResourceProvisioningState;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
+}
+
+/**
+ * A principal assignment check name availability request.
+ */
+export interface ClusterPrincipalAssignmentCheckNameRequest {
+  /**
+   * Principal Assignment resource name.
+   */
+  name: string;
+}
+
+/**
+ * Class representing a database principal assignment.
+ */
+export interface DatabasePrincipalAssignment extends ProxyResource {
+  /**
+   * The principal ID assigned to the database principal. It can be a user email, application ID,
+   * or security group name.
+   */
+  principalId: string;
+  /**
+   * Database principal role. Possible values include: 'Admin', 'Ingestor', 'Monitor', 'User',
+   * 'UnrestrictedViewer', 'Viewer'
+   */
+  role: DatabasePrincipalRole;
+  /**
+   * The tenant id of the principal
+   */
+  tenantId?: string;
+  /**
+   * Principal type. Possible values include: 'App', 'Group', 'User'
+   */
+  principalType: PrincipalType;
+  /**
+   * The tenant name of the principal
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantName?: string;
+  /**
+   * The principal name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalName?: string;
+  /**
+   * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
+   * 'Deleting', 'Succeeded', 'Failed', 'Moving', 'Canceled'
+   */
+  provisioningState?: ResourceProvisioningState;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
+}
+
+/**
+ * A principal assignment check name availability request.
+ */
+export interface DatabasePrincipalAssignmentCheckNameRequest {
+  /**
+   * Principal Assignment resource name.
+   */
+  name: string;
+}
+
+/**
+ * The object sent for a kusto pool check name availability request.
+ */
+export interface KustoPoolCheckNameRequest {
+  /**
+   * Kusto Pool name.
+   */
+  name: string;
+}
+
+/**
+ * The result returned from a database check name availability request.
+ */
+export interface DatabaseCheckNameRequest {
+  /**
+   * Resource name.
+   */
+  name: string;
+  /**
+   * The type of resource, for instance Microsoft.Synapse/workspaces/kustoPools/databases. Possible
+   * values include: 'Microsoft.Synapse/workspaces/kustoPools/databases',
+   * 'Microsoft.Synapse/workspaces/kustoPools/attachedDatabaseConfigurations'
+   */
+  type: Type;
+}
+
+/**
+ * A data connection check name availability request.
+ */
+export interface DataConnectionCheckNameRequest {
+  /**
+   * Data Connection name.
+   */
+  name: string;
+}
+
+/**
+ * The result returned from a check name availability request.
+ */
+export interface CheckNameResult {
+  /**
+   * Specifies a Boolean value that indicates if the name is available.
+   */
+  nameAvailable?: boolean;
+  /**
+   * The name that was checked.
+   */
+  name?: string;
+  /**
+   * Message indicating an unavailable name due to a conflict, or a description of the naming rules
+   * that are violated.
+   */
+  message?: string;
+  /**
+   * Message providing the reason why the given name is invalid. Possible values include:
+   * 'Invalid', 'AlreadyExists'
+   */
+  reason?: Reason;
+}
+
+/**
  * Optional Parameters.
  */
 export interface SqlPoolSensitivityLabelsListCurrentOptionalParams extends msRest.RequestOptionsBase {
@@ -4786,6 +5838,60 @@ export interface IntegrationRuntimeObjectMetadataListOptionalParams extends msRe
    * The parameters for getting a SSIS object metadata.
    */
   getMetadataRequest?: GetSsisObjectMetadataRequest;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface KustoPoolsCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The ETag of the Kusto Pool. Omit this value to always overwrite the current Kusto Pool.
+   * Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes.
+   */
+  ifMatch?: string;
+  /**
+   * Set to '*' to allow a new Kusto Pool to be created, but to prevent updating an existing Kusto
+   * Pool. Other values will result in a 412 Pre-condition Failed response.
+   */
+  ifNoneMatch?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface KustoPoolsUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The ETag of the Kusto Pool. Omit this value to always overwrite the current Kusto Pool.
+   * Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes.
+   */
+  ifMatch?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface KustoPoolsBeginCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The ETag of the Kusto Pool. Omit this value to always overwrite the current Kusto Pool.
+   * Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes.
+   */
+  ifMatch?: string;
+  /**
+   * Set to '*' to allow a new Kusto Pool to be created, but to prevent updating an existing Kusto
+   * Pool. Other values will result in a 412 Pre-condition Failed response.
+   */
+  ifNoneMatch?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface KustoPoolsBeginUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The ETag of the Kusto Pool. Omit this value to always overwrite the current Kusto Pool.
+   * Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes.
+   */
+  ifMatch?: string;
 }
 
 /**
@@ -5278,6 +6384,92 @@ export interface SparkConfigurationListResponse extends Array<SparkConfiguration
 }
 
 /**
+ * @interface
+ * An interface representing the OperationListResult.
+ * @summary Result of the request to list REST API operations. It contains a list of operations and
+ * a URL nextLink to get the next set of results.
+ * @extends Array<Operation>
+ */
+export interface OperationListResult extends Array<Operation> {
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * The list of the SKU descriptions
+ * @extends Array<SkuDescription>
+ */
+export interface SkuDescriptionList extends Array<SkuDescription> {
+}
+
+/**
+ * @interface
+ * List of available SKUs for a Kusto Pool.
+ * @extends Array<AzureResourceSku>
+ */
+export interface ListResourceSkusResult extends Array<AzureResourceSku> {
+}
+
+/**
+ * @interface
+ * The list of language extension objects.
+ * @extends Array<LanguageExtension>
+ */
+export interface LanguageExtensionsList extends Array<LanguageExtension> {
+}
+
+/**
+ * @interface
+ * The list Kusto database principals operation response.
+ * @extends Array<FollowerDatabaseDefinition>
+ */
+export interface FollowerDatabaseListResult extends Array<FollowerDatabaseDefinition> {
+}
+
+/**
+ * @interface
+ * The list attached database configurations operation response.
+ * @extends Array<AttachedDatabaseConfiguration>
+ */
+export interface AttachedDatabaseConfigurationListResult extends Array<AttachedDatabaseConfiguration> {
+}
+
+/**
+ * @interface
+ * The list Kusto databases operation response.
+ * @extends Array<DatabaseUnion>
+ */
+export interface DatabaseListResult extends Array<DatabaseUnion> {
+}
+
+/**
+ * @interface
+ * The list Kusto data connections operation response.
+ * @extends Array<DataConnectionUnion>
+ */
+export interface DataConnectionListResult extends Array<DataConnectionUnion> {
+}
+
+/**
+ * @interface
+ * The list Kusto cluster principal assignments operation response.
+ * @extends Array<ClusterPrincipalAssignment>
+ */
+export interface ClusterPrincipalAssignmentListResult extends Array<ClusterPrincipalAssignment> {
+}
+
+/**
+ * @interface
+ * The list Kusto database principal assignments operation response.
+ * @extends Array<DatabasePrincipalAssignment>
+ */
+export interface DatabasePrincipalAssignmentListResult extends Array<DatabasePrincipalAssignment> {
+}
+
+/**
  * Defines values for Statevalue.
  * Possible values include: 'Consistent', 'InConsistent', 'Updating'
  * @readonly
@@ -5300,6 +6492,14 @@ export type ProvisioningState = 'Provisioning' | 'Succeeded' | 'Deleting' | 'Fai
  * @enum {string}
  */
 export type OperationStatus = 'InProgress' | 'Succeeded' | 'Failed' | 'Canceled';
+
+/**
+ * Defines values for CreateMode.
+ * Possible values include: 'Default', 'PointInTimeRestore', 'Recovery', 'Restore'
+ * @readonly
+ * @enum {string}
+ */
+export type CreateMode = 'Default' | 'PointInTimeRestore' | 'Recovery' | 'Restore';
 
 /**
  * Defines values for StorageAccountType.
@@ -5653,6 +6853,156 @@ export type IntegrationRuntimeAuthKeyName = 'authKey1' | 'authKey2';
  * @enum {string}
  */
 export type SsisObjectMetadataType = 'Folder' | 'Project' | 'Package' | 'Environment';
+
+/**
+ * Defines values for SkuName.
+ * Possible values include: 'Compute optimized', 'Storage optimized'
+ * @readonly
+ * @enum {string}
+ */
+export type SkuName = 'Compute optimized' | 'Storage optimized';
+
+/**
+ * Defines values for SkuSize.
+ * Possible values include: 'Extra small', 'Small', 'Medium', 'Large'
+ * @readonly
+ * @enum {string}
+ */
+export type SkuSize = 'Extra small' | 'Small' | 'Medium' | 'Large';
+
+/**
+ * Defines values for State.
+ * Possible values include: 'Creating', 'Unavailable', 'Running', 'Deleting', 'Deleted',
+ * 'Stopping', 'Stopped', 'Starting', 'Updating'
+ * @readonly
+ * @enum {string}
+ */
+export type State = 'Creating' | 'Unavailable' | 'Running' | 'Deleting' | 'Deleted' | 'Stopping' | 'Stopped' | 'Starting' | 'Updating';
+
+/**
+ * Defines values for ResourceProvisioningState.
+ * Possible values include: 'Running', 'Creating', 'Deleting', 'Succeeded', 'Failed', 'Moving',
+ * 'Canceled'
+ * @readonly
+ * @enum {string}
+ */
+export type ResourceProvisioningState = 'Running' | 'Creating' | 'Deleting' | 'Succeeded' | 'Failed' | 'Moving' | 'Canceled';
+
+/**
+ * Defines values for LanguageExtensionName.
+ * Possible values include: 'PYTHON', 'R'
+ * @readonly
+ * @enum {string}
+ */
+export type LanguageExtensionName = 'PYTHON' | 'R';
+
+/**
+ * Defines values for CreatedByType.
+ * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
+ * @readonly
+ * @enum {string}
+ */
+export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
+
+/**
+ * Defines values for AzureScaleType.
+ * Possible values include: 'automatic', 'manual', 'none'
+ * @readonly
+ * @enum {string}
+ */
+export type AzureScaleType = 'automatic' | 'manual' | 'none';
+
+/**
+ * Defines values for DefaultPrincipalsModificationKind.
+ * Possible values include: 'Union', 'Replace', 'None'
+ * @readonly
+ * @enum {string}
+ */
+export type DefaultPrincipalsModificationKind = 'Union' | 'Replace' | 'None';
+
+/**
+ * Defines values for EventHubDataFormat.
+ * Possible values include: 'MULTIJSON', 'JSON', 'CSV', 'TSV', 'SCSV', 'SOHSV', 'PSV', 'TXT',
+ * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC', 'APACHEAVRO', 'W3CLOGFILE'
+ * @readonly
+ * @enum {string}
+ */
+export type EventHubDataFormat = 'MULTIJSON' | 'JSON' | 'CSV' | 'TSV' | 'SCSV' | 'SOHSV' | 'PSV' | 'TXT' | 'RAW' | 'SINGLEJSON' | 'AVRO' | 'TSVE' | 'PARQUET' | 'ORC' | 'APACHEAVRO' | 'W3CLOGFILE';
+
+/**
+ * Defines values for Compression.
+ * Possible values include: 'None', 'GZip'
+ * @readonly
+ * @enum {string}
+ */
+export type Compression = 'None' | 'GZip';
+
+/**
+ * Defines values for IotHubDataFormat.
+ * Possible values include: 'MULTIJSON', 'JSON', 'CSV', 'TSV', 'SCSV', 'SOHSV', 'PSV', 'TXT',
+ * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC', 'APACHEAVRO', 'W3CLOGFILE'
+ * @readonly
+ * @enum {string}
+ */
+export type IotHubDataFormat = 'MULTIJSON' | 'JSON' | 'CSV' | 'TSV' | 'SCSV' | 'SOHSV' | 'PSV' | 'TXT' | 'RAW' | 'SINGLEJSON' | 'AVRO' | 'TSVE' | 'PARQUET' | 'ORC' | 'APACHEAVRO' | 'W3CLOGFILE';
+
+/**
+ * Defines values for EventGridDataFormat.
+ * Possible values include: 'MULTIJSON', 'JSON', 'CSV', 'TSV', 'SCSV', 'SOHSV', 'PSV', 'TXT',
+ * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC', 'APACHEAVRO', 'W3CLOGFILE'
+ * @readonly
+ * @enum {string}
+ */
+export type EventGridDataFormat = 'MULTIJSON' | 'JSON' | 'CSV' | 'TSV' | 'SCSV' | 'SOHSV' | 'PSV' | 'TXT' | 'RAW' | 'SINGLEJSON' | 'AVRO' | 'TSVE' | 'PARQUET' | 'ORC' | 'APACHEAVRO' | 'W3CLOGFILE';
+
+/**
+ * Defines values for BlobStorageEventType.
+ * Possible values include: 'Microsoft.Storage.BlobCreated', 'Microsoft.Storage.BlobRenamed'
+ * @readonly
+ * @enum {string}
+ */
+export type BlobStorageEventType = 'Microsoft.Storage.BlobCreated' | 'Microsoft.Storage.BlobRenamed';
+
+/**
+ * Defines values for ClusterPrincipalRole.
+ * Possible values include: 'AllDatabasesAdmin', 'AllDatabasesViewer'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterPrincipalRole = 'AllDatabasesAdmin' | 'AllDatabasesViewer';
+
+/**
+ * Defines values for PrincipalType.
+ * Possible values include: 'App', 'Group', 'User'
+ * @readonly
+ * @enum {string}
+ */
+export type PrincipalType = 'App' | 'Group' | 'User';
+
+/**
+ * Defines values for DatabasePrincipalRole.
+ * Possible values include: 'Admin', 'Ingestor', 'Monitor', 'User', 'UnrestrictedViewer', 'Viewer'
+ * @readonly
+ * @enum {string}
+ */
+export type DatabasePrincipalRole = 'Admin' | 'Ingestor' | 'Monitor' | 'User' | 'UnrestrictedViewer' | 'Viewer';
+
+/**
+ * Defines values for Type.
+ * Possible values include: 'Microsoft.Synapse/workspaces/kustoPools/databases',
+ * 'Microsoft.Synapse/workspaces/kustoPools/attachedDatabaseConfigurations'
+ * @readonly
+ * @enum {string}
+ */
+export type Type = 'Microsoft.Synapse/workspaces/kustoPools/databases' | 'Microsoft.Synapse/workspaces/kustoPools/attachedDatabaseConfigurations';
+
+/**
+ * Defines values for Reason.
+ * Possible values include: 'Invalid', 'AlreadyExists'
+ * @readonly
+ * @enum {string}
+ */
+export type Reason = 'Invalid' | 'AlreadyExists';
 
 /**
  * Defines values for SensitivityLabelSource.
@@ -10148,5 +11498,865 @@ export type SparkConfigurationsListByWorkspaceNextResponse = SparkConfigurationL
        * The response body as parsed JSON or XML
        */
       parsedBody: SparkConfigurationListResponse;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type KustoOperationsListResponse = OperationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type KustoOperationsListNextResponse = OperationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationListResult;
+    };
+};
+
+/**
+ * Contains response data for the listSkus operation.
+ */
+export type KustoPoolListSkusResponse = SkuDescriptionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SkuDescriptionList;
+    };
+};
+
+/**
+ * Contains response data for the checkNameAvailability operation.
+ */
+export type KustoPoolsCheckNameAvailabilityResponse = CheckNameResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CheckNameResult;
+    };
+};
+
+/**
+ * Contains response data for the listByWorkspace operation.
+ */
+export type KustoPoolsListByWorkspaceResponse = KustoPoolListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: KustoPoolListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type KustoPoolsGetResponse = KustoPool & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: KustoPool;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type KustoPoolsCreateOrUpdateResponse = KustoPool & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: KustoPool;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type KustoPoolsUpdateResponse = KustoPool & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: KustoPool;
+    };
+};
+
+/**
+ * Contains response data for the listSkusByResource operation.
+ */
+export type KustoPoolsListSkusByResourceResponse = ListResourceSkusResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListResourceSkusResult;
+    };
+};
+
+/**
+ * Contains response data for the listLanguageExtensions operation.
+ */
+export type KustoPoolsListLanguageExtensionsResponse = LanguageExtensionsList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LanguageExtensionsList;
+    };
+};
+
+/**
+ * Contains response data for the listFollowerDatabases operation.
+ */
+export type KustoPoolsListFollowerDatabasesResponse = FollowerDatabaseListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FollowerDatabaseListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type KustoPoolsBeginCreateOrUpdateResponse = KustoPool & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: KustoPool;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type KustoPoolsBeginUpdateResponse = KustoPool & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: KustoPool;
+    };
+};
+
+/**
+ * Contains response data for the checkNameAvailability operation.
+ */
+export type KustoPoolChildResourceCheckNameAvailabilityResponse = CheckNameResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CheckNameResult;
+    };
+};
+
+/**
+ * Contains response data for the listByKustoPool operation.
+ */
+export type KustoPoolAttachedDatabaseConfigurationsListByKustoPoolResponse = AttachedDatabaseConfigurationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AttachedDatabaseConfigurationListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type KustoPoolAttachedDatabaseConfigurationsGetResponse = AttachedDatabaseConfiguration & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AttachedDatabaseConfiguration;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type KustoPoolAttachedDatabaseConfigurationsCreateOrUpdateResponse = AttachedDatabaseConfiguration & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AttachedDatabaseConfiguration;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type KustoPoolAttachedDatabaseConfigurationsBeginCreateOrUpdateResponse = AttachedDatabaseConfiguration & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AttachedDatabaseConfiguration;
+    };
+};
+
+/**
+ * Contains response data for the listByKustoPool operation.
+ */
+export type KustoPoolDatabasesListByKustoPoolResponse = DatabaseListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabaseListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type KustoPoolDatabasesGetResponse = DatabaseUnion & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabaseUnion;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type KustoPoolDatabasesCreateOrUpdateResponse = DatabaseUnion & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabaseUnion;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type KustoPoolDatabasesUpdateResponse = DatabaseUnion & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabaseUnion;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type KustoPoolDatabasesBeginCreateOrUpdateResponse = DatabaseUnion & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabaseUnion;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type KustoPoolDatabasesBeginUpdateResponse = DatabaseUnion & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabaseUnion;
+    };
+};
+
+/**
+ * Contains response data for the checkNameAvailability operation.
+ */
+export type KustoPoolDataConnectionsCheckNameAvailabilityResponse = CheckNameResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CheckNameResult;
+    };
+};
+
+/**
+ * Contains response data for the dataConnectionValidationMethod operation.
+ */
+export type KustoPoolDataConnectionsDataConnectionValidationMethodResponse = DataConnectionValidationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DataConnectionValidationListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByDatabase operation.
+ */
+export type KustoPoolDataConnectionsListByDatabaseResponse = DataConnectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DataConnectionListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type KustoPoolDataConnectionsGetResponse = DataConnectionUnion & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DataConnectionUnion;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type KustoPoolDataConnectionsCreateOrUpdateResponse = DataConnectionUnion & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DataConnectionUnion;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type KustoPoolDataConnectionsUpdateResponse = DataConnectionUnion & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DataConnectionUnion;
+    };
+};
+
+/**
+ * Contains response data for the beginDataConnectionValidationMethod operation.
+ */
+export type KustoPoolDataConnectionsBeginDataConnectionValidationMethodResponse = DataConnectionValidationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DataConnectionValidationListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type KustoPoolDataConnectionsBeginCreateOrUpdateResponse = DataConnectionUnion & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DataConnectionUnion;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type KustoPoolDataConnectionsBeginUpdateResponse = DataConnectionUnion & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DataConnectionUnion;
+    };
+};
+
+/**
+ * Contains response data for the checkNameAvailability operation.
+ */
+export type KustoPoolPrincipalAssignmentsCheckNameAvailabilityResponse = CheckNameResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CheckNameResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type KustoPoolPrincipalAssignmentsListResponse = ClusterPrincipalAssignmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClusterPrincipalAssignmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type KustoPoolPrincipalAssignmentsGetResponse = ClusterPrincipalAssignment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClusterPrincipalAssignment;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type KustoPoolPrincipalAssignmentsCreateOrUpdateResponse = ClusterPrincipalAssignment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClusterPrincipalAssignment;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type KustoPoolPrincipalAssignmentsBeginCreateOrUpdateResponse = ClusterPrincipalAssignment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClusterPrincipalAssignment;
+    };
+};
+
+/**
+ * Contains response data for the checkNameAvailability operation.
+ */
+export type KustoPoolDatabasePrincipalAssignmentsCheckNameAvailabilityResponse = CheckNameResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CheckNameResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type KustoPoolDatabasePrincipalAssignmentsListResponse = DatabasePrincipalAssignmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabasePrincipalAssignmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type KustoPoolDatabasePrincipalAssignmentsGetResponse = DatabasePrincipalAssignment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabasePrincipalAssignment;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type KustoPoolDatabasePrincipalAssignmentsCreateOrUpdateResponse = DatabasePrincipalAssignment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabasePrincipalAssignment;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type KustoPoolDatabasePrincipalAssignmentsBeginCreateOrUpdateResponse = DatabasePrincipalAssignment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatabasePrincipalAssignment;
     };
 };
