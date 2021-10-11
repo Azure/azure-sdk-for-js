@@ -63,6 +63,10 @@ export interface SASQueryParametersOptions {
    */
   identifier?: string;
   /**
+   * Optional. Encryption scope to use when sending requests authorized with this SAS URI.
+   */
+  encryptionScope?: string;
+  /**
    * Optional. Specifies which resources are accessible via the SAS (only for {@link BlobSASSignatureValues}).
    * @see https://docs.microsoft.com/rest/api/storageservices/create-service-sas#specifying-the-signed-resource-blob-service-only
    */
@@ -161,6 +165,11 @@ export class SASQueryParameters {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
    */
   public readonly identifier?: string;
+
+  /**
+   * Optional. Encryption scope to use when sending requests authorized with this SAS URI.
+   */
+  public readonly encryptionScope?: string;
 
   /**
    * Optional. Specifies which resources are accessible via the SAS (only for {@link BlobSASSignatureValues}).
@@ -290,6 +299,7 @@ export class SASQueryParameters {
    * @param userDelegationKey - Representing the user delegation key properties
    * @param preauthorizedAgentObjectId - Representing the authorized AAD Object ID (only for User Delegation SAS)
    * @param correlationId - Representing the correlation ID (only for User Delegation SAS)
+   * @param encryptionScope -
    */
   constructor(
     version: string,
@@ -310,7 +320,8 @@ export class SASQueryParameters {
     contentType?: string,
     userDelegationKey?: UserDelegationKey,
     preauthorizedAgentObjectId?: string,
-    correlationId?: string
+    correlationId?: string,
+    encryptionScope?: string
   );
 
   /**
@@ -341,7 +352,8 @@ export class SASQueryParameters {
     contentType?: string,
     userDelegationKey?: UserDelegationKey,
     preauthorizedAgentObjectId?: string,
-    correlationId?: string
+    correlationId?: string,
+    encryptionScope?: string
   ) {
     this.version = version;
     this.signature = signature;
@@ -356,6 +368,7 @@ export class SASQueryParameters {
       this.expiresOn = permissionsOrOptions.expiresOn;
       this.ipRangeInner = permissionsOrOptions.ipRange;
       this.identifier = permissionsOrOptions.identifier;
+      this.encryptionScope = permissionsOrOptions.encryptionScope;
       this.resource = permissionsOrOptions.resource;
       this.cacheControl = permissionsOrOptions.cacheControl;
       this.contentDisposition = permissionsOrOptions.contentDisposition;
@@ -382,6 +395,7 @@ export class SASQueryParameters {
       this.protocol = protocol;
       this.startsOn = startsOn;
       this.ipRangeInner = ipRange;
+      this.encryptionScope = encryptionScope;
       this.identifier = identifier;
       this.resource = resource;
       this.cacheControl = cacheControl;
@@ -418,6 +432,7 @@ export class SASQueryParameters {
       "se",
       "sip",
       "si",
+      "ses",
       "skoid", // Signed object ID
       "sktid", // Signed tenant ID
       "skt", // Signed key start time
@@ -474,6 +489,9 @@ export class SASQueryParameters {
           break;
         case "si":
           this.tryAppendQueryParameter(queries, param, this.identifier);
+          break;
+        case "ses":
+          this.tryAppendQueryParameter(queries, param, this.encryptionScope);
           break;
         case "skoid": // Signed object ID
           this.tryAppendQueryParameter(queries, param, this.signedOid);
