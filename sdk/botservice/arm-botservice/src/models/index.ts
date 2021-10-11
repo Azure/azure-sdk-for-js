@@ -69,6 +69,81 @@ export interface Resource extends BaseResource {
 }
 
 /**
+ * The Private Endpoint resource.
+ */
+export interface PrivateEndpoint {
+  /**
+   * The ARM identifier for Private Endpoint
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+}
+
+/**
+ * A collection of information about the state of the connection between service consumer and
+ * provider.
+ */
+export interface PrivateLinkServiceConnectionState {
+  /**
+   * Indicates whether the connection has been Approved/Rejected/Removed by the owner of the
+   * service. Possible values include: 'Pending', 'Approved', 'Rejected'
+   */
+  status?: PrivateEndpointServiceConnectionStatus;
+  /**
+   * The reason for approval/rejection of the connection.
+   */
+  description?: string;
+  /**
+   * A message indicating if changes on the service provider require any updates on the consumer.
+   */
+  actionsRequired?: string;
+}
+
+/**
+ * Common fields that are returned in the response for all BotService Private Link Resources
+ * @summary Private Link Resource Base
+ */
+export interface PrivateLinkResourceBase extends BaseResource {
+  /**
+   * Fully qualified resource ID for the resource. Ex -
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+   * "Microsoft.Storage/storageAccounts"
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * The Private Endpoint Connection resource.
+ */
+export interface PrivateEndpointConnection extends PrivateLinkResourceBase {
+  /**
+   * The resource of private end point.
+   */
+  privateEndpoint?: PrivateEndpoint;
+  /**
+   * A collection of information about the state of the connection between service consumer and
+   * provider.
+   */
+  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+  /**
+   * The provisioning state of the private endpoint connection resource. Possible values include:
+   * 'Succeeded', 'Creating', 'Deleting', 'Failed'
+   */
+  provisioningState?: PrivateEndpointConnectionProvisioningState;
+}
+
+/**
  * The parameters to provide for the Bot.
  */
 export interface BotProperties {
@@ -94,9 +169,22 @@ export interface BotProperties {
    */
   readonly endpointVersion?: string;
   /**
+   * Microsoft App Type for the bot. Possible values include: 'UserAssignedMSI', 'SingleTenant',
+   * 'MultiTenant'
+   */
+  msaAppType?: MsaAppType;
+  /**
    * Microsoft App Id for the bot
    */
   msaAppId: string;
+  /**
+   * Microsoft App Tenant Id for the bot
+   */
+  msaAppTenantId?: string;
+  /**
+   * Microsoft App Managed Identity Resource Id for the bot
+   */
+  msaAppMSIResourceId?: string;
   /**
    * Collection of channels for which the bot is configured
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -140,9 +228,27 @@ export interface BotProperties {
    */
   isIsolated?: boolean;
   /**
+   * Opt-out of local authentication and ensure only MSI and AAD can be used exclusively for
+   * authentication.
+   */
+  disableLocalAuth?: boolean;
+  /**
    * The channel schema transformation version for the bot
    */
   schemaTransformationVersion?: string;
+  /**
+   * List of Private Endpoint Connections configured for the bot
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /**
+   * The hint to browser (e.g. protocol handler) on how to open the bot for authoring
+   */
+  openWithHint?: string;
+  /**
+   * The hint (e.g. keyVault secret resourceId) on how to fetch the app secret
+   */
+  appPasswordHint?: string;
 }
 
 /**
@@ -666,6 +772,10 @@ export interface SlackChannelProperties {
    */
   verificationToken?: string;
   /**
+   * The Slack permission scopes.
+   */
+  scopes?: string;
+  /**
    * The Slack landing page Url
    */
   landingPageUrl?: string;
@@ -1123,9 +1233,66 @@ export interface HostSettingsResponse {
    */
   validateAuthority?: boolean;
   /**
-   * Same as ToBotFromChannelOpenIdMetadataUrl, used by SDK < v4.12
+   * Same as toBotFromChannelOpenIdMetadataUrl, used by SDK < v4.12
    */
   botOpenIdMetadata?: string;
+}
+
+/**
+ * The properties indicating the operation result of an operation on a service.
+ */
+export interface OperationResultsDescription {
+  /**
+   * The ID of the operation returned.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the operation result.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The status of the operation being performed. Possible values include: 'Canceled', 'Succeeded',
+   * 'Failed', 'Requested', 'Running'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: OperationResultStatus;
+  /**
+   * The time that the operation was started.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly startTime?: Date;
+}
+
+/**
+ * A private link resource
+ */
+export interface PrivateLinkResource extends PrivateLinkResourceBase {
+  /**
+   * The private link resource group id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly groupId?: string;
+  /**
+   * The private link resource required member names.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly requiredMembers?: string[];
+  /**
+   * The private link resource Private link DNS zone name.
+   */
+  requiredZoneNames?: string[];
+}
+
+/**
+ * A list of private link resources
+ */
+export interface PrivateLinkResourceListResult {
+  /**
+   * Array of private link resources
+   */
+  value?: PrivateLinkResource[];
 }
 
 /**
@@ -1246,6 +1413,14 @@ export interface ConnectionSettingResponseList extends Array<ConnectionSetting> 
 }
 
 /**
+ * @interface
+ * List of private endpoint connection associated with the specified storage account
+ * @extends Array<PrivateEndpointConnection>
+ */
+export interface PrivateEndpointConnectionListResult extends Array<PrivateEndpointConnection> {
+}
+
+/**
  * Defines values for SkuName.
  * Possible values include: 'F0', 'S1'
  * @readonly
@@ -1270,12 +1445,44 @@ export type SkuTier = 'Free' | 'Standard';
 export type Kind = 'sdk' | 'designer' | 'bot' | 'function' | 'azurebot';
 
 /**
+ * Defines values for MsaAppType.
+ * Possible values include: 'UserAssignedMSI', 'SingleTenant', 'MultiTenant'
+ * @readonly
+ * @enum {string}
+ */
+export type MsaAppType = 'UserAssignedMSI' | 'SingleTenant' | 'MultiTenant';
+
+/**
+ * Defines values for PrivateEndpointServiceConnectionStatus.
+ * Possible values include: 'Pending', 'Approved', 'Rejected'
+ * @readonly
+ * @enum {string}
+ */
+export type PrivateEndpointServiceConnectionStatus = 'Pending' | 'Approved' | 'Rejected';
+
+/**
+ * Defines values for PrivateEndpointConnectionProvisioningState.
+ * Possible values include: 'Succeeded', 'Creating', 'Deleting', 'Failed'
+ * @readonly
+ * @enum {string}
+ */
+export type PrivateEndpointConnectionProvisioningState = 'Succeeded' | 'Creating' | 'Deleting' | 'Failed';
+
+/**
  * Defines values for Key.
  * Possible values include: 'key1', 'key2'
  * @readonly
  * @enum {string}
  */
 export type Key = 'key1' | 'key2';
+
+/**
+ * Defines values for OperationResultStatus.
+ * Possible values include: 'Canceled', 'Succeeded', 'Failed', 'Requested', 'Running'
+ * @readonly
+ * @enum {string}
+ */
+export type OperationResultStatus = 'Canceled' | 'Succeeded' | 'Failed' | 'Requested' | 'Running';
 
 /**
  * Defines values for ChannelName.
@@ -1792,5 +1999,125 @@ export type HostSettingsGetResponse = HostSettingsResponse & {
        * The response body as parsed JSON or XML
        */
       parsedBody: HostSettingsResponse;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type OperationResultsGetResponse = OperationResultsDescription & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationResultsDescription;
+    };
+};
+
+/**
+ * Contains response data for the beginGet operation.
+ */
+export type OperationResultsBeginGetResponse = OperationResultsDescription & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationResultsDescription;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type PrivateEndpointConnectionsCreateResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the listByBotResource operation.
+ */
+export type PrivateLinkResourcesListByBotResourceResponse = PrivateLinkResourceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourceListResult;
     };
 };

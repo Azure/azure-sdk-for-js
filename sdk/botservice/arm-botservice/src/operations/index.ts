@@ -13,3 +13,6 @@ export * from "./directLine";
 export * from "./operations";
 export * from "./botConnection";
 export * from "./hostSettings";
+export * from "./operationResults";
+export * from "./privateEndpointConnections";
+export * from "./privateLinkResources";

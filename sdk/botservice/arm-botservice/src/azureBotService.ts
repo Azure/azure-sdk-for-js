@@ -23,6 +23,9 @@ class AzureBotService extends AzureBotServiceContext {
   operations: operations.Operations;
   botConnection: operations.BotConnection;
   hostSettings: operations.HostSettings;
+  operationResults: operations.OperationResults;
+  privateEndpointConnections: operations.PrivateEndpointConnections;
+  privateLinkResources: operations.PrivateLinkResources;
 
   /**
    * Initializes a new instance of the AzureBotService class.
@@ -43,6 +46,9 @@ class AzureBotService extends AzureBotServiceContext {
     this.operations = new operations.Operations(this);
     this.botConnection = new operations.BotConnection(this);
     this.hostSettings = new operations.HostSettings(this);
+    this.operationResults = new operations.OperationResults(this);
+    this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);
+    this.privateLinkResources = new operations.PrivateLinkResources(this);
   }
 }
 
