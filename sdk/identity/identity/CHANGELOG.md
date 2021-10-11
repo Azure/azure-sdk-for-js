@@ -100,6 +100,8 @@ Azure Service Fabric support hasn't been added on the initial version 2 of Ident
   - Identity v2 also removes the `postLogoutRedirectUri` from the options to the constructor for `InteractiveBrowserCredential`. This option wasn't being used. Instead of using this option, use MSAL directly. For more information, see [Authenticating with the @azure/msal-browser Public Client](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-the-azuremsal-browser-public-client).
   - In Identity v2, `VisualStudioCodeCredential` throws a `CredentialUnavailableError` unless the new [@azure/identity-vscode](https://www.npmjs.com/package/@azure/identity-vscode) plugin is used.
 
+- Standardizing the tracing span names to be `<className>.<operationName>` over `<className>-<operationName>`
+
 #### Breaking Changes from 2.0.0-beta.4
 
 - Removed the `allowMultiTenantAuthentication` option from all of the credentials. Multi-tenant authentication is now enabled by default. On Node.js, it can be disabled with the `AZURE_IDENTITY_DISABLE_MULTITENANTAUTH` environment variable.
