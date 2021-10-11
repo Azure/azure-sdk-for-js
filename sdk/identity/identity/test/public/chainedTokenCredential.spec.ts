@@ -18,7 +18,7 @@ function mockCredential(returnPromise: Promise<AccessToken | null>): TokenCreden
   };
 }
 
-describe("ChainedTokenCredential", function () {
+describe("ChainedTokenCredential", function() {
   it("returns the first token received from a credential", async () => {
     const chainedTokenCredential = new ChainedTokenCredential(
       mockCredential(Promise.reject(new CredentialUnavailableError("unavailable."))),

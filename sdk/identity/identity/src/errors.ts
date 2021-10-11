@@ -192,7 +192,7 @@ export interface AuthenticationRequiredErrorOptions {
   /**
    * The list of scopes for which the token will have access.
    */
-  scopes: string[],
+  scopes: string[];
   /**
    * The options passed to the getToken request.
    */
