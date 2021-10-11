@@ -63,6 +63,10 @@ function SetOutput($outputPath, $incomingPackageSpec) {
   $outputObject.ReadMePath = GetRelativePath $outputObject.ReadMePath
   $outputObject.ChangeLogPath = GetRelativePath $outputObject.ChangeLogPath
 
+  $finalJson = ConvertTo-Json -InputObject $outputObject -Depth 100
+
+  Write-Host $finalJson
+  
   Set-Content `
     -Path $outputPath `
     -Value (ConvertTo-Json -InputObject $outputObject -Depth 100)
