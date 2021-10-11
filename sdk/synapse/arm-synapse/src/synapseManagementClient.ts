@@ -81,6 +81,15 @@ class SynapseManagementClient extends SynapseManagementClientContext {
   integrationRuntimeStatus: operations.IntegrationRuntimeStatusOperations;
   sparkConfiguration: operations.SparkConfiguration;
   sparkConfigurations: operations.SparkConfigurations;
+  kustoOperations: operations.KustoOperations;
+  kustoPool: operations.KustoPoolOperations;
+  kustoPools: operations.KustoPools;
+  kustoPoolChildResource: operations.KustoPoolChildResource;
+  kustoPoolAttachedDatabaseConfigurations: operations.KustoPoolAttachedDatabaseConfigurations;
+  kustoPoolDatabases: operations.KustoPoolDatabases;
+  kustoPoolDataConnections: operations.KustoPoolDataConnections;
+  kustoPoolPrincipalAssignments: operations.KustoPoolPrincipalAssignments;
+  kustoPoolDatabasePrincipalAssignments: operations.KustoPoolDatabasePrincipalAssignments;
 
   /**
    * Initializes a new instance of the SynapseManagementClient class.
@@ -159,6 +168,15 @@ class SynapseManagementClient extends SynapseManagementClientContext {
     this.integrationRuntimeStatus = new operations.IntegrationRuntimeStatusOperations(this);
     this.sparkConfiguration = new operations.SparkConfiguration(this);
     this.sparkConfigurations = new operations.SparkConfigurations(this);
+    this.kustoOperations = new operations.KustoOperations(this);
+    this.kustoPool = new operations.KustoPoolOperations(this);
+    this.kustoPools = new operations.KustoPools(this);
+    this.kustoPoolChildResource = new operations.KustoPoolChildResource(this);
+    this.kustoPoolAttachedDatabaseConfigurations = new operations.KustoPoolAttachedDatabaseConfigurations(this);
+    this.kustoPoolDatabases = new operations.KustoPoolDatabases(this);
+    this.kustoPoolDataConnections = new operations.KustoPoolDataConnections(this);
+    this.kustoPoolPrincipalAssignments = new operations.KustoPoolPrincipalAssignments(this);
+    this.kustoPoolDatabasePrincipalAssignments = new operations.KustoPoolDatabasePrincipalAssignments(this);
   }
 }
 
