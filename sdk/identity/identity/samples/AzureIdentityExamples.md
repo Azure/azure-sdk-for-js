@@ -15,7 +15,6 @@
   - [Authenticating with a pre-fetched access token](#authenticating-with-a-pre-fetched-access-token).
   - [Authenticating with MSAL directly](#authenticating-with-msal-directly).
     - [Authenticating with the @azure/msal-node Confidential Client](#authenticating-with-the-@azure/msal-node-confidential-client).
-    - [Authenticating with the @azure/msal-node On Behalf Flow](#authenticating-with-the-@azure/msal-node-on-behalf-of-flow).
     - [Authenticating with the @azure/msal-browser Public Client](#authenticating-with-the-@azure/msal-browser-public-client).
   - [Authenticating with Key Vault Certificates](#authenticating-with-key-vault-certificates)
   - [Rolling Certificates](#rolling-certificates)
@@ -664,64 +663,6 @@ async function main() {
     "https://myvault.vault.azure.net/",
     new ConfidentialClientCredential(confidentialClient)
   );
-}
-```
-
-#### Authenticating with the @azure/msal-node On Behalf Of Flow
-
-Currently, the `@azure/identity` library doesn't provide a credential type for clients which need to authenticate via the [On Behalf of Flow](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/master/lib/msal-common/docs/request.md#on-behalf-of-flow). While we may add support for this feature in the future, users currently requiring this will have to implement their own `TokenCredential` class.
-
-In this example, the `OnBehalfOfCredential` accepts a client ID, client secret, and a user's access token. It then creates an instance of `ConfidentialClientApplication` from MSAL to obtain an OBO token that can authenticate client requests.
-
-**Prerequisites**
-
-Install the [@azure/msal-node][msal_node_npm] and [@azure/core-auth][core_auth].
-
-> For more information about MSAL for Node.js, see [the README of the `@azure/msal-node` package][msal_node_readme].
-> For more information about working with the Confidential Client of MSAL, see [Initialization of MSAL (Node.js)](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/master/lib/msal-node/docs/initialize-confidential-client-application.md).
-> For more information about working with the On Behalf Flow with MSAL, see [On Behalf of Flow](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/master/lib/msal-common/docs/request.md#on-behalf-of-flow).
-
-```ts
-import { TokenCredential, AccessToken } from "@azure/core-auth";
-import * as msalNode from "@azure/msal-node";
-
-class OnBehalfOfCredential implements TokenCredential {
-  private confidentialApp: msalNode.ConfidentialClientApplication;
-
-  constructor(
-    private clientId: string,
-    private clientSecret: string,
-    private userAccessToken: string
-  ) {
-    this.confidentialApp = new msalNode.ConfidentialClientApplication({
-      auth: {
-        clientId,
-        clientSecret
-      }
-    });
-  }
-  async getToken(scopes: string | string[]): Promise<AccessToken> {
-    const result = await this.confidentialApp.acquireTokenOnBehalfOf({
-      scopes: Array.isArray(scopes) ? scopes : [scopes],
-      oboAssertion: this.userAccessToken
-    });
-    return {
-      token: result.accessToken,
-      expiresOnTimestamp: result.expiresOn.getTime()
-    };
-  }
-}
-```
-
-The following example shows an how the `OnBehalfOfCredential` could be used to authenticate a `SecretClient`:
-
-```ts
-import { SecretClient } from "@azure/keyvault-secrets";
-
-async function main() {
-  const oboCredential = new OnBehalfOfCredential(clientId, clientSecret, userAccessToken);
-
-  const client = new SecretClient("https://myvault.vault.azure.net/", oboCredential);
 }
 ```
 
