@@ -29,7 +29,7 @@ export interface MultiCategoryClassifySuccessResult extends TextAnalyticsSuccess
 }
 
 /**
- * An error result from the custom classify document multi categories operation on a multi document.
+ * An error result from the custom classify document multi category operation on a multi document.
  */
 export type MultiCategoryClassifyErrorResult = TextAnalyticsErrorResult;
 
