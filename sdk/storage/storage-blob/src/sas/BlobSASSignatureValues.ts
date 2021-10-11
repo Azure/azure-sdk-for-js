@@ -1020,6 +1020,14 @@ function SASSignatureValuesSanityCheckAndAutofill(
 
   if (
     blobSASSignatureValues.permissions &&
+    blobSASSignatureValues.permissions.permanentDelete &&
+    version < "2019-10-10"
+  ) {
+    throw RangeError("'version' must be >= '2019-10-10' when providing 'y' permission.");
+  }
+
+  if (
+    blobSASSignatureValues.permissions &&
     blobSASSignatureValues.permissions.tag &&
     version < "2019-12-12"
   ) {
