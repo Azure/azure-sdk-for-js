@@ -303,7 +303,7 @@ API documentation for this library can be found on our [documentation site](http
 
 Client and management libraries listed on the [Azure SDK releases page](https://azure.github.io/azure-sdk/releases/latest/js.html) that support Azure AD authentication accept credentials from this library. Learn more about using these libraries in their documentation, which is linked from the releases page.
 
-### B2C support
+### Azure AD B2C support
 
 This library also allows other JavaScript and TypeScript apps to authenticate with AAD work and school accounts, Microsoft personal accounts (MSA), and other Identity providers through the [AAD B2C](https://docs.microsoft.com/azure/active-directory-b2c/overview) service.
 
