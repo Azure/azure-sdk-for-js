@@ -22,7 +22,7 @@ stages:
           Location: 'eastus2'
         UsGov:
           SubscriptionConfiguration: $(sub-config-gov-test-resources)
-          Location: 'usgovarizona'
+          Location: 'usgovvirginia'
         China:
           SubscriptionConfiguration: $(sub-config-cn-test-resources)
           Location: 'chinanorth'
