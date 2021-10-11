@@ -68,6 +68,11 @@ export interface AccountSASSignatureValues {
    * to {@link AccountSASResourceTypes} to construct this value.
    */
   resourceTypes: string;
+
+  /**
+   * Optional. Encryption scope to use when sending requests authorized with this SAS URI.
+   */
+  encryptionScope?: string;
 }
 
 /**
@@ -107,6 +112,14 @@ export function generateAccountSASQueryParameters(
 
   if (
     accountSASSignatureValues.permissions &&
+    accountSASSignatureValues.permissions.permanentDelete &&
+    version < "2019-10-10"
+  ) {
+    throw RangeError("'version' must be >= '2019-10-10' when provided 'y' permission.");
+  }
+
+  if (
+    accountSASSignatureValues.permissions &&
     accountSASSignatureValues.permissions.tag &&
     version < "2019-12-12"
   ) {
@@ -121,6 +134,10 @@ export function generateAccountSASQueryParameters(
     throw RangeError("'version' must be >= '2019-12-12' when provided 'f' permission.");
   }
 
+  if (accountSASSignatureValues.encryptionScope && version < "2020-12-06") {
+    throw RangeError("'version' must be >= '2020-12-06' when provided 'encryptionScope' in SAS.");
+  }
+
   const parsedPermissions = AccountSASPermissions.parse(
     accountSASSignatureValues.permissions.toString()
   );
@@ -129,20 +146,40 @@ export function generateAccountSASQueryParameters(
     accountSASSignatureValues.resourceTypes
   ).toString();
 
-  const stringToSign = [
-    sharedKeyCredential.accountName,
-    parsedPermissions,
-    parsedServices,
-    parsedResourceTypes,
-    accountSASSignatureValues.startsOn
-      ? truncatedISO8061Date(accountSASSignatureValues.startsOn, false)
-      : "",
-    truncatedISO8061Date(accountSASSignatureValues.expiresOn, false),
-    accountSASSignatureValues.ipRange ? ipRangeToString(accountSASSignatureValues.ipRange) : "",
-    accountSASSignatureValues.protocol ? accountSASSignatureValues.protocol : "",
-    version,
-    "" // Account SAS requires an additional newline character
-  ].join("\n");
+  let stringToSign: string;
+
+  if (version >= "2020-12-06") {
+    stringToSign = [
+      sharedKeyCredential.accountName,
+      parsedPermissions,
+      parsedServices,
+      parsedResourceTypes,
+      accountSASSignatureValues.startsOn
+        ? truncatedISO8061Date(accountSASSignatureValues.startsOn, false)
+        : "",
+      truncatedISO8061Date(accountSASSignatureValues.expiresOn, false),
+      accountSASSignatureValues.ipRange ? ipRangeToString(accountSASSignatureValues.ipRange) : "",
+      accountSASSignatureValues.protocol ? accountSASSignatureValues.protocol : "",
+      version,
+      accountSASSignatureValues.encryptionScope ? accountSASSignatureValues.encryptionScope : "",
+      "" // Account SAS requires an additional newline character
+    ].join("\n");
+  } else {
+    stringToSign = [
+      sharedKeyCredential.accountName,
+      parsedPermissions,
+      parsedServices,
+      parsedResourceTypes,
+      accountSASSignatureValues.startsOn
+        ? truncatedISO8061Date(accountSASSignatureValues.startsOn, false)
+        : "",
+      truncatedISO8061Date(accountSASSignatureValues.expiresOn, false),
+      accountSASSignatureValues.ipRange ? ipRangeToString(accountSASSignatureValues.ipRange) : "",
+      accountSASSignatureValues.protocol ? accountSASSignatureValues.protocol : "",
+      version,
+      "" // Account SAS requires an additional newline character
+    ].join("\n");
+  }
 
   const signature: string = sharedKeyCredential.computeHMACSHA256(stringToSign);
 
@@ -155,6 +192,17 @@ export function generateAccountSASQueryParameters(
     accountSASSignatureValues.protocol,
     accountSASSignatureValues.startsOn,
     accountSASSignatureValues.expiresOn,
-    accountSASSignatureValues.ipRange
+    accountSASSignatureValues.ipRange,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    accountSASSignatureValues.encryptionScope
   );
 }
