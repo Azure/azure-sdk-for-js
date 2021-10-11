@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { ApplicationCredential } from "../../../src";
+import { AzureApplicationCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
 import { getError } from "../../authTestUtils";
 import { Context } from "mocha";
 
-describe("ApplicationCredential", function() {
+describe("AzureApplicationCredential", function() {
   let cleanup: MsalTestCleanup;
   const environmentVariableNames = ["AZURE_TENANT_ID", "AZURE_CLIENT_ID", "AZURE_CLIENT_SECRET"];
   const cachedValues: Record<string, string | undefined> = {};
@@ -36,7 +36,7 @@ describe("ApplicationCredential", function() {
     process.env.AZURE_CLIENT_ID = cachedValues.AZURE_CLIENT_ID;
     process.env.AZURE_CLIENT_SECRET = cachedValues.AZURE_CLIENT_SECRET;
 
-    const credential = new ApplicationCredential();
+    const credential = new AzureApplicationCredential();
 
     const token = await credential.getToken(scope);
     assert.ok(token?.token);
@@ -53,7 +53,7 @@ describe("ApplicationCredential", function() {
         process.env.AZURE_CLIENT_ID = cachedValues.AZURE_CLIENT_ID;
         process.env.AZURE_CLIENT_SECRET = cachedValues.AZURE_CLIENT_SECRET;
 
-        const credential = new ApplicationCredential();
+        const credential = new AzureApplicationCredential();
 
         await credential.getToken(scope, {
           tracingOptions
@@ -79,19 +79,19 @@ describe("ApplicationCredential", function() {
   );
 
   it("throws an AggregateAuthenticationError when getToken is called and no credential was configured", async () => {
-    const credential = new ApplicationCredential();
+    const credential = new AzureApplicationCredential();
     const error = await getError(credential.getToken(scope));
     assert.equal(error.name, "AggregateAuthenticationError");
     assert.ok(error.message.indexOf(`CredentialUnavailableError: EnvironmentCredential`) > -1);
     assert.ok(error.message.indexOf(`CredentialUnavailableError: ManagedIdentityCredential`) > -1);
   });
 
-  it("throws an AuthenticationError when getToken is called and ApplicationCredential authentication failed", async () => {
+  it("throws an AuthenticationError when getToken is called and AzureApplicationCredential authentication failed", async () => {
     process.env.AZURE_TENANT_ID = "tenant";
     process.env.AZURE_CLIENT_ID = "client";
     process.env.AZURE_CLIENT_SECRET = "secret";
 
-    const credential = new ApplicationCredential();
+    const credential = new AzureApplicationCredential();
 
     const error = await getError(credential.getToken(scope));
     assert.equal(error.name, "AuthenticationError");

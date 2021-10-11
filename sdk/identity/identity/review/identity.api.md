@@ -22,16 +22,6 @@ export class AggregateAuthenticationError extends Error {
 export const AggregateAuthenticationErrorName = "AggregateAuthenticationError";
 
 // @public
-export class ApplicationCredential extends ChainedTokenCredential {
-    constructor(options?: ApplicationCredentialOptions);
-}
-
-// @public
-export interface ApplicationCredentialOptions extends TokenCredentialOptions, CredentialPersistenceOptions {
-    managedIdentityClientId?: string;
-}
-
-// @public
 export class AuthenticationError extends Error {
     constructor(statusCode: number, errorBody: object | string | undefined | null);
     readonly errorResponse: ErrorResponse;
@@ -64,6 +54,16 @@ export class AuthorizationCodeCredential implements TokenCredential {
     constructor(tenantId: string | "common", clientId: string, clientSecret: string, authorizationCode: string, redirectUri: string, options?: TokenCredentialOptions);
     constructor(tenantId: string | "common", clientId: string, authorizationCode: string, redirectUri: string, options?: TokenCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
+}
+
+// @public
+export class AzureApplicationCredential extends ChainedTokenCredential {
+    constructor(options?: AzureApplicationCredentialOptions);
+}
+
+// @public
+export interface AzureApplicationCredentialOptions extends TokenCredentialOptions, CredentialPersistenceOptions {
+    managedIdentityClientId?: string;
 }
 
 // @public

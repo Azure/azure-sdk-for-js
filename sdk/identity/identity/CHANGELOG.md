@@ -40,7 +40,7 @@ async function main() {
 Identity v2 includes three new credential types:
 
 - `AzurePowerShellCredential`, which re-uses any account previously authenticated with the `Az.Account` PowerShell module.
-- `ApplicationCredential`, which is a simplified `DefaultAzureCredential` that only includes `EnvironmentCredential` and `ManagedIdentityCredential`.
+- `AzureApplicationCredential`, which is a simplified `DefaultAzureCredential` that only includes `EnvironmentCredential` and `ManagedIdentityCredential`.
 - `OnBehalfOfCredential`, which enables the [On-Behalf-Of authentication flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow).
 
 #### New features in all credentials
