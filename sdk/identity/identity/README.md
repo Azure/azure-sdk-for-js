@@ -90,7 +90,7 @@ If interactive authentication cannot be supported in the session, then the `-Use
 
 Developers using Visual Studio Code can use the [Azure Account extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.azure-account) to authenticate via the IDE. Apps using `DefaultAzureCredential` or `VisualStudioCodeCredential` can then use this account to authenticate calls in their app when running locally.
 
-To authenticate in Visual Studio Code, first ensure the [Azure Account Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.azure-account) is installed. Once the extension is installed, press F1 to open the command palette and run the `Azure: Sign In` command.
+To authenticate in Visual Studio Code, first ensure the Azure Account extension is installed. Once the extension is installed, open the **Command Palette** and run the **Azure: Sign In** command.
 
 In addition to this, use the [`@azure/identity-vscode`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-vscode) plugin package. This package provides the dependencies of `VisualStudioCodeCredential` and enables it. See [Plugins](##plugins).
 
