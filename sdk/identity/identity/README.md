@@ -86,7 +86,7 @@ To authenticate with [Azure PowerShell][azure_powershell] users can run the `Con
 
 If interactive authentication cannot be supported in the session, then the `-UseDeviceAuthentication` argument will force the cmdlet to use a device code authentication flow instead, similar to the corresponding option in the Azure CLI credential.
 
-#### Authenticating via Visual Studio Code
+#### Authenticate via Visual Studio Code
 
 Developers using Visual Studio Code can use the [Azure Account Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.azure-account), to authenticate via the IDE. Applications using the `DefaultAzureCredential` or the `VisualStudioCodeCredential` can then use this account to authenticate calls in their application when running locally.
 
