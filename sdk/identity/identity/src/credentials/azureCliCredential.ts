@@ -4,7 +4,7 @@
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 
 import { createSpan } from "../util/tracing";
-import { CredentialUnavailableError } from "../client/errors";
+import { CredentialUnavailableError } from "../errors";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import child_process from "child_process";

@@ -40,7 +40,7 @@ async function main() {
 Identity v2 includes three new credential types:
 
 - `AzurePowerShellCredential`, which re-uses any account previously authenticated with the `Az.Account` PowerShell module.
-- `ApplicationCredential`, which is a simplified `DefaultAzureCredential` that only includes `EnvironmentCredential` and `ManagedIdentityCredential`.
+- `AzureApplicationCredential`, which is a simplified `DefaultAzureCredential` that only includes `EnvironmentCredential` and `ManagedIdentityCredential`.
 - `OnBehalfOfCredential`, which enables the [On-Behalf-Of authentication flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow).
 
 #### New features in all credentials
@@ -104,6 +104,14 @@ Azure Service Fabric support hasn't been added on the initial version 2 of Ident
 
 - Removed the `allowMultiTenantAuthentication` option from all of the credentials. Multi-tenant authentication is now enabled by default. On Node.js, it can be disabled with the `AZURE_IDENTITY_DISABLE_MULTITENANTAUTH` environment variable.
 - Removed support for specific Azure regions on `ClientSecretCredential` and `ClientCertificateCredential. This feature will be added back on the next beta.
+
+#### Breaking Changes from 2.0.0-beta.6
+
+- Renamed the `ApplicationCredential` to `AzureApplicationCredential`.
+- Removed the `CredentialPersistenceOptions` from `DefaultAzureCredential` and `EnvironmentCredential`.
+- Merged the configuration and the options bag on the `OnBehalfOfCredential` into a single options bag.
+- `AuthenticationRequiredError` (introduced in 2.0.0-beta.1) now has its parameters into a single options bag.
+- `AuthenticationRequiredError` (introduced in 2.0.0-beta.1) now has its parameters in a single options bag, `AuthenticationRequiredErrorOptions`.
 
 ### Bugs Fixed
 

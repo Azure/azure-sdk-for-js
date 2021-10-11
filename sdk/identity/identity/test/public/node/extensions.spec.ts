@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert, AssertionError } from "chai";
-import { DefaultAzureCredential } from "../../../src";
+import { DeviceCodeCredential } from "../../../src";
 import { VisualStudioCodeCredential } from "../../../src";
 
 /**
@@ -25,7 +25,7 @@ async function assertRejects(p: Promise<unknown>, regexp: RegExp): Promise<void>
 describe("Plugin API", function(this: Mocha.Suite) {
   it("Setting persistence options throws if not initialized", function() {
     assert.throws(() => {
-      new DefaultAzureCredential({
+      new DeviceCodeCredential({
         tokenCachePersistenceOptions: {
           enabled: true
         }
