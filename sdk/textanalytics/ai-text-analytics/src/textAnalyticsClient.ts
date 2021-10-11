@@ -358,7 +358,7 @@ export interface RecognizeCustomEntitiesAction extends CustomTextAnalyticsAction
 /**
  * Options for an custom classify document single category action.
  */
-export interface ClassifyDocumentSingleCategoryAction extends CustomTextAnalyticsAction {
+export interface SingleCategoryClassifyAction extends CustomTextAnalyticsAction {
   /**
    * If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics
    * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
@@ -370,7 +370,7 @@ export interface ClassifyDocumentSingleCategoryAction extends CustomTextAnalytic
 /**
  * Options for a custom classify document multi categories action.
  */
-export interface ClassifyDocumentMultiCategoriesAction extends CustomTextAnalyticsAction {
+export interface MultiCategoryClassifyAction extends CustomTextAnalyticsAction {
   /**
    * If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics
    * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
@@ -412,13 +412,13 @@ export interface TextAnalyticsActions {
    */
   recognizeCustomEntitiesActions?: RecognizeCustomEntitiesAction[];
   /**
-   * A collection of descriptions of custom single classification actions. However, currently, the service can accept up to one action only for `customClassifyDocumentSingleCategory`.
+   * A collection of descriptions of custom single classification actions. However, currently, the service can accept up to one action only for `singleCategoryClassifyActions`.
    */
-  classifyDocumentSingleCategoryActions?: ClassifyDocumentSingleCategoryAction[];
+  singleCategoryClassifyActions?: SingleCategoryClassifyAction[];
   /**
-   * A collection of descriptions of custom multi classification actions. However, currently, the service can accept up to one action only for `customClassifyDocumentMultiCategories`.
+   * A collection of descriptions of custom multi classification actions. However, currently, the service can accept up to one action only for `multiCategoryClassifyActions`.
    */
-  classifyDocumentMultiCategoriesActions?: ClassifyDocumentMultiCategoriesAction[];
+  multiCategoryClassifyActions?: MultiCategoryClassifyAction[];
 }
 /**
  * Client class for interacting with Azure Text Analytics.
@@ -1207,12 +1207,8 @@ function compileAnalyzeInput(actions: TextAnalyticsActions): GeneratedActions {
     customEntityRecognitionTasks: actions.recognizeCustomEntitiesActions?.map(
       compose(setStrEncodingParam, addParamsToTask)
     ),
-    customSingleClassificationTasks: actions.classifyDocumentSingleCategoryActions?.map(
-      addParamsToTask
-    ),
-    customMultiClassificationTasks: actions.classifyDocumentMultiCategoriesActions?.map(
-      addParamsToTask
-    )
+    customSingleClassificationTasks: actions.singleCategoryClassifyActions?.map(addParamsToTask),
+    customMultiClassificationTasks: actions.multiCategoryClassifyActions?.map(addParamsToTask)
   };
 }
 

@@ -992,7 +992,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           const poller = await client.beginAnalyzeActions(
             docs,
             {
-              classifyDocumentSingleCategoryActions: [
+              singleCategoryClassifyActions: [
                 {
                   projectName: "659c1851-be0b-4142-b12a-087da9785926",
                   deploymentName: "659c1851-be0b-4142-b12a-087da9785926"
@@ -1005,7 +1005,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           );
           const results = await poller.pollUntilDone();
           for await (const page of results) {
-            const classificationResult = page.classifyDocumentSingleCategoryResults;
+            const classificationResult = page.singleCategoryClassifyResults;
             if (classificationResult.length === 1) {
               const action = classificationResult[0];
               if (!action.error) {
@@ -1043,7 +1043,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           const poller = await client.beginAnalyzeActions(
             docs,
             {
-              classifyDocumentMultiCategoriesActions: [
+              multiCategoryClassifyActions: [
                 {
                   projectName: "7cdace98-537b-494a-b69a-c19754718025",
                   deploymentName: "7cdace98-537b-494a-b69a-c19754718025"
@@ -1056,7 +1056,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           );
           const results = await poller.pollUntilDone();
           for await (const page of results) {
-            const classificationResult = page.classifyDocumentMultiCategoriesResults;
+            const classificationResult = page.multiCategoryClassifyResults;
             if (classificationResult.length === 1) {
               const action = classificationResult[0];
               if (!action.error) {

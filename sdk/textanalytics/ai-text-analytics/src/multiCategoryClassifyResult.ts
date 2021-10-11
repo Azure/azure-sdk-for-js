@@ -8,37 +8,37 @@ import {
   makeTextAnalyticsErrorResult
 } from "./textAnalyticsResult";
 import { TextAnalyticsError, MultiClassificationDocument } from "./generated/models";
-import { DocumentClassification } from "./classifyDocumentSingleCategoryResult";
+import { ClassificationCategory } from "./singleCategoryClassifyResult";
 
 /**
  * The result of the custom classify document multi categories operation on a multi document.
  */
-export type ClassifyDocumentMultiCategoriesResult =
-  | ClassifyDocumentMultiCategoriesSuccessResult
-  | ClassifyDocumentMultiCategoriesErrorResult;
+export type MultiCategoryClassifyResult =
+  | MultiCategoryClassifySuccessResult
+  | MultiCategoryClassifyErrorResult;
 
 /**
  * The result of the custom classify document multi categories operation on a multi document,
  * containing the result of the classification.
  */
-export interface ClassifyDocumentMultiCategoriesSuccessResult extends TextAnalyticsSuccessResult {
+export interface MultiCategoryClassifySuccessResult extends TextAnalyticsSuccessResult {
   /**
    * The collection of classifications in the input document.
    */
-  classifications: DocumentClassification[];
+  classifications: ClassificationCategory[];
 }
 
 /**
- * An error result from the custom classify document multi categories operation on a multi document.
+ * An error result from the custom classify document multi category operation on a multi document.
  */
-export type ClassifyDocumentMultiCategoriesErrorResult = TextAnalyticsErrorResult;
+export type MultiCategoryClassifyErrorResult = TextAnalyticsErrorResult;
 
 /**
  * @internal
  */
-export function makeClassifyDocumentMultiCategoriesResult(
+export function makeMultiCategoryClassifyResult(
   result: MultiClassificationDocument
-): ClassifyDocumentMultiCategoriesSuccessResult {
+): MultiCategoryClassifySuccessResult {
   const { id, warnings, statistics, classifications } = result;
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
@@ -49,9 +49,9 @@ export function makeClassifyDocumentMultiCategoriesResult(
 /**
  * @internal
  */
-export function makeClassifyDocumentMultiCategoriesErrorResult(
+export function makeMultiCategoryClassifyErrorResult(
   id: string,
   error: TextAnalyticsError
-): ClassifyDocumentMultiCategoriesErrorResult {
+): MultiCategoryClassifyErrorResult {
   return makeTextAnalyticsErrorResult(id, error);
 }

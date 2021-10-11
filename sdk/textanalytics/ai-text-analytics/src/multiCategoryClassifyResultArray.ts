@@ -4,21 +4,20 @@
 import {
   TextDocumentBatchStatistics,
   TextDocumentInput,
-  CustomSingleClassificationResult
+  CustomMultiClassificationResult
 } from "./generated/models";
 import {
-  ClassifyDocumentSingleCategoryResult,
-  makeClassifyDocumentSingleCategoryResult,
-  makeClassifyDocumentSingleCategoryErrorResult
-} from "./classifyDocumentSingleCategoryResult";
+  MultiCategoryClassifyResult,
+  makeMultiCategoryClassifyResult,
+  makeMultiCategoryClassifyErrorResult
+} from "./multiCategoryClassifyResult";
 import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndCustomProjectInfo } from "./textAnalyticsResult";
 
 /**
- * Array of `CustomClassifyDocumentSingleCategoryResultArray` objects corresponding to a batch of input documents, and
+ * Array of `MultiCategoryClassifyResult` objects corresponding to a batch of input documents, and
  * annotated with information about the batch operation.
  */
-export interface ClassifyDocumentSingleCategoryResultArray
-  extends Array<ClassifyDocumentSingleCategoryResult> {
+export interface MultiCategoryClassifyResultArray extends Array<MultiCategoryClassifyResult> {
   /**
    * Statistics about the input document batch and how it was processed
    * by the service. This property will have a value when includeStatistics is set to true
@@ -40,14 +39,14 @@ export interface ClassifyDocumentSingleCategoryResultArray
 /**
  * @internal
  */
-export function makeClassifyDocumentSingleCategoryResultArray(
+export function makeMultiCategoryClassifyResultArray(
   input: TextDocumentInput[],
-  response: CustomSingleClassificationResult
-): ClassifyDocumentSingleCategoryResultArray {
+  response: CustomMultiClassificationResult
+): MultiCategoryClassifyResultArray {
   return combineSuccessfulAndErroneousDocumentsWithStatisticsAndCustomProjectInfo(
     input,
     response,
-    makeClassifyDocumentSingleCategoryResult,
-    makeClassifyDocumentSingleCategoryErrorResult
+    makeMultiCategoryClassifyResult,
+    makeMultiCategoryClassifyErrorResult
   );
 }
