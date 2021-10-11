@@ -4,21 +4,20 @@
 import {
   TextDocumentBatchStatistics,
   TextDocumentInput,
-  CustomMultiClassificationResult
+  CustomSingleClassificationResult
 } from "./generated/models";
 import {
-  ClassifyDocumentMultiCategoriesResult,
-  makeClassifyDocumentMultiCategoriesResult,
-  makeClassifyDocumentMultiCategoriesErrorResult
-} from "./classifyDocumentMultiCategoriesResult";
+  SingleCategoryClassifyResult,
+  makeSingleCategoryClassifyResult,
+  makeSingleCategoryClassifyErrorResult
+} from "./singleCategoryClassifyResult";
 import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndCustomProjectInfo } from "./textAnalyticsResult";
 
 /**
- * Array of `CustomClassifyDocumentMultiCategoriesResult` objects corresponding to a batch of input documents, and
+ * Array of `SingleCategoryClassifyResult` objects corresponding to a batch of input documents, and
  * annotated with information about the batch operation.
  */
-export interface ClassifyDocumentMultiCategoriesResultArray
-  extends Array<ClassifyDocumentMultiCategoriesResult> {
+export interface SingleCategoryClassifyResultArray extends Array<SingleCategoryClassifyResult> {
   /**
    * Statistics about the input document batch and how it was processed
    * by the service. This property will have a value when includeStatistics is set to true
@@ -40,14 +39,14 @@ export interface ClassifyDocumentMultiCategoriesResultArray
 /**
  * @internal
  */
-export function makeClassifyDocumentMultiCategoriesResultArray(
+export function makeSingleCategoryClassifyResultArray(
   input: TextDocumentInput[],
-  response: CustomMultiClassificationResult
-): ClassifyDocumentMultiCategoriesResultArray {
+  response: CustomSingleClassificationResult
+): SingleCategoryClassifyResultArray {
   return combineSuccessfulAndErroneousDocumentsWithStatisticsAndCustomProjectInfo(
     input,
     response,
-    makeClassifyDocumentMultiCategoriesResult,
-    makeClassifyDocumentMultiCategoriesErrorResult
+    makeSingleCategoryClassifyResult,
+    makeSingleCategoryClassifyErrorResult
   );
 }

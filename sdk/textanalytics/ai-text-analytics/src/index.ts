@@ -36,8 +36,8 @@ export {
   ExtractSummaryAction,
   KnownSummarySentencesSortBy as KnownSummarySentencesOrderBy,
   RecognizeCustomEntitiesAction,
-  ClassifyDocumentSingleCategoryAction,
-  ClassifyDocumentMultiCategoriesAction
+  SingleCategoryClassifyAction,
+  MultiCategoryClassifyAction
 } from "./textAnalyticsClient";
 export { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
 export {
@@ -90,18 +90,18 @@ export {
 } from "./recognizeCustomEntitiesResult";
 export { RecognizeCustomEntitiesResultArray } from "./recognizeCustomEntitiesResultArray";
 export {
-  ClassifyDocumentSingleCategoryErrorResult,
-  ClassifyDocumentSingleCategoryResult,
-  ClassifyDocumentSingleCategorySuccessResult,
-  DocumentClassification
-} from "./classifyDocumentSingleCategoryResult";
-export { ClassifyDocumentSingleCategoryResultArray } from "./classifyDocumentSingleCategoryResultArray";
+  SingleCategoryClassifyErrorResult,
+  SingleCategoryClassifyResult,
+  SingleCategoryClassifySuccessResult,
+  ClassificationCategory
+} from "./singleCategoryClassifyResult";
+export { SingleCategoryClassifyResultArray } from "./singleCategoryClassifyResultArray";
 export {
-  ClassifyDocumentMultiCategoriesErrorResult,
-  ClassifyDocumentMultiCategoriesResult,
-  ClassifyDocumentMultiCategoriesSuccessResult
-} from "./classifyDocumentMultiCategoriesResult";
-export { ClassifyDocumentMultiCategoriesResultArray } from "./classifyDocumentMultiCategoriesResultArray";
+  MultiCategoryClassifyErrorResult,
+  MultiCategoryClassifyResult,
+  MultiCategoryClassifySuccessResult
+} from "./multiCategoryClassifyResult";
+export { MultiCategoryClassifyResultArray } from "./multiCategoryClassifyResultArray";
 export {
   RecognizeLinkedEntitiesResult,
   RecognizeLinkedEntitiesErrorResult,
@@ -148,12 +148,12 @@ export {
   RecognizeCustomEntitiesActionResult,
   RecongizeCustomEntitiesActionErrorResult,
   RecongizeCustomEntitiesActionSuccessResult,
-  ClassifyDocumentMultiCategoriesActionErrorResult,
-  ClassifyDocumentMultiCategoriesActionResult,
-  ClassifyDocumentMultiCategoriesActionSuccessResult,
-  ClassifyDocumentSingleCategoryActionErrorResult,
-  ClassifyDocumentSingleCategoryActionResult,
-  ClassifyDocumentSingleCategoryActionSuccessResult
+  MultiCategoryClassifyActionErrorResult,
+  MultiCategoryClassifyActionResult,
+  MultiCategoryClassifyActionSuccessResult,
+  SingleCategoryClassifyActionErrorResult,
+  SingleCategoryClassifyActionResult,
+  SingleCategoryClassifyActionSuccessResult
 } from "./analyzeActionsResult";
 export {
   ErrorCode,

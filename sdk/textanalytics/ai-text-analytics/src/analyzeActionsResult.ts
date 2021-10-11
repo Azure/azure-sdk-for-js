@@ -7,13 +7,13 @@ import {
   makeAnalyzeSentimentResultArray
 } from "./analyzeSentimentResultArray";
 import {
-  ClassifyDocumentMultiCategoriesResultArray,
-  makeClassifyDocumentMultiCategoriesResultArray
-} from "./classifyDocumentMultiCategoriesResultArray";
+  MultiCategoryClassifyResultArray,
+  makeMultiCategoryClassifyResultArray
+} from "./multiCategoryClassifyResultArray";
 import {
-  ClassifyDocumentSingleCategoryResultArray,
-  makeClassifyDocumentSingleCategoryResultArray
-} from "./classifyDocumentSingleCategoryResultArray";
+  SingleCategoryClassifyResultArray,
+  makeSingleCategoryClassifyResultArray
+} from "./singleCategoryClassifyResultArray";
 import {
   ExtractKeyPhrasesResultArray,
   makeExtractKeyPhrasesResultArray
@@ -76,11 +76,11 @@ export interface AnalyzeActionsResult {
   /**
    * Array of the results for each custom classify document single category action.
    */
-  classifyDocumentSingleCategoryResults: ClassifyDocumentSingleCategoryActionResult[];
+  singleCategoryClassifyResults: SingleCategoryClassifyActionResult[];
   /**
-   * Array of the results for each custom classify document multi categories action.
+   * Array of the results for each custom classify document multi category action.
    */
-  classifyDocumentMultiCategoriesResults: ClassifyDocumentMultiCategoriesActionResult[];
+  multiCategoryClassifyResults: MultiCategoryClassifyActionResult[];
 }
 
 /**
@@ -271,48 +271,46 @@ export type RecognizeCustomEntitiesActionResult =
 /**
  * The error of a custom classify document single category action.
  */
-export type ClassifyDocumentSingleCategoryActionErrorResult = TextAnalyticsActionErrorResult;
+export type SingleCategoryClassifyActionErrorResult = TextAnalyticsActionErrorResult;
 
 /**
  * The results of a succeeded custom classify document single category action.
  */
-export interface ClassifyDocumentSingleCategoryActionSuccessResult
-  extends TextAnalyticsActionSuccessState {
+export interface SingleCategoryClassifyActionSuccessResult extends TextAnalyticsActionSuccessState {
   /**
    * Array of the results for each custom classify document single category action.
    */
-  results: ClassifyDocumentSingleCategoryResultArray;
+  results: SingleCategoryClassifyResultArray;
 }
 
 /**
  * The result of a custom classify document single category action.
  */
-export type ClassifyDocumentSingleCategoryActionResult =
-  | ClassifyDocumentSingleCategoryActionSuccessResult
-  | ClassifyDocumentSingleCategoryActionErrorResult;
+export type SingleCategoryClassifyActionResult =
+  | SingleCategoryClassifyActionSuccessResult
+  | SingleCategoryClassifyActionErrorResult;
 
 /**
- * The error of a custom classify document multi categories action.
+ * The error of a custom classify document multi category action.
  */
-export type ClassifyDocumentMultiCategoriesActionErrorResult = TextAnalyticsActionErrorResult;
+export type MultiCategoryClassifyActionErrorResult = TextAnalyticsActionErrorResult;
 
 /**
- * The results of a succeeded custom classify document multi categories action.
+ * The results of a succeeded custom classify document multi category action.
  */
-export interface ClassifyDocumentMultiCategoriesActionSuccessResult
-  extends TextAnalyticsActionSuccessState {
+export interface MultiCategoryClassifyActionSuccessResult extends TextAnalyticsActionSuccessState {
   /**
-   * Array of the results for each custom classify document multi categories action.
+   * Array of the results for each custom classify document multi category action.
    */
-  results: ClassifyDocumentMultiCategoriesResultArray;
+  results: MultiCategoryClassifyResultArray;
 }
 
 /**
- * The result of a custom classify document multi categories action.
+ * The result of a custom classify document multi category action.
  */
-export type ClassifyDocumentMultiCategoriesActionResult =
-  | ClassifyDocumentMultiCategoriesActionSuccessResult
-  | ClassifyDocumentMultiCategoriesActionErrorResult;
+export type MultiCategoryClassifyActionResult =
+  | MultiCategoryClassifyActionSuccessResult
+  | MultiCategoryClassifyActionErrorResult;
 
 /**
  * The results of an analyze Actions operation represented as a paged iterator that
@@ -348,8 +346,8 @@ type TextAnalyticsActionType =
   | "AnalyzeSentiment"
   | "ExtractSummary"
   | "RecognizeCustomEntities"
-  | "ClassifyDocumentSingleCategory"
-  | "ClassifyDocumentMultiCategories";
+  | "SingleCategoryClassify"
+  | "MultiCategoryClassify";
 
 /**
  * The type of an action error with the type of the action that erred and its
@@ -405,10 +403,10 @@ function convertTaskTypeToActionType(taskType: string): TextAnalyticsActionType 
       return "RecognizeCustomEntities";
     }
     case "customSingleClassificationTasks": {
-      return "ClassifyDocumentSingleCategory";
+      return "SingleCategoryClassify";
     }
     case "customMultiClassificationTasks": {
-      return "ClassifyDocumentMultiCategories";
+      return "MultiCategoryClassify";
     }
     default: {
       throw new Error(`unexpected action type from the service: ${taskType}`);
@@ -462,8 +460,8 @@ function categorizeActionErrors(
   analyzeSentimentActionErrors: TextAnalyticsActionError[],
   extractSummarySentencesActionErrors: TextAnalyticsActionError[],
   recognizeCustomEntitiesActionErrors: TextAnalyticsActionError[],
-  classifyDocumentSingleCategoryActionErrors: TextAnalyticsActionError[],
-  classifyDocumentMultiCategoriesActionErrors: TextAnalyticsActionError[]
+  singleCategoryClassifyActionErrors: TextAnalyticsActionError[],
+  multiCategoryClassifyActionErrors: TextAnalyticsActionError[]
 ): void {
   for (const error of erredActions) {
     const actionError = parseActionError(error);
@@ -496,12 +494,12 @@ function categorizeActionErrors(
         recognizeCustomEntitiesActionErrors.push(actionError);
         break;
       }
-      case "ClassifyDocumentSingleCategory": {
-        classifyDocumentSingleCategoryActionErrors.push(actionError);
+      case "SingleCategoryClassify": {
+        singleCategoryClassifyActionErrors.push(actionError);
         break;
       }
-      case "ClassifyDocumentMultiCategories": {
-        classifyDocumentMultiCategoriesActionErrors.push(actionError);
+      case "MultiCategoryClassify": {
+        multiCategoryClassifyActionErrors.push(actionError);
         break;
       }
     }
@@ -586,8 +584,8 @@ export function createAnalyzeActionsResult(
   const analyzeSentimentActionErrors: TextAnalyticsActionError[] = [];
   const extractSummarySentencesActionErrors: TextAnalyticsActionError[] = [];
   const recognizeCustomEntitiesActionErrors: TextAnalyticsActionError[] = [];
-  const classifyDocumentSingleCategoryActionErrors: TextAnalyticsActionError[] = [];
-  const classifyDocumentMultiCategoriesActionErrors: TextAnalyticsActionError[] = [];
+  const singleCategoryClassifyActionErrors: TextAnalyticsActionError[] = [];
+  const multiCategoryClassifyActionErrors: TextAnalyticsActionError[] = [];
   categorizeActionErrors(
     response?.errors ?? [],
     recognizeEntitiesActionErrors,
@@ -597,8 +595,8 @@ export function createAnalyzeActionsResult(
     analyzeSentimentActionErrors,
     extractSummarySentencesActionErrors,
     recognizeCustomEntitiesActionErrors,
-    classifyDocumentSingleCategoryActionErrors,
-    classifyDocumentMultiCategoriesActionErrors
+    singleCategoryClassifyActionErrors,
+    multiCategoryClassifyActionErrors
   );
   return {
     recognizeEntitiesResults: makeActionResult(
@@ -643,17 +641,17 @@ export function createAnalyzeActionsResult(
       response.tasks.customEntityRecognitionTasks ?? [],
       recognizeCustomEntitiesActionErrors
     ),
-    classifyDocumentSingleCategoryResults: makeActionResult(
+    singleCategoryClassifyResults: makeActionResult(
       documents,
-      makeClassifyDocumentSingleCategoryResultArray,
+      makeSingleCategoryClassifyResultArray,
       response.tasks.customSingleClassificationTasks ?? [],
-      classifyDocumentSingleCategoryActionErrors
+      singleCategoryClassifyActionErrors
     ),
-    classifyDocumentMultiCategoriesResults: makeActionResult(
+    multiCategoryClassifyResults: makeActionResult(
       documents,
-      makeClassifyDocumentMultiCategoriesResultArray,
+      makeMultiCategoryClassifyResultArray,
       response.tasks.customMultiClassificationTasks ?? [],
-      classifyDocumentMultiCategoriesActionErrors
+      multiCategoryClassifyActionErrors
     )
   };
 }

@@ -16,37 +16,37 @@ import {
 /**
  * The result of the custom classify document single category operation on a single document.
  */
-export type ClassifyDocumentSingleCategoryResult =
-  | ClassifyDocumentSingleCategorySuccessResult
-  | ClassifyDocumentSingleCategoryErrorResult;
+export type SingleCategoryClassifyResult =
+  | SingleCategoryClassifySuccessResult
+  | SingleCategoryClassifyErrorResult;
 
 /**
  * The result of the custom classify document single category operation on a single document,
  * containing the result of the classification.
  */
-export interface ClassifyDocumentSingleCategorySuccessResult extends TextAnalyticsSuccessResult {
+export interface SingleCategoryClassifySuccessResult extends TextAnalyticsSuccessResult {
   /**
    * The classification result of the input document.
    */
-  classification: DocumentClassification;
+  classification: ClassificationCategory;
 }
 
 /**
  * A classification result from a custom classify document single category action
  */
-export interface DocumentClassification extends ClassificationResult {}
+export interface ClassificationCategory extends ClassificationResult {}
 
 /**
  * An error result from the custom classify document single category operation on a single document.
  */
-export type ClassifyDocumentSingleCategoryErrorResult = TextAnalyticsErrorResult;
+export type SingleCategoryClassifyErrorResult = TextAnalyticsErrorResult;
 
 /**
  * @internal
  */
-export function makeClassifyDocumentSingleCategoryResult(
+export function makeSingleCategoryClassifyResult(
   result: SingleClassificationDocument
-): ClassifyDocumentSingleCategorySuccessResult {
+): SingleCategoryClassifySuccessResult {
   const { id, warnings, statistics, classification } = result;
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
@@ -57,9 +57,9 @@ export function makeClassifyDocumentSingleCategoryResult(
 /**
  * @internal
  */
-export function makeClassifyDocumentSingleCategoryErrorResult(
+export function makeSingleCategoryClassifyErrorResult(
   id: string,
   error: TextAnalyticsError
-): ClassifyDocumentSingleCategoryErrorResult {
+): SingleCategoryClassifyErrorResult {
   return makeTextAnalyticsErrorResult(id, error);
 }

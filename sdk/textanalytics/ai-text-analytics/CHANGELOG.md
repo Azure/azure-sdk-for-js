@@ -5,7 +5,7 @@
 ### Features Added
 
 - We are now targeting the service's v3.2-preview.2 API as the default instead of v3.2-preview.1.
-- Adding support for a three new actions in `beginAnalyzeActions`: `recognizeCustomEntities`, `classifyDocumentSingleCategory`, and `classifyDocumentMultiCategories`. The new actions allow you to use custom models to perform entity recognition and classification actions.
+- Adding support for a three new actions in `beginAnalyzeActions`: `recognizeCustomEntities`, `singleCategoryClassify`, and `multiCategoryClassify`. The new actions allow you to use custom models to perform entity recognition and classification actions.
 
 ### Breaking Changes
 
