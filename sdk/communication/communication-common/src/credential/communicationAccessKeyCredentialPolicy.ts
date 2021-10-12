@@ -68,16 +68,16 @@ class CommunicationAccessKeyCredentialPolicy extends BaseRequestPolicy {
     const port = urlBuilder.getPort();
     let hostAndPort = port ? `${urlBuilder.getHost()}:${port}` : urlBuilder.getHost();
 
-    if (isNode && !webResource.headers.get('UriToSignWith')) {
+    if (isNode && !webResource.headers.get("UriToSignWith")) {
       webResource.headers.set("Host", hostAndPort || "");
     }
 
-    if(webResource.headers.get('UriToSignWith')){
-         const uri_to_sign_with = webResource.headers.get('UriToSignWith')
-         const q = new URL(uri_to_sign_with!);
-         hostAndPort = q.host;
-         webResource.headers.set("x-ms-host", String(hostAndPort));
-         urlPathAndQuery = q.pathname + q.search;
+    if (webResource.headers.get("UriToSignWith")) {
+      const uri_to_sign_with = webResource.headers.get("UriToSignWith");
+      const q = new URL(uri_to_sign_with!);
+      hostAndPort = q.host;
+      webResource.headers.set("x-ms-host", String(hostAndPort));
+      urlPathAndQuery = q.pathname + q.search;
     }
 
     const stringToSign = `${verb}\n${urlPathAndQuery}\n${utcNow};${hostAndPort};${contentHash}`;
@@ -100,7 +100,7 @@ class CommunicationAccessKeyCredentialPolicy extends BaseRequestPolicy {
     if (!webResource) {
       throw new Error("webResource cannot be null or undefined");
     }
-    
+
     return this._nextPolicy.sendRequest(await this.signRequest(webResource));
   }
 }
