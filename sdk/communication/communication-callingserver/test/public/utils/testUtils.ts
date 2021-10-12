@@ -8,11 +8,11 @@ import { CommunicationIdentityClient } from "@azure/communication-identity";
 import  * as Constants from "../utils/constants";
 
 export class TestUtils {
-    private static delay(ms: number) {
+    private static delay(ms: number): Promise<NodeJS.Timeout> {
         return new Promise( resolve => setTimeout(resolve, ms) );
     }
     
-    public static async getUserId(userName: string, connectionString: string) {
+    public static async getUserId(userName: string, connectionString: string): Promise<string> {
       const communicationIdentityClient = new CommunicationIdentityClient(connectionString);
       const tenant_id = env.AZURE_TENANT_ID || "016a7064-0581-40b9-be73-6dde64d69d72";
       
@@ -23,7 +23,7 @@ export class TestUtils {
       return (await communicationIdentityClient.createUser()).communicationUserId;
     }
 
-    public static getGroupId(testName: string) {
+    public static getGroupId(testName: string): string {
       if (isLiveMode()) {
         return uuidv4();
       }
@@ -34,7 +34,7 @@ export class TestUtils {
       callingServerClient: CallingServerClient, 
       groupId: string,
       fromUser: string,
-      toUser: string) {
+      toUser: string): Promise<CallConnection[]>  {
       
       const joinCallOptions = {
           callbackUri: Constants.CALLBACK_URI,
@@ -48,13 +48,14 @@ export class TestUtils {
       return callConnections;
     }
 
-    public static async delayIfLive() {
+    public static async delayIfLive(): Promise<void> {
       if (isLiveMode() || isRecordMode()) {
         await this.delay(10000);
       }
     }
 
-    public static async cleanCallConnections(callConnections: Array<CallConnection>) {
+    public static async cleanCallConnections(
+      callConnections: Array<CallConnection>): Promise<void> {
       for (const callConnection of callConnections) {
         await callConnection.hangUp();
       }
