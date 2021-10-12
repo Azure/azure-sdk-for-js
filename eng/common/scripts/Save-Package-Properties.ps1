@@ -48,8 +48,13 @@ function SetOutput($outputPath, $incomingPackageSpec) {
   else
   {
     $outputObject = $incomingPackageSpec
+
+    # Set file paths to relative paths
+    $outputObject.DirectoryPath = GetRelativePath $outputObject.DirectoryPath
+    $outputObject.ReadMePath = GetRelativePath $outputObject.ReadMePath
+    $outputObject.ChangeLogPath = GetRelativePath $outputObject.ChangeLogPath
   }
-  
+
 
   if ($addDevVersion)
   {
@@ -57,11 +62,6 @@ function SetOutput($outputPath, $incomingPackageSpec) {
     # as the DevVersion. This may be overridden later.
     $outputObject.DevVersion = $incomingPackageSpec.Version
   }
-
-  # Set file paths to relative paths
-  $outputObject.DirectoryPath = GetRelativePath $outputObject.DirectoryPath
-  $outputObject.ReadMePath = GetRelativePath $outputObject.ReadMePath
-  $outputObject.ChangeLogPath = GetRelativePath $outputObject.ChangeLogPath
 
   Set-Content `
     -Path $outputPath `
