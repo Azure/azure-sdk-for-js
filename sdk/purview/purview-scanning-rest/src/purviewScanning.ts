@@ -125,7 +125,7 @@ import {
 import { getClient, ClientOptions, Client } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
 
-export interface KeyVaultConnectionsDelete {
+export interface KeyVaultConnectionsGet {
   /** Gets key vault information */
   get(
     options?: KeyVaultConnectionsGetParameters
@@ -151,7 +151,7 @@ export interface KeyVaultConnectionsListAll {
   ): Promise<KeyVaultConnectionsListAll200Response | KeyVaultConnectionsListAlldefaultResponse>;
 }
 
-export interface ClassificationRulesDelete {
+export interface ClassificationRulesGet {
   /** Get a classification rule */
   get(
     options?: ClassificationRulesGetParameters
@@ -194,14 +194,14 @@ export interface ClassificationRulesListVersionsByClassificationRuleName {
 export interface ClassificationRulesTagClassificationVersion {
   /** Sets Classification Action on a specific classification rule version. */
   post(
-    options?: ClassificationRulesTagClassificationVersionParameters
+    options: ClassificationRulesTagClassificationVersionParameters
   ): Promise<
     | ClassificationRulesTagClassificationVersion202Response
     | ClassificationRulesTagClassificationVersiondefaultResponse
   >;
 }
 
-export interface DataSourcesDelete {
+export interface DataSourcesCreateOrUpdate {
   /** Creates or Updates a data source */
   put(
     options?: DataSourcesCreateOrUpdateParameters
@@ -229,7 +229,7 @@ export interface DataSourcesListAll {
   ): Promise<DataSourcesListAll200Response | DataSourcesListAlldefaultResponse>;
 }
 
-export interface FiltersCreateOrUpdate {
+export interface FiltersGet {
   /** Get a filter */
   get(options?: FiltersGetParameters): Promise<FiltersGet200Response | FiltersGetdefaultResponse>;
   /** Creates or updates a filter */
@@ -242,7 +242,7 @@ export interface FiltersCreateOrUpdate {
   >;
 }
 
-export interface ScansDelete {
+export interface ScansCreateOrUpdate {
   /** Creates an instance of a scan */
   put(
     options: ScansCreateOrUpdateParameters
@@ -287,7 +287,7 @@ export interface ScanResultListScanHistory {
   ): Promise<ScanResultListScanHistory200Response | ScanResultListScanHistorydefaultResponse>;
 }
 
-export interface ScanRulesetsDelete {
+export interface ScanRulesetsGet {
   /** Get a scan ruleset */
   get(
     options?: ScanRulesetsGetParameters
@@ -357,7 +357,7 @@ export interface SystemScanRulesetsListVersionsByDataSource {
   >;
 }
 
-export interface TriggersDeleteTrigger {
+export interface TriggersGetTrigger {
   /** Gets trigger information */
   get(
     options?: TriggersGetTriggerParameters
@@ -382,14 +382,14 @@ export interface TriggersDeleteTrigger {
 
 export interface Routes {
   /** Resource for '/azureKeyVaults/\{keyVaultName\}' has methods for the following verbs: get, put, delete */
-  (path: "/azureKeyVaults/{keyVaultName}", keyVaultName: string): KeyVaultConnectionsDelete;
+  (path: "/azureKeyVaults/{keyVaultName}", keyVaultName: string): KeyVaultConnectionsGet;
   /** Resource for '/azureKeyVaults' has methods for the following verbs: get */
   (path: "/azureKeyVaults"): KeyVaultConnectionsListAll;
   /** Resource for '/classificationrules/\{classificationRuleName\}' has methods for the following verbs: get, put, delete */
   (
     path: "/classificationrules/{classificationRuleName}",
     classificationRuleName: string
-  ): ClassificationRulesDelete;
+  ): ClassificationRulesGet;
   /** Resource for '/classificationrules' has methods for the following verbs: get */
   (path: "/classificationrules"): ClassificationRulesListAll;
   /** Resource for '/classificationrules/\{classificationRuleName\}/versions' has methods for the following verbs: get */
@@ -404,7 +404,7 @@ export interface Routes {
     classificationRuleVersion: string
   ): ClassificationRulesTagClassificationVersion;
   /** Resource for '/datasources/\{dataSourceName\}' has methods for the following verbs: put, get, delete */
-  (path: "/datasources/{dataSourceName}", dataSourceName: string): DataSourcesDelete;
+  (path: "/datasources/{dataSourceName}", dataSourceName: string): DataSourcesCreateOrUpdate;
   /** Resource for '/datasources' has methods for the following verbs: get */
   (path: "/datasources"): DataSourcesListAll;
   /** Resource for '/datasources/\{dataSourceName\}/scans/\{scanName\}/filters/custom' has methods for the following verbs: get, put */
@@ -412,13 +412,13 @@ export interface Routes {
     path: "/datasources/{dataSourceName}/scans/{scanName}/filters/custom",
     dataSourceName: string,
     scanName: string
-  ): FiltersCreateOrUpdate;
+  ): FiltersGet;
   /** Resource for '/datasources/\{dataSourceName\}/scans/\{scanName\}' has methods for the following verbs: put, get, delete */
   (
     path: "/datasources/{dataSourceName}/scans/{scanName}",
     dataSourceName: string,
     scanName: string
-  ): ScansDelete;
+  ): ScansCreateOrUpdate;
   /** Resource for '/datasources/\{dataSourceName\}/scans' has methods for the following verbs: get */
   (path: "/datasources/{dataSourceName}/scans", dataSourceName: string): ScansListByDataSource;
   /** Resource for '/datasources/\{dataSourceName\}/scans/\{scanName\}/runs/\{runId\}' has methods for the following verbs: put */
@@ -442,7 +442,7 @@ export interface Routes {
     scanName: string
   ): ScanResultListScanHistory;
   /** Resource for '/scanrulesets/\{scanRulesetName\}' has methods for the following verbs: get, put, delete */
-  (path: "/scanrulesets/{scanRulesetName}", scanRulesetName: string): ScanRulesetsDelete;
+  (path: "/scanrulesets/{scanRulesetName}", scanRulesetName: string): ScanRulesetsGet;
   /** Resource for '/scanrulesets' has methods for the following verbs: get */
   (path: "/scanrulesets"): ScanRulesetsListAll;
   /** Resource for '/systemScanRulesets' has methods for the following verbs: get */
@@ -463,7 +463,7 @@ export interface Routes {
     path: "/datasources/{dataSourceName}/scans/{scanName}/triggers/default",
     dataSourceName: string,
     scanName: string
-  ): TriggersDeleteTrigger;
+  ): TriggersGetTrigger;
 }
 
 export type PurviewScanningRestClient = Client & {
