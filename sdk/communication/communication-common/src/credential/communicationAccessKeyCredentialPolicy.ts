@@ -13,8 +13,8 @@ import {
   HttpOperationResponse,
   BaseRequestPolicy
 } from "@azure/core-http";
+import { URL } from "url";
 import { shaHash, shaHMAC } from "./cryptoUtils";
-var urlModule = require('url');
 
 /**
  * Creates an HTTP pipeline policy to authenticate a request using a `KeyCredential`.
@@ -62,22 +62,22 @@ class CommunicationAccessKeyCredentialPolicy extends BaseRequestPolicy {
     const dateHeader = "x-ms-date";
     const signedHeaders = `${dateHeader};host;x-ms-content-sha256`;
 
-    const url = URLBuilder.parse(webResource.url);
-    const query = url.getQuery();
-    let urlPathAndQuery = query ? `${url.getPath()}?${query}` : url.getPath();
-    const port = url.getPort();
-    let hostAndPort = port ? `${url.getHost()}:${port}` : url.getHost();
+    const urlBuilder = URLBuilder.parse(webResource.url);
+    const query = urlBuilder.getQuery();
+    let urlPathAndQuery = query ? `${urlBuilder.getPath()}?${query}` : urlBuilder.getPath();
+    const port = urlBuilder.getPort();
+    let hostAndPort = port ? `${urlBuilder.getHost()}:${port}` : urlBuilder.getHost();
 
     if (isNode && !webResource.headers.get('UriToSignWith')) {
       webResource.headers.set("Host", hostAndPort || "");
     }
 
     if(webResource.headers.get('UriToSignWith')){
-         var uri_to_sign_with = webResource.headers.get('UriToSignWith')
-         var q = urlModule.parse(uri_to_sign_with, true);
-         hostAndPort = q.hostname
+         const uri_to_sign_with = webResource.headers.get('UriToSignWith')
+         const q = new URL(uri_to_sign_with!);
+         hostAndPort = q.host;
          webResource.headers.set("x-ms-host", String(hostAndPort));
-         urlPathAndQuery = q.pathname
+         urlPathAndQuery = q.pathname + q.search;
     }
 
     const stringToSign = `${verb}\n${urlPathAndQuery}\n${utcNow};${hostAndPort};${contentHash}`;
