@@ -48,12 +48,8 @@ const argv = yargs
   .help()
   .alias("help", "h").argv;
 
-<<<<<<< HEAD
 function runCommand(command: string[], exitOnError = true): string | null {
   console.log("Running command:", command);
-=======
-async function runCommand(command: string[], exitOnError = true): Promise<unknown> {
->>>>>>> ba0b8d846 ([Identity] Fixing types on the Kubernetes manual test (#17910))
   try {
     if (argv.verbose) {
       console.log(command);
@@ -91,7 +87,7 @@ async function main(): Promise<void> {
     `image.repository=${argv.repository},image.name=${argv["image-name"]},image.tag=${argv["image-tag"]}`
   ];
 
-  await runCommand(helm_install);
+  runCommand(helm_install);
 
   // get the name of the test pod
   let podName = runCommand([
@@ -102,7 +98,7 @@ async function main(): Promise<void> {
     "--output=jsonpath='{.items[*].metadata.name}'"
   ]) as string;
 
-  if (typeof podName === "string" && podName[0] == "'") {
+  if (podName[0] == "'") {
     podName = podName.slice(1, -1);
   }
 
