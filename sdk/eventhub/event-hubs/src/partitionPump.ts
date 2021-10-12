@@ -90,7 +90,8 @@ export class PartitionPump {
       {
         ownerLevel: this._processorOptions.ownerLevel,
         trackLastEnqueuedEventProperties: this._processorOptions.trackLastEnqueuedEventProperties,
-        retryOptions: this._processorOptions.retryOptions
+        retryOptions: this._processorOptions.retryOptions,
+        disableDeserialization: this._processorOptions.disableDeserialization
       }
     );
 

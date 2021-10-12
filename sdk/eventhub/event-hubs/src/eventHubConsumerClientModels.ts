@@ -198,6 +198,10 @@ export interface SubscribeOptions {
    * Options for configuring tracing.
    */
   tracingOptions?: OperationTracingOptions;
+  /**
+   * Boolean to skip automatic parsing when JSON string are received in the body.
+   */
+  disableDeserialization?: boolean;
 }
 
 /**
