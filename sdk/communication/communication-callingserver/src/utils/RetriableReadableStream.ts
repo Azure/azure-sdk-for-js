@@ -81,17 +81,17 @@ export class RetriableReadableStream extends Readable {
     this.setSourceEventHandlers();
   }
 
-  public _read() : void {
+  public _read(): void {
     this.source.resume();
   }
 
-  private setSourceEventHandlers() : void {
+  private setSourceEventHandlers(): void {
     this.source.on("data", this.sourceDataHandler);
     this.source.on("end", this.sourceErrorOrEndHandler);
     this.source.on("error", this.sourceErrorOrEndHandler);
   }
 
-  private removeSourceEventHandlers() : void {
+  private removeSourceEventHandlers(): void {
     this.source.removeListener("data", this.sourceDataHandler);
     this.source.removeListener("end", this.sourceErrorOrEndHandler);
     this.source.removeListener("error", this.sourceErrorOrEndHandler);

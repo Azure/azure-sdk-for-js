@@ -7,17 +7,15 @@
  *
  */
 
-import {
-    OperationParameter,
-  } from "@azure/core-http";
+import { OperationParameter } from "@azure/core-http";
 
 export const range: OperationParameter = {
-    parameterPath: ["options", "range"],
-    mapper: {
-      serializedName: "x-ms-range",
-      xmlName: "x-ms-range",
-      type: {
-        name: "String"
-      }
+  parameterPath: ["options", "range"],
+  mapper: {
+    serializedName: "x-ms-range",
+    xmlName: "x-ms-range",
+    type: {
+      name: "String"
     }
-  };
+  }
+};

@@ -7,7 +7,7 @@ import * as Parameters from "./parameters";
 import * as Mappers from "./generated/src/models/mappers";
 import * as ExtraMappers from "./mappers";
 import { CallingServerApiClientContext } from "./generated/src/callingServerApiClientContext";
-import { URL } from 'url';
+import { URL } from "url";
 import { OperationQueryParameter } from "@azure/core-http";
 import { createSpan } from "./tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
@@ -21,24 +21,26 @@ import {
 } from "@azure/core-http";
 import { ContentDownloadResponse } from ".";
 
-
 export class ContentDownloader {
   private readonly client: CallingServerApiClientContext;
   constructor(client: CallingServerApiClientContext) {
     this.client = client;
   }
 
-  public async downloadContent(contentUri: string,
+  public async downloadContent(
+    contentUri: string,
     options: DownloadContentOptions = {}
   ): Promise<ContentDownloadResponse> {
-    const { span, updatedOptions } = createSpan("ContentDownloaderRestClient-downloadContent", options);
+    const { span, updatedOptions } = createSpan(
+      "ContentDownloaderRestClient-downloadContent",
+      options
+    );
 
     try {
       return await this.download_content(
-          contentUri,
-          operationOptionsToRequestOptionsBase(updatedOptions)
-        );
-
+        contentUri,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -48,14 +50,13 @@ export class ContentDownloader {
     } finally {
       span.end();
     }
-
   }
 
-/**
-* Download recording's content.
-* @param contentUri - The content Uri.
-* @param options - The options parameters.
-*/
+  /**
+   * Download recording's content.
+   * @param contentUri - The content Uri.
+   * @param options - The options parameters.
+   */
   download_content(
     contentUri: string,
     options?: OperationOptions
@@ -65,7 +66,7 @@ export class ContentDownloader {
     };
 
     const q = new URL(contentUri);
-    const formattedUrl = q.pathname.startsWith('/') ? q.pathname.substr(1) : q.pathname
+    const formattedUrl = q.pathname.startsWith("/") ? q.pathname.substr(1) : q.pathname;
     const stringToSign = this.client.endpoint + formattedUrl;
     return this.client.sendOperationRequest(
       operationArguments,
@@ -74,12 +75,10 @@ export class ContentDownloader {
   }
 }
 
-
 // Operation Specifications
 const serializer = new Serializer(Mappers, /* isXml */ false);
 
 function getDownloadContentOperationSpec(url: string, stringToSign: string): OperationSpec {
-
   const stringToSignHeader: OperationQueryParameter = {
     parameterPath: "UriToSignWith",
     mapper: {
@@ -93,7 +92,7 @@ function getDownloadContentOperationSpec(url: string, stringToSign: string): Ope
   };
 
   const downloadContentOperationSpec: OperationSpec = {
-    path: '',
+    path: "",
     baseUrl: url,
     httpMethod: "GET",
     responses: {

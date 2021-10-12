@@ -20,7 +20,7 @@ export const createSpan = createSpanFunction({
  * RequestOptionsBase (when we update to later OpenTelemetry versions this is now
  * two separate fields, not just one).
  */
- export function convertTracingToRequestOptionsBase(
+export function convertTracingToRequestOptionsBase(
   options?: OperationOptions
 ): Pick<RequestOptionsBase, "spanOptions" | "tracingContext"> {
   return {

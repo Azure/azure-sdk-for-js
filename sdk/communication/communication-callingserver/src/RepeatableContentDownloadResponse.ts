@@ -2,7 +2,11 @@
 // Licensed under the MIT license.
 import { HttpResponse, isNode } from "@azure/core-http";
 import { ContentDownloadHeaders, ContentDownloadResponse } from ".";
-import { ReadableStreamGetter, RetriableReadableStream, RetriableReadableStreamOptions } from "./utils/RetriableReadableStream";
+import {
+  ReadableStreamGetter,
+  RetriableReadableStream,
+  RetriableReadableStreamOptions
+} from "./utils/RetriableReadableStream";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -15,7 +19,6 @@ import { ReadableStreamGetter, RetriableReadableStream, RetriableReadableStreamO
  * Readable stream.
  */
 export class RepeatableContentDownloadResponse implements ContentDownloadResponse {
-  
   /**
    * The number of bytes present in the
    * response body.

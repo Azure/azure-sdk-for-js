@@ -5,7 +5,7 @@
 /**
  * Range for Download content Operations.
  */
- export interface Range {
+export interface Range {
   /**
    * StartByte, larger than or equal 0.
    */
