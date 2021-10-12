@@ -319,9 +319,9 @@
       "condition": "[parameters('enableHsm')]",
       "value": "[format('https://{0}/', reference(variables('attestationSite')).defaultHostName)]"
     },
-    "OID": {
-      "type": "string",
-      "value": "[parameters('provisionerApplicationOid')]"
+    "ENABLEHSM": {
+      "type": "bool",
+      "value": "[parameters('enableHsm')]"
     }
   }
 }
