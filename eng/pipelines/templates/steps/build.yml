@@ -36,7 +36,7 @@ steps:
         -OutDirectory $(Build.ArtifactStagingDirectory)/PackageInfo
         -AddDevVersion
       pwsh: true
-      workingDirectory: $(Build.Repository.LocalPath)
+      workingDirectory: $(Pipeline.Workspace)
     displayName: Update package properties with dev version
     condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
 

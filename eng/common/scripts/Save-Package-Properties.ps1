@@ -77,6 +77,7 @@ function GetRelativePath($path) {
   if (!$path) {
     return ''
   }
+  Write-Host "PSScriptRoot: $PSScriptRoot"
   $relativeTo = Resolve-Path $PSScriptRoot/../../../
   # Replace "\" with "/" so the path is valid across other platforms and tools
   $relativePath = [IO.Path]::GetRelativePath($relativeTo, $path) -replace "\\", '/'
