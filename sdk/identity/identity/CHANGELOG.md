@@ -79,6 +79,7 @@ Azure Service Fabric support hasn't been added on the initial version 2 of Ident
 
 #### Other features
 
+- `ClientCertificateCredential` now optionally accepts a configuration object as its third constructor parameter, instead of the PEM certificate path. This new object, called `ClientCertificateCredentialPEMConfiguration`, can contain either the PEM certificate path with the `certificatePath` property, or the contents of the PEM certificate with the `certificate` property..
 - The Node.js version of `InteractiveBrowserCredential` has [Proof Key for Code Exchange (PKCE)](https://datatracker.ietf.org/doc/html/rfc7636) enabled by default.
 - `InteractiveBrowserCredential` has a new `loginHint` constructor option, which allows a username to be pre-selected for interactive logins.
 - In `AzureCliCredential`, we allow specifying a `tenantId` in the parameters through the `AzureCliCredentialOptions`.

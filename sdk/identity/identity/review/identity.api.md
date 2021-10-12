@@ -105,6 +105,7 @@ export class ChainedTokenCredential implements TokenCredential {
 // @public
 export class ClientCertificateCredential implements TokenCredential {
     constructor(tenantId: string, clientId: string, certificatePath: string, options?: ClientCertificateCredentialOptions);
+    constructor(tenantId: string, clientId: string, configuration: ClientCertificateCredentialPEMConfiguration, options?: ClientCertificateCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
@@ -112,6 +113,15 @@ export class ClientCertificateCredential implements TokenCredential {
 export interface ClientCertificateCredentialOptions extends TokenCredentialOptions, CredentialPersistenceOptions {
     sendCertificateChain?: boolean;
 }
+
+// @public
+export type ClientCertificateCredentialPEMConfiguration = {
+    certificate: string;
+    certificatePath?: never;
+} | {
+    certificate?: never;
+    certificatePath: string;
+};
 
 // @public
 export class ClientSecretCredential implements TokenCredential {
