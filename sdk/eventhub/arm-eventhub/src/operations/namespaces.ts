@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Namespaces } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
@@ -16,26 +15,14 @@ import { EventHubManagementClientContext } from "../eventHubManagementClientCont
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  IpFilterRule,
-  NamespacesListIPFilterRulesNextOptionalParams,
-  NamespacesListIPFilterRulesOptionalParams,
   EHNamespace,
   NamespacesListNextOptionalParams,
   NamespacesListOptionalParams,
   NamespacesListByResourceGroupNextOptionalParams,
   NamespacesListByResourceGroupOptionalParams,
-  VirtualNetworkRule,
-  NamespacesListVirtualNetworkRulesNextOptionalParams,
-  NamespacesListVirtualNetworkRulesOptionalParams,
   AuthorizationRule,
   NamespacesListAuthorizationRulesNextOptionalParams,
   NamespacesListAuthorizationRulesOptionalParams,
-  NamespacesListIPFilterRulesResponse,
-  NamespacesCreateOrUpdateIpFilterRuleOptionalParams,
-  NamespacesCreateOrUpdateIpFilterRuleResponse,
-  NamespacesDeleteIpFilterRuleOptionalParams,
-  NamespacesGetIpFilterRuleOptionalParams,
-  NamespacesGetIpFilterRuleResponse,
   NamespacesListResponse,
   NamespacesListByResourceGroupResponse,
   NamespacesCreateOrUpdateOptionalParams,
@@ -45,12 +32,6 @@ import {
   NamespacesGetResponse,
   NamespacesUpdateOptionalParams,
   NamespacesUpdateResponse,
-  NamespacesListVirtualNetworkRulesResponse,
-  NamespacesCreateOrUpdateVirtualNetworkRuleOptionalParams,
-  NamespacesCreateOrUpdateVirtualNetworkRuleResponse,
-  NamespacesDeleteVirtualNetworkRuleOptionalParams,
-  NamespacesGetVirtualNetworkRuleOptionalParams,
-  NamespacesGetVirtualNetworkRuleResponse,
   NetworkRuleSet,
   NamespacesCreateOrUpdateNetworkRuleSetOptionalParams,
   NamespacesCreateOrUpdateNetworkRuleSetResponse,
@@ -70,10 +51,8 @@ import {
   CheckNameAvailabilityParameter,
   NamespacesCheckNameAvailabilityOptionalParams,
   NamespacesCheckNameAvailabilityResponse,
-  NamespacesListIPFilterRulesNextResponse,
   NamespacesListNextResponse,
   NamespacesListByResourceGroupNextResponse,
-  NamespacesListVirtualNetworkRulesNextResponse,
   NamespacesListAuthorizationRulesNextResponse
 } from "../models";
 
@@ -88,77 +67,6 @@ export class NamespacesImpl implements Namespaces {
    */
   constructor(client: EventHubManagementClientContext) {
     this.client = client;
-  }
-
-  /**
-   * Gets a list of IP Filter rules for a Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param options The options parameters.
-   */
-  public listIPFilterRules(
-    resourceGroupName: string,
-    namespaceName: string,
-    options?: NamespacesListIPFilterRulesOptionalParams
-  ): PagedAsyncIterableIterator<IpFilterRule> {
-    const iter = this.listIPFilterRulesPagingAll(
-      resourceGroupName,
-      namespaceName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listIPFilterRulesPagingPage(
-          resourceGroupName,
-          namespaceName,
-          options
-        );
-      }
-    };
-  }
-
-  private async *listIPFilterRulesPagingPage(
-    resourceGroupName: string,
-    namespaceName: string,
-    options?: NamespacesListIPFilterRulesOptionalParams
-  ): AsyncIterableIterator<IpFilterRule[]> {
-    let result = await this._listIPFilterRules(
-      resourceGroupName,
-      namespaceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listIPFilterRulesNext(
-        resourceGroupName,
-        namespaceName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listIPFilterRulesPagingAll(
-    resourceGroupName: string,
-    namespaceName: string,
-    options?: NamespacesListIPFilterRulesOptionalParams
-  ): AsyncIterableIterator<IpFilterRule> {
-    for await (const page of this.listIPFilterRulesPagingPage(
-      resourceGroupName,
-      namespaceName,
-      options
-    )) {
-      yield* page;
-    }
   }
 
   /**
@@ -257,77 +165,6 @@ export class NamespacesImpl implements Namespaces {
   }
 
   /**
-   * Gets a list of VirtualNetwork rules for a Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param options The options parameters.
-   */
-  public listVirtualNetworkRules(
-    resourceGroupName: string,
-    namespaceName: string,
-    options?: NamespacesListVirtualNetworkRulesOptionalParams
-  ): PagedAsyncIterableIterator<VirtualNetworkRule> {
-    const iter = this.listVirtualNetworkRulesPagingAll(
-      resourceGroupName,
-      namespaceName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listVirtualNetworkRulesPagingPage(
-          resourceGroupName,
-          namespaceName,
-          options
-        );
-      }
-    };
-  }
-
-  private async *listVirtualNetworkRulesPagingPage(
-    resourceGroupName: string,
-    namespaceName: string,
-    options?: NamespacesListVirtualNetworkRulesOptionalParams
-  ): AsyncIterableIterator<VirtualNetworkRule[]> {
-    let result = await this._listVirtualNetworkRules(
-      resourceGroupName,
-      namespaceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listVirtualNetworkRulesNext(
-        resourceGroupName,
-        namespaceName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listVirtualNetworkRulesPagingAll(
-    resourceGroupName: string,
-    namespaceName: string,
-    options?: NamespacesListVirtualNetworkRulesOptionalParams
-  ): AsyncIterableIterator<VirtualNetworkRule> {
-    for await (const page of this.listVirtualNetworkRulesPagingPage(
-      resourceGroupName,
-      namespaceName,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
    * Gets a list of authorization rules for a Namespace.
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
@@ -396,88 +233,6 @@ export class NamespacesImpl implements Namespaces {
     )) {
       yield* page;
     }
-  }
-
-  /**
-   * Gets a list of IP Filter rules for a Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param options The options parameters.
-   */
-  private _listIPFilterRules(
-    resourceGroupName: string,
-    namespaceName: string,
-    options?: NamespacesListIPFilterRulesOptionalParams
-  ): Promise<NamespacesListIPFilterRulesResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, options },
-      listIPFilterRulesOperationSpec
-    );
-  }
-
-  /**
-   * Creates or updates an IpFilterRule for a Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param ipFilterRuleName The IP Filter Rule name.
-   * @param parameters The Namespace IpFilterRule.
-   * @param options The options parameters.
-   */
-  createOrUpdateIpFilterRule(
-    resourceGroupName: string,
-    namespaceName: string,
-    ipFilterRuleName: string,
-    parameters: IpFilterRule,
-    options?: NamespacesCreateOrUpdateIpFilterRuleOptionalParams
-  ): Promise<NamespacesCreateOrUpdateIpFilterRuleResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        namespaceName,
-        ipFilterRuleName,
-        parameters,
-        options
-      },
-      createOrUpdateIpFilterRuleOperationSpec
-    );
-  }
-
-  /**
-   * Deletes an IpFilterRule for a Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param ipFilterRuleName The IP Filter Rule name.
-   * @param options The options parameters.
-   */
-  deleteIpFilterRule(
-    resourceGroupName: string,
-    namespaceName: string,
-    ipFilterRuleName: string,
-    options?: NamespacesDeleteIpFilterRuleOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, ipFilterRuleName, options },
-      deleteIpFilterRuleOperationSpec
-    );
-  }
-
-  /**
-   * Gets an IpFilterRule for a Namespace by rule name.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param ipFilterRuleName The IP Filter Rule name.
-   * @param options The options parameters.
-   */
-  getIpFilterRule(
-    resourceGroupName: string,
-    namespaceName: string,
-    ipFilterRuleName: string,
-    options?: NamespacesGetIpFilterRuleOptionalParams
-  ): Promise<NamespacesGetIpFilterRuleResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, ipFilterRuleName, options },
-      getIpFilterRuleOperationSpec
-    );
   }
 
   /**
@@ -717,88 +472,6 @@ export class NamespacesImpl implements Namespaces {
   }
 
   /**
-   * Gets a list of VirtualNetwork rules for a Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param options The options parameters.
-   */
-  private _listVirtualNetworkRules(
-    resourceGroupName: string,
-    namespaceName: string,
-    options?: NamespacesListVirtualNetworkRulesOptionalParams
-  ): Promise<NamespacesListVirtualNetworkRulesResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, options },
-      listVirtualNetworkRulesOperationSpec
-    );
-  }
-
-  /**
-   * Creates or updates an VirtualNetworkRule for a Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param virtualNetworkRuleName The Virtual Network Rule name.
-   * @param parameters The Namespace VirtualNetworkRule.
-   * @param options The options parameters.
-   */
-  createOrUpdateVirtualNetworkRule(
-    resourceGroupName: string,
-    namespaceName: string,
-    virtualNetworkRuleName: string,
-    parameters: VirtualNetworkRule,
-    options?: NamespacesCreateOrUpdateVirtualNetworkRuleOptionalParams
-  ): Promise<NamespacesCreateOrUpdateVirtualNetworkRuleResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        namespaceName,
-        virtualNetworkRuleName,
-        parameters,
-        options
-      },
-      createOrUpdateVirtualNetworkRuleOperationSpec
-    );
-  }
-
-  /**
-   * Deletes an VirtualNetworkRule for a Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param virtualNetworkRuleName The Virtual Network Rule name.
-   * @param options The options parameters.
-   */
-  deleteVirtualNetworkRule(
-    resourceGroupName: string,
-    namespaceName: string,
-    virtualNetworkRuleName: string,
-    options?: NamespacesDeleteVirtualNetworkRuleOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, virtualNetworkRuleName, options },
-      deleteVirtualNetworkRuleOperationSpec
-    );
-  }
-
-  /**
-   * Gets an VirtualNetworkRule for a Namespace by rule name.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param virtualNetworkRuleName The Virtual Network Rule name.
-   * @param options The options parameters.
-   */
-  getVirtualNetworkRule(
-    resourceGroupName: string,
-    namespaceName: string,
-    virtualNetworkRuleName: string,
-    options?: NamespacesGetVirtualNetworkRuleOptionalParams
-  ): Promise<NamespacesGetVirtualNetworkRuleResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, virtualNetworkRuleName, options },
-      getVirtualNetworkRuleOperationSpec
-    );
-  }
-
-  /**
    * Create or update NetworkRuleSet for a Namespace.
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
@@ -978,25 +651,6 @@ export class NamespacesImpl implements Namespaces {
   }
 
   /**
-   * ListIPFilterRulesNext
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param nextLink The nextLink from the previous successful call to the ListIPFilterRules method.
-   * @param options The options parameters.
-   */
-  private _listIPFilterRulesNext(
-    resourceGroupName: string,
-    namespaceName: string,
-    nextLink: string,
-    options?: NamespacesListIPFilterRulesNextOptionalParams
-  ): Promise<NamespacesListIPFilterRulesNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, nextLink, options },
-      listIPFilterRulesNextOperationSpec
-    );
-  }
-
-  /**
    * ListNext
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -1029,26 +683,6 @@ export class NamespacesImpl implements Namespaces {
   }
 
   /**
-   * ListVirtualNetworkRulesNext
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param nextLink The nextLink from the previous successful call to the ListVirtualNetworkRules
-   *                 method.
-   * @param options The options parameters.
-   */
-  private _listVirtualNetworkRulesNext(
-    resourceGroupName: string,
-    namespaceName: string,
-    nextLink: string,
-    options?: NamespacesListVirtualNetworkRulesNextOptionalParams
-  ): Promise<NamespacesListVirtualNetworkRulesNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, nextLink, options },
-      listVirtualNetworkRulesNextOperationSpec
-    );
-  }
-
-  /**
    * ListAuthorizationRulesNext
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
@@ -1070,98 +704,6 @@ export class NamespacesImpl implements Namespaces {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listIPFilterRulesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/ipfilterrules",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.IpFilterRuleListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOrUpdateIpFilterRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/ipfilterrules/{ipFilterRuleName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.IpFilterRule
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.ipFilterRuleName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const deleteIpFilterRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/ipfilterrules/{ipFilterRuleName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.ipFilterRuleName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getIpFilterRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/ipfilterrules/{ipFilterRuleName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.IpFilterRule
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.ipFilterRuleName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/providers/Microsoft.EventHub/namespaces",
@@ -1264,9 +806,6 @@ const getOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.EHNamespace
     },
-    201: {
-      bodyMapper: Mappers.EHNamespace
-    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -1309,98 +848,6 @@ const updateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const listVirtualNetworkRulesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/virtualnetworkrules",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VirtualNetworkRuleListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOrUpdateVirtualNetworkRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/virtualnetworkrules/{virtualNetworkRuleName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VirtualNetworkRule
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters3,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.virtualNetworkRuleName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const deleteVirtualNetworkRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/virtualnetworkrules/{virtualNetworkRuleName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.virtualNetworkRuleName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getVirtualNetworkRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/virtualnetworkrules/{virtualNetworkRuleName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VirtualNetworkRule
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.virtualNetworkRuleName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const createOrUpdateNetworkRuleSetOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/networkRuleSets/default",
@@ -1413,7 +860,7 @@ const createOrUpdateNetworkRuleSetOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1481,7 +928,7 @@ const createOrUpdateAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1574,7 +1021,7 @@ const regenerateKeysOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters6,
+  requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1599,33 +1046,11 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters7,
+  requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
-};
-const listIPFilterRulesNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.IpFilterRuleListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.nextLink,
-    Parameters.namespaceName
-  ],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -1665,28 +1090,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listVirtualNetworkRulesNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VirtualNetworkRuleListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.nextLink,
-    Parameters.namespaceName
   ],
   headerParameters: [Parameters.accept],
   serializer

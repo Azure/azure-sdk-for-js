@@ -15,7 +15,7 @@ export interface CommunicationRelayConfigurationRequest {
   /**
    * An existing ACS identity.
    */
-  id: string;
+  id?: string;
 }
 
 /**
@@ -84,6 +84,17 @@ export interface CommunicationError {
    * The inner error if any.
    */
   readonly innerError?: CommunicationError;
+}
+
+/**
+ * Optional parameters.
+ */
+export interface CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
+   * Request for a CommunicationRelayConfiguration.
+   */
+  body?: CommunicationRelayConfigurationRequest;
 }
 
 /**

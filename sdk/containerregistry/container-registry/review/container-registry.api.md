@@ -4,6 +4,9 @@
 
 ```ts
 
+/// <reference types="node" />
+/// <reference lib="esnext.asynciterable" />
+
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-rest-pipeline';
@@ -228,7 +231,6 @@ export interface UpdateTagPropertiesOptions extends OperationOptions {
     canRead?: boolean;
     canWrite?: boolean;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

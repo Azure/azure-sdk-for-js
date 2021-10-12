@@ -12,10 +12,11 @@ import { createReadStream, ReadStream } from "fs";
 import { DefaultHttpClient } from "../src/defaultHttpClient";
 import { WebResource, TransferProgressEvent } from "../src/webResource";
 import { getHttpMock, HttpMockFacade } from "./mockHttp";
-import { PassThrough } from "stream";
+import { PassThrough, Readable } from "stream";
 import { ReportTransform, CommonResponse } from "../src/fetchHttpClient";
 import { CompositeMapper, Serializer } from "../src/serializer";
 import { OperationSpec } from "../src/operationSpec";
+import { AbortController } from "@azure/abort-controller";
 
 describe("defaultHttpClient (node)", function() {
   let httpMock: HttpMockFacade;
@@ -426,6 +427,51 @@ describe("defaultHttpClient (node)", function() {
       requestInit1.agent.proxyOptions.proxyAuth,
       requestInit2.agent.proxyOptions.proxyAuth
     );
+  });
+
+  it("should abort connection when download stream is closed", async function() {
+    const payload = new PassThrough();
+    const b = new PassThrough();
+    b.pipe(payload, { end: false });
+    b.write("hello");
+    const response = {
+      status: 200,
+      headers: [],
+      body: payload
+    };
+
+    let signal: AbortSignal | undefined;
+    const client = new DefaultHttpClient();
+    sinon.stub(client, "fetch").callsFake(async (_input, init) => {
+      assert.ok(init, "expecting valid request initialization");
+      signal = init!.signal;
+      return (response as unknown) as CommonResponse;
+    });
+
+    const ac = new AbortController();
+    const request = new WebResource(
+      "http://myhost/bigdownload",
+      "GET",
+      undefined,
+      undefined,
+      undefined,
+      true
+    );
+    request.abortSignal = ac.signal;
+    const promise = client.sendRequest(request);
+
+    const res = await promise;
+    assert.ok(res.readableStreamBody, "Expecting valid download stream");
+
+    assert.ok(signal, "Expecting valid signal");
+    const abortFiredPromise = new Promise<void>((resolve) => {
+      signal!.onabort = () => {
+        resolve();
+      };
+    });
+    const stream: Readable = res.readableStreamBody as any;
+    stream.destroy();
+    await abortFiredPromise; // 'abort' event fired
   });
 });
 

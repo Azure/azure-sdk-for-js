@@ -18,7 +18,13 @@ export const vsCodeCredentialControl = {
   }
 };
 
+/**
+ * Connects to Azure using the credential provided by the VSCode extension 'Azure Account'.
+ */
 export class VisualStudioCodeCredential implements TokenCredential {
+  /**
+   * Only available in Node.js
+   */
   constructor() {
     logger.info(formatError("", BrowserNotSupportedError));
     throw BrowserNotSupportedError;

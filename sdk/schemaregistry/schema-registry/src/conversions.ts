@@ -37,7 +37,7 @@ export function convertSchemaResponse(
   // https://github.com/Azure/azure-sdk-for-js/issues/11649
   // Although response.body is typed as string, it is a parsed JSON object,
   // so we use _response.bodyAsText instead as a workaround.
-  return convertResponse(response, { definition: rawResponse.bodyAsText! });
+  return convertResponse(response, { schemaDefinition: rawResponse.bodyAsText! });
 }
 
 /**

@@ -8,11 +8,25 @@ export { IdentityPlugin } from "./plugins/provider";
 import { TokenCredential } from "@azure/core-auth";
 import { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
 
+export {
+  AuthenticationError,
+  ErrorResponse,
+  AggregateAuthenticationError,
+  AuthenticationErrorName,
+  AggregateAuthenticationErrorName,
+  CredentialUnavailableError,
+  CredentialUnavailableErrorName,
+  AuthenticationRequiredError,
+  AuthenticationRequiredErrorOptions
+} from "./errors";
+
 export { AuthenticationRecord } from "./msal/types";
-export { AuthenticationRequiredError } from "./msal/errors";
 export { serializeAuthenticationRecord, deserializeAuthenticationRecord } from "./msal/utils";
 export { TokenCredentialOptions } from "./client/identityClient";
-export { RegionalAuthority } from "./regionalAuthority";
+
+// TODO: Export again once we're ready to release this feature.
+// export { RegionalAuthority } from "./regionalAuthority";
+
 export { InteractiveCredentialOptions } from "./credentials/interactiveCredentialOptions";
 
 export { ChainedTokenCredential } from "./credentials/chainedTokenCredential";
@@ -50,33 +64,23 @@ export { AuthorizationCodeCredential } from "./credentials/authorizationCodeCred
 export { AzurePowerShellCredential } from "./credentials/azurePowerShellCredential";
 export { AzurePowerShellCredentialOptions } from "./credentials/azurePowerShellCredentialOptions";
 export {
-  ApplicationCredential,
-  ApplicationCredentialOptions
-} from "./credentials/applicationCredential";
+  AzureApplicationCredential,
+  AzureApplicationCredentialOptions
+} from "./credentials/azureApplicationCredential";
 
 export {
   VisualStudioCodeCredential,
   VisualStudioCodeCredentialOptions
 } from "./credentials/visualStudioCodeCredential";
 
+export { OnBehalfOfCredential } from "./credentials/onBehalfOfCredential";
 export {
-  OnBehalfOfCredential,
-  OnBehalfOfCredentialSecretConfiguration,
-  OnBehalfOfCredentialCertificateConfiguration
-} from "./credentials/onBehalfOfCredential";
-export { OnBehalfOfCredentialOptions } from "./credentials/onBehalfOfCredentialOptions";
+  OnBehalfOfCredentialOptions,
+  OnBehalfOfCredentialSecretOptions,
+  OnBehalfOfCredentialCertificateOptions
+} from "./credentials/onBehalfOfCredentialOptions";
 
 export { TokenCachePersistenceOptions } from "./msal/nodeFlows/tokenCachePersistenceOptions";
-
-export {
-  AuthenticationError,
-  ErrorResponse,
-  AggregateAuthenticationError,
-  AuthenticationErrorName,
-  AggregateAuthenticationErrorName,
-  CredentialUnavailableError,
-  CredentialUnavailableErrorName
-} from "./client/errors";
 
 export { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 export { logger } from "./util/logging";

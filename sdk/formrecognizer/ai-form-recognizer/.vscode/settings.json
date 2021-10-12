@@ -1,0 +1,24 @@
+{
+    "cSpell.enabled": true,
+    "cSpell.ignoreWords": [
+        "allinone",
+        "dg",
+        "invoice",
+        "maybemap",
+        "multipage",
+        "sunnayvale",
+        "wdlabcd"
+    ],
+    "cSpell.words": [
+        "LROs",
+        "azsdk",
+        "cognitiveservices",
+        "formrecognizer",
+        "include",
+        "sdks",
+        "subfolders",
+        "submodel",
+        "submodels",
+        "westus"
+    ]
+}

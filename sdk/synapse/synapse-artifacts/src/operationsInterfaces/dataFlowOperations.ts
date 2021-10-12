@@ -6,19 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   DataFlowResource,
-  DataFlowOperationsGetDataFlowsByWorkspaceOptionalParams,
-  DataFlowOperationsCreateOrUpdateDataFlowOptionalParams,
-  DataFlowOperationsCreateOrUpdateDataFlowResponse,
-  DataFlowOperationsGetDataFlowOptionalParams,
-  DataFlowOperationsGetDataFlowResponse,
-  DataFlowOperationsDeleteDataFlowOptionalParams,
+  DataFlowGetDataFlowsByWorkspaceOptionalParams,
+  DataFlowCreateOrUpdateDataFlowOptionalParams,
+  DataFlowCreateOrUpdateDataFlowResponse,
+  DataFlowGetDataFlowOptionalParams,
+  DataFlowGetDataFlowResponse,
+  DataFlowDeleteDataFlowOptionalParams,
   ArtifactRenameRequest,
-  DataFlowOperationsRenameDataFlowOptionalParams
+  DataFlowRenameDataFlowOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +28,7 @@ export interface DataFlowOperations {
    * @param options The options parameters.
    */
   listDataFlowsByWorkspace(
-    options?: DataFlowOperationsGetDataFlowsByWorkspaceOptionalParams
+    options?: DataFlowGetDataFlowsByWorkspaceOptionalParams
   ): PagedAsyncIterableIterator<DataFlowResource>;
   /**
    * Creates or updates a data flow.
@@ -40,11 +39,11 @@ export interface DataFlowOperations {
   beginCreateOrUpdateDataFlow(
     dataFlowName: string,
     dataFlow: DataFlowResource,
-    options?: DataFlowOperationsCreateOrUpdateDataFlowOptionalParams
+    options?: DataFlowCreateOrUpdateDataFlowOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<DataFlowOperationsCreateOrUpdateDataFlowResponse>,
-      DataFlowOperationsCreateOrUpdateDataFlowResponse
+      PollOperationState<DataFlowCreateOrUpdateDataFlowResponse>,
+      DataFlowCreateOrUpdateDataFlowResponse
     >
   >;
   /**
@@ -56,8 +55,8 @@ export interface DataFlowOperations {
   beginCreateOrUpdateDataFlowAndWait(
     dataFlowName: string,
     dataFlow: DataFlowResource,
-    options?: DataFlowOperationsCreateOrUpdateDataFlowOptionalParams
-  ): Promise<DataFlowOperationsCreateOrUpdateDataFlowResponse>;
+    options?: DataFlowCreateOrUpdateDataFlowOptionalParams
+  ): Promise<DataFlowCreateOrUpdateDataFlowResponse>;
   /**
    * Gets a data flow.
    * @param dataFlowName The data flow name.
@@ -65,8 +64,8 @@ export interface DataFlowOperations {
    */
   getDataFlow(
     dataFlowName: string,
-    options?: DataFlowOperationsGetDataFlowOptionalParams
-  ): Promise<DataFlowOperationsGetDataFlowResponse>;
+    options?: DataFlowGetDataFlowOptionalParams
+  ): Promise<DataFlowGetDataFlowResponse>;
   /**
    * Deletes a data flow.
    * @param dataFlowName The data flow name.
@@ -74,7 +73,7 @@ export interface DataFlowOperations {
    */
   beginDeleteDataFlow(
     dataFlowName: string,
-    options?: DataFlowOperationsDeleteDataFlowOptionalParams
+    options?: DataFlowDeleteDataFlowOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes a data flow.
@@ -83,7 +82,7 @@ export interface DataFlowOperations {
    */
   beginDeleteDataFlowAndWait(
     dataFlowName: string,
-    options?: DataFlowOperationsDeleteDataFlowOptionalParams
+    options?: DataFlowDeleteDataFlowOptionalParams
   ): Promise<void>;
   /**
    * Renames a dataflow.
@@ -94,7 +93,7 @@ export interface DataFlowOperations {
   beginRenameDataFlow(
     dataFlowName: string,
     request: ArtifactRenameRequest,
-    options?: DataFlowOperationsRenameDataFlowOptionalParams
+    options?: DataFlowRenameDataFlowOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Renames a dataflow.
@@ -105,6 +104,6 @@ export interface DataFlowOperations {
   beginRenameDataFlowAndWait(
     dataFlowName: string,
     request: ArtifactRenameRequest,
-    options?: DataFlowOperationsRenameDataFlowOptionalParams
+    options?: DataFlowRenameDataFlowOptionalParams
   ): Promise<void>;
 }

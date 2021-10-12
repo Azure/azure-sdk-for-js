@@ -7,59 +7,14 @@ import { MsalOnBehalfOf } from "../msal/nodeFlows/msalOnBehalfOf";
 import { credentialLogger } from "../util/logging";
 import { trace } from "../util/tracing";
 import { MsalFlow } from "../msal/flows";
-import { OnBehalfOfCredentialOptions } from "./onBehalfOfCredentialOptions";
+import {
+  OnBehalfOfCredentialCertificateOptions,
+  OnBehalfOfCredentialOptions,
+  OnBehalfOfCredentialSecretOptions
+} from "./onBehalfOfCredentialOptions";
 
 const credentialName = "OnBehalfOfCredential";
 const logger = credentialLogger(credentialName);
-
-/**
- * Defines the configuration parameters to authenticate the {@link OnBehalfOfCredential} with a secret.
- */
-export interface OnBehalfOfCredentialSecretConfiguration {
-  /**
-   * The Azure Active Directory tenant (directory) ID.
-   */
-  tenantId: string;
-  /**
-   * The client (application) ID of an App Registration in the tenant.
-   */
-  clientId: string;
-  /**
-   * A client secret that was generated for the App Registration.
-   */
-  clientSecret: string;
-  /**
-   * The user assertion for the On-Behalf-Of flow.
-   */
-  userAssertionToken: string;
-}
-
-/**
- * Defines the configuration parameters to authenticate the {@link OnBehalfOfCredential} with a certificate.
- */
-export interface OnBehalfOfCredentialCertificateConfiguration {
-  /**
-   * The Azure Active Directory tenant (directory) ID.
-   */
-  tenantId: string;
-  /**
-   * The client (application) ID of an App Registration in the tenant.
-   */
-  clientId: string;
-  /**
-   * The path to a PEM-encoded public/private key certificate on the filesystem.
-   */
-  certificatePath: string;
-  /**
-   * Option to include x5c header for SubjectName and Issuer name authorization.
-   * Set this option to send base64 encoded public certificate in the client assertion header as an x5c claim
-   */
-  sendCertificateChain?: boolean;
-  /**
-   * The user assertion for the On-Behalf-Of flow.
-   */
-  userAssertionToken: string;
-}
 
 /**
  * Enables authentication to Azure Active Directory using the [On Behalf Of flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow).
@@ -86,31 +41,19 @@ export class OnBehalfOfCredential implements TokenCredential {
    * await client.getKey("key-name");
    * ```
    *
-   * @param configuration - Configuration specific to this credential.
    * @param options - Optional parameters, generally common across credentials.
    */
-  constructor(
-    private configuration:
-      | OnBehalfOfCredentialSecretConfiguration
-      | OnBehalfOfCredentialCertificateConfiguration,
-    private options: OnBehalfOfCredentialOptions = {}
-  ) {
-    const { tenantId, clientId, userAssertionToken } = configuration;
-    const secretConfiguration = configuration as OnBehalfOfCredentialSecretConfiguration;
-    const certificateConfiguration = configuration as OnBehalfOfCredentialCertificateConfiguration;
-    if (
-      !tenantId ||
-      !clientId ||
-      !(secretConfiguration.clientSecret || certificateConfiguration.certificatePath) ||
-      !userAssertionToken
-    ) {
+  constructor(private options: OnBehalfOfCredentialOptions) {
+    const { clientSecret } = options as OnBehalfOfCredentialSecretOptions;
+    const { certificatePath } = options as OnBehalfOfCredentialCertificateOptions;
+    const { tenantId, clientId, userAssertionToken } = options;
+    if (!tenantId || !clientId || !(clientSecret || certificatePath) || !userAssertionToken) {
       throw new Error(
         `${credentialName}: tenantId, clientId, clientSecret (or certificatePath) and userAssertionToken are required parameters.`
       );
     }
     this.msalFlow = new MsalOnBehalfOf({
       ...this.options,
-      ...this.configuration,
       logger,
       tokenCredentialOptions: this.options
     });

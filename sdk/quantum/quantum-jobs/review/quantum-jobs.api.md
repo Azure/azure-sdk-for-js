@@ -59,7 +59,7 @@ export class Jobs {
     create(jobId: string, job: JobDetails, options?: coreHttp.OperationOptions): Promise<JobsCreateResponse>;
     get(jobId: string, options?: coreHttp.OperationOptions): Promise<JobsGetResponse>;
     list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<JobDetails>;
-    }
+}
 
 // @public
 export type JobsCreateResponse = JobDetails & {
@@ -197,7 +197,7 @@ export class QuantumJobClient extends QuantumJobClientContext {
     // (undocumented)
     quotas: Quotas;
     // (undocumented)
-    storage: Storage;
+    storage: Storage_2;
 }
 
 // @public (undocumented)
@@ -240,7 +240,7 @@ export interface QuotaList {
 export class Quotas {
     constructor(client: QuantumJobClient);
     list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<Quota>;
-    }
+}
 
 // @public
 export type QuotasListNextResponse = QuotaList & {
@@ -269,10 +269,11 @@ export interface SasUriResponse {
 }
 
 // @public
-export class Storage {
+class Storage_2 {
     constructor(client: QuantumJobClient);
     sasUri(blobDetails: BlobDetails, options?: coreHttp.OperationOptions): Promise<StorageSasUriResponse>;
 }
+export { Storage_2 as Storage }
 
 // @public
 export type StorageSasUriResponse = SasUriResponse & {
@@ -292,7 +293,6 @@ export interface TargetStatus {
     readonly id?: string;
     readonly statusPage?: string;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

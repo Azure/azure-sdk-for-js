@@ -27,7 +27,7 @@ export class MsalAuthorizationCode extends MsalNode {
 
   constructor(options: MSALAuthorizationCodeOptions) {
     super(options);
-    this.logger = credentialLogger("NodeJS MSAL Authorization Code");
+    this.logger = credentialLogger("Node.js MSAL Authorization Code");
     this.redirectUri = options.redirectUri;
     this.authorizationCode = options.authorizationCode;
     if (options.clientSecret) {

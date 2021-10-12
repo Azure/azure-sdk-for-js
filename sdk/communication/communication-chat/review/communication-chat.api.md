@@ -4,6 +4,9 @@
 
 ```ts
 
+/// <reference lib="esnext.asynciterable" />
+
+import { ChatEventId } from '@azure/communication-signaling';
 import { ChatMessageDeletedEvent } from '@azure/communication-signaling';
 import { ChatMessageEditedEvent } from '@azure/communication-signaling';
 import { ChatMessageReceivedEvent } from '@azure/communication-signaling';
@@ -64,7 +67,7 @@ export class ChatClient {
     on(event: "participantsRemoved", listener: (e: ParticipantsRemovedEvent) => void): void;
     startRealtimeNotifications(): Promise<void>;
     stopRealtimeNotifications(): Promise<void>;
-    }
+}
 
 // @public
 export interface ChatClientOptions extends CommonClientOptions {
@@ -78,6 +81,8 @@ export interface ChatError {
     message: string;
     readonly target?: string;
 }
+
+export { ChatEventId }
 
 // @public
 export interface ChatMessage {
@@ -102,12 +107,18 @@ export interface ChatMessageContent {
     topic?: string;
 }
 
+export { ChatMessageDeletedEvent }
+
+export { ChatMessageEditedEvent }
+
 // @public
 export interface ChatMessageReadReceipt {
     chatMessageId: string;
     readOn: Date;
     sender: CommunicationIdentifierKind;
 }
+
+export { ChatMessageReceivedEvent }
 
 // @public
 export type ChatMessageType = "text" | "html" | "topicUpdated" | "participantAdded" | "participantRemoved";
@@ -142,6 +153,10 @@ export class ChatThreadClient {
 export interface ChatThreadClientOptions extends ChatClientOptions {
 }
 
+export { ChatThreadCreatedEvent }
+
+export { ChatThreadDeletedEvent }
+
 // @public
 export interface ChatThreadItem {
     deletedOn?: Date;
@@ -158,6 +173,8 @@ export interface ChatThreadProperties {
     id: string;
     topic: string;
 }
+
+export { ChatThreadPropertiesUpdatedEvent }
 
 // @public
 export interface CreateChatThreadOptions extends OperationOptions {
@@ -204,6 +221,12 @@ export type ListParticipantsOptions = RestListParticipantsOptions;
 
 // @public
 export type ListReadReceiptsOptions = RestListReadReceiptsOptions;
+
+export { ParticipantsAddedEvent }
+
+export { ParticipantsRemovedEvent }
+
+export { ReadReceiptReceivedEvent }
 
 // @public
 export type RemoveParticipantOptions = OperationOptions;
@@ -262,6 +285,8 @@ export interface SendTypingNotificationOptions extends OperationOptions {
     senderDisplayName?: string;
 }
 
+export { TypingIndicatorReceivedEvent }
+
 // @public
 export interface UpdateMessageOptions extends OperationOptions {
     content?: string;
@@ -271,7 +296,6 @@ export interface UpdateMessageOptions extends OperationOptions {
 // @public
 export interface UpdateTopicOptions extends OperationOptions {
 }
-
 
 // (No @packageDocumentation comment for this package)
 

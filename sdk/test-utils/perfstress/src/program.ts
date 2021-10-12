@@ -286,8 +286,10 @@ export class PerfStressProgram {
       }
     }
 
-    if (this.tests[0].parsedOptions["test-proxy"].value) {
-      await this.recordAndStartPlayback(this.tests[0]);
+    if (this.tests[0].parsedOptions["test-proxies"].value) {
+      // Records requests(in runAsync method) for all the instantiated PerfStressTest classes,
+      // and asks the proxy-tool to start playing back for future requests.
+      await Promise.all(this.tests.map((test) => this.recordAndStartPlayback(test)));
     }
 
     if (Number(options.warmup.value) > 0) {
@@ -299,8 +301,8 @@ export class PerfStressProgram {
       await this.runTest(i, Number(options.duration.value), "test");
     }
 
-    if (this.tests[0].parsedOptions["test-proxy"].value) {
-      await this.stopPlayback(this.tests[0]);
+    if (this.tests[0].parsedOptions["test-proxies"].value) {
+      await Promise.all(this.tests.map((test) => this.stopPlayback(test)));
     }
 
     if (!options["no-cleanup"].value && this.tests[0].cleanup) {
@@ -363,6 +365,9 @@ export class PerfStressProgram {
         "testProxyClient is not set, please make sure the client/options are configured properly."
       );
     }
+
+    // Call Run() once before starting recording, to avoid capturing one-time setup like authorization requests.
+    await test.runAsync!();
 
     await recorder.startRecording();
     recorder._mode = "record";

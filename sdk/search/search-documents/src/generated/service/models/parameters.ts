@@ -10,11 +10,13 @@ import {
   OperationParameter,
   OperationURLParameter,
   OperationQueryParameter
-} from "@azure/core-http";
+} from "@azure/core-client";
 import {
   SearchIndexerDataSource as SearchIndexerDataSourceMapper,
+  DocumentKeysOrIds as DocumentKeysOrIdsMapper,
   SearchIndexer as SearchIndexerMapper,
   SearchIndexerSkillset as SearchIndexerSkillsetMapper,
+  SkillNames as SkillNamesMapper,
   SynonymMap as SynonymMapMapper,
   SearchIndex as SearchIndexMapper,
   AnalyzeRequest as AnalyzeRequestMapper
@@ -125,8 +127,8 @@ export const apiVersion: OperationQueryParameter = {
   }
 };
 
-export const ignoreResetRequirements: OperationQueryParameter = {
-  parameterPath: ["options", "ignoreResetRequirements"],
+export const skipIndexerResetRequirementForCache: OperationQueryParameter = {
+  parameterPath: ["options", "skipIndexerResetRequirementForCache"],
   mapper: {
     serializedName: "ignoreResetRequirements",
     type: {
@@ -152,6 +154,22 @@ export const indexerName: OperationURLParameter = {
     required: true,
     type: {
       name: "String"
+    }
+  }
+};
+
+export const keysOrIds: OperationParameter = {
+  parameterPath: ["options", "keysOrIds"],
+  mapper: DocumentKeysOrIdsMapper
+};
+
+export const overwrite: OperationQueryParameter = {
+  parameterPath: ["options", "overwrite"],
+  mapper: {
+    defaultValue: false,
+    serializedName: "overwrite",
+    type: {
+      name: "Boolean"
     }
   }
 };
@@ -185,6 +203,11 @@ export const skillsetName: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const skillNames: OperationParameter = {
+  parameterPath: "skillNames",
+  mapper: SkillNamesMapper
 };
 
 export const synonymMap: OperationParameter = {

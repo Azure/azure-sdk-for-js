@@ -10,7 +10,7 @@ parameters:
     default: {}
   - name: ArtifactName
     type: string
-    default: ""
+    default: 'not-specified'
 
 jobs:
   - ${{ if and(eq(parameters.Daily, false), ne(variables['Skip.Release'], 'true')) }}:
@@ -131,26 +131,13 @@ jobs:
 
       - download: current
         artifact: ${{parameters.ArtifactName}}
+        condition: and(succeeded(), ne('${{ parameters.Daily }}', 'true'))
       - pwsh: |
           $(Build.SourcesDirectory)/eng/common/scripts/Import-AzModules.ps1
 
           $subscriptionConfiguration = @"
             $(SubscriptionConfiguration)
           "@ | ConvertFrom-Json -AsHashtable;
-
-          $packageOverrides = @()
-          $packageOverrides += (dir env: | Where-Object { $_.Name.StartsWith("SMOKE_PACKAGE_") }).Value
-
-          $packageArtifact = Get-ChildItem $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{parameters.Artifact.name}}/*.tgz
-          if ($packageArtifact.name -notmatch "${{parameters.Artifact.name}}") {
-            Write-Error "Package name mismatch: expecting ${{parameters.Artifact.name}}, found $packageArtifact.name"
-            exit 1
-          }
-          if ($packageArtifact.count -ne 1) {
-            Write-Error "Got $packageArtifact.count packages, expecting 1."
-            exit 1
-          }
-          $result = $(System.DefaultWorkingDirectory)/eng/scripts/get-npm-tags.ps1 -packageArtifact $packageArtifact -workingDirectory $(System.DefaultWorkingDirectory)/temp
 
           if ([System.Convert]::ToBoolean("${{ parameters.Daily }}")) {
             ./Initialize-SmokeTests.ps1 `
@@ -161,12 +148,25 @@ jobs:
               @subscriptionConfiguration `
               -AdditionalParameters $(ArmTemplateParameters)
           } else {
+            $packageArtifact = Get-ChildItem $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{parameters.Artifact.name}}/*.tgz
+            if ($packageArtifact.name -notmatch "${{parameters.Artifact.name}}") {
+              Write-Error "Package name mismatch: expecting ${{parameters.Artifact.name}}, found $packageArtifact.name"
+              exit 1
+            }
+            if ($packageArtifact.count -ne 1) {
+              Write-Error "Got $packageArtifact.count packages, expecting 1."
+              exit 1
+            }
+            $result = $(System.DefaultWorkingDirectory)/eng/scripts/get-npm-tags.ps1 -packageArtifact $packageArtifact -workingDirectory $(System.DefaultWorkingDirectory)/temp
+            $packageInfo = Get-Content -Path "$(Pipeline.Workspace)/${{parameters.ArtifactName}}/PackageInfo/${{parameters.Artifact.name}}.json" 
+              | ConvertFrom-Json -AsHashtable
+
             ./Initialize-SmokeTests.ps1 `
               -CI `
               -Verbose `
               -Location '$(Location)' `
               -TagOverride $result.Tag `
-              -TagOverridePackages $packageOverrides `
+              -TagOverridePackages $packageInfo.Name `
               -ServiceDirectory ${{ parameters.ServiceDirectory }} `
               @subscriptionConfiguration `
               -AdditionalParameters $(ArmTemplateParameters)
@@ -174,10 +174,6 @@ jobs:
 
         workingDirectory: $(Build.SourcesDirectory)/common/smoke-test
         displayName: Deploy Smoke Test resources and prepare samples
-        env:
-          # Pipelines yaml does not handle transferring non-string parameter types
-          # into script blocks very well, so this is the best available workaround.
-          SMOKE_PACKAGE_${{ parameters.Artifact.safeName }}: "@azure/${{ replace(parameters.Artifact.name, 'azure-', '') }}"
 
       - pwsh: Get-Content ./run-manifest.json
         workingDirectory: $(Build.SourcesDirectory)/common/smoke-test

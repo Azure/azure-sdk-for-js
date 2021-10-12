@@ -55,7 +55,8 @@ export function buildQueueOptions(queue: CreateQueueOptions): InternalQueueOptio
     EnablePartitioning: getStringOrUndefined(queue.enablePartitioning),
     ForwardDeadLetteredMessagesTo: getStringOrUndefined(queue.forwardDeadLetteredMessagesTo),
     EntityAvailabilityStatus: getStringOrUndefined(queue.availabilityStatus),
-    EnableExpress: getStringOrUndefined(queue.enableExpress)
+    EnableExpress: getStringOrUndefined(queue.enableExpress),
+    MaxMessageSizeInKilobytes: getStringOrUndefined(queue.maxMessageSizeInKilobytes)
   };
 }
 
@@ -111,7 +112,12 @@ export function buildQueue(rawQueue: Record<string, any>): QueueProperties {
 
     enableExpress: getBoolean(rawQueue[Constants.ENABLE_EXPRESS], "enableExpress"),
 
-    availabilityStatus: rawQueue[Constants.ENTITY_AVAILABILITY_STATUS]
+    availabilityStatus: rawQueue[Constants.ENTITY_AVAILABILITY_STATUS],
+
+    maxMessageSizeInKilobytes: getInteger(
+      rawQueue[Constants.MAX_MESSAGE_SIZE_IN_KILOBYTES],
+      "maxMessageSizeInKilobytes"
+    )
   };
 }
 
@@ -155,6 +161,13 @@ export interface CreateQueueOptions extends OperationOptions {
    * will cause the queue to exceed this value will fail.
    */
   maxSizeInMegabytes?: number;
+
+  /**
+   * The maximum message size in kilobytes for messages sent to this queue.
+   *
+   * (Configurable only for Premium Tier Service Bus namespace.)
+   */
+  maxMessageSizeInKilobytes?: number;
 
   /**
    * If enabled, the topic will detect duplicate messages within the time
@@ -300,6 +313,11 @@ export interface QueueProperties {
   maxSizeInMegabytes: number;
 
   /**
+   * The maximum message size in kilobytes for messages sent to this queue.
+   */
+  maxMessageSizeInKilobytes: number;
+
+  /**
    * If enabled, the topic will detect duplicate messages within the time
    * span specified by the DuplicateDetectionHistoryTimeWindow property.
    * Settable only at queue creation time.
@@ -435,6 +453,11 @@ export interface InternalQueueOptions {
    *
    */
   MaxSizeInMegabytes?: string;
+
+  /**
+   * The maximum message size in kilobytes for messages sent to this queue/topic.
+   */
+  MaxMessageSizeInKilobytes?: string;
 
   /**
    *  If enabled, the topic will detect duplicate messages within the time
