@@ -35,17 +35,18 @@ export class ModelsRepositoryClient {
 
   /**
    * The ModelsRepositoryClient constructor
-   * @param options - The models repository client options that govern the behavior of the client.
+   * @param options - The optional models repository client options that govern the behavior of the client.
+   * If no parameters are supplied, defaults to global repository location.
    */
-  constructor(options: ModelsRepositoryClientOptions = {}) {
-    this._repositoryLocation = options.repositoryLocation || DEFAULT_REPOSITORY_LOCATION;
+  constructor(options?: ModelsRepositoryClientOptions) {
+    this._repositoryLocation = options?.repositoryLocation ?? DEFAULT_REPOSITORY_LOCATION;
     logger.info(`Client configured for repository location ${this._repositoryLocation}`);
-    this._fetcher = this._createFetcher(this._repositoryLocation, options);
+    this._fetcher = this._createFetcher(this._repositoryLocation, options ?? {});
     this._resolver = new DtmiResolver(this._fetcher);
     this._pseudoParser = new PseudoParser(this._resolver);
 
     // Store api version here (for now). Currently doesn't do anything
-    this._apiVersion = options.apiVersion || DEFAULT_API_VERSION;
+    this._apiVersion = options?.apiVersion || DEFAULT_API_VERSION;
   }
 
 
