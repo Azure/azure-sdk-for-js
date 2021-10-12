@@ -13,7 +13,7 @@ import { credentialLogger } from "../../util/logging";
 import { IdentityClient } from "../../client/identityClient";
 import { mapScopesToResource, msiGenericGetToken } from "./utils";
 import { azureArcAPIVersion } from "./constants";
-import { AuthenticationError } from "../../client/errors";
+import { AuthenticationError } from "../../errors";
 
 const msiName = "ManagedIdentityCredential - Azure Arc MSI";
 const logger = credentialLogger(msiName);

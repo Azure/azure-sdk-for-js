@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import { RestError } from "@azure/core-rest-pipeline";
-import { ApplicationCredential } from "../../../src";
+import { AzureApplicationCredential } from "../../../src";
 import { prepareIdentityTests } from "../../httpRequests";
 import {
   createResponse,
@@ -11,7 +11,7 @@ import {
   SendCredentialRequests
 } from "../../httpRequestsCommon";
 
-describe("ApplicationCredential testing Managed Identity (internal)", function() {
+describe("AzureApplicationCredential testing Managed Identity (internal)", function() {
   let envCopy: string = "";
   let testContext: IdentityTestContext;
   let sendCredentialRequests: SendCredentialRequests;
@@ -39,7 +39,7 @@ describe("ApplicationCredential testing Managed Identity (internal)", function()
 
     const { error } = await sendCredentialRequests({
       scopes: ["scopes"],
-      credential: new ApplicationCredential(),
+      credential: new AzureApplicationCredential(),
       insecureResponses: [
         {
           error: new RestError("Request Timeout", { code: "REQUEST_SEND_ERROR", statusCode: 408 })
@@ -59,7 +59,7 @@ describe("ApplicationCredential testing Managed Identity (internal)", function()
 
     const { error } = await sendCredentialRequests({
       scopes: ["scopes"],
-      credential: new ApplicationCredential(),
+      credential: new AzureApplicationCredential(),
       insecureResponses: [
         createResponse(200), // IMDS Endpoint ping
         { error: new RestError(errorMessage, { statusCode: 500 }) }
@@ -78,7 +78,7 @@ describe("ApplicationCredential testing Managed Identity (internal)", function()
 
     const { error } = await sendCredentialRequests({
       scopes: ["scopes"],
-      credential: new ApplicationCredential(),
+      credential: new AzureApplicationCredential(),
       insecureResponses: [
         createResponse(200), // IMDS Endpoint ping
         { error: netError }
@@ -95,7 +95,7 @@ describe("ApplicationCredential testing Managed Identity (internal)", function()
 
     const authDetails = await sendCredentialRequests({
       scopes: ["https://service/.default"],
-      credential: new ApplicationCredential(),
+      credential: new AzureApplicationCredential(),
       secureResponses: [
         createResponse(200, {
           access_token: "token",

@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { GetTokenOptions } from "@azure/core-auth";
+
 /**
  * See the official documentation for more details:
  *
@@ -181,4 +183,48 @@ function convertOAuthErrorResponseToErrorResponse(errorBody: OAuthErrorResponse)
     timestamp: errorBody.timestamp,
     traceId: errorBody.trace_id
   };
+}
+
+/**
+ * Optional parameters to the {@link AuthenticationRequiredError}
+ */
+export interface AuthenticationRequiredErrorOptions {
+  /**
+   * The list of scopes for which the token will have access.
+   */
+  scopes: string[];
+  /**
+   * The options passed to the getToken request.
+   */
+  getTokenOptions?: GetTokenOptions;
+  /**
+   * The message of the error.
+   */
+  message?: string;
+}
+
+/**
+ * Error used to enforce authentication after trying to retrieve a token silently.
+ */
+export class AuthenticationRequiredError extends Error {
+  /**
+   * The list of scopes for which the token will have access.
+   */
+  public scopes: string[];
+  /**
+   * The options passed to the getToken request.
+   */
+  public getTokenOptions?: GetTokenOptions;
+
+  constructor(
+    /**
+     * Optional parameters. A message can be specified. The {@link GetTokenOptions} of the request can also be specified to more easily associate the error with the received parameters.
+     */
+    options: AuthenticationRequiredErrorOptions
+  ) {
+    super(options.message);
+    this.scopes = options.scopes;
+    this.getTokenOptions = options.getTokenOptions;
+    this.name = "AuthenticationRequiredError";
+  }
 }

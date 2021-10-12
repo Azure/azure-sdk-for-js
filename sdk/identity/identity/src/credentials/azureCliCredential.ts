@@ -4,7 +4,7 @@
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 
 import { createSpan } from "../util/tracing";
-import { CredentialUnavailableError } from "../client/errors";
+import { CredentialUnavailableError } from "../errors";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import child_process from "child_process";
@@ -117,7 +117,7 @@ export class AzureCliCredential implements TokenCredential {
 
     let responseData = "";
 
-    const { span } = createSpan("AzureCliCredential-getToken", options);
+    const { span } = createSpan("AzureCliCredential.getToken", options);
 
     try {
       const obj = await cliCredentialInternals.getAzureCliAccessToken(resource, tenantId);
