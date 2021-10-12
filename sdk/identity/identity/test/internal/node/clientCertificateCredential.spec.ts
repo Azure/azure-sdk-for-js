@@ -90,7 +90,7 @@ describe("ClientCertificateCredential (internal)", function() {
       );
     });
 
-    let error: Error | undefined | unknown;
+    let error: unknown;
     try {
       // If both values are provided. Relevant for JavaScript.
       new ClientCertificateCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, {
