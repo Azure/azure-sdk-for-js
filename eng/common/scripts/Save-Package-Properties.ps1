@@ -66,7 +66,7 @@ function SetOutput($outputPath, $incomingPackageSpec) {
   $finalJson = ConvertTo-Json -InputObject $outputObject -Depth 100
 
   Write-Host $finalJson
-  
+
   Set-Content `
     -Path $outputPath `
     -Value (ConvertTo-Json -InputObject $outputObject -Depth 100)
@@ -80,6 +80,11 @@ function GetRelativePath($path) {
   $relativeTo = Resolve-Path $PSScriptRoot/../../../
   # Replace "\" with "/" so the path is valid across other platforms and tools
   $relativePath = [IO.Path]::GetRelativePath($relativeTo, $path) -replace "\\", '/'
+
+  Write-Host "Path: $path"
+  Write-Host "Relative To: $relativeTo"
+  Write-Host "Relative Path: $relativePath"
+
   return $relativePath
 }
 
