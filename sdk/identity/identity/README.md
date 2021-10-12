@@ -2,7 +2,7 @@
 
 The Azure Identity library provides [Azure Active Directory (Azure AD)](https://docs.microsoft.com/azure/active-directory/fundamentals/active-directory-whatis) token authentication through a set of convenient [TokenCredential](https://docs.microsoft.com/javascript/api/@azure/core-auth/tokencredential) implementations.
 
-You can find examples for various credentials in the [Azure Identity Examples Page](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md)
+For examples of various credentials, see the [Azure Identity examples page](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md).
 
 Key links:
 
