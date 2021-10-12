@@ -37,7 +37,7 @@ async function main() {
 
 #### New credentials
 
-Identity v2 includes three new credential types:
+Identity v2 includes two new credential types:
 
 - `AzurePowerShellCredential`, which re-uses any account previously authenticated with the `Az.Account` PowerShell module.
 - `OnBehalfOfCredential`, which enables the [On-Behalf-Of authentication flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow).
@@ -106,7 +106,7 @@ Azure Service Fabric support hasn't been added on the initial version 2 of Ident
 
 #### Breaking Changes from 2.0.0-beta.6
 
-- Renamed the `ApplicationCredential` to `AzureApplicationCredential`, then removed it from our public API. We might introduce this credential in an upcoming beta.
+- Stopped exporting the `ApplicationCredential` from the package. This will be re-introduced in the future.
 - Removed the `CredentialPersistenceOptions` from `DefaultAzureCredential` and `EnvironmentCredential`.
 - Merged the configuration and the options bag on the `OnBehalfOfCredential` into a single options bag.
 - `AuthenticationRequiredError` (introduced in 2.0.0-beta.1) now has its parameters into a single options bag.
