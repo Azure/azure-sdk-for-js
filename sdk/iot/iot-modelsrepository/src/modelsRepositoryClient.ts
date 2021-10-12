@@ -7,6 +7,7 @@ import {
   DEFAULT_USER_AGENT,
   DEPENDENCY_MODE_DISABLED,
   DEPENDENCY_MODE_ENABLED,
+  METADATA_PATH
 } from "./utils/constants";
 import { createClientPipeline, InternalClientPipelineOptions } from "@azure/core-client";
 import { Fetcher } from "./fetcherAbstract";
@@ -164,23 +165,32 @@ export class ModelsRepositoryClient {
 
     // Default dependency mode is `enabled` unless one is specified in the options.
     const dependencyResolution = options?.dependencyResolution ?? DEPENDENCY_MODE_ENABLED;
-
+    let supportsExpanded = false;
     if (dependencyResolution === DEPENDENCY_MODE_DISABLED) {
       logger.info("Getting models w/ dependency resolution mode: disabled");
       logger.info(`Retreiving model(s): ${dtmis}...`);
       modelMap = await this._resolver.resolve(dtmis, false, options);
     } else if (dependencyResolution === DEPENDENCY_MODE_ENABLED) {
-
+      // try to fetch metadata
       try {
         logger.info(`Attempting to retrieve metadata from repository`);
-        const metadata = await this._fetcher.fetch<ModelsRepositoryMetadata>('metadata.json', options);
-        if (metadata?.features?.expanded) {
+        const metadata = await this._fetcher.fetch<ModelsRepositoryMetadata>(
+          METADATA_PATH,
+          options
+        );
+        supportsExpanded = metadata?.features?.expanded;
+      } catch (e) {
+        logger.info(`Repository metadata does not exist, or does not support expanded models`);
+      }
+
+      // try to get models
+      try {
+        // metadata exists and expanded support is enabled
+        if (supportsExpanded) {
           logger.info(`Repository metadata supports expanded models.`);
           logger.info(`Retreiving expanded model(s): ${dtmis}...`);
           modelMap = await this._resolver.resolve(dtmis, true, options);
-        }
-        else {
-          logger.info(`Repository metadata does not exist, or does not support expanded models`);
+        } else {
           modelMap = await this._ExpandModels(dtmis, options);
         }
       } catch (e) {
@@ -201,9 +211,12 @@ export class ModelsRepositoryClient {
    * Retrieve unexpanded models, and manually expand them by retrieving dependencies.
    * @param dtmis - dtmi strings in an array
    * @param options - options to govern behavior of model getter
-   * @returns 
+   * @returns - dtmi model with locally expanded dependencies
    */
-  private async _ExpandModels(dtmis: string[], options?: GetModelsOptions): Promise<{ [dtmi: string]: unknown }> {
+  private async _ExpandModels(
+    dtmis: string[],
+    options?: GetModelsOptions
+  ): Promise<{ [dtmi: string]: unknown }> {
     logger.info(`Getting unexpanded model(s): ${dtmis}...`);
     const baseModelMap = await this._resolver.resolve(dtmis, false, options);
     const baseModelList = Object.keys(baseModelMap).map((key) => baseModelMap[key]);
