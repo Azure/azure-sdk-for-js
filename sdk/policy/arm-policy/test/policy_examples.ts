@@ -15,6 +15,8 @@ import {
 import * as assert from "assert";
 import { ClientSecretCredential } from "@azure/identity";
 import { PolicyClient } from "../src/policyClient";
+import { string } from "yargs";
+import { PolicyAssignment } from "../src/models/mappers";
 
 const recorderEnvSetup: RecorderEnvironmentSetup = {
   replaceableVariables: {
@@ -41,6 +43,7 @@ describe("Policy test", () => {
   let resourceGroupName: string;
   let policyName: string;
   let groupId: string;
+  let policyAssignmentName: string;
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
@@ -55,14 +58,17 @@ describe("Policy test", () => {
     location = "eastus";
     resourceGroupName = "myjstest";
     policyName = "policynameaxx";
+    groupId = "20000000-0001-0000-0000-000000000123";
+    policyAssignmentName = "passigment";
   });
 
   afterEach(async function() {
     await recorder.stop();
   });
 
-  it("policyDefinitions create test", async function() {
-    const definition = await client.policyDefinitions.createOrUpdate(policyName,{
+  //policyDefinitions.createOrUpdateAtManagementGroup
+  async function policyDefinitions_createOrUpdateAtManagementGroup() {
+    const definition = await client.policyDefinitions.createOrUpdateAtManagementGroup(policyName,groupId,{
       policyType: "Custom",
       description: "Don't create a VM anywhere",
       policyRule: {
@@ -83,28 +89,34 @@ describe("Policy test", () => {
         },
       }
     });
-    assert.equal(definition.name,policyName);
+    console.log(definition);
+  }
+
+  it("policyAssignments create test", async function() {
+    await policyDefinitions_createOrUpdateAtManagementGroup();
+    const scope ="/providers/Microsoft.Management/managementgroups/20000000-0001-0000-0000-000000000123/";
+    const definition = await client.policyDefinitions.getAtManagementGroup(policyName,groupId);
+    const assigment = await client.policyAssignments.create(scope,policyAssignmentName,{ policyDefinitionId: definition.id });
+    console.log(assigment);
   });
 
-  it("policyDefinitions get test", async function() {
-    const definition = await client.policyDefinitions.get(policyName)
-    assert.equal(definition.name,policyName);
+  it("policyAssignments get test", async function() {
+    const scope ="/providers/Microsoft.Management/managementgroups/20000000-0001-0000-0000-000000000123/";
+    const res = await client.policyAssignments.get(scope,policyAssignmentName)
+    console.log(res);
   });
 
-  it("policyDefinitions list test", async function() {
+  it("policyAssignments list test", async function() {
     const resArray = new Array();
-    for await (const item of client.policyDefinitions.list()) {
+    for await (const item of client.policyAssignments.list()) {
       resArray.push(item);
+      console.log(item);
     }
-    assert.equal(resArray.length,1996);
   });
 
-  it("policyDefinitions delete test", async function() {
-    const res = await client.policySetDefinitions.delete(policyName);
-    const resArray = new Array();
-    for await (const item of client.policyDefinitions.list()) {
-      resArray.push(item);
-    }
-    assert.equal(resArray.length,1996);
+  it("policyAssignments delete test", async function() {
+    const scope ="/providers/Microsoft.Management/managementgroups/20000000-0001-0000-0000-000000000123/";
+    const res = await client.policyAssignments.delete(scope,policyAssignmentName);
+    console.log(res);
   });
 });
