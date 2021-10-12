@@ -126,6 +126,43 @@ export class ConnectedClusterOperations {
   }
 
   /**
+   * Gets cluster user credentials of the connected cluster with a specified resource group and name.
+   * @summary Gets cluster user credentials of a connected cluster
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the Kubernetes cluster on which get is called.
+   * @param properties ListClusterUserCredential properties
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ConnectedClusterListClusterUserCredentialResponse>
+   */
+  listClusterUserCredential(resourceGroupName: string, clusterName: string, properties: Models.ListClusterUserCredentialProperties, options?: msRest.RequestOptionsBase): Promise<Models.ConnectedClusterListClusterUserCredentialResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the Kubernetes cluster on which get is called.
+   * @param properties ListClusterUserCredential properties
+   * @param callback The callback
+   */
+  listClusterUserCredential(resourceGroupName: string, clusterName: string, properties: Models.ListClusterUserCredentialProperties, callback: msRest.ServiceCallback<Models.CredentialResults>): void;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the Kubernetes cluster on which get is called.
+   * @param properties ListClusterUserCredential properties
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listClusterUserCredential(resourceGroupName: string, clusterName: string, properties: Models.ListClusterUserCredentialProperties, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CredentialResults>): void;
+  listClusterUserCredential(resourceGroupName: string, clusterName: string, properties: Models.ListClusterUserCredentialProperties, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CredentialResults>, callback?: msRest.ServiceCallback<Models.CredentialResults>): Promise<Models.ConnectedClusterListClusterUserCredentialResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        clusterName,
+        properties,
+        options
+      },
+      listClusterUserCredentialOperationSpec,
+      callback) as Promise<Models.ConnectedClusterListClusterUserCredentialResponse>;
+  }
+
+  /**
    * API to enumerate registered connected K8s clusters under a Resource Group
    * @summary Lists all connected clusters
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -330,6 +367,38 @@ const getOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ConnectedCluster
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const listClusterUserCredentialOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Kubernetes/connectedClusters/{clusterName}/listClusterUserCredential",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "properties",
+    mapper: {
+      ...Mappers.ListClusterUserCredentialProperties,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.CredentialResults
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
