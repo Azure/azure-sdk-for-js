@@ -15,8 +15,6 @@ import {
 import * as assert from "assert";
 import { ClientSecretCredential } from "@azure/identity";
 import { PolicyClient } from "../src/policyClient";
-import { string } from "yargs";
-import { PolicyAssignment } from "../src/models/mappers";
 
 const recorderEnvSetup: RecorderEnvironmentSetup = {
   replaceableVariables: {
