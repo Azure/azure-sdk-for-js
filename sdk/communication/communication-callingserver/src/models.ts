@@ -85,6 +85,8 @@ export interface PlayAudioOptions extends OperationOptions {
   callbackUri: string;
 }
 
+export type PlayAudioToParticipantOptions = PlayAudioOptions;
+
 /**
  * Options to add participant to the call.
  */

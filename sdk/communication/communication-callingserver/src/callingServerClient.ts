@@ -4,11 +4,12 @@
 
 import { CallConnection, ContentDownloadResponse } from ".";
 import {
-  CreateCallOptions,
+  CreateCallOptions as CreateCallConnectionOptions,
   DownloadOptions,
   JoinCallOptions,
   CallLocator,
   PlayAudioOptions,
+  PlayAudioToParticipantOptions,
   AddParticipantOptions,
   RemoveParticipantOptions,
   CancelMediaOperationOptions,
@@ -152,7 +153,7 @@ export class CallingServerClient {
     return new CallConnection(callConnectionId, this.callConnectionRestClient);
   }
 
-  public initializeContentDownloader() {
+  public initializeContentDownloader(): ContentDownloader {
     return new ContentDownloader(this.downloadCallingServerApiClient);
   }
 
@@ -165,7 +166,7 @@ export class CallingServerClient {
   public async createCallConnection(
     source: CommunicationIdentifier,
     targets: CommunicationIdentifier[],
-    options: CreateCallOptions
+    options: CreateCallConnectionOptions
   ): Promise<CallConnection> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
     const { span, updatedOptions } = createSpan(
@@ -318,7 +319,7 @@ export class CallingServerClient {
     callLocator: CallLocator,
     participant: CommunicationIdentifier,
     audioFileUri: string,
-    options: PlayAudioOptions
+    options: PlayAudioToParticipantOptions
   ): Promise<PlayAudioResult> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
     const { span, updatedOptions } = createSpan("ServerCallRestClient-playAudio", operationOptions);
@@ -704,26 +705,24 @@ export class CallingServerClient {
   }
 
   /**
-   * Reads or downloads a blob from the system, including its metadata and properties.
-   * You can also call Get Blob to read a snapshot.
+   * Downloads the content pointed to the uri passed as a parameter.
    *
    * * In Node.js, data returns in a Readable stream readableStreamBody
    * * In browsers, data returns in a promise blobBody
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob
-   *
-   * @param offset - From which position of the blob to download, greater than or equal to 0
+   * @param uri - Endpoint where the content exists.
+   * @param offset - From which position of the blob to download, greater than or equal to 0.
    * @param count - How much data to be downloaded, greater than 0. Will download to the end when undefined
-   * @param options - Optional options to Blob Download operation.
+   * @param options - Optional options to Download operation.
    *
    *
    * Example usage (Node.js):
    *
    * ```js
    * // Download and convert a blob to a string
-   * const downloadBlockBlobResponse = await blobClient.download();
-   * const downloaded = await streamToBuffer(downloadBlockBlobResponse.readableStreamBody);
-   * console.log("Downloaded blob content:", downloaded.toString());
+   * const downloadResponse = await callingServerClient.download();
+   * const downloaded = await streamToBuffer(downloadResponse.readableStreamBody);
+   * console.log("Downloaded content:", downloaded.toString());
    *
    * async function streamToBuffer(readableStream) {
    * return new Promise((resolve, reject) => {
@@ -742,9 +741,9 @@ export class CallingServerClient {
    * Example usage (browser):
    *
    * ```js
-   * // Download and convert a blob to a string
-   * const downloadBlockBlobResponse = await blobClient.download();
-   * const downloaded = await blobToString(await downloadBlockBlobResponse.blobBody);
+   * // Download and convert a content blob to a string
+   * const downloadResponse = await callingServerClient.download();
+   * const downloaded = await blobToString(await downloadResponse.blobBody);
    * console.log(
    *   "Downloaded blob content",
    *   downloaded
@@ -787,12 +786,7 @@ export class CallingServerClient {
       }
 
       // We support retrying when download stream unexpected ends in Node.js runtime
-      // Following code shouldn't be bundled into browser build, however some
-      // bundlers may try to bundle following code and "FileReadResponse.ts".
-      // In this case, "FileDownloadResponse.browser.ts" will be used as a shim of "FileDownloadResponse.ts"
-      // The config is in package.json "browser" field
       if (options.maxRetryRequests === undefined || options.maxRetryRequests < 0) {
-        // TODO: Default value or make it a required parameter?
         options.maxRetryRequests = DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS;
       }
 
