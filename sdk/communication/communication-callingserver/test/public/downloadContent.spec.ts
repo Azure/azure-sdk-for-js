@@ -1,6 +1,8 @@
 import { isPlaybackMode, record, Recorder, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
-import { assert } from "chai";
+import assert from "assert";
 import { CallingServerClient } from "../../src"
+import { Context } from "mocha"
+import { RestError } from "@azure/core-http";
 
 const replaceableVariables: { [k: string]: string } = {
     COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana"
@@ -8,44 +10,65 @@ const replaceableVariables: { [k: string]: string } = {
 
 const environmentSetup: RecorderEnvironmentSetup = {
     replaceableVariables,
-    customizationsOnRecordings: [],
+    customizationsOnRecordings: [
+        (recording: string): string => recording.replace(/(https:\/\/)([^/',]*)/, "$1endpoint"),
+        (recording: string): string => recording.replace("endpoint:443", "endpoint")
+    ],
     queryParametersToSkip: []
   };
 
 describe ("Download Content", function() {
     let recorder: Recorder;
+    let uri = "https://endpoint/v1/objects/0-eus-d15-af5689148b0afa252a57a0121b744dcd/content/acsmetadata";
+    let callingServerServiceClient = new CallingServerClient("endpoint=https://endpoint/;accesskey=banana");
 
-    beforeEach(async function() {
+    beforeEach(async function(this: Context) {
         recorder = record(this, environmentSetup);
         /*Place your code here*/
-        });
+      });
     
-    afterEach(async () => {
-    /*Place your code here*/
-    await recorder.stop();
+    afterEach(async function(this: Context) {
+      if (!this.currentTest?.isPending()) {
+        await recorder.stop();
+      }
     });
 
-    it("download", function() {
-        if (!isPlaybackMode()) {
-            this.skip();
-        }
-        const connectionString = "endpoint=https://recording-e2e-sample-xiaoxli.communication.azure.com/;accesskey=TyYsQlMbQ7+zgmepk1+XbNJt4k0wqSsxnhvAGin8+oMkK6XPWcVzz6NHZ2CggW+Sj2w52/51/z12PP8zDuZClw==";
-        const uri = "https://us-storage.asm.skype.com/v1/objects/0-eus-d16-4d30207fd28f8fe681e1d5523b1ba242/content/acsmetadata";
-        let callingServerServiceClient = new CallingServerClient(connectionString);
-        callingServerServiceClient.download(uri)
-            .then((result) => result.readableStreamBody!.on('data', (chunk) => {
-                assert.isTrue(chunk.includes("0-eus-d16-4d30207fd28f8fe681e1d5523b1ba242"));
-            }))
-            .catch((error) => console.log(error));
+    function bodyToString(stream: NodeJS.ReadableStream, length: number) : Promise<String> {
+      return new Promise<string>((resolve, reject) => {
+        stream.on("readable", () => {
+          const chunk = stream.read(length);
+          if (chunk) {
+            resolve(chunk.toString());
+          }
+        });
+    
+        stream.on("error", reject);
+        stream.on("end", () => {
+          resolve("");
+        });
+      });
+    }
+
+    it("download", async function() {
+      if (!isPlaybackMode()) {
+          this.skip();
+      }
+
+      var downloadResponse = await callingServerServiceClient.download(uri);
+      var metadataStream = downloadResponse.readableStreamBody;
+      assert.notStrictEqual(metadataStream, null);
+      var metadata = await bodyToString(metadataStream!, downloadResponse.contentLength!);
+      assert.strictEqual(metadata.includes("0-eus-d15-af5689148b0afa252a57a0121b744dcd"), true);
     })
 
-    it("unauthorized download", function() {
-        if (!isPlaybackMode()) {
-            this.skip();
-        }
-        const uri = "https://us-storage.asm.skype.com/v1/objects/0-eus-d16-4d30207fd28f8fe681e1d5523b1ba242/content/acsmetadata";
-        let callingServerServiceClient = new CallingServerClient("endpoint=https://endpoint/;accesskey=banana");
-        callingServerServiceClient.download(uri)
-            .catch((error) => assert.strictEqual(error.statusCode, 401));
+    it("unauthorized download", async function() {
+      if (!isPlaybackMode()) {
+          this.skip();
+      }
+
+      var execution = async function() {
+        await callingServerServiceClient.download(uri);
+      }
+      assert.rejects(execution, RestError);
     })
 })

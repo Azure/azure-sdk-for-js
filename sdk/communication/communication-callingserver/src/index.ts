@@ -3,6 +3,7 @@
 import { HttpResponse } from "@azure/core-http";
 
 export * from "./models";
+export * from "./parameters";
 export * from "./callingServerClient";
 export * from "./converters";
 export * from "./callConnection";

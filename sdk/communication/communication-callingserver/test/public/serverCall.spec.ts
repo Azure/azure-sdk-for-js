@@ -6,6 +6,7 @@ import { CallingServerClient, GroupCallLocator } from "../../src";
 import { CALLBACK_URI  } from "./utils/constants";
 import { TestUtils } from "./utils/testUtils";
 import assert from "assert";
+import { Context } from "mocha";
 
 const replaceableVariables: { [k: string]: string } = {
     COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana"
@@ -13,35 +14,40 @@ const replaceableVariables: { [k: string]: string } = {
 
 const environmentSetup: RecorderEnvironmentSetup = {
     replaceableVariables,
-    customizationsOnRecordings: [],
+    customizationsOnRecordings: [
+      (recording: string): string => recording.replace(/(https:\/\/)([^/',]*)/, "$1endpoint"),
+      (recording: string): string => recording.replace("endpoint:443", "endpoint")
+    ],
     queryParametersToSkip: []
   };
 
-describe("Server Call", function() {
+describe("Server Call Live Test", function() {
+    let connectionString = env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING || "endpoint=https://endpoint/;accesskey=banana";
 
     describe("Recording Operations", function() {
 
         let recorder: Recorder;
 
-        beforeEach(async function() {
+        beforeEach(async function(this: Context) {
             recorder = record(this, environmentSetup);
             /*Place your code here*/
           });
         
-        afterEach(async () => {
-        /*Place your code here*/
-        await recorder.stop();
+        afterEach(async function(this: Context) {
+          if (!this.currentTest?.isPending()) {
+            await recorder.stop();
+          }
         });
 
         it("Run all client recording operations", async function() {
             this.timeout(0);
             var groupId = TestUtils.getGroupId("Run all client recording operations");
-            var fromUser = await TestUtils.getUserId("fromUser");
-            var toUser = await TestUtils.getUserId("toUser");
+            var fromUser = await TestUtils.getUserId("fromUser", connectionString);
+            var toUser = await TestUtils.getUserId("toUser", connectionString);
             var connections = [];
             var recordingId = "";
 
-            var callingServer = new CallingServerClient(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING);
+            var callingServer = new CallingServerClient(connectionString);
 
             try {
               connections = await TestUtils.createCallConnections(callingServer, groupId, fromUser, toUser);

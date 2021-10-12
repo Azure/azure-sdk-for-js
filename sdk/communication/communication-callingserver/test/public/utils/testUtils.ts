@@ -6,25 +6,21 @@ import { v4 as uuidv4, v5 as uuidv5 } from "uuid";
 import { CallingServerClient, MediaType, EventSubscriptionType, CallConnection, GroupCallLocator } from "../../../src";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 import  * as Constants from "../utils/constants";
-import { CommunicationUserIdentifier } from "@azure/communication-common";
 
 export class TestUtils {
     private static delay(ms: number) {
         return new Promise( resolve => setTimeout(resolve, ms) );
     }
     
-    public static async getUserId(userName: string) {
-      var communicationIdentityClient = new CommunicationIdentityClient(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING);
+    public static async getUserId(userName: string, connectionString: string) {
+      var communicationIdentityClient = new CommunicationIdentityClient(connectionString);
+      const tenant_id = env.AZURE_TENANT_ID || "016a7064-0581-40b9-be73-6dde64d69d72";
+      
       if (!isLiveMode()){
-        return "8:acs:" + env.AZURE_TENANT_ID + "_" + uuidv5(userName, Constants.NAMESPACE_UUID);
+        return "8:acs:" + tenant_id + "_" + uuidv5(userName, Constants.NAMESPACE_UUID);
       }
       
       return (await communicationIdentityClient.createUser()).communicationUserId;
-    }
-
-    public static async getUser() : Promise<CommunicationUserIdentifier> {
-      var communicationIdentityClient = new CommunicationIdentityClient(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING);
-      return await communicationIdentityClient.createUser();
     }
 
     public static getGroupId(testName: string) {

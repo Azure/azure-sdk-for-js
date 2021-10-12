@@ -772,6 +772,7 @@ export class CallingServerClient {
     const DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS = 3;
     let contentDownloader = this.initializeContentDownloader();
     try {
+      console.log("Before donwload content");
       const res = await contentDownloader.downloadContent(uri,{
         abortSignal: options.abortSignal,
         requestOptions: {
@@ -780,6 +781,8 @@ export class CallingServerClient {
         range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
+
+      console.log("After download content: ");
       // Return browser response immediately
       if (!isNode) {
         return res;
@@ -801,6 +804,7 @@ export class CallingServerClient {
       return new RepeatableContentDownloadResponse(
         res,
         async (start: number): Promise<NodeJS.ReadableStream> => {
+          console.log("Here I go again! " + (offset + res.contentLength! - start));
           const updatedOptions: DownloadContentOptions = {
             range: rangeToString({
               count: offset + res.contentLength! - start,

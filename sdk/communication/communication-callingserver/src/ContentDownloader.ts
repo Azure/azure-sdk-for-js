@@ -3,9 +3,9 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { DownloadContentOptions } from "./models";
-import * as Mappers from "./generated/src/models/mappers"
-import * as ExtraMappers from "./mappers"
-import * as Parameters from "./generated/src/models/parameters";
+import * as Parameters from "./parameters";
+import * as Mappers from "./generated/src/models/mappers";
+import * as ExtraMappers from "./mappers";
 import { CallingServerApiClientContext } from "./generated/src/callingServerApiClientContext";
 var urlModule = require('url');
 import { OperationQueryParameter } from "@azure/core-http";
@@ -117,8 +117,7 @@ function getDownloadContentOperationSpec(url: string, stringToSign: string): Ope
     requestBody: undefined,
     queryParameters: [],
     urlParameters: [],
-    headerParameters: [Parameters.contentType, Parameters.accept, stringToSignHeader],
-    mediaType: "json",
+    headerParameters: [stringToSignHeader, Parameters.range],
     serializer
   };
 
