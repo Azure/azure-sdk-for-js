@@ -8605,21 +8605,27 @@ packages:
     dev: false
 
   file:projects/arm-compute.tgz:
-    resolution: {integrity: sha512-Xn4t1yWRD9vhj8MkZ02f2OIV3CaCIUFJwRTL8dTxVsafJbmeFJqs97mzIem8G2yosfRQxJx4Lxyb+Z6vmL1zBQ==, tarball: file:projects/arm-compute.tgz}
+    resolution: {integrity: sha512-5BqAukGEZXq9+mAIu0BcKj+eI0JE509xxS9qghbJDACkaj4ek/dijKq/rBL/RmPC1Wk+WTnBdRcYZ/DdaIZarQ==, tarball: file:projects/arm-compute.tgz}
     name: '@rush-temp/arm-compute'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.18.13
+      '@azure/identity': 2.0.0-beta.6
+      '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
       mkdirp: 1.0.4
+      mocha: 7.2.0
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.2
+    transitivePeerDependencies:
+      - debug
+      - supports-color
     dev: false
 
   file:projects/arm-eventgrid.tgz:

@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
@@ -56,7 +55,7 @@ export interface DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
-   *                       0-9 and _. The maximum name length is 80 characters.
+   *                       0-9, _ and -. The maximum name length is 80 characters.
    * @param options The options parameters.
    */
   listPrivateEndpointConnections(
@@ -69,7 +68,7 @@ export interface DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
-   *                       0-9 and _. The maximum name length is 80 characters.
+   *                       0-9, _ and -. The maximum name length is 80 characters.
    * @param diskAccess disk access object supplied in the body of the Put disk access operation.
    * @param options The options parameters.
    */
@@ -89,7 +88,7 @@ export interface DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
-   *                       0-9 and _. The maximum name length is 80 characters.
+   *                       0-9, _ and -. The maximum name length is 80 characters.
    * @param diskAccess disk access object supplied in the body of the Put disk access operation.
    * @param options The options parameters.
    */
@@ -104,7 +103,7 @@ export interface DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
-   *                       0-9 and _. The maximum name length is 80 characters.
+   *                       0-9, _ and -. The maximum name length is 80 characters.
    * @param diskAccess disk access object supplied in the body of the Patch disk access operation.
    * @param options The options parameters.
    */
@@ -124,7 +123,7 @@ export interface DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
-   *                       0-9 and _. The maximum name length is 80 characters.
+   *                       0-9, _ and -. The maximum name length is 80 characters.
    * @param diskAccess disk access object supplied in the body of the Patch disk access operation.
    * @param options The options parameters.
    */
@@ -139,7 +138,7 @@ export interface DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
-   *                       0-9 and _. The maximum name length is 80 characters.
+   *                       0-9, _ and -. The maximum name length is 80 characters.
    * @param options The options parameters.
    */
   get(
@@ -152,7 +151,7 @@ export interface DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
-   *                       0-9 and _. The maximum name length is 80 characters.
+   *                       0-9, _ and -. The maximum name length is 80 characters.
    * @param options The options parameters.
    */
   beginDelete(
@@ -165,7 +164,7 @@ export interface DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
-   *                       0-9 and _. The maximum name length is 80 characters.
+   *                       0-9, _ and -. The maximum name length is 80 characters.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
@@ -178,7 +177,7 @@ export interface DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
-   *                       0-9 and _. The maximum name length is 80 characters.
+   *                       0-9, _ and -. The maximum name length is 80 characters.
    * @param options The options parameters.
    */
   getPrivateLinkResources(
@@ -192,8 +191,8 @@ export interface DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
-   *                       0-9 and _. The maximum name length is 80 characters.
-   * @param privateEndpointConnectionName The name of the private endpoint connection
+   *                       0-9, _ and -. The maximum name length is 80 characters.
+   * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param privateEndpointConnection private endpoint connection object supplied in the body of the Put
    *                                  private endpoint connection operation.
    * @param options The options parameters.
@@ -216,8 +215,8 @@ export interface DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
-   *                       0-9 and _. The maximum name length is 80 characters.
-   * @param privateEndpointConnectionName The name of the private endpoint connection
+   *                       0-9, _ and -. The maximum name length is 80 characters.
+   * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param privateEndpointConnection private endpoint connection object supplied in the body of the Put
    *                                  private endpoint connection operation.
    * @param options The options parameters.
@@ -234,8 +233,8 @@ export interface DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
-   *                       0-9 and _. The maximum name length is 80 characters.
-   * @param privateEndpointConnectionName The name of the private endpoint connection
+   *                       0-9, _ and -. The maximum name length is 80 characters.
+   * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param options The options parameters.
    */
   getAPrivateEndpointConnection(
@@ -249,8 +248,8 @@ export interface DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
-   *                       0-9 and _. The maximum name length is 80 characters.
-   * @param privateEndpointConnectionName The name of the private endpoint connection
+   *                       0-9, _ and -. The maximum name length is 80 characters.
+   * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param options The options parameters.
    */
   beginDeleteAPrivateEndpointConnection(
@@ -264,8 +263,8 @@ export interface DiskAccesses {
    * @param resourceGroupName The name of the resource group.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
-   *                       0-9 and _. The maximum name length is 80 characters.
-   * @param privateEndpointConnectionName The name of the private endpoint connection
+   *                       0-9, _ and -. The maximum name length is 80 characters.
+   * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param options The options parameters.
    */
   beginDeleteAPrivateEndpointConnectionAndWait(
