@@ -7,7 +7,7 @@ import * as Parameters from "./parameters";
 import * as Mappers from "./generated/src/models/mappers";
 import * as ExtraMappers from "./mappers";
 import { CallingServerApiClientContext } from "./generated/src/callingServerApiClientContext";
-var urlModule = require('url');
+import { URL } from 'url';
 import { OperationQueryParameter } from "@azure/core-http";
 import { createSpan } from "./tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
@@ -53,8 +53,8 @@ export class ContentDownloader {
 
 /**
 * Download recording's content.
-* @param contentUri The content Uri.
-* @param options The options parameters.
+* @param contentUri - The content Uri.
+* @param options - The options parameters.
 */
   download_content(
     contentUri: string,
@@ -64,9 +64,9 @@ export class ContentDownloader {
       options: operationOptionsToRequestOptionsBase(options || {})
     };
 
-    var q = urlModule.parse(contentUri, true);
-    var formattedUrl = q.pathname.startsWith('/') ? q.pathname.substr(1) : q.pathname
-    var stringToSign = this.client.endpoint + formattedUrl;
+    const q = new URL(contentUri);
+    const formattedUrl = q.pathname.startsWith('/') ? q.pathname.substr(1) : q.pathname
+    const stringToSign = this.client.endpoint + formattedUrl;
     return this.client.sendOperationRequest(
       operationArguments,
       getDownloadContentOperationSpec(contentUri, stringToSign)
