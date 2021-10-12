@@ -22,7 +22,7 @@ const environmentSetup: RecorderEnvironmentSetup = {
   };
 
 describe("Server Call Live Test", function() {
-    let connectionString = env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING || "endpoint=https://endpoint/;accesskey=banana";
+    const connectionString = env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING || "endpoint=https://endpoint/;accesskey=banana";
 
     describe("Recording Operations", function() {
 
@@ -30,7 +30,7 @@ describe("Server Call Live Test", function() {
 
         beforeEach(async function(this: Context) {
             recorder = record(this, environmentSetup);
-            /*Place your code here*/
+            /* Place your code here*/
           });
         
         afterEach(async function(this: Context) {
@@ -41,19 +41,19 @@ describe("Server Call Live Test", function() {
 
         it("Run all client recording operations", async function() {
             this.timeout(0);
-            var groupId = TestUtils.getGroupId("Run all client recording operations");
-            var fromUser = await TestUtils.getUserId("fromUser", connectionString);
-            var toUser = await TestUtils.getUserId("toUser", connectionString);
-            var connections = [];
-            var recordingId = "";
+            const groupId = TestUtils.getGroupId("Run all client recording operations");
+            const fromUser = await TestUtils.getUserId("fromUser", connectionString);
+            const toUser = await TestUtils.getUserId("toUser", connectionString);
+            let connections = [];
+            let recordingId = "";
 
-            var callingServer = new CallingServerClient(connectionString);
+            const callingServer = new CallingServerClient(connectionString);
 
             try {
               connections = await TestUtils.createCallConnections(callingServer, groupId, fromUser, toUser);
-              let callLocator : GroupCallLocator = { groupCallId: groupId};
+              const callLocator : GroupCallLocator = { groupCallId: groupId};
               
-              var startCallRecordingResult = await callingServer.startRecording(callLocator, CALLBACK_URI);
+              const startCallRecordingResult = await callingServer.startRecording(callLocator, CALLBACK_URI);
               recordingId = startCallRecordingResult.recordingId!;
               await TestUtils.delayIfLive();
               var recordingState = await callingServer.getRecordingProperties(recordingId!);

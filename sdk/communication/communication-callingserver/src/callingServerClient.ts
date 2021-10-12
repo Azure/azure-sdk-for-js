@@ -371,7 +371,7 @@ export class CallingServerClient {
     options: AddParticipantOptions = {}
   ): Promise<ServerCallsAddParticipantResponse> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-playAudio", options);
-    var alternate_caller_id = typeof alternateCallerId === "undefined" ? alternateCallerId : serializeCommunicationIdentifier({ phoneNumber: alternateCallerId }).phoneNumber;
+    const alternate_caller_id = typeof alternateCallerId === "undefined" ? alternateCallerId : serializeCommunicationIdentifier({ phoneNumber: alternateCallerId }).phoneNumber;
 
     const request: AddParticipantWithCallLocatorRequest = {
       callLocator: callLocator,
@@ -543,14 +543,14 @@ export class CallingServerClient {
       throw new Error('recordingStateCallbackUri is invalid.');
     }
 
-    var startCallRecordingRequest: StartCallRecordingRequest = {
+    const startCallRecordingRequest: StartCallRecordingRequest = {
       recordingStateCallbackUri: recordingStateCallbackUri,
       recordingChannelType: recordingChannelType,
       recordingContentType: recordingContentType,
       recordingFormatType: recordingFormatType
     };
 
-    var startCallRecordingWithCallLocatorRequest: StartCallRecordingWithCallLocatorRequest = {
+    const startCallRecordingWithCallLocatorRequest: StartCallRecordingWithCallLocatorRequest = {
       callLocator: callLocator,
       'startCallRecordingRequest': startCallRecordingRequest
     };
@@ -770,7 +770,7 @@ export class CallingServerClient {
   ): Promise<ContentDownloadResponse> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-download", options);
     const DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS = 3;
-    let contentDownloader = this.initializeContentDownloader();
+    const contentDownloader = this.initializeContentDownloader();
     try {
       const res = await contentDownloader.downloadContent(uri,{
         abortSignal: options.abortSignal,

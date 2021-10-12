@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { CompositeMapper } from "@azure/core-http";
 
 export const ContentDownloadHeaders: CompositeMapper = {

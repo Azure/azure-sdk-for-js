@@ -23,13 +23,13 @@ export {
 } from "./generated/src/models";
 
 /** Known values of {@link MediaType} that the service accepts. */
-export const enum MediaType {
+export enum MediaType {
   Audio = "audio",
   Video = "video"
 }
 
 /** Known values of {@link EventSubscriptionType} that the service accepts. */
-export const enum EventSubscriptionType {
+export enum EventSubscriptionType {
   ParticipantsUpdated = "participantsUpdated",
   DtmfReceived = "dtmfReceived"
 }
@@ -37,7 +37,7 @@ export const enum EventSubscriptionType {
 
 
 /** Known values of {@link OperationStatus} that the service accepts. */
-export const enum KnownOperationStatus {
+export enum KnownOperationStatus {
   NotStarted = "notStarted",
   Running = "running",
   Completed = "completed",
@@ -293,8 +293,8 @@ export class KnownCallingServerEventType {
   public static TONE_RECEIVED_EVENT: string | null = KnownCallingServerEventType.fromString("Microsoft.Communication.DtmfReceived")
 
   public static fromString(value: string) {
-    var allEvents = Object.values(CallingServerEventType)
-    for (let entry of allEvents) {
+    const allEvents = Object.values(CallingServerEventType)
+    for (const entry of allEvents) {
       if (entry.toString().toUpperCase() == value.toUpperCase()) {
         return value;
       }

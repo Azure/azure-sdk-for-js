@@ -13,7 +13,7 @@ export class TestUtils {
     }
     
     public static async getUserId(userName: string, connectionString: string) {
-      var communicationIdentityClient = new CommunicationIdentityClient(connectionString);
+      const communicationIdentityClient = new CommunicationIdentityClient(connectionString);
       const tenant_id = env.AZURE_TENANT_ID || "016a7064-0581-40b9-be73-6dde64d69d72";
       
       if (!isLiveMode()){
@@ -41,8 +41,8 @@ export class TestUtils {
           requestedMediaTypes: [MediaType.Audio],
           requestedCallEvents: [EventSubscriptionType.ParticipantsUpdated]
       };
-      let callLocator : GroupCallLocator = { groupCallId: groupId };
-      var callConnections = [];
+      const callLocator : GroupCallLocator = { groupCallId: groupId };
+      const callConnections = [];
       callConnections.push(await callingServerClient.joinCall(callLocator, {communicationUserId: fromUser}, joinCallOptions));
       callConnections.push(await callingServerClient.joinCall(callLocator, {communicationUserId: toUser}, joinCallOptions));
       return callConnections;
