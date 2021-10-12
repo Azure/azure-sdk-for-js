@@ -81,23 +81,23 @@ export class RetriableReadableStream extends Readable {
     this.setSourceEventHandlers();
   }
 
-  public _read() {
+  public _read() : void {
     this.source.resume();
   }
 
-  private setSourceEventHandlers() {
+  private setSourceEventHandlers() : void {
     this.source.on("data", this.sourceDataHandler);
     this.source.on("end", this.sourceErrorOrEndHandler);
     this.source.on("error", this.sourceErrorOrEndHandler);
   }
 
-  private removeSourceEventHandlers() {
+  private removeSourceEventHandlers() : void {
     this.source.removeListener("data", this.sourceDataHandler);
     this.source.removeListener("end", this.sourceErrorOrEndHandler);
     this.source.removeListener("error", this.sourceErrorOrEndHandler);
   }
 
-  private sourceDataHandler = (data: Buffer) => {
+  private sourceDataHandler = (data: Buffer): void => {
     if (this.options.doInjectErrorOnce) {
       this.options.doInjectErrorOnce = undefined;
       this.source.pause();
@@ -118,7 +118,7 @@ export class RetriableReadableStream extends Readable {
     }
   };
 
-  private sourceErrorOrEndHandler = (err?: Error) => {
+  private sourceErrorOrEndHandler = (err?: Error): void => {
     if (err && err.name === "AbortError") {
       this.destroy(err);
       return;
@@ -142,6 +142,7 @@ export class RetriableReadableStream extends Readable {
           .then((newSource) => {
             this.source = newSource;
             this.setSourceEventHandlers();
+            return;
           })
           .catch((error) => {
             this.destroy(error);
