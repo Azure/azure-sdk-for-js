@@ -895,12 +895,12 @@ In this example, the custom credential type `RotatingCertificateCredential` agai
 
 Many multi-user apps use the [On-Behalf-Of (OBO) flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow) to make authenticated requests between two services that would otherwise be unreachable. The Identity SDK provides an `OnBehalfOfCredential` that supports this form of authentication.
 
-Two accounts participate on the OBO flow:
+Two accounts participate in the OBO flow:
 
 - A user, which aims to obtain a special access level.
 - An app registration, which will act as the provider of the special access level.
 
-Both accounts must belong to the same tenant.
+Both accounts must belong to the same Azure AD tenant.
 
 For this authentication flow to work, app registrations must be configured with a custom scope. To create a scope through the Azure portal:
 
@@ -910,7 +910,6 @@ For this authentication flow to work, app registrations must be configured with 
 
 While other credentials authenticate requesting access to a set of resources, the OBO flow requires the user token to have access specifically to the scope of the Azure AD app that will delegate its access to the users.
 
-
 ```ts
 const credential = new InteractiveBrowserCredential();
 
@@ -918,7 +917,7 @@ const credential = new InteractiveBrowserCredential();
 const token = await credential.getToken("api://AAD_APP_CLIENT_ID/CUSTOM_SCOPE_NAME");
 ```
 
-Once the token is retrieved, it can be passed as the `userAssertionToken` to the `OnBehalfOfCredential`, besides the `clientId`, `tenantId`, and `clientSecret` (or `certificatePath`). Once initialized, this credential will have granted the user access to the resources available to the app registration.
+Once the token is retrieved, pass it in the `userAssertionToken` property of the `OnBehalfOfCredentialOptions`, along with `tenantId`, `clientId`, and `clientSecret`. Once initialized, this credential will have granted the user access to the resources available to the app registration.
 
 ```ts
 import { InteractiveBrowserCredential } from "@azure/identity";
@@ -934,9 +933,9 @@ async function main(): Promise<void> {
     clientId: "AAD_APP_CLIENT_ID",
     clientSecret: "AAD_APP_CLIENT_SECRET",
     userAssertionToken: token.token
-  })
+  });
 
-  // Now, the originally authenticated user be granted access by the app registration
+  // Now, the originally authenticated user will be granted access by the app registration
   // to previously inaccessible resources.
   const token2 = await oboCred.getToken("https://storage.azure.com/.default");
   console.log({ token, token2 });
