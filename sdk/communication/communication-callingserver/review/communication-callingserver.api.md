@@ -36,6 +36,7 @@ export class CallConnection {
     addParticipant(participant: CommunicationIdentifier, alternateCallerId?: string, operationContext?: string, options?: AddParticipantOptions): Promise<CallConnectionsAddParticipantResponse>;
     cancelAllMediaOperations(operationContext?: string, options?: CancelAllMediaOperationsOptions): Promise<CallConnectionsCancelAllMediaOperationsResponse>;
     cancelParticipantMediaOperation(participant: CommunicationIdentifier, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
+    getCallConnectionId(): string;
     hangUp(options?: HangUpOptions): Promise<void>;
     playAudio(audioFileUri: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
     playAudioToParticipant(participant: CommunicationIdentifier, audioFileUri: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
@@ -142,9 +143,9 @@ export interface CreateCallOptions extends OperationOptions {
 // @public
 export const enum EventSubscriptionType {
     // (undocumented)
-    DtmfReceived = "dtmfReceived",
+    ParticipantsUpdated = "participantsUpdated",
     // (undocumented)
-    ParticipantsUpdated = "participantsUpdated"
+    ToneReceived = "toneReceived"
 }
 
 // @public

@@ -31,7 +31,7 @@ export const enum MediaType {
 /** Known values of {@link EventSubscriptionType} that the service accepts. */
 export const enum EventSubscriptionType {
   ParticipantsUpdated = "participantsUpdated",
-  DtmfReceived = "dtmfReceived"
+  ToneReceived = "toneReceived"
 }
 
 /**
@@ -240,7 +240,7 @@ enum CallingServerEventType {
   PARTICIPANTS_UPDATED_EVENT = "Microsoft.Communication.ParticipantsUpdated",
 
   /** The subscribe to tone event type. */
-  TONE_RECEIVED_EVENT = "Microsoft.Communication.DtmfReceived",
+  TONE_RECEIVED_EVENT = "Microsoft.Communication.ToneReceived",
 }
 
 export class KnownCallingServerEventType {
@@ -249,7 +249,7 @@ export class KnownCallingServerEventType {
   public static CALL_RECORDING_STATE_CHANGED_EVENT: string | null = KnownCallingServerEventType.fromString("Microsoft.Communication.CallRecordingStateChanged")
   public static PLAY_AUDIO_RESULT_EVENT: string | null = KnownCallingServerEventType.fromString("Microsoft.Communication.PlayAudioResult")
   public static PARTICIPANTS_UPDATED_EVENT: string | null = KnownCallingServerEventType.fromString("Microsoft.Communication.ParticipantsUpdated")
-  public static TONE_RECEIVED_EVENT: string | null = KnownCallingServerEventType.fromString("Microsoft.Communication.DtmfReceived")
+  public static TONE_RECEIVED_EVENT: string | null = KnownCallingServerEventType.fromString("Microsoft.Communication.ToneReceived")
 
   public static fromString(value: string) {
     var allEvents = Object.values(CallingServerEventType)
