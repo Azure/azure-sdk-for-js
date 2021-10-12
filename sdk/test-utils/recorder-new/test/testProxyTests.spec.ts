@@ -72,6 +72,7 @@ function getTestServerUrl() {
       if (expectedResponse) {
         expect(JSON.parse(response.bodyAsText!)).to.deep.equal(expectedResponse);
       }
+      // Add code to also check expected headers
       return response;
     }
 
@@ -247,7 +248,7 @@ function getTestServerUrl() {
         );
       });
 
-      it.only("ContinuationSanitizer", async () => {
+      it.skip("ContinuationSanitizer", async () => {
         await recorder.start({});
         // What if the id is part of the response body and not response headers?
         await recorder.addSanitizers({
@@ -285,6 +286,28 @@ function getTestServerUrl() {
           },
           { val: "abc" }
         );
+      });
+
+      it("HeaderRegexSanitizer", async () => {
+        await recorder.start({});
+        const sanitizedValue = "Sanitized";
+        await recorder.addSanitizers({
+          headerRegexSanitizers: [
+            {
+              key: "your_uuid",
+              value: sanitizedValue
+            }
+          ]
+        });
+
+        await makeRequestAndVerifyResponse(
+          {
+            path: `/api/sample_uuid_in_header`,
+            method: "GET"
+          },
+          undefined
+        );
+        // TODO: Add more tests to cover groupForReplace
       });
 
       // it("RemoveHeaderSanitizer", async () => {

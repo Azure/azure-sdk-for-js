@@ -16,7 +16,7 @@ export interface SanitizerOptions {
   bodyKeySanitizers?: Array<{ value: string; regex: string; jsonPath: string }>;
   bodyRegexSanitizers?: Array<{ value: string; regex: string; groupForReplace?: string }>;
   continuationSanitizers?: Array<{ key: string; method?: string; resetAfterFirst: boolean }>;
-  headerRegexSanitizers?: Array<{ key: string; value: string; regex: string }>;
+  headerRegexSanitizers?: Array<{ key: string; value: string; groupForReplace?: string }>;
   uriRegexSanitizers?: Array<{ value: string; regex: string; groupForReplace?: string }>;
   removeHeaderSanitizer?: { headersForRemoval: string[] };
   oAuthResponseSanitizer?: boolean;
