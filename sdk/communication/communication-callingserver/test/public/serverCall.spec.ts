@@ -39,7 +39,7 @@ describe("Server Call Live Test", function() {
           }
         });
 
-        it("Run all client recording operations", async function() {
+        it("Run all client recording operations", async function(this: Context) {
             this.timeout(0);
             const groupId = TestUtils.getGroupId("Run all client recording operations");
             const fromUser = await TestUtils.getUserId("fromUser", connectionString);
@@ -56,21 +56,21 @@ describe("Server Call Live Test", function() {
               const startCallRecordingResult = await callingServer.startRecording(callLocator, CALLBACK_URI);
               recordingId = startCallRecordingResult.recordingId!;
               await TestUtils.delayIfLive();
-              var recordingState = await callingServer.getRecordingProperties(recordingId!);
+              let recordingState = await callingServer.getRecordingProperties(recordingId!);
               assert.strictEqual(recordingState.recordingState, "active");
               
               await callingServer.pauseRecording(recordingId!);
               await TestUtils.delayIfLive();
-              var recordingState = await callingServer.getRecordingProperties(recordingId!);
+              recordingState = await callingServer.getRecordingProperties(recordingId!);
               assert.strictEqual(recordingState.recordingState, "inactive");
 
               await callingServer.resumeRecording(recordingId!);
               await TestUtils.delayIfLive();
-              var recordingState = await callingServer.getRecordingProperties(recordingId!);
+              recordingState = await callingServer.getRecordingProperties(recordingId!);
               assert.strictEqual(recordingState.recordingState, "active");
             }
             finally {
-              if (recordingId != "") {
+              if (recordingId !== "") {
                 try {
                   await callingServer.stopRecording(recordingId);
                 } catch (e) {

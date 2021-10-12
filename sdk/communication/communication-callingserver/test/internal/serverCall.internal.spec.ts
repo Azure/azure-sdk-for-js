@@ -12,7 +12,7 @@ describe("ServerCall", function() {
             const callLocator : ServerCallLocator = { serverCallId: serverCallId};
 
             
-            const execution = async function() {
+            const execution = async function(): Promise<void> {
                 await callingServerClient.startRecording(callLocator, "/not/absolute/uri");
             }
             assert.rejects(execution, Error)

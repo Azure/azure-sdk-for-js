@@ -52,8 +52,9 @@ describe ("Download Content", function() {
       });
     }
 
-    it("download", async function() {
+    it("download", async function(this: Context) {
       if (!isPlaybackMode()) {
+          // tslint:disable-next-line:no-invalid-this
           this.skip();
       }
 
@@ -64,25 +65,27 @@ describe ("Download Content", function() {
       assert.strictEqual(metadata.includes("0-eus-d15-af5689148b0afa252a57a0121b744dcd"), true);
     })
 
-    it("download with redirection", async function() {
+    it("download with redirection", async function(this: Context) {
       if (!isPlaybackMode()) {
+          // tslint:disable-next-line:no-invalid-this
           this.skip();
       }
 
-      const uri = "https://endpoint/v1/objects/0-sa-d4-a29f0c0212c0a2a634ab078245184de8/content/acsmetadata";
-      const downloadResponse = await callingServerServiceClient.download(uri);
+      const redirectedUri = "https://endpoint/v1/objects/0-sa-d4-a29f0c0212c0a2a634ab078245184de8/content/acsmetadata";
+      const downloadResponse = await callingServerServiceClient.download(redirectedUri);
       const metadataStream = downloadResponse.readableStreamBody;
       assert.notStrictEqual(metadataStream, null);
       const metadata = await bodyToString(metadataStream!, downloadResponse.contentLength!);
       assert.strictEqual(metadata.includes("0-sa-d4-a29f0c0212c0a2a634ab078245184de8"), true);
     }).timeout(0)
 
-    it("unauthorized download", async function() {
+    it("unauthorized download", async function(this: Context) {
       if (!isPlaybackMode()) {
+          // tslint:disable-next-line:no-invalid-this
           this.skip();
       }
 
-      const execution = async function() {
+      const execution = async function(): Promise<void> {
         await callingServerServiceClient.download(uri);
       }
       assert.rejects(execution, RestError);
