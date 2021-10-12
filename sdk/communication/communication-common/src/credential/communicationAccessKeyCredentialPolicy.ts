@@ -78,7 +78,6 @@ class CommunicationAccessKeyCredentialPolicy extends BaseRequestPolicy {
          hostAndPort = q.hostname
          webResource.headers.set("x-ms-host", String(hostAndPort));
          urlPathAndQuery = q.pathname
-         webResource.headers.remove('UriToSignWith');
     }
 
     const stringToSign = `${verb}\n${urlPathAndQuery}\n${utcNow};${hostAndPort};${contentHash}`;

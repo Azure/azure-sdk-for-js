@@ -9,6 +9,7 @@ import { CommunicationIdentifier } from '@azure/communication-common';
 import * as coreHttp from '@azure/core-http';
 import { HttpResponse } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
+import { OperationParameter } from '@azure/core-http';
 import { PhoneNumberIdentifier } from '@azure/communication-common';
 import { PipelineOptions } from '@azure/core-http';
 import { RestResponse } from '@azure/core-http';
@@ -93,7 +94,7 @@ export class CallingServerClient {
     cancelMediaOperation(callLocator: CallLocator, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
     cancelParticipantMediaOperation(callLocator: CallLocator, participant: CommunicationIdentifier, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
     createCallConnection(source: CommunicationIdentifier, targets: CommunicationIdentifier[], options: CreateCallOptions): Promise<CallConnection>;
-    download(uri: string, offset?: number, count?: number, options?: ContentDownloadOptions): Promise<ContentDownloadResponse>;
+    download(uri: string, offset?: number, count?: number, options?: DownloadOptions): Promise<ContentDownloadResponse>;
     getCallConnection(callConnectionId: string): CallConnection;
     // Warning: (ae-forgotten-export) The symbol "CallRecordingProperties" needs to be exported by the entry point index.d.ts
     getRecordingProperties(recordingId: string, options?: GetRecordingPropertiesOptions): Promise<CallRecordingProperties>;
@@ -155,13 +156,6 @@ export interface ContentDownloadHeaders {
     errorCode?: string;
 }
 
-// @public (undocumented)
-export interface ContentDownloadOptions extends OperationOptions {
-    abortSignal?: AbortSignalLike;
-    maxRetryRequests?: number;
-    onProgress?: (progress: TransferProgressEvent) => void;
-}
-
 // @public
 export type ContentDownloadResponse = ContentDownloadHeaders & {
     blobBody?: Promise<Blob>;
@@ -181,8 +175,15 @@ export interface CreateCallOptions extends OperationOptions {
 }
 
 // @public (undocumented)
-export interface DownloadContentOptions extends OperationOptions {
+export interface DownloadContentOptions extends DownloadOptions {
     range?: string;
+}
+
+// @public (undocumented)
+export interface DownloadOptions extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    maxRetryRequests?: number;
+    onProgress?: (progress: TransferProgressEvent) => void;
 }
 
 // @public
@@ -356,6 +357,9 @@ export interface PlayAudioResultEvent {
     resultInfo?: ResultInfo;
     status: OperationStatus;
 }
+
+// @public (undocumented)
+export const range: OperationParameter;
 
 // @public
 export type RemoveParticipantOptions = OperationOptions;

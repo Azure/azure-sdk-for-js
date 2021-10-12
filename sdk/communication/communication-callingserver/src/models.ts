@@ -253,12 +253,7 @@ enum CallingServerEventType {
   TONE_RECEIVED_EVENT = "Microsoft.Communication.DtmfReceived",
 }
 
-export interface DownloadContentOptions extends OperationOptions {
-  /** Return only the bytes of the blob in the specified range. */
-  range?: string;
-}
-
-export interface ContentDownloadOptions extends OperationOptions {
+export interface DownloadOptions extends OperationOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -268,7 +263,7 @@ export interface ContentDownloadOptions extends OperationOptions {
    * Call back to receive events on the progress of download operation.
    */
   onProgress?: (progress: TransferProgressEvent) => void;
-
+  
   /**
    * Optional. ONLY AVAILABLE IN NODE.JS.
    *
@@ -282,6 +277,11 @@ export interface ContentDownloadOptions extends OperationOptions {
    * Default value is 5, please set a larger value when loading large files in poor network.
    */
   maxRetryRequests?: number;
+}
+
+export interface DownloadContentOptions extends DownloadOptions {
+  /** Return only the bytes of the blob in the specified range. */
+  range?: string;
 }
 
 export class KnownCallingServerEventType {

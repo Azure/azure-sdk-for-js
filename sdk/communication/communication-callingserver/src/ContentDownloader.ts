@@ -9,8 +9,9 @@ import * as ExtraMappers from "./mappers";
 import { CallingServerApiClientContext } from "./generated/src/callingServerApiClientContext";
 var urlModule = require('url');
 import { OperationQueryParameter } from "@azure/core-http";
+import { createSpan } from "./tracing";
+import { SpanStatusCode } from "@azure/core-tracing";
 
-// import { createSpan } from "./tracing";
 import {
   operationOptionsToRequestOptionsBase,
   OperationOptions,
@@ -18,7 +19,6 @@ import {
   Serializer,
   OperationSpec
 } from "@azure/core-http";
-// import { SpanStatusCode } from "@azure/core-tracing";
 import { ContentDownloadResponse } from ".";
 
 
@@ -31,34 +31,28 @@ export class ContentDownloader {
   public async downloadContent(contentUri: string,
     options: DownloadContentOptions = {}
   ): Promise<ContentDownloadResponse> {
-    // const { span, updatedOptions } = createSpan("ContentDownloaderRestClient-Recording", options);
+    const { span, updatedOptions } = createSpan("ContentDownloaderRestClient-downloadContent", options);
 
-    // try {
-    //   const result = await this.download_content(
-    //     contentUri,
-    //     operationOptionsToRequestOptionsBase(updatedOptions)
-    //   );
+    try {
+      return await this.download_content(
+          contentUri,
+          operationOptionsToRequestOptionsBase(updatedOptions)
+        );
 
-    //   return result;
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
 
-    // } catch (e) {
-    //   span.setStatus({
-    //     code: SpanStatusCode.ERROR,
-    //     message: e.message
-    //   });
-    //   throw e;
-    // } finally {
-    //   span.end();
-    // }
-
-    return await this.download_content(
-        contentUri,
-        operationOptionsToRequestOptionsBase(options)
-      );
   }
 
-  /**
-* Get call recording properties.
+/**
+* Download recording's content.
 * @param contentUri The content Uri.
 * @param options The options parameters.
 */

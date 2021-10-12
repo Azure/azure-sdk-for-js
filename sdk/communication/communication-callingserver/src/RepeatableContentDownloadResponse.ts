@@ -7,7 +7,7 @@ import { ReadableStreamGetter, RetriableReadableStream, RetriableReadableStreamO
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
- * BlobDownloadResponse implements BlobDownloadResponseParsed interface, and in Node.js runtime it will
+ * RepeatableContentDownloadResponse implements ContentDownloadResponse interface, and in Node.js runtime it will
  * automatically retry when internal read stream unexpected ends. (This kind of unexpected ends cannot
  * trigger retries defined in pipeline retry policy.)
  *
@@ -28,7 +28,7 @@ export class RepeatableContentDownloadResponse implements ContentDownloadRespons
 
   /**
    * Indicates the range of bytes returned if
-   * the client requested a subset of the file by setting the Range request
+   * the client requested a subset of the content by setting the Range request
    * header.
    *
    * @readonly
@@ -38,7 +38,7 @@ export class RepeatableContentDownloadResponse implements ContentDownloadRespons
   }
 
   /**
-   * The content type specified for the file.
+   * The content type specified for the content.
    * The default content type is 'application/octet-stream'
    *
    * @readonly
@@ -101,7 +101,7 @@ export class RepeatableContentDownloadResponse implements ContentDownloadRespons
   private blobDownloadStream?: RetriableReadableStream;
 
   /**
-   * Creates an instance of BlobDownloadResponse.
+   * Creates an instance of ContentDownloadResponse.
    *
    * @param originalResponse -
    * @param getter -

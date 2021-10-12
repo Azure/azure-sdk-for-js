@@ -8,7 +8,7 @@ export * from "./callingServerClient";
 export * from "./converters";
 export * from "./callConnection";
 
-/** Defines headers for Blob_download operation. */
+/** Defines headers for Content download operation. */
 export interface ContentDownloadHeaders {
     /** The number of bytes present in the response body. */
     contentLength?: number;
