@@ -27,7 +27,7 @@ steps:
       node common/scripts/install-run-rush.js update
     condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
     displayName: "Update package versions for dev build"
-
+  - pwsh: $PSVersionTable
   - task: Powershell@2
     inputs:
       filePath: $(Build.SourcesDirectory)/eng/common/scripts/Save-Package-Properties.ps1
