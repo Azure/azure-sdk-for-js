@@ -21,6 +21,7 @@ export interface SanitizerOptions {
   removeHeaderSanitizer?: { headersForRemoval: string[] };
   oAuthResponseSanitizer?: boolean;
   uriSubscriptionIdSanitizer?: { value: string };
+  resetSanitizer?: boolean;
 }
 
 // TODO:
@@ -140,6 +141,13 @@ export class Sanitizer {
         body: JSON.stringify(options.uriSubscriptionIdSanitizer)
       });
     }
+    if (options.resetSanitizer) {
+      // TODO: Test
+      await this.addSanitizer({
+        sanitizer: "Reset",
+        body: undefined
+      });
+    }
   }
 
   async addConnectionStringSanitizer(replacer: {
@@ -170,13 +178,18 @@ export class Sanitizer {
       | "HeaderRegexSanitizer"
       | "OAuthResponseSanitizer"
       | "UriRegexSanitizer"
-      | "UriSubscriptionIdSanitizer";
+      | "UriSubscriptionIdSanitizer"
+      | "Reset";
     body: string | undefined;
   }): Promise<void> {
     if (this.recordingId !== undefined) {
-      const infoUri = `${this.url}${paths.admin}${paths.addSanitizer}`;
-      const req = this._createRecordingRequest(infoUri);
-      req.headers.set("x-abstraction-identifier", options.sanitizer);
+      const uri = `${this.url}${paths.admin}${
+        options.sanitizer !== "Reset" ? paths.addSanitizer : paths.reset
+      }`;
+      const req = this._createRecordingRequest(uri);
+      if (options.sanitizer !== "Reset") {
+        req.headers.set("x-abstraction-identifier", options.sanitizer);
+      }
       req.body = options.body;
       if (!this.httpClient) {
         throw new RecorderError(

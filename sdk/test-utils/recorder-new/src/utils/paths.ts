@@ -10,5 +10,6 @@ export const paths = {
   addSanitizer: "/addSanitizer",
   info: "/info",
   available: "/available",
-  active: "/active"
+  active: "/active",
+  reset: "/reset"
 };
