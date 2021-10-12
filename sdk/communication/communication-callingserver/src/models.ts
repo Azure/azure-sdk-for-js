@@ -294,10 +294,10 @@ export class KnownCallingServerEventType {
   public static PARTICIPANTS_UPDATED_EVENT: string | null = KnownCallingServerEventType.fromString("Microsoft.Communication.ParticipantsUpdated")
   public static TONE_RECEIVED_EVENT: string | null = KnownCallingServerEventType.fromString("Microsoft.Communication.DtmfReceived")
 
-  public static fromString(value: string) {
+  public static fromString(value: string) : string | null {
     const allEvents = Object.values(CallingServerEventType)
     for (const entry of allEvents) {
-      if (entry.toString().toUpperCase() == value.toUpperCase()) {
+      if (entry.toString().toUpperCase() === value.toUpperCase()) {
         return value;
       }
     }
