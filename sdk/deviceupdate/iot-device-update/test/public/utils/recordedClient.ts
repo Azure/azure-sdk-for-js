@@ -13,7 +13,8 @@ import "./env";
 import { ClientOptions } from "@azure-rest/core-client";
 
 const replaceableVariables: { [k: string]: string } = {
-  ENDPOINT: "https://endpoint",
+  ACCOUNT_ENDPOINT: "https://endpoint",
+  INSTANCE_ID: "test",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
@@ -42,7 +43,7 @@ export function createClient(options?: ClientOptions): DeviceUpdateRestClient {
     env.AZURE_CLIENT_ID,
     env.AZURE_CLIENT_SECRET
   );
-  return DeviceUpdate(env.ENDPOINT, credential, options);
+  return DeviceUpdate(env.ACCOUNT_ENDPOINT, credential, options);
 }
 
 /**

@@ -22,31 +22,31 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'fa4aa946-1777-4f58-9fd4-a1e357fc0100',
+  '84d5e5bd-326d-4774-9166-1504006b0200',
   'x-ms-ests-server',
-  '2.1.12158.3 - SEASLR2 ProdSlices',
+  '2.1.12158.3 - SEASLR1 ProdSlices',
   'Set-Cookie',
-  'fpc=AlXIqiH1sY9Gvyns8ZNKaInQ9y8kAQAAAON9-NgOAAAA; expires=Fri, 12-Nov-2021 07:12:35 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Agxo4WQeVOlPi3sCzrEl7dTQ9y8kAQAAABGN-NgOAAAA; expires=Fri, 12-Nov-2021 08:17:21 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 13 Oct 2021 07:12:34 GMT',
+  'Wed, 13 Oct 2021 08:17:20 GMT',
   'Content-Length',
   '1679'
 ]);
 
 nock('https://https%3A%2F%2Fendpoint', {"encodedQueryParams":true})
-  .get('/deviceupdate/ztest/updates/providers')
+  .get('/deviceupdate/test/updates/providers')
   .query(true)
   .reply(200, {"value":[]}, [
   'Date',
-  'Wed, 13 Oct 2021 07:12:37 GMT',
+  'Wed, 13 Oct 2021 08:17:22 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
   '12',
   'traceparent',
-  '00-b222c9fc8820a44aa9c711e17611e94c-63280ab02f9c0147-00'
+  '00-9e3b5aa73051154c9f85cdf47480cf23-69dffe65e8e90a46-00'
 ]);
