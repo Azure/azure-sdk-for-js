@@ -103,8 +103,8 @@ Follow the troubleshooting guidelines below for the respective authentication ty
 
 | Authentication Type             | Troubleshoot Guide                                                                                 |
 | ------------------------------- | -------------------------------------------------------------------------------------------------- |
-| ClientSecret/ ClientCertificate | [Service Principal Auth Troubleshoot Guide](#troubleshoot-service-principal-authentication-issues) |
-| Username Password               | [Username Password Auth Troubleshoot Guide](#troubleshoot-username-password-authentication-issues) |
+| ClientSecret/ClientCertificate | [Service principal auth guide](#troubleshoot-service-principal-authentication-issues) |
+| Username and password               | [Username and password auth guide](#troubleshoot-username-password-authentication-issues) |
 
 ## Troubleshoot username and password authentication issues
 
