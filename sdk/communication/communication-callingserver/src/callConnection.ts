@@ -53,7 +53,7 @@ export class CallConnection {
   public getCallConnectionId(): string {
     return this.callConnectionId;
   }
-  
+
   /**
    * Disconnect the current caller in a group-call or end a p2p-call.
    *
