@@ -11,14 +11,13 @@ export {
   LogsQueryBatchResult,
   LogsQueryOptions,
   LogsQueryResult,
-  // TODO: design issues around this still pending.
-  // QueryStatistics,
+  LogsQueryError,
+  LogsQueryPartialResult,
+  LogsQuerySuccessfulResult,
   LogsTable,
   LogsColumn,
   LogsQueryResultStatus,
-  ErrorInfo,
-  BatchError,
-  AggregateBatchError
+  LogsErrorInfo
 } from "./models/publicLogsModels";
 export {
   MetricsQueryClient,
@@ -33,11 +32,12 @@ export {
   MetricsQueryOptions,
   MetricsQueryResult,
   TimeSeriesElement,
-  MetricNamespace
+  MetricNamespace,
+  MetricAvailability
 } from "./models/publicMetricsModels";
 
 export { Durations } from "./models/constants";
-export { TimeInterval } from "./models/timeInterval";
+export { QueryTimeInterval } from "./models/timeInterval";
 //
 // LogsClient: generated exports
 //
@@ -45,8 +45,7 @@ export { TimeInterval } from "./models/timeInterval";
 export {
   // TODO: these are the generated model names. We probably want to run them
   // through a manual review to make them consistent with style.
-  LogsColumnType,
-  ErrorDetail
+  LogsColumnType
 } from "./generated/logquery/src";
 
 //
@@ -60,9 +59,5 @@ export {
   MetricUnit
 } from "./generated/metrics/src";
 
-export {
-  AggregationType,
-  MetricAvailability,
-  MetricClass
-} from "./generated/metricsdefinitions/src";
+export { AggregationType, MetricClass } from "./generated/metricsdefinitions/src";
 export { NamespaceClassification } from "./generated/metricsnamespaces/src";

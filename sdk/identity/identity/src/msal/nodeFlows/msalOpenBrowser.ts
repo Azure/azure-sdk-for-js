@@ -11,9 +11,9 @@ import open from "open";
 import stoppable from "stoppable";
 
 import { credentialLogger, formatError, formatSuccess } from "../../util/logging";
+import { CredentialUnavailableError } from "../../errors";
 import { MsalNodeOptions, MsalNode } from "./nodeCommon";
 import { msalToPublic } from "../utils";
-import { CredentialUnavailableError } from "../../client/errors";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 
 /**

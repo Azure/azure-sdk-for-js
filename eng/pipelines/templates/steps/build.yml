@@ -68,11 +68,6 @@ steps:
       node eng/tools/rush-runner.js unlink
     displayName: "Unlink dependencies"
 
-  - template: /eng/common/pipelines/templates/steps/create-apireview.yml
-    parameters:
-      Artifacts: ${{ parameters.Artifacts }}
-      ArtifactPath: $(Build.SourcesDirectory)/sdk/${{ parameters.ServiceDirectory }}
-
   - template: ../steps/generate-doc.yml
     parameters:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
@@ -94,7 +89,19 @@ steps:
       }
     displayName: 'Copy Packages'
 
+  - pwsh: |
+      eng/scripts/stage-api-review-file.ps1 -PackageInfoPath $(Build.ArtifactStagingDirectory)/PackageInfo -StagingDirectory $(Build.ArtifactStagingDirectory)
+    displayName: 'Copy API extracted files'
+
   - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
     parameters:
       ArtifactPath: '$(Build.ArtifactStagingDirectory)'
       ArtifactName: 'packages'
+
+  - template: /eng/common/pipelines/templates/steps/create-apireview.yml
+    parameters:
+      Artifacts: ${{ parameters.Artifacts }}
+
+  - template: /eng/common/pipelines/templates/steps/detect-api-changes.yml
+    parameters:
+      Artifacts: ${{ parameters.Artifacts }}

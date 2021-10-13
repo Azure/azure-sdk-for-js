@@ -34,9 +34,24 @@ export interface PerfStressTestConstructor<TOptions extends {} = {}> {
  * (initializations are as many as the "parallel" command line parameter specifies).
  */
 export abstract class PerfStressTest<TOptions = {}> {
+  private readonly testProxy!: string;
   public testProxyHttpClient!: TestProxyHttpClient;
   public testProxyHttpClientV1!: TestProxyHttpClientV1;
   public abstract options: PerfStressOptionDictionary<TOptions>;
+
+  private static globalParallelIndex: number = 0;
+  protected readonly parallelIndex: number;
+
+  public constructor() {
+    this.parallelIndex = PerfStressTest.globalParallelIndex;
+    PerfStressTest.globalParallelIndex++;
+
+    const testProxies = this.parsedOptions["test-proxies"].value;
+    if (testProxies) {
+      const testProxiesArray = testProxies.split(";");
+      this.testProxy = testProxiesArray[this.parallelIndex % testProxiesArray.length];
+    }
+  }
 
   public get parsedOptions(): PerfStressOptionDictionary<TOptions & DefaultPerfStressOptions> {
     // This cast is needed because TS thinks
@@ -67,9 +82,10 @@ export abstract class PerfStressTest<TOptions = {}> {
    * Note: httpClient must be part of the options bag, it is required for the perf framework to update the underlying client properly
    */
   public configureClientOptionsCoreV1<T>(options: T & { httpClient?: HttpClient }): T {
-    if (this.parsedOptions["test-proxy"].value) {
+    if (this.testProxy) {
       this.testProxyHttpClientV1 = new TestProxyHttpClientV1(
-        this.parsedOptions["test-proxy"].value
+        this.testProxy,
+        this.parsedOptions["insecure"].value!
       );
       options.httpClient = this.testProxyHttpClientV1;
     }
@@ -85,9 +101,18 @@ export abstract class PerfStressTest<TOptions = {}> {
    * Note: Client must expose the pipeline property which is required for the perf framework to add its policies correctly
    */
   public configureClient<T>(client: T & { pipeline: Pipeline }): T {
-    if (this.parsedOptions["test-proxy"].value) {
-      this.testProxyHttpClient = new TestProxyHttpClient(this.parsedOptions["test-proxy"].value);
-      client.pipeline.addPolicy(testProxyHttpPolicy(this.testProxyHttpClient));
+    if (this.testProxy) {
+      this.testProxyHttpClient = new TestProxyHttpClient(
+        this.testProxy,
+        this.parsedOptions["insecure"].value!
+      );
+      client.pipeline.addPolicy(
+        testProxyHttpPolicy(
+          this.testProxyHttpClient,
+          this.testProxy.startsWith("https"),
+          this.parsedOptions["insecure"].value!
+        )
+      );
     }
     return client;
   }

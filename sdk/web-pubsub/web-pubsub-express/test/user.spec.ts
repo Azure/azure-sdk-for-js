@@ -88,8 +88,8 @@ describe("Can handle user event", function() {
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", ["*"], {
-      handleUserEvent: async (_, res) => {
-        res.fail(500);
+      handleUserEvent: async (_, response) => {
+        response.fail(500);
       }
     });
     const process = dispatcher.processRequest(req, res);
@@ -105,8 +105,8 @@ describe("Can handle user event", function() {
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", ["*"], {
-      handleUserEvent: async (_, res) => {
-        res.success();
+      handleUserEvent: async (_, response) => {
+        response.success();
       }
     });
     const process = dispatcher.processRequest(req, res);
@@ -122,8 +122,8 @@ describe("Can handle user event", function() {
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", ["*"], {
-      handleUserEvent: async (_, res) => {
-        res.success("a");
+      handleUserEvent: async (_, response) => {
+        response.success("a");
       }
     });
     const process = dispatcher.processRequest(req, res);
@@ -140,8 +140,8 @@ describe("Can handle user event", function() {
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", ["*"], {
-      handleUserEvent: async (_, res) => {
-        res.success("a", "text");
+      handleUserEvent: async (_, response) => {
+        response.success("a", "text");
       }
     });
     const process = dispatcher.processRequest(req, res);
@@ -158,8 +158,8 @@ describe("Can handle user event", function() {
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", ["*"], {
-      handleUserEvent: async (_, res) => {
-        res.success("a", "json");
+      handleUserEvent: async (_, response) => {
+        response.success("a", "json");
       }
     });
     const process = dispatcher.processRequest(req, res);
@@ -180,12 +180,12 @@ describe("Can handle user event", function() {
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", ["*"], {
-      handleUserEvent: async (_, res) => {
-        res.setState("key1", "val1");
-        res.setState("key2", "val2");
-        res.setState("key1", "val3");
-        res.setState("key3", "");
-        res.success();
+      handleUserEvent: async (_, response) => {
+        response.setState("key1", "val1");
+        response.setState("key2", "val2");
+        response.setState("key1", "val3");
+        response.setState("key3", "");
+        response.success();
       }
     });
     const process = dispatcher.processRequest(req, res);

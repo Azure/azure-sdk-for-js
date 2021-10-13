@@ -6,12 +6,11 @@ import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-auth"
 import { credentialLogger, processEnvVars, formatSuccess, formatError } from "../util/logging";
 import { TokenCredentialOptions } from "../client/identityClient";
 import { ClientSecretCredential } from "./clientSecretCredential";
-import { AuthenticationError, CredentialUnavailableError } from "../client/errors";
+import { AuthenticationError, CredentialUnavailableError } from "../errors";
 import { checkTenantId } from "../util/checkTenantId";
 import { trace } from "../util/tracing";
 import { ClientCertificateCredential } from "./clientCertificateCredential";
 import { UsernamePasswordCredential } from "./usernamePasswordCredential";
-import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
 
 /**
  * Contains the list of all supported environment variable names so that an
@@ -35,29 +34,11 @@ const logger = credentialLogger("EnvironmentCredential");
  * Enables authentication to Azure Active Directory depending on the available environment variables.
  * Defines options for the EnvironmentCredential class.
  */
-export interface EnvironmentCredentialOptions
-  extends TokenCredentialOptions,
-    CredentialPersistenceOptions {}
+export interface EnvironmentCredentialOptions extends TokenCredentialOptions {}
 
 /**
  * Enables authentication to Azure Active Directory using client secret
- * details configured in the following environment variables:
- *
- * Required environment variables:
- * - `AZURE_TENANT_ID`: The Azure Active Directory tenant (directory) ID.
- * - `AZURE_CLIENT_ID`: The client (application) ID of an App Registration in the tenant.
- *
- * Environment variables used for client credential authentication:
- * - `AZURE_CLIENT_SECRET`: A client secret that was generated for the App Registration.
- * - `AZURE_CLIENT_CERTIFICATE_PATH`: The path to a PEM certificate to use during the authentication, instead of the client secret.
- *
- * Alternatively, users can provide environment variables for username and password authentication:
- * - `AZURE_USERNAME`: Username to authenticate with.
- * - `AZURE_PASSWORD`: Password to authenticate with.
- *
- * This credential ultimately uses a {@link ClientSecretCredential} to
- * perform the authentication using these details.  Please consult the
- * documentation of that class for more details.
+ * details configured in environment variables
  */
 export class EnvironmentCredential implements TokenCredential {
   private _credential?:
@@ -114,7 +95,7 @@ export class EnvironmentCredential implements TokenCredential {
       this._credential = new ClientCertificateCredential(
         tenantId,
         clientId,
-        certificatePath,
+        { certificatePath },
         options
       );
       return;
@@ -151,7 +132,8 @@ export class EnvironmentCredential implements TokenCredential {
           return result;
         } catch (err) {
           const authenticationError = new AuthenticationError(400, {
-            error: "EnvironmentCredential authentication failed.",
+            error:
+              "EnvironmentCredential authentication failed. To troubleshoot, visit https://aka.ms/azsdk/js/identity/environmentcredential/troubleshoot.",
             error_description: err.message
               .toString()
               .split("More details:")
@@ -162,7 +144,7 @@ export class EnvironmentCredential implements TokenCredential {
         }
       }
       throw new CredentialUnavailableError(
-        "EnvironmentCredential is unavailable. No underlying credential could be used."
+        "EnvironmentCredential is unavailable. No underlying credential could be used. To troubleshoot, visit https://aka.ms/azsdk/js/identity/environmentcredential/troubleshoot."
       );
     });
   }

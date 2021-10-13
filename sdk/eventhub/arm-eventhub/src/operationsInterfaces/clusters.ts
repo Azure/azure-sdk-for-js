@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   Cluster,
+  ClustersListBySubscriptionOptionalParams,
   ClustersListByResourceGroupOptionalParams,
   ClustersListAvailableClusterRegionOptionalParams,
   ClustersListAvailableClusterRegionResponse,
@@ -28,6 +28,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Clusters. */
 export interface Clusters {
+  /**
+   * Lists the available Event Hubs Clusters within an ARM resource group
+   * @param options The options parameters.
+   */
+  listBySubscription(
+    options?: ClustersListBySubscriptionOptionalParams
+  ): PagedAsyncIterableIterator<Cluster>;
   /**
    * Lists the available Event Hubs Clusters within an ARM resource group
    * @param resourceGroupName Name of the resource group within the azure subscription.

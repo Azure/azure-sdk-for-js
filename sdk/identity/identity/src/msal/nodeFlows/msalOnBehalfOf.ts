@@ -55,7 +55,10 @@ export class MsalOnBehalfOf extends MsalNode {
   async init(options?: CredentialFlowGetTokenOptions): Promise<void> {
     if (this.certificatePath) {
       try {
-        const parts = await parseCertificate(this.certificatePath, this.sendCertificateChain);
+        const parts = await parseCertificate(
+          { certificatePath: this.certificatePath },
+          this.sendCertificateChain
+        );
         this.msalConfig.auth.clientCertificate = {
           thumbprint: parts.thumbprint,
           privateKey: parts.certificateContents,

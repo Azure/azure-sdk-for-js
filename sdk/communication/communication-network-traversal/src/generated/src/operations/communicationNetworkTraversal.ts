@@ -11,7 +11,7 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkRelayRestClient } from "../networkRelayRestClient";
 import {
-  CommunicationRelayConfigurationRequest,
+  CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams,
   CommunicationNetworkTraversalIssueRelayConfigurationResponse
 } from "../models";
 
@@ -31,18 +31,16 @@ export class CommunicationNetworkTraversal {
 
   /**
    * Issue a configuration for an STUN/TURN server for an existing identity.
-   * @param body Request for a CommunicationRelayConfiguration.
    * @param options The options parameters.
    */
   issueRelayConfiguration(
-    body: CommunicationRelayConfigurationRequest,
-    options?: coreHttp.OperationOptions
+    options?: CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams
   ): Promise<CommunicationNetworkTraversalIssueRelayConfigurationResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
     return this.client.sendOperationRequest(
-      { body, options: operationOptions },
+      { options: operationOptions },
       issueRelayConfigurationOperationSpec
     ) as Promise<CommunicationNetworkTraversalIssueRelayConfigurationResponse>;
   }

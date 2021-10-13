@@ -58,7 +58,7 @@ Use the returned token credential to authenticate the client:
 import PurviewCatalog from "@azure-rest/purview-catalog";
 import { DefaultAzureCredential } from "@azure/identity";
 const client = PurviewCatalog(
-  "https://<my-account-name>.catalog.purview.azure.com",
+  "https://<my-account-name>.purview.azure.com",
   new DefaultAzureCredential()
 );
 ```

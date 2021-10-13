@@ -9,7 +9,7 @@ import { OperationOptions } from "@azure/core-client";
  * @internal
  */
 export const createSpan = createSpanFunction({
-  packagePrefix: "Azure.Identity",
+  packagePrefix: "",
   namespace: "Microsoft.AAD"
 });
 

@@ -99,18 +99,29 @@ const logsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
 
 async function run() {
   const kustoQuery = "AppEvents | limit 1";
-  const result = await logsQueryClient.query(azureLogAnalyticsWorkspaceId, kustoQuery, {
-    duration: Durations.TwentyFourHours
+  const result = await logsQueryClient.queryWorkspace(azureLogAnalyticsWorkspaceId, kustoQuery, {
+    duration: Durations.twentyFourHours
   });
-  const tablesFromResult = result.tables;
 
-  if (tablesFromResult == null) {
-    console.log(`No results for query '${kustoQuery}'`);
-    return;
+  if (result.status === LogsQueryResultStatus.Success) {
+    const tablesFromResult: LogsTable[] = result.tables;
+
+    if (tablesFromResult.length === 0) {
+      console.log(`No results for query '${kustoQuery}'`);
+      return;
+    }
+    console.log(`This query has returned table(s) - `);
+    processTables(tablesFromResult);
+  } else {
+    console.log(`Error processing the query '${kustoQuery}' - ${result.partialError}`);
+    if (result.partialTables.length > 0) {
+      console.log(`This query has also returned partial data in the following table(s) - `);
+      processTables(result.partialTables);
+    }
   }
+}
 
-  console.log(`Results for query '${kustoQuery}'`);
-
+async function processTables(tablesFromResult: LogsTable[]) {
   for (const table of tablesFromResult) {
     const columnHeaderString = table.columnDescriptors
       .map((column) => `${column.name}(${column.type}) `)
@@ -123,20 +134,36 @@ async function run() {
     }
   }
 }
+
 run().catch((err) => console.log("ERROR:", err));
 ```
 
 #### Handle logs query response
 
-The `query` function of `LogsQueryClient` returns the `LogsQueryResult`. Here's a hierarchy of the response:
+The `queryWorkspace` function of `LogsQueryClient` returns a `LogsQueryResult` object. The object type can be `LogsQuerySuccessfulResult` or `LogsQueryPartialResult`. Here's a hierarchy of the response:
 
 ```
-LogsQueryResult
+LogsQuerySuccessfulResult
 |---statistics
 |---visualization
-|---error
-|---status ("Partial" | "Success" | "Failed")
+|---status ("Success")
 |---tables (list of `LogsTable` objects)
+    |---name
+    |---rows
+    |---columnDescriptors (list of `LogsColumn` objects)
+        |---name
+        |---type
+
+LogsQueryPartialResult
+|---statistics
+|---visualization
+|---status ("PartialFailure")
+|---partialError
+    |--name
+    |--code
+    |--message
+    |--stack
+|---partialTables (list of `LogsTable` objects)
     |---name
     |---rows
     |---columnDescriptors (list of `LogsColumn` objects)
@@ -147,17 +174,17 @@ LogsQueryResult
 For example, to handle a response with tables:
 
 ```ts
-const tablesFromResult = result.tables;
+async function processTables(tablesFromResult: LogsTable[]) {
+  for (const table of tablesFromResult) {
+    const columnHeaderString = table.columnDescriptors
+      .map((column) => `${column.name}(${column.type}) `)
+      .join("| ");
+    console.log("| " + columnHeaderString);
 
-for (const table of tablesFromResult) {
-  const columnHeaderString = table.columnDescriptors
-    .map((column) => `${column.name}(${column.type}) `)
-    .join("| ");
-  console.log("| " + columnHeaderString);
-
-  for (const row of table.rows) {
-    const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
-    console.log("| " + columnValuesString);
+    for (const row of table.rows) {
+      const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
+      console.log("| " + columnValuesString);
+    }
   }
 }
 ```
@@ -210,89 +237,133 @@ export async function main() {
   }
 
   let i = 0;
-  for (const response of result.results) {
+  for (const response of result) {
     console.log(`Results for query with query: ${queriesBatch[i]}`);
-
-    if (response.error) {
-      console.log(` Query had errors:`, response.error);
+    if (response.status === LogsQueryResultStatus.Success) {
+      console.log(
+        `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
+      );
+      processTables(response.tables);
+    } else if (response.status === LogsQueryResultStatus.PartialFailure) {
+      console.log(
+        `Printing partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
+      );
+      processTables(response.partialTables);
+      console.log(
+        ` Query had errors:${response.partialError.message} with code ${response.partialError.code}`
+      );
     } else {
-      if (response.tables == null) {
-        console.log(`No results for query`);
-      } else {
-        console.log(
-          `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
-        );
-
-        for (const table of response.tables) {
-          const columnHeaderString = table.columnDescriptors
-            .map((column) => `${column.name}(${column.type}) `)
-            .join("| ");
-          console.log(columnHeaderString);
-
-          for (const row of table.rows) {
-            const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
-            console.log(columnValuesString);
-          }
-        }
-      }
+      console.log(`Printing errors from query '${queriesBatch[i].query}'`);
+      console.log(` Query had errors:${response.message} with code ${response.code}`);
     }
     // next query
     i++;
+  }
+}
+
+async function processTables(tablesFromResult: LogsTable[]) {
+  for (const table of tablesFromResult) {
+    const columnHeaderString = table.columnDescriptors
+      .map((column) => `${column.name}(${column.type}) `)
+      .join("| ");
+    console.log("| " + columnHeaderString);
+
+    for (const row of table.rows) {
+      const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
+      console.log("| " + columnValuesString);
+    }
   }
 }
 ```
 
 #### Handle logs batch query response
 
-The `queryBatch` function of `LogsQueryClient` returns a `LogsQueryBatchResult` object. Here's a hierarchy of the response:
+The `queryBatch` function of `LogsQueryClient` returns a `LogsQueryBatchResult` object. `LogsQueryBatchResult` contains a list of objects with the following possible types:
+
+- `LogsQueryPartialResult`
+- `LogsQuerySuccessfulResult`
+- `LogsQueryError`
+
+Here's a hierarchy of the response:
 
 ```
-LogsQueryBatchResult
-|---results (list of following objects)
-    |---statistics
-    |---visualization
-    |---error
-    |---status ("Partial" | "Success" | "Failed")
-    |---tables (list of `LogsTable` objects)
+
+LogsQuerySuccessfulResult
+|---statistics
+|---visualization
+|---status ("Success")
+|---tables (list of `LogsTable` objects)
+    |---name
+    |---rows
+    |---columnDescriptors (list of `LogsColumn` objects)
         |---name
-        |---rows
-        |---columnDescriptors (list of `LogsColumn` objects)
-            |---name
-            |---type
+        |---type
+
+LogsQueryPartialResult
+|---statistics
+|---visualization
+|---status ("PartialFailure")
+|---partialError
+    |--name
+    |--code
+    |--message
+    |--stack
+|---partialTables (list of `LogsTable` objects)
+    |---name
+    |---rows
+    |---columnDescriptors (list of `LogsColumn` objects)
+        |---name
+        |---type
+
+LogsQueryError
+|--name
+|--code
+|--message
+|--stack
+|--status ("Failure")
 ```
 
-For example, to handle a batch logs query response:
+For example, the following code handles a batch logs query response:
 
 ```ts
-let i = 0;
-for (const response of result.results) {
-  console.log(`Results for query with query: ${queriesBatch[i]}`);
-
-  if (response.error) {
-    console.log(` Query had errors:`, response.error);
-  } else {
-    if (response.tables == null) {
-      console.log(`No results for query`);
-    } else {
+async function processBatchResult(result: LogsQueryBatchResult) {
+  let i = 0;
+  for (const response of result) {
+    console.log(`Results for query with query: ${queriesBatch[i]}`);
+    if (response.status === LogsQueryResultStatus.Success) {
       console.log(
         `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
       );
+      processTables(response.tables);
+    } else if (response.status === LogsQueryResultStatus.PartialFailure) {
+      console.log(
+        `Printing partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
+      );
+      processTables(response.partialTables);
+      console.log(
+        ` Query had errors:${response.partialError.message} with code ${response.partialError.code}`
+      );
+    } else {
+      console.log(`Printing errors from query '${queriesBatch[i].query}'`);
+      console.log(` Query had errors:${response.message} with code ${response.code}`);
+    }
+    // next query
+    i++;
+  }
+}
 
-      for (const table of response.tables) {
-        const columnHeaderString = table.columnDescriptors
-          .map((column) => `${column.name}(${column.type}) `)
-          .join("| ");
-        console.log(columnHeaderString);
+async function processTables(tablesFromResult: LogsTable[]) {
+  for (const table of tablesFromResult) {
+    const columnHeaderString = table.columnDescriptors
+      .map((column) => `${column.name}(${column.type}) `)
+      .join("| ");
+    console.log("| " + columnHeaderString);
 
-        for (const row of table.rows) {
-          const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
-          console.log(columnValuesString);
-        }
-      }
+    for (const row of table.rows) {
+      const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
+      console.log("| " + columnValuesString);
     }
   }
-  // next query
-  i++;
 }
 ```
 
@@ -313,10 +384,10 @@ const queryLogsOptions: LogsQueryOptions = {
   serverTimeoutInSeconds: 60
 };
 
-const result = await logsQueryClient.query(
+const result = await logsQueryClient.queryWorkspace(
   azureLogAnalyticsWorkspaceId,
   kustoQuery,
-  { duration: Durations.TwentyFourHours },
+  { duration: Durations.twentyFourHours },
   queryLogsOptions
 );
 
@@ -341,10 +412,10 @@ const queryLogsOptions: LogsQueryOptions = {
 };
 
 const kustoQuery = "AppEvents | limit 10";
-const result = await logsQueryClient.queryLogs(
+const result = await logsQueryClient.queryWorkspace(
   azureLogAnalyticsWorkspaceId,
   kustoQuery,
-  { duration: Durations.TwentyFourHours },
+  { duration: Durations.twentyFourHours },
   queryLogsOptions
 );
 ```
@@ -406,12 +477,12 @@ export async function main() {
   const secondMetricName = metricNames[1];
   if (firstMetricName && secondMetricName) {
     console.log(`Picking an example metric to query: ${firstMetricName} and ${secondMetricName}`);
-    const metricsResponse = await metricsQueryClient.query(
+    const metricsResponse = await metricsQueryClient.queryResource(
       metricsResourceId,
       [firstMetricName, secondMetricName],
       {
         granularity: "PT1M",
-        timespan: { duration: Durations.FiveMinutes }
+        timespan: { duration: Durations.fiveMinutes }
       }
     );
 
@@ -434,16 +505,16 @@ main().catch((err) => {
 });
 ```
 
-In the preceding sample, metric results in `metricsResponse` are ordered according to the order in which the user specifies the metric names in the `metricNames` array argument for the `query` function. If the user specifies `[firstMetricName,secondMetricName]`, the result for `firstMetricName` will appear before the result for `secondMetricName` in the `metricResponse`.
+In the preceding sample, metric results in `metricsResponse` are ordered according to the order in which the user specifies the metric names in the `metricNames` array argument for the `queryResource` function. If the user specifies `[firstMetricName, secondMetricName]`, the result for `firstMetricName` will appear before the result for `secondMetricName` in the `metricResponse`.
 
 #### Handle metrics query response
 
-The metrics `query` function returns a `QueryMetricsResult` object. The `QueryMetricsResult` object contains properties such as a list of `Metric`-typed objects, `interval`, `namespace`, and `timespan`. The `Metric` objects list can be accessed using the `metrics` property. Each `Metric` object in this list contains a list of `TimeSeriesElement` objects. Each `TimeSeriesElement` contains `data` and `metadataValues` properties. In visual form, the object hierarchy of the response resembles the following structure:
+The metrics `queryResource` function returns a `QueryMetricsResult` object. The `QueryMetricsResult` object contains properties such as a list of `Metric`-typed objects, `interval`, `namespace`, and `timespan`. The `Metric` objects list can be accessed using the `metrics` property. Each `Metric` object in this list contains a list of `TimeSeriesElement` objects. Each `TimeSeriesElement` contains `data` and `metadataValues` properties. In visual form, the object hierarchy of the response resembles the following structure:
 
 ```
 QueryMetricsResult
 |---cost
-|---timespan (of type `TimeInterval`)
+|---timespan (of type `QueryTimeInterval`)
 |---granularity
 |---namespace
 |---resourceRegion
@@ -480,23 +551,27 @@ export async function main() {
   const metricsQueryClient = new MetricsQueryClient(tokenCredential);
 
   if (!metricsResourceId) {
-    throw new Error("METRICS_RESOURCE_ID must be set in the environment for this sample");
+    throw new Error(
+      "METRICS_RESOURCE_ID for an Azure Metrics Advisor subscription must be set in the environment for this sample"
+    );
   }
 
-  console.log(`Picking an example metric to query: ${firstMetricName}`);
+  console.log(`Picking an example metric to query: MatchedEventCount`);
 
-  const metricsResponse = await metricsQueryClient.queryMetrics(
+  const metricsResponse = await metricsQueryClient.queryResource(
     metricsResourceId,
-    { duration: Durations.FiveMinutes },
+    ["MatchedEventCount"],
     {
-      metricNames: ["MatchedEventCount"],
-      interval: "PT1M",
-      aggregations: [AggregationType.Count]
+      timespan: {
+        duration: Durations.fiveMinutes
+      },
+      granularity: "PT1M",
+      aggregations: ["Count"]
     }
   );
 
   console.log(
-    `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.interval}, time span: ${metricsResponse.timespan}`
+    `Query cost: ${metricsResponse.cost}, granularity: ${metricsResponse.granularity}, time span: ${metricsResponse.timespan}`
   );
 
   const metrics: Metric[] = metricsResponse.metrics;

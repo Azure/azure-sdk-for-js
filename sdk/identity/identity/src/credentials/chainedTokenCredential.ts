@@ -3,7 +3,7 @@
 
 import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-auth";
 
-import { AggregateAuthenticationError, CredentialUnavailableError } from "../client/errors";
+import { AggregateAuthenticationError, CredentialUnavailableError } from "../errors";
 import { createSpan } from "../util/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
@@ -60,7 +60,7 @@ export class ChainedTokenCredential implements TokenCredential {
     let successfulCredentialName = "";
     const errors = [];
 
-    const { span, updatedOptions } = createSpan("ChainedTokenCredential-getToken", options);
+    const { span, updatedOptions } = createSpan("ChainedTokenCredential.getToken", options);
 
     for (let i = 0; i < this._sources.length && token === null; i++) {
       try {
