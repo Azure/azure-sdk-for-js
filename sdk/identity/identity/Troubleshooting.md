@@ -145,7 +145,7 @@ The client secret is the secret string that the app uses to prove its identity w
 
 #### Client certificate argument
 
-The `Client Certificate Credential` accepts `pem` certificates (`pfx` certificates are not supported by JS SDK for now). The certificate needs to be associated with your registered application/service principal. To create and associate a certificate with your registered app. Follow the instructions [here](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal#option-1-upload-a-certificate).
+The `ClientCertificateCredential` accepts PEM certificates (`pfx` certificates aren't supported by the JavaScript SDK for now). The certificate needs to be associated with your registered app/service principal. To create and associate a certificate with your registered app, follow the instructions [here](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal#option-1-upload-a-certificate).
 
 ### Create a new service principal
 
