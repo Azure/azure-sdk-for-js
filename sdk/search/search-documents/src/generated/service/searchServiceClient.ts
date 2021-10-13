@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 import {
   DataSourcesImpl,
   IndexersImpl,
@@ -59,13 +59,10 @@ export class SearchServiceClient extends SearchServiceClientContext {
   getServiceStatistics(
     options?: SearchServiceClientGetServiceStatisticsOptionalParams
   ): Promise<SearchServiceClientGetServiceStatisticsResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.sendOperationRequest(
-      operationArguments,
+      { options },
       getServiceStatisticsOperationSpec
-    ) as Promise<SearchServiceClientGetServiceStatisticsResponse>;
+    );
   }
 
   dataSources: DataSources;
@@ -75,9 +72,9 @@ export class SearchServiceClient extends SearchServiceClientContext {
   indexes: Indexes;
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getServiceStatisticsOperationSpec: coreHttp.OperationSpec = {
+const getServiceStatisticsOperationSpec: coreClient.OperationSpec = {
   path: "/servicestats",
   httpMethod: "GET",
   responses: {

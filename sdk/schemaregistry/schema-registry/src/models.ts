@@ -21,7 +21,7 @@ export interface SchemaProperties {
 }
 
 /**
- * Schema definition with its group, name, and serialization type.
+ * Schema definition with its name, format, and group.
  */
 export interface SchemaDescription {
   /** Schema group under which schema is or should be registered. */
@@ -37,7 +37,7 @@ export interface SchemaDescription {
   format: string;
 
   /** String representation of schema. */
-  definition: string;
+  schemaDefinition: string;
 }
 
 /**
@@ -45,7 +45,7 @@ export interface SchemaDescription {
  */
 export interface Schema extends SchemaProperties {
   /** String representation of schema. */
-  definition: string;
+  schemaDefinition: string;
 }
 
 /**

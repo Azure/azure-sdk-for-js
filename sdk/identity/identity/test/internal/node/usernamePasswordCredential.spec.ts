@@ -93,7 +93,7 @@ describe("UsernamePasswordCredential (internal)", function() {
     errors.forEach((e) => {
       assert.equal(
         e.message,
-        "UsernamePasswordCredential: tenantId, clientId, username and password are required parameters."
+        "UsernamePasswordCredential: tenantId, clientId, username and password are required parameters. To troubleshoot, visit https://aka.ms/azsdk/js/identity/usernamepasswordcredential/troubleshoot."
       );
     });
   });

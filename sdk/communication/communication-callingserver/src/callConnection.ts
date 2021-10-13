@@ -48,6 +48,13 @@ export class CallConnection {
   }
 
   /**
+   * Returns the call connection id.
+   */
+  public getCallConnectionId(): string {
+    return this.callConnectionId;
+  }
+  
+  /**
    * Disconnect the current caller in a group-call or end a p2p-call.
    *
    * @param options - Additional request options contains hangUp api options.

@@ -49,8 +49,15 @@ export interface JsonWebKey {
   /**
    * Json web key operations. For more
    * information on possible key operations, see KeyOperation.
+   *
+   * @deprecated Use {@link key_ops} instead. keyOps will be removed in version 5.x of `@azure/keyvault-keys`.
    */
   keyOps?: KeyOperation[];
+  /**
+   * Json web key operations. For more
+   * information on possible key operations, see KeyOperation.
+   */
+  key_ops?: KeyOperation[];
   /**
    * RSA modulus.
    */
@@ -575,8 +582,11 @@ export enum KnownKeyOperations {
 
 /** Known values of {@link KeyExportEncryptionAlgorithm} that the service accepts. */
 export enum KnownKeyExportEncryptionAlgorithm {
+  /** CKM_RSA_AES_KEY_WRAP Key Export Encryption Algorithm */
   CkmRsaAesKeyWrap = "CKM_RSA_AES_KEY_WRAP",
+  /** RSA_AES_KEY_WRAP_256 Key Export Encryption Algorithm */
   RsaAesKeyWrap256 = "RSA_AES_KEY_WRAP_256",
+  /** RSA_AES_KEY_WRAP_384 Key Export Encryption Algorithm */
   RsaAesKeyWrap384 = "RSA_AES_KEY_WRAP_384"
 }
 

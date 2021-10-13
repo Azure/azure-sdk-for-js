@@ -1,8 +1,8 @@
 ## Azure Identity client library for JavaScript
 
-The Azure Identity library provides [Azure Active Directory (AAD)](https://docs.microsoft.com/azure/active-directory/fundamentals/active-directory-whatis) token authentication through a set of convenient [TokenCredential](https://docs.microsoft.com/javascript/api/@azure/core-auth/tokencredential) implementations. It enables Azure SDK clients to authenticate with AAD, while also allowing other JavaScript and TypeScript apps to authenticate with AAD work and school accounts, Microsoft personal accounts (MSA), and other Identity providers through the [AAD B2C](https://docs.microsoft.com/azure/active-directory-b2c/overview) service.
+The Azure Identity library provides [Azure Active Directory (Azure AD)](https://docs.microsoft.com/azure/active-directory/fundamentals/active-directory-whatis) token authentication through a set of convenient [TokenCredential](https://docs.microsoft.com/javascript/api/@azure/core-auth/tokencredential) implementations.
 
-You can find examples for these various credentials in the [Azure Identity Examples Page](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md)
+For examples of various credentials, see the [Azure Identity examples page](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md).
 
 Key links:
 
@@ -13,6 +13,10 @@ Key links:
 - [Samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples)
 
 ## Getting started
+
+### Migrate from v1 to v2 of @azure/identity
+
+If you're using v1 of `@azure/identity`, see the [migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/migration-v1-v2.md) to update to v2.
 
 ### Currently supported environments
 
@@ -81,6 +85,14 @@ To authenticate with [Azure PowerShell][azure_powershell] users can run the `Con
 ![Azure PowerShell Account Sign In][azurepowershelllogin_image]
 
 If interactive authentication cannot be supported in the session, then the `-UseDeviceAuthentication` argument will force the cmdlet to use a device code authentication flow instead, similar to the corresponding option in the Azure CLI credential.
+
+#### Authenticate via Visual Studio Code
+
+Developers using Visual Studio Code can use the [Azure Account extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.azure-account) to authenticate via the IDE. Apps using `DefaultAzureCredential` or `VisualStudioCodeCredential` can then use this account to authenticate calls in their app when running locally.
+
+To authenticate in Visual Studio Code, first ensure the Azure Account extension is installed. Once the extension is installed, open the **Command Palette** and run the **Azure: Sign In** command.
+
+Additionally, use the [`@azure/identity-vscode`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-vscode) plugin package. This package provides the dependencies of `VisualStudioCodeCredential` and enables it. See [Plugins](##plugins).
 
 ### Authenticate the client in browsers
 
@@ -211,6 +223,24 @@ The [Managed identity authentication](https://docs.microsoft.com/azure/active-di
 
 For examples of how to use managed identity for authentication please refer to [the examples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-in-azure-with-managed-identity)
 
+## Cloud configuration
+
+Credentials default to authenticating to the Azure AD endpoint for Azure Public Cloud. To access resources in other clouds, such as Azure Government or a private cloud, configure credentials with the `authorityHost` argument in the constructor. The `AzureAuthorityHosts` interface defines authorities for well-known clouds. For the US Government cloud, you could instantiate a credential this way:
+
+```ts
+import { AzureAuthorityHosts, ClientSecretCredential } from "@azure/identity";
+const credential = new ClientSecretCredential(
+  "<YOUR_TENANT_ID>",
+  "<YOUR_CLIENT_ID>",
+  "<YOUR_CLIENT_SECRET>",
+  {
+    authorityHost: AzureAuthorityHosts.AzureGovernment
+  }
+);
+```
+
+Not all credentials require this configuration. Credentials that authenticate through a development tool, such as `AzureCliCredential`, use that tool's configuration. Similarly, `VisualStudioCodeCredential` accepts an `authorityHost` argument but defaults to the `authorityHost` matching Visual Studio Code's **Azure: Cloud** setting.
+
 ## Credential Classes
 
 ### Authenticating Azure Hosted Applications
@@ -253,7 +283,13 @@ Credentials raise `AuthenticationError` when they fail to authenticate. This cla
 
 ### Logging
 
-Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
+Enabling logging may help uncover useful information about failures. To see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. You can read this environment variable from the *.env* file by explicitly specifying a file path:
+
+```javascript
+require("dotenv").config({ path: ".env" });
+```
+
+Alternatively, logging can be enabled at runtime by calling `setLogLevel` from the `@azure/logger` package:
 
 ```javascript
 import { setLogLevel } from "@azure/logger";
@@ -261,11 +297,23 @@ import { setLogLevel } from "@azure/logger";
 setLogLevel("info");
 ```
 
+For assistance with troubleshooting, see the [troubleshooting guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/Troubleshooting.md).
+
 ## Next steps
 
 ### Read the documentation
 
 API documentation for this library can be found on our [documentation site](https://docs.microsoft.com/javascript/api/@azure/identity).
+
+### Client library support
+
+Client and management libraries listed on the [Azure SDK releases page](https://azure.github.io/azure-sdk/releases/latest/js.html) that support Azure AD authentication accept credentials from this library. Learn more about using these libraries in their documentation, which is linked from the releases page.
+
+### Known Issues
+
+#### Azure AD B2C support
+
+This library does not support the [Azure AD B2C](https://docs.microsoft.com/azure/active-directory-b2c/overview) service.
 
 ### Provide Feedback
 

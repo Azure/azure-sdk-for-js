@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TimeInterval } from "./models/timeInterval";
+import { QueryTimeInterval } from "./models/timeInterval";
 
-export function convertTimespanToInterval(timespan: TimeInterval): string {
+export function convertTimespanToInterval(timespan: QueryTimeInterval): string {
   if (isObjectWithProperties(timespan, ["startTime", "endTime", "duration"])) {
     throw new TypeError("Invalid Timespan - contains startTime, endTime, and duration.");
   }
@@ -21,7 +21,7 @@ export function convertTimespanToInterval(timespan: TimeInterval): string {
   throw new TypeError("Invalid Timespan - no valid fields assigned.");
 }
 
-export function convertIntervalToTimeIntervalObject(timespan: string): TimeInterval {
+export function convertIntervalToTimeIntervalObject(timespan: string): QueryTimeInterval {
   if (timespan.includes("/")) {
     const intervalUnits: string[] = timespan.split("/");
     if (Date.parse(intervalUnits[0]) && Date.parse(intervalUnits[2])) {

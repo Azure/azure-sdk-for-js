@@ -4,6 +4,8 @@
 
 ```ts
 
+/// <reference lib="esnext.asynciterable" />
+
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
@@ -905,7 +907,7 @@ export class MetricsAdvisorClient {
     listMetricDimensionValues(metricId: string, dimensionName: string, options?: ListMetricDimensionValuesOptions): PagedAsyncIterableIterator<string, DimensionValuesPageResponse>;
     listMetricEnrichmentStatus(metricId: string, startTime: Date | string, endTime: Date | string, options?: ListMetricEnrichmentStatusOptions): PagedAsyncIterableIterator<EnrichmentStatus, MetricEnrichmentStatusPageResponse>;
     listMetricSeriesDefinitions(metricId: string, activeSince: Date | string, options?: ListMetricSeriesDefinitionsOptions): PagedAsyncIterableIterator<MetricSeriesDefinition, MetricSeriesPageResponse>;
-    }
+}
 
 // @public
 export interface MetricsAdvisorClientOptions extends PipelineOptions {
@@ -1129,7 +1131,6 @@ export type WebNotificationHookPatch = {
     hookType: "Webhook";
     hookParameter?: Partial<WebhookHookParameter>;
 } & NotificationHookPatch;
-
 
 // (No @packageDocumentation comment for this package)
 

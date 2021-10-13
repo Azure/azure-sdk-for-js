@@ -3,7 +3,7 @@
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 
-import { CredentialUnavailableError } from "../client/errors";
+import { CredentialUnavailableError } from "../errors";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import { trace } from "../util/tracing";
 import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
@@ -63,7 +63,8 @@ export const powerShellErrors = {
 export const powerShellPublicErrorMessages = {
   login:
     "Please run 'Connect-AzAccount' from PowerShell to authenticate before using this credential.",
-  installed: `The 'Az.Account' module >= 2.2.0 is not installed. Install the Azure Az PowerShell module with: "Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force".`
+  installed: `The 'Az.Account' module >= 2.2.0 is not installed. Install the Azure Az PowerShell module with: "Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force".`,
+  troubleshoot: `To troubleshoot, visit https://aka.ms/azsdk/js/identity/powershellcredential/troubleshoot.`
 };
 
 // PowerShell Azure User not logged in error check.
@@ -87,25 +88,23 @@ if (isWindows) {
  * This credential will use the currently logged-in user information from the
  * Azure PowerShell module. To do so, it will read the user access token and
  * expire time with Azure PowerShell command `Get-AzAccessToken -ResourceUrl {ResourceScope}`
- *
- * To be able to use this credential:
- * - Install the Azure Az PowerShell module with:
- *   `Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force`.
- * - You have already logged in to Azure PowerShell using the command
- * `Connect-AzAccount` from the command line.
  */
 export class AzurePowerShellCredential implements TokenCredential {
   private tenantId?: string;
-  private allowMultiTenantAuthentication?: boolean;
 
   /**
-   * Creates an instance of the {@link AzurePowershellCredential}.
+   * Creates an instance of the {@link AzurePowerShellCredential}.
+   *
+   * To use this credential:
+   * - Install the Azure Az PowerShell module with:
+   *   `Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force`.
+   * - You have already logged in to Azure PowerShell using the command
+   * `Connect-AzAccount` from the command line.
    *
    * @param options - Options, to optionally allow multi-tenant requests.
    */
   constructor(options?: AzurePowerShellCredentialOptions) {
     this.tenantId = options?.tenantId;
-    this.allowMultiTenantAuthentication = options?.allowMultiTenantAuthentication;
   }
 
   /**
@@ -152,7 +151,7 @@ export class AzurePowerShellCredential implements TokenCredential {
       }
     }
 
-    throw new Error(`Unable to execute PowerShell. Ensure that it is installed in your system.`);
+    throw new Error(`Unable to execute PowerShell. Ensure that it is installed in your system`);
   }
 
   /**
@@ -167,11 +166,7 @@ export class AzurePowerShellCredential implements TokenCredential {
     options: GetTokenOptions = {}
   ): Promise<AccessToken> {
     return trace(`${this.constructor.name}.getToken`, options, async () => {
-      const tenantId = processMultiTenantRequest(
-        this.tenantId,
-        this.allowMultiTenantAuthentication,
-        options
-      );
+      const tenantId = processMultiTenantRequest(this.tenantId, options);
       if (tenantId) {
         checkTenantId(logger, tenantId);
       }
@@ -198,7 +193,9 @@ export class AzurePowerShellCredential implements TokenCredential {
           logger.getToken.info(formatError(scope, error));
           throw error;
         }
-        const error = new CredentialUnavailableError(err);
+        const error = new CredentialUnavailableError(
+          `${err}. ${powerShellPublicErrorMessages.troubleshoot}`
+        );
         logger.getToken.info(formatError(scope, error));
         throw error;
       }

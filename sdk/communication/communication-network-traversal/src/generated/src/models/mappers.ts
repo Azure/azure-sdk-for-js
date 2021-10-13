@@ -15,7 +15,6 @@ export const CommunicationRelayConfigurationRequest: coreHttp.CompositeMapper = 
     modelProperties: {
       id: {
         serializedName: "id",
-        required: true,
         type: {
           name: "String"
         }

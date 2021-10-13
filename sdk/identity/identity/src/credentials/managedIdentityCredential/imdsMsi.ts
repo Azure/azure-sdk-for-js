@@ -16,7 +16,7 @@ import { createSpan } from "../../util/tracing";
 import { imdsApiVersion, imdsEndpointPath, imdsHost } from "./constants";
 import { MSI, MSIConfiguration } from "./models";
 import { mapScopesToResource, msiGenericGetToken } from "./utils";
-import { AuthenticationError } from "../../client/errors";
+import { AuthenticationError } from "../../errors";
 
 const msiName = "ManagedIdentityCredential - IMDS";
 const logger = credentialLogger(msiName);
@@ -26,7 +26,7 @@ function expiresInParser(requestBody: any): number {
     // Use the expires_on timestamp if it's available
     const expires = +requestBody.expires_on * 1000;
     logger.info(
-      `${msiName}: IMDS using expires_on: ${expires} (original value: ${requestBody.expires_on})`
+      `${msiName}: Using expires_on: ${expires} (original value: ${requestBody.expires_on})`
     );
     return expires;
   } else {
@@ -41,33 +41,51 @@ function expiresInParser(requestBody: any): number {
 
 function prepareRequestOptions(
   scopes: string | string[],
-  clientId?: string
+  clientId?: string,
+  options?: {
+    skipQuery?: boolean;
+    skipMetadataHeader?: boolean;
+  }
 ): PipelineRequestOptions {
   const resource = mapScopesToResource(scopes);
   if (!resource) {
     throw new Error(`${msiName}: Multiple scopes are not supported.`);
   }
 
-  const queryParameters: any = {
-    resource,
-    "api-version": imdsApiVersion
-  };
+  const { skipQuery, skipMetadataHeader } = options || {};
+  let query = "";
 
-  if (clientId) {
-    queryParameters.client_id = clientId;
+  // Pod Identity will try to process this request even if the Metadata header is missing.
+  // We can exclude the request query to ensure no IMDS endpoint tries to process the ping request.
+  if (!skipQuery) {
+    const queryParameters: any = {
+      resource,
+      "api-version": imdsApiVersion
+    };
+    if (clientId) {
+      queryParameters.client_id = clientId;
+    }
+    const params = new URLSearchParams(queryParameters);
+    query = `?${params.toString()}`;
   }
 
-  const params = new URLSearchParams(queryParameters);
-  const query = params.toString();
   const url = new URL(imdsEndpointPath, process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST ?? imdsHost);
 
+  const rawHeaders: Record<string, string> = {
+    Accept: "application/json",
+    Metadata: "true"
+  };
+
+  // Remove the Metadata header to invoke a request error from some IMDS endpoints.
+  if (skipMetadataHeader) {
+    delete rawHeaders.Metadata;
+  }
+
   return {
-    url: `${url}?${query}`,
+    // In this case, the `?` should be added in the "query" variable `skipQuery` is not set.
+    url: `${url}${query}`,
     method: "GET",
-    headers: createHttpHeaders({
-      Accept: "application/json",
-      Metadata: "true"
-    })
+    headers: createHttpHeaders(rawHeaders)
   };
 }
 
@@ -100,15 +118,10 @@ export const imdsMsi: MSI = {
       return true;
     }
 
-    const requestOptions = prepareRequestOptions(resource, clientId);
-
-    // This will always be populated, but let's make TypeScript happy
-    if (requestOptions.headers) {
-      // Remove the Metadata header to invoke a request error from
-      // IMDS endpoint
-      requestOptions.headers.delete("Metadata");
-    }
-
+    const requestOptions = prepareRequestOptions(resource, clientId, {
+      skipMetadataHeader: true,
+      skipQuery: true
+    });
     requestOptions.tracingOptions = options.tracingOptions;
 
     try {

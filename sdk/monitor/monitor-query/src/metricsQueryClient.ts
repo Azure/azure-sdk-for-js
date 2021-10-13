@@ -9,7 +9,8 @@ import {
   ListMetricNamespacesOptions,
   MetricsQueryOptions,
   MetricsQueryResult,
-  MetricDefinition
+  MetricDefinition,
+  MetricNamespace
 } from "./models/publicMetricsModels";
 
 import {
@@ -22,7 +23,6 @@ import {
 } from "./generated/metricsdefinitions/src";
 import {
   KnownApiVersion20171201Preview as MetricNamespacesApiVersion,
-  MetricNamespace,
   MonitorManagementClient as GeneratedMetricsNamespacesClient
 } from "./generated/metricsnamespaces/src";
 import {
@@ -32,6 +32,8 @@ import {
   convertResponseForMetrics,
   convertResponseForMetricsDefinitions
 } from "./internal/modelConverters";
+import { SDK_VERSION } from "./constants";
+const defaultMetricsScope = "https://management.azure.com/.default";
 
 /**
  * Options for the MetricsQueryClient.
@@ -55,12 +57,27 @@ export class MetricsQueryClient {
    * @param options - Options for the client like controlling request retries.
    */
   constructor(tokenCredential: TokenCredential, options?: MetricsQueryClientOptions) {
+    let scope;
+    if (options?.endpoint) {
+      scope = `${options?.endpoint}./default`;
+    }
+    const credentialOptions = {
+      credentialScopes: scope
+    };
+    const packageDetails = `azsdk-js-monitor-query/${SDK_VERSION}`;
+    const userAgentPrefix =
+      options?.userAgentOptions && options?.userAgentOptions.userAgentPrefix
+        ? `${options?.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
     const serviceClientOptions = {
       ...options,
       $host: options?.endpoint,
       endpoint: options?.endpoint,
-      credentialScopes: formatScope(options?.endpoint),
-      credential: tokenCredential
+      credentialScopes: credentialOptions?.credentialScopes ?? defaultMetricsScope,
+      credential: tokenCredential,
+      userAgentOptions: {
+        userAgentPrefix
+      }
     };
 
     this._metricsClient = new GeneratedMetricsClient(
@@ -86,10 +103,10 @@ export class MetricsQueryClient {
    * @param options - Options for querying metrics.
    * @returns A response containing metrics.
    */
-  async query(
+  async queryResource(
     resourceUri: string,
     metricNames: string[],
-    options?: MetricsQueryOptions
+    options?: MetricsQueryOptions // eslint-disable-line @azure/azure-sdk/ts-naming-options
   ): Promise<MetricsQueryResult> {
     const response = await this._metricsClient.metrics.list(
       resourceUri,
@@ -269,17 +286,5 @@ export class MetricsQueryClient {
         return this.listSegmentOfMetricNamespaces(resourceUri, options);
       }
     };
-  }
-}
-
-function formatScope(endpoint: string | undefined): string {
-  if (endpoint) {
-    if (endpoint.endsWith("/")) {
-      endpoint += "/";
-    }
-
-    return `${endpoint}/.default`;
-  } else {
-    return "https://management.azure.com/.default";
   }
 }

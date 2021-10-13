@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
 import {
   SynonymMap,
   SynonymMapsCreateOrUpdateOptionalParams,
@@ -41,7 +40,7 @@ export interface SynonymMaps {
   delete(
     synonymMapName: string,
     options?: SynonymMapsDeleteOptionalParams
-  ): Promise<coreHttp.RestResponse>;
+  ): Promise<void>;
   /**
    * Retrieves a synonym map definition.
    * @param synonymMapName The name of the synonym map to retrieve.

@@ -1,8 +1,16 @@
 # Release History
 
-## 1.0.0-beta.3 (Unreleased)
+## 1.0.0-beta.4 (Unreleased)
 
 ### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.0.0-beta.3 (2021-10-05)
 
 ### Breaking Changes
 
@@ -10,10 +18,7 @@
 - renames `SchemaId` to `SchemaProperties`
 - renames `getSchemaById` to `getSchema`
 - renames `GetSchemaByIdOptions` to `GetSchemaOptions`
-- `getSchema` and `getSchemaProperties` no longer return `undefined` if the schema was not registered
-- renames `content` to `definition`, `serializationType` to `format`, and `KnownSerializationType` to `KnownSchemaFormat`
-
-### Bugs Fixed
+- renames `content` to `schemaDefinition`, `serializationType` to `format`, and `KnownSerializationType` to `KnownSchemaFormat`
 
 ### Other Changes
 

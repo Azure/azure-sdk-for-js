@@ -26,7 +26,7 @@ export const contentType: OperationParameter = {
 };
 
 export const body: OperationParameter = {
-  parameterPath: "body",
+  parameterPath: ["options", "body"],
   mapper: CommunicationRelayConfigurationRequestMapper
 };
 

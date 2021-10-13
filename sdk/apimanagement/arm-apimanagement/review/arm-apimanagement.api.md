@@ -677,7 +677,7 @@ export class ApiManagementClient extends ApiManagementClientContext {
     beginPerformConnectivityCheckAsync(resourceGroupName: string, serviceName: string, connectivityCheckRequestParams: ConnectivityCheckRequest, options?: ApiManagementClientPerformConnectivityCheckAsyncOptionalParams): Promise<PollerLike<PollOperationState<ApiManagementClientPerformConnectivityCheckAsyncResponse>, ApiManagementClientPerformConnectivityCheckAsyncResponse>>;
     beginPerformConnectivityCheckAsyncAndWait(resourceGroupName: string, serviceName: string, connectivityCheckRequestParams: ConnectivityCheckRequest, options?: ApiManagementClientPerformConnectivityCheckAsyncOptionalParams): Promise<ApiManagementClientPerformConnectivityCheckAsyncResponse>;
     // (undocumented)
-    cache: Cache;
+    cache: Cache_2;
     // (undocumented)
     certificate: Certificate;
     // (undocumented)
@@ -715,7 +715,7 @@ export class ApiManagementClient extends ApiManagementClientContext {
     // (undocumented)
     networkStatus: NetworkStatus;
     // (undocumented)
-    notification: Notification;
+    notification: Notification_2;
     // (undocumented)
     notificationRecipientEmail: NotificationRecipientEmail;
     // (undocumented)
@@ -2405,7 +2405,7 @@ export interface BodyDiagnosticSettings {
 }
 
 // @public
-export interface Cache {
+interface Cache_2 {
     createOrUpdate(resourceGroupName: string, serviceName: string, cacheId: string, parameters: CacheContract, options?: CacheCreateOrUpdateOptionalParams): Promise<CacheCreateOrUpdateResponse>;
     delete(resourceGroupName: string, serviceName: string, cacheId: string, ifMatch: string, options?: CacheDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, serviceName: string, cacheId: string, options?: CacheGetOptionalParams): Promise<CacheGetResponse>;
@@ -2413,6 +2413,7 @@ export interface Cache {
     listByService(resourceGroupName: string, serviceName: string, options?: CacheListByServiceOptionalParams): PagedAsyncIterableIterator<CacheContract>;
     update(resourceGroupName: string, serviceName: string, cacheId: string, ifMatch: string, parameters: CacheUpdateParameters, options?: CacheUpdateOptionalParams): Promise<CacheUpdateResponse>;
 }
+export { Cache_2 as Cache }
 
 // @public
 export interface CacheCollection {
@@ -3559,7 +3560,7 @@ export type GatewayHostnameConfigurationListByServiceResponse = GatewayHostnameC
 
 // @public
 export interface GatewayKeyRegenerationRequestContract {
-    keyType: KeyType;
+    keyType: KeyType_2;
 }
 
 // @public
@@ -3612,7 +3613,7 @@ export interface GatewayTokenContract {
 // @public
 export interface GatewayTokenRequestContract {
     expiry: Date;
-    keyType: KeyType;
+    keyType: KeyType_2;
 }
 
 // @public
@@ -4134,7 +4135,8 @@ export type IssueUpdateContractProperties = IssueContractBaseProperties & {
 };
 
 // @public
-export type KeyType = "primary" | "secondary";
+type KeyType_2 = "primary" | "secondary";
+export { KeyType_2 as KeyType }
 
 // @public
 export interface KeyVaultContractCreateProperties {
@@ -5010,11 +5012,12 @@ export interface NetworkStatusListByServiceOptionalParams extends coreClient.Ope
 export type NetworkStatusListByServiceResponse = NetworkStatusContractByLocation[];
 
 // @public
-export interface Notification {
+interface Notification_2 {
     createOrUpdate(resourceGroupName: string, serviceName: string, notificationName: NotificationName, options?: NotificationCreateOrUpdateOptionalParams): Promise<NotificationCreateOrUpdateResponse>;
     get(resourceGroupName: string, serviceName: string, notificationName: NotificationName, options?: NotificationGetOptionalParams): Promise<NotificationGetResponse>;
     listByService(resourceGroupName: string, serviceName: string, options?: NotificationListByServiceOptionalParams): PagedAsyncIterableIterator<NotificationContract>;
 }
+export { Notification_2 as Notification }
 
 // @public
 export interface NotificationCollection {
@@ -7827,7 +7830,7 @@ export type UserSubscriptionListResponse = SubscriptionCollection;
 // @public
 export interface UserTokenParameters {
     expiry?: Date;
-    keyType?: KeyType;
+    keyType?: KeyType_2;
 }
 
 // @public
@@ -7887,7 +7890,6 @@ export interface X509CertificateName {
     issuerCertificateThumbprint?: string;
     name?: string;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

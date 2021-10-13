@@ -31,7 +31,7 @@ export enum MediaType {
 /** Known values of {@link EventSubscriptionType} that the service accepts. */
 export enum EventSubscriptionType {
   ParticipantsUpdated = "participantsUpdated",
-  DtmfReceived = "dtmfReceived"
+  ToneReceived = "toneReceived"
 }
 
 /** Known values of {@link OperationStatus} that the service accepts. */
@@ -45,7 +45,7 @@ export enum KnownOperationStatus {
 /**
  * Options to create a call.
  */
-export interface CreateCallOptions extends OperationOptions {
+export interface CreateCallConnectionOptions extends OperationOptions {
   /** The alternate identity of the source of the call if dialing out to a pstn number */
   alternateCallerId?: PhoneNumberIdentifier;
   /** The subject. */

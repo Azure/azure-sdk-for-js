@@ -4,7 +4,7 @@
 
 import { CallConnection, ContentDownloadResponse } from ".";
 import {
-  CreateCallOptions as CreateCallConnectionOptions,
+  CreateCallConnectionOptions,
   DownloadOptions,
   JoinCallOptions,
   CallLocator,
@@ -74,7 +74,7 @@ import { serializeCallLocator } from "./callLocatorModelSerializer";
 /**
  * Client options used to configure CallingServer Client API requests.
  */
-export interface CallingServerClientOptions extends PipelineOptions {}
+export interface CallingServerClientOptions extends PipelineOptions { }
 
 /**
  * Checks whether the type of a value is CallingServerClientOptions or not.
@@ -211,12 +211,12 @@ export class CallingServerClient {
   }
 
   /**
-   * Join the call using callLocator.
-   *
-   * @param callLocator - The callLocator contains call id.
-   * @param source - The source identity.
-   * @param options - Additional request options contains joinCall api options.
-   */
+  * Join the call using callLocator.
+  *
+  * @param callLocator - The callLocator contains call id.
+  * @param source - The source identity.
+  * @param options - Additional request options contains joinCall api options.
+  */
   public async joinCall(
     callLocator: CallLocator,
     source: CommunicationIdentifier,
