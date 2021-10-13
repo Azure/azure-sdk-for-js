@@ -33,11 +33,11 @@ Follow the configuration instructions in the `Credential unavailable error` sect
 
 | Credential Type               | Troubleshooting Guide                                                                                      |
 | ----------------------------- | ------------------------------------------------------------------------------------------------------- |
-| Environment Credential        | [Environment Credential Troubleshoot Guide](#troubleshoot-environment-credential-authentication-issues) |
-| Managed Identity Credential   | [Managed Identity Troubleshoot Guide](#troubleshoot-managed-identity-authentication-issues)             |
-| Visual Studio Code Credential | [Visual Studio Code Troubleshoot Guide](#troubleshoot-visual-studio-code-authentication-issues)         |
-| Azure CLI Credential          | [Azure CLI Troubleshoot Guide](#troubleshoot-azure-cli-authentication-issues)                           |
-| Azure PowerShell Credential   | [Azure PowerShell Troubleshoot Guide](#troubleshoot-azure-powershell-authentication-issues)             |
+| Environment credential        | [Environment credential guide](#troubleshoot-environment-credential-authentication-issues) |
+| Managed Identity credential   | [Managed Identity guide](#troubleshoot-managed-identity-authentication-issues)             |
+| Visual Studio Code credential | [Visual Studio Code guide](#troubleshoot-visual-studio-code-authentication-issues)         |
+| Azure CLI credential          | [Azure CLI guide](#troubleshoot-azure-cli-authentication-issues)                           |
+| Azure PowerShell credential   | [Azure PowerShell guide](#troubleshoot-azure-powershell-authentication-issues)             |
 
 ## Logging
 
