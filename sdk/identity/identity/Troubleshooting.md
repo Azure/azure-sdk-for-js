@@ -110,7 +110,7 @@ Follow the troubleshooting guidelines below for the respective authentication ty
 
 ### Two-factor authentication required error
 
-The `UsernamePassword` credential works only for users whose two-factor authentication has been disabled in Azure AD. You can change the multi-factor authentication in the Azure portal with the steps [here](https://docs.microsoft.com/azure/active-directory/authentication/howto-mfa-userstates#change-the-status-for-a-user).
+The `UsernamePasswordCredential` works only for users whose two-factor authentication has been disabled in Azure AD. You can change the multi-factor authentication in the Azure portal with the steps [here](https://docs.microsoft.com/azure/active-directory/authentication/howto-mfa-userstates#change-the-status-for-a-user).
 
 ### Request body must contain the following parameter: 'client_assertion' or 'client_secret'
 
