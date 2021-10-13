@@ -22,6 +22,10 @@ app.get(`/sample_response/:secret_info`, (_, res) => {
   res.send({ val: "I am the answer!" });
 });
 
+app.get(`/subscriptions/:secret_info`, (_, res) => {
+  res.send({ val: "I am the answer!" });
+});
+
 app.post("/api/sample_request_body", function(req, res) {
   res.send({ bodyProvided: req.body });
 });
