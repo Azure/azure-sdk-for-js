@@ -118,10 +118,10 @@ The error `The request body must contain the following parameter: 'client_assert
 
 To allow public client authentication on your Azure AD tenant:
 
-- Go to the Azure portal.
-- Go to the `Authentication` page.
-- Scroll to the bottom of this page, and you will see something that says: `Allow public client flows`, and close to that, you will see a `yes` and `no` switch. Make sure this is set to `yes`.
-  After that, you should not need to specify a client secret to authenticate with this credential.
+1. In the Azure portal, navigate to the **Authentication** page.
+2. Scroll to the bottom of the page. You'll see something that says **Allow public client flows**. Near that, you'll see a **yes** / **no** toggle. Set this toggle to **yes**.
+
+After that, you shouldn't need to specify a client secret to authenticate with this credential.
 
 ## Troubleshoot service principal authentication issues
 
