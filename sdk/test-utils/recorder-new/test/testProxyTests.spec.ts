@@ -52,6 +52,7 @@ function getTestServerUrl() {
 
     async function makeRequestAndVerifyResponse(
       request: {
+        url?: string;
         path: string;
         body?: string;
         headers?: { headerName: string; value: string }[];
@@ -60,7 +61,7 @@ function getTestServerUrl() {
       expectedResponse: { [key: string]: unknown } | undefined
     ) {
       const req = createPipelineRequest({
-        url: getTestServerUrl() + request.path,
+        url: request.url ?? getTestServerUrl() + request.path,
         body: request.body,
         method: request.method,
         ...basePipelineReqOptions
@@ -173,10 +174,10 @@ function getTestServerUrl() {
         );
       });
 
-      it.skip("UriRegexSanitizer", async () => {
+      it("UriRegexSanitizer", async () => {
         await recorder.start({});
-        const secretEndpoint = "random_endpoint";
-        const fakeEndpoint = "fake_random_endpoint";
+        const secretEndpoint = "host.docker.internal";
+        const fakeEndpoint = "fake_endpoint";
         await recorder.addSanitizers({
           uriRegexSanitizers: [
             {
@@ -185,28 +186,19 @@ function getTestServerUrl() {
             }
           ]
         });
-
-        // TODO:
-        // `https://random_endpoint.io/random_path?secret_token=ab12cd34ef&random=random`;
-        // Changing ab12cd34ef with fake_token is not allowed (doesn't work?)
-        // Same for random_endpoint to fake_random_endpoint
-        const headerWithUrl = `https://${
-          isPlaybackMode() ? fakeEndpoint : secretEndpoint
-        }.io/random_path?secret_token=&random=random`;
-
+        const pathToHit = `/api/sample_request_body`;
         await makeRequestAndVerifyResponse(
           {
-            path: `/api/sample_request_body`,
+            url: isPlaybackMode()
+              ? getTestServerUrl().replace(secretEndpoint, fakeEndpoint) + pathToHit
+              : undefined,
+            path: pathToHit,
             body: "abcd",
             method: "POST",
             headers: [
               {
                 headerName: "Content-Type",
                 value: "text/plain"
-              },
-              {
-                headerName: "some_url",
-                value: headerWithUrl
               }
             ]
           },
@@ -326,47 +318,47 @@ function getTestServerUrl() {
       //   // TODO: Add more tests to cover groupForReplace
       // });
 
-      it.only("ResetSanitizer (uses BodyRegexSanitizer as example)", async () => {
-        await recorder.start({});
-        const secretValue = "ab12cd34ef";
-        const fakeSecretValue = "fake_secret_info";
-        await recorder.addSanitizers({
-          bodyRegexSanitizers: [
-            {
-              regex: "(.*)&SECRET=(?<secret_content>[^&]*)&(.*)",
-              value: fakeSecretValue,
-              groupForReplace: "secret_content"
-            }
-          ]
-        });
-        const reqBody = `non_secret=i'm_no_secret&SECRET=${
-          isPlaybackMode() ? fakeSecretValue : secretValue
-        }&random=random`;
-        await makeRequestAndVerifyResponse(
-          {
-            path: `/api/sample_request_body`,
-            body: reqBody,
-            method: "POST",
-            headers: [{ headerName: "Content-Type", value: "text/plain" }]
-          },
-          { bodyProvided: reqBody }
-        );
+      // it.only("ResetSanitizer (uses BodyRegexSanitizer as example)", async () => {
+      //   await recorder.start({});
+      //   const secretValue = "ab12cd34ef";
+      //   const fakeSecretValue = "fake_secret_info";
+      //   await recorder.addSanitizers({
+      //     bodyRegexSanitizers: [
+      //       {
+      //         regex: "(.*)&SECRET=(?<secret_content>[^&]*)&(.*)",
+      //         value: fakeSecretValue,
+      //         groupForReplace: "secret_content"
+      //       }
+      //     ]
+      //   });
+      //   const reqBody = `non_secret=i'm_no_secret&SECRET=${
+      //     isPlaybackMode() ? fakeSecretValue : secretValue
+      //   }&random=random`;
+      //   await makeRequestAndVerifyResponse(
+      //     {
+      //       path: `/api/sample_request_body`,
+      //       body: reqBody,
+      //       method: "POST",
+      //       headers: [{ headerName: "Content-Type", value: "text/plain" }]
+      //     },
+      //     { bodyProvided: reqBody }
+      //   );
 
-        await recorder.addSanitizers({
-          resetSanitizer: true
-        });
+      //   await recorder.addSanitizers({
+      //     resetSanitizer: true
+      //   });
 
-        const reqBodyAfterReset = `non_secret=i'm_no_secret&SECRET=${secretValue}&random=random`;
-        await makeRequestAndVerifyResponse(
-          {
-            path: `/api/sample_request_body`,
-            body: reqBodyAfterReset,
-            method: "POST",
-            headers: [{ headerName: "Content-Type", value: "text/plain" }]
-          },
-          { bodyProvided: reqBodyAfterReset }
-        );
-      });
+      //   const reqBodyAfterReset = `non_secret=i'm_no_secret&SECRET=${secretValue}&random=random`;
+      //   await makeRequestAndVerifyResponse(
+      //     {
+      //       path: `/api/sample_request_body`,
+      //       body: reqBodyAfterReset,
+      //       method: "POST",
+      //       headers: [{ headerName: "Content-Type", value: "text/plain" }]
+      //     },
+      //     { bodyProvided: reqBodyAfterReset }
+      //   );
+      // });
 
       // it("RemoveHeaderSanitizer", async () => {
       //   await recorder.start({});
