@@ -42,6 +42,7 @@ describe("Policy test", () => {
   let policyName: string;
   let groupId: string;
   let policyAssignmentName: string;
+  let scope: string;
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
@@ -58,6 +59,7 @@ describe("Policy test", () => {
     policyName = "policynameaxx";
     groupId = "20000000-0001-0000-0000-000000000123";
     policyAssignmentName = "passigment";
+    scope ="/providers/Microsoft.Management/managementgroups/20000000-0001-0000-0000-000000000123/";
   });
 
   afterEach(async function() {
@@ -92,29 +94,30 @@ describe("Policy test", () => {
 
   it("policyAssignments create test", async function() {
     await policyDefinitions_createOrUpdateAtManagementGroup();
-    const scope ="/providers/Microsoft.Management/managementgroups/20000000-0001-0000-0000-000000000123/";
     const definition = await client.policyDefinitions.getAtManagementGroup(policyName,groupId);
-    const assigment = await client.policyAssignments.create(scope,policyAssignmentName,{ policyDefinitionId: definition.id });
-    console.log(assigment);
+    const res = await client.policyAssignments.create(scope,policyAssignmentName,{ policyDefinitionId: definition.id });
+    assert.equal(res.name,policyAssignmentName);
   });
 
   it("policyAssignments get test", async function() {
-    const scope ="/providers/Microsoft.Management/managementgroups/20000000-0001-0000-0000-000000000123/";
     const res = await client.policyAssignments.get(scope,policyAssignmentName)
-    console.log(res);
+    assert.equal(res.name,policyAssignmentName);
   });
 
   it("policyAssignments list test", async function() {
     const resArray = new Array();
     for await (const item of client.policyAssignments.list()) {
       resArray.push(item);
-      console.log(item);
     }
+    assert.notEqual(resArray.length,0);
   });
 
   it("policyAssignments delete test", async function() {
-    const scope ="/providers/Microsoft.Management/managementgroups/20000000-0001-0000-0000-000000000123/";
     const res = await client.policyAssignments.delete(scope,policyAssignmentName);
-    console.log(res);
+    const resArray = new Array();
+    for await (const item of client.policyAssignments.list()) {
+      resArray.push(item);
+    }
+    assert.notEqual(resArray.length,0);
   });
 });
