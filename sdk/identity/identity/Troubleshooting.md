@@ -114,7 +114,7 @@ The `UsernamePassword` credential works only for users whose two-factor authenti
 
 ### Request body must contain the following parameter: 'client_assertion' or 'client_secret'
 
-When you get the error `The request body must contain the following parameter: 'client_assertion' or 'client_secret'`, it happens because of how the AAD app is configured. The AAD app registration seems to be configured as a confidential app. The `UsernamePassword` credential works only with public clients and doesn't support confidential apps. To support confidential apps, use `ClientSecret` or `ClientCertificate` credentials instead.
+The error `The request body must contain the following parameter: 'client_assertion' or 'client_secret'`, occurs because of how the Azure AD app is configured. The Azure AD app registration seems to be configured as a confidential app. The `UsernamePasswordCredential` works only with public clients and doesn't support confidential apps. To support confidential apps, use either `ClientSecretCredential` or `ClientCertificateCredential` instead.
 
 To allow public client authentication on your Azure AD tenant:
 
