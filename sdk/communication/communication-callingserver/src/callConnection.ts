@@ -8,11 +8,12 @@ import {
   PlayAudioRequest,
   PlayAudioResult,
   AddParticipantRequest,
-  AddParticipantResult,
+  CallConnectionsAddParticipantResponse,
   RemoveParticipantRequest,
   PlayAudioToParticipantRequest,
   CancelParticipantMediaOperationRequest,
-  TransferCallRequest
+  TransferCallRequest,
+  CallConnectionsCancelAllMediaOperationsResponse
 } from "./generated/src/models";
 import {
   HangUpOptions,
@@ -22,8 +23,8 @@ import {
   RemoveParticipantOptions,
   CancelMediaOperationOptions,
   TransferCallOptions
- } from "./models";
- import {
+} from "./models";
+import {
   CommunicationIdentifier,
   serializeCommunicationIdentifier
 } from "@azure/communication-common";
@@ -32,6 +33,7 @@ import { createSpan } from "./tracing";
 import { operationOptionsToRequestOptionsBase } from "@azure/core-http";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { extractOperationOptions } from "./extractOperationOptions";
+import { CallingServerUtils } from "./utils/utils"
 
 /**
  * The client to do call connection operations
@@ -45,6 +47,13 @@ export class CallConnection {
     this.callConnectionRestClient = callConnectionRestClient;
   }
 
+  /**
+   * Returns the call connection id.
+   */
+  public getCallConnectionId(): string {
+    return this.callConnectionId;
+  }
+  
   /**
    * Disconnect the current caller in a group-call or end a p2p-call.
    *
@@ -77,10 +86,11 @@ export class CallConnection {
      * @param operationContext - The operation context.
      * @param options - Additional request options contains hangUp api options.
      */
+
   public async cancelAllMediaOperations(
     operationContext?: string,
     options: CancelAllMediaOperationsOptions = {}
-  ): Promise<void> {
+  ): Promise<CallConnectionsCancelAllMediaOperationsResponse> {
     const { span, updatedOptions } = createSpan("CallConnectionRestClient-cancelAllMediaOperations", options);
 
     const request: CancelAllMediaOperationsRequest = {
@@ -88,11 +98,12 @@ export class CallConnection {
     };
 
     try {
-      await this.callConnectionRestClient.cancelAllMediaOperations(
+      const result = await this.callConnectionRestClient.cancelAllMediaOperations(
         this.callConnectionId,
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
+      return result;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -110,10 +121,10 @@ export class CallConnection {
    * @param audioFileUri - The id for the media in the AudioFileUri, using which we cache the media resource.
    * @param options - Additional request options contains playAudio api options.
    */
-   public async playAudio(
+  public async playAudio(
     audioFileUri: string,
     options: PlayAudioOptions
-    ): Promise<PlayAudioResult> {
+  ): Promise<PlayAudioResult> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
     const { span, updatedOptions } = createSpan("CallConnectionRestClient-playAudio", operationOptions);
 
@@ -124,7 +135,15 @@ export class CallConnection {
       audioFileId: restOptions.audioFileId,
       callbackUri: restOptions.callbackUri
     };
-
+    if (!CallingServerUtils.isValidUrl(audioFileUri)) {
+      throw new Error('audioFileUri is invalid.')
+    }
+    if (!(typeof options.audioFileId !== 'undefined' && options.audioFileId && options.audioFileId.trim())) {
+      throw new Error('audioFileId is invalid.')
+    }
+    if (!CallingServerUtils.isValidUrl(String(options.callbackUri))) {
+      throw new Error('callbackUri is invalid.')
+    }
     try {
       const response = await this.callConnectionRestClient.playAudio(
         this.callConnectionId,
@@ -151,12 +170,12 @@ export class CallConnection {
    * @param operationContext - The operation context.
    * @param options - Additional request options contains addParticipant api options.
    */
-   public async addParticipant(
+  public async addParticipant(
     participant: CommunicationIdentifier,
     alternateCallerId?: string,
     operationContext?: string,
     options: AddParticipantOptions = {}
-    ): Promise<AddParticipantResult> {
+  ): Promise<CallConnectionsAddParticipantResponse> {
     const { span, updatedOptions } = createSpan("CallConnectionRestClient-playAudio", options);
     var alternate_caller_id = typeof alternateCallerId === "undefined" ? alternateCallerId : serializeCommunicationIdentifier({ phoneNumber: alternateCallerId }).phoneNumber;
 
@@ -190,10 +209,10 @@ export class CallConnection {
    * @param participant - The identifier of the participant.
    * @param options - Additional request options contains removeParticipant api options.
    */
-   public async removeParticipant(
+  public async removeParticipant(
     participant: CommunicationIdentifier,
     options: RemoveParticipantOptions = {}
-    ): Promise<void> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan("CallConnectionRestClient-removeParticipant", options);
 
     const request: RemoveParticipantRequest = {
@@ -228,7 +247,7 @@ export class CallConnection {
     participant: CommunicationIdentifier,
     audioFileUri: string,
     options: PlayAudioOptions
-    ): Promise<PlayAudioResult> {
+  ): Promise<PlayAudioResult> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
     const { span, updatedOptions } = createSpan("CallConnectionRestClient-playAudio", operationOptions);
 
@@ -266,11 +285,11 @@ export class CallConnection {
    * @param mediaOperationId - The operationId of the media operation to cancel.
    * @param options - Additional request options contains cancelMediaOperation api options.
    */
-   public async cancelParticipantMediaOperation(
+  public async cancelParticipantMediaOperation(
     participant: CommunicationIdentifier,
     mediaOperationId: string,
     options: CancelMediaOperationOptions = {}
-    ): Promise<void> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan("CallConnectionRestClient-cancelParticipantMediaOperation", options);
 
     const request: CancelParticipantMediaOperationRequest = {
@@ -306,7 +325,7 @@ export class CallConnection {
     targetParticipant: CommunicationIdentifier,
     userToUserInformation: string,
     options: TransferCallOptions = {}
-    ): Promise<void> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan("CallConnectionRestClient-transferCall", options);
 
     const request: TransferCallRequest = {
