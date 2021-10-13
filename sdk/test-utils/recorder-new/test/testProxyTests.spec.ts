@@ -242,6 +242,7 @@ function getTestServerUrl() {
         // Unable to find a record for the request GET http://host.docker.internal:8080/sample_response
         // Header differences:
         //  <your_uuid> values differ, request <985e1725-6d96-467c-89fc-fe45ef0409e4>, record <7460db09-3140-4f76-b59c-16f23e91bc4c>
+        // TODO: Scott is working on fixing the sanitizer
         await makeRequestAndVerifyResponse(
           {
             path: `/sample_response`,

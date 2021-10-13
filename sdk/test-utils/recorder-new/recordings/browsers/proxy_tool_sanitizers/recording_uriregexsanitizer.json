@@ -1,13 +1,14 @@
 {
   "Entries": [
     {
-      "RequestUri": "http://host.docker.internal:8080/sample_response/fake_secret_info",
-      "RequestMethod": "GET",
+      "RequestUri": "http://fake_endpoint:8080/api/sample_request_body",
+      "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "*/*",
         "Accept-Encoding": "gzip, deflate, br",
         "Accept-Language": "en-US",
         "Connection": "keep-alive",
+        "Content-Length": "0",
         "Referer": "http://localhost:9328/",
         "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
@@ -16,22 +17,22 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "8d401f30-6b94-42f3-a701-c1e2ce89a253",
+        "x-ms-client-request-id": "3994aa5d-4669-45ff-96eb-0ad877947b8d",
         "x-ms-useragent": "core-rest-pipeline/1.3.2 OS/Win32"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Connection": "keep-alive",
-        "Content-Length": "26",
+        "Content-Length": "19",
         "Content-Type": "application/json; charset=utf-8",
         "Date": "Wed, 13 Oct 2021 02:10:29 GMT",
-        "ETag": "W/\u00221a-l2n/o5TdaU5b3c0hr/H15EW8dl8\u0022",
+        "ETag": "W/\u002213-sxHu040b\u002BIj97Tf6r3dYkixDoKU\u0022",
         "Keep-Alive": "timeout=5",
         "X-Powered-By": "Express"
       },
       "ResponseBody": {
-        "val": "I am the answer!"
+        "bodyProvided": {}
       }
     }
   ],
