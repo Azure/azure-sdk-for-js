@@ -64,7 +64,6 @@ import { SDK_VERSION } from "./constants";
 import { convertTracingToRequestOptionsBase, createSpan } from "./tracing";
 import { logger } from "./logger";
 import { ContentDownloader } from "./ContentDownloader";
-// import { Readable } from "stream";
 import { rangeToString } from "./Range";
 import { RepeatableContentDownloadResponse } from "./RepeatableContentDownloadResponse";
 import { extractOperationOptions } from "./extractOperationOptions";
