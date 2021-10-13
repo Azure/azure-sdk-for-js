@@ -4,7 +4,7 @@
 /**
  * @summary Demonstrates the use of a DeviceUpdateClient to list all the update providers that have been imported to Device Update for IoT Hub
  */
-import { DeviceUpdate, paginate } from "@azure-rest/iot-device-update";
+import DeviceUpdate, { paginate } from "@azure-rest/iot-device-update";
 import { DefaultAzureCredential } from "@azure/identity";
 import dotenv from "dotenv";
 

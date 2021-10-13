@@ -13,7 +13,7 @@ import "./env";
 import { ClientOptions } from "@azure-rest/core-client";
 
 const replaceableVariables: { [k: string]: string } = {
-  ACCOUNT_ENDPOINT: "https://endpoint",
+  ACCOUNT_ENDPOINT: "endpoint",
   INSTANCE_ID: "test",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",

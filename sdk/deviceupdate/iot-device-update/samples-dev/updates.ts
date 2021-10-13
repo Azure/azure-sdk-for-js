@@ -8,7 +8,7 @@
  * @azsdk-weight 40
  */
 
-import { DeviceUpdate, paginate } from "@azure-rest/iot-device-update";
+import DeviceUpdate, { paginate } from "@azure-rest/iot-device-update";
 import { DefaultAzureCredential } from "@azure/identity";
 import dotenv from "dotenv";
 

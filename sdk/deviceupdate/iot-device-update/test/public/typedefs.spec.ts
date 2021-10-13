@@ -4,7 +4,7 @@ import {
   DeviceUpdateRestClient,
   paginate
 } from "../../src";
-import { Recorder } from "@azure-tools/test-recorder";
+import { env, Recorder } from "@azure-tools/test-recorder";
 
 import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
@@ -44,7 +44,7 @@ describe("device update test", () => {
   // });
 
   it("should list all update providers", async () => {
-    const result = await client.path("/deviceupdate/{instanceId}/updates/providers", "ztest").get();
+    const result = await client.path("/deviceupdate/{instanceId}/updates/providers", env.INSTANCE_ID).get();
 
     const iter = paginate(client, result);
 
