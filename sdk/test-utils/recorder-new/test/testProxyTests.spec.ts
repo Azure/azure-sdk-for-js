@@ -338,13 +338,6 @@ function getTestServerUrl() {
       //   );
       // });
 
-      // it("RemoveHeaderSanitizer", async () => {
-      //   await recorder.start({});
-      //   if (isRecordMode()) {
-      //     console.log(await recorder["sanitizer"].transformsInfo());
-      //   }
-      // });
-
       // it("connection string santizer", async () => {
       //   await recorder.start({});
       //   const client = new ServiceClient({
