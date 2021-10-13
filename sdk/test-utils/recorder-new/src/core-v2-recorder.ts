@@ -18,11 +18,12 @@ import {
   isRecordMode,
   setEnvironmentVariables
 } from "@azure-tools/test-recorder";
-import { RecorderError, RecordingStateManager } from "./utils/utils";
+import { RecorderError, RecorderStartOptions, RecordingStateManager } from "./utils/utils";
 import { Test } from "mocha";
 import { sessionFilePath } from "./utils/sessionFilePath";
-import { Sanitizer, SanitizerOptions } from "./sanitizer";
+import { SanitizerOptions } from "./utils/utils";
 import { paths } from "./utils/paths";
+import { Sanitizer } from "./sanitizer";
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
@@ -113,7 +114,7 @@ export class TestProxyHttpClient {
    * signalling to start recording in the record mode
    * or to start playing back in the playback mode.
    */
-  async start(envSetupForPlayback: Record<string, string>): Promise<void> {
+  async start(options: RecorderStartOptions): Promise<void> {
     if (isPlaybackMode() || isRecordMode()) {
       this.stateManager.state = "started";
       if (this.recordingId === undefined) {
@@ -146,8 +147,11 @@ export class TestProxyHttpClient {
         this.sanitizer.setRecordingId(this.recordingId);
       }
     }
-    if (isPlaybackMode() && envSetupForPlayback) {
-      setEnvironmentVariables(env, envSetupForPlayback);
+    if (isPlaybackMode() && options.envSetupForPlayback) {
+      setEnvironmentVariables(env, options.envSetupForPlayback);
+    }
+    if (options.sanitizerOptions) {
+      await this.addSanitizers(options.sanitizerOptions);
     }
   }
 

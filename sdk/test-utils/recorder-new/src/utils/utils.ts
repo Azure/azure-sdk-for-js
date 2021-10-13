@@ -45,3 +45,34 @@ export class RecordingStateManager {
     this.currentState = nextState;
   }
 }
+
+export interface SanitizerOptions {
+  generalRegexSanitizers?: Array<{
+    value: string;
+    regex: string;
+    groupForReplace?: string;
+  }>;
+  connectionStringSanitizers?: Array<{
+    actualConnString: string;
+    fakeConnString: string;
+  }>;
+  bodyKeySanitizers?: Array<{
+    value: string;
+    regex: string;
+    jsonPath: string;
+    groupForReplace?: string;
+  }>;
+  bodyRegexSanitizers?: Array<{ value: string; regex: string; groupForReplace?: string }>;
+  continuationSanitizers?: Array<{ key: string; method?: string; resetAfterFirst: boolean }>;
+  headerRegexSanitizers?: Array<{ key: string; value: string; groupForReplace?: string }>;
+  uriRegexSanitizers?: Array<{ value: string; regex: string; groupForReplace?: string }>;
+  removeHeaderSanitizer?: { headersForRemoval: string[] };
+  oAuthResponseSanitizer?: boolean;
+  uriSubscriptionIdSanitizer?: { value: string };
+  resetSanitizer?: boolean;
+}
+
+export interface RecorderStartOptions {
+  envSetupForPlayback: Record<string, string>;
+  sanitizerOptions?: SanitizerOptions;
+}

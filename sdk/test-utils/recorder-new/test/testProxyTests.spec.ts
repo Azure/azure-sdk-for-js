@@ -78,7 +78,7 @@ function getTestServerUrl() {
     }
 
     it("sample_response", async () => {
-      await recorder.start({});
+      await recorder.start({ envSetupForPlayback: {} });
       await makeRequestAndVerifyResponse(
         { path: `/sample_response`, method: "GET" },
         { val: "abc" }
@@ -89,9 +89,11 @@ function getTestServerUrl() {
       it("GeneralRegexSanitizer", async () => {
         env.SECRET_INFO = "abcdef";
         const fakeSecretInfo = "fake_secret_info";
-        await recorder.start({ SECRET_INFO: fakeSecretInfo });
-        await recorder.addSanitizers({
-          generalRegexSanitizers: [{ regex: env.SECRET_INFO, value: fakeSecretInfo }]
+        await recorder.start({
+          envSetupForPlayback: { SECRET_INFO: fakeSecretInfo },
+          sanitizerOptions: {
+            generalRegexSanitizers: [{ regex: env.SECRET_INFO, value: fakeSecretInfo }]
+          }
         });
         await makeRequestAndVerifyResponse(
           {
@@ -103,10 +105,12 @@ function getTestServerUrl() {
       });
 
       it("RemoveHeaderSanitizer", async () => {
-        await recorder.start({});
-        await recorder.addSanitizers({
-          removeHeaderSanitizer: {
-            headersForRemoval: ["ETag", "Date"]
+        await recorder.start({
+          envSetupForPlayback: {},
+          sanitizerOptions: {
+            removeHeaderSanitizer: {
+              headersForRemoval: ["ETag", "Date"]
+            }
           }
         });
         await makeRequestAndVerifyResponse(
@@ -116,22 +120,24 @@ function getTestServerUrl() {
       });
 
       it("BodyKeySanitizer", async () => {
-        await recorder.start({});
         const secretValue = "ab12cd34ef";
         const fakeSecretValue = "fake_secret_info";
-        await recorder.addSanitizers({
-          bodyKeySanitizers: [
-            {
-              jsonPath: "$.secret_info", // Handles the request body
-              regex: secretValue,
-              value: fakeSecretValue
-            },
-            {
-              jsonPath: "$.bodyProvided.secret_info", // Handles the response body
-              regex: secretValue,
-              value: fakeSecretValue
-            }
-          ]
+        await recorder.start({
+          envSetupForPlayback: {},
+          sanitizerOptions: {
+            bodyKeySanitizers: [
+              {
+                jsonPath: "$.secret_info", // Handles the request body
+                regex: secretValue,
+                value: fakeSecretValue
+              },
+              {
+                jsonPath: "$.bodyProvided.secret_info", // Handles the response body
+                regex: secretValue,
+                value: fakeSecretValue
+              }
+            ]
+          }
         });
         const reqBody = {
           secret_info: isPlaybackMode() ? fakeSecretValue : secretValue
@@ -148,17 +154,19 @@ function getTestServerUrl() {
       });
 
       it("BodyRegexSanitizer", async () => {
-        await recorder.start({});
         const secretValue = "ab12cd34ef";
         const fakeSecretValue = "fake_secret_info";
-        await recorder.addSanitizers({
-          bodyRegexSanitizers: [
-            {
-              regex: "(.*)&SECRET=(?<secret_content>[^&]*)&(.*)",
-              value: fakeSecretValue,
-              groupForReplace: "secret_content"
-            }
-          ]
+        await recorder.start({
+          envSetupForPlayback: {},
+          sanitizerOptions: {
+            bodyRegexSanitizers: [
+              {
+                regex: "(.*)&SECRET=(?<secret_content>[^&]*)&(.*)",
+                value: fakeSecretValue,
+                groupForReplace: "secret_content"
+              }
+            ]
+          }
         });
         const reqBody = `non_secret=i'm_no_secret&SECRET=${
           isPlaybackMode() ? fakeSecretValue : secretValue
@@ -175,16 +183,18 @@ function getTestServerUrl() {
       });
 
       it("UriRegexSanitizer", async () => {
-        await recorder.start({});
         const secretEndpoint = "host.docker.internal";
         const fakeEndpoint = "fake_endpoint";
-        await recorder.addSanitizers({
-          uriRegexSanitizers: [
-            {
-              regex: secretEndpoint,
-              value: fakeEndpoint
-            }
-          ]
+        await recorder.start({
+          envSetupForPlayback: {},
+          sanitizerOptions: {
+            uriRegexSanitizers: [
+              {
+                regex: secretEndpoint,
+                value: fakeEndpoint
+              }
+            ]
+          }
         });
         const pathToHit = `/api/sample_request_body`;
         await makeRequestAndVerifyResponse(
@@ -200,12 +210,14 @@ function getTestServerUrl() {
       });
 
       it("UriSubscriptionIdSanitizer", async () => {
-        await recorder.start({});
         const id = "73c83158-bd73-4cda-aa11-a0c2a34e2544";
         const fakeId = "00000000-0000-0000-0000-000000000000";
-        await recorder.addSanitizers({
-          uriSubscriptionIdSanitizer: {
-            value: fakeId
+        await recorder.start({
+          envSetupForPlayback: {},
+          sanitizerOptions: {
+            uriSubscriptionIdSanitizer: {
+              value: fakeId
+            }
           }
         });
         await makeRequestAndVerifyResponse(
@@ -218,17 +230,19 @@ function getTestServerUrl() {
       });
 
       it.skip("ContinuationSanitizer", async () => {
-        await recorder.start({});
-        // What if the id is part of the response body and not response headers?
-        await recorder.addSanitizers({
-          continuationSanitizers: [
-            {
-              key: "your_uuid",
-              method: "guid", // What is this method exactly?
-              resetAfterFirst: false
-            }
-          ]
+        await recorder.start({
+          envSetupForPlayback: {},
+          sanitizerOptions: {
+            continuationSanitizers: [
+              {
+                key: "your_uuid",
+                method: "guid", // What is this method exactly?
+                resetAfterFirst: false
+              }
+            ]
+          }
         });
+        // What if the id is part of the response body and not response headers?
 
         const firstResponse = await makeRequestAndVerifyResponse(
           {
@@ -259,15 +273,17 @@ function getTestServerUrl() {
       });
 
       it("HeaderRegexSanitizer", async () => {
-        await recorder.start({});
         const sanitizedValue = "Sanitized";
-        await recorder.addSanitizers({
-          headerRegexSanitizers: [
-            {
-              key: "your_uuid",
-              value: sanitizedValue
-            }
-          ]
+        await recorder.start({
+          envSetupForPlayback: {},
+          sanitizerOptions: {
+            headerRegexSanitizers: [
+              {
+                key: "your_uuid",
+                value: sanitizedValue
+              }
+            ]
+          }
         });
 
         await makeRequestAndVerifyResponse(
@@ -297,17 +313,19 @@ function getTestServerUrl() {
       // });
 
       it.skip("ResetSanitizer (uses BodyRegexSanitizer as example)", async () => {
-        await recorder.start({});
         const secretValue = "ab12cd34ef";
         const fakeSecretValue = "fake_secret_info";
-        await recorder.addSanitizers({
-          bodyRegexSanitizers: [
-            {
-              regex: "(.*)&SECRET=(?<secret_content>[^&]*)&(.*)",
-              value: fakeSecretValue,
-              groupForReplace: "secret_content"
-            }
-          ]
+        await recorder.start({
+          envSetupForPlayback: {},
+          sanitizerOptions: {
+            bodyRegexSanitizers: [
+              {
+                regex: "(.*)&SECRET=(?<secret_content>[^&]*)&(.*)",
+                value: fakeSecretValue,
+                groupForReplace: "secret_content"
+              }
+            ]
+          }
         });
         const reqBody = `non_secret=i'm_no_secret&SECRET=${
           isPlaybackMode() ? fakeSecretValue : secretValue
@@ -338,39 +356,18 @@ function getTestServerUrl() {
           { bodyProvided: reqBodyAfterReset }
         );
       });
-
-      // it("connection string santizer", async () => {
-      //   await recorder.start({});
-      //   const client = new ServiceClient({
-      //     baseUri: getTestServerUrl()
-      //   });
-      //   client.pipeline.addPolicy(recorderHttpPolicy(recorder));
-      //   // // await recorder.addSanitizer({ regex: "harshanstoragetest", value: "fakeaccount" });
-      //   // await recorder.addConnectionStringSanitizer({
-      //   //   fakeConnString:
-      //   //     "TableEndpoint=https://fakeaccountname.table.core.windows.net/;SharedAccessSignature=st=2021-08-03T08:52:15Z&spr=https&sig=fakesigval",
-      //   //   actualConnString: env.TABLES_SAS_CONNECTION_STRING
-      //   // });
-      //   // // console.log(await recorder.transformsInfo());
-      //   // await recorder.removeHeaderSanitizer(["x-ms-version", "X-Content-Type-Options"]);
-      //   const req = createPipelineRequest({
-      //     url: getTestServerUrl() + "/sample_response",
-      //     ...basePipelineReqOptions
-      //   });
-      //   expect(JSON.parse((await client.sendRequest(req)).bodyAsText!).val).to.equal("abc");
-      // });
     });
 
     // Matchers
-
     // Transforms
+
     describe("Other methods", () => {
-      it.only("transformsInfo()", async () => {
-        await recorder.start({});
-        await recorder["sanitizer"].transformsInfo();
+      it("transformsInfo()", async () => {
+        if (!isLiveMode()) {
+          await recorder.start({ envSetupForPlayback: {} });
+          await recorder["sanitizer"].transformsInfo();
+        }
       });
     });
   });
 });
-
-// TODO: Can potentially add more tests that use the proxy-tool once we figure out the start/setup scripts for proxy-tool

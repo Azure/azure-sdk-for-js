@@ -2,33 +2,7 @@ import { HttpClient } from "@azure/core-rest-pipeline";
 import { createPipelineRequest, HttpMethods } from "@azure/core-rest-pipeline";
 import { getRealAndFakePairs } from "./utils/connectionStringHelpers";
 import { paths } from "./utils/paths";
-import { RecorderError } from "./utils/utils";
-
-export interface SanitizerOptions {
-  generalRegexSanitizers?: Array<{
-    value: string;
-    regex: string;
-    groupForReplace?: string;
-  }>;
-  connectionStringSanitizers?: Array<{
-    actualConnString: string;
-    fakeConnString: string;
-  }>;
-  bodyKeySanitizers?: Array<{
-    value: string;
-    regex: string;
-    jsonPath: string;
-    groupForReplace?: string;
-  }>;
-  bodyRegexSanitizers?: Array<{ value: string; regex: string; groupForReplace?: string }>;
-  continuationSanitizers?: Array<{ key: string; method?: string; resetAfterFirst: boolean }>;
-  headerRegexSanitizers?: Array<{ key: string; value: string; groupForReplace?: string }>;
-  uriRegexSanitizers?: Array<{ value: string; regex: string; groupForReplace?: string }>;
-  removeHeaderSanitizer?: { headersForRemoval: string[] };
-  oAuthResponseSanitizer?: boolean;
-  uriSubscriptionIdSanitizer?: { value: string };
-  resetSanitizer?: boolean;
-}
+import { RecorderError, SanitizerOptions } from "./utils/utils";
 
 // TODO:
 // - Add docs
