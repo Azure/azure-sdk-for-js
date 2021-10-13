@@ -176,11 +176,7 @@ The Managed Identity credential runs only on Azure-hosted machines/servers. Ensu
 
 The Visual Studio Code credential failed to read the credential details from the cache.
 
-The Visual Studio Code authentication is handled by an integration with the Azure Account extension.
-To use this form of authentication, ensure that you have installed the Azure Account extension,
-then use View > Command Palette to execute the Azure: Sign In command. This command opens a browser window and displays a page that allows you
-to sign in to Azure. After you've completed the login process, you can close the browser as directed. Running your application
-(either in the debugger or anywhere on the development machine) will use the credential from your sign-in.
+Visual Studio Code authentication is handled by an integration with the Azure Account extension. To use this form of authentication, ensure that you've installed the Azure Account extension. Then select **View** > **Command Palette** > **Azure: Sign In**. This command opens a browser window and displays a page that allows you to sign in to Azure. After you've completed the login process, you can close the browser as directed. Running your app (either in the debugger or anywhere on the development machine) will use the credential from your sign-in.
 
 If you already had the Azure Account extension installed and had logged in to your account. Then try logging out and logging in again, as
 that will re-populate the cache on the disk and potentially mitigate the error you're getting.
