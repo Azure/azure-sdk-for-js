@@ -206,6 +206,7 @@ pr:
     - sdk/resources-subscriptions/arm-resources-subscriptions
     - sdk/templatespecs/arm-templatespecs
     - sdk/mysql/arm-mysql-flexible
+    - sdk/videoanalyzer/arm-videoanalyzer
 
 variables:
   NodeVersion: 10.x
