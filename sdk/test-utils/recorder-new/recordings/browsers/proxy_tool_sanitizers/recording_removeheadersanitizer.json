@@ -16,9 +16,9 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "fba954bb-c526-4115-b311-0949a62fd61a",
-        "x-ms-useragent": "core-rest-pipeline/1.3.2 OS/Win32"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "085e4271-d921-40d3-a187-425377e1a363",
+        "x-ms-useragent": "core-rest-pipeline/1.3.2 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 304,
