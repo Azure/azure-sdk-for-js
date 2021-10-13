@@ -216,9 +216,7 @@ To use the Azure CLI credential, the Azure CLI needs to be installed. Follow the
 
 #### Azure account not logged in
 
-The `Azure CLI Credential` utilizes the current logged in Azure user in Azure CLI to fetch an access token.
-You need to login to your account in Azure CLI via `az login` command. You can further read instructions to [Sign in with Azure CLI](https://docs.microsoft.com/cli/azure/authenticate-azure-cli).
-Once logged in try running the credential again.
+The `AzureCliCredential` utilizes the currently logged in Azure user in Azure CLI to fetch an access token. You need to log in to your account in Azure CLI via the `az login` command. For further instructions, see [Sign in with Azure CLI](https://docs.microsoft.com/cli/azure/authenticate-azure-cli). Once logged in, try running the credential again.
 
 ## Troubleshoot Azure PowerShell authentication issues
 
