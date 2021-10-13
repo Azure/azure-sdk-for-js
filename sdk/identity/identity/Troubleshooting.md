@@ -226,7 +226,7 @@ Once logged in try running the credential again.
 
 #### PowerShell not installed
 
-The `Azure PowerShell Credential` utilizes the locally installed `PowerShell` command line tool to fetch an access token. Ensure it is installed on your platform by following the instructions [here](https://docs.microsoft.com/powershell/scripting/install/installing-powershell?view=powershell-7.1) and then run the credential again.
+The `Azure PowerShell Credential` utilizes the locally installed `PowerShell` command line tool to fetch an access token. Ensure it's installed on your platform by following the instructions [here](https://docs.microsoft.com/powershell/scripting/install/installing-powershell?view=powershell-7.1). Then run the credential again.
 
 #### Azure Az Moudle not installed
 
