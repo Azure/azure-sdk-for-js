@@ -211,7 +211,7 @@ The supported clouds are:
 
 #### Azure CLI not installed
 
-The `Azure CLI Credential` failed to execute as Azure CLI command line tool isn't installed.
+The `AzureCliCredential` failed to execute as the Azure CLI command line tool isn't installed.
 To use Azure CLI credential, the Azure CLI needs to be installed, follow the instructions [here](https://aka.ms/azure-cli) to install it for your platform and then try running the credential again.
 
 #### Azure account not logged in
