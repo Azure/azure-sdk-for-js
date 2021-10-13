@@ -239,8 +239,7 @@ Then try running the credential again.
 #### Azure account not logged in
 
 The Azure PowerShell credential utilizes the currently logged in Azure user in Azure PowerShell to fetch an access token.
-You need to log in to your account in Azure PowerShell via the `Connect-AzAccount` command. For further instructions, see [Sign in with Azure PowerShell](https://docs.microsoft.com/powershell/azure/authenticate-azureps?view=azps-6.3.0).
-Once logged in, try running the credential again.
+You need to log in to your account in Azure PowerShell via the `Connect-AzAccount` command. For further instructions, see [Sign in with Azure PowerShell](https://docs.microsoft.com/powershell/azure/authenticate-azureps?view=azps-6.3.0). Once logged in, try running the credential again.
 
 #### Deserialization error
 
