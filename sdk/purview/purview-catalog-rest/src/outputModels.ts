@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export interface AtlasEntityExtInfo {
+export interface AtlasEntityExtInfoOutput {
   /** The referred entities. */
-  referredEntities?: Record<string, AtlasEntity>;
+  referredEntities?: Record<string, AtlasEntityOutput>;
 }
 
-export interface AtlasStruct {
+export interface AtlasStructOutput {
   /** The attributes of the struct. */
   attributes?: Record<string, Record<string, unknown>>;
   /** The name of the type. */
@@ -15,9 +15,9 @@ export interface AtlasStruct {
   lastModifiedTS?: string;
 }
 
-export interface AtlasEntity extends AtlasStruct {
+export interface AtlasEntityOutput extends AtlasStructOutput {
   /** An array of classifications. */
-  classifications?: Array<AtlasClassification>;
+  classifications?: Array<AtlasClassificationOutput>;
   /** The created time of the record. */
   createTime?: number;
   /** The user who created the record. */
@@ -27,7 +27,7 @@ export interface AtlasEntity extends AtlasStruct {
   /** The home ID of the entity. */
   homeId?: string;
   /** An array of term assignment headers indicating the meanings of the entity. */
-  meanings?: Array<AtlasTermAssignmentHeader>;
+  meanings?: Array<AtlasTermAssignmentHeaderOutput>;
   /** Used to record the provenance of an instance of an entity or relationship. */
   provenanceType?: number;
   /** Determines if there's a proxy. */
@@ -47,10 +47,10 @@ export interface AtlasEntity extends AtlasStruct {
   /** more detail on source information */
   sourceDetails?: Record<string, Record<string, unknown>>;
   /** The dictionary of contacts for terms. Key could be Expert or Owner. */
-  contacts?: Record<string, Array<ContactBasic>>;
+  contacts?: Record<string, Array<ContactBasicOutput>>;
 }
 
-export interface AtlasClassification extends AtlasStruct {
+export interface AtlasClassificationOutput extends AtlasStructOutput {
   /** The GUID of the entity. */
   entityGuid?: string;
   /** Status of the entity - can be active or deleted. Deleted entities are not removed from Atlas store. */
@@ -58,14 +58,14 @@ export interface AtlasClassification extends AtlasStruct {
   /** Determines if propagations will be removed on entity deletion. */
   removePropagationsOnEntityDelete?: boolean;
   /** An array of time boundaries indicating validity periods. */
-  validityPeriods?: Array<TimeBoundary>;
+  validityPeriods?: Array<TimeBoundaryOutput>;
   /** indicate the source who create the classification detail */
   source?: string;
   /** more detail on source information */
   sourceDetails?: Record<string, Record<string, unknown>>;
 }
 
-export interface TimeBoundary {
+export interface TimeBoundaryOutput {
   /** The end of the time boundary. */
   endTime?: string;
   /** The start of the time boundary. */
@@ -74,7 +74,7 @@ export interface TimeBoundary {
   timeZone?: string;
 }
 
-export interface AtlasTermAssignmentHeader {
+export interface AtlasTermAssignmentHeaderOutput {
   /** The confidence of the term assignment. */
   confidence?: number;
   /** The user who created the record. */
@@ -104,23 +104,32 @@ export interface AtlasTermAssignmentHeader {
   termGuid?: string;
 }
 
-export interface ContactBasic {
+export interface ContactBasicOutput {
   /** Azure Active Directory object Id. */
   id?: string;
   /** additional information to describe this contact. */
   info?: string;
 }
 
-export interface AtlasEntityWithExtInfo extends AtlasEntityExtInfo {
+export interface AtlasEntityWithExtInfoOutput extends AtlasEntityExtInfoOutput {
   /** An instance of an entity - like hive_table, hive_database. */
-  entity?: AtlasEntity;
+  entity?: AtlasEntityOutput;
 }
 
-export interface AtlasEntityHeader extends AtlasStruct {
+export interface EntityMutationResponseOutput {
+  /** A map of GUID assignments with entities. */
+  guidAssignments?: Record<string, string>;
+  /** The entity headers of mutated entities. */
+  mutatedEntities?: Record<string, Array<AtlasEntityHeaderOutput>>;
+  /** An array of entity headers that partially updated. */
+  partialUpdatedEntities?: Array<AtlasEntityHeaderOutput>;
+}
+
+export interface AtlasEntityHeaderOutput extends AtlasStructOutput {
   /** An array of classification names. */
   classificationNames?: Array<string>;
   /** An array of classifications. */
-  classifications?: Array<AtlasClassification>;
+  classifications?: Array<AtlasClassificationOutput>;
   /** The display text. */
   displayText?: string;
   /** The GUID of the record. */
@@ -128,36 +137,50 @@ export interface AtlasEntityHeader extends AtlasStruct {
   /** An array of meanings. */
   meaningNames?: Array<string>;
   /** An array of term assignment headers. */
-  meanings?: Array<AtlasTermAssignmentHeader>;
+  meanings?: Array<AtlasTermAssignmentHeaderOutput>;
   /** Status of the entity - can be active or deleted. Deleted entities are not removed from Atlas store. */
   status?: "ACTIVE" | "DELETED";
 }
 
-export interface AtlasEntitiesWithExtInfo extends AtlasEntityExtInfo {
+export interface ErrorResponseOutput {
+  /** The request ID. */
+  requestId?: string;
+  /** The error code. */
+  errorCode?: string;
+  /** The error message. */
+  errorMessage?: string;
+}
+
+export interface AtlasEntitiesWithExtInfoOutput extends AtlasEntityExtInfoOutput {
   /** An array of entities. */
-  entities?: Array<AtlasEntity>;
+  entities?: Array<AtlasEntityOutput>;
 }
 
-export interface ClassificationAssociateRequest {
-  /** An instance of a classification; it doesn't have an identity, this object exists only when associated with an entity. */
-  classification?: AtlasClassification;
-  /** The GUID of the entity. */
-  entityGuids?: Array<string>;
+export interface PListOutput {
+  /** An array of objects. */
+  list?: Array<Record<string, unknown>>;
+  /** The size of the page. */
+  pageSize?: number;
+  /** The sorted by field. */
+  sortBy?: string;
+  /** to specify whether the result should be sorted? If yes, whether asc or desc. */
+  sortType?: "NONE" | "ASC" | "DESC";
+  /** The start index of the page. */
+  startIndex?: number;
+  /** The total count of items. */
+  totalCount?: number;
 }
 
-export interface AtlasEntityHeaders {
-  /** The description of the guid header map, */
-  guidHeaderMap?: Record<string, AtlasEntityHeader>;
-}
+export interface AtlasClassificationsOutput extends PListOutput {}
 
-export interface AtlasBaseModelObject {
+export interface AtlasBaseModelObjectOutput {
   /** The GUID of the object. */
   guid?: string;
 }
 
-export interface AtlasGlossaryBaseObject extends AtlasBaseModelObject {
+export interface AtlasGlossaryBaseObjectOutput extends AtlasBaseModelObjectOutput {
   /** An array of classifications. */
-  classifications?: Array<AtlasClassification>;
+  classifications?: Array<AtlasClassificationOutput>;
   /** The long version description. */
   longDescription?: string;
   /** The name of the glossary object. */
@@ -170,18 +193,18 @@ export interface AtlasGlossaryBaseObject extends AtlasBaseModelObject {
   lastModifiedTS?: string;
 }
 
-export interface AtlasGlossary extends AtlasGlossaryBaseObject {
+export interface AtlasGlossaryOutput extends AtlasGlossaryBaseObjectOutput {
   /** An array of categories. */
-  categories?: Array<AtlasRelatedCategoryHeader>;
+  categories?: Array<AtlasRelatedCategoryHeaderOutput>;
   /** The language of the glossary. */
   language?: string;
   /** An array of related term headers. */
-  terms?: Array<AtlasRelatedTermHeader>;
+  terms?: Array<AtlasRelatedTermHeaderOutput>;
   /** The usage of the glossary. */
   usage?: string;
 }
 
-export interface AtlasRelatedCategoryHeader {
+export interface AtlasRelatedCategoryHeaderOutput {
   /** The GUID of the category. */
   categoryGuid?: string;
   /** The description of the category header. */
@@ -194,7 +217,7 @@ export interface AtlasRelatedCategoryHeader {
   relationGuid?: string;
 }
 
-export interface AtlasRelatedTermHeader {
+export interface AtlasRelatedTermHeaderOutput {
   /** The description of the related term. */
   description?: string;
   /** The display text. */
@@ -213,18 +236,18 @@ export interface AtlasRelatedTermHeader {
   termGuid?: string;
 }
 
-export interface AtlasGlossaryCategory extends AtlasGlossaryBaseObject {
+export interface AtlasGlossaryCategoryOutput extends AtlasGlossaryBaseObjectOutput {
   /** The glossary header with basic information. */
-  anchor?: AtlasGlossaryHeader;
+  anchor?: AtlasGlossaryHeaderOutput;
   /** An array of children categories. */
-  childrenCategories?: Array<AtlasRelatedCategoryHeader>;
+  childrenCategories?: Array<AtlasRelatedCategoryHeaderOutput>;
   /** The header of the related category. */
-  parentCategory?: AtlasRelatedCategoryHeader;
+  parentCategory?: AtlasRelatedCategoryHeaderOutput;
   /** An array of related term headers. */
-  terms?: Array<AtlasRelatedTermHeader>;
+  terms?: Array<AtlasRelatedTermHeaderOutput>;
 }
 
-export interface AtlasGlossaryHeader {
+export interface AtlasGlossaryHeaderOutput {
   /** The display text. */
   displayText?: string;
   /** The GUID of the glossary. */
@@ -233,14 +256,14 @@ export interface AtlasGlossaryHeader {
   relationGuid?: string;
 }
 
-export interface AtlasGlossaryTerm extends AtlasGlossaryBaseObject {
+export interface AtlasGlossaryTermOutput extends AtlasGlossaryBaseObjectOutput {
   /** The abbreviation of the term. */
   abbreviation?: string;
   templateName?: Array<Record<string, unknown>>;
   /** The glossary header with basic information. */
-  anchor?: AtlasGlossaryHeader;
+  anchor?: AtlasGlossaryHeaderOutput;
   /** An array of related term headers as antonyms. */
-  antonyms?: Array<AtlasRelatedTermHeader>;
+  antonyms?: Array<AtlasRelatedTermHeaderOutput>;
   /** The created time of the record. */
   createTime?: number;
   /** The user who created the record. */
@@ -252,56 +275,56 @@ export interface AtlasGlossaryTerm extends AtlasGlossaryBaseObject {
   /** Status of the AtlasGlossaryTerm */
   status?: "Draft" | "Approved" | "Alert" | "Expired";
   /** An array of resource link for term */
-  resources?: Array<ResourceLink>;
+  resources?: Array<ResourceLinkOutput>;
   /** The dictionary of contacts for terms. Key could be Expert or Steward. */
-  contacts?: Record<string, Array<ContactBasic>>;
+  contacts?: Record<string, Array<ContactBasicOutput>>;
   /**
    * The custom attributes of the term, which is map<string,map<string,object>>.
    * The key of the first layer map is term template name.
    */
   attributes?: Record<string, Record<string, Record<string, unknown>>>;
   /** An array of related object IDs. */
-  assignedEntities?: Array<AtlasRelatedObjectId>;
+  assignedEntities?: Array<AtlasRelatedObjectIdOutput>;
   /** An array of term categorization headers. */
-  categories?: Array<AtlasTermCategorizationHeader>;
+  categories?: Array<AtlasTermCategorizationHeaderOutput>;
   /** An array of related term headers. */
-  classifies?: Array<AtlasRelatedTermHeader>;
+  classifies?: Array<AtlasRelatedTermHeaderOutput>;
   /** An array of examples. */
   examples?: Array<string>;
   /** An array of related term headers indicating the is-a relationship. */
-  isA?: Array<AtlasRelatedTermHeader>;
+  isA?: Array<AtlasRelatedTermHeaderOutput>;
   /** An array of preferred related term headers. */
-  preferredTerms?: Array<AtlasRelatedTermHeader>;
+  preferredTerms?: Array<AtlasRelatedTermHeaderOutput>;
   /** An array of related term headers that are preferred to. */
-  preferredToTerms?: Array<AtlasRelatedTermHeader>;
+  preferredToTerms?: Array<AtlasRelatedTermHeaderOutput>;
   /** An array of related term headers that are replaced by. */
-  replacedBy?: Array<AtlasRelatedTermHeader>;
+  replacedBy?: Array<AtlasRelatedTermHeaderOutput>;
   /** An array of related term headers for replacement. */
-  replacementTerms?: Array<AtlasRelatedTermHeader>;
+  replacementTerms?: Array<AtlasRelatedTermHeaderOutput>;
   /** An array of related term headers for see also. */
-  seeAlso?: Array<AtlasRelatedTermHeader>;
+  seeAlso?: Array<AtlasRelatedTermHeaderOutput>;
   /** An array of related term headers as synonyms. */
-  synonyms?: Array<AtlasRelatedTermHeader>;
+  synonyms?: Array<AtlasRelatedTermHeaderOutput>;
   /** An array of translated related term headers. */
-  translatedTerms?: Array<AtlasRelatedTermHeader>;
+  translatedTerms?: Array<AtlasRelatedTermHeaderOutput>;
   /** An array of related term headers for translation. */
-  translationTerms?: Array<AtlasRelatedTermHeader>;
+  translationTerms?: Array<AtlasRelatedTermHeaderOutput>;
   /** The usage of the term. */
   usage?: string;
   /** An array of related term headers as valid values. */
-  validValues?: Array<AtlasRelatedTermHeader>;
+  validValues?: Array<AtlasRelatedTermHeaderOutput>;
   /** An array of related term headers as valid values for other records. */
-  validValuesFor?: Array<AtlasRelatedTermHeader>;
+  validValuesFor?: Array<AtlasRelatedTermHeaderOutput>;
 }
 
-export interface ResourceLink {
+export interface ResourceLinkOutput {
   /** Display name for url. */
   displayName?: string;
   /** web url. http or https */
   url?: string;
 }
 
-export interface AtlasObjectId {
+export interface AtlasObjectIdOutput {
   /** The GUID of the object. */
   guid?: string;
   /** The name of the type. */
@@ -310,21 +333,21 @@ export interface AtlasObjectId {
   uniqueAttributes?: Record<string, Record<string, unknown>>;
 }
 
-export interface AtlasRelatedObjectId extends AtlasObjectId {
+export interface AtlasRelatedObjectIdOutput extends AtlasObjectIdOutput {
   /** The display text. */
   displayText?: string;
   /** Status of the entity - can be active or deleted. Deleted entities are not removed from Atlas store. */
   entityStatus?: "ACTIVE" | "DELETED";
   relationshipType?: string;
   /** Captures details of struct contents. Not instantiated directly, used only via AtlasEntity, AtlasClassification. */
-  relationshipAttributes?: AtlasStruct;
+  relationshipAttributes?: AtlasStructOutput;
   /** The GUID of the relationship. */
   relationshipGuid?: string;
   /** The enum of relationship status. */
   relationshipStatus?: "ACTIVE" | "DELETED";
 }
 
-export interface AtlasTermCategorizationHeader {
+export interface AtlasTermCategorizationHeaderOutput {
   /** The GUID of the category. */
   categoryGuid?: string;
   /** The description of the record. */
@@ -337,79 +360,250 @@ export interface AtlasTermCategorizationHeader {
   status?: "DRAFT" | "ACTIVE" | "DEPRECATED" | "OBSOLETE" | "OTHER";
 }
 
-export interface AtlasGlossaryExtInfo extends AtlasGlossary {
+export interface AtlasGlossaryExtInfoOutput extends AtlasGlossaryOutput {
   /** The glossary category information. */
-  categoryInfo?: Record<string, AtlasGlossaryCategory>;
+  categoryInfo?: Record<string, AtlasGlossaryCategoryOutput>;
   /** The glossary term information. */
-  termInfo?: Record<string, AtlasGlossaryTerm>;
+  termInfo?: Record<string, AtlasGlossaryTermOutput>;
 }
 
-export interface SearchRequest {
-  /** The keywords applied to all searchable fields. */
-  keywords?: string;
-  /** The offset. The default value is 0. */
-  offset?: number;
-  /** The limit of the number of the search result. default value is 50; maximum value is 1000. */
-  limit?: number;
-  /** The filter for the search. See examples for the usage of supported filters. */
-  filter?: Record<string, unknown>;
-  facets?: Array<SearchFacetItem>;
-  taxonomySetting?: SearchRequestTaxonomySetting;
+export interface ImportCSVOperationOutput {
+  /** guid string */
+  id?: string;
+  /** Enum of the status of import csv operation. */
+  status?: "NotStarted" | "Succeeded" | "Failed" | "Running";
+  /** The created time of the record. */
+  createTime?: string;
+  /** The last updated time of the record. */
+  lastUpdateTime?: string;
+  properties?: ImportCSVOperationPropertiesOutput;
+  error?: ImportCSVOperationErrorOutput;
 }
 
-export interface SearchFacetItem {
+export interface ImportCSVOperationPropertiesOutput {
+  /** Term numbers that already imported successfully */
+  importedTerms?: string;
+  /** Total term numbers that detected in csv */
+  totalTermsDetected?: string;
+}
+
+export interface ImportCSVOperationErrorOutput {
+  /** Error code from async import job if fail */
+  errorCode?: number;
+  /** Error message from async import job if fail */
+  errorMessage?: string;
+}
+
+export interface SearchResultOutput {
+  /** The total number of search results (not the number of documents in a single page). */
+  "@search.count"?: number;
+  /** A facet list that consists of index fields assetType ,classification, classificationCategory, contactId, fileExtension, label, and label. When the facet is specified in the request, the value of the facet is returned as an element of @search.facets. */
+  "@search.facets"?: SearchFacetResultValueOutput;
+  value?: Array<SearchResultValueOutput>;
+}
+
+export interface SearchFacetResultValueOutput {
+  assetType?: Array<SearchFacetItemValueOutput>;
+  classification?: Array<SearchFacetItemValueOutput>;
+  classificationCategory?: Array<SearchFacetItemValueOutput>;
+  contactId?: Array<SearchFacetItemValueOutput>;
+  fileExtension?: Array<SearchFacetItemValueOutput>;
+  label?: Array<SearchFacetItemValueOutput>;
+  term?: Array<SearchFacetItemValueOutput>;
+}
+
+export interface SearchFacetItemValueOutput {
   /** The count of the facet item. */
   count?: number;
   /** The name of the facet item. */
-  facet?: string;
-  /** Any object */
-  sort?: Record<string, unknown>;
+  value?: string;
 }
 
-export interface SearchRequestTaxonomySetting {
-  assetTypes?: Array<string>;
-  /** The content of a search facet result item. */
-  facet?: SearchFacetItem;
-}
-
-export interface SuggestRequest {
-  /** The keywords applied to all fields that support suggest operation. It must be at least 1 character, and no more than 100 characters. In the index schema we defined a default suggester which lists all the supported fields and specifies a search mode. */
-  keywords?: string;
-  /** The number of suggestions we hope to return. The default value is 5. The value must be a number between 1 and 100. */
-  limit?: number;
-  /** The filter for the search. */
-  filter?: Record<string, unknown>;
-}
-
-export interface BrowseRequest {
-  /** The entity type to browse as the root level entry point. */
+export interface SearchResultValueOutput {
+  /** The search score calculated by the search engine. The results are ordered by search score by default. */
+  "@search.score"?: number;
+  /** A highlight list that consists of index fields id ,qualifiedName, name, description, entityType. When the keyword appears in those fields, the value of the field, attached with emphasis mark, is returned as an element of @search.highlights. */
+  "@search.highlights"?: SearchHighlightsOutput;
+  /** The target text that contains the keyword as prefix. The keyword is wrapped with emphasis mark. */
+  "@search.text"?: string;
+  /** The description of the record. */
+  description?: string;
+  /** The GUID of the record. */
+  id?: string;
+  /** The name of the record. */
+  name?: string;
+  /** The owner of the record. This is an Atlas native attribute. */
+  owner?: string;
+  /** The qualified name of the record. */
+  qualifiedName?: string;
+  /** The type name of the record. */
   entityType?: string;
-  /** The path to browse the next level child entities. */
+  /** The classifications of the record. */
+  classification?: Array<string>;
+  /** The labels of the record. */
+  label?: Array<string>;
+  /** The terms assigned to the record. */
+  term?: Array<TermSearchResultValueOutput>;
+  /** The contacts of the record. */
+  contact?: Array<ContactSearchResultValueOutput>;
+  /** The asset types of the record. */
+  assetType?: Array<string>;
+}
+
+export interface SearchHighlightsOutput {
+  id?: Array<string>;
+  qualifiedName?: Array<string>;
+  name?: Array<string>;
+  description?: Array<string>;
+  entityType?: Array<string>;
+}
+
+export interface TermSearchResultValueOutput {
+  /** The name of the term. */
+  name?: string;
+  /** The name of the glossary which contains the term. */
+  glossaryName?: string;
+  /** The GUID of the term. */
+  guid?: string;
+}
+
+export interface ContactSearchResultValueOutput {
+  /** The GUID of the contact. */
+  id?: string;
+  /** The description of the contact. */
+  info?: string;
+  /** The type of the contact. It can be Expert or Owner for an entity. It can be Expert or Steward for a glossary term. */
+  contactType?: string;
+}
+
+export interface SuggestResultOutput {
+  value?: Array<SuggestResultValueOutput>;
+}
+
+export interface SuggestResultValueOutput {
+  /** The search score calculated by the search engine. The results are ordered by search score by default. */
+  "@search.score"?: number;
+  /** The target text that contains the keyword as prefix. The keyword is wrapped with emphasis mark. */
+  "@search.text"?: string;
+  /** The description of the record. */
+  description?: string;
+  /** The GUID of the record. */
+  id?: string;
+  /** The name of the record. */
+  name?: string;
+  /** The owner of the record. This is an Atlas native attribute. */
+  owner?: string;
+  /** The qualified name of the record. */
+  qualifiedName?: string;
+  /** The type name of the record. */
+  entityType?: string;
+  /** The classifications of the record. */
+  classification?: Array<string>;
+  /** The labels of the record. */
+  label?: Array<string>;
+  /** The terms assigned to the record. */
+  term?: Array<TermSearchResultValueOutput>;
+  /** The contacts of the record. */
+  contact?: Array<ContactSearchResultValueOutput>;
+  /** The asset types of the record. */
+  assetType?: Array<string>;
+}
+
+export interface BrowseResultOutput {
+  /** The total number of browse results. */
+  "@search.count"?: number;
+  value?: Array<BrowseResultValueOutput>;
+}
+
+export interface BrowseResultValueOutput {
+  /** The type name of the record. */
+  entityType?: string;
+  /** The GUID of the record. */
+  id?: string;
+  /** If the record is a leaf entity. */
+  isLeaf?: boolean;
+  /** The name of the record. */
+  name?: string;
+  /** The owners of the record. */
+  owner?: Array<BrowseResultOwnerOutput>;
+  /** The path of the record. */
   path?: string;
-  /** The number of browse items we hope to return. */
-  limit?: number;
-  /** The offset. The default value is 0. */
-  offset?: number;
+  /** The qualified name of the record. */
+  qualifiedName?: string;
 }
 
-export interface AutoCompleteRequest {
-  /** The keywords applied to all fields that support autocomplete operation. It must be at least 1 character, and no more than 100 characters. */
-  keywords?: string;
-  /** The number of autocomplete results we hope to return. The default value is 50. The value must be a number between 1 and 100. */
-  limit?: number;
-  /** The filter for the autocomplete request. */
-  filter?: Record<string, unknown>;
+export interface BrowseResultOwnerOutput {
+  /** The GUID of the owner. */
+  id?: string;
+  /** The display name of the owner. */
+  displayName?: string;
+  /** The mail of the owner. */
+  mail?: string;
+  /** The contact type of the owner. The value will be Owner. */
+  contactType?: string;
 }
 
-export interface AtlasRelationship extends AtlasStruct {
+export interface AutoCompleteResultOutput {
+  value?: Array<AutoCompleteResultValueOutput>;
+}
+
+export interface AutoCompleteResultValueOutput {
+  /** The completed term or phrase. */
+  text?: string;
+  /** The completed search query text. */
+  queryPlusText?: string;
+}
+
+export interface AtlasLineageInfoOutput {
+  /** The GUID of the base entity. */
+  baseEntityGuid?: string;
+  /** The GUID entity map. */
+  guidEntityMap?: Record<string, AtlasEntityHeaderOutput>;
+  /** The entity count in specific direction. */
+  widthCounts?: Record<string, Record<string, Record<string, unknown>>>;
+  /** The depth of lineage. */
+  lineageDepth?: number;
+  /** The width of lineage. */
+  lineageWidth?: number;
+  /** True to return the parent of the base entity. */
+  includeParent?: boolean;
+  /** The number of children node. */
+  childrenCount?: number;
+  /** The enum of lineage direction. */
+  lineageDirection?: "INPUT" | "OUTPUT" | "BOTH";
+  /** An array of parentRelations relations. */
+  parentRelations?: Array<ParentRelationOutput>;
+  /** An array of lineage relations. */
+  relations?: Array<LineageRelationOutput>;
+}
+
+export interface ParentRelationOutput {
+  /** The GUID of child entity. */
+  childEntityId?: string;
+  /** The GUID of relationship. */
+  relationshipId?: string;
+  /** The GUID of parent entity. */
+  parentEntityId?: string;
+}
+
+export interface LineageRelationOutput {
+  /** The GUID of from-entity. */
+  fromEntityId?: string;
+  /** The GUID of relationship. */
+  relationshipId?: string;
+  /** The GUID of to-entity. */
+  toEntityId?: string;
+}
+
+export interface AtlasRelationshipOutput extends AtlasStructOutput {
   /** The created time of the record. */
   createTime?: number;
   /** The user who created the record. */
   createdBy?: string;
   /** Reference to an object-instance of an Atlas type - like entity. */
-  end1?: AtlasObjectId;
+  end1?: AtlasObjectIdOutput;
   /** Reference to an object-instance of an Atlas type - like entity. */
-  end2?: AtlasObjectId;
+  end2?: AtlasObjectIdOutput;
   /** The GUID of the relationship. */
   guid?: string;
   /** The home ID of the relationship. */
@@ -428,7 +622,14 @@ export interface AtlasRelationship extends AtlasStruct {
   version?: number;
 }
 
-export interface AtlasBaseTypeDef {
+export interface AtlasRelationshipWithExtInfoOutput {
+  /** The referred entity header. */
+  referredEntities?: Record<string, AtlasEntityHeaderOutput>;
+  /** Atlas relationship instance. */
+  relationship?: AtlasRelationshipOutput;
+}
+
+export interface AtlasBaseTypeDefOutput {
   /** The enum of type category. */
   category?:
     | "PRIMITIVE"
@@ -446,7 +647,7 @@ export interface AtlasBaseTypeDef {
   /** The user who created the record. */
   createdBy?: string;
   /** The date format. */
-  dateFormatter?: DateFormat;
+  dateFormatter?: DateFormatOutput;
   /** The description of the type definition. */
   description?: string;
   /** The GUID of the type definition. */
@@ -469,39 +670,39 @@ export interface AtlasBaseTypeDef {
   lastModifiedTS?: string;
 }
 
-export interface DateFormat {
+export interface DateFormatOutput {
   /** An array of available locales. */
   availableLocales?: Array<string>;
   calendar?: number;
   /** The date format. */
-  dateInstance?: DateFormat;
+  dateInstance?: DateFormatOutput;
   /** The date format. */
-  dateTimeInstance?: DateFormat;
+  dateTimeInstance?: DateFormatOutput;
   /** The date format. */
-  instance?: DateFormat;
+  instance?: DateFormatOutput;
   /** Determines the leniency of the date format. */
   lenient?: boolean;
   /** The number format. */
-  numberFormat?: NumberFormat;
+  numberFormat?: NumberFormatOutput;
   /** The date format. */
-  timeInstance?: DateFormat;
+  timeInstance?: DateFormatOutput;
   /** The timezone information. */
-  timeZone?: TimeZone;
+  timeZone?: TimeZoneOutput;
 }
 
-export interface NumberFormat {
+export interface NumberFormatOutput {
   /** The number format. */
   availableLocales?: Array<string>;
   /** The currency. */
   currency?: string;
   /** The number format. */
-  currencyInstance?: NumberFormat;
+  currencyInstance?: NumberFormatOutput;
   /** Determines if grouping is used. */
   groupingUsed?: boolean;
   /** The number format. */
-  instance?: NumberFormat;
+  instance?: NumberFormatOutput;
   /** The number format. */
-  integerInstance?: NumberFormat;
+  integerInstance?: NumberFormatOutput;
   /** The maximum of fraction digits. */
   maximumFractionDigits?: number;
   /** The maximum of integer digits. */
@@ -511,11 +712,11 @@ export interface NumberFormat {
   /** The minimum of integer digits. */
   minimumIntegerDigits?: number;
   /** The number format. */
-  numberInstance?: NumberFormat;
+  numberInstance?: NumberFormatOutput;
   /** Determines if only integer is parsed. */
   parseIntegerOnly?: boolean;
   /** The number format. */
-  percentInstance?: NumberFormat;
+  percentInstance?: NumberFormatOutput;
   /** The enum of rounding mode. */
   roundingMode?:
     | "UP"
@@ -528,7 +729,7 @@ export interface NumberFormat {
     | "UNNECESSARY";
 }
 
-export interface TimeZone {
+export interface TimeZoneOutput {
   /** The value of the daylight saving time. */
   dstSavings?: number;
   /** The ID of the timezone. */
@@ -536,23 +737,23 @@ export interface TimeZone {
   /** An array of available IDs. */
   availableIds?: Array<string>;
   /** The timezone information. */
-  default?: TimeZone;
+  default?: TimeZoneOutput;
   /** The display name of the timezone. */
   displayName?: string;
   /** The raw offset of the timezone. */
   rawOffset?: number;
 }
 
-export interface AtlasStructDef extends AtlasBaseTypeDef {
+export interface AtlasStructDefOutput extends AtlasBaseTypeDefOutput {
   /** An array of attribute definitions. */
-  attributeDefs?: Array<AtlasAttributeDef>;
+  attributeDefs?: Array<AtlasAttributeDefOutput>;
 }
 
-export interface AtlasAttributeDef {
+export interface AtlasAttributeDefOutput {
   /** single-valued attribute or multi-valued attribute. */
   cardinality?: "SINGLE" | "LIST" | "SET";
   /** An array of constraints. */
-  constraints?: Array<AtlasConstraintDef>;
+  constraints?: Array<AtlasConstraintDefOutput>;
   /** The default value of the attribute. */
   defaultValue?: string;
   /** The description of the attribute. */
@@ -577,14 +778,14 @@ export interface AtlasAttributeDef {
   valuesMinCount?: number;
 }
 
-export interface AtlasConstraintDef {
+export interface AtlasConstraintDefOutput {
   /** The parameters of the constraint definition. */
   params?: Record<string, Record<string, unknown>>;
   /** The type of the constraint. */
   type?: string;
 }
 
-export interface AtlasClassificationDef extends AtlasStructDef {
+export interface AtlasClassificationDefOutput extends AtlasStructDefOutput {
   /**
    * Specifying a list of entityType names in the classificationDef, ensures that classifications can
    * only be applied to those entityTypes.
@@ -604,30 +805,30 @@ export interface AtlasClassificationDef extends AtlasStructDef {
   superTypes?: Array<string>;
 }
 
-export interface AtlasEntityDef extends AtlasStructDef {
+export interface AtlasEntityDefOutput extends AtlasStructDefOutput {
   /** An array of sub types. */
   subTypes?: Array<string>;
   /** An array of super types. */
   superTypes?: Array<string>;
   /** An array of relationship attributes. */
-  relationshipAttributeDefs?: Array<AtlasRelationshipAttributeDef>;
+  relationshipAttributeDefs?: Array<AtlasRelationshipAttributeDefOutput>;
 }
 
-export interface AtlasRelationshipAttributeDef extends AtlasAttributeDef {
+export interface AtlasRelationshipAttributeDefOutput extends AtlasAttributeDefOutput {
   /** Determines if it is a legacy attribute. */
   isLegacyAttribute?: boolean;
   /** The name of the relationship type. */
   relationshipTypeName?: string;
 }
 
-export interface AtlasEnumDef extends AtlasBaseTypeDef {
+export interface AtlasEnumDefOutput extends AtlasBaseTypeDefOutput {
   /** The default value. */
   defaultValue?: string;
   /** An array of enum element definitions. */
-  elementDefs?: Array<AtlasEnumElementDef>;
+  elementDefs?: Array<AtlasEnumElementDefOutput>;
 }
 
-export interface AtlasEnumElementDef {
+export interface AtlasEnumElementDefOutput {
   /** The description of the enum element definition. */
   description?: string;
   /** The ordinal of the enum element definition. */
@@ -636,17 +837,17 @@ export interface AtlasEnumElementDef {
   value?: string;
 }
 
-export interface AtlasRelationshipDef extends AtlasStructDef {
+export interface AtlasRelationshipDefOutput extends AtlasStructDefOutput {
   /**
    * The relationshipEndDef represents an end of the relationship. The end of the relationship is defined by a type, an
    * attribute name, cardinality and whether it  is the container end of the relationship.
    */
-  endDef1?: AtlasRelationshipEndDef;
+  endDef1?: AtlasRelationshipEndDefOutput;
   /**
    * The relationshipEndDef represents an end of the relationship. The end of the relationship is defined by a type, an
    * attribute name, cardinality and whether it  is the container end of the relationship.
    */
-  endDef2?: AtlasRelationshipEndDef;
+  endDef2?: AtlasRelationshipEndDefOutput;
   /**
    * The Relationship category determines the style of relationship around containment and lifecycle.
    * UML terminology is used for the values.
@@ -663,7 +864,7 @@ export interface AtlasRelationshipDef extends AtlasStructDef {
   relationshipLabel?: string;
 }
 
-export interface AtlasRelationshipEndDef {
+export interface AtlasRelationshipEndDefOutput {
   /** single-valued attribute or multi-valued attribute. */
   cardinality?: "SINGLE" | "LIST" | "SET";
   /** The description of the relationship end definition. */
@@ -678,7 +879,7 @@ export interface AtlasRelationshipEndDef {
   type?: string;
 }
 
-export interface AtlasExtraTypeDef {
+export interface AtlasExtraTypeDefOutput {
   /**
    * Specifying a list of entityType names in the classificationDef, ensures that classifications can
    * only be applied to those entityTypes.
@@ -697,21 +898,21 @@ export interface AtlasExtraTypeDef {
   /** An array of super types. */
   superTypes?: Array<string>;
   /** An array of relationship attributes. */
-  relationshipAttributeDefs?: Array<AtlasRelationshipAttributeDef>;
+  relationshipAttributeDefs?: Array<AtlasRelationshipAttributeDefOutput>;
   /** The default value. */
   defaultValue?: string;
   /** An array of enum element definitions. */
-  elementDefs?: Array<AtlasEnumElementDef>;
+  elementDefs?: Array<AtlasEnumElementDefOutput>;
   /**
    * The relationshipEndDef represents an end of the relationship. The end of the relationship is defined by a type, an
    * attribute name, cardinality and whether it  is the container end of the relationship.
    */
-  endDef1?: AtlasRelationshipEndDef;
+  endDef1?: AtlasRelationshipEndDefOutput;
   /**
    * The relationshipEndDef represents an end of the relationship. The end of the relationship is defined by a type, an
    * attribute name, cardinality and whether it  is the container end of the relationship.
    */
-  endDef2?: AtlasRelationshipEndDef;
+  endDef2?: AtlasRelationshipEndDefOutput;
   /**
    * The Relationship category determines the style of relationship around containment and lifecycle.
    * UML terminology is used for the values.
@@ -727,29 +928,43 @@ export interface AtlasExtraTypeDef {
   /** The label of the relationship. */
   relationshipLabel?: string;
   /** An array of attribute definitions. */
-  attributeDefs?: Array<AtlasAttributeDef>;
+  attributeDefs?: Array<AtlasAttributeDefOutput>;
 }
 
-export interface AtlasTypeDef extends AtlasBaseTypeDef, AtlasExtraTypeDef {}
+export interface AtlasTypeDefOutput extends AtlasBaseTypeDefOutput, AtlasExtraTypeDefOutput {}
 
-export interface AtlasTypesDef {
+export interface AtlasTypesDefOutput {
   /** An array of classification definitions. */
-  classificationDefs?: Array<AtlasClassificationDef>;
+  classificationDefs?: Array<AtlasClassificationDefOutput>;
   /** An array of entity definitions. */
-  entityDefs?: Array<AtlasEntityDef>;
+  entityDefs?: Array<AtlasEntityDefOutput>;
   /** An array of enum definitions. */
-  enumDefs?: Array<AtlasEnumDef>;
+  enumDefs?: Array<AtlasEnumDefOutput>;
   /** An array of relationship definitions. */
-  relationshipDefs?: Array<AtlasRelationshipDef>;
+  relationshipDefs?: Array<AtlasRelationshipDefOutput>;
   /** An array of struct definitions. */
-  structDefs?: Array<AtlasStructDef>;
+  structDefs?: Array<AtlasStructDefOutput>;
   /** An array of term template definitions. */
-  termTemplateDefs?: Array<TermTemplateDef>;
+  termTemplateDefs?: Array<TermTemplateDefOutput>;
 }
 
-export interface TermTemplateDef extends AtlasStructDef {}
+export interface TermTemplateDefOutput extends AtlasStructDefOutput {}
 
-export interface MoveEntitiesRequest {
-  /** An array of entity guids to be moved to target collection. */
-  entityGuids?: Array<string>;
+export interface AtlasTypeDefHeaderOutput {
+  /** The enum of type category. */
+  category?:
+    | "PRIMITIVE"
+    | "OBJECT_ID_TYPE"
+    | "ENUM"
+    | "STRUCT"
+    | "CLASSIFICATION"
+    | "ENTITY"
+    | "ARRAY"
+    | "MAP"
+    | "RELATIONSHIP"
+    | "TERM_TEMPLATE";
+  /** The GUID of the type definition. */
+  guid?: string;
+  /** The name of the type definition. */
+  name?: string;
 }
