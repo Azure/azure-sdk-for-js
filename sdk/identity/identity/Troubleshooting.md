@@ -190,7 +190,7 @@ In VS Code, log in to the Azure Account extension via **View** > **Command Palet
 
 #### ADFS tenant not supported
 
-The ADFS Tenants are not supported via the Azure Account extension in VS Code currently.
+The ADFS tenants aren't currently supported via the Azure Account extension in VS Code.
 The supported clouds are:
 
 | Azure Cloud        | Cloud Authority Host               |
